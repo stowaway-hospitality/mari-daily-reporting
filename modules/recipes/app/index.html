@@ -33,7 +33,7 @@
   .maintabs button{flex:1;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;
     padding:13px 10px;border-radius:12px;border:1px solid var(--line);background:var(--paper);
     color:var(--ink-soft);cursor:pointer}
-  .maintabs button.on{background:var(--group);color:#fff;border-color:var(--group)}
+  .maintabs button.on{background:var(--group);color:var(--paper);border-color:var(--group)}
 
   .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
   label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin:10px 0 4px}
@@ -159,8 +159,9 @@
     <!-- ================= PREP TIMER ================= -->
     <section id="view-prep" class="hidden">
       <div class="card">
-        <label for="prep-recipe">Which recipe are you prepping?</label>
-        <input id="prep-q" placeholder="Search recipes…" oninput="renderPrepList()" autocomplete="off">
+        <label for="prep-q">Which batch are you prepping?</label>
+        <div class="note" style="margin:0 0 8px">Batches only — the sauces, doughs and preps made ahead. Give a batch a yield in Build and it shows up here.</div>
+        <input id="prep-q" placeholder="Search batches…" oninput="renderPrepList()" autocomplete="off">
         <div class="scroll" id="prep-list" style="max-height:34vh;margin-top:8px"></div>
       </div>
 
@@ -404,14 +405,16 @@ async function save() {
 Object.assign(window, { renderPick, add, addSub, setQty, del, save, calc });
 
 // ---------------- PREP TIMER ----------------
+// Prep timing is for SUB-RECIPES only — the batches/sauces/doughs you prep ahead
+// (a dish is plated to order, not "prepped"). So the picker lists sub-recipes.
 window.renderPrepList = () => {
   const q = (document.getElementById('prep-q').value || '').toLowerCase().trim();
-  const hits = RECIPES.filter(r => !q || r.product.toLowerCase().includes(q));
+  const hits = SUBS.filter(r => !q || r.product.toLowerCase().includes(q));
   document.getElementById('prep-list').innerHTML = hits.length ? hits.map(r =>
     `<div class="ing" onclick="pickPrep('${encodeURIComponent(r.product)}')">
-      <div><div class="n">${esc(r.product)}</div><div class="m">${esc(r.venue || '')}</div></div>
+      <div><div class="n">${esc(r.product)}</div><div class="m">makes ${esc(r.yield_qty)} ${esc(r.yield_unit)}</div></div>
       <div class="c">›</div></div>`).join('')
-    : `<div class="empty">${RECIPES.length ? 'No match.' : 'No saved recipes yet — build one first.'}</div>`;
+    : `<div class="empty">${SUBS.length ? 'No match.' : 'No batch recipes yet — give a batch a yield in Build, then time it here.'}</div>`;
 };
 
 window.pickPrep = (enc) => {
