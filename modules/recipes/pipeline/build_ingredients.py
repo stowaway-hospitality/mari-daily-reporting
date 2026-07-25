@@ -48,7 +48,10 @@ from datetime import date, datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
 
+import sys  # noqa: E402
 ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT))
+from core.domain import purchasable_id   # noqa: E402  the SAME natural key the cost engine uses
 COGS = ROOT / "data" / "cogs_list.csv"
 OUT = ROOT / "data" / "ingredients.json"
 
@@ -237,7 +240,16 @@ def main() -> int:
             continue
 
         desc = r["invoice_description"].strip()
-        key = slug(f"{r['supplier']}-{r['supplier_code'] or desc}")
+        # THE ID MUST BE THE SAME KEY THE COST ENGINE USES. build_costs keys cost
+        # observations by purchasable_id (supplier-slug + ":" + UPPERCASE code).
+        # This used to slug the whole thing ("foodlink-102689"), which never
+        # matched the cost key ("foodlink:102689") — so EVERY recipe saved from
+        # the builder failed to cost (MissingCost). A code-less line has no cost
+        # identity (build_costs drops it too), so skip it rather than mint a fake id.
+        code = (r["supplier_code"] or "").strip()
+        if not code:
+            continue
+        key = purchasable_id(r["supplier"], code)
         if key in seen:
             continue
         seen.add(key)
