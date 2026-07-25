@@ -142,7 +142,7 @@ function render() {
   el.innerHTML = QUEUE.map((inv, i) => `
     <div class="inv" data-i="${i}">
       <div class="inv-hd">
-        <h3>${esc(inv.supplier)} <span class="tag ${inv.status}">${inv.status}</span></h3>
+        <h3>${esc(inv.supplier)} <span class="tag ${inv.status}">${inv.status}</span>${inv.is_credit_note ? ' <span class="tag" style="background:var(--amber)">credit note</span>' : ''}</h3>
         <div class="total">$${esc(inv.total)}</div>
       </div>
       <div class="inv-meta">
@@ -172,9 +172,11 @@ function render() {
       </table>
       <div class="rowmsg" id="msg-${i}"></div>
       <div class="inv-ft">
+        ${inv.is_credit_note ? `<div class="rowmsg" style="color:var(--amber);margin:0;padding:0 6px">
+          ⚠ Credit note — enter as a supplier credit in Xero, not a payable. It won't post as a bill.</div>` : ''}
         <div class="acts">
-          <button class="reject" data-i="${i}">Reject</button>
-          <button class="approve" data-i="${i}">Approve → post to Xero</button>
+          <button class="reject" data-i="${i}">${inv.is_credit_note ? 'Dismiss' : 'Reject'}</button>
+          ${inv.is_credit_note ? '' : `<button class="approve" data-i="${i}">Approve → post to Xero</button>`}
         </div>
       </div>
     </div>`).join('');
@@ -192,11 +194,12 @@ function render() {
   });
   // sticky "approve all" bar
   const bar = document.getElementById('bulkbar');
-  if (QUEUE.length) {
+  const approvable = QUEUE.filter(inv => !inv.is_credit_note).length;
+  if (approvable) {
     bar.style.display = '';
     document.getElementById('bulk-count').textContent =
-      `${QUEUE.length} invoice${QUEUE.length > 1 ? 's' : ''} ready`;
-    document.getElementById('approve-all').textContent = `Approve all ${QUEUE.length} → post to Xero`;
+      `${approvable} invoice${approvable > 1 ? 's' : ''} ready`;
+    document.getElementById('approve-all').textContent = `Approve all ${approvable} → post to Xero`;
     document.getElementById('approve-all').onclick = approveAll;
   } else {
     bar.style.display = 'none';
@@ -224,23 +227,25 @@ function collectDecision(i, decision, approver) {
 }
 
 async function approveAll() {
-  if (!QUEUE.length) return;
-  if (!confirm(`Approve all ${QUEUE.length} invoice(s) and post them to Xero as bills awaiting payment?`)) return;
+  // credit notes are never posted as bills — leave them for manual entry
+  const idxs = QUEUE.map((inv, i) => i).filter(i => !QUEUE[i].is_credit_note);
+  if (!idxs.length) return;
+  if (!confirm(`Approve ${idxs.length} invoice(s) and post them to Xero as bills awaiting payment?`)) return;
   const me = await Auth.current();
   const approver = me?.name || me?.email;
   document.querySelectorAll('#app button').forEach(b => b.disabled = true);
   const btn = document.getElementById('approve-all');
-  const payloads = QUEUE.map((_, i) => collectDecision(i, 'approve', approver));
   const failed = [];
-  for (let k = 0; k < payloads.length; k++) {
-    btn.textContent = `Posting ${k + 1} of ${payloads.length}…`;
-    try { await Auth.decideInvoice(payloads[k]); }
-    catch (e) { failed.push(QUEUE[k]); }
+  for (let n = 0; n < idxs.length; n++) {
+    btn.textContent = `Posting ${n + 1} of ${idxs.length}…`;
+    try { await Auth.decideInvoice(collectDecision(idxs[n], 'approve', approver)); }
+    catch (e) { failed.push(QUEUE[idxs[n]]); }
   }
-  QUEUE = failed;
+  // keep the credit notes on screen plus anything that failed
+  QUEUE = QUEUE.filter(inv => inv.is_credit_note).concat(failed);
   render();
   toast(failed.length ? `Posted all but ${failed.length} — those stayed for review`
-                      : `Approved all — posting to Xero`);
+                      : `Approved — posting to Xero`);
 }
 
 function toast(t) {
