@@ -192,6 +192,19 @@ if _cn:
     check("real Gulli credit note detected",
           looks_like_credit_note(_pt.text(open(_cn[0], "rb").read())) is True)
 
+print("9. corrupt / empty file robustness")
+import subprocess
+import tempfile
+for label, blob in [("garbage", b"not a pdf %PDF broken"), ("empty", b"")]:
+    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tf:
+        tf.write(blob)
+        p = tf.name
+    r = subprocess.run([sys.executable, str(ROOT / "modules/invoices/run.py"),
+                        "--pdf", p, "--source", f"{label} test"],
+                       capture_output=True, text=True, cwd=str(ROOT))
+    ok = r.returncode == 1 and "Traceback" not in r.stderr.split("EXTRACTION FAILED")[0]
+    check(f"{label} file -> clean exit 1, no crash", ok, f"rc={r.returncode}")
+
 print()
 print(f"{'ALL PASS' if _fail == 0 else str(_fail) + ' FAILED'}")
 sys.exit(1 if _fail else 0)

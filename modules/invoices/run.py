@@ -158,6 +158,12 @@ def main() -> int:
     except ExtractionError as e:
         print(f"EXTRACTION FAILED: {e}", file=sys.stderr)
         return 1
+    except Exception as e:
+        # a corrupt / empty / non-PDF attachment (pymupdf FileDataError etc.) must
+        # not crash with a traceback — fail cleanly so the mailbox files it for a
+        # human instead of the poller choking on one bad file.
+        print(f"EXTRACTION FAILED (unreadable file): {type(e).__name__}: {e}", file=sys.stderr)
+        return 1
 
     # payment due date, read off the invoice itself (never inferred from history)
     if inv.due_date is None:
