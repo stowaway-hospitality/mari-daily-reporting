@@ -15,7 +15,22 @@ from __future__ import annotations
 
 from decimal import Decimal
 
-from modules.recipes.pipeline.build_ingredients import parse_pack, resolve_pack
+from modules.recipes.pipeline.build_ingredients import parse_pack, resolve_pack, is_non_food
+
+
+# ── non-food consumables must be kept out of the recipe picker ──────────────
+
+def test_non_food_consumables_are_excluded():
+    for d in ("NAPKINS - DINNER BROWN", "SPONGE SCOURER -", "STAINLESS STEEL",
+              "SAUCE CONTAINER - WITH", "GLOVES NITRILE BLACK L"):
+        assert is_non_food(d), f"{d!r} should be excluded as non-food"
+
+
+def test_real_ingredients_are_not_excluded():
+    # Guard the blast radius — none of these must be mistaken for non-food.
+    for d in ("FZ BEEF - ANGUS BURGER", "TOMATO - PIZZA SAUCE", "HERB BASIL BCH",
+              "SQUID PINEAPPLE CUT IMP U5 5KG", "Chives", "Pizza Box Inserts 22.5cm x 100"):
+        assert not is_non_food(d), f"{d!r} is a real ingredient, must not be excluded"
 
 
 # ── stated sizes we must now read ──────────────────────────────────────────

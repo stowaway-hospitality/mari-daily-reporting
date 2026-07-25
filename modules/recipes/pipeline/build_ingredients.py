@@ -64,6 +64,21 @@ KITCHEN_SUPPLIERS = {
     "Fresh Fruit Team", "FFT", "Andrews Meat", "Jun Pacific",
 }
 
+# Consumables and packaging suppliers list alongside food but that are NEVER
+# recipe ingredients — a chef should never see "napkins" in the ingredient
+# picker. Matched as whole words on the description, kept deliberately tight:
+# better to leave a stray non-food item in the list than to hide a real
+# ingredient. ("box" is intentionally absent — pizza boxes are a real per-item
+# cost Marilyna's tracks.)
+_NON_FOOD = re.compile(
+    r"\b(napkins?|serviettes?|scourer|stainless steel|container|gloves?|foil|"
+    r"cling\s*wrap|garbage|bin\s*liner|paper\s*towel|chux)\b", re.I)
+
+
+def is_non_food(desc: str) -> bool:
+    return bool(_NON_FOOD.search(desc or ""))
+
+
 RECENT_DAYS = 90
 
 # --- pack parsing ----------------------------------------------------------
@@ -304,6 +319,8 @@ def main() -> int:
             continue
 
         desc = r["invoice_description"].strip()
+        if is_non_food(desc):
+            continue   # napkins, scourers, containers — not a recipe ingredient
         # THE ID MUST BE THE SAME KEY THE COST ENGINE USES. build_costs keys cost
         # observations by purchasable_id (supplier-slug + ":" + UPPERCASE code).
         # This used to slug the whole thing ("foodlink-102689"), which never
