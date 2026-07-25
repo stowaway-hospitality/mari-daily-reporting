@@ -76,10 +76,14 @@ def already_exists(access, tenant, api_get, contact_name: str, invoice_number: s
         res = api_get(access, tenant, "Invoices", {"where": where})
     except Exception:
         return False
-    for iv in res.get("Invoices", []):
-        if (iv.get("Contact", {}).get("Name", "").strip().lower() == contact_name.strip().lower()):
-            return True
-    return False
+    # Any ACCPAY bill already carrying this invoice number is a duplicate: Xero
+    # dedups on (Type, InvoiceNumber), and re-POSTing tries to MUTATE the existing
+    # one (a hard 400 if it's already paid). Do NOT require the contact name to
+    # match — the same bill routinely sits under a slightly different spelling
+    # ("Foodlink Australia" vs "Foodlink Australia Pty Ltd"), and requiring an
+    # exact contact match let real duplicates slip the guard. Dext is still
+    # posting these in parallel, so this guard is what prevents doubling up.
+    return bool(res.get("Invoices"))
 
 
 def build_bill(inv: Invoice, coding=None) -> tuple[dict, Decimal, list[str]]:
