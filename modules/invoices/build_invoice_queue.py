@@ -33,6 +33,38 @@ OUT_DIR = ROOT / "dashboard" / "invoices"
 COA = ROOT / "modules" / "invoices" / "xero_accounts.json"
 
 
+def _xero_existing_numbers() -> set[str] | None:
+    """
+    Every ACCPAY invoice number already in Xero (recent pages), so the app list
+    can HIDE anything already billed — most importantly the ones Dext posted, so
+    they never show up as a double-up to approve.
+
+    Returns None when Xero can't be reached (no token / offline / CI). None means
+    "don't filter" — we'd rather show a possible dup than silently drop a real
+    invoice because the network hiccuped. An empty set means "reached Xero, none
+    found" and DOES filter.
+    """
+    try:
+        sys.path.insert(0, str(ROOT / "modules" / "invoices"))
+        import xero_pull as xp  # noqa: E402
+        access, tenant = xp.token()
+        nums: set[str] = set()
+        for page in range(1, 9):                     # ~800 most-recent bills, plenty
+            res = xp.api_get(access, tenant, "Invoices",
+                             {"where": 'Type=="ACCPAY"', "order": "Date DESC", "page": str(page)})
+            ivs = res.get("Invoices", [])
+            for iv in ivs:
+                n = (iv.get("InvoiceNumber") or "").strip()
+                if n:
+                    nums.add(n)
+            if len(ivs) < 100:                       # last page
+                break
+        return nums
+    except Exception as e:
+        print(f"  [queue] Xero unreachable ({e}); not filtering already-billed", file=sys.stderr)
+        return None
+
+
 def _entry(payload: dict) -> dict:
     inv = _invoice_from_json(payload)
     coding = suggest_coding(inv)
@@ -100,8 +132,23 @@ def build() -> dict:
                 continue
             seen.add(e["ref"])
             entries.append(e)
+
+    # Hide anything already in Xero (Dext-approved or already pushed by us) so it
+    # can't appear as a double-up. Match on invoice number — Xero's dedup key.
+    existing = _xero_existing_numbers()
+    skipped = 0
+    if existing is not None:
+        kept = []
+        for e in entries:
+            if e["ref"] and e["ref"] in existing:
+                skipped += 1
+                continue
+            kept.append(e)
+        entries = kept
+
     entries.sort(key=lambda e: (e["status"] != "review", e["date"] or ""), reverse=True)
-    return {"generated": date.today().isoformat(), "count": len(entries), "invoices": entries}
+    return {"generated": date.today().isoformat(), "count": len(entries),
+            "skipped_already_in_xero": skipped, "invoices": entries}
 
 
 def main() -> int:
