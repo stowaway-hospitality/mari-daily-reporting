@@ -280,7 +280,11 @@ sph_daily.csv:
   HarryGatos = HG email total · Marilynas = Mari email total ·
   Stowaway (bar) = Stow email total − Mari email total (the Stow email is the
   whole till, incl Marilyna's reporting groups).
-Deploy trigger updated so an sph_daily.csv change publishes. No Snapshot
-schedule, no Custom Insights, no new logins — the redundant HG "Snapshot"
-schedule in Lightspeed can be deleted. Guests aren't in these emails, so
-per-guest is blank for email-fed days (the weekly pull still fills HG guests).
+Deploy trigger updated so an sph_daily.csv change publishes.
+
+**HG guests / spend-per-head:** the daily product-mix emails have NO guest count,
+so the HG "Snapshot" schedule (daily, previous-day, CSV -> ingest Gmail) is the
+guest source and must be KEPT (do NOT delete it). `sph_from_email.py` also parses
+the Snapshot email (`atv__avg._guest_spend` -> Total Guest Count) and writes
+Guests onto the HarryGatos rows. The HG card then leads with spend-per-GUEST
+(dine-in metric); Stow/Mari/group lead with per-transaction.
