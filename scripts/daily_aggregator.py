@@ -64,6 +64,8 @@ CLI:
   python daily_aggregator.py --venue stowaway 2026-07-11
   python daily_aggregator.py --venue harry 2026-07-11
 """
+
+from __future__ import annotations
 import csv, io, json, os, sys, zipfile
 from pathlib import Path
 from datetime import date, timedelta, datetime

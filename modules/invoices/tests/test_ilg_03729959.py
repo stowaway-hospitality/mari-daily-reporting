@@ -16,6 +16,8 @@ it's the entire premise of the validator.
 Run: python3 -m pytest tests/test_ilg_03729959.py -v
 """
 
+from __future__ import annotations
+
 import sys
 from datetime import date
 from decimal import Decimal as D

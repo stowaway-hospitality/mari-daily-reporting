@@ -19,6 +19,8 @@ Output data/roster_week.json:
 CLI: python scripts/roster_pull.py            # today .. today+6
      python scripts/roster_pull.py 2026-07-20 # that day .. +6
 """
+
+from __future__ import annotations
 import json, os, sys, urllib.request
 from datetime import date, datetime, timezone, timedelta
 from pathlib import Path

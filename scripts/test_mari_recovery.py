@@ -62,6 +62,14 @@ def run(date, venue="marilynas"):
     env = dict(os.environ, REPO_ROOT=str(BT))
     r = subprocess.run([sys.executable, str(REPO/"scripts/daily_aggregator.py"), "--venue", venue, date],
                        capture_output=True, text=True, env=env, cwd=str(REPO))
+    # Fail at the source. If the aggregator crashes (e.g. a module that won't
+    # import under this Python), it writes no JSON, rev() returns None, and the
+    # test used to die 30 lines later on float(None) — hiding the real cause.
+    # Surface the aggregator's own output the moment it exits non-zero.
+    if r.returncode != 0:
+        raise SystemExit(
+            f"aggregator exited {r.returncode} under {sys.executable} "
+            f"(python {sys.version_info.major}.{sys.version_info.minor}):\n{r.stdout}{r.stderr}")
     return r.stdout + r.stderr
 
 def rev(date, prefix="mari"):

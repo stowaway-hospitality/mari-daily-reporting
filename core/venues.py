@@ -31,6 +31,12 @@ backwards compat with the pre-refactor pipeline.
     build_wages_from_deputy.py.
 """
 
+# Makes X | Y annotations lazy strings, so this module imports under Python 3.9
+# (the machine's /usr/bin/python3, which the live LaunchAgents use) as well as
+# the 3.11 CI runner. Without it, `-> str | None` is evaluated at def time and
+# raises TypeError on 3.9 — an import-time crash for anything that reaches here.
+from __future__ import annotations
+
 # Deputy Admin OU — worked admin time splits across the two bar/restaurant
 # venues. Marilynas gets no admin share (matches weekly-report canon).
 ADMIN_OU_NAME = "Admin"

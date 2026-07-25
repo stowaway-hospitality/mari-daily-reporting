@@ -80,6 +80,20 @@ jobs:
       - name: Every wage dollar reconciles to Xero
         run: python3 scripts/reconcile_wages.py
 
+      - name: Dashboard model guards (node)
+        # The sales dashboard's P&L math and render contract live in JS, so a
+        # regression there fails no pytest — it ships as a wrong number on the
+        # page. These three suites run the real dashboard modules under node:
+        # test_pnl_model = P&L conservation (revenue - costs = profit, every
+        # split reconciles), render = the DOM contract the tiles read, units =
+        # the $/¢/% field discipline that caught the case-total-in-a-per-unit
+        # field class of bug. Node 20 is already set up above.
+        run: |
+          set -e
+          node scripts/test_pnl_model.mjs
+          node scripts/test_dashboard_render.mjs
+          node scripts/test_dashboard_units.mjs
+
       - name: Deterministic feeds must rebuild identically
         # data/costs.csv is derived from data/cogs_list.csv with no clock in the
         # loop, so it must reproduce exactly. A derived file that has stopped
