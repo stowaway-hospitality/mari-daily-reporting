@@ -1,6 +1,6 @@
 {
   "generated": "2026-07-25",
-  "count": 9,
+  "count": 11,
   "skipped_already_in_xero": 25,
   "invoices": [
     {
@@ -56,6 +56,150 @@
           "account_code": "111",
           "account_name": "Purchases Other COGS",
           "reason": "fallback \u2014 no rule matched"
+        }
+      ]
+    },
+    {
+      "ref": "SI4480678",
+      "supplier": "Foodlink Australia Pty Ltd",
+      "supplier_key": "foodlink",
+      "date": "2026-07-23",
+      "due_date": "2026-07-30",
+      "total": "302.40",
+      "venue": "stowaway",
+      "pdf_path": "923f68eb79b5a20548071cc45eb8cbc05e05a9219369187bded1d97437fd2887.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "PIZZA DOUGH BALLS 55X200GM Buvetti",
+          "supplier_code": "108784",
+          "qty": "1",
+          "amount": "70.00",
+          "unit_cost": "$6.36/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHEESE CAMEMBERT 125GM Rosenberg",
+          "supplier_code": "100487",
+          "qty": "1",
+          "amount": "45.60",
+          "unit_cost": "$30.40/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "OLIVES WHOLE LEMON & GARLIC MARINATED 10KG (8KG. DW) Sandhurst",
+          "supplier_code": "101869",
+          "qty": "1",
+          "amount": "83.50",
+          "unit_cost": "$8.35/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHEESE MEXICAN BLEND SHREDDED 2KG Universal",
+          "supplier_code": "108970",
+          "qty": "1",
+          "amount": "30.00",
+          "unit_cost": "$15.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MUSTARD DIJON 2.5KG Masterfoods",
+          "supplier_code": "101732",
+          "qty": "1",
+          "amount": "26.00",
+          "unit_cost": "$10.40/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "RICE JASMINE 20KG Trading",
+          "supplier_code": "106937",
+          "qty": "1",
+          "amount": "44.00",
+          "unit_cost": "$2.20/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Fuel Levy",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "SI4480679",
+      "supplier": "Foodlink Australia Pty Ltd",
+      "supplier_key": "foodlink",
+      "date": "2026-07-23",
+      "due_date": "2026-07-30",
+      "total": "99.20",
+      "venue": "stowaway",
+      "pdf_path": "a978fdcd795929b632c397f50e924a507b089372ab896332dee5524ffe8d3aba.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BBQ SAUCE 4LT Heinz",
+          "supplier_code": "100164",
+          "qty": "3",
+          "amount": "41.70",
+          "unit_cost": "$3.48/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SMOKEY BBQ SAUCE 3LT Sunshine",
+          "supplier_code": "102601",
+          "qty": "2",
+          "amount": "25.00",
+          "unit_cost": "$4.17/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FRANK'S HOT SAUCE 1GALLN 3.8L Franks",
+          "supplier_code": "102473",
+          "qty": "1",
+          "amount": "32.50",
+          "unit_cost": "$8.55/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
