@@ -598,12 +598,13 @@ function renderChart() {
     const cpDaily = corpPayrollDaily(STATE.currentVenue, endIso);
     const dailyBins = trailing.length <= 45;
     const bins = {};
+    const isMariGrp = STATE.currentVenue === 'mari' || STATE.currentVenue === 'group';
     for (const r of trailing) {
       const key = dailyBins ? r.date : isoDate(weekStart(new Date(r.date)));
       const b = bins[key] = bins[key] || { rev: 0, cogs: 0, wages: 0, days: 0, wageDays: 0, drv: 0 };
       b.rev += toNum(r.revenue_ex_gst); b.cogs += toNum(r.cogs_dollars);
       if (hasVal(r.wages_dollars)) { b.wages += toNum(r.wages_dollars); b.wageDays += 1; }
-      b.drv += toNum(r.delivery_dollars);
+      b.drv += toNum(r.wages_driver_dollars);
       b.days += 1;
     }
     const keys = Object.keys(bins).sort();
@@ -619,11 +620,11 @@ function renderChart() {
         revenue:       { label: 'Revenue $', unit: '$', target: null,
                          fn: (k, B = bins) => B[k].rev },
         wages_hero:    { label: 'Wages %', unit: '%', target: WAGE_TARGET_PCT,
-                         fn: (k, B = bins) => B[k].wageDays && B[k].rev ? B[k].wages / B[k].rev * 100 : null },
+                         fn: (k, B = bins) => B[k].wageDays && B[k].rev ? (B[k].wages - (isMariGrp ? B[k].drv : 0)) / B[k].rev * 100 : null },
         cogs_merged:   { label: 'Expected COGS % (Lightspeed)', unit: '%', target: COGS_TARGET_PCT,
                          fn: (k, B = bins) => B[k].rev ? B[k].cogs / B[k].rev * 100 : null },
         delivery_fees: { label: 'Delivery %', unit: '%', target: t.delivery && t.delivery.target,
-                         fn: (k, B = bins) => B[k].rev ? (B[k].drv + (dfr ? B[k].rev * dfr.pct / 100 : 0)) / B[k].rev * 100 : null },
+                         fn: (k, B = bins) => B[k].rev ? ((isMariGrp ? B[k].drv : 0) + (dfr ? B[k].rev * dfr.pct / 100 : 0)) / B[k].rev * 100 : null },
         overheads:     { label: 'Overheads %', unit: '%', target: null,
                          fn: (k, B = bins) => B[k].rev ? ohOf(k, B) / B[k].rev * 100 : null },
         profit:        { label: 'Expected profit $', unit: '$', target: null,
@@ -680,7 +681,7 @@ function renderChart() {
             const b = B2[mapped] = B2[mapped] || { rev: 0, cogs: 0, wages: 0, days: 0, wageDays: 0, drv: 0 };
             b.rev += toNum(r.revenue_ex_gst); b.cogs += toNum(r.cogs_dollars);
             if (hasVal(r.wages_dollars)) { b.wages += toNum(r.wages_dollars); b.wageDays += 1; }
-            b.drv += toNum(r.delivery_dollars); b.days += 1;
+            b.drv += toNum(r.wages_driver_dollars); b.days += 1;
           }
           const data2 = keys.map(k => B2[k] ? def.fn(k, B2) : null);
           sets.push({ label: String(endYear - n), data: data2.map(x => x === null ? null : Math.round(x * 10) / 10),
@@ -704,8 +705,8 @@ function renderChart() {
     }
     const shc = dowShares(STATE.currentVenue);
     const cogsArr = keys.map(k => Math.round(bins[k].cogs));
-    const wageArr = keys.map(k => Math.round(bins[k].wages));
-    const delvArr = keys.map(k => Math.round(dfr ? bins[k].rev * dfr.pct / 100 : 0));
+    const wageArr = keys.map(k => Math.round(bins[k].wages - (isMariGrp ? bins[k].drv : 0)));
+    const delvArr = keys.map(k => Math.round((dfr ? bins[k].rev * dfr.pct / 100 : 0) + (isMariGrp ? bins[k].drv : 0)));
     const cpArr = keys.map(k => Math.round(dailyBins && shc ? cpDaily * 7 * shc[new Date(k).getDay()] : cpDaily * bins[k].days));
     const ohArr = keys.map(k => Math.round(dailyBins && shc ? ohDaily * 7 * shc[new Date(k).getDay()] : ohDaily * bins[k].days));
     const revArr = keys.map(k => Math.round(bins[k].rev));

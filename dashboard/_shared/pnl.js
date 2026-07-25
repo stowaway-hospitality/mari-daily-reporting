@@ -202,14 +202,18 @@ function pnlWindow(day, venue = STATE.currentVenue) {
   } else {
     df = venueDeliveryEst(venue, _win[0], _win[1], endIso).df;
   }
+  // Reclassify Mari driver wages from Wages -> Delivery (profit-neutral).
+  const drv = driverDeliveryShift(day, venue);
+  const wagesShown = wages - drv;
+  df += drv;
   const cp = corpPayrollDaily(venue, endIso) * ohf;   // owners' salary, DOW-weighted
   // Interest + depreciation are OUT of the P&L (Zak/Olly BEP, 2026-07-22): both are
   // $0 in Olly's plan — depreciation isn't a cash cost we pay, and interest is a
   // balance-sheet item, not a day-to-day trading cost. So profit = operating profit.
   const fin = 0;
-  const opProfit = rev - rev * cogsPct / 100 - wages - oh - df - cp;
+  const opProfit = rev - rev * cogsPct / 100 - wagesShown - oh - df - cp;
   const profit = opProfit - fin;
-  return { rev, daysAll, wdays, a, cogsPct, ohA, oh, df, cp, fin, wages, opProfit, profit, partial: wdays < daysAll };
+  return { rev, daysAll, wdays, a, cogsPct, ohA, oh, df, cp, fin, wages: wagesShown, driver: drv, opProfit, profit, partial: wdays < daysAll };
 }
 
 function overheadsDailyRate(venue, endIso) {
@@ -464,13 +468,29 @@ function actualProfitWindow(day) {
   // PROFIT IS UNCHANGED — wages + oh are preserved to the cent; only the label
   // moves. Falls back to a no-op if histories are absent.
   const vens = v === 'group' ? REAL_VENUES : [v];
-  let staffWages = 0;
+  let staffWages = 0, driverWages = 0;
   for (const vv of vens) for (const r of (STATE.histories[vv] || [])) {
-    if (r.date >= sIso && r.date <= eIso) staffWages += toNum(r.wages_dollars) + toNum(r.leave_dollars);
+    if (r.date >= sIso && r.date <= eIso) {
+      staffWages += toNum(r.wages_dollars) + toNum(r.leave_dollars);
+      if (vv === 'mari') driverWages += toNum(r.wages_driver_dollars);
+    }
   }
   if (staffWages > 0 && staffWages <= wages) { oh += (wages - staffWages); wages = staffWages; }
+  // Mari drivers are a delivery cost, not a wage (profit-neutral reclassification).
+  if ((v === 'mari' || v === 'group') && driverWages > 0 && driverWages <= wages) { df += driverWages; wages -= driverWages; }
   const profit = rev - cos - wages - oh - df - fin;
   return { profit, cos, wages, oh, df, fin, rev, nMonths: months.length };
+}
+
+// Mari's delivery drivers are a DELIVERY cost, not a general wage (Zak, 2026-07-26):
+// the 'delivery' number = Uber commission + Uber Direct + driver-team wages. We move
+// the driver $ OUT of Wages and INTO Delivery, profit-neutrally (the total is
+// identical; only the label moves). Only Mari has drivers, so 'group' inherits it.
+// Gated on wages_dollars being present, since driver is a subset of that figure.
+function driverDeliveryShift(day, venue) {
+  if (venue !== 'mari' && venue !== 'group') return 0;
+  if (!hasVal(day.wages_dollars)) return 0;
+  return toNum(day.wages_driver_dollars);
 }
 
 function toNum(x) { const n = parseFloat(x); return isFinite(n) ? n : 0; }
@@ -510,7 +530,7 @@ function periodIsOpen() {
 
 var SUM_FIELDS = ['revenue_ex_gst', 'cogs_dollars', 'wages_dollars', 'delivery_dollars', 'gp_dollars',
   'food_ex_gst', 'bev_ex_gst', 'food_cogs', 'bev_cogs', 'wages_kitchen_dollars', 'wages_foh_dollars',
-  'eatclub_giveaway_ex_gst', 'eatclub_covers'];
+  'wages_driver_dollars', 'eatclub_giveaway_ex_gst', 'eatclub_covers'];
 
 function rowsForTimeframe(rows, timeframe, anchorDay) {
   const anchor = new Date(anchorDay);
@@ -587,6 +607,7 @@ function rollup(rows) {
     cogs_dollars: sums.cogs_dollars, cogs_pct: rev ? sums.cogs_dollars / rev * 100 : 0,
     wages_dollars: wageDays ? sums.wages_dollars : '',
     wages_pct: wageDays && revW ? sums.wages_dollars / revW * 100 : '',
+    wages_driver_dollars: wageDays ? sums.wages_driver_dollars : '',
     delivery_dollars: sums.delivery_dollars, delivery_pct: rev ? sums.delivery_dollars / rev * 100 : 0,
     gp_dollars: sums.gp_dollars, gp_pct: rev ? sums.gp_dollars / rev * 100 : 0,
     eatclub_giveaway_ex_gst: sums.eatclub_giveaway_ex_gst, eatclub_covers: sums.eatclub_covers,

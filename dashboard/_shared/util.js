@@ -127,7 +127,7 @@ function synthesizeGroupHistory(histories) {
   for (const date of Array.from(allDates).sort()) {
     const sum = { revenue_ex_gst: 0, cogs_dollars: 0, wages_dollars: 0, delivery_dollars: 0, gp_dollars: 0,
                   food_ex_gst: 0, bev_ex_gst: 0, food_cogs: 0, bev_cogs: 0,
-                  wages_kitchen_dollars: 0, wages_foh_dollars: 0,
+                  wages_kitchen_dollars: 0, wages_foh_dollars: 0, wages_driver_dollars: 0,
                   eatclub_giveaway_ex_gst: 0, eatclub_covers: 0 };
     let venueCount = 0;
     let wagePresent = false;
@@ -177,6 +177,7 @@ function synthesizeGroupHistory(histories) {
       // Open-week leave is an estimate that firms up as timesheets are approved.
       if (STATE.includeLeave) sum.wages_dollars += toNum(row.leave_dollars);
       sum.delivery_dollars += toNum(row.delivery_dollars);
+      sum.wages_driver_dollars += toNum(row.wages_driver_dollars);
       sum.gp_dollars       += toNum(row.gp_dollars);
       sum.eatclub_giveaway_ex_gst += toNum(row.eatclub_giveaway_ex_gst);
       sum.eatclub_covers          += toNum(row.eatclub_covers);
@@ -190,6 +191,7 @@ function synthesizeGroupHistory(histories) {
       wages_dollars: wagePresent ? sum.wages_dollars : '',
       wages_pct: wagePresent && rev ? sum.wages_dollars / rev * 100 : '',
       delivery_dollars: sum.delivery_dollars, delivery_pct: rev ? sum.delivery_dollars / rev * 100 : 0,
+      wages_driver_dollars: sum.wages_driver_dollars,
       gp_dollars: sum.gp_dollars, gp_pct: rev ? sum.gp_dollars / rev * 100 : 0,
       eatclub_giveaway_ex_gst: sum.eatclub_giveaway_ex_gst, eatclub_covers: sum.eatclub_covers,
       contributing_venues: venueCount,
