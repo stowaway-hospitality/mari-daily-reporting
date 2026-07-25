@@ -239,3 +239,29 @@ deprecated and exit immediately. They cost salaried staff at hours x rate.
 New salary-earners are caught by `check_salaried_roster.py` (launchd:
 com.stowaway.salariedcheck, Mondays 10:40). Owners live in `_corp_payroll_only`
 and reach the P&L via the residual precisely because they're absent from Deputy.
+
+## Lightspeed / Insights accounts (IMPORTANT — remember this)
+
+Average-spend / SPH data comes from Lightspeed Insights, spread across **three
+separate logins**:
+
+- **`zak@stowawaybar.com` Insights (this is the "group" Lite login).** Has the
+  standard **Lite dashboards** (Snapshot, Product sales, etc.) covering the sites
+  **"Stowaway Bar"** (= Stow **+ Marilyna's**, shared till) and **"Harry Gatos"**.
+  **Does NOT have Custom Insights** — "Build From" is locked with "Upgrade to
+  Custom". So from here you can only schedule the standard Snapshot report
+  (site-level), not a custom reporting-group explore.
+- **Stow + Mari detailed = a DIFFERENT Lightspeed login (has Custom Insights).**
+  This is where the reporting-group split comes from that produces the
+  `Stowaway` / `Marilynas` / `Marilynas-Uber` lines in `sph_daily.csv`. Custom
+  Insights lets you build + schedule a `date × reporting-group × [sales, txns,
+  guests]` report. (Login not recorded here — ask Zak / he logs it in.)
+- **Harry Gatos = its own separate Kounta account, NO Custom Insights.** Feed HG
+  via the free **Snapshot** report scheduled to email.
+
+**Ongoing self-sustaining feed (no Claude task):** Lightspeed scheduled emails →
+ingest Gmail (`zakbritton2@gmail.com`) → the GitHub Action that already polls that
+inbox parses them → updates `data/sph_daily.csv` → dashboard refreshes. HG via
+Snapshot (site-level); Stow+Mari via the Custom-Insights login (reporting-group
+split). `sph_daily.csv` venue labels: Stowaway, Marilynas, Marilynas-Uber,
+HarryGatos.
