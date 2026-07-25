@@ -180,6 +180,7 @@ function renderSnapshot() {
     const pcEl0 = document.getElementById('profit-card'); if (pcEl0) pcEl0.innerHTML = '';
     document.getElementById('dollar-strip').innerHTML = '';
     document.getElementById('split-snapshot').innerHTML = '';
+    { const a = document.getElementById('avg-spend'); if (a) a.innerHTML = ''; }
     const waEl0 = document.getElementById('week-ahead'); if (waEl0) waEl0.innerHTML = '';
     const dhEl0 = document.getElementById('data-health'); if (dhEl0) dhEl0.innerHTML = '';
     const vbEl0 = document.getElementById('venue-breakdown'); if (vbEl0) vbEl0.innerHTML = '';
@@ -238,8 +239,10 @@ function renderExtras(day, cfg) {
   const dhEl = document.getElementById('data-health'); if (dhEl) dhEl.innerHTML = '';
   const vbEl = document.getElementById('venue-breakdown'); if (vbEl) vbEl.innerHTML = '';
   const pcEl = document.getElementById('profit-card'); if (pcEl) pcEl.innerHTML = '';
+  { const asEl = document.getElementById('avg-spend'); if (asEl) asEl.innerHTML = ''; }
   if (!day) return;
   renderProfitCard(day, cfg);
+  renderAvgSpend(day);
   const srEl = document.getElementById('story-row');
   if (CURRENT_ROLE !== 'admin') { if (srEl) srEl.style.gridTemplateColumns = '1fr'; return; }
   renderVenueBreakdown();   // kept: the group -> venue table
@@ -977,6 +980,29 @@ async function renderDaySingle() {
   if (wrapEl) wrapEl.innerHTML = '';
 }
 
+
+function renderAvgSpend(day) {
+  const el = document.getElementById('avg-spend');
+  if (!el) return;
+  el.innerHTML = '';
+  if (!STATE.sph || !STATE.sph.length || !day) return;
+  const a = avgSpendWindow(STATE.currentVenue, day);
+  if (!a) return;   // venue not in the SPH file yet, or zero transactions
+  const yoy = avgSpendYoY(STATE.currentVenue, day);
+  const money = n => '$' + Number(n).toFixed(2);
+  const yoyPill = (yoy === null) ? ''
+    : ' ' + pill((yoy >= 0 ? '+' : '−') + Math.abs(yoy).toFixed(1) + '% vs same period last year', yoy >= 0 ? 'green' : 'red');
+  const guestBit = a.perGuest
+    ? `<p style="font-size:13.5px;color:var(--ink-soft);margin:6px 0 0"><b>${money(a.perGuest)}</b> per guest · ${a.guests.toLocaleString()} guests</p>`
+    : '';
+  el.innerHTML =
+    `<div class="section"><h2>Average spend</h2>` +
+    `<p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 10px;line-height:1.5">Lightspeed spend per transaction, incl GST — same basis as the weekly report. ${a.days} day${a.days>1?'s':''} · ${a.txns.toLocaleString()} transactions.</p>` +
+    `<p style="font-size:27px;font-weight:600;margin:0">${money(a.perTxn)} <span style="font-size:14px;font-weight:400;color:var(--ink-soft)">per transaction</span>${yoyPill}</p>` +
+    guestBit +
+    `</div>`;
+}
+
 function render() {
   renderVenueTabs();
   renderVenueStrip();
@@ -1049,6 +1075,12 @@ async function bootstrap() {
   try {
     const r = await fetch('/data/roster_week.json?t=' + Date.now());
     if (r.ok) STATE.roster = await r.json();
+  } catch (e) {}
+  // Average spend (SPH) — per-day per-venue from the weekly Monday pull. Operational,
+  // so every role loads it (not gated like the Xero/overhead feeds below).
+  try {
+    const r = await fetch('/data/sph_daily.csv?t=' + Date.now());
+    if (r.ok) STATE.sph = parseCsv(await r.text());
   } catch (e) {}
   // Economic feeds are ADMIN-ONLY (Zak, 2026-07-15: only admin sees overheads
   // and profit) — manager roles never download Xero/fee data at all.

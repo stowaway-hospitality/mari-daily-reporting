@@ -616,3 +616,59 @@ function rollup(rows) {
   }
   return out;
 }
+
+
+/* ---- Average spend (SPH) — reads STATE.sph (data/sph_daily.csv), the same
+   per-day per-venue file the weekly Monday report uses. Definition matches
+   build_weekly_report.sph_for_week exactly: day-weighted sum(Sales)/sum(Txns),
+   Sales is INCL GST (spend-per-head convention). Pure; no DOM. */
+var SPH_VENUE_MAP = { Stowaway: 'stow', 'Stowaway Bar': 'stow', HarryGatos: 'hg',
+  'Harry Gatos': 'hg', Marilynas: 'mari', "Marilyna's": 'mari', Marilyna: 'mari', Mari: 'mari' };
+
+function sphVenueCode(v) {
+  return SPH_VENUE_MAP[v] || String(v || '').toLowerCase().replace(/[^a-z]/g, '');
+}
+
+function sphWindowIso(day) {
+  const t = String((day && day.date) || '');
+  if (t.includes(' — ')) { const p = t.split(' — '); return [p[0], p[1]]; }
+  return [t, t];
+}
+
+/* Aggregate SPH for a venue over [sIso,eIso]. Group = sum of the real venues
+   PRESENT in the file (distinct tills — no double count as long as the file
+   doesn't carry both a combined and a component row for the same till). */
+function sphAggregate(venue, sIso, eIso) {
+  const rows = STATE.sph || [];
+  if (!rows.length) return null;
+  const want = venue === 'group' ? ['stow', 'hg', 'mari'] : [venue];
+  let sales = 0, txns = 0, guests = 0; const days = {};
+  for (const r of rows) {
+    const v = sphVenueCode(r.Venue);
+    if (want.indexOf(v) < 0) continue;
+    const d = r.Date;
+    if (!(d >= sIso && d <= eIso)) continue;
+    sales += toNum(r.Sales); txns += toNum(r.Transactions); guests += toNum(r.Guests);
+    days[d] = 1;
+  }
+  if (!txns) return null;
+  return { sales, txns, guests, perTxn: sales / txns,
+           perGuest: guests ? sales / guests : null, days: Object.keys(days).length };
+}
+
+function avgSpendWindow(venue, day) {
+  const w = sphWindowIso(day);
+  return sphAggregate(venue, w[0], w[1]);
+}
+
+/* YoY on spend-per-transaction: same window shifted back 364 days. */
+function avgSpendYoY(venue, day) {
+  const w = sphWindowIso(day);
+  const cur = sphAggregate(venue, w[0], w[1]);
+  if (!cur) return null;
+  const ps = isoDate(addDays(new Date(w[0]), -364));
+  const pe = isoDate(addDays(new Date(w[1]), -364));
+  const prev = sphAggregate(venue, ps, pe);
+  if (!prev || !prev.perTxn) return null;
+  return (cur.perTxn - prev.perTxn) / prev.perTxn * 100;
+}
