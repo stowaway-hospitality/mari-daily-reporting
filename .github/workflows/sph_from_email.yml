@@ -13,6 +13,10 @@ on:
     - cron: '40 1 * * *'    # ~11:40 AEST — late batch
     - cron: '0 6 * * *'     # ~16:00 AEST — catch the morning-sent report
   workflow_dispatch:
+    inputs:
+      since_days:
+        description: 'Lookback window in days (use e.g. 40 for a one-off gap backfill)'
+        default: '3'
 
 concurrency:
   group: sph-from-email
@@ -32,6 +36,7 @@ jobs:
         env:
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          SPH_SINCE_DAYS: ${{ github.event.inputs.since_days || '3' }}
         run: python3 scripts/sph_from_email.py
 
       - name: Commit sph_daily.csv

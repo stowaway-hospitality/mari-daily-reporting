@@ -143,7 +143,8 @@ def main():
     M = imaplib.IMAP4_SSL("imap.gmail.com", 993)
     M.login(GMAIL, APP_PW)
     M.select("INBOX")
-    since = (datetime.now(timezone.utc) - timedelta(days=3)).strftime("%d-%b-%Y")
+    since_days = int(os.environ.get("SPH_SINCE_DAYS", "3"))
+    since = (datetime.now(timezone.utc) - timedelta(days=since_days)).strftime("%d-%b-%Y")
     typ, data = M.search(None, "SINCE", since)
     ids = data[0].split() if data and data[0] else []
     # collect per (date) -> {venue: (txns, sales)}
@@ -176,8 +177,13 @@ def main():
     M.logout()
 
     sph = load_sph()
+    # Dates the weekly backfill owns keep the split (Marilynas + Marilynas-Uber);
+    # the email feed's COMBINED Marilynas would double-count there, so leave them.
+    backfill_dates = {dt for (dt, v) in sph if v == "Marilynas-Uber"}
     changed = 0
     for d, ven in by_day.items():
+        if d in backfill_dates:
+            print(f"  skip {d} (weekly-backfill date)"); continue
         if "hg" in ven:
             put(sph, d, "HarryGatos", *ven["hg"]); changed += 1
         if "mari" in ven:
