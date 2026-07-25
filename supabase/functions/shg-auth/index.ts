@@ -151,8 +151,9 @@ Deno.serve(async (req: Request) => {
   if (!GITHUB_TOKEN) return reply(500, { error: "GITHUB_TOKEN not set on the function" });
 
   const { venue, product } = body;
-  if (!venue || !product) return reply(400, { error: "venue and product required" });
+  if (!venue) return reply(400, { error: "venue required" });
   if (!/^[a-z_]+$/.test(venue)) return reply(400, { error: "bad venue" });
+  if (!product && !path.endsWith("/pack")) return reply(400, { error: "product required" });
   if (!["admin", "bigchef"].includes(role) && allowedVenue && allowedVenue !== venue) {
     return reply(403, { error: `You can only edit ${allowedVenue}` });
   }
@@ -199,6 +200,25 @@ Deno.serve(async (req: Request) => {
       `Prep: ${safe} ${minutes}min (${venue}) - ${name}`);
     if (!res.ok) return reply(502, { error: `GitHub ${res.status}`, detail: res.detail });
     return reply(200, { ok: true, path: res.path, minutes, who: whoId });
+  }
+
+  if (path.endsWith("/pack")) {
+    // a chef confirms the pack size of an ingredient the parser couldn't read.
+    // Append-only log keyed by purchasable_id; the build takes the latest.
+    const id = String(body.id || "").trim();
+    const packQty = Number(body.pack_qty);
+    const packUnit = String(body.pack_unit || "").trim().toLowerCase();
+    if (!id) return reply(400, { error: "id required" });
+    if (!(packQty > 0) || packQty > 1e7) return reply(400, { error: "pack_qty must be 0-1e7" });
+    if (!["g", "ml", "ea"].includes(packUnit)) return reply(400, { error: "pack_unit must be g, ml or ea" });
+    const safe = id.replace(/"/g, "'");
+    const block =
+      `- id: "${safe}"\n  pack_qty: ${packQty}\n  pack_unit: ${packUnit}\n` +
+      `  by: "${name}"\n  on: ${stamp}\n  by_email: "${user.email}"\n`;
+    const res = await appendCommit(`data/pack_overrides.yaml`, block,
+      `Pack confirm: ${safe} = ${packQty}${packUnit} - ${name}`);
+    if (!res.ok) return reply(502, { error: `GitHub ${res.status}`, detail: res.detail });
+    return reply(200, { ok: true, id, pack_qty: packQty, pack_unit: packUnit });
   }
 
   const { yaml } = body;

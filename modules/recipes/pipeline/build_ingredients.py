@@ -52,8 +52,10 @@ import sys  # noqa: E402
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 from core.domain import purchasable_id   # noqa: E402  the SAME natural key the cost engine uses
+from core.pack_overrides import load_pack_overrides   # noqa: E402
 COGS = ROOT / "data" / "cogs_list.csv"
 OUT = ROOT / "data" / "ingredients.json"
+PACK_OVERRIDES = ROOT / "data" / "pack_overrides.yaml"
 
 # Suppliers whose goods a chef cooks with. Liquor is a different UI problem
 # (a bottle IS the unit); keep this list explicit rather than clever.
@@ -226,6 +228,7 @@ def slug(s: str) -> str:
 def main() -> int:
     rows = list(csv.DictReader(COGS.open(encoding="utf-8-sig")))
     cutoff = date.today() - timedelta(days=RECENT_DAYS)
+    overrides = load_pack_overrides(PACK_OVERRIDES)   # chef-confirmed pack sizes
 
     out, review = [], 0
     seen: set[str] = set()
@@ -257,6 +260,12 @@ def main() -> int:
         pack_cost = Decimal(r["cost_per_unit_incl_gst"])
         qty, unit, per, how, bad = resolve_pack(
             desc, pack_cost, basis=r.get("basis", ""), note=r.get("note", ""))
+        # a chef has confirmed this pack -> use their size so it costs and stops
+        # showing "confirm pack" (same override the cost feed reads)
+        if (not qty or not unit or bad) and key in overrides:
+            oq, ou = overrides[key]
+            qty, unit, bad, how = oq, ou, "", "chef-confirmed"
+            per = pack_cost / oq
 
         item = {
             "id": key,

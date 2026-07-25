@@ -43,17 +43,20 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from core.domain import purchasable_id                                   # noqa: E402
+from core.pack_overrides import load_pack_overrides                      # noqa: E402
 from modules.recipes.pipeline.build_ingredients import resolve_pack      # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[3]
 COGS = ROOT / "data" / "cogs_list.csv"
 OUT = ROOT / "data" / "costs.csv"
+PACK_OVERRIDES = ROOT / "data" / "pack_overrides.yaml"
 
 FIELDS = ["ingredient", "observed_on", "cost_per_unit", "unit", "venue",
           "source_invoice", "pack", "description"]
 
 
 def main() -> int:
+    overrides = load_pack_overrides(PACK_OVERRIDES)   # chef-confirmed pack sizes
     rows, skipped = [], []
     for r in csv.DictReader(COGS.open(encoding="utf-8-sig")):
         code = (r.get("supplier_code") or "").strip()
@@ -61,6 +64,7 @@ def main() -> int:
             skipped.append((r["supplier"], r["invoice_description"], "no supplier_code — no identity"))
             continue
 
+        iid = purchasable_id(r["supplier"], code)
         desc = r["invoice_description"].strip()
         pack_cost = Decimal(r["cost_per_unit_incl_gst"])
 
@@ -69,6 +73,12 @@ def main() -> int:
         # description. Refuses (skips) exactly when the ingredient UI would flag.
         qty, unit, per, how, bad = resolve_pack(
             desc, pack_cost, basis=r.get("basis", ""), note=r.get("note", ""))
+        # A pack the parser couldn't read but a chef HAS confirmed: use their size
+        # ($/pack ÷ pack_qty) so it becomes a real cost instead of being skipped.
+        if (not qty or not unit or bad) and iid in overrides:
+            oq, ou = overrides[iid]
+            qty, unit, bad, how = oq, ou, "", "chef-confirmed"
+            per = (pack_cost / oq).quantize(Decimal("0.000001"))
         if not qty or not unit:
             skipped.append((r["supplier"], desc, f"pack unreadable ({how})"))
             continue
@@ -77,7 +87,7 @@ def main() -> int:
             continue
 
         rows.append(dict(
-            ingredient=purchasable_id(r["supplier"], code),
+            ingredient=iid,
             observed_on=r["invoice_date"], cost_per_unit=str(per), unit=unit,
             venue=r.get("venue") or "", source_invoice=r.get("source_invoice", ""),
             pack=how, description=desc,

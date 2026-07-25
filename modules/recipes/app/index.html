@@ -294,14 +294,28 @@ window.add = (id) => {
   if (i.needs_pack_review) {
     const g = prompt(`Pack size needs confirming.\n\n${i.description}\n${money(i.pack_cost_incl)} per pack\n\nHow much is in ONE pack, in grams (or mL)?`, '');
     if (!g || isNaN(+g) || +g <= 0) return;
-    i.pack_qty = +g; i.pack_unit = i.pack_unit || 'g';
+    i.pack_qty = +g; i.pack_unit = i.pack_unit === 'ml' ? 'ml' : 'g';
     i.cost_per_base_unit = +i.pack_cost_incl / +g;
     i.needs_pack_review = false; i.confirmed_by_chef = true;
+    savePack(i);   // persist so it's costed for everyone from the next build on
   }
   if (LINES.some(l => l.kind === 'ing' && l.id === id)) return;
   LINES.push({ kind: 'ing', id, qty: 0 });
   calc();
 };
+
+// Persist a chef's pack confirmation to data/pack_overrides.yaml via the worker,
+// so this ingredient becomes costable for everyone (build reads it). Best-effort:
+// if you're not signed in as a kitchen writer it just stays a session confirm.
+async function savePack(i) {
+  try {
+    const token = Auth.requireToken();
+    await fetch(`${WORKER_URL}/pack`, {
+      method: 'POST', headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
+      body: JSON.stringify({ venue: venueOf(USER), id: i.id, pack_qty: i.pack_qty, pack_unit: i.pack_unit }),
+    });
+  } catch (e) { /* not a writer — session-only confirm, no persistence */ }
+}
 window.addSub = (enc) => {
   const product = decodeURIComponent(enc);
   const s = SUBS.find(x => x.product === product);
