@@ -1,6 +1,6 @@
 {
   "generated": "2026-07-25",
-  "count": 6,
+  "count": 9,
   "skipped_already_in_xero": 25,
   "invoices": [
     {
@@ -58,6 +58,89 @@
           "reason": "fallback \u2014 no rule matched"
         }
       ]
+    },
+    {
+      "ref": "3094305",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-07-23",
+      "due_date": "2026-08-06",
+      "total": "3.90",
+      "venue": "stowaway",
+      "pdf_path": "a61120b796ef3adafd102a559705ec8c3b44d3f313f857b3bc40a989a39ceaaa.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "HERB MINT ROUND LEAF BCH",
+          "supplier_code": "HRMIN",
+          "qty": "3.00",
+          "amount": "3.90",
+          "unit_cost": "$1.30/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3094313",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-07-23",
+      "due_date": "2026-08-06",
+      "total": "25.00",
+      "venue": "stowaway",
+      "pdf_path": "aa138d88b944df5ef7599b49c3fd44a5851402903ec83a49a5b89989d9f30a7b.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "LEMON AMALFI KG",
+          "supplier_code": "LEMAMALK",
+          "qty": "3.00",
+          "amount": "19.20",
+          "unit_cost": "$6.40/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "JUICE RUBY GRAPEFRUIT 2LTR",
+          "supplier_code": "JURUB",
+          "qty": "1.00",
+          "amount": "5.80",
+          "unit_cost": "$2.90/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "CN-BT-1",
+      "supplier": "",
+      "supplier_key": "",
+      "date": null,
+      "due_date": null,
+      "total": "0.00",
+      "venue": "unknown",
+      "pdf_path": null,
+      "tracking_category": "Stowaway",
+      "tracking_option": "To Be Reviewed",
+      "tracking_confidence": "low",
+      "is_credit_note": true,
+      "status": "pass",
+      "lines": []
     },
     {
       "ref": "IV000021814",
