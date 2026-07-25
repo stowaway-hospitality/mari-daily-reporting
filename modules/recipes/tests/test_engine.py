@@ -141,6 +141,17 @@ def test_circular_subrecipe_refuses(costs):
         cost_on(a, costs, date(2026, 7, 20), recipes=[a, b])
 
 
+def test_subrecipe_negative_yield_refuses(costs):
+    # a negative yield passes a truthiness check but would divide the batch cost
+    # by a negative number — a negative cost that silently inflates GP
+    sauce = Recipe("Bad Batch", "stowaway", yield_qty=Decimal("-2000"), yield_unit="g",
+                   lines=(RecipeLine("oil", Decimal("100"), "ml"),))
+    dish = Recipe("Dish", "stowaway",
+                  lines=(RecipeLine("", Decimal("50"), "g", subrecipe="Bad Batch"),))
+    with pytest.raises(MissingCost, match="non-positive yield"):
+        cost_on(dish, costs, date(2026, 7, 20), recipes=[sauce, dish])
+
+
 def test_subrecipe_unit_mismatch_refuses(costs):
     sauce = Recipe("Stock", "stowaway", yield_qty=Decimal("2000"), yield_unit="ml",
                    lines=(RecipeLine("oil", Decimal("100"), "ml"),))

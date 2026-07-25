@@ -172,6 +172,14 @@ def cost_on(recipe: Recipe, costs: CostSeries, on: date,
                     f"its cost per {line.unit or 'unit'} is unknowable. Give it a yield "
                     f"(e.g. makes 1200 g) before using it as an ingredient."
                 )
+            if sub.yield_qty <= 0:
+                # a negative/zero yield passes the truthiness check above but would
+                # divide the batch cost by a non-positive number — a negative cost
+                # that SILENTLY inflates GP. Refuse rather than trust a bad number.
+                raise MissingCost(
+                    f"{recipe.product!r}: sub-recipe {sub.product!r} has a non-positive yield "
+                    f"({sub.yield_qty}). A batch must yield a positive quantity."
+                )
             if line.unit and line.unit != sub.yield_unit:
                 raise MissingCost(
                     f"{recipe.product!r}: unit mismatch on sub-recipe {sub.product!r} — "
