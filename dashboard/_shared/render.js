@@ -559,6 +559,14 @@ function renderDataHealth() {
 }
 
 function renderChart() {
+  // The trend chart carries cost structure (overheads, corp payroll, profit gap)
+  // and is ADMIN-ONLY. Non-admin roles never see any version of it.
+  const trendSec = document.getElementById('trend-section');
+  if (CURRENT_ROLE !== 'admin') {
+    if (trendSec) trendSec.classList.add('hidden');
+    if (CHART_INSTANCE) { CHART_INSTANCE.destroy(); CHART_INSTANCE = null; }
+    return;
+  }
   const venueCfg = VENUE_CONFIG[STATE.currentVenue];
   const roleCfg = ROLE_CONFIG[CURRENT_ROLE] || ROLE_CONFIG.admin;
   const lines = ['revenue', ...(roleCfg.chart_lines || venueCfg.chart_lines)];
