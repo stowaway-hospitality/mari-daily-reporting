@@ -205,6 +205,42 @@ for label, blob in [("garbage", b"not a pdf %PDF broken"), ("empty", b"")]:
     ok = r.returncode == 1 and "Traceback" not in r.stderr.split("EXTRACTION FAILED")[0]
     check(f"{label} file -> clean exit 1, no crash", ok, f"rc={r.returncode}")
 
+print("10. emitted accounts + tracking are valid in Xero (live)")
+if OFFLINE:
+    print("  SKIP (offline)")
+else:
+    try:
+        import xero_pull as xp
+        from modules.invoices import build_corpus as bc
+        from modules.invoices.parsers import parse_pdf
+        from modules.invoices.account_map import suggest_coding
+        access, tenant = xp.token()
+        accs = xp.api_get(access, tenant, "Accounts", {}).get("Accounts", [])
+        active = {a["Code"] for a in accs if a.get("Code") and a.get("Status") == "ACTIVE"}
+        tcs = xp.api_get(access, tenant, "TrackingCategories", {}).get("TrackingCategories", [])
+        track = {t["Name"]: {o["Name"] for o in t.get("Options", []) if o.get("Status") == "ACTIVE"}
+                 for t in tcs if t.get("Status") == "ACTIVE"}
+        K2D = {v: k for k, v in bc.DOMAIN_KEY.items()}
+        emit_acc, emit_trk = set(), set()
+        for sup, dom in ((s, K2D[s]) for s in K2D):
+            for pdf in sorted(glob.glob(str(ROOT / f"data/invoice_corpus/{sup}/*.pdf")))[:6]:
+                try:
+                    inv = parse_pdf(open(pdf, "rb").read(), dom)
+                except Exception:
+                    inv = None
+                if not inv:
+                    continue
+                c = suggest_coding(inv)
+                emit_acc |= {l.account_code for l in c.lines if l.account_code}
+                if c.tracking_category and c.tracking_option:
+                    emit_trk.add((c.tracking_category, c.tracking_option))
+        bad_acc = sorted(a for a in emit_acc if a not in active)
+        bad_trk = sorted(f"{c}/{o}" for c, o in emit_trk if c not in track or o not in track[c])
+        check("every emitted account code is active in Xero", not bad_acc, f"inactive: {bad_acc}")
+        check("every emitted tracking option exists in Xero", not bad_trk, f"bad: {bad_trk}")
+    except Exception as e:
+        check("account/tracking validity", False, str(e)[:80])
+
 print()
 print(f"{'ALL PASS' if _fail == 0 else str(_fail) + ' FAILED'}")
 sys.exit(1 if _fail else 0)
