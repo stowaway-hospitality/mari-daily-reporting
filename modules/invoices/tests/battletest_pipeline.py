@@ -81,6 +81,25 @@ for sup, dom in ((s, K2D[s]) for s in K2D):
             rec += 1
 check("parsers that returned a value all reconcile", tot >= 40, f"{rec}/{tot} reconciled")
 
+# every VALIDATED invoice must ALSO reconcile through build_bill — else the push
+# gate false-blocks a valid bill (the FFT bare-"GST"-line bug)
+from decimal import Decimal as _D0
+
+from modules.invoices import xero_push as _xp0
+_bb_bad = 0
+for sup, dom in ((s, K2D[s]) for s in K2D):
+    for pdf in sorted(glob.glob(str(ROOT / f"data/invoice_corpus/{sup}/*.pdf")))[:10]:
+        try:
+            inv = parse_pdf(open(pdf, "rb").read(), dom)
+        except Exception:
+            inv = None
+        if inv is None or not V.validate(inv).ok:
+            continue
+        _, _rb, _ = _xp0.build_bill(inv)
+        if abs(_rb - _D0(str(inv.total_incl))) > _D0("0.50"):
+            _bb_bad += 1
+check("every validated invoice also reconciles through build_bill", _bb_bad == 0, f"{_bb_bad} mismatch")
+
 # ---- 3. dedup guard --------------------------------------------------------
 print("3. already_exists dedup guard")
 from modules.invoices import xero_push

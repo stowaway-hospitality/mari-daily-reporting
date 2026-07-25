@@ -100,21 +100,45 @@ def parse(pdf_bytes: bytes) -> Invoice:
         raise ValueError("FFT: no line items parsed")
 
     L = [x.strip() for x in flat.splitlines() if x.strip()]
-    # Footer extras as EXTRA lines: Delivery/Fuel, plus the GST Total — the
-    # produce is GST-free, so the invoice's GST sits entirely on the taxable
-    # extras (10% of the fuel levy). Capturing it here makes the sum reconcile.
-    extras = [("Delivery Fee", TaxTreatment.GST_FREE), ("Fuel Levy", TaxTreatment.GST_FREE),
-              ("GST Total", TaxTreatment.GST)]
-    for label, tt in extras:
+
+    def _amount_after(label: str) -> Decimal:
         for i, x in enumerate(L):
             if x == label and i + 1 < len(L):
                 v = _m(L[i + 1])
                 if v and v > 0:
-                    items.append(InvoiceLine(
-                        description=("GST" if label == "GST Total" else label),
-                        qty=Decimal("1"), line_total_incl=v, unit_price_incl=v, pack_size=1,
-                        line_class=LineClass.EXTRA, tax_treatment=tt, cost_basis=CostBasis.UNKNOWN))
-                break
+                    return v
+        return Decimal("0")
+
+    # Footer extras. The produce is GST-free, so the invoice's GST sits entirely
+    # on the taxable extras (Delivery Fee, Fuel Levy). The invoice prints those
+    # EX-GST plus a separate "GST Total". We must NOT emit a bare "GST" line — GST
+    # is a tax rate in Xero, not a line item, so the bill would drop it and come up
+    # short. Instead fold the GST INTO the taxable extras as GST-inclusive lines,
+    # distributed by value, so the sum reconciles AND Xero computes the right GST.
+    taxable = [(lbl, _amount_after(lbl)) for lbl in ("Delivery Fee", "Fuel Levy")]
+    taxable = [(lbl, v) for lbl, v in taxable if v > 0]
+    gst_total = _amount_after("GST Total")
+    ex_sum = sum((v for _, v in taxable), Decimal("0"))
+    allocated = Decimal("0")
+    for idx, (label, ex) in enumerate(taxable):
+        if idx < len(taxable) - 1 and ex_sum:
+            share = (gst_total * ex / ex_sum).quantize(Decimal("0.01"))
+            allocated += share
+        else:
+            share = gst_total - allocated            # remainder to the last extra
+        incl = ex + share
+        items.append(InvoiceLine(
+            description=label, qty=Decimal("1"), line_total_incl=incl, unit_price_incl=incl,
+            pack_size=1, line_class=LineClass.EXTRA,
+            tax_treatment=(TaxTreatment.GST if share > 0 else TaxTreatment.GST_FREE),
+            cost_basis=CostBasis.UNKNOWN, gst_amount=share if share > 0 else None))
+    # Edge: GST printed but no taxable extra found — keep it as a line so the sum
+    # still reconciles (rare; a human reviews it since the bill would be short).
+    if gst_total > 0 and not taxable:
+        items.append(InvoiceLine(
+            description="GST", qty=Decimal("1"), line_total_incl=gst_total, unit_price_incl=gst_total,
+            pack_size=1, line_class=LineClass.EXTRA, tax_treatment=TaxTreatment.GST,
+            cost_basis=CostBasis.UNKNOWN))
 
     total = None
     for i, x in enumerate(L):
