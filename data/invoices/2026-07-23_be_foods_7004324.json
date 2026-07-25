@@ -1,0 +1,152 @@
+{
+  "invoice": {
+    "supplier_key": "be_foods",
+    "supplier_name_raw": "B&E Foods Pty Ltd",
+    "invoice_ref": "7004324",
+    "invoice_date": "2026-07-23",
+    "total_incl": "118.02",
+    "lines": [
+      {
+        "description": "FZ COOKED MINI KOREAN",
+        "qty": "1.00",
+        "line_total_incl": "92.40",
+        "unit_price_incl": "92.4000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "10300",
+        "raw_qty": null,
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "STAINLESS STEEL",
+        "qty": "1.00",
+        "line_total_incl": "7.15",
+        "unit_price_incl": "7.1500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": "0.65",
+        "wet_amount": null,
+        "supplier_code": "10823",
+        "raw_qty": null,
+        "raw_uom": "PK",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "SPONGE SCOURER -",
+        "qty": "1.00",
+        "line_total_incl": "8.47",
+        "unit_price_incl": "8.4700",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": "0.77",
+        "wet_amount": null,
+        "supplier_code": "16155",
+        "raw_qty": null,
+        "raw_uom": "PK",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "DELIVERY SURCHARGE",
+        "qty": "1.00",
+        "line_total_incl": "10.00",
+        "unit_price_incl": "10.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst_free",
+        "cost_basis": "unknown",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": "EAC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-30",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "97e02a42a76ff1ccf60aeb8666b2a1129e8d715242789eb3765f14c9f70e7ad0.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $10.00 under the invoice total \u2014 expected. Skipped: DELIVERY SURCHARGE ($10.00). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "108.02",
+        "actual": "118.02"
+      }
+    ],
+    "expected_ls_receive_total": "108.02",
+    "extras_total": "10.00"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "FZ COOKED MINI KOREAN",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "STAINLESS STEEL",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "SPONGE SCOURER -",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "DELIVERY SURCHARGE",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
