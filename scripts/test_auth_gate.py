@@ -49,6 +49,26 @@ want("admit blocks when role not in the page's roles",
 rt = src[src.find("function requireToken"): src.find("function requireToken") + 220]
 want("requireToken throws without a session", "throw" in rt and "CACHE.token" in rt)
 
+# The admin invite dropdown, the worker's role allow-list, and the kitchen-writer
+# set must agree. A role offered in the UI but not accepted by the worker fails
+# invites silently; a kitchen writer the worker doesn't recognise can't write.
+ROOT = AUTH.parent.parent.parent
+
+
+def _roles(text: str, name: str) -> set[str]:
+    m = re.search(name + r"\s*=\s*\[([^\]]*)\]", text)
+    return set(re.findall(r'["\']([a-z_]+)["\']', m.group(1))) if m else set()
+
+
+admin_roles = _roles((ROOT / "dashboard/admin/index.html").read_text(), "ROLES")
+worker_src = (ROOT / "supabase/functions/shg-auth/index.ts").read_text()
+worker_roles = _roles(worker_src, "ROLES")
+worker_kitchen = _roles(worker_src, "KITCHEN")
+want("admin invite dropdown == worker role allow-list",
+     admin_roles and admin_roles == worker_roles, f"{sorted(admin_roles)} vs {sorted(worker_roles)}")
+want("kitchen writers are a subset of valid roles", worker_kitchen <= worker_roles, str(sorted(worker_kitchen)))
+want("auth.js kitchen roles are all valid roles", roles <= worker_roles, str(sorted(roles - worker_roles)))
+
 print()
 print("ALL PASS" if not fails else f"{len(fails)} FAILED")
 sys.exit(1 if fails else 0)
