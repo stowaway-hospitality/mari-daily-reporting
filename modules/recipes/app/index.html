@@ -2,67 +2,99 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Recipes · Stowaway Hospitality Group</title>
 <link rel="icon" href="/favicon.ico">
 <!--
-  Chef recipe builder.
+  Chef recipes — rebuilt mobile-first, two tabs:
 
-  The ingredient list is NOT a database anyone maintains. It is generated from
-  the supplier invoices you actually received in the last 90 days. Buy
-  something, it shows up. Stop buying it, it ages out. That is the thing
-  Lightspeed cannot do — its product DB is hand-curated, which is why 4.6% of
-  Stowaway revenue currently reports $0.00 cost.
+    BUILD       cost a dish from what you actually bought. Pick ingredients,
+                set quantities, see food cost + GP. Save.
+    PREP TIMER  a dedicated, dead-simple screen: pick a recipe, time it (or type
+                the minutes), log it. The recipe's prep-labour cost is the mean
+                of the LAST 4 logged preps, each at that person's real rate
+                (server-side, labour.py) — it flows straight into the dish's cost.
 
-  This page reads three generated feeds and writes through the Pipedream worker,
-  which verifies the Supabase token server-side:
-    /data/ingredients.json   what you bought (supplier, pack, cost/unit)
-    /data/recipes_index.json  recipes usable as sub-recipes (a sauce, a batch)
-    /data/labour_rate.json    team-average $/min for the LIVE labour estimate
-  Prep is timed against the logged-in person; the worker stamps who from the
-  token, and the real per-person cost is computed server-side. See labour.py.
+  Feeds (generated from real invoices, last 90 days):
+    /data/ingredients.json    what you bought (supplier, pack, cost/unit)
+    /data/recipes_index.json  saved recipes (for the prep picker + sub-recipes)
+    /data/labour_rate.json    team-average $/min for the live estimate only
+  Writes go through the worker, which verifies the Supabase token server-side.
 -->
 <link rel="stylesheet" href="/_shared/tokens.css?v=20260719b">
 <style>
-.grid{display:grid;grid-template-columns:1fr 430px;gap:14px;align-items:start}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.tabs{display:flex;gap:6px;margin-bottom:12px}
-.tabs button{flex:0 0 auto;font-size:11px;padding:7px 14px;border-radius:99px;border:1px solid var(--line);
-  background:transparent;color:var(--ink-soft);cursor:pointer;letter-spacing:.08em}
-.tabs button.on{background:var(--group);color:var(--paper);border-color:var(--group)}
-.search{margin-bottom:10px}
-select{width:100%;padding:8px 9px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink)}
-.scroll{max-height:440px;overflow-y:auto;padding-right:4px}
-.ing{display:flex;justify-content:space-between;align-items:center;gap:10px;
-  padding:8px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;
-  cursor:pointer;background:var(--paper)}
-.ing:hover{border-color:var(--ink)}
-.ing .n{font-size:13px;font-weight:500}
-.ing .m{font-size:11px;color:var(--ink-soft);margin-top:2px}
-.ing .c{font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums}
-.pill{display:inline-block;font-size:10px;padding:1px 6px;border-radius:99px;
-  background:var(--amber);color:#fff;margin-left:6px;vertical-align:middle}
-.pill.sub{background:var(--hg)}
-.row{display:grid;grid-template-columns:1fr 84px 74px 26px;gap:6px;align-items:center;margin-bottom:6px}
-.row .nm{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.row .ct{font-size:12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-soft)}
-.x{background:transparent;color:var(--red);border:0;cursor:pointer;padding:0;font-size:16px}
-.tot{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;
-  border-top:1px solid var(--line);margin-top:8px}
-.tot.big{font-size:16px;font-weight:600;border-top:2px solid var(--ink);padding-top:10px}
-.gps{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.gpbox{border:1px solid var(--line);border-radius:12px;padding:12px 10px;text-align:center;background:var(--parchment)}
-.gpbox .lbl{font-family:'Space Grotesk',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
-.gp{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.05}
-.gp.good{color:var(--pos)} .gp.warn{color:var(--amber)} .gp.bad{color:var(--neg)}
-.timer{display:flex;align-items:center;gap:9px;margin:4px 0 2px}
-.timer .clock{font-family:'Space Grotesk',sans-serif;font-size:24px;font-variant-numeric:tabular-nums;font-weight:600;min-width:70px}
-.timer button{background:var(--stow);text-transform:none;letter-spacing:0}
-.timer button{font-size:12px;padding:6px 12px}
-.mins{width:70px}
-.yieldrow{display:grid;grid-template-columns:1fr 90px 80px;gap:6px;align-items:end}
-textarea{width:100%;height:170px;font-family:ui-monospace,Menlo,monospace;font-size:11px;
-  border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--parchment);color:var(--ink)}
+  .wrap{max-width:620px;margin:0 auto;padding:0 14px 90px}
+  h1{font-size:22px;margin:14px 0 2px}
+  .sub{color:var(--ink-soft);font-size:12.5px;margin:0 0 12px;line-height:1.45}
+
+  /* big top tabs */
+  .maintabs{position:sticky;top:0;z-index:9;display:flex;gap:8px;padding:10px 0;
+    background:var(--bg);margin-bottom:6px}
+  .maintabs button{flex:1;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;
+    padding:13px 10px;border-radius:12px;border:1px solid var(--line);background:var(--paper);
+    color:var(--ink-soft);cursor:pointer}
+  .maintabs button.on{background:var(--group);color:#fff;border-color:var(--group)}
+
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+  label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin:10px 0 4px}
+  label:first-child{margin-top:0}
+  input,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;
+    background:var(--bg);color:var(--ink);font-size:16px}     /* 16px = no iOS zoom */
+  input::placeholder{color:var(--ink-soft)}
+
+  /* ingredient picker */
+  .pickbar{display:flex;gap:8px;margin-bottom:8px}
+  .pickbar select{flex:0 0 42%}
+  .scroll{max-height:46vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .ing{display:flex;justify-content:space-between;align-items:center;gap:10px;
+    padding:12px;border:1px solid var(--line);border-radius:11px;margin-bottom:7px;
+    background:var(--bg);cursor:pointer}
+  .ing:active{background:color-mix(in srgb,var(--group) 12%,var(--bg))}
+  .ing .n{font-size:14px;font-weight:500;line-height:1.2}
+  .ing .m{font-size:11.5px;color:var(--ink-soft);margin-top:3px}
+  .ing .c{font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums;text-align:right}
+  .pill{display:inline-block;font-size:10px;padding:1px 7px;border-radius:99px;background:var(--amber);color:#fff;margin-left:6px}
+  .pill.sub{background:var(--hg)}
+
+  /* recipe lines */
+  .line{display:grid;grid-template-columns:1fr 92px 32px;gap:8px;align-items:center;
+    padding:9px 0;border-top:1px solid var(--line)}
+  .line:first-child{border-top:0}
+  .line .nm{font-size:14px;line-height:1.2;overflow:hidden}
+  .line .nm small{display:block;color:var(--ink-soft);font-size:11px;margin-top:2px;font-variant-numeric:tabular-nums}
+  .line input{padding:10px;text-align:right}
+  .line .x{background:transparent;color:var(--red);border:0;font-size:22px;cursor:pointer;line-height:1}
+
+  .tot{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;font-size:14px}
+  .tot.big{font-size:17px;font-weight:600;border-top:2px solid var(--ink);margin-top:6px;padding-top:11px}
+  .tot .v{font-variant-numeric:tabular-nums}
+  .gpwrap{display:flex;gap:10px;margin-top:12px}
+  .gpbox{flex:1;border:1px solid var(--line);border-radius:12px;padding:12px 8px;text-align:center;background:var(--bg)}
+  .gpbox .lbl{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:3px}
+  .gp{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1}
+  .gp.good{color:var(--pos)} .gp.warn{color:var(--amber)} .gp.bad{color:var(--neg)}
+  .note{font-size:12px;color:var(--ink-soft);margin-top:10px;line-height:1.45}
+
+  /* sticky save/log bar */
+  .actionbar{position:fixed;left:0;right:0;bottom:0;z-index:10;padding:10px 14px;
+    background:color-mix(in srgb,var(--paper) 92%,#000 8%);border-top:1px solid var(--line);
+    backdrop-filter:blur(8px)}
+  .actionbar .inner{max-width:620px;margin:0 auto;display:flex;gap:8px;align-items:center}
+  .actionbar button.primary{flex:1;padding:15px;font-size:15px;font-weight:600;border-radius:12px}
+  .actionbar .msg{font-size:12px;color:var(--ink-soft);flex:1;text-align:center}
+  button.ghost{padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink-soft)}
+
+  /* prep timer */
+  .clockwrap{text-align:center;padding:16px 0 8px}
+  .clock{font-family:'Space Grotesk',sans-serif;font-size:60px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1}
+  .clock small{font-size:20px;color:var(--ink-soft)}
+  .bigbtn{width:100%;padding:18px;font-size:18px;font-weight:700;border-radius:14px;border:0;cursor:pointer;color:#fff}
+  .bigbtn.start{background:var(--pos)} .bigbtn.stop{background:var(--neg)}
+  .orline{display:flex;align-items:center;gap:10px;color:var(--ink-soft);font-size:12px;margin:14px 0}
+  .orline::before,.orline::after{content:"";flex:1;height:1px;background:var(--line)}
+  details summary{cursor:pointer;color:var(--ink-soft);font-size:12px}
+  .empty{text-align:center;color:var(--ink-soft);padding:30px 14px;font-size:13px}
+  .hidden{display:none}
 </style>
 </head>
 <body>
@@ -70,96 +102,98 @@ textarea{width:100%;height:170px;font-family:ui-monospace,Menlo,monospace;font-s
 <div id="app" style="display:none">
   <header class="app-header"><div class="app-header-inner">
     <a class="brand-row" href="/"><img src="/logo_512.png" alt=""><span class="group-brand">Stowaway Hospitality Group</span></a>
-    <div class="who"><span id="who"></span><a href="#" onclick="Auth.logout().then(()=>location.reload());return false">sign out</a></div>
+    <div class="who"><span id="who"></span><a href="/">home</a></div>
   </div></header>
+
   <div class="wrap">
-  <h1>Recipe builder</h1>
-  <div class="sub" id="sub">Loading…</div>
-
-  <div class="grid">
-    <!-- picker -->
-    <div class="card">
-      <div class="tabs">
-        <button id="tab-sup" class="on" onclick="setTab('sup')">By supplier</button>
-        <button id="tab-sub" onclick="setTab('sub')">Sub-recipes</button>
-      </div>
-
-      <div id="pane-sup">
-        <div class="hd"><h2>Ingredients you've bought</h2><span class="muted" id="ing-count"></span></div>
-        <label for="sup">Supplier</label>
-        <select id="sup" onchange="render()"><option value="">— choose a supplier —</option></select>
-        <div class="search" style="margin-top:8px"><input id="q" placeholder="…or search across all suppliers" oninput="render()"></div>
-        <div class="scroll" id="list"></div>
-      </div>
-
-      <div id="pane-sub" style="display:none">
-        <div class="hd"><h2>Use a recipe as an ingredient</h2><span class="muted" id="sub-count"></span></div>
-        <div class="muted" style="margin-bottom:8px">A sauce, batch or dough with a declared yield. Its cost per gram/mL flows in.</div>
-        <div class="scroll" id="sublist"></div>
-      </div>
+    <div class="maintabs">
+      <button id="mt-build" class="on" onclick="mainTab('build')">Build a recipe</button>
+      <button id="mt-prep" onclick="mainTab('prep')">Prep timer</button>
     </div>
 
-    <!-- the recipe -->
-    <div>
-      <div class="card stow">
-        <div class="hd"><h2>Recipe</h2></div>
-        <label for="dish">Dish</label>
-        <input id="dish" placeholder="e.g. Southern Squid" oninput="calc()">
-        <label for="sell">Sell price (incl GST) — leave blank for a sub-recipe/batch</label>
-        <input id="sell" type="number" step="0.01" placeholder="0.00" oninput="calc()">
-
-        <label style="margin-top:10px">Makes (yield) — only if this batch is used in other recipes</label>
-        <div class="yieldrow">
-          <div class="muted" style="font-size:11px;align-self:center">e.g. a chilli sauce that makes 1200 g</div>
-          <input id="yq" type="number" step="any" placeholder="qty" oninput="calc()">
-          <select id="yu" onchange="calc()">
-            <option value="">unit</option><option value="g">g</option>
-            <option value="ml">ml</option><option value="ea">ea</option>
-          </select>
-        </div>
-
-        <label style="margin-top:12px">Prep time — timed against you (<span id="whotimer"></span>)</label>
-        <div class="timer">
-          <span class="clock" id="clock">0:00</span>
-          <button id="timerbtn" onclick="toggleTimer()">Start</button>
-          <span class="muted">or</span>
-          <input class="mins" id="mins" type="number" step="any" placeholder="min" oninput="setMins(this.value)">
-          <span class="muted">min</span>
-        </div>
-        <div class="muted" id="labour-note"></div>
-
-        <label style="margin-top:12px">Ingredients — tap one on the left to add</label>
-        <div id="lines"><div class="muted">Nothing added yet.</div></div>
-
-        <div class="tot big"><span>Food cost / serve</span><span id="c-food">$0.00</span></div>
-        <div class="tot"><span>Prep labour / serve</span><span id="c-lab">$0.00</span></div>
-        <div class="tot"><span>Total cost / serve</span><span id="c-tot">$0.00</span></div>
-
-        <div class="gps">
-          <div class="gpbox"><div class="lbl">GP — food only</div>
-            <div class="gp" id="gp-food">—</div></div>
-          <div class="gpbox"><div class="lbl">GP — after labour</div>
-            <div class="gp" id="gp-true">—</div></div>
-        </div>
-        <div class="muted" id="gp-note" style="margin-top:8px"></div>
+    <!-- ================= BUILD ================= -->
+    <section id="view-build">
+      <div class="card">
+        <label for="dish">Dish name</label>
+        <input id="dish" placeholder="e.g. Salt &amp; Pepper Squid" oninput="calc()" autocomplete="off">
+        <label for="sell">Sell price (incl GST)</label>
+        <input id="sell" type="number" inputmode="decimal" step="0.01" placeholder="0.00" oninput="calc()">
       </div>
 
       <div class="card">
-        <div class="hd"><h2>Save</h2><span class="muted" id="save-mode"></span></div>
-        <div id="save-note" class="muted" style="margin-bottom:8px"></div>
-        <div style="display:flex;gap:8px;margin-bottom:8px">
-          <button id="save-btn" onclick="save()">Save recipe</button>
-          <button class="ghost" onclick="reset()">Clear</button>
-          <button class="ghost" onclick="copyYaml()">Copy YAML</button>
+        <label>Add ingredients — tap to add</label>
+        <div class="pickbar">
+          <select id="sup" onchange="renderPick()"><option value="">All suppliers</option></select>
+          <input id="q" placeholder="Search…" oninput="renderPick()" autocomplete="off" style="flex:1">
         </div>
-        <div id="save-result" class="muted"></div>
-        <details style="margin-top:8px">
-          <summary class="muted" style="cursor:pointer">Show YAML</summary>
-          <textarea id="yaml" readonly style="margin-top:6px"></textarea>
+        <div class="scroll" id="picklist"></div>
+      </div>
+
+      <div class="card">
+        <label>Your recipe</label>
+        <div id="lines"><div class="empty">Nothing added yet — tap an ingredient above.</div></div>
+
+        <div class="tot big"><span>Food cost / serve</span><span class="v" id="c-food">$0.00</span></div>
+
+        <div class="gpwrap">
+          <div class="gpbox"><div class="lbl">GP — food</div><div class="gp" id="gp-food">—</div></div>
+          <div class="gpbox"><div class="lbl">Margin / serve</div><div class="gp" id="gp-marg" style="font-size:20px">—</div></div>
+        </div>
+        <div class="note" id="gp-note"></div>
+
+        <details style="margin-top:12px">
+          <summary>Batch / sub-recipe options</summary>
+          <label style="margin-top:10px">Makes (yield) — only if this batch is used inside other recipes</label>
+          <div style="display:flex;gap:8px">
+            <input id="yq" type="number" inputmode="decimal" step="any" placeholder="qty" oninput="calc()" style="flex:1">
+            <select id="yu" onchange="calc()" style="flex:0 0 90px">
+              <option value="">unit</option><option value="g">g</option><option value="ml">ml</option><option value="ea">ea</option>
+            </select>
+          </div>
+          <label style="margin-top:10px">Use a saved recipe as an ingredient</label>
+          <div class="scroll" id="sublist" style="max-height:30vh"></div>
         </details>
       </div>
+    </section>
+
+    <!-- ================= PREP TIMER ================= -->
+    <section id="view-prep" class="hidden">
+      <div class="card">
+        <label for="prep-recipe">Which recipe are you prepping?</label>
+        <input id="prep-q" placeholder="Search recipes…" oninput="renderPrepList()" autocomplete="off">
+        <div class="scroll" id="prep-list" style="max-height:34vh;margin-top:8px"></div>
+      </div>
+
+      <div class="card" id="prep-panel" style="display:none">
+        <div style="font-size:16px;font-weight:600" id="prep-name">—</div>
+        <div class="clockwrap">
+          <div class="clock" id="clock">0<small>:00</small></div>
+        </div>
+        <button id="timerbtn" class="bigbtn start" onclick="toggleTimer()">Start prepping</button>
+        <div class="orline">or enter it</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="mins" type="number" inputmode="decimal" step="any" placeholder="minutes" oninput="setMins(this.value)" style="flex:1">
+          <span class="note" style="margin:0">min</span>
+        </div>
+        <div class="note">Logged against <b id="whoprep"></b> at your real rate. The recipe's prep
+          cost is the average of the last 4 preps — it flows into the dish's total cost.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- sticky action bar (changes per tab) -->
+  <div class="actionbar" id="bar-build">
+    <div class="inner">
+      <button class="ghost" onclick="resetBuild()">Clear</button>
+      <button class="primary" id="save-btn" onclick="save()">Save recipe</button>
+      <span class="msg" id="save-result"></span>
     </div>
   </div>
+  <div class="actionbar hidden" id="bar-prep">
+    <div class="inner">
+      <button class="primary" id="log-btn" onclick="logPrep()" disabled>Log this prep</button>
+      <span class="msg" id="log-result"></span>
+    </div>
   </div>
 </div>
 
@@ -168,31 +202,31 @@ import { Auth } from '/_shared/auth.js';
 import { Feed } from '/_shared/feed.js';
 import { WORKER_URL } from '/_shared/config.js';
 
-let ING = [], SUBS = [], LINES = [], CURRENT_USER = null;
-let TAB = 'sup';
-let RATE = 0;                 // team-estimate $/min for live labour
-let prepMin = 0;             // recorded prep minutes
+let ING = [], SUBS = [], RECIPES = [], LINES = [], USER = null, RATE = 0;
+let prepRecipe = null, prepMin = 0;
 let timing = false, tStart = 0, tPrev = 0, tick = null;
 
+const money = n => '$' + (Math.round(n * 100) / 100).toFixed(2);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const venueOf = u => u.venue || (u.role === 'hgfood' ? 'harry_gatos' : u.role === 'pizza' ? 'marilynas' : 'stowaway');
+// price per sensible unit: g→kg, ml→L, else as-is; strip any stray "per "
+const perUnit = u => u === 'g' ? 'kg' : u === 'ml' ? 'L' : String(u || 'ea').replace(/^per\s+/i, '');
+const perMult = u => (u === 'g' || u === 'ml') ? 1000 : 1;
+
 Auth.gate(document.getElementById('gate'), {
-  roles: null,   // any signed-in user can view; saving still needs a kitchen role (canWrite)
+  roles: null,
   onOk: (user) => {
-    CURRENT_USER = user;
+    USER = user;
     document.getElementById('app').style.display = '';
     document.getElementById('who').textContent = user.name;
-    document.getElementById('whotimer').textContent = user.name;
+    document.getElementById('whoprep').textContent = user.name;
     const canWrite = Auth.canWrite();
-    document.getElementById('save-btn').disabled = !canWrite;
-    document.getElementById('save-mode').textContent = canWrite ? `as ${user.name}` : 'no kitchen role';
-    document.getElementById('save-note').innerHTML = canWrite
-      ? `Commits to <code>data/recipes/</code> as <b>${user.name}</b>. Prep time is logged against you at your real rate.`
-      : `<span style="color:var(--amber)">Your account has no kitchen role yet.</span> Ask an admin. Copy the YAML for now.`;
+    const sb = document.getElementById('save-btn');
+    sb.disabled = !canWrite;
+    if (!canWrite) sb.textContent = 'No kitchen role';
     boot();
   }
 });
-
-const money = n => '$' + (Math.round(n * 100) / 100).toFixed(2);
-const venueOf = u => u.venue || (u.role === 'hgfood' ? 'harry_gatos' : u.role === 'pizza' ? 'marilynas' : 'stowaway');
 
 async function boot() {
   const [ing, idx, lab] = await Promise.all([
@@ -200,114 +234,82 @@ async function boot() {
     Feed.load('/data/recipes_index.json').catch(() => null),
     Feed.load('/data/labour_rate.json').catch(() => null),
   ]);
-  if (!ing) { document.getElementById('sub').textContent = 'ingredients.json not available.'; return; }
-  ING = ing.ingredients || [];
-  SUBS = (idx && idx.recipes || []).filter(r => r.usable_as_subrecipe);
-  const v = venueOf(CURRENT_USER);
+  ING = (ing && ing.ingredients) || [];
+  RECIPES = (idx && idx.recipes) || [];
+  SUBS = RECIPES.filter(r => r.usable_as_subrecipe);
+  const v = venueOf(USER);
   RATE = +((lab && (lab.venues?.[v]?.rate_per_minute || lab.default_rate_per_minute)) || 0);
 
-  // supplier dropdown, alphabetical, with counts
   const bySup = {};
   ING.forEach(i => { bySup[i.supplier] = (bySup[i.supplier] || 0) + 1; });
-  const opts = Object.keys(bySup).sort().map(s => `<option value="${s}">${s} (${bySup[s]})</option>`).join('');
-  document.getElementById('sup').insertAdjacentHTML('beforeend', opts);
+  document.getElementById('sup').insertAdjacentHTML('beforeend',
+    Object.keys(bySup).sort().map(s => `<option value="${esc(s)}">${esc(s)} (${bySup[s]})</option>`).join(''));
 
-  const rev = ING.filter(i => i.needs_pack_review).length;
-  document.getElementById('sub').innerHTML =
-    `${ING.length} ingredients from real invoices, last ${ing.window_days} days, across ${Object.keys(bySup).length} suppliers. `
-    + (rev ? `<b>${rev}</b> need a pack size confirmed before use. ` : '')
-    + (RATE ? `Labour estimated at ${money(RATE)}/min (team avg).` : '');
-  render(); renderSubs();
+  renderPick(); renderSubs(); renderPrepList();
 }
 
-window.setTab = (t) => {
-  TAB = t;
-  document.getElementById('tab-sup').className = t === 'sup' ? 'on' : '';
-  document.getElementById('tab-sub').className = t === 'sub' ? 'on' : '';
-  document.getElementById('pane-sup').style.display = t === 'sup' ? '' : 'none';
-  document.getElementById('pane-sub').style.display = t === 'sub' ? '' : 'none';
+// ---------------- main tabs ----------------
+window.mainTab = (t) => {
+  document.getElementById('mt-build').className = t === 'build' ? 'on' : '';
+  document.getElementById('mt-prep').className = t === 'prep' ? 'on' : '';
+  document.getElementById('view-build').classList.toggle('hidden', t !== 'build');
+  document.getElementById('view-prep').classList.toggle('hidden', t !== 'prep');
+  document.getElementById('bar-build').classList.toggle('hidden', t !== 'build');
+  document.getElementById('bar-prep').classList.toggle('hidden', t !== 'prep');
+  window.scrollTo(0, 0);
 };
 
-function render() {
+// ---------------- BUILD: ingredient picker ----------------
+function renderPick() {
   const sup = document.getElementById('sup').value;
   const q = document.getElementById('q').value.toLowerCase().trim();
   let hits = ING;
   if (q) hits = hits.filter(i => i.description.toLowerCase().includes(q) || (i.supplier || '').toLowerCase().includes(q));
   else if (sup) hits = hits.filter(i => i.supplier === sup);
-  else hits = [];   // pick a supplier or search — don't dump 200 items
-  document.getElementById('ing-count').textContent = hits.length + ' shown';
-  document.getElementById('list').innerHTML = hits.map(i => {
+  else hits = hits.slice(0, 0);   // avoid dumping everything; pick a supplier or search
+  document.getElementById('picklist').innerHTML = hits.length ? hits.map(i => {
     const ok = !i.needs_pack_review;
-    const per = i.pack_unit === 'g' ? 'kg' : i.pack_unit === 'ml' ? 'L' : i.pack_unit;
-    const mult = (i.pack_unit === 'g' || i.pack_unit === 'ml') ? 1000 : 1;
-    const cost = ok ? `${money(i.cost_per_base_unit * mult)} <span class="muted">/${per}</span>` : `<span class="muted">pack?</span>`;
+    const cost = ok ? `${money(i.cost_per_base_unit * perMult(i.pack_unit))} <span class="m">/${esc(perUnit(i.pack_unit))}</span>`
+                    : `<span class="m">pack?</span>`;
     return `<div class="ing" onclick="add('${i.id}')">
-      <div><div class="n">${i.description}${ok ? '' : '<span class="pill">confirm pack</span>'}</div>
-      <div class="m">${i.supplier} · ${money(i.pack_cost_incl)} per ${i.pack_parsed_as || 'pack'} · inv ${i.source_invoice} · ${i.last_seen}</div></div>
+      <div><div class="n">${esc(i.description)}${ok ? '' : '<span class="pill">confirm pack</span>'}</div>
+      <div class="m">${esc(i.supplier)}</div></div>
       <div class="c">${cost}</div></div>`;
-  }).join('') || `<div class="muted">${sup || q ? 'No match.' : 'Choose a supplier above, or search.'}</div>`;
+  }).join('') : `<div class="empty">${sup || q ? 'No match.' : 'Choose a supplier or search to add ingredients.'}</div>`;
 }
 
 function renderSubs() {
-  document.getElementById('sub-count').textContent = SUBS.length + ' available';
-  document.getElementById('sublist').innerHTML = SUBS.map(s => {
-    const cpu = s.cost_per_yield_unit ? `${money(s.cost_per_yield_unit)} <span class="muted">/${s.yield_unit}</span>` : '<span class="muted">cost pending</span>';
+  document.getElementById('sublist').innerHTML = SUBS.length ? SUBS.map(s => {
+    const cpu = s.cost_per_yield_unit ? `${money(s.cost_per_yield_unit)} <span class="m">/${esc(s.yield_unit)}</span>` : '<span class="m">cost pending</span>';
     return `<div class="ing" onclick="addSub('${encodeURIComponent(s.product)}')">
-      <div><div class="n">${s.product}<span class="pill sub">recipe</span></div>
-      <div class="m">${s.venue} · makes ${s.yield_qty} ${s.yield_unit}</div></div>
-      <div class="c">${cpu}</div></div>`;
-  }).join('') || '<div class="muted">No sub-recipes yet. Give a batch recipe a yield and it appears here.</div>';
+      <div><div class="n">${esc(s.product)}<span class="pill sub">recipe</span></div>
+      <div class="m">makes ${esc(s.yield_qty)} ${esc(s.yield_unit)}</div></div><div class="c">${cpu}</div></div>`;
+  }).join('') : '<div class="empty">No sub-recipes yet.</div>';
 }
 
 window.add = (id) => {
   const i = ING.find(x => x.id === id);
   if (!i) return;
   if (i.needs_pack_review) {
-    const g = prompt(`Pack size needs confirming.\n\n${i.description}\n${money(i.pack_cost_incl)} per pack\n\n${i.review_reason || ''}\n\nHow much is in ONE pack, in grams (or mL)?`, '');
+    const g = prompt(`Pack size needs confirming.\n\n${i.description}\n${money(i.pack_cost_incl)} per pack\n\nHow much is in ONE pack, in grams (or mL)?`, '');
     if (!g || isNaN(+g) || +g <= 0) return;
     i.pack_qty = +g; i.pack_unit = i.pack_unit || 'g';
     i.cost_per_base_unit = +i.pack_cost_incl / +g;
     i.needs_pack_review = false; i.confirmed_by_chef = true;
-    render();
   }
   if (LINES.some(l => l.kind === 'ing' && l.id === id)) return;
   LINES.push({ kind: 'ing', id, qty: 0 });
   calc();
 };
-
 window.addSub = (enc) => {
   const product = decodeURIComponent(enc);
   const s = SUBS.find(x => x.product === product);
   if (!s || LINES.some(l => l.kind === 'sub' && l.product === product)) return;
-  LINES.push({ kind: 'sub', product, unit: s.yield_unit, cpu: +s.cost_per_yield_unit || 0, qty: 0, pending: !s.cost_per_yield_unit });
+  LINES.push({ kind: 'sub', product, unit: s.yield_unit, cpu: +s.cost_per_yield_unit || 0, qty: 0 });
   calc();
 };
-
-// Update the number only — do NOT rebuild the rows, or the input the chef is
-// typing into is destroyed mid-keystroke and only the first digit lands.
 window.setQty = (k, v) => { const l = LINES[k]; if (l) l.qty = +v || 0; recompute(); };
 window.del = (k) => { LINES.splice(k, 1); calc(); };
-
-// ---- prep timer ----
-window.toggleTimer = () => {
-  const btn = document.getElementById('timerbtn');
-  if (!timing) {
-    timing = true; tStart = Date.now(); btn.textContent = 'Stop'; btn.className = '';
-    tick = setInterval(showClock, 500);
-  } else {
-    timing = false; clearInterval(tick);
-    tPrev += (Date.now() - tStart) / 1000;
-    prepMin = +(tPrev / 60).toFixed(2);
-    document.getElementById('mins').value = prepMin;
-    btn.textContent = 'Start'; showClock(); calc();
-  }
-};
-function showClock() {
-  const secs = tPrev + (timing ? (Date.now() - tStart) / 1000 : 0);
-  const m = Math.floor(secs / 60), s = Math.floor(secs % 60);
-  document.getElementById('clock').textContent = `${m}:${String(s).padStart(2, '0')}`;
-}
-window.setMins = (v) => { prepMin = +v || 0; tPrev = prepMin * 60; showClock(); calc(); };
 
 function lineCost(l) {
   if (l.kind === 'sub') return l.cpu * l.qty;
@@ -320,133 +322,150 @@ function lineMeta(l) {
   return { name: i.description, unit: i.pack_unit === 'g' ? 'g' : i.pack_unit === 'ml' ? 'mL' : i.pack_unit };
 }
 
-// renderLines rebuilds the row markup — only on add/remove. recompute updates
-// costs/GP in place without touching the inputs, so typing a quantity is safe.
 function renderLines() {
   const box = document.getElementById('lines');
   box.innerHTML = LINES.length ? LINES.map((l, k) => {
     const { name, unit } = lineMeta(l);
-    return `<div class="row">
-      <div class="nm" title="${name}">${name}</div>
-      <div><input type="number" step="any" value="${l.qty || ''}" placeholder="0" oninput="setQty(${k},this.value)"></div>
-      <div class="ct" id="ct-${k}">${unit} · ${money(lineCost(l))}</div>
-      <button class="x" onclick="del(${k})" title="remove">×</button></div>`;
-  }).join('') : '<div class="muted">Nothing added yet.</div>';
+    return `<div class="line">
+      <div class="nm">${esc(name)}<small id="ct-${k}">${esc(unit)} · ${money(lineCost(l))}</small></div>
+      <input type="number" inputmode="decimal" step="any" value="${l.qty || ''}" placeholder="0 ${esc(unit)}" oninput="setQty(${k},this.value)">
+      <button class="x" onclick="del(${k})" aria-label="remove">×</button></div>`;
+  }).join('') : '<div class="empty">Nothing added yet — tap an ingredient above.</div>';
 }
 
 function calc() { renderLines(); recompute(); }
-
 function recompute() {
   LINES.forEach((l, k) => {
     const cell = document.getElementById('ct-' + k);
     if (cell) cell.textContent = `${lineMeta(l).unit} · ${money(lineCost(l))}`;
   });
-
   const food = LINES.reduce((a, l) => a + lineCost(l), 0);
-  const labour = prepMin * RATE;
-  const total = food + labour;
   document.getElementById('c-food').textContent = money(food);
-  document.getElementById('c-lab').textContent = money(labour) + (prepMin ? ` (${prepMin} min)` : '');
-  document.getElementById('c-tot').textContent = money(total);
-  document.getElementById('labour-note').textContent = RATE && prepMin
-    ? `${prepMin} min × ${money(RATE)}/min ≈ ${money(labour)} (team-avg estimate; your exact rate is used when it's saved).` : '';
-
   const sell = +document.getElementById('sell').value || 0;
-  gpBox('gp-food', sell, food);
-  gpBox('gp-true', sell, total);
-  const note = document.getElementById('gp-note');
+  const ex = sell / 1.1;
+  const gpEl = document.getElementById('gp-food'), mgEl = document.getElementById('gp-marg');
   if (sell > 0 && food > 0) {
-    const exGst = sell / 1.1, gpf = 100 * (exGst - food) / exGst;
-    note.textContent = gpf > 85
-      ? `Food GP ${gpf.toFixed(0)}% is too good to be true — what's missing? Oil, batter, sauce, garnish, lemon?`
-      : `${money(exGst)} ex-GST · food margin ${money(exGst - food)}/serve` + (labour ? ` · after labour ${money(exGst - total)}` : '');
-  } else note.textContent = '';
-  yaml();
+    const gp = 100 * (ex - food) / ex;
+    gpEl.textContent = gp.toFixed(0) + '%';
+    gpEl.className = 'gp ' + (gp > 85 ? 'warn' : gp < 55 ? 'bad' : gp < 65 ? 'warn' : 'good');
+    mgEl.textContent = money(ex - food); mgEl.className = 'gp';
+    document.getElementById('gp-note').textContent = gp > 85
+      ? `Food GP ${gp.toFixed(0)}% looks too good — what's missing? Oil, batter, sauce, garnish, lemon?`
+      : `${money(ex)} ex-GST · prep labour is added from the Prep timer (last-4 average).`;
+  } else {
+    gpEl.textContent = '—'; gpEl.className = 'gp'; mgEl.textContent = '—'; mgEl.className = 'gp';
+    document.getElementById('gp-note').textContent = '';
+  }
 }
 
-function gpBox(id, sell, cost) {
-  const el = document.getElementById(id);
-  if (sell > 0 && cost > 0) {
-    const ex = sell / 1.1, gp = 100 * (ex - cost) / ex;
-    el.textContent = gp.toFixed(1) + '%';
-    el.className = 'gp ' + (gp > 85 ? 'warn' : gp < 55 ? 'bad' : gp < 65 ? 'warn' : 'good');
-  } else { el.textContent = '—'; el.className = 'gp'; }
-}
-
-function yaml() {
+function buildYaml() {
   const dish = document.getElementById('dish').value.trim();
-  if (!dish || !LINES.length) { document.getElementById('yaml').value = ''; return; }
   const sell = +document.getElementById('sell').value || 0;
   const yq = +document.getElementById('yq').value || 0, yu = document.getElementById('yu').value;
-  let s = `# generated by the recipe builder — review before committing\n`;
-  s += `# What goes IN the dish. No waste factor: waste is measured, not guessed.\n`;
-  s += `- product: "${dish}"\n`;
+  let s = `# generated by the recipe builder — review before committing\n- product: "${dish}"\n`;
   if (sell) s += `  sell_incl_gst: ${sell.toFixed(2)}\n`;
-  if (prepMin) s += `  prep_minutes: ${prepMin}\n`;
-  if (yq && yu) { s += `  yield_qty: ${yq}\n  yield_unit: ${yu}\n`; }
+  if (yq && yu) s += `  yield_qty: ${yq}\n  yield_unit: ${yu}\n`;
   s += `  ingredients:\n`;
   for (const l of LINES) {
-    if (l.kind === 'sub') {
-      s += `    - subrecipe: "${l.product}"\n      qty: ${l.qty}\n      unit: ${l.unit}\n`;
-    } else {
+    if (l.kind === 'sub') s += `    - subrecipe: "${l.product}"\n      qty: ${l.qty}\n      unit: ${l.unit}\n`;
+    else {
       const i = ING.find(x => x.id === l.id);
-      s += `    - id: ${i.id}\n      desc: "${i.description}"      # ${i.supplier}, inv ${i.source_invoice} ${i.last_seen}\n`;
-      s += `      qty: ${l.qty}\n      unit: ${i.pack_unit}\n      unit_cost_incl: ${(+i.cost_per_base_unit).toFixed(6)}`;
-      s += i.confirmed_by_chef ? `   # pack confirmed by chef\n` : `\n`;
+      s += `    - id: ${i.id}\n      desc: "${i.description}"\n      qty: ${l.qty}\n      unit: ${i.pack_unit}\n      unit_cost_incl: ${(+i.cost_per_base_unit).toFixed(6)}\n`;
     }
   }
-  document.getElementById('yaml').value = s;
+  return s;
 }
+
+window.resetBuild = () => {
+  LINES = [];
+  ['dish', 'sell', 'yq'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('yu').value = '';
+  document.getElementById('save-result').textContent = '';
+  calc();
+};
 
 async function save() {
   const dish = document.getElementById('dish').value.trim();
   const out = document.getElementById('save-result'), btn = document.getElementById('save-btn');
-  if (!dish || !LINES.length) { out.textContent = 'Add a dish name and at least one ingredient.'; return; }
-  let token;
-  try { token = Auth.requireToken(); }
-  catch (e) { out.innerHTML = `<span style="color:var(--red)">${e.message}</span>`; return; }
-  const venue = venueOf(CURRENT_USER);
-
+  if (!dish || !LINES.length) { out.textContent = 'Add a name + an ingredient.'; return; }
+  let token; try { token = Auth.requireToken(); } catch (e) { out.textContent = e.message; return; }
   btn.disabled = true; btn.textContent = 'Saving…';
   try {
     const r = await fetch(`${WORKER_URL}/recipes`, {
       method: 'POST', headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
-      body: JSON.stringify({ venue, product: dish, yaml: document.getElementById('yaml').value }),
+      body: JSON.stringify({ venue: venueOf(USER), product: dish, yaml: buildYaml() }),
     });
     const j = await r.json();
     if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
-
-    // Log the prep session (who = the worker reads from the token; cost is
-    // computed at that person's real rate server-side).
-    let prepMsg = '';
-    if (prepMin > 0) {
-      try {
-        const pr = await fetch(`${WORKER_URL}/prep`, {
-          method: 'POST', headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
-          body: JSON.stringify({ venue, product: dish, minutes: prepMin }),
-        });
-        prepMsg = pr.ok ? ` Prep of ${prepMin} min logged against you.` : ' (recipe saved; prep log failed)';
-      } catch { prepMsg = ' (recipe saved; prep log failed)'; }
-    }
-    out.innerHTML = `<span style="color:var(--green)">Saved to ${j.path}, committed as ${j.committed_as}.</span>${prepMsg}`;
-  } catch (e) {
-    out.innerHTML = `<span style="color:var(--red)">Save failed: ${e.message}</span>`;
-  } finally { btn.disabled = false; btn.textContent = 'Save recipe'; }
+    out.innerHTML = `<span style="color:var(--pos)">Saved ✓</span>`;
+  } catch (e) { out.innerHTML = `<span style="color:var(--red)">${esc(e.message)}</span>`; }
+  finally { btn.disabled = false; btn.textContent = 'Save recipe'; }
 }
+Object.assign(window, { renderPick, add, addSub, setQty, del, save, calc });
 
-window.copyYaml = () => {
-  const t = document.getElementById('yaml'); if (!t.value) return;
-  navigator.clipboard.writeText(t.value);
-  const b = event.target, o = b.textContent; b.textContent = 'Copied'; setTimeout(() => b.textContent = o, 1200);
-};
-window.reset = () => {
-  LINES = []; prepMin = 0; tPrev = 0; timing = false; if (tick) clearInterval(tick);
-  ['dish', 'sell', 'yq', 'mins'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('yu').value = ''; document.getElementById('clock').textContent = '0:00';
-  document.getElementById('timerbtn').textContent = 'Start'; calc();
+// ---------------- PREP TIMER ----------------
+window.renderPrepList = () => {
+  const q = (document.getElementById('prep-q').value || '').toLowerCase().trim();
+  const hits = RECIPES.filter(r => !q || r.product.toLowerCase().includes(q));
+  document.getElementById('prep-list').innerHTML = hits.length ? hits.map(r =>
+    `<div class="ing" onclick="pickPrep('${encodeURIComponent(r.product)}')">
+      <div><div class="n">${esc(r.product)}</div><div class="m">${esc(r.venue || '')}</div></div>
+      <div class="c">›</div></div>`).join('')
+    : `<div class="empty">${RECIPES.length ? 'No match.' : 'No saved recipes yet — build one first.'}</div>`;
 };
 
-Object.assign(window, { render, calc, save, Auth });
+window.pickPrep = (enc) => {
+  prepRecipe = decodeURIComponent(enc);
+  document.getElementById('prep-name').textContent = prepRecipe;
+  document.getElementById('prep-panel').style.display = '';
+  resetTimer();
+  document.getElementById('log-result').textContent = '';
+  document.getElementById('prep-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+window.toggleTimer = () => {
+  const btn = document.getElementById('timerbtn');
+  if (!timing) {
+    timing = true; tStart = Date.now(); btn.textContent = 'Stop'; btn.className = 'bigbtn stop';
+    tick = setInterval(showClock, 250);
+  } else {
+    timing = false; clearInterval(tick);
+    tPrev += (Date.now() - tStart) / 1000;
+    prepMin = +(tPrev / 60).toFixed(2);
+    document.getElementById('mins').value = prepMin;
+    btn.textContent = 'Resume'; btn.className = 'bigbtn start'; showClock(); armLog();
+  }
+};
+function showClock() {
+  const secs = tPrev + (timing ? (Date.now() - tStart) / 1000 : 0);
+  const m = Math.floor(secs / 60), s = Math.floor(secs % 60);
+  document.getElementById('clock').innerHTML = `${m}<small>:${String(s).padStart(2, '0')}</small>`;
+}
+window.setMins = (v) => { prepMin = +v || 0; tPrev = prepMin * 60; timing = false; if (tick) clearInterval(tick);
+  document.getElementById('timerbtn').textContent = 'Start prepping'; document.getElementById('timerbtn').className = 'bigbtn start';
+  showClock(); armLog(); };
+function armLog() { document.getElementById('log-btn').disabled = !(prepRecipe && prepMin > 0); }
+function resetTimer() { timing = false; if (tick) clearInterval(tick); tPrev = 0; prepMin = 0;
+  document.getElementById('mins').value = ''; document.getElementById('clock').innerHTML = '0<small>:00</small>';
+  document.getElementById('timerbtn').textContent = 'Start prepping'; document.getElementById('timerbtn').className = 'bigbtn start';
+  armLog(); }
+
+window.logPrep = async () => {
+  const out = document.getElementById('log-result'), btn = document.getElementById('log-btn');
+  if (!prepRecipe || !(prepMin > 0)) return;
+  let token; try { token = Auth.requireToken(); } catch (e) { out.textContent = e.message; return; }
+  btn.disabled = true; btn.textContent = 'Logging…';
+  try {
+    const r = await fetch(`${WORKER_URL}/prep`, {
+      method: 'POST', headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
+      body: JSON.stringify({ venue: venueOf(USER), product: prepRecipe, minutes: prepMin }),
+    });
+    if (!r.ok) { const j = await r.json().catch(() => ({})); throw new Error(j.error || `HTTP ${r.status}`); }
+    out.innerHTML = `<span style="color:var(--pos)">${prepMin} min logged ✓</span>`;
+    resetTimer();
+  } catch (e) { out.innerHTML = `<span style="color:var(--red)">${esc(e.message)}</span>`; btn.disabled = false; }
+  finally { btn.textContent = 'Log this prep'; }
+};
 </script>
 </body>
 </html>

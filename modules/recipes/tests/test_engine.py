@@ -220,6 +220,21 @@ def test_product_labour_none_when_no_sessions():
     assert product_labour("Squid", [], on=date(2026, 7, 20)) is None
 
 
+def test_product_labour_uses_only_the_last_four_preps():
+    """Older preps drop out — the figure reflects how long it takes NOW."""
+    from modules.recipes.labour import PrepSession, product_labour, session_cost
+    ss = [
+        PrepSession("Squid", "Miller Manson", Decimal("30"), date(2026, 1, 1), "stowaway"),  # old + slow
+        PrepSession("Squid", "Miller Manson", Decimal("10"), date(2026, 7, 10), "stowaway"),
+        PrepSession("Squid", "Miller Manson", Decimal("10"), date(2026, 7, 12), "stowaway"),
+        PrepSession("Squid", "Miller Manson", Decimal("10"), date(2026, 7, 14), "stowaway"),
+        PrepSession("Squid", "Miller Manson", Decimal("10"), date(2026, 7, 16), "stowaway"),
+    ]
+    # only the four recent 10-min preps count; the ancient 30-min one is dropped
+    want = session_cost(ss[1])   # all four recent sessions cost the same
+    assert product_labour("Squid", ss, on=date(2026, 7, 20)) == want
+
+
 # ---- dual GP ---------------------------------------------------------------
 
 def test_breakdown_shows_gp_both_ways(costs):

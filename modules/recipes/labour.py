@@ -140,22 +140,32 @@ def session_cost(s: PrepSession) -> Optional[Decimal]:
 
 
 def product_labour(product: str, sessions: list[PrepSession],
-                   on: Optional[date] = None, window_days: int = 90) -> Optional[Decimal]:
+                   on: Optional[date] = None, last_n: int = 4) -> Optional[Decimal]:
     """
-    Representative prep-labour dollars for a product: the mean of its recent
-    sessions' costs, each costed at its own recorder's rate. None if there are
-    no usable (rate-known) sessions.
+    Representative prep-labour dollars for a product: the mean of the LAST `last_n`
+    times it was prepped (default 4), each costed at its own recorder's rate. None
+    if there are no usable (rate-known) sessions.
 
-    Sessions with an unknown rate are excluded from the average rather than
-    dragged in as zero — a zero would flatter the number, and flattering errors
-    are the dangerous ones.
+    "Last 4 times" rather than a fixed time-window: a dish prepped weekly and one
+    prepped twice a year should both reflect how long it actually takes now, not
+    get diluted by how long ago that was. Ties on the same day keep input order.
+
+    Sessions with an unknown rate are excluded rather than dragged in as zero — a
+    zero would flatter the number, and flattering errors are the dangerous ones.
+    So we take the most recent `last_n` sessions that HAVE a known cost.
     """
-    from datetime import timedelta
     rel = [s for s in sessions if s.product == product]
     if on is not None:
-        start = on - timedelta(days=window_days)
-        rel = [s for s in rel if start < s.recorded_on <= on]
-    costs = [c for c in (session_cost(s) for s in rel) if c is not None]
+        rel = [s for s in rel if s.recorded_on <= on]
+    # most recent first (stable, so same-day sessions keep their order)
+    rel = sorted(rel, key=lambda s: s.recorded_on, reverse=True)
+    costs: list[Decimal] = []
+    for s in rel:
+        c = session_cost(s)
+        if c is not None:
+            costs.append(c)
+        if len(costs) >= last_n:
+            break
     if not costs:
         return None
     return sum(costs) / Decimal(len(costs))
