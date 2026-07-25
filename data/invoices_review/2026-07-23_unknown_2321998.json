@@ -1,0 +1,91 @@
+{
+  "invoice": {
+    "supplier_key": "unknown",
+    "supplier_name_raw": "Dext Software Limited",
+    "invoice_ref": "2321998",
+    "invoice_date": "2026-07-23",
+    "total_incl": "44.80",
+    "lines": [
+      {
+        "description": "(Business) Line Item Extraction Overage - Annual Paid Monthly",
+        "qty": "64",
+        "line_total_incl": "44.80",
+        "unit_price_incl": "0.70",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "64",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "This is a Dext Software invoice for their own service, not a food/beverage supplier invoice.",
+          "Not a food/beverage stock item; not processable under Lightspeed inventory rules.",
+          "Billed to Oliver Iaccarino at 18/1-3 Moore Rd (Stowaway address), but this is a service fee, not supplier inventory."
+        ]
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "unknown",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "0.00",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "b4786fb1e343ba6e7a431685a3d5f77ce63860ed5c43ad0625f8856958f49e6e.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "NO_VENUE",
+        "severity": "error",
+        "message": "Venue unresolved \u2014 cannot pick a product namespace. Stowaway and Harry Gatos have different ProductIDs.",
+        "line_index": null,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'(Business) Line Item Extraction Overage - Annual Paid Monthly' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 0,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "GST_MISMATCH",
+        "severity": "warn",
+        "message": "Every line is taxable but GST is not 1/11 of the total. Either a line is actually GST-free or a figure is misread.",
+        "line_index": null,
+        "expected": "4.07",
+        "actual": "0.00"
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Admin",
+    "tracking_confidence": "high",
+    "primary_account": "4632",
+    "lines": [
+      {
+        "description": "(Business) Line Item Extraction Overage - Annual Paid Monthly",
+        "account_code": "4632",
+        "account_name": "Subscriptions - Accounting Apps",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

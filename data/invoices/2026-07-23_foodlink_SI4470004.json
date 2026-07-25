@@ -1,0 +1,68 @@
+{
+  "invoice": {
+    "supplier_key": "foodlink",
+    "supplier_name_raw": "Foodlink Australia Pty Ltd",
+    "invoice_ref": "SI4470004",
+    "invoice_date": "2026-07-23",
+    "total_incl": "56.00",
+    "lines": [
+      {
+        "description": "SCHNITZEL PLANT PROTEIN 16X150GM V2 Food",
+        "qty": "1",
+        "line_total_incl": "56.00",
+        "unit_price_incl": "56.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "110277",
+        "raw_qty": "1",
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Credit memo document",
+          "GST column shows 0.00 \u2014 line is GST-free",
+          "Amount shown as 56.00 both ex-GST and incl-GST (same value confirms GST-free)"
+        ]
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [
+      "246146"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "0.00",
+    "wet_total": null,
+    "account_code": "22311",
+    "source_pdf": "350726e2e6ffac5a4b2c5e5f6a6f8c8f3be158e0d2d3295788fe9e3841e32f49.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "56.00",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "SCHNITZEL PLANT PROTEIN 16X150GM V2 Food",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
