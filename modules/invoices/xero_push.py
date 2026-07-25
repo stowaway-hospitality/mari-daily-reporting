@@ -136,12 +136,16 @@ def build_bill(inv: Invoice, coding=None) -> tuple[dict, Decimal, list[str]]:
     }
     if inv.invoice_ref:
         payload["InvoiceNumber"] = inv.invoice_ref
-    if inv.invoice_date:
-        payload["Date"] = inv.invoice_date.isoformat()
-        # AUTHORISED needs a due date — prefer the one read off the invoice,
-        # else fall back to this supplier's usual terms.
-        due = inv.due_date or (inv.invoice_date + _timedelta(days=due_days_for(inv.supplier_name_raw)))
-        payload["DueDate"] = due.isoformat()
+    # An AUTHORISED bill REQUIRES both Date and DueDate — omitting either is a hard
+    # 400. An invoice whose date the parser/LLM couldn't read must still produce a
+    # postable bill (it's already through human review), so default a missing date
+    # to today rather than dropping the field. DueDate = invoice date + this
+    # supplier's usual terms, unless the invoice printed its own.
+    from datetime import date as _date
+    bill_date = inv.invoice_date or _date.today()
+    payload["Date"] = bill_date.isoformat()
+    due = inv.due_date or (bill_date + _timedelta(days=due_days_for(inv.supplier_name_raw)))
+    payload["DueDate"] = due.isoformat()
     if inv.po_refs:
         payload["Reference"] = ", ".join(inv.po_refs)
     if not coding.tracking_option:

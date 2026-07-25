@@ -294,6 +294,36 @@ try:
 except Exception as e:
     check("encrypted PDF test", False, str(e)[:60])
 
+print("12. AUTHORISED date guarantee + new-supplier fallback")
+import datetime as _dt2
+
+from modules.invoices.account_map import suggest_coding as _sc
+
+
+def _mk(due, date):
+    return _Inv(supplier_key="foo", supplier_name_raw="Foo Pty Ltd", invoice_ref="R1",
+                invoice_date=date, due_date=due, total_incl=_D("11.00"), venue=_V.STOWAWAY,
+                lines=[_IL(description="X", qty=_D("1"), line_total_incl=_D("11.00"),
+                           unit_price_incl=_D("11.00"), line_class=_LC.STOCK,
+                           tax_treatment=_TT.GST, cost_basis=_CB.PER_UNIT)])
+
+
+# an AUTHORISED bill must ALWAYS carry Date + DueDate (missing either -> 400), even
+# when the invoice date couldn't be read
+_all_dated = True
+for _due, _date in [(_dt2.date(2026, 8, 1), _dt2.date(2026, 7, 20)), (None, _dt2.date(2026, 7, 20)), (None, None)]:
+    _pl, _, _ = xero_push.build_bill(_mk(_due, _date))
+    if not (_pl.get("Date") and _pl.get("DueDate")):
+        _all_dated = False
+check("AUTHORISED bill always has Date + DueDate", _all_dated)
+# brand-new unknown supplier -> valid active fallback account, no crash
+_u = _mk(None, _dt2.date(2026, 7, 20))
+_u.supplier_key = "never_seen_xyz"
+_u.supplier_name_raw = "Never Seen Trading Co"
+_uc = _sc(_u)
+check("unknown supplier -> non-empty fallback account", bool(_uc.primary_account) and all(l.account_code for l in _uc.lines),
+      f"acct={_uc.primary_account}")
+
 print()
 print(f"{'ALL PASS' if _fail == 0 else str(_fail) + ' FAILED'}")
 sys.exit(1 if _fail else 0)
