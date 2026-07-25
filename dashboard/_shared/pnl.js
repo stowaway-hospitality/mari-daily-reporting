@@ -29,6 +29,31 @@ function yoyRevenueDelta(rows, timeframe, anchorDay) {
   return (cr - pr) / pr * 100;
 }
 
+/* Week-on-week revenue. Day view: this day vs the SAME weekday over recent weeks
+   (a Saturday vs recent Saturdays). Week view: this week vs recent weeks. Shifts
+   the CURRENT window back in 7-day steps (weekday-aligned so partial weeks compare
+   like-for-like at the same point), and averages up to 4 prior weeks with
+   comparable coverage. Returns null unless >=2 usable comparators. Day/week only. */
+function wowRevenueDelta(rows, timeframe, anchorDay) {
+  if (timeframe !== 'day' && timeframe !== 'week' && timeframe !== 'lastweek') return null;
+  const cur = rowsForTimeframe(rows, timeframe, anchorDay);
+  if (!cur.length) return null;
+  const curRev = cur.reduce((t, r) => t + toNum(r.revenue_ex_gst), 0);
+  if (!curRev) return null;
+  const s0 = new Date(cur[0].date), e0 = new Date(cur[cur.length - 1].date);
+  const prev = [];
+  for (let n = 1; n <= 4; n++) {
+    const ps = isoDate(addDays(s0, -7 * n)), pe = isoDate(addDays(e0, -7 * n));
+    const wk = rows.filter(r => r.date >= ps && r.date <= pe);
+    if (wk.length >= Math.max(1, cur.length * 0.8)) prev.push(wk.reduce((t, r) => t + toNum(r.revenue_ex_gst), 0));
+  }
+  if (prev.length < 2) return null;
+  const avg = prev.reduce((a, b) => a + b, 0) / prev.length;
+  if (!avg) return null;
+  return { delta: (curRev - avg) / avg * 100, nWeeks: prev.length, avg, curRev,
+           weekday: timeframe === 'day' ? new Date(cur[0].date).toLocaleDateString('en-AU', { weekday: 'long' }) : null };
+}
+
 function wageMedian12wk(rows) {
   const byWk = {};
   for (const r of rows) {

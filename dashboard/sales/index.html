@@ -879,6 +879,13 @@ var CARD_DEFS = {
       if (!anchorDay && rows.length) anchorDay = rows[rows.length - 1].date;
       const d = yoyRevenueDelta(rows, STATE.currentTimeframe, anchorDay);
       if (d !== null) sub += ' \u00b7 ' + pill((d >= 0 ? '+' : '\u2212') + Math.abs(d).toFixed(1) + '% vs same period last year', d >= 0 ? 'green' : 'red');
+      // Week-on-week: this day vs recent same-weekdays, or this week vs recent weeks.
+      const wow = wowRevenueDelta(rows, STATE.currentTimeframe, anchorDay);
+      if (wow) {
+        const lbl = wow.weekday ? `vs prev ${wow.nWeeks} ${wow.weekday}s avg ${fmtDollars(wow.avg)}`
+                                : `vs prev ${wow.nWeeks} weeks avg ${fmtDollars(wow.avg)}`;
+        sub += ' \u00b7 ' + pill((wow.delta >= 0 ? '+' : '\u2212') + Math.abs(wow.delta).toFixed(1) + '% ' + lbl, wow.delta >= 0 ? 'green' : 'red');
+      }
       // Pacing: project the current period to its end via DOW medians.
       const pb = periodBounds(STATE.currentTimeframe, anchorDay);
       if (pb) {
