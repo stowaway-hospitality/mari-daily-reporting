@@ -280,9 +280,14 @@ function renderPick() {
   }).join('') : `<div class="empty">${sup || q ? 'No match.' : 'Choose a supplier or search to add ingredients.'}</div>`;
 }
 
+// a batch's per-unit cost INCLUDING its prep labour, when we have it — so a dish
+// built from it carries the batch's prep too. Falls back to food-only.
+const subCpu = s => +(s.cost_per_yield_unit_with_prep ?? s.cost_per_yield_unit) || 0;
+
 function renderSubs() {
   document.getElementById('sublist').innerHTML = SUBS.length ? SUBS.map(s => {
-    const cpu = s.cost_per_yield_unit ? `${money(s.cost_per_yield_unit)} <span class="m">/${esc(s.yield_unit)}</span>` : '<span class="m">cost pending</span>';
+    const c = subCpu(s);
+    const cpu = c ? `${money(c)} <span class="m">/${esc(s.yield_unit)}${s.cost_per_yield_unit_with_prep ? ' (incl prep)' : ''}</span>` : '<span class="m">cost pending</span>';
     return `<div class="ing" onclick="addSub('${encodeURIComponent(s.product)}')">
       <div><div class="n">${esc(s.product)}<span class="pill sub">recipe</span></div>
       <div class="m">makes ${esc(s.yield_qty)} ${esc(s.yield_unit)}</div></div><div class="c">${cpu}</div></div>`;
@@ -321,7 +326,7 @@ window.addSub = (enc) => {
   const product = decodeURIComponent(enc);
   const s = SUBS.find(x => x.product === product);
   if (!s || LINES.some(l => l.kind === 'sub' && l.product === product)) return;
-  LINES.push({ kind: 'sub', product, unit: s.yield_unit, cpu: +s.cost_per_yield_unit || 0, qty: 0 });
+  LINES.push({ kind: 'sub', product, unit: s.yield_unit, cpu: subCpu(s), qty: 0 });
   calc();
 };
 window.setQty = (k, v) => { const l = LINES[k]; if (l) l.qty = +v || 0; recompute(); };

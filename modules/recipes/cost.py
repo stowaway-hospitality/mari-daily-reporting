@@ -127,10 +127,16 @@ def recipe_as_of(recipes: list[Recipe], product: str, on: date) -> Optional[Reci
 def cost_on(recipe: Recipe, costs: CostSeries, on: date,
             venue: Optional[str] = None, price_mode: str = "as_of",
             recipes: Optional[list[Recipe]] = None,
+            sessions: Optional[list] = None,
             _stack: tuple[str, ...] = ()) -> Decimal:
     """
     FOOD cost per serve on `on` (ingredients only; labour is separate — see
     labour_cost / cost_breakdown).
+
+    `sessions` (opt-in): when a list of PrepSessions is passed, each SUB-recipe's
+    own last-4 prep labour is folded into its per-yield cost, so a dish carries a
+    share of the labour that went into the batches it uses. Omit it (the default)
+    for pure food cost — every existing caller and test is unchanged.
 
     price_mode:
       "as_of"   (default) the price observed on or before `on`. Reproducible
@@ -187,7 +193,14 @@ def cost_on(recipe: Recipe, costs: CostSeries, on: date,
                     f"Refusing to convert on a hunch."
                 )
             batch_cost = cost_on(sub, costs, on, venue=venue, price_mode=price_mode,
-                                 recipes=recipes, _stack=stack)
+                                 recipes=recipes, sessions=sessions, _stack=stack)
+            if sessions is not None:
+                # fold in the batch's OWN prep labour so the dish pays a share of
+                # the time that made the sauce/dough, not just its ingredients
+                from modules.recipes.labour import product_labour
+                bp = product_labour(sub.product, sessions, on=on, last_n=4)
+                if bp is not None:
+                    batch_cost = batch_cost + bp
             total += (batch_cost / sub.yield_qty) * line.qty
             continue
 

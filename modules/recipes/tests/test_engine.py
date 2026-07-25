@@ -252,6 +252,23 @@ def test_load_prep_sessions_reads_the_workers_format(tmp_path):
     assert load_prep_sessions(tmp_path / "nope") == []            # missing dir -> empty, no crash
 
 
+def test_subrecipe_prep_labour_flows_into_the_dish_only_with_sessions(costs):
+    """A dish carries a share of the prep that made the batches it uses — but only
+    when sessions are supplied (default stays pure food cost)."""
+    from modules.recipes.labour import PrepSession, product_labour
+    batch = Recipe("Sauce", "stowaway", yield_qty=Decimal("2000"), yield_unit="g",
+                   lines=(RecipeLine("oil", Decimal("1000"), "ml"),))
+    dish = Recipe("Dish", "stowaway", sell_incl_gst=Decimal("18.00"),
+                  lines=(RecipeLine("", Decimal("50"), "g", subrecipe="Sauce"),))
+    ss = [PrepSession("Sauce", "Miller Manson", Decimal("10"), date(2026, 7, 18), "stowaway")]
+    food = cost_on(dish, costs, date(2026, 7, 20), recipes=[batch, dish])
+    withp = cost_on(dish, costs, date(2026, 7, 20), recipes=[batch, dish], sessions=ss)
+    sc = product_labour("Sauce", ss, on=date(2026, 7, 20))        # $ of that prep
+    assert sc is not None and sc > 0
+    assert withp == food + (sc * Decimal("50") / Decimal("2000"))  # 50g of the 2000g batch
+    assert withp > food                                            # sessions raise the cost
+
+
 # ---- dual GP ---------------------------------------------------------------
 
 def test_breakdown_shows_gp_both_ways(costs):

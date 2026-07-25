@@ -89,6 +89,8 @@ def recipes_index() -> dict:
                 "prep_minutes_avg": None,   # mean of the last 4 preps (display)
                 "prep_count": 0,            # how many preps logged (confidence)
                 "prep_cost": None,          # last-4 prep labour, $, at real rates
+                "cost_with_prep": None,     # food + own prep + sub-recipe prep share
+                "cost_per_yield_unit_with_prep": None,
             }
             try:
                 c = cost_on(r, costs, today, price_mode="rolling", recipes=recipes)
@@ -108,6 +110,18 @@ def recipes_index() -> dict:
                 pl = product_labour(r.product, venue_sessions, on=today, last_n=4)
                 if pl is not None:
                     entry["prep_cost"] = _dec(pl.quantize(Decimal("0.0001")))
+            # true total: food + this recipe's own prep + a share of each
+            # sub-recipe's prep (sessions folds the sub prep in; own prep added here)
+            try:
+                cwp = cost_on(r, costs, today, price_mode="rolling",
+                              recipes=recipes, sessions=venue_sessions)
+                own = product_labour(r.product, venue_sessions, on=today, last_n=4) or Decimal("0")
+                tot = (cwp + own)
+                entry["cost_with_prep"] = _dec(tot.quantize(Decimal("0.0001")))
+                if r.yield_qty:
+                    entry["cost_per_yield_unit_with_prep"] = _dec((tot / r.yield_qty).quantize(Decimal("0.000001")))
+            except Exception:
+                pass
             items.append(entry)
     return {"generated_at": today.isoformat(), "recipes": items}
 
