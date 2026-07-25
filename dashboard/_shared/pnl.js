@@ -623,7 +623,8 @@ function rollup(rows) {
    build_weekly_report.sph_for_week exactly: day-weighted sum(Sales)/sum(Txns),
    Sales is INCL GST (spend-per-head convention). Pure; no DOM. */
 var SPH_VENUE_MAP = { Stowaway: 'stow', 'Stowaway Bar': 'stow', HarryGatos: 'hg',
-  'Harry Gatos': 'hg', Marilynas: 'mari', "Marilyna's": 'mari', Marilyna: 'mari', Mari: 'mari' };
+  'Harry Gatos': 'hg', Marilynas: 'mari', 'Marilynas-Uber': 'mari', "Marilyna's": 'mari',
+  Marilyna: 'mari', Mari: 'mari' };
 
 function sphVenueCode(v) {
   return SPH_VENUE_MAP[v] || String(v || '').toLowerCase().replace(/[^a-z]/g, '');
@@ -652,8 +653,11 @@ function sphAggregate(venue, sIso, eIso) {
     days[d] = 1;
   }
   if (!txns) return null;
+  const vset = {};
+  for (const r of rows) { const v = sphVenueCode(r.Venue); if (want.indexOf(v) >= 0 && r.Date >= sIso && r.Date <= eIso && toNum(r.Transactions)) vset[v] = 1; }
   return { sales, txns, guests, perTxn: sales / txns,
-           perGuest: guests ? sales / guests : null, days: Object.keys(days).length };
+           perGuest: guests ? sales / guests : null, days: Object.keys(days).length,
+           venues: Object.keys(vset).sort().join(',') };
 }
 
 function avgSpendWindow(venue, day) {
@@ -670,5 +674,9 @@ function avgSpendYoY(venue, day) {
   const pe = isoDate(addDays(new Date(w[1]), -364));
   const prev = sphAggregate(venue, ps, pe);
   if (!prev || !prev.perTxn) return null;
+  // Guard: a venue only recently started tracking SPH (Stow/HG from 2026) — if
+  // last year's window is missing a venue that's in this year's, the comparison
+  // is apples-to-oranges (e.g. group = all 3 now vs Mari-only a year ago). Skip.
+  if (cur.venues !== prev.venues) return null;
   return (cur.perTxn - prev.perTxn) / prev.perTxn * 100;
 }
