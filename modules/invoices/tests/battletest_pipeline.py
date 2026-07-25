@@ -358,6 +358,11 @@ _u.supplier_name_raw = "Never Seen Trading Co"
 _uc = _sc(_u)
 check("unknown supplier -> non-empty fallback account", bool(_uc.primary_account) and all(l.account_code for l in _uc.lines),
       f"acct={_uc.primary_account}")
+# a pathologically long description must be truncated (Xero caps ~4000 -> 400 here)
+_long = _mk(None, _dt2.date(2026, 7, 20))
+_long.lines[0].description = "SUPER " * 900
+_lp, _, _ = xero_push.build_bill(_long)
+check("over-long description is truncated (no Xero length 400)", len(_lp["LineItems"][0]["Description"]) <= 4000)
 
 print("13. poller (real posting path) guards")
 try:

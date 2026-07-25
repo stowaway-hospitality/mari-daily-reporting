@@ -106,7 +106,10 @@ def _from_rows(rows, inv: Optional[date]) -> Optional[date]:
 
 
 def read_due(pdf_bytes: bytes, invoice_date: Optional[date]) -> Optional[date]:
-    text = pdf_text.text(pdf_bytes)
+    try:
+        text = pdf_text.text(pdf_bytes)
+    except Exception:
+        return None            # unreadable PDF — no due date to read, never crash
     # explicit inline "Due Date: <date>"
     for m in re.finditer(r"due\s*date\s*[:\-]?\s*([0-9]{1,2}[-/][A-Za-z0-9]{1,4}[-/][0-9]{2,4})", text, re.I):
         d = _one(m[1])
