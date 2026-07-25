@@ -190,7 +190,7 @@ def test_the_real_feed_prices_in_recipe_units():
     assert obs, "no cost observations — run modules/recipes/pipeline/build_costs.py"
     units = {o.unit for o in obs}
     assert units <= {"g", "ml", "ea", "bunch", "tray", "punnet", "doz", "box", "pkt",
-                     "bottle", "keg", "can"}, \
+                     "bag", "bottle", "keg", "can"}, \
         f"unexpected units in the cost feed: {units}"
     assert "unit" not in units, "'unit' means a pack price leaked into the feed"
 

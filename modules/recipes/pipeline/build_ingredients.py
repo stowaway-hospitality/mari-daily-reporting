@@ -117,6 +117,7 @@ _BOUNDS = {
     "doz":      (Decimal("2.00"),   Decimal("120.00")),
     "box":      (Decimal("2.00"),   Decimal("400.00")),
     "pkt":      (Decimal("0.50"),   Decimal("80.00")),
+    "bag":      (Decimal("0.50"),   Decimal("80.00")),
 }
 
 
@@ -194,6 +195,7 @@ def parse_pack(desc: str) -> tuple[Decimal | None, str | None, str]:
 _DISCRETE = [
     ("BUNCH", "bunch"), ("BCH", "bunch"), ("PUNNET", "punnet"), ("TRAY", "tray"),
     ("BOX", "box"), ("EACH", "ea"), ("DOZ", "doz"), ("PKT", "pkt"), ("PACKET", "pkt"),
+    ("BAG", "bag"),
 ]
 
 # The unit some suppliers put as the last word of the code. Weight/volume words

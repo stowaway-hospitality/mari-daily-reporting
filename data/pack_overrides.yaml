@@ -4,3 +4,105 @@
   by: "Zak"
   on: 2026-07-25
   by_email: "zak@stowawaybar.com"
+# --- B&E pack sizes read from the befoodsonline catalogue (invoices omit them).
+# CTN-sold items use the FULL carton weight (invoice price is per carton); PK /
+# UNIT / CAN / EACH items use the single selling-unit weight. Bamboo A10 has no
+# printed weight, so it uses the A10 standard 3kg the supplier's own pineapple
+# A10 confirms. pack_qty is the durable fact; the live invoice price still drives
+# cost, so a price change reprices automatically.
+- id: "b-e:12830"
+  pack_qty: 8100
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:28734"
+  pack_qty: 12000
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:15555"
+  pack_qty: 10000
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:19957"
+  pack_qty: 9000
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:10300"
+  pack_qty: 5000
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:28411"
+  pack_qty: 10000
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:19941"
+  pack_qty: 2000
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:27544"
+  pack_qty: 1000
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:18120"
+  pack_qty: 5280
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:11602"
+  pack_qty: 2000
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:10756"
+  pack_qty: 2270
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:28783"
+  pack_qty: 900
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:14580"
+  pack_qty: 15000
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:18310"
+  pack_qty: 3000
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:19632"
+  pack_qty: 3000
+  pack_unit: g
+  by: "B&E catalogue (A10 std 3kg)"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
+- id: "b-e:14591"
+  pack_qty: 20
+  pack_unit: ea
+  by: "B&E catalogue"
+  on: 2026-07-26
+  by_email: "befoodsonline.com.au"
