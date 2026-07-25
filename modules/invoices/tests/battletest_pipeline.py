@@ -172,6 +172,17 @@ else:
     except Exception as e:
         check("live idempotency", False, str(e)[:80])
 
+print("7. statement detector")
+from modules.invoices import pdf_text as _pt
+from modules.invoices.run import looks_like_statement
+_stmt = "Statement\nStarting Date 01/01/25 Ending Date 24/07/26\nRunning Total 710.72\nOrder SO26-024600 307.99"
+check("statement text detected", looks_like_statement(_stmt) is True)
+check("tax invoice never a statement", looks_like_statement("TAX INVOICE\nCarrots 5kg  12.00\nTotal 12.00") is False)
+_inv = glob.glob(str(ROOT / "data/invoice_corpus/foodlink/*.pdf"))
+if _inv:
+    check("real invoice not flagged as statement",
+          looks_like_statement(_pt.text(open(_inv[0], "rb").read())) is False)
+
 print()
 print(f"{'ALL PASS' if _fail == 0 else str(_fail) + ' FAILED'}")
 sys.exit(1 if _fail else 0)

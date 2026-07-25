@@ -24,6 +24,7 @@ Exit codes
     0  PASS    — written to data/invoices/
     2  REVIEW  — written to data/invoices_review/, findings printed
     1  ERROR   — could not extract at all
+    3  SKIP    — not an invoice (a statement / remittance); nothing written
 
 REVIEW IS NOT FAILURE. An invoice that lands in review cost five minutes.
 An invoice that silently passes with a wrong number costs a wrong margin on a
@@ -59,6 +60,29 @@ OUT_PASS = ROOT / "data" / "invoices"
 OUT_REVIEW = ROOT / "data" / "invoices_review"
 
 
+def looks_like_statement(text: str) -> bool:
+    """
+    True if the PDF is a STATEMENT / remittance, not an invoice.
+
+    A statement lists other invoices with a running balance and has no products
+    to cost. The mailbox already skips these by SUBJECT, but one whose subject
+    doesn't say "statement" (Inalca's didn't) slips through to the LLM, which then
+    reads the statement's summary rows ("Order SO26-024600  $307.99") as if they
+    were line items. Catch it by content instead. Conservative: a real Tax Invoice
+    is never treated as a statement, and we require both a masthead hit AND a
+    balance-style column, so a mere mention of the word can't trip it.
+    """
+    t = (text or "").lower()
+    if "tax invoice" in t:
+        return False
+    titled = "statement" in t[:600]                     # word appears up top
+    strong = ("running total" in t or "remaining amount" in t
+              or ("opening balance" in t and "closing balance" in t)
+              or ("starting date" in t and "ending date" in t)
+              or "amount outstanding" in t)
+    return titled and strong
+
+
 def _json_default(o):
     if isinstance(o, Decimal):
         return str(o)          # money is Decimal; serialise as string, never float
@@ -91,6 +115,12 @@ def main() -> int:
             else:
                 pdf = args.pdf.read_bytes()
                 name = args.source or args.pdf.name
+            # A statement is not an invoice — don't spend an LLM call turning its
+            # balance rows into fake line items; exit 3 so the mailbox files it.
+            from modules.invoices import pdf_text as _pt
+            if looks_like_statement(_pt.text(pdf)):
+                print("[skipped — statement / not an invoice]")
+                return 3
             # FREE FIRST, BUT ONLY IF IT RECONCILES. A recurring supplier with a
             # known layout is parsed deterministically (no API). We TRUST it only
             # when it validates against the printed total — otherwise (no parser,

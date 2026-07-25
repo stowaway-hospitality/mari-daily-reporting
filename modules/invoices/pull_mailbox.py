@@ -211,11 +211,20 @@ def main() -> int:
             continue
 
         worst = 0
+        saw_invoice = False
         for name, data in pdfs:
             code = run_invoice(data, f"{subj} / {name}", sender=sender)
+            if code == 3:                                  # statement / not an invoice
+                print("    (statement / not an invoice — skipped)")
+                continue
+            saw_invoice = True
             worst = max(worst, 1 if code == 1 else (2 if code == 2 else 0))
             any_change = True
-        if worst == 0:
+        if not saw_invoice:                                # every PDF was a statement
+            if not retry:
+                move_message(token, m["id"], review_id)
+                print("    -> Review (statement, no invoice)")
+        elif worst == 0:
             move_message(token, m["id"], processed_id)    # rescued -> Processed
             print("    -> Processed")
         elif not retry:
