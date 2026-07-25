@@ -986,31 +986,38 @@ function renderAvgSpend(day) {
   if (!el) return;
   el.innerHTML = '';
   if (!STATE.sph || !STATE.sph.length || !day) return;
-  const a = avgSpendWindow(STATE.currentVenue, day);
+  const v = STATE.currentVenue;
+  const a = avgSpendWindow(v, day);
   if (!a) return;   // venue not in the SPH file yet, or zero transactions
-  const yoy = avgSpendYoY(STATE.currentVenue, day);
   const money = n => '$' + Number(n).toFixed(2);
-  const yoyPill = (yoy === null) ? ''
-    : ' ' + pill((yoy >= 0 ? '+' : '−') + Math.abs(yoy).toFixed(1) + '% vs same period last year', yoy >= 0 ? 'green' : 'red');
-  const guestBit = a.perGuest
-    ? `<p style="font-size:13.5px;color:var(--ink-soft);margin:6px 0 0"><b>${money(a.perGuest)}</b> per guest · ${a.guests.toLocaleString()} guests</p>`
-    : '';
-  // On the group view, break the blended figure down by venue — the story is
-  // which venue drives it (bar ~$30, HG group-dining ~$100, Mari pizza ~$40).
+  const pill_ = (yoy) => (yoy === null) ? ''
+    : ' ' + pill((yoy >= 0 ? '+' : '\u2212') + Math.abs(yoy).toFixed(1) + '% vs same period last year', yoy >= 0 ? 'green' : 'red');
+  // Harry Gatos is dine-in group dining, so spend-per-GUEST (per head) is the
+  // meaningful headline, not per-bill. Bar/pizza/group lead with per-transaction.
+  const leadGuest = (v === 'hg') && a.perGuest;
+  let headline, sub2;
+  if (leadGuest) {
+    headline = `${money(a.perGuest)} <span style="font-size:14px;font-weight:400;color:var(--ink-soft)">per guest</span>${pill_(avgSpendYoY(v, day, 'perGuest'))}`;
+    sub2 = `${money(a.perTxn)} per transaction \u00b7 ${a.guests.toLocaleString()} guests`;
+  } else {
+    headline = `${money(a.perTxn)} <span style="font-size:14px;font-weight:400;color:var(--ink-soft)">per transaction</span>${pill_(avgSpendYoY(v, day, 'perTxn'))}`;
+    sub2 = a.perGuest ? `${money(a.perGuest)} per guest \u00b7 ${a.guests.toLocaleString()} guests` : '';
+  }
+  const sub2html = sub2 ? `<p style="font-size:13.5px;color:var(--ink-soft);margin:6px 0 0">${sub2}</p>` : '';
+  // On the group view, break the blended figure down by venue.
   let breakdown = '';
-  if (STATE.currentVenue === 'group') {
+  if (v === 'group') {
     const parts = [['stow', 'Stowaway'], ['hg', 'Harry Gatos'], ['mari', "Marilyna's"]]
-      .map(([v, lbl]) => { const va = avgSpendWindow(v, day); return va ? `${lbl} <b>${money(va.perTxn)}</b>` : null; })
+      .map(([vv, lbl]) => { const va = avgSpendWindow(vv, day); return va ? `${lbl} <b>${money(va.perTxn)}</b>` : null; })
       .filter(Boolean);
     if (parts.length > 1)
-      breakdown = `<p style="font-size:13px;color:var(--ink-soft);margin:8px 0 0">${parts.join('&nbsp;·&nbsp;')}</p>`;
+      breakdown = `<p style="font-size:13px;color:var(--ink-soft);margin:8px 0 0">${parts.join('&nbsp;\u00b7&nbsp;')}</p>`;
   }
   el.innerHTML =
     `<div class="section"><h2>Average spend</h2>` +
-    `<p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 10px;line-height:1.5">Lightspeed spend per transaction, incl GST — same basis as the weekly report. ${a.days} day${a.days>1?'s':''} · ${a.txns.toLocaleString()} transactions.</p>` +
-    `<p style="font-size:27px;font-weight:600;margin:0">${money(a.perTxn)} <span style="font-size:14px;font-weight:400;color:var(--ink-soft)">per transaction</span>${yoyPill}</p>` +
-    guestBit +
-    breakdown +
+    `<p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 10px;line-height:1.5">Lightspeed spend, incl GST \u2014 same basis as the weekly report. ${a.days} day${a.days>1?'s':''} \u00b7 ${a.txns.toLocaleString()} transactions.</p>` +
+    `<p style="font-size:27px;font-weight:600;margin:0">${headline}</p>` +
+    sub2html + breakdown +
     `</div>`;
 }
 

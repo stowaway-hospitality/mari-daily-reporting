@@ -112,6 +112,53 @@ def totals_from_zip(raw):
             return txns, sales
     return None
 
+def totals_from_snapshot(raw):
+    """Return (transactions, sales_inc_gst, guests) from the HG 'Snapshot' email
+    (single-value tiles: atv.csv -> No. of Sales, total_revenue.csv -> revenue,
+    atv__avg._guest_spend -> Total Guest Count). Guests is the metric that makes
+    HG's spend-per-head meaningful; the daily product-mix email lacks it."""
+    zf = zipfile.ZipFile(io.BytesIO(raw))
+    names = zf.namelist()
+    def find(sub):
+        for n in names:
+            if sub in n.lower():
+                return n
+        return None
+    def cell(member, col_needle):
+        m = find(member)
+        if not m:
+            return None
+        rows = _rows(zf, m)
+        if not rows:
+            return None
+        r = rows[0]
+        for k in r:
+            if col_needle in k.lower():
+                return r[k]
+        # fall back to a positional guess for these 1-row tiles
+        return list(r.values())[-1] if r else None
+    guests = int(round(_num(cell("guest_spend", "guest count"))))
+    sales = _num(cell("total_revenue", "total revenue"))
+    if sales <= 0:                              # fallback: last col of the daily_sales row (the Total)
+        ds = find("daily_sales")
+        if ds:
+            for r in _rows(zf, ds):
+                vals = [v for v in r.values() if v]
+                if vals:
+                    sales = _num(vals[-1])
+    # transactions: atv.csv has [ATV $, No. of Sales] — take the count column
+    # (the one whose header is NOT the average-transaction-value label).
+    txns = 0
+    atv = find("atv.csv")
+    if atv:
+        rows = _rows(zf, atv)
+        if rows:
+            for k, v in rows[0].items():
+                kl = (k or "").lower()
+                if "sales" in kl and not any(x in kl for x in ("average", "transaction", "value")):
+                    txns = int(round(_num(v)))
+    return txns, sales, guests
+
 def attachment_zip(msg):
     for part in msg.walk():
         fn = (part.get_filename() or "").lower()
@@ -129,18 +176,21 @@ def load_sph():
                 rows[(r["Date"], r["Venue"])] = r
     return rows
 
-def put(rows, date, venue, txns, sales):
+def put(rows, date, venue, txns, sales, guests=0):
     if txns <= 0 or sales <= 0:
         return
     sps = sales / txns
     if not (2.0 <= sps <= 2000.0):          # sanity: a real avg spend is a few $ to a few hundred
         print(f"  REJECT {date} {venue}: implausible ${sps:.2f}/txn ({txns} txns, ${sales:.2f})")
         return
+    g = int(guests) if guests and guests > 0 else 0
+    per_guest = f"{sales/g:.2f}" if g else ""
+    apt = f"{g/txns:.2f}" if g else ""
     rows[(date, venue)] = {
         "Date": date, "Venue": venue,
         "Sales": f"{sales:.2f}", "Transactions": str(txns),
-        "SalesExGST": f"{sales/1.1:.2f}", "Guests": "",
-        "SPH_PerTxn": f"{sales/txns:.2f}", "SPH_PerGuest": "", "AvgGuestsPerTxn": "",
+        "SalesExGST": f"{sales/1.1:.2f}", "Guests": str(g) if g else "",
+        "SPH_PerTxn": f"{sales/txns:.2f}", "SPH_PerGuest": per_guest, "AvgGuestsPerTxn": apt,
     }
 
 def main():
@@ -153,19 +203,30 @@ def main():
     ids = data[0].split() if data and data[0] else []
     # collect per (date) -> {venue: (txns, sales)}
     by_day = {}
+    snap_by_day = {}   # date -> (txns, sales, guests) from the HG Snapshot email
     for num in ids:
         typ, md = M.fetch(num, "(BODY.PEEK[])")
         if typ != "OK" or not md or not md[0]:
             continue
         msg = email.message_from_bytes(md[0][1])
         subj = msg.get("Subject", "")
-        if "daily sales auto" not in subj.lower():
+        raw = attachment_zip(msg)
+        if not raw:
+            continue
+        d = target_date(msg)
+        low = subj.lower()
+        if "snapshot" in low:                    # HG guest counts
+            try:
+                st, ss, sg = totals_from_snapshot(raw)
+            except Exception as e:
+                print(f"  snapshot parse error '{subj}': {e}"); continue
+            snap_by_day[d] = (st, ss, sg)
+            print(f"  {d} snapshot(HG): {st} txns, ${ss:.2f}, {sg} guests")
+            continue
+        if "daily sales auto" not in low:
             continue
         v = venue_of(subj)
         if not v:
-            continue
-        raw = attachment_zip(msg)
-        if not raw:
             continue
         try:
             tot = totals_from_zip(raw)
@@ -175,7 +236,6 @@ def main():
         if not tot:
             print(f"  no totals in '{subj}'")
             continue
-        d = target_date(msg)
         by_day.setdefault(d, {})[v] = tot
         print(f"  {d} {v}: {tot[0]} txns, ${tot[1]:.2f}")
     M.logout()
@@ -188,8 +248,12 @@ def main():
     for d, ven in by_day.items():
         if d in backfill_dates:
             print(f"  skip {d} (weekly-backfill date)"); continue
+        hg_guests = snap_by_day.get(d, (0, 0.0, 0))[2]
         if "hg" in ven:
-            put(sph, d, "HarryGatos", *ven["hg"]); changed += 1
+            put(sph, d, "HarryGatos", ven["hg"][0], ven["hg"][1], hg_guests); changed += 1
+        elif d in snap_by_day:                   # snapshot arrived but daily HG email hasn't
+            st, ss, sg = snap_by_day[d]
+            put(sph, d, "HarryGatos", st, ss, sg); changed += 1
         if "mari" in ven:
             put(sph, d, "Marilynas", *ven["mari"]); changed += 1
         # Stowaway (bar) = whole till (stow email) minus Marilyna's slice

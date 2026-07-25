@@ -67,6 +67,26 @@ def test_backfill_dates_are_skipped():
         backfill = {dt for (dt, v) in sph if v == "Marilynas-Uber"}
         assert "2026-07-05" in backfill
 
+
+def test_snapshot_guests():
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as z:
+        z.writestr("dashboard-snapshot/atv__avg._guest_spend_(copy).csv",
+                   "Sales Data Average Guest Spend Bo,Guests Total Guest Count\n$51.22,61\n")
+        z.writestr("dashboard-snapshot/atv.csv",
+                   "Sales Data Average Transaction Value Bo,Sales Data Sales\n$98.77,35\n")
+        z.writestr("dashboard-snapshot/total_revenue.csv",
+                   'Sales Data Total Revenue Bo,Total Tax amount\n"$3,457.00",$314\n')
+    assert m.totals_from_snapshot(buf.getvalue()) == (35, 3457.0, 61)
+
+def test_hg_row_carries_guests_and_per_guest():
+    rows = {}
+    m.put(rows, "2026-07-24", "HarryGatos", 35, 3457.0, 61)
+    r = rows[("2026-07-24", "HarryGatos")]
+    assert r["Guests"] == "61"
+    assert abs(float(r["SPH_PerGuest"]) - 3457.0/61) < 0.01
+    assert r["SPH_PerTxn"] == "98.77"
+
 if __name__ == "__main__":
     fns = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     for fn in fns:

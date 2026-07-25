@@ -666,18 +666,19 @@ function avgSpendWindow(venue, day) {
   return sphAggregate(venue, w[0], w[1]);
 }
 
-/* YoY on spend-per-transaction: same window shifted back 364 days. */
-function avgSpendYoY(venue, day) {
+/* YoY on spend per transaction (default) or per guest: same window, -364 days. */
+function avgSpendYoY(venue, day, metric) {
+  metric = metric || "perTxn";
   const w = sphWindowIso(day);
   const cur = sphAggregate(venue, w[0], w[1]);
-  if (!cur) return null;
+  if (!cur || !cur[metric]) return null;
   const ps = isoDate(addDays(new Date(w[0]), -364));
   const pe = isoDate(addDays(new Date(w[1]), -364));
   const prev = sphAggregate(venue, ps, pe);
-  if (!prev || !prev.perTxn) return null;
+  if (!prev || !prev[metric]) return null;
   // Guard: a venue only recently started tracking SPH (Stow/HG from 2026) — if
   // last year's window is missing a venue that's in this year's, the comparison
   // is apples-to-oranges (e.g. group = all 3 now vs Mari-only a year ago). Skip.
   if (cur.venues !== prev.venues) return null;
-  return (cur.perTxn - prev.perTxn) / prev.perTxn * 100;
+  return (cur[metric] - prev[metric]) / prev[metric] * 100;
 }
