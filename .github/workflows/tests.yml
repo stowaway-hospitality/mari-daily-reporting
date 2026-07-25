@@ -61,13 +61,14 @@ jobs:
       - name: Closed-week leave split (rebuild_wages)
         run: python3 scripts/test_closed_week_leave.py
 
-      - name: More script-shaped tests (wages / payroll / superannuation)
+      - name: More script-shaped tests (wages / payroll / superannuation / auth gate)
         run: |
           set -e
           python3 scripts/test_wage_calibration.py
           python3 scripts/test_wage_open_week.py
           python3 scripts/test_super_actuals.py
           python3 scripts/test_corp_payroll.py
+          python3 scripts/test_auth_gate.py
 
       - name: Invoice pipeline battletest (Dext-replacement guards)
         # The adversarial suite: dedup, credit-note refusal, statement detection,
