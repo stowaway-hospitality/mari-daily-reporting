@@ -288,3 +288,21 @@ guest source and must be KEPT (do NOT delete it). `sph_from_email.py` also parse
 the Snapshot email (`atv__avg._guest_spend` -> Total Guest Count) and writes
 Guests onto the HarryGatos rows. The HG card then leads with spend-per-GUEST
 (dine-in metric); Stow/Mari/group lead with per-transaction.
+
+## Stow hourly feed — revived off Pipedream (2026-07-25)
+
+The "Stow Hourly RG Auto" Custom Insights report (a Look: hour × reporting-group,
+in the zak.britton@hotmail Custom Insights login → My Reports → Zak B) used to
+email a dead `@upload.pipedream.net` address, so the hourly feed stopped 22 Jul.
+Fixed WITHOUT Pipedream:
+  1. Re-pointed the Look's schedule to email the ingest Gmail (zakbritton2@gmail.com),
+     CSV, daily, "1 day ago for 1 day" filter (removed the pipedream recipient).
+  2. Poller (ingest_insights_email.py) now routes any "Hourly" subject to
+     `stow-hourly-arrived` BEFORE the generic "stow" daily rule — so the hour×RG
+     CSV never lands in the daily pipeline. Fires the same dispatch the hourly
+     pull already consumes → scripts/eatclub/ingest_hourly.py → stow_hourly_<date>.json.
+  3. deploy_dashboard triggers on "Hourly Pull" so it publishes promptly.
+Verified end-to-end 2026-07-24 (164 rows, dinner window $9,330 inc-GST, live).
+
+HG hourly is NOT possible: HG's Kounta account has no Custom Insights, so there's
+no HG hour×RG report to schedule. Hourly stays Stowaway-only unless HG upgrades.
