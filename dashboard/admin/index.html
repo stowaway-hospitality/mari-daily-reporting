@@ -15,8 +15,11 @@
 -->
 <style>
   .wrap{max-width:1040px}
-  .row{display:grid;grid-template-columns:1fr 120px 120px 160px 130px;gap:8px;align-items:center;
+  .row{display:grid;grid-template-columns:1fr 105px 105px 150px 70px auto;gap:8px;align-items:center;
        padding:9px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;background:var(--paper)}
+  .row .acts{display:flex;gap:6px;justify-content:flex-end;align-items:center;white-space:nowrap}
+  .row .acts button{padding:6px 10px;font-size:12px;white-space:nowrap;line-height:1.1}
+  .row .pill{justify-self:center;text-align:center}
   .row .who{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .row .who small{display:block;color:var(--ink-soft);font-size:11px}
   select,input{padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);width:100%}
@@ -102,10 +105,10 @@ async function load() {
         <select data-email="${u.email}" class="r">${roleOpts(u.role)}</select>
         <select data-email="${u.email}" class="v">${venueOpts(u.venue)}</select>
         <select data-email="${u.email}" class="e" title="Deputy employee — sets the wage rate their prep is costed at">${empOpts(u.employee)}</select>
-        <div style="text-align:right">
-          <span class="pill ${u.role?'set':'none'}">${u.role || 'no role'}</span>
-          ${u.confirmed ? '' : `<button class="ghost resend" data-email="${u.email}" style="margin-left:6px">Resend invite</button>`}
-          <button class="ghost save" data-email="${u.email}" style="margin-left:6px">Save</button>
+        <span class="pill ${u.role?'set':'none'}">${u.role || 'no role'}</span>
+        <div class="acts">
+          ${u.confirmed ? '' : `<button class="ghost resend" data-email="${u.email}">Resend</button>`}
+          <button class="ghost save" data-email="${u.email}">Save</button>
         </div>
       </div>`).join('');
     el.querySelectorAll('.save').forEach(b => b.onclick = () => saveRole(b.dataset.email));
