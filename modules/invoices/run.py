@@ -83,6 +83,20 @@ def looks_like_statement(text: str) -> bool:
     return titled and strong
 
 
+def looks_like_credit_note(text: str) -> bool:
+    """
+    True if the PDF is a supplier CREDIT / adjustment note, not a bill.
+
+    A credit note refunds us (returned stock, an overcharge). Parsers read its
+    amount as positive like any invoice, so left alone a $48 credit posts as a
+    $48 payable — money owed the wrong way. We route these to Review and block the
+    push. Match the Australian phrasings ("credit note", "adjustment note") as a
+    PHRASE so "credit terms" / "credit card" can't trip it.
+    """
+    t = (text or "").lower()
+    return "credit note" in t or "adjustment note" in t
+
+
 def _json_default(o):
     if isinstance(o, Decimal):
         return str(o)          # money is Decimal; serialise as string, never float
@@ -118,9 +132,11 @@ def main() -> int:
             # A statement is not an invoice — don't spend an LLM call turning its
             # balance rows into fake line items; exit 3 so the mailbox files it.
             from modules.invoices import pdf_text as _pt
-            if looks_like_statement(_pt.text(pdf)):
+            _txt = _pt.text(pdf)
+            if looks_like_statement(_txt):
                 print("[skipped — statement / not an invoice]")
                 return 3
+            _is_credit = looks_like_credit_note(_txt)
             # FREE FIRST, BUT ONLY IF IT RECONCILES. A recurring supplier with a
             # known layout is parsed deterministically (no API). We TRUST it only
             # when it validates against the printed total — otherwise (no parser,
@@ -138,6 +154,7 @@ def main() -> int:
                         print(f"[{args.sender} parser did not reconcile — using LLM]")
             if inv is None:
                 inv = extract(pdf, filename=name)
+            inv.is_credit_note = _is_credit    # a credit note reads as a positive invoice
     except ExtractionError as e:
         print(f"EXTRACTION FAILED: {e}", file=sys.stderr)
         return 1
@@ -188,23 +205,37 @@ def main() -> int:
     print(f"  Xero: {split_str or 'no codeable lines'}"
           f"  |  tracking: {coding.tracking_category}/{coding.tracking_option} ({coding.tracking_confidence})")
 
+    # A CREDIT NOTE reads as a positive invoice and can reconcile perfectly, so it
+    # would otherwise PASS and post as a $X payable — the wrong direction. Never
+    # let it pass: force Review with a loud finding. (Full ACCPAYCREDIT support can
+    # come later; for now a human enters the credit.)
+    credit_hold = inv.is_credit_note
+    passed = result.ok and not credit_hold
+    if credit_hold:
+        print("  ** CREDIT NOTE — forcing REVIEW; enter as a supplier credit, NOT a payable **")
+
     if args.dry_run:
-        return 0 if result.ok else 2
+        return 0 if passed else 2
 
     # ---- file it -----------------------------------------------------------
-    out_dir = OUT_PASS if result.ok else OUT_REVIEW
+    out_dir = OUT_PASS if passed else OUT_REVIEW
     out_dir.mkdir(parents=True, exist_ok=True)
     stem = f"{inv.invoice_date}_{inv.supplier_key or 'unknown'}_{inv.invoice_ref or 'noref'}".replace("/", "-")
+    findings = [
+        {"code": f.code, "severity": f.severity.value, "message": f.message,
+         "line_index": f.line_index, "expected": f.expected, "actual": f.actual}
+        for f in result.findings
+    ]
+    if credit_hold:
+        findings.insert(0, {"code": "CREDIT_NOTE", "severity": "error",
+                            "message": "This is a supplier credit note, not a bill — enter as a "
+                                       "credit in Xero, do not post as a payable.",
+                            "line_index": None, "expected": None, "actual": None})
     payload = {
         "invoice": asdict(inv),
         "validation": {
-            "status": result.status.value,
-            "findings": [
-                {"code": f.code, "severity": f.severity.value, "message": f.message,
-                 "line_index": f.line_index,
-                 "expected": f.expected, "actual": f.actual}
-                for f in result.findings
-            ],
+            "status": "review" if credit_hold else result.status.value,
+            "findings": findings,
             "expected_ls_receive_total": result.expected_ls_receive_total,
             "extras_total": result.extras_total,
         },
@@ -224,7 +255,7 @@ def main() -> int:
     path.write_text(json.dumps(payload, indent=2, default=_json_default))
     print(f"-> {path.relative_to(ROOT)}")
 
-    return 0 if result.ok else 2
+    return 0 if passed else 2
 
 
 if __name__ == "__main__":

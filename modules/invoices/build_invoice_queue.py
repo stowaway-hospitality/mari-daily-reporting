@@ -33,22 +33,22 @@ OUT_DIR = ROOT / "dashboard" / "invoices"
 COA = ROOT / "modules" / "invoices" / "xero_accounts.json"
 
 
-def _xero_existing_numbers() -> set[str] | None:
+def _xero_existing() -> dict[str, set[str]] | None:
     """
-    Every ACCPAY invoice number already in Xero (recent pages), so the app list
-    can HIDE anything already billed — most importantly the ones Dext posted, so
-    they never show up as a double-up to approve.
+    Recent ACCPAY bills as {invoice_number: {normalised supplier names}}, so the
+    app list can HIDE anything already billed — chiefly the ones Dext posted, so
+    they never show as a double-up. Keyed by number AND supplier: a different
+    supplier reusing a number must NOT hide our genuine new bill.
 
-    Returns None when Xero can't be reached (no token / offline / CI). None means
-    "don't filter" — we'd rather show a possible dup than silently drop a real
-    invoice because the network hiccuped. An empty set means "reached Xero, none
-    found" and DOES filter.
+    Returns None when Xero can't be reached (no token / offline / CI) — None means
+    "don't filter", so a network hiccup never silently drops a real invoice.
     """
     try:
         sys.path.insert(0, str(ROOT / "modules" / "invoices"))
         import xero_pull as xp  # noqa: E402
+        from modules.invoices.account_map import _norm
         access, tenant = xp.token()
-        nums: set[str] = set()
+        out: dict[str, set[str]] = {}
         for page in range(1, 9):                     # ~800 most-recent bills, plenty
             res = xp.api_get(access, tenant, "Invoices",
                              {"where": 'Type=="ACCPAY"', "order": "Date DESC", "page": str(page)})
@@ -56,10 +56,10 @@ def _xero_existing_numbers() -> set[str] | None:
             for iv in ivs:
                 n = (iv.get("InvoiceNumber") or "").strip()
                 if n:
-                    nums.add(n)
+                    out.setdefault(n, set()).add(_norm((iv.get("Contact") or {}).get("Name", "")))
             if len(ivs) < 100:                       # last page
                 break
-        return nums
+        return out
     except Exception as e:
         print(f"  [queue] Xero unreachable ({e}); not filtering already-billed", file=sys.stderr)
         return None
@@ -134,13 +134,18 @@ def build() -> dict:
             entries.append(e)
 
     # Hide anything already in Xero (Dext-approved or already pushed by us) so it
-    # can't appear as a double-up. Match on invoice number — Xero's dedup key.
-    existing = _xero_existing_numbers()
+    # can't appear as a double-up. Match on (invoice number + normalised supplier)
+    # so a different supplier reusing a number doesn't hide our real new bill.
+    existing = _xero_existing()
     skipped = 0
     if existing is not None:
+        from modules.invoices.account_map import _norm
         kept = []
         for e in entries:
-            if e["ref"] and e["ref"] in existing:
+            sups = existing.get(e["ref"]) if e["ref"] else None
+            mine = _norm(e.get("supplier", ""))
+            if sups and any(s and (s == mine or s.startswith(mine) or mine.startswith(s))
+                            for s in sups):
                 skipped += 1
                 continue
             kept.append(e)

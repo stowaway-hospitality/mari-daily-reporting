@@ -122,6 +122,12 @@ class Invoice:
 
     due_date: Optional[date] = None    # payment due date, read off the invoice
 
+    # A supplier CREDIT note (money back to us), not a bill. Parsers read the
+    # amount as positive like any invoice, so without this flag a $48 credit posts
+    # as a $48 payable — the wrong direction. Set by run.py's content check; the
+    # Xero push refuses to post it as an ACCPAY bill.
+    is_credit_note: bool = False
+
     venue: Venue = Venue.UNKNOWN
     po_refs: list[str] = field(default_factory=list)  # Bacchus can carry two
 

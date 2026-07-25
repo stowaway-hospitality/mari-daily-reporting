@@ -87,12 +87,16 @@ from modules.invoices import xero_push
 
 
 class _FakeGet:
-    """Stand-in api_get: one paid Foodlink bill under a SHORTER contact name."""
+    """Stand-in api_get: a paid Foodlink bill under a SHORTER name, and a bill for
+    number COLLIDE-1 under a totally different supplier."""
     def __call__(self, access, tenant, path, params):
         where = params.get("where", "")
         if 'InvoiceNumber=="SI4485333"' in where:
             return {"Invoices": [{"InvoiceNumber": "SI4485333", "Type": "ACCPAY",
                                   "Status": "PAID", "Contact": {"Name": "Foodlink Australia"}}]}
+        if 'InvoiceNumber=="COLLIDE-1"' in where:
+            return {"Invoices": [{"InvoiceNumber": "COLLIDE-1", "Type": "ACCPAY",
+                                  "Contact": {"Name": "Totally Different Supplier Pty Ltd"}}]}
         return {"Invoices": []}
 
 
@@ -104,30 +108,20 @@ check("unknown number -> not a duplicate",
       xero_push.already_exists("a", "t", fg, "Whoever", "NOPE-999") is False)
 check("empty invoice number -> not a duplicate",
       xero_push.already_exists("a", "t", fg, "X", "") is False)
+# collision: a DIFFERENT supplier reusing a number must NOT be seen as our dup
+check("same number, different supplier -> not a duplicate",
+      xero_push.already_exists("a", "t", fg, "Foodlink Australia Pty Ltd", "COLLIDE-1") is False)
 
 # ---- 4. queue Xero-filter degradation --------------------------------------
 print("4. queue filter")
 from modules.invoices import build_invoice_queue as biq
 
-_orig = biq._xero_existing_numbers
-biq_mod = sys.modules["modules.invoices.build_invoice_queue"]
-
-
-def _boom():
-    try:
-        import xero_pull as xp
-        xp.token = lambda: (_ for _ in ()).throw(RuntimeError("simulated offline"))
-    except Exception:
-        pass
-    return _orig.__wrapped__() if hasattr(_orig, "__wrapped__") else None
-
-
-# simulate Xero unreachable -> must return None (meaning "don't filter"), never []
+# simulate Xero unreachable -> must return None (meaning "don't filter"), never {}
 import xero_pull as _xp
 _save = _xp.token
 _xp.token = lambda: (_ for _ in ()).throw(RuntimeError("simulated offline"))
 try:
-    res = biq._xero_existing_numbers()
+    res = biq._xero_existing()
     check("offline -> returns None (fail-open, don't drop invoices)", res is None, repr(res))
 finally:
     _xp.token = _save
@@ -182,6 +176,21 @@ _inv = glob.glob(str(ROOT / "data/invoice_corpus/foodlink/*.pdf"))
 if _inv:
     check("real invoice not flagged as statement",
           looks_like_statement(_pt.text(open(_inv[0], "rb").read())) is False)
+
+print("8. credit note guard")
+from modules.invoices.run import looks_like_credit_note
+check("credit note detected", looks_like_credit_note("Tax Credit Note RINV/2026/08838") is True)
+check("'credit terms' is not a credit note", looks_like_credit_note("Tax Invoice\nCredit terms 30 days") is False)
+if pass_files:
+    _ci = _invoice_from_json(json.loads(Path(pass_files[0]).read_text()))
+    _ci.is_credit_note = True
+    st = xero_push.push_bill(_ci, access="x", tenant="y", api_get=fg, dry_run=False, approved_by="clicked approve")
+    check("push refuses a credit note even with an approver", st.get("action") == "needs_review", st.get("action"))
+# a real corpus credit note must route to review, not pass
+_cn = glob.glob(str(ROOT / "data/invoice_corpus/gulli/0a6cb3867cc2.pdf"))
+if _cn:
+    check("real Gulli credit note detected",
+          looks_like_credit_note(_pt.text(open(_cn[0], "rb").read())) is True)
 
 print()
 print(f"{'ALL PASS' if _fail == 0 else str(_fail) + ' FAILED'}")

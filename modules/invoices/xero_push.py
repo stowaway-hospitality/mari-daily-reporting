@@ -76,14 +76,27 @@ def already_exists(access, tenant, api_get, contact_name: str, invoice_number: s
         res = api_get(access, tenant, "Invoices", {"where": where})
     except Exception:
         return False
-    # Any ACCPAY bill already carrying this invoice number is a duplicate: Xero
-    # dedups on (Type, InvoiceNumber), and re-POSTing tries to MUTATE the existing
-    # one (a hard 400 if it's already paid). Do NOT require the contact name to
-    # match — the same bill routinely sits under a slightly different spelling
-    # ("Foodlink Australia" vs "Foodlink Australia Pty Ltd"), and requiring an
-    # exact contact match let real duplicates slip the guard. Dext is still
-    # posting these in parallel, so this guard is what prevents doubling up.
-    return bool(res.get("Invoices"))
+    hits = res.get("Invoices", [])
+    if not hits:
+        return False
+    # A bill with this number exists — but is it OURS? Two different suppliers can
+    # reuse a number (e.g. "1001"), so number-alone would falsely skip a genuine
+    # new bill. Match on NORMALISED contact name: _norm unifies the spellings that
+    # broke the old exact match ("Foodlink Australia" == "...Pty Ltd") while
+    # keeping different suppliers apart. If we can't normalise, or the supplier is
+    # unknown, be conservative and treat it as a duplicate (never double-post).
+    try:
+        from modules.invoices.account_map import _norm
+    except Exception:
+        return True
+    mine = _norm(contact_name or "")
+    if not mine:
+        return True
+    for iv in hits:
+        theirs = _norm((iv.get("Contact") or {}).get("Name", ""))
+        if theirs and (theirs == mine or theirs.startswith(mine) or mine.startswith(theirs)):
+            return True
+    return False   # same number, different supplier — a genuinely different bill
 
 
 def build_bill(inv: Invoice, coding=None) -> tuple[dict, Decimal, list[str]]:
@@ -155,6 +168,12 @@ def push_bill(inv: Invoice, access=None, tenant=None, *, api_get=None, dry_run=T
         "invoice_total": str(inv.total_incl), "diff": str(diff),
         "line_count": len(payload["LineItems"]), "warnings": warnings,
     }
+    # HARD GUARD: a credit note must never be posted as an ACCPAY bill (it would
+    # add to payables instead of reducing them). Refuse even with an approver.
+    if getattr(inv, "is_credit_note", False):
+        status["action"] = "needs_review"
+        status["reason"] = "credit note — enter as a supplier credit in Xero, not a payable"
+        return status
     if not payload["LineItems"]:
         status["action"] = "skipped"; status["reason"] = "no codeable lines"
         return status
