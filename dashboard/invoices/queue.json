@@ -1,6 +1,6 @@
 {
   "generated": "2026-07-25",
-  "count": 3,
+  "count": 6,
   "skipped_already_in_xero": 19,
   "invoices": [
     {
@@ -15,6 +15,7 @@
       "tracking_category": "Stowaway",
       "tracking_option": "Kitchen",
       "tracking_confidence": "high",
+      "is_credit_note": false,
       "status": "pass",
       "lines": [
         {
@@ -42,6 +43,7 @@
       "tracking_category": "Stowaway",
       "tracking_option": "Kitchen",
       "tracking_confidence": "low",
+      "is_credit_note": false,
       "status": "pass",
       "lines": [
         {
@@ -69,6 +71,7 @@
       "tracking_category": "Stowaway",
       "tracking_option": "Miscellaneous",
       "tracking_confidence": "high",
+      "is_credit_note": false,
       "status": "review",
       "lines": [
         {
@@ -80,6 +83,101 @@
           "tax": "gst",
           "account_code": "465",
           "account_name": "Storage Fees",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "00174494",
+      "supplier": "JAMAC Cleaning Supply and Manufacturing",
+      "supplier_key": "jamac",
+      "date": "2026-07-23",
+      "due_date": null,
+      "total": "275.00",
+      "venue": "stowaway",
+      "pdf_path": "4d24d49201beeae5749ccb937d58627b28012f62d3c9c6cb042ae560dfd6ab94.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "20LT METHYLATED SPIRITS",
+          "supplier_code": "09MS20",
+          "qty": "3",
+          "amount": "255.00",
+          "unit_cost": "$4.26/L",
+          "tax": "gst",
+          "account_code": "306",
+          "account_name": "Cleaning",
+          "reason": "line keyword -> Cleaning"
+        },
+        {
+          "description": "FREIGHT",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "20.00",
+          "unit_cost": "$20.00/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "184955",
+      "supplier": "Aquarius Fisheries Pty Ltd",
+      "supplier_key": "aquarius",
+      "date": "2026-02-19",
+      "due_date": null,
+      "total": "385.00",
+      "venue": "unknown",
+      "pdf_path": "fbfbfb47aa5f14fce06b238400e65a2ff0820a2ea99c9a329937258d773774a3.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Marilyna's Pizza",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "White Prawn Meat 31/40",
+          "supplier_code": "APDW31",
+          "qty": "2",
+          "amount": "385.00",
+          "unit_cost": "$192.50/ea",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "184463",
+      "supplier": "Aquarius Fisheries Pty Ltd",
+      "supplier_key": "aquarius",
+      "date": "2025-10-30",
+      "due_date": null,
+      "total": "192.50",
+      "venue": "unknown",
+      "pdf_path": "ebfcefa993cc138b63405f32554cc7738ba38607960dd59dfcfdfb35a4bea1c5.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Marilyna's Pizza",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "White Prawn Meat 31/40",
+          "supplier_code": "APDW31",
+          "qty": "1",
+          "amount": "192.50",
+          "unit_cost": "$192.50/ea",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
         }
       ]

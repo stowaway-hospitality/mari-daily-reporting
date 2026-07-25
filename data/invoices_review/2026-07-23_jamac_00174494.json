@@ -1,0 +1,110 @@
+{
+  "invoice": {
+    "supplier_key": "jamac",
+    "supplier_name_raw": "JAMAC Cleaning Supply and Manufacturing",
+    "invoice_ref": "00174494",
+    "invoice_date": "2026-07-23",
+    "total_incl": "275.00",
+    "lines": [
+      {
+        "description": "20LT METHYLATED SPIRITS",
+        "qty": "3",
+        "line_total_incl": "255.00",
+        "unit_price_incl": "85.1667",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "09MS20",
+        "raw_qty": "3",
+        "raw_uom": null,
+        "pack_qty": "20",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "FREIGHT",
+        "qty": "1",
+        "line_total_incl": "20.00",
+        "unit_price_incl": "20.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Freight line extracted from invoice footer summary"
+        ]
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [
+      "139713"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "25.00",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "4d24d49201beeae5749ccb937d58627b28012f62d3c9c6cb042ae560dfd6ab94.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "LINE_ARITHMETIC",
+        "severity": "error",
+        "message": "'20LT METHYLATED SPIRITS': qty 3 x unit 85.1667 x pack 1 does not equal the stated line total",
+        "line_index": 0,
+        "expected": "255.50",
+        "actual": "255.00"
+      },
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $20.00 under the invoice total \u2014 expected. Skipped: FREIGHT ($20.00). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "255.00",
+        "actual": "275.00"
+      }
+    ],
+    "expected_ls_receive_total": "255.00",
+    "extras_total": "20.00"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "low",
+    "primary_account": "306",
+    "lines": [
+      {
+        "description": "20LT METHYLATED SPIRITS",
+        "account_code": "306",
+        "account_name": "Cleaning",
+        "reason": "line keyword -> Cleaning"
+      },
+      {
+        "description": "FREIGHT",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}
