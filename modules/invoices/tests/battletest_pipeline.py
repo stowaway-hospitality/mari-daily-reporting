@@ -397,15 +397,25 @@ try:
     _p, _ = _xpa._payload({"ref": "R", "supplier": "Foo Pty Ltd",
                            "lines": [{"description": "X", "amount": "11.00", "account_code": "115", "tax": "gst"}]})
     check("poller payload always has Date + DueDate", bool(_p.get("Date") and _p.get("DueDate")))
-    # credit-note refs are detected from filed JSONs
+    # credit-note refs are detected from filed JSONs. Writing a temp fixture needs
+    # a writable data/ dir; skip cleanly on a read-only checkout rather than fail.
     import json as _json2
     import os as _os2
-    _os2.makedirs(str(ROOT / "data/invoices_review"), exist_ok=True)
     _tmp = str(ROOT / "data/invoices_review/__cn_battletest__.json")
-    _json2.dump({"invoice": {"invoice_ref": "CN-BT-1", "is_credit_note": True}}, open(_tmp, "w"))
-    _cn = "CN-BT-1" in _xpa._credit_note_refs()
-    _os2.remove(_tmp)
-    check("poller flags credit notes (refuses to post as payable)", _cn)
+    try:
+        _os2.makedirs(str(ROOT / "data/invoices_review"), exist_ok=True)
+        with open(_tmp, "w") as _f:
+            _json2.dump({"invoice": {"invoice_ref": "CN-BT-1", "is_credit_note": True}}, _f)
+    except OSError:
+        skip("poller flags credit notes (refuses to post as payable)", "read-only fs")
+    else:
+        try:
+            check("poller flags credit notes (refuses to post as payable)", "CN-BT-1" in _xpa._credit_note_refs())
+        finally:
+            try:
+                _os2.remove(_tmp)
+            except OSError:
+                pass   # best-effort cleanup; a read-only FS can't remove either
 except Exception as e:
     check("poller guards", False, str(e)[:80])
 
