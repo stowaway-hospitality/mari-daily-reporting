@@ -1,0 +1,65 @@
+{
+  "invoice": {
+    "supplier_key": "foodlink",
+    "supplier_name_raw": "Foodlink Australia Pty Ltd",
+    "invoice_ref": "SI4483242",
+    "invoice_date": "2026-07-24",
+    "total_incl": "40.70",
+    "lines": [
+      {
+        "description": "ICE CREAM RUM & RAISIN 5LT Everest",
+        "qty": "1",
+        "line_total_incl": "40.70",
+        "unit_price_incl": "40.70",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": "EA",
+        "pack_qty": "5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "GST column explicitly marks this line as taxable",
+          "Amount Excl. GST 37.00 + GST 3.70 = 40.70 incl (verified)",
+          "No supplier code available on invoice"
+        ]
+      }
+    ],
+    "due_date": "2026-07-31",
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "3.70",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "e0b7f8d8eeaacbe5cef5071b1c1d4669155d2287bc51c635da4cfdabf6480132.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "40.70",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "ICE CREAM RUM & RAISIN 5LT Everest",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

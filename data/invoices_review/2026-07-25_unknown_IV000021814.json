@@ -1,0 +1,83 @@
+{
+  "invoice": {
+    "supplier_key": "unknown",
+    "supplier_name_raw": "Forster Tuncurry Removals & Storage",
+    "invoice_ref": "IV000021814",
+    "invoice_date": "2026-07-25",
+    "total_incl": "287.71",
+    "lines": [
+      {
+        "description": "Storage fees 1.8.26- 31.8.26",
+        "qty": "1",
+        "line_total_incl": "287.71",
+        "unit_price_incl": "287.71",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": "Qty",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "REJECTION: This is not a food/beverage supplier invoice. Forster Tuncurry Removals & Storage is a moving and storage company. The single line item is a storage fee service, not a stock item or recognized supplier from config/suppliers.yaml. This invoice does not belong in the Lightspeed COGS pipeline.",
+          "venue: Smiths Lake NSW 2428 address does not match Stowaway or Harry Gatos.",
+          "No PO reference present.",
+          "No supplier_code available \u2014 storage fees are not food/beverage products."
+        ]
+      }
+    ],
+    "due_date": "2026-08-01",
+    "venue": "unknown",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "26.16",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "d7d85c3d6d4b7d0d463335974d910a0f7afbbc20839dc773c39c4dd967b239f1.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "NO_VENUE",
+        "severity": "error",
+        "message": "Venue unresolved \u2014 cannot pick a product namespace. Stowaway and Harry Gatos have different ProductIDs.",
+        "line_index": null,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Storage fees 1.8.26- 31.8.26' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 0,
+        "expected": null,
+        "actual": null
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Miscellaneous",
+    "tracking_confidence": "high",
+    "primary_account": "465",
+    "lines": [
+      {
+        "description": "Storage fees 1.8.26- 31.8.26",
+        "account_code": "465",
+        "account_name": "Storage Fees",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

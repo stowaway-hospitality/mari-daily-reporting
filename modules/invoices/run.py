@@ -49,7 +49,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))   # repo root
 from modules.invoices.extract import ExtractionError, extract, parse          # noqa: E402
 from modules.invoices.validator import Status, Validator                       # noqa: E402
 
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).resolve().parents[2]   # repo root (NOT modules/) — must
+# match build_cogs_list / build_invoice_queue / pull_mailbox, which all read
+# data/invoices at the repo root. Was .parent.parent = modules/, so run.py wrote
+# every invoice to modules/data/invoices where nothing downstream ever looked —
+# emails got consumed and moved to Processed but nothing flowed to cogs or Xero.
 CONFIG = Path(__file__).parent / "suppliers.yaml"
 OUT_PASS = ROOT / "data" / "invoices"
 OUT_REVIEW = ROOT / "data" / "invoices_review"

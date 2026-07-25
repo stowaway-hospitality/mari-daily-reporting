@@ -1,0 +1,76 @@
+{
+  "invoice": {
+    "supplier_key": "unknown",
+    "supplier_name_raw": "Australian Sports Foundation",
+    "invoice_ref": "0126584-245417",
+    "invoice_date": "2026-07-24",
+    "total_incl": "203.25",
+    "lines": [
+      {
+        "description": "Donation to Australian Sports Foundation - Evie Saunders - AAF One Million Dollar Challenge",
+        "qty": "1",
+        "line_total_incl": "203.25",
+        "unit_price_incl": "203.25",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "REJECT: This is a charitable donation receipt, not a supplier invoice.",
+          "It contains no stock items, no supplier code, and no invoice structure matching any known supplier.",
+          "The company 'Stowaway Freshwater Pty Ltd' is the DONOR, not the recipient of goods/services.",
+          "This document does not reconcile to any PO and should not be processed as a COGS invoice.",
+          "Rule 0 (produce an extraction that reconciles, or refuse): REFUSE."
+        ]
+      }
+    ],
+    "due_date": null,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "e980ffadd9f9ab87a5d9d6edf9174cfb9a3092f301b0966dd3dca74863aceccb.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $203.25 under the invoice total \u2014 expected. Skipped: Donation to Australian Sports Foundation - Evie Saunders - AAF One Million Dollar Challenge ($203.25). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "0",
+        "actual": "203.25"
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "203.25"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "low",
+    "primary_account": "111",
+    "lines": [
+      {
+        "description": "Donation to Australian Sports Foundation - Evie Saunders - AAF One Million Dollar Challenge",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      }
+    ]
+  }
+}

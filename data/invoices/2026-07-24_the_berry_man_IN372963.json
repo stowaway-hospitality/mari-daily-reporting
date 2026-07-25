@@ -1,0 +1,182 @@
+{
+  "invoice": {
+    "supplier_key": "the_berry_man",
+    "supplier_name_raw": "The Berry Man NSW Pty Ltd",
+    "invoice_ref": "IN372963",
+    "invoice_date": "2026-07-24",
+    "total_incl": "164.59",
+    "lines": [
+      {
+        "description": "Mango Chunks 10x1kg",
+        "qty": "4",
+        "line_total_incl": "32.00",
+        "unit_price_incl": "8.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "MAD1",
+        "raw_qty": "4",
+        "raw_uom": "BAG",
+        "pack_qty": "10",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Dragonfruit Puree 10kg",
+        "qty": "1",
+        "line_total_incl": "85.00",
+        "unit_price_incl": "85.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "DPULP10",
+        "raw_qty": "1",
+        "raw_uom": "BOX",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Passionfruit Puree Seedless 12x1kg",
+        "qty": "2",
+        "line_total_incl": "19.00",
+        "unit_price_incl": "9.50",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "PJ1",
+        "raw_qty": "2",
+        "raw_uom": "TUB",
+        "pack_qty": "12",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Strawberry Puree Seed-In 12x1kg",
+        "qty": "4",
+        "line_total_incl": "26.00",
+        "unit_price_incl": "6.50",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "SP1",
+        "raw_qty": "4",
+        "raw_uom": "TUB",
+        "pack_qty": "12",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Card Surcharge",
+        "qty": "1",
+        "line_total_incl": "2.35",
+        "unit_price_incl": "2.35",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Card surcharge classified as extra; GST treatment inferred from footer GST calculation"
+        ]
+      }
+    ],
+    "due_date": "2026-07-24",
+    "venue": "stowaway",
+    "po_refs": [
+      "SO163247"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "0.24",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "6ab663259653840b2c7444cfeee29bf722462d21a6028e0eaf45ce19d5347170.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $2.35 under the invoice total \u2014 expected. Skipped: Card Surcharge ($2.35). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "162.00",
+        "actual": "164.59"
+      }
+    ],
+    "expected_ls_receive_total": "162.00",
+    "extras_total": "2.35"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "low",
+    "primary_account": "111",
+    "lines": [
+      {
+        "description": "Mango Chunks 10x1kg",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      },
+      {
+        "description": "Dragonfruit Puree 10kg",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      },
+      {
+        "description": "Passionfruit Puree Seedless 12x1kg",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      },
+      {
+        "description": "Strawberry Puree Seed-In 12x1kg",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      },
+      {
+        "description": "Card Surcharge",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      }
+    ]
+  }
+}

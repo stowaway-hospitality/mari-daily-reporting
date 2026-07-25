@@ -1,0 +1,101 @@
+{
+  "invoice": {
+    "supplier_key": "cfm",
+    "supplier_name_raw": "Cordless Filter Machine Pty Ltd",
+    "invoice_ref": "INV-301041",
+    "invoice_date": "2026-07-23",
+    "total_incl": "224.00",
+    "lines": [
+      {
+        "description": "CFM Sunpower Oil",
+        "qty": "80.00",
+        "line_total_incl": "224.00",
+        "unit_price_incl": "2.80",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "80.00",
+        "raw_uom": "L",
+        "pack_qty": "1",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Unit price and line total match invoice (80.00 L \u00d7 $2.80 = $224.00)"
+        ]
+      },
+      {
+        "description": "Used Oil Collection Unit",
+        "qty": "50.00",
+        "line_total_incl": "0",
+        "unit_price_incl": "0.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "50.00",
+        "raw_uom": "L",
+        "pack_qty": "1",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Zero-value line; unclear if this is a service, credit, or consumable asset. Classified unknown pending clarification."
+        ]
+      }
+    ],
+    "due_date": "2026-07-30",
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "0.00",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "1ee4214975f6971ac20cdd5d9e485d4ee5f39d6b66ba946daa91a9e4349e5292.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Used Oil Collection Unit' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 1,
+        "expected": null,
+        "actual": null
+      }
+    ],
+    "expected_ls_receive_total": "224.00",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "low",
+    "primary_account": "111",
+    "lines": [
+      {
+        "description": "CFM Sunpower Oil",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Used Oil Collection Unit",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
