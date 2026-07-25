@@ -71,12 +71,25 @@ def api_post(access, tenant, path, body) -> dict:
 def already_exists(access, tenant, api_get, contact_name: str, invoice_number: str) -> bool:
     if not invoice_number:
         return False
-    where = f'Type=="ACCPAY" AND InvoiceNumber=="{invoice_number}"'
+    # An invoice number is interpolated into Xero's query string. A stray double
+    # quote (or backslash) would produce a malformed where-clause — the query then
+    # errors, we'd treat it as "not a duplicate", and could double-post. If the
+    # number isn't query-safe, scan recent bills and match it client-side instead.
+    import re as _re
     try:
-        res = api_get(access, tenant, "Invoices", {"where": where})
+        if _re.match(r"^[A-Za-z0-9 ._/#-]+$", invoice_number):
+            where = f'Type=="ACCPAY" AND InvoiceNumber=="{invoice_number}"'
+            hits = api_get(access, tenant, "Invoices", {"where": where}).get("Invoices", [])
+        else:
+            hits = []
+            for page in range(1, 6):
+                ivs = api_get(access, tenant, "Invoices",
+                              {"where": 'Type=="ACCPAY"', "order": "Date DESC", "page": str(page)}).get("Invoices", [])
+                hits += [iv for iv in ivs if (iv.get("InvoiceNumber") or "") == invoice_number]
+                if len(ivs) < 100:
+                    break
     except Exception:
         return False
-    hits = res.get("Invoices", [])
     if not hits:
         return False
     # A bill with this number exists — but is it OURS? Two different suppliers can

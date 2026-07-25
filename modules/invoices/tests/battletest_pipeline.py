@@ -131,6 +131,22 @@ check("empty invoice number -> not a duplicate",
 check("same number, different supplier -> not a duplicate",
       xero_push.already_exists("a", "t", fg, "Foodlink Australia Pty Ltd", "COLLIDE-1") is False)
 
+
+# a ref with a stray quote must NOT be interpolated into the query (injection)
+class _RecGet:
+    def __init__(self):
+        self.queries = []
+
+    def __call__(self, a, t, path, params):
+        self.queries.append(params.get("where", ""))
+        return {"Invoices": [{"InvoiceNumber": 'AB"CD', "Type": "ACCPAY", "Contact": {"Name": "Foodlink Australia"}}]}
+
+
+_rg = _RecGet()
+_res = xero_push.already_exists("a", "t", _rg, "Foodlink Australia Pty Ltd", 'AB"CD')
+check("unsafe invoice number -> no query injection, matched client-side",
+      _res is True and all('AB"CD' not in q for q in _rg.queries))
+
 # ---- 4. queue Xero-filter degradation --------------------------------------
 print("4. queue filter")
 from modules.invoices import build_invoice_queue as biq
