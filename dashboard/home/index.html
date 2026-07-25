@@ -91,15 +91,14 @@ Auth.gate(document.getElementById('gate'), {
     document.getElementById('signout').onclick = async (e) => {
       e.preventDefault(); await Auth.logout(); location.reload();
     };
-    const tiles = TOOLS.map(t => {
-      const allowed = !t.roles || (user.role && t.roles.includes(user.role));
-      return `<a class="tile ${t.cls}" href="${allowed ? t.href : '#'}"
-                 ${allowed ? '' : 'onclick="return false" style="opacity:.55;cursor:default"'}>
+    // Only render tiles this person can actually open — the rest are hidden,
+    // not shown locked. (Direct-URL access is still gated per page.)
+    const tiles = TOOLS
+      .filter(t => !t.roles || (user.role && t.roles.includes(user.role)))
+      .map(t => `<a class="tile ${t.cls}" href="${t.href}">
         <h2>${t.title}</h2><p>${t.desc}</p>
-        ${allowed ? '<div class="arrow">Open →</div>'
-                  : '<div class="locked">🔒 Admin only — ask an admin.</div>'}
-      </a>`;
-    }).join('');
+        <div class="arrow">Open →</div>
+      </a>`).join('');
     document.getElementById('tiles').innerHTML = tiles;
   },
 });
