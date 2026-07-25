@@ -104,10 +104,12 @@ async function load() {
         <select data-email="${u.email}" class="e" title="Deputy employee — sets the wage rate their prep is costed at">${empOpts(u.employee)}</select>
         <div style="text-align:right">
           <span class="pill ${u.role?'set':'none'}">${u.role || 'no role'}</span>
+          ${u.confirmed ? '' : `<button class="ghost resend" data-email="${u.email}" style="margin-left:6px">Resend invite</button>`}
           <button class="ghost save" data-email="${u.email}" style="margin-left:6px">Save</button>
         </div>
       </div>`).join('');
     el.querySelectorAll('.save').forEach(b => b.onclick = () => saveRole(b.dataset.email));
+    el.querySelectorAll('.resend').forEach(b => b.onclick = () => resendInvite(b.dataset.email, b));
   } catch (e) {
     document.getElementById('list-msg').innerHTML =
       `<span style="color:var(--red)">Couldn't load: ${e.message}. (Is SUPABASE_SERVICE_KEY set on the worker?)</span>`;
@@ -125,6 +127,19 @@ async function saveRole(email) {
     msg.innerHTML = `<span style="color:var(--green)">${email}: ${role || 'access removed'}${venue?` · ${venue}`:''}. They pick it up on next sign-in.</span>`;
     load();
   } catch (e) { msg.innerHTML = `<span style="color:var(--red)">${e.message}</span>`; }
+}
+
+async function resendInvite(email, btn) {
+  const msg = document.getElementById('list-msg');
+  btn.disabled = true; const prev = btn.textContent; btn.textContent = 'Sending\u2026';
+  try {
+    // Everyone in this list already has an account, so a fresh set-password link
+    // (the same clean, scanner-proof link the reset flow uses) is the reliable
+    // way to re-send access to someone who hasn't set their password yet.
+    await Auth.forgotPassword(email);
+    msg.innerHTML = `<span style="color:var(--green)">Set-password link re-sent to ${email}.</span>`;
+  } catch (e) { msg.innerHTML = `<span style="color:var(--red)">${e.message}</span>`; }
+  finally { btn.disabled = false; btn.textContent = prev; }
 }
 
 window.doInvite = async () => {

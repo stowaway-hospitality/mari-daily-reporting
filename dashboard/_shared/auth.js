@@ -260,27 +260,31 @@ export const Auth = (() => {
     mount.querySelector("#_back").onclick = (e) => { e.preventDefault(); renderSignIn(mount, onOk, roles); };
   }
 
-  // ONE obvious path: enter email → we send a 6-digit code → land straight on the
-  // code-entry screen (below). No "link vs code" fork, no separate "have a code?"
-  // step to notice. (The email still contains a link, but Outlook Safe Links burns
-  // one-time links, so we lead with the code, which nothing can pre-consume.)
+  // Normal reset: enter email -> we email a link -> confirmation. Clicking the link
+  // verifies a token_hash in the browser (scanner-proof, no code) and drops the
+  // person straight on a clean "set a new password" screen (see gate()).
   function renderForgot(mount, onOk, roles) {
     mount.innerHTML = card(`
       <form id="_ff">
-        <div class="muted" style="margin:-2px 0 12px">Enter your email and we'll send a 6-digit reset code.</div>
+        <div class="muted" style="margin:-2px 0 12px">Enter your email and we'll send you a link to set a new password.</div>
         <label for="_e">Email</label><input id="_e" type="email" autocomplete="username" autofocus>
-        <button type="submit">Send reset code</button>
+        <button type="submit">Send reset link</button>
         <div class="err" id="_er"></div>
         <div class="muted" style="margin-top:10px"><a href="#" id="_back">Back to sign in</a></div>
       </form>`);
     const err = mount.querySelector("#_er");
+    const esc = s => (s || "").replace(/</g, "&lt;");
     mount.querySelector("#_ff").addEventListener("submit", async (e) => {
       e.preventDefault();
       const email = mount.querySelector("#_e").value.trim();
       if (!email) { err.style.color = "var(--red)"; err.textContent = "Enter your email first."; return; }
       const btn = e.target.querySelector("button"); btn.disabled = true; btn.textContent = "Sending…";
       try { await forgotPassword(email); } catch (_) { /* don't leak whether the email exists */ }
-      renderReset(mount, onOk, roles, email);   // advance straight to code + new password
+      mount.innerHTML = card(`
+        <b>Check your email</b>
+        <div class="muted" style="margin:8px 0 14px">If <b>${esc(email)}</b> has an account, we've sent a link to set a new password. Open it and you're in — no code needed.</div>
+        <a href="#" id="_back">Back to sign in</a>`);
+      mount.querySelector("#_back").onclick = (ev) => { ev.preventDefault(); renderSignIn(mount, onOk, roles); };
     });
     mount.querySelector("#_back").onclick = (e) => { e.preventDefault(); renderSignIn(mount, onOk, roles); };
   }
