@@ -9,8 +9,9 @@
 import fs from 'fs';
 import vm from 'vm';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const R = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
 
 // ---- lightweight DOM stub (caches elements by id so we can inspect them) ----

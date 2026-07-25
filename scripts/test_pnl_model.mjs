@@ -6,8 +6,9 @@
 import fs from 'fs';
 import vm from 'vm';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const D = p => fs.existsSync(path.join(ROOT, p)) ? fs.readFileSync(path.join(ROOT, p), 'utf8') : '';
 
 const ctx = vm.createContext({ console, Math, Date, JSON, isNaN, parseFloat, parseInt,

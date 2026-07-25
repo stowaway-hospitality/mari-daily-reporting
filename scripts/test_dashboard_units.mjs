@@ -2,7 +2,8 @@
    Snapshot of known-correct outputs — any future change that alters a formatter,
    date helper or status rule fails here before it ships. Run: node scripts/test_dashboard_units.mjs */
 import fs from 'fs'; import vm from 'vm'; import path from 'path';
-const ROOT=path.resolve(path.dirname(new URL(import.meta.url).pathname),'..');
+import { fileURLToPath } from 'url';
+const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const ctx=vm.createContext({console,Math,Date,JSON,isNaN,parseFloat,parseInt,Number,Object,Array,String,Set,Map,Boolean,RegExp,Intl});
 ctx.STATE={};
 vm.runInContext(fs.readFileSync(path.join(ROOT,'dashboard/_shared/pnl.js'),'utf8'),ctx);
