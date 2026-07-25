@@ -167,6 +167,7 @@
 
       <div class="card" id="prep-panel" style="display:none">
         <div style="font-size:16px;font-weight:600" id="prep-name">—</div>
+        <div class="note" id="prep-avg" style="margin-top:3px"></div>
         <div class="clockwrap">
           <div class="clock" id="clock">0<small>:00</small></div>
         </div>
@@ -432,7 +433,8 @@ window.renderPrepList = () => {
   const hits = SUBS.filter(r => !q || r.product.toLowerCase().includes(q));
   document.getElementById('prep-list').innerHTML = hits.length ? hits.map(r =>
     `<div class="ing" onclick="pickPrep('${encodeURIComponent(r.product)}')">
-      <div><div class="n">${esc(r.product)}</div><div class="m">makes ${esc(r.yield_qty)} ${esc(r.yield_unit)}</div></div>
+      <div><div class="n">${esc(r.product)}</div><div class="m">makes ${esc(r.yield_qty)} ${esc(r.yield_unit)}${
+        r.prep_count ? ` · avg ${esc(r.prep_minutes_avg)} min` : ` · not timed yet`}</div></div>
       <div class="c">›</div></div>`).join('')
     : `<div class="empty">${SUBS.length ? 'No match.' : 'No batch recipes yet — give a batch a yield in Build, then time it here.'}</div>`;
 };
@@ -440,6 +442,10 @@ window.renderPrepList = () => {
 window.pickPrep = (enc) => {
   prepRecipe = decodeURIComponent(enc);
   document.getElementById('prep-name').textContent = prepRecipe;
+  const b = SUBS.find(s => s.product === prepRecipe) || {};
+  document.getElementById('prep-avg').textContent = b.prep_count
+    ? `Currently averaging ${b.prep_minutes_avg} min over the last ${Math.min(b.prep_count, 4)} of ${b.prep_count} prep${b.prep_count > 1 ? 's' : ''}.`
+    : `No preps logged yet — this will be the first.`;
   document.getElementById('prep-panel').style.display = '';
   resetTimer();
   document.getElementById('log-result').textContent = '';

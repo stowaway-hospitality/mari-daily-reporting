@@ -33,9 +33,11 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from datetime import date
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Optional
+
+import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 CALIB = ROOT / "data" / "wage_calibration.json"
@@ -128,6 +130,38 @@ class PrepSession:
     minutes: Decimal
     recorded_on: date
     venue: Optional[str] = None
+
+
+def load_prep_sessions(directory: Path) -> list[PrepSession]:
+    """
+    Every prep the timer has logged, from data/prep_sessions/<venue>.yaml (the
+    worker's /prep append). This is what turns 'a chef timed it' into a number in
+    the dish cost — without loading these, product_labour has nothing to average.
+    Malformed rows are skipped, never guessed.
+    """
+    out: list[PrepSession] = []
+    if not directory.exists():
+        return out
+    for f in sorted(directory.glob("*.yaml")):
+        venue = f.stem
+        try:
+            docs = yaml.safe_load(f.read_text()) or []
+        except Exception:
+            continue
+        for d in docs if isinstance(docs, list) else []:
+            if not isinstance(d, dict):
+                continue
+            try:
+                out.append(PrepSession(
+                    product=str(d["product"]),
+                    who=str(d.get("who") or d.get("who_name") or ""),
+                    minutes=Decimal(str(d["minutes"])),
+                    recorded_on=date.fromisoformat(str(d["recorded_on"])[:10]),
+                    venue=venue,
+                ))
+            except (KeyError, InvalidOperation, ValueError, TypeError):
+                continue
+    return out
 
 
 def session_cost(s: PrepSession) -> Optional[Decimal]:

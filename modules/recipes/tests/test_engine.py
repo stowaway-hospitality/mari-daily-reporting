@@ -235,6 +235,23 @@ def test_product_labour_uses_only_the_last_four_preps():
     assert product_labour("Squid", ss, on=date(2026, 7, 20)) == want
 
 
+def test_load_prep_sessions_reads_the_workers_format(tmp_path):
+    """The timer logs via the worker; this loader is what feeds product_labour."""
+    from modules.recipes.labour import load_prep_sessions
+    d = tmp_path / "prep_sessions"
+    d.mkdir()
+    (d / "stowaway.yaml").write_text(
+        '- product: "Chilli Batch"\n  who: "e1"\n  who_name: "Amy"\n  minutes: 12\n'
+        '  recorded_on: 2026-07-20\n  recorded_by: "a@x"\n'
+        '- product: "Broken"\n  minutes: 5\n')                    # no recorded_on -> skipped
+    ss = load_prep_sessions(d)
+    assert len(ss) == 1                                            # the malformed one is dropped
+    assert ss[0].product == "Chilli Batch"
+    assert ss[0].venue == "stowaway"                              # venue = the file stem
+    assert ss[0].minutes == Decimal("12")
+    assert load_prep_sessions(tmp_path / "nope") == []            # missing dir -> empty, no crash
+
+
 # ---- dual GP ---------------------------------------------------------------
 
 def test_breakdown_shows_gp_both_ways(costs):

@@ -36,9 +36,12 @@ sys.path.insert(0, str(ROOT))
 
 from core.domain import CostSeries, load_cost_observations       # noqa: E402
 from modules.recipes.cost import cost_on, load_recipes           # noqa: E402
-from modules.recipes.labour import venue_estimate_rate_per_minute  # noqa: E402
+from modules.recipes.labour import (load_prep_sessions,          # noqa: E402
+                                    product_labour,
+                                    venue_estimate_rate_per_minute)
 
 DATA = ROOT / "data"
+PREP_DIR = DATA / "prep_sessions"
 VENUES = ["stowaway", "harry_gatos", "marilynas"]
 
 
@@ -63,8 +66,10 @@ def recipes_index() -> dict:
     except FileNotFoundError:
         costs = CostSeries([])
     today = date.today()
+    sessions = load_prep_sessions(PREP_DIR)   # what the prep timer logged
     items = []
     for v in VENUES:
+        venue_sessions = [s for s in sessions if s.venue == v]
         recipes = load_recipes(v)
         # latest version per product
         latest: dict[str, object] = {}
@@ -81,6 +86,9 @@ def recipes_index() -> dict:
                 "usable_as_subrecipe": bool(r.yield_qty and r.yield_unit),
                 "cost": None,
                 "cost_per_yield_unit": None,
+                "prep_minutes_avg": None,   # mean of the last 4 preps (display)
+                "prep_count": 0,            # how many preps logged (confidence)
+                "prep_cost": None,          # last-4 prep labour, $, at real rates
             }
             try:
                 c = cost_on(r, costs, today, price_mode="rolling", recipes=recipes)
@@ -89,6 +97,17 @@ def recipes_index() -> dict:
                     entry["cost_per_yield_unit"] = _dec((c / r.yield_qty).quantize(Decimal("0.000001")))
             except Exception:
                 pass   # a recipe we can't fully cost yet still lists for selection
+
+            # prep labour: the LAST 4 timed preps of this batch flow into its cost
+            prod_sessions = [s for s in venue_sessions if s.product == r.product]
+            if prod_sessions:
+                last4 = sorted(prod_sessions, key=lambda s: s.recorded_on, reverse=True)[:4]
+                entry["prep_minutes_avg"] = _dec(
+                    (sum((s.minutes for s in last4), Decimal("0")) / len(last4)).quantize(Decimal("0.1")))
+                entry["prep_count"] = len(prod_sessions)
+                pl = product_labour(r.product, venue_sessions, on=today, last_n=4)
+                if pl is not None:
+                    entry["prep_cost"] = _dec(pl.quantize(Decimal("0.0001")))
             items.append(entry)
     return {"generated_at": today.isoformat(), "recipes": items}
 
