@@ -121,21 +121,36 @@ function renderDay(d) {
     el.addEventListener('click', () => pickTable(el.dataset.pick, el)));
 }
 
-function showGuestLink() {
-  // Per-event deep link: the widget preselects the ?date= event (or shows
-  // its walk-ins notice once the cutoff passes). One link per event card.
-  const url = `${API}/?date=${SEL.date}`;
-  const g = $('guestlink');
-  g.innerHTML = `Guest link · ${SEL.name}:&nbsp;<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
+function copyBtn(text, label) {
   const b = document.createElement('button');
   b.className = 'mini';
-  b.textContent = 'copy link';
+  b.textContent = label;
   b.onclick = async () => {
-    try { await navigator.clipboard.writeText(url); b.textContent = 'copied ✓'; }
-    catch { b.textContent = url; }
-    setTimeout(() => { b.textContent = 'copy link'; }, 1600);
+    try { await navigator.clipboard.writeText(text); b.textContent = 'copied ✓'; }
+    catch { b.textContent = 'copy failed'; }
+    setTimeout(() => { b.textContent = label; }, 1600);
   };
-  g.appendChild(b);
+  return b;
+}
+
+function showGuestLink() {
+  // Per-event deep link + the matching Wix embed snippet. bare=1 strips the
+  // widget's hero so the Wix page's own theming carries the look.
+  const url = `${API}/?date=${SEL.date}`;
+  const embed = `<iframe src="${API}/?bare=1&date=${SEL.date}" `
+    + `style="width:100%;max-width:560px;height:780px;border:0" `
+    + `title="Book ${SEL.name}"></iframe>`;
+  const g = $('guestlink');
+  g.innerHTML = '';
+  const row1 = document.createElement('div');
+  row1.className = 'glrow';
+  row1.innerHTML = `Guest link · ${SEL.name}:&nbsp;<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
+  row1.appendChild(copyBtn(url, 'copy link'));
+  const row2 = document.createElement('div');
+  row2.className = 'glrow';
+  row2.innerHTML = `Wix embed:&nbsp;<code class="embedcode" title="${embed.replace(/"/g, '&quot;')}">${embed.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</code>`;
+  row2.appendChild(copyBtn(embed, 'copy embed'));
+  g.append(row1, row2);
 }
 
 async function pickTable(id, chip) {
