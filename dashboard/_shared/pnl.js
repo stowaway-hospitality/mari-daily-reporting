@@ -643,20 +643,21 @@ function sphAggregate(venue, sIso, eIso) {
   const rows = STATE.sph || [];
   if (!rows.length) return null;
   const want = venue === 'group' ? ['stow', 'hg', 'mari'] : [venue];
-  let sales = 0, txns = 0, guests = 0; const days = {};
+  let sales = 0, txns = 0, guests = 0, guestSales = 0; const days = {};
   for (const r of rows) {
     const v = sphVenueCode(r.Venue);
     if (want.indexOf(v) < 0) continue;
     const d = r.Date;
     if (!(d >= sIso && d <= eIso)) continue;
-    sales += toNum(r.Sales); txns += toNum(r.Transactions); guests += toNum(r.Guests);
-    days[d] = 1;
+    sales += toNum(r.Sales); txns += toNum(r.Transactions); days[d] = 1;
+    const g = toNum(r.Guests);
+    if (g) { guests += g; guestSales += toNum(r.Sales); }   // only rows that logged guests
   }
   if (!txns) return null;
   const vset = {};
   for (const r of rows) { const v = sphVenueCode(r.Venue); if (want.indexOf(v) >= 0 && r.Date >= sIso && r.Date <= eIso && toNum(r.Transactions)) vset[v] = 1; }
   return { sales, txns, guests, perTxn: sales / txns,
-           perGuest: guests ? sales / guests : null, days: Object.keys(days).length,
+           perGuest: (guests && guests >= txns * 0.5) ? guestSales / guests : null,  /* only when guests logged on most sales (HG dine-in); sparse-guest venues (bar/pizza) -> no per-guest */ days: Object.keys(days).length,
            venues: Object.keys(vset).sort().join(',') };
 }
 
