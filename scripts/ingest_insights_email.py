@@ -34,6 +34,10 @@ STATE_FILE = os.environ.get("STATE_FILE", ".ingest/processed.json")
 SYD = timezone(timedelta(hours=10))   # AEST (fine for date-stamping)
 
 SUBJECT_MAP = [
+    # Hourly MUST come first: "Stow Hourly RG Auto" also contains "stow", and we
+    # must NOT route the hour x reporting-group CSV into the DAILY pipeline (it
+    # has a completely different shape). It fires the hourly pull instead.
+    (re.compile(r"hourly", re.I),          ("stow-hourly-arrived",  "stowaway")),
     (re.compile(r"\bstow\b", re.I),        ("stow-csv-arrived",     "stowaway")),
     (re.compile(r"\b(hg|harry)\b", re.I),  ("hg-csv-arrived",       "harry")),
     (re.compile(r"\bmari", re.I),          ("insights-csv-arrived", "marilynas")),
