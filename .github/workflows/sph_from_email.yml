@@ -1,0 +1,44 @@
+name: SPH from Email
+
+# Self-sustaining Average-Spend feed. Reads the daily "Daily Sales Auto" emails
+# already arriving in the ingest Gmail, extracts the transaction COUNT + total
+# sales per venue, and upserts data/sph_daily.csv (the file the dashboard's
+# Average Spend card reads). No Snapshot schedule, no Custom Insights, no extra
+# logins. Idempotent (upsert by Date+Venue); BODY.PEEK so the inbox is untouched.
+# Secrets: GMAIL_ADDRESS, GMAIL_APP_PASSWORD.
+
+on:
+  schedule:
+    - cron: '40 23 * * *'   # ~09:40 AEST — after the evening "Daily Sales Auto" batch
+    - cron: '40 1 * * *'    # ~11:40 AEST — late batch
+    - cron: '0 6 * * *'     # ~16:00 AEST — catch the morning-sent report
+  workflow_dispatch:
+
+concurrency:
+  group: sph-from-email
+  cancel-in-progress: false
+
+jobs:
+  sph:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+
+      - name: Extract SPH counts from the Daily Sales Auto emails
+        env:
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python3 scripts/sph_from_email.py
+
+      - name: Commit sph_daily.csv
+        if: always()
+        run: |
+          git config user.name "SPH Email"
+          git config user.email "hello@stowawaybar.com"
+          git add data/sph_daily.csv 2>/dev/null || true
+          git diff --quiet --staged || git commit -m "sph from email $(date -u +%FT%TZ)"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break || sleep $((i*5)); done

@@ -265,3 +265,22 @@ inbox parses them → updates `data/sph_daily.csv` → dashboard refreshes. HG v
 Snapshot (site-level); Stow+Mari via the Custom-Insights login (reporting-group
 split). `sph_daily.csv` venue labels: Stowaway, Marilynas, Marilynas-Uber,
 HarryGatos.
+
+## Average-spend (SPH) ongoing feed — SOLVED without extra logins
+
+The Average Spend card reads `data/sph_daily.csv`. History (to 2026-07-05) was
+backfilled from the weekly SPH pull. Ongoing days now come **automatically** from
+the daily "Daily Sales Auto" emails already arriving in the ingest Gmail — those
+ZIPs carry a `sales_by_staff (line added)` grand-total row with `# of Sales`, and
+`reporting_groups`/`sales_by_category` per-group counts.
+
+`scripts/sph_from_email.py` (workflow `SPH from Email`, cron 3×/day) reads those
+emails over IMAP, extracts transactions + inc-GST sales per venue, and upserts
+sph_daily.csv:
+  HarryGatos = HG email total · Marilynas = Mari email total ·
+  Stowaway (bar) = Stow email total − Mari email total (the Stow email is the
+  whole till, incl Marilyna's reporting groups).
+Deploy trigger updated so an sph_daily.csv change publishes. No Snapshot
+schedule, no Custom Insights, no new logins — the redundant HG "Snapshot"
+schedule in Lightspeed can be deleted. Guests aren't in these emails, so
+per-guest is blank for email-fed days (the weekly pull still fills HG guests).
