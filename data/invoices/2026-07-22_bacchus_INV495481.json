@@ -1,0 +1,96 @@
+{
+  "invoice": {
+    "supplier_key": "bacchus",
+    "supplier_name_raw": "Bacchus Wine Merchants P/L",
+    "invoice_ref": "INV495481",
+    "invoice_date": "2026-07-22",
+    "total_incl": "191.57",
+    "lines": [
+      {
+        "description": "Petit Detour Rose 2024",
+        "qty": "1",
+        "line_total_incl": "191.57",
+        "unit_price_incl": "15.9642",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "PETDETROSE",
+        "raw_qty": "1",
+        "raw_uom": "CS(12)",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Discount 10% applied to net amount before WET calculation",
+          "WET = 135.00 \u00d7 0.29 = 39.15 \u2713",
+          "GST = (135.00 + 39.15) \u00d7 0.10 = 17.42 \u2713",
+          "Gross = 135.00 \u00d7 1.29 \u00d7 1.1 = 191.57 \u2713"
+        ]
+      },
+      {
+        "description": "Waiving shipping as requested by rep",
+        "qty": "0",
+        "line_total_incl": "0",
+        "unit_price_incl": "0.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "wet",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "NOTE",
+        "raw_qty": "0",
+        "raw_uom": "NOTE",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Zero-value shipping waiver \u2014 classified as extra, not stock"
+        ]
+      }
+    ],
+    "due_date": "2026-08-21",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "17.42",
+    "wet_total": "39.15",
+    "account_code": null,
+    "source_pdf": "457140755038aeeb096f575393f55660eea5d403903b8401976a3c3ace429c50.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "191.57",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "Petit Detour Rose 2024",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      },
+      {
+        "description": "Waiving shipping as requested by rep",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      }
+    ]
+  }
+}
