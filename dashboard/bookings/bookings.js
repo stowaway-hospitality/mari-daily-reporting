@@ -134,23 +134,22 @@ function copyBtn(text, label) {
 }
 
 function showGuestLink() {
-  // Per-event deep link + the matching Wix embed snippet. bare=1 strips the
-  // widget's hero so the Wix page's own theming carries the look.
+  // One compact row per event: short hyperlink + copy buttons. The full URL
+  // and Wix iframe snippet live in the clipboard, not on screen.
   const url = `${API}/?date=${SEL.date}`;
   const embed = `<iframe src="${API}/?bare=1&date=${SEL.date}" `
     + `style="width:100%;max-width:560px;height:780px;border:0" `
     + `title="Book ${SEL.name}"></iframe>`;
+  const short = new Date(SEL.date + 'T12:00:00').toLocaleDateString('en-AU',
+    { day: 'numeric', month: 'short' });
   const g = $('guestlink');
   g.innerHTML = '';
-  const row1 = document.createElement('div');
-  row1.className = 'glrow';
-  row1.innerHTML = `Guest link · ${SEL.name}:&nbsp;<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
-  row1.appendChild(copyBtn(url, 'copy link'));
-  const row2 = document.createElement('div');
-  row2.className = 'glrow';
-  row2.innerHTML = `Wix embed:&nbsp;<code class="embedcode" title="${embed.replace(/"/g, '&quot;')}">${embed.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</code>`;
-  row2.appendChild(copyBtn(embed, 'copy embed'));
-  g.append(row1, row2);
+  const row = document.createElement('div');
+  row.className = 'glrow';
+  row.innerHTML = `🔗 <a href="${url}" target="_blank" rel="noopener">Booking page — ${SEL.name}, ${short}</a>`;
+  row.appendChild(copyBtn(url, 'copy link'));
+  row.appendChild(copyBtn(embed, 'copy Wix embed'));
+  g.appendChild(row);
 }
 
 async function pickTable(id, chip) {
