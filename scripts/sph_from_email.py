@@ -132,6 +132,10 @@ def load_sph():
 def put(rows, date, venue, txns, sales):
     if txns <= 0 or sales <= 0:
         return
+    sps = sales / txns
+    if not (2.0 <= sps <= 2000.0):          # sanity: a real avg spend is a few $ to a few hundred
+        print(f"  REJECT {date} {venue}: implausible ${sps:.2f}/txn ({txns} txns, ${sales:.2f})")
+        return
     rows[(date, venue)] = {
         "Date": date, "Venue": venue,
         "Sales": f"{sales:.2f}", "Transactions": str(txns),
