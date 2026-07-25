@@ -85,7 +85,7 @@ const money = n => '$' + Number(n).toFixed(2);
 const unitLabel = u => u === 'ea' ? 'each' : ('per ' + u);
 
 Auth.gate(document.getElementById('gate'), {
-  roles: ['admin'],
+  roles: ['admin','bigchef','stowfood','hgfood','pizza'],
   onOk: async (user) => {
     document.getElementById('app').style.display = '';
     document.getElementById('who').textContent = user.name;
