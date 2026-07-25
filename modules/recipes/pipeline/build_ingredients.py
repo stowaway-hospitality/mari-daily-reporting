@@ -68,12 +68,23 @@ RECENT_DAYS = 90
 
 # --- pack parsing ----------------------------------------------------------
 # Order matters: multipack before single, or "6X500GM" reads as "500GM".
-_MULTI = re.compile(r"(?<![\d/])(\d{1,3})\s*[xX]\s*(\d+(?:\.\d+)?)\s*(KG|GM|G|ML|LT|L)\b", re.I)
-_SINGLE = re.compile(r"(?<![\d/xX])(\d+(?:\.\d+)?)\s*(KG|GM|G|ML|LT|L)\b", re.I)
+# Unit alternation: longest first so "LTR"/"LITRE" win over "LT"/"L".
+_UNIT = r"KG|GM|G|ML|LITRE|LTR|LT|L"
+_MULTI = re.compile(rf"(?<![\d/])(\d{{1,3}})\s*[xX]\s*(\d+(?:\.\d+)?)\s*({_UNIT})\b", re.I)
+_SINGLE = re.compile(rf"(?<![\d/xX])(\d+(?:\.\d+)?)\s*({_UNIT})\b", re.I)
+# Case format "20/454gm" = twenty pieces of 454 g. The invoice prices the PIECE,
+# so the second number is the pack we cost by. Distinct from a size grade like
+# "200/300" (no unit) — the trailing unit is what tells them apart, which is why
+# this is matched BEFORE _NOT_A_PACK strips bare "\d+/\d+".
+_CASEPACK = re.compile(rf"(\d{{1,3}})\s*/\s*(\d+(?:\.\d+)?)\s*({_UNIT})\b", re.I)
+# A bare count with no weight: "Pizza Boxes 11\" x 50", "Garlic Bread 9\" x 40".
+# N discrete pieces, carton-priced — resolve_pack divides the line by N.
+_COUNT = re.compile(rf"[xX]\s*(\d{{1,4}})\s*$")
 
 _TO_BASE = {  # -> (grams|ml), base unit
     "KG": (1000, "g"), "GM": (1, "g"), "G": (1, "g"),
-    "L": (1000, "ml"), "LT": (1000, "ml"), "ML": (1, "ml"),
+    "L": (1000, "ml"), "LT": (1000, "ml"), "LTR": (1000, "ml"),
+    "LITRE": (1000, "ml"), "ML": (1, "ml"),
 }
 
 # Things that look like packs but are not. All from real invoice text.
@@ -129,6 +140,14 @@ def parse_pack(desc: str) -> tuple[Decimal | None, str | None, str]:
     Returns (None, None, reason) when the pack is not confidently readable.
     That is a feature. See module docstring.
     """
+    # Case format "N/Msize" must be read BEFORE _NOT_A_PACK strips bare "\d+/\d+".
+    # The invoice prices one piece, so we cost by the piece size (the 2nd number).
+    m = _CASEPACK.search(desc)
+    if m:
+        size, unit = Decimal(m.group(2)), m.group(3).upper()
+        mult, base = _TO_BASE[unit]
+        return size * mult, base, f"{m.group(1)}/{size}{unit.lower()} (per piece)"
+
     d = _NOT_A_PACK.sub(" ", desc)
 
     m = _MULTI.search(d)
@@ -153,11 +172,19 @@ def parse_pack(desc: str) -> tuple[Decimal | None, str | None, str]:
     # size; it is how produce is sold -- $2.40 per kg, buy what you like.
     # Missed on the first run and it skipped half of Select Fresh (onion,
     # carrot, lemon, garlic), which is most of what a kitchen actually cooks.
-    m = re.search(r"(?:^|\s)(?:/\s*)?(KG|LT|L|ML|GM|G)\s*$", desc, re.I)
+    m = re.search(rf"(?:^|\s)(?:/\s*)?({_UNIT})\s*$", desc, re.I)
     if m:
         u = m.group(1).upper()
         mult, base = _TO_BASE[u]
         return Decimal(mult), base, f"per {u.lower()}"
+
+    # No weight anywhere, but a trailing count ("... x 50") = N discrete pieces.
+    # Last resort, so a weighable pack always wins first.
+    m = _COUNT.search(desc)
+    if m:
+        n = int(m.group(1))
+        if 1 < n <= 2000:
+            return Decimal(n), "ea", f"x{n} (count)"
 
     return None, None, "no pack found in description"
 
@@ -169,8 +196,25 @@ _DISCRETE = [
     ("BOX", "box"), ("EACH", "ea"), ("DOZ", "doz"), ("PKT", "pkt"), ("PACKET", "pkt"),
 ]
 
+# The unit some suppliers put as the last word of the code. Weight/volume words
+# map to a base quantity; discrete words to a countable unit. "Market" is NOT
+# here on purpose — it states a price basis, not a pack size, so it stays a
+# confirm-once. Never guess a unit that isn't written down.
+_CODE_UNITS = {
+    "kilogram": (Decimal(1000), "g"), "kg": (Decimal(1000), "g"),
+    "litre": (Decimal(1000), "ml"), "liter": (Decimal(1000), "ml"),
+    "punnet": (Decimal(1), "punnet"), "bunch": (Decimal(1), "bunch"),
+    "box": (Decimal(1), "box"), "tray": (Decimal(1), "tray"),
+    "each": (Decimal(1), "ea"), "dozen": (Decimal(1), "doz"),
+}
 
-def resolve_pack(desc: str, cost, basis: str = "", note: str = ""
+
+def _code_unit(code: str):
+    w = (code or "").split()
+    return _CODE_UNITS.get(w[-1].lower()) if w else None
+
+
+def resolve_pack(desc: str, cost, basis: str = "", note: str = "", code: str = ""
                  ) -> tuple[Decimal | None, str | None, Decimal | None, str, str | None]:
     """
     THE one place a supplier line becomes a cost in a unit a chef can use.
@@ -205,13 +249,28 @@ def resolve_pack(desc: str, cost, basis: str = "", note: str = ""
     qty, unit, how = parse_pack(desc)
     if qty and unit and unit in ("g", "ml"):
         ctn = re.search(r"CTN[-\s]?(\d+)", note, re.I)
-        if ctn and "x" not in how:          # a single piece + "carton of N"
+        # A carton note multiplies a SINGLE piece. Skip it when the description
+        # already stated the multiplicity ("6x500g") or a per-piece case format
+        # ("20/454gm") — those are priced per piece, not per carton.
+        if ctn and "x" not in how and "piece" not in how:
             n = int(ctn.group(1))
             qty, how = qty * n, f"{how} x CTN-{n} (invoice)"
         per = (cost / qty).quantize(Decimal("0.000001"))
         return qty, unit, per, how, out_of_bounds(per, unit)
-    if qty and unit:                          # parse_pack already found a discrete unit
-        return qty, unit, cost, how, out_of_bounds(cost, unit)
+    if qty and unit:                          # a discrete unit or a counted carton
+        # Divide by qty so a counted carton ("x 50") costs per piece; harmless for
+        # qty=1 (bunch/tray/each), where per == cost.
+        per = (cost / qty).quantize(Decimal("0.000001"))
+        return qty, unit, per, how, out_of_bounds(per, unit)
+
+    # Some suppliers (Fresh Fruit Team) encode the sold unit in the code's
+    # trailing word: "KITOSPKG Kilogram", "TCPUN Punnet", "HTBCH Bunch". Trust it
+    # when the description gave us nothing — it is stated data, not a guess.
+    cu = _code_unit(code)
+    if cu:
+        u_qty, u_base = cu
+        per = (cost / u_qty).quantize(Decimal("0.000001"))
+        return u_qty, u_base, per, f"code:{code.split()[-1].lower()}", out_of_bounds(per, u_base)
 
     hay = f"{desc} {note}"
     for word, u in _DISCRETE:
@@ -259,7 +318,7 @@ def main() -> int:
 
         pack_cost = Decimal(r["cost_per_unit_incl_gst"])
         qty, unit, per, how, bad = resolve_pack(
-            desc, pack_cost, basis=r.get("basis", ""), note=r.get("note", ""))
+            desc, pack_cost, basis=r.get("basis", ""), note=r.get("note", ""), code=code)
         # a chef has confirmed this pack -> use their size so it costs and stops
         # showing "confirm pack" (same override the cost feed reads)
         if (not qty or not unit or bad) and key in overrides:
