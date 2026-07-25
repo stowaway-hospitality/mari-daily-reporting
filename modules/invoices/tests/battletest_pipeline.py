@@ -241,6 +241,59 @@ else:
     except Exception as e:
         check("account/tracking validity", False, str(e)[:80])
 
+print("11. WET / negative lines / encrypted PDF")
+from decimal import Decimal as _D
+
+from modules.invoices import build_corpus as _bc
+from modules.invoices.models import CostBasis as _CB
+from modules.invoices.models import Invoice as _Inv
+from modules.invoices.models import InvoiceLine as _IL
+from modules.invoices.models import LineClass as _LC
+from modules.invoices.models import TaxTreatment as _TT
+from modules.invoices.models import Venue as _V
+from modules.invoices.parsers import parse_pdf as _pp
+_k2d = {v: k for k, v in _bc.DOMAIN_KEY.items()}
+# WET (wine) invoice reconciles through build_bill with valid tax types
+_wet = None
+for _s in ("paramount", "ilg", "bacchus"):
+    if _s not in _k2d or _wet is not None:
+        continue
+    for _pdf in sorted(glob.glob(str(ROOT / f"data/invoice_corpus/{_s}/*.pdf"))):
+        try:
+            _iv = _pp(open(_pdf, "rb").read(), _k2d[_s])
+        except Exception:
+            continue
+        if _iv and any(l.tax_treatment == _TT.WET for l in _iv.lines):
+            _pl, _rb, _ = xero_push.build_bill(_iv)
+            _wet = abs(_rb - _D(str(_iv.total_incl))) < _D("0.5") and all(l["TaxType"] for l in _pl["LineItems"])
+            break
+if _wet is not None:
+    check("WET invoice reconciles through build_bill", _wet)
+# return (negative) line preserved + reconciles
+import datetime as _dtm
+_ni = _Inv(supplier_key="be_foods", supplier_name_raw="B&E Foods Pty Ltd", invoice_ref="TEST-NEG",
+           invoice_date=_dtm.date(2026, 7, 20), total_incl=_D("88.00"), venue=_V.STOWAWAY, lines=[
+               _IL(description="Chicken", qty=_D("1"), line_total_incl=_D("110.00"), unit_price_incl=_D("110.00"),
+                   line_class=_LC.STOCK, tax_treatment=_TT.GST, cost_basis=_CB.PER_UNIT),
+               _IL(description="Return", qty=_D("-1"), line_total_incl=_D("-22.00"), unit_price_incl=_D("-22.00"),
+                   line_class=_LC.STOCK, tax_treatment=_TT.GST, cost_basis=_CB.PER_UNIT)])
+_pl, _rb, _ = xero_push.build_bill(_ni)
+check("return (negative) line reconciles + preserved",
+      abs(_rb - _D("88.00")) < _D("0.5") and any(_D(str(l["LineAmount"])) < 0 for l in _pl["LineItems"]))
+# encrypted PDF -> clean exit 1
+try:
+    import fitz as _fitz
+    _src = glob.glob(str(ROOT / "data/invoice_corpus/foodlink/*.pdf"))[0]
+    _enc = tempfile.mktemp(suffix=".pdf")
+    _doc = _fitz.open(_src)
+    _doc.save(_enc, encryption=_fitz.PDF_ENCRYPT_AES_256, owner_pw="o", user_pw="s")
+    _doc.close()
+    _r = subprocess.run([sys.executable, str(ROOT / "modules/invoices/run.py"), "--pdf", _enc, "--source", "enc"],
+                        capture_output=True, text=True, cwd=str(ROOT))
+    check("encrypted PDF -> clean exit 1", _r.returncode == 1, f"rc={_r.returncode}")
+except Exception as e:
+    check("encrypted PDF test", False, str(e)[:60])
+
 print()
 print(f"{'ALL PASS' if _fail == 0 else str(_fail) + ' FAILED'}")
 sys.exit(1 if _fail else 0)
