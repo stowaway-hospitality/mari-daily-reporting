@@ -1,0 +1,153 @@
+{
+  "invoice": {
+    "supplier_key": "sun_circle",
+    "supplier_name_raw": "Sun Circle Food Manufacturing Pty Ltd",
+    "invoice_ref": "16962",
+    "invoice_date": "2026-07-23",
+    "total_incl": "776.00",
+    "lines": [
+      {
+        "description": "Pork & Parsley Dumpling \u4f73\u51a0\u8c6c\u8089\u82ab\u831c(\u9999\u83dc)\u6c34\u9903 - 600g x 24",
+        "qty": "48",
+        "line_total_incl": "216.00",
+        "unit_price_incl": "4.50",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "48x4.50",
+        "raw_uom": null,
+        "pack_qty": "0.6",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Handwritten invoice \u2014 Sun Circle, Dext cannot extract, read visually.",
+          "qty 48 units at $4.50 = $216. pack_size treated as 1 (per-unit) since qty is the item count.",
+          "GST-free assumed (basic food); Total $776 = 216+216+216+128 = 776, consistent with no GST."
+        ]
+      },
+      {
+        "description": "Chicken & Corn Dumpling \u4f73\u51a0\u96de\u8089\u7389\u7c73\u6c34\u9903 - 600g x 24",
+        "qty": "48",
+        "line_total_incl": "216.00",
+        "unit_price_incl": "4.50",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "48x4.50",
+        "raw_uom": null,
+        "pack_qty": "0.6",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Handwritten. 48 x 4.50 = 216."
+        ]
+      },
+      {
+        "description": "Beef & Cabbage Dumpling \u4f73\u51a0\u725b\u8089\u9ad8\u9e97\u83dc\u6c34\u9903 - 600g x 24",
+        "qty": "48",
+        "line_total_incl": "216.00",
+        "unit_price_incl": "4.50",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "48x4.50",
+        "raw_uom": null,
+        "pack_qty": "0.6",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Handwritten. 48 x 4.50 = 216."
+        ]
+      },
+      {
+        "description": "Prawn Har Gao (Large) - 50 pieces \u4f73\u51a0\u9bae\u8766\u9903(\u5927\u5305) - 1000g x 15",
+        "qty": "4",
+        "line_total_incl": "128.00",
+        "unit_price_incl": "32.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "4x32",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Handwritten. 4 x 32 = 128."
+        ]
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "0.00",
+    "wet_total": null,
+    "account_code": "Harry Gato (handwritten To: field)",
+    "source_pdf": "07f535bbdab17f278132ade8bb176d980d4df1314efe2d8681c24493143fff93.pdf",
+    "extractor_version": "claude-opus-4-8"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "776.00",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "Pork & Parsley Dumpling \u4f73\u51a0\u8c6c\u8089\u82ab\u831c(\u9999\u83dc)\u6c34\u9903 - 600g x 24",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Chicken & Corn Dumpling \u4f73\u51a0\u96de\u8089\u7389\u7c73\u6c34\u9903 - 600g x 24",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Beef & Cabbage Dumpling \u4f73\u51a0\u725b\u8089\u9ad8\u9e97\u83dc\u6c34\u9903 - 600g x 24",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Prawn Har Gao (Large) - 50 pieces \u4f73\u51a0\u9bae\u8766\u9903(\u5927\u5305) - 1000g x 15",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

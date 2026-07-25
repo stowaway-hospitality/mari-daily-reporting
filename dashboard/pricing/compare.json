@@ -1,7 +1,7 @@
 {
-  "generated": "2026-07-25",
-  "count": 185,
-  "compared": 3,
+  "generated": "2026-07-26",
+  "count": 194,
+  "compared": 7,
   "ingredients": [
     {
       "key": "cauliflower floret",
@@ -58,6 +58,122 @@
       "min": 3.1,
       "max": 3.9,
       "spread_pct": 25.8,
+      "multi": true,
+      "suspect": false
+    },
+    {
+      "key": "beef cabbage dumpling",
+      "name": "Beef Cabbage Dumpling",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Sun Circle",
+          "cost": 7.5,
+          "date": "2026-07-16",
+          "desc": "Beef & Cabbage Dumpling 600g x 24",
+          "change_pct": null,
+          "n": 1
+        },
+        {
+          "supplier": "Sun Circle Food Manufacturing Pty Ltd",
+          "cost": 7.5,
+          "date": "2026-07-23",
+          "desc": "Beef & Cabbage Dumpling \u4f73\u51a0\u725b\u8089\u9ad8\u9e97\u83dc\u6c34\u9903 - 600g x 24",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Sun Circle",
+      "min": 7.5,
+      "max": 7.5,
+      "spread_pct": 0.0,
+      "multi": true,
+      "suspect": false
+    },
+    {
+      "key": "chicken corn dumpling",
+      "name": "Chicken Corn Dumpling",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Sun Circle",
+          "cost": 7.5,
+          "date": "2026-07-16",
+          "desc": "Chicken & Corn Dumpling 600g x 24",
+          "change_pct": null,
+          "n": 1
+        },
+        {
+          "supplier": "Sun Circle Food Manufacturing Pty Ltd",
+          "cost": 7.5,
+          "date": "2026-07-23",
+          "desc": "Chicken & Corn Dumpling \u4f73\u51a0\u96de\u8089\u7389\u7c73\u6c34\u9903 - 600g x 24",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Sun Circle",
+      "min": 7.5,
+      "max": 7.5,
+      "spread_pct": 0.0,
+      "multi": true,
+      "suspect": false
+    },
+    {
+      "key": "dumpling parsley pork",
+      "name": "Pork Parsley Dumpling",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Sun Circle",
+          "cost": 7.5,
+          "date": "2026-07-16",
+          "desc": "Pork & Parsley Dumpling 600g x 24",
+          "change_pct": null,
+          "n": 1
+        },
+        {
+          "supplier": "Sun Circle Food Manufacturing Pty Ltd",
+          "cost": 7.5,
+          "date": "2026-07-23",
+          "desc": "Pork & Parsley Dumpling \u4f73\u51a0\u8c6c\u8089\u82ab\u831c(\u9999\u83dc)\u6c34\u9903 - 600g x 24",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Sun Circle",
+      "min": 7.5,
+      "max": 7.5,
+      "spread_pct": 0.0,
+      "multi": true,
+      "suspect": false
+    },
+    {
+      "key": "gao har prawn",
+      "name": "Prawn Har Gao",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Sun Circle",
+          "cost": 32.0,
+          "date": "2026-07-16",
+          "desc": "Prawn Har Gao (Large) 1000g x 15",
+          "change_pct": null,
+          "n": 1
+        },
+        {
+          "supplier": "Sun Circle Food Manufacturing Pty Ltd",
+          "cost": 32.0,
+          "date": "2026-07-23",
+          "desc": "Prawn Har Gao (Large) - 50 pieces \u4f73\u51a0\u9bae\u8766\u9903(\u5927\u5305) - 1000g x 15",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Sun Circle",
+      "min": 32.0,
+      "max": 32.0,
+      "spread_pct": 0.0,
       "multi": true,
       "suspect": false
     },
@@ -406,22 +522,43 @@
       "suspect": false
     },
     {
-      "key": "beef cabbage dumpling",
-      "name": "Beef Cabbage Dumpling",
-      "unit": "kg",
+      "key": "a10 bean black trading whole",
+      "name": "Bean Black Whole A10 Trading",
+      "unit": "ea",
       "suppliers": [
         {
-          "supplier": "Sun Circle",
-          "cost": 7.5,
-          "date": "2026-07-16",
-          "desc": "Beef & Cabbage Dumpling 600g x 24",
+          "supplier": "Foodlink",
+          "cost": 8.7,
+          "date": "2026-07-24",
+          "desc": "BEANS BLACK WHOLE TIN A10 Trading",
           "change_pct": null,
           "n": 1
         }
       ],
-      "cheapest": "Sun Circle",
-      "min": 7.5,
-      "max": 7.5,
+      "cheapest": "Foodlink",
+      "min": 8.7,
+      "max": 8.7,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "bean edamame soy",
+      "name": "Bean Edamame Soy",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 10.8571,
+          "date": "2026-07-23",
+          "desc": "BEANS EDAMAME SOY 350GM FROZEN (WITH SHELL)",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 10.8571,
+      "max": 10.8571,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -805,6 +942,27 @@
       "suspect": false
     },
     {
+      "key": "cfm oil sunpower",
+      "name": "Cfm Sunpower Oil",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Cookers",
+          "cost": 2.8,
+          "date": "2026-07-23",
+          "desc": "CFM Sunpower Oil",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Cookers",
+      "min": 2.8,
+      "max": 2.8,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "chat washed",
       "name": "Chat Washed",
       "unit": "ea",
@@ -1010,27 +1168,6 @@
       "cheapest": "B&E",
       "min": 12.2,
       "max": 12.2,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
-      "key": "chicken corn dumpling",
-      "name": "Chicken Corn Dumpling",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Sun Circle",
-          "cost": 7.5,
-          "date": "2026-07-16",
-          "desc": "Chicken & Corn Dumpling 600g x 24",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Sun Circle",
-      "min": 7.5,
-      "max": 7.5,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1346,6 +1483,27 @@
       "cheapest": "Foodlink",
       "min": 15.7667,
       "max": 15.7667,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "corn edlyn flour free gluten maize",
+      "name": "Corn Flour Maize Gluten Free Edlyn",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 4.6,
+          "date": "2026-07-23",
+          "desc": "CORN FLOUR MAIZE GLUTEN FREE 5KG Edlyn",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 4.6,
+      "max": 4.6,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1687,6 +1845,27 @@
       "suspect": false
     },
     {
+      "key": "12x91gm flour tortilla",
+      "name": "Flour Tortilla 12x91gm",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 30.7692,
+          "date": "2026-07-24",
+          "desc": "FLOUR TORTILLAS 12X91GM 12INCH",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 30.7692,
+      "max": 30.7692,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "flute lock pizza top",
       "name": "Flute Lock Top Pizza",
       "unit": "ea",
@@ -1955,6 +2134,27 @@
       "cheapest": "Fresh Fruit Team",
       "min": 1.32,
       "max": 1.32,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "brown chef executive free gravy mix rich",
+      "name": "Gravy Mix Rich Brown Free Executive Chef",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 8.23,
+          "date": "2026-07-24",
+          "desc": "GRAVY MIX RICH BROWN G/FREE 7KG Executive Chef",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 8.23,
+      "max": 8.23,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2653,6 +2853,27 @@
       "suspect": false
     },
     {
+      "key": "cream full milk norco",
+      "name": "Milk Full Cream Norco",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 1.75,
+          "date": "2026-07-24",
+          "desc": "MILK FRESH FULL CREAM 2LT Norco",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 1.75,
+      "max": 1.75,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "kimchi momoya sauce value",
       "name": "Momoya Kimchi Sauce Value",
       "unit": "ea",
@@ -3031,6 +3252,27 @@
       "suspect": false
     },
     {
+      "key": "marco pepper polo red roasted",
+      "name": "Pepper Roasted Red Marco Polo",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 10.2128,
+          "date": "2026-07-24",
+          "desc": "PEPPERS ROASTED RED (CAPSICUM) 2.35KG Marco Polo",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 10.2128,
+      "max": 10.2128,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "detour petit rose",
       "name": "Petit Detour Rose",
       "unit": "ea",
@@ -3136,27 +3378,6 @@
       "suspect": false
     },
     {
-      "key": "dumpling parsley pork",
-      "name": "Pork Parsley Dumpling",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Sun Circle",
-          "cost": 7.5,
-          "date": "2026-07-16",
-          "desc": "Pork & Parsley Dumpling 600g x 24",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Sun Circle",
-      "min": 7.5,
-      "max": 7.5,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
       "key": "cocktail potato",
       "name": "Potato Cocktail",
       "unit": "box",
@@ -3194,27 +3415,6 @@
       "cheapest": "Select Fresh",
       "min": 3.8,
       "max": 3.8,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
-      "key": "gao har prawn",
-      "name": "Prawn Har Gao",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Sun Circle",
-          "cost": 32.0,
-          "date": "2026-07-16",
-          "desc": "Prawn Har Gao (Large) 1000g x 15",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Sun Circle",
-      "min": 32.0,
-      "max": 32.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3698,6 +3898,27 @@
       "cheapest": "The Berry Man NSW Pty Ltd",
       "min": 0.5417,
       "max": 0.5417,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "caster csr sugar",
+      "name": "Sugar Caster Csr",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 3.5,
+          "date": "2026-07-24",
+          "desc": "SUGAR CASTER 1KG CSR",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 3.5,
+      "max": 3.5,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false

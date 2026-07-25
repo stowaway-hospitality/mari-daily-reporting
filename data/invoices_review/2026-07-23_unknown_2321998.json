@@ -1,7 +1,7 @@
 {
   "invoice": {
     "supplier_key": "unknown",
-    "supplier_name_raw": "Dext Software Limited",
+    "supplier_name_raw": "Receipt Bank Limited T/A Dext",
     "invoice_ref": "2321998",
     "invoice_date": "2026-07-23",
     "total_incl": "44.80",
@@ -14,7 +14,7 @@
         "unit_price_ex": null,
         "pack_size": 1,
         "line_class": "unknown",
-        "tax_treatment": "gst",
+        "tax_treatment": "gst_free",
         "cost_basis": "per_unit",
         "gst_amount": null,
         "wet_amount": null,
@@ -26,9 +26,11 @@
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "This is a Dext Software invoice for their own service, not a food/beverage supplier invoice.",
-          "Not a food/beverage stock item; not processable under Lightspeed inventory rules.",
-          "Billed to Oliver Iaccarino at 18/1-3 Moore Rd (Stowaway address), but this is a service fee, not supplier inventory."
+          "This is a Dext software subscription invoice (SaaS overage fee), not a supplier/stock invoice. It is not a food/beverage supplier in suppliers.yaml.",
+          "Bill-to is Dext Software Limited / Oliver Iaccarino at 18/1-3 Moore Rd Freshwater \u2014 this is the group's own address, not a venue-resolving delivery signal.",
+          "Tax Total (0%) = $0.00 stated; UK entity (GB VAT), AUD currency, no Australian GST line.",
+          "No stock item, no supplier_code, no PO \u2014 this should go to review; it is not a product receive.",
+          "line_class left 'unknown' rather than 'extra' \u2014 it is not a freight/levy fee on a supplier invoice; do not guess."
         ]
       }
     ],
@@ -41,7 +43,7 @@
     "wet_total": null,
     "account_code": null,
     "source_pdf": "b4786fb1e343ba6e7a431685a3d5f77ce63860ed5c43ad0625f8856958f49e6e.pdf",
-    "extractor_version": "claude-haiku-4-5"
+    "extractor_version": "claude-opus-4-8"
   },
   "validation": {
     "status": "review",
@@ -61,14 +63,6 @@
         "line_index": 0,
         "expected": null,
         "actual": null
-      },
-      {
-        "code": "GST_MISMATCH",
-        "severity": "warn",
-        "message": "Every line is taxable but GST is not 1/11 of the total. Either a line is actually GST-free or a figure is misread.",
-        "line_index": null,
-        "expected": "4.07",
-        "actual": "0.00"
       }
     ],
     "expected_ls_receive_total": "0",
@@ -76,15 +70,15 @@
   },
   "xero_coding": {
     "tracking_category": "Stowaway",
-    "tracking_option": "Admin",
-    "tracking_confidence": "high",
-    "primary_account": "4632",
+    "tracking_option": "To Be Reviewed",
+    "tracking_confidence": "low",
+    "primary_account": "111",
     "lines": [
       {
         "description": "(Business) Line Item Extraction Overage - Annual Paid Monthly",
-        "account_code": "4632",
-        "account_name": "Subscriptions - Accounting Apps",
-        "reason": "learned from Xero history for this supplier"
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
       }
     ]
   }

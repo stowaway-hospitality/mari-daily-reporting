@@ -18,7 +18,7 @@
         "cost_basis": "per_unit",
         "gst_amount": null,
         "wet_amount": null,
-        "supplier_code": null,
+        "supplier_code": "005",
         "raw_qty": "1",
         "raw_uom": "Qty",
         "pack_qty": "1",
@@ -26,14 +26,14 @@
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "REJECTION: This is not a food/beverage supplier invoice. Forster Tuncurry Removals & Storage is a moving and storage company. The single line item is a storage fee service, not a stock item or recognized supplier from config/suppliers.yaml. This invoice does not belong in the Lightspeed COGS pipeline.",
-          "venue: Smiths Lake NSW 2428 address does not match Stowaway or Harry Gatos.",
-          "No PO reference present.",
-          "No supplier_code available \u2014 storage fees are not food/beverage products."
+          "Supplier not in suppliers.yaml \u2014 this is a storage/removals invoice addressed to 'Bryony Jaccarino, 7 Casson Street, SMITHS LAKE', not a Stowaway/Harry Gatos stock supplier. The '2428' postcode coincides with ILG's Stowaway account code but is unrelated. No venue signal present \u2014 emitting unknown.",
+          "Line is a service fee (monthly storage), not a stock item. Cannot confidently classify as extra vs stock under this pipeline \u2014 left unknown for review rather than guessed.",
+          "Unit price read as stated column value; equals line total for qty 1 (consistent with derive rule). Total_incl 287.71, GST 26.16 = 287.71/11 \u2713."
         ]
       }
     ],
     "due_date": "2026-08-01",
+    "is_credit_note": false,
     "venue": "unknown",
     "po_refs": [],
     "subtotal_ex": null,
@@ -41,7 +41,7 @@
     "wet_total": null,
     "account_code": null,
     "source_pdf": "d7d85c3d6d4b7d0d463335974d910a0f7afbbc20839dc773c39c4dd967b239f1.pdf",
-    "extractor_version": "claude-haiku-4-5"
+    "extractor_version": "claude-opus-4-8"
   },
   "validation": {
     "status": "review",

@@ -1,0 +1,131 @@
+{
+  "invoice": {
+    "supplier_key": "foodlink",
+    "supplier_name_raw": "Foodlink Australia Pty Ltd",
+    "invoice_ref": "SI4480685",
+    "invoice_date": "2026-07-23",
+    "total_incl": "56.70",
+    "lines": [
+      {
+        "description": "BEANS EDAMAME SOY 350GM FROZEN (WITH SHELL)",
+        "qty": "8",
+        "line_total_incl": "30.40",
+        "unit_price_incl": "3.80",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "100180",
+        "raw_qty": "8",
+        "raw_uom": "EA",
+        "pack_qty": "0.35",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "GST-free food line; ex == incl"
+        ]
+      },
+      {
+        "description": "CORN FLOUR MAIZE GLUTEN FREE 5KG Edlyn",
+        "qty": "1",
+        "line_total_incl": "23.00",
+        "unit_price_incl": "23.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "100848",
+        "raw_qty": "1",
+        "raw_uom": "EA",
+        "pack_qty": "5",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "GST-free food line; ex == incl"
+        ]
+      },
+      {
+        "description": "Fuel Levy",
+        "qty": "1",
+        "line_total_incl": "3.30",
+        "unit_price_incl": "3.30",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Separate GST-taxable extra; ex 3.00 + GST 0.30 = 3.30 incl. Skip on LS receive per extras directive. This is the sole taxable line: 3.00 x 10% = 0.30 = stated GST."
+        ]
+      }
+    ],
+    "due_date": "2026-07-30",
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "0.30",
+    "wet_total": null,
+    "account_code": "DELIVER TO: HARRY GATOS",
+    "source_pdf": "ef6507d4e14c20356f4a0791c5457aed7feecfa5d8df91aa7f44d5d1f83ad452.pdf",
+    "extractor_version": "claude-opus-4-8"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $3.30 under the invoice total \u2014 expected. Skipped: Fuel Levy ($3.30). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "53.40",
+        "actual": "56.70"
+      }
+    ],
+    "expected_ls_receive_total": "53.40",
+    "extras_total": "3.30"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "BEANS EDAMAME SOY 350GM FROZEN (WITH SHELL)",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CORN FLOUR MAIZE GLUTEN FREE 5KG Edlyn",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Fuel Levy",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

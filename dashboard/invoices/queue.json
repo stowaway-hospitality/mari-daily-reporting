@@ -1,6 +1,6 @@
 {
-  "generated": "2026-07-25",
-  "count": 13,
+  "generated": "2026-07-26",
+  "count": 15,
   "skipped_already_in_xero": 25,
   "invoices": [
     {
@@ -204,6 +204,56 @@
       ]
     },
     {
+      "ref": "SI4480685",
+      "supplier": "Foodlink Australia Pty Ltd",
+      "supplier_key": "foodlink",
+      "date": "2026-07-23",
+      "due_date": "2026-07-30",
+      "total": "56.70",
+      "venue": "harry_gatos",
+      "pdf_path": "ef6507d4e14c20356f4a0791c5457aed7feecfa5d8df91aa7f44d5d1f83ad452.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BEANS EDAMAME SOY 350GM FROZEN (WITH SHELL)",
+          "supplier_code": "100180",
+          "qty": "8",
+          "amount": "30.40",
+          "unit_cost": "$10.86/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CORN FLOUR MAIZE GLUTEN FREE 5KG Edlyn",
+          "supplier_code": "100848",
+          "qty": "1",
+          "amount": "23.00",
+          "unit_cost": "$4.60/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Fuel Levy",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
       "ref": "3094305",
       "supplier": "Select Fresh Providores",
       "supplier_key": "select_fresh",
@@ -310,22 +360,6 @@
       ]
     },
     {
-      "ref": "CN-BT-1",
-      "supplier": "",
-      "supplier_key": "",
-      "date": null,
-      "due_date": null,
-      "total": "0.00",
-      "venue": "unknown",
-      "pdf_path": null,
-      "tracking_category": "Stowaway",
-      "tracking_option": "To Be Reviewed",
-      "tracking_confidence": "low",
-      "is_credit_note": true,
-      "status": "pass",
-      "lines": []
-    },
-    {
       "ref": "IV000021814",
       "supplier": "Forster Tuncurry Removals & Storage",
       "supplier_key": "unknown",
@@ -342,7 +376,7 @@
       "lines": [
         {
           "description": "Storage fees 1.8.26- 31.8.26",
-          "supplier_code": null,
+          "supplier_code": "005",
           "qty": "1",
           "amount": "287.71",
           "unit_cost": "$287.71/ea",
@@ -354,54 +388,20 @@
       ]
     },
     {
-      "ref": "SI4480685",
-      "supplier": "Foodlink Australia Pty Ltd",
-      "supplier_key": "foodlink",
-      "date": "2026-07-23",
-      "due_date": "2026-07-30",
-      "total": "56.70",
-      "venue": "unknown",
-      "pdf_path": "ef6507d4e14c20356f4a0791c5457aed7feecfa5d8df91aa7f44d5d1f83ad452.pdf",
+      "ref": "fresh_fruit_team-2026-07-24",
+      "supplier": "The Fresh Fruit Team Pty Ltd (Wholesale)",
+      "supplier_key": "fresh_fruit_team",
+      "date": "2026-07-24",
+      "due_date": null,
+      "total": "1134.88",
+      "venue": "stowaway",
+      "pdf_path": "6d61e789b5d9092ddda37c0c11b69cdf852ff1abff6a860f3a4675ea4d05edf0.pdf",
       "tracking_category": "Stowaway",
-      "tracking_option": "To Be Reviewed",
+      "tracking_option": "Kitchen",
       "tracking_confidence": "low",
       "is_credit_note": false,
       "status": "review",
-      "lines": [
-        {
-          "description": "BEANS EDAMAME SOY 350GM FROZEN (WITH SHELL)",
-          "supplier_code": "100180",
-          "qty": "8",
-          "amount": "30.40",
-          "unit_cost": "$10.86/kg",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "CORN FLOUR MAIZE GLUTEN FREE 5KG Edlyn",
-          "supplier_code": "100848",
-          "qty": "1",
-          "amount": "23.00",
-          "unit_cost": "$4.60/kg",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "Fuel Levy",
-          "supplier_code": null,
-          "qty": "1",
-          "amount": "3.30",
-          "unit_cost": "$3.30/ea",
-          "tax": "gst",
-          "account_code": "342",
-          "account_name": "Freight & Courier",
-          "reason": "line keyword -> Freight & Courier"
-        }
-      ]
+      "lines": []
     },
     {
       "ref": "00174494",
@@ -443,12 +443,79 @@
       ]
     },
     {
+      "ref": "2321998",
+      "supplier": "Receipt Bank Limited T/A Dext",
+      "supplier_key": "unknown",
+      "date": "2026-07-23",
+      "due_date": null,
+      "total": "44.80",
+      "venue": "unknown",
+      "pdf_path": "b4786fb1e343ba6e7a431685a3d5f77ce63860ed5c43ad0625f8856958f49e6e.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "To Be Reviewed",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "(Business) Line Item Extraction Overage - Annual Paid Monthly",
+          "supplier_code": null,
+          "qty": "64",
+          "amount": "44.80",
+          "unit_cost": "$0.70/ea",
+          "tax": "gst_free",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
+        }
+      ]
+    },
+    {
+      "ref": "N183810",
+      "supplier": "Catering Equipment & Hospitality Supplies (AGC)",
+      "supplier_key": "unknown",
+      "date": "2026-06-17",
+      "due_date": null,
+      "total": "120.00",
+      "venue": "stowaway",
+      "pdf_path": "6c4f340777878f03b137ae39463fd9566ec1ab04b73946f659a24a458210a337.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "Libbey Onis Embassy Brandy 651ml (Box of 12)",
+          "supplier_code": "LB3709",
+          "qty": "1",
+          "amount": "112.20",
+          "unit_cost": "$14.36/L",
+          "tax": "gst",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
+        },
+        {
+          "description": "Courier Fee",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "18.00",
+          "unit_cost": "$18.00/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
       "ref": "184955",
       "supplier": "Aquarius Fisheries Pty Ltd",
       "supplier_key": "aquarius",
       "date": "2026-02-19",
       "due_date": null,
-      "total": "385.00",
+      "total": "350.00",
       "venue": "unknown",
       "pdf_path": "fbfbfb47aa5f14fce06b238400e65a2ff0820a2ea99c9a329937258d773774a3.pdf",
       "tracking_category": "Stowaway",
@@ -461,9 +528,9 @@
           "description": "White Prawn Meat 31/40",
           "supplier_code": "APDW31",
           "qty": "2",
-          "amount": "385.00",
-          "unit_cost": "$192.50/ea",
-          "tax": "gst",
+          "amount": "350.00",
+          "unit_cost": "$175.00/ea",
+          "tax": "gst_free",
           "account_code": "115",
           "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
@@ -476,7 +543,7 @@
       "supplier_key": "aquarius",
       "date": "2025-10-30",
       "due_date": null,
-      "total": "192.50",
+      "total": "175.00",
       "venue": "unknown",
       "pdf_path": "ebfcefa993cc138b63405f32554cc7738ba38607960dd59dfcfdfb35a4bea1c5.pdf",
       "tracking_category": "Stowaway",
@@ -489,9 +556,9 @@
           "description": "White Prawn Meat 31/40",
           "supplier_code": "APDW31",
           "qty": "1",
-          "amount": "192.50",
-          "unit_cost": "$192.50/ea",
-          "tax": "gst",
+          "amount": "175.00",
+          "unit_cost": "$175.00/ea",
+          "tax": "gst_free",
           "account_code": "115",
           "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"

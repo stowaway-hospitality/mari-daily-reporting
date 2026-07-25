@@ -1,0 +1,85 @@
+{
+  "invoice": {
+    "supplier_key": "unknown",
+    "supplier_name_raw": "BentSpoke Brewing Company Pty Ltd",
+    "invoice_ref": "87979",
+    "invoice_date": "2026-07-21",
+    "total_incl": "377.30",
+    "lines": [
+      {
+        "description": "A/R Invoice Sydney Metro",
+        "qty": "1",
+        "line_total_incl": "377.30",
+        "unit_price_incl": "377.30",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "This is a STATEMENT, not an invoice. It shows a single A/R Invoice (Doc. No. 87979, dated 21-Jul-2026, ref 'Sydney Metro') for 377.30 as the outstanding balance \u2014 no line items, no product codes, no GST breakdown, no pack detail.",
+          "Supplier BentSpoke Brewing is not in suppliers.yaml \u2014 no supplier_key match, no extraction rules. supplier_key set to 'unknown'.",
+          "The underlying invoice 87979 must be obtained to extract actual stock lines. This statement alone cannot be receipted or reconciled per-line.",
+          "Venue: address is '18 Ellen Street, Curl Curl' / 'Stowaway Freshwater Pty Ltd T/A Stowaway Bar' \u2014 this looks like Stowaway, but no BentSpoke venue signal is defined in venue_resolution.by_supplier. Per \u00a77, do not guess: venue=unknown. validate() will block.",
+          "GST unknown \u2014 no GST line printed on statement; do not assume."
+        ]
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "unknown",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": "C03408",
+    "source_pdf": "d508f8f2c60a2abb7033fd5a481fa2292070d514a6ec85eea5af9952809e02e6.pdf",
+    "extractor_version": "claude-opus-4-8"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "NO_VENUE",
+        "severity": "error",
+        "message": "Venue unresolved \u2014 cannot pick a product namespace. Stowaway and Harry Gatos have different ProductIDs.",
+        "line_index": null,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'A/R Invoice Sydney Metro' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 0,
+        "expected": null,
+        "actual": null
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "high",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "A/R Invoice Sydney Metro",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
