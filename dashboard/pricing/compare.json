@@ -1,7 +1,7 @@
 {
   "generated": "2026-07-25",
-  "count": 86,
-  "compared": 4,
+  "count": 88,
+  "compared": 3,
   "ingredients": [
     {
       "key": "cauliflower floret",
@@ -60,35 +60,6 @@
       "spread_pct": 25.8,
       "multi": true,
       "suspect": false
-    },
-    {
-      "key": "egg",
-      "name": "Egg",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Select Fresh",
-          "cost": 8.2857,
-          "date": "2026-07-22",
-          "desc": "EGG 700GM PACK (DOZ)",
-          "change_pct": null,
-          "n": 1
-        },
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 68.5714,
-          "date": "2026-07-20",
-          "desc": "Eggs 700 Grams",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Select Fresh",
-      "min": 8.2857,
-      "max": 68.5714,
-      "spread_pct": 727.6,
-      "multi": true,
-      "suspect": true
     },
     {
       "key": "chive herb",
@@ -248,7 +219,7 @@
     {
       "key": "avocado hass",
       "name": "Avocado Hass",
-      "unit": "ea",
+      "unit": "tray",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
@@ -332,7 +303,7 @@
     {
       "key": "broccolini",
       "name": "Broccolini",
-      "unit": "ea",
+      "unit": "box",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
@@ -918,6 +889,48 @@
       "suspect": false
     },
     {
+      "key": "egg",
+      "name": "Egg",
+      "unit": "box",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 48.0,
+          "date": "2026-07-20",
+          "desc": "Eggs 700 Grams",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 48.0,
+      "max": 48.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "egg",
+      "name": "Egg",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 0.4833,
+          "date": "2026-07-22",
+          "desc": "EGG 700GM PACK (DOZ)",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 0.4833,
+      "max": 0.4833,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "curry ex golden hot mid",
       "name": "Ex Golden Curry Mid Hot",
       "unit": "kg",
@@ -1239,11 +1252,32 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
+          "cost": 2.75,
+          "date": "2026-07-18",
+          "desc": "Lettuce Cos Baby Twin Pack",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 2.75,
+      "max": 2.75,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "baby cos lettuce twin",
+      "name": "Lettuce Cos Baby Twin",
+      "unit": "box",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
           "cost": 27.5,
           "date": "2026-07-20",
           "desc": "Lettuce Cos Baby Twin Pack",
-          "change_pct": 900.0,
-          "n": 2
+          "change_pct": null,
+          "n": 1
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1508,7 +1542,7 @@
     {
       "key": "cocktail potato",
       "name": "Potato Cocktail",
-      "unit": "ea",
+      "unit": "box",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
