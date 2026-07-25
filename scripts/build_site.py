@@ -128,6 +128,10 @@ def check() -> int:
             ref = next(g for g in m.groups() if g)
             if ref.startswith(("http://", "https://", "//", "data:", "mailto:", "#")):
                 continue
+            # A JS template expression (href="${t.href}") is resolved at runtime,
+            # not a static path — nothing on disk to check, so skip it.
+            if "${" in ref:
+                continue
             # '/x' is site-root-relative and valid — we serve at a domain root
             # (dashboard/CNAME -> app.stowawaybar.com), not a /repo/ subpath.
             target = (SITE / ref.lstrip("/")).resolve() if ref.startswith("/") \
