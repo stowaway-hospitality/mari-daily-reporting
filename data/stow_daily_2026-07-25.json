@@ -1,0 +1,253 @@
+{
+  "date": "2026-07-25",
+  "generated_at": "2026-07-25T20:02:46.686465Z",
+  "venue": "stowaway",
+  "venue_display": "Stowaway Bar",
+  "lane_config": [
+    "revenue",
+    "cogs",
+    "wages",
+    "gp"
+  ],
+  "data_status": {
+    "lightspeed": "ok",
+    "deputy": "ok",
+    "payments": "missing"
+  },
+  "sales": {
+    "revenue_inc_gst": 17666.2,
+    "revenue_ex_gst": 16060.55,
+    "cogs_dollars": 3021.53,
+    "cogs_pct": 18.8,
+    "gp_dollars": 13039.02,
+    "gp_pct": 81.2,
+    "uber_eats_revenue": 0,
+    "net_takings_ex_gst": null,
+    "eatclub_giveaway_ex_gst": 0.0,
+    "eatclub_covers": 0,
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 3202.76,
+    "bev_ex_gst": 12857.42,
+    "food_cogs": 554.79,
+    "bev_cogs": 2466.74,
+    "food_cogs_pct": 17.3,
+    "bev_cogs_pct": 19.2,
+    "food_gp_pct": 82.7,
+    "bev_gp_pct": 80.8,
+    "mari_rideon_ex_gst": 3287.71,
+    "hg_food_out_ex_gst": 105.82,
+    "stow_food_out_ex_gst": 0.0
+  },
+  "wages": {
+    "kitchen_dollars": 772.89,
+    "foh_dollars": 2279.41,
+    "driver_dollars": 0,
+    "admin_dollars": 0,
+    "leave_dollars": 0,
+    "total_dollars": 3052.31,
+    "wages_pct": 19.0,
+    "net_wage_pct": null,
+    "kitchen_hours": 17.0,
+    "foh_hours": 54.2,
+    "wages_kitchen_pct": 24.1,
+    "wages_foh_pct": 17.7,
+    "includes_super": true,
+    "salaried_synthesized": true
+  },
+  "delivery": null,
+  "payments_breakdown": null,
+  "alerts": {
+    "cogs": "green",
+    "wages": "green",
+    "delivery": "n/a",
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "green",
+    "wages_kitchen": "red",
+    "wages_foh": "green"
+  },
+  "targets": {
+    "cogs": {
+      "target": 28.0,
+      "amber": 32.0,
+      "red": 35.0,
+      "note": "Blended food+bev COGS; bar-heavy Stow typically lands ~28-30% \u2014 refine after 8 weeks of daily data"
+    },
+    "wages": {
+      "target": 30.0,
+      "amber": 33.0,
+      "red": 36.0,
+      "note": "Zak-set 30% target \u2014 hospitality benchmark; splits kitchen + FOH"
+    },
+    "cogs_food": {
+      "target": 32.0,
+      "amber": 36.0,
+      "red": 40.0,
+      "note": "DRAFT \u2014 Zak to confirm. Food COGS vs food revenue (ex-GST). Weekly-report placeholder food GP is 65% (i.e. 35% COGS); target set slightly tighter."
+    },
+    "cogs_bev": {
+      "target": 22.0,
+      "amber": 25.0,
+      "red": 28.0,
+      "note": "DRAFT \u2014 Zak to confirm. Bev COGS vs bev revenue (ex-GST). Drinks GP at Stow runs ~80% on cocktails (known-margins.md); blended bev incl. beer/wine lands lower."
+    },
+    "wages_kitchen": {
+      "target": 12.0,
+      "amber": 15.0,
+      "red": 18.0,
+      "note": "DRAFT \u2014 Zak to confirm. Kitchen wages as % of FOOD revenue (ex-GST), not total."
+    },
+    "wages_foh": {
+      "target": 18.0,
+      "amber": 22.0,
+      "red": 26.0,
+      "note": "DRAFT \u2014 Zak to confirm. FOH wages as % of BEV revenue (ex-GST), not total."
+    },
+    "gp": {
+      "note": "Higher is better \u2014 70% target; status inversion not yet implemented so alerts left empty",
+      "target_direction": "high_is_good"
+    }
+  },
+  "top_products": [
+    {
+      "name": "Roast Turkey",
+      "qty": 55.0,
+      "rev": 1633.91,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "The Full Monty [Roast + Dessert + Wine + Tawny]",
+      "qty": 14.0,
+      "rev": 1001.06,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Classic Margarita",
+      "qty": 47.0,
+      "rev": 849.87,
+      "cost": 191.47,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Mulled Wine",
+      "qty": 42.0,
+      "rev": 626.9,
+      "cost": 85.58,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Jalape\u00f1o Marg",
+      "qty": 19.0,
+      "rev": 411.83,
+      "cost": 15.39,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "American Standard Burger",
+      "qty": 17.0,
+      "rev": 389.29,
+      "cost": 99.35,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Guinness Draught - Pint",
+      "qty": 21.0,
+      "rev": 369.21,
+      "cost": 98.87,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Geppetto Pinot Noir - Bottle",
+      "qty": 5.0,
+      "rev": 303.93,
+      "cost": 87.8,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Aperol Spritz",
+      "qty": 19.0,
+      "rev": 295.68,
+      "cost": 67.5,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fresh is Best Summer Lager - Schooner",
+      "qty": 32.0,
+      "rev": 265.4,
+      "cost": 50.81,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fresh is Best Lager - Pint",
+      "qty": 20.0,
+      "rev": 238.65,
+      "cost": 49.02,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Philter XPA - Schooner",
+      "qty": 28.0,
+      "rev": 232.16,
+      "cost": 62.62,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Geppetto Pinot Noir - Regular",
+      "qty": 15.0,
+      "rev": 228.44,
+      "cost": 52.68,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Grifter Pale - Pint",
+      "qty": 18.0,
+      "rev": 226.06,
+      "cost": 59.93,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Arancini Balls [5pc]",
+      "qty": 10.0,
+      "rev": 225.45,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Grifter Pale - Schooner",
+      "qty": 22.0,
+      "rev": 223.18,
+      "cost": 54.61,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Espresso Martini",
+      "qty": 13.0,
+      "rev": 216.74,
+      "cost": 42.06,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Coconut Margarita",
+      "qty": 9.0,
+      "rev": 197.85,
+      "cost": 37.33,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Sensei Calamari",
+      "qty": 10.0,
+      "rev": 197.54,
+      "cost": 23.05,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Mother's Milk Shiraz - Regular",
+      "qty": 13.0,
+      "rev": 195.98,
+      "cost": 41.81,
+      "cost_source": "lightspeed"
+    }
+  ]
+}
