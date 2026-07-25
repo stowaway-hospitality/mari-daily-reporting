@@ -82,12 +82,20 @@ check("a ~$0 week is excluded, not divided by", abs(f - 1.0) < 1e-9, f"{f:.4f} f
 print("\n6. THE PRODUCTION PATH ONLY CALIBRATES ESTIMATES")
 src = (ROOT / "scripts" / "rebuild_wages.py").read_text()
 check("gross() takes an `estimated` flag", "def gross(eid, ex, estimated=False)" in src)
-# The Xero-sourced branch must NOT pass estimated=True. Calibrating a payslip
-# against a factor derived from payslips turns a fact back into a guess.
-xero_line = [l for l in src.splitlines() if "gross(eid, paid[eid]" in l]
-check("the Xero-paid path is never calibrated",
-      bool(xero_line) and not any("estimated=True" in l for l in xero_line),
-      xero_line[0].strip() if xero_line else "not found")
+# The real invariant: gross() calibrates ONLY when estimated=True, so a
+# Xero-sourced payslip (estimated defaults False) passes through uncalibrated —
+# calibrating a payslip against a factor derived from payslips turns a fact back
+# into a guess. Checking the guard directly is robust to how the caller names its
+# variable (the old test grepped for "gross(eid, paid[eid]", which broke when
+# leave handling introduced a `worked` intermediate).
+import re as _re_cal
+_guard = _re_cal.search(r"return\s+calibrate\([^)]*\)\s+if\s+estimated\s+else\b", src)
+check("gross() calibrates only estimates (Xero-paid truth is never calibrated)",
+      bool(_guard), (_guard.group(0) if _guard else "guard not found"))
+# and estimated=True is only ever passed in the Deputy/salaried estimate branches
+_est_calls = [l.strip() for l in src.splitlines() if "estimated=True" in l and "gross(" in l or l.strip().startswith("estimated=True")]
+check("estimated=True never appears on a paid[...] gross() call",
+      not any("paid[" in l for l in _est_calls), f"{_est_calls[:2]}")
 check("the calibration file is only written on a long window",
       "(d_to - d_from).days > 60" in src)
 

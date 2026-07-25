@@ -32,6 +32,12 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 target = date.fromisoformat(sys.argv[1] if len(sys.argv) > 1 else "2026-07-05")
 
 source_daily = Path(os.environ.get("DRIVE_STAGING", "")) / "Marilynas_daily_2026-H2.csv"
+# Skip cleanly when the drive-staging masters aren't mounted (e.g. CI / sandbox),
+# the same way the other data-dependent scripts do — a missing fixture is not a
+# test failure, and crashing with a bare FileNotFoundError just adds noise.
+if not source_daily.exists():
+    print(f"SKIP — {source_daily} not present (needs DRIVE_STAGING with the daily masters)")
+    sys.exit(0)
 row_found = None
 with source_daily.open() as f:
     for row in csv.DictReader(f):
