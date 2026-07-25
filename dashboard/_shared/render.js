@@ -995,11 +995,22 @@ function renderAvgSpend(day) {
   const guestBit = a.perGuest
     ? `<p style="font-size:13.5px;color:var(--ink-soft);margin:6px 0 0"><b>${money(a.perGuest)}</b> per guest · ${a.guests.toLocaleString()} guests</p>`
     : '';
+  // On the group view, break the blended figure down by venue — the story is
+  // which venue drives it (bar ~$30, HG group-dining ~$100, Mari pizza ~$40).
+  let breakdown = '';
+  if (STATE.currentVenue === 'group') {
+    const parts = [['stow', 'Stowaway'], ['hg', 'Harry Gatos'], ['mari', "Marilyna's"]]
+      .map(([v, lbl]) => { const va = avgSpendWindow(v, day); return va ? `${lbl} <b>${money(va.perTxn)}</b>` : null; })
+      .filter(Boolean);
+    if (parts.length > 1)
+      breakdown = `<p style="font-size:13px;color:var(--ink-soft);margin:8px 0 0">${parts.join('&nbsp;·&nbsp;')}</p>`;
+  }
   el.innerHTML =
     `<div class="section"><h2>Average spend</h2>` +
     `<p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 10px;line-height:1.5">Lightspeed spend per transaction, incl GST — same basis as the weekly report. ${a.days} day${a.days>1?'s':''} · ${a.txns.toLocaleString()} transactions.</p>` +
     `<p style="font-size:27px;font-weight:600;margin:0">${money(a.perTxn)} <span style="font-size:14px;font-weight:400;color:var(--ink-soft)">per transaction</span>${yoyPill}</p>` +
     guestBit +
+    breakdown +
     `</div>`;
 }
 
