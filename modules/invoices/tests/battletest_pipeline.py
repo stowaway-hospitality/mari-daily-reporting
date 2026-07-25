@@ -359,6 +359,25 @@ _uc = _sc(_u)
 check("unknown supplier -> non-empty fallback account", bool(_uc.primary_account) and all(l.account_code for l in _uc.lines),
       f"acct={_uc.primary_account}")
 
+print("13. poller (real posting path) guards")
+try:
+    import xero_process_approvals as _xpa
+    # dateless record must still get Date + DueDate (AUTHORISED requires both)
+    _p, _ = _xpa._payload({"ref": "R", "supplier": "Foo Pty Ltd",
+                           "lines": [{"description": "X", "amount": "11.00", "account_code": "115", "tax": "gst"}]})
+    check("poller payload always has Date + DueDate", bool(_p.get("Date") and _p.get("DueDate")))
+    # credit-note refs are detected from filed JSONs
+    import json as _json2
+    import os as _os2
+    _os2.makedirs(str(ROOT / "data/invoices_review"), exist_ok=True)
+    _tmp = str(ROOT / "data/invoices_review/__cn_battletest__.json")
+    _json2.dump({"invoice": {"invoice_ref": "CN-BT-1", "is_credit_note": True}}, open(_tmp, "w"))
+    _cn = "CN-BT-1" in _xpa._credit_note_refs()
+    _os2.remove(_tmp)
+    check("poller flags credit notes (refuses to post as payable)", _cn)
+except Exception as e:
+    check("poller guards", False, str(e)[:80])
+
 print()
 print(f"{'ALL PASS' if _fail == 0 else str(_fail) + ' FAILED'}")
 sys.exit(1 if _fail else 0)

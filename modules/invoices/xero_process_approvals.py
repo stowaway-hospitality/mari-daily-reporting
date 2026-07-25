@@ -38,11 +38,30 @@ import xero_pull as xp  # noqa: E402
 from modules.invoices import xero_push  # noqa: E402
 from modules.invoices.account_map import ACCOUNT_NAME, due_days_for  # noqa: E402
 
+ROOT = Path(__file__).resolve().parents[2]
 SUPA_URL = "https://fyqhvyvwbedoowjkrxyj.supabase.co"
 KEY_FILE = Path.home() / "Documents" / "STOW" / ".secrets" / "supabase_service_key"
 TABLE = "invoice_approvals"
 TAX = {"gst": "INPUT", "gst_free": "EXEMPTEXPENSES", "wet": "INPUT"}
 TOL = Decimal("0.50")
+
+
+def _credit_note_refs() -> set:
+    """Refs the pipeline flagged as supplier CREDIT notes. This poller is the real
+    posting path (it builds its own payload, not via xero_push.build_bill), so it
+    must independently refuse to post a credit note as a payable — even if a human
+    approved it in the app. Read the flag off the filed invoice JSONs."""
+    import glob
+    refs = set()
+    for d in ("invoices", "invoices_review"):
+        for f in glob.glob(str(ROOT / "data" / d / "*.json")):
+            try:
+                inv = json.load(open(f)).get("invoice", {})
+            except Exception:
+                continue
+            if inv.get("is_credit_note") and inv.get("invoice_ref"):
+                refs.add(inv["invoice_ref"])
+    return refs
 
 
 def _svc_key() -> str:
@@ -85,20 +104,17 @@ def _payload(rec: dict) -> tuple[dict, Decimal]:
     }
     if rec.get("ref"):
         payload["InvoiceNumber"] = rec["ref"]
-    if rec.get("invoice_date"):
-        payload["Date"] = rec["invoice_date"]
-        # AUTHORISED bills (unlike drafts) require a DueDate. Prefer the due date
-        # read straight off THIS invoice; only if it's missing fall back to the
-        # supplier's usual terms (+14 default).
-        due = rec.get("invoice_due_date")
-        if not due:
-            try:
-                due = (date.fromisoformat(rec["invoice_date"])
-                       + timedelta(days=due_days_for(rec.get("supplier") or ""))).isoformat()
-            except ValueError:
-                due = None
-        if due:
-            payload["DueDate"] = due
+    # AUTHORISED bills REQUIRE both Date and DueDate — omitting either is a hard
+    # 400. If the record has no invoice date (parser/LLM couldn't read it), default
+    # Date to today rather than dropping the field, and derive DueDate from it.
+    try:
+        bill_date = date.fromisoformat(rec["invoice_date"]) if rec.get("invoice_date") else date.today()
+    except ValueError:
+        bill_date = date.today()
+    payload["Date"] = bill_date.isoformat()
+    due = rec.get("invoice_due_date") or (
+        bill_date + timedelta(days=due_days_for(rec.get("supplier") or ""))).isoformat()
+    payload["DueDate"] = due
     return payload, total
 
 
@@ -110,6 +126,7 @@ def process(dry_run: bool = False) -> list[dict]:
     access = tenant = None
     if not dry_run:
         access, tenant = xp.token()
+    cn_refs = _credit_note_refs()
     results = []
     for rec in pending:
         out = {"ref": rec.get("ref"), "supplier": rec.get("supplier")}
@@ -117,6 +134,10 @@ def process(dry_run: bool = False) -> list[dict]:
 
         if rec.get("decision") == "reject":
             patch = {"status": "rejected"}
+        elif rec.get("ref") in cn_refs:
+            # a supplier credit must never post as a payable, even if approved
+            patch = {"status": "needs_review",
+                     "note": "credit note — enter as a supplier credit in Xero, not a payable"}
         else:
             payload, built = _payload(rec)
             stated = Decimal(str(rec.get("total") or built))

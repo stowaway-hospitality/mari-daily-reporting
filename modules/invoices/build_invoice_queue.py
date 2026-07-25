@@ -108,6 +108,7 @@ def _entry(payload: dict) -> dict:
         "tracking_category": coding.tracking_category,
         "tracking_option": coding.tracking_option,
         "tracking_confidence": coding.tracking_confidence,
+        "is_credit_note": bool(getattr(inv, "is_credit_note", False)),  # not a payable
         "status": status,               # pass | review
         "lines": lines,
     }
