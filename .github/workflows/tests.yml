@@ -61,6 +61,21 @@ jobs:
       - name: Closed-week leave split (rebuild_wages)
         run: python3 scripts/test_closed_week_leave.py
 
+      - name: More script-shaped tests (wages / payroll / superannuation)
+        run: |
+          set -e
+          python3 scripts/test_wage_calibration.py
+          python3 scripts/test_wage_open_week.py
+          python3 scripts/test_super_actuals.py
+          python3 scripts/test_corp_payroll.py
+
+      - name: Invoice pipeline battletest (Dext-replacement guards)
+        # The adversarial suite: dedup, credit-note refusal, statement detection,
+        # the no-write push gate, AUTHORISED date guarantee, poller guards. Runs
+        # OFFLINE (skips the live-Xero + corpus-only checks the CI box can't do)
+        # but still enforces every guard that must never regress.
+        run: python3 modules/invoices/tests/battletest_pipeline.py --offline
+
       - name: Every wage dollar reconciles to Xero
         run: python3 scripts/reconcile_wages.py
 

@@ -31,6 +31,11 @@ sys.path.insert(0, str(ROOT / "modules" / "invoices"))
 
 OFFLINE = "--offline" in sys.argv
 _fail = 0
+# The corpus is real supplier invoices — gitignored, so a clean checkout / CI
+# won't have it. Corpus-dependent checks SKIP (not FAIL) when it's absent; the
+# deterministic guards (dedup, credit notes, statements, push gate, dates,
+# poller) run everywhere and are the ones that must never regress.
+HAVE_CORPUS = bool(glob.glob(str(ROOT / "data/invoice_corpus/*/*.pdf")))
 
 
 def check(name, ok, detail=""):
@@ -38,6 +43,10 @@ def check(name, ok, detail=""):
     print(f"  {'PASS' if ok else 'FAIL'}  {name}" + (f"  — {detail}" if detail else ""))
     if not ok:
         _fail += 1
+
+
+def skip(name, why="no corpus"):
+    print(f"  SKIP  {name} ({why})")
 
 
 # ---- 1. unit suites --------------------------------------------------------
@@ -58,13 +67,13 @@ for m in ["test_account_map", "test_xero_push", "test_xero_csv", "test_parsers",
 print("2. parser reconcile over corpus (10/supplier)")
 import yaml
 
-from modules.invoices import build_corpus as bc
+from modules.invoices.domains import DOMAIN_KEY
 from modules.invoices.parsers import parse_pdf
 from modules.invoices.validator import Validator
 
 CFG = yaml.safe_load((ROOT / "modules/invoices/suppliers.yaml").read_text())
 V = Validator(CFG)
-K2D = {v: k for k, v in bc.DOMAIN_KEY.items()}
+K2D = {v: k for k, v in DOMAIN_KEY.items()}
 tot = rec = 0
 for sup, dom in ((s, K2D[s]) for s in K2D):
     for pdf in sorted(glob.glob(str(ROOT / f"data/invoice_corpus/{sup}/*.pdf")))[:10]:
@@ -79,26 +88,29 @@ for sup, dom in ((s, K2D[s]) for s in K2D):
         # a parser that "passes" must reconcile — that's the no-false-pass property
         if r.ok:
             rec += 1
-check("parsers that returned a value all reconcile", tot >= 40, f"{rec}/{tot} reconciled")
-
-# every VALIDATED invoice must ALSO reconcile through build_bill — else the push
-# gate false-blocks a valid bill (the FFT bare-"GST"-line bug)
 from decimal import Decimal as _D0
 
 from modules.invoices import xero_push as _xp0
-_bb_bad = 0
-for sup, dom in ((s, K2D[s]) for s in K2D):
-    for pdf in sorted(glob.glob(str(ROOT / f"data/invoice_corpus/{sup}/*.pdf")))[:10]:
-        try:
-            inv = parse_pdf(open(pdf, "rb").read(), dom)
-        except Exception:
-            inv = None
-        if inv is None or not V.validate(inv).ok:
-            continue
-        _, _rb, _ = _xp0.build_bill(inv)
-        if abs(_rb - _D0(str(inv.total_incl))) > _D0("0.50"):
-            _bb_bad += 1
-check("every validated invoice also reconciles through build_bill", _bb_bad == 0, f"{_bb_bad} mismatch")
+if not HAVE_CORPUS:
+    skip("parsers that returned a value all reconcile")
+    skip("every validated invoice also reconciles through build_bill")
+else:
+    check("parsers that returned a value all reconcile", tot >= 40, f"{rec}/{tot} reconciled")
+    # every VALIDATED invoice must ALSO reconcile through build_bill — else the
+    # push gate false-blocks a valid bill (the FFT bare-"GST"-line bug)
+    _bb_bad = 0
+    for sup, dom in ((s, K2D[s]) for s in K2D):
+        for pdf in sorted(glob.glob(str(ROOT / f"data/invoice_corpus/{sup}/*.pdf")))[:10]:
+            try:
+                inv = parse_pdf(open(pdf, "rb").read(), dom)
+            except Exception:
+                inv = None
+            if inv is None or not V.validate(inv).ok:
+                continue
+            _, _rb, _ = _xp0.build_bill(inv)
+            if abs(_rb - _D0(str(inv.total_incl))) > _D0("0.50"):
+                _bb_bad += 1
+    check("every validated invoice also reconciles through build_bill", _bb_bad == 0, f"{_bb_bad} mismatch")
 
 # ---- 3. dedup guard --------------------------------------------------------
 print("3. already_exists dedup guard")
@@ -168,14 +180,25 @@ import json
 from modules.invoices.xero_csv import _invoice_from_json
 
 pass_files = glob.glob(str(ROOT / "data/invoices/*.json"))
-if pass_files:
-    inv = _invoice_from_json(json.loads(Path(pass_files[0]).read_text()))
-    st = xero_push.push_bill(inv, access="x", tenant="y", api_get=fg, dry_run=False, approved_by=None)
-    check("no approved_by -> awaiting_approval, never posts", st.get("action") == "awaiting_approval", st.get("action"))
-    st2 = xero_push.push_bill(inv, access=None, tenant=None, dry_run=True, approved_by="tester")
-    check("dry_run -> ready, never posts", st2.get("action") in ("ready (dry-run)", "skipped", "needs_review"), st2.get("action"))
-else:
-    check("push gate", False, "no invoices to test")
+# use a synthetic invoice so the critical no-write guard runs even on a clean
+# checkout with no filed invoices
+import datetime as _dt5
+from decimal import Decimal as _D5
+
+from modules.invoices.models import CostBasis as _C5
+from modules.invoices.models import Invoice as _I5
+from modules.invoices.models import InvoiceLine as _L5
+from modules.invoices.models import LineClass as _LC5
+from modules.invoices.models import TaxTreatment as _T5
+from modules.invoices.models import Venue as _V5
+inv = _I5(supplier_key="foo", supplier_name_raw="Foo Pty Ltd", invoice_ref="GATE-1",
+          invoice_date=_dt5.date(2026, 7, 20), total_incl=_D5("11.00"), venue=_V5.STOWAWAY,
+          lines=[_L5(description="X", qty=_D5("1"), line_total_incl=_D5("11.00"), unit_price_incl=_D5("11.00"),
+                     line_class=_LC5.STOCK, tax_treatment=_T5.GST, cost_basis=_C5.PER_UNIT)])
+st = xero_push.push_bill(inv, access="x", tenant="y", api_get=fg, dry_run=False, approved_by=None)
+check("no approved_by -> awaiting_approval, never posts", st.get("action") == "awaiting_approval", st.get("action"))
+st2 = xero_push.push_bill(inv, access=None, tenant=None, dry_run=True, approved_by="tester")
+check("dry_run -> ready, never posts", st2.get("action") in ("ready (dry-run)", "skipped", "needs_review"), st2.get("action"))
 
 # ---- 6. idempotency (LIVE) -------------------------------------------------
 print("6. idempotency (live Xero)")
@@ -246,7 +269,7 @@ if OFFLINE:
 else:
     try:
         import xero_pull as xp
-        from modules.invoices import build_corpus as bc
+        from modules.invoices.domains import DOMAIN_KEY
         from modules.invoices.parsers import parse_pdf
         from modules.invoices.account_map import suggest_coding
         access, tenant = xp.token()
@@ -255,7 +278,7 @@ else:
         tcs = xp.api_get(access, tenant, "TrackingCategories", {}).get("TrackingCategories", [])
         track = {t["Name"]: {o["Name"] for o in t.get("Options", []) if o.get("Status") == "ACTIVE"}
                  for t in tcs if t.get("Status") == "ACTIVE"}
-        K2D = {v: k for k, v in bc.DOMAIN_KEY.items()}
+        K2D = {v: k for k, v in DOMAIN_KEY.items()}
         emit_acc, emit_trk = set(), set()
         for sup, dom in ((s, K2D[s]) for s in K2D):
             for pdf in sorted(glob.glob(str(ROOT / f"data/invoice_corpus/{sup}/*.pdf")))[:6]:
@@ -279,7 +302,7 @@ else:
 print("11. WET / negative lines / encrypted PDF")
 from decimal import Decimal as _D
 
-from modules.invoices import build_corpus as _bc
+from modules.invoices.domains import DOMAIN_KEY as _DK
 from modules.invoices.models import CostBasis as _CB
 from modules.invoices.models import Invoice as _Inv
 from modules.invoices.models import InvoiceLine as _IL
@@ -287,7 +310,7 @@ from modules.invoices.models import LineClass as _LC
 from modules.invoices.models import TaxTreatment as _TT
 from modules.invoices.models import Venue as _V
 from modules.invoices.parsers import parse_pdf as _pp
-_k2d = {v: k for k, v in _bc.DOMAIN_KEY.items()}
+_k2d = {v: k for k, v in _DK.items()}
 # WET (wine) invoice reconciles through build_bill with valid tax types
 _wet = None
 for _s in ("paramount", "ilg", "bacchus"):
@@ -315,19 +338,22 @@ _ni = _Inv(supplier_key="be_foods", supplier_name_raw="B&E Foods Pty Ltd", invoi
 _pl, _rb, _ = xero_push.build_bill(_ni)
 check("return (negative) line reconciles + preserved",
       abs(_rb - _D("88.00")) < _D("0.5") and any(_D(str(l["LineAmount"])) < 0 for l in _pl["LineItems"]))
-# encrypted PDF -> clean exit 1
-try:
-    import fitz as _fitz
-    _src = glob.glob(str(ROOT / "data/invoice_corpus/foodlink/*.pdf"))[0]
-    _enc = tempfile.mktemp(suffix=".pdf")
-    _doc = _fitz.open(_src)
-    _doc.save(_enc, encryption=_fitz.PDF_ENCRYPT_AES_256, owner_pw="o", user_pw="s")
-    _doc.close()
-    _r = subprocess.run([sys.executable, str(ROOT / "modules/invoices/run.py"), "--pdf", _enc, "--source", "enc"],
-                        capture_output=True, text=True, cwd=str(ROOT))
-    check("encrypted PDF -> clean exit 1", _r.returncode == 1, f"rc={_r.returncode}")
-except Exception as e:
-    check("encrypted PDF test", False, str(e)[:60])
+# encrypted PDF -> clean exit 1 (needs a real PDF to encrypt)
+_enc_src = glob.glob(str(ROOT / "data/invoice_corpus/foodlink/*.pdf"))
+if not _enc_src:
+    skip("encrypted PDF -> clean exit 1")
+else:
+    try:
+        import fitz as _fitz
+        _enc = tempfile.mktemp(suffix=".pdf")
+        _doc = _fitz.open(_enc_src[0])
+        _doc.save(_enc, encryption=_fitz.PDF_ENCRYPT_AES_256, owner_pw="o", user_pw="s")
+        _doc.close()
+        _r = subprocess.run([sys.executable, str(ROOT / "modules/invoices/run.py"), "--pdf", _enc, "--source", "enc"],
+                            capture_output=True, text=True, cwd=str(ROOT))
+        check("encrypted PDF -> clean exit 1", _r.returncode == 1, f"rc={_r.returncode}")
+    except Exception as e:
+        check("encrypted PDF test", False, str(e)[:60])
 
 print("12. AUTHORISED date guarantee + new-supplier fallback")
 import datetime as _dt2

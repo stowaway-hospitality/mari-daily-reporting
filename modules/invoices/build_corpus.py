@@ -35,13 +35,7 @@ from modules.invoices import pull_mailbox as P   # noqa: E402
 CORPUS = ROOT / "data" / "invoice_corpus"
 
 # Sender domain -> supplier key (matches the parser registry + build_cogs_list).
-DOMAIN_KEY = {
-    "selectprovidores.com.au": "select_fresh", "foodlinkaustralia.com.au": "foodlink",
-    "befoods.com.au": "be_foods", "tfft.com.au": "fresh_fruit_team",
-    "gullifood.com.au": "gulli", "suncircle.com.au": "sun_circle",
-    "junpacific.com": "jun_pacific", "ilg.com.au": "ilg",
-    "lionco.com": "lion", "paramountliquor.com.au": "paramount",
-}
+from modules.invoices.domains import DOMAIN_KEY   # static config, no heavy deps
 
 
 def main() -> int:

@@ -27,7 +27,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from modules.invoices.build_corpus import DOMAIN_KEY          # noqa: E402
+from modules.invoices.domains import DOMAIN_KEY               # noqa: E402
 from modules.invoices.parsers import DOMAIN_TO_PARSER, parse_pdf  # noqa: E402
 from modules.invoices.validator import Validator              # noqa: E402
 
