@@ -1,7 +1,7 @@
 {
   "generated": "2026-07-27",
-  "count": 16,
-  "skipped_already_in_xero": 25,
+  "count": 15,
+  "skipped_already_in_xero": 26,
   "invoices": [
     {
       "ref": "OMI295930",
@@ -483,45 +483,6 @@
           "account_code": "111",
           "account_name": "Purchases Other COGS",
           "reason": "fallback \u2014 no rule matched"
-        }
-      ]
-    },
-    {
-      "ref": "N183810",
-      "supplier": "Catering Equipment & Hospitality Supplies (AGC)",
-      "supplier_key": "unknown",
-      "date": "2026-06-17",
-      "due_date": null,
-      "total": "120.00",
-      "venue": "stowaway",
-      "pdf_path": "6c4f340777878f03b137ae39463fd9566ec1ab04b73946f659a24a458210a337.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Kitchen",
-      "tracking_confidence": "low",
-      "is_credit_note": false,
-      "status": "review",
-      "lines": [
-        {
-          "description": "Libbey Onis Embassy Brandy 651ml (Box of 12)",
-          "supplier_code": "LB3709",
-          "qty": "1",
-          "amount": "112.20",
-          "unit_cost": "$14.36/L",
-          "tax": "gst",
-          "account_code": "111",
-          "account_name": "Purchases Other COGS",
-          "reason": "fallback \u2014 no rule matched"
-        },
-        {
-          "description": "Courier Fee",
-          "supplier_code": null,
-          "qty": "1",
-          "amount": "18.00",
-          "unit_cost": "$18.00/ea",
-          "tax": "gst",
-          "account_code": "342",
-          "account_name": "Freight & Courier",
-          "reason": "line keyword -> Freight & Courier"
         }
       ]
     },

@@ -1,0 +1,120 @@
+{
+  "invoice": {
+    "supplier_key": "the_beerline_cleaning_company",
+    "supplier_name_raw": "The Beerline Cleaning Company Pty Limited",
+    "invoice_ref": "INV-4243",
+    "invoice_date": "2026-07-19",
+    "total_incl": "484.00",
+    "lines": [
+      {
+        "description": "Beer Line Cleaning - 6 Week Rotation billed monthly",
+        "qty": "1",
+        "line_total_incl": "290.00",
+        "unit_price_incl": "290.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Service line \u2014 not a stock item. Classified as extra per standing directive.",
+          "Invoice addresses Stowaway Bar but mentions Harry Gatos in second line \u2014 venue ambiguous without PO prefix or account code."
+        ]
+      },
+      {
+        "description": "Beer Line cleaning at Harrygatos",
+        "qty": "1",
+        "line_total_incl": "150.00",
+        "unit_price_incl": "150.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Service line \u2014 not a stock item. Classified as extra per standing directive.",
+          "Explicitly references Harry Gatos venue."
+        ]
+      }
+    ],
+    "due_date": "2026-07-24",
+    "is_credit_note": false,
+    "venue": "unknown",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "44.00",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "9806af3651b4acfd183923650f275de1253c1d380c8a005d15c0ab179c19cf73.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "NO_VENUE",
+        "severity": "error",
+        "message": "Venue unresolved \u2014 cannot pick a product namespace. Stowaway and Harry Gatos have different ProductIDs.",
+        "line_index": null,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "INVOICE_RECONCILE",
+        "severity": "error",
+        "message": "Sum of 2 line(s) does not reconcile to the invoice total. A line is likely missing or misread \u2014 do NOT receive.",
+        "line_index": null,
+        "expected": "484.00",
+        "actual": "440.00"
+      },
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $440.00 under the invoice total \u2014 expected. Skipped: Beer Line Cleaning - 6 Week Rotation billed monthly ($290.00), Beer Line cleaning at Harrygatos ($150.00). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "0",
+        "actual": "484.00"
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "440.00"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "To Be Reviewed",
+    "tracking_confidence": "low",
+    "primary_account": "306",
+    "lines": [
+      {
+        "description": "Beer Line Cleaning - 6 Week Rotation billed monthly",
+        "account_code": "306",
+        "account_name": "Cleaning",
+        "reason": "line keyword -> Cleaning"
+      },
+      {
+        "description": "Beer Line cleaning at Harrygatos",
+        "account_code": "306",
+        "account_name": "Cleaning",
+        "reason": "line keyword -> Cleaning"
+      }
+    ]
+  }
+}

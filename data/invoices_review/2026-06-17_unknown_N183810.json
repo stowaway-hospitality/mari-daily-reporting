@@ -1,7 +1,7 @@
 {
   "invoice": {
     "supplier_key": "unknown",
-    "supplier_name_raw": "Catering Equipment & Hospitality Supplies (AGC)",
+    "supplier_name_raw": "AGC Catering Equipment & Hospitality Supplies",
     "invoice_ref": "N183810",
     "invoice_date": "2026-06-17",
     "total_incl": "120.00",
@@ -20,19 +20,18 @@
         "wet_amount": null,
         "supplier_code": "LB3709",
         "raw_qty": "1",
-        "raw_uom": null,
-        "pack_qty": "0.651",
-        "pack_unit": "L",
+        "raw_uom": "Box of 12",
+        "pack_qty": "1",
+        "pack_unit": "box",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "Supplier 'AGC / Catering Equipment & Hospitality Supplies' not in suppliers.yaml \u2014 supplier_key=unknown, lightspeed_product_id should be null pending review.",
-          "This is glassware (12 brandy glasses), likely NON-STOCK equipment rather than resale stock; line_class set to stock provisionally but flag for review.",
-          "Line printed unit price $102.00 is per BOX; derived per-unit incl = line_total_incl/(qty*pack_size). Product Subtotal $102 is EX-GST; GST-inclusive line total = 102.00 x 1.1 = 112.20 (this item is 10% taxable).",
-          "Courier Fee $18.00 is an extra (see separate line).",
-          "Reconcile check: 112.20 (item incl) + 18.00 (courier, GST-free here \u2014 GST shown $10.91 = 102/? ) ...",
-          "GST reconcile: stated GST included $10.91. 120.00/11 = 10.909 -> whole $120 is GST-inclusive incl courier. So courier is ALSO GST-taxable. item incl = 102*1.1=112.20, courier incl=18.00 already-incl? 18/1.1=16.36 ex, GST on both = (102+16.36)*0.1=11.84 \u226010.91. Ambiguity flagged \u2014 human review.",
-          "Header Grand Total $120.00 taken as authoritative total_incl."
+          "AGC not in suppliers.yaml \u2014 supplier_key unknown, no code map; lightspeed_product_id null, send to review.",
+          "Unit Price column ($102.00) is per-box EX-GST. Derived per-unit incl-GST = line_total_incl/(qty*pack_size).",
+          "Line is a glassware box of 12; GST-taxable at 10%. Line total incl-GST = 102.00 x 1.1 = 112.20.",
+          "Courier Fee $18.00 is an extra (delivery) \u2014 logged separately, not entered as a receive line. See extras line below.",
+          "GST reconcile: taxable base 102.00 (product) + 16.36 (courier ex) = 118.36? No \u2014 GST included $10.91 = 120.00/11 exactly, so BOTH product and courier are GST-taxable. total/11 = 10.909 \u2713.",
+          "cost_basis per_unit chosen: item is a physical glass unit, not can/bottle beverage; per-unit sanity bound 0.10\u2013500 \u2713 at 9.35."
         ]
       },
       {
@@ -48,15 +47,16 @@
         "gst_amount": null,
         "wet_amount": null,
         "supplier_code": null,
-        "raw_qty": "1",
+        "raw_qty": null,
         "raw_uom": null,
         "pack_qty": "1",
         "pack_unit": "ea",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "Delivery/courier charge \u2014 extras rule, skipped on LS receive, logged as delivery_fee_rolled_in.",
-          "GST treatment ambiguous (see item notes); flagged."
+          "Delivery/courier fee \u2014 matches extras_patterns intent (delivery). line_class=extra, never entered on LS receive; log to price-history.csv as delivery_fee_rolled_in.",
+          "GST-taxable: only way GST included ($10.91) = grand total 120.00/11 works is if courier is also taxable. 120.00/11 = 10.909 \u2713.",
+          "LS receive total expected to be under invoice total by exactly this $18.00 extra."
         ]
       }
     ],
@@ -67,7 +67,7 @@
     "subtotal_ex": null,
     "gst_total": "10.91",
     "wet_total": null,
-    "account_code": "Stowaway Bar / 18/1-3 Moore Road FRESHWATER (shipping+billing name)",
+    "account_code": "Shipping Address: Stowaway Bar, 18/1-3 Moore Road FRESHWATER",
     "source_pdf": "6c4f340777878f03b137ae39463fd9566ec1ab04b73946f659a24a458210a337.pdf",
     "extractor_version": "claude-opus-4-8"
   },

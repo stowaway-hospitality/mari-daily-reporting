@@ -26,10 +26,7 @@
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "Not a stock/food supplier. This is a storage-fee invoice from a removals & storage company billed to a private individual (Bryony Jaccarino, Smiths Lake NSW), not to Stowaway or Harry Gatos. Unit price is GST-INCLUSIVE per this invoice's 'including tax' column headers.",
-          "Tax $26.16 exceeds total/11 ($287.71/11 = $26.16) \u2014 consistent, GST check passes.",
-          "Supplier not in suppliers.yaml. Venue cannot be resolved from any supplier-specific signal (no ILG/Select Fresh/Gulli account code, no PO prefix). The '2428' postcodes are unrelated to ILG account code 2428.",
-          "line_class left 'unknown' \u2014 cannot confirm whether a storage fee is a stock/extra/wos item in this pipeline. Route to human review."
+          "Supplier is a removals/storage company ('Forster Tuncurry Removals & Storage', ABN 81 997 408 615), not in suppliers.yaml \u2014 no supplier_key match. Addressed to 'Bryony Jaccarino, 7 Casson Street, SMITHS LAKE NSW 2428', not a Stowaway/Harry Gatos venue. This appears to be a personal storage invoice, NOT a stock/beverage/food supplier invoice for the venues. The '2428' here is the Tuncurry/Smiths Lake postcode, NOT ILG account code 2428 \u2014 do not confuse. Venue unresolved -> block. Line is a service fee, not a stock item; cannot confidently classify as stock/extra -> unknown for human review."
         ]
       }
     ],
