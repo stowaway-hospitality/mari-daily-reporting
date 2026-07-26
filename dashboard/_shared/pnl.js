@@ -77,6 +77,11 @@ function wowSeries(venue, timeframe, anchorDay, nWeeks) {
       label = 'w/c ' + ws.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
     }
     if (eIso < histMin) break;
+    // Reliability cap: only weeks with ACTUAL COGS (Xero). Earlier weeks fall back
+    // to POS-theoretical COGS (~11%), which badly overstates profit — so we stop
+    // rather than show numbers we know are wrong. COGS coverage is contiguous, so
+    // the first null going back marks the edge of trustworthy data.
+    if (!actualCogs(venue, eIso)) break;
     const sub = rows.filter(r => r.date >= sIso && r.date <= eIso);
     if (!sub.length) continue;
     const w = pnlWindow(rollup(sub), venue);
@@ -85,7 +90,9 @@ function wowSeries(venue, timeframe, anchorDay, nWeeks) {
       rev: w.rev, cogsPct: w.cogsPct,
       wagesPct: w.rev ? w.wages / w.rev * 100 : 0,
       delivPct: w.rev ? w.df / w.rev * 100 : 0,
-      profit: w.profit, margin: w.rev ? w.profit / w.rev * 100 : 0 });
+      profit: w.profit, margin: w.rev ? w.profit / w.rev * 100 : 0,
+      // cost dollars for the stacked chart (gap to revenue = profit)
+      cogs: w.rev * w.cogsPct / 100, wages: w.wages, df: w.df, cp: w.cp, oh: w.oh });
   }
   return out;
 }

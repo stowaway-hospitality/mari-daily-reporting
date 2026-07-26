@@ -1077,9 +1077,14 @@ function renderWoW(day) {
       `<td>${fmtDollars(p.rev)}</td><td>${fmtPct(p.cogsPct)}</td><td>${fmtPct(p.wagesPct)}</td><td>${fmtPct(p.delivPct)}</td>${profitCell}</tr>`;
   }).join('');
   const head = `<thead><tr><th>${weekday ? 'Date' : 'Week'}</th><th>Revenue</th><th>COGS</th><th>Labour</th><th>Delivery</th>${isAdmin ? '<th>Profit</th><th>Margin</th>' : ''}</tr></thead>`;
+  // If the requested span reached past our actual-COGS coverage, wowSeries caps it.
+  const capped = series.length < span;
+  const earliest = new Date(series[series.length - 1].s + 'T00:00').toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: '2-digit' });
+  const capNote = capped ? ` · capped at ${series.length} — actual COGS data starts ${earliest}` : '';
+  const gapNote = isAdmin ? ' Bars = COGS + Labour + Delivery + Corp payroll + Overheads; the gap up to the Revenue line is profit.' : '';
   el.innerHTML = `<div class="section">
     <h2>${title}</h2>
-    <p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 8px;line-height:1.5">${HV[v] || v} · last ${series.length} ${weekday ? dowName + 's' : 'weeks'}, most recent first · ${weekday ? 'same weekday each week' : 'Mon–Sun'}.</p>
+    <p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 8px;line-height:1.5">${HV[v] || v} · last ${series.length} ${weekday ? dowName + 's' : 'weeks'}, most recent first · ${weekday ? 'same weekday each week' : 'Mon–Sun'}${capNote}.${gapNote}</p>
     <div class="wow-toggles">${btns}</div>
     <div class="chart-wrap"><canvas id="wow-chart"></canvas></div>
     <div class="vbx-scroll"><table class="vb-table" style="margin-top:14px">${head}<tbody>${bodyRows}</tbody></table></div>
@@ -1089,18 +1094,32 @@ function renderWoW(day) {
   const tickColor = IS_DARK ? '#B7B1A4' : '#5A544C';
   const gridColor = IS_DARK ? 'rgba(120,110,90,0.2)' : 'rgba(232,223,207,0.4)';
   const fmtK = val => '$' + (Math.abs(val) >= 1000 ? (val / 1000).toFixed(0) + 'k' : val);
-  const datasets = [{ type: 'bar', label: 'Revenue', data: chron.map(p => Math.round(p.rev)), backgroundColor: '#378ADD', borderWidth: 0, yAxisID: 'y', order: 2 }];
-  if (isAdmin) datasets.push({ type: 'line', label: 'Profit', data: chron.map(p => Math.round(p.profit)), borderColor: '#1D9E75', backgroundColor: '#1D9E7520', borderWidth: 2.5, pointRadius: chron.length > 26 ? 0 : 3, pointBackgroundColor: '#1D9E75', tension: 0.25, yAxisID: 'y1', order: 1 });
+  let datasets;
+  if (isAdmin) {
+    // Stacked cost bars (COGS + Labour + Delivery + Corp payroll + Overheads) with
+    // the Revenue line on top — the gap between them is profit. Same palette as the
+    // admin trend chart so the two read the same.
+    const mk = (label, color, key) => ({ type: 'bar', label, stack: 'costs', backgroundColor: color, borderWidth: 0, data: chron.map(p => Math.round(p[key] || 0)), order: 2 });
+    datasets = [
+      mk('COGS', '#D85A30', 'cogs'),
+      mk('Labour', '#7F77DD', 'wages'),
+      mk('Delivery', '#EF9F27', 'df'),
+      mk('Corp payroll', '#D4537E', 'cp'),
+      mk('Overheads', '#888780', 'oh'),
+      { type: 'line', label: 'Revenue', data: chron.map(p => Math.round(p.rev)), borderColor: '#378ADD', backgroundColor: '#378ADD20', borderWidth: 2.5, pointRadius: chron.length > 30 ? 0 : 3, pointBackgroundColor: '#378ADD', tension: 0.25, order: 1 },
+    ];
+  } else {
+    datasets = [{ type: 'bar', label: 'Revenue', data: chron.map(p => Math.round(p.rev)), backgroundColor: '#378ADD', borderWidth: 0, order: 2 }];
+  }
   WOW_CHART = new Chart(ctx, {
     data: { labels: chron.map(p => p.label.replace('w/c ', '')), datasets },
     options: {
       responsive: true, maintainAspectRatio: false,
       scales: {
-        y: { position: 'left', ticks: { callback: fmtK, font: { family: 'Inter', size: 11 }, color: tickColor }, grid: { color: gridColor } },
-        y1: { position: 'right', display: isAdmin, ticks: { callback: fmtK, font: { family: 'Inter', size: 11 }, color: tickColor }, grid: { display: false } },
-        x: { ticks: { font: { family: 'Inter', size: 11 }, color: tickColor, maxTicksLimit: 16 }, grid: { display: false } }
+        y: { stacked: isAdmin, beginAtZero: true, ticks: { callback: fmtK, font: { family: 'Inter', size: 11 }, color: tickColor }, grid: { color: gridColor } },
+        x: { stacked: isAdmin, ticks: { font: { family: 'Inter', size: 11 }, color: tickColor, maxTicksLimit: 16 }, grid: { display: false } }
       },
-      plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, boxHeight: 3, usePointStyle: true, pointStyle: 'line', font: { family: 'Space Grotesk', size: 12, weight: '500' }, color: tickColor, padding: 14 } } }
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, boxHeight: 8, font: { family: 'Space Grotesk', size: 12, weight: '500' }, color: tickColor, padding: 14 } } }
     }
   });
 }
