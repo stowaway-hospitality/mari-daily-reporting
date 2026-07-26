@@ -1,8 +1,152 @@
 {
   "generated": "2026-07-27",
-  "count": 15,
+  "count": 18,
   "skipped_already_in_xero": 26,
   "invoices": [
+    {
+      "ref": "7021990",
+      "supplier": "B&E Foods Pty Ltd",
+      "supplier_key": "be_foods",
+      "date": "2026-07-27",
+      "due_date": "2026-08-03",
+      "total": "1025.10",
+      "venue": "stowaway",
+      "pdf_path": "8aad7105134fee329e3bf8183de17b8b122b4644b038dd62f231485cbbc2b196.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "FZ CHIPS - ULTRA SWEET",
+          "supplier_code": "19957",
+          "qty": "1.00",
+          "amount": "73.00",
+          "unit_cost": "$73.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ CHIPS - CRISPY COATED",
+          "supplier_code": "15555",
+          "qty": "3.00",
+          "amount": "120.00",
+          "unit_cost": "$40.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HAM - SOCCERBALL SLICED",
+          "supplier_code": "27544",
+          "qty": "1.00",
+          "amount": "12.70",
+          "unit_cost": "$12.70/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BEEF - BRISKET YG POINT",
+          "supplier_code": "10876",
+          "qty": "25.60",
+          "amount": "358.40",
+          "unit_cost": "$14.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ FLOUR TORTILLAS - 6\"",
+          "supplier_code": "30741",
+          "qty": "1.00",
+          "amount": "65.00",
+          "unit_cost": "$65.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHICKEN THIGH (F) STRIP",
+          "supplier_code": "10595",
+          "qty": "10.00",
+          "amount": "148.00",
+          "unit_cost": "$14.80/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHICKEN THIGH (F) S/OFF",
+          "supplier_code": "10258",
+          "qty": "5.00",
+          "amount": "74.00",
+          "unit_cost": "$14.80/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ CHICKEN BREAST",
+          "supplier_code": "16952",
+          "qty": "2.00",
+          "amount": "174.00",
+          "unit_cost": "$87.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "7022280",
+      "supplier": "B&E Foods Pty Ltd",
+      "supplier_key": "be_foods",
+      "date": "2026-07-27",
+      "due_date": "2026-08-03",
+      "total": "215.00",
+      "venue": "stowaway",
+      "pdf_path": "2a0e922566c4f53f9c844a4491a98ec720f81d2e81e8601ccb6195efbffb9098.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "PROSCIUTTO SLICED 500G",
+          "supplier_code": "10796",
+          "qty": "2.00",
+          "amount": "56.00",
+          "unit_cost": "$56.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ PRAWN - RAW MEAT (I)",
+          "supplier_code": "13582",
+          "qty": "10.00",
+          "amount": "159.00",
+          "unit_cost": "$15.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
     {
       "ref": "OMI295930",
       "supplier": "Mallia Industries Pty Ltd",
@@ -483,6 +627,45 @@
           "account_code": "111",
           "account_name": "Purchases Other COGS",
           "reason": "fallback \u2014 no rule matched"
+        }
+      ]
+    },
+    {
+      "ref": "INV-4243",
+      "supplier": "The Beerline Cleaning Company Pty Limited",
+      "supplier_key": "the_beerline_cleaning_company",
+      "date": "2026-07-19",
+      "due_date": "2026-07-24",
+      "total": "484.00",
+      "venue": "unknown",
+      "pdf_path": "9806af3651b4acfd183923650f275de1253c1d380c8a005d15c0ab179c19cf73.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "To Be Reviewed",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "Beer Line Cleaning - 6 Week Rotation billed monthly",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "290.00",
+          "unit_cost": "$290.00/ea",
+          "tax": "gst",
+          "account_code": "306",
+          "account_name": "Cleaning",
+          "reason": "line keyword -> Cleaning"
+        },
+        {
+          "description": "Beer Line cleaning at Harrygatos",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "150.00",
+          "unit_cost": "$150.00/ea",
+          "tax": "gst",
+          "account_code": "306",
+          "account_name": "Cleaning",
+          "reason": "line keyword -> Cleaning"
         }
       ]
     },
