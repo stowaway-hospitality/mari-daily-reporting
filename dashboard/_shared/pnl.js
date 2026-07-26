@@ -82,14 +82,15 @@ function wowSeries(venue, timeframe, anchorDay, nWeeks) {
     // rather than show numbers we know are wrong. COGS coverage is contiguous, so
     // the first null going back marks the edge of trustworthy data.
     if (!actualCogs(venue, eIso)) break;
-    // Mari (and group's Mari share) delivery is only trustworthy with real Uber data
-    // — before that it's driver wages only, badly understating a delivery brand.
-    if ((venue === 'mari' || venue === 'group') && !venueDeliveryEst('mari', sIso, eIso, eIso).actual) break;
     const sub = rows.filter(r => r.date >= sIso && r.date <= eIso);
     if (!sub.length) continue;
     const w = pnlWindow(rollup(sub), venue);
     if (!w) continue;
-    out.push({ label, s: sIso, e: eIso, partial: eIso > histMax,
+    // Flag weeks whose Mari delivery is an ESTIMATE (no booked Uber data yet), so
+    // the UI can mark them rather than pretend they're actuals.
+    const estDelivery = (venue === 'mari' || venue === 'group')
+      ? !(venueDeliveryEst('mari', sIso, eIso, eIso).actual || deliveryFeesPct('mari', eIso)) : false;
+    out.push({ label, s: sIso, e: eIso, partial: eIso > histMax, estDelivery,
       rev: w.rev, cogsPct: w.cogsPct,
       wagesPct: w.rev ? w.wages / w.rev * 100 : 0,
       delivPct: w.rev ? w.df / w.rev * 100 : 0,
@@ -166,6 +167,22 @@ function ohFactor(day, venue, wdays) {
   const t = String(day.date || '');
   if (/^\d{4}-\d{2}-\d{2}$/.test(t)) return 7 * shares[new Date(t).getDay()];
   return wdays;
+}
+
+function uberRateFallback(venue) {
+  // Blended Uber-fee rate (inc GST) as a share of revenue, from the weeks we DO
+  // have Uber actuals for. Used to ESTIMATE delivery on older weeks that predate
+  // the Uber feed, so a delivery brand's cost line isn't left at driver-only.
+  if (venue !== 'mari' || !STATE.uberFees || !STATE.uberFees.length) return null;
+  const hist = STATE.histories.mari || [];
+  let fees = 0, rev = 0;
+  for (const r of STATE.uberFees) {
+    if (r.venue !== 'mari' || !r.week_ending) continue;
+    fees += toNum(r.total_fees_inc_gst);
+    const s0 = isoDate(addDays(new Date(r.week_ending), -6));
+    for (const d of hist) if (d.date >= s0 && d.date <= r.week_ending) rev += toNum(d.revenue_ex_gst);
+  }
+  return rev ? fees / rev : null;
 }
 
 function uberWeeklyFees(venue, sIso, eIso) {
@@ -252,7 +269,11 @@ function venueDeliveryEst(venue, sIso, eIso, endIso) {
   const dfr = deliveryFeesPct(venue, endIso);
   const dfEst = dfr ? rev * dfr.pct / 100 : 0;
   const _u = uberSplit(venue, sIso, eIso) || uberWeeklyFees(venue, sIso, eIso);
-  if (!_u) return { df: dfEst, commission: 0, marketing: 0, direct: null, actual: false };
+  if (!_u) {
+    let est = dfEst;
+    if (venue === 'mari' && !est) { const rt = uberRateFallback('mari'); if (rt) est = rt * rev; }
+    return { df: est, commission: 0, marketing: 0, direct: null, actual: false };
+  }
   const dir = uberDirectActual(venue, sIso, eIso);
   const directActual = dir && dir.covered;
   const nonUber = directActual ? dir.fee : dfEst * (1 - uberEatsShareOfDelivery(venue, endIso));
@@ -310,7 +331,7 @@ function overheadsDailyRate(venue, endIso) {
   const feed = STATE.xeroOH;
   if (!feed.length) return null;
   const endMonth = String(endIso || '').slice(0, 7);
-  const months = feed.filter(r => r.month && r.month < endMonth).sort((a, b) => a.month.localeCompare(b.month)).slice(-4);
+  const months = feed.filter(r => r.month && r.month < endMonth && hasVal(r.stow_overheads)).sort((a, b) => a.month.localeCompare(b.month)).slice(-4);
   if (!months.length) return null;
   const val = r => venue === 'group'
     ? toNum(r.stow_overheads) + toNum(r.hg_overheads) + toNum(r.mari_overheads)
@@ -535,6 +556,9 @@ function actualProfitWindow(day) {
     const rs = revOf('stow'), rh = revOf('hg');
     return (rs + rh) ? (v === 'stow' ? rs : rh) / (rs + rh) : 0;
   })() : 1;
+  // Skip months without booked payroll/COS (e.g. Uber-fee-only backfill rows) —
+  // those aren't real closed months, so 'actual' profit must not read them as zeros.
+  if (!months.every(m => feed[m] && hasVal(feed[m].group_payroll))) return null;
   let cos = 0, wages = 0, oh = 0, df = 0, fin = 0;
   for (const m of months) {
     const r = feed[m];

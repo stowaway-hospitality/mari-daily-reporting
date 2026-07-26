@@ -1069,12 +1069,13 @@ function renderWoW(day) {
   const btns = [6, 12, 26, 52].map(nw =>
     `<button class="${span === nw ? 'active' : ''}" onclick="setWowSpan(${nw})">${nw} wks</button>`).join('');
   const money = n => (n < 0 ? '−$' : '$') + Math.round(Math.abs(n)).toLocaleString();
+  const est = p => p.estDelivery ? ' style="opacity:.6" title="delivery estimated from your Uber-fee rate — no booked Uber data this far back"' : '';
   const bodyRows = series.map(p => {
     const cls = p.partial ? ' class="wow-partial"' : '';
     const profitCell = isAdmin
-      ? `<td><span class="${p.profit >= 0 ? 'vb-pos' : 'vb-neg'}">${money(p.profit)}</span></td><td>${fmtPct(p.margin)}</td>` : '';
+      ? `<td${est(p)}><span class="${p.profit >= 0 ? 'vb-pos' : 'vb-neg'}">${money(p.profit)}</span></td><td${est(p)}>${fmtPct(p.margin)}</td>` : '';
     return `<tr${cls}><td>${p.label}${p.partial ? ' · <span style="font-size:11px">partial</span>' : ''}</td>` +
-      `<td>${fmtDollars(p.rev)}</td><td>${fmtPct(p.cogsPct)}</td><td>${fmtPct(p.wagesPct)}</td><td>${fmtPct(p.delivPct)}</td>${profitCell}</tr>`;
+      `<td>${fmtDollars(p.rev)}</td><td>${fmtPct(p.cogsPct)}</td><td>${fmtPct(p.wagesPct)}</td><td${est(p)}>${p.estDelivery ? '~' : ''}${fmtPct(p.delivPct)}</td>${profitCell}</tr>`;
   }).join('');
   const head = `<thead><tr><th>${weekday ? 'Date' : 'Week'}</th><th>Revenue</th><th>COGS</th><th>Labour</th><th>Delivery</th>${isAdmin ? '<th>Profit</th><th>Margin</th>' : ''}</tr></thead>`;
   // If the requested span reached past our actual-COGS coverage, wowSeries caps it.
@@ -1082,9 +1083,11 @@ function renderWoW(day) {
   const earliest = new Date(series[series.length - 1].s + 'T00:00').toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: '2-digit' });
   const capNote = capped ? ` · capped at ${series.length} — actual COGS data starts ${earliest}` : '';
   const gapNote = isAdmin ? ' Bars = COGS + Labour + Delivery + Corp payroll + Overheads; the gap up to the Revenue line is profit.' : '';
+  const anyEst = series.some(p => p.estDelivery);
+  const estNote = anyEst ? ' Rows marked ~ have delivery estimated from your actual Uber-fee rate (booked Uber data starts Apr 2026).' : '';
   el.innerHTML = `<div class="section">
     <h2>${title}</h2>
-    <p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 8px;line-height:1.5">${HV[v] || v} · last ${series.length} ${weekday ? dowName + 's' : 'weeks'}, most recent first · ${weekday ? 'same weekday each week' : 'Mon–Sun'}${capNote}.${gapNote}</p>
+    <p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 8px;line-height:1.5">${HV[v] || v} · last ${series.length} ${weekday ? dowName + 's' : 'weeks'}, most recent first · ${weekday ? 'same weekday each week' : 'Mon–Sun'}${capNote}.${gapNote}${estNote}</p>
     <div class="wow-toggles">${btns}</div>
     <div class="chart-wrap"><canvas id="wow-chart"></canvas></div>
     <div class="vbx-scroll"><table class="vb-table" style="margin-top:14px">${head}<tbody>${bodyRows}</tbody></table></div>
