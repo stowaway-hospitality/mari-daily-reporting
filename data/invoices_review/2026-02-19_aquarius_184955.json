@@ -26,9 +26,10 @@
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "Aquarius is gst_free (basic food) \u2014 invoice states ex-GST but seafood is GST-free, so ex==incl. Total $350.00 with $0 GST is normal.",
-          "Venue unresolved: address 'Shop 18/1-3 Moore Rd' is shared across Stowaway/Harry Gatos and is NOT a reliable per-supplier signal. No account code, PO, or supplier-specific venue signal present. Emitting unknown per \u00a77.",
-          "Qty column = 2, CARTON COUNT = '2 Boxes', unit price $175.00 x 2 = $350.00 total reconciles."
+          "Aquarius default_tax gst_free (basic seafood); footer states Total $350.00 = sum of line ex-GST, GST $0 which is normal for GST-free food.",
+          "Unit price derived: 350.00 / (2 * 1) = 175.00 per box, matching the printed unit price.",
+          "Venue UNRESOLVED: address 'Shop 18/1-3 Moore Rd' is the identical Stowaway/Harry Gatos address and is NOT a reliable per-supplier signal (Select Fresh proved it misfires). No account code, no PO, no Aquarius-specific venue rule in venue_resolution.by_supplier. Emitting 'unknown' per \u00a77 \u2014 do not guess. 'Marilynas Freshwater / Upstairs Freshwater Plaza' is descriptive text, not a verified Aquarius venue signal.",
+          "cost_basis per_unit: item priced per box of prawn meat; pack_size unknown per stock unit, treated as single box unit."
         ]
       }
     ],

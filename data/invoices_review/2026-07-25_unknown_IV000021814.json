@@ -26,9 +26,10 @@
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "Supplier not in suppliers.yaml \u2014 this is a storage/removals invoice addressed to 'Bryony Jaccarino, 7 Casson Street, SMITHS LAKE', not a Stowaway/Harry Gatos stock supplier. The '2428' postcode coincides with ILG's Stowaway account code but is unrelated. No venue signal present \u2014 emitting unknown.",
-          "Line is a service fee (monthly storage), not a stock item. Cannot confidently classify as extra vs stock under this pipeline \u2014 left unknown for review rather than guessed.",
-          "Unit price read as stated column value; equals line total for qty 1 (consistent with derive rule). Total_incl 287.71, GST 26.16 = 287.71/11 \u2713."
+          "Not a stock/food supplier. This is a storage-fee invoice from a removals & storage company billed to a private individual (Bryony Jaccarino, Smiths Lake NSW), not to Stowaway or Harry Gatos. Unit price is GST-INCLUSIVE per this invoice's 'including tax' column headers.",
+          "Tax $26.16 exceeds total/11 ($287.71/11 = $26.16) \u2014 consistent, GST check passes.",
+          "Supplier not in suppliers.yaml. Venue cannot be resolved from any supplier-specific signal (no ILG/Select Fresh/Gulli account code, no PO prefix). The '2428' postcodes are unrelated to ILG account code 2428.",
+          "line_class left 'unknown' \u2014 cannot confirm whether a storage fee is a stock/extra/wos item in this pipeline. Route to human review."
         ]
       }
     ],

@@ -12,25 +12,26 @@
         "line_total_incl": "377.30",
         "unit_price_incl": "377.30",
         "unit_price_ex": null,
-        "pack_size": 1,
+        "pack_size": null,
         "line_class": "unknown",
         "tax_treatment": "gst",
         "cost_basis": "per_unit",
         "gst_amount": null,
         "wet_amount": null,
         "supplier_code": null,
-        "raw_qty": "1",
+        "raw_qty": null,
         "raw_uom": null,
         "pack_qty": "1",
         "pack_unit": "ea",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "This is a STATEMENT, not an invoice. It shows a single A/R Invoice (Doc. No. 87979, dated 21-Jul-2026, ref 'Sydney Metro') for 377.30 as the outstanding balance \u2014 no line items, no product codes, no GST breakdown, no pack detail.",
-          "Supplier BentSpoke Brewing is not in suppliers.yaml \u2014 no supplier_key match, no extraction rules. supplier_key set to 'unknown'.",
-          "The underlying invoice 87979 must be obtained to extract actual stock lines. This statement alone cannot be receipted or reconciled per-line.",
-          "Venue: address is '18 Ellen Street, Curl Curl' / 'Stowaway Freshwater Pty Ltd T/A Stowaway Bar' \u2014 this looks like Stowaway, but no BentSpoke venue signal is defined in venue_resolution.by_supplier. Per \u00a77, do not guess: venue=unknown. validate() will block.",
-          "GST unknown \u2014 no GST line printed on statement; do not assume."
+          "This is a STATEMENT, not an invoice. It is a customer account statement from BentSpoke Brewing Company listing one A/R invoice (Doc No. 87979) dated 21-Jul-2026 for $377.30 with no line items, no product codes, no quantities, and no per-line pricing.",
+          "The underlying invoice 87979 is NOT present in this document \u2014 only its statement balance line. Cannot extract product lines, cannot derive unit prices, cannot classify.",
+          "BentSpoke is not a supplier defined in suppliers.yaml. No alias, no rules, no product_resolution table. Emitting supplier_key=unknown per \u00a73 rather than guessing.",
+          "Venue: statement is addressed to Stowaway Freshwater Pty Ltd (18 Ellen Street, Curl Curl) \u2014 but no supplier-specific venue signal (\u00a77) is available for BentSpoke and address is not a reliable signal group-wide. Venue=unknown per unresolved_action: block.",
+          "GST cannot be verified \u2014 no GST breakdown printed. Statement shows a bare AUD total of 377.30.",
+          "REFUSE per \u00a70 prime directive: this document does not carry line detail that can reconcile. Route to human review \u2014 the actual invoice PDF (87979) must be obtained and processed instead."
         ]
       }
     ],

@@ -20,14 +20,15 @@
         "wet_amount": null,
         "supplier_code": "APDW31",
         "raw_qty": "1",
-        "raw_uom": "1 Box",
+        "raw_uom": "Box",
         "pack_qty": "1",
         "pack_unit": "box",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "Aquarius default_tax gst_free; footer Total = line total = $175.00, no GST shown (normal for basic seafood).",
-          "Venue: address 'Shop 18/1-3 Moore Rd, Upstairs Freshwater Plaza' is the shared Stowaway/Harry Gatos address and is NOT a reliable per-supplier signal. Aquarius has no verified venue signal in config. 'Upstairs' hints Harry Gatos but per-supplier text-matching is forbidden (Select Fresh lesson). No account code / PO present -> venue unknown, blocked for review."
+          "Aquarius is gst_free (basic seafood); invoice total ex == incl, GST $0.00 is normal.",
+          "Venue unresolved: address 'Shop 18/1-3 Moore Rd' is identical across Stowaway and Harry Gatos per Select Fresh finding; no Aquarius-specific account-code venue signal exists in config. Emitting unknown per \u00a77 rather than guessing.",
+          "CARTON COUNT '1 Box' = one box; qty 1 confirmed. Line total authoritative."
         ]
       }
     ],
