@@ -97,6 +97,7 @@ def build() -> dict:
             sup_rows.append({
                 "supplier": supplier, "cost": round(cost, 4), "date": d,
                 "desc": desc, "change_pct": change, "n": len(obs),
+                "prev_cost": round(prev[1], 4) if prev else None,
             })
         sup_rows.sort(key=lambda s: s["cost"])
         cheapest = sup_rows[0]["supplier"]
@@ -131,9 +132,32 @@ def build() -> dict:
         not (i["multi"] and not i["suspect"]),
         -i["spread_pct"] if (i["multi"] and not i["suspect"]) else 0,
         not i["suspect"], i["name"].lower()))
+
+    # Cost creep — where a supplier's price rose since the last order. This is the
+    # part that matters for the ~95% of items with only one supplier: you can't
+    # switch, but you can SEE the rise and question it. A rise of MOVE_MIN% or more
+    # (and a real cash move, not a rounding wobble on a cheap line) surfaces here,
+    # biggest first, so a supplier creeping prices up gets noticed the week it
+    # happens rather than at year-end.
+    MOVE_MIN = 5.0
+    movers = []
+    for ing in ingredients:
+        for s in ing["suppliers"]:
+            pct, prev = s.get("change_pct"), s.get("prev_cost")
+            if pct is None or prev is None or pct < MOVE_MIN:
+                continue
+            if (s["cost"] - prev) < 0.02:      # ignore sub-2c moves on cheap lines
+                continue
+            movers.append({
+                "name": ing["name"], "supplier": s["supplier"], "unit": ing["unit"],
+                "prev": prev, "cost": s["cost"], "pct": pct, "date": s["date"],
+            })
+    movers.sort(key=lambda m: -m["pct"])
+
     return {"generated": date.today().isoformat(),
             "count": len(ingredients),
             "compared": sum(1 for i in ingredients if i["multi"]),
+            "movers": movers,
             "ingredients": ingredients}
 
 

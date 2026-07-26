@@ -85,6 +85,17 @@ def test_unrelated_items_do_not_merge():
         "OLIVES WHOLE LEMON & GARLIC MARINATED 10KG Sandhurst")
 
 
+def test_dimensions_are_identity_not_pack_noise():
+    # An 11" box is a different SKU from a 13" box — merging them invents a price
+    # "rise" when you buy the bigger one. The inch dimension must survive.
+    assert canonical_key('B Flute Lock Top 11" Pizza Boxes x 50') != \
+           canonical_key('B Flute Lock Top 13" Pizza Boxes x 50')
+
+
+def test_filler_stopwords_do_not_split_an_ingredient():
+    assert canonical_key("OLIVES WHOLE IN BRINE 5KG") == canonical_key("Olives Whole Brine")
+
+
 # ── the build: grouping, cheapest, unit-aware suspect gate ─────────────────
 
 def _run_build(rows, tmp_path, monkeypatch):
@@ -147,3 +158,24 @@ def test_build_inexact_unit_flags_moderate_gap(tmp_path, monkeypatch):
     ], tmp_path, monkeypatch)
     g = [i for i in out["ingredients"] if "lettuce" in i["key"]][0]
     assert g["multi"] and g["suspect"], "inexact unit + big gap must be suspect"
+
+
+def test_build_surfaces_a_price_rise_as_a_mover(tmp_path, monkeypatch):
+    # Same supplier, price went up between two invoices -> it must appear in movers.
+    out = _run_build([
+        _row("Foodlink", "Chicken Breast", "11.00", date="2026-06-01"),
+        _row("Foodlink", "Chicken Breast", "13.20", date="2026-07-01"),
+    ], tmp_path, monkeypatch)
+    movers = [m for m in out["movers"] if "chicken" in m["name"].lower()]
+    assert movers, "a 20% rise since last order must surface as a mover"
+    m = movers[0]
+    assert m["prev"] == 11.0 and m["cost"] == 13.2 and m["pct"] == 20.0
+
+
+def test_build_ignores_tiny_moves_on_cheap_lines(tmp_path, monkeypatch):
+    # A 1c wobble on a $0.40 line is noise, not cost creep — must NOT be a mover.
+    out = _run_build([
+        _row("Gulli", "Paper Straw", "0.40", basis="per_unit", date="2026-06-01"),
+        _row("Gulli", "Paper Straw", "0.41", basis="per_unit", date="2026-07-01"),
+    ], tmp_path, monkeypatch)
+    assert not [m for m in out["movers"] if "straw" in m["name"].lower()]

@@ -54,6 +54,15 @@
   .pl{border:1px solid var(--line);border-radius:12px;background:var(--paper);overflow:hidden}
   .empty{text-align:center;color:var(--ink-soft);padding:50px 20px}
   .hide{display:none}
+  /* price-rise (cost creep) rows */
+  .rise{display:flex;align-items:center;gap:12px;padding:9px 15px;border-top:1px solid var(--line)}
+  .rise:first-child{border-top:none}
+  .rise .r-pct{font-size:13px;font-weight:700;color:var(--red);min-width:64px;font-variant-numeric:tabular-nums}
+  .rise .r-name{font-size:13.5px;font-weight:600;min-width:150px}
+  .rise .r-sup{font-size:12px;color:var(--ink-soft)}
+  .rise .r-move{margin-left:auto;font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .rise .r-move .old{color:var(--ink-soft);text-decoration:line-through;margin-right:6px}
+  .rise .r-date{font-size:11px;color:var(--ink-soft);min-width:70px;text-align:right}
 </style>
 </head>
 <body>
@@ -123,6 +132,15 @@ function comparedCard(i){
     <div class="sups">${rows}</div></div>`;
 }
 
+function moverRow(m){
+  return `<div class="rise" data-name="${esc(m.name.toLowerCase())}">
+    <span class="r-pct">▲ ${m.pct.toFixed(1)}%</span>
+    <span class="r-name">${esc(m.name)}</span>
+    <span class="r-sup">${esc(m.supplier)}</span>
+    <span class="r-move"><span class="old">${money(m.prev)}</span>${money(m.cost)}<small style="color:var(--ink-soft)">/${esc(m.unit)}</small></span>
+    <span class="r-date">${esc(m.date)}</span></div>`;
+}
+
 function priceRow(i){
   const s = i.suppliers[0];
   return `<tr data-name="${esc(i.name.toLowerCase())}">
@@ -144,7 +162,16 @@ function render(){
   document.getElementById('stat').innerHTML =
     `<b>${DATA.count||DATA.ingredients.length}</b> ingredients · <b>${DATA.compared||compared.length}</b> across 2+ suppliers`;
 
+  const movers = (DATA.movers || []).filter(m =>
+    !q || m.name.toLowerCase().includes(q) || m.supplier.toLowerCase().includes(q));
+
   let html = '';
+  if (movers.length){
+    html += `<h2 class="sec">Price rises since last order <span class="n">${movers.length}</span></h2>`;
+    html += `<p class="sec-note">A supplier's price went up between invoices — biggest first. You can't always switch,
+      but a cost creeping up gets seen the week it happens instead of at year-end.</p>`;
+    html += `<div class="pl">${movers.map(moverRow).join('')}</div>`;
+  }
   if (compared.length){
     html += `<h2 class="sec">Compared across suppliers <span class="n">${compared.length}</span></h2>`;
     html += `<p class="sec-note">Same ingredient, more than one supplier — cheapest first. Biggest gaps at the top.</p>`;

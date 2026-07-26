@@ -74,13 +74,32 @@ _NOISE = {
     # "Parsley". Dropping it lets the two suppliers' herbs line up. The specific
     # herb (parsley/basil/chives) is still there to carry identity.
     "herb", "herbs",
+    # filler stopwords — never an ingredient's identity. "Olives in brine" and
+    # "Olives brine" are the same olives. Kept short and safe; words that CAN
+    # change identity (on/off as in on-the-bone) are deliberately left out.
+    "in", "of", "the", "and", "with", "to", "for",
 }
 # units already captured by pack_size — never part of identity
 _UNITS = {"kg", "kgs", "g", "gm", "gms", "gram", "grams", "ml", "l", "lt", "ltr",
           "litre", "litres", "liter", "liters", "kilo", "kilos"}
 
 _NUM = re.compile(r"^\d+(\.\d+)?$")
-_PACKNUM = re.compile(r"\b\d+(\.\d+)?\s*(kg|kgs|g|gm|gms|gram|grams|ml|l|lt|ltr|litres?|liters?|kilos?|x|inch|in|mm|cm)\b", re.I)
+# Pack/quantity numbers to STRIP from identity (5kg, 200g, 6x). Note: physical
+# DIMENSIONS (inch/mm/cm) are deliberately NOT here — a 11" pizza box is a
+# different SKU from a 13" one, so the dimension is identity, not pack noise.
+_PACKNUM = re.compile(r"\b\d+(\.\d+)?\s*(kg|kgs|g|gm|gms|gram|grams|ml|l|lt|ltr|litres?|liters?|kilos?|x)\b", re.I)
+# A dimension: "11\"", "11 inch", "225mm", "22.5cm". Joined to a canonical token
+# (11in, 225mm) BEFORE tokenising so the number survives as part of the identity
+# and 11" vs 13" never merge. Longest units first so "inch" wins over "in".
+_DIM = re.compile(r'(\d+(?:\.\d+)?)\s*(?:"|(?:inches|inch|in|mm|cm)\b)', re.I)
+
+
+def _dim_unit(m: "re.Match") -> str:
+    raw = m.group(0)[len(m.group(1)):].strip().lower().strip('"')
+    unit = "in" if (not raw or raw.startswith("in") or '"' in m.group(0)) else raw
+    return f"{m.group(1)}{unit} "
+
+
 _PARENS = re.compile(r"\([^)]*\)")
 
 
@@ -101,6 +120,7 @@ def _singular(t: str) -> str:
 def tokens(description: str) -> list[str]:
     """Significant identity tokens, original order, noise/pack/units removed."""
     d = _PARENS.sub(" ", (description or "").lower())
+    d = _DIM.sub(_dim_unit, d)                    # "11\"" -> "11in" (kept as identity)
     d = _PACKNUM.sub(" ", d)                      # "5kg", "200g", "6x" -> gone
     d = re.sub(r"[^a-z0-9]+", " ", d)             # punctuation/dashes -> space
     out = []
