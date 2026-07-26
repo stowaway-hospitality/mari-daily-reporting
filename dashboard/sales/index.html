@@ -962,53 +962,21 @@ var CARD_DEFS = {
     return { label: 'COGS', value: fmtPct(a.pct) + chip, sub: sub2, status: cogsStatus(a.pct) };
   },
   delivery_fees: (day, cfg) => {
-    const rev = toNum(day.revenue_ex_gst);
-    // Mari's own delivery drivers count as a delivery cost (Zak, 2026-07-26):
-    // fold driver wages into the number. Only Mari/group carry drivers.
-    const drv = (STATE.currentVenue === 'mari' || STATE.currentVenue === 'group') && hasVal(day.wages_driver_dollars) ? toNum(day.wages_driver_dollars) : 0;
-    const drvNote = drv ? ` \u00b7 incl driver ${fmtDollars(drv)}` : '';
-    const fa = feesActualWindow(day);
-    if (fa && rev) {
-      const uberLbl = fa.portal ? 'Uber svc (portal, ex-mktg)' : 'Uber';
-      const src = STATE.currentVenue === 'mari'
-        ? `${uberLbl} + Uber Direct ${fmtDollars(fa.mari)}${fa.portal && fa.mkt ? ` \u00b7 Uber marketing ${fmtDollars(fa.mkt)} excluded` : ''}`
-        : STATE.currentVenue === 'group'
-        ? `${uberLbl}+Direct ${fmtDollars(fa.mari)} \u00b7 ME&U+Doshii ${fmtDollars(fa.meu)}`
-        : 'ME&U + Doshii, revenue-share';
-      return { label: 'Delivery platforms ' + pill('actual', 'green'), value: fmtPct((fa.fees + drv) / rev * 100),
-        sub: `${fmtDollars(fa.fees + drv)} actual${fa.portal ? ' (Uber portal + Xero)' : ', booked in Xero'}, ${fa.nMonths} complete month${fa.nMonths > 1 ? 's' : ''} \u00b7 ${src}${drvNote}`, status: 'unknown' };
-    }
-    const dfr = deliveryFeesPct(STATE.currentVenue, winEnd(day));
-    if (!dfr || !rev) return { label: 'Delivery platforms', value: '\u2014', sub: 'no Xero fee data', status: 'unknown' };
-    const _win = String(day.date).includes(' — ') ? String(day.date).split(' — ') : [day.date, day.date];
-    // Group: sum each venue's live actual-or-estimate when any Uber data covers
-    // the window, so the card is current (not the blended trailing rate).
-    if (STATE.currentVenue === 'group' && rev) {
-      const parts = REAL_VENUES.map(v => venueDeliveryEst(v, _win[0], _win[1], winEnd(day)));
-      if (parts.some(x => x.actual)) {
-        const del = parts.reduce((t, x) => t + x.df, 0);
-        const comm = parts.reduce((t, x) => t + x.commission, 0);
-        const mktG = parts.reduce((t, x) => t + x.marketing, 0);
-        const direct = parts.reduce((t, x) => t + (x.direct || 0), 0);
-        const dirT = parts.some(x => x.direct !== null) ? ` · Uber Direct ${fmtDollars(direct)}` : '';
-        const mktT = mktG > 0 ? ` · marketing ${fmtDollars(mktG)} (offers+ads)` : '';
-        return { label: 'Delivery platforms ' + pill('Uber actual', 'green'), value: fmtPct((del + drv) / rev * 100),
-          sub: `${fmtDollars(del + drv)} · Uber commission ${fmtDollars(comm)}${dirT}${mktT} + ME&U est${drvNote}`, status: 'unknown' };
-      }
-    }
-    const p = STATE.currentVenue === 'group' ? null : venueDeliveryEst(STATE.currentVenue, _win[0], _win[1], winEnd(day));
-    if (p && p.actual) {
-      const other = STATE.currentVenue === 'mari'
-        ? (p.direct !== null ? ` · Uber Direct ${fmtDollars(p.direct)}` : ' + Uber Direct est')
-        : ' + ME&U est';
-      const mkt = p.marketing > 0 ? ` · marketing ${fmtDollars(p.marketing)} (offers+ads)` : '';
-      const lbl = STATE.currentVenue === 'mari' && p.direct !== null ? 'Uber+Direct actual' : 'Uber actual';
-      return { label: 'Delivery platforms ' + pill(lbl, 'green'), value: fmtPct((p.df + drv) / rev * 100),
-        sub: `${fmtDollars(p.df + drv)} · Uber commission ${fmtDollars(p.commission)}${mkt}${other}${drvNote}`, status: 'unknown' };
-    }
-    const src = STATE.currentVenue === 'mari' ? 'Uber Eats + Direct' : STATE.currentVenue === 'group' ? 'all platforms' : 'ME&U share';
-    return { label: 'Delivery platforms', value: fmtPct((rev * dfr.pct / 100 + drv) / rev * 100),
-      sub: `est. ${fmtDollars(rev * dfr.pct / 100 + drv)} ${src} fees (Xero trailing ${dfr.months}-mo rate)${drvNote}`, status: 'unknown' };
+    const b = deliveryBreakdown(day, STATE.currentVenue);
+    if (!b.rev || (!b.total && !b.platform)) return { label: 'Delivery platforms', value: '\u2014', sub: 'no delivery data', status: 'unknown' };
+    // Internal breakdown of the delivery cost: Uber Eats (commission + marketing),
+    // Uber Direct, our own driver team, plus ME&U + Doshii for stow/hg. The parts
+    // sum to the headline delivery number.
+    const parts = [];
+    if (b.uberEats) parts.push(`Uber Eats ${fmtDollars(b.uberEats)}`);
+    if (b.uberDirect) parts.push(`Uber Direct ${fmtDollars(b.uberDirect)}`);
+    if (b.meu) parts.push(`ME&U + Doshii ${fmtDollars(b.meu)}`);
+    if (b.driver) parts.push(`driver team ${fmtDollars(b.driver)}`);
+    let sub = `${fmtDollars(b.total)}` + (parts.length ? ' \u00b7 ' + parts.join(' \u00b7 ') : '');
+    if (b.mktExcluded) sub += ` \u00b7 Uber marketing ${fmtDollars(b.marketing)} excluded`;
+    const lbl = b.actual ? ((b.venue === 'mari' || b.venue === 'group') ? 'Uber actual' : 'actual') : 'est';
+    return { label: 'Delivery platforms ' + pill(lbl, b.actual ? 'green' : 'warn'),
+      value: fmtPct(b.total / b.rev * 100), sub, status: 'unknown' };
   },
   eatclub: (day, cfg) => {
     // EatClub rings the FULL bill on the POS, then keeps the offer discount +

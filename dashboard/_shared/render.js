@@ -287,14 +287,25 @@ function renderProfitCard(day, cfg) {
     const revSub = yy !== null
       ? `<span class="${yy >= 0 ? 'vs-good' : 'vs-bad'}">${(yy >= 0 ? '+' : '−') + Math.abs(yy).toFixed(1)}%</span><span class="vs-t">vs LY</span>`
       : '';
+    // Week-on-week: this day vs recent same-weekdays (day view), or this week vs
+    // recent weeks (week view). Sits on the headline Turnover card.
+    const wow = wowRevenueDelta(rows, STATE.currentTimeframe, anchorDay);
+    const wowSub = wow
+      ? `<span class="${wow.delta >= 0 ? 'vs-good' : 'vs-bad'}">${(wow.delta >= 0 ? '+' : '−') + Math.abs(wow.delta).toFixed(1)}%</span><span class="vs-t">vs prev ${wow.nWeeks} ${wow.weekday ? wow.weekday.slice(0, 3) + 's' : 'wks'}</span>`
+      : '';
+    const turnSub = [wowSub, revSub].filter(Boolean).join(' ');
     const oc = overheadChips();   // group-only admin + leave toggles (sit in the card head)
     const wagesLbl = 'Labour' + (STATE.currentVenue === 'group' ? ' (excl. admin)' : '');
     // Marilyna's is delivery-led, so platform/delivery cost is a headline KPI here
     // (Uber Direct + Uber Eats commission + marketing). w.df is the same delivery
     // dollars used in the full P&L, so the KPI and the profit line never disagree.
     const showDelivery = STATE.currentVenue === 'mari';
+    const db = showDelivery ? deliveryBreakdown(day, 'mari') : null;
+    const dbSub = db
+      ? `Uber ${fmtDollars(db.uberEats)} \u00b7 Direct ${fmtDollars(db.uberDirect)} \u00b7 driver ${fmtDollars(db.driver)}`
+      : '';
     const deliveryCard = showDelivery
-      ? `<div class="pmini-c"><p class="pmini-l">Delivery cost</p><p class="pmini-v">${fmtPct(pct(w.df))}</p><p class="pmini-s">${fmtDollars(w.df)} of turnover</p></div>`
+      ? `<div class="pmini-c"><p class="pmini-l">Delivery cost</p><p class="pmini-v">${fmtPct(pct(w.df))}</p><p class="pmini-s">${dbSub}</p></div>`
       : '';
     const gridStyle = showDelivery ? ' style="grid-template-columns:repeat(4,1fr)"' : '';
     el.innerHTML =
@@ -302,7 +313,7 @@ function renderProfitCard(day, cfg) {
       `<div class="pcard-head"><span class="pcard-lbl">${kpiLbl}</span>${oc.chips}</div>` +
       oc.note +
       `<div class="pmini"${gridStyle}>` +
-      `<div class="pmini-c"><p class="pmini-l">Turnover (gross)</p><p class="pmini-v">${fmtDollars(grpDisp)}</p><p class="pmini-s"></p></div>` +
+      `<div class="pmini-c"><p class="pmini-l">Turnover (gross)</p><p class="pmini-v">${fmtDollars(grpDisp)}</p><p class="pmini-s">${turnSub}</p></div>` +
       `<div class="pmini-c"><p class="pmini-l">COGS</p><p class="pmini-v">${fmtPct(cogsPctG)}</p><p class="pmini-s">${fmtDollars(cogsD)} · ${vsTarget(cogsPctG, COGS_TARGET_PCT)}</p></div>` +
       `<div class="pmini-c"><p class="pmini-l">${wagesLbl}</p><p class="pmini-v">${fmtPct(wagesPctG)}</p><p class="pmini-s">${fmtDollars(w.wages)}${wTgt !== null ? ' · ' + vsTarget(wagesPctG, wTgt) : ''}</p></div>` +
       deliveryCard +

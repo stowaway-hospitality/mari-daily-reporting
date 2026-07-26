@@ -428,7 +428,8 @@ function feesActualWindow(day, venue = STATE.currentVenue) {
     const rs = revOf('stow'), rh = revOf('hg');
     fees = (rs + rh) ? meu * (v === 'stow' ? rs : rh) / (rs + rh) : 0;
   }
-  return { fees, mari, meu, nMonths: months.length, portal, mkt: u ? u.mkt : null };
+  return { fees, mari, meu, nMonths: months.length, portal, mkt: u ? u.mkt : null,
+           uberEats: portal ? u.svc : uberOnly };
 }
 
 function closedMonthsSet() {
@@ -512,6 +513,44 @@ function actualProfitWindow(day) {
 // the driver $ OUT of Wages and INTO Delivery, profit-neutrally (the total is
 // identical; only the label moves). Only Mari has drivers, so 'group' inherits it.
 // Gated on wages_dollars being present, since driver is a subset of that figure.
+/* Internal split of the delivery cost for the card breakdown: Uber Eats
+   (commission + marketing), Uber Direct, and our own driver team (Mari). ME&U +
+   Doshii covers stow/hg. Built to sum EXACTLY to the delivery df used in the P&L
+   (platform fees + driver), so the breakdown reconciles to the headline number. */
+function deliveryBreakdown(day, venue) {
+  const rev = toNum(day.revenue_ex_gst);
+  const drv = driverDeliveryShift(day, venue);
+  const _win = String(day.date).includes(' \u2014 ') ? String(day.date).split(' \u2014 ') : [day.date, day.date];
+  const end = _win[1];
+  const fa = feesActualWindow(day, venue);
+  let platform = 0, uberEats = 0, uberDirect = 0, marketing = 0, meu = 0, actual = false, mktExcluded = false;
+  if (fa) {
+    actual = true; marketing = fa.mkt || 0; mktExcluded = fa.portal && marketing > 0;
+    if (venue === 'mari') { platform = fa.fees; uberEats = fa.uberEats || 0; uberDirect = Math.max(0, platform - uberEats); }
+    else if (venue === 'group') { platform = fa.fees; uberEats = fa.uberEats || 0; uberDirect = Math.max(0, fa.mari - uberEats); meu = fa.meu; }
+    else { platform = fa.fees; meu = fa.fees; }
+  } else if (venue === 'mari') {
+    const p = venueDeliveryEst('mari', _win[0], _win[1], end);
+    platform = p.df; actual = p.actual; marketing = p.marketing;
+    uberEats = p.commission + p.marketing;
+    uberDirect = p.direct !== null ? p.direct : Math.max(0, p.df - p.commission - p.marketing);
+  } else if (venue === 'group') {
+    const parts = REAL_VENUES.map(v => venueDeliveryEst(v, _win[0], _win[1], end));
+    platform = parts.some(p => p.actual) ? parts.reduce((t, p) => t + p.df, 0)
+      : (() => { const dfr = deliveryFeesPct(venue, end); return dfr ? rev * dfr.pct / 100 : 0; })();
+    const pm = venueDeliveryEst('mari', _win[0], _win[1], end);
+    actual = pm.actual; marketing = pm.marketing;
+    uberEats = pm.commission + pm.marketing;
+    uberDirect = pm.direct !== null ? pm.direct : Math.max(0, pm.df - pm.commission - pm.marketing);
+    meu = ['stow', 'hg'].reduce((t, v) => t + venueDeliveryEst(v, _win[0], _win[1], end).df, 0);
+  } else {
+    const p = venueDeliveryEst(venue, _win[0], _win[1], end);
+    platform = p.df; meu = p.df;
+  }
+  return { rev, uberEats, uberDirect, marketing, mktExcluded, meu, driver: drv,
+           platform, total: platform + drv, actual, venue };
+}
+
 function driverDeliveryShift(day, venue) {
   if (venue !== 'mari' && venue !== 'group') return 0;
   if (!hasVal(day.wages_dollars)) return 0;
