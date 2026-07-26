@@ -1,0 +1,253 @@
+{
+  "date": "2026-07-26",
+  "generated_at": "2026-07-26T20:02:10.903207Z",
+  "venue": "stowaway",
+  "venue_display": "Stowaway Bar",
+  "lane_config": [
+    "revenue",
+    "cogs",
+    "wages",
+    "gp"
+  ],
+  "data_status": {
+    "lightspeed": "ok",
+    "deputy": "ok",
+    "payments": "missing"
+  },
+  "sales": {
+    "revenue_inc_gst": 9550.87,
+    "revenue_ex_gst": 8682.59,
+    "cogs_dollars": 1485.09,
+    "cogs_pct": 17.1,
+    "gp_dollars": 7197.5,
+    "gp_pct": 82.9,
+    "uber_eats_revenue": 0,
+    "net_takings_ex_gst": null,
+    "eatclub_giveaway_ex_gst": 0.0,
+    "eatclub_covers": 0,
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 3161.67,
+    "bev_ex_gst": 5520.94,
+    "food_cogs": 433.61,
+    "bev_cogs": 1051.48,
+    "food_cogs_pct": 13.7,
+    "bev_cogs_pct": 19.0,
+    "food_gp_pct": 86.3,
+    "bev_gp_pct": 81.0,
+    "mari_rideon_ex_gst": 1639.5,
+    "hg_food_out_ex_gst": 0.0,
+    "stow_food_out_ex_gst": 0.0
+  },
+  "wages": {
+    "kitchen_dollars": 1387.44,
+    "foh_dollars": 1502.32,
+    "driver_dollars": 0,
+    "admin_dollars": 0,
+    "leave_dollars": 0,
+    "total_dollars": 2889.77,
+    "wages_pct": 33.3,
+    "net_wage_pct": null,
+    "kitchen_hours": 27.0,
+    "foh_hours": 35.8,
+    "wages_kitchen_pct": 43.9,
+    "wages_foh_pct": 27.2,
+    "includes_super": true,
+    "salaried_synthesized": true
+  },
+  "delivery": null,
+  "payments_breakdown": null,
+  "alerts": {
+    "cogs": "green",
+    "wages": "amber",
+    "delivery": "n/a",
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "green",
+    "wages_kitchen": "red",
+    "wages_foh": "red"
+  },
+  "targets": {
+    "cogs": {
+      "target": 28.0,
+      "amber": 32.0,
+      "red": 35.0,
+      "note": "Blended food+bev COGS; bar-heavy Stow typically lands ~28-30% \u2014 refine after 8 weeks of daily data"
+    },
+    "wages": {
+      "target": 30.0,
+      "amber": 33.0,
+      "red": 36.0,
+      "note": "Zak-set 30% target \u2014 hospitality benchmark; splits kitchen + FOH"
+    },
+    "cogs_food": {
+      "target": 32.0,
+      "amber": 36.0,
+      "red": 40.0,
+      "note": "DRAFT \u2014 Zak to confirm. Food COGS vs food revenue (ex-GST). Weekly-report placeholder food GP is 65% (i.e. 35% COGS); target set slightly tighter."
+    },
+    "cogs_bev": {
+      "target": 22.0,
+      "amber": 25.0,
+      "red": 28.0,
+      "note": "DRAFT \u2014 Zak to confirm. Bev COGS vs bev revenue (ex-GST). Drinks GP at Stow runs ~80% on cocktails (known-margins.md); blended bev incl. beer/wine lands lower."
+    },
+    "wages_kitchen": {
+      "target": 12.0,
+      "amber": 15.0,
+      "red": 18.0,
+      "note": "DRAFT \u2014 Zak to confirm. Kitchen wages as % of FOOD revenue (ex-GST), not total."
+    },
+    "wages_foh": {
+      "target": 18.0,
+      "amber": 22.0,
+      "red": 26.0,
+      "note": "DRAFT \u2014 Zak to confirm. FOH wages as % of BEV revenue (ex-GST), not total."
+    },
+    "gp": {
+      "note": "Higher is better \u2014 70% target; status inversion not yet implemented so alerts left empty",
+      "target_direction": "high_is_good"
+    }
+  },
+  "top_products": [
+    {
+      "name": "Pork Roast",
+      "qty": 26.0,
+      "rev": 806.08,
+      "cost": 128.1,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Roast Turkey",
+      "qty": 21.0,
+      "rev": 703.87,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fresh is Best Lager - Pint",
+      "qty": 30.0,
+      "rev": 341.45,
+      "cost": 73.54,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Guinness Draught - Pint",
+      "qty": 16.0,
+      "rev": 300.93,
+      "cost": 75.33,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Nut Roast",
+      "qty": 9.0,
+      "rev": 298.01,
+      "cost": 48.03,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Stone & Wood - Schooner",
+      "qty": 20.0,
+      "rev": 264.53,
+      "cost": 64.95,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Beef Cheek",
+      "qty": 6.0,
+      "rev": 251.53,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Mulled Wine",
+      "qty": 15.0,
+      "rev": 250.74,
+      "cost": 30.57,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Grifter Pale - Pint",
+      "qty": 13.0,
+      "rev": 216.12,
+      "cost": 43.28,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Classic Margarita",
+      "qty": 9.0,
+      "rev": 202.32,
+      "cost": 36.67,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Veuve Clicquot Yellow Label - Glass",
+      "qty": 5.0,
+      "rev": 201.87,
+      "cost": 80.76,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Beef Burger D",
+      "qty": 10.0,
+      "rev": 198.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fish Tacos",
+      "qty": 9.0,
+      "rev": 192.79,
+      "cost": 19.66,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Stow Schnitty",
+      "qty": 6.0,
+      "rev": 182.39,
+      "cost": 31.96,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fresh is Best Lager - Schooner",
+      "qty": 18.7,
+      "rev": 172.03,
+      "cost": 34.18,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Kirin - Schooner",
+      "qty": 10.7,
+      "rev": 165.28,
+      "cost": 40.16,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Casa Gheller Prosecco - Glass",
+      "qty": 9.0,
+      "rev": 158.4,
+      "cost": 30.11,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Buffalo Wings",
+      "qty": 9.0,
+      "rev": 157.17,
+      "cost": 35.12,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Sensei Calamari",
+      "qty": 7.0,
+      "rev": 154.39,
+      "cost": 16.14,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Negroni",
+      "qty": 7.0,
+      "rev": 145.2,
+      "cost": 27.09,
+      "cost_source": "lightspeed"
+    }
+  ]
+}
