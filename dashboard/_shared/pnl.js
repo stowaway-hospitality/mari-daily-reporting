@@ -82,6 +82,9 @@ function wowSeries(venue, timeframe, anchorDay, nWeeks) {
     // rather than show numbers we know are wrong. COGS coverage is contiguous, so
     // the first null going back marks the edge of trustworthy data.
     if (!actualCogs(venue, eIso)) break;
+    // Mari (and group's Mari share) delivery is only trustworthy with real Uber data
+    // — before that it's driver wages only, badly understating a delivery brand.
+    if ((venue === 'mari' || venue === 'group') && !venueDeliveryEst('mari', sIso, eIso, eIso).actual) break;
     const sub = rows.filter(r => r.date >= sIso && r.date <= eIso);
     if (!sub.length) continue;
     const w = pnlWindow(rollup(sub), venue);
@@ -165,6 +168,25 @@ function ohFactor(day, venue, wdays) {
   return wdays;
 }
 
+function uberWeeklyFees(venue, sIso, eIso) {
+  // Weekly Uber actuals (uber_fees_weekly) — the bridge between the daily feed
+  // (recent only) and the monthly Xero rate. Same inc-GST basis + shape as
+  // uberSplit, so venueDeliveryEst can use it interchangeably. Prorated by the
+  // overlap of each Uber week (ending week_ending) with the requested window.
+  if (!STATE.uberFees || !STATE.uberFees.length) return null;
+  if (venue !== 'mari' && venue !== 'hg') return null;
+  let comm = 0, mkt = 0, have = false;
+  for (const r of STATE.uberFees) {
+    if (r.venue !== venue || !r.week_ending) continue;
+    const wkStart = isoDate(addDays(new Date(r.week_ending), -6));
+    const ovStart = wkStart > sIso ? wkStart : sIso;
+    const ovEnd = r.week_ending < eIso ? r.week_ending : eIso;
+    const days = (new Date(ovEnd) - new Date(ovStart)) / 86400000 + 1;
+    if (days > 0) { const frac = days / 7; comm += toNum(r.service_fees_inc_gst) * frac; mkt += toNum(r.marketing_inc_gst) * frac; have = true; }
+  }
+  return have ? { commission: comm, marketing: mkt } : null;
+}
+
 function uberSplit(venue, sIso, eIso) {
   if (!STATE.uberDaily.length) return null;
   if (venue !== 'mari' && venue !== 'hg') return null;
@@ -229,7 +251,7 @@ function venueDeliveryEst(venue, sIso, eIso, endIso) {
   const rev = venueRevWindow(venue, sIso, eIso);
   const dfr = deliveryFeesPct(venue, endIso);
   const dfEst = dfr ? rev * dfr.pct / 100 : 0;
-  const _u = uberSplit(venue, sIso, eIso);
+  const _u = uberSplit(venue, sIso, eIso) || uberWeeklyFees(venue, sIso, eIso);
   if (!_u) return { df: dfEst, commission: 0, marketing: 0, direct: null, actual: false };
   const dir = uberDirectActual(venue, sIso, eIso);
   const directActual = dir && dir.covered;
