@@ -58,12 +58,16 @@ function wowRevenueDelta(rows, timeframe, anchorDay) {
    n weeks (last n Saturdays); every other view -> full Mon-Sun weeks. Newest first.
    Each entry carries the full P&L KPI set from pnlWindow, so the table/chart match
    the rest of the dashboard exactly (wages excl driver, delivery incl driver). */
+
 function wowSeries(venue, timeframe, anchorDay, nWeeks) {
   const rows = STATE.histories[venue] || [];
   if (!rows.length || !anchorDay) return [];
   const weekday = timeframe === 'day';
   const histMin = rows[0].date, histMax = rows[rows.length - 1].date;
   const anchor = new Date(anchorDay);
+  // Recent ACTUAL COGS% (Xero) — used as a stable estimate for weeks too old to
+  // have booked COGS, where the POS-theoretical figure is missing/unreliable.
+  const actRate = (actualCogs(venue, histMax, 12) || {}).pct || null;
   const out = [];
   for (let n = 0; n < nWeeks; n++) {
     let sIso, eIso, label;
@@ -77,26 +81,28 @@ function wowSeries(venue, timeframe, anchorDay, nWeeks) {
       label = 'w/c ' + ws.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
     }
     if (eIso < histMin) break;
-    // Reliability cap: only weeks with ACTUAL COGS (Xero). Earlier weeks fall back
-    // to POS-theoretical COGS (~11%), which badly overstates profit — so we stop
-    // rather than show numbers we know are wrong. COGS coverage is contiguous, so
-    // the first null going back marks the edge of trustworthy data.
-    if (!actualCogs(venue, eIso)) break;
     const sub = rows.filter(r => r.date >= sIso && r.date <= eIso);
     if (!sub.length) continue;
     const w = pnlWindow(rollup(sub), venue);
     if (!w) continue;
-    // Flag weeks whose Mari delivery is an ESTIMATE (no booked Uber data yet), so
-    // the UI can mark them rather than pretend they're actuals.
+    // COGS: real Xero weekly actual where we have it; otherwise scale the POS
+    // theoretical up to actual level (flagged est).
+    const estCogs = !actualCogs(venue, eIso);
+    const cogsPct = estCogs && actRate ? actRate : w.cogsPct;
+    const cogs = w.rev * cogsPct / 100;
+    // Delivery is an estimate whenever it isn't booked WEEKLY Uber data (i.e. it
+    // came from the monthly Xero rate or the blended fallback) — flag those.
     const estDelivery = (venue === 'mari' || venue === 'group')
-      ? !(venueDeliveryEst('mari', sIso, eIso, eIso).actual || deliveryFeesPct('mari', eIso)) : false;
-    out.push({ label, s: sIso, e: eIso, partial: eIso > histMax, estDelivery,
-      rev: w.rev, cogsPct: w.cogsPct,
+      ? !venueDeliveryEst('mari', sIso, eIso, eIso).actual : false;
+    // Profit recomputed for the (possibly scaled) COGS; everything else unchanged.
+    const profit = w.profit - (cogs - w.rev * w.cogsPct / 100);
+    out.push({ label, s: sIso, e: eIso, partial: eIso > histMax,
+      est: estCogs || estDelivery, estCogs, estDelivery,
+      rev: w.rev, cogsPct,
       wagesPct: w.rev ? w.wages / w.rev * 100 : 0,
       delivPct: w.rev ? w.df / w.rev * 100 : 0,
-      profit: w.profit, margin: w.rev ? w.profit / w.rev * 100 : 0,
-      // cost dollars for the stacked chart (gap to revenue = profit)
-      cogs: w.rev * w.cogsPct / 100, wages: w.wages, df: w.df, cp: w.cp, oh: w.oh });
+      profit, margin: w.rev ? profit / w.rev * 100 : 0,
+      cogs, wages: w.wages, df: w.df, cp: w.cp, oh: w.oh });
   }
   return out;
 }

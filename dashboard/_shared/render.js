@@ -1069,22 +1069,23 @@ function renderWoW(day) {
   const btns = [6, 12, 26, 52].map(nw =>
     `<button class="${span === nw ? 'active' : ''}" onclick="setWowSpan(${nw})">${nw} wks</button>`).join('');
   const money = n => (n < 0 ? '−$' : '$') + Math.round(Math.abs(n)).toLocaleString();
-  const est = p => p.estDelivery ? ' style="opacity:.6" title="delivery estimated from your Uber-fee rate — no booked Uber data this far back"' : '';
+  const dim = c => c ? ' style="opacity:.55"' : '';
+  const chip = '<span class="wow-est" title="estimated — derived from monthly Xero data or a modelled rate, not a booked weekly actual">est</span>';
   const bodyRows = series.map(p => {
     const cls = p.partial ? ' class="wow-partial"' : '';
+    const anyEst = p.estCogs || p.estDelivery;
     const profitCell = isAdmin
-      ? `<td${est(p)}><span class="${p.profit >= 0 ? 'vb-pos' : 'vb-neg'}">${money(p.profit)}</span></td><td${est(p)}>${fmtPct(p.margin)}</td>` : '';
-    return `<tr${cls}><td>${p.label}${p.partial ? ' · <span style="font-size:11px">partial</span>' : ''}</td>` +
-      `<td>${fmtDollars(p.rev)}</td><td>${fmtPct(p.cogsPct)}</td><td>${fmtPct(p.wagesPct)}</td><td${est(p)}>${p.estDelivery ? '~' : ''}${fmtPct(p.delivPct)}</td>${profitCell}</tr>`;
+      ? `<td${dim(anyEst)}><span class="${p.profit >= 0 ? 'vb-pos' : 'vb-neg'}">${money(p.profit)}</span></td><td${dim(anyEst)}>${fmtPct(p.margin)}</td>` : '';
+    return `<tr${cls}><td>${p.label}${p.partial ? ' · <span style="font-size:11px">partial</span>' : ''}${p.est ? ' ' + chip : ''}</td>` +
+      `<td>${fmtDollars(p.rev)}</td><td${dim(p.estCogs)}>${fmtPct(p.cogsPct)}</td><td>${fmtPct(p.wagesPct)}</td><td${dim(p.estDelivery)}>${fmtPct(p.delivPct)}</td>${profitCell}</tr>`;
   }).join('');
   const head = `<thead><tr><th>${weekday ? 'Date' : 'Week'}</th><th>Revenue</th><th>COGS</th><th>Labour</th><th>Delivery</th>${isAdmin ? '<th>Profit</th><th>Margin</th>' : ''}</tr></thead>`;
-  // If the requested span reached past our actual-COGS coverage, wowSeries caps it.
   const capped = series.length < span;
   const earliest = new Date(series[series.length - 1].s + 'T00:00').toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: '2-digit' });
-  const capNote = capped ? ` · capped at ${series.length} — actual COGS data starts ${earliest}` : '';
+  const capNote = capped ? ` · history reaches ${earliest}` : '';
   const gapNote = isAdmin ? ' Bars = COGS + Labour + Delivery + Corp payroll + Overheads; the gap up to the Revenue line is profit.' : '';
-  const anyEst = series.some(p => p.estDelivery);
-  const estNote = anyEst ? ' Rows marked ~ have delivery estimated from your actual Uber-fee rate (booked Uber data starts Apr 2026).' : '';
+  const nEst = series.filter(p => p.est).length;
+  const estNote = nEst ? ` <span class="wow-est">est</span> = COGS and/or delivery estimated from monthly Xero data (weekly booked actuals begin late 2025/Apr 2026); ${nEst} of ${series.length} weeks.` : '';
   el.innerHTML = `<div class="section">
     <h2>${title}</h2>
     <p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 8px;line-height:1.5">${HV[v] || v} · last ${series.length} ${weekday ? dowName + 's' : 'weeks'}, most recent first · ${weekday ? 'same weekday each week' : 'Mon–Sun'}${capNote}.${gapNote}${estNote}</p>
