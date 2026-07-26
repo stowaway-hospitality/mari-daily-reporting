@@ -11,6 +11,7 @@ on:
       - 'modules/recipes/**'   # the recipe builder app + its feed pipelines
       - 'core/**'              # the cost/identity engine the feeds build on
       - 'data/recipes/**'      # saved recipes feed the sub-recipe index
+      - 'scripts/build_site.py' # the builder itself (cache-bust, link-check)
   workflow_dispatch:
 
 permissions:
