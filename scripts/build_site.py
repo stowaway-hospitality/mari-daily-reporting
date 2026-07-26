@@ -24,6 +24,7 @@ URLS ARE A CONTRACT
 from __future__ import annotations
 
 import argparse
+import hashlib
 import re
 import shutil
 import subprocess
@@ -91,6 +92,7 @@ def build() -> int:
                 shutil.copy2(item, target)
         print(f"  {src_rel:<24} -> /{dst_rel}")
 
+    stamp_versions()
     return check()
 
 
@@ -100,6 +102,37 @@ _REF = re.compile(
     r"""|Feed\.load\(\s*["']([^"'?]+)["']"""    # our shared feed loader
     r"""|fetch\(\s*["']([^"'?]+)["']"""         # hand-rolled fetches
 )
+
+
+def stamp_versions() -> None:
+    """Append a content-hash ?v= to every LOCAL .js/.css reference in the built
+    HTML. Without this the browser and Cloudflare cache /_shared/render.js etc.
+    forever and shipped changes never reach anyone until the edge cache happens
+    to expire. The hash is per-file content, so only files that actually changed
+    re-download. External (https://) refs are left alone. The link-checker below
+    already ignores query strings, so stamped refs still validate."""
+    cache: dict = {}
+    def digest(p: Path) -> str:
+        if p not in cache:
+            cache[p] = hashlib.md5(p.read_bytes()).hexdigest()[:8]
+        return cache[p]
+    # group 1 = src=/href=" ; group 2 = the ref ; group 3 = closing quote
+    pat = re.compile(r"""((?:src|href)=["'])(/[^"'?#]+\.(?:js|css)|[^"'?#:]+\.(?:js|css))(["'])""")
+    stamped = 0
+    for html in SITE.rglob("*.html"):
+        txt = html.read_text()
+        def sub(m):
+            nonlocal stamped
+            ref = m.group(2)
+            fp = (SITE / ref.lstrip("/")) if ref.startswith("/") else (html.parent / ref).resolve()
+            if fp.is_file():
+                stamped += 1
+                return f"{m.group(1)}{ref}?v={digest(fp)}{m.group(3)}"
+            return m.group(0)
+        new = pat.sub(sub, txt)
+        if new != txt:
+            html.write_text(new)
+    print(f"  cache-bust: stamped {stamped} local asset refs")
 
 
 def check() -> int:
