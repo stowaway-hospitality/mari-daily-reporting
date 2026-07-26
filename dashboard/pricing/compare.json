@@ -1,8 +1,37 @@
 {
   "generated": "2026-07-26",
-  "count": 194,
-  "compared": 7,
+  "count": 190,
+  "compared": 5,
   "ingredients": [
+    {
+      "key": "carrot",
+      "name": "Carrot",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 1.32,
+          "date": "2026-07-20",
+          "desc": "Carrot Large",
+          "change_pct": null,
+          "n": 1
+        },
+        {
+          "supplier": "Select Fresh",
+          "cost": 2.4,
+          "date": "2026-07-23",
+          "desc": "CARROT KG",
+          "change_pct": null,
+          "n": 2
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 1.32,
+      "max": 2.4,
+      "spread_pct": 81.8,
+      "multi": true,
+      "suspect": false
+    },
     {
       "key": "cauliflower floret",
       "name": "Cauliflower Floret",
@@ -62,124 +91,37 @@
       "suspect": false
     },
     {
-      "key": "beef cabbage dumpling",
-      "name": "Beef Cabbage Dumpling",
-      "unit": "kg",
+      "key": "continental parsley",
+      "name": "Parsley Continental",
+      "unit": "ea",
       "suppliers": [
         {
-          "supplier": "Sun Circle",
-          "cost": 7.5,
-          "date": "2026-07-16",
-          "desc": "Beef & Cabbage Dumpling 600g x 24",
+          "supplier": "Select Fresh",
+          "cost": 1.6,
+          "date": "2026-07-24",
+          "desc": "HERB PARSLEY CONTINENTAL BCH",
           "change_pct": null,
           "n": 1
         },
         {
-          "supplier": "Sun Circle Food Manufacturing Pty Ltd",
-          "cost": 7.5,
+          "supplier": "Fresh Fruit Team",
+          "cost": 1.65,
           "date": "2026-07-23",
-          "desc": "Beef & Cabbage Dumpling \u4f73\u51a0\u725b\u8089\u9ad8\u9e97\u83dc\u6c34\u9903 - 600g x 24",
+          "desc": "Parsley Continental",
           "change_pct": null,
           "n": 1
         }
       ],
-      "cheapest": "Sun Circle",
-      "min": 7.5,
-      "max": 7.5,
-      "spread_pct": 0.0,
+      "cheapest": "Select Fresh",
+      "min": 1.6,
+      "max": 1.65,
+      "spread_pct": 3.1,
       "multi": true,
       "suspect": false
     },
     {
-      "key": "chicken corn dumpling",
-      "name": "Chicken Corn Dumpling",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Sun Circle",
-          "cost": 7.5,
-          "date": "2026-07-16",
-          "desc": "Chicken & Corn Dumpling 600g x 24",
-          "change_pct": null,
-          "n": 1
-        },
-        {
-          "supplier": "Sun Circle Food Manufacturing Pty Ltd",
-          "cost": 7.5,
-          "date": "2026-07-23",
-          "desc": "Chicken & Corn Dumpling \u4f73\u51a0\u96de\u8089\u7389\u7c73\u6c34\u9903 - 600g x 24",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Sun Circle",
-      "min": 7.5,
-      "max": 7.5,
-      "spread_pct": 0.0,
-      "multi": true,
-      "suspect": false
-    },
-    {
-      "key": "dumpling parsley pork",
-      "name": "Pork Parsley Dumpling",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Sun Circle",
-          "cost": 7.5,
-          "date": "2026-07-16",
-          "desc": "Pork & Parsley Dumpling 600g x 24",
-          "change_pct": null,
-          "n": 1
-        },
-        {
-          "supplier": "Sun Circle Food Manufacturing Pty Ltd",
-          "cost": 7.5,
-          "date": "2026-07-23",
-          "desc": "Pork & Parsley Dumpling \u4f73\u51a0\u8c6c\u8089\u82ab\u831c(\u9999\u83dc)\u6c34\u9903 - 600g x 24",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Sun Circle",
-      "min": 7.5,
-      "max": 7.5,
-      "spread_pct": 0.0,
-      "multi": true,
-      "suspect": false
-    },
-    {
-      "key": "gao har prawn",
-      "name": "Prawn Har Gao",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Sun Circle",
-          "cost": 32.0,
-          "date": "2026-07-16",
-          "desc": "Prawn Har Gao (Large) 1000g x 15",
-          "change_pct": null,
-          "n": 1
-        },
-        {
-          "supplier": "Sun Circle Food Manufacturing Pty Ltd",
-          "cost": 32.0,
-          "date": "2026-07-23",
-          "desc": "Prawn Har Gao (Large) - 50 pieces \u4f73\u51a0\u9bae\u8766\u9903(\u5927\u5305) - 1000g x 15",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Sun Circle",
-      "min": 32.0,
-      "max": 32.0,
-      "spread_pct": 0.0,
-      "multi": true,
-      "suspect": false
-    },
-    {
-      "key": "chive herb",
-      "name": "Herb Chive",
+      "key": "chive",
+      "name": "Chive",
       "unit": "ea",
       "suppliers": [
         {
@@ -192,17 +134,17 @@
         },
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 13.2,
-          "date": "2026-07-20",
-          "desc": "Herb Chives",
-          "change_pct": null,
-          "n": 1
+          "cost": 15.4,
+          "date": "2026-07-23",
+          "desc": "Chives",
+          "change_pct": 16.7,
+          "n": 2
         }
       ],
       "cheapest": "Select Fresh",
       "min": 2.7,
-      "max": 13.2,
-      "spread_pct": 388.9,
+      "max": 15.4,
+      "spread_pct": 470.4,
       "multi": true,
       "suspect": true
     },
@@ -501,6 +443,27 @@
       "suspect": false
     },
     {
+      "key": "basil",
+      "name": "Basil",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 4.6,
+          "date": "2026-07-24",
+          "desc": "HERB BASIL BCH",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 4.6,
+      "max": 4.6,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "bbq heinz sauce",
       "name": "Bbq Sauce Heinz",
       "unit": "L",
@@ -559,6 +522,27 @@
       "cheapest": "Foodlink",
       "min": 10.8571,
       "max": 10.8571,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "beef cabbage dumpling",
+      "name": "Beef Cabbage Dumpling",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Sun Circle",
+          "cost": 7.5,
+          "date": "2026-07-23",
+          "desc": "Beef & Cabbage Dumpling \u4f73\u51a0\u725b\u8089\u9ad8\u9e97\u83dc\u6c34\u9903 - 600g x 24",
+          "change_pct": null,
+          "n": 2
+        }
+      ],
+      "cheapest": "Sun Circle",
+      "min": 7.5,
+      "max": 7.5,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -648,7 +632,7 @@
       "suspect": false
     },
     {
-      "key": "baby broccolini",
+      "key": "broccolini",
       "name": "Broccolini Baby",
       "unit": "ea",
       "suppliers": [
@@ -695,7 +679,7 @@
       "unit": "ea",
       "suppliers": [
         {
-          "supplier": "Jun Pacific Corporation Pty Ltd",
+          "supplier": "Jun Pacific",
           "cost": 11.05,
           "date": "2026-07-23",
           "desc": "\"Bulldog\" Tonkatsu Sauce",
@@ -703,7 +687,7 @@
           "n": 1
         }
       ],
-      "cheapest": "Jun Pacific Corporation Pty Ltd",
+      "cheapest": "Jun Pacific",
       "min": 11.05,
       "max": 11.05,
       "spread_pct": 0.0,
@@ -769,48 +753,6 @@
       "cheapest": "Paramount",
       "min": 30.8933,
       "max": 30.8933,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
-      "key": "carrot",
-      "name": "Carrot",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Select Fresh",
-          "cost": 2.4,
-          "date": "2026-07-23",
-          "desc": "CARROT KG",
-          "change_pct": null,
-          "n": 2
-        }
-      ],
-      "cheapest": "Select Fresh",
-      "min": 2.4,
-      "max": 2.4,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
-      "key": "carrot large",
-      "name": "Carrot Large",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 1.32,
-          "date": "2026-07-20",
-          "desc": "Carrot Large",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Fresh Fruit Team",
-      "min": 1.32,
-      "max": 1.32,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1173,6 +1115,27 @@
       "suspect": false
     },
     {
+      "key": "chicken corn dumpling",
+      "name": "Chicken Corn Dumpling",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Sun Circle",
+          "cost": 7.5,
+          "date": "2026-07-23",
+          "desc": "Chicken & Corn Dumpling \u4f73\u51a0\u96de\u8089\u7389\u7c73\u6c34\u9903 - 600g x 24",
+          "change_pct": null,
+          "n": 2
+        }
+      ],
+      "cheapest": "Sun Circle",
+      "min": 7.5,
+      "max": 7.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "chicken dice maryland",
       "name": "Chicken Maryland Dice",
       "unit": "kg",
@@ -1294,27 +1257,6 @@
       "cheapest": "Select Fresh",
       "min": 39.0,
       "max": 39.0,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
-      "key": "chive",
-      "name": "Chive",
-      "unit": "ea",
-      "suppliers": [
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 15.4,
-          "date": "2026-07-23",
-          "desc": "Chives",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Fresh Fruit Team",
-      "min": 15.4,
-      "max": 15.4,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1456,7 +1398,7 @@
           "date": "2026-07-23",
           "desc": "Coriander",
           "change_pct": null,
-          "n": 1
+          "n": 2
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1682,7 +1624,7 @@
       "unit": "box",
       "suppliers": [
         {
-          "supplier": "The Berry Man NSW Pty Ltd",
+          "supplier": "Berry Man",
           "cost": 85.0,
           "date": "2026-07-24",
           "desc": "Dragonfruit Puree 10kg",
@@ -1690,7 +1632,7 @@
           "n": 1
         }
       ],
-      "cheapest": "The Berry Man NSW Pty Ltd",
+      "cheapest": "Berry Man",
       "min": 85.0,
       "max": 85.0,
       "spread_pct": 0.0,
@@ -2265,90 +2207,6 @@
       "suspect": false
     },
     {
-      "key": "basil herb",
-      "name": "Herb Basil",
-      "unit": "ea",
-      "suppliers": [
-        {
-          "supplier": "Select Fresh",
-          "cost": 4.6,
-          "date": "2026-07-24",
-          "desc": "HERB BASIL BCH",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Select Fresh",
-      "min": 4.6,
-      "max": 4.6,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
-      "key": "coriander herb",
-      "name": "Herb Coriander",
-      "unit": "ea",
-      "suppliers": [
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 7.7,
-          "date": "2026-07-20",
-          "desc": "Herb Coriander",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Fresh Fruit Team",
-      "min": 7.7,
-      "max": 7.7,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
-      "key": "herb leaf mint round",
-      "name": "Herb Mint Round Leaf",
-      "unit": "ea",
-      "suppliers": [
-        {
-          "supplier": "Select Fresh",
-          "cost": 1.3,
-          "date": "2026-07-23",
-          "desc": "HERB MINT ROUND LEAF BCH",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Select Fresh",
-      "min": 1.3,
-      "max": 1.3,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
-      "key": "continental herb parsley",
-      "name": "Herb Parsley Continental",
-      "unit": "ea",
-      "suppliers": [
-        {
-          "supplier": "Select Fresh",
-          "cost": 1.6,
-          "date": "2026-07-24",
-          "desc": "HERB PARSLEY CONTINENTAL BCH",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Select Fresh",
-      "min": 1.6,
-      "max": 1.6,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
       "key": "cream everest ice raisin rum",
       "name": "Ice Cream Rum Raisin Everest",
       "unit": "L",
@@ -2417,7 +2275,7 @@
       "unit": "ea",
       "suppliers": [
         {
-          "supplier": "Jun Pacific Corporation Pty Ltd",
+          "supplier": "Jun Pacific",
           "cost": 9.35,
           "date": "2026-07-23",
           "desc": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
@@ -2425,7 +2283,7 @@
           "n": 1
         }
       ],
-      "cheapest": "Jun Pacific Corporation Pty Ltd",
+      "cheapest": "Jun Pacific",
       "min": 9.35,
       "max": 9.35,
       "spread_pct": 0.0,
@@ -2438,7 +2296,7 @@
       "unit": "ea",
       "suppliers": [
         {
-          "supplier": "Jun Pacific Corporation Pty Ltd",
+          "supplier": "Jun Pacific",
           "cost": 9.46,
           "date": "2026-07-23",
           "desc": "\"Jun\" Roasted Sesame Seed White",
@@ -2446,7 +2304,7 @@
           "n": 1
         }
       ],
-      "cheapest": "Jun Pacific Corporation Pty Ltd",
+      "cheapest": "Jun Pacific",
       "min": 9.46,
       "max": 9.46,
       "spread_pct": 0.0,
@@ -2480,7 +2338,7 @@
       "unit": "ea",
       "suppliers": [
         {
-          "supplier": "Jun Pacific Corporation Pty Ltd",
+          "supplier": "Jun Pacific",
           "cost": 2.5,
           "date": "2026-07-23",
           "desc": "\u201cJun\u201d Frozen Soybean (Edamame)",
@@ -2488,7 +2346,7 @@
           "n": 1
         }
       ],
-      "cheapest": "Jun Pacific Corporation Pty Ltd",
+      "cheapest": "Jun Pacific",
       "min": 2.5,
       "max": 2.5,
       "spread_pct": 0.0,
@@ -2522,7 +2380,7 @@
       "unit": "ea",
       "suppliers": [
         {
-          "supplier": "Jun Pacific Corporation Pty Ltd",
+          "supplier": "Jun Pacific",
           "cost": 3.5,
           "date": "2026-07-23",
           "desc": "\u201cKobayashi\u201d Gluten Free Ramen Noodle",
@@ -2530,7 +2388,7 @@
           "n": 1
         }
       ],
-      "cheapest": "Jun Pacific Corporation Pty Ltd",
+      "cheapest": "Jun Pacific",
       "min": 3.5,
       "max": 3.5,
       "spread_pct": 0.0,
@@ -2795,7 +2653,7 @@
       "unit": "kg",
       "suppliers": [
         {
-          "supplier": "The Berry Man NSW Pty Ltd",
+          "supplier": "Berry Man",
           "cost": 0.8,
           "date": "2026-07-24",
           "desc": "Mango Chunks 10x1kg",
@@ -2803,7 +2661,7 @@
           "n": 1
         }
       ],
-      "cheapest": "The Berry Man NSW Pty Ltd",
+      "cheapest": "Berry Man",
       "min": 0.8,
       "max": 0.8,
       "spread_pct": 0.0,
@@ -2874,12 +2732,33 @@
       "suspect": false
     },
     {
+      "key": "leaf mint round",
+      "name": "Mint Round Leaf",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 1.3,
+          "date": "2026-07-23",
+          "desc": "HERB MINT ROUND LEAF BCH",
+          "change_pct": null,
+          "n": 1
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 1.3,
+      "max": 1.3,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "kimchi momoya sauce value",
       "name": "Momoya Kimchi Sauce Value",
       "unit": "ea",
       "suppliers": [
         {
-          "supplier": "Jun Pacific Corporation Pty Ltd",
+          "supplier": "Jun Pacific",
           "cost": 8.6,
           "date": "2026-07-23",
           "desc": "\"Momoya\" Kimchi Sauce Value Pack",
@@ -2887,7 +2766,7 @@
           "n": 1
         }
       ],
-      "cheapest": "Jun Pacific Corporation Pty Ltd",
+      "cheapest": "Jun Pacific",
       "min": 8.6,
       "max": 8.6,
       "spread_pct": 0.0,
@@ -3189,33 +3068,12 @@
       "suspect": false
     },
     {
-      "key": "continental parsley",
-      "name": "Parsley Continental",
-      "unit": "ea",
-      "suppliers": [
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 1.65,
-          "date": "2026-07-23",
-          "desc": "Parsley Continental",
-          "change_pct": null,
-          "n": 1
-        }
-      ],
-      "cheapest": "Fresh Fruit Team",
-      "min": 1.65,
-      "max": 1.65,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
       "key": "12x1kg passionfruit puree seedless",
       "name": "Passionfruit Puree Seedless 12x1kg",
       "unit": "kg",
       "suppliers": [
         {
-          "supplier": "The Berry Man NSW Pty Ltd",
+          "supplier": "Berry Man",
           "cost": 0.7917,
           "date": "2026-07-24",
           "desc": "Passionfruit Puree Seedless 12x1kg",
@@ -3223,7 +3081,7 @@
           "n": 1
         }
       ],
-      "cheapest": "The Berry Man NSW Pty Ltd",
+      "cheapest": "Berry Man",
       "min": 0.7917,
       "max": 0.7917,
       "spread_pct": 0.0,
@@ -3378,6 +3236,27 @@
       "suspect": false
     },
     {
+      "key": "dumpling parsley pork",
+      "name": "Pork Parsley Dumpling",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Sun Circle",
+          "cost": 7.5,
+          "date": "2026-07-23",
+          "desc": "Pork & Parsley Dumpling \u4f73\u51a0\u8c6c\u8089\u82ab\u831c(\u9999\u83dc)\u6c34\u9903 - 600g x 24",
+          "change_pct": null,
+          "n": 2
+        }
+      ],
+      "cheapest": "Sun Circle",
+      "min": 7.5,
+      "max": 7.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "cocktail potato",
       "name": "Potato Cocktail",
       "unit": "box",
@@ -3415,6 +3294,27 @@
       "cheapest": "Select Fresh",
       "min": 3.8,
       "max": 3.8,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "gao har prawn",
+      "name": "Prawn Har Gao",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Sun Circle",
+          "cost": 32.0,
+          "date": "2026-07-23",
+          "desc": "Prawn Har Gao (Large) - 50 pieces \u4f73\u51a0\u9bae\u8766\u9903(\u5927\u5305) - 1000g x 15",
+          "change_pct": null,
+          "n": 2
+        }
+      ],
+      "cheapest": "Sun Circle",
+      "min": 32.0,
+      "max": 32.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3698,7 +3598,7 @@
       "unit": "kg",
       "suppliers": [
         {
-          "supplier": "Mallia Industries Pty Ltd",
+          "supplier": "Mallia",
           "cost": 11.5294,
           "date": "2026-07-25",
           "desc": "Sliced T2 Milk Bun (85g) - White Sesame",
@@ -3706,7 +3606,7 @@
           "n": 1
         }
       ],
-      "cheapest": "Mallia Industries Pty Ltd",
+      "cheapest": "Mallia",
       "min": 11.5294,
       "max": 11.5294,
       "spread_pct": 0.0,
@@ -3887,7 +3787,7 @@
       "unit": "kg",
       "suppliers": [
         {
-          "supplier": "The Berry Man NSW Pty Ltd",
+          "supplier": "Berry Man",
           "cost": 0.5417,
           "date": "2026-07-24",
           "desc": "Strawberry Puree Seed-In 12x1kg",
@@ -3895,7 +3795,7 @@
           "n": 1
         }
       ],
-      "cheapest": "The Berry Man NSW Pty Ltd",
+      "cheapest": "Berry Man",
       "min": 0.5417,
       "max": 0.5417,
       "spread_pct": 0.0,
@@ -4055,7 +3955,7 @@
       "unit": "ea",
       "suppliers": [
         {
-          "supplier": "Jun Pacific Corporation Pty Ltd",
+          "supplier": "Jun Pacific",
           "cost": 2.8,
           "date": "2026-07-23",
           "desc": "\u201cYamasan\u201d Fish Cake (Naruto Maki)",
@@ -4063,7 +3963,7 @@
           "n": 1
         }
       ],
-      "cheapest": "Jun Pacific Corporation Pty Ltd",
+      "cheapest": "Jun Pacific",
       "min": 2.8,
       "max": 2.8,
       "spread_pct": 0.0,

@@ -27,6 +27,34 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 ALIASES = ROOT / "data" / "ingredient_aliases.json"
 
+# Legal-entity and trading noise that makes one supplier look like two — the cost
+# feed carries both "Sun Circle" and "Sun Circle Food Manufacturing Pty Ltd", and
+# comparing those two lines is comparing a supplier against itself (a 0% "saving"
+# that pushes real comparisons down the page). Stripped for grouping AND display.
+_SUP_NOISE = re.compile(
+    r"\b(pty|ltd|limited|corporation|corp|incorporated|inc|"
+    r"food\s+manufacturing|manufacturing|industries|holdings|group|"
+    r"wholesale|foods?|trading|distributors?|nsw|qld|vic|australia|aust|the)\b",
+    re.I)
+
+
+def canonical_supplier(name: str) -> str:
+    """
+    A supplier's identity, free of legal-entity noise, so name variants of ONE
+    company collapse to one column. Conservative: only strips well-known company
+    suffixes and state/trading words — it never merges two genuinely different
+    names (Combined Wines stays Combined Wines). Falls back to the original if
+    stripping would leave nothing.
+    """
+    raw = (name or "").strip()
+    n = _SUP_NOISE.sub(" ", raw)
+    n = re.sub(r"[.,]+", " ", n)
+    n = re.sub(r"\s+", " ", n).strip(" -&")
+    if not n:
+        return raw
+    # keep original casing for acronyms (B&E, ILG); title-case ordinary words
+    return " ".join(w if (w.isupper() or "&" in w) else w.capitalize() for w in n.split())
+
 # Words that describe the PACK or the GRADE, not the ingredient. Dropped from the
 # identity key so "OLIVES 2KG" and "Olives (bulk tub)" land together.
 _NOISE = {
@@ -41,6 +69,11 @@ _NOISE = {
     "imp", "imported", "premium", "prem", "fresh", "frozen", "fzn", "chilled",
     "rw", "avg", "approx", "cryo", "cryovac", "select", "grade", "quality",
     "nd", "nds", "seconds", "class", "no", "brand", "product", "assorted",
+    # "herb" is the CATEGORY, not the ingredient — Select Fresh writes "HERB
+    # PARSLEY", "HERB BASIL", "HERB CHIVES" where Fresh Fruit Team writes just
+    # "Parsley". Dropping it lets the two suppliers' herbs line up. The specific
+    # herb (parsley/basil/chives) is still there to carry identity.
+    "herb", "herbs",
 }
 # units already captured by pack_size — never part of identity
 _UNITS = {"kg", "kgs", "g", "gm", "gms", "gram", "grams", "ml", "l", "lt", "ltr",

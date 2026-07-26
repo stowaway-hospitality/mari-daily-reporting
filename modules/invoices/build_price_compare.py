@@ -28,12 +28,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from modules.invoices.pack_size import parse_pack                # noqa: E402
 from modules.invoices.price_compare import (                     # noqa: E402
-    canonical_key, display_name, _load_aliases,
+    canonical_key, canonical_supplier, display_name, _load_aliases,
 )
 
 ROOT = Path(__file__).resolve().parents[2]
 COGS = ROOT / "data" / "cogs_list.csv"
 OUT = ROOT / "dashboard" / "pricing" / "compare.json"
+
+# Units that are physically exact and so directly comparable across suppliers.
+# Everything else (each / bunch / box / tray / case) is a pack whose real content
+# can differ between suppliers, so its comparisons get a tighter suspect gate.
+_EXACT_UNITS = {"kg", "l"}
 
 
 def _dec(s) -> Decimal | None:
@@ -65,7 +70,7 @@ def build() -> dict:
     groups: dict[tuple[str, str], dict] = {}
     for r in rows:
         desc = (r.get("invoice_description") or "").strip()
-        supplier = (r.get("supplier") or "").strip()
+        supplier = canonical_supplier(r.get("supplier") or "")
         if not desc or not supplier:
             continue
         base, unit = _base_cost(r)
@@ -98,11 +103,18 @@ def build() -> dict:
         lo, hi = sup_rows[0]["cost"], sup_rows[-1]["cost"]
         spread = round((hi - lo) / lo * 100, 1) if lo else 0.0
         multi = len(sup_rows) > 1
-        # An implausible gap (>150%) between two "same" items is almost always a
-        # pack-size mismatch — one priced per tray/dozen, the other per kg — not a
-        # real saving. Flag it so the reviewer verifies (and can add an alias)
-        # rather than being told to switch supplier on a phantom number.
-        suspect = multi and spread > 150
+        # A gap this large between two "same" items is almost always a pack-size
+        # mismatch — one priced per tray/dozen, the other per kg — not a real
+        # saving. Flag it so the reviewer verifies (and can add an alias) rather
+        # than being told to switch supplier on a phantom number.
+        #
+        # The threshold is unit-aware. $/kg and $/L are EXACT and directly
+        # comparable, so a big gap there is usually a genuine price difference —
+        # only a huge one (>150%) is suspicious. Discrete units (each / bunch /
+        # box / tray) are INEXACT: one supplier's "each" need not be the other's,
+        # so a much smaller gap (>80%) already means "verify the pack", not "save".
+        exact = unit.lower() in _EXACT_UNITS
+        suspect = multi and spread > (150 if exact else 80)
         # display: the most-seen shortest name
         name = min(sorted(g["names"], key=lambda n: (-g["names"][n], len(n))),
                    key=lambda n: (len(n), -g["names"][n]))
