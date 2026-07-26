@@ -54,6 +54,42 @@ function wowRevenueDelta(rows, timeframe, anchorDay) {
            weekday: timeframe === 'day' ? new Date(cur[0].date).toLocaleDateString('en-AU', { weekday: 'long' }) : null };
 }
 
+/* Series for the Week-on-Week section. Day view -> the SAME weekday over the last
+   n weeks (last n Saturdays); every other view -> full Mon-Sun weeks. Newest first.
+   Each entry carries the full P&L KPI set from pnlWindow, so the table/chart match
+   the rest of the dashboard exactly (wages excl driver, delivery incl driver). */
+function wowSeries(venue, timeframe, anchorDay, nWeeks) {
+  const rows = STATE.histories[venue] || [];
+  if (!rows.length || !anchorDay) return [];
+  const weekday = timeframe === 'day';
+  const histMin = rows[0].date, histMax = rows[rows.length - 1].date;
+  const anchor = new Date(anchorDay);
+  const out = [];
+  for (let n = 0; n < nWeeks; n++) {
+    let sIso, eIso, label;
+    if (weekday) {
+      const d = addDays(anchor, -7 * n);
+      sIso = eIso = isoDate(d);
+      label = d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
+    } else {
+      const ws = addDays(weekStart(anchor), -7 * n);
+      sIso = isoDate(ws); eIso = isoDate(addDays(ws, 6));
+      label = 'w/c ' + ws.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
+    }
+    if (eIso < histMin) break;
+    const sub = rows.filter(r => r.date >= sIso && r.date <= eIso);
+    if (!sub.length) continue;
+    const w = pnlWindow(rollup(sub), venue);
+    if (!w) continue;
+    out.push({ label, s: sIso, e: eIso, partial: eIso > histMax,
+      rev: w.rev, cogsPct: w.cogsPct,
+      wagesPct: w.rev ? w.wages / w.rev * 100 : 0,
+      delivPct: w.rev ? w.df / w.rev * 100 : 0,
+      profit: w.profit, margin: w.rev ? w.profit / w.rev * 100 : 0 });
+  }
+  return out;
+}
+
 function wageMedian12wk(rows) {
   const byWk = {};
   for (const r of rows) {

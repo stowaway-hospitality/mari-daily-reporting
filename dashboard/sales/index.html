@@ -198,6 +198,10 @@ body {
 #year-toggles .yt-label { font-size: 12px; opacity: .7; margin-right: 2px; }
 #year-toggles .yt-btn { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: .06em; padding: 4px 12px; border-radius: 14px; border: 1px solid var(--line); background: transparent; color: var(--ink-soft); cursor: pointer; }
 #year-toggles .yt-btn.active { background: var(--group); border-color: var(--group); color: var(--paper); }
+.wow-toggles { display:flex; align-items:center; gap:6px; margin:2px 0 12px; flex-wrap:wrap; }
+.wow-toggles button { font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600; letter-spacing:.06em; padding:4px 12px; border-radius:14px; border:1px solid var(--line); background:transparent; color:var(--ink-soft); cursor:pointer; }
+.wow-toggles button.active { background: var(--group); border-color: var(--group); color: var(--paper); }
+.wow-partial { opacity:.55; }
 .wa-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
 @media (max-width: 900px) { .wa-row { grid-template-columns: repeat(4, 1fr); } }
 .wa-cell { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
@@ -559,6 +563,7 @@ tbody tr:hover { background: var(--group-tint); }
     <div class="grid" id="split-snapshot" style="margin-top: 10px;"></div>
     <div id="dollar-strip" style="margin-top: 14px;"></div>
     <div id="avg-spend" style="margin-top: 14px;"></div>
+    <div id="wow-section" style="margin-top: 14px;"></div>
 
     <!-- Hourly sales vs labour (single real venue + single day only). -->
     <div class="section" id="hourly-section" style="display:none">

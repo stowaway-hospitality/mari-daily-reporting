@@ -240,9 +240,11 @@ function renderExtras(day, cfg) {
   const vbEl = document.getElementById('venue-breakdown'); if (vbEl) vbEl.innerHTML = '';
   const pcEl = document.getElementById('profit-card'); if (pcEl) pcEl.innerHTML = '';
   { const asEl = document.getElementById('avg-spend'); if (asEl) asEl.innerHTML = ''; }
+  { const wsEl = document.getElementById('wow-section'); if (wsEl) wsEl.innerHTML = ''; }
   if (!day) return;
   renderProfitCard(day, cfg);
   renderAvgSpend(day);
+  renderWoW(day);
   const srEl = document.getElementById('story-row');
   if (CURRENT_ROLE !== 'admin') { if (srEl) srEl.style.gridTemplateColumns = '1fr'; return; }
   renderVenueBreakdown();   // kept: the group -> venue table
@@ -1040,6 +1042,70 @@ function renderAvgSpend(day) {
     sub2html + breakdown +
     `</div>`;
 }
+
+var WOW_CHART = null;
+/* Week-on-Week section: span toggle buttons + revenue/profit chart + KPI table.
+   Day view compares the same weekday over the last N weeks; every other view uses
+   full Mon-Sun weeks. Available to all roles; profit/margin columns are admin-only. */
+function renderWoW(day) {
+  const el = document.getElementById('wow-section');
+  if (!el) return;
+  if (WOW_CHART) { WOW_CHART.destroy(); WOW_CHART = null; }
+  el.innerHTML = ''; el.style.display = 'none';
+  if (!day) return;
+  const v = STATE.currentVenue;
+  const rows = STATE.histories[v] || [];
+  let anchorDay = STATE.currentDay; if (!anchorDay && rows.length) anchorDay = rows[rows.length - 1].date;
+  if (!anchorDay) return;
+  const weekday = STATE.currentTimeframe === 'day';
+  const span = STATE.wowSpan || 12;
+  const series = wowSeries(v, STATE.currentTimeframe, anchorDay, span);
+  if (series.length < 2) return;
+  el.style.display = '';
+  const isAdmin = CURRENT_ROLE === 'admin';
+  const HV = { stow: 'Stowaway', hg: 'Harry Gatos', mari: "Marilyna's", group: 'Group' };
+  const dowName = new Date(anchorDay + 'T00:00').toLocaleDateString('en-AU', { weekday: 'long' });
+  const title = weekday ? `Week on week — ${dowName}s` : 'Week on week';
+  const btns = [6, 12, 26, 52].map(nw =>
+    `<button class="${span === nw ? 'active' : ''}" onclick="setWowSpan(${nw})">${nw} wks</button>`).join('');
+  const money = n => (n < 0 ? '−$' : '$') + Math.round(Math.abs(n)).toLocaleString();
+  const bodyRows = series.map(p => {
+    const cls = p.partial ? ' class="wow-partial"' : '';
+    const profitCell = isAdmin
+      ? `<td><span class="${p.profit >= 0 ? 'vb-pos' : 'vb-neg'}">${money(p.profit)}</span></td><td>${fmtPct(p.margin)}</td>` : '';
+    return `<tr${cls}><td>${p.label}${p.partial ? ' · <span style="font-size:11px">partial</span>' : ''}</td>` +
+      `<td>${fmtDollars(p.rev)}</td><td>${fmtPct(p.cogsPct)}</td><td>${fmtPct(p.wagesPct)}</td><td>${fmtPct(p.delivPct)}</td>${profitCell}</tr>`;
+  }).join('');
+  const head = `<thead><tr><th>${weekday ? 'Date' : 'Week'}</th><th>Revenue</th><th>COGS</th><th>Labour</th><th>Delivery</th>${isAdmin ? '<th>Profit</th><th>Margin</th>' : ''}</tr></thead>`;
+  el.innerHTML = `<div class="section">
+    <h2>${title}</h2>
+    <p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 8px;line-height:1.5">${HV[v] || v} · last ${series.length} ${weekday ? dowName + 's' : 'weeks'}, most recent first · ${weekday ? 'same weekday each week' : 'Mon–Sun'}.</p>
+    <div class="wow-toggles">${btns}</div>
+    <div class="chart-wrap"><canvas id="wow-chart"></canvas></div>
+    <div class="vbx-scroll"><table class="vb-table" style="margin-top:14px">${head}<tbody>${bodyRows}</tbody></table></div>
+  </div>`;
+  const chron = series.slice().reverse();
+  const ctx = document.getElementById('wow-chart').getContext('2d');
+  const tickColor = IS_DARK ? '#B7B1A4' : '#5A544C';
+  const gridColor = IS_DARK ? 'rgba(120,110,90,0.2)' : 'rgba(232,223,207,0.4)';
+  const fmtK = val => '$' + (Math.abs(val) >= 1000 ? (val / 1000).toFixed(0) + 'k' : val);
+  const datasets = [{ type: 'bar', label: 'Revenue', data: chron.map(p => Math.round(p.rev)), backgroundColor: '#378ADD', borderWidth: 0, yAxisID: 'y', order: 2 }];
+  if (isAdmin) datasets.push({ type: 'line', label: 'Profit', data: chron.map(p => Math.round(p.profit)), borderColor: '#1D9E75', backgroundColor: '#1D9E7520', borderWidth: 2.5, pointRadius: chron.length > 26 ? 0 : 3, pointBackgroundColor: '#1D9E75', tension: 0.25, yAxisID: 'y1', order: 1 });
+  WOW_CHART = new Chart(ctx, {
+    data: { labels: chron.map(p => p.label.replace('w/c ', '')), datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { position: 'left', ticks: { callback: fmtK, font: { family: 'Inter', size: 11 }, color: tickColor }, grid: { color: gridColor } },
+        y1: { position: 'right', display: isAdmin, ticks: { callback: fmtK, font: { family: 'Inter', size: 11 }, color: tickColor }, grid: { display: false } },
+        x: { ticks: { font: { family: 'Inter', size: 11 }, color: tickColor, maxTicksLimit: 16 }, grid: { display: false } }
+      },
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, boxHeight: 3, usePointStyle: true, pointStyle: 'line', font: { family: 'Space Grotesk', size: 12, weight: '500' }, color: tickColor, padding: 14 } } }
+    }
+  });
+}
+
+function setWowSpan(n) { STATE.wowSpan = n; render(); }
 
 function render() {
   renderVenueTabs();
