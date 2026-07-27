@@ -1,0 +1,127 @@
+{
+  "invoice": {
+    "supplier_key": "nelson_wine",
+    "supplier_name_raw": "Nelson Wines 8466 Pty Ltd",
+    "invoice_ref": "20039624",
+    "invoice_date": "2026-07-27",
+    "total_incl": "492.89",
+    "lines": [
+      {
+        "description": "25 KUKU SAUV BLANC",
+        "qty": "1",
+        "line_total_incl": "174.89",
+        "unit_price_incl": "14.5742",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "KU25SAB",
+        "raw_qty": "12",
+        "raw_uom": "bottles",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "W/sale Price/Bot 12.08 is pre-discount (15% off); derived unit price reflects final incl cost",
+          "WET % 29, GST % 10 applied per Nelson wine formula: net\u00d71.29\u00d71.1"
+        ]
+      },
+      {
+        "description": "25 VERSION TWO PINOT GRIGIO",
+        "qty": "2",
+        "line_total_incl": "212.00",
+        "unit_price_incl": "8.8333",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "HA25PIG",
+        "raw_qty": "24",
+        "raw_uom": "bottles",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "W/sale Price/Bot 6.92 is pre-discount (10% off); derived unit price reflects final incl cost",
+          "WET % 29, GST % 10 applied per Nelson wine formula"
+        ]
+      },
+      {
+        "description": "NV VERSION TWO BRUT CUVEE",
+        "qty": "1",
+        "line_total_incl": "106.00",
+        "unit_price_incl": "8.8333",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "HANVSPA",
+        "raw_qty": "12",
+        "raw_uom": "bottles",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "W/sale Price/Bot 6.92 is pre-discount (10% off); derived unit price reflects final incl cost",
+          "WET % 29, GST % 10 applied per Nelson wine formula"
+        ]
+      }
+    ],
+    "due_date": "2026-07-27",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [
+      "54361246"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "44.81",
+    "wet_total": "93.68",
+    "account_code": "STOWAW01",
+    "source_pdf": "000faa24aace1d6f7ab585cdad77de0c8657ef9249c74750a937e2f75021f3b9.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "492.89",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "25 KUKU SAUV BLANC",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      },
+      {
+        "description": "25 VERSION TWO PINOT GRIGIO",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      },
+      {
+        "description": "NV VERSION TWO BRUT CUVEE",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      }
+    ]
+  }
+}

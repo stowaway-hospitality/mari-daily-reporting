@@ -1,0 +1,97 @@
+{
+  "invoice": {
+    "supplier_key": "nelson_wine",
+    "supplier_name_raw": "Nelson Wine Company NSW",
+    "invoice_ref": "20039620",
+    "invoice_date": "2026-07-27",
+    "total_incl": "477.57",
+    "lines": [
+      {
+        "description": "25 KUKU SAUV BLANC",
+        "qty": "1",
+        "line_total_incl": "174.89",
+        "unit_price_incl": "14.5742",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "KU25SAB",
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "W/sale Price/Bot 12.08 is pre-discount (15% = 12.08 \u00d7 1.15 = 13.89 net approx); Inc. Price 174.89 / 12 = 14.5742/btl incl WET+GST",
+          "Per config: unit_price_is_pre_discount=true, understates_by_pct=17; derived from line total is authoritative"
+        ]
+      },
+      {
+        "description": "24 LE ESPRIT GRAND CROS ROSE WHITE LABEL",
+        "qty": "1",
+        "line_total_incl": "302.68",
+        "unit_price_incl": "25.2233",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "LG24ESP",
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "W/sale Price/Bot 19.75 is pre-discount (10% = 19.75 \u00d7 1.10 = 21.73 net approx); Inc. Price 302.68 / 12 = 25.2233/btl incl WET+GST",
+          "Per config: unit_price_is_pre_discount=true; derived from line total is authoritative"
+        ]
+      }
+    ],
+    "due_date": "2026-07-27",
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [
+      "35985424"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "43.42",
+    "wet_total": "90.77",
+    "account_code": "STOWAW01",
+    "source_pdf": "9312371ee979ad8551c748310fd08b0503a5d7fd40c663a89545fef45e429749.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "477.57",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "high",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "25 KUKU SAUV BLANC",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "24 LE ESPRIT GRAND CROS ROSE WHITE LABEL",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

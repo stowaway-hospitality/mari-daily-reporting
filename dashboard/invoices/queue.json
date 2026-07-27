@@ -1,6 +1,6 @@
 {
   "generated": "2026-07-27",
-  "count": 22,
+  "count": 24,
   "skipped_already_in_xero": 31,
   "invoices": [
     {
@@ -183,6 +183,95 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "20039620",
+      "supplier": "Nelson Wine Company NSW",
+      "supplier_key": "nelson_wine",
+      "date": "2026-07-27",
+      "due_date": "2026-07-27",
+      "total": "477.57",
+      "venue": "harry_gatos",
+      "pdf_path": "9312371ee979ad8551c748310fd08b0503a5d7fd40c663a89545fef45e429749.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "25 KUKU SAUV BLANC",
+          "supplier_code": "KU25SAB",
+          "qty": "1",
+          "amount": "174.89",
+          "unit_cost": "$14.57/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "24 LE ESPRIT GRAND CROS ROSE WHITE LABEL",
+          "supplier_code": "LG24ESP",
+          "qty": "1",
+          "amount": "302.68",
+          "unit_cost": "$25.22/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "20039624",
+      "supplier": "Nelson Wines 8466 Pty Ltd",
+      "supplier_key": "nelson_wine",
+      "date": "2026-07-27",
+      "due_date": "2026-07-27",
+      "total": "492.89",
+      "venue": "stowaway",
+      "pdf_path": "000faa24aace1d6f7ab585cdad77de0c8657ef9249c74750a937e2f75021f3b9.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "25 KUKU SAUV BLANC",
+          "supplier_code": "KU25SAB",
+          "qty": "1",
+          "amount": "174.89",
+          "unit_cost": "$14.57/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
+        },
+        {
+          "description": "25 VERSION TWO PINOT GRIGIO",
+          "supplier_code": "HA25PIG",
+          "qty": "2",
+          "amount": "212.00",
+          "unit_cost": "$8.83/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
+        },
+        {
+          "description": "NV VERSION TWO BRUT CUVEE",
+          "supplier_code": "HANVSPA",
+          "qty": "1",
+          "amount": "106.00",
+          "unit_cost": "$8.83/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
         }
       ]
     },
