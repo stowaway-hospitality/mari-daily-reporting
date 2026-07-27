@@ -1,0 +1,113 @@
+{
+  "invoice": {
+    "supplier_key": "young_rashleigh",
+    "supplier_name_raw": "Young & Rashleigh Wine Merchants Pty Ltd",
+    "invoice_ref": "733517",
+    "invoice_date": "2026-07-27",
+    "total_incl": "290.91",
+    "lines": [
+      {
+        "description": "Villa Fresco Sangiovese 24 - OPO",
+        "qty": "2",
+        "line_total_incl": "289.48",
+        "unit_price_incl": "6.0395",
+        "unit_price_ex": null,
+        "pack_size": 24,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "PIZVFSAN1224",
+        "raw_qty": "2.0000",
+        "raw_uom": "C750",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "15% discount applied pre-WET",
+          "Price column $120.00 is pre-discount list price per supplier config"
+        ]
+      },
+      {
+        "description": "Temporary Frt Surcharge Metro",
+        "qty": "2",
+        "line_total_incl": "1.43",
+        "unit_price_incl": "0.715",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "2.0000",
+        "raw_uom": "EACH",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Freight surcharge \u2014 matches extras_patterns"
+        ]
+      }
+    ],
+    "due_date": "2026-08-14",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [
+      "54361248"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "26.45",
+    "wet_total": "55.02",
+    "account_code": "STOWAW01-1",
+    "source_pdf": "901d67715b94b60fba9033ef8956d2b928a9d0b733880480fdaba82a5c740b21.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "LINE_ARITHMETIC",
+        "severity": "error",
+        "message": "'Villa Fresco Sangiovese 24 - OPO': qty 2 x unit 6.0395 x pack 24 does not equal the stated line total",
+        "line_index": 0,
+        "expected": "289.90",
+        "actual": "289.48"
+      },
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $1.43 under the invoice total \u2014 expected. Skipped: Temporary Frt Surcharge Metro ($1.43). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "289.48",
+        "actual": "290.91"
+      }
+    ],
+    "expected_ls_receive_total": "289.48",
+    "extras_total": "1.43"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "high",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "Villa Fresco Sangiovese 24 - OPO",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Temporary Frt Surcharge Metro",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

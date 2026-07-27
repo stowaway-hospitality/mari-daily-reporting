@@ -1,6 +1,6 @@
 {
   "generated": "2026-07-27",
-  "count": 19,
+  "count": 20,
   "skipped_already_in_xero": 31,
   "invoices": [
     {
@@ -739,6 +739,45 @@
       "is_credit_note": true,
       "status": "pass",
       "lines": []
+    },
+    {
+      "ref": "733517",
+      "supplier": "Young & Rashleigh Wine Merchants Pty Ltd",
+      "supplier_key": "young_rashleigh",
+      "date": "2026-07-27",
+      "due_date": "2026-08-14",
+      "total": "290.91",
+      "venue": "stowaway",
+      "pdf_path": "901d67715b94b60fba9033ef8956d2b928a9d0b733880480fdaba82a5c740b21.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "Villa Fresco Sangiovese 24 - OPO",
+          "supplier_code": "PIZVFSAN1224",
+          "qty": "2",
+          "amount": "289.48",
+          "unit_cost": "$6.04/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Temporary Frt Surcharge Metro",
+          "supplier_code": null,
+          "qty": "2",
+          "amount": "1.43",
+          "unit_cost": "$0.72/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
     },
     {
       "ref": "fresh_fruit_team-2026-07-24",
