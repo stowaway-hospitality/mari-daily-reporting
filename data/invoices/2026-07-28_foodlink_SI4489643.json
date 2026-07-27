@@ -1,0 +1,235 @@
+{
+  "invoice": {
+    "supplier_key": "foodlink",
+    "supplier_name_raw": "Foodlink Australia Pty Ltd",
+    "invoice_ref": "SI4489643",
+    "invoice_date": "2026-07-28",
+    "total_incl": "188.20",
+    "lines": [
+      {
+        "description": "BARRAMUNDI FILLETS IMP 200/300 S/OFF 5KG (I) Trading",
+        "qty": "1",
+        "line_total_incl": "83.00",
+        "unit_price_incl": "83.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "103272",
+        "raw_qty": "1",
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CREAM THICK FRESH 2LT Dairy Farmers",
+        "qty": "1",
+        "line_total_incl": "19.90",
+        "unit_price_incl": "19.90",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "106167",
+        "raw_qty": "1",
+        "raw_uom": "EA",
+        "pack_qty": "2",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CORN FLOUR WHEATEN 5KG Edlyn",
+        "qty": "1",
+        "line_total_incl": "24.00",
+        "unit_price_incl": "24.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "101093",
+        "raw_qty": "1",
+        "raw_uom": "EA",
+        "pack_qty": "5",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "BBQ SAUCE 4LT Heinz",
+        "qty": "1",
+        "line_total_incl": "13.90",
+        "unit_price_incl": "13.90",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "100164",
+        "raw_qty": "1",
+        "raw_uom": "EA",
+        "pack_qty": "4",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "TOMATO SAUCE 4LT Heinz",
+        "qty": "1",
+        "line_total_incl": "11.60",
+        "unit_price_incl": "11.60",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "102942",
+        "raw_qty": "1",
+        "raw_uom": "EA",
+        "pack_qty": "4",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "FRANK'S HOT SAUCE 1GALLN 3.8L Franks",
+        "qty": "1",
+        "line_total_incl": "32.50",
+        "unit_price_incl": "32.50",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "102473",
+        "raw_qty": "1",
+        "raw_uom": "EA",
+        "pack_qty": "3.8",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Fuel Levy",
+        "qty": "1",
+        "line_total_incl": "3.30",
+        "unit_price_incl": "3.30",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Fuel Levy is taxable per Foodlink quirks; column shows GST"
+        ]
+      }
+    ],
+    "due_date": "2026-08-04",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "0.30",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "33c074b52e8d91a332ab7638206feb17c28b48169a04bea4df703b9e108547ec.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $3.30 under the invoice total \u2014 expected. Skipped: Fuel Levy ($3.30). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "184.90",
+        "actual": "188.20"
+      }
+    ],
+    "expected_ls_receive_total": "184.90",
+    "extras_total": "3.30"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "BARRAMUNDI FILLETS IMP 200/300 S/OFF 5KG (I) Trading",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CREAM THICK FRESH 2LT Dairy Farmers",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CORN FLOUR WHEATEN 5KG Edlyn",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "BBQ SAUCE 4LT Heinz",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "TOMATO SAUCE 4LT Heinz",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "FRANK'S HOT SAUCE 1GALLN 3.8L Franks",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Fuel Levy",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

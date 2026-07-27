@@ -1,0 +1,66 @@
+{
+  "invoice": {
+    "supplier_key": "foodlink",
+    "supplier_name_raw": "Foodlink Australia Pty Ltd",
+    "invoice_ref": "SI4489652",
+    "invoice_date": "2026-07-28",
+    "total_incl": "124.00",
+    "lines": [
+      {
+        "description": "ARANCINI TRUFFLED PORCINI (143x35GM) 5X1KG Hermans",
+        "qty": "1",
+        "line_total_incl": "124.00",
+        "unit_price_incl": "124.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "GST column blank \u2014 line is GST-free per Foodlink tax marking convention",
+          "Basic food item (arancini) \u2014 GST-free classification confirmed",
+          "Amount Excl. GST = 124.00; Amount Incl. GST = 124.00 (no GST charged)"
+        ]
+      }
+    ],
+    "due_date": "2026-08-04",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "0.00",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "f441f50dddec6b738ace6685b84d71bf72226745ba6c94ceeb08559bfb5eb0f7.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "124.00",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "ARANCINI TRUFFLED PORCINI (143x35GM) 5X1KG Hermans",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
