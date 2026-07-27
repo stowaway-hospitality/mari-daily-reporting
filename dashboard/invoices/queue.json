@@ -1,6 +1,6 @@
 {
   "generated": "2026-07-27",
-  "count": 18,
+  "count": 21,
   "skipped_already_in_xero": 26,
   "invoices": [
     {
@@ -144,6 +144,244 @@
           "account_code": "115",
           "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "INB00112636",
+      "supplier": "The Fresh Fruit Team Pty Ltd",
+      "supplier_key": "fresh_fruit_team",
+      "date": "2026-07-25",
+      "due_date": "2026-08-08",
+      "total": "145.54",
+      "venue": "stowaway",
+      "pdf_path": "7be827fda94874feb11a908cbf71c964f33c5f1c3c6242cd23762ebe197fd3a4.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Broccolini",
+          "supplier_code": "BRL",
+          "qty": "1",
+          "amount": "36.00",
+          "unit_cost": "$36.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Avocado Hass",
+          "supplier_code": "AH20T",
+          "qty": "1",
+          "amount": "30.80",
+          "unit_cost": "$30.80/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Lettuce Cos Baby Twin Pack",
+          "supplier_code": "LCBTPEA",
+          "qty": "6",
+          "amount": "16.50",
+          "unit_cost": "$2.75/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Lettuce Radiccio White",
+          "supplier_code": "LRWEA",
+          "qty": "2",
+          "amount": "13.62",
+          "unit_cost": "$6.81/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Pineapple",
+          "supplier_code": "PQEA",
+          "qty": "2",
+          "amount": "9.90",
+          "unit_cost": "$4.95/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Dryslaw Mix Red And Green",
+          "supplier_code": "KITDMRAGKG",
+          "qty": "2",
+          "amount": "15.80",
+          "unit_cost": "$7.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Pears Green",
+          "supplier_code": "PGKG",
+          "qty": "2",
+          "amount": "7.92",
+          "unit_cost": "$3.96/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Grapefruit Pink Peeled",
+          "supplier_code": "KITGPINPEA",
+          "qty": "10",
+          "amount": "15.00",
+          "unit_cost": "$1.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "INB00112644",
+      "supplier": "The Fresh Fruit Team Pty Ltd",
+      "supplier_key": "fresh_fruit_team",
+      "date": "2026-07-25",
+      "due_date": "2026-08-08",
+      "total": "21.60",
+      "venue": "stowaway",
+      "pdf_path": "8d63aa32594ed5e3550e94dbf9b738916640705ac99380217c1e8fdd106c24f5.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CELE Each",
+          "supplier_code": "CELE Each",
+          "qty": "2",
+          "amount": "21.60",
+          "unit_cost": "$10.80/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "INB00112652",
+      "supplier": "The Fresh Fruit Team Pty Ltd",
+      "supplier_key": "fresh_fruit_team",
+      "date": "2026-07-25",
+      "due_date": "2026-08-08",
+      "total": "154.11",
+      "venue": "marilynas",
+      "pdf_path": "3eb6ce329b73d74dea45fa2a7c11ecddd2fbd531760421431c679df070bdd568.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Marilyna's Pizza",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Onion Hand Peeled",
+          "supplier_code": "KITOHP",
+          "qty": "3",
+          "amount": "9.00",
+          "unit_cost": "$3.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Onion Spanish Peeled",
+          "supplier_code": "KITOSPKG",
+          "qty": "3",
+          "amount": "17.70",
+          "unit_cost": "$5.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Mushroom Sliced",
+          "supplier_code": "KITMUSHSKG",
+          "qty": "6",
+          "amount": "71.40",
+          "unit_cost": "$11.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Tomatoes Cherry",
+          "supplier_code": "TCPUN",
+          "qty": "8",
+          "amount": "15.84",
+          "unit_cost": "$1.98/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Shallot",
+          "supplier_code": "SBCH",
+          "qty": "4",
+          "amount": "13.64",
+          "unit_cost": "$3.41/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Garlic Peeled",
+          "supplier_code": "GPKG",
+          "qty": "1",
+          "amount": "3.85",
+          "unit_cost": "$3.85/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Zucchini Green 0.5Kg please",
+          "supplier_code": "ZGKG",
+          "qty": "1",
+          "amount": "3.08",
+          "unit_cost": "$6.16/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Capsicum Green Washed And Sanitised",
+          "supplier_code": "KITCGWASKG",
+          "qty": "2",
+          "amount": "19.60",
+          "unit_cost": "$9.80/ea",
+          "tax": "gst_free",
+          "account_code": "306",
+          "account_name": "Cleaning",
+          "reason": "line keyword -> Cleaning"
         }
       ]
     },

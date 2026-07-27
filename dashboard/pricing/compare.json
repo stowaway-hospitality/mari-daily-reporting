@@ -1,7 +1,7 @@
 {
   "generated": "2026-07-27",
-  "count": 198,
-  "compared": 5,
+  "count": 209,
+  "compared": 6,
   "movers": [
     {
       "name": "Chive",
@@ -28,6 +28,24 @@
       "prev": 3.6,
       "cost": 4.1,
       "pct": 13.9,
+      "date": "2026-07-25"
+    },
+    {
+      "name": "Tomato Cherry",
+      "supplier": "Fresh Fruit Team",
+      "unit": "ea",
+      "prev": 1.76,
+      "cost": 1.98,
+      "pct": 12.5,
+      "date": "2026-07-25"
+    },
+    {
+      "name": "Broccolini",
+      "supplier": "Fresh Fruit Team",
+      "unit": "box",
+      "prev": 33.6,
+      "cost": 36.0,
+      "pct": 7.1,
       "date": "2026-07-25"
     }
   ],
@@ -122,6 +140,37 @@
       "min": 3.1,
       "max": 3.9,
       "spread_pct": 25.8,
+      "multi": true,
+      "suspect": false
+    },
+    {
+      "key": "shallot",
+      "name": "Shallot",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 3.0,
+          "date": "2026-07-25",
+          "desc": "SHALLOT BCH",
+          "change_pct": null,
+          "n": 3,
+          "prev_cost": null
+        },
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.41,
+          "date": "2026-07-25",
+          "desc": "Shallot",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 3.0,
+      "max": 3.41,
+      "spread_pct": 13.7,
       "multi": true,
       "suspect": false
     },
@@ -415,10 +464,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 30.8,
-          "date": "2026-07-18",
+          "date": "2026-07-25",
           "desc": "Avocado Hass",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -700,17 +749,17 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 33.6,
-          "date": "2026-07-16",
+          "cost": 36.0,
+          "date": "2026-07-25",
           "desc": "Broccolini",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null
+          "change_pct": 7.1,
+          "n": 2,
+          "prev_cost": 33.6
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 33.6,
-      "max": 33.6,
+      "min": 36.0,
+      "max": 36.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -826,6 +875,28 @@
       "suspect": false
     },
     {
+      "key": "capsicum green sanitised washed",
+      "name": "Capsicum Green Washed Sanitised",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 9.8,
+          "date": "2026-07-25",
+          "desc": "Capsicum Green Washed And Sanitised",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 9.8,
+      "max": 9.8,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "carpano classico vermouth",
       "name": "Carpano Classico Vermouth",
       "unit": "L",
@@ -921,10 +992,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 10.8,
-          "date": "2026-07-23",
+          "date": "2026-07-25",
           "desc": "CELE Each",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -1860,6 +1931,28 @@
       "suspect": false
     },
     {
+      "key": "dryslaw green mix red",
+      "name": "Dryslaw Mix Red Green",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 7.9,
+          "date": "2026-07-25",
+          "desc": "Dryslaw Mix Red And Green",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 7.9,
+      "max": 7.9,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "egg",
       "name": "Egg",
       "unit": "box",
@@ -2344,6 +2437,28 @@
       "suspect": false
     },
     {
+      "key": "garlic peeled",
+      "name": "Garlic Peeled",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.85,
+          "date": "2026-07-25",
+          "desc": "Garlic Peeled",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.85,
+      "max": 3.85,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "gourmet large",
       "name": "Gourmet Large",
       "unit": "ea",
@@ -2361,6 +2476,28 @@
       "cheapest": "Fresh Fruit Team",
       "min": 42.56,
       "max": 42.56,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "grapefruit peeled pink",
+      "name": "Grapefruit Pink Peeled",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 1.5,
+          "date": "2026-07-25",
+          "desc": "Grapefruit Pink Peeled",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 1.5,
+      "max": 1.5,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2879,10 +3016,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 2.75,
-          "date": "2026-07-18",
+          "date": "2026-07-25",
           "desc": "Lettuce Cos Baby Twin Pack",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -2933,6 +3070,28 @@
       "cheapest": "Fresh Fruit Team",
       "min": 6.05,
       "max": 6.05,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "lettuce radiccio white",
+      "name": "Lettuce Radiccio White",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 6.81,
+          "date": "2026-07-25",
+          "desc": "Lettuce Radiccio White",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 6.81,
+      "max": 6.81,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3158,6 +3317,28 @@
       "suspect": false
     },
     {
+      "key": "mushroom sliced",
+      "name": "Mushroom Sliced",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 11.9,
+          "date": "2026-07-25",
+          "desc": "Mushroom Sliced",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 11.9,
+      "max": 11.9,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "dijon masterfood mustard",
       "name": "Mustard Dijon Masterfood",
       "unit": "kg",
@@ -3290,6 +3471,28 @@
       "suspect": false
     },
     {
+      "key": "hand onion peeled",
+      "name": "Onion Hand Peeled",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.0,
+          "date": "2026-07-25",
+          "desc": "Onion Hand Peeled",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.0,
+      "max": 3.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "onion spanish",
       "name": "Onion Spanish",
       "unit": "kg",
@@ -3307,6 +3510,28 @@
       "cheapest": "Fresh Fruit Team",
       "min": 2.42,
       "max": 2.42,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "onion peeled spanish",
+      "name": "Onion Spanish Peeled",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 5.9,
+          "date": "2026-07-25",
+          "desc": "Onion Spanish Peeled",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 5.9,
+      "max": 5.9,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3444,6 +3669,28 @@
       "suspect": false
     },
     {
+      "key": "green pear",
+      "name": "Pear Green",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.96,
+          "date": "2026-07-25",
+          "desc": "Pears Green",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.96,
+      "max": 3.96,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "pellegrino sparkling water",
       "name": "Pellegrino Sparkling Water",
       "unit": "ea",
@@ -3505,6 +3752,28 @@
       "cheapest": "Bacchus",
       "min": 15.9642,
       "max": 15.9642,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "pineapple",
+      "name": "Pineapple",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 4.95,
+          "date": "2026-07-25",
+          "desc": "Pineapple",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 4.95,
+      "max": 4.95,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3950,28 +4219,6 @@
       "suspect": false
     },
     {
-      "key": "shallot",
-      "name": "Shallot",
-      "unit": "ea",
-      "suppliers": [
-        {
-          "supplier": "Select Fresh",
-          "cost": 3.0,
-          "date": "2026-07-25",
-          "desc": "SHALLOT BCH",
-          "change_pct": null,
-          "n": 3,
-          "prev_cost": null
-        }
-      ],
-      "cheapest": "Select Fresh",
-      "min": 3.0,
-      "max": 3.0,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
       "key": "bun milk sesame sliced t2 white",
       "name": "Sliced T2 Milk Bun White Sesame",
       "unit": "kg",
@@ -4286,17 +4533,17 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 1.76,
-          "date": "2026-07-16",
+          "cost": 1.98,
+          "date": "2026-07-25",
           "desc": "Tomatoes Cherry",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null
+          "change_pct": 12.5,
+          "n": 2,
+          "prev_cost": 1.76
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 1.76,
-      "max": 1.76,
+      "min": 1.98,
+      "max": 1.98,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4429,6 +4676,28 @@
       "cheapest": "Gulli",
       "min": 16.3333,
       "max": 16.3333,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "green please zucchini",
+      "name": "Zucchini Green Please",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.08,
+          "date": "2026-07-25",
+          "desc": "Zucchini Green 0.5Kg please",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.08,
+      "max": 3.08,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
