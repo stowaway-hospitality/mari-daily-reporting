@@ -1,7 +1,7 @@
 {
   "generated": "2026-07-27",
-  "count": 21,
-  "skipped_already_in_xero": 26,
+  "count": 19,
+  "skipped_already_in_xero": 31,
   "invoices": [
     {
       "ref": "7021990",
@@ -143,6 +143,56 @@
           "tax": "gst_free",
           "account_code": "115",
           "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "INV-02956",
+      "supplier": "Viticult",
+      "supplier_key": "viticult",
+      "date": "2026-07-27",
+      "due_date": "2026-08-07",
+      "total": "696.27",
+      "venue": "stowaway",
+      "pdf_path": "1b1666e9a607541299a0d6f33934711f9afad07477688a9e4b56d5ae2557b19c.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "A Rodda Willow Lake Chard 23",
+          "supplier_code": "ARWLC23",
+          "qty": "6",
+          "amount": "226.19",
+          "unit_cost": "$37.70/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Ottelia Cabernet Sauv 21",
+          "supplier_code": "OCS21",
+          "qty": "12",
+          "amount": "262.51",
+          "unit_cost": "$21.88/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Ottelia Chardonnay 2024",
+          "supplier_code": "OC24",
+          "qty": "12",
+          "amount": "207.57",
+          "unit_cost": "$17.30/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
           "reason": "learned from Xero history for this supplier"
         }
       ]
@@ -382,34 +432,6 @@
           "account_code": "306",
           "account_name": "Cleaning",
           "reason": "line keyword -> Cleaning"
-        }
-      ]
-    },
-    {
-      "ref": "OMI295930",
-      "supplier": "Mallia Industries Pty Ltd",
-      "supplier_key": "mallia_industries",
-      "date": "2026-07-25",
-      "due_date": "2026-08-01",
-      "total": "117.60",
-      "venue": "stowaway",
-      "pdf_path": "ca576f3adb6ca7a58d84288544c30bfb8baaa85730aa9653fa161d5e46afabca.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Kitchen",
-      "tracking_confidence": "high",
-      "is_credit_note": false,
-      "status": "pass",
-      "lines": [
-        {
-          "description": "Sliced T2 Milk Bun (85g) - White Sesame",
-          "supplier_code": "ST285-WS",
-          "qty": "120",
-          "amount": "117.60",
-          "unit_cost": "$11.53/kg",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
@@ -664,45 +686,6 @@
       ]
     },
     {
-      "ref": "3094313",
-      "supplier": "Select Fresh Providores",
-      "supplier_key": "select_fresh",
-      "date": "2026-07-23",
-      "due_date": "2026-08-06",
-      "total": "25.00",
-      "venue": "stowaway",
-      "pdf_path": "aa138d88b944df5ef7599b49c3fd44a5851402903ec83a49a5b89989d9f30a7b.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Bar",
-      "tracking_confidence": "medium",
-      "is_credit_note": false,
-      "status": "pass",
-      "lines": [
-        {
-          "description": "LEMON AMALFI KG",
-          "supplier_code": "LEMAMALK",
-          "qty": "3.00",
-          "amount": "19.20",
-          "unit_cost": "$6.40/ea",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "JUICE RUBY GRAPEFRUIT 2LTR",
-          "supplier_code": "JURUB",
-          "qty": "1.00",
-          "amount": "5.80",
-          "unit_cost": "$2.90/L",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        }
-      ]
-    },
-    {
       "ref": "INV495481",
       "supplier": "Bacchus Wine Merchants P/L",
       "supplier_key": "bacchus",
@@ -756,34 +739,6 @@
       "is_credit_note": true,
       "status": "pass",
       "lines": []
-    },
-    {
-      "ref": "IV000021814",
-      "supplier": "Forster Tuncurry Removals & Storage",
-      "supplier_key": "unknown",
-      "date": "2026-07-25",
-      "due_date": "2026-08-01",
-      "total": "287.71",
-      "venue": "unknown",
-      "pdf_path": "d7d85c3d6d4b7d0d463335974d910a0f7afbbc20839dc773c39c4dd967b239f1.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Miscellaneous",
-      "tracking_confidence": "high",
-      "is_credit_note": false,
-      "status": "review",
-      "lines": [
-        {
-          "description": "Storage fees 1.8.26- 31.8.26",
-          "supplier_code": "005",
-          "qty": "1",
-          "amount": "287.71",
-          "unit_cost": "$287.71/ea",
-          "tax": "gst",
-          "account_code": "465",
-          "account_name": "Storage Fees",
-          "reason": "learned from Xero history for this supplier"
-        }
-      ]
     },
     {
       "ref": "fresh_fruit_team-2026-07-24",

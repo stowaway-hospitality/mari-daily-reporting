@@ -1,0 +1,118 @@
+{
+  "invoice": {
+    "supplier_key": "viticult",
+    "supplier_name_raw": "Viticult",
+    "invoice_ref": "INV-02956",
+    "invoice_date": "2026-07-27",
+    "total_incl": "696.27",
+    "lines": [
+      {
+        "description": "A Rodda Willow Lake Chard 23",
+        "qty": "6",
+        "line_total_incl": "226.190",
+        "unit_price_incl": "37.6983",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "ARWLC23",
+        "raw_qty": "6",
+        "raw_uom": "Bottles",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Ottelia Cabernet Sauv 21",
+        "qty": "12",
+        "line_total_incl": "262.514",
+        "unit_price_incl": "21.8761",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "OCS21",
+        "raw_qty": "12",
+        "raw_uom": "Bottles",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Ottelia Chardonnay 2024",
+        "qty": "12",
+        "line_total_incl": "207.570",
+        "unit_price_incl": "17.2975",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "OC24",
+        "raw_qty": "12",
+        "raw_uom": "Bottles",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-08-07",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [
+      "54361247"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "63.298",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "1b1666e9a607541299a0d6f33934711f9afad07477688a9e4b56d5ae2557b19c.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "696.274",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "high",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "A Rodda Willow Lake Chard 23",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Ottelia Cabernet Sauv 21",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Ottelia Chardonnay 2024",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

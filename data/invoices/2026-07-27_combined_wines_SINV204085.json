@@ -1,0 +1,71 @@
+{
+  "invoice": {
+    "supplier_key": "combined_wines",
+    "supplier_name_raw": "COMBINED WINES & FOODS",
+    "invoice_ref": "SINV204085",
+    "invoice_date": "2026-07-27",
+    "total_incl": "421.44",
+    "lines": [
+      {
+        "description": "CRITTENDEN GEPPETTO PINOT NOIR 750ML",
+        "qty": "2",
+        "line_total_incl": "421.44",
+        "unit_price_incl": "17.56",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "CGPN750ML",
+        "raw_qty": "2",
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Price 165.00 CTN = per-carton pre-discount pre-WET pre-GST",
+          "Discount 10% applied to net: 165.00 x 0.9 = 148.50",
+          "WET calculated: 148.50 x 0.29 = 43.065, doubled for 2 cartons = 86.13 \u2713",
+          "GST calculated: (148.50 x 2 + 86.13) x 0.10 = 38.31 \u2713",
+          "TOTAL = 297.00 + 86.13 + 38.31 = 421.44 \u2713",
+          "Unit price incl = 421.44 / (2 x 12) = 17.56 per bottle"
+        ]
+      }
+    ],
+    "due_date": "2026-08-10",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [
+      "699"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "38.31",
+    "wet_total": "86.13",
+    "account_code": "STOWAWAY",
+    "source_pdf": "bee73839c81eebcabc5c82befd34ab9f1818bc122395822fbcb326a646926718.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "421.44",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "high",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "CRITTENDEN GEPPETTO PINOT NOIR 750ML",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "invoice": {
+    "supplier_key": "unknown",
+    "supplier_name_raw": "Freshwater Locksmiths",
+    "invoice_ref": "INV-0067",
+    "invoice_date": "2026-07-24",
+    "total_incl": "885.50",
+    "lines": [
+      {
+        "description": "Service Call",
+        "qty": "1",
+        "line_total_incl": "95.00",
+        "unit_price_incl": "95.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "NOT A FOOD/BEVERAGE SUPPLIER \u2014 locksmith services, not stock"
+        ]
+      },
+      {
+        "description": "McGrath Windsor",
+        "qty": "1",
+        "line_total_incl": "450.00",
+        "unit_price_incl": "450.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "NOT A FOOD/BEVERAGE SUPPLIER \u2014 locksmith hardware/services"
+        ]
+      },
+      {
+        "description": "Install and Programme Keyless entry digital lock and move deadbolt beneath.",
+        "qty": "2",
+        "line_total_incl": "260.00",
+        "unit_price_incl": "130.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "2",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "NOT A FOOD/BEVERAGE SUPPLIER \u2014 locksmith labor/services"
+        ]
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "80.50",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "5fb2b665046068b03e5d32209154c3f898989de43285e74d82bc0240a1e3b4c1.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Service Call' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 0,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'McGrath Windsor' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 1,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Install and Programme Keyless entry digital lock and move deadbolt beneath.' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 2,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "INVOICE_RECONCILE",
+        "severity": "error",
+        "message": "Sum of 3 line(s) does not reconcile to the invoice total. A line is likely missing or misread \u2014 do NOT receive.",
+        "line_index": null,
+        "expected": "885.50",
+        "actual": "805.00"
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "low",
+    "primary_account": "111",
+    "lines": [
+      {
+        "description": "Service Call",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      },
+      {
+        "description": "McGrath Windsor",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      },
+      {
+        "description": "Install and Programme Keyless entry digital lock and move deadbolt beneath.",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      }
+    ]
+  }
+}
