@@ -1,0 +1,84 @@
+{
+  "invoice": {
+    "supplier_key": "unknown",
+    "supplier_name_raw": "Singa Oy",
+    "invoice_ref": "RKCKZ94E-0001",
+    "invoice_date": "2026-07-10",
+    "total_incl": "199.00",
+    "lines": [
+      {
+        "description": "Singa Business Subscription",
+        "qty": "1",
+        "line_total_incl": "199.00",
+        "unit_price_incl": "199.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "REJECT: This is a software subscription receipt from a Finnish SaaS vendor (Singa Oy, Helsinki), not a food/beverage supplier invoice.",
+          "Not in suppliers.yaml. No supplier_code. No venue resolvable.",
+          "Does not match the pipeline scope \u2014 this document has no relationship to Lightspeed stock, COGS, or inventory management.",
+          "Rule 0 violation: Cannot reconcile this against a PO for stock received at either venue."
+        ]
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "unknown",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "0.00",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "1f7ce6ec597b168e64b1aaca7d990567f23c306d46bb0c7aaed0279eee818a85.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "NO_VENUE",
+        "severity": "error",
+        "message": "Venue unresolved \u2014 cannot pick a product namespace. Stowaway and Harry Gatos have different ProductIDs.",
+        "line_index": null,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Singa Business Subscription' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 0,
+        "expected": null,
+        "actual": null
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "To Be Reviewed",
+    "tracking_confidence": "low",
+    "primary_account": "111",
+    "lines": [
+      {
+        "description": "Singa Business Subscription",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      }
+    ]
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "invoice": {
+    "supplier_key": "unknown",
+    "supplier_name_raw": "Amazon.com Inc or its affiliates",
+    "invoice_ref": "249-2767425-4016617",
+    "invoice_date": "2026-07-21",
+    "total_incl": "43.99",
+    "lines": [
+      {
+        "description": "Energizer Recharge Extreme - Rechargeable AA Batteries (4 Pack), Pre-Charged Double A 1.2V, 2300 mAh NiMH, 6X Longer Life, Ready for High Drain Devices",
+        "qty": "1",
+        "line_total_incl": "22.00",
+        "unit_price_incl": "22.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Retail Amazon order, not a food/beverage supplier invoice",
+          "No supplier_code available",
+          "Sold by: Aus-mate",
+          "Item appears to be office/operational supplies, not stock"
+        ]
+      },
+      {
+        "description": "Manianfacai Plastic Small Clipboard, Clear A5 Memo Size Clip Board for Students, Kid, Women, Home, Low Profile Clip, Mini Size 6 x 9 in, Office Supplies & School Supplies(Pack of 6)",
+        "qty": "1",
+        "line_total_incl": "21.99",
+        "unit_price_incl": "3.67",
+        "unit_price_ex": null,
+        "pack_size": 6,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Retail Amazon order, not a food/beverage supplier invoice",
+          "No supplier_code available",
+          "Sold by: QCHAO STORED",
+          "Item is office supplies (clipboard pack), not stock"
+        ]
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "unknown",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": "2.00",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "0e2d4a10c6e8563fd7184b363ec382bfc5ed6f1e85f2aa1ca5b7649810da3b8e.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "NO_VENUE",
+        "severity": "error",
+        "message": "Venue unresolved \u2014 cannot pick a product namespace. Stowaway and Harry Gatos have different ProductIDs.",
+        "line_index": null,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Energizer Recharge Extreme - Rechargeable AA Batteries (4 Pack), Pre-Charged Double A 1.2V, 2300 mAh NiMH, 6X Longer Life, Ready for High Drain Devices' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 0,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Manianfacai Plastic Small Clipboard, Clear A5 Memo Size Clip Board for Students, Kid, Women, Home, Low Profile Clip, Mini Size 6 x 9 in, Office Supplies & School Supplies(Pack of 6)' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 1,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "LINE_ARITHMETIC",
+        "severity": "error",
+        "message": "'Manianfacai Plastic Small Clipboard, Clear A5 Memo Size Clip Board for Students, Kid, Women, Home, Low Profile Clip, Mini Size 6 x 9 in, Office Supplies & School Supplies(Pack of 6)': qty 1 x unit 3.67 x pack 6 does not equal the stated line total",
+        "line_index": 1,
+        "expected": "22.02",
+        "actual": "21.99"
+      },
+      {
+        "code": "GST_MISMATCH",
+        "severity": "warn",
+        "message": "Every line is taxable but GST is not 1/11 of the total. Either a line is actually GST-free or a figure is misread.",
+        "line_index": null,
+        "expected": "4.00",
+        "actual": "2.00"
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "To Be Reviewed",
+    "tracking_confidence": "low",
+    "primary_account": "111",
+    "lines": [
+      {
+        "description": "Energizer Recharge Extreme - Rechargeable AA Batteries (4 Pack), Pre-Charged Double A 1.2V, 2300 mAh NiMH, 6X Longer Life, Ready for High Drain Devices",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      },
+      {
+        "description": "Manianfacai Plastic Small Clipboard, Clear A5 Memo Size Clip Board for Students, Kid, Women, Home, Low Profile Clip, Mini Size 6 x 9 in, Office Supplies & School Supplies(Pack of 6)",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      }
+    ]
+  }
+}

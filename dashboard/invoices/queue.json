@@ -1,8 +1,47 @@
 {
-  "generated": "2026-07-27",
-  "count": 24,
-  "skipped_already_in_xero": 31,
+  "generated": "2026-07-28",
+  "count": 27,
+  "skipped_already_in_xero": 32,
   "invoices": [
+    {
+      "ref": "INV495641",
+      "supplier": "Bacchus Wine Merchants P/L",
+      "supplier_key": "bacchus",
+      "date": "2026-07-27",
+      "due_date": "2026-08-26",
+      "total": "384.55",
+      "venue": "stowaway",
+      "pdf_path": "9e686894fc39650f52259f083265bb582591495ef89a20f01f9f1a0dc6bc82fd.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "First Drop Mothers Milk Shiraz 2023",
+          "supplier_code": "FD2MOTHER23",
+          "qty": "1",
+          "amount": "192.98",
+          "unit_cost": "$16.08/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
+        },
+        {
+          "description": "Petit Detour Rose 2024",
+          "supplier_code": "PETDETROSE24",
+          "qty": "1",
+          "amount": "191.57",
+          "unit_cost": "$15.96/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
+        }
+      ]
+    },
     {
       "ref": "7021990",
       "supplier": "B&E Foods Pty Ltd",
@@ -272,56 +311,6 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "supplier name looks like Purchases - Beverages"
-        }
-      ]
-    },
-    {
-      "ref": "INV-02956",
-      "supplier": "Viticult",
-      "supplier_key": "viticult",
-      "date": "2026-07-27",
-      "due_date": "2026-08-07",
-      "total": "696.27",
-      "venue": "stowaway",
-      "pdf_path": "1b1666e9a607541299a0d6f33934711f9afad07477688a9e4b56d5ae2557b19c.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Bar",
-      "tracking_confidence": "high",
-      "is_credit_note": false,
-      "status": "pass",
-      "lines": [
-        {
-          "description": "A Rodda Willow Lake Chard 23",
-          "supplier_code": "ARWLC23",
-          "qty": "6",
-          "amount": "226.19",
-          "unit_cost": "$37.70/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "Ottelia Cabernet Sauv 21",
-          "supplier_code": "OCS21",
-          "qty": "12",
-          "amount": "262.51",
-          "unit_cost": "$21.88/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "Ottelia Chardonnay 2024",
-          "supplier_code": "OC24",
-          "qty": "12",
-          "amount": "207.57",
-          "unit_cost": "$17.30/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
@@ -869,6 +858,56 @@
       "lines": []
     },
     {
+      "ref": "83246",
+      "supplier": "The Grifter Brewing Company Pty Ltd",
+      "supplier_key": "grifter",
+      "date": "2026-07-28",
+      "due_date": "2026-08-11",
+      "total": "396.33",
+      "venue": "stowaway",
+      "pdf_path": "8f903fd410e278db11bfe1e4531f82e2c716d78b8f6fb13e951ecb6473aece4e.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "GRIFTER PALE ALE 50L KEG (KONVOY KEG)",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "292.05",
+          "unit_cost": "$5.84/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
+        },
+        {
+          "description": "BIG SUR CANS 24 PK",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "96.03",
+          "unit_cost": "$3.63/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
+        },
+        {
+          "description": "Freight",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "8.25",
+          "unit_cost": "$8.25/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
       "ref": "INV-2007",
       "supplier": "Sydney Upholstery",
       "supplier_key": "unknown",
@@ -1030,6 +1069,45 @@
       ]
     },
     {
+      "ref": "249-2767425-4016617",
+      "supplier": "Amazon.com Inc or its affiliates",
+      "supplier_key": "unknown",
+      "date": "2026-07-21",
+      "due_date": null,
+      "total": "43.99",
+      "venue": "unknown",
+      "pdf_path": "0e2d4a10c6e8563fd7184b363ec382bfc5ed6f1e85f2aa1ca5b7649810da3b8e.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "To Be Reviewed",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "Energizer Recharge Extreme - Rechargeable AA Batteries (4 Pack), Pre-Charged Double A 1.2V, 2300 mAh NiMH, 6X Longer Life, Ready for High Drain Devices",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "22.00",
+          "unit_cost": "$22.00/ea",
+          "tax": "gst",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
+        },
+        {
+          "description": "Manianfacai Plastic Small Clipboard, Clear A5 Memo Size Clip Board for Students, Kid, Women, Home, Low Profile Clip, Mini Size 6 x 9 in, Office Supplies & School Supplies(Pack of 6)",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "21.99",
+          "unit_cost": "$3.67/ea",
+          "tax": "gst",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
+        }
+      ]
+    },
+    {
       "ref": "INV-4243",
       "supplier": "The Beerline Cleaning Company Pty Limited",
       "supplier_key": "the_beerline_cleaning_company",
@@ -1065,6 +1143,34 @@
           "account_code": "306",
           "account_name": "Cleaning",
           "reason": "line keyword -> Cleaning"
+        }
+      ]
+    },
+    {
+      "ref": "RKCKZ94E-0001",
+      "supplier": "Singa Oy",
+      "supplier_key": "unknown",
+      "date": "2026-07-10",
+      "due_date": null,
+      "total": "199.00",
+      "venue": "unknown",
+      "pdf_path": "1f7ce6ec597b168e64b1aaca7d990567f23c306d46bb0c7aaed0279eee818a85.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "To Be Reviewed",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "Singa Business Subscription",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "199.00",
+          "unit_cost": "$199.00/ea",
+          "tax": "gst_free",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
         }
       ]
     },

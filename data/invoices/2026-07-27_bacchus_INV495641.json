@@ -1,0 +1,99 @@
+{
+  "invoice": {
+    "supplier_key": "bacchus",
+    "supplier_name_raw": "Bacchus Wine Merchants P/L",
+    "invoice_ref": "INV495641",
+    "invoice_date": "2026-07-27",
+    "total_incl": "384.55",
+    "lines": [
+      {
+        "description": "First Drop Mothers Milk Shiraz 2023",
+        "qty": "1",
+        "line_total_incl": "192.98",
+        "unit_price_incl": "16.0817",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "FD2MOTHER23",
+        "raw_qty": "1",
+        "raw_uom": "CS(12)",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Derived unit_price from Gross Amt / pack_size: 192.98 / 12 = 16.0817",
+          "Wine formula verified: Amount 136.00 -> WET 39.44 -> GST 17.54 -> Gross 192.98",
+          "15% discount applied to base price"
+        ]
+      },
+      {
+        "description": "Petit Detour Rose 2024",
+        "qty": "1",
+        "line_total_incl": "191.57",
+        "unit_price_incl": "15.9642",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "PETDETROSE24",
+        "raw_qty": "1",
+        "raw_uom": "CS(12)",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Derived unit_price from Gross Amt / pack_size: 191.57 / 12 = 15.9642",
+          "Wine formula verified: Amount 135.00 -> WET 39.15 -> GST 17.42 -> Gross 191.57",
+          "10% discount applied to base price"
+        ]
+      }
+    ],
+    "due_date": "2026-08-26",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [
+      "54361242"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "34.96",
+    "wet_total": "78.59",
+    "account_code": null,
+    "source_pdf": "9e686894fc39650f52259f083265bb582591495ef89a20f01f9f1a0dc6bc82fd.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "384.55",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "First Drop Mothers Milk Shiraz 2023",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      },
+      {
+        "description": "Petit Detour Rose 2024",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      }
+    ]
+  }
+}
