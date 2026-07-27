@@ -1,0 +1,123 @@
+{
+  "invoice": {
+    "supplier_key": "unknown",
+    "supplier_name_raw": "Sydney Upholstery",
+    "invoice_ref": "INV-2007",
+    "invoice_date": "2026-07-27",
+    "total_incl": "990.00",
+    "lines": [
+      {
+        "description": "Lineal Metre - Blue - Straight $1800+GST and you will also require around 10 sqm of leather. 3900 L x 700 W 3 pieces 50% cost absorbed by each party to replace three bench seats.",
+        "qty": "1",
+        "line_total_incl": "900.00",
+        "unit_price_incl": "900.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1.00",
+        "raw_uom": null,
+        "pack_qty": "3900",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "REJECT: This is not a food/beverage supplier invoice. Sydney Upholstery is an upholstery service provider, not a kitchen/bar supplier.",
+          "No supplier_code available \u2014 cannot resolve to a Lightspeed product.",
+          "No pack_size semantic \u2014 appears to be a service line for furniture repair.",
+          "This invoice does not belong in the Lightspeed stock receive pipeline."
+        ]
+      },
+      {
+        "description": "Black seat - 6m Warwick supplied free of charge due to damage. Quote - Lustrell Charisma Black",
+        "qty": "0",
+        "line_total_incl": "0",
+        "unit_price_incl": "0.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "0.00",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Zero-value quote line. Not a received/invoiced item."
+        ]
+      }
+    ],
+    "due_date": "2026-07-27",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [
+      "QU-0786"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "90.00",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "09d26703996ea72449a2b3bc0f7ea15e2458bd6253c95c2138539c6bec29c263.pdf",
+    "extractor_version": "claude-haiku-4-5"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Lineal Metre - Blue - Straight $1800+GST and you will also require around 10 sqm of leather. 3900 L x 700 W 3 pieces 50% cost absorbed by each party to replace three bench seats.' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 0,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Black seat - 6m Warwick supplied free of charge due to damage. Quote - Lustrell Charisma Black' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 1,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "INVOICE_RECONCILE",
+        "severity": "error",
+        "message": "Sum of 2 line(s) does not reconcile to the invoice total. A line is likely missing or misread \u2014 do NOT receive.",
+        "line_index": null,
+        "expected": "990.00",
+        "actual": "900.00"
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "low",
+    "primary_account": "111",
+    "lines": [
+      {
+        "description": "Lineal Metre - Blue - Straight $1800+GST and you will also require around 10 sqm of leather. 3900 L x 700 W 3 pieces 50% cost absorbed by each party to replace three bench seats.",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      },
+      {
+        "description": "Black seat - 6m Warwick supplied free of charge due to damage. Quote - Lustrell Charisma Black",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      }
+    ]
+  }
+}

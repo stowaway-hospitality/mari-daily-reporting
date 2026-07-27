@@ -1,6 +1,6 @@
 {
   "generated": "2026-07-27",
-  "count": 20,
+  "count": 22,
   "skipped_already_in_xero": 31,
   "invoices": [
     {
@@ -144,6 +144,45 @@
           "account_code": "115",
           "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "2056851",
+      "supplier": "Cellarhand Consulting Pty Ltd",
+      "supplier_key": "cellarhand",
+      "date": "2026-07-27",
+      "due_date": "2026-07-27",
+      "total": "225.45",
+      "venue": "stowaway",
+      "pdf_path": "9e656322ff79a83b19312960f4a1afbd6e3fdbf42a1ffa409bd7b96ad7324b69.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "22 GLAETZER ANAPERENNA SHIRAZ CABERNET",
+          "supplier_code": "GZASHZC22",
+          "qty": "6",
+          "amount": "208.95",
+          "unit_cost": "$34.82/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Freight",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "16.50",
+          "unit_cost": "$16.50/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
         }
       ]
     },
@@ -739,6 +778,45 @@
       "is_credit_note": true,
       "status": "pass",
       "lines": []
+    },
+    {
+      "ref": "INV-2007",
+      "supplier": "Sydney Upholstery",
+      "supplier_key": "unknown",
+      "date": "2026-07-27",
+      "due_date": "2026-07-27",
+      "total": "990.00",
+      "venue": "stowaway",
+      "pdf_path": "09d26703996ea72449a2b3bc0f7ea15e2458bd6253c95c2138539c6bec29c263.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "Lineal Metre - Blue - Straight $1800+GST and you will also require around 10 sqm of leather. 3900 L x 700 W 3 pieces 50% cost absorbed by each party to replace three bench seats.",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "900.00",
+          "unit_cost": "$0.23/L",
+          "tax": "gst",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
+        },
+        {
+          "description": "Black seat - 6m Warwick supplied free of charge due to damage. Quote - Lustrell Charisma Black",
+          "supplier_code": null,
+          "qty": "0",
+          "amount": "0.00",
+          "unit_cost": "$0.00/ea",
+          "tax": "gst",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
+        }
+      ]
     },
     {
       "ref": "733517",
