@@ -1,19 +1,19 @@
 {
  "_comment": "Roster realization = worked hours / planned hours (hourly staff, salaried excluded). roster_pull multiplies the forecast by this so the live-week wage estimate reflects what gets WORKED, not what was rostered. Built by measure_roster_realization.py; refreshed weekly.",
- "_generated": "2026-07-27T21:49:14+00:00",
+ "_generated": "2026-07-28T06:07:49+00:00",
  "_window": "2026-06-01 .. 2026-07-26",
  "_sample_hours": {
   "planned": 2591.8,
-  "worked": 2442.1
+  "worked": 2449.1
  },
- "overall": 0.942,
+ "overall": 0.945,
  "by_dow": {
-  "Mon": 0.974,
+  "Mon": 0.975,
   "Tue": 0.969,
   "Wed": 0.865,
   "Thu": 0.939,
-  "Fri": 0.959,
-  "Sat": 0.958,
+  "Fri": 0.965,
+  "Sat": 0.965,
   "Sun": 0.921
  }
 }
