@@ -341,7 +341,9 @@ async function init() {
 }
 
 Auth.gate($('gate'), {
-  roles: ['admin'],   // guest phone numbers live here — widen deliberately
+  roles: null,        // open to all signed-in staff (Zak, 2026-07: bookings is for
+                      // everyone). NB: guest phone numbers are visible here — every
+                      // signed-in role can now see them.
   onOk: (user) => {
     $('app').style.display = '';
     $('whotop').innerHTML = `<strong>${user.name}</strong>`;
