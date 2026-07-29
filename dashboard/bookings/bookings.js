@@ -52,12 +52,13 @@ function rowHtml(b) {
     b.status === 'pending_deposit' ? `<span class="pill">deposit pending</span>` : '',
   ].join('');
   const note = b.notes ? `<span class="bnote">${b.notes}</span> · ` : '';
+  const contact = [b.phone, b.email].filter(Boolean).join(' · ');
   return `<div class="brow${b.status === 'pending_deposit' ? ' pending' : ''}">
     <button class="btable${b.pinned_table ? ' pinnedchip' : ''}" data-pick="${b.id}"
       title="${b.pinned_table ? 'pinned — click to change' : 'click to choose a table'}">${b.suggested_table || '—'}</button>
     <div class="bmain">
       <div class="bname">${b.name} ${flags}</div>
-      <div class="bsub">${note}${b.phone || ''} · booked ${fmtBooked(b.created_at)}</div>
+      <div class="bsub">${note}${contact} · booked ${fmtBooked(b.created_at)}</div>
     </div>
     <div class="bpax">${covers}<small>pax</small></div>
     <div class="bacts">
