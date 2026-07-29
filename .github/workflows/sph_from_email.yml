@@ -32,6 +32,9 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.11' }
 
+      - name: Install msal (app-only Graph mailbox source)
+        run: pip install msal
+
       - name: Extract SPH counts from the Daily Sales Auto emails
         env:
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
