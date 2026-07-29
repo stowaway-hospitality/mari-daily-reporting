@@ -3,7 +3,6 @@
  *
  * Two layers of auth, deliberately:
  *   1. Supabase gate (shared with every tool) decides who may open the page.
- *      Roles: admin only for now — bookings expose guest phone numbers.
  *   2. The booking engine's bearer token is the REAL auth, verified by the
  *      service on every call ("auth is at the endpoint"). Entered once per
  *      device, kept in localStorage. Never committed — this repo is public.
@@ -245,7 +244,7 @@ async function saveEdit() {
 }
 
 // New booking (phone/staff entry). Goes to the ADMIN create endpoint: works
-// inside the 24h guest cutoff and email is optional — but the seating solver
+// inside the guest cutoff and email is optional — but the seating solver
 // still has the final say, so an impossible party is refused with a reason.
 function openAdd() {
   $('nb_time').innerHTML = ((DAY && DAY.sittings) || SEL.sittings || []).map(t =>
@@ -315,7 +314,8 @@ async function init() {
   if (!svcToken()) { showToken(); return; }
   $('tokenbox').style.display = 'none';
   $('main').style.display = 'block';
-  // No date picker: upcoming open events are cards — pick one.
+  // No date picker: upcoming open events are compact date tiles — DOW and
+  // date up front so a long row scans like a calendar strip.
   try {
     const dates = await (await fetch(API + '/api/dates')).json();
     if (!dates.length) {
@@ -326,10 +326,15 @@ async function init() {
     $('eventline').textContent = 'Pick an event:';
     $('events').innerHTML = '';
     dates.forEach((ev, i) => {
+      const dt = new Date(ev.date + 'T12:00:00');
+      const dow = dt.toLocaleDateString('en-AU', { weekday: 'short' });
+      const dm = dt.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
       const card = document.createElement('div');
       card.className = 'event-card' + (i === 0 ? ' sel' : '');
-      card.innerHTML = `<h3>${ev.name}</h3>
-        <div class="when">${niceDate(ev.date)} · sittings ${ev.sittings.join(' & ')}</div>`;
+      card.title = `${ev.name} — ${niceDate(ev.date)} · ${ev.sittings.map(T12).join(' & ')}`;
+      card.innerHTML = `<div class="ec-dow">${dow}</div>
+        <div class="ec-date">${dm}</div>
+        <div class="ec-name">${ev.name}</div>`;
       card.addEventListener('click', () => selectEvent(ev, card));
       $('events').appendChild(card);
     });
