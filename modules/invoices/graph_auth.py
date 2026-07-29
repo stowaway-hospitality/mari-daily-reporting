@@ -1,24 +1,28 @@
 #!/usr/bin/env python3
-"""
-One-time Microsoft Graph auth for the invoice mailbox (accounts@stowawaybar.com).
+"""Microsoft Graph auth for the mailbox pipelines.
 
-    python3 modules/invoices/graph_auth.py
+Two modes, picked automatically:
 
-Same public client as the functions auto-draft system — no Azure app to
-register. You sign in ONCE via device code; after that the token refreshes
-silently (like xero_pull's rotating token), so the poller runs unattended.
+* APP-ONLY (preferred) — if GRAPH_TENANT_ID / GRAPH_CLIENT_ID / GRAPH_CLIENT_SECRET
+  are set, authenticate as the "Stowaway Data Pipelines" Entra app registration via
+  client-credentials. No user, no device-code, no refresh token that expires and
+  needs re-authing. Access each mailbox as /users/{address}. Lock the app down with
+  an Exchange Application Access Policy so it can only touch the pipeline mailboxes.
 
-Sign in as the account that can READ accounts@stowawaybar.com:
-  * if accounts@ is its own licensed mailbox -> sign in as accounts@;
-  * if it's a shared mailbox -> sign in as a user who has Full Access to it
-    (the poller reads /users/accounts@stowawaybar.com either way).
+* DELEGATED (fallback) — the original device-code public-client flow, kept verbatim
+  so nothing breaks until every caller is moved to app-only.
 
-Token cache is kept SEPARATE from the functions one so the two don't fight over
-which account is signed in.
+    python3 modules/invoices/graph_auth.py            # smoke-test whichever mode is active
 """
 import os
 import msal
 
+# --- app-only (preferred) ---
+APP_TENANT = os.environ.get("GRAPH_TENANT_ID")
+APP_CLIENT = os.environ.get("GRAPH_CLIENT_ID")
+APP_SECRET = os.environ.get("GRAPH_CLIENT_SECRET")
+
+# --- delegated fallback (original public client) ---
 CLIENT_ID = "d3590ed6-52b3-4102-aeff-aad2292ab01c"        # Microsoft Office public client
 AUTHORITY = "https://login.microsoftonline.com/common"
 SCOPES = ["Mail.ReadWrite"]
@@ -28,7 +32,28 @@ CACHE = os.environ.get(
 )
 
 
+def app_only_available() -> bool:
+    return bool(APP_TENANT and APP_CLIENT and APP_SECRET)
+
+
+def _app_only_token() -> str:
+    app = msal.ConfidentialClientApplication(
+        APP_CLIENT,
+        authority=f"https://login.microsoftonline.com/{APP_TENANT}",
+        client_credential=APP_SECRET,
+    )
+    r = app.acquire_token_for_client(scopes=["https://graph.microsoft.com/.default"])
+    if "access_token" not in r:
+        raise RuntimeError(f"app-only auth failed: {r.get('error_description') or r}")
+    return r["access_token"]
+
+
 def get_token(interactive: bool = False) -> str:
+    # Prefer app-only whenever the app credentials are present.
+    if app_only_available():
+        return _app_only_token()
+
+    # ---- original device-code delegated flow (unchanged) ----
     cache = msal.SerializableTokenCache()
     if os.path.exists(CACHE):
         cache.deserialize(open(CACHE).read())
@@ -59,15 +84,28 @@ def get_token(interactive: bool = False) -> str:
     if "access_token" not in r:
         raise RuntimeError(f"auth failed: {r.get('error_description')}")
     open(CACHE, "w").write(cache.serialize())
-    print(f"\n✅ Authenticated. Token cached at {CACHE}")
+    print(f"\n\u2705 Authenticated. Token cached at {CACHE}")
     return r["access_token"]
 
 
 if __name__ == "__main__":
     import json
     import urllib.request
-    tok = get_token(interactive=True)
-    req = urllib.request.Request("https://graph.microsoft.com/v1.0/me",
-                                 headers={"Authorization": f"Bearer {tok}"})
-    me = json.loads(urllib.request.urlopen(req).read())
-    print(f"Signed in as: {me.get('displayName')} ({me.get('mail') or me.get('userPrincipalName')})")
+    if app_only_available():
+        tok = _app_only_token()
+        print("Mode: APP-ONLY (client-credentials)")
+        # read-only proof: app-only has no /me, so read a named mailbox folder
+        for mbox in ("functions@stowawaybar.com", "accounts@stowawaybar.com"):
+            url = f"https://graph.microsoft.com/v1.0/users/{mbox}/mailFolders/inbox?$select=displayName,totalItemCount,unreadItemCount"
+            try:
+                req = urllib.request.Request(url, headers={"Authorization": f"Bearer {tok}"})
+                d = json.loads(urllib.request.urlopen(req).read())
+                print(f"  \u2705 {mbox}: inbox '{d.get('displayName')}' — {d.get('totalItemCount')} items, {d.get('unreadItemCount')} unread")
+            except Exception as e:
+                print(f"  \u274c {mbox}: {e}")
+    else:
+        tok = get_token(interactive=True)
+        req = urllib.request.Request("https://graph.microsoft.com/v1.0/me",
+                                     headers={"Authorization": f"Bearer {tok}"})
+        me = json.loads(urllib.request.urlopen(req).read())
+        print(f"Signed in as: {me.get('displayName')} ({me.get('mail') or me.get('userPrincipalName')})")

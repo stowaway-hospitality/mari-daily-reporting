@@ -1,0 +1,28 @@
+name: Graph Smoke Test
+
+# One-off proof that the app-only Microsoft Graph setup works end-to-end:
+# app registration + client secret + admin consent + mailbox access.
+# Read-only — lists the inbox of functions@ and accounts@. No writes.
+on:
+  workflow_dispatch:
+
+jobs:
+  smoketest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install msal
+        run: pip install msal
+      - name: App-only Graph read-only check
+        env:
+          GRAPH_TENANT_ID: ${{ secrets.GRAPH_TENANT_ID }}
+          GRAPH_CLIENT_ID: ${{ secrets.GRAPH_CLIENT_ID }}
+          GRAPH_CLIENT_SECRET: ${{ secrets.GRAPH_CLIENT_SECRET }}
+        run: |
+          if [ -z "$GRAPH_CLIENT_SECRET" ]; then
+            echo "::error::GRAPH_CLIENT_SECRET is not set — add the three GRAPH_* secrets in Settings > Secrets > Actions"; exit 1
+          fi
+          python3 modules/invoices/graph_auth.py
