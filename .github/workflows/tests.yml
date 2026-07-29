@@ -70,6 +70,13 @@ jobs:
           python3 scripts/test_corp_payroll.py
           python3 scripts/test_auth_gate.py
 
+      - name: Pipeline integration battletest (invoice->cogs->recipes seams)
+        # Unit tests prove each stage; this proves the SEAMS between them on the
+        # real committed data — a recipe id that no longer matches a cost key, a
+        # unit that drifted between costs.csv and ingredients.json, a forked pack
+        # resolver. Every one has bitten this project once, silently.
+        run: python3 scripts/test_pipeline_integration.py
+
       - name: Invoice pipeline battletest (Dext-replacement guards)
         # The adversarial suite: dedup, credit-note refusal, statement detection,
         # the no-write push gate, AUTHORISED date guarantee, poller guards. Runs

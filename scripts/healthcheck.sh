@@ -74,6 +74,7 @@ run "Superannuation actuals"        "$PY" scripts/test_super_actuals.py
 run "Corp payroll"                  "$PY" scripts/test_corp_payroll.py
 run "Auth gate"                     "$PY" scripts/test_auth_gate.py
 run "Invoice battletest (offline)"  "$PY" modules/invoices/tests/battletest_pipeline.py --offline
+run "Pipeline seam battletest"      "$PY" scripts/test_pipeline_integration.py
 run "Wages reconcile to Xero"       "$PY" scripts/reconcile_wages.py
 run "Dashboard P&L conservation"    node scripts/test_pnl_model.mjs
 run "Dashboard render contract"     node scripts/test_dashboard_render.mjs

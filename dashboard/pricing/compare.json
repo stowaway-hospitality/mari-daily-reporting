@@ -1,25 +1,16 @@
 {
   "generated": "2026-07-29",
-  "count": 239,
+  "count": 243,
   "compared": 6,
   "movers": [
     {
       "name": "Chive",
       "supplier": "Select Fresh",
-      "unit": "ea",
+      "unit": "bunch",
       "prev": 2.3,
       "cost": 2.7,
       "pct": 17.4,
       "date": "2026-07-22"
-    },
-    {
-      "name": "Chive",
-      "supplier": "Fresh Fruit Team",
-      "unit": "ea",
-      "prev": 13.2,
-      "cost": 15.4,
-      "pct": 16.7,
-      "date": "2026-07-28"
     },
     {
       "name": "Process Garlic Peeled",
@@ -42,7 +33,7 @@
     {
       "name": "Tomato Cherry",
       "supplier": "Fresh Fruit Team",
-      "unit": "ea",
+      "unit": "punnet",
       "prev": 1.76,
       "cost": 1.98,
       "pct": 12.5,
@@ -124,7 +115,7 @@
     {
       "key": "shallot",
       "name": "Shallot",
-      "unit": "ea",
+      "unit": "bunch",
       "suppliers": [
         {
           "supplier": "Select Fresh",
@@ -186,7 +177,7 @@
     {
       "key": "continental parsley",
       "name": "Parsley Continental",
-      "unit": "ea",
+      "unit": "bunch",
       "suppliers": [
         {
           "supplier": "Select Fresh",
@@ -217,7 +208,7 @@
     {
       "key": "chive",
       "name": "Chive",
-      "unit": "ea",
+      "unit": "bunch",
       "suppliers": [
         {
           "supplier": "Select Fresh",
@@ -230,25 +221,25 @@
         },
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 15.4,
-          "date": "2026-07-28",
-          "desc": "Chives",
-          "change_pct": 16.7,
-          "n": 3,
-          "prev_cost": 13.2
+          "cost": 13.2,
+          "date": "2026-07-20",
+          "desc": "Herb Chives",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
         }
       ],
       "cheapest": "Select Fresh",
       "min": 2.7,
-      "max": 15.4,
-      "spread_pct": 470.4,
+      "max": 13.2,
+      "spread_pct": 388.9,
       "multi": true,
       "suspect": true
     },
     {
       "key": "alehouse crisp keg",
       "name": "Alehouse Crisp Keg",
-      "unit": "ea",
+      "unit": "keg",
       "suppliers": [
         {
           "supplier": "ILG",
@@ -270,7 +261,7 @@
     {
       "key": "alehouse keg",
       "name": "Alehouse Keg",
-      "unit": "ea",
+      "unit": "keg",
       "suppliers": [
         {
           "supplier": "ILG",
@@ -336,7 +327,7 @@
     {
       "key": "antica formula",
       "name": "Antica Formula",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "ILG",
@@ -424,7 +415,7 @@
     {
       "key": "aperol",
       "name": "Aperol",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "ILG",
@@ -450,7 +441,7 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 24.7752,
+          "cost": 24.775,
           "date": "2026-07-28",
           "desc": "ARANCINI TRUFFLED PORCINI (143x35GM) 5X1KG Hermans",
           "change_pct": null,
@@ -459,8 +450,8 @@
         }
       ],
       "cheapest": "Foodlink",
-      "min": 24.7752,
-      "max": 24.7752,
+      "min": 24.775,
+      "max": 24.775,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -472,7 +463,7 @@
       "suppliers": [
         {
           "supplier": "Gulli",
-          "cost": 59.81,
+          "cost": 1.4952,
           "date": "2026-07-22",
           "desc": "Australian Garlic Bread- 9\" x 40",
           "change_pct": null,
@@ -481,8 +472,8 @@
         }
       ],
       "cheapest": "Gulli",
-      "min": 59.81,
-      "max": 59.81,
+      "min": 1.4952,
+      "max": 1.4952,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -578,11 +569,11 @@
     {
       "key": "barramundi fillet off trading",
       "name": "Barramundi Fillet Off Trading",
-      "unit": "box",
+      "unit": "kg",
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 83.0,
+          "cost": 16.6,
           "date": "2026-07-28",
           "desc": "BARRAMUNDI FILLETS IMP 200/300 S/OFF 5KG (I) Trading",
           "change_pct": null,
@@ -591,8 +582,8 @@
         }
       ],
       "cheapest": "Foodlink",
-      "min": 83.0,
-      "max": 83.0,
+      "min": 16.6,
+      "max": 16.6,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -600,7 +591,7 @@
     {
       "key": "basil",
       "name": "Basil",
-      "unit": "ea",
+      "unit": "bunch",
       "suppliers": [
         {
           "supplier": "Select Fresh",
@@ -670,7 +661,7 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 10.8571,
+          "cost": 10.857,
           "date": "2026-07-23",
           "desc": "BEANS EDAMAME SOY 350GM FROZEN (WITH SHELL)",
           "change_pct": null,
@@ -679,8 +670,8 @@
         }
       ],
       "cheapest": "Foodlink",
-      "min": 10.8571,
-      "max": 10.8571,
+      "min": 10.857,
+      "max": 10.857,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -776,7 +767,7 @@
     {
       "key": "big pk sur",
       "name": "Big Sur Pk",
-      "unit": "ea",
+      "unit": "can",
       "suppliers": [
         {
           "supplier": "Grifter",
@@ -798,7 +789,7 @@
     {
       "key": "brl",
       "name": "Brl",
-      "unit": "ea",
+      "unit": "box",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
@@ -842,7 +833,7 @@
     {
       "key": "broccolini",
       "name": "Broccolini Baby",
-      "unit": "ea",
+      "unit": "bunch",
       "suppliers": [
         {
           "supplier": "Select Fresh",
@@ -864,7 +855,7 @@
     {
       "key": "brown",
       "name": "Brown",
-      "unit": "ea",
+      "unit": "kg",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
@@ -886,7 +877,7 @@
     {
       "key": "bourbon buffalo trace",
       "name": "Buffalo Trace Bourbon",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "ILG",
@@ -996,11 +987,11 @@
     {
       "key": "carpano classico vermouth",
       "name": "Carpano Classico Vermouth",
-      "unit": "L",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Paramount",
-          "cost": 30.8933,
+          "cost": 23.17,
           "date": "2026-07-14",
           "desc": "CARPANO CLASSICO VERMOUTH : 750ml",
           "change_pct": null,
@@ -1009,8 +1000,8 @@
         }
       ],
       "cheapest": "Paramount",
-      "min": 30.8933,
-      "max": 30.8933,
+      "min": 23.17,
+      "max": 23.17,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1172,16 +1163,38 @@
     {
       "key": "chat washed",
       "name": "Chat Washed",
-      "unit": "ea",
+      "unit": "bag",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 44.0,
+          "date": "2026-07-23",
+          "desc": "Chat Washed",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 44.0,
+      "max": 44.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "chat washed",
+      "name": "Chat Washed",
+      "unit": "kg",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
           "cost": 2.2,
           "date": "2026-07-28",
           "desc": "Chat Washed",
-          "change_pct": -95.0,
-          "n": 2,
-          "prev_cost": 44.0
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1198,7 +1211,7 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 17.1111,
+          "cost": 17.111,
           "date": "2026-07-25",
           "desc": "CHEESE BURGER SLICED HI MELT THICK 2.25 KG 96'S Pure Dairy",
           "change_pct": null,
@@ -1207,8 +1220,8 @@
         }
       ],
       "cheapest": "Foodlink",
-      "min": 17.1111,
-      "max": 17.1111,
+      "min": 17.111,
+      "max": 17.111,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1220,39 +1233,17 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 364.8,
-          "date": "2026-07-16",
-          "desc": "CHEESE CAMEMBERT 125GM Rosenberg",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null
-        }
-      ],
-      "cheapest": "Foodlink",
-      "min": 364.8,
-      "max": 364.8,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
-      "key": "camembert cheese rosenberg",
-      "name": "Cheese Camembert Rosenberg",
-      "unit": "box",
-      "suppliers": [
-        {
-          "supplier": "Foodlink",
-          "cost": 3.8,
+          "cost": 2.533,
           "date": "2026-07-23",
           "desc": "CHEESE CAMEMBERT 125GM Rosenberg",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null
+          "change_pct": -91.7,
+          "n": 2,
+          "prev_cost": 30.4
         }
       ],
       "cheapest": "Foodlink",
-      "min": 3.8,
-      "max": 3.8,
+      "min": 2.533,
+      "max": 2.533,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1326,7 +1317,7 @@
     {
       "key": "cherry",
       "name": "Cherry",
-      "unit": "ea",
+      "unit": "punnet",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
@@ -1632,9 +1623,31 @@
       "suspect": false
     },
     {
+      "key": "chive",
+      "name": "Chive",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 15.4,
+          "date": "2026-07-28",
+          "desc": "Chives",
+          "change_pct": null,
+          "n": 2,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 15.4,
+      "max": 15.4,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "choi sum",
       "name": "Choi Sum",
-      "unit": "ea",
+      "unit": "bunch",
       "suppliers": [
         {
           "supplier": "Select Fresh",
@@ -1678,7 +1691,7 @@
     {
       "key": "coca cola cube",
       "name": "Coca Cola Cube",
-      "unit": "ea",
+      "unit": "can",
       "suppliers": [
         {
           "supplier": "ILG",
@@ -1704,7 +1717,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 2.9546,
+          "cost": 2.955,
           "date": "2026-07-14",
           "desc": "COKE NO SUGAR 1.25 LITRE",
           "change_pct": null,
@@ -1713,8 +1726,8 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 2.9546,
-      "max": 2.9546,
+      "min": 2.955,
+      "max": 2.955,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1766,6 +1779,28 @@
     {
       "key": "coriander",
       "name": "Coriander",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 7.7,
+          "date": "2026-07-20",
+          "desc": "Herb Coriander",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 7.7,
+      "max": 7.7,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "coriander",
+      "name": "Coriander",
       "unit": "ea",
       "suppliers": [
         {
@@ -1774,7 +1809,7 @@
           "date": "2026-07-23",
           "desc": "Coriander",
           "change_pct": null,
-          "n": 2,
+          "n": 1,
           "prev_cost": null
         }
       ],
@@ -1792,7 +1827,7 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 15.7667,
+          "cost": 15.767,
           "date": "2026-07-16",
           "desc": "CORN CHIPS ROSITA TRI 6X500GM",
           "change_pct": null,
@@ -1801,8 +1836,8 @@
         }
       ],
       "cheapest": "Foodlink",
-      "min": 15.7667,
-      "max": 15.7667,
+      "min": 15.767,
+      "max": 15.767,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1876,7 +1911,7 @@
     {
       "key": "6pk brw bx corona mexican",
       "name": "Corona Mexican 6pk Brw Bx",
-      "unit": "ea",
+      "unit": "can",
       "suppliers": [
         {
           "supplier": "ILG",
@@ -1942,11 +1977,11 @@
     {
       "key": "coeur cri crittenden de noir pinot",
       "name": "Crittenden Cri De Coeur Pinot Noir",
-      "unit": "L",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Combined Wines",
-          "cost": 82.8689,
+          "cost": 62.1517,
           "date": "2026-07-13",
           "desc": "CRITTENDEN CRI DE COEUR PINOT NOIR 750ML",
           "change_pct": null,
@@ -1955,8 +1990,8 @@
         }
       ],
       "cheapest": "Combined Wines",
-      "min": 82.8689,
-      "max": 82.8689,
+      "min": 62.1517,
+      "max": 62.1517,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1964,21 +1999,21 @@
     {
       "key": "crittenden geppetto noir pinot",
       "name": "Crittenden Geppetto Pinot Noir",
-      "unit": "L",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Combined Wines",
-          "cost": 23.4133,
+          "cost": 17.56,
           "date": "2026-07-27",
           "desc": "CRITTENDEN GEPPETTO PINOT NOIR 750ML",
           "change_pct": -0.0,
           "n": 2,
-          "prev_cost": 23.4144
+          "prev_cost": 17.5608
         }
       ],
       "cheapest": "Combined Wines",
-      "min": 23.4133,
-      "max": 23.4133,
+      "min": 17.56,
+      "max": 17.56,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2056,7 +2091,7 @@
       "suppliers": [
         {
           "supplier": "Paramount",
-          "cost": 3.7263,
+          "cost": 3.726,
           "date": "2026-07-14",
           "desc": "DE BORTOLI GOLD SEAL SPECIAL DRY RED 15L",
           "change_pct": null,
@@ -2065,8 +2100,8 @@
         }
       ],
       "cheapest": "Paramount",
-      "min": 3.7263,
-      "max": 3.7263,
+      "min": 3.726,
+      "max": 3.726,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2096,11 +2131,11 @@
     {
       "key": "dragonfruit puree",
       "name": "Dragonfruit Puree",
-      "unit": "box",
+      "unit": "kg",
       "suppliers": [
         {
           "supplier": "Berry Man",
-          "cost": 85.0,
+          "cost": 8.5,
           "date": "2026-07-24",
           "desc": "Dragonfruit Puree 10kg",
           "change_pct": null,
@@ -2109,8 +2144,8 @@
         }
       ],
       "cheapest": "Berry Man",
-      "min": 85.0,
-      "max": 85.0,
+      "min": 8.5,
+      "max": 8.5,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2184,11 +2219,11 @@
     {
       "key": "egg",
       "name": "Egg",
-      "unit": "ea",
+      "unit": "kg",
       "suppliers": [
         {
           "supplier": "Select Fresh",
-          "cost": 0.4833,
+          "cost": 8.286,
           "date": "2026-07-22",
           "desc": "EGG 700GM PACK (DOZ)",
           "change_pct": null,
@@ -2197,8 +2232,8 @@
         }
       ],
       "cheapest": "Select Fresh",
-      "min": 0.4833,
-      "max": 0.4833,
+      "min": 8.286,
+      "max": 8.286,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2272,7 +2307,7 @@
     {
       "key": "drop first milk mother shiraz",
       "name": "First Drop Mother Milk Shiraz",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Bacchus",
@@ -2298,7 +2333,7 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 43.6508,
+          "cost": 43.651,
           "date": "2026-07-16",
           "desc": "FLOUR TORTILLAS 12X63GM 10INCH",
           "change_pct": null,
@@ -2307,8 +2342,8 @@
         }
       ],
       "cheapest": "Foodlink",
-      "min": 43.6508,
-      "max": 43.6508,
+      "min": 43.651,
+      "max": 43.651,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2320,7 +2355,7 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 30.7692,
+          "cost": 30.769,
           "date": "2026-07-24",
           "desc": "FLOUR TORTILLAS 12X91GM 12INCH",
           "change_pct": null,
@@ -2329,8 +2364,8 @@
         }
       ],
       "cheapest": "Foodlink",
-      "min": 30.7692,
-      "max": 30.7692,
+      "min": 30.769,
+      "max": 30.769,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2342,7 +2377,7 @@
       "suppliers": [
         {
           "supplier": "Gulli",
-          "cost": 24.101,
+          "cost": 0.482,
           "date": "2026-07-22",
           "desc": "B Flute Lock Top 11\" Pizza Boxes x 50",
           "change_pct": null,
@@ -2351,8 +2386,8 @@
         }
       ],
       "cheapest": "Gulli",
-      "min": 24.101,
-      "max": 24.101,
+      "min": 0.482,
+      "max": 0.482,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2364,17 +2399,17 @@
       "suppliers": [
         {
           "supplier": "Gulli",
-          "cost": 32.131,
+          "cost": 0.6426,
           "date": "2026-07-22",
           "desc": "B Flute Lock Top 13\" Pizza Boxes x 50",
           "change_pct": 0.0,
           "n": 2,
-          "prev_cost": 32.13
+          "prev_cost": 0.6426
         }
       ],
       "cheapest": "Gulli",
-      "min": 32.131,
-      "max": 32.131,
+      "min": 0.6426,
+      "max": 0.6426,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2386,7 +2421,7 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 8.5526,
+          "cost": 8.553,
           "date": "2026-07-28",
           "desc": "FRANK'S HOT SAUCE 1GALLN 3.8L Franks",
           "change_pct": null,
@@ -2395,8 +2430,8 @@
         }
       ],
       "cheapest": "Foodlink",
-      "min": 8.5526,
-      "max": 8.5526,
+      "min": 8.553,
+      "max": 8.553,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2404,7 +2439,7 @@
     {
       "key": "angu beef burger fz",
       "name": "Fz Beef Angu Burger",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -2448,7 +2483,7 @@
     {
       "key": "beef chinese fz slice",
       "name": "Fz Beef Slice Chinese",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -2470,7 +2505,7 @@
     {
       "key": "breast chicken fz",
       "name": "Fz Chicken Breast",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -2492,7 +2527,7 @@
     {
       "key": "chip coated crispy fz",
       "name": "Fz Chip Crispy Coated",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -2514,7 +2549,7 @@
     {
       "key": "chip fz sweet ultra",
       "name": "Fz Chip Ultra Sweet",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -2536,7 +2571,7 @@
     {
       "key": "cooked fz korean mini",
       "name": "Fz Cooked Mini Korean",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -2558,7 +2593,7 @@
     {
       "key": "6in flour fz tortilla",
       "name": "Fz Flour Tortilla 6in",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -2580,7 +2615,7 @@
     {
       "key": "fz mash plain potato",
       "name": "Fz Mash Potato Plain",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -2602,7 +2637,7 @@
     {
       "key": "free fz gluten pizza",
       "name": "Fz Pizza Gluten Free",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -2628,7 +2663,7 @@
       "suppliers": [
         {
           "supplier": "B&E",
-          "cost": 14.9008,
+          "cost": 14.901,
           "date": "2026-07-24",
           "desc": "FZ PORK - BELLY R/ON",
           "change_pct": null,
@@ -2637,8 +2672,8 @@
         }
       ],
       "cheapest": "B&E",
-      "min": 14.9008,
-      "max": 14.9008,
+      "min": 14.901,
+      "max": 14.901,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2690,11 +2725,11 @@
     {
       "key": "egg fz pulp whole",
       "name": "Fz Whole Egg Pulp",
-      "unit": "box",
+      "unit": "kg",
       "suppliers": [
         {
           "supplier": "B&E",
-          "cost": 90.0,
+          "cost": 9.0,
           "date": "2026-07-29",
           "desc": "FZ WHOLE EGG PULP 10KG",
           "change_pct": null,
@@ -2703,8 +2738,8 @@
         }
       ],
       "cheapest": "B&E",
-      "min": 90.0,
-      "max": 90.0,
+      "min": 9.0,
+      "max": 9.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2734,7 +2769,7 @@
     {
       "key": "anaperenna cabernet glaetzer shiraz",
       "name": "Glaetzer Anaperenna Shiraz Cabernet",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Cellarhand Consulting",
@@ -2756,7 +2791,7 @@
     {
       "key": "gourmet large",
       "name": "Gourmet Large",
-      "unit": "ea",
+      "unit": "box",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
@@ -2844,11 +2879,11 @@
     {
       "key": "ale grifter keg pale",
       "name": "Grifter Pale Ale Keg",
-      "unit": "L",
+      "unit": "keg",
       "suppliers": [
         {
           "supplier": "Grifter",
-          "cost": 5.841,
+          "cost": 292.05,
           "date": "2026-07-28",
           "desc": "GRIFTER PALE ALE 50L KEG (KONVOY KEG)",
           "change_pct": null,
@@ -2857,8 +2892,30 @@
         }
       ],
       "cheapest": "Grifter",
-      "min": 5.841,
-      "max": 5.841,
+      "min": 292.05,
+      "max": 292.05,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "guinness keg",
+      "name": "Guinness Keg",
+      "unit": "keg",
+      "suppliers": [
+        {
+          "supplier": "Lion",
+          "cost": 416.58,
+          "date": "2026-07-14",
+          "desc": "Guinness 49.5L KEG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Lion",
+      "min": 416.58,
+      "max": 416.58,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2870,17 +2927,17 @@
       "suppliers": [
         {
           "supplier": "Lion",
-          "cost": 8.4158,
+          "cost": 8.416,
           "date": "2026-07-28",
           "desc": "Guinness 49.5L KEG",
           "change_pct": null,
-          "n": 2,
+          "n": 1,
           "prev_cost": null
         }
       ],
       "cheapest": "Lion",
-      "min": 8.4158,
-      "max": 8.4158,
+      "min": 8.416,
+      "max": 8.416,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2932,7 +2989,7 @@
     {
       "key": "hass",
       "name": "Hass",
-      "unit": "ea",
+      "unit": "tray",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
@@ -2954,7 +3011,7 @@
     {
       "key": "alc heap non normal quiet xpa",
       "name": "Heap Normal Quiet Xpa Non Alc",
-      "unit": "ea",
+      "unit": "can",
       "suppliers": [
         {
           "supplier": "ILG",
@@ -3046,7 +3103,7 @@
       "suppliers": [
         {
           "supplier": "Jun Pacific",
-          "cost": 11.6875,
+          "cost": 11.688,
           "date": "2026-07-16",
           "desc": "\"Jun\" Marumatsu Vegetable Dumpling 10/800gm",
           "change_pct": null,
@@ -3055,8 +3112,8 @@
         }
       ],
       "cheapest": "Jun Pacific",
-      "min": 11.6875,
-      "max": 11.6875,
+      "min": 11.688,
+      "max": 11.688,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3112,7 +3169,7 @@
       "suppliers": [
         {
           "supplier": "Jun Pacific",
-          "cost": 5.5066,
+          "cost": 5.507,
           "date": "2026-07-16",
           "desc": "\"Jun\" Frozen Soybean (Edamame) 20/454gm",
           "change_pct": null,
@@ -3121,8 +3178,8 @@
         }
       ],
       "cheapest": "Jun Pacific",
-      "min": 5.5066,
-      "max": 5.5066,
+      "min": 5.507,
+      "max": 5.507,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3152,11 +3209,11 @@
     {
       "key": "ichb keg kirin",
       "name": "Kirin Ichb Keg",
-      "unit": "L",
+      "unit": "keg",
       "suppliers": [
         {
           "supplier": "Lion",
-          "cost": 8.92,
+          "cost": 441.54,
           "date": "2026-07-14",
           "desc": "Kirin Ichb 5% 49.5L KEG",
           "change_pct": null,
@@ -3165,8 +3222,8 @@
         }
       ],
       "cheapest": "Lion",
-      "min": 8.92,
-      "max": 8.92,
+      "min": 441.54,
+      "max": 441.54,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3218,7 +3275,7 @@
     {
       "key": "blanc kuku sauv",
       "name": "Kuku Sauv Blanc",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Nelson",
@@ -3240,7 +3297,7 @@
     {
       "key": "cro esprit grand label le rose white",
       "name": "Le Esprit Grand Cro Rose White Label",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Nelson",
@@ -3328,7 +3385,7 @@
     {
       "key": "baby gem lettuce",
       "name": "Lettuce Baby Gem",
-      "unit": "ea",
+      "unit": "bag",
       "suppliers": [
         {
           "supplier": "Select Fresh",
@@ -3350,11 +3407,11 @@
     {
       "key": "baby lettuce spinach",
       "name": "Lettuce Baby Spinach",
-      "unit": "box",
+      "unit": "kg",
       "suppliers": [
         {
           "supplier": "Select Fresh",
-          "cost": 18.5,
+          "cost": 12.333,
           "date": "2026-07-24",
           "desc": "LETTUCE BABY SPINACH 1.5KG CTN",
           "change_pct": null,
@@ -3363,8 +3420,8 @@
         }
       ],
       "cheapest": "Select Fresh",
-      "min": 18.5,
-      "max": 18.5,
+      "min": 12.333,
+      "max": 12.333,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3460,11 +3517,11 @@
     {
       "key": "lettuce rocket wild",
       "name": "Lettuce Wild Rocket",
-      "unit": "box",
+      "unit": "kg",
       "suppliers": [
         {
           "supplier": "Select Fresh",
-          "cost": 21.0,
+          "cost": 14.0,
           "date": "2026-07-24",
           "desc": "LETTUCE WILD ROCKET 1.5KG CTN",
           "change_pct": null,
@@ -3473,8 +3530,8 @@
         }
       ],
       "cheapest": "Select Fresh",
-      "min": 21.0,
-      "max": 21.0,
+      "min": 14.0,
+      "max": 14.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3592,7 +3649,7 @@
     {
       "key": "leaf mint round",
       "name": "Mint Round Leaf",
-      "unit": "ea",
+      "unit": "bunch",
       "suppliers": [
         {
           "supplier": "Select Fresh",
@@ -3746,7 +3803,7 @@
     {
       "key": "brown dinner napkin",
       "name": "Napkin Dinner Brown",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -3768,7 +3825,7 @@
     {
       "key": "instant noodle plain",
       "name": "Noodle Plain Instant",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -3790,7 +3847,7 @@
     {
       "key": "brut cuvee nv two version",
       "name": "Nv Version Two Brut Cuvee",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Nelson",
@@ -3878,7 +3935,7 @@
     {
       "key": "brown onion",
       "name": "Onion Brown",
-      "unit": "ea",
+      "unit": "bag",
       "suppliers": [
         {
           "supplier": "Select Fresh",
@@ -3966,7 +4023,7 @@
     {
       "key": "onion red spanish",
       "name": "Onion Spanish Red",
-      "unit": "ea",
+      "unit": "bag",
       "suppliers": [
         {
           "supplier": "Select Fresh",
@@ -4032,7 +4089,7 @@
     {
       "key": "cabernet ottelia sauv",
       "name": "Ottelia Cabernet Sauv",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Viticult",
@@ -4054,7 +4111,7 @@
     {
       "key": "chardonnay ottelia",
       "name": "Ottelia Chardonnay",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Viticult",
@@ -4076,6 +4133,28 @@
     {
       "key": "ale keg pacific",
       "name": "Pacific Ale Keg",
+      "unit": "keg",
+      "suppliers": [
+        {
+          "supplier": "Lion",
+          "cost": 383.235,
+          "date": "2026-07-14",
+          "desc": "S & W Pacific Ale 49.5L KEG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Lion",
+      "min": 383.235,
+      "max": 383.235,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "ale keg pacific",
+      "name": "Pacific Ale Keg",
       "unit": "L",
       "suppliers": [
         {
@@ -4083,9 +4162,9 @@
           "cost": 7.742,
           "date": "2026-07-28",
           "desc": "S & W Pacific Ale 49.5L KEG",
-          "change_pct": -0.0,
-          "n": 2,
-          "prev_cost": 7.7421
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
         }
       ],
       "cheapest": "Lion",
@@ -4098,7 +4177,7 @@
     {
       "key": "malbec padrillo",
       "name": "Padrillo Malbec",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Viticult",
@@ -4146,7 +4225,7 @@
       "suppliers": [
         {
           "supplier": "Berry Man",
-          "cost": 0.7917,
+          "cost": 0.792,
           "date": "2026-07-24",
           "desc": "Passionfruit Puree Seedless 12x1kg",
           "change_pct": null,
@@ -4155,8 +4234,8 @@
         }
       ],
       "cheapest": "Berry Man",
-      "min": 0.7917,
-      "max": 0.7917,
+      "min": 0.792,
+      "max": 0.792,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4212,7 +4291,7 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 10.2128,
+          "cost": 10.213,
           "date": "2026-07-24",
           "desc": "PEPPERS ROASTED RED (CAPSICUM) 2.35KG Marco Polo",
           "change_pct": null,
@@ -4221,8 +4300,8 @@
         }
       ],
       "cheapest": "Foodlink",
-      "min": 10.2128,
-      "max": 10.2128,
+      "min": 10.213,
+      "max": 10.213,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4230,7 +4309,7 @@
     {
       "key": "detour petit rose",
       "name": "Petit Detour Rose",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Bacchus",
@@ -4318,11 +4397,11 @@
     {
       "key": "55x200gm ball buvetti dough pizza",
       "name": "Pizza Dough Ball 55x200gm Buvetti",
-      "unit": "box",
+      "unit": "kg",
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 70.0,
+          "cost": 6.364,
           "date": "2026-07-23",
           "desc": "PIZZA DOUGH BALLS 55X200GM Buvetti",
           "change_pct": null,
@@ -4331,8 +4410,8 @@
         }
       ],
       "cheapest": "Foodlink",
-      "min": 70.0,
-      "max": 70.0,
+      "min": 6.364,
+      "max": 6.364,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4344,7 +4423,7 @@
       "suppliers": [
         {
           "supplier": "Gulli",
-          "cost": 11.055,
+          "cost": 0.1105,
           "date": "2026-07-22",
           "desc": "Pizza Box Inserts 22.5cm x 100",
           "change_pct": null,
@@ -4353,8 +4432,8 @@
         }
       ],
       "cheapest": "Gulli",
-      "min": 11.055,
-      "max": 11.055,
+      "min": 0.1105,
+      "max": 0.1105,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4582,7 +4661,7 @@
     {
       "key": "chard lake rodda willow",
       "name": "Rodda Willow Lake Chard",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Viticult",
@@ -4604,7 +4683,7 @@
     {
       "key": "blanco rojo rooster tequila",
       "name": "Rooster Rojo Tequila Blanco",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "ILG",
@@ -4626,7 +4705,7 @@
     {
       "key": "jerry rum sailor spiced",
       "name": "Sailor Jerry Spiced Rum",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "ILG",
@@ -4648,7 +4727,7 @@
     {
       "key": "container sauce",
       "name": "Sauce Container",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -4740,7 +4819,7 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 23.3333,
+          "cost": 23.333,
           "date": "2026-07-23",
           "desc": "SCHNITZEL PLANT PROTEIN 16X150GM V2 Food",
           "change_pct": null,
@@ -4749,8 +4828,8 @@
         }
       ],
       "cheapest": "Foodlink",
-      "min": 23.3333,
-      "max": 23.3333,
+      "min": 23.333,
+      "max": 23.333,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4762,7 +4841,7 @@
       "suppliers": [
         {
           "supplier": "Mallia",
-          "cost": 11.5294,
+          "cost": 11.529,
           "date": "2026-07-25",
           "desc": "Sliced T2 Milk Bun (85g) - White Sesame",
           "change_pct": null,
@@ -4771,8 +4850,8 @@
         }
       ],
       "cheapest": "Mallia",
-      "min": 11.5294,
-      "max": 11.5294,
+      "min": 11.529,
+      "max": 11.529,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4784,7 +4863,7 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 4.1667,
+          "cost": 4.167,
           "date": "2026-07-23",
           "desc": "SMOKEY BBQ SAUCE 3LT Sunshine",
           "change_pct": null,
@@ -4793,8 +4872,8 @@
         }
       ],
       "cheapest": "Foodlink",
-      "min": 4.1667,
-      "max": 4.1667,
+      "min": 4.167,
+      "max": 4.167,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4824,7 +4903,7 @@
     {
       "key": "spanish",
       "name": "Spanish",
-      "unit": "ea",
+      "unit": "kg",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
@@ -4846,7 +4925,7 @@
     {
       "key": "peeled spanish",
       "name": "Spanish Peeled",
-      "unit": "ea",
+      "unit": "kg",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
@@ -4890,11 +4969,11 @@
     {
       "key": "cube sprite",
       "name": "Sprite Cube",
-      "unit": "L",
+      "unit": "can",
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 5.0389,
+          "cost": 1.8896,
           "date": "2026-07-14",
           "desc": "SPRITE 375ML 24 CUBE",
           "change_pct": null,
@@ -4903,8 +4982,8 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 5.0389,
-      "max": 5.0389,
+      "min": 1.8896,
+      "max": 1.8896,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4916,7 +4995,7 @@
       "suppliers": [
         {
           "supplier": "Paramount",
-          "cost": 3.4123,
+          "cost": 3.412,
           "date": "2026-07-14",
           "desc": "SPRITE PET : 1250 ml",
           "change_pct": null,
@@ -4925,8 +5004,8 @@
         }
       ],
       "cheapest": "Paramount",
-      "min": 3.4123,
-      "max": 3.4123,
+      "min": 3.412,
+      "max": 3.412,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4982,7 +5061,7 @@
       "suppliers": [
         {
           "supplier": "Berry Man",
-          "cost": 0.5417,
+          "cost": 0.542,
           "date": "2026-07-24",
           "desc": "Strawberry Puree Seed-In 12x1kg",
           "change_pct": null,
@@ -4991,8 +5070,8 @@
         }
       ],
       "cheapest": "Berry Man",
-      "min": 0.5417,
-      "max": 0.5417,
+      "min": 0.542,
+      "max": 0.542,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -5022,7 +5101,7 @@
     {
       "key": "thyme",
       "name": "Thyme",
-      "unit": "ea",
+      "unit": "bunch",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
@@ -5088,7 +5167,7 @@
     {
       "key": "cherry tomato",
       "name": "Tomato Cherry",
-      "unit": "ea",
+      "unit": "punnet",
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
@@ -5110,7 +5189,7 @@
     {
       "key": "cherry pun tomato",
       "name": "Tomato Cherry Pun",
-      "unit": "ea",
+      "unit": "punnet",
       "suppliers": [
         {
           "supplier": "Select Fresh",
@@ -5132,7 +5211,7 @@
     {
       "key": "pizza sauce tomato",
       "name": "Tomato Pizza Sauce",
-      "unit": "box",
+      "unit": "ea",
       "suppliers": [
         {
           "supplier": "B&E",
@@ -5180,7 +5259,7 @@
       "suppliers": [
         {
           "supplier": "B&E",
-          "cost": 16.9839,
+          "cost": 16.984,
           "date": "2026-07-24",
           "desc": "TURKEY HALF BREAST SKIN",
           "change_pct": -0.1,
@@ -5189,8 +5268,8 @@
         }
       ],
       "cheapest": "B&E",
-      "min": 16.9839,
-      "max": 16.9839,
+      "min": 16.984,
+      "max": 16.984,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -5198,7 +5277,7 @@
     {
       "key": "grigio pinot two version",
       "name": "Version Two Pinot Grigio",
-      "unit": "ea",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Nelson",
@@ -5220,11 +5299,11 @@
     {
       "key": "fresco opo sangiovese villa",
       "name": "Villa Fresco Sangiovese Opo",
-      "unit": "L",
+      "unit": "bottle",
       "suppliers": [
         {
           "supplier": "Young & Rashleigh",
-          "cost": 1.3402,
+          "cost": 12.0617,
           "date": "2026-07-27",
           "desc": "Villa Fresco Sangiovese 24 - OPO",
           "change_pct": null,
@@ -5233,8 +5312,8 @@
         }
       ],
       "cheapest": "Young & Rashleigh",
-      "min": 1.3402,
-      "max": 1.3402,
+      "min": 12.0617,
+      "max": 12.0617,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -5312,7 +5391,7 @@
       "suppliers": [
         {
           "supplier": "Gulli",
-          "cost": 16.3333,
+          "cost": 16.333,
           "date": "2026-07-22",
           "desc": "Zammit- Sliced Pepperoni Salami 3kg",
           "change_pct": null,
@@ -5321,8 +5400,8 @@
         }
       ],
       "cheapest": "Gulli",
-      "min": 16.3333,
-      "max": 16.3333,
+      "min": 16.333,
+      "max": 16.333,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false

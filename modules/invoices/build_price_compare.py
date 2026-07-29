@@ -26,7 +26,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from modules.invoices.pack_size import parse_pack                # noqa: E402
+# Use the SAME pack resolver the recipe cost engine uses, so an ingredient's unit
+# and $/base agree between /pricing and the recipe book. The older
+# pack_size.parse_pack mislabelled weight lines ("1.5KG CTN", "125GM x carton") as
+# "box", so those never compared per-kg; resolve_pack reads them correctly (and
+# folds a carton note in, e.g. camembert = 12 x 125g -> $30.40/kg).
+from modules.recipes.pipeline.build_ingredients import resolve_pack   # noqa: E402
 from modules.invoices.price_compare import (                     # noqa: E402
     canonical_key, canonical_supplier, display_name, _load_aliases,
 )
@@ -48,16 +53,31 @@ def _dec(s) -> Decimal | None:
         return None
 
 
-def _base_cost(row: dict) -> tuple[Decimal | None, str]:
-    """($/base, base_unit) for one cogs row. Weight-priced rows are already $/kg."""
+def _base_cost(row: dict) -> tuple[Decimal | None, str | None]:
+    """
+    ($/base_unit, base_unit) for one cogs row, via the shared recipe resolver.
+    Returns (None, None) when the pack can't be read (unresolved lines are left
+    out of the comparison rather than compared on a guessed unit).
+    """
     price = _dec(row.get("cost_per_unit_incl_gst"))
     if price is None:
-        return None, "ea"
-    weight_priced = (row.get("basis") == "per_kg")
-    pq, pu = parse_pack(row.get("invoice_description", ""), row.get("note") or None,
-                        is_weight_priced=weight_priced)
-    base = (price / pq) if pq and pq > 0 else price
-    return base, pu
+        return None, None
+    qty, unit, per, how, bad = resolve_pack(
+        row.get("invoice_description", ""), price,
+        basis=row.get("basis", ""), note=row.get("note") or "",
+        code=row.get("supplier_code") or "")
+    if per is None or unit is None:
+        # pack not readable — keep the line in the price list at its raw selling
+        # price (per "each"), but it won't compare on a like unit unless another
+        # supplier's line happens to share the same guessed unit.
+        return price, "ea"
+    # normalise weight -> kg and volume -> L so every supplier lines up on the
+    # same scale (resolve_pack returns $/g and $/ml).
+    if unit == "g":
+        return per * 1000, "kg"
+    if unit == "ml":
+        return per * 1000, "L"
+    return per, unit
 
 
 def build() -> dict:
