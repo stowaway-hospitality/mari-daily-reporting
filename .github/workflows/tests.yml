@@ -77,6 +77,12 @@ jobs:
         # resolver. Every one has bitten this project once, silently.
         run: python3 scripts/test_pipeline_integration.py
 
+      - name: Parser drift guard (per-supplier, corpus-gated)
+        # Skips cleanly in CI (the real-invoice corpus is gitignored); runs for
+        # real on the Mac via the healthcheck, where a supplier changing their
+        # invoice format shows up as that parser's reconcile rate cratering.
+        run: python3 scripts/test_parser_corpus.py
+
       - name: Invoice pipeline battletest (Dext-replacement guards)
         # The adversarial suite: dedup, credit-note refusal, statement detection,
         # the no-write push gate, AUTHORISED date guarantee, poller guards. Runs
