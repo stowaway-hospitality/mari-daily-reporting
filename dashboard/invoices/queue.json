@@ -1,6 +1,6 @@
 {
   "generated": "2026-07-30",
-  "count": 16,
+  "count": 17,
   "skipped_already_in_xero": 63,
   "invoices": [
     {
@@ -80,6 +80,89 @@
           "amount": "76.20",
           "unit_cost": "$12.70/ea",
           "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "NB10526688",
+      "supplier": "Jun Pacific Corporation Pty Ltd",
+      "supplier_key": "jun_pacific",
+      "date": "2026-07-30",
+      "due_date": "2026-07-30",
+      "total": "328.66",
+      "venue": "stowaway",
+      "pdf_path": "1c895c654dcae76fc3f6cff3ce2ddbcb9b59620c18ef846940d57192dbdfee99.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "\u201cJun Pacific\u201d Mirin (Sweet Cooking Wine)",
+          "supplier_code": "EF8101033",
+          "qty": "1",
+          "amount": "43.70",
+          "unit_cost": "$43.70/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\u201cKobayashi\u201d Gluten Free Ramen Noodle",
+          "supplier_code": "BF7517145",
+          "qty": "10",
+          "amount": "35.00",
+          "unit_cost": "$3.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\u201cJun\u201d Frozen Soybean (Edamame)",
+          "supplier_code": "KF8524001",
+          "qty": "2",
+          "amount": "5.00",
+          "unit_cost": "$2.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\u201cJun\u201d Frozen Shelled Soybean Nut",
+          "supplier_code": "KF8524003",
+          "qty": "3",
+          "amount": "6.75",
+          "unit_cost": "$2.25/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
+          "supplier_code": "QB8514617",
+          "qty": "25",
+          "amount": "233.75",
+          "unit_cost": "$9.35/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\u201cOrandaya\u201d Dorayaki 6pcs",
+          "supplier_code": "UZ7102230",
+          "qty": "1",
+          "amount": "4.46",
+          "unit_cost": "$4.46/ea",
+          "tax": "gst",
           "account_code": "115",
           "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
