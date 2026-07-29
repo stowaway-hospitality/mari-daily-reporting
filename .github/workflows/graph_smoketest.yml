@@ -26,3 +26,9 @@ jobs:
             echo "::error::GRAPH_CLIENT_SECRET is not set — add the three GRAPH_* secrets in Settings > Secrets > Actions"; exit 1
           fi
           python3 modules/invoices/graph_auth.py
+      - name: App-only mailbox reader check (accounts@)
+        env:
+          GRAPH_TENANT_ID: ${{ secrets.GRAPH_TENANT_ID }}
+          GRAPH_CLIENT_ID: ${{ secrets.GRAPH_CLIENT_ID }}
+          GRAPH_CLIENT_SECRET: ${{ secrets.GRAPH_CLIENT_SECRET }}
+        run: python3 scripts/graph_mailbox.py accounts@stowawaybar.com
