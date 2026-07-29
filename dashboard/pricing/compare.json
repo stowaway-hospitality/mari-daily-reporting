@@ -1,6 +1,6 @@
 {
   "generated": "2026-07-29",
-  "count": 232,
+  "count": 239,
   "compared": 6,
   "movers": [
     {
@@ -19,7 +19,7 @@
       "prev": 13.2,
       "cost": 15.4,
       "pct": 16.7,
-      "date": "2026-07-23"
+      "date": "2026-07-28"
     },
     {
       "name": "Process Garlic Peeled",
@@ -231,10 +231,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 15.4,
-          "date": "2026-07-23",
+          "date": "2026-07-28",
           "desc": "Chives",
           "change_pct": 16.7,
-          "n": 2,
+          "n": 3,
           "prev_cost": 13.2
         }
       ],
@@ -803,10 +803,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 36.0,
-          "date": "2026-07-23",
+          "date": "2026-07-28",
           "desc": "BRL Box",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -857,6 +857,28 @@
       "cheapest": "Select Fresh",
       "min": 4.6,
       "max": 4.6,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "brown",
+      "name": "Brown",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 1.32,
+          "date": "2026-07-28",
+          "desc": "Brown",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 1.32,
+      "max": 1.32,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1154,17 +1176,17 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 44.0,
-          "date": "2026-07-23",
+          "cost": 2.2,
+          "date": "2026-07-28",
           "desc": "Chat Washed",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null
+          "change_pct": -95.0,
+          "n": 2,
+          "prev_cost": 44.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 44.0,
-      "max": 44.0,
+      "min": 2.2,
+      "max": 2.2,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1869,6 +1891,28 @@
       "cheapest": "ILG",
       "min": 2.5712,
       "max": 2.5712,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "baby cos twin",
+      "name": "Cos Baby Twin",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 2.75,
+          "date": "2026-07-28",
+          "desc": "Cos Baby Twin Pack",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 2.75,
+      "max": 2.75,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2827,10 +2871,10 @@
         {
           "supplier": "Lion",
           "cost": 8.4158,
-          "date": "2026-07-14",
+          "date": "2026-07-28",
           "desc": "Guinness 49.5L KEG",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -2886,6 +2930,28 @@
       "suspect": false
     },
     {
+      "key": "hass",
+      "name": "Hass",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 30.8,
+          "date": "2026-07-28",
+          "desc": "Hass",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 30.8,
+      "max": 30.8,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "alc heap non normal quiet xpa",
       "name": "Heap Normal Quiet Xpa Non Alc",
       "unit": "ea",
@@ -2925,6 +2991,28 @@
       "cheapest": "Foodlink",
       "min": 8.14,
       "max": 8.14,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "jap",
+      "name": "Jap",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 2.3,
+          "date": "2026-07-28",
+          "desc": "Jap",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 2.3,
+      "max": 2.3,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3568,6 +3656,28 @@
       "suspect": false
     },
     {
+      "key": "button mushroom",
+      "name": "Mushroom Button",
+      "unit": "box",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 33.0,
+          "date": "2026-07-28",
+          "desc": "Mushroom Button B Grade",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 33.0,
+      "max": 33.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "diced mushroom",
       "name": "Mushroom Diced",
       "unit": "kg",
@@ -3597,10 +3707,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 11.9,
-          "date": "2026-07-25",
+          "date": "2026-07-28",
           "desc": "Mushroom Sliced",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -3970,17 +4080,17 @@
       "suppliers": [
         {
           "supplier": "Lion",
-          "cost": 7.7421,
-          "date": "2026-07-14",
+          "cost": 7.742,
+          "date": "2026-07-28",
           "desc": "S & W Pacific Ale 49.5L KEG",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null
+          "change_pct": -0.0,
+          "n": 2,
+          "prev_cost": 7.7421
         }
       ],
       "cheapest": "Lion",
-      "min": 7.7421,
-      "max": 7.7421,
+      "min": 7.742,
+      "max": 7.742,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4179,6 +4289,28 @@
       "cheapest": "B&E",
       "min": 8.4,
       "max": 8.4,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "peeled pink",
+      "name": "Pink Peeled",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 1.5,
+          "date": "2026-07-28",
+          "desc": "Pink Peeled",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 1.5,
+      "max": 1.5,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4685,6 +4817,28 @@
       "cheapest": "B&E",
       "min": 10.0,
       "max": 10.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "spanish",
+      "name": "Spanish",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 2.42,
+          "date": "2026-07-28",
+          "desc": "Spanish",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 2.42,
+      "max": 2.42,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false

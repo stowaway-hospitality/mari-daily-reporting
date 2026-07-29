@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "fresh_fruit_team",
+    "supplier_name_raw": "The Fresh Fruit Team Pty Ltd",
+    "invoice_ref": "INB00112855",
+    "invoice_date": "2026-07-28",
+    "total_incl": "128.20",
+    "lines": [
+      {
+        "description": "Mushroom Sliced",
+        "qty": "8",
+        "line_total_incl": "95.20",
+        "unit_price_incl": "11.90",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "KITMUSHSKG",
+        "raw_qty": null,
+        "raw_uom": "Kilogram",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Mushroom Button B Grade",
+        "qty": "1",
+        "line_total_incl": "33.00",
+        "unit_price_incl": "33.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "MSHB2",
+        "raw_qty": null,
+        "raw_uom": "Box",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-08-11",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "d4377f2c052d96f2748d8d484626a9a1c0b48d6210596380700000f9b818484f.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "128.20",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "Mushroom Sliced",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Mushroom Button B Grade",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
