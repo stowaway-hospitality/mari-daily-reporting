@@ -1,6 +1,6 @@
 {
   "generated": "2026-07-29",
-  "count": 222,
+  "count": 232,
   "compared": 6,
   "movers": [
     {
@@ -20,6 +20,15 @@
       "cost": 15.4,
       "pct": 16.7,
       "date": "2026-07-23"
+    },
+    {
+      "name": "Process Garlic Peeled",
+      "supplier": "Select Fresh",
+      "unit": "kg",
+      "prev": 5.0,
+      "cost": 5.8,
+      "pct": 16.0,
+      "date": "2026-07-29"
     },
     {
       "name": "Lemon",
@@ -89,10 +98,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 6.0,
-          "date": "2026-07-22",
+          "date": "2026-07-29",
           "desc": "CAULIFLOWER FLORETS",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         },
         {
@@ -109,6 +118,37 @@
       "min": 6.0,
       "max": 7.9,
       "spread_pct": 31.7,
+      "multi": true,
+      "suspect": false
+    },
+    {
+      "key": "shallot",
+      "name": "Shallot",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 2.6,
+          "date": "2026-07-29",
+          "desc": "SHALLOT BCH",
+          "change_pct": -13.3,
+          "n": 5,
+          "prev_cost": 3.0
+        },
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.41,
+          "date": "2026-07-25",
+          "desc": "Shallot",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 2.6,
+      "max": 3.41,
+      "spread_pct": 31.2,
       "multi": true,
       "suspect": false
     },
@@ -144,37 +184,6 @@
       "suspect": false
     },
     {
-      "key": "shallot",
-      "name": "Shallot",
-      "unit": "ea",
-      "suppliers": [
-        {
-          "supplier": "Select Fresh",
-          "cost": 3.0,
-          "date": "2026-07-25",
-          "desc": "SHALLOT BCH",
-          "change_pct": null,
-          "n": 3,
-          "prev_cost": null
-        },
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 3.41,
-          "date": "2026-07-25",
-          "desc": "Shallot",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null
-        }
-      ],
-      "cheapest": "Select Fresh",
-      "min": 3.0,
-      "max": 3.41,
-      "spread_pct": 13.7,
-      "multi": true,
-      "suspect": false
-    },
-    {
       "key": "continental parsley",
       "name": "Parsley Continental",
       "unit": "ea",
@@ -182,10 +191,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 1.6,
-          "date": "2026-07-24",
+          "date": "2026-07-29",
           "desc": "HERB PARSLEY CONTINENTAL BCH",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         },
         {
@@ -596,10 +605,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 4.6,
-          "date": "2026-07-24",
+          "date": "2026-07-29",
           "desc": "HERB BASIL BCH",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -838,10 +847,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 4.6,
-          "date": "2026-07-23",
+          "date": "2026-07-29",
           "desc": "BROCCOLINI BABY BCH",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -1271,6 +1280,28 @@
       "suspect": false
     },
     {
+      "key": "chemical dishwashing",
+      "name": "Chemical Dishwashing",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "B&E",
+          "cost": 29.92,
+          "date": "2026-07-29",
+          "desc": "CHEMICAL - DISHWASHING",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "B&E",
+      "min": 29.92,
+      "max": 29.92,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "cherry",
       "name": "Cherry",
       "unit": "ea",
@@ -1300,10 +1331,10 @@
         {
           "supplier": "B&E",
           "cost": 2.2,
-          "date": "2026-07-24",
+          "date": "2026-07-29",
           "desc": "CHICKEN BONE 12KG",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -1432,10 +1463,10 @@
         {
           "supplier": "B&E",
           "cost": 14.8,
-          "date": "2026-07-27",
+          "date": "2026-07-29",
           "desc": "CHICKEN THIGH (F) S/OFF",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -1909,6 +1940,28 @@
       "suspect": false
     },
     {
+      "key": "cucumber green",
+      "name": "Cucumber Green",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 6.6,
+          "date": "2026-07-29",
+          "desc": "CUCUMBER GREEN",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 6.6,
+      "max": 6.6,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "dairy free mozzarella shredded",
       "name": "Dairy Free Shredded Mozzarella",
       "unit": "kg",
@@ -2102,6 +2155,28 @@
       "cheapest": "Select Fresh",
       "min": 0.4833,
       "max": 0.4833,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "eschallot peeled",
+      "name": "Eschallot Peeled",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 21.0,
+          "date": "2026-07-29",
+          "desc": "ESCHALLOTS PEELED",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 21.0,
+      "max": 21.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2564,6 +2639,28 @@
       "cheapest": "B&E",
       "min": 10.8,
       "max": 10.8,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "egg fz pulp whole",
+      "name": "Fz Whole Egg Pulp",
+      "unit": "box",
+      "suppliers": [
+        {
+          "supplier": "B&E",
+          "cost": 90.0,
+          "date": "2026-07-29",
+          "desc": "FZ WHOLE EGG PULP 10KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "B&E",
+      "min": 90.0,
+      "max": 90.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3368,10 +3465,10 @@
         {
           "supplier": "B&E",
           "cost": 11.5,
-          "date": "2026-07-24",
+          "date": "2026-07-29",
           "desc": "MAYONNAISE 1KG(12)",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -3412,10 +3509,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 1.3,
-          "date": "2026-07-23",
+          "date": "2026-07-29",
           "desc": "HERB MINT ROUND LEAF BCH",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -3603,6 +3700,28 @@
       "suspect": false
     },
     {
+      "key": "bib cotton oil seed",
+      "name": "Oil Cotton Seed Bib",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "B&E",
+          "cost": 2.85,
+          "date": "2026-07-29",
+          "desc": "OIL - COTTON SEED 20L BIB",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "B&E",
+      "min": 2.85,
+      "max": 2.85,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "garlic lemon marinated olive sandhurst whole",
       "name": "Olive Whole Lemon Garlic Marinated Sandhurst",
       "unit": "kg",
@@ -3632,16 +3751,38 @@
         {
           "supplier": "Select Fresh",
           "cost": 2.4,
-          "date": "2026-07-22",
+          "date": "2026-07-29",
           "desc": "ONION BROWN KG",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null
         }
       ],
       "cheapest": "Select Fresh",
       "min": 2.4,
       "max": 2.4,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "brown onion",
+      "name": "Onion Brown",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 34.0,
+          "date": "2026-07-29",
+          "desc": "ONION BROWN BAG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 34.0,
+      "max": 34.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3708,6 +3849,28 @@
       "cheapest": "Fresh Fruit Team",
       "min": 5.9,
       "max": 5.9,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "onion red spanish",
+      "name": "Onion Spanish Red",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 23.5,
+          "date": "2026-07-29",
+          "desc": "ONION SPANISH / RED BAG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 23.5,
+      "max": 23.5,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4181,17 +4344,17 @@
       "suppliers": [
         {
           "supplier": "Select Fresh",
-          "cost": 5.0,
-          "date": "2026-07-24",
+          "cost": 5.8,
+          "date": "2026-07-29",
           "desc": "PROCESS GARLIC PEELED KG",
-          "change_pct": -13.8,
-          "n": 2,
-          "prev_cost": 5.8
+          "change_pct": 16.0,
+          "n": 3,
+          "prev_cost": 5.0
         }
       ],
       "cheapest": "Select Fresh",
-      "min": 5.0,
-      "max": 5.0,
+      "min": 5.8,
+      "max": 5.8,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4214,6 +4377,28 @@
       "cheapest": "B&E",
       "min": 28.0,
       "max": 28.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "5mm diced pumpkin",
+      "name": "Pumpkin Diced 5mm",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 4.2,
+          "date": "2026-07-29",
+          "desc": "PUMPKIN DICED 5MM KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 4.2,
+      "max": 4.2,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4710,10 +4895,10 @@
         {
           "supplier": "B&E",
           "cost": 5.8,
-          "date": "2026-07-24",
+          "date": "2026-07-29",
           "desc": "TOFU - FRESH PRESS SILKEN",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -4764,6 +4949,28 @@
       "cheapest": "Fresh Fruit Team",
       "min": 1.98,
       "max": 1.98,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "cherry pun tomato",
+      "name": "Tomato Cherry Pun",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 3.2,
+          "date": "2026-07-29",
+          "desc": "TOMATO CHERRY PUN",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 3.2,
+      "max": 3.2,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4962,6 +5169,28 @@
       "cheapest": "Gulli",
       "min": 16.3333,
       "max": 16.3333,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "green zucchini",
+      "name": "Zucchini Green",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 2.9,
+          "date": "2026-07-29",
+          "desc": "ZUCCHINI GREEN KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 2.9,
+      "max": 2.9,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
