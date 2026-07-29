@@ -1,8 +1,174 @@
 {
   "generated": "2026-07-30",
-  "count": 14,
+  "count": 16,
   "skipped_already_in_xero": 63,
   "invoices": [
+    {
+      "ref": "7040229",
+      "supplier": "B&E Foods Pty Ltd",
+      "supplier_key": "be_foods",
+      "date": "2026-07-30",
+      "due_date": "2026-08-06",
+      "total": "282.50",
+      "venue": "stowaway",
+      "pdf_path": "bfeee517b78dc8f767869d4af4da712e59c8c7b8dc028c52028c68443a1b4404.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "FRESH - SOUR CREAM 2L",
+          "supplier_code": "16357",
+          "qty": "1.00",
+          "amount": "20.00",
+          "unit_cost": "$10.00/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "PROSCIUTTO SLICED 500G",
+          "supplier_code": "10796",
+          "qty": "1.00",
+          "amount": "28.00",
+          "unit_cost": "$56.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "OIL - CANOLA OIL SPRAY",
+          "supplier_code": "18264",
+          "qty": "1.00",
+          "amount": "5.30",
+          "unit_cost": "$5.30/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ CHIPS - CRISPY COATED",
+          "supplier_code": "15555",
+          "qty": "2.00",
+          "amount": "80.00",
+          "unit_cost": "$40.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ CHIPS - ULTRA SWEET",
+          "supplier_code": "19957",
+          "qty": "1.00",
+          "amount": "73.00",
+          "unit_cost": "$73.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HAM - SOCCERBALL SLICED",
+          "supplier_code": "27544",
+          "qty": "6.00",
+          "amount": "76.20",
+          "unit_cost": "$12.70/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3101651",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-07-30",
+      "due_date": "2026-08-13",
+      "total": "129.60",
+      "venue": "stowaway",
+      "pdf_path": "6cb810b5c41ca182a8d1b9029c74fa4b475b78e75d21401fe4936e681730c2cf.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CAPSICUM GREEN 2NDS KG",
+          "supplier_code": "CAPG2K",
+          "qty": "4.00",
+          "amount": "24.00",
+          "unit_cost": "$6.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "TOMATO CHERRY PUN",
+          "supplier_code": "TOMCP",
+          "qty": "6.00",
+          "amount": "19.20",
+          "unit_cost": "$3.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MUSHROOM BUTTON CTN",
+          "supplier_code": "MUSB",
+          "qty": "1.00",
+          "amount": "36.50",
+          "unit_cost": "$36.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "LETTUCE BABY SPINACH 1.5KG CTN",
+          "supplier_code": "LETS1",
+          "qty": "1.00",
+          "amount": "18.50",
+          "unit_cost": "$12.33/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "LETTUCE WILD ROCKET 1.5KG CTN",
+          "supplier_code": "LETW1",
+          "qty": "1.00",
+          "amount": "21.00",
+          "unit_cost": "$14.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SHALLOT BCH",
+          "supplier_code": "SHAL",
+          "qty": "4.00",
+          "amount": "10.40",
+          "unit_cost": "$2.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
     {
       "ref": "INV495641",
       "supplier": "Bacchus Wine Merchants P/L",
