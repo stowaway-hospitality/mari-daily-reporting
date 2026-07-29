@@ -18,9 +18,23 @@ import os
 import msal
 
 # --- app-only (preferred) ---
-APP_TENANT = os.environ.get("GRAPH_TENANT_ID")
-APP_CLIENT = os.environ.get("GRAPH_CLIENT_ID")
-APP_SECRET = os.environ.get("GRAPH_CLIENT_SECRET")
+# Creds come from env vars (GitHub Actions / CI) OR the local secret file
+# ~/Documents/STOW/.graph_app_secret.json (Zak's Mac), so the same one secret
+# powers both the CI pipelines and the local tools.
+APP_SECRET_FILE = os.path.expanduser("~/Documents/STOW/.graph_app_secret.json")
+
+
+def _app_creds():
+    t = os.environ.get("GRAPH_TENANT_ID")
+    c = os.environ.get("GRAPH_CLIENT_ID")
+    s = os.environ.get("GRAPH_CLIENT_SECRET")
+    if not (t and c and s) and os.path.exists(APP_SECRET_FILE):
+        import json as _json
+        d = _json.load(open(APP_SECRET_FILE))
+        t = t or d.get("tenant_id")
+        c = c or d.get("client_id")
+        s = s or d.get("client_secret")
+    return (t, c, s) if (t and c and s) else None
 
 # --- delegated fallback (original public client) ---
 CLIENT_ID = "d3590ed6-52b3-4102-aeff-aad2292ab01c"        # Microsoft Office public client
@@ -33,14 +47,15 @@ CACHE = os.environ.get(
 
 
 def app_only_available() -> bool:
-    return bool(APP_TENANT and APP_CLIENT and APP_SECRET)
+    return _app_creds() is not None
 
 
 def _app_only_token() -> str:
+    tenant, client, secret = _app_creds()
     app = msal.ConfidentialClientApplication(
-        APP_CLIENT,
-        authority=f"https://login.microsoftonline.com/{APP_TENANT}",
-        client_credential=APP_SECRET,
+        client,
+        authority=f"https://login.microsoftonline.com/{tenant}",
+        client_credential=secret,
     )
     r = app.acquire_token_for_client(scopes=["https://graph.microsoft.com/.default"])
     if "access_token" not in r:
