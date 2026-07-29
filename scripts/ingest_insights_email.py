@@ -26,8 +26,11 @@ import base64, email, imaplib, json, os, re, sys, urllib.request
 from email.utils import parsedate_to_datetime
 from datetime import datetime, timedelta, timezone
 
-GMAIL = os.environ["GMAIL_ADDRESS"].strip()
-APP_PW = os.environ["GMAIL_APP_PASSWORD"].replace(" ", "").strip()   # Google shows it space-separated
+GMAIL = os.environ.get("GMAIL_ADDRESS", "").strip()
+APP_PW = os.environ.get("GMAIL_APP_PASSWORD", "").replace(" ", "").strip()   # Google shows it space-separated
+# If set, read this M365 mailbox app-only (via Graph) instead of the Gmail/IMAP
+# workaround — the whole reason for Gmail (admin-only app registration) is gone.
+SALES_MAILBOX = os.environ.get("SALES_MAILBOX", "").strip()
 PAT = os.environ["GH_DISPATCH_PAT"]
 REPO = os.environ.get("GH_REPO", "zakstowaway/mari-daily-reporting")
 STATE_FILE = os.environ.get("STATE_FILE", ".ingest/processed.json")
@@ -95,44 +98,66 @@ def save_state(state):
     json.dump(state, open(STATE_FILE, "w"), indent=0, sort_keys=True)
 
 
+def _graph_tdate(received_iso):
+    try:
+        dt = datetime.strptime(received_iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+    except Exception:
+        dt = datetime.now(timezone.utc)
+    return (dt.astimezone(SYD) - timedelta(days=1)).strftime("%Y-%m-%d")   # report = "Yesterday"
+
+
 def main():
-    M = imaplib.IMAP4_SSL("imap.gmail.com", 993)
-    M.login(GMAIL, APP_PW)
-    M.select("INBOX")
-    # Standard IMAP search: everything received in the last 2 days. Subject +
-    # attachment are filtered in Python (portable; avoids Gmail X-GM-RAW quoting).
-    since = (datetime.now(timezone.utc) - timedelta(days=2)).strftime("%d-%b-%Y")
-    typ, data = M.search(None, "SINCE", since)
-    ids = data[0].split() if data and data[0] else []
     state = load_state()
     fired = scanned = 0
-    for num in ids:
-        # BODY.PEEK -> does NOT set \Seen, so the human's inbox is untouched
-        typ, md = M.fetch(num, "(BODY.PEEK[])")
-        if typ != "OK" or not md or not md[0]:
-            continue
-        msg = email.message_from_bytes(md[0][1])
+    imap_conn = None
+
+    if SALES_MAILBOX:
+        import graph_mailbox   # scripts/ is on sys.path when run directly
+        records = [("graph", m) for m in graph_mailbox.messages(SALES_MAILBOX, since_days=2)]
+        print(f"source: M365 mailbox {SALES_MAILBOX} (app-only)")
+    else:
+        imap_conn = imaplib.IMAP4_SSL("imap.gmail.com", 993)
+        imap_conn.login(GMAIL, APP_PW)
+        imap_conn.select("INBOX")
+        since = (datetime.now(timezone.utc) - timedelta(days=2)).strftime("%d-%b-%Y")
+        typ, data = imap_conn.search(None, "SINCE", since)
+        ids = data[0].split() if data and data[0] else []
+        records = []
+        for num in ids:
+            # BODY.PEEK -> does NOT set \Seen, so the human's inbox is untouched
+            typ, md = imap_conn.fetch(num, "(BODY.PEEK[])")
+            if typ == "OK" and md and md[0]:
+                records.append(("imap", email.message_from_bytes(md[0][1])))
+        print("source: Gmail/IMAP")
+
+    for kind, msg in records:
         scanned += 1
-        mid = msg.get("Message-ID") or f"uid-{num.decode()}"
+        if kind == "graph":
+            subject, mid = msg.subject, msg.message_id
+        else:
+            subject, mid = msg.get("Subject", ""), (msg.get("Message-ID") or f"uid-{scanned}")
         if mid in state:
             continue
-        cl = classify(msg.get("Subject", ""))
+        cl = classify(subject)
         if not cl:
             continue
         event, venue = cl
-        b64 = attachment_b64(msg)
+        if kind == "graph":
+            b64, tdate = msg.attachment_b64(), _graph_tdate(msg.received)
+        else:
+            b64, tdate = attachment_b64(msg), target_date(msg)
         if not b64:
-            print(f"  skip '{msg.get('Subject')}' - no csv/zip attachment")
+            print(f"  skip '{subject}' - no csv/zip attachment")
             continue
-        tdate = target_date(msg)
         dispatch(event, venue, b64, tdate)
         state[mid] = datetime.now(timezone.utc).isoformat()
         fired += 1
-        print(f"  dispatched {event} ({venue}) for {tdate} from '{msg.get('Subject')}'")
-    save_state(state)
-    M.logout()
-    print(f"done - {fired} Insights email(s) ingested, {scanned} candidate(s) scanned")
+        print(f"  dispatched {event} ({venue}) for {tdate} from '{subject}'")
 
+    save_state(state)
+    if imap_conn is not None:
+        imap_conn.logout()
+    print(f"done - {fired} Insights email(s) ingested, {scanned} candidate(s) scanned")
 
 if __name__ == "__main__":
     try:

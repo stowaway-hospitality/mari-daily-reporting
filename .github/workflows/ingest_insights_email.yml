@@ -35,6 +35,10 @@ jobs:
       - name: Read Gmail + dispatch
         env:
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          SALES_MAILBOX: ${{ secrets.SALES_MAILBOX }}
+          GRAPH_TENANT_ID: ${{ secrets.GRAPH_TENANT_ID }}
+          GRAPH_CLIENT_ID: ${{ secrets.GRAPH_CLIENT_ID }}
+          GRAPH_CLIENT_SECRET: ${{ secrets.GRAPH_CLIENT_SECRET }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           GH_DISPATCH_PAT: ${{ secrets.GH_DISPATCH_PAT }}
           GH_REPO: ${{ github.repository }}

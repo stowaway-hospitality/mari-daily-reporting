@@ -25,12 +25,14 @@ in these product-mix emails, so guest columns stay blank for email-fed days
 
 Env: GMAIL_ADDRESS, GMAIL_APP_PASSWORD, SPH_FILE (default data/sph_daily.csv).
 """
-import csv, email, imaplib, io, os, re, sys, zipfile
+import base64, csv, email, imaplib, io, os, re, sys, zipfile
 from email.utils import parsedate_to_datetime
 from datetime import datetime, timedelta, timezone
 
-GMAIL = os.environ["GMAIL_ADDRESS"].strip()
-APP_PW = os.environ["GMAIL_APP_PASSWORD"].replace(" ", "").strip()
+GMAIL = os.environ.get("GMAIL_ADDRESS", "").strip()
+APP_PW = os.environ.get("GMAIL_APP_PASSWORD", "").replace(" ", "").strip()
+# If set, read this M365 mailbox app-only (Graph) instead of the Gmail/IMAP workaround.
+SALES_MAILBOX = os.environ.get("SALES_MAILBOX", "").strip()
 SPH_FILE = os.environ.get("SPH_FILE", "data/sph_daily.csv")
 SYD = timezone(timedelta(hours=10))
 HEADER = ["Date", "Venue", "Sales", "Transactions", "SalesExGST", "Guests",
@@ -193,27 +195,48 @@ def put(rows, date, venue, txns, sales, guests=0):
         "SPH_PerTxn": f"{sales/txns:.2f}", "SPH_PerGuest": per_guest, "AvgGuestsPerTxn": apt,
     }
 
+def _graph_tdate(received_iso):
+    try:
+        dt = datetime.strptime(received_iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+    except Exception:
+        dt = datetime.now(timezone.utc)
+    return (dt.astimezone(SYD) - timedelta(days=1)).strftime("%Y-%m-%d")
+
+
 def main():
-    M = imaplib.IMAP4_SSL("imap.gmail.com", 993)
-    M.login(GMAIL, APP_PW)
-    M.select("INBOX")
     since_days = int(os.environ.get("SPH_SINCE_DAYS", "3"))
-    since = (datetime.now(timezone.utc) - timedelta(days=since_days)).strftime("%d-%b-%Y")
-    typ, data = M.search(None, "SINCE", since)
-    ids = data[0].split() if data and data[0] else []
-    # collect per (date) -> {venue: (txns, sales)}
     by_day = {}
     snap_by_day = {}   # date -> (txns, sales, guests) from the HG Snapshot email
-    for num in ids:
-        typ, md = M.fetch(num, "(BODY.PEEK[])")
-        if typ != "OK" or not md or not md[0]:
-            continue
-        msg = email.message_from_bytes(md[0][1])
-        subj = msg.get("Subject", "")
-        raw = attachment_zip(msg)
+    imap_conn = None
+    if SALES_MAILBOX:
+        import graph_mailbox
+        recs = [("graph", m) for m in graph_mailbox.messages(SALES_MAILBOX, since_days=since_days)]
+        print(f"source: M365 mailbox {SALES_MAILBOX} (app-only)")
+    else:
+        imap_conn = imaplib.IMAP4_SSL("imap.gmail.com", 993)
+        imap_conn.login(GMAIL, APP_PW)
+        imap_conn.select("INBOX")
+        since = (datetime.now(timezone.utc) - timedelta(days=since_days)).strftime("%d-%b-%Y")
+        typ, data = imap_conn.search(None, "SINCE", since)
+        ids = data[0].split() if data and data[0] else []
+        recs = []
+        for num in ids:
+            typ, md = imap_conn.fetch(num, "(BODY.PEEK[])")
+            if typ == "OK" and md and md[0]:
+                recs.append(("imap", email.message_from_bytes(md[0][1])))
+        print("source: Gmail/IMAP")
+    for kind, msg in recs:
+        if kind == "graph":
+            subj = msg.subject
+            _b64 = msg.attachment_b64(exts=(".zip",))
+            raw = base64.b64decode(_b64) if _b64 else None
+            d = _graph_tdate(msg.received)
+        else:
+            subj = msg.get("Subject", "")
+            raw = attachment_zip(msg)
+            d = target_date(msg)
         if not raw:
             continue
-        d = target_date(msg)
         low = subj.lower()
         if "snapshot" in low:                    # HG guest counts
             try:
@@ -238,7 +261,8 @@ def main():
             continue
         by_day.setdefault(d, {})[v] = tot
         print(f"  {d} {v}: {tot[0]} txns, ${tot[1]:.2f}")
-    M.logout()
+    if imap_conn is not None:
+        imap_conn.logout()
 
     sph = load_sph()
     # Dates the weekly backfill owns keep the split (Marilynas + Marilynas-Uber);

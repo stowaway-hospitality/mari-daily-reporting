@@ -35,6 +35,10 @@ jobs:
       - name: Extract SPH counts from the Daily Sales Auto emails
         env:
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          SALES_MAILBOX: ${{ secrets.SALES_MAILBOX }}
+          GRAPH_TENANT_ID: ${{ secrets.GRAPH_TENANT_ID }}
+          GRAPH_CLIENT_ID: ${{ secrets.GRAPH_CLIENT_ID }}
+          GRAPH_CLIENT_SECRET: ${{ secrets.GRAPH_CLIENT_SECRET }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           SPH_SINCE_DAYS: ${{ github.event.inputs.since_days || '3' }}
         run: python3 scripts/sph_from_email.py
