@@ -73,6 +73,7 @@ run "Wage open week"                "$PY" scripts/test_wage_open_week.py
 run "Superannuation actuals"        "$PY" scripts/test_super_actuals.py
 run "Corp payroll"                  "$PY" scripts/test_corp_payroll.py
 run "Auth gate"                     "$PY" scripts/test_auth_gate.py
+run "Health monitor logic"          "$PY" scripts/test_health_monitor.py
 run "Invoice battletest (offline)"  "$PY" modules/invoices/tests/battletest_pipeline.py --offline
 run "Pipeline seam battletest"      "$PY" scripts/test_pipeline_integration.py
 run "Parser drift guard (corpus)"   "$PY" scripts/test_parser_corpus.py

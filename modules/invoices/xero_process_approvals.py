@@ -182,6 +182,13 @@ def main() -> int:
     for r in res:
         extra = r.get("xero_invoice_id") or r.get("note") or ""
         print(f"  {r['status']:12} {r.get('supplier', '')[:24]:24} {r.get('ref', '')}  {extra}")
+    # liveness: this poller only logs when it has work, so record that the cycle
+    # ran to completion — a stale heartbeat is how the monitor spots it dying.
+    try:
+        from core.heartbeat import beat
+        beat("xero_approvals", note=f"{done} posted")
+    except Exception:
+        pass
     return 0
 
 

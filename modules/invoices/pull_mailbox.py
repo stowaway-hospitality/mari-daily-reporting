@@ -187,6 +187,15 @@ def main() -> int:
     label = "Review folder (retry)" if retry else "accounts@ inbox"
     print(f"{len(msgs)} message(s) with attachments in {label}"
           + (f"  [model={os.environ.get('INVOICE_MODEL','haiku')}]" if retry else ""))
+    # Refresh the system-health snapshot every cycle. This is the most frequent
+    # reliable job, so it doubles as the monitor's clock: if system_health.json
+    # itself goes stale, this poller (which writes it) has stopped — and the app
+    # flags that. Never let a monitor error interrupt the actual mail pull.
+    try:
+        subprocess.run([sys.executable, str(ROOT / "scripts" / "health_monitor.py")],
+                       cwd=str(ROOT), capture_output=True, timeout=30)
+    except Exception:
+        pass
     if not msgs:
         return 0
 

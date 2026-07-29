@@ -53,6 +53,7 @@
       <h1>Welcome back</h1>
       <div class="who" id="who"></div>
     </div>
+    <div id="health"></div>
     <div class="tiles" id="tiles"></div>
   </div>
 </div>
@@ -100,8 +101,39 @@ Auth.gate(document.getElementById('gate'), {
         <div class="arrow">Open →</div>
       </a>`).join('');
     document.getElementById('tiles').innerHTML = tiles;
+    if (user.role === 'admin') renderHealth();
   },
 });
+
+// System-health banner (admin only). Reads the snapshot the monitor writes each
+// poller cycle. Two signals: the reported status, AND the snapshot's own age —
+// if it's stale, the poller that writes it has stopped, which is the whole point.
+async function renderHealth(){
+  const el = document.getElementById('health');
+  let h;
+  try { h = await fetch('/data/system_health.json', {cache:'no-store'}).then(r=>r.json()); }
+  catch { return; }                       // no snapshot yet — say nothing
+  const ageMin = (Date.now() - new Date(h.generated).getTime()) / 60000;
+  let level = h.overall, msg;
+  const bad = (h.checks||[]).filter(c => c.status==='down' || c.status==='warn');
+  if (ageMin > 360){                      // 6h+ with no refresh -> automation stopped
+    level = 'down';
+    msg = `Monitoring snapshot is ${Math.round(ageMin/60)}h old — the automation may have stopped.`;
+  } else if (level === 'ok'){
+    msg = 'All automation running — invoices, Xero, token refresh, weekly pull.';
+  } else {
+    msg = bad.map(c => `${c.name}${c.age!=null?` (${c.age}${c.unit} ago)`:''}`).join(' · ');
+  }
+  const colour = level==='down' ? 'var(--red)' : level==='warn' ? 'var(--amber)' : 'var(--green)';
+  const icon = level==='down' ? '⚠' : level==='warn' ? '•' : '✓';
+  el.innerHTML = `<div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);
+      border-left:4px solid ${colour};border-radius:10px;background:var(--paper);
+      padding:11px 15px;margin-bottom:18px;font-size:13px">
+    <span style="color:${colour};font-weight:700;font-size:15px">${icon}</span>
+    <span><b>System</b> — ${msg}</span>
+    <span style="margin-left:auto;color:var(--ink-soft);font-size:11px">checked ${new Date(h.generated).toLocaleString('en-AU',{hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'})}</span>
+  </div>`;
+}
 </script>
 </body>
 </html>

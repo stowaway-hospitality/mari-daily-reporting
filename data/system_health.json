@@ -1,0 +1,42 @@
+{
+  "generated": "2026-07-29T10:13:55+00:00",
+  "overall": "warn",
+  "checks": [
+    {
+      "name": "Invoice poller",
+      "detail": "reads the accounts@ inbox every 30 min",
+      "age": 17.4,
+      "unit": "min",
+      "status": "ok"
+    },
+    {
+      "name": "Xero approvals poller",
+      "detail": "posts approved bills every 2 min",
+      "age": null,
+      "unit": "min",
+      "status": "unknown"
+    },
+    {
+      "name": "Xero token",
+      "detail": "auto-refreshes daily",
+      "age": 7.5,
+      "unit": "hr",
+      "status": "ok"
+    },
+    {
+      "name": "Weekly Xero pull",
+      "detail": "runs once a week",
+      "age": 2.4,
+      "unit": "day",
+      "status": "ok"
+    },
+    {
+      "name": "Invoice queue",
+      "detail": "oldest bill awaiting approval",
+      "age": 272,
+      "unit": "day",
+      "advisory": true,
+      "status": "warn"
+    }
+  ]
+}
