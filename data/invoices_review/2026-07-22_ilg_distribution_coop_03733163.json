@@ -1,0 +1,77 @@
+{
+  "invoice": {
+    "supplier_key": "ilg_distribution_coop",
+    "supplier_name_raw": "ILG Distribution Co-op. Ltd.",
+    "invoice_ref": "03733163",
+    "invoice_date": "2026-07-22",
+    "total_incl": "427.34",
+    "lines": [
+      {
+        "description": "Invoice dated 22/07/26",
+        "qty": "1",
+        "line_total_incl": "427.34",
+        "unit_price_incl": "427.34",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "This is a Direct Debit Advice, NOT an itemised invoice. It references underlying invoice 03733163 for $427.34 but contains NO line items, no product codes, no per-line breakdown.",
+          "Cannot extract stock lines \u2014 the actual invoice PDF is required. This document alone cannot be reconciled to product-level COGS.",
+          "Direct Debit Discount of -0.85 brings amount debited to 426.49; the invoice value itself is 427.34.",
+          "Venue = harry_gatos from ILG account code 3622 (per venue_resolution.by_supplier.ilg: 3622 = HARRY GATOS). Note the mailing block reads STOWAWAY FRESHWATER but the Account/Name fields say 3622/HARRY GATOS \u2014 the account code is decisive per \u00a77.",
+          "Route to review: no supplier_code, no resolvable stock lines."
+        ]
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": "3622",
+    "source_pdf": "f6544fd87d27c331a17cf860181e2a2593c84bd825c877365d5698bd4863e6a9.pdf",
+    "extractor_version": "claude-opus-4-8"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Invoice dated 22/07/26' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 0,
+        "expected": null,
+        "actual": null
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Bar",
+    "tracking_confidence": "high",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "Invoice dated 22/07/26",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

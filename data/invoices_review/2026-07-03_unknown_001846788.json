@@ -1,6 +1,6 @@
 {
   "invoice": {
-    "supplier_key": "jun_pacific",
+    "supplier_key": "unknown",
     "supplier_name_raw": "JFC AUSTRALIA CO PTY LTD",
     "invoice_ref": "001846788",
     "invoice_date": "2026-07-03",
@@ -26,7 +26,8 @@
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "GST 0.00, WET 0.00 -> GST-free. Line total ex==incl. AMOUNT column is EXCL GST but line is GST-free so identical. unit = 22.00/2."
+          "Supplier JFC Australia not in suppliers.yaml \u2014 supplier_key=unknown. GST=$0 on this line (basic food).",
+          "UNIT PRICE column ($11.00) == line_total/qty here, but derived per policy: 22.00/(2*1)=11.00."
         ]
       },
       {
@@ -91,7 +92,7 @@
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "Taxable: GST 4.00 shown. AMOUNT (excl GST) 40.00; incl = 40.00 + 4.00 = 44.00. unit_price_incl = 44.00/4 = 11.00. This line is why sum of ex-GST amounts (337.00) + 4.00 GST = 341.00 total."
+          "Only taxable line: AMOUNT excl GST 40.00 + GST 4.00 = 44.00 incl. Non-food packaging \u2192 GST. Unit price derived incl: 44.00/(4*1)=11.00. Amounts on this invoice are EX-GST per AMOUNT (EXCL. GST) header; converted taxable line."
         ]
       },
       {

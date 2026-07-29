@@ -1,0 +1,58 @@
+{
+  "invoice": {
+    "supplier_key": "unknown",
+    "supplier_name_raw": "EatClub Pty Ltd",
+    "invoice_ref": "20260706",
+    "invoice_date": "2026-07-14",
+    "total_incl": "-678.83",
+    "lines": [],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": "Harry Gatos (restaurant field)",
+    "source_pdf": "3d024d06a83954b6b85f269d36cad497d133c06c2354a855a20420ef4dc49048.pdf",
+    "extractor_version": "claude-opus-4-8"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "NO_LINES",
+        "severity": "error",
+        "message": "Invoice has no line items \u2014 nothing to receive",
+        "line_index": null,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "BAD_TOTAL",
+        "severity": "error",
+        "message": "Invoice total missing or non-positive",
+        "line_index": null,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "INVOICE_RECONCILE",
+        "severity": "error",
+        "message": "Sum of 0 line(s) does not reconcile to the invoice total. A line is likely missing or misread \u2014 do NOT receive.",
+        "line_index": null,
+        "expected": "-678.83",
+        "actual": "0.00"
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": null,
+    "lines": []
+  }
+}

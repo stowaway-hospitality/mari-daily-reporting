@@ -8,9 +8,9 @@
     "lines": [
       {
         "description": "Lineal Metre - Blue - Straight $1800+GST and you will also require around 10 sqm of leather. 3900 L x 700 W 3 pieces 50% cost absorbed by each party to replace three bench seats.",
-        "qty": "1",
-        "line_total_incl": "900.00",
-        "unit_price_incl": "900.00",
+        "qty": "1.00",
+        "line_total_incl": "990.00",
+        "unit_price_incl": "990.00",
         "unit_price_ex": null,
         "pack_size": 1,
         "line_class": "unknown",
@@ -26,10 +26,10 @@
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "REJECT: This is not a food/beverage supplier invoice. Sydney Upholstery is an upholstery service provider, not a kitchen/bar supplier.",
-          "No supplier_code available \u2014 cannot resolve to a Lightspeed product.",
-          "No pack_size semantic \u2014 appears to be a service line for furniture repair.",
-          "This invoice does not belong in the Lightspeed stock receive pipeline."
+          "This is NOT a supplier invoice for stock/food/beverage. It is an upholstery repair/service invoice (bench seat replacement) from Sydney Upholstery, a service vendor with no entry in suppliers.yaml.",
+          "'Stowaway' appears as the Customer field, not a supplier venue signal. No supplier-specific venue signal (PO prefix 54361/35985, account code, customer code) is present, so venue is unresolved -> unknown per \u00a77.",
+          "line_class left unknown: this is a service/capex expense, not stock/extra/wos. Should go to human review, not a Lightspeed receive.",
+          "Reference QU-0786 captured as po_refs; it is a quote number, not a Stowaway LS PO."
         ]
       },
       {
@@ -40,7 +40,7 @@
         "unit_price_ex": null,
         "pack_size": 1,
         "line_class": "unknown",
-        "tax_treatment": "gst",
+        "tax_treatment": "gst_free",
         "cost_basis": "per_unit",
         "gst_amount": null,
         "wet_amount": null,
@@ -52,26 +52,34 @@
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "Zero-value quote line. Not a received/invoiced item."
+          "Zero-value line (goods supplied free of charge). Not stock; left unknown for review."
         ]
       }
     ],
     "due_date": "2026-07-27",
     "is_credit_note": false,
-    "venue": "stowaway",
+    "venue": "unknown",
     "po_refs": [
       "QU-0786"
     ],
     "subtotal_ex": null,
     "gst_total": "90.00",
     "wet_total": null,
-    "account_code": null,
+    "account_code": "Stowaway",
     "source_pdf": "09d26703996ea72449a2b3bc0f7ea15e2458bd6253c95c2138539c6bec29c263.pdf",
-    "extractor_version": "claude-haiku-4-5"
+    "extractor_version": "claude-opus-4-8"
   },
   "validation": {
     "status": "review",
     "findings": [
+      {
+        "code": "NO_VENUE",
+        "severity": "error",
+        "message": "Venue unresolved \u2014 cannot pick a product namespace. Stowaway and Harry Gatos have different ProductIDs.",
+        "line_index": null,
+        "expected": null,
+        "actual": null
+      },
       {
         "code": "LINE_UNCLASSIFIED",
         "severity": "error",
@@ -87,14 +95,6 @@
         "line_index": 1,
         "expected": null,
         "actual": null
-      },
-      {
-        "code": "INVOICE_RECONCILE",
-        "severity": "error",
-        "message": "Sum of 2 line(s) does not reconcile to the invoice total. A line is likely missing or misread \u2014 do NOT receive.",
-        "line_index": null,
-        "expected": "990.00",
-        "actual": "900.00"
       }
     ],
     "expected_ls_receive_total": "0",
@@ -102,7 +102,7 @@
   },
   "xero_coding": {
     "tracking_category": "Stowaway",
-    "tracking_option": "Kitchen",
+    "tracking_option": "To Be Reviewed",
     "tracking_confidence": "low",
     "primary_account": "111",
     "lines": [

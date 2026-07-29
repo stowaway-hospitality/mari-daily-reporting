@@ -19,17 +19,17 @@
         "gst_amount": null,
         "wet_amount": null,
         "supplier_code": null,
-        "raw_qty": "1",
+        "raw_qty": null,
         "raw_uom": null,
         "pack_qty": "1",
         "pack_unit": "ea",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "REJECT: This is a software subscription receipt from a Finnish SaaS vendor (Singa Oy, Helsinki), not a food/beverage supplier invoice.",
-          "Not in suppliers.yaml. No supplier_code. No venue resolvable.",
-          "Does not match the pipeline scope \u2014 this document has no relationship to Lightspeed stock, COGS, or inventory management.",
-          "Rule 0 violation: Cannot reconcile this against a PO for stock received at either venue."
+          "This is a SaaS subscription receipt from a Finnish company (Singa Oy), not a food/beverage supplier invoice. Not in suppliers.yaml. No PO, no venue signal, no stock item.",
+          "VAT 0% (0.00 aud) \u2014 foreign supplier, no Australian GST charged. Do not 'fix' to 10%.",
+          "Currency stated as 'aud' but supplier is EU-based; treat as software expense, not a Lightspeed receive.",
+          "line_class=unknown and venue=unknown: routed to human review per prime directive, do not guess."
         ]
       }
     ],
@@ -42,7 +42,7 @@
     "wet_total": null,
     "account_code": null,
     "source_pdf": "1f7ce6ec597b168e64b1aaca7d990567f23c306d46bb0c7aaed0279eee818a85.pdf",
-    "extractor_version": "claude-haiku-4-5"
+    "extractor_version": "claude-opus-4-8"
   },
   "validation": {
     "status": "review",

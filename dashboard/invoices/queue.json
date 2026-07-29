@@ -1,7 +1,7 @@
 {
-  "generated": "2026-07-28",
-  "count": 11,
-  "skipped_already_in_xero": 53,
+  "generated": "2026-07-29",
+  "count": 14,
+  "skipped_already_in_xero": 55,
   "invoices": [
     {
       "ref": "INV495641",
@@ -176,6 +176,56 @@
       "lines": []
     },
     {
+      "ref": "DD-2026-07-28-2428",
+      "supplier": "ILG Distribution Co-op. Ltd.",
+      "supplier_key": "ilg_distribution_coop",
+      "date": "2026-07-28",
+      "due_date": null,
+      "total": "3128.57",
+      "venue": "stowaway",
+      "pdf_path": "6fac0fef8798918a6129dbfbe18acad24ba9937f10110e9189b1a9d5f36986b1.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "Invoice dated 22/07/26",
+          "supplier_code": "03733160",
+          "qty": "1",
+          "amount": "164.26",
+          "unit_cost": "$164.26/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Invoice dated 22/07/26",
+          "supplier_code": "03733161",
+          "qty": "1",
+          "amount": "2939.14",
+          "unit_cost": "$2939.14/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Invoice dated 22/07/26",
+          "supplier_code": "03733162",
+          "qty": "1",
+          "amount": "31.44",
+          "unit_cost": "$31.44/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
       "ref": "fresh_fruit_team-2026-07-24",
       "supplier": "The Fresh Fruit Team Pty Ltd (Wholesale)",
       "supplier_key": "fresh_fruit_team",
@@ -257,6 +307,50 @@
           "reason": "fallback \u2014 no rule matched"
         }
       ]
+    },
+    {
+      "ref": "03733163",
+      "supplier": "ILG Distribution Co-op. Ltd.",
+      "supplier_key": "ilg_distribution_coop",
+      "date": "2026-07-22",
+      "due_date": null,
+      "total": "427.34",
+      "venue": "harry_gatos",
+      "pdf_path": "f6544fd87d27c331a17cf860181e2a2593c84bd825c877365d5698bd4863e6a9.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Bar",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": [
+        {
+          "description": "Invoice dated 22/07/26",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "427.34",
+          "unit_cost": "$427.34/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "20260713",
+      "supplier": "EatClub Pty Ltd",
+      "supplier_key": "unknown",
+      "date": "2026-07-21",
+      "due_date": null,
+      "total": "-242.64",
+      "venue": "stowaway",
+      "pdf_path": "ab57f2077c3240be11cdd2c791d19b66899c7b308e608c6339e3af0abbb27a86.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "review",
+      "lines": []
     },
     {
       "ref": "RKCKZ94E-0001",

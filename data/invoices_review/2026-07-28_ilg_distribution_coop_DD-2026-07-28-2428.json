@@ -1,0 +1,156 @@
+{
+  "invoice": {
+    "supplier_key": "ilg_distribution_coop",
+    "supplier_name_raw": "ILG Distribution Co-op. Ltd.",
+    "invoice_ref": "DD-2026-07-28-2428",
+    "invoice_date": "2026-07-28",
+    "total_incl": "3128.57",
+    "lines": [
+      {
+        "description": "Invoice dated 22/07/26",
+        "qty": "1",
+        "line_total_incl": "164.26",
+        "unit_price_incl": "164.26",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "03733160",
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "This is a Direct Debit Advice, NOT an itemised invoice. It references three separate ILG invoices (03733160, 03733161, 03733162) with no line-item detail, product codes, quantities, or GST breakdown. The underlying invoice PDFs must be obtained and extracted individually.",
+          "Cannot classify as stock/extra without the actual invoice line items."
+        ]
+      },
+      {
+        "description": "Invoice dated 22/07/26",
+        "qty": "1",
+        "line_total_incl": "2939.14",
+        "unit_price_incl": "2939.14",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "03733161",
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Referenced invoice total only \u2014 no line detail present on this document."
+        ]
+      },
+      {
+        "description": "Invoice dated 22/07/26",
+        "qty": "1",
+        "line_total_incl": "31.44",
+        "unit_price_incl": "31.44",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "unknown",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "03733162",
+        "raw_qty": "1",
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": [
+          "Referenced invoice total only \u2014 no line detail present on this document."
+        ]
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": "2428",
+    "source_pdf": "6fac0fef8798918a6129dbfbe18acad24ba9937f10110e9189b1a9d5f36986b1.pdf",
+    "extractor_version": "claude-opus-4-8"
+  },
+  "validation": {
+    "status": "review",
+    "findings": [
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Invoice dated 22/07/26' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 0,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Invoice dated 22/07/26' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 1,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "LINE_UNCLASSIFIED",
+        "severity": "error",
+        "message": "'Invoice dated 22/07/26' could not be classified as stock, extra, or WOS. Refusing to guess.",
+        "line_index": 2,
+        "expected": null,
+        "actual": null
+      },
+      {
+        "code": "INVOICE_RECONCILE",
+        "severity": "error",
+        "message": "Sum of 3 line(s) does not reconcile to the invoice total. A line is likely missing or misread \u2014 do NOT receive.",
+        "line_index": null,
+        "expected": "3128.57",
+        "actual": "3134.84"
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "Invoice dated 22/07/26",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Invoice dated 22/07/26",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Invoice dated 22/07/26",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
