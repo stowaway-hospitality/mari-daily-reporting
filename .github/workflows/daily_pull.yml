@@ -160,11 +160,24 @@ jobs:
             if [[ "$V" == "stowaway" && -f "data/insights_hg_${T}.csv" ]];   then VENUES="stowaway harry"; fi
             if [[ "$V" == "harry"    && -f "data/insights_stow_${T}.csv" ]]; then VENUES="harry stowaway"; fi
           fi
+          # Capture the aggregator's stdout (its `*** ...` integrity warnings +
+          # the reallocation line) so the next step can persist them for the app's
+          # health monitor. GH bash runs with pipefail, so `| tee` never masks an
+          # aggregator failure.
+          PULL_LOG=/tmp/pull.log; : > "$PULL_LOG"
           for V in $VENUES; do
-            echo "=== $V ==="
+            echo "=== $V ===" | tee -a "$PULL_LOG"
             python scripts/daily_deputy_pull.py --venue "$V" ${{ steps.date.outputs.target }}
-            python scripts/daily_aggregator.py --venue "$V" ${{ steps.date.outputs.target }}
+            python scripts/daily_aggregator.py --venue "$V" ${{ steps.date.outputs.target }} 2>&1 | tee -a "$PULL_LOG"
           done
+
+      - name: Record pull integrity (dashboard health signal)
+        run: |
+          # Persists the aggregator's Mari/HG guard warnings to
+          # data/pull_integrity.json, which scripts/health_monitor.py reads. This
+          # is what the verify-daily-pull-mari-hg scheduled task used to do by eye.
+          python scripts/pull_integrity.py --log /tmp/pull.log --date ${{ steps.date.outputs.target }} \
+            || echo "::warning::pull integrity scan failed (non-fatal)"
 
       - name: Rebuild product-level weekly rollup
         run: |

@@ -81,6 +81,103 @@ def _oldest_queue_days():
         return None
 
 
+def _insights_pull_age_days(prefix="insights_stow_"):
+    """Days since the newest Stowaway daily export. Stow trades 7 days a week, so
+    it is the cleanest 'did the Daily Pull run' signal. None if no files."""
+    latest = None
+    for pth in (ROOT / "data").glob(f"{prefix}*.csv"):
+        try:
+            d = datetime.strptime(pth.stem.replace(prefix, "")[:10], "%Y-%m-%d").date()
+            if latest is None or d > latest:
+                latest = d
+        except Exception:
+            pass
+    return None if latest is None else (datetime.now().date() - latest).days
+
+
+def _csv_last_date_age_days(rel, date_col):
+    """Age in days of the newest value in `date_col` of a CSV, or None."""
+    import csv
+    pth = ROOT / rel
+    if not pth.exists():
+        return None
+    latest = None
+    try:
+        with pth.open() as f:
+            for row in csv.DictReader(f):
+                v = (row.get(date_col) or "").strip()[:10]
+                try:
+                    d = datetime.strptime(v, "%Y-%m-%d").date()
+                    if latest is None or d > latest:
+                        latest = d
+                except Exception:
+                    pass
+    except Exception:
+        return None
+    return None if latest is None else (datetime.now().date() - latest).days
+
+
+def _overheads_months_behind(rel="data/xero_overheads_monthly.csv"):
+    """How many months the monthly overheads feed is behind the current month.
+    0 = current month present, 1 = only last month (fine, month not closed)."""
+    import csv
+    pth = ROOT / rel
+    if not pth.exists():
+        return None
+    latest = None
+    try:
+        with pth.open() as f:
+            for row in csv.DictReader(f):
+                v = (row.get("month") or "").strip()[:7]
+                try:
+                    y, m = (int(x) for x in v.split("-"))
+                    key = y * 12 + m
+                    if latest is None or key > latest:
+                        latest = key
+                except Exception:
+                    pass
+    except Exception:
+        return None
+    if latest is None:
+        return None
+    now = datetime.now()
+    return (now.year * 12 + now.month) - latest
+
+
+def _pull_integrity(rel="data/pull_integrity.json"):
+    """(status, detail) from the record the Daily Pull writes each run — the
+    replacement for the verify-daily-pull-mari-hg scheduled task. `narrowed`
+    (Stow export filtered, HG bleeding revenue) is the one serious enough to go
+    'down'; the rest are transient/benign warns."""
+    pth = ROOT / rel
+    if not pth.exists():
+        return ("unknown", "no pull-integrity record yet")
+    try:
+        rec = json.loads(pth.read_text())
+        days = rec.get("days", {})
+        if not days:
+            return ("unknown", "no pull-integrity record yet")
+        latest = max(days)  # YYYY-MM-DD sorts lexically
+        venues = days[latest]
+        narrowed = [v for v, f in venues.items() if f.get("narrowed")]
+        siblings = [v for v, f in venues.items() if f.get("sibling_missing")]
+        drift = [v for v, f in venues.items() if f.get("mari_drift")]
+        is_mon = datetime.strptime(latest, "%Y-%m-%d").weekday() == 0
+        hg_missing_mon = (is_mon and "harry" in venues
+                          and venues["harry"].get("realloc_rows", 0) == 0)
+        if narrowed:
+            return ("down", f"STOW export narrowed {latest} — HG revenue at risk")
+        if hg_missing_mon:
+            return ("warn", f"HG reallocation missing on Monday {latest}")
+        if drift:
+            return ("warn", f"Mari filter drift {latest}")
+        if siblings:
+            return ("warn", f"sibling CSV missing {latest} ({','.join(siblings)})")
+        return ("ok", f"Mari filter holding, HG reallocation intact ({latest})")
+    except Exception as e:
+        return ("unknown", f"integrity record unreadable: {e}")
+
+
 def build() -> dict:
     checks = []
 
@@ -112,6 +209,19 @@ def build() -> dict:
     checks.append({"name": "Invoice queue", "detail": "oldest bill awaiting approval",
                    "age": oq, "unit": "day", "advisory": True,
                    "status": ("unknown" if oq is None else "warn" if oq > 7 else "ok")})
+
+    # ---- daily sales pipeline + Xero feeds --------------------------------
+    # Folds the verify-daily-pull-mari-hg and xero-weekly-pull scheduled tasks
+    # into the app: the dashboard now self-reports what those runs used to check.
+    add("Daily sales pull", "aggregates yesterday's Lightspeed exports",
+        _insights_pull_age_days(), 1.6, 2.6, unit="day")
+    add("Xero COGS feed", "weekly actual COGS from Xero",
+        _csv_last_date_age_days("data/xero_cogs_weekly.csv", "week_ending"), 8.5, 12, unit="day")
+    add("Xero overheads feed", "monthly overheads from Xero",
+        _overheads_months_behind(), 1.5, 2.5, unit="mo")
+    _ig_status, _ig_detail = _pull_integrity()
+    checks.append({"name": "Pull integrity", "detail": _ig_detail,
+                   "age": None, "unit": "", "status": _ig_status})
 
     # overall reflects AUTOMATION health — the jobs that must keep running. An
     # advisory (workload) check can raise a warn but never a down on its own.
