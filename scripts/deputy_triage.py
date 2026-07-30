@@ -430,6 +430,7 @@ def main() -> int:
         return 2
     rows = fetch_unapproved(7)
     rosters = fetch_rosters(7)
+    print(f"loaded {len(rosters)} employee-day rosters for missed-switch/close-hint checks")
     live = os.environ.get("DEPUTY_APPROVE") == "1"
     buckets = {APPROVE: [], PARK: [], SKIP: []}
     for ts in rows:
