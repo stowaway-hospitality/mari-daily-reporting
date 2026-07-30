@@ -127,3 +127,29 @@
   by: "A10 std 3kg"
   on: 2026-07-26
   by_email: "befoodsonline.com.au"
+# More B&E food items read from the befoodsonline catalogue (invoices omit sizes).
+# CTN = whole carton (chicken 6kg; tortillas 24x12=288 units); PK/UNIT = one pack.
+- id: "b-e:16952"
+  pack_qty: 6000
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-30
+  by_email: "befoodsonline.com.au"
+- id: "b-e:30741"
+  pack_qty: 288
+  pack_unit: ea
+  by: "B&E catalogue"
+  on: 2026-07-30
+  by_email: "befoodsonline.com.au"
+- id: "b-e:13582"
+  pack_qty: 700
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-30
+  by_email: "befoodsonline.com.au"
+- id: "b-e:18264"
+  pack_qty: 450
+  pack_unit: g
+  by: "B&E catalogue"
+  on: 2026-07-30
+  by_email: "befoodsonline.com.au"

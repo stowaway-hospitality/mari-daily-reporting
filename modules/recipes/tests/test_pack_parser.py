@@ -22,7 +22,8 @@ from modules.recipes.pipeline.build_ingredients import parse_pack, resolve_pack,
 
 def test_non_food_consumables_are_excluded():
     for d in ("NAPKINS - DINNER BROWN", "SPONGE SCOURER -", "STAINLESS STEEL",
-              "SAUCE CONTAINER - WITH", "GLOVES NITRILE BLACK L"):
+              "SAUCE CONTAINER - WITH", "GLOVES NITRILE BLACK L",
+              "CHEMICAL - DISHWASHING", "DETERGENT - MACHINE", "SANITISER SPRAY"):
         assert is_non_food(d), f"{d!r} should be excluded as non-food"
 
 

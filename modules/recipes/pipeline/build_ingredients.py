@@ -72,7 +72,10 @@ KITCHEN_SUPPLIERS = {
 # cost Marilyna's tracks.)
 _NON_FOOD = re.compile(
     r"\b(napkins?|serviettes?|scourer|stainless steel|container|gloves?|foil|"
-    r"cling\s*wrap|garbage|bin\s*liner|paper\s*towel|chux)\b", re.I)
+    r"cling\s*wrap|garbage|bin\s*liner|paper\s*towel|chux|"
+    # cleaning / chemicals — not a recipe ingredient
+    r"chemical|detergent|dishwash(?:ing|er)?|sanitiser|sanitizer|degreaser|"
+    r"rinse\s*aid|bleach)\b", re.I)
 
 
 def is_non_food(desc: str) -> bool:
