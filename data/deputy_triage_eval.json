@@ -1,0 +1,116 @@
+{
+  "generated": "2026-07-30T06:51:58+00:00",
+  "evaluated": 5909,
+  "days": 365,
+  "decisions": {
+    "would_approve": 4221,
+    "park_for_human": 1681,
+    "skip": 7
+  },
+  "decision_pct": {
+    "would_approve": 71.4,
+    "park_for_human": 28.4,
+    "skip": 0.1
+  },
+  "would_approve_vs_human": {
+    "human_approved": 4220,
+    "human_NOT_approved": 1
+  },
+  "OVER_APPROVE_count": 1,
+  "over_approve_samples": [
+    {
+      "id": 35578,
+      "employee": "Nicola Bisato",
+      "reason": "salaried (Nicola) \u2014 overstay auto-approve rule",
+      "comment": ""
+    }
+  ],
+  "park_reasons": [
+    [
+      "casual overstay Nh in non-FOH area (ouN) \u2014 Kris",
+      683
+    ],
+    [
+      "comment notes a clock-time / area correction \u2014 needs a human",
+      464
+    ],
+    [
+      "Zak's own timesheet \u2014 needs manual shift splits",
+      221
+    ],
+    [
+      "runaway/overnight (Nh) \u2014 forgotten clock-off (Kris)",
+      90
+    ],
+    [
+      "casual Nh shift, no break recorded \u2014 pay in FULL, Kris confirms compliance",
+      83
+    ],
+    [
+      "no linked roster \u2014 overstay unverifiable, park for a human",
+      37
+    ],
+    [
+      "UNDERPAY RISK: comment says no break but Nm deducted \u2014 pay in FULL (Kris/Zak)",
+      33
+    ],
+    [
+      "comment states Nm break but Nm deducted \u2014 reconcile (Kris)",
+      31
+    ],
+    [
+      "Olly \u2014 overstays always left for Kris per policy",
+      30
+    ],
+    [
+      "casual FOH overstay Nh > Nh \u2014 Kris",
+      9
+    ]
+  ],
+  "park_vs_human": [
+    [
+      "casual overstay Nh in non-FOH area (ouN) \u2014 Kris | human approved",
+      681
+    ],
+    [
+      "comment notes a clock-time / area correction \u2014 needs a human | human approved",
+      464
+    ],
+    [
+      "Zak's own timesheet \u2014 needs manual shift splits | human approved",
+      221
+    ],
+    [
+      "runaway/overnight (Nh) \u2014 forgotten clock-off (Kris) | human approved",
+      90
+    ],
+    [
+      "casual Nh shift, no break recorded \u2014 pay in FULL, Kris confirms compliance | human approved",
+      83
+    ],
+    [
+      "no linked roster \u2014 overstay unverifiable, park for a human | human approved",
+      37
+    ],
+    [
+      "UNDERPAY RISK: comment says no break but Nm deducted \u2014 pay in FULL (Kris/Zak) | human approved",
+      33
+    ],
+    [
+      "comment states Nm break but Nm deducted \u2014 reconcile (Kris) | human approved",
+      31
+    ],
+    [
+      "Olly \u2014 overstays always left for Kris per policy | human approved",
+      30
+    ],
+    [
+      "casual FOH overstay Nh > Nh \u2014 Kris | human approved",
+      9
+    ],
+    [
+      "casual overstay Nh in non-FOH area (ouN) \u2014 Kris | human parked too",
+      2
+    ]
+  ]
+}
