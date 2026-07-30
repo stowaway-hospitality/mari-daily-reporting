@@ -148,6 +148,57 @@ def comment_declared_break_min(comment):
     return v * 60 if m.group(2).startswith(("hour", "hr")) else v
 
 
+_TIME = r"(\d{1,2}(?:[:.]\d{2})?\s*(?:a\.?m\.?|p\.?m\.?|am|pm)?)"
+
+
+def _find_time(after_words, c):
+    for w in after_words:
+        m = re.search(w + r"(?:\s+(?:at|work|shift|my|for|the|on|to))*\s+" + _TIME, c)
+        if m and re.search(r"\d", m.group(1)):
+            return m.group(1).strip()
+    return None
+
+
+def parse_clock_comment(comment):
+    """Extract a structured correction from a clock-time / area comment so the
+    report shows the actual fix instead of a blank 'needs a human'. Learned from
+    a year of real phrasings. Returns None if nothing clock/area-related, else a
+    dict {start, finish, forgot_clock, area}. We PARSE and PRESENT only — never
+    auto-apply (times like 'start 5' are am/pm-ambiguous and pay-sensitive)."""
+    c = _norm(comment)
+    if not c:
+        return None
+    start = _find_time([r"start(?:ed|ing)?", r"begin", r"commenced"], c)
+    if not start:
+        m = re.search(_TIME + r"\s*start", c)
+        if m and re.search(r"\d", m.group(1)):
+            start = m.group(1).strip()
+    finish = _find_time([r"finish(?:ed)?", r"\bfin\b", r"end(?:ed)?", r"clock(?:ed)?\s*off"], c)
+    if not finish:
+        m = re.search(_TIME + r"\s*finish", c)
+        if m and re.search(r"\d", m.group(1)):
+            finish = m.group(1).strip()
+    if not (start and finish):
+        rng = re.search(_TIME + r"\s*(?:a|to|til|till|until|-|\u2013)\s*" + _TIME, c)
+        if rng and re.search(r"\d", rng.group(1)) and re.search(r"\d", rng.group(2)):
+            start = start or rng.group(1).strip()
+            finish = finish or rng.group(2).strip()
+    forgot = bool(re.search(r"forgot|did\s*n.?t\s*(?:clock|sign)|clock(?:ed)?\s*(?:on|in|out|off)|sign\s*in", c))
+    area = None
+    sp = re.findall(r"(\d{1,2}(?:[:.]\d{2})?)\s*(?:-|–|to)\s*(\d{1,2}(?:[:.]\d{2})?)\s*(stow|hg|harry|floor|bar|kitchen|pizza)", c)
+    if sp:
+        area = "split " + "; ".join(f"{a}-{b} {v}" for a, b, v in sp)
+    else:
+        m = re.search(r"from\s*" + _TIME + r"\s*(harry gatos|harry|hg|stow\w*|floor|bar|kitchen)", c)
+        if m:
+            area = f"from {m.group(1).strip()} {m.group(2)}"
+        elif re.search(r"moved into the (?:bar|floor|kitchen)|worked at (?:hg|harry|stow)", c):
+            area = re.search(r"(moved into the (?:bar|floor|kitchen)|worked at (?:hg|harry|stow\w*))", c).group(1)
+    if start or finish or forgot or area:
+        return {"start": start, "finish": finish, "forgot_clock": forgot, "area": area}
+    return None
+
+
 def comment_needs_human(comment) -> bool:
     """Clock-time corrections or area/venue splits the sheet needs edited by hand
     (e.g. 'started 5:30', 'forgot to sign in', '2-6 Stow / 6-10 HG')."""
@@ -192,6 +243,14 @@ def decide(ts) -> tuple[str, str]:
     _dbm = comment_declared_break_min(comment)
     if _dbm is not None and mb is not None and abs(_dbm - mb) > 2:
         return PARK, f"comment states {_dbm}m break but {mb}m deducted — reconcile (Kris)"
+    _pc = parse_clock_comment(comment)
+    if _pc:
+        _det = []
+        if _pc["start"]: _det.append(f"start {_pc['start']}")
+        if _pc["finish"]: _det.append(f"finish {_pc['finish']}")
+        if _pc["forgot_clock"]: _det.append("forgot to clock")
+        if _pc["area"]: _det.append(_pc["area"])
+        return PARK, "clock/area correction — " + ", ".join(_det) + " — verify & set (Kris)"
     if comment_needs_human(comment):
         return PARK, "comment notes a clock-time / area correction — needs a human"
 

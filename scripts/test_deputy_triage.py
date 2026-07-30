@@ -120,6 +120,21 @@ r = ts_at(PAST, 10, 0, 16, 0, roster_eh=16, break_min=30); r["Employee"] = 60
 r["EmployeeComment"] = "forgot to sign in, started 9:30"
 check("clock-correction comment -> park", dt.decide(r)[0] == dt.PARK)
 
+# ---- clock/area comment parser ----
+pc = dt.parse_clock_comment("Started at 5:15 forgot to clock on")
+check("parse start + forgot", pc and pc["start"] == "5:15" and pc["forgot_clock"])
+pc = dt.parse_clock_comment("Start at 3pm and finish 10pm")
+check("parse start + finish", pc and pc["start"] == "3pm" and pc["finish"] == "10pm")
+pc = dt.parse_clock_comment("2-6 Stow\nNo break\n6-10 HG")
+check("parse area split", pc and pc["area"] and "split" in pc["area"])
+check("parse 'good shift' -> none", dt.parse_clock_comment("good shift") is None)
+
+# decide surfaces the structured correction (still parks)
+r = ts_at(PAST, 10, 0, 16, 0, roster_eh=16, break_min=30); r["Employee"] = 60
+r["EmployeeComment"] = "Started at 5:15 forgot to clock on"
+d, why = dt.decide(r)
+check("clock comment -> park with detail", d == dt.PARK and "clock/area correction" in why and "5:15" in why)
+
 print()
 print("ALL PASS" if not fails else f"{len(fails)} FAILED")
 sys.exit(1 if fails else 0)
