@@ -1,9 +1,9 @@
 {
-  "generated": "2026-07-30T06:22:31+00:00",
-  "pulled": 5910,
+  "generated": "2026-07-30T06:32:39+00:00",
+  "pulled": 5909,
   "days": 365,
   "mealbreak_field_types": {
-    "str": 5910
+    "str": 5909
   },
   "top_mealbreak_values": [
     [
@@ -108,8 +108,8 @@
     ]
   ],
   "datetime_timepart_decode": {
-    "checked": 5910,
-    "matched_ground_truth": 5910,
+    "checked": 5909,
+    "matched_ground_truth": 5909,
     "match_pct": 100.0
   },
   "numeric_decode": {
@@ -119,12 +119,466 @@
   },
   "slots_present_count": 2889,
   "mismatch_samples": [],
-  "total_vs_gross_samples": [
+  "top_comments": [
+    [
+      "no break",
+      205
+    ],
+    [
+      "no break taken",
+      182
+    ],
+    [
+      "good shift",
+      76
+    ],
+    [
+      "no break taken thanks",
+      15
+    ],
+    [
+      "15 min break",
+      11
+    ],
+    [
+      "didn\u2019t clock out",
+      8
+    ],
+    [
+      "nb",
+      6
+    ],
+    [
+      "didn\u2019t take my break",
+      6
+    ],
+    [
+      "started at 4:30",
+      6
+    ],
+    [
+      "30 min break taken",
+      6
+    ],
+    [
+      "no break thanks",
+      6
+    ],
+    [
+      "ni break taken",
+      5
+    ],
+    [
+      "no break talen",
+      5
+    ],
+    [
+      "15 min break thanks",
+      5
+    ],
+    [
+      "30 minute break taken",
+      5
+    ],
+    [
+      "yes",
+      5
+    ],
+    [
+      "15 break",
+      5
+    ],
+    [
+      "15 minute break",
+      4
+    ],
+    [
+      "30 minute break",
+      4
+    ],
+    [
+      "no break taken.",
+      4
+    ],
+    [
+      "forgot to sign in",
+      4
+    ],
+    [
+      "30 min break thanks",
+      3
+    ],
+    [
+      "no meal break",
+      3
+    ],
+    [
+      "10 min break",
+      3
+    ],
+    [
+      "forgot to clock on",
+      3
+    ]
+  ],
+  "break_keyword_comments": [
+    [
+      "no break",
+      205
+    ],
+    [
+      "no break taken",
+      182
+    ],
+    [
+      "no break taken thanks",
+      15
+    ],
+    [
+      "15 min break",
+      11
+    ],
+    [
+      "nb",
+      6
+    ],
+    [
+      "didn\u2019t take my break",
+      6
+    ],
+    [
+      "30 min break taken",
+      6
+    ],
+    [
+      "no break thanks",
+      6
+    ],
+    [
+      "ni break taken",
+      5
+    ],
+    [
+      "no break talen",
+      5
+    ],
+    [
+      "15 min break thanks",
+      5
+    ],
+    [
+      "30 minute break taken",
+      5
+    ],
+    [
+      "15 break",
+      5
+    ],
+    [
+      "15 minute break",
+      4
+    ],
+    [
+      "30 minute break",
+      4
+    ],
+    [
+      "no break taken.",
+      4
+    ],
+    [
+      "30 min break thanks",
+      3
+    ],
+    [
+      "no meal break",
+      3
+    ],
+    [
+      "10 min break",
+      3
+    ],
+    [
+      "15 min break taken",
+      3
+    ],
+    [
+      "30 minute break only. thankyou",
+      3
+    ],
+    [
+      "15min break",
+      3
+    ],
+    [
+      "no meal break taken",
+      3
+    ],
+    [
+      "didn\u2019t take a break. thankyou",
+      3
+    ],
+    [
+      "30 minute break only",
+      3
+    ],
+    [
+      "break set to 0 per employee comment \"no break\". - zak",
+      3
+    ],
+    [
+      "no break take",
+      2
+    ],
+    [
+      "no breaks",
+      2
+    ],
+    [
+      "did not take my break",
+      2
+    ],
+    [
+      "no break for today, thank you",
+      2
+    ],
+    [
+      "took a 30 min break",
+      2
+    ],
+    [
+      "break not taken",
+      2
+    ],
+    [
+      "didn\u2019t take a break",
+      2
+    ],
+    [
+      "30min break",
+      2
+    ],
+    [
+      "no break :)",
+      2
+    ],
+    [
+      "30 mins break",
+      2
+    ],
+    [
+      "no break today",
+      2
+    ],
+    [
+      "ni break",
+      2
+    ],
+    [
+      "15min break per employee comment",
+      2
+    ],
+    [
+      "no break per employee comment",
+      2
+    ]
+  ],
+  "no_break_comment_but_break_deducted": [
     {
-      "gross_h": 5.0,
-      "total": 5,
-      "implied_break_min": 0
+      "id": 28766,
+      "employee": "Camila Green",
+      "start": 1755408600,
+      "deducted_break_min": 30,
+      "comment": "No break taken thanks",
+      "approved": true
     },
+    {
+      "id": 28767,
+      "employee": "Oscar Hugill",
+      "start": 1755408600,
+      "deducted_break_min": 30,
+      "comment": "no break",
+      "approved": true
+    },
+    {
+      "id": 28969,
+      "employee": "Arthur Rodrigues Arruda",
+      "start": 1756267200,
+      "deducted_break_min": 30,
+      "comment": "Started 11\nNo break",
+      "approved": true
+    },
+    {
+      "id": 32136,
+      "employee": "Sophie Cridland",
+      "start": 1768887900,
+      "deducted_break_min": 30,
+      "comment": "No break",
+      "approved": true
+    },
+    {
+      "id": 32244,
+      "employee": "Oscar Hugill",
+      "start": 1769322600,
+      "deducted_break_min": 30,
+      "comment": "no break",
+      "approved": true
+    },
+    {
+      "id": 32673,
+      "employee": "Rob Bolt",
+      "start": 1771376400,
+      "deducted_break_min": 30,
+      "comment": "No break",
+      "approved": true
+    },
+    {
+      "id": 32697,
+      "employee": "Sushant Acharya",
+      "start": 1771480800,
+      "deducted_break_min": 30,
+      "comment": "no break",
+      "approved": true
+    },
+    {
+      "id": 33187,
+      "employee": "Rei",
+      "start": 1773813600,
+      "deducted_break_min": 30,
+      "comment": "Monday no break",
+      "approved": true
+    },
+    {
+      "id": 33389,
+      "employee": "Faith",
+      "start": 1774756800,
+      "deducted_break_min": 30,
+      "comment": "No Break",
+      "approved": true
+    },
+    {
+      "id": 33797,
+      "employee": "Rei",
+      "start": 1776835800,
+      "deducted_break_min": 30,
+      "comment": "No break Monday from3",
+      "approved": true
+    },
+    {
+      "id": 33943,
+      "employee": "liv",
+      "start": 1777527000,
+      "deducted_break_min": 30,
+      "comment": "No break recorded on 6+ hour shift. Did Liv take a break? Please confirm before approving.",
+      "approved": true
+    },
+    {
+      "id": 34017,
+      "employee": "Stephanie Kunde",
+      "start": 1777872600,
+      "deducted_break_min": 30,
+      "comment": "9:45 no break",
+      "approved": true
+    },
+    {
+      "id": 34589,
+      "employee": "Nicola Bisato",
+      "start": 1780538400,
+      "deducted_break_min": 30,
+      "comment": "No break",
+      "approved": true
+    },
+    {
+      "id": 34599,
+      "employee": "Olivia Giuliano",
+      "start": 1780556400,
+      "deducted_break_min": 30,
+      "comment": "No break taken",
+      "approved": true
+    },
+    {
+      "id": 34638,
+      "employee": "David Armour",
+      "start": 1780725600,
+      "deducted_break_min": 30,
+      "comment": "no break taken",
+      "approved": true
+    },
+    {
+      "id": 34694,
+      "employee": "Stephanie Kunde",
+      "start": 1781067600,
+      "deducted_break_min": 30,
+      "comment": "From 4pm Harry Gatos\nNo break",
+      "approved": true
+    },
+    {
+      "id": 34718,
+      "employee": "Stephanie Kunde",
+      "start": 1781163000,
+      "deducted_break_min": 30,
+      "comment": "Started 5:30. No break",
+      "approved": true
+    },
+    {
+      "id": 34724,
+      "employee": "Stephanie Kunde",
+      "start": 1781249400,
+      "deducted_break_min": 30,
+      "comment": "2-6 Stow\nNo break\n6-10 HG",
+      "approved": true
+    },
+    {
+      "id": 34742,
+      "employee": "Oscar Hugill",
+      "start": 1781313300,
+      "deducted_break_min": 30,
+      "comment": "no break",
+      "approved": true
+    },
+    {
+      "id": 34790,
+      "employee": "Olivia",
+      "start": 1781499600,
+      "deducted_break_min": 30,
+      "comment": "No break",
+      "approved": true
+    },
+    {
+      "id": 34842,
+      "employee": "Jack Colbran",
+      "start": 1781769600,
+      "deducted_break_min": 30,
+      "comment": "No break",
+      "approved": true
+    },
+    {
+      "id": 34853,
+      "employee": "Olivia",
+      "start": 1781848800,
+      "deducted_break_min": 30,
+      "comment": "No break",
+      "approved": true
+    },
+    {
+      "id": 34915,
+      "employee": "Stephanie Kunde",
+      "start": 1782111600,
+      "deducted_break_min": 30,
+      "comment": "Started on time sorry. No break",
+      "approved": true
+    },
+    {
+      "id": 35295,
+      "employee": "Rhys Taylor",
+      "start": 1783920600,
+      "deducted_break_min": 30,
+      "comment": "Claude, I know you are reading this. No break on this shift. Changes to overtime. Joking haha haha",
+      "approved": true
+    }
+  ],
+  "no_break_underpayment_count": 24,
+  "total_vs_gross_samples": [
     {
       "gross_h": 3.75,
       "total": 3.75,
@@ -418,6 +872,11 @@
     {
       "gross_h": 2.75,
       "total": 2.75,
+      "implied_break_min": 0
+    },
+    {
+      "gross_h": 5.0,
+      "total": 5,
       "implied_break_min": 0
     }
   ]
