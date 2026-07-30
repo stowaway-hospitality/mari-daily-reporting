@@ -114,6 +114,51 @@ _NAME_FIX = {
 }
 
 
+# A bare unit word tacked on the END of a name ("CARROT KG", "ONION BROWN BAG",
+# "HERB BASIL BCH") — Select Fresh writes these. It reads raw AND hides near-dupes
+# (the same onion as "... BAG" and "... KG" looks like two products). Strip it.
+_TRAIL_UNIT = re.compile(
+    r"[\s/]+(kgs?|kilogram|gm?|ml|lt?r?|bch|bunch|tray|bags?|box(?:es)?|ctn|carton|"
+    r"ea|each|punnet|pkts?|packet|dozen|doz|market)$", re.I)
+
+
+def clean_name(desc: str) -> str:
+    """Display name: drop a trailing bare unit, and Title-case a fully-UPPERCASE
+    name (produce) so 'CARROT KG' -> 'Carrot' reads like 'Avocado Hass'. Mixed-case
+    names (they already carry brand casing, e.g. '... Heinz') are left untouched."""
+    s = (desc or "").strip()
+    prev = None
+    while s != prev:
+        prev, s = s, _TRAIL_UNIT.sub("", s).strip(" /-")
+    letters = [c for c in s if c.isalpha()]
+    if letters and all(c.isupper() for c in letters):
+        s = s.title()
+        s = re.sub(r"(\d)([A-Z])", lambda m: m.group(1) + m.group(2).lower(), s)  # 5Mm -> 5mm
+    return s or (desc or "").strip()
+
+
+# Unit words that must never stand alone as a product name.
+_UNIT_WORDS = {"punnet", "box", "bunch", "bch", "tray", "each", "ea", "bag",
+               "kg", "kilogram", "market", "carton", "ctn", "packet", "pkt"}
+
+
+def suspect_name(desc: str, code: str) -> str | None:
+    """A build-time quality gate. Flags a display name that is almost certainly a
+    parse artefact rather than a real product name — the class the FFT bug
+    produced ('BBRYP Punnet' where the name IS the code). Deliberately narrow so
+    it never fires on a real acronym product (MSG, BBQ): only when the name is
+    empty, is nothing but a unit word, or literally echoes the supplier code."""
+    n = re.sub(r"[^A-Za-z0-9]", "", desc or "").upper()
+    c = re.sub(r"[^A-Za-z0-9]", "", code or "").upper()
+    if not n:
+        return "empty name"
+    if (desc or "").strip().lower() in _UNIT_WORDS:
+        return "name is only a unit word"
+    if c and len(n) >= 3 and (n == c or c.startswith(n)):
+        return "name echoes the supplier code (parse artefact)"
+    return None
+
+
 def _better_name(a: str, b: str) -> str:
     """The fuller of two descriptions for the SAME product. Ranked by how many
     REAL words it has (a real word has a lowercase letter and no digits), then by
@@ -396,7 +441,7 @@ def main() -> int:
 
         item = {
             "id": key,
-            "description": desc,           # verbatim -- chefs recognise supplier wording
+            "description": clean_name(desc),   # tidy display; raw desc still drove resolve_pack
             "supplier": r["supplier"],
             "supplier_code": r["supplier_code"] or None,
             "pack_cost_incl": str(pack_cost),
@@ -464,17 +509,31 @@ def main() -> int:
     review = sum(1 for i in out if i.get("needs_pack_review"))
 
     out.sort(key=lambda i: (i["needs_pack_review"], i["description"]))
+
+    # QUALITY GATE: a name that echoes its code / is only a unit is a parse
+    # artefact (the FFT class of bug). Surface it here and in the feed so it gets
+    # noticed the day it appears, not when a chef squints at "BBRYP Punnet".
+    suspects = [(i["supplier"], i["description"], i.get("supplier_code"),
+                 suspect_name(i["description"], i.get("supplier_code") or ""))
+                for i in out if suspect_name(i["description"], i.get("supplier_code") or "")]
+
     OUT.write_text(json.dumps({
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "window_days": RECENT_DAYS,
         "source": "supplier invoices (scripts/invoices/) via data/cogs_list.csv",
         "note": "Derived from what was actually purchased. Nobody maintains this list.",
+        "suspect_names": [{"supplier": s, "name": n, "code": c, "why": w}
+                          for s, n, c, w in suspects],
         "ingredients": out,
     }, indent=2))
 
     print(f"{len(out)} ingredients -> {OUT.relative_to(ROOT)}")
     print(f"  pack parsed:  {len(out)-review}")
     print(f"  needs review: {review}  (UI asks the chef; we do not guess)")
+    if suspects:
+        print(f"  ⚠ suspect names: {len(suspects)}  (likely a parse artefact — check the parser)")
+        for s, n, c, w in suspects:
+            print(f"      {s} | {n!r} (code {c!r}) — {w}")
     print("\nsample:")
     for i in out[:8]:
         if i["needs_pack_review"]:
