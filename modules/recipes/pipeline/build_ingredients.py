@@ -108,6 +108,9 @@ def normalize_code(code: str) -> str:
 # leave genuinely-cryptic ones (BBRYP, SPUN) alone rather than guess.
 _NAME_FIX = {
     "ONBRKG": "Onion Brown", "KITAPDKG": "Apple Diced", "RHBCH": "Rhubarb",
+    # confirmed against the FFT catalogue by exact price match (BBRYP $6.25 =
+    # Blackberries punnet; SPUN $3.00 = Strawberries punnet).
+    "BBRYP": "Blackberries", "SPUN": "Strawberries",
 }
 
 
