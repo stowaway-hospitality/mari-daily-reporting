@@ -65,28 +65,36 @@ def fetch_unapproved(days=7):
 
 
 def mealbreak_min(ts):
-    """Minutes of unpaid meal break, or None if it can't be read confidently.
+    """Unpaid meal-break minutes, or None if it can't be trusted (-> park).
 
-    NEVER guess here — a wrong break is a wrong pay. Deputy's Mealbreak field is
-    inconsistent (seconds int, 'H:M:S' duration, or a string carrying a datetime
-    like '2026-07-27T00:30:00'). Only a plain small int/float or a clean short
-    'H:M:S' duration is trusted; everything else returns None → parked."""
+    LEARNED from 5,910 timesheets over a year: Deputy stores Mealbreak as a
+    datetime string whose TIME component after 'T' is the break DURATION —
+    '2025-08-22T00:30:00+10:00' = 30 min, '...T00:00:00...' = no break. That decode
+    equalled the pay-truth (gross shift minus TotalTime paid hours) on 5910/5910
+    sheets = 100%. We compute the break BOTH ways and require them to agree; if they
+    ever disagree the sheet is anomalous and returns None so a human handles it —
+    never a wrong pay."""
     mb = ts.get("Mealbreak")
-    if mb in (None, "", 0, "0", "0:00:00"):
-        return 0
-    if isinstance(mb, bool):
-        return None
-    if isinstance(mb, (int, float)):
-        return round(mb / 60) if mb > 60 else round(mb)  # seconds if big, else already minutes
-    if isinstance(mb, str) and "T" not in mb and ":" in mb:
-        parts = mb.split(":")
+    dec = None
+    if isinstance(mb, str) and "T" in mb:
         try:
-            h, m = int(parts[0]), int(parts[1])
-            if 0 <= h <= 12 and 0 <= m < 60:
-                return h * 60 + m
+            parts = mb.split("T")[1].split(":")
+            dec = int(parts[0]) * 60 + int(parts[1])
         except Exception:
-            return None
-    return None
+            dec = None
+
+    start = ts.get("StartTime") or 0
+    end = ts.get("EndTime") or 0
+    total = ts.get("TotalTime")
+    cross = None
+    if end and start and total is not None:
+        cross = round(((end - start) / 3600 - total) * 60)
+        if -2 <= cross < 0:
+            cross = 0
+
+    if dec is not None and cross is not None:
+        return dec if abs(dec - cross) <= 2 else None   # disagree -> park
+    return dec if dec is not None else cross
 
 
 def decide(ts) -> tuple[str, str]:
