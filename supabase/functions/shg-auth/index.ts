@@ -151,9 +151,10 @@ Deno.serve(async (req: Request) => {
   if (!GITHUB_TOKEN) return reply(500, { error: "GITHUB_TOKEN not set on the function" });
 
   const { venue, product } = body;
-  if (!venue) return reply(400, { error: "venue required" });
-  if (!/^[a-z_]+$/.test(venue)) return reply(400, { error: "bad venue" });
-  if (!product && !path.endsWith("/pack")) return reply(400, { error: "product required" });
+  const noVenue = path.endsWith("/alias");   // /alias is a whole-book action, not per-venue
+  if (!venue && !noVenue) return reply(400, { error: "venue required" });
+  if (venue && !/^[a-z_]+$/.test(venue)) return reply(400, { error: "bad venue" });
+  if (!product && !path.endsWith("/pack") && !noVenue) return reply(400, { error: "product required" });
   if (!["admin", "bigchef"].includes(role) && allowedVenue && allowedVenue !== venue) {
     return reply(403, { error: `You can only edit ${allowedVenue}` });
   }
@@ -187,6 +188,55 @@ Deno.serve(async (req: Request) => {
     if (!put.ok) return { ok: false, detail: await put.text(), status: put.status };
     return { ok: true, path: path_ };
   };
+
+  if (path.endsWith("/alias")) {
+    // Self-service ingredient merge/split for /pricing. A senior chef says "these
+    // two ARE the same thing" (merge one canonical key onto another) or undoes a
+    // prior merge (unmerge). Read-modify-write of data/ingredient_aliases.json —
+    // JSON, so it can't be a blind append like the YAML logs. Restricted to
+    // admin/bigchef: a wrong merge silently corrupts a price comparison book-wide.
+    if (!["admin", "bigchef"].includes(role)) {
+      return reply(403, { error: "Only a senior chef or admin can merge ingredients" });
+    }
+    const action = String(body.action || "merge");
+    const from = String(body.from || "").trim();
+    const into = String(body.into || "").trim();
+    if (!from) return reply(400, { error: "from key required" });
+    if (from.length > 200 || into.length > 200) return reply(400, { error: "key too long" });
+    if (action === "merge" && !into) return reply(400, { error: "into key required" });
+    if (action === "merge" && from === into) return reply(400, { error: "cannot merge a key onto itself" });
+    if (!["merge", "unmerge"].includes(action)) return reply(400, { error: "action must be merge or unmerge" });
+
+    let sha: string | undefined;
+    let doc: Record<string, any> = { merge: {} };
+    const existing = await gh("GET", "contents/data/ingredient_aliases.json");
+    if (existing.ok) {
+      const j = await existing.json();
+      sha = j.sha;
+      try {
+        const parsed = JSON.parse(fromB64(j.content));
+        // keep the whole doc (e.g. the _comment) — only mutate .merge below
+        doc = (parsed && typeof parsed === "object") ? parsed : { merge: {} };
+        if (!doc.merge || typeof doc.merge !== "object") doc.merge = {};
+      } catch { /* corrupt/empty -> start fresh */ }
+    }
+    if (action === "merge") {
+      // guard against a 2-step cycle (a->b then b->a)
+      if (doc.merge[into] === from) return reply(400, { error: "that merge would create a loop" });
+      doc.merge[from] = into;
+    } else {
+      if (!(from in doc.merge)) return reply(404, { error: "no such merge to undo" });
+      delete doc.merge[from];
+    }
+    const put = await gh("PUT", "contents/data/ingredient_aliases.json", {
+      message: `Alias ${action}: ${from}${action === "merge" ? " -> " + into : ""} - ${name}`,
+      content: toB64(JSON.stringify(doc, null, 2) + "\n"),
+      author: { name, email: user.email },
+      ...(sha ? { sha } : {}),
+    });
+    if (!put.ok) return reply(502, { error: `GitHub ${put.status}`, detail: await put.text() });
+    return reply(200, { ok: true, action, from, into: action === "merge" ? into : undefined });
+  }
 
   if (path.endsWith("/prep")) {
     const minutes = Number(body.minutes);

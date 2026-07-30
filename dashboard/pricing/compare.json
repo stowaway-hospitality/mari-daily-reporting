@@ -2,6 +2,9 @@
   "generated": "2026-07-30",
   "count": 265,
   "compared": 9,
+  "window_days": 90,
+  "total_saving": 0,
+  "switches": [],
   "movers": [
     {
       "name": "Chive",
@@ -49,6 +52,10 @@
       "date": "2026-07-25"
     }
   ],
+  "aliases": {
+    "baby broccolini": "broccolini",
+    "carrot large": "carrot"
+  },
   "ingredients": [
     {
       "key": "carrot",
@@ -62,7 +69,9 @@
           "desc": "Carrot Large",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 1.32,
+          "volume": 1.0
         },
         {
           "supplier": "Select Fresh",
@@ -71,7 +80,9 @@
           "desc": "CARROT KG",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -79,7 +90,12 @@
       "max": 2.4,
       "spread_pct": 81.8,
       "multi": true,
-      "suspect": false
+      "suspect": false,
+      "low": 1.32,
+      "low_date": "2026-07-20",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "carrot shredded",
@@ -93,7 +109,9 @@
           "desc": "CARROT SHREDDED",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         },
         {
           "supplier": "Fresh Fruit Team",
@@ -102,7 +120,9 @@
           "desc": "Carrot Shredded",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 7.8,
+          "volume": 2.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -110,7 +130,12 @@
       "max": 3.9,
       "spread_pct": 39.3,
       "multi": true,
-      "suspect": false
+      "suspect": false,
+      "low": 2.8,
+      "low_date": "2026-07-15",
+      "est_saving": 2.2,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "cauliflower floret",
@@ -124,7 +149,9 @@
           "desc": "CAULIFLOWER FLORETS",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         },
         {
           "supplier": "Fresh Fruit Team",
@@ -133,7 +160,9 @@
           "desc": "Cauliflower Florets",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -141,7 +170,12 @@
       "max": 7.9,
       "spread_pct": 31.7,
       "multi": true,
-      "suspect": false
+      "suspect": false,
+      "low": 6.0,
+      "low_date": "2026-07-22",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "broccolini",
@@ -155,7 +189,9 @@
           "desc": "Broccolini",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         },
         {
           "supplier": "Select Fresh",
@@ -164,7 +200,9 @@
           "desc": "BROCCOLINI BABY BCH",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -172,7 +210,12 @@
       "max": 4.6,
       "spread_pct": 27.8,
       "multi": true,
-      "suspect": false
+      "suspect": false,
+      "low": 3.6,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "5mm carrot diced",
@@ -186,7 +229,9 @@
           "desc": "CARROT DICED 5MM KG",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         },
         {
           "supplier": "Fresh Fruit Team",
@@ -195,7 +240,9 @@
           "desc": "Carrot Diced 5mm",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -203,7 +250,12 @@
       "max": 3.9,
       "spread_pct": 25.8,
       "multi": true,
-      "suspect": false
+      "suspect": false,
+      "low": 3.1,
+      "low_date": "2026-07-15",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "lemon",
@@ -217,7 +269,9 @@
           "desc": "Lemon",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.99,
+          "volume": 0.3
         },
         {
           "supplier": "Select Fresh",
@@ -226,7 +280,9 @@
           "desc": "LEMON KG",
           "change_pct": 13.9,
           "n": 3,
-          "prev_cost": 3.6
+          "prev_cost": 3.6,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -234,7 +290,12 @@
       "max": 4.1,
       "spread_pct": 24.2,
       "multi": true,
-      "suspect": false
+      "suspect": false,
+      "low": 3.3,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "shallot",
@@ -248,7 +309,9 @@
           "desc": "SHALLOT BCH",
           "change_pct": -13.3,
           "n": 6,
-          "prev_cost": 3.0
+          "prev_cost": 3.0,
+          "spend": 0.0,
+          "volume": 0.0
         },
         {
           "supplier": "Fresh Fruit Team",
@@ -257,7 +320,9 @@
           "desc": "Shallot",
           "change_pct": -7.9,
           "n": 2,
-          "prev_cost": 3.41
+          "prev_cost": 3.41,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -265,7 +330,12 @@
       "max": 3.14,
       "spread_pct": 20.8,
       "multi": true,
-      "suspect": false
+      "suspect": false,
+      "low": 2.6,
+      "low_date": "2026-07-29",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "continental parsley",
@@ -279,7 +349,9 @@
           "desc": "HERB PARSLEY CONTINENTAL BCH",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         },
         {
           "supplier": "Fresh Fruit Team",
@@ -288,7 +360,9 @@
           "desc": "Parsley Continental",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 3.3,
+          "volume": 2.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -296,7 +370,12 @@
       "max": 1.65,
       "spread_pct": 3.1,
       "multi": true,
-      "suspect": false
+      "suspect": false,
+      "low": 1.6,
+      "low_date": "2026-07-24",
+      "est_saving": 0.1,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "chive",
@@ -310,7 +389,9 @@
           "desc": "HERB CHIVES BCH",
           "change_pct": 17.4,
           "n": 2,
-          "prev_cost": 2.3
+          "prev_cost": 2.3,
+          "spend": 0.0,
+          "volume": 0.0
         },
         {
           "supplier": "Fresh Fruit Team",
@@ -319,7 +400,9 @@
           "desc": "Herb Chives",
           "change_pct": -79.2,
           "n": 2,
-          "prev_cost": 13.2
+          "prev_cost": 13.2,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -327,7 +410,12 @@
       "max": 2.75,
       "spread_pct": 1.9,
       "multi": true,
-      "suspect": false
+      "suspect": false,
+      "low": 2.3,
+      "low_date": "2026-07-15",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "alehouse crisp keg",
@@ -341,7 +429,9 @@
           "desc": "ALEHOUSE CRISP KEG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -349,7 +439,12 @@
       "max": 184.94,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 184.94,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "alehouse keg",
@@ -363,7 +458,9 @@
           "desc": "ALEHOUSE PREMIUM KEG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -371,7 +468,12 @@
       "max": 212.44,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 212.44,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "anchovy fillet",
@@ -385,7 +487,9 @@
           "desc": "CANNED - ANCHOVY FILLETS",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -393,7 +497,12 @@
       "max": 18.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 18.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "anchovy fillet oil selesta",
@@ -407,7 +516,9 @@
           "desc": "CANNED - ANCHOVY FILLETS IN OIL 690G(12) SELESTA",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -415,7 +526,12 @@
       "max": 26.087,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 26.087,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "antica formula",
@@ -429,7 +545,9 @@
           "desc": "ANTICA FORMULA",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -437,7 +555,12 @@
       "max": 64.27,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 64.27,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "antipasto chargrilled",
@@ -451,7 +574,9 @@
           "desc": "ANTIPASTO - CHARGRILLED",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -459,7 +584,12 @@
       "max": 21.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 21.9,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "antipasto chargrilled eggplant mezzat",
@@ -473,7 +603,9 @@
           "desc": "ANTIPASTO - CHARGRILLED EGGPLANT 2KG TUB (4) MEZZAT",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -481,7 +613,12 @@
       "max": 10.95,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 10.95,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "antipasto sundried",
@@ -495,7 +632,9 @@
           "desc": "ANTIPASTO - SUNDRIED",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -503,7 +642,12 @@
       "max": 25.6,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 25.6,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "aperol",
@@ -517,7 +661,9 @@
           "desc": "APEROL",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -525,7 +671,12 @@
       "max": 29.0817,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 29.0817,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "5x1kg arancini herman porcini truffled",
@@ -539,7 +690,9 @@
           "desc": "ARANCINI TRUFFLED PORCINI (143x35GM) 5X1KG Hermans",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 124.0,
+          "volume": 5.005
         }
       ],
       "cheapest": "Foodlink",
@@ -547,7 +700,12 @@
       "max": 24.775,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 24.775,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "9in australian bread garlic",
@@ -561,7 +719,9 @@
           "desc": "Australian Garlic Bread- 9\" x 40",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 179.43,
+          "volume": 120.0
         }
       ],
       "cheapest": "Gulli",
@@ -569,7 +729,12 @@
       "max": 1.4952,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.4952,
+      "low_date": "2026-07-22",
+      "est_saving": 0.0,
+      "main": "Gulli",
+      "switch": false
     },
     {
       "key": "avocado hass",
@@ -583,7 +748,9 @@
           "desc": "Avocado Hass",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -591,7 +758,12 @@
       "max": 30.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 30.8,
+      "low_date": "2026-07-18",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "bacon bacon cafe half",
@@ -605,7 +777,9 @@
           "desc": "BACON - CAFE BACON HALF",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 50.0,
+          "volume": 5.0
         }
       ],
       "cheapest": "B&E",
@@ -613,7 +787,12 @@
       "max": 10.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 10.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "a10 bamboo shoot slice",
@@ -627,7 +806,9 @@
           "desc": "BAMBOO SHOOT SLICE A10",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -635,7 +816,12 @@
       "max": 6.7,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 6.7,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "barramundi fillet off",
@@ -649,7 +835,9 @@
           "desc": "BARRAMUNDI FILLETS IMP 200/300 S/OFF 5KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Foodlink",
@@ -657,7 +845,12 @@
       "max": 16.6,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 16.6,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "barramundi fillet off trading",
@@ -671,7 +864,9 @@
           "desc": "BARRAMUNDI FILLETS IMP 200/300 S/OFF 5KG (I) Trading",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 83.0,
+          "volume": 5.0
         }
       ],
       "cheapest": "Foodlink",
@@ -679,7 +874,12 @@
       "max": 16.6,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 16.6,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "basil",
@@ -693,7 +893,9 @@
           "desc": "HERB BASIL BCH",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -701,7 +903,12 @@
       "max": 4.6,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.6,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "bbq heinz sauce",
@@ -715,7 +922,9 @@
           "desc": "BBQ SAUCE 4LT Heinz",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 55.6,
+          "volume": 16.0
         }
       ],
       "cheapest": "Foodlink",
@@ -723,7 +932,12 @@
       "max": 3.475,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.475,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "bbryp",
@@ -737,7 +951,9 @@
           "desc": "BBRYP Punnet",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 12.5,
+          "volume": 2.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -745,7 +961,12 @@
       "max": 6.25,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 6.25,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "a10 bean black trading whole",
@@ -759,7 +980,9 @@
           "desc": "BEANS BLACK WHOLE TIN A10 Trading",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Foodlink",
@@ -767,7 +990,12 @@
       "max": 8.7,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.7,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "bean edamame soy",
@@ -781,7 +1009,9 @@
           "desc": "BEANS EDAMAME SOY 350GM FROZEN (WITH SHELL)",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 30.4,
+          "volume": 2.8
         }
       ],
       "cheapest": "Foodlink",
@@ -789,7 +1019,12 @@
       "max": 10.857,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 10.857,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "beef brisket point yg",
@@ -803,7 +1038,9 @@
           "desc": "BEEF - BRISKET YG POINT",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 358.4,
+          "volume": 25.6
         }
       ],
       "cheapest": "B&E",
@@ -811,7 +1048,12 @@
       "max": 14.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 14.0,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "beef cabbage dumpling",
@@ -825,7 +1067,9 @@
           "desc": "Beef & Cabbage Dumpling \u4f73\u51a0\u725b\u8089\u9ad8\u9e97\u83dc\u6c34\u9903 - 600g x 24",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 216.0,
+          "volume": 28.8
         }
       ],
       "cheapest": "Sun Circle",
@@ -833,7 +1077,12 @@
       "max": 7.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.5,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": "Sun Circle",
+      "switch": false
     },
     {
       "key": "bi carb soda",
@@ -847,7 +1096,9 @@
           "desc": "BI - CARB SODA 2KG (6)",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 8.1,
+          "volume": 2.0
         }
       ],
       "cheapest": "B&E",
@@ -855,7 +1106,12 @@
       "max": 4.05,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.05,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "big cheese mozzarella shredded",
@@ -869,7 +1125,9 @@
           "desc": "Big Cheese- Shredded Mozzarella 2kg",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 1008.0,
+          "volume": 96.0
         }
       ],
       "cheapest": "Gulli",
@@ -877,7 +1135,12 @@
       "max": 10.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 10.5,
+      "low_date": "2026-07-13",
+      "est_saving": 0.0,
+      "main": "Gulli",
+      "switch": false
     },
     {
       "key": "big pk sur",
@@ -891,7 +1154,9 @@
           "desc": "BIG SUR CANS 24 PK",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Grifter",
@@ -899,7 +1164,12 @@
       "max": 4.0013,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.0013,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "brl",
@@ -913,7 +1183,9 @@
           "desc": "BRL Box",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 252.0,
+          "volume": 7.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -921,7 +1193,12 @@
       "max": 36.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 36.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "broccolini",
@@ -935,7 +1212,9 @@
           "desc": "Broccolini",
           "change_pct": 7.1,
           "n": 2,
-          "prev_cost": 33.6
+          "prev_cost": 33.6,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -943,7 +1222,12 @@
       "max": 36.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 33.6,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "brown",
@@ -957,7 +1241,9 @@
           "desc": "Brown",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 5.28,
+          "volume": 4.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -965,7 +1251,12 @@
       "max": 1.32,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.32,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "bourbon buffalo trace",
@@ -979,7 +1270,9 @@
           "desc": "BUFFALO TRACE BOURBON 40%",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -987,7 +1280,12 @@
       "max": 53.61,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 53.61,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "bulldog sauce tonkatsu",
@@ -1001,7 +1299,9 @@
           "desc": "\"Bulldog\" Tonkatsu Sauce",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -1009,7 +1309,12 @@
       "max": 11.05,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 11.05,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "button",
@@ -1023,7 +1328,9 @@
           "desc": "Button",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 11.0,
+          "volume": 1.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1031,7 +1338,12 @@
       "max": 11.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 11.0,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "cabbage green shredded",
@@ -1045,7 +1357,9 @@
           "desc": "CABBAGE GREEN SHREDDED",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -1053,7 +1367,12 @@
       "max": 4.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.2,
+      "low_date": "2026-07-15",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cabbage grn mix red shrd",
@@ -1067,7 +1386,9 @@
           "desc": "CABBAGE RED/GRN SHRD MIX KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -1075,7 +1396,12 @@
       "max": 4.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.8,
+      "low_date": "2026-07-15",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cabbage shredded",
@@ -1089,7 +1415,9 @@
           "desc": "Cabbage Shredded",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 6.9,
+          "volume": 1.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1097,7 +1425,12 @@
       "max": 6.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 6.9,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "2nd capsicum green",
@@ -1111,7 +1444,9 @@
           "desc": "CAPSICUM GREEN 2NDS KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -1119,7 +1454,12 @@
       "max": 6.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 6.0,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "capsicum green sanitised washed",
@@ -1133,7 +1473,9 @@
           "desc": "Capsicum Green Washed And Sanitised",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 19.6,
+          "volume": 2.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1141,7 +1483,12 @@
       "max": 9.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 9.8,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "carpano classico vermouth",
@@ -1155,7 +1502,9 @@
           "desc": "CARPANO CLASSICO VERMOUTH : 750ml",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Paramount",
@@ -1163,7 +1512,12 @@
       "max": 23.17,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 23.17,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cauliflower",
@@ -1177,7 +1531,9 @@
           "desc": "Cauliflower",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1185,7 +1541,12 @@
       "max": 4.4,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.4,
+      "low_date": "2026-07-20",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "30mm cauliflower floret sml",
@@ -1199,7 +1560,9 @@
           "desc": "CAULIFLOWER FLORETS SML 30MM",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -1207,7 +1570,12 @@
       "max": 6.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 6.2,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cele",
@@ -1221,7 +1589,9 @@
           "desc": "CELE Each",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 32.4,
+          "volume": 3.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1229,7 +1599,12 @@
       "max": 10.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 10.8,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "celeriac",
@@ -1243,7 +1618,9 @@
           "desc": "Celeriac",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1251,7 +1628,12 @@
       "max": 10.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 10.8,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "5mm celery diced",
@@ -1265,7 +1647,9 @@
           "desc": "Celery Diced 5mm",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1273,7 +1657,12 @@
       "max": 5.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 5.9,
+      "low_date": "2026-07-18",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cfm oil sunpower",
@@ -1287,7 +1676,9 @@
           "desc": "CFM Sunpower Oil",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Cookers",
@@ -1295,7 +1686,12 @@
       "max": 2.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.8,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "chat washed",
@@ -1309,7 +1705,9 @@
           "desc": "Chat Washed",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1317,7 +1715,12 @@
       "max": 44.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 44.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "chat washed",
@@ -1331,7 +1734,9 @@
           "desc": "Chat Washed",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 24.2,
+          "volume": 11.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1339,7 +1744,12 @@
       "max": 2.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.2,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "burger cheese dairy hi melt pure sliced thick",
@@ -1353,7 +1763,9 @@
           "desc": "CHEESE BURGER SLICED HI MELT THICK 2.25 KG 96'S Pure Dairy",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 77.0,
+          "volume": 4.5
         }
       ],
       "cheapest": "Foodlink",
@@ -1361,7 +1773,12 @@
       "max": 17.111,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 17.111,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "camembert cheese rosenberg",
@@ -1375,7 +1792,9 @@
           "desc": "CHEESE CAMEMBERT 125GM Rosenberg",
           "change_pct": -91.7,
           "n": 2,
-          "prev_cost": 30.4
+          "prev_cost": 30.4,
+          "spend": 45.6,
+          "volume": 0.125
         }
       ],
       "cheapest": "Foodlink",
@@ -1383,7 +1802,12 @@
       "max": 2.533,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.533,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "blend cheese mexican shredded universal",
@@ -1397,7 +1821,9 @@
           "desc": "CHEESE MEXICAN BLEND SHREDDED 2KG Universal",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 30.0,
+          "volume": 2.0
         }
       ],
       "cheapest": "Foodlink",
@@ -1405,7 +1831,12 @@
       "max": 15.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 15.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "cheese dairy farmer parmesan shaved",
@@ -1419,7 +1850,9 @@
           "desc": "CHEESE PARMESAN SHAVED 1KG Dairy Farmers",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 20.0,
+          "volume": 1.0
         }
       ],
       "cheapest": "Foodlink",
@@ -1427,7 +1860,12 @@
       "max": 20.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 20.0,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "chemical dishwashing",
@@ -1441,7 +1879,9 @@
           "desc": "CHEMICAL - DISHWASHING",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -1449,7 +1889,12 @@
       "max": 29.92,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 29.92,
+      "low_date": "2026-07-29",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cherry",
@@ -1463,7 +1908,9 @@
           "desc": "Cherry",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 9.9,
+          "volume": 5.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1471,7 +1918,12 @@
       "max": 1.98,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.98,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "bone chicken",
@@ -1485,7 +1937,9 @@
           "desc": "CHICKEN BONE 12KG",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 52.8,
+          "volume": 24.0
         }
       ],
       "cheapest": "B&E",
@@ -1493,7 +1947,12 @@
       "max": 2.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.2,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "breast chicken",
@@ -1507,7 +1966,9 @@
           "desc": "CHICKEN 1/2 BREAST (F)",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 58.0,
+          "volume": 5.0
         }
       ],
       "cheapest": "B&E",
@@ -1515,7 +1976,12 @@
       "max": 11.6,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 11.6,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "breast chicken slice",
@@ -1529,7 +1995,9 @@
           "desc": "CHICKEN BREAST (F) SLICE",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 122.0,
+          "volume": 10.0
         }
       ],
       "cheapest": "B&E",
@@ -1537,7 +2005,12 @@
       "max": 12.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 12.2,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "5mm breast chicken slice",
@@ -1551,7 +2024,9 @@
           "desc": "CHICKEN BREAST (F) SLICE 5MM PREMIUM 5KG BAG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -1559,7 +2034,12 @@
       "max": 12.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 12.2,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "chicken corn dumpling",
@@ -1573,7 +2053,9 @@
           "desc": "Chicken & Corn Dumpling \u4f73\u51a0\u96de\u8089\u7389\u7c73\u6c34\u9903 - 600g x 24",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 216.0,
+          "volume": 28.8
         }
       ],
       "cheapest": "Sun Circle",
@@ -1581,7 +2063,12 @@
       "max": 7.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.5,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": "Sun Circle",
+      "switch": false
     },
     {
       "key": "chicken dice maryland",
@@ -1595,7 +2082,9 @@
           "desc": "CHICKEN MARYLAND (F) DICE",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 63.0,
+          "volume": 5.0
         }
       ],
       "cheapest": "B&E",
@@ -1603,7 +2092,12 @@
       "max": 12.6,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 12.6,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "chicken off thigh",
@@ -1617,7 +2111,9 @@
           "desc": "CHICKEN THIGH (F) S/OFF",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 148.0,
+          "volume": 10.0
         }
       ],
       "cheapest": "B&E",
@@ -1625,7 +2121,12 @@
       "max": 14.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 14.8,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "chicken strip thigh",
@@ -1639,7 +2140,9 @@
           "desc": "CHICKEN THIGH (F) STRIP",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 148.0,
+          "volume": 10.0
         }
       ],
       "cheapest": "B&E",
@@ -1647,7 +2150,12 @@
       "max": 14.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 14.8,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "chicken mega wing",
@@ -1661,7 +2169,9 @@
           "desc": "CHICKEN WING 15KG MEGA",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 135.0,
+          "volume": 90.0
         }
       ],
       "cheapest": "B&E",
@@ -1669,7 +2179,12 @@
       "max": 1.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.5,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "chicken nibble wing",
@@ -1683,7 +2198,9 @@
           "desc": "CHICKEN WING NIBBLE 15KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 180.0,
+          "volume": 30.0
         }
       ],
       "cheapest": "B&E",
@@ -1691,7 +2208,12 @@
       "max": 6.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 6.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "chilli crushed csi flake",
@@ -1705,7 +2227,9 @@
           "desc": "CHILLI - FLAKE / CRUSHED 1KG CSI",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -1713,7 +2237,12 @@
       "max": 13.7,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 13.7,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "chilli long red",
@@ -1727,7 +2256,9 @@
           "desc": "CHILLI RED LONG KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -1735,7 +2266,12 @@
       "max": 13.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 13.5,
+      "low_date": "2026-07-22",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "chilli shishito",
@@ -1749,7 +2285,9 @@
           "desc": "CHILLI SHISHITO KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -1757,7 +2295,12 @@
       "max": 39.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 39.0,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "chilly long red",
@@ -1771,7 +2314,9 @@
           "desc": "Chillies Red Long",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 3.03,
+          "volume": 0.25
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1779,7 +2324,12 @@
       "max": 12.1,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 12.1,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "chive",
@@ -1793,7 +2343,9 @@
           "desc": "Chives",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1801,7 +2353,12 @@
       "max": 15.4,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 15.4,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "choi sum",
@@ -1815,7 +2372,9 @@
           "desc": "CHOI SUM BCH",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -1823,7 +2382,12 @@
       "max": 2.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.2,
+      "low_date": "2026-07-15",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "choy sum",
@@ -1837,7 +2401,9 @@
           "desc": "Choy Sum (Bunch)",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 16.5,
+          "volume": 6.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1845,7 +2411,12 @@
       "max": 2.75,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.75,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "coca cola",
@@ -1859,7 +2430,9 @@
           "desc": "COCA COLA",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -1867,7 +2440,12 @@
       "max": 3.6933,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.6933,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "coca cola cube",
@@ -1881,7 +2459,9 @@
           "desc": "COCA COLA CAN CUBES",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -1889,7 +2469,12 @@
       "max": 1.89,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.89,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "coke sugar",
@@ -1903,7 +2488,9 @@
           "desc": "COKE NO SUGAR 1.25 LITRE",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -1911,7 +2498,12 @@
       "max": 2.955,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.955,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "coleslaw",
@@ -1925,7 +2517,9 @@
           "desc": "Coleslaw",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1933,7 +2527,12 @@
       "max": 7.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.9,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "coleslaw green red",
@@ -1947,7 +2546,9 @@
           "desc": "Coleslaw Red And Green",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1955,7 +2556,12 @@
       "max": 7.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.9,
+      "low_date": "2026-07-18",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "coriander",
@@ -1969,7 +2575,9 @@
           "desc": "Herb Coriander",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1977,7 +2585,12 @@
       "max": 7.7,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.7,
+      "low_date": "2026-07-20",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "coriander",
@@ -1991,7 +2604,9 @@
           "desc": "Coriander",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -1999,7 +2614,12 @@
       "max": 7.7,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.7,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "6x500gm chip corn rosita tri",
@@ -2013,7 +2633,9 @@
           "desc": "CORN CHIPS ROSITA TRI 6X500GM",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Foodlink",
@@ -2021,7 +2643,12 @@
       "max": 15.767,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 15.767,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "corn edlyn flour free gluten maize",
@@ -2035,7 +2662,9 @@
           "desc": "CORN FLOUR MAIZE GLUTEN FREE 5KG Edlyn",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 23.0,
+          "volume": 5.0
         }
       ],
       "cheapest": "Foodlink",
@@ -2043,7 +2672,12 @@
       "max": 4.6,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.6,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "corn edlyn flour wheaten",
@@ -2057,7 +2691,9 @@
           "desc": "CORN FLOUR WHEATEN 5KG Edlyn",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 24.0,
+          "volume": 5.0
         }
       ],
       "cheapest": "Foodlink",
@@ -2065,7 +2701,12 @@
       "max": 4.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.8,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "cob corn on",
@@ -2079,7 +2720,9 @@
           "desc": "CORN ON COB EA",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -2087,7 +2730,12 @@
       "max": 2.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.5,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "corn sweet",
@@ -2101,7 +2749,9 @@
           "desc": "Corn Sweet",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -2109,7 +2759,12 @@
       "max": 1.32,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.32,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "6pk brw bx corona mexican",
@@ -2123,7 +2778,9 @@
           "desc": "CORONA MEXICAN 6PK BRW BX R",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -2131,7 +2788,12 @@
       "max": 2.5712,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.5712,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "baby cos twin",
@@ -2145,7 +2807,9 @@
           "desc": "Cos Baby Twin Pack",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 16.5,
+          "volume": 6.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -2153,7 +2817,12 @@
       "max": 2.75,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.75,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "cream dairy farmer thick",
@@ -2167,7 +2836,9 @@
           "desc": "CREAM THICK FRESH 2LT Dairy Farmers",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 19.9,
+          "volume": 2.0
         }
       ],
       "cheapest": "Foodlink",
@@ -2175,7 +2846,12 @@
       "max": 9.95,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 9.95,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "coeur cri crittenden de noir pinot",
@@ -2189,7 +2865,9 @@
           "desc": "CRITTENDEN CRI DE COEUR PINOT NOIR 750ML",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Combined Wines",
@@ -2197,7 +2875,12 @@
       "max": 62.1517,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 62.1517,
+      "low_date": "2026-07-13",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "crittenden geppetto noir pinot",
@@ -2211,7 +2894,9 @@
           "desc": "CRITTENDEN GEPPETTO PINOT NOIR 750ML",
           "change_pct": -0.0,
           "n": 2,
-          "prev_cost": 17.5608
+          "prev_cost": 17.5608,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Combined Wines",
@@ -2219,7 +2904,12 @@
       "max": 17.56,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 17.56,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cucumber green",
@@ -2233,7 +2923,9 @@
           "desc": "CUCUMBER GREEN",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -2241,7 +2933,12 @@
       "max": 6.6,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 6.6,
+      "low_date": "2026-07-29",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "dairy free mozzarella shredded",
@@ -2255,7 +2952,9 @@
           "desc": "Dairy-Free (Vegan) Shredded Mozzarella 500g",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 18.0,
+          "volume": 1.0
         }
       ],
       "cheapest": "Gulli",
@@ -2263,7 +2962,12 @@
       "max": 18.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 18.0,
+      "low_date": "2026-07-13",
+      "est_saving": 0.0,
+      "main": "Gulli",
+      "switch": false
     },
     {
       "key": "davidson plum",
@@ -2277,7 +2981,9 @@
           "desc": "DAVIDSON PLUMS FROZEN KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -2285,7 +2991,12 @@
       "max": 51.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 51.0,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "bortoli de dry gold red seal special",
@@ -2299,7 +3010,9 @@
           "desc": "DE BORTOLI GOLD SEAL SPECIAL DRY RED 15L",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Paramount",
@@ -2307,7 +3020,12 @@
       "max": 3.726,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.726,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "diced",
@@ -2321,7 +3039,9 @@
           "desc": "Diced",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 45.36,
+          "volume": 3.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -2329,7 +3049,12 @@
       "max": 15.12,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 15.12,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "chemical dishwashing liquid reliance",
@@ -2343,7 +3068,9 @@
           "desc": "DISHWASHING LIQUID 20LT Reliance Chemicals",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 27.5,
+          "volume": 20.0
         }
       ],
       "cheapest": "Foodlink",
@@ -2351,7 +3078,12 @@
       "max": 1.375,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.375,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "dragonfruit puree",
@@ -2365,7 +3097,9 @@
           "desc": "Dragonfruit Puree 10kg",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 85.0,
+          "volume": 10.0
         }
       ],
       "cheapest": "Berry Man",
@@ -2373,7 +3107,12 @@
       "max": 8.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.5,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "Berry Man",
+      "switch": false
     },
     {
       "key": "deluxe dryslaw",
@@ -2387,7 +3126,9 @@
           "desc": "DRYSLAW DELUXE",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -2395,7 +3136,12 @@
       "max": 7.4,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.4,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "dryslaw green mix red",
@@ -2409,7 +3155,9 @@
           "desc": "Dryslaw Mix Red And Green",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 15.8,
+          "volume": 2.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -2417,7 +3165,12 @@
       "max": 7.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.9,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "egg",
@@ -2431,7 +3184,9 @@
           "desc": "Eggs 700 Grams",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -2439,7 +3194,12 @@
       "max": 48.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 48.0,
+      "low_date": "2026-07-20",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "egg",
@@ -2453,7 +3213,9 @@
           "desc": "EGG 700GM PACK (DOZ)",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -2461,7 +3223,12 @@
       "max": 8.286,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.286,
+      "low_date": "2026-07-22",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "eschallot peeled",
@@ -2475,7 +3242,9 @@
           "desc": "ESCHALLOTS PEELED",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -2483,7 +3252,12 @@
       "max": 21.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 21.0,
+      "low_date": "2026-07-29",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "curry ex golden hot mid",
@@ -2497,7 +3271,9 @@
           "desc": "\"S&B\" EX Golden Curry Mid Hot 10/1kg",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -2505,7 +3281,12 @@
       "max": 12.1,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 12.1,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "curry ex flake torokeru",
@@ -2519,7 +3300,9 @@
           "desc": "\"S&B\" EX (Mild) Torokeru Curry Flake 20/1kg",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -2527,7 +3310,12 @@
       "max": 9.45,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 9.45,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "drop first milk mother shiraz",
@@ -2541,7 +3329,9 @@
           "desc": "First Drop Mothers Milk Shiraz 2023",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Bacchus",
@@ -2549,7 +3339,12 @@
       "max": 16.0817,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 16.0817,
+      "low_date": "2026-07-13",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "10in 12x63gm flour tortilla",
@@ -2563,7 +3358,9 @@
           "desc": "FLOUR TORTILLAS 12X63GM 10INCH",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Foodlink",
@@ -2571,7 +3368,12 @@
       "max": 2.75,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.75,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "12in 12x91gm flour tortilla",
@@ -2585,7 +3387,9 @@
           "desc": "FLOUR TORTILLAS 12X91GM 12INCH",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 33.6,
+          "volume": 12.0
         }
       ],
       "cheapest": "Foodlink",
@@ -2593,7 +3397,12 @@
       "max": 2.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.8,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "11in flute lock pizza top",
@@ -2607,7 +3416,9 @@
           "desc": "B Flute Lock Top 11\" Pizza Boxes x 50",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 120.5,
+          "volume": 250.0
         }
       ],
       "cheapest": "Gulli",
@@ -2615,7 +3426,12 @@
       "max": 0.482,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 0.482,
+      "low_date": "2026-07-22",
+      "est_saving": 0.0,
+      "main": "Gulli",
+      "switch": false
     },
     {
       "key": "13in flute lock pizza top",
@@ -2629,7 +3445,9 @@
           "desc": "B Flute Lock Top 13\" Pizza Boxes x 50",
           "change_pct": 0.0,
           "n": 3,
-          "prev_cost": 0.6426
+          "prev_cost": 0.6426,
+          "spend": 257.04,
+          "volume": 400.0
         }
       ],
       "cheapest": "Gulli",
@@ -2637,7 +3455,12 @@
       "max": 0.6426,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 0.6426,
+      "low_date": "2026-07-13",
+      "est_saving": 0.0,
+      "main": "Gulli",
+      "switch": false
     },
     {
       "key": "1galln frank frank hot sauce",
@@ -2651,7 +3474,9 @@
           "desc": "FRANK'S HOT SAUCE 1GALLN 3.8L Franks",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 65.0,
+          "volume": 7.6
         }
       ],
       "cheapest": "Foodlink",
@@ -2659,7 +3484,12 @@
       "max": 8.553,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.553,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "angu beef burger fz",
@@ -2673,7 +3503,9 @@
           "desc": "FZ BEEF - ANGUS BURGER",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -2681,7 +3513,12 @@
       "max": 130.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 130.0,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "beef cheek fz offal",
@@ -2695,7 +3532,9 @@
           "desc": "FZ BEEF OFFAL - CHEEK",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 342.55,
+          "volume": 22.1
         }
       ],
       "cheapest": "B&E",
@@ -2703,7 +3542,12 @@
       "max": 15.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 15.5,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "beef chinese fz slice",
@@ -2717,7 +3561,9 @@
           "desc": "FZ BEEF SLICE CHINESE",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -2725,7 +3571,12 @@
       "max": 175.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 175.0,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "breast chicken fz",
@@ -2739,7 +3590,9 @@
           "desc": "FZ CHICKEN BREAST",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -2747,7 +3600,12 @@
       "max": 87.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 87.0,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "chip coated crispy fz",
@@ -2761,7 +3619,9 @@
           "desc": "FZ CHIPS - CRISPY COATED",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -2769,7 +3629,12 @@
       "max": 40.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 40.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "chip fz sweet ultra",
@@ -2783,7 +3648,9 @@
           "desc": "FZ CHIPS - ULTRA SWEET",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -2791,7 +3658,12 @@
       "max": 73.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 73.0,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cooked fz korean mini",
@@ -2805,7 +3677,9 @@
           "desc": "FZ COOKED MINI KOREAN",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -2813,7 +3687,12 @@
       "max": 92.4,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 92.4,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "6in flour fz tortilla",
@@ -2827,7 +3706,9 @@
           "desc": "FZ FLOUR TORTILLAS - 6\"",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -2835,7 +3716,12 @@
       "max": 65.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 65.0,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "fz mash plain potato",
@@ -2849,7 +3735,9 @@
           "desc": "FZ MASH POTATO - PLAIN",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -2857,7 +3745,12 @@
       "max": 48.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 48.0,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "free fz gluten pizza",
@@ -2871,7 +3764,9 @@
           "desc": "FZ PIZZA - GLUTEN FREE",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -2879,7 +3774,12 @@
       "max": 88.75,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 88.75,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "belly fz on pork",
@@ -2893,7 +3793,9 @@
           "desc": "FZ PORK - BELLY R/ON",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 90.15,
+          "volume": 6.05
         }
       ],
       "cheapest": "B&E",
@@ -2901,7 +3803,12 @@
       "max": 14.901,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 14.901,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "fz meat prawn raw",
@@ -2915,7 +3822,9 @@
           "desc": "FZ PRAWN - RAW MEAT (I)",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -2923,7 +3832,12 @@
       "max": 15.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 15.9,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "corn fz iqf vegetable",
@@ -2937,7 +3851,9 @@
           "desc": "FZ VEGETABLES - IQF CORN",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -2945,7 +3861,12 @@
       "max": 10.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 10.8,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "egg fz pulp whole",
@@ -2959,7 +3880,9 @@
           "desc": "FZ WHOLE EGG PULP 10KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 90.0,
+          "volume": 10.0
         }
       ],
       "cheapest": "B&E",
@@ -2967,7 +3890,12 @@
       "max": 9.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 9.0,
+      "low_date": "2026-07-29",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "garlic peeled",
@@ -2981,7 +3909,9 @@
           "desc": "Garlic Peeled",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 7.7,
+          "volume": 2.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -2989,7 +3919,12 @@
       "max": 3.85,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.85,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "ginger",
@@ -3003,7 +3938,9 @@
           "desc": "Ginger",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 13.2,
+          "volume": 1.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3011,7 +3948,12 @@
       "max": 13.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 13.2,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "anaperenna cabernet glaetzer shiraz",
@@ -3025,7 +3967,9 @@
           "desc": "22 GLAETZER ANAPERENNA SHIRAZ CABERNET",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 208.95,
+          "volume": 6.0
         }
       ],
       "cheapest": "Cellarhand Consulting",
@@ -3033,7 +3977,12 @@
       "max": 34.825,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 34.825,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": "Cellarhand Consulting",
+      "switch": false
     },
     {
       "key": "gourmet",
@@ -3047,7 +3996,9 @@
           "desc": "Gourmet",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 17.0,
+          "volume": 5.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3055,7 +4006,12 @@
       "max": 3.4,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.4,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "gourmet large",
@@ -3069,7 +4025,9 @@
           "desc": "Gourmet Large",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 42.56,
+          "volume": 1.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3077,7 +4035,12 @@
       "max": 42.56,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 42.56,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "grapefruit peeled pink",
@@ -3091,7 +4054,9 @@
           "desc": "Grapefruit Pink Peeled",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3099,7 +4064,12 @@
       "max": 1.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.5,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "grapefruit red ruby",
@@ -3113,7 +4083,9 @@
           "desc": "Grapefruit Ruby Red",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3121,7 +4093,12 @@
       "max": 1.32,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.32,
+      "low_date": "2026-07-20",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "brown chef executive free gravy mix rich",
@@ -3135,7 +4112,9 @@
           "desc": "GRAVY MIX RICH BROWN G/FREE 7KG Executive Chef",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 57.61,
+          "volume": 7.0
         }
       ],
       "cheapest": "Foodlink",
@@ -3143,7 +4122,12 @@
       "max": 8.23,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.23,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "ale grifter keg pale",
@@ -3157,7 +4141,9 @@
           "desc": "GRIFTER PALE ALE 50L KEG (KONVOY KEG)",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Grifter",
@@ -3165,7 +4151,12 @@
       "max": 292.05,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 292.05,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "guinness keg",
@@ -3179,7 +4170,9 @@
           "desc": "Guinness 49.5L KEG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Lion",
@@ -3187,7 +4180,12 @@
       "max": 416.58,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 416.58,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "guinness keg",
@@ -3201,7 +4199,9 @@
           "desc": "Guinness 49.5L KEG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Lion",
@@ -3209,7 +4209,12 @@
       "max": 8.416,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.416,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "basil caterer guzzardi pesto",
@@ -3223,7 +4228,9 @@
           "desc": "Guzzardi- Basil Pesto Caterers 2kg",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 19.2,
+          "volume": 2.0
         }
       ],
       "cheapest": "Gulli",
@@ -3231,7 +4238,12 @@
       "max": 9.6,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 9.6,
+      "low_date": "2026-07-22",
+      "est_saving": 0.0,
+      "main": "Gulli",
+      "switch": false
     },
     {
       "key": "ham sliced soccerball",
@@ -3245,7 +4257,9 @@
           "desc": "HAM - SOCCERBALL SLICED",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -3253,7 +4267,12 @@
       "max": 12.7,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 12.7,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "hass",
@@ -3267,7 +4286,9 @@
           "desc": "Hass",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 30.8,
+          "volume": 1.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3275,7 +4296,12 @@
       "max": 30.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 30.8,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "alc heap non normal quiet xpa",
@@ -3289,7 +4315,9 @@
           "desc": "HEAPS NORMAL QUIET XPA NON ALC",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -3297,7 +4325,12 @@
       "max": 2.67,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.67,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cream everest ice raisin rum",
@@ -3311,7 +4344,9 @@
           "desc": "ICE CREAM RUM & RAISIN 5LT Everest",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 40.7,
+          "volume": 5.0
         }
       ],
       "cheapest": "Foodlink",
@@ -3319,7 +4354,12 @@
       "max": 8.14,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.14,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "jap",
@@ -3333,7 +4373,9 @@
           "desc": "Jap",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 12.42,
+          "volume": 5.4
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3341,7 +4383,12 @@
       "max": 2.3,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.3,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "grapefruit juice ruby",
@@ -3355,7 +4402,9 @@
           "desc": "JUICE RUBY GRAPEFRUIT 2LTR",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -3363,7 +4412,12 @@
       "max": 2.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.9,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "dumpling jun marumatsu vegetable",
@@ -3377,7 +4431,9 @@
           "desc": "\"Jun\" Marumatsu Vegetable Dumpling 10/800gm",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -3385,7 +4441,12 @@
       "max": 11.688,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 11.688,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "41pc dumpling jun marumatsu vegetable vegetable",
@@ -3399,7 +4460,9 @@
           "desc": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -3407,7 +4470,12 @@
       "max": 9.35,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 9.35,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "jun mirin pacific",
@@ -3421,7 +4489,9 @@
           "desc": "\u201cJun Pacific\u201d Mirin (Sweet Cooking Wine)",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -3429,7 +4499,12 @@
       "max": 43.7,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 43.7,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "jun roasted seed sesame white",
@@ -3443,7 +4518,9 @@
           "desc": "\"Jun\" Roasted Sesame Seed White",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -3451,7 +4528,12 @@
       "max": 9.46,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 9.46,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "jun nut shelled soybean",
@@ -3465,7 +4547,9 @@
           "desc": "\u201cJun\u201d Frozen Shelled Soybean Nut",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -3473,7 +4557,12 @@
       "max": 2.25,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.25,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "jun soybean",
@@ -3487,7 +4576,9 @@
           "desc": "\"Jun\" Frozen Soybean (Edamame) 20/454gm",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -3495,7 +4586,12 @@
       "max": 5.507,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 5.507,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "jun soybean",
@@ -3509,7 +4605,9 @@
           "desc": "\u201cJun\u201d Frozen Soybean (Edamame)",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -3517,7 +4615,12 @@
       "max": 2.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.5,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "ichb keg kirin",
@@ -3531,7 +4634,9 @@
           "desc": "Kirin Ichb 5% 49.5L KEG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Lion",
@@ -3539,7 +4644,12 @@
       "max": 441.54,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 441.54,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "free gluten kobayashi noodle ramen",
@@ -3553,7 +4663,9 @@
           "desc": "\u201cKobayashi\u201d Gluten Free Ramen Noodle",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -3561,7 +4673,12 @@
       "max": 3.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.5,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "calabrese krc mild salami sliced",
@@ -3575,7 +4692,9 @@
           "desc": "KRC- Sliced Calabrese Mild Salami 1kg",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 156.36,
+          "volume": 6.0
         }
       ],
       "cheapest": "Gulli",
@@ -3583,7 +4702,12 @@
       "max": 26.06,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 26.06,
+      "low_date": "2026-07-22",
+      "est_saving": 0.0,
+      "main": "Gulli",
+      "switch": false
     },
     {
       "key": "blanc kuku sauv",
@@ -3597,7 +4721,9 @@
           "desc": "25 KUKU SAUV BLANC",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Nelson",
@@ -3605,7 +4731,12 @@
       "max": 14.5742,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 14.5742,
+      "low_date": "2026-07-13",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cro esprit grand label le rose white",
@@ -3619,7 +4750,9 @@
           "desc": "24 LE ESPRIT GRAND CROS ROSE WHITE LABEL",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Nelson",
@@ -3627,7 +4760,12 @@
       "max": 25.2233,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 25.2233,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "kaffir leave lime",
@@ -3641,7 +4779,9 @@
           "desc": "LEAVES KAFFIR LIME KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -3649,7 +4789,12 @@
       "max": 111.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 111.0,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "amalfi lemon",
@@ -3663,7 +4808,9 @@
           "desc": "LEMON AMALFI KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -3671,7 +4818,12 @@
       "max": 6.4,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 6.4,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "baby gem lettuce",
@@ -3685,7 +4837,9 @@
           "desc": "LETTUCE BABY GEM BAG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -3693,7 +4847,12 @@
       "max": 4.3,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.3,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "baby lettuce spinach",
@@ -3707,7 +4866,9 @@
           "desc": "LETTUCE BABY SPINACH 1.5KG CTN",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -3715,7 +4876,12 @@
       "max": 12.333,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 12.333,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "baby cos lettuce twin",
@@ -3729,7 +4895,9 @@
           "desc": "Lettuce Cos Baby Twin Pack",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3737,7 +4905,12 @@
       "max": 2.75,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.75,
+      "low_date": "2026-07-18",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "baby cos lettuce twin",
@@ -3751,7 +4924,9 @@
           "desc": "Lettuce Cos Baby Twin Pack",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3759,7 +4934,12 @@
       "max": 27.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 27.5,
+      "low_date": "2026-07-20",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "lettuce radicchio",
@@ -3773,7 +4953,9 @@
           "desc": "Lettuce Radicchio",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3781,7 +4963,12 @@
       "max": 6.05,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 6.05,
+      "low_date": "2026-07-18",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "lettuce radiccio white",
@@ -3795,7 +4982,9 @@
           "desc": "Lettuce Radiccio White",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3803,7 +4992,12 @@
       "max": 6.81,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 6.81,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "lettuce rocket wild",
@@ -3817,7 +5011,9 @@
           "desc": "LETTUCE WILD ROCKET 1.5KG CTN",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -3825,7 +5021,12 @@
       "max": 14.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 14.0,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "lime",
@@ -3839,7 +5040,9 @@
           "desc": "LIMES TRAY",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -3847,7 +5050,12 @@
       "max": 52.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 52.0,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "lime",
@@ -3861,7 +5069,9 @@
           "desc": "Lime",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 6.05,
+          "volume": 0.5
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3869,7 +5079,12 @@
       "max": 12.1,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 12.1,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "10x1kg chunk mango",
@@ -3883,7 +5098,9 @@
           "desc": "Mango Chunks 10x1kg",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 32.0,
+          "volume": 40.0
         }
       ],
       "cheapest": "Berry Man",
@@ -3891,7 +5108,12 @@
       "max": 0.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 0.8,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "Berry Man",
+      "switch": false
     },
     {
       "key": "flour gem manildra pizza west",
@@ -3905,7 +5127,9 @@
           "desc": "Manildra- Gem West Pizza Flour 12.5kg",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 220.8,
+          "volume": 200.0
         }
       ],
       "cheapest": "Gulli",
@@ -3913,7 +5137,12 @@
       "max": 1.104,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.104,
+      "low_date": "2026-07-13",
+      "est_saving": 0.0,
+      "main": "Gulli",
+      "switch": false
     },
     {
       "key": "mayonnaise",
@@ -3927,7 +5156,9 @@
           "desc": "MAYONNAISE 1KG(12)",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 46.0,
+          "volume": 4.0
         }
       ],
       "cheapest": "B&E",
@@ -3935,7 +5166,12 @@
       "max": 11.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 11.5,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "cream full milk norco",
@@ -3949,7 +5185,9 @@
           "desc": "MILK FRESH FULL CREAM 2LT Norco",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 10.5,
+          "volume": 6.0
         }
       ],
       "cheapest": "Foodlink",
@@ -3957,7 +5195,12 @@
       "max": 1.75,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.75,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "leaf mint round",
@@ -3971,7 +5214,9 @@
           "desc": "HERB MINT ROUND LEAF BCH",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -3979,7 +5224,12 @@
       "max": 1.3,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.3,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "kimchi momoya sauce value",
@@ -3993,7 +5243,9 @@
           "desc": "\"Momoya\" Kimchi Sauce Value Pack",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -4001,7 +5253,12 @@
       "max": 8.6,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.6,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "msg",
@@ -4015,7 +5272,9 @@
           "desc": "MSG 1KG (20)",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 13.8,
+          "volume": 2.0
         }
       ],
       "cheapest": "B&E",
@@ -4023,7 +5282,12 @@
       "max": 6.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 6.9,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "button mushroom",
@@ -4037,7 +5301,9 @@
           "desc": "Mushroom Button B Grade",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4045,7 +5311,12 @@
       "max": 33.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 33.0,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "button mushroom",
@@ -4059,7 +5330,9 @@
           "desc": "MUSHROOM BUTTON CTN",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -4067,7 +5340,12 @@
       "max": 36.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 36.5,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "diced mushroom",
@@ -4081,7 +5359,9 @@
           "desc": "Mushroom Diced",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4089,7 +5369,12 @@
       "max": 11.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 11.9,
+      "low_date": "2026-07-18",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "brown king mushroom",
@@ -4103,7 +5388,9 @@
           "desc": "Mushroom King Brown (500g Punnet)",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 21.6,
+          "volume": 0.5
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4111,7 +5398,12 @@
       "max": 43.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 43.2,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "mushroom sliced",
@@ -4125,7 +5417,9 @@
           "desc": "Mushroom Sliced",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 166.6,
+          "volume": 14.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4133,7 +5427,12 @@
       "max": 11.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 11.9,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "dijon masterfood mustard",
@@ -4147,7 +5446,9 @@
           "desc": "MUSTARD DIJON 2.5KG Masterfoods",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 26.0,
+          "volume": 2.5
         }
       ],
       "cheapest": "Foodlink",
@@ -4155,7 +5456,12 @@
       "max": 10.4,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 10.4,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "brown dinner napkin",
@@ -4169,7 +5475,9 @@
           "desc": "NAPKINS - DINNER BROWN",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -4177,7 +5485,12 @@
       "max": 34.32,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 34.32,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "instant noodle plain",
@@ -4191,7 +5504,9 @@
           "desc": "NOODLES - PLAIN INSTANT",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -4199,7 +5514,12 @@
       "max": 22.4,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 22.4,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "brut cuvee nv two version",
@@ -4213,7 +5533,9 @@
           "desc": "NV VERSION TWO BRUT CUVEE",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Nelson",
@@ -4221,7 +5543,12 @@
       "max": 8.8333,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.8333,
+      "low_date": "2026-07-13",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "canola oil oil spray",
@@ -4235,7 +5562,9 @@
           "desc": "OIL - CANOLA OIL SPRAY",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -4243,7 +5572,12 @@
       "max": 5.3,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 5.3,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "bib cotton oil seed",
@@ -4257,7 +5591,9 @@
           "desc": "OIL - COTTON SEED 20L BIB",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 114.0,
+          "volume": 40.0
         }
       ],
       "cheapest": "B&E",
@@ -4265,7 +5601,12 @@
       "max": 2.85,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.85,
+      "low_date": "2026-07-29",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "garlic lemon marinated olive sandhurst whole",
@@ -4279,7 +5620,9 @@
           "desc": "OLIVES WHOLE LEMON & GARLIC MARINATED 10KG (8KG. DW) Sandhurst",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 83.5,
+          "volume": 10.0
         }
       ],
       "cheapest": "Foodlink",
@@ -4287,7 +5630,12 @@
       "max": 8.35,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.35,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "brown onion",
@@ -4301,7 +5649,9 @@
           "desc": "ONION BROWN KG",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -4309,7 +5659,12 @@
       "max": 2.4,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.4,
+      "low_date": "2026-07-15",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "brown onion",
@@ -4323,7 +5678,9 @@
           "desc": "ONION BROWN BAG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -4331,7 +5688,12 @@
       "max": 34.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 34.0,
+      "low_date": "2026-07-29",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "hand onion peeled",
@@ -4345,7 +5707,9 @@
           "desc": "Onion Hand Peeled",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 9.0,
+          "volume": 3.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4353,7 +5717,12 @@
       "max": 3.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.0,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "onion spanish",
@@ -4367,7 +5736,9 @@
           "desc": "Onion Spanish",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4375,7 +5746,12 @@
       "max": 2.42,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.42,
+      "low_date": "2026-07-18",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "onion peeled spanish",
@@ -4389,7 +5765,9 @@
           "desc": "Onion Spanish Peeled",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 17.7,
+          "volume": 3.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4397,7 +5775,12 @@
       "max": 5.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 5.9,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "onion red spanish",
@@ -4411,7 +5794,9 @@
           "desc": "ONION SPANISH / RED BAG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -4419,7 +5804,12 @@
       "max": 23.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 23.5,
+      "low_date": "2026-07-29",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "diced onion white",
@@ -4433,7 +5823,9 @@
           "desc": "Onion White Diced",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4441,7 +5833,12 @@
       "max": 9.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 9.5,
+      "low_date": "2026-07-18",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "6pc dorayaki orandaya",
@@ -4455,7 +5852,9 @@
           "desc": "\u201cOrandaya\u201d Dorayaki 6pcs",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -4463,7 +5862,12 @@
       "max": 4.46,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.46,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "leave oregano rubbed",
@@ -4477,7 +5881,9 @@
           "desc": "Oregano Leaves Rubbed 500g",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 10.0,
+          "volume": 0.5
         }
       ],
       "cheapest": "Gulli",
@@ -4485,7 +5891,12 @@
       "max": 20.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 20.0,
+      "low_date": "2026-07-22",
+      "est_saving": 0.0,
+      "main": "Gulli",
+      "switch": false
     },
     {
       "key": "cabernet ottelia sauv",
@@ -4499,7 +5910,9 @@
           "desc": "Ottelia Cabernet Sauv 21",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 262.51,
+          "volume": 12.0
         }
       ],
       "cheapest": "Viticult",
@@ -4507,7 +5920,12 @@
       "max": 21.8761,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 21.8761,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": "Viticult",
+      "switch": false
     },
     {
       "key": "chardonnay ottelia",
@@ -4521,7 +5939,9 @@
           "desc": "Ottelia Chardonnay 2024",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 207.57,
+          "volume": 12.0
         }
       ],
       "cheapest": "Viticult",
@@ -4529,7 +5949,12 @@
       "max": 17.2975,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 17.2975,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": "Viticult",
+      "switch": false
     },
     {
       "key": "ale keg pacific",
@@ -4543,7 +5968,9 @@
           "desc": "S & W Pacific Ale 49.5L KEG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Lion",
@@ -4551,7 +5978,12 @@
       "max": 383.235,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 383.235,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "ale keg pacific",
@@ -4565,7 +5997,9 @@
           "desc": "S & W Pacific Ale 49.5L KEG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Lion",
@@ -4573,7 +6007,12 @@
       "max": 7.742,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.742,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "malbec padrillo",
@@ -4587,7 +6026,9 @@
           "desc": "Padrillos Malbec 24",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Viticult",
@@ -4595,7 +6036,12 @@
       "max": 19.3324,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 19.3324,
+      "low_date": "2026-07-13",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "bocconcini paesanella",
@@ -4609,7 +6055,9 @@
           "desc": "Paesanella- Bocconcini 1kg",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 121.8,
+          "volume": 7.0
         }
       ],
       "cheapest": "Gulli",
@@ -4617,7 +6065,12 @@
       "max": 17.4,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 17.4,
+      "low_date": "2026-07-22",
+      "est_saving": 0.0,
+      "main": "Gulli",
+      "switch": false
     },
     {
       "key": "12x1kg passionfruit puree seedless",
@@ -4631,7 +6084,9 @@
           "desc": "Passionfruit Puree Seedless 12x1kg",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 19.0,
+          "volume": 24.0
         }
       ],
       "cheapest": "Berry Man",
@@ -4639,7 +6094,12 @@
       "max": 0.792,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 0.792,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "Berry Man",
+      "switch": false
     },
     {
       "key": "green pear",
@@ -4653,7 +6113,9 @@
           "desc": "Pears Green",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 7.92,
+          "volume": 2.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4661,7 +6123,12 @@
       "max": 3.96,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.96,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "pellegrino sparkling water",
@@ -4675,7 +6142,9 @@
           "desc": "S.PELLEGRINO SPARKLING WATER",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -4683,7 +6152,12 @@
       "max": 2.3558,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.3558,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "marco pepper polo red roasted",
@@ -4697,7 +6171,9 @@
           "desc": "PEPPERS ROASTED RED (CAPSICUM) 2.35KG Marco Polo",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 72.0,
+          "volume": 7.05
         }
       ],
       "cheapest": "Foodlink",
@@ -4705,7 +6181,12 @@
       "max": 10.213,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 10.213,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "detour petit rose",
@@ -4719,7 +6200,9 @@
           "desc": "Petit Detour Rose 2024",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Bacchus",
@@ -4727,7 +6210,12 @@
       "max": 15.9642,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 15.9642,
+      "low_date": "2026-07-13",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "pineapple",
@@ -4741,7 +6229,9 @@
           "desc": "Pineapple",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4749,7 +6239,12 @@
       "max": 4.95,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.95,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "pineapple pizza",
@@ -4763,7 +6258,9 @@
           "desc": "CANNED - PINEAPPLE PIZZA",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -4771,7 +6268,12 @@
       "max": 8.4,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.4,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "peeled pink",
@@ -4785,7 +6287,9 @@
           "desc": "Pink Peeled",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 15.0,
+          "volume": 10.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4793,7 +6297,12 @@
       "max": 1.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.5,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "55x200gm ball buvetti dough pizza",
@@ -4807,7 +6316,9 @@
           "desc": "PIZZA DOUGH BALLS 55X200GM Buvetti",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 70.0,
+          "volume": 55.0
         }
       ],
       "cheapest": "Foodlink",
@@ -4815,7 +6326,12 @@
       "max": 1.2727,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.2727,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "5cm insert pizza",
@@ -4829,7 +6345,9 @@
           "desc": "Pizza Box Inserts 22.5cm x 100",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 33.17,
+          "volume": 300.0
         }
       ],
       "cheapest": "Gulli",
@@ -4837,7 +6355,12 @@
       "max": 0.1105,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 0.1105,
+      "low_date": "2026-07-22",
+      "est_saving": 0.0,
+      "main": "Gulli",
+      "switch": false
     },
     {
       "key": "leg pork roast",
@@ -4851,7 +6374,9 @@
           "desc": "FRESH PORK - LEG ROAST",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 205.0,
+          "volume": 20.5
         }
       ],
       "cheapest": "B&E",
@@ -4859,7 +6384,12 @@
       "max": 10.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 10.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "dumpling parsley pork",
@@ -4873,7 +6403,9 @@
           "desc": "Pork & Parsley Dumpling \u4f73\u51a0\u8c6c\u8089\u82ab\u831c(\u9999\u83dc)\u6c34\u9903 - 600g x 24",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 216.0,
+          "volume": 28.8
         }
       ],
       "cheapest": "Sun Circle",
@@ -4881,7 +6413,12 @@
       "max": 7.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.5,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": "Sun Circle",
+      "switch": false
     },
     {
       "key": "cocktail potato",
@@ -4895,7 +6432,9 @@
           "desc": "Potato Cocktail (Box)",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4903,7 +6442,12 @@
       "max": 49.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 49.5,
+      "low_date": "2026-07-20",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "peeled potato processing",
@@ -4917,7 +6461,9 @@
           "desc": "POTATO PEELED PROCESSING KG",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -4925,7 +6471,12 @@
       "max": 3.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.8,
+      "low_date": "2026-07-15",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "gao har prawn",
@@ -4939,7 +6490,9 @@
           "desc": "Prawn Har Gao (Large) - 50 pieces \u4f73\u51a0\u9bae\u8766\u9903(\u5927\u5305) - 1000g x 15",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 128.0,
+          "volume": 4.0
         }
       ],
       "cheapest": "Sun Circle",
@@ -4947,7 +6500,12 @@
       "max": 32.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 32.0,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": "Sun Circle",
+      "switch": false
     },
     {
       "key": "garlic peeled process",
@@ -4961,7 +6519,9 @@
           "desc": "PROCESS GARLIC PEELED KG",
           "change_pct": 16.0,
           "n": 3,
-          "prev_cost": 5.0
+          "prev_cost": 5.0,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -4969,7 +6529,12 @@
       "max": 5.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 5.0,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "prosciutto sliced",
@@ -4983,7 +6548,9 @@
           "desc": "PROSCIUTTO SLICED 500G",
           "change_pct": null,
           "n": 3,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 140.0,
+          "volume": 5.0
         }
       ],
       "cheapest": "B&E",
@@ -4991,7 +6558,12 @@
       "max": 28.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 28.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "5mm diced pumpkin",
@@ -5005,7 +6577,9 @@
           "desc": "PUMPKIN DICED 5MM KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -5013,7 +6587,12 @@
       "max": 4.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.2,
+      "low_date": "2026-07-29",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "jap pumpkin",
@@ -5027,7 +6606,9 @@
           "desc": "Pumpkin Jap",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5035,7 +6616,12 @@
       "max": 2.3,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.3,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "rhbch",
@@ -5049,7 +6635,9 @@
           "desc": "RHBCH Bunch",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 10.56,
+          "volume": 2.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5057,7 +6645,12 @@
       "max": 5.28,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 5.28,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "jasmine rice trading",
@@ -5071,7 +6664,9 @@
           "desc": "RICE JASMINE 20KG Trading",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 44.0,
+          "volume": 20.0
         }
       ],
       "cheapest": "Foodlink",
@@ -5079,7 +6674,12 @@
       "max": 2.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.2,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "rocket wild",
@@ -5093,7 +6693,9 @@
           "desc": "Rocket Wild",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 17.6,
+          "volume": 1.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5101,7 +6703,12 @@
       "max": 17.6,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 17.6,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "rockmelon",
@@ -5115,7 +6722,9 @@
           "desc": "Rockmelon",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 3.85,
+          "volume": 1.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5123,7 +6732,12 @@
       "max": 3.85,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.85,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "chard lake rodda willow",
@@ -5137,7 +6751,9 @@
           "desc": "A Rodda Willow Lake Chard 23",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 226.19,
+          "volume": 6.0
         }
       ],
       "cheapest": "Viticult",
@@ -5145,7 +6761,12 @@
       "max": 37.6983,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 37.6983,
+      "low_date": "2026-07-13",
+      "est_saving": 0.0,
+      "main": "Viticult",
+      "switch": false
     },
     {
       "key": "blanco rojo rooster tequila",
@@ -5159,7 +6780,9 @@
           "desc": "ROOSTER ROJO TEQUILA BLANCO",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -5167,7 +6790,12 @@
       "max": 51.6611,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 51.6611,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "rosemary",
@@ -5181,7 +6809,9 @@
           "desc": "Rosemary",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 1.98,
+          "volume": 1.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5189,7 +6819,12 @@
       "max": 1.98,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.98,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "jerry rum sailor spiced",
@@ -5203,7 +6838,9 @@
           "desc": "SAILOR JERRY SPICED RUM",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -5211,7 +6848,12 @@
       "max": 44.72,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 44.72,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "container sauce",
@@ -5225,7 +6867,9 @@
           "desc": "SAUCE CONTAINER - WITH",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -5233,7 +6877,12 @@
       "max": 57.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 57.2,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "hoi sauce sauce sin",
@@ -5247,7 +6896,9 @@
           "desc": "SAUCE - HOI SIN SAUCE",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -5255,7 +6906,12 @@
       "max": 6.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 6.0,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "mild sausage spanish",
@@ -5269,7 +6925,9 @@
           "desc": "SAUSAGE - MILD SPANISH",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 41.1,
+          "volume": 3.0
         }
       ],
       "cheapest": "B&E",
@@ -5277,7 +6935,12 @@
       "max": 13.7,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 13.7,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "chorizo mild pendle sausage spanish",
@@ -5291,7 +6954,9 @@
           "desc": "SAUSAGE - MILD SPANISH CHORIZO 1KG (15) PENDLE",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -5299,7 +6964,12 @@
       "max": 13.7,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 13.7,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "16x150gm food plant protein schnitzel v2",
@@ -5313,7 +6983,9 @@
           "desc": "SCHNITZEL PLANT PROTEIN 16X150GM V2 Food",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 56.0,
+          "volume": 16.0
         }
       ],
       "cheapest": "Foodlink",
@@ -5321,7 +6993,12 @@
       "max": 3.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.5,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "bun milk sesame sliced t2 white",
@@ -5335,7 +7012,9 @@
           "desc": "Sliced T2 Milk Bun (85g) - White Sesame",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 117.6,
+          "volume": 10.2
         }
       ],
       "cheapest": "Mallia",
@@ -5343,7 +7022,12 @@
       "max": 11.529,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 11.529,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Mallia",
+      "switch": false
     },
     {
       "key": "bbq sauce smokey sunshine",
@@ -5357,7 +7041,9 @@
           "desc": "SMOKEY BBQ SAUCE 3LT Sunshine",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 25.0,
+          "volume": 6.0
         }
       ],
       "cheapest": "Foodlink",
@@ -5365,7 +7051,12 @@
       "max": 4.167,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 4.167,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "cream sour",
@@ -5379,7 +7070,9 @@
           "desc": "FRESH - SOUR CREAM 2L",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 60.0,
+          "volume": 6.0
         }
       ],
       "cheapest": "B&E",
@@ -5387,7 +7080,12 @@
       "max": 10.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 10.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "spanish",
@@ -5401,7 +7099,9 @@
           "desc": "Spanish",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 7.26,
+          "volume": 3.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5409,7 +7109,12 @@
       "max": 2.42,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.42,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "peeled spanish",
@@ -5423,7 +7128,9 @@
           "desc": "Spanish Peeled",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 11.8,
+          "volume": 2.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5431,7 +7138,12 @@
       "max": 5.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 5.9,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "scourer sponge",
@@ -5445,7 +7157,9 @@
           "desc": "SPONGE SCOURER -",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -5453,7 +7167,12 @@
       "max": 8.47,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.47,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cube sprite",
@@ -5467,7 +7186,9 @@
           "desc": "SPRITE 375ML 24 CUBE",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "ILG",
@@ -5475,7 +7196,12 @@
       "max": 1.8896,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.8896,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "pet sprite",
@@ -5489,7 +7215,9 @@
           "desc": "SPRITE PET : 1250 ml",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Paramount",
@@ -5497,7 +7225,12 @@
       "max": 3.412,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.412,
+      "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "spun",
@@ -5511,7 +7244,9 @@
           "desc": "SPUN Punnet",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 6.0,
+          "volume": 2.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5519,7 +7254,12 @@
       "max": 3.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.0,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "cut pineapple squid u5",
@@ -5533,7 +7273,9 @@
           "desc": "SQUID PINEAPPLE CUT IMP U5 5KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Foodlink",
@@ -5541,7 +7283,12 @@
       "max": 11.4,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 11.4,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "stainless steel",
@@ -5555,7 +7302,9 @@
           "desc": "STAINLESS STEEL",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -5563,7 +7312,12 @@
       "max": 7.15,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.15,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "12x1kg puree seed strawberry",
@@ -5577,7 +7331,9 @@
           "desc": "Strawberry Puree Seed-In 12x1kg",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 26.0,
+          "volume": 48.0
         }
       ],
       "cheapest": "Berry Man",
@@ -5585,7 +7341,12 @@
       "max": 0.542,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 0.542,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "Berry Man",
+      "switch": false
     },
     {
       "key": "caster csr sugar",
@@ -5599,7 +7360,9 @@
           "desc": "SUGAR CASTER 1KG CSR",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 3.5,
+          "volume": 1.0
         }
       ],
       "cheapest": "Foodlink",
@@ -5607,7 +7370,12 @@
       "max": 3.5,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.5,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "thyme",
@@ -5621,7 +7389,9 @@
           "desc": "Thyme",
           "change_pct": -10.0,
           "n": 2,
-          "prev_cost": 2.2
+          "prev_cost": 2.2,
+          "spend": 6.38,
+          "volume": 3.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5629,7 +7399,12 @@
       "max": 1.98,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.98,
+      "low_date": "2026-07-30",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     },
     {
       "key": "press silken tofu",
@@ -5643,7 +7418,9 @@
           "desc": "TOFU - FRESH PRESS SILKEN",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -5651,7 +7428,12 @@
       "max": 5.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 5.8,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "bush powder tomato",
@@ -5665,7 +7447,9 @@
           "desc": "TOMATO BUSH POWDER 100GM",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -5673,7 +7457,12 @@
       "max": 165.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 165.0,
+      "low_date": "2026-07-15",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cherry tomato",
@@ -5687,7 +7476,9 @@
           "desc": "Tomatoes Cherry",
           "change_pct": 12.5,
           "n": 2,
-          "prev_cost": 1.76
+          "prev_cost": 1.76,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5695,7 +7486,12 @@
       "max": 1.98,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 1.76,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cherry pun tomato",
@@ -5709,7 +7505,9 @@
           "desc": "TOMATO CHERRY PUN",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -5717,7 +7515,12 @@
       "max": 3.2,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.2,
+      "low_date": "2026-07-29",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "pizza sauce tomato",
@@ -5731,7 +7534,9 @@
           "desc": "TOMATO - PIZZA SAUCE",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -5739,7 +7544,12 @@
       "max": 35.0,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 35.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "heinz sauce tomato",
@@ -5753,7 +7563,9 @@
           "desc": "TOMATO SAUCE 4LT Heinz",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 11.6,
+          "volume": 4.0
         }
       ],
       "cheapest": "Foodlink",
@@ -5761,7 +7573,12 @@
       "max": 2.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.9,
+      "low_date": "2026-07-28",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
     },
     {
       "key": "breast half skin turkey",
@@ -5775,7 +7592,9 @@
           "desc": "TURKEY HALF BREAST SKIN",
           "change_pct": -0.1,
           "n": 2,
-          "prev_cost": 17.0
+          "prev_cost": 17.0,
+          "spend": 671.08,
+          "volume": 39.48
         }
       ],
       "cheapest": "B&E",
@@ -5783,7 +7602,12 @@
       "max": 16.984,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 16.984,
+      "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "grigio pinot two version",
@@ -5797,7 +7621,9 @@
           "desc": "25 VERSION TWO PINOT GRIGIO",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Nelson",
@@ -5805,7 +7631,12 @@
       "max": 8.8333,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 8.8333,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "fresco opo sangiovese villa",
@@ -5819,7 +7650,9 @@
           "desc": "Villa Fresco Sangiovese 24 - OPO",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Young & Rashleigh",
@@ -5827,7 +7660,12 @@
       "max": 12.0617,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 12.0617,
+      "low_date": "2026-07-27",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "cake fish yamasan",
@@ -5841,7 +7679,9 @@
           "desc": "\u201cYamasan\u201d Fish Cake (Naruto Maki)",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -5849,7 +7689,12 @@
       "max": 2.8,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.8,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "greek yoghurt",
@@ -5863,7 +7708,9 @@
           "desc": "YOGHURT - GREEK 2KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 14.5,
+          "volume": 2.0
         }
       ],
       "cheapest": "B&E",
@@ -5871,7 +7718,12 @@
       "max": 7.25,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.25,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": "B&E",
+      "switch": false
     },
     {
       "key": "greek procal yoghurt",
@@ -5885,7 +7737,9 @@
           "desc": "YOGHURT - GREEK 2KG PROCAL",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "B&E",
@@ -5893,7 +7747,12 @@
       "max": 7.25,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 7.25,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "pepperoni salami sliced zammit",
@@ -5907,7 +7766,9 @@
           "desc": "Zammit- Sliced Pepperoni Salami 3kg",
           "change_pct": null,
           "n": 2,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 245.0,
+          "volume": 15.0
         }
       ],
       "cheapest": "Gulli",
@@ -5915,7 +7776,12 @@
       "max": 16.333,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 16.333,
+      "low_date": "2026-07-22",
+      "est_saving": 0.0,
+      "main": "Gulli",
+      "switch": false
     },
     {
       "key": "green zucchini",
@@ -5929,7 +7795,9 @@
           "desc": "ZUCCHINI GREEN KG",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -5937,7 +7805,12 @@
       "max": 2.9,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 2.9,
+      "low_date": "2026-07-29",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
     },
     {
       "key": "green please zucchini",
@@ -5951,7 +7824,9 @@
           "desc": "Zucchini Green 0.5Kg please",
           "change_pct": null,
           "n": 1,
-          "prev_cost": null
+          "prev_cost": null,
+          "spend": 3.08,
+          "volume": 1.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5959,7 +7834,12 @@
       "max": 3.08,
       "spread_pct": 0.0,
       "multi": false,
-      "suspect": false
+      "suspect": false,
+      "low": 3.08,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
     }
   ]
 }

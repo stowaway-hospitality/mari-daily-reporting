@@ -179,3 +179,59 @@ def test_build_ignores_tiny_moves_on_cheap_lines(tmp_path, monkeypatch):
         _row("Gulli", "Paper Straw", "0.41", basis="per_unit", date="2026-07-01"),
     ], tmp_path, monkeypatch)
     assert not [m for m in out["movers"] if "straw" in m["name"].lower()]
+
+
+# ── the build: lowest-ever, dollar saving, switch-these ────────────────────
+
+def test_build_tracks_lowest_ever_price(tmp_path, monkeypatch):
+    # The lowest $/unit ever seen (across suppliers + history) is the floor to
+    # negotiate back to. Must be the min, with the date it was seen.
+    monkeypatch.setattr(bpc, "_purchase_stats", lambda: {})
+    out = _run_build([
+        _row("Select Fresh", "CARROT KG", "2.40", date="2026-06-01"),
+        _row("Fresh Fruit Team", "CARROT KG", "1.32", date="2026-06-15"),
+        _row("Select Fresh", "CARROT KG", "2.90", date="2026-07-01"),
+    ], tmp_path, monkeypatch)
+    g = [i for i in out["ingredients"] if i["key"] == canonical_key("CARROT KG")][0]
+    assert g["low"] == 1.32
+    assert g["low_date"] == "2026-06-15"
+
+
+def test_build_computes_dollar_saving_and_switch(tmp_path, monkeypatch):
+    # You buy 100 kg of spinach from the dearer supplier ($7.28) when a cheaper one
+    # ($4.00) carries it. Saving = 100 * (7.28-4.00) = $328, and because your MAIN
+    # (most-spent) supplier isn't the cheapest, it must be flagged "switch".
+    # (Supplier names chosen so canonical_supplier leaves them unchanged.)
+    key = canonical_key("Spinach")
+    monkeypatch.setattr(bpc, "_purchase_stats", lambda: {
+        (key, "kg"): {
+            "Bravo": {"spend": 728.0, "volume": 100.0},   # dearer, main
+            "Alpha": {"spend": 40.0,  "volume": 10.0},    # cheaper
+        }})
+    out = _run_build([
+        _row("Alpha", "Spinach", "4.00"),
+        _row("Bravo", "Spinach", "7.28"),
+    ], tmp_path, monkeypatch)
+    g = [i for i in out["ingredients"] if i["key"] == key][0]
+    assert g["switch"] is True
+    assert g["main"] == "Bravo" and g["cheapest"] == "Alpha"
+    assert g["est_saving"] == pytest.approx(328.0, abs=0.5)
+    assert out["total_saving"] >= 328.0
+    assert any(s["name"].lower().startswith("spinach") for s in out["switches"])
+
+
+def test_build_no_switch_when_main_supplier_is_already_cheapest(tmp_path, monkeypatch):
+    # You mostly buy from the cheapest already — nothing to switch, no false alert.
+    key = canonical_key("Spinach")
+    monkeypatch.setattr(bpc, "_purchase_stats", lambda: {
+        (key, "kg"): {
+            "Alpha": {"spend": 400.0, "volume": 100.0},   # cheaper, main
+            "Bravo": {"spend": 7.28,  "volume": 1.0},     # dearer, tiny
+        }})
+    out = _run_build([
+        _row("Alpha", "Spinach", "4.00"),
+        _row("Bravo", "Spinach", "7.28"),
+    ], tmp_path, monkeypatch)
+    g = [i for i in out["ingredients"] if i["key"] == key][0]
+    assert g["switch"] is False
+    assert g["main"] == "Alpha" == g["cheapest"]

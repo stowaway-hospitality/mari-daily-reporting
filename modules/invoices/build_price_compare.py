@@ -38,7 +38,67 @@ from modules.invoices.price_compare import (                     # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 COGS = ROOT / "data" / "cogs_list.csv"
+INVOICES = ROOT / "data" / "invoices"
 OUT = ROOT / "dashboard" / "pricing" / "compare.json"
+
+# How far back "how much you buy" looks, for the dollar-saving estimate.
+SPEND_WINDOW_DAYS = 90
+
+
+def _to_comp_unit(per: Decimal, unit: str) -> tuple[Decimal, str]:
+    """resolve_pack returns $/g and $/ml; the comparison works in $/kg and $/L."""
+    if unit == "g":
+        return per * 1000, "kg"
+    if unit == "ml":
+        return per * 1000, "L"
+    return per, unit
+
+
+def _purchase_stats() -> dict:
+    """
+    From the parsed invoices, how MUCH of each ingredient you actually bought and
+    what you spent, per supplier, over the recent window. Keyed the SAME way as the
+    comparison (canonical_key, comparison-unit) so the two line up. This is what
+    turns "31% cheaper" into "$Xxx" — a 40% gap on a herb you buy twice a year is
+    noise; a 10% gap on your carrots is real money.
+    """
+    from datetime import datetime, timedelta
+    cutoff = (datetime.now() - timedelta(days=SPEND_WINDOW_DAYS)).date()
+    stats: dict[tuple[str, str], dict] = {}
+    for p in sorted(INVOICES.glob("*.json")) if INVOICES.exists() else []:
+        try:
+            inv = json.loads(p.read_text()).get("invoice", {})
+        except Exception:
+            continue
+        try:
+            idate = datetime.fromisoformat((inv.get("invoice_date") or "")[:10]).date()
+        except Exception:
+            continue
+        if idate < cutoff:
+            continue
+        supplier = canonical_supplier(inv.get("supplier_name_raw") or inv.get("supplier_key") or "")
+        for ln in inv.get("lines", []):
+            if ln.get("line_class") != "stock":
+                continue
+            desc = (ln.get("description") or "").strip()
+            qty = _dec(ln.get("qty"))
+            spend = _dec(ln.get("line_total_incl"))
+            unitp = _dec(ln.get("unit_price_incl")) or _dec(ln.get("cost_per_unit_incl_gst"))
+            if not desc or qty is None or spend is None or unitp is None:
+                continue
+            q2, unit, per, how, bad = resolve_pack(desc, unitp, basis=ln.get("cost_basis") or "",
+                                                   note="", code=ln.get("supplier_code") or "")
+            if per is None or unit is None:
+                continue
+            _, cu = _to_comp_unit(per, unit)
+            # base units bought = (qty selling units) x (base units per selling unit)
+            per_selling = (q2 / 1000) if unit in ("g", "ml") else q2
+            vol = float(qty * per_selling)
+            key = (canonical_key(desc), cu)
+            s = stats.setdefault(key, {}).setdefault(supplier, {"spend": 0.0, "volume": 0.0})
+            s["spend"] += float(spend)
+            s["volume"] += vol
+    return stats
 
 # Units that are physically exact and so directly comparable across suppliers.
 # Everything else (each / bunch / box / tray / case) is a pack whose real content
@@ -85,6 +145,7 @@ def build() -> dict:
         return {"generated": date.today().isoformat(), "ingredients": []}
     aliases = _load_aliases()
     rows = list(csv.DictReader(COGS.open(encoding="utf-8-sig")))
+    stats = _purchase_stats()          # how much of each you actually buy
 
     # group: (key, unit) -> ingredient; within it, supplier -> list of (date, cost, desc)
     groups: dict[tuple[str, str], dict] = {}
@@ -100,24 +161,32 @@ def build() -> dict:
         if not key:
             continue
         g = groups.setdefault((key, unit), {"key": key, "unit": unit,
-                                            "names": {}, "suppliers": {}})
+                                            "names": {}, "suppliers": {},
+                                            "low": None, "low_date": None})
         # remember candidate display names (shortest identity wins — most generic)
         g["names"][display_name(desc)] = g["names"].get(display_name(desc), 0) + 1
-        g["suppliers"].setdefault(supplier, []).append(
-            (r.get("invoice_date") or "", float(base), desc))
+        d0 = r.get("invoice_date") or ""
+        g["suppliers"].setdefault(supplier, []).append((d0, float(base), desc))
+        # lowest price EVER seen for this ingredient (across suppliers + history)
+        if g["low"] is None or float(base) < g["low"]:
+            g["low"], g["low_date"] = round(float(base), 4), d0
 
     ingredients = []
     for (key, unit), g in groups.items():
+        gstats = stats.get((key, unit), {})
         sup_rows = []
         for supplier, obs in g["suppliers"].items():
             obs.sort(key=lambda o: o[0])                 # by date asc
             d, cost, desc = obs[-1]                       # latest
             prev = next((o for o in reversed(obs[:-1]) if o[1] != cost), None)
             change = round((cost - prev[1]) / prev[1] * 100, 1) if prev and prev[1] else None
+            sst = gstats.get(supplier, {})
             sup_rows.append({
                 "supplier": supplier, "cost": round(cost, 4), "date": d,
                 "desc": desc, "change_pct": change, "n": len(obs),
                 "prev_cost": round(prev[1], 4) if prev else None,
+                "spend": round(sst.get("spend", 0.0), 2),      # $ bought, recent window
+                "volume": round(sst.get("volume", 0.0), 3),    # base units bought
             })
         sup_rows.sort(key=lambda s: s["cost"])
         cheapest = sup_rows[0]["supplier"]
@@ -139,19 +208,58 @@ def build() -> dict:
         # display: the most-seen shortest name
         name = min(sorted(g["names"], key=lambda n: (-g["names"][n], len(n))),
                    key=lambda n: (len(n), -g["names"][n]))
+
+        # DOLLAR SAVING — turn the % gap into money. For each supplier you buy this
+        # from that ISN'T the cheapest, you'd have saved (units you bought) x (their
+        # rate - cheapest rate) had you bought it from the cheapest instead. Summed
+        # over the recent window, at current prices. A real number a chef can act on,
+        # not a percentage on a jar of saffron you buy once a year.
+        est_saving = 0.0
+        for s in sup_rows[1:]:                          # everyone dearer than cheapest
+            if s["volume"] > 0:
+                est_saving += s["volume"] * (s["cost"] - lo)
+        est_saving = round(est_saving, 2)
+
+        # SWITCH THESE — your MAIN supplier for this item (the one you spend the most
+        # with) isn't the cheapest, and it's a real, non-suspect comparison with money
+        # on the table. This is the "act on it" list: not "a cheaper price exists
+        # somewhere" but "you are actively buying this from the dearer one".
+        main = max(sup_rows, key=lambda s: s["spend"]) if any(s["spend"] for s in sup_rows) else None
+        switch = bool(multi and not suspect and main and main["supplier"] != cheapest
+                      and est_saving >= 5.0)
+
         ingredients.append({
             "key": key, "name": name, "unit": unit,
             "suppliers": sup_rows, "cheapest": cheapest,
             "min": round(lo, 4), "max": round(hi, 4), "spread_pct": spread,
             "multi": multi, "suspect": suspect,
+            "low": g["low"], "low_date": g["low_date"],   # lowest ever seen
+            "est_saving": est_saving,
+            "main": main["supplier"] if main else None,
+            "switch": switch,
         })
 
-    # real comparisons first (biggest spread = biggest saving), then the
-    # verify-pack ones, then single-supplier price list A–Z
+    # "switch these" first (real money you're leaving on the table, biggest $ first),
+    # then the rest of the real comparisons by spread, then verify-pack, then the
+    # single-supplier price list A–Z.
     ingredients.sort(key=lambda i: (
+        not i["switch"],
+        -i["est_saving"] if i["switch"] else 0,
         not (i["multi"] and not i["suspect"]),
         -i["spread_pct"] if (i["multi"] and not i["suspect"]) else 0,
         not i["suspect"], i["name"].lower()))
+
+    # The action list + the headline number: every item you're buying from a dearer
+    # supplier, and the total you'd save at current prices by moving each to its
+    # cheapest. This is the one figure that answers "is this module worth it?".
+    switches = [{
+        "name": i["name"], "unit": i["unit"], "from": i["main"],
+        "to": i["cheapest"], "saving": i["est_saving"],
+        "from_cost": next((s["cost"] for s in i["suppliers"] if s["supplier"] == i["main"]), None),
+        "to_cost": i["min"],
+    } for i in ingredients if i["switch"]]
+    switches.sort(key=lambda s: -s["saving"])
+    total_saving = round(sum(s["saving"] for s in switches), 2)
 
     # Cost creep — where a supplier's price rose since the last order. This is the
     # part that matters for the ~95% of items with only one supplier: you can't
@@ -177,7 +285,11 @@ def build() -> dict:
     return {"generated": date.today().isoformat(),
             "count": len(ingredients),
             "compared": sum(1 for i in ingredients if i["multi"]),
+            "window_days": SPEND_WINDOW_DAYS,
+            "total_saving": total_saving,
+            "switches": switches,
             "movers": movers,
+            "aliases": aliases,        # manual merges, so the UI can offer an undo
             "ingredients": ingredients}
 
 

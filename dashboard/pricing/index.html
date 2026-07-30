@@ -63,6 +63,43 @@
   .rise .r-move{margin-left:auto;font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
   .rise .r-move .old{color:var(--ink-soft);text-decoration:line-through;margin-right:6px}
   .rise .r-date{font-size:11px;color:var(--ink-soft);min-width:70px;text-align:right}
+  /* headline saving banner */
+  .headline{border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--green) 8%,var(--paper));
+    padding:16px 18px;margin-bottom:22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .headline .big{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;color:var(--green);line-height:1;font-variant-numeric:tabular-nums}
+  .headline .cap{font-size:12.5px;color:var(--ink-soft);line-height:1.45;max-width:520px}
+  .headline .cap b{color:var(--ink)}
+  /* switch-these action rows */
+  .switch{display:flex;align-items:center;gap:12px;padding:11px 15px;border-top:1px solid var(--line)}
+  .switch:first-child{border-top:none}
+  .switch .sv{font-size:14px;font-weight:700;color:var(--green);min-width:74px;font-variant-numeric:tabular-nums}
+  .switch .nm{font-size:13.5px;font-weight:600;min-width:150px}
+  .switch .fl{font-size:12.5px;color:var(--ink-soft);margin-left:auto;white-space:nowrap}
+  .switch .fl .a{color:var(--red);text-decoration:line-through;margin-right:4px}
+  .switch .fl .b{color:var(--green);font-weight:600}
+  .switch .fl .arr{color:var(--ink-soft);margin:0 5px}
+  /* saving + lowest-ever chips on compared cards */
+  .save-chip{font-size:11px;font-weight:600;color:var(--green);margin-left:8px;white-space:nowrap}
+  .low-chip{font-size:10.5px;color:var(--ink-soft);margin-left:8px;white-space:nowrap}
+  .low-chip b{color:var(--ink);font-weight:600}
+  .s-low{font-size:10px;color:var(--green);margin-left:6px}
+  /* merge / split controls */
+  .mbtn{font-size:11px;padding:3px 10px;border:1px solid var(--line);border-radius:99px;background:var(--bg);
+    color:var(--ink-soft);cursor:pointer;white-space:nowrap;font-family:inherit}
+  .mbtn:hover{border-color:var(--ink-soft);color:var(--ink)}
+  .mbtn.active{background:var(--amber);border-color:var(--amber);color:#fff}
+  .ing-hd .mbtn{margin-left:10px}
+  .ing.merging{outline:2px solid var(--amber);outline-offset:-1px}
+  tr.merging{background:color-mix(in srgb,var(--amber) 14%,var(--paper))}
+  .mergebar{position:sticky;top:8px;z-index:5;background:var(--amber);color:#fff;border-radius:10px;
+    padding:10px 14px;margin-bottom:16px;font-size:13.5px;display:flex;align-items:center;gap:12px}
+  .mergebar b{font-weight:700}
+  .mergebar .mbtn{margin-left:auto;background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.5);color:#fff}
+  #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;
+    background:var(--ink);color:var(--paper);padding:11px 18px;border-radius:10px;font-size:13.5px;
+    max-width:90vw;text-align:center;transition:all .2s;pointer-events:none;z-index:50}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  #toast.bad{background:var(--red)}
 </style>
 </head>
 <body>
@@ -75,8 +112,9 @@
   <div class="wrap">
     <h1>Supplier price comparison</h1>
     <p class="sub">Every ingredient we've been invoiced for, reduced to a like-for-like
-      unit cost and lined up across suppliers. Prices are what was actually billed —
-      cheapest is flagged, and a cost that moved since last order shows its change.</p>
+      unit cost and lined up across suppliers. Prices are what was actually billed. It shows
+      the dollars you'd save switching to the cheaper supplier, what you're buying from the dearer
+      one, the lowest price each item has ever hit, and any cost that's crept up since last order.</p>
     <div class="bar">
       <input id="q" type="search" placeholder="Search an ingredient — carrot, chicken, mozzarella…" autocomplete="off">
       <span class="stat" id="stat"></span>
@@ -87,8 +125,12 @@
 
 <script type="module">
 import { Auth } from '/_shared/auth.js';
+import { WORKER_URL } from '/_shared/config.js';
 
 let DATA = { ingredients: [] };
+let USER = null;
+let MERGE = null;             // when merging: {key, name} of the first card picked
+const canMerge = () => USER && ['admin','bigchef'].includes(USER.role);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const money = n => '$' + Number(n).toFixed(2);
 const unitLabel = u => u === 'ea' ? 'each' : ('per ' + u);
@@ -96,13 +138,90 @@ const unitLabel = u => u === 'ea' ? 'each' : ('per ' + u);
 Auth.gate(document.getElementById('gate'), {
   roles: ['admin','bigchef','stowfood','hgfood','pizza'],
   onOk: async (user) => {
+    USER = user;
     document.getElementById('app').style.display = '';
     document.getElementById('who').textContent = user.name;
     DATA = await fetch('/pricing/compare.json', {cache:'no-store'}).then(r=>r.json()).catch(()=>({ingredients:[]}));
     document.getElementById('q').addEventListener('input', render);
+    document.getElementById('body').addEventListener('click', onBodyClick);
     render();
   },
 });
+
+// ── self-service merge/split ────────────────────────────────────────────────
+// A senior chef can say "these two ARE the same ingredient" (merge) or undo a
+// prior merge. Writes data/ingredient_aliases.json via the worker; the change
+// takes effect on the next data rebuild (the comparison is a built file). We
+// optimistically hide the merged card so it feels immediate.
+async function postAlias(payload){
+  const token = Auth.requireToken();
+  const r = await fetch(`${WORKER_URL}/alias`, {
+    method:'POST', headers:{'content-type':'application/json', authorization:`Bearer ${token}`},
+    body: JSON.stringify(payload),
+  });
+  const j = await r.json().catch(()=>({}));
+  if (!r.ok) throw new Error(j.error || `worker ${r.status}`);
+  return j;
+}
+
+function toast(msg, bad){
+  let t = document.getElementById('toast');
+  if (!t){ t = document.createElement('div'); t.id='toast'; document.body.appendChild(t); }
+  t.textContent = msg; t.className = bad ? 'bad show' : 'show';
+  clearTimeout(t._h); t._h = setTimeout(()=>{ t.className=''; }, 4200);
+}
+
+function onBodyClick(e){
+  const mBtn = e.target.closest('[data-merge]');
+  if (mBtn){ pickMerge(mBtn.getAttribute('data-merge'), mBtn.getAttribute('data-mname')); return; }
+  const uBtn = e.target.closest('[data-unmerge]');
+  if (uBtn){ doUnmerge(uBtn.getAttribute('data-unmerge')); return; }
+  const cancel = e.target.closest('[data-mcancel]');
+  if (cancel){ MERGE = null; render(); return; }
+}
+
+async function pickMerge(key, name){
+  if (!MERGE){ MERGE = {key, name}; render(); return; }           // first pick
+  if (MERGE.key === key){ MERGE = null; render(); return; }        // clicked same -> cancel
+  const from = MERGE, into = {key, name};
+  if (!confirm(`Merge "${from.name}" into "${into.name}"?\n\nThey'll be treated as one ingredient everywhere on this page. You can undo it later.`)){
+    return;
+  }
+  try {
+    await postAlias({action:'merge', from: from.key, into: into.key});
+    MERGE = null;
+    // optimistic: fold from's suppliers into into's card, drop from's card
+    foldClientSide(from.key, into.key);
+    toast(`Merged "${from.name}" into "${into.name}". Saved — reflows fully on tonight's refresh.`);
+    render();
+  } catch(err){ toast(`Couldn't merge: ${err.message}`, true); MERGE = null; render(); }
+}
+
+async function doUnmerge(fromKey){
+  if (!confirm('Undo this merge? The two ingredients will be listed separately again on the next refresh.')) return;
+  try {
+    await postAlias({action:'unmerge', from: fromKey});
+    (DATA.aliases && delete DATA.aliases[fromKey]);
+    toast('Merge undone. Separates on tonight’s refresh.');
+    render();
+  } catch(err){ toast(`Couldn't undo: ${err.message}`, true); }
+}
+
+// Optimistic client-side fold so the merge looks immediate before the rebuild.
+function foldClientSide(fromKey, intoKey){
+  const src = DATA.ingredients.find(i=>i.key===fromKey);
+  const dst = DATA.ingredients.find(i=>i.key===intoKey);
+  if (!src || !dst) return;
+  const seen = new Set(dst.suppliers.map(s=>s.supplier));
+  src.suppliers.forEach(s=>{ if(!seen.has(s.supplier)) dst.suppliers.push(s); });
+  dst.suppliers.sort((a,b)=>a.cost-b.cost);
+  dst.min = dst.suppliers[0].cost; dst.max = dst.suppliers[dst.suppliers.length-1].cost;
+  dst.cheapest = dst.suppliers[0].supplier;
+  dst.spread_pct = dst.min ? +(((dst.max-dst.min)/dst.min)*100).toFixed(1) : 0;
+  dst.multi = dst.suppliers.length > 1;
+  DATA.ingredients = DATA.ingredients.filter(i=>i.key!==fromKey);
+  (DATA.aliases = DATA.aliases || {})[fromKey] = intoKey;
+}
 
 function chg(pct){
   if (pct === null || pct === undefined) return '<span class="chg flat">–</span>';
@@ -111,25 +230,53 @@ function chg(pct){
   return '<span class="chg flat">no change</span>';
 }
 
+const mergeBtn = (key, name) => !canMerge() ? '' :
+  `<button class="mbtn ${MERGE && MERGE.key===key ? 'active':''}" data-merge="${esc(key)}" data-mname="${esc(name)}">`
+  + (MERGE ? (MERGE.key===key ? '✕ cancel' : 'merge here') : '⇄ merge') + '</button>';
+
+function lowChip(i){
+  // Lowest price ever seen for this ingredient — a floor to negotiate back to when
+  // a supplier creeps up. Only worth showing when today's cheapest is above it.
+  if (i.low == null || i.min == null) return '';
+  if (i.min <= i.low + 1e-9) return `<span class="low-chip">lowest ever <b>${money(i.low)}</b> ✓ at floor</span>`;
+  const up = ((i.min - i.low)/i.low*100);
+  return `<span class="low-chip" title="lowest ever, ${esc(i.low_date||'')}">lowest ever <b>${money(i.low)}</b>${i.low_date?(' · '+esc(i.low_date)):''} · now +${up.toFixed(0)}%</span>`;
+}
+
 function comparedCard(i){
   const rows = i.suppliers.map((s, idx) => {
     const best = idx === 0;
     const vs = best ? '' : `<span class="s-vs">+${(((s.cost - i.min)/i.min)*100).toFixed(1)}% vs best</span>`;
     const tag = best ? '<span class="s-tag best">cheapest</span>' : '';
+    const atLow = (i.low != null && Math.abs(s.cost - i.low) < 1e-9) ? '<span class="s-low">↓ lowest ever</span>' : '';
     return `<div class="sup ${best?'best':''}">
       <span class="s-name">${esc(s.supplier)}<span class="desc" title="${esc(s.desc)}">${esc(s.desc.length>22?s.desc.slice(0,22)+'…':s.desc)}</span></span>
       <span class="s-cost">${money(s.cost)}<small style="font-weight:400;color:var(--ink-soft)">/${esc(i.unit)}</small></span>
-      ${tag}${vs}${chg(s.change_pct)}
+      ${tag}${vs}${atLow}${chg(s.change_pct)}
     </div>`;
   }).join('');
   const spreadCls = i.suspect ? 'spread warn' : 'spread';
   const spreadTxt = i.suspect ? `⚠ ${i.spread_pct}% gap — verify pack size`
                               : `save ${i.spread_pct}% at ${esc(i.cheapest)}`;
-  return `<div class="ing" data-name="${esc(i.name.toLowerCase())}">
+  // $ saving = your recent volume from dearer suppliers × the gap. Only shown when
+  // there's real money (you actually buy it from a dearer one).
+  const saveChip = (!i.suspect && i.est_saving >= 1)
+    ? `<span class="save-chip">≈ ${money(i.est_saving)} / ${DATA.window_days||90}d</span>` : '';
+  const mcls = MERGE && MERGE.key===i.key ? ' merging' : '';
+  return `<div class="ing${mcls}" data-name="${esc(i.name.toLowerCase())}">
     <div class="ing-hd"><span class="ing-name">${esc(i.name)}</span>
       <span class="ing-unit">${unitLabel(i.unit)}</span>
-      <span class="${spreadCls}">${spreadTxt}</span></div>
+      ${saveChip}${lowChip(i)}
+      <span class="${spreadCls}">${spreadTxt}</span>${mergeBtn(i.key, i.name)}</div>
     <div class="sups">${rows}</div></div>`;
+}
+
+function switchRow(s){
+  return `<div class="switch" data-name="${esc(s.name.toLowerCase())}">
+    <span class="sv">${money(s.saving)}</span>
+    <span class="nm">${esc(s.name)} <small style="color:var(--ink-soft);font-weight:400">${unitLabel(s.unit)}</small></span>
+    <span class="fl"><span class="a">${esc(s.from)} ${money(s.from_cost)}</span>
+      <span class="arr">→</span><span class="b">${esc(s.to)} ${money(s.to_cost)}</span></span></div>`;
 }
 
 function moverRow(m){
@@ -143,11 +290,17 @@ function moverRow(m){
 
 function priceRow(i){
   const s = i.suppliers[0];
-  return `<tr data-name="${esc(i.name.toLowerCase())}">
-    <td>${esc(i.name)}</td>
+  // flag when the current price sits above the lowest ever seen — a floor to push back to
+  let low = '';
+  if (i.low != null && i.min != null && i.min > i.low + 1e-9){
+    low = ` <small class="low-chip" style="margin:0" title="lowest ever ${esc(i.low_date||'')}">↑ ${(((i.min-i.low)/i.low)*100).toFixed(0)}% over ${money(i.low)} low</small>`;
+  }
+  const mcls = MERGE && MERGE.key===i.key ? ' class="merging"' : '';
+  return `<tr data-name="${esc(i.name.toLowerCase())}"${mcls}>
+    <td>${esc(i.name)}${low}</td>
     <td style="color:var(--ink-soft)">${esc(s.supplier)}</td>
     <td class="cost">${money(s.cost)} <small style="color:var(--ink-soft)">/${esc(i.unit)}</small></td>
-    <td class="mv">${chg(s.change_pct)}</td></tr>`;
+    <td class="mv">${chg(s.change_pct)}${canMerge() ? ' '+mergeBtn(i.key, i.name) : ''}</td></tr>`;
 }
 
 function render(){
@@ -164,8 +317,31 @@ function render(){
 
   const movers = (DATA.movers || []).filter(m =>
     !q || m.name.toLowerCase().includes(q) || m.supplier.toLowerCase().includes(q));
+  const switches = (DATA.switches || []).filter(s =>
+    !q || s.name.toLowerCase().includes(q) || s.from.toLowerCase().includes(q) || s.to.toLowerCase().includes(q));
 
   let html = '';
+  // When a merge is in progress, a sticky instruction so it's obvious what to click next.
+  if (MERGE){
+    html += `<div class="mergebar">Merging <b>${esc(MERGE.name)}</b> — click <b>“merge here”</b> on the ingredient it's the same as.
+      <button class="mbtn" data-mcancel="1">✕ cancel</button></div>`;
+  }
+  // Headline: the one number that says whether this module earns its keep — total
+  // you'd save over the window by moving each item you buy from a dearer supplier
+  // to its cheapest. Only shown unfiltered (it's a whole-book figure).
+  if (!q && DATA.total_saving > 0){
+    html += `<div class="headline">
+      <span class="big">${money(DATA.total_saving)}</span>
+      <span class="cap"><b>on the table over the last ${DATA.window_days||90} days.</b>
+        That's what you'd have saved buying each item below from its cheapest supplier
+        instead of the one you actually used — at current prices, on the volume you bought.</span></div>`;
+  }
+  if (switches.length){
+    html += `<h2 class="sec">Switch these <span class="n">${switches.length}</span></h2>`;
+    html += `<p class="sec-note">You're buying these from a dearer supplier when a cheaper one carries the same
+      thing. Biggest saving first — each line is money you'd keep by moving the order across.</p>`;
+    html += `<div class="pl">${switches.map(switchRow).join('')}</div>`;
+  }
   if (movers.length){
     html += `<h2 class="sec">Price rises since last order <span class="n">${movers.length}</span></h2>`;
     html += `<p class="sec-note">A supplier's price went up between invoices — biggest first. You can't always switch,
@@ -180,14 +356,27 @@ function render(){
   if (suspect.length){
     html += `<h2 class="sec">Verify pack size <span class="n">${suspect.length}</span></h2>`;
     html += `<p class="sec-note">The gap here is too large to be a real price difference — usually one supplier
-      is priced per tray/dozen and the other per kg. Check the descriptions; if they're genuinely the same, tell me and I'll merge them.</p>`;
+      is priced per tray/dozen and the other per kg. Check the descriptions.${canMerge()
+        ? ' If they’re genuinely the same, hit <b>⇄ merge</b> to combine them.'
+        : ''}</p>`;
     html += suspect.map(comparedCard).join('');
   }
   if (single.length){
     html += `<h2 class="sec">Price list <span class="n">${single.length}</span></h2>`;
-    html += `<p class="sec-note">One supplier so far — listed with any movement since the last invoice.</p>`;
+    html += `<p class="sec-note">One supplier so far — listed with any movement since the last invoice.${canMerge()
+      ? ' Two rows that are the same ingredient? <b>⇄ merge</b> them so they compare.' : ''}</p>`;
     html += `<div class="pl"><table><thead><tr><th>Ingredient</th><th>Supplier</th><th class="r">Unit cost</th><th class="r">Movement</th></tr></thead><tbody>`;
     html += single.map(priceRow).join('') + `</tbody></table></div>`;
+  }
+  // Manage the manual merges a chef has made — each with an undo. Admin/bigchef only.
+  const aliasKeys = canMerge() && DATA.aliases ? Object.keys(DATA.aliases) : [];
+  if (aliasKeys.length){
+    html += `<h2 class="sec">Merges you've made <span class="n">${aliasKeys.length}</span></h2>`;
+    html += `<p class="sec-note">Ingredients you've told the system are the same thing. Undo any that were a mistake.</p>`;
+    html += `<div class="pl">` + aliasKeys.map(k =>
+      `<div class="switch"><span class="nm">${esc(k)}</span>
+        <span class="fl"><span class="arr">merged →</span><b>${esc(DATA.aliases[k])}</b></span>
+        <button class="mbtn" data-unmerge="${esc(k)}" style="margin-left:12px">undo</button></div>`).join('') + `</div>`;
   }
   document.getElementById('body').innerHTML = html || '<div class="empty">No ingredients match.</div>';
 }
