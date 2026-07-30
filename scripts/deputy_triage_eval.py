@@ -11,7 +11,7 @@ Output: data/deputy_triage_eval.json
 Env: DEPUTY_TOKEN, EVAL_DAYS (default 365).
 """
 from __future__ import annotations
-import json, os, re, sys
+import json, os, re, sys, time
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -48,7 +48,9 @@ def main():
             if len(batch) < 500:
                 break
             start += 500
+            time.sleep(0.4)
         t = u
+        time.sleep(0.4)
 
     dec = Counter()
     park_reasons = Counter()

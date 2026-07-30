@@ -19,7 +19,7 @@ Auth: OAuth DEPUTY_TOKEN (read scope only for phase 1). Endpoint:
 831d4015123255.au.deputy.com/api/v1/*
 """
 from __future__ import annotations
-import json, os, re, sys, urllib.request
+import json, os, re, sys, time, urllib.request, urllib.error
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
@@ -40,14 +40,32 @@ BREAK_MIN_SHIFT_H = 7.0
 APPROVE, PARK, SKIP = "would_approve", "park_for_human", "skip"
 
 
-def _req(method, path, body=None):
+def _req(method, path, body=None, _tries=5):
+    """Deputy request with exponential backoff on transient errors (503/429 are
+    common when the API is busy). Read-only callers only."""
     url = HOST + path
     data = json.dumps(body).encode() if body is not None else None
-    req = urllib.request.Request(url, data=data, method=method,
-                                 headers={"Authorization": f"OAuth {TOKEN}",
-                                          "Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return json.loads(r.read().decode())
+    last = None
+    for attempt in range(_tries):
+        req = urllib.request.Request(url, data=data, method=method,
+                                     headers={"Authorization": f"OAuth {TOKEN}",
+                                              "Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=90) as r:
+                return json.loads(r.read().decode())
+        except urllib.error.HTTPError as e:
+            last = e
+            if e.code in (429, 500, 502, 503, 504) and attempt < _tries - 1:
+                time.sleep(min(30, 3 * (2 ** attempt)))   # 3,6,12,24s
+                continue
+            raise
+        except urllib.error.URLError as e:
+            last = e
+            if attempt < _tries - 1:
+                time.sleep(min(30, 3 * (2 ** attempt)))
+                continue
+            raise
+    raise last
 
 
 def fetch_unapproved(days=7):
