@@ -88,6 +88,38 @@ check("Rhys overstay -> approve", dt.decide(r)[0] == dt.APPROVE)
 r = ts_at(PAST, 10, 0, 17, 0, break_min=30); r["Employee"] = 60; r["OperationalUnit"] = 6  # no roster
 check("no roster -> park", dt.decide(r)[0] == dt.PARK)
 
+# ---- comment parser (learned phrasings) ----
+check("comment_no_break 'no break'", dt.comment_no_break("no break"))
+check("comment_no_break 'No break taken thanks'", dt.comment_no_break("No break taken thanks"))
+check("comment_no_break 'nb'", dt.comment_no_break("nb"))
+check("comment_no_break typo 'ni break taken'", dt.comment_no_break("ni break taken"))
+check("comment_no_break NOT '30 min break taken'", not dt.comment_no_break("30 min break taken"))
+check("comment_no_break NOT 'good shift'", not dt.comment_no_break("good shift"))
+check("declared_break '30 min break taken' == 30", dt.comment_declared_break_min("30 min break taken") == 30)
+check("needs_human 'Started 5:30'", dt.comment_needs_human("Started 5:30"))
+check("needs_human NOT 'good shift'", not dt.comment_needs_human("good shift"))
+
+# ---- THE underpayment guard: no-break comment but a break was deducted ----
+r = ts_at(PAST, 13, 0, 22, 30, roster_eh=22, break_min=30); r["Employee"] = 60; r["OperationalUnit"] = 8
+r["EmployeeComment"] = "No break taken thanks"
+d, why = dt.decide(r)
+check("no-break comment + 30m deducted -> park (underpay risk)", d == dt.PARK and "UNDERPAY" in why)
+
+# no-break comment + no break deducted = consistent, short shift -> approve (full pay)
+r = ts_at(PAST, 11, 0, 15, 0, roster_eh=15, break_min=0); r["Employee"] = 60
+r["EmployeeComment"] = "no break"
+check("no-break comment + 0 deducted, short -> approve", dt.decide(r)[0] == dt.APPROVE)
+
+# comment states a break that doesn't match the deduction -> park to reconcile
+r = ts_at(PAST, 10, 0, 16, 0, roster_eh=16, break_min=0, total=6.0); r["Employee"] = 60
+r["EmployeeComment"] = "30 minute break taken"
+check("declared 30m but 0 deducted -> park reconcile", dt.decide(r)[0] == dt.PARK)
+
+# clock-time correction comment -> needs a human even if otherwise clean
+r = ts_at(PAST, 10, 0, 16, 0, roster_eh=16, break_min=30); r["Employee"] = 60
+r["EmployeeComment"] = "forgot to sign in, started 9:30"
+check("clock-correction comment -> park", dt.decide(r)[0] == dt.PARK)
+
 print()
 print("ALL PASS" if not fails else f"{len(fails)} FAILED")
 sys.exit(1 if fails else 0)

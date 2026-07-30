@@ -19,7 +19,7 @@ Auth: OAuth DEPUTY_TOKEN (read scope only for phase 1). Endpoint:
 831d4015123255.au.deputy.com/api/v1/*
 """
 from __future__ import annotations
-import json, os, sys, urllib.request
+import json, os, re, sys, urllib.request
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
@@ -97,6 +97,52 @@ def mealbreak_min(ts):
     return dec if dec is not None else cross
 
 
+def _norm(c):
+    return re.sub(r"\s+", " ", (c or "").lower().replace("\u2019", "'").replace("`", "'")).strip()
+
+
+def comment_no_break(comment) -> bool:
+    """Staff declaring they worked through their break. Learned phrasings (a year
+    of history): 'no break', 'no break taken', 'nb', 'no breaks', 'no meal break',
+    "didn't take (a/my) break", 'break not taken', plus typos ('ni break taken',
+    'no break talen'). This is the signal the old process mishandled."""
+    c = _norm(comment)
+    if not c:
+        return False
+    if "no break" in c or "no breaks" in c or "no meal" in c or "ni break" in c:
+        return True
+    if "break not taken" in c or "without break" in c or "worked through" in c or "straight through" in c:
+        return True
+    if re.search(r"did\s*n?[o']?t?\s+take\b.*break", c) or c.strip() == "nb":
+        return True
+    return False
+
+
+def comment_declared_break_min(comment):
+    """A break duration the staff member states, e.g. '30 min break taken' -> 30."""
+    c = _norm(comment)
+    if "break" not in c:
+        return None
+    m = re.search(r"(\d+)\s*(hour|hr|min|minute)s?\b", c)
+    if not m:
+        return None
+    v = int(m.group(1))
+    return v * 60 if m.group(2).startswith(("hour", "hr")) else v
+
+
+def comment_needs_human(comment) -> bool:
+    """Clock-time corrections or area/venue splits the sheet needs edited by hand
+    (e.g. 'started 5:30', 'forgot to sign in', '2-6 Stow / 6-10 HG')."""
+    c = _norm(comment)
+    if not c:
+        return False
+    if re.search(r"\bstart(ed|ing)?\b|\bfinish(ed)?\b|\bforgot\b|\bclock\b|sign\s*in|\d{1,2}[:.]\d{2}|\b\d{1,2}\s*(am|pm)\b", c):
+        return True
+    if re.search(r"\b(stow|hg|harry|floor|bar|kitchen|pizza)\b", c) and re.search(r"\d", c):
+        return True
+    return False
+
+
 def decide(ts) -> tuple[str, str]:
     """(decision, reason) for one timesheet. Pure function; parks when unsure."""
     emp = ts.get("Employee")
@@ -120,6 +166,17 @@ def decide(ts) -> tuple[str, str]:
     if emp == ZAK:
         return PARK, "Zak's own timesheet — needs manual shift splits"
 
+    # ---- comment signals (apply to everyone; this is the underpayment guard) ----
+    mb = mealbreak_min(ts)
+    comment = ts.get("EmployeeComment") or ""
+    if comment_no_break(comment) and mb and mb > 0:
+        return PARK, f"UNDERPAY RISK: comment says no break but {mb}m deducted — pay in FULL (Kris/Zak)"
+    _dbm = comment_declared_break_min(comment)
+    if _dbm is not None and mb is not None and abs(_dbm - mb) > 2:
+        return PARK, f"comment states {_dbm}m break but {mb}m deducted — reconcile (Kris)"
+    if comment_needs_human(comment):
+        return PARK, "comment notes a clock-time / area correction — needs a human"
+
     ro = ts.get("RosterObject") or {}
     roster_end = ro.get("EndTime")
     overstay_h = (end - roster_end) / 3600 if roster_end else None
@@ -128,8 +185,7 @@ def decide(ts) -> tuple[str, str]:
         return APPROVE, f"salaried ({SALARIED[emp]}) — overstay auto-approve rule"
 
     # ---- casuals ----
-    ou = ts.get("OperationalUnit")
-    mb = mealbreak_min(ts)   # None = unreadable, 0 = no break, else minutes
+    ou = ts.get("OperationalUnit")   # mb (break) already computed above
 
     # PAY-SAFETY gate — break must be plainly normal before we ever auto-approve.
     if mb is None:
