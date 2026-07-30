@@ -73,9 +73,10 @@ def main() -> int:
         # description. Refuses (skips) exactly when the ingredient UI would flag.
         qty, unit, per, how, bad = resolve_pack(
             desc, pack_cost, basis=r.get("basis", ""), note=r.get("note", ""))
-        # A pack the parser couldn't read but a chef HAS confirmed: use their size
-        # ($/pack ÷ pack_qty) so it becomes a real cost instead of being skipped.
-        if (not qty or not unit or bad) and iid in overrides:
+        # A confirmed pack (chef or catalogue) is AUTHORITATIVE — it wins even over
+        # a resolved pack, so it can CORRECT a wrong one (a box of loose produce
+        # that parsed to "1 box" becomes the real weight). Must match build_ingredients.
+        if iid in overrides:
             oq, ou = overrides[iid]
             qty, unit, bad, how = oq, ou, "", "chef-confirmed"
             per = (pack_cost / oq).quantize(Decimal("0.000001"))

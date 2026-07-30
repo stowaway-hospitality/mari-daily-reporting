@@ -455,9 +455,11 @@ def main() -> int:
         pack_cost = Decimal(r["cost_per_unit_incl_gst"])
         qty, unit, per, how, bad = resolve_pack(
             desc, pack_cost, basis=r.get("basis", ""), note=r.get("note", ""), code=code)
-        # a chef has confirmed this pack -> use their size so it costs and stops
-        # showing "confirm pack" (same override the cost feed reads)
-        if (not qty or not unit or bad) and key in overrides:
+        # A confirmed pack (chef or catalogue) is AUTHORITATIVE — it wins even over
+        # a resolved pack, because it also corrects a WRONG resolution: a box of
+        # loose produce parses to "1 box" (uncostable in a recipe — you can't use
+        # half a box) and the override replaces it with the real weight/count.
+        if key in overrides:
             oq, ou = overrides[key]
             qty, unit, bad, how = oq, ou, "", "chef-confirmed"
             per = pack_cost / oq

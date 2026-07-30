@@ -162,3 +162,41 @@
   by: "per carton (produce)"
   on: 2026-07-30
   by_email: "zak@stowawaybar.com"
+# Box-priced FOOD items — a chef can't put "half a box" in a recipe, so give the
+# box its CONTENTS from the FFT catalogue. Weight for loose produce; count for eggs.
+- id: "fresh-fruit-team:POTCOBX"
+  pack_qty: 20000
+  pack_unit: g
+  by: "FFT catalogue (Potato Cocktail 20kg)"
+  on: 2026-07-30
+  by_email: "thefreshfruitteamptyltd.shop.bossqi.app"
+- id: "fresh-fruit-team:TGL10BX BOX"
+  pack_qty: 10000
+  pack_unit: g
+  by: "FFT catalogue (Tomatoes Gourmet Large 10kg box)"
+  on: 2026-07-30
+  by_email: "thefreshfruitteamptyltd.shop.bossqi.app"
+- id: "fresh-fruit-team:LRW15BG BOX"
+  pack_qty: 1500
+  pack_unit: g
+  by: "FFT catalogue (Rocket Wild 1.5kg)"
+  on: 2026-07-30
+  by_email: "thefreshfruitteamptyltd.shop.bossqi.app"
+- id: "fresh-fruit-team:MSHB2"
+  pack_qty: 4000
+  pack_unit: g
+  by: "FFT catalogue (Mushroom B Grade 4kg box)"
+  on: 2026-07-30
+  by_email: "thefreshfruitteamptyltd.shop.bossqi.app"
+- id: "select-fresh:MUSB"
+  pack_qty: 4000
+  pack_unit: g
+  by: "FFT catalogue std (Mushroom Button 4kg box)"
+  on: 2026-07-30
+  by_email: "thefreshfruitteamptyltd.shop.bossqi.app"
+- id: "fresh-fruit-team:EGL7BX"
+  pack_qty: 180
+  pack_unit: ea
+  by: "FFT catalogue (Eggs 15 doz/box = 180)"
+  on: 2026-07-30
+  by_email: "thefreshfruitteamptyltd.shop.bossqi.app"
