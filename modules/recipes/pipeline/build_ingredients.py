@@ -111,6 +111,11 @@ _NAME_FIX = {
     # confirmed against the FFT catalogue by exact price match (BBRYP $6.25 =
     # Blackberries punnet; SPUN $3.00 = Strawberries punnet).
     "BBRYP": "Blackberries", "SPUN": "Strawberries",
+    # truncated FFT fragments with no clean twin — real names from the FFT catalogue.
+    "MSHK": "Mushroom Button", "TGKG": "Tomatoes Gourmet",
+    "TGL10BX": "Tomatoes Gourmet Large", "ZGKG": "Zucchini Green",  # was "... 0.5Kg please"
+    # Select Fresh: "Tomato Cherry Pun" — "Pun" is a truncated Punnet.
+    "TOMCP": "Tomato Cherry",
 }
 
 
