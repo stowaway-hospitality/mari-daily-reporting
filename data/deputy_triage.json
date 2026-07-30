@@ -1,0 +1,38 @@
+{
+  "generated": "2026-07-30T06:10:07+00:00",
+  "mode": "report-only",
+  "counts": {
+    "would_approve": 1,
+    "park_for_human": 2,
+    "skip": 0
+  },
+  "would_approve": [
+    {
+      "timesheet_id": 35578,
+      "employee": "Nicola Bisato",
+      "area": "Admin",
+      "start": 1785301200,
+      "end": 1785328200,
+      "reason": "salaried (Nicola) \u2014 overstay auto-approve rule"
+    }
+  ],
+  "parked": [
+    {
+      "timesheet_id": 35552,
+      "employee": "TAKUMI ISHII",
+      "area": "Harry's Kitchen",
+      "start": 1785124800,
+      "end": 1785155400,
+      "reason": "meal break unreadable \u2014 park (never guess a break = never mis-pay)"
+    },
+    {
+      "timesheet_id": 35559,
+      "employee": "Olivia",
+      "area": "Harry's Kitchen",
+      "start": 1785135600,
+      "end": 1785155400,
+      "reason": "meal break unreadable \u2014 park (never guess a break = never mis-pay)"
+    }
+  ],
+  "skipped": []
+}
