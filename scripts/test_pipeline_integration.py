@@ -134,6 +134,28 @@ def main() -> int:
     check("price-compare uses the recipe resolver (single source of truth)",
           bpc.resolve_pack is resolve_pack)
 
+    # ---- SEAM 6: recipe pricing is INDEPENDENT of the Xero push --------------
+    # An invoice's prices must reach the recipe COGS book from PARSING alone — the
+    # moment it validates — never gated on being approved or pushed to Xero. That
+    # keeps the recipe/costing side alive even if the "dext-replacer" accounting
+    # (the Xero queue + approval poller) is never used. Guard it at the source:
+    # the pricing chain must not import the push/approval machinery, and must not
+    # filter cogs rows on approval state. A future "only cost approved invoices"
+    # change would couple them silently — this fails it loudly.
+    import re as _re
+    push_markers = ("xero_push", "xero_process_approvals", "build_invoice_queue",
+                    "xero_invoice_id", "AUTHORISED", "approved")
+    coupled = []
+    for rel in ("modules/invoices/build_cogs_list.py",
+                "modules/recipes/pipeline/build_costs.py",
+                "modules/recipes/cost.py"):
+        src = (ROOT / rel).read_text()
+        hits = [m for m in push_markers if _re.search(rf"\b{_re.escape(m)}\b", src)]
+        if hits:
+            coupled.append(f"{rel}: {hits}")
+    check("recipe pricing chain never references the Xero push / approval state",
+          not coupled, f"{coupled}")
+
     print()
     print("ALL SEAMS HOLD" if not fails else f"{len(fails)} SEAM(S) BROKEN")
     return 1 if fails else 0
