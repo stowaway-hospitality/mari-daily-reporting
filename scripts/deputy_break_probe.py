@@ -10,6 +10,7 @@ Env: DEPUTY_TOKEN (read), PROBE_DAYS (default 365).
 """
 from __future__ import annotations
 import json, os, sys, urllib.request
+import re
 from collections import Counter
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -83,6 +84,7 @@ def main():
     comments = Counter()
     break_kw_comments = Counter()
     no_break_but_deducted = []
+    clock_split_comments = Counter()
     _NB_KW = ("no break", "nobreak", "no br", "didnt break", "didn't break",
               "did not break", "without break", "worked through", "through break",
               "straight through", "no lunch", "no meal")
@@ -106,6 +108,8 @@ def main():
         if comment:
             cl = comment.lower()
             comments[cl[:70]] += 1
+            if re.search(r"start|finish|clock|sign\s*in|forgot|\d{1,2}[:.]\d{2}|\b\d{1,2}\s*(?:am|pm)\b|\b(?:stow|hg|harry|floor|bar|kitchen|pizza)\b", cl):
+                clock_split_comments[comment[:90]] += 1
             if any(k in cl for k in ("break", "lunch", "meal")) or "nb" == cl.strip():
                 break_kw_comments[cl[:70]] += 1
             # underpayment signature: staff say no break yet a break was deducted
@@ -150,6 +154,7 @@ def main():
         "slots_present_count": slots_present,
         "mismatch_samples": mismatch_samples,
         "top_comments": comments.most_common(25),
+        "clock_split_comments": clock_split_comments.most_common(70),
         "break_keyword_comments": break_kw_comments.most_common(40),
         "no_break_comment_but_break_deducted": no_break_but_deducted,
         "no_break_underpayment_count": len(no_break_but_deducted),
