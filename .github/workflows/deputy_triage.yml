@@ -1,0 +1,43 @@
+name: Deputy Triage (report-only)
+
+# Phase 1 of automating the daily timesheet approval: reads unapproved Deputy
+# timesheets and records what it WOULD approve / correct / park (data/deputy_
+# triage.json). Writes nothing back to Deputy — this is the validation phase.
+# Flip to a write-enabled phase 2 only after the decisions have been checked
+# against what Kris/Zak actually do, and a Deputy token with write scope is in.
+
+on:
+  schedule:
+    - cron: '0 23 * * *'   # ~09:00 AEST — after staff have clocked off
+  workflow_dispatch:
+
+concurrency:
+  group: deputy-triage
+  cancel-in-progress: false
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+
+      - name: Classifier self-test (rules must hold before we trust a report)
+        run: python3 scripts/test_deputy_triage.py
+
+      - name: Triage unapproved timesheets (report-only)
+        env:
+          DEPUTY_TOKEN: ${{ secrets.DEPUTY_TOKEN }}
+        run: python3 scripts/deputy_triage.py
+
+      - name: Commit triage report
+        if: always()
+        run: |
+          git config user.name "Deputy Triage"
+          git config user.email "hello@stowawaybar.com"
+          git add data/deputy_triage.json 2>/dev/null || true
+          git diff --quiet --staged || git commit -m "deputy triage $(date -u +%FT%TZ)"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break || sleep $((i*5)); done
