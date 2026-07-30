@@ -32,6 +32,7 @@ SYD = timezone(timedelta(hours=10))
 SALARIED = {3: "Zak", 1: "Kris", 5: "Nicola", 15: "Marssheel", 16: "Stephanie",
             41: "Bryony", 133: "Devon", 142: "Renan", 287: "Min", 297: "Pujan"}
 ZAK, MARSSHEEL, RHYS, OLLY = 3, 15, 145, 284
+KRIS, STEPHANIE = 1, 16
 FOH_OUS = {6, 13, 14, 15}
 FOH_OVERSTAY_CAP_H = 1.5
 RUNAWAY_H = 14.0
@@ -278,7 +279,72 @@ def comment_needs_human(comment) -> bool:
     return False
 
 
-def decide(ts, correctable=False) -> tuple[str, str]:
+def fetch_rosters(days=7):
+    """Index rostered shifts by (employee, date) -> list of segments. Used to
+    detect Kris/Stephanie missed-switches and to suggest a roster close time."""
+    since = int(datetime.now(timezone.utc).timestamp()) - days * 86400
+    until = int(datetime.now(timezone.utc).timestamp()) + 2 * 86400
+    try:
+        rows = _req("POST", "/api/v1/resource/Roster/QUERY", {
+            "search": {"s1": {"field": "StartTime", "type": "ge", "data": since},
+                       "s2": {"field": "StartTime", "type": "lt", "data": until}},
+            "join": ["OperationalUnitObject"], "max": 500})
+    except Exception:
+        return {}
+    idx = {}
+    for r in rows:
+        st = r.get("StartTime") or 0
+        if not st:
+            continue
+        d = datetime.fromtimestamp(st, SYD).date().isoformat()
+        idx.setdefault((r.get("Employee"), d), []).append({
+            "StartTime": st, "EndTime": r.get("EndTime") or 0,
+            "OperationalUnit": r.get("OperationalUnit"),
+            "ou_name": (r.get("_DPMetaData", {}).get("OperationalUnitInfo", {}) or {}).get("OperationalUnitName", "")})
+    return idx
+
+
+def _segments_for(ts, rosters):
+    if not rosters:
+        return []
+    st = ts.get("StartTime") or 0
+    if not st:
+        return []
+    d = datetime.fromtimestamp(st, SYD).date().isoformat()
+    return rosters.get((ts.get("Employee"), d), [])
+
+
+def _hhmm(u):
+    return datetime.fromtimestamp(u, SYD).strftime("%-I:%M%p").lower() if u else "?"
+
+
+def _close_hint(segs):
+    end = max((s["EndTime"] for s in segs if s.get("EndTime")), default=0)
+    return f" \u2192 close to rostered {_hhmm(end)}" if end else ""
+
+
+def missed_switch(ts, segs):
+    """Kris/Stephanie Pattern-1 missed-switch: one timesheet on the FIRST rostered
+    area that runs past a rostered area switch. Salaried, so no pay harm — but the
+    labour is mis-costed to the wrong area if approved as-is, so PARK for Kris."""
+    if len(segs) < 2:
+        return None
+    segs = sorted(segs, key=lambda r: r.get("StartTime") or 0)
+    if len({s.get("OperationalUnit") for s in segs}) < 2:
+        return None
+    ts_ou, ts_end = ts.get("OperationalUnit"), ts.get("EndTime") or 0
+    for nxt in segs[1:]:
+        if nxt.get("OperationalUnit") != segs[0].get("OperationalUnit"):
+            boundary = nxt.get("StartTime") or 0
+            if ts_ou == segs[0].get("OperationalUnit") and ts_end > boundary + 300:
+                a1 = segs[0].get("ou_name") or f"ou{segs[0].get('OperationalUnit')}"
+                a2 = nxt.get("ou_name") or f"ou{nxt.get('OperationalUnit')}"
+                return f"missed-switch: rostered {a1}\u2192{a2} at {_hhmm(boundary)}, one sheet spans both — split (Kris)"
+            break
+    return None
+
+
+def decide(ts, correctable=False, rosters=None) -> tuple[str, str]:
     """(decision, reason) for one timesheet. Pure function; parks when unsure."""
     emp = ts.get("Employee")
     start = ts.get("StartTime") or 0
@@ -290,13 +356,14 @@ def decide(ts, correctable=False) -> tuple[str, str]:
     today = datetime.now(SYD).date()
     start_d = datetime.fromtimestamp(start, SYD).date() if start else today
     if ts.get("IsInProgress"):
-        return (SKIP, "in progress on the current day — still on shift") if start_d >= today \
-            else (PARK, "in progress on a past day — needs closing to roster (Kris)")
+        if start_d >= today:
+            return SKIP, "in progress on the current day — still on shift"
+        return PARK, "forgot to clock off (in progress, past day)" + _close_hint(_segments_for(ts, rosters)) + " (Kris)"
 
     dur_h = (end - start) / 3600 if end and start else 0
     end_d = datetime.fromtimestamp(end, SYD).date() if end else start_d
     if dur_h > RUNAWAY_H or end_d > start_d:
-        return PARK, f"runaway/overnight ({dur_h:.1f}h) — forgotten clock-off (Kris)"
+        return PARK, f"runaway/overnight ({dur_h:.1f}h) — forgotten clock-off" + _close_hint(_segments_for(ts, rosters)) + " (Kris)"
 
     if emp == ZAK:
         return PARK, "Zak's own timesheet — needs manual shift splits"
@@ -324,6 +391,10 @@ def decide(ts, correctable=False) -> tuple[str, str]:
     roster_end = ro.get("EndTime")
     overstay_h = (end - roster_end) / 3600 if roster_end else None
 
+    if emp in (KRIS, STEPHANIE):
+        _ms = missed_switch(ts, _segments_for(ts, rosters))
+        if _ms:
+            return PARK, _ms
     if emp in SALARIED:
         return APPROVE, f"salaried ({SALARIED[emp]}) — overstay auto-approve rule"
 
@@ -358,11 +429,12 @@ def main() -> int:
         print("DEPUTY_TOKEN not set", file=sys.stderr)
         return 2
     rows = fetch_unapproved(7)
+    rosters = fetch_rosters(7)
     live = os.environ.get("DEPUTY_APPROVE") == "1"
     buckets = {APPROVE: [], PARK: [], SKIP: []}
     for ts in rows:
         tsv = rounded_view(ts) if live else ts            # decide on rounded times when correcting
-        code, reason = decide(tsv, correctable=live)
+        code, reason = decide(tsv, correctable=live, rosters=rosters)
         emp_info = ts.get("_DPMetaData", {}).get("EmployeeInfo", {})
         ou_info = ts.get("_DPMetaData", {}).get("OperationalUnitInfo", {})
         buckets[code].append({

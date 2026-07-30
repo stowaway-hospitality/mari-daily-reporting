@@ -162,6 +162,26 @@ r = ts_at(PAST, 13, 0, 22, 30, roster_eh=22, break_min=30); r["Employee"] = 60; 
 r["EmployeeComment"] = "No break taken thanks"
 check("underpay risk still parks even when correctable", dt.decide(r, correctable=True)[0] == dt.PARK)
 
+# ---- missed-switch detection (Kris/Stephanie) + roster close hint ----
+def seg(sh, eh, ou):
+    return {"StartTime": _u(sh, 0), "EndTime": _u(eh, 0), "OperationalUnit": ou, "ou_name": {9:"Admin",15:"HG Floor"}.get(ou, f"ou{ou}")}
+
+# Stephanie clocked one Admin sheet 12:00-20:15, rostered Admin 12-17 then HG Floor 17-20:30
+segs = [seg(12,17,9), seg(17,20,15)]
+r = ts_at(PAST, 12, 0, 20, 15, break_min=30); r["Employee"] = dt.STEPHANIE; r["OperationalUnit"] = 9
+check("missed_switch detected", dt.missed_switch(r, segs) is not None)
+check("missed-switch parks (not salaried-approve)", dt.decide(r, rosters={(dt.STEPHANIE, PAST.isoformat()): segs})[0] == dt.PARK)
+# without rosters, salaried still auto-approves (unchanged)
+check("no rosters -> salaried approve unchanged", dt.decide(r)[0] == dt.APPROVE)
+# a salaried sheet with a single rostered area is NOT a missed-switch
+check("single-area roster -> no missed switch", dt.missed_switch(r, [seg(12,20,9)]) is None)
+
+# forgotten clock-off gets a roster close hint in its reason
+r2 = ts_at(PAST, 17, 0, 0, 0, set_total=False); r2["IsInProgress"] = 1; r2["Employee"] = 60
+rc = {(60, PAST.isoformat()): [seg(17, 22, 6)]}
+d, why = dt.decide(r2, rosters=rc)
+check("forgot clock-off -> park with close hint", d == dt.PARK and "close to rostered" in why)
+
 print()
 print("ALL PASS" if not fails else f"{len(fails)} FAILED")
 sys.exit(1 if fails else 0)
