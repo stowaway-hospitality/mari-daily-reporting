@@ -39,6 +39,6 @@ jobs:
         run: |
           git config user.name "Deputy Triage"
           git config user.email "hello@stowawaybar.com"
-          git add data/deputy_triage.json 2>/dev/null || true
-          git diff --quiet --staged || git commit -m "deputy triage $(date -u +%FT%TZ)"
+          git add data/deputy_triage.json data/deputy_approvals_log.json 2>/dev/null || true
+          git diff --quiet --staged || git commit -m "deputy auto-approve $(date -u +%FT%TZ)"
           for i in 1 2 3; do git pull --rebase origin main && git push && break || sleep $((i*5)); done
