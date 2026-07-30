@@ -153,3 +153,12 @@
   by: "B&E catalogue"
   on: 2026-07-30
   by_email: "befoodsonline.com.au"
+# Select Fresh button mushrooms — sold by the carton, no stated weight (same as
+# the Fresh Fruit Team mushroom, which costs per box). Costable per carton;
+# a chef can confirm a kg weight later if they portion by gram.
+- id: "select-fresh:MUSB"
+  pack_qty: 1
+  pack_unit: box
+  by: "per carton (produce)"
+  on: 2026-07-30
+  by_email: "zak@stowawaybar.com"
