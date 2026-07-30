@@ -1,7 +1,7 @@
 {
   "generated": "2026-07-30",
-  "count": 249,
-  "compared": 6,
+  "count": 265,
+  "compared": 9,
   "movers": [
     {
       "name": "Chive",
@@ -58,10 +58,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 1.32,
-          "date": "2026-07-20",
+          "date": "2026-07-30",
           "desc": "Carrot Large",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         },
         {
@@ -78,6 +78,37 @@
       "min": 1.32,
       "max": 2.4,
       "spread_pct": 81.8,
+      "multi": true,
+      "suspect": false
+    },
+    {
+      "key": "carrot shredded",
+      "name": "Carrot Shredded",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 2.8,
+          "date": "2026-07-25",
+          "desc": "CARROT SHREDDED",
+          "change_pct": null,
+          "n": 3,
+          "prev_cost": null
+        },
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.9,
+          "date": "2026-07-30",
+          "desc": "Carrot Shredded",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 2.8,
+      "max": 3.9,
+      "spread_pct": 39.3,
       "multi": true,
       "suspect": false
     },
@@ -113,33 +144,33 @@
       "suspect": false
     },
     {
-      "key": "shallot",
-      "name": "Shallot",
+      "key": "broccolini",
+      "name": "Broccolini",
       "unit": "bunch",
       "suppliers": [
         {
-          "supplier": "Select Fresh",
-          "cost": 2.6,
-          "date": "2026-07-30",
-          "desc": "SHALLOT BCH",
-          "change_pct": -13.3,
-          "n": 6,
-          "prev_cost": 3.0
-        },
-        {
           "supplier": "Fresh Fruit Team",
-          "cost": 3.41,
-          "date": "2026-07-25",
-          "desc": "Shallot",
+          "cost": 3.6,
+          "date": "2026-07-30",
+          "desc": "Broccolini",
           "change_pct": null,
           "n": 1,
           "prev_cost": null
+        },
+        {
+          "supplier": "Select Fresh",
+          "cost": 4.6,
+          "date": "2026-07-29",
+          "desc": "BROCCOLINI BABY BCH",
+          "change_pct": null,
+          "n": 2,
+          "prev_cost": null
         }
       ],
-      "cheapest": "Select Fresh",
-      "min": 2.6,
-      "max": 3.41,
-      "spread_pct": 31.2,
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.6,
+      "max": 4.6,
+      "spread_pct": 27.8,
       "multi": true,
       "suspect": false
     },
@@ -171,6 +202,68 @@
       "min": 3.1,
       "max": 3.9,
       "spread_pct": 25.8,
+      "multi": true,
+      "suspect": false
+    },
+    {
+      "key": "lemon",
+      "name": "Lemon",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.3,
+          "date": "2026-07-30",
+          "desc": "Lemon",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        },
+        {
+          "supplier": "Select Fresh",
+          "cost": 4.1,
+          "date": "2026-07-25",
+          "desc": "LEMON KG",
+          "change_pct": 13.9,
+          "n": 3,
+          "prev_cost": 3.6
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.3,
+      "max": 4.1,
+      "spread_pct": 24.2,
+      "multi": true,
+      "suspect": false
+    },
+    {
+      "key": "shallot",
+      "name": "Shallot",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 2.6,
+          "date": "2026-07-30",
+          "desc": "SHALLOT BCH",
+          "change_pct": -13.3,
+          "n": 6,
+          "prev_cost": 3.0
+        },
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.14,
+          "date": "2026-07-30",
+          "desc": "Shallot",
+          "change_pct": -7.9,
+          "n": 2,
+          "prev_cost": 3.41
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 2.6,
+      "max": 3.14,
+      "spread_pct": 20.8,
       "multi": true,
       "suspect": false
     },
@@ -221,20 +314,20 @@
         },
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 13.2,
-          "date": "2026-07-20",
+          "cost": 2.75,
+          "date": "2026-07-30",
           "desc": "Herb Chives",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null
+          "change_pct": -79.2,
+          "n": 2,
+          "prev_cost": 13.2
         }
       ],
       "cheapest": "Select Fresh",
       "min": 2.7,
-      "max": 13.2,
-      "spread_pct": 388.9,
+      "max": 2.75,
+      "spread_pct": 1.9,
       "multi": true,
-      "suspect": true
+      "suspect": false
     },
     {
       "key": "alehouse crisp keg",
@@ -633,6 +726,28 @@
       "suspect": false
     },
     {
+      "key": "bbryp",
+      "name": "Bbryp",
+      "unit": "punnet",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 6.25,
+          "date": "2026-07-30",
+          "desc": "BBRYP Punnet",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 6.25,
+      "max": 6.25,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "a10 bean black trading whole",
       "name": "Bean Black Whole A10 Trading",
       "unit": "ea",
@@ -794,10 +909,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 36.0,
-          "date": "2026-07-28",
+          "date": "2026-07-30",
           "desc": "BRL Box",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null
         }
       ],
@@ -826,28 +941,6 @@
       "cheapest": "Fresh Fruit Team",
       "min": 36.0,
       "max": 36.0,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
-      "key": "broccolini",
-      "name": "Broccolini Baby",
-      "unit": "bunch",
-      "suppliers": [
-        {
-          "supplier": "Select Fresh",
-          "cost": 4.6,
-          "date": "2026-07-29",
-          "desc": "BROCCOLINI BABY BCH",
-          "change_pct": null,
-          "n": 2,
-          "prev_cost": null
-        }
-      ],
-      "cheapest": "Select Fresh",
-      "min": 4.6,
-      "max": 4.6,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -919,6 +1012,28 @@
       "suspect": false
     },
     {
+      "key": "button",
+      "name": "Button",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 11.0,
+          "date": "2026-07-30",
+          "desc": "Button",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 11.0,
+      "max": 11.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "cabbage green shredded",
       "name": "Cabbage Green Shredded",
       "unit": "kg",
@@ -958,6 +1073,28 @@
       "cheapest": "Select Fresh",
       "min": 4.8,
       "max": 4.8,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "cabbage shredded",
+      "name": "Cabbage Shredded",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 6.9,
+          "date": "2026-07-30",
+          "desc": "Cabbage Shredded",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 6.9,
+      "max": 6.9,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1024,28 +1161,6 @@
       "cheapest": "Paramount",
       "min": 23.17,
       "max": 23.17,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
-      "key": "carrot shredded",
-      "name": "Carrot Shredded",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Select Fresh",
-          "cost": 2.8,
-          "date": "2026-07-25",
-          "desc": "CARROT SHREDDED",
-          "change_pct": null,
-          "n": 3,
-          "prev_cost": null
-        }
-      ],
-      "cheapest": "Select Fresh",
-      "min": 2.8,
-      "max": 2.8,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1645,6 +1760,28 @@
       "suspect": false
     },
     {
+      "key": "chilly long red",
+      "name": "Chilly Red Long",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 12.1,
+          "date": "2026-07-30",
+          "desc": "Chillies Red Long",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 12.1,
+      "max": 12.1,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "chive",
       "name": "Chive",
       "unit": "ea",
@@ -1652,10 +1789,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 15.4,
-          "date": "2026-07-28",
+          "date": "2026-07-30",
           "desc": "Chives",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null
         }
       ],
@@ -1684,6 +1821,28 @@
       "cheapest": "Select Fresh",
       "min": 2.2,
       "max": 2.2,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "choy sum",
+      "name": "Choy Sum",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 2.75,
+          "date": "2026-07-30",
+          "desc": "Choy Sum (Bunch)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 2.75,
+      "max": 2.75,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -1828,10 +1987,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 7.7,
-          "date": "2026-07-23",
+          "date": "2026-07-30",
           "desc": "Coriander",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
@@ -1926,6 +2085,28 @@
       "cheapest": "Select Fresh",
       "min": 2.5,
       "max": 2.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "corn sweet",
+      "name": "Corn Sweet",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 1.32,
+          "date": "2026-07-30",
+          "desc": "Corn Sweet",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 1.32,
+      "max": 1.32,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2124,6 +2305,28 @@
       "cheapest": "Paramount",
       "min": 3.726,
       "max": 3.726,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "diced",
+      "name": "Diced",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 15.12,
+          "date": "2026-07-30",
+          "desc": "Diced",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 15.12,
+      "max": 15.12,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2774,16 +2977,38 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 3.85,
-          "date": "2026-07-25",
+          "date": "2026-07-30",
           "desc": "Garlic Peeled",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null
         }
       ],
       "cheapest": "Fresh Fruit Team",
       "min": 3.85,
       "max": 3.85,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "ginger",
+      "name": "Ginger",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 13.2,
+          "date": "2026-07-30",
+          "desc": "Ginger",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 13.2,
+      "max": 13.2,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -2806,6 +3031,28 @@
       "cheapest": "Cellarhand Consulting",
       "min": 34.825,
       "max": 34.825,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "gourmet",
+      "name": "Gourmet",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.4,
+          "date": "2026-07-30",
+          "desc": "Gourmet",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.4,
+      "max": 3.4,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3405,28 +3652,6 @@
       "suspect": false
     },
     {
-      "key": "lemon",
-      "name": "Lemon",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Select Fresh",
-          "cost": 4.1,
-          "date": "2026-07-25",
-          "desc": "LEMON KG",
-          "change_pct": 13.9,
-          "n": 3,
-          "prev_cost": 3.6
-        }
-      ],
-      "cheapest": "Select Fresh",
-      "min": 4.1,
-      "max": 4.1,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false
-    },
-    {
       "key": "amalfi lemon",
       "name": "Lemon Amalfi",
       "unit": "kg",
@@ -3620,6 +3845,28 @@
       "cheapest": "Select Fresh",
       "min": 52.0,
       "max": 52.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "lime",
+      "name": "Lime",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 12.1,
+          "date": "2026-07-30",
+          "desc": "Lime",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 12.1,
+      "max": 12.1,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -3840,6 +4087,28 @@
       "cheapest": "Fresh Fruit Team",
       "min": 11.9,
       "max": 11.9,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "brown king mushroom",
+      "name": "Mushroom King Brown",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 43.2,
+          "date": "2026-07-30",
+          "desc": "Mushroom King Brown (500g Punnet)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 43.2,
+      "max": 43.2,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4769,6 +5038,28 @@
       "suspect": false
     },
     {
+      "key": "rhbch",
+      "name": "Rhbch",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 5.28,
+          "date": "2026-07-30",
+          "desc": "RHBCH Bunch",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 5.28,
+      "max": 5.28,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "jasmine rice trading",
       "name": "Rice Jasmine Trading",
       "unit": "kg",
@@ -4786,6 +5077,50 @@
       "cheapest": "Foodlink",
       "min": 2.2,
       "max": 2.2,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "rocket wild",
+      "name": "Rocket Wild",
+      "unit": "box",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 17.6,
+          "date": "2026-07-30",
+          "desc": "Rocket Wild",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 17.6,
+      "max": 17.6,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "rockmelon",
+      "name": "Rockmelon",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.85,
+          "date": "2026-07-30",
+          "desc": "Rockmelon",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.85,
+      "max": 3.85,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -4830,6 +5165,28 @@
       "cheapest": "ILG",
       "min": 51.6611,
       "max": 51.6611,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
+      "key": "rosemary",
+      "name": "Rosemary",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 1.98,
+          "date": "2026-07-30",
+          "desc": "Rosemary",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 1.98,
+      "max": 1.98,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false
@@ -5143,6 +5500,28 @@
       "suspect": false
     },
     {
+      "key": "spun",
+      "name": "Spun",
+      "unit": "punnet",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.0,
+          "date": "2026-07-30",
+          "desc": "SPUN Punnet",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.0,
+      "max": 3.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false
+    },
+    {
       "key": "cut pineapple squid u5",
       "name": "Squid Pineapple Cut U5",
       "unit": "kg",
@@ -5237,17 +5616,17 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 2.2,
-          "date": "2026-07-23",
+          "cost": 1.98,
+          "date": "2026-07-30",
           "desc": "Thyme",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null
+          "change_pct": -10.0,
+          "n": 2,
+          "prev_cost": 2.2
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 2.2,
-      "max": 2.2,
+      "min": 1.98,
+      "max": 1.98,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false

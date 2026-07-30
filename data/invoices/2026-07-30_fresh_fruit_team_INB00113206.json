@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "fresh_fruit_team",
+    "supplier_name_raw": "The Fresh Fruit Team Pty Ltd",
+    "invoice_ref": "INB00113206",
+    "invoice_date": "2026-07-30",
+    "total_incl": "34.60",
+    "lines": [
+      {
+        "description": "Rocket Wild",
+        "qty": "1",
+        "line_total_incl": "17.60",
+        "unit_price_incl": "17.60",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "LRW15BG Box",
+        "raw_qty": null,
+        "raw_uom": "Lettuce",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Gourmet",
+        "qty": "5",
+        "line_total_incl": "17.00",
+        "unit_price_incl": "3.40",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "TGKG Kilogram",
+        "raw_qty": null,
+        "raw_uom": "Tomatoes",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-08-13",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "d158d3cc538791e3c388ceba236c02075fda81e76d29ad2b0e077c5df41cc74a.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "34.60",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "Rocket Wild",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Gourmet",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
