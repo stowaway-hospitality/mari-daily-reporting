@@ -453,6 +453,9 @@ def main() -> int:
             rs, re_ = ts.get("StartTime") or 0, ts.get("EndTime") or 0
             bmin = mealbreak_min(ts)
             r_start, r_end = _round15_ts(rs), _round15_ts(re_)
+            if r_end and r_end > int(datetime.now(timezone.utc).timestamp()):
+                r_end = re_   # never round an end into the future — Deputy rejects it, and
+                              # rounding down would underpay; leave the raw end (approve as-is)
             r_break = _round15_min(bmin) if bmin is not None else None
             ou = ts.get("OperationalUnit")
             note = []
