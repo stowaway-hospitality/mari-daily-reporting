@@ -353,7 +353,7 @@ def main() -> int:
     OUT.write_text(json.dumps(rec, indent=2))
 
     c = rec["counts"]
-    print(f"Deputy triage (REPORT-ONLY) — {len(rows)} unapproved in last 7 days")
+    print(f"Deputy timesheets ({'LIVE auto-approve' if live else 'report-only'}) — {len(rows)} unapproved in last 7 days")
     print(f"  would auto-approve : {c[APPROVE]}")
     print(f"  parked for a human : {c[PARK]}")
     print(f"  skipped (leave/now): {c[SKIP]}")
