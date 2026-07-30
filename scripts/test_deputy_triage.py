@@ -135,6 +135,33 @@ r["EmployeeComment"] = "Started at 5:15 forgot to clock on"
 d, why = dt.decide(r)
 check("clock comment -> park with detail", d == dt.PARK and "clock/area correction" in why and "5:15" in why)
 
+# ---- Rule 1 / 1B rounding (corrections) ----
+def _u(h, m):
+    return int(datetime(PAST.year, PAST.month, PAST.day, h, m, tzinfo=dt.SYD).timestamp())
+check("round time 17:08 -> 17:15", dt._round15_ts(_u(17,8)) == _u(17,15))
+check("round time 17:22 -> 17:15", dt._round15_ts(_u(17,22)) == _u(17,15))
+check("round time 22:38 -> 22:45", dt._round15_ts(_u(22,38)) == _u(22,45))
+check("round break 22 -> 15", dt._round15_min(22) == 15)
+check("round break 38 -> 45", dt._round15_min(38) == 45)
+check("round break 30 -> 30", dt._round15_min(30) == 30)
+
+# an off-grid break parks by default, but is APPROVE-able when correcting (we round it)
+r = ts_at(PAST, 10, 0, 16, 0, roster_eh=16, break_min=20); r["Employee"] = 60
+check("off-grid break parks by default", dt.decide(r)[0] == dt.PARK)
+check("off-grid break approves when correctable", dt.decide(r, correctable=True)[0] == dt.APPROVE)
+
+# rounded_view rounds times and keeps the break cross-check consistent
+r = ts_at(PAST, 10, 8, 16, 7, roster_eh=16, break_min=30); r["Employee"] = 60
+rv = dt.rounded_view(r)
+check("rounded_view rounds start", rv["StartTime"] == _u(10,15))
+check("rounded_view rounds end", rv["EndTime"] == _u(16,0))
+check("rounded_view keeps break readable", dt.mealbreak_min(rv) == 30)
+
+# a no-break underpay sheet is NEVER made correctable/approved
+r = ts_at(PAST, 13, 0, 22, 30, roster_eh=22, break_min=30); r["Employee"] = 60; r["OperationalUnit"] = 8
+r["EmployeeComment"] = "No break taken thanks"
+check("underpay risk still parks even when correctable", dt.decide(r, correctable=True)[0] == dt.PARK)
+
 print()
 print("ALL PASS" if not fails else f"{len(fails)} FAILED")
 sys.exit(1 if fails else 0)

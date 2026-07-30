@@ -86,6 +86,54 @@ def approve_sheet(tid):
         return False, str(e)
 
 
+def _round15_ts(u):
+    return int(round(u / 900.0)) * 900 if u else u
+
+
+def _round15_min(m):
+    return int(round(m / 15.0)) * 15
+
+
+def update_sheet(tid, ou, start=None, end=None, break_min=None, comment=None):
+    """POST /api/v1/supervise/timesheet/update — PAYROLL WRITE (Rule 1/1B rounding).
+    Requires intOpunitId. Returns (ok, detail). Updating resets TimeApproved, so
+    the caller re-approves after."""
+    body = {"intTimesheetId": tid, "intOpunitId": ou}
+    if start is not None:
+        body["intStartTimestamp"] = int(start)
+    if end is not None:
+        body["intEndTimestamp"] = int(end)
+    if break_min is not None:
+        body["intMealbreakMinute"] = int(break_min)
+    if comment:
+        body["strComment"] = comment
+    try:
+        r = _req("POST", "/api/v1/supervise/timesheet/update", body)
+        return True, r
+    except urllib.error.HTTPError as e:
+        try:
+            b = e.read().decode()[:160]
+        except Exception:
+            b = ""
+        return False, f"HTTP {e.code} {b}"
+    except Exception as e:
+        return False, str(e)
+
+
+def rounded_view(ts):
+    """A copy of the timesheet with start/end rounded to 15 min and TotalTime
+    reconciled so the break cross-check stays consistent."""
+    start, end = ts.get("StartTime") or 0, ts.get("EndTime") or 0
+    bmin = mealbreak_min(ts)
+    if not (start and end) or bmin is None:
+        return ts
+    v = dict(ts)
+    v["StartTime"] = _round15_ts(start)
+    v["EndTime"] = _round15_ts(end)
+    v["TotalTime"] = round((v["EndTime"] - v["StartTime"]) / 3600 - bmin / 60, 4)
+    return v
+
+
 def fetch_unapproved(days=7):
     since = int(datetime.now(timezone.utc).timestamp()) - days * 86400
     body = {
@@ -230,7 +278,7 @@ def comment_needs_human(comment) -> bool:
     return False
 
 
-def decide(ts) -> tuple[str, str]:
+def decide(ts, correctable=False) -> tuple[str, str]:
     """(decision, reason) for one timesheet. Pure function; parks when unsure."""
     emp = ts.get("Employee")
     start = ts.get("StartTime") or 0
@@ -287,7 +335,7 @@ def decide(ts) -> tuple[str, str]:
         return PARK, "meal break unreadable — park (never guess a break = never mis-pay)"
     if dur_h >= BREAK_MIN_SHIFT_H and mb == 0:
         return PARK, f"casual {dur_h:.1f}h shift, no break recorded — pay in FULL, Kris confirms compliance"
-    if mb % 15 != 0:
+    if mb % 15 != 0 and not correctable:
         return PARK, f"meal break {mb}m off the 15-min grid — park (breaks are never auto-adjusted)"
 
     if emp == RHYS:
@@ -310,9 +358,11 @@ def main() -> int:
         print("DEPUTY_TOKEN not set", file=sys.stderr)
         return 2
     rows = fetch_unapproved(7)
+    live = os.environ.get("DEPUTY_APPROVE") == "1"
     buckets = {APPROVE: [], PARK: [], SKIP: []}
     for ts in rows:
-        code, reason = decide(ts)
+        tsv = rounded_view(ts) if live else ts            # decide on rounded times when correcting
+        code, reason = decide(tsv, correctable=live)
         emp_info = ts.get("_DPMetaData", {}).get("EmployeeInfo", {})
         ou_info = ts.get("_DPMetaData", {}).get("OperationalUnitInfo", {})
         buckets[code].append({
@@ -320,18 +370,37 @@ def main() -> int:
             "employee": emp_info.get("DisplayName", str(ts.get("Employee"))),
             "area": ou_info.get("OperationalUnitName", ""),
             "start": ts.get("StartTime"), "end": ts.get("EndTime"),
-            "reason": reason,
+            "reason": reason, "_ts": ts,
         })
-    live = os.environ.get("DEPUTY_APPROVE") == "1"
+
     if live:
-        done = 0
+        done = corrected = 0
         for x in buckets[APPROVE]:
-            ok, detail = approve_sheet(x["timesheet_id"])
-            x["result"] = "approved" if ok else f"FAILED {detail}"
+            ts = x["_ts"]
+            rs, re_ = ts.get("StartTime") or 0, ts.get("EndTime") or 0
+            bmin = mealbreak_min(ts)
+            r_start, r_end = _round15_ts(rs), _round15_ts(re_)
+            r_break = _round15_min(bmin) if bmin is not None else None
+            ou = ts.get("OperationalUnit")
+            note = []
+            if ou and (r_start != rs or r_end != re_ or (r_break is not None and r_break != bmin)):
+                cok, cdetail = update_sheet(
+                    ts.get("Id"), ou,
+                    start=r_start if r_start != rs else None,
+                    end=r_end if r_end != re_ else None,
+                    break_min=r_break if (r_break is not None and r_break != bmin) else None,
+                    comment="Rounded start/end/break to nearest 15 min (auto)")
+                if cok:
+                    corrected += 1; note.append("rounded")
+                else:
+                    note.append(f"round FAILED {cdetail}")
+                    print(f"  CORRECT FAILED — {x['employee']} #{ts.get('Id')}: {cdetail}")
+            ok, detail = approve_sheet(ts.get("Id"))
+            x["result"] = ("approved" + (" + " + ", ".join(note) if note else "")) if ok else f"APPROVE FAILED {detail}"
             if ok:
                 done += 1
             else:
-                print(f"  APPROVE FAILED — {x['employee']} #{x['timesheet_id']}: {detail}")
+                print(f"  APPROVE FAILED — {x['employee']} #{ts.get('Id')}: {detail}")
         audit = ROOT / "data" / "deputy_approvals_log.json"
         try:
             logrows = json.loads(audit.read_text()) if audit.exists() else []
@@ -342,8 +411,12 @@ def main() -> int:
                                       "reason": x["reason"], "result": x.get("result")}
                                      for x in buckets[APPROVE]]})
         audit.write_text(json.dumps(logrows[-300:], indent=2))
-        print(f"LIVE auto-approve: {done}/{len(buckets[APPROVE])} safe sheets approved; "
-              f"{len(buckets[PARK])} left unapproved for Kris")
+        print(f"LIVE: {done}/{len(buckets[APPROVE])} approved ({corrected} rounded); "
+              f"{len(buckets[PARK])} left for Kris")
+
+    for _b in buckets.values():           # keep the raw ts out of the written report
+        for _x in _b:
+            _x.pop("_ts", None)
 
     rec = {"generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
            "mode": "live-approve" if live else "report-only",
