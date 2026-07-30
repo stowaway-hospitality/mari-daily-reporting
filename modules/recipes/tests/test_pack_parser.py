@@ -15,7 +15,31 @@ from __future__ import annotations
 
 from decimal import Decimal
 
-from modules.recipes.pipeline.build_ingredients import parse_pack, resolve_pack, is_non_food
+from modules.recipes.pipeline.build_ingredients import (
+    parse_pack, resolve_pack, is_non_food, normalize_code, _better_name)
+
+
+# ── FFT code/name normalisation (dedupe + proper names) ────────────────────
+
+def test_unit_word_bled_into_code_is_stripped():
+    # "AH20T Tray" and "AH20T" are the same product — the unit leaked into the code.
+    assert normalize_code("AH20T Tray") == "AH20T"
+    assert normalize_code("ONBRKG Kilogram") == "ONBRKG"
+    assert normalize_code("HCMB Market") == "HCMB"
+    assert normalize_code("TCPUN Punnet") == "TCPUN"
+
+
+def test_normalize_code_is_idempotent_and_never_empty():
+    assert normalize_code("AH20T") == "AH20T"
+    assert normalize_code("AH20T Tray") == normalize_code(normalize_code("AH20T Tray"))
+    assert normalize_code("Bunch") == "Bunch"      # nothing left to strip -> keep
+
+
+def test_fuller_name_wins_over_truncated_or_code_like():
+    assert _better_name("Hass", "Avocado Hass") == "Avocado Hass"
+    assert _better_name("Avocado Hass", "Hass") == "Avocado Hass"
+    assert _better_name("BRL Box", "Broccolini") == "Broccolini"      # real words beat a code
+    assert _better_name("Brown", "Onion Brown") == "Onion Brown"
 
 
 # ── non-food consumables must be kept out of the recipe picker ──────────────

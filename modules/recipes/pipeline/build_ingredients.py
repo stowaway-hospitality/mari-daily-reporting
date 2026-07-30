@@ -82,6 +82,49 @@ def is_non_food(desc: str) -> bool:
     return bool(_NON_FOOD.search(desc or ""))
 
 
+# Fresh Fruit Team (and occasionally others) leak the UNIT word into the supplier
+# CODE — "AH20T Tray", "ONBRKG Kilogram", "HCMB Market" — a column bleed in the
+# PDF parse. That mints a SECOND id for a product that already has a clean-code
+# row, so the picker shows it twice, and the leaked row also carried a truncated
+# description ("Hass" instead of "Avocado Hass"). Stripping the trailing unit
+# collapses the two to one identity; the fuller description then wins on merge.
+_CODE_UNIT_SUFFIX = re.compile(
+    r"\s+(tray|kilogram|kilo|kgs?|litres?|market|each|ea|punnet|box(?:es)?|"
+    r"bunch|bch|bags?|dozen|doz|ctn|carton)$", re.I)
+
+
+def normalize_code(code: str) -> str:
+    """Strip a trailing unit word bled into the code. Idempotent, multi-pass
+    ('X Kg Each' -> 'X'). Never returns empty — falls back to the original."""
+    c = (code or "").strip()
+    prev = None
+    while c != prev:
+        prev, c = c, _CODE_UNIT_SUFFIX.sub("", c).strip()
+    return c or (code or "").strip()
+
+
+# A few FFT codes never appear with a full description anywhere in the data (no
+# clean twin to inherit from). Map only the ones the code makes unambiguous;
+# leave genuinely-cryptic ones (BBRYP, SPUN) alone rather than guess.
+_NAME_FIX = {
+    "ONBRKG": "Onion Brown", "KITAPDKG": "Apple Diced", "RHBCH": "Rhubarb",
+}
+
+
+def _better_name(a: str, b: str) -> str:
+    """The fuller of two descriptions for the SAME product. Ranked by how many
+    REAL words it has (a real word has a lowercase letter and no digits), then by
+    FEWEST code-like tokens (all-caps blobs / anything with a digit — 'BRL',
+    'AH20T'), then length. So 'Broccolini' beats 'BRL Box' and 'Avocado Hass'
+    beats 'Hass'."""
+    def score(s):
+        words = (s or "").strip().split()
+        real = sum(1 for w in words if re.search(r"[a-z]", w) and not re.search(r"\d", w) and len(w) > 1)
+        codey = sum(1 for w in words if not re.search(r"[a-z]", w) or re.search(r"\d", w))
+        return (real, -codey, len((s or "").strip()))
+    return a if score(a) >= score(b) else b
+
+
 RECENT_DAYS = 90
 
 # --- pack parsing ----------------------------------------------------------
@@ -374,6 +417,48 @@ def main() -> int:
             item["review_reason"] = bad or how
             review += 1
         out.append(item)
+
+    # Collapse parser-artefact duplicates: two rows whose only real difference is
+    # a unit word bled into the supplier code ("AH20T" vs "AH20T Tray") are the
+    # SAME product shown twice, and the bled row also carried a truncated name
+    # ("Hass" vs "Avocado Hass"). Group by the NORMALISED code, keep the better-
+    # resolved row for the pack/id, and give it the fullest name across the pair.
+    collapsed: dict[tuple[str, str], dict] = {}
+    for it in out:
+        nkey = (it["supplier"], normalize_code(it.get("supplier_code") or ""))
+        cur = collapsed.get(nkey)
+        if cur is None:
+            collapsed[nkey] = it
+            continue
+        keep, other = ((it, cur) if (cur.get("needs_pack_review")
+                       and not it.get("needs_pack_review")) else (cur, it))
+        keep["description"] = _better_name(keep["description"], other["description"])
+        collapsed[nkey] = keep
+    out = list(collapsed.values())
+    # a few codes never carry a full name anywhere — apply the explicit fix
+    for it in out:
+        fix = _NAME_FIX.get(normalize_code(it.get("supplier_code") or "").upper())
+        if fix:
+            it["description"] = fix
+
+    # Second pass: two DIFFERENT codes can still be the same product once the
+    # names match (Carrot Large 'CLKG' per-kg vs 'CL20KGBX' the 20kg box — same
+    # carrots, same $/kg). Collapse identical (supplier, name), keeping the most
+    # useful row: resolved over flagged, a weight/volume unit over a discrete one
+    # (a chef portions by gram), then the cheaper. Exact-name within one supplier
+    # is safe — it is the same product bought two ways.
+    def _rank(it):
+        return (0 if not it.get("needs_pack_review") else 1,
+                0 if it.get("pack_unit") in ("g", "ml") else 1,
+                float(it.get("cost_per_base_unit") or 1e9))
+    byname: dict[tuple[str, str], dict] = {}
+    for it in out:
+        k = (it["supplier"], it["description"])
+        cur = byname.get(k)
+        if cur is None or _rank(it) < _rank(cur):
+            byname[k] = it
+    out = list(byname.values())
+    review = sum(1 for i in out if i.get("needs_pack_review"))
 
     out.sort(key=lambda i: (i["needs_pack_review"], i["description"]))
     OUT.write_text(json.dumps({
