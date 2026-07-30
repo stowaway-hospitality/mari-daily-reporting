@@ -1,0 +1,25 @@
+name: Deputy Triage Eval (read-only)
+on:
+  workflow_dispatch:
+    inputs:
+      days: { description: 'Days of history to evaluate', default: '365' }
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    permissions: { contents: write }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Evaluate triage over history (read-only)
+        env:
+          DEPUTY_TOKEN: ${{ secrets.DEPUTY_TOKEN }}
+          EVAL_DAYS: ${{ github.event.inputs.days || '365' }}
+        run: python3 scripts/deputy_triage_eval.py
+      - name: Commit eval report
+        if: always()
+        run: |
+          git config user.name "Deputy Eval"; git config user.email "hello@stowawaybar.com"
+          git add data/deputy_triage_eval.json 2>/dev/null || true
+          git diff --quiet --staged || git commit -m "deputy triage eval $(date -u +%FT%TZ)"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break || sleep $((i*5)); done
