@@ -80,6 +80,12 @@ def main():
 
     mb_types = Counter()
     mb_value_samples = Counter()
+    comments = Counter()
+    break_kw_comments = Counter()
+    no_break_but_deducted = []
+    _NB_KW = ("no break", "nobreak", "no br", "didnt break", "didn't break",
+              "did not break", "without break", "worked through", "through break",
+              "straight through", "no lunch", "no meal")
     dt_match = dt_checked = 0
     num_match = num_checked = 0
     slots_present = 0
@@ -96,6 +102,20 @@ def main():
         total = ts.get("TotalTime")
         if ts.get("Slots"):
             slots_present += 1
+        comment = (ts.get("EmployeeComment") or "").strip()
+        if comment:
+            cl = comment.lower()
+            comments[cl[:70]] += 1
+            if any(k in cl for k in ("break", "lunch", "meal")) or "nb" == cl.strip():
+                break_kw_comments[cl[:70]] += 1
+            # underpayment signature: staff say no break yet a break was deducted
+            dec_here = decode_datetime_timepart(mb)
+            if any(k in cl for k in _NB_KW) and dec_here and dec_here > 0:
+                emp = ts.get("_DPMetaData", {}).get("EmployeeInfo", {}).get("DisplayName", str(ts.get("Employee")))
+                no_break_but_deducted.append({
+                    "id": ts.get("Id"), "employee": emp, "start": ts.get("StartTime"),
+                    "deducted_break_min": dec_here, "comment": comment[:120],
+                    "approved": ts.get("TimeApproved")})
         if gross_h and total is not None and gross_h > 0:
             implied_break_min = round((gross_h - total) * 60)
             if -5 <= implied_break_min <= 240:  # sane break range
@@ -129,6 +149,10 @@ def main():
                            "match_pct": round(100 * num_match / num_checked, 1) if num_checked else None},
         "slots_present_count": slots_present,
         "mismatch_samples": mismatch_samples,
+        "top_comments": comments.most_common(25),
+        "break_keyword_comments": break_kw_comments.most_common(40),
+        "no_break_comment_but_break_deducted": no_break_but_deducted,
+        "no_break_underpayment_count": len(no_break_but_deducted),
         "total_vs_gross_samples": total_vs_gross,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -138,6 +162,8 @@ def main():
     print(f"datetime-timepart decode: {d['matched_ground_truth']}/{d['checked']} = {d['match_pct']}% match ground truth")
     print(f"numeric decode          : {n['matched_ground_truth']}/{n['checked']} = {n['match_pct']}% match ground truth")
     print(f"slots present on {slots_present} sheets")
+    print(f"break-keyword comments: {sum(break_kw_comments.values())} across {len(break_kw_comments)} distinct phrasings")
+    print(f"UNDERPAYMENT SIGNATURE (no-break comment + break still deducted): {len(no_break_but_deducted)} sheets")
     return 0
 
 
