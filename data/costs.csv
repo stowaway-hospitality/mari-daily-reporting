@@ -15,6 +15,7 @@ b-e:10796,2026-07-27,0.028000,g,stowaway,7022280,per kg (invoice),PROSCIUTTO SLI
 b-e:10796,2026-07-30,0.028000,g,stowaway,7040229,per kg (invoice),PROSCIUTTO SLICED 500G
 b-e:10876,2026-07-27,0.014000,g,stowaway,7021990,per kg (invoice),BEEF - BRISKET YG POINT
 b-e:10906,2026-07-24,0.014901,g,stowaway,7007301,per kg (invoice),FZ PORK - BELLY R/ON
+b-e:10906,2026-07-31,0.014900,g,stowaway,7047207,per kg (invoice),FZ PORK - BELLY R/ON
 b-e:11602,2026-07-23,0.012800,g,stowaway,7003742,chef-confirmed,ANTIPASTO - SUNDRIED
 b-e:11605,2026-07-16,0.010950,g,stowaway,6969915,2kg,ANTIPASTO - CHARGRILLED EGGPLANT 2KG TUB (4) MEZZAT
 b-e:12429,2026-07-24,0.004050,g,stowaway,7007301,2kg,BI - CARB SODA 2KG (6)
@@ -252,9 +253,11 @@ select-fresh:CHSHK,2026-07-24,0.039000,g,stowaway,3095368,per kg (invoice),CHILL
 select-fresh:CORNE,2026-07-23,2.50,ea,harry_gatos,3094317,per ea (invoice),CORN ON COB EA
 select-fresh:CUCGK,2026-07-29,0.006600,g,harry_gatos,3099423,per kg (invoice),CUCUMBER GREEN
 select-fresh:DAVID,2026-07-25,0.051000,g,harry_gatos,3097023,per kg (invoice),DAVIDSON PLUMS FROZEN KG
+select-fresh:EDMVI,2026-07-31,10.50,punnet,stowaway,3102777,per punnet (invoice),EDIBLE FLOWER MIXED VIOLA PUN
 select-fresh:EG700P,2026-07-22,0.008286,g,harry_gatos,3092061,700gm,EGG 700GM PACK (DOZ)
 select-fresh:HBAS,2026-07-24,4.600000,bunch,stowaway,3095368,bch,HERB BASIL BCH
 select-fresh:HBAS,2026-07-29,4.600000,bunch,stowaway,3100502,bch,HERB BASIL BCH
+select-fresh:HBAS,2026-07-31,4.600000,bunch,stowaway,3102820,bch,HERB BASIL BCH
 select-fresh:HCHI,2026-07-15,2.300000,bunch,harry_gatos,3084903,bch,HERB CHIVES BCH
 select-fresh:HCHI,2026-07-22,2.700000,bunch,harry_gatos,3092061,bch,HERB CHIVES BCH
 select-fresh:HCONT,2026-07-24,1.600000,bunch,stowaway,3095368,bch,HERB PARSLEY CONTINENTAL BCH
@@ -262,17 +265,23 @@ select-fresh:HCONT,2026-07-29,1.600000,bunch,stowaway,3100502,bch,HERB PARSLEY C
 select-fresh:HLIM,2026-07-24,0.111000,g,stowaway,3095387,per kg (invoice),LEAVES KAFFIR LIME KG
 select-fresh:HRMIN,2026-07-23,1.300000,bunch,stowaway,3094305,bch,HERB MINT ROUND LEAF BCH
 select-fresh:HRMIN,2026-07-29,1.300000,bunch,stowaway,3100502,bch,HERB MINT ROUND LEAF BCH
+select-fresh:HRMIN,2026-07-31,1.300000,bunch,stowaway,3102777,bch,HERB MINT ROUND LEAF BCH
+select-fresh:HSHIR,2026-07-31,3.900000,bunch,stowaway,3102828,bch,HERB SHISO RED BCH
+select-fresh:JUCAP,2026-07-31,0.002800,ml,stowaway,3102777,2ltr,JUICE CLEAR APPLE 2LTR
 select-fresh:JURUB,2026-07-23,0.002900,ml,stowaway,3094313,2ltr,JUICE RUBY GRAPEFRUIT 2LTR
 select-fresh:LEMAMALK,2026-07-23,0.006400,g,stowaway,3094313,per kg (invoice),LEMON AMALFI KG
 select-fresh:LEMK,2026-07-15,0.003600,g,harry_gatos,3084903,per kg (invoice),LEMON KG
 select-fresh:LEMK,2026-07-24,0.003600,g,stowaway,3095368,per kg (invoice),LEMON KG
 select-fresh:LEMK,2026-07-25,0.004100,g,harry_gatos,3097023,per kg (invoice),LEMON KG
+select-fresh:LEMVK,2026-07-31,0.005200,g,stowaway,3102777,per kg (invoice),LEMONS VIP KG
 select-fresh:LETGMB,2026-07-23,4.30,bag,harry_gatos,3094317,per bag (invoice),LETTUCE BABY GEM BAG
 select-fresh:LETS1,2026-07-24,0.012333,g,stowaway,3095368,1.5kg,LETTUCE BABY SPINACH 1.5KG CTN
 select-fresh:LETS1,2026-07-30,0.012333,g,stowaway,3101651,1.5kg,LETTUCE BABY SPINACH 1.5KG CTN
+select-fresh:LETS1,2026-07-31,0.012333,g,stowaway,3102820,1.5kg,LETTUCE BABY SPINACH 1.5KG CTN
 select-fresh:LETW1,2026-07-24,0.014000,g,stowaway,3095368,1.5kg,LETTUCE WILD ROCKET 1.5KG CTN
 select-fresh:LETW1,2026-07-30,0.014000,g,stowaway,3101651,1.5kg,LETTUCE WILD ROCKET 1.5KG CTN
 select-fresh:LIM,2026-07-24,52.000000,tray,stowaway,3095387,tray,LIMES TRAY
+select-fresh:LIM,2026-07-31,65.000000,tray,stowaway,3102777,tray,LIMES TRAY
 select-fresh:MUSB,2026-07-30,0.009125,g,stowaway,3101651,chef-confirmed,MUSHROOM BUTTON CTN
 select-fresh:ONIB,2026-07-29,34.00,bag,stowaway,3100502,per bag (invoice),ONION BROWN BAG
 select-fresh:ONIBK,2026-07-15,0.002400,g,harry_gatos,3084903,per kg (invoice),ONION BROWN KG
@@ -290,9 +299,11 @@ select-fresh:SHAL,2026-07-25,3.000000,bunch,harry_gatos,3097023,bch,SHALLOT BCH
 select-fresh:SHAL,2026-07-29,3.000000,bunch,harry_gatos,3099417,bch,SHALLOT BCH
 select-fresh:SHAL,2026-07-29,2.600000,bunch,stowaway,3100502,bch,SHALLOT BCH
 select-fresh:SHAL,2026-07-30,2.600000,bunch,stowaway,3101651,bch,SHALLOT BCH
+select-fresh:SHAL,2026-07-31,2.600000,bunch,stowaway,3102820,bch,SHALLOT BCH
 select-fresh:TBUS100,2026-07-15,0.165000,g,harry_gatos,3084903,100gm,TOMATO BUSH POWDER 100GM
 select-fresh:TOMCP,2026-07-29,3.20,punnet,stowaway,3100502,per punnet (invoice),TOMATO CHERRY PUN
 select-fresh:TOMCP,2026-07-30,3.20,punnet,stowaway,3101651,per punnet (invoice),TOMATO CHERRY PUN
+select-fresh:TOMCP,2026-07-31,3.20,punnet,stowaway,3102820,per punnet (invoice),TOMATO CHERRY PUN
 select-fresh:XCAU30,2026-07-24,0.006200,g,stowaway,3095368,per kg (invoice),CAULIFLOWER FLORETS SML 30MM
 select-fresh:XCAUFL,2026-07-22,0.006000,g,harry_gatos,3092061,per kg (invoice),CAULIFLOWER FLORETS
 select-fresh:XCAUFL,2026-07-29,0.006000,g,harry_gatos,3099417,per kg (invoice),CAULIFLOWER FLORETS
