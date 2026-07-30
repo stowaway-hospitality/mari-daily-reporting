@@ -88,7 +88,13 @@ check("casual 5h no break, clean -> approve", dt.decide(r)[0] == dt.APPROVE)
 r = ts_at(PAST, 10, 0, 16, 0, roster_eh=16); r["Employee"] = 60; r["Mealbreak"] = 1800
 check("clean within roster -> approve", dt.decide(r)[0] == dt.APPROVE)
 r = ts_at(PAST, 10, 0, 16, 0, roster_eh=16); r["Employee"] = 60; r["Mealbreak"] = 20*60  # 20m off-grid
-check("off-grid mealbreak -> correct", dt.decide(r)[0] == dt.CORRECT)
+check("off-grid mealbreak -> park (never auto-adjust a break)", dt.decide(r)[0] == dt.PARK)
+# the real Deputy break value that crashed the first run must park, never guess/crash
+r = ts_at(PAST, 10, 0, 16, 0, roster_eh=16); r["Employee"] = 60; r["Mealbreak"] = "2026-07-27T00:30:00"
+check("datetime-style break value -> park (no crash, no guess)", dt.decide(r)[0] == dt.PARK)
+# no break on a short shift is fine — full pay, nothing deducted
+r = ts_at(PAST, 11, 0, 15, 0, roster_eh=15); r["Employee"] = 60; r["Mealbreak"] = 0  # 4h no break
+check("no break, short shift -> approve (full pay)", dt.decide(r)[0] == dt.APPROVE)
 
 # unrostered overstay -> park (cannot verify cap)
 r = ts_at(PAST, 10, 0, 17, 0); r["Employee"] = 60; r["OperationalUnit"] = 6  # no RosterObject
