@@ -1,20 +1,29 @@
 {
-  "generated": "2026-07-30T07:47:08+00:00",
+  "generated": "2026-07-30T11:43:05+00:00",
   "mode": "live-approve",
   "counts": {
-    "would_approve": 1,
-    "park_for_human": 2,
+    "would_approve": 2,
+    "park_for_human": 4,
     "skip": 0
   },
   "would_approve": [
     {
-      "timesheet_id": 35578,
+      "timesheet_id": 35594,
       "employee": "Nicola Bisato",
-      "area": "Admin",
-      "start": 1785301200,
-      "end": 1785328200,
+      "area": "Stow Bar",
+      "start": 1785376800,
+      "end": 1785410100,
       "reason": "salaried (Nicola) \u2014 overstay auto-approve rule",
       "result": "approved"
+    },
+    {
+      "timesheet_id": 35600,
+      "employee": "Sushant Acharya",
+      "area": "Pizza Shop",
+      "start": 1785390960,
+      "end": 1785411720,
+      "reason": "clean \u2014 within rostered finish, break normal",
+      "result": "approved + round FAILED HTTP 400 {\"error\":{\"code\":400,\"message\":\"EndTime can not be in the future.\"}}"
     }
   ],
   "parked": [
@@ -33,6 +42,22 @@
       "start": 1785135600,
       "end": 1785155400,
       "reason": "casual overstay 0.50h in non-FOH area (ou16) \u2014 Kris"
+    },
+    {
+      "timesheet_id": 35605,
+      "employee": "Reef Houston",
+      "area": "Driver",
+      "start": 1785396600,
+      "end": 1785408300,
+      "reason": "casual overstay 0.50h in non-FOH area (ou12) \u2014 Kris"
+    },
+    {
+      "timesheet_id": 35606,
+      "employee": "Reef Poole",
+      "area": "Pizza Shop",
+      "start": 1785396600,
+      "end": 1785408300,
+      "reason": "casual overstay 0.25h in non-FOH area (ou7) \u2014 Kris"
     }
   ],
   "skipped": []
