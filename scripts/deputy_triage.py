@@ -68,6 +68,24 @@ def _req(method, path, body=None, _tries=5):
     raise last
 
 
+def approve_sheet(tid):
+    """Approve one timesheet: POST /api/v1/supervise/timesheet/approve. This is a
+    PAYROLL WRITE — only ever called for the proven-safe APPROVE bucket. Returns
+    (ok, detail). Does not retry a 4xx (a 403 = token lacks write scope)."""
+    try:
+        r = _req("POST", "/api/v1/supervise/timesheet/approve", {"intTimesheetId": tid})
+        return True, r
+    except urllib.error.HTTPError as e:
+        body = ""
+        try:
+            body = e.read().decode()[:160]
+        except Exception:
+            pass
+        return False, f"HTTP {e.code} {body}"
+    except Exception as e:
+        return False, str(e)
+
+
 def fetch_unapproved(days=7):
     since = int(datetime.now(timezone.utc).timestamp()) - days * 86400
     body = {
@@ -304,8 +322,31 @@ def main() -> int:
             "start": ts.get("StartTime"), "end": ts.get("EndTime"),
             "reason": reason,
         })
+    live = os.environ.get("DEPUTY_APPROVE") == "1"
+    if live:
+        done = 0
+        for x in buckets[APPROVE]:
+            ok, detail = approve_sheet(x["timesheet_id"])
+            x["result"] = "approved" if ok else f"FAILED {detail}"
+            if ok:
+                done += 1
+            else:
+                print(f"  APPROVE FAILED — {x['employee']} #{x['timesheet_id']}: {detail}")
+        audit = ROOT / "data" / "deputy_approvals_log.json"
+        try:
+            logrows = json.loads(audit.read_text()) if audit.exists() else []
+        except Exception:
+            logrows = []
+        logrows.append({"run": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                        "approved": [{"id": x["timesheet_id"], "employee": x["employee"],
+                                      "reason": x["reason"], "result": x.get("result")}
+                                     for x in buckets[APPROVE]]})
+        audit.write_text(json.dumps(logrows[-300:], indent=2))
+        print(f"LIVE auto-approve: {done}/{len(buckets[APPROVE])} safe sheets approved; "
+              f"{len(buckets[PARK])} left unapproved for Kris")
+
     rec = {"generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-           "mode": "report-only",
+           "mode": "live-approve" if live else "report-only",
            "counts": {k: len(v) for k, v in buckets.items()},
            "would_approve": buckets[APPROVE], "parked": buckets[PARK], "skipped": buckets[SKIP]}
     OUT.parent.mkdir(parents=True, exist_ok=True)

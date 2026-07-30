@@ -1,4 +1,4 @@
-name: Deputy Triage (report-only)
+name: Deputy Auto-Approve
 
 # Phase 1 of automating the daily timesheet approval: reads unapproved Deputy
 # timesheets and records what it WOULD approve / correct / park (data/deputy_
@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: deputy-triage
+  group: deputy-autoapprove
   cancel-in-progress: false
 
 jobs:
@@ -28,9 +28,10 @@ jobs:
       - name: Classifier self-test (rules must hold before we trust a report)
         run: python3 scripts/test_deputy_triage.py
 
-      - name: Triage unapproved timesheets (report-only)
+      - name: Auto-approve the safe bucket (payroll write)
         env:
           DEPUTY_TOKEN: ${{ secrets.DEPUTY_TOKEN }}
+          DEPUTY_APPROVE: '1'
         run: python3 scripts/deputy_triage.py
 
       - name: Commit triage report
