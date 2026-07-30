@@ -1,0 +1,28 @@
+name: Deputy Break Probe (read-only)
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 'How many days of history to learn from'
+        default: '365'
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    permissions: { contents: write }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Probe Deputy break encoding (read-only)
+        env:
+          DEPUTY_TOKEN: ${{ secrets.DEPUTY_TOKEN }}
+          PROBE_DAYS: ${{ github.event.inputs.days || '365' }}
+        run: python3 scripts/deputy_break_probe.py
+      - name: Commit probe report
+        if: always()
+        run: |
+          git config user.name "Deputy Probe"
+          git config user.email "hello@stowawaybar.com"
+          git add data/deputy_break_probe.json 2>/dev/null || true
+          git diff --quiet --staged || git commit -m "deputy break probe $(date -u +%FT%TZ)"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break || sleep $((i*5)); done
