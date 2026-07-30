@@ -82,6 +82,20 @@ def is_non_food(desc: str) -> bool:
     return bool(_NON_FOOD.search(desc or ""))
 
 
+# Countable food pieces sold "N x Wgm" — a chef uses ONE of them (one tortilla,
+# one patty, one base), so cost PER PIECE, not per kg. This is what tells
+# "12x91gm tortillas" (12 pieces -> $/each) apart from "6x2kg beef" (bulk -> $/kg).
+_COUNTABLE = re.compile(
+    r"\b(tortillas?|wraps?|pita|piadina|flatbreads?|bases?|shells?|"
+    r"patt(?:y|ies)|burgers?|schnitzels?|schnitz|cutlets?|fillets?|"
+    r"dough\s*balls?|balls?|buns?|rolls?|bagels?|crumpets?|pancakes?|pikelets?|"
+    r"waffles?|blinis?|skewers?|sheets?|nuggets?)\b", re.I)
+
+
+def is_countable(desc: str) -> bool:
+    return bool(_COUNTABLE.search(desc or ""))
+
+
 # Fresh Fruit Team (and occasionally others) leak the UNIT word into the supplier
 # CODE — "AH20T Tray", "ONBRKG Kilogram", "HCMB Market" — a column bleed in the
 # PDF parse. That mints a SECOND id for a product that already has a clean-code
@@ -268,6 +282,10 @@ def parse_pack(desc: str) -> tuple[Decimal | None, str | None, str]:
     m = _MULTI.search(d)
     if m:
         count, size, unit = int(m.group(1)), Decimal(m.group(2)), m.group(3).upper()
+        # Countable pieces (tortillas, patties, bases) cost PER PIECE — a chef uses
+        # one, not a gram of it. Bulk multipacks (6x2kg beef) stay per-kg.
+        if is_countable(desc):
+            return Decimal(count), "ea", f"{count} x {size}{unit.lower()} (per piece)"
         mult, base = _TO_BASE[unit]
         return Decimal(count) * size * mult, base, f"{count}x{size}{unit.lower()}"
 
