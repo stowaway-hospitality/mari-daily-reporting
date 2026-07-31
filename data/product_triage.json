@@ -1,0 +1,28 @@
+{
+  "generated": "2026-08-01",
+  "reviewed": 26,
+  "clean": 23,
+  "flags": [
+    {
+      "supplier": "Select Fresh",
+      "name": "Edible Flower Mixed Viola Pun",
+      "code": "EDMVI",
+      "issue": "Name ends in a truncated unit 'Pun' (Punnet); pack_unit is already 'punnet', so the word is a leaked unit fragment, not part of the product name. Cost $10.50/punnet is plausible.",
+      "suggested_fix": "Rename to 'Edible Flower Mixed Viola' (drop trailing 'Pun')."
+    },
+    {
+      "supplier": "B&E",
+      "name": "Wipes - Blue Heavy Duty 90",
+      "code": "71323",
+      "issue": "Non-food cleaning consumable (heavy-duty blue wipes), not an ingredient a chef cooks with. Should not appear in the recipe picker or be costed as food.",
+      "suggested_fix": "Exclude from the ingredient picker (classify as non-food consumable, like other cleaning/packaging lines)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Chat Washed",
+      "code": "PCW20BG 20kg",
+      "issue": "Likely truncated name — missing the noun 'Potato'. supplier_code PCW = Potato Chat Washed. Cost $2.20/kg (0.0022 $/g x 1000) is plausible for chat potatoes, so this is a naming issue only.",
+      "suggested_fix": "Rename to 'Potato Chat Washed' (or 'Chat Potatoes Washed')."
+    }
+  ]
+}
