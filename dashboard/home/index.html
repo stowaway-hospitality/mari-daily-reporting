@@ -105,35 +105,72 @@ Auth.gate(document.getElementById('gate'), {
   },
 });
 
-// System-health banner (admin only). Reads the snapshot the monitor writes each
-// poller cycle. Two signals: the reported status, AND the snapshot's own age —
-// if it's stale, the poller that writes it has stopped, which is the whole point.
+// System-status panel (admin only). Reads the snapshot the monitor writes each
+// poller cycle and shows, in plain English, what is wrong and what to do. Two
+// signals: the reported status AND the snapshot's own age - if it is stale, the
+// job that writes it has stopped, which is the whole point. See TROUBLESHOOTING.md.
 async function renderHealth(){
   const el = document.getElementById('health');
   let h;
   try { h = await fetch('/data/system_health.json', {cache:'no-store'}).then(r=>r.json()); }
-  catch { return; }                       // no snapshot yet — say nothing
+  catch { return; }                       // no snapshot yet - say nothing
   const ageMin = (Date.now() - new Date(h.generated).getTime()) / 60000;
-  let level = h.overall, msg;
-  const bad = (h.checks||[]).filter(c => c.status==='down' || c.status==='warn');
-  if (ageMin > 360){                      // 6h+ with no refresh -> automation stopped
-    level = 'down';
-    msg = `Monitoring snapshot is ${Math.round(ageMin/60)}h old — the automation may have stopped.`;
-  } else if (level === 'ok'){
-    msg = 'All automation running — invoices, Xero, token refresh, weekly pull.';
-  } else {
-    msg = bad.map(c => `${c.name}${c.age!=null?` (${c.age}${c.unit} ago)`:''}`).join(' · ');
+  const checked = new Date(h.generated).toLocaleString('en-AU',{hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'});
+  const C = s => s==='down'?'var(--red)':s==='warn'?'var(--amber)':'var(--green)';
+  const ICON = s => s==='down'?'⚠':s==='warn'?'•':'✓';
+
+  const items = [];
+  if (ageMin > 360){                      // 6h+ with no refresh -> the writer stopped
+    items.push({status:'down', name:'Monitoring', age:`${Math.round(ageMin/60)}h`,
+      meaning:'The office Mac writes this status every few minutes; it has not updated in hours.',
+      action:'Check the office Mac is on and awake - everything resumes once it is. Still stale after it wakes? Tell Zak.',
+      selfheal:'Recovers once the Mac is awake.'});
   }
-  const colour = level==='down' ? 'var(--red)' : level==='warn' ? 'var(--amber)' : 'var(--green)';
-  const icon = level==='down' ? '⚠' : level==='warn' ? '•' : '✓';
-  el.innerHTML = `<div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);
-      border-left:4px solid ${colour};border-radius:10px;background:var(--paper);
-      padding:11px 15px;margin-bottom:18px;font-size:13px">
-    <span style="color:${colour};font-weight:700;font-size:15px">${icon}</span>
-    <span><b>System</b> — ${msg}</span>
-    <span style="margin-left:auto;color:var(--ink-soft);font-size:11px">checked ${new Date(h.generated).toLocaleString('en-AU',{hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'})}</span>
+  (h.checks||[]).forEach(c=>{
+    if (c.status==='down' || c.status==='warn'){
+      items.push({status:c.status, name:c.name,
+        age: c.age!=null ? `${c.age}${c.unit} ago` : '',
+        meaning: c.meaning || c.detail || '', action: c.action || '', selfheal: c.selfheal || ''});
+    }
+  });
+
+  if (!items.length){                     // all green
+    el.innerHTML = `<div style="display:flex;align-items:center;gap:10px;border:1px solid var(--line);
+        border-left:4px solid var(--green);border-radius:10px;background:var(--paper);
+        padding:11px 15px;margin-bottom:18px;font-size:13px">
+      <span style="color:var(--green);font-weight:700;font-size:15px">✓</span>
+      <span><b>System status</b> - all automation running normally.</span>
+      <span style="margin-left:auto;color:var(--ink-soft);font-size:11px">checked ${checked}</span>
+    </div>`;
+    return;
+  }
+
+  const worst = items.some(i=>i.status==='down') ? 'down' : 'warn';
+  const rows = items.map(i=>`
+    <div style="border:1px solid var(--line);border-left:3px solid ${C(i.status)};
+        border-radius:8px;background:var(--paper);padding:9px 12px;margin-top:8px">
+      <div style="display:flex;gap:8px;align-items:baseline">
+        <span style="color:${C(i.status)};font-weight:700">${ICON(i.status)}</span>
+        <b style="font-size:13.5px">${i.name}</b>
+        ${i.age?`<span style="color:var(--ink-soft);font-size:11px">${i.age}</span>`:''}
+      </div>
+      ${i.meaning?`<div style="font-size:12.5px;color:var(--ink-soft);margin:3px 0 0 20px">${i.meaning}</div>`:''}
+      ${i.action?`<div style="font-size:12.5px;margin:5px 0 0 20px"><b>Do:</b> ${i.action}</div>`:''}
+      ${i.selfheal?`<div style="font-size:11.5px;color:var(--ink-soft);margin:3px 0 0 20px">Self-heals: ${i.selfheal}</div>`:''}
+    </div>`).join('');
+  el.innerHTML = `<div style="border:1px solid var(--line);border-top:4px solid ${C(worst)};
+      border-radius:12px;background:var(--paper);padding:13px 15px;margin-bottom:18px;box-shadow:var(--shadow)">
+    <div style="display:flex;align-items:center;gap:9px">
+      <span style="color:${C(worst)};font-weight:700;font-size:16px">${ICON(worst)}</span>
+      <b style="font-size:14px">System status - ${worst==='down'?'needs attention':'minor issues'}</b>
+      <span style="margin-left:auto;color:var(--ink-soft);font-size:11px">checked ${checked}</span>
+    </div>
+    <div style="font-size:11.5px;color:var(--ink-soft);margin-top:3px">
+      Not sure what to do? Ask Claude, or open TROUBLESHOOTING.md.</div>
+    ${rows}
   </div>`;
 }
+
 </script>
 </body>
 </html>

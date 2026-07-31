@@ -31,6 +31,57 @@ OUT = ROOT / "data" / "system_health.json"
 NOW = time.time()
 _RANK = {"ok": 0, "unknown": 1, "warn": 2, "down": 3}
 
+# Plain-English guidance shown on the home page for any check that is not OK, so a
+# non-technical manager knows what a red/amber row means and what to safely do.
+# Additive only — the renderer ignores these fields when absent.
+ADVICE = {
+    "Invoice poller": {
+        "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
+        "action": "Check the office Mac is on and awake - it resumes on its own and no bills are lost. Still red an hour after it is awake? Tell Zak.",
+        "selfheal": "Recovers by itself once the Mac is awake.",
+    },
+    "Xero approvals poller": {
+        "meaning": "Posts approved supplier bills into Xero every couple of minutes (office Mac).",
+        "action": "Same office-Mac job - check it is awake. Approvals just wait until it runs; nothing is lost.",
+        "selfheal": "Recovers once the Mac is awake.",
+    },
+    "Xero token": {
+        "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
+        "action": "Expired - Zak needs to re-log-in to Xero on the Mac. Wages and COGS keep showing the last good data until then.",
+        "selfheal": "No - needs Zak to re-authenticate Xero.",
+    },
+    "Weekly Xero pull": {
+        "meaning": "Pulls payroll and overheads from Xero once a week.",
+        "action": "Behind - the weekly Xero pull needs re-running (needs the Mac and Zak's Xero login). Rarely urgent.",
+        "selfheal": "Catches up on the next weekly run.",
+    },
+    "Invoice queue": {
+        "meaning": "How long the oldest unapproved supplier bill has been waiting.",
+        "action": "An admin should open Invoices and approve or park the old bills. This is a to-do, not an outage.",
+        "selfheal": "No - needs a person to approve bills.",
+    },
+    "Daily sales pull": {
+        "meaning": "Yesterday's Lightspeed sales landing in the dashboard.",
+        "action": "Usually the Stowaway sales email has not arrived yet. It retries every 20 min until ~10am. Still missing after 10am? Ask Claude to check the Stow export landed and re-run the ingest, or tell Zak. Numbers fill in once it arrives.",
+        "selfheal": "Retries through the morning; often fixes itself before 10am.",
+    },
+    "Xero COGS feed": {
+        "meaning": "Weekly actual cost-of-goods from Xero (drives the margin figures).",
+        "action": "The weekly Xero pull is behind - see 'Weekly Xero pull'. Margins show the last good week meanwhile.",
+        "selfheal": "Catches up with the weekly Xero pull.",
+    },
+    "Xero overheads feed": {
+        "meaning": "Monthly overheads from Xero (rent, utilities and the like).",
+        "action": "Run the Xero pull to refresh. Benign early in a new month before it is closed.",
+        "selfheal": "Catches up with the monthly Xero pull.",
+    },
+    "Pull integrity": {
+        "meaning": "Confirms the single Stowaway till is still feeding all three venues correctly.",
+        "action": "If this says the STOW export is narrowed: URGENT - Harry Gatos revenue is being dropped. Do NOT fix it inside Lightspeed yourself. Tell Zak the same day, or ask Claude - the Stowaway export must be the FULL SITE report.",
+        "selfheal": "No - someone changed the Lightspeed report and it must be put back.",
+    },
+}
+
 
 def _log_age_min(rel: str):
     p = ROOT / rel
@@ -225,6 +276,15 @@ def build() -> dict:
 
     # overall reflects AUTOMATION health — the jobs that must keep running. An
     # advisory (workload) check can raise a warn but never a down on its own.
+    # attach plain-English guidance for the home-page panel
+    for _c in checks:
+        _a = ADVICE.get(_c["name"])
+        if _a:
+            _c["meaning"] = _a.get("meaning")
+            if _a.get("action"):
+                _c["action"] = _a["action"]
+            if _a.get("selfheal"):
+                _c["selfheal"] = _a["selfheal"]
     core = [c for c in checks if not c.get("advisory")]
     overall = max((c["status"] for c in core), key=lambda s: _RANK[s]) if core else "unknown"
     if any(c["status"] == "warn" for c in checks) and _RANK[overall] < _RANK["warn"]:
