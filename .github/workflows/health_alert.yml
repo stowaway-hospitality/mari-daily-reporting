@@ -1,0 +1,37 @@
+name: Health Alert
+
+# Loud-failure alerting. Runs every 3 hours and pings a shared channel if a
+# pipeline job failed recently OR the live system-health snapshot is "down".
+# Inert until a channel secret is set:
+#   ALERT_EMAIL    — comma-separated recipients (sends via the existing Gmail
+#                    ingest account: GMAIL_ADDRESS + GMAIL_APP_PASSWORD), OR
+#   ALERT_WEBHOOK  — a Slack/Teams incoming-webhook URL.
+# See scripts/notify.py and scripts/alert_check.py.
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+    inputs:
+      force_health:
+        description: 'Also alert if health is down (ignore the daily throttle)'
+        type: boolean
+        default: false
+
+jobs:
+  alert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check for failures / down health and alert
+        env:
+          GH_TOKEN: ${{ secrets.GH_DISPATCH_PAT }}
+          ALERT_EMAIL: ${{ secrets.ALERT_EMAIL }}
+          ALERT_WEBHOOK: ${{ secrets.ALERT_WEBHOOK }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          ALERT_FORCE_HEALTH: ${{ github.event.inputs.force_health == 'true' && '1' || '' }}
+        run: python3 scripts/alert_check.py
