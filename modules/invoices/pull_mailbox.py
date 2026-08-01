@@ -129,7 +129,19 @@ def pdf_attachments(token, msg_id):
 
 
 def move_message(token, msg_id, folder_id):
-    _req(token, "POST", f"/messages/{msg_id}/move", {"destinationId": folder_id})
+    # A move can 404 (ErrorItemNotFound) if the message was already moved or
+    # deleted between the list and now — a stale id, not a real failure. Swallow
+    # it so ONE vanished message can't abort a whole backfill run (it did once:
+    # extraction failed on an out-of-credit key, the move-to-review then 404'd and
+    # crashed the run before it committed the 25 invoices it had already ingested).
+    try:
+        _req(token, "POST", f"/messages/{msg_id}/move", {"destinationId": folder_id})
+        return True
+    except RuntimeError as e:
+        if "ItemNotFound" in str(e) or " 404 " in str(e):
+            print(f"    (message already gone — skipping move)")
+            return False
+        raise
 
 
 # ── invoice handling ───────────────────────────────────────────────────────

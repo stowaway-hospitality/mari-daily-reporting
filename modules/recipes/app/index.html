@@ -425,6 +425,28 @@ async function save() {
     const j = await r.json();
     if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
     out.innerHTML = `<span style="color:var(--pos)">Saved ✓</span>`;
+    // INSTANT AVAILABILITY. The authoritative sub-recipe list (recipes_index.json)
+    // only rebuilds on the next deploy, so without this a batch you just saved
+    // wouldn't appear as a sub-recipe until then. If it has a yield, upsert it into
+    // SUBS now — with a cost computed from the very lines just entered — so it's
+    // immediately selectable in a parent recipe (and in the prep timer). The deploy
+    // later replaces this with the fully-costed feed entry (incl. prep labour).
+    const yq = +document.getElementById('yq').value || 0, yu = document.getElementById('yu').value;
+    if (yq > 0 && yu) {
+      const food = LINES.reduce((a, l) => a + lineCost(l), 0);
+      const entry = {
+        product: dish, venue: venueOf(USER), yield_qty: yq, yield_unit: yu,
+        usable_as_subrecipe: true,
+        cost_per_yield_unit: food > 0 ? +(food / yq).toFixed(6) : null,
+        cost_per_yield_unit_with_prep: null, prep_minutes_avg: null, prep_count: 0,
+      };
+      const ex = SUBS.find(s => s.product === dish);
+      if (ex) Object.assign(ex, entry); else SUBS.push(entry);
+      const exR = RECIPES.find(s => s.product === dish);
+      if (exR) Object.assign(exR, entry); else RECIPES.push(entry);
+      renderSubs();
+      if (window.renderPrepList) window.renderPrepList();
+    }
   } catch (e) { out.innerHTML = `<span style="color:var(--red)">${esc(e.message)}</span>`; }
   finally { btn.disabled = false; btn.textContent = 'Save recipe'; }
 }
