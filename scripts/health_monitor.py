@@ -55,11 +55,6 @@ ADVICE = {
         "action": "Behind - the weekly Xero pull needs re-running (needs the Mac and Zak's Xero login). Rarely urgent.",
         "selfheal": "Catches up on the next weekly run.",
     },
-    "Invoice queue": {
-        "meaning": "How long the oldest unapproved supplier bill has been waiting.",
-        "action": "An admin should open Invoices and approve or park the old bills. This is a to-do, not an outage.",
-        "selfheal": "No - needs a person to approve bills.",
-    },
     "Daily sales pull": {
         "meaning": "Yesterday's Lightspeed sales landing in the dashboard.",
         "action": "Usually the Stowaway sales email has not arrived yet. It retries every 20 min until ~10am. Still missing after 10am? Ask Claude to check the Stow export landed and re-run the ingest, or tell Zak. Numbers fill in once it arrives.",
@@ -252,14 +247,8 @@ def build() -> dict:
     add("Weekly Xero pull", "runs once a week",
         (wk / 60 / 24) if wk is not None else None, 8.5, 10, unit="day")
 
-    # invoice queue — an invoice sitting unapproved too long. This is a WORKLOAD
-    # signal (a bill needs a human), not an automation failure, so it caps at
-    # "warn": a couple of chronically-parked old bills must never masquerade as
-    # "the pipeline is down" — that's how alert fatigue starts.
-    oq = _oldest_queue_days()
-    checks.append({"name": "Invoice queue", "detail": "oldest bill awaiting approval",
-                   "age": oq, "unit": "day", "advisory": True,
-                   "status": ("unknown" if oq is None else "warn" if oq > 7 else "ok")})
+    # (Invoice queue advisory removed 2026-08-01 — supplier-bill approvals run in
+    # Dext, not the app, so an "old unapproved bill" here is noise, not a signal.)
 
     # ---- daily sales pipeline + Xero feeds --------------------------------
     # Folds the verify-daily-pull-mari-hg and xero-weekly-pull scheduled tasks

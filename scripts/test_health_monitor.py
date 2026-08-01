@@ -51,8 +51,8 @@ def _build_with(monkey_ages, queue_days):
 allfresh = {"invoice_poller.log": 10, "hb:xero_approvals": 2,
             ".secrets/xero_token_cache.json": 60 * 3, "xero_pull_launchd.log": 60 * 24 * 2}
 out = _build_with(dict(allfresh), 300)
-check("stuck old bill -> overall warn, never down", out["overall"] == "warn")
-check("queue check is flagged advisory", any(c.get("advisory") for c in out["checks"]))
+check("no invoice-queue check (approvals live in Dext)", not any(c.get("name") == "Invoice queue" for c in out["checks"]))
+check("all fresh -> overall ok without the queue", out["overall"] == "ok")
 
 # a genuinely dead poller -> overall down
 dead = dict(allfresh); dead["invoice_poller.log"] = 400        # ~7h, past its 180min down line

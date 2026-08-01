@@ -1,11 +1,11 @@
 {
-  "generated": "2026-08-01T05:41:19+00:00",
+  "generated": "2026-08-01T05:45:50+00:00",
   "overall": "warn",
   "checks": [
     {
       "name": "Invoice poller",
       "detail": "reads the accounts@ inbox every 30 min",
-      "age": 2.8,
+      "age": 7.3,
       "unit": "min",
       "status": "ok",
       "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
@@ -41,17 +41,6 @@
       "meaning": "Pulls payroll and overheads from Xero once a week.",
       "action": "Behind - the weekly Xero pull needs re-running (needs the Mac and Zak's Xero login). Rarely urgent.",
       "selfheal": "Catches up on the next weekly run."
-    },
-    {
-      "name": "Invoice queue",
-      "detail": "oldest bill awaiting approval",
-      "age": 275,
-      "unit": "day",
-      "advisory": true,
-      "status": "warn",
-      "meaning": "How long the oldest unapproved supplier bill has been waiting.",
-      "action": "An admin should open Invoices and approve or park the old bills. This is a to-do, not an outage.",
-      "selfheal": "No - needs a person to approve bills."
     },
     {
       "name": "Daily sales pull",
