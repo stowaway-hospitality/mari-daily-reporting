@@ -70,6 +70,8 @@ jobs:
           python3 scripts/test_corp_payroll.py
           python3 scripts/test_auth_gate.py
           python3 scripts/test_health_monitor.py
+          python3 scripts/test_monitor.py
+          python3 ops/support-agent/test_guard.py
 
       - name: Pipeline integration battletest (invoice->cogs->recipes seams)
         # Unit tests prove each stage; this proves the SEAMS between them on the
