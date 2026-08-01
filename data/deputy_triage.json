@@ -1,92 +1,74 @@
 {
-  "generated": "2026-07-31T18:22:14+00:00",
+  "generated": "2026-08-01T18:01:59+00:00",
   "mode": "live-approve",
   "counts": {
-    "would_approve": 9,
-    "park_for_human": 19,
+    "would_approve": 7,
+    "park_for_human": 20,
     "skip": 0
   },
   "would_approve": [
     {
-      "timesheet_id": 35610,
-      "employee": "Pujan Tamang",
+      "timesheet_id": 35595,
+      "employee": "Min",
       "area": "Stow Kitchen",
-      "start": 1785465000,
-      "end": 1785501000,
-      "reason": "salaried (Pujan) \u2014 overstay auto-approve rule",
+      "start": 1785383700,
+      "end": 1785412500,
+      "reason": "salaried (Min) \u2014 overstay auto-approve rule",
+      "result": "approved + rounded"
+    },
+    {
+      "timesheet_id": 35632,
+      "employee": "Min",
+      "area": "Stow Kitchen",
+      "start": 1785546900,
+      "end": 1785586500,
+      "reason": "salaried (Min) \u2014 overstay auto-approve rule",
       "result": "approved"
     },
     {
-      "timesheet_id": 35611,
+      "timesheet_id": 35634,
       "employee": "Renan Borba Bagesteiro",
       "area": "Pizza Shop",
-      "start": 1785465000,
-      "end": 1785505500,
+      "start": 1785552300,
+      "end": 1785586500,
       "reason": "salaried (Renan) \u2014 overstay auto-approve rule",
       "result": "approved"
     },
     {
-      "timesheet_id": 35612,
+      "timesheet_id": 35635,
       "employee": "Devon Lukiana",
       "area": "Harry's Kitchen",
-      "start": 1785466800,
-      "end": 1785501900,
+      "start": 1785553200,
+      "end": 1785586500,
       "reason": "salaried (Devon) \u2014 overstay auto-approve rule",
       "result": "approved"
     },
     {
-      "timesheet_id": 35614,
+      "timesheet_id": 35637,
       "employee": "Marssheel Marssheel",
       "area": "Harry's Kitchen",
-      "start": 1785470400,
-      "end": 1785501900,
+      "start": 1785556800,
+      "end": 1785587400,
       "reason": "salaried (Marssheel) \u2014 overstay auto-approve rule",
       "result": "approved"
     },
     {
-      "timesheet_id": 35618,
-      "employee": "David Armour",
-      "area": "Harry's Floor",
-      "start": 1785476700,
-      "end": 1785501000,
+      "timesheet_id": 35641,
+      "employee": "Sam Hall",
+      "area": "Stow Bar",
+      "start": 1785565800,
+      "end": 1785583800,
       "reason": "clean \u2014 within rostered finish, break normal",
       "result": "approved"
     },
     {
-      "timesheet_id": 35623,
-      "employee": "Sophie Campbell",
-      "area": "Stow Floor",
-      "start": 1785483000,
-      "end": 1785497400,
-      "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35624,
-      "employee": "pedro f",
+      "timesheet_id": 35642,
+      "employee": "Sushant Acharya",
       "area": "Pizza Shop",
-      "start": 1785483000,
-      "end": 1785493800,
+      "start": 1785565800,
+      "end": 1785586500,
       "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35628,
-      "employee": "Kiana Dettmann",
-      "area": "Stow Floor",
-      "start": 1785484800,
-      "end": 1785501000,
-      "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35630,
-      "employee": "Emily",
-      "area": "Harry's Floor",
-      "start": 1785484800,
-      "end": 1785498300,
-      "reason": "casual FOH overstay 0.25h \u2264 1.5h, break normal",
-      "result": "approved"
+      "result": "approved + round FAILED HTTP 400 {\"error\":{\"code\":400,\"message\":\"Sorry, the date is not set.\"}}"
     }
   ],
   "parked": [
@@ -105,6 +87,14 @@
       "start": 1785135600,
       "end": 1785155400,
       "reason": "casual overstay 0.50h in non-FOH area (ou16) \u2014 Kris"
+    },
+    {
+      "timesheet_id": 35586,
+      "employee": "Min",
+      "area": "Stow Kitchen",
+      "start": 1785301200,
+      "end": 1785326400,
+      "reason": "clock/area correction \u2014 forgot to clock \u2014 verify & set (Kris)"
     },
     {
       "timesheet_id": 35596,
@@ -139,20 +129,12 @@
       "reason": "clock/area correction \u2014 start 5.30 \u2014 verify & set (Kris)"
     },
     {
-      "timesheet_id": 35605,
-      "employee": "Reef Houston",
-      "area": "Driver",
-      "start": 1785396600,
-      "end": 1785408300,
-      "reason": "casual overstay 0.50h in non-FOH area (ou12) \u2014 Kris"
-    },
-    {
-      "timesheet_id": 35606,
-      "employee": "Reef Poole",
-      "area": "Pizza Shop",
-      "start": 1785396600,
-      "end": 1785408300,
-      "reason": "casual overstay 0.25h in non-FOH area (ou7) \u2014 Kris"
+      "timesheet_id": 35613,
+      "employee": "Min",
+      "area": "Stow Kitchen",
+      "start": 1785470400,
+      "end": 1785546900,
+      "reason": "runaway/overnight (21.2h) \u2014 forgotten clock-off \u2192 close to rostered 10:00pm (Kris)"
     },
     {
       "timesheet_id": 35616,
@@ -161,14 +143,6 @@
       "start": 1785472200,
       "end": 1785507300,
       "reason": "runaway/overnight (9.8h) \u2014 forgotten clock-off \u2192 close to rostered 11:30pm (Kris)"
-    },
-    {
-      "timesheet_id": 35617,
-      "employee": "Sushant Acharya",
-      "area": "Pizza Shop",
-      "start": 1785476700,
-      "end": 1785501000,
-      "reason": "casual overstay 0.50h in non-FOH area (ou7) \u2014 Kris"
     },
     {
       "timesheet_id": 35619,
@@ -211,36 +185,52 @@
       "reason": "comment notes a clock-time / area correction \u2014 needs a human"
     },
     {
-      "timesheet_id": 35625,
-      "employee": "Reef Houston",
-      "area": "Driver",
-      "start": 1785483000,
-      "end": 1785492900,
-      "reason": "casual overstay 0.50h in non-FOH area (ou12) \u2014 Kris"
+      "timesheet_id": 35633,
+      "employee": "Kiana Dettmann",
+      "area": "Stow Floor",
+      "start": 1785547800,
+      "end": 1785562200,
+      "reason": "clock/area correction \u2014 forgot to clock \u2014 verify & set (Kris)"
     },
     {
-      "timesheet_id": 35626,
-      "employee": "James Regan",
-      "area": "Pizza Shop",
-      "start": 1785483000,
-      "end": 1785494700,
-      "reason": "casual overstay 0.25h in non-FOH area (ou7) \u2014 Kris"
+      "timesheet_id": 35636,
+      "employee": "Rhys Taylor",
+      "area": "Stow Bar",
+      "start": 1785555000,
+      "end": 1785595500,
+      "reason": "runaway/overnight (11.2h) \u2014 forgotten clock-off \u2192 close to rostered 10:30pm (Kris)"
     },
     {
-      "timesheet_id": 35627,
-      "employee": "piettra bagesteiro",
-      "area": "Pizza Shop",
-      "start": 1785483000,
-      "end": 1785493800,
-      "reason": "casual overstay 0.25h in non-FOH area (ou7) \u2014 Kris"
+      "timesheet_id": 35638,
+      "employee": "Stephanie Kunde",
+      "area": "Stow Floor",
+      "start": 1785558600,
+      "end": 1785595500,
+      "reason": "runaway/overnight (10.2h) \u2014 forgotten clock-off \u2192 close to rostered 11:30pm (Kris)"
     },
     {
-      "timesheet_id": 35629,
-      "employee": "Archie",
-      "area": "Driver",
-      "start": 1785484800,
-      "end": 1785496500,
-      "reason": "casual overstay 0.75h in non-FOH area (ou12) \u2014 Kris"
+      "timesheet_id": 35640,
+      "employee": "David Armour",
+      "area": "Harry's Floor",
+      "start": 1785564000,
+      "end": 1785594600,
+      "reason": "runaway/overnight (8.5h) \u2014 forgotten clock-off \u2192 close to rostered 12:00am (Kris)"
+    },
+    {
+      "timesheet_id": 35643,
+      "employee": "Annarita Dagostino",
+      "area": "Stow Floor",
+      "start": 1785567600,
+      "end": 1785595500,
+      "reason": "runaway/overnight (7.8h) \u2014 forgotten clock-off \u2192 close to rostered 11:30pm (Kris)"
+    },
+    {
+      "timesheet_id": 35648,
+      "employee": "Emily",
+      "area": "Harry's Floor",
+      "start": 1785571200,
+      "end": 1785594600,
+      "reason": "runaway/overnight (6.5h) \u2014 forgotten clock-off \u2192 close to rostered 12:00am (Kris)"
     }
   ],
   "skipped": []
