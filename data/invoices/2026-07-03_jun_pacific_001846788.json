@@ -1,6 +1,6 @@
 {
   "invoice": {
-    "supplier_key": "unknown",
+    "supplier_key": "jun_pacific",
     "supplier_name_raw": "JFC AUSTRALIA CO PTY LTD",
     "invoice_ref": "001846788",
     "invoice_date": "2026-07-03",
@@ -25,10 +25,7 @@
         "pack_unit": "kg",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
-        "notes": [
-          "Supplier JFC Australia not in suppliers.yaml \u2014 supplier_key=unknown. GST=$0 on this line (basic food).",
-          "UNIT PRICE column ($11.00) == line_total/qty here, but derived per policy: 22.00/(2*1)=11.00."
-        ]
+        "notes": []
       },
       {
         "description": "SOMI Kitano Miso G 10/1kg Ramen Noodle Soup Base 7x",
@@ -91,9 +88,7 @@
         "pack_unit": "ea",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
-        "notes": [
-          "Only taxable line: AMOUNT excl GST 40.00 + GST 4.00 = 44.00 incl. Non-food packaging \u2192 GST. Unit price derived incl: 44.00/(4*1)=11.00. Amounts on this invoice are EX-GST per AMOUNT (EXCL. GST) header; converted taxable line."
-        ]
+        "notes": []
       },
       {
         "description": "WPM Yellow Ramen #22 12/5pc Frozen Straight Noodle 125gx5",
@@ -117,31 +112,22 @@
         "notes": []
       }
     ],
-    "due_date": "2026-07-03",
+    "due_date": null,
     "is_credit_note": false,
-    "venue": "unknown",
+    "venue": "harry_gatos",
     "po_refs": [
-      "#169229-1"
+      "169229-1"
     ],
     "subtotal_ex": null,
     "gst_total": "4.00",
-    "wet_total": "0.00",
+    "wet_total": null,
     "account_code": "208545",
-    "source_pdf": "ec4be309d49f219bc920f4c1e977296246eaa2552bbda7c774c1b2c94d9cc663.pdf",
-    "extractor_version": "claude-opus-4-8"
+    "source_pdf": "JFC001846788",
+    "extractor_version": "claude-haiku-4-5"
   },
   "validation": {
-    "status": "review",
-    "findings": [
-      {
-        "code": "NO_VENUE",
-        "severity": "error",
-        "message": "Venue unresolved \u2014 cannot pick a product namespace. Stowaway and Harry Gatos have different ProductIDs.",
-        "line_index": null,
-        "expected": null,
-        "actual": null
-      }
-    ],
+    "status": "pass",
+    "findings": [],
     "expected_ls_receive_total": "341.00",
     "extras_total": "0"
   },

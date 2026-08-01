@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-01",
-  "count": 40,
+  "count": 38,
   "skipped_already_in_xero": 131,
   "invoices": [
     {
@@ -2114,67 +2114,57 @@
       ]
     },
     {
-      "ref": "CN-BT-1",
-      "supplier": "",
-      "supplier_key": "",
-      "date": null,
+      "ref": "184955",
+      "supplier": "Aquarius Fisheries Pty Ltd",
+      "supplier_key": "aquarius",
+      "date": "2026-02-19",
       "due_date": null,
-      "total": "0.00",
-      "venue": "unknown",
-      "pdf_path": null,
+      "total": "350.00",
+      "venue": "marilynas",
+      "pdf_path": "aq_184955",
       "tracking_category": "Stowaway",
-      "tracking_option": "To Be Reviewed",
-      "tracking_confidence": "low",
-      "is_credit_note": true,
-      "status": "pass",
-      "lines": []
-    },
-    {
-      "ref": "DD-2026-07-28-2428",
-      "supplier": "ILG Distribution Co-op. Ltd.",
-      "supplier_key": "ilg_distribution_coop",
-      "date": "2026-07-28",
-      "due_date": null,
-      "total": "3128.57",
-      "venue": "stowaway",
-      "pdf_path": "6fac0fef8798918a6129dbfbe18acad24ba9937f10110e9189b1a9d5f36986b1.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Bar",
-      "tracking_confidence": "medium",
+      "tracking_option": "Marilyna's Pizza",
+      "tracking_confidence": "high",
       "is_credit_note": false,
-      "status": "review",
+      "status": "pass",
       "lines": [
         {
-          "description": "Invoice dated 22/07/26",
-          "supplier_code": "03733160",
-          "qty": "1",
-          "amount": "164.26",
-          "unit_cost": "$164.26/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
+          "description": "White Prawn Meat 31/40",
+          "supplier_code": "APDW31",
+          "qty": "2",
+          "amount": "350.00",
+          "unit_cost": "$175.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
-        },
+        }
+      ]
+    },
+    {
+      "ref": "184463",
+      "supplier": "Aquarius Fisheries Pty Ltd",
+      "supplier_key": "aquarius",
+      "date": "2025-10-30",
+      "due_date": null,
+      "total": "175.00",
+      "venue": "marilynas",
+      "pdf_path": "aq_184463",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Marilyna's Pizza",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
         {
-          "description": "Invoice dated 22/07/26",
-          "supplier_code": "03733161",
+          "description": "White Prawn Meat 31/40",
+          "supplier_code": "APDW31",
           "qty": "1",
-          "amount": "2939.14",
-          "unit_cost": "$2939.14/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "Invoice dated 22/07/26",
-          "supplier_code": "03733162",
-          "qty": "1",
-          "amount": "31.44",
-          "unit_cost": "$31.44/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
+          "amount": "175.00",
+          "unit_cost": "$175.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
         }
       ]
@@ -2321,62 +2311,6 @@
       "is_credit_note": false,
       "status": "review",
       "lines": []
-    },
-    {
-      "ref": "184955",
-      "supplier": "Aquarius Fisheries Pty Ltd",
-      "supplier_key": "aquarius",
-      "date": "2026-02-19",
-      "due_date": null,
-      "total": "350.00",
-      "venue": "unknown",
-      "pdf_path": "fbfbfb47aa5f14fce06b238400e65a2ff0820a2ea99c9a329937258d773774a3.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Marilyna's Pizza",
-      "tracking_confidence": "high",
-      "is_credit_note": false,
-      "status": "review",
-      "lines": [
-        {
-          "description": "White Prawn Meat 31/40",
-          "supplier_code": "APDW31",
-          "qty": "2",
-          "amount": "350.00",
-          "unit_cost": "$175.00/ea",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        }
-      ]
-    },
-    {
-      "ref": "184463",
-      "supplier": "Aquarius Fisheries Pty Ltd",
-      "supplier_key": "aquarius",
-      "date": "2025-10-30",
-      "due_date": null,
-      "total": "175.00",
-      "venue": "unknown",
-      "pdf_path": "ebfcefa993cc138b63405f32554cc7738ba38607960dd59dfcfdfb35a4bea1c5.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Marilyna's Pizza",
-      "tracking_confidence": "high",
-      "is_credit_note": false,
-      "status": "review",
-      "lines": [
-        {
-          "description": "White Prawn Meat 31/40",
-          "supplier_code": "APDW31",
-          "qty": "1",
-          "amount": "175.00",
-          "unit_cost": "$175.00/ea",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        }
-      ]
     },
     {
       "ref": "gulli-None",

@@ -40,9 +40,23 @@ PBLTB11-U B Flute Lock Top 11" Pizza Boxes x 50 2.000 Unit 21.91000 10% $ 43.82
 Total $ 48.20"""
 
 
+ILG_DIRECT_DEBIT = """ILG Distribution Co-op. Ltd.
+Direct Debit Advice
+Item: Reference: Description: Due: Amount:
+1 03733160 Invoice dated 22/07/26 28/7/26 164.26
+2 03733161 Invoice dated 22/07/26 28/7/26 2,939.14
+Sub Total: 3,134.84
+** Amount Debited: 3,128.57"""
+
+
 def test_fft_single_invoice_statement_is_caught():
     assert looks_like_statement(FFT_STATEMENT) is True
     assert looks_like_credit_note(FFT_STATEMENT) is False
+
+
+def test_ilg_direct_debit_advice_is_caught():
+    # a payment notice listing other invoices — no products, must never be costed
+    assert looks_like_statement(ILG_DIRECT_DEBIT) is True
 
 
 def test_gulli_credit_note_is_caught():

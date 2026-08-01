@@ -75,6 +75,13 @@ def looks_like_statement(text: str) -> bool:
     t = (text or "").lower()
     if "tax invoice" in t:
         return False
+    # Payment notices — a direct-debit / remittance advice that references an
+    # invoice but carries NO line items (ILG debits its members and emails one of
+    # these per invoice; it leaked into review as a 1-line "invoice"). A real tax
+    # invoice says "tax invoice" (returned above), so these titles are safe.
+    if ("direct debit advice" in t or "remittance advice" in t
+            or "payment advice" in t):
+        return True
     titled = "statement" in t[:600] or "statement of account" in t  # word up top
     strong = ("running total" in t or "remaining amount" in t
               or ("opening balance" in t and "closing balance" in t)

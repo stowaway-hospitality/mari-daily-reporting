@@ -10,26 +10,23 @@
         "description": "Villa Fresco Sangiovese 24 - OPO",
         "qty": "2",
         "line_total_incl": "289.48",
-        "unit_price_incl": "12.0617",
+        "unit_price_incl": "6.030833",
         "unit_price_ex": null,
-        "pack_size": 12,
+        "pack_size": 24,
         "line_class": "stock",
         "tax_treatment": "wet",
         "cost_basis": "per_bottle",
         "gst_amount": null,
         "wet_amount": null,
         "supplier_code": "PIZVFSAN1224",
-        "raw_qty": "2.0000",
+        "raw_qty": "2",
         "raw_uom": "C750",
         "pack_qty": "1",
         "pack_unit": "ea",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "WET line: net Amount 289.48 excl GST is stated as 'Amount $' 289.48 and 'Excl GST $' 10.97 \u2014 invoice layout ambiguous; treated line total incl = Amount 289.48 + GST 26.32? Cross-check below.",
-          "Verification: Price 120.00 x 2 = 240.00 net-of-list; discount 15% -> 36.00; net after disc? Printed WET 29.00, GST 26.32, Amount 289.48. GST/11 of 289.48 = 26.32 -> so 289.48 IS the GST-inclusive line total. Derived unit = 289.48/(2*12) = 12.0617.",
-          "PO number 54361248 does not match documented 54361/35985 prefixes; venue resolved via Bill To 'Stowaway Freshwater' and customer STOWAW01-1.",
-          "pack_size 12 assumed from C750 case bottling (2 cartons, 24 bottles despatched). If C750 = case of 12 x 750ml, 2 cartons = 24 bottles; unit price consistent with wine ~$12/btl bounds."
+          "15% discount; WET wine"
         ]
       },
       {
@@ -45,19 +42,16 @@
         "gst_amount": null,
         "wet_amount": null,
         "supplier_code": "FRT TEMP MET",
-        "raw_qty": "2.0000",
+        "raw_qty": "2",
         "raw_uom": "EACH",
         "pack_qty": "1",
         "pack_unit": "ea",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
-        "notes": [
-          "Freight surcharge \u2014 extras_patterns match 'FRT TEMP MET'; skipped on LS receive, logged as delivery_fee_rolled_in.",
-          "Amount 1.43 shown ex-GST + GST 0.13 -> incl 1.56; but only ex-GST amount printed. Extra line, not part of stock receive total."
-        ]
+        "notes": []
       }
     ],
-    "due_date": "2026-08-14",
+    "due_date": null,
     "is_credit_note": false,
     "venue": "stowaway",
     "po_refs": [
@@ -66,9 +60,9 @@
     "subtotal_ex": null,
     "gst_total": "26.45",
     "wet_total": "29.00",
-    "account_code": "54361248",
-    "source_pdf": "901d67715b94b60fba9033ef8956d2b928a9d0b733880480fdaba82a5c740b21.pdf",
-    "extractor_version": "claude-opus-4-8"
+    "account_code": "STOWAW01-1",
+    "source_pdf": "YR733517",
+    "extractor_version": "claude-haiku-4-5"
   },
   "validation": {
     "status": "pass",
