@@ -15,6 +15,15 @@ stale tab is the #1 cause of "it looks wrong."
 
 ---
 
+## Most things now fix themselves
+
+An always-on monitor watches the pipelines and **auto-fixes the safe, reversible
+problems** — it re-runs a job that failed transiently, and re-triggers the sales
+ingest if a day's data is running late — silently, with nobody needed. You'll only
+get an alert when something genuinely needs a human (a supplier-report change in
+Lightspeed, an expired login, a code fix). So no alert usually means it either
+didn't happen or already self-healed; when you *do* get one, it says what it is.
+
 ## How to read the health panel first
 
 Open **app.stowawaybar.com** (signed in as an admin) — the top of the home page

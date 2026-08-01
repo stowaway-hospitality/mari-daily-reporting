@@ -1,8 +1,9 @@
-name: Health Alert
+name: Monitor & auto-heal
 
-# Loud-failure alerting. Runs every 3 hours and pings a shared channel if a
-# pipeline job failed recently OR the live system-health snapshot is "down".
-# Inert until a channel secret is set:
+# Always-on monitor + AUTO-REMEDIATION. Every 3 hours it re-runs a transiently
+# failed pipeline job (once) and re-triggers the sales ingest if data is late —
+# silently — and only pings a human for what a human must handle. Actions need
+# GH_DISPATCH_PAT (repo scope). Escalation channel is inert until a secret is set:
 #   ALERT_EMAIL    — comma-separated recipients (sends via the existing Gmail
 #                    ingest account: GMAIL_ADDRESS + GMAIL_APP_PASSWORD), OR
 #   ALERT_WEBHOOK  — a Slack/Teams incoming-webhook URL.
@@ -26,7 +27,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Check for failures / down health and alert
+      - name: Monitor, auto-remediate safe issues, escalate the rest
         env:
           GH_TOKEN: ${{ secrets.GH_DISPATCH_PAT }}
           ALERT_EMAIL: ${{ secrets.ALERT_EMAIL }}
