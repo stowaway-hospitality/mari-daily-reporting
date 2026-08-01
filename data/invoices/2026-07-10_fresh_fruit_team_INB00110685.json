@@ -1,0 +1,62 @@
+{
+  "invoice": {
+    "supplier_key": "fresh_fruit_team",
+    "supplier_name_raw": "The Fresh Fruit Team Pty Ltd",
+    "invoice_ref": "INB00110685",
+    "invoice_date": "2026-07-10",
+    "total_incl": "5.04",
+    "lines": [
+      {
+        "description": "Ruby Red",
+        "qty": "4.58",
+        "line_total_incl": "5.04",
+        "unit_price_incl": "1.10",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "GRREA Each",
+        "raw_qty": null,
+        "raw_uom": "Grapefruit",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-24",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "28d5a96dde5b30e81a057090eaaace438582f1dbff8d8834d70b823ba7aa0883.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "5.04",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "Ruby Red",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
