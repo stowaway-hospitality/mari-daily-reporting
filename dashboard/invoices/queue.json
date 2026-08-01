@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-01",
-  "count": 39,
-  "skipped_already_in_xero": 164,
+  "count": 40,
+  "skipped_already_in_xero": 168,
   "invoices": [
     {
       "ref": "7049766",
@@ -1379,6 +1379,89 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "known supplier 'paramount'"
+        }
+      ]
+    },
+    {
+      "ref": "5424761",
+      "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+      "supplier_key": "paramount",
+      "date": "2026-07-07",
+      "due_date": null,
+      "total": "191.20",
+      "venue": "stowaway",
+      "pdf_path": "5c1e430bb4caad0ee44b1bfd1fd4e791e3b94c44c5799ba9087577c5e90f460c.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "400 CONEJOS MEZCAL JOVEN : 750 ml",
+          "supplier_code": "60765",
+          "qty": "1",
+          "amount": "78.03",
+          "unit_cost": "$104.04/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "ANGOSTURA BITTERS : 200 ml",
+          "supplier_code": "66366",
+          "qty": "1",
+          "amount": "67.12",
+          "unit_cost": "$335.60/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "BITTERMENS XOCOLATL MOLE BITTERS : 146 ml",
+          "supplier_code": "67652",
+          "qty": "1",
+          "amount": "29.44",
+          "unit_cost": "$201.64/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Carton Freight",
+          "supplier_code": "9000000",
+          "qty": "1",
+          "amount": "1.43",
+          "unit_cost": "$1.43/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "Minimum Delivery Top-Up Charge",
+          "supplier_code": "10010294",
+          "qty": "1",
+          "amount": "15.07",
+          "unit_cost": "$15.07/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Temporary Fuel Levy Charge",
+          "supplier_code": "9000004",
+          "qty": "1",
+          "amount": "0.11",
+          "unit_cost": "$0.11/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
         }
       ]
     },

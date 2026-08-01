@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "lion",
+    "supplier_name_raw": "Lion - Beer, Spirits & Wine Pty Ltd",
+    "invoice_ref": "94746233",
+    "invoice_date": "2026-07-07",
+    "total_incl": "811.76",
+    "lines": [
+      {
+        "description": "Guinness 49.5L KEG",
+        "qty": "1",
+        "line_total_incl": "423.35",
+        "unit_price_incl": "423.3500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "1200769",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "49.5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "S & W Pacific Ale 49.5L KEG",
+        "qty": "1",
+        "line_total_incl": "388.41",
+        "unit_price_incl": "388.4100",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "1256672",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "49.5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-20",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "3789fb72e90f16d98347fb1be72fe92b54120d7521e09f50093a8c94352fe062.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "811.76",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "high",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "Guinness 49.5L KEG",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "S & W Pacific Ale 49.5L KEG",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
