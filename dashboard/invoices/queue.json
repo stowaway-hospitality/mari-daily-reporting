@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-01",
-  "count": 38,
-  "skipped_already_in_xero": 145,
+  "count": 39,
+  "skipped_already_in_xero": 149,
   "invoices": [
     {
       "ref": "7049766",
@@ -1264,6 +1264,89 @@
           "qty": "1",
           "amount": "0.11",
           "unit_cost": "$0.11/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "5441124",
+      "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+      "supplier_key": "paramount",
+      "date": "2026-07-14",
+      "due_date": null,
+      "total": "254.38",
+      "venue": "stowaway",
+      "pdf_path": "9e8872a1e929877ae4b8a6b248d42ce5392ee14e880af2699f9790d393ed1dfa.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CARPANO CLASSICO VERMOUTH : 750ml",
+          "supplier_code": "10015926",
+          "qty": "1",
+          "amount": "23.17",
+          "unit_cost": "$30.89/L",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Carton Freight",
+          "supplier_code": "9000000",
+          "qty": "1",
+          "amount": "7.15",
+          "unit_cost": "$7.15/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "DE BORTOLI GOLD SEAL SPECIAL DRY RED : 15",
+          "supplier_code": "44583",
+          "qty": "1",
+          "amount": "111.79",
+          "unit_cost": "$111.79/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Minimum Delivery Top-Up Charge",
+          "supplier_code": "10010294",
+          "qty": "1",
+          "amount": "9.35",
+          "unit_cost": "$9.35/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "SPRITE PET : 1250 ml",
+          "supplier_code": "98541",
+          "qty": "1",
+          "amount": "102.37",
+          "unit_cost": "$81.90/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Temporary Fuel Levy Charge",
+          "supplier_code": "9000004",
+          "qty": "1",
+          "amount": "0.55",
+          "unit_cost": "$0.55/ea",
           "tax": "gst",
           "account_code": "342",
           "account_name": "Freight & Courier",

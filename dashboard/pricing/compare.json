@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-01",
-  "count": 447,
+  "count": 448,
   "compared": 12,
   "window_days": 90,
   "total_saving": 32.4,
@@ -89,15 +89,6 @@
       "date": "2026-07-20"
     },
     {
-      "name": "Cele",
-      "supplier": "Fresh Fruit Team",
-      "unit": "ea",
-      "prev": 3.82,
-      "cost": 10.8,
-      "pct": 182.7,
-      "date": "2026-07-25"
-    },
-    {
       "name": "Tomato Cherry Pun",
       "supplier": "Select Fresh",
       "unit": "punnet",
@@ -170,15 +161,6 @@
       "date": "2026-07-23"
     },
     {
-      "name": "Ruby Red",
-      "supplier": "Fresh Fruit Team",
-      "unit": "ea",
-      "prev": 0.99,
-      "cost": 1.32,
-      "pct": 33.3,
-      "date": "2026-07-20"
-    },
-    {
       "name": "Lime",
       "supplier": "Select Fresh",
       "unit": "tray",
@@ -204,6 +186,24 @@
       "cost": 1.6,
       "pct": 23.1,
       "date": "2026-07-29"
+    },
+    {
+      "name": "Rosemary",
+      "supplier": "Fresh Fruit Team",
+      "unit": "bunch",
+      "prev": 1.65,
+      "cost": 1.98,
+      "pct": 20.0,
+      "date": "2026-07-30"
+    },
+    {
+      "name": "Ruby Red",
+      "supplier": "Fresh Fruit Team",
+      "unit": "ea",
+      "prev": 1.1,
+      "cost": 1.32,
+      "pct": 20.0,
+      "date": "2026-07-20"
     },
     {
       "name": "Chive",
@@ -332,13 +332,13 @@
       "date": "2026-07-25"
     },
     {
-      "name": "Rosemary",
+      "name": "Cele",
       "supplier": "Fresh Fruit Team",
-      "unit": "bunch",
-      "prev": 1.85,
-      "cost": 1.98,
-      "pct": 7.0,
-      "date": "2026-07-30"
+      "unit": "ea",
+      "prev": 10.08,
+      "cost": 10.8,
+      "pct": 7.1,
+      "date": "2026-07-25"
     },
     {
       "name": "Cauliflower Floret Sml 30mm",
@@ -1145,7 +1145,7 @@
           "date": "2026-07-23",
           "desc": "ANTIPASTO - SUNDRIED",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -1406,10 +1406,10 @@
           "date": "2026-08-01",
           "desc": "BACON - CAFE BACON HALF",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
-          "spend": 200.0,
-          "volume": 20.0
+          "spend": 250.0,
+          "volume": 25.0
         }
       ],
       "cheapest": "B&E",
@@ -2247,10 +2247,10 @@
           "date": "2026-07-28",
           "desc": "Brown",
           "change_pct": -14.3,
-          "n": 2,
+          "n": 3,
           "prev_cost": 1.54,
-          "spend": 6.82,
-          "volume": 5.0
+          "spend": 10.78,
+          "volume": 8.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -2260,7 +2260,7 @@
       "multi": false,
       "suspect": false,
       "low": 1.32,
-      "low_date": "2026-07-28",
+      "low_date": "2026-07-13",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -2855,11 +2855,11 @@
           "cost": 10.8,
           "date": "2026-07-25",
           "desc": "CELE Each",
-          "change_pct": 182.7,
-          "n": 4,
-          "prev_cost": 3.82,
-          "spend": 50.84,
-          "volume": 6.0
+          "change_pct": 7.1,
+          "n": 5,
+          "prev_cost": 10.08,
+          "spend": 60.92,
+          "volume": 7.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3871,7 +3871,7 @@
           "date": "2026-07-30",
           "desc": "Chives",
           "change_pct": 16.7,
-          "n": 7,
+          "n": 8,
           "prev_cost": 13.2,
           "spend": 0.0,
           "volume": 0.0
@@ -4216,10 +4216,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 38.5,
-          "date": "2026-07-01",
+          "date": "2026-07-13",
           "desc": "Cocktail",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -4393,7 +4393,7 @@
           "date": "2026-07-30",
           "desc": "Coriander",
           "change_pct": null,
-          "n": 5,
+          "n": 6,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -4712,10 +4712,10 @@
           "date": "2026-07-28",
           "desc": "Cos Baby Twin Pack",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
-          "spend": 79.75,
-          "volume": 29.0
+          "spend": 96.25,
+          "volume": 35.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -7235,7 +7235,7 @@
           "date": "2026-08-01",
           "desc": "HAM - SOCCERBALL SLICED",
           "change_pct": null,
-          "n": 9,
+          "n": 10,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -7293,10 +7293,10 @@
           "date": "2026-07-28",
           "desc": "Hass",
           "change_pct": -6.7,
-          "n": 4,
+          "n": 5,
           "prev_cost": 33.0,
-          "spend": 169.4,
-          "volume": 6.0
+          "spend": 202.4,
+          "volume": 7.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -8276,13 +8276,13 @@
         {
           "supplier": "B&E",
           "cost": 19.5,
-          "date": "2026-06-22",
+          "date": "2026-07-14",
           "desc": "LAMB - LEG ROLLED &",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
-          "spend": 904.02,
-          "volume": 46.36
+          "spend": 1302.21,
+          "volume": 66.78
         }
       ],
       "cheapest": "B&E",
@@ -8337,7 +8337,7 @@
           "date": "2026-07-20",
           "desc": "Large",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -8350,7 +8350,7 @@
       "multi": false,
       "suspect": false,
       "low": 26.4,
-      "low_date": "2026-07-20",
+      "low_date": "2026-07-13",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -10454,7 +10454,7 @@
           "date": "2026-08-01",
           "desc": "PEPPERS - JALAPENO",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -10976,10 +10976,10 @@
           "date": "2026-08-01",
           "desc": "PROSCIUTTO SLICED 500G",
           "change_pct": 16.7,
-          "n": 8,
+          "n": 9,
           "prev_cost": 24.0,
-          "spend": 447.0,
-          "volume": 16.0
+          "spend": 506.0,
+          "volume": 18.0
         }
       ],
       "cheapest": "B&E",
@@ -11063,10 +11063,10 @@
           "date": "2026-07-20",
           "desc": "Radiccio",
           "change_pct": -3.2,
-          "n": 4,
+          "n": 5,
           "prev_cost": 6.25,
-          "spend": 73.2,
-          "volume": 12.0
+          "spend": 91.35,
+          "volume": 15.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -11555,11 +11555,11 @@
           "cost": 1.98,
           "date": "2026-07-30",
           "desc": "Rosemary",
-          "change_pct": 7.0,
-          "n": 3,
-          "prev_cost": 1.85,
-          "spend": 7.33,
-          "volume": 4.0
+          "change_pct": 20.0,
+          "n": 4,
+          "prev_cost": 1.65,
+          "spend": 8.98,
+          "volume": 5.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -11642,11 +11642,11 @@
           "cost": 1.32,
           "date": "2026-07-20",
           "desc": "Ruby Red",
-          "change_pct": 33.3,
-          "n": 3,
-          "prev_cost": 0.99,
-          "spend": 42.9,
-          "volume": 40.0
+          "change_pct": 20.0,
+          "n": 4,
+          "prev_cost": 1.1,
+          "spend": 53.9,
+          "volume": 50.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -12010,6 +12010,35 @@
       "switch": false
     },
     {
+      "key": "seedless",
+      "name": "Seedless",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.3,
+          "date": "2026-07-13",
+          "desc": "Seedless",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 3.3,
+          "volume": 1.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.3,
+      "max": 3.3,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 3.3,
+      "low_date": "2026-07-13",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
       "key": "chilli gochujang korean paste sempio",
       "name": "Sempio Gochujang Korean Chilli Paste",
       "unit": "ea",
@@ -12252,10 +12281,10 @@
           "date": "2026-08-01",
           "desc": "FRESH - SOUR CREAM 2L",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
-          "spend": 120.0,
-          "volume": 12.0
+          "spend": 140.0,
+          "volume": 14.0
         }
       ],
       "cheapest": "B&E",
@@ -12803,7 +12832,7 @@
           "date": "2026-08-01",
           "desc": "TOMATO - PIZZA SAUCE",
           "change_pct": null,
-          "n": 5,
+          "n": 6,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -12887,13 +12916,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 4.4,
-          "date": "2026-06-22",
+          "date": "2026-07-13",
           "desc": "Topless (Bethonga)",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
-          "spend": 4.4,
-          "volume": 1.0
+          "spend": 13.2,
+          "volume": 3.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
