@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-01",
-  "count": 40,
-  "skipped_already_in_xero": 168,
+  "count": 41,
+  "skipped_already_in_xero": 174,
   "invoices": [
     {
       "ref": "7049766",
@@ -1728,6 +1728,78 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "known supplier 'paramount'"
+        }
+      ]
+    },
+    {
+      "ref": "5387635",
+      "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+      "supplier_key": "paramount",
+      "date": "2026-06-19",
+      "due_date": null,
+      "total": "741.58",
+      "venue": "stowaway",
+      "pdf_path": "c6c01ab0352534c453b332d7f18c6ac985343f36be1063e5c7a9d6effe169bcb.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "APPLETON ESTATE SIGNATURE BLEND : 700 ml",
+          "supplier_code": "68140",
+          "qty": "1",
+          "amount": "60.62",
+          "unit_cost": "$86.60/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Carton Freight",
+          "supplier_code": "9000000",
+          "qty": "1",
+          "amount": "4.29",
+          "unit_cost": "$4.29/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "Minimum Delivery Top-Up Charge",
+          "supplier_code": "10010294",
+          "qty": "1",
+          "amount": "12.21",
+          "unit_cost": "$12.21/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "ROOSTER ROJO BLANCO : 700 ml",
+          "supplier_code": "66926",
+          "qty": "1",
+          "amount": "663.83",
+          "unit_cost": "$948.33/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Temporary Fuel Levy Charge",
+          "supplier_code": "9000004",
+          "qty": "1",
+          "amount": "0.63",
+          "unit_cost": "$0.63/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
         }
       ]
     },
