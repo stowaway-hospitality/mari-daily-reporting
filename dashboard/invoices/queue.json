@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-01",
-  "count": 34,
-  "skipped_already_in_xero": 122,
+  "count": 33,
+  "skipped_already_in_xero": 130,
   "invoices": [
     {
       "ref": "7049766",
@@ -1639,34 +1639,6 @@
           "account_code": "111",
           "account_name": "Purchases Other COGS",
           "reason": "fallback \u2014 no rule matched"
-        }
-      ]
-    },
-    {
-      "ref": "03733163",
-      "supplier": "ILG Distribution Co-op. Ltd.",
-      "supplier_key": "ilg_distribution_coop",
-      "date": "2026-07-22",
-      "due_date": null,
-      "total": "427.34",
-      "venue": "harry_gatos",
-      "pdf_path": "f6544fd87d27c331a17cf860181e2a2593c84bd825c877365d5698bd4863e6a9.pdf",
-      "tracking_category": "Harry Gatos",
-      "tracking_option": "Bar",
-      "tracking_confidence": "high",
-      "is_credit_note": false,
-      "status": "review",
-      "lines": [
-        {
-          "description": "Invoice dated 22/07/26",
-          "supplier_code": null,
-          "qty": "1",
-          "amount": "427.34",
-          "unit_cost": "$427.34/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
         }
       ]
     },

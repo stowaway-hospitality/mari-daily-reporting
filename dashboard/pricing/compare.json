@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-01",
-  "count": 398,
+  "count": 410,
   "compared": 11,
   "window_days": 90,
   "total_saving": 18.8,
@@ -26,6 +26,24 @@
   ],
   "movers": [
     {
+      "name": "Pellegrino Sparkling Water",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 2.3558,
+      "cost": 56.54,
+      "pct": 2300.0,
+      "date": "2026-07-21"
+    },
+    {
+      "name": "Coca Cola",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 3.6933,
+      "cost": 44.32,
+      "pct": 1100.0,
+      "date": "2026-07-21"
+    },
+    {
       "name": "Coke Sugar",
       "supplier": "ILG",
       "unit": "L",
@@ -38,9 +56,18 @@
       "name": "Sailor Jerry Spiced Rum",
       "supplier": "ILG",
       "unit": "ea",
-      "prev": 44.89,
+      "prev": 44.6,
       "cost": 259.09,
-      "pct": 477.2,
+      "pct": 480.9,
+      "date": "2026-07-31"
+    },
+    {
+      "name": "Bombay Dry Gin",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 51.3,
+      "cost": 294.75,
+      "pct": 474.6,
       "date": "2026-07-31"
     },
     {
@@ -554,7 +581,7 @@
           "date": "2026-07-25",
           "desc": "LEMON KG",
           "change_pct": 13.9,
-          "n": 4,
+          "n": 5,
           "prev_cost": 3.6,
           "spend": 0.0,
           "volume": 0.0
@@ -583,7 +610,7 @@
           "date": "2026-07-31",
           "desc": "SHALLOT BCH",
           "change_pct": -13.3,
-          "n": 15,
+          "n": 16,
           "prev_cost": 3.0,
           "spend": 0.0,
           "volume": 0.0
@@ -801,7 +828,7 @@
           "date": "2026-07-31",
           "desc": "ALEHOUSE PREMIUM KEG",
           "change_pct": -4.2,
-          "n": 6,
+          "n": 7,
           "prev_cost": 212.44,
           "spend": 0.0,
           "volume": 0.0
@@ -1058,19 +1085,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 174.49,
-          "date": "2026-06-23",
+          "cost": 174.5,
+          "date": "2026-07-21",
           "desc": "APEROL",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
+          "change_pct": 0.0,
+          "n": 2,
+          "prev_cost": 174.49,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 174.49,
-      "max": 174.49,
+      "min": 174.5,
+      "max": 174.5,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -1165,6 +1192,35 @@
       "low_date": "2026-07-28",
       "est_saving": 0.0,
       "main": "Foodlink",
+      "switch": false
+    },
+    {
+      "key": "asahi dry super",
+      "name": "Asahi Super Dry",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 61.13,
+          "date": "2026-07-21",
+          "desc": "ASAHI SUPER DRY 3.5%",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 61.13,
+      "max": 61.13,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 61.13,
+      "low_date": "2026-07-21",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -1313,6 +1369,35 @@
       "switch": false
     },
     {
+      "key": "14yo balvenie caribbean cask",
+      "name": "Balvenie 14yo Caribbean Cask",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 138.26,
+          "date": "2026-07-21",
+          "desc": "BALVENIE 14YO CARIBBEAN CASK",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 138.26,
+      "max": 138.26,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 138.26,
+      "low_date": "2026-07-21",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "a10 bamboo shoot slice",
       "name": "Bamboo Shoot Slice A10",
       "unit": "ea",
@@ -1439,7 +1524,7 @@
           "date": "2026-07-31",
           "desc": "HERB BASIL BCH",
           "change_pct": -11.5,
-          "n": 8,
+          "n": 9,
           "prev_cost": 5.2,
           "spend": 0.0,
           "volume": 0.0
@@ -1452,7 +1537,7 @@
       "multi": false,
       "suspect": false,
       "low": 4.6,
-      "low_date": "2026-07-24",
+      "low_date": "2026-07-22",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -1873,9 +1958,9 @@
           "cost": 294.75,
           "date": "2026-07-31",
           "desc": "BOMBAY DRY GIN",
-          "change_pct": -0.6,
-          "n": 3,
-          "prev_cost": 296.6,
+          "change_pct": 474.6,
+          "n": 5,
+          "prev_cost": 51.3,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -1886,8 +1971,66 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 294.75,
-      "low_date": "2026-07-31",
+      "low": 51.3,
+      "low_date": "2026-07-21",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "bombay gin sapphire",
+      "name": "Bombay Sapphire Gin",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 54.19,
+          "date": "2026-07-21",
+          "desc": "BOMBAY SAPPHIRE GIN",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 54.19,
+      "max": 54.19,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 54.19,
+      "low_date": "2026-07-21",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "boronia marsala",
+      "name": "Boronia Marsala",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 10.22,
+          "date": "2026-07-21",
+          "desc": "BORONIA MARSALA (LOOSE)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 10.22,
+      "max": 10.22,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 10.22,
+      "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -1989,9 +2132,9 @@
           "cost": 53.15,
           "date": "2026-07-31",
           "desc": "BUFFALO TRACE BOURBON 40%",
-          "change_pct": -1.2,
-          "n": 3,
-          "prev_cost": 53.77,
+          "change_pct": -0.6,
+          "n": 4,
+          "prev_cost": 53.48,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -3581,19 +3724,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 3.6933,
-          "date": "2026-07-14",
+          "cost": 44.32,
+          "date": "2026-07-21",
           "desc": "COCA COLA",
-          "change_pct": -91.7,
-          "n": 2,
-          "prev_cost": 44.32,
+          "change_pct": 1100.0,
+          "n": 3,
+          "prev_cost": 3.6933,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 3.6933,
-      "max": 3.6933,
+      "min": 44.32,
+      "max": 44.32,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -3628,6 +3771,35 @@
       "suspect": false,
       "low": 1.89,
       "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "coca cola cube",
+      "name": "Coca Cola Cube",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 45.355,
+          "date": "2026-07-21",
+          "desc": "COCA COLA CAN CUBES",
+          "change_pct": 0.0,
+          "n": 2,
+          "prev_cost": 45.35,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 45.355,
+      "max": 45.355,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 45.35,
+      "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -4307,10 +4479,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 2.9,
-          "date": "2026-07-01",
+          "date": "2026-07-22",
           "desc": "CUCUMBER TELE/CONTINENTAL EACH",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -4454,9 +4626,9 @@
           "cost": 205.77,
           "date": "2026-07-31",
           "desc": "DESCLANS WHISPERING ANGEL ROSE",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
+          "change_pct": -0.9,
+          "n": 2,
+          "prev_cost": 207.62,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -4567,19 +4739,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 49.84,
-          "date": "2026-06-30",
+          "cost": 49.91,
+          "date": "2026-07-21",
           "desc": "DISARONNO (AMARETTO)",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
+          "change_pct": 0.1,
+          "n": 2,
+          "prev_cost": 49.84,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 49.84,
-      "max": 49.84,
+      "min": 49.91,
+      "max": 49.91,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -4616,6 +4788,35 @@
       "low_date": "2026-07-25",
       "est_saving": 0.0,
       "main": "Foodlink",
+      "switch": false
+    },
+    {
+      "key": "dom perignon",
+      "name": "Dom Perignon",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 387.81,
+          "date": "2026-07-21",
+          "desc": "DOM PERIGNON",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 387.81,
+      "max": 387.81,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 387.81,
+      "low_date": "2026-07-21",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -4774,7 +4975,7 @@
           "date": "2026-07-31",
           "desc": "EDIBLE FLOWER MIXED VIOLA PUN",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -5078,6 +5279,35 @@
       "suspect": false,
       "low": 34.49,
       "low_date": "2026-07-03",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "cinnamon fireball whisky",
+      "name": "Fireball Cinnamon Whisky",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 63.9,
+          "date": "2026-07-21",
+          "desc": "FIREBALL CINNAMON WHISKY 700ML",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 63.9,
+      "max": 63.9,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 63.9,
+      "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -6282,7 +6512,7 @@
           "date": "2026-07-28",
           "desc": "Guinness 49.5L KEG",
           "change_pct": -0.2,
-          "n": 3,
+          "n": 4,
           "prev_cost": 8.429,
           "spend": 0.0,
           "volume": 0.0
@@ -6295,7 +6525,7 @@
       "multi": false,
       "suspect": false,
       "low": 8.416,
-      "low_date": "2026-07-28",
+      "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -6356,6 +6586,35 @@
       "low_date": "2026-07-01",
       "est_saving": 0.0,
       "main": "Gulli",
+      "switch": false
+    },
+    {
+      "key": "bot dry free gluten hahn super",
+      "name": "Hahn Super Dry Gluten Free Bot",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 65.02,
+          "date": "2026-07-21",
+          "desc": "HAHN SUPER DRY GLUTEN FREE BOT",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 65.02,
+      "max": 65.02,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 65.02,
+      "low_date": "2026-07-21",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -6485,7 +6744,7 @@
           "date": "2026-07-31",
           "desc": "HEAPS NORMAL QUIET XPA NON ALC",
           "change_pct": -2.9,
-          "n": 3,
+          "n": 4,
           "prev_cost": 64.08,
           "spend": 0.0,
           "volume": 0.0
@@ -6539,19 +6798,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 62.67,
-          "date": "2026-06-30",
+          "cost": 62.74,
+          "date": "2026-07-21",
           "desc": "HENDRICKS GIN",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
+          "change_pct": -0.9,
+          "n": 3,
+          "prev_cost": 63.32,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 62.67,
-      "max": 62.67,
+      "min": 62.74,
+      "max": 62.74,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -6615,6 +6874,35 @@
       "suspect": false,
       "low": 14.9,
       "low_date": "2026-07-01",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "aperitif italicu risolio",
+      "name": "Italicu Risolio Aperitif",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 66.09,
+          "date": "2026-07-21",
+          "desc": "ITALICUS RISOLIO APERITIF",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 66.09,
+      "max": 66.09,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 66.09,
+      "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -7119,24 +7407,24 @@
       "suppliers": [
         {
           "supplier": "Lion",
-          "cost": 8.962,
-          "date": "2026-06-23",
+          "cost": 8.92,
+          "date": "2026-07-21",
           "desc": "Kirin Ichb 5% 49.5L KEG",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
+          "change_pct": -0.5,
+          "n": 2,
+          "prev_cost": 8.962,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "Lion",
-      "min": 8.962,
-      "max": 8.962,
+      "min": 8.92,
+      "max": 8.92,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 8.962,
-      "low_date": "2026-06-23",
+      "low": 8.92,
+      "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -7732,7 +8020,7 @@
           "date": "2026-07-31",
           "desc": "LIMES TRAY",
           "change_pct": 25.0,
-          "n": 5,
+          "n": 6,
           "prev_cost": 52.0,
           "spend": 0.0,
           "volume": 0.0
@@ -8080,7 +8368,7 @@
           "date": "2026-07-31",
           "desc": "HERB MINT ROUND LEAF BCH",
           "change_pct": null,
-          "n": 8,
+          "n": 9,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -8134,9 +8422,38 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 15.41,
-          "date": "2026-06-23",
+          "cost": 15.72,
+          "date": "2026-07-21",
           "desc": "MONIN COCONUT SYRUP R",
+          "change_pct": 2.0,
+          "n": 2,
+          "prev_cost": 15.41,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 15.72,
+      "max": 15.72,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 15.41,
+      "low_date": "2026-06-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "monkey scotch shoulder whiskey",
+      "name": "Monkey Shoulder Scotch Whiskey",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 62.07,
+          "date": "2026-07-21",
+          "desc": "MONKEY SHOULDER SCOTCH WHISKEY",
           "change_pct": null,
           "n": 1,
           "prev_cost": null,
@@ -8145,13 +8462,13 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 15.41,
-      "max": 15.41,
+      "min": 62.07,
+      "max": 62.07,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 15.41,
-      "low_date": "2026-06-23",
+      "low": 62.07,
+      "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -9153,7 +9470,7 @@
           "date": "2026-07-28",
           "desc": "S & W Pacific Ale 49.5L KEG",
           "change_pct": 0.1,
-          "n": 3,
+          "n": 4,
           "prev_cost": 7.733,
           "spend": 0.0,
           "volume": 0.0
@@ -9352,19 +9669,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 2.3558,
-          "date": "2026-07-14",
+          "cost": 56.54,
+          "date": "2026-07-21",
           "desc": "S.PELLEGRINO SPARKLING WATER",
-          "change_pct": -95.8,
-          "n": 3,
-          "prev_cost": 55.63,
+          "change_pct": 2300.0,
+          "n": 4,
+          "prev_cost": 2.3558,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 2.3558,
-      "max": 2.3558,
+      "min": 56.54,
+      "max": 56.54,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -10371,7 +10688,7 @@
           "date": "2026-07-31",
           "desc": "ROOSTER ROJO TEQUILA BLANCO",
           "change_pct": -0.6,
-          "n": 3,
+          "n": 4,
           "prev_cost": 309.97,
           "spend": 0.0,
           "volume": 0.0
@@ -10515,9 +10832,9 @@
           "cost": 259.09,
           "date": "2026-07-31",
           "desc": "SAILOR JERRY SPICED RUM",
-          "change_pct": 477.2,
-          "n": 3,
-          "prev_cost": 44.89,
+          "change_pct": 480.9,
+          "n": 4,
+          "prev_cost": 44.6,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -10528,8 +10845,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 44.67,
-      "low_date": "2026-06-16",
+      "low": 44.6,
+      "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -11057,6 +11374,35 @@
       "switch": false
     },
     {
+      "key": "cube sprite",
+      "name": "Sprite Cube",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 120.96,
+          "date": "2026-07-21",
+          "desc": "SPRITE 375ML 24 CUBE",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 120.96,
+      "max": 120.96,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 120.96,
+      "low_date": "2026-07-21",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "pet sprite",
       "name": "Sprite Pet",
       "unit": "L",
@@ -11386,7 +11732,7 @@
           "date": "2026-07-31",
           "desc": "TOMATO CHERRY PUN",
           "change_pct": 68.4,
-          "n": 9,
+          "n": 10,
           "prev_cost": 1.9,
           "spend": 0.0,
           "volume": 0.0
@@ -11777,6 +12123,35 @@
       "suspect": false,
       "low": 2.8,
       "low_date": "2026-07-02",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "12yo whisky yamazaki",
+      "name": "Yamazaki 12yo Whisky",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 290.09,
+          "date": "2026-07-21",
+          "desc": "YAMAZAKI 12YO WHISKY 43%",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 290.09,
+      "max": 290.09,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 290.09,
+      "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
       "switch": false

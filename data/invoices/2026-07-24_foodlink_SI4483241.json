@@ -10,9 +10,9 @@
         "description": "FLOUR TORTILLAS 12X91GM 12INCH",
         "qty": "1",
         "line_total_incl": "33.60",
-        "unit_price_incl": "33.60",
+        "unit_price_incl": "5.60",
         "unit_price_ex": null,
-        "pack_size": 1,
+        "pack_size": 6,
         "line_class": "stock",
         "tax_treatment": "gst_free",
         "cost_basis": "per_unit",
@@ -25,9 +25,7 @@
         "pack_unit": "box",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
-        "notes": [
-          "GST-free (no flag in GST column). CTN-6 pack basis (carton vs single) unverified per skill; treating as one unit per stated line total."
-        ]
+        "notes": []
       },
       {
         "description": "MILK FRESH FULL CREAM 2LT Norco",
@@ -146,19 +144,17 @@
         "cost_basis": "per_unit",
         "gst_amount": null,
         "wet_amount": null,
-        "supplier_code": null,
+        "supplier_code": "",
         "raw_qty": "1",
         "raw_uom": null,
         "pack_qty": "1",
         "pack_unit": "ea",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
-        "notes": [
-          "Taxable extra (flagged GST). Ex-GST 3.00 x 1.1 = 3.30 incl. Skipped on LS receive per extras rule; the $3.30 gap between LS receive and invoice total is expected."
-        ]
+        "notes": []
       }
     ],
-    "due_date": "2026-07-31",
+    "due_date": null,
     "is_credit_note": false,
     "venue": "stowaway",
     "po_refs": [],
@@ -166,8 +162,8 @@
     "gst_total": "0.30",
     "wet_total": null,
     "account_code": "15079",
-    "source_pdf": "7fecc76d58a67d2bb20ea2dc06cc08b6870bd9d67478d7aaa83bef3ea8c77246.pdf",
-    "extractor_version": "claude-opus-4-8"
+    "source_pdf": "SI4483241",
+    "extractor_version": "claude-haiku-4-5"
   },
   "validation": {
     "status": "pass",
