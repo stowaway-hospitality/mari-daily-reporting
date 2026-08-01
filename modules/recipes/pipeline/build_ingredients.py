@@ -132,7 +132,7 @@ _NAME_FIX = {
     "TOMCP": "Tomato Cherry",
     # FFT codes that echoed into the name on older invoices (the real name sits in
     # the note column: "Eggplant", "Lime"). Confirmed from the same rows' notes.
-    "EGPKG": "Eggplant", "LMKG": "Lime",
+    "EGPKG": "Eggplant", "LMKG": "Lime", "PKG": "Plums",
 }
 
 
