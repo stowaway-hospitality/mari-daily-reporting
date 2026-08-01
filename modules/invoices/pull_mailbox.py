@@ -145,9 +145,10 @@ def move_message(token, msg_id, folder_id):
 
 
 # ── invoice handling ───────────────────────────────────────────────────────
-def run_invoice(pdf_bytes, source, sender="") -> int:
+def run_invoice(pdf_bytes, source, sender="", no_llm=False) -> int:
     """run.py on one PDF. 0 PASS, 2 REVIEW, 1 ERROR (its own exit codes).
-    Passes the sender domain so run.py tries a free deterministic parser first."""
+    Passes the sender domain so run.py tries a free deterministic parser first.
+    no_llm forbids the API call — parser or review, nothing spent."""
     # keep the original PDF so the app can show the actual invoice for review
     try:
         from modules.invoices.invoice_store import upload_pdf
@@ -161,6 +162,8 @@ def run_invoice(pdf_bytes, source, sender="") -> int:
         cmd = [sys.executable, "modules/invoices/run.py", "--pdf", tmp, "--source", source]
         if sender:
             cmd += ["--sender", sender.split("@")[-1].lower()]
+        if no_llm:
+            cmd += ["--no-llm"]
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
         print(r.stdout.strip())
         if r.returncode == 1:
@@ -203,6 +206,9 @@ def main() -> int:
                          "the newest-first daily pass has starved (still within WINDOW_WEEKS)")
     ap.add_argument("--max", type=int, default=BATCH,
                     help=f"messages to gather this run (default {BATCH}; raise for a backfill)")
+    ap.add_argument("--no-llm", action="store_true",
+                    help="parse deterministically only — no API credit needed; unparseable "
+                         "invoices go to Review for a later LLM pass")
     args = ap.parse_args()
     retry = args.source_folder.lower() != "inbox"   # Review-retry pass
 
@@ -251,7 +257,7 @@ def main() -> int:
         worst = 0
         saw_invoice = False
         for name, data in pdfs:
-            code = run_invoice(data, f"{subj} / {name}", sender=sender)
+            code = run_invoice(data, f"{subj} / {name}", sender=sender, no_llm=args.no_llm)
             if code == 3:                                  # statement / not an invoice
                 print("    (statement / not an invoice — skipped)")
                 continue

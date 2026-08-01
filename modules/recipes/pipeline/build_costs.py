@@ -71,8 +71,15 @@ def main() -> int:
         # ONE resolver for every line — liquor, weight-priced produce, packs,
         # discrete units — reading the invoice's basis + note, not just the
         # description. Refuses (skips) exactly when the ingredient UI would flag.
+        #
+        # Pass `code` too — the UI (build_ingredients) does, and some suppliers
+        # (Fresh Fruit Team) encode the sold unit in the code's trailing word
+        # ("ONBRKG Kilogram", "TCPUN Punnet"). Without it, resolve_pack couldn't
+        # read those, so the cost engine SKIPPED them while the picker showed a
+        # price — a recipe using that ingredient then costed to null (Onion Jam did
+        # exactly this). Now both read the code, so their identities and costs agree.
         qty, unit, per, how, bad = resolve_pack(
-            desc, pack_cost, basis=r.get("basis", ""), note=r.get("note", ""))
+            desc, pack_cost, basis=r.get("basis", ""), note=r.get("note", ""), code=code)
         # A confirmed pack (chef or catalogue) is AUTHORITATIVE — it wins even over
         # a resolved pack, so it can CORRECT a wrong one (a box of loose produce
         # that parsed to "1 box" becomes the real weight). Must match build_ingredients.

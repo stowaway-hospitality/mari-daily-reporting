@@ -115,6 +115,9 @@ def main() -> int:
     src.add_argument("--json", type=Path, help="pre-extracted JSON (skips the API call)")
     ap.add_argument("--source", default="", help="original filename / email subject, for provenance")
     ap.add_argument("--sender", default="", help="sender email domain — picks a free deterministic parser before the LLM")
+    ap.add_argument("--no-llm", action="store_true",
+                    help="NEVER call the LLM — parse deterministically or route to review. "
+                         "Free (no API credit needed); a backfill can run entirely on parsers.")
     ap.add_argument("--dry-run", action="store_true", help="validate but write nothing")
     args = ap.parse_args()
 
@@ -152,6 +155,12 @@ def main() -> int:
                         print(f"[parsed deterministically — {args.sender}, reconciled, no API]")
                     else:
                         print(f"[{args.sender} parser did not reconcile — using LLM]")
+            if inv is None and args.no_llm:
+                # Parser absent or didn't reconcile, and we're forbidden the LLM —
+                # route to review rather than spend (or fail on) an API call. Exit 2
+                # so the mailbox files it in Review for a later LLM pass.
+                print(f"[no-llm: no reconciling parser for {args.sender or 'sender'} — routed to review]")
+                return 2
             if inv is None:
                 inv = extract(pdf, filename=name)
             inv.is_credit_note = _is_credit    # a credit note reads as a positive invoice
