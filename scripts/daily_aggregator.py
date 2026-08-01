@@ -211,6 +211,13 @@ MARILYNAS_RGS = {
 # (references/reporting-groups.md), which excludes Dine-in Pizza as
 # "substitutable, not incremental". Both are right: strict answers "what would we
 # lose if Mari closed?", this answers "whose revenue is it?". Don't reconcile them.
+# A Mari cross-check gap below this (inc-GST) is modifier/add-on noise — a single
+# add-on reporting differently between the till and her export — NOT a reporting
+# GROUP being dropped/gained. Real filter drift historically moved $235-$612 (whole
+# groups). Below the floor we don't raise MARI FILTER DRIFT, so the health panel
+# isn't amber over $4.50 (e.g. 'Add Chorizo' on 2026-07-31). (2026-08-01)
+MARI_DRIFT_MIN = 20.0
+
 FOOD_RGS = {'big plates','small plates','kitchen specials','salads','desserts','kids meals','kids',
             'add-ons - kitchen','delivery kitchen','sides','mains','snacks','yum cha','staff dinners'}
 HG_FOOD_RG = 'harry gatos food'
@@ -517,9 +524,10 @@ else:
             _orows, _ = load_product_rows(_own)
             _theirs = sum(row_rev(r) for r in _orows)
             _ours = sum(row_rev(r) for r in rows)
-            if abs(_theirs - _ours) > 0.02:
+            _gap = _theirs - _ours
+            if abs(_gap) > MARI_DRIFT_MIN:
                 print(f"  *** MARI FILTER DRIFT: her Lightspeed export says ${_theirs:,.2f} inc,")
-                print(f"      the Stow till's 'm' rows say ${_ours:,.2f} inc — a ${_theirs - _ours:+,.2f} gap.")
+                print(f"      the Stow till's 'm' rows say ${_ours:,.2f} inc — a ${_gap:+,.2f} gap.")
                 print(f"      Her numbers come from the TILL, so this changes nothing — but the")
                 print(f"      'Mari Daily Sales Auto' Reporting Group filter no longer matches")
                 print(f"      MARILYNAS_RGS. Reconcile the two before they drift further.")
@@ -529,6 +537,12 @@ else:
                     print(f"        in her export, not 'm' on the till: {sorted(_hers - _mine)[:5]}")
                 if _mine - _hers:
                     print(f"        'm' on the till, not in her export: {sorted(_mine - _hers)[:5]}")
+            elif abs(_gap) > 0.02:
+                # Sub-materiality: an add-on/modifier reports slightly differently
+                # between the till and her export (changes no revenue — her total is
+                # the till). Not a filter-group change, so NOT flagged as drift.
+                print(f"  Mari cross-check gap ${_gap:+,.2f} inc — below the ${MARI_DRIFT_MIN:.0f} "
+                      f"materiality floor (modifier-level, not a filter-group change); ignored.")
 
     revenue_inc = sum(row_rev(r) for r in rows)
     total_tax = sum(parse_num(col(r, "Total Tax", "GST", "Tax")) for r in rows)
