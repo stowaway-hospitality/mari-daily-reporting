@@ -87,22 +87,34 @@ def ensure_folder(token, name) -> str:
     return _req(token, "POST", "/mailFolders", {"displayName": name})["id"]
 
 
-def messages_with_attachments(token, folder="inbox"):
+def messages_with_attachments(token, folder="inbox", oldest_first=False, top=BATCH):
     # RECENT ONLY. Filter on receivedDateTime (indexed -> efficient) for the
     # last WINDOW_WEEKS; check hasAttachments client-side. Filtering on BOTH
     # receivedDateTime and hasAttachments trips Graph's "InefficientFilter", so
     # we don't — and we never reach back past the window regardless of how much
     # history sits in the folder. `folder` is a well-known name (inbox) or a
     # folder id (for the Review-retry pass).
+    #
+    # ORDER matters for a BACKLOG. The daily pass takes the NEWEST first (desc):
+    # today's invoices should never wait behind a backlog. But if a backlog built
+    # up (the poller started after mail had already accumulated), newest-first
+    # STARVES the old tail — new mail keeps landing at the top and the 6-week-old
+    # invoices at the bottom never reach the batch. `oldest_first` drains from the
+    # bottom instead, so a backfill run claws the old invoices back. Pages past
+    # $top via @odata.nextLink so a backfill can gather more than one batch.
     cutoff = (datetime.now(timezone.utc) - timedelta(weeks=WINDOW_WEEKS)).strftime("%Y-%m-%dT%H:%M:%SZ")
     qs = urllib.parse.urlencode({
         "$filter": f"receivedDateTime ge {cutoff}",
         "$select": "id,subject,from,receivedDateTime,hasAttachments",
-        "$orderby": "receivedDateTime desc",
-        "$top": str(BATCH),
+        "$orderby": "receivedDateTime asc" if oldest_first else "receivedDateTime desc",
+        "$top": str(min(top, 50)),
     }, quote_via=urllib.parse.quote)
-    msgs = _req(token, "GET", f"/mailFolders/{folder}/messages?{qs}").get("value", [])
-    return [m for m in msgs if m.get("hasAttachments")]
+    out, path = [], f"/mailFolders/{folder}/messages?{qs}"
+    while path and len(out) < top:
+        page = _req(token, "GET", path)
+        out.extend(m for m in page.get("value", []) if m.get("hasAttachments"))
+        path = page.get("@odata.nextLink")        # None on the last page
+    return out[:top]
 
 
 def pdf_attachments(token, msg_id):
@@ -174,6 +186,11 @@ def main() -> int:
     ap.add_argument("--dry-run", action="store_true", help="list only; no extract, move or commit")
     ap.add_argument("--source-folder", default="inbox",
                     help="'inbox' (default) or 'Invoices Review' to re-run stuck ones (retry pass)")
+    ap.add_argument("--oldest-first", action="store_true",
+                    help="drain the OLDEST unprocessed mail first — for backfilling a backlog "
+                         "the newest-first daily pass has starved (still within WINDOW_WEEKS)")
+    ap.add_argument("--max", type=int, default=BATCH,
+                    help=f"messages to gather this run (default {BATCH}; raise for a backfill)")
     args = ap.parse_args()
     retry = args.source_folder.lower() != "inbox"   # Review-retry pass
 
@@ -183,7 +200,7 @@ def main() -> int:
         processed_id = ensure_folder(token, PROCESSED_FOLDER)
         review_id = ensure_folder(token, REVIEW_FOLDER)
     source = review_id if retry else "inbox"
-    msgs = messages_with_attachments(token, source)
+    msgs = messages_with_attachments(token, source, oldest_first=args.oldest_first, top=args.max)
     label = "Review folder (retry)" if retry else "accounts@ inbox"
     print(f"{len(msgs)} message(s) with attachments in {label}"
           + (f"  [model={os.environ.get('INVOICE_MODEL','haiku')}]" if retry else ""))
