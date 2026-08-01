@@ -1,0 +1,179 @@
+{
+  "invoice": {
+    "supplier_key": "paramount",
+    "supplier_name_raw": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+    "invoice_ref": "5419664",
+    "invoice_date": "2026-07-03",
+    "total_incl": "781.14",
+    "lines": [
+      {
+        "description": "Carton Freight",
+        "qty": "1",
+        "line_total_incl": "4.29",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "9000000",
+        "raw_qty": null,
+        "raw_uom": "MISC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "FEVER TREE NATURALLY LIGHT INDIAN TONIC",
+        "qty": "1",
+        "line_total_incl": "34.49",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "98974",
+        "raw_qty": null,
+        "raw_uom": "8/500 ml C",
+        "pack_qty": "0.5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Minimum Delivery Top-Up Charge",
+        "qty": "1",
+        "line_total_incl": "12.21",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "10010294",
+        "raw_qty": null,
+        "raw_uom": "MISC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "ROOSTER ROJO BLANCO : 700 ml",
+        "qty": "1",
+        "line_total_incl": "729.83",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "66926",
+        "raw_qty": null,
+        "raw_uom": "6/700 ml",
+        "pack_qty": "0.7",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Temporary Fuel Levy Charge",
+        "qty": "1",
+        "line_total_incl": "0.33",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "9000004",
+        "raw_qty": null,
+        "raw_uom": "MISC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "398222e69978b9c1f0f6a95c67e50ead8317945d9dd7d094a28457eb73918700.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $16.83 under the invoice total \u2014 expected. Skipped: Carton Freight ($4.29), Minimum Delivery Top-Up Charge ($12.21), Temporary Fuel Levy Charge ($0.33). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "764.32",
+        "actual": "781.14"
+      }
+    ],
+    "expected_ls_receive_total": "764.32",
+    "extras_total": "16.83"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "Carton Freight",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      },
+      {
+        "description": "FEVER TREE NATURALLY LIGHT INDIAN TONIC",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "Minimum Delivery Top-Up Charge",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "ROOSTER ROJO BLANCO : 700 ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "Temporary Fuel Levy Charge",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

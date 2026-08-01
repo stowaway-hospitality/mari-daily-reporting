@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-01",
-  "count": 29,
-  "skipped_already_in_xero": 92,
+  "count": 34,
+  "skipped_already_in_xero": 122,
   "invoices": [
     {
       "ref": "7049766",
@@ -1200,6 +1200,228 @@
       ]
     },
     {
+      "ref": "5428882",
+      "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+      "supplier_key": "paramount",
+      "date": "2026-07-09",
+      "due_date": null,
+      "total": "91.41",
+      "venue": "stowaway",
+      "pdf_path": "a5fa1bc5a27c5824bf8d7dfe3a0493a2922b4baa5ea1adbcdc8e910b8779f7c0.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "MP-VINADA ROSE : : 750ml",
+          "supplier_code": "10025433",
+          "qty": "1",
+          "amount": "91.41",
+          "unit_cost": "$121.88/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        }
+      ]
+    },
+    {
+      "ref": "5419664",
+      "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+      "supplier_key": "paramount",
+      "date": "2026-07-03",
+      "due_date": null,
+      "total": "781.14",
+      "venue": "stowaway",
+      "pdf_path": "398222e69978b9c1f0f6a95c67e50ead8317945d9dd7d094a28457eb73918700.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Carton Freight",
+          "supplier_code": "9000000",
+          "qty": "1",
+          "amount": "4.29",
+          "unit_cost": "$4.29/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "FEVER TREE NATURALLY LIGHT INDIAN TONIC",
+          "supplier_code": "98974",
+          "qty": "1",
+          "amount": "34.49",
+          "unit_cost": "$34.49/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Minimum Delivery Top-Up Charge",
+          "supplier_code": "10010294",
+          "qty": "1",
+          "amount": "12.21",
+          "unit_cost": "$12.21/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "ROOSTER ROJO BLANCO : 700 ml",
+          "supplier_code": "66926",
+          "qty": "1",
+          "amount": "729.83",
+          "unit_cost": "$1042.61/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Temporary Fuel Levy Charge",
+          "supplier_code": "9000004",
+          "qty": "1",
+          "amount": "0.33",
+          "unit_cost": "$0.33/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "5408825",
+      "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+      "supplier_key": "paramount",
+      "date": "2026-06-30",
+      "due_date": null,
+      "total": "1029.39",
+      "venue": "harry_gatos",
+      "pdf_path": "2b30d5a6fdf5892f69f8a136ad7fe8ed268b6c31d70bbdb536d72d62c402b3aa.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Carton Freight",
+          "supplier_code": "9000000",
+          "qty": "1",
+          "amount": "1.43",
+          "unit_cost": "$1.43/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "Minimum Delivery Top-Up Charge",
+          "supplier_code": "10010294",
+          "qty": "1",
+          "amount": "15.07",
+          "unit_cost": "$15.07/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Temporary Fuel Levy Charge",
+          "supplier_code": "9000004",
+          "qty": "1",
+          "amount": "0.11",
+          "unit_cost": "$0.11/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "WHITE LIGHT VODKA ORIGINAL : 20000ml",
+          "supplier_code": "32051",
+          "qty": "1",
+          "amount": "1012.78",
+          "unit_cost": "$50.64/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        }
+      ]
+    },
+    {
+      "ref": "5408849",
+      "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+      "supplier_key": "paramount",
+      "date": "2026-06-30",
+      "due_date": null,
+      "total": "67.79",
+      "venue": "stowaway",
+      "pdf_path": "51dbcd440fa5194878f0d10cea1386844cda1b460fd52d8a8161396cdc170250.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Carton Freight",
+          "supplier_code": "9000000",
+          "qty": "1",
+          "amount": "1.43",
+          "unit_cost": "$1.43/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "COCA COLA ZERO SUGAR : 1250 ml",
+          "supplier_code": "92900",
+          "qty": "1",
+          "amount": "51.18",
+          "unit_cost": "$40.94/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Minimum Delivery Top-Up Charge",
+          "supplier_code": "10010294",
+          "qty": "1",
+          "amount": "15.07",
+          "unit_cost": "$15.07/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Temporary Fuel Levy Charge",
+          "supplier_code": "9000004",
+          "qty": "1",
+          "amount": "0.11",
+          "unit_cost": "$0.11/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
       "ref": "5392564",
       "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
       "supplier_key": "paramount",
@@ -1577,6 +1799,34 @@
           "account_code": "115",
           "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "gulli-None",
+      "supplier": "Gulli Food Distributors Pty Ltd",
+      "supplier_key": "gulli",
+      "date": null,
+      "due_date": null,
+      "total": "48.20",
+      "venue": "stowaway",
+      "pdf_path": "ee3df89b1979a91c5d7e88b4d904d297c43195616e236c5d2b33f2e3fcc74de9.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Marilyna's Pizza",
+      "tracking_confidence": "high",
+      "is_credit_note": true,
+      "status": "review",
+      "lines": [
+        {
+          "description": "B Flute Lock Top 11\" Pizza Boxes x 50",
+          "supplier_code": "PBLTB11-U",
+          "qty": "2.000",
+          "amount": "48.20",
+          "unit_cost": "$24.10/ea",
+          "tax": "gst",
+          "account_code": "117",
+          "account_name": "Purchases - Packaging",
+          "reason": "line keyword -> Purchases - Packaging"
         }
       ]
     }
