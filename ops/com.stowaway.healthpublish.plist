@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.stowaway.healthpublish</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>cd "$HOME/Documents/STOW/Sales Reports/Daily Reporting"; /usr/bin/python3 -u scripts/publish_health.py</string>
+  </array>
+  <key>WorkingDirectory</key><string>/Users/stowaway/Documents/STOW/Sales Reports/Daily Reporting</string>
+  <key>StartInterval</key><integer>3600</integer>
+  <key>StandardOutPath</key><string>/Users/stowaway/Documents/STOW/Sales Reports/Daily Reporting/health_publish.log</string>
+  <key>StandardErrorPath</key><string>/Users/stowaway/Documents/STOW/Sales Reports/Daily Reporting/health_publish.log</string>
+</dict>
+</plist>

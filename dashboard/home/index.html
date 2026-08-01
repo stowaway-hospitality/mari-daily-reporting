@@ -120,11 +120,11 @@ async function renderHealth(){
   const ICON = s => s==='down'?'⚠':s==='warn'?'•':'✓';
 
   const items = [];
-  if (ageMin > 360){                      // 6h+ with no refresh -> the writer stopped
+  if (ageMin > 1800){                     // >30h with no refresh -> the publish chain stopped
     items.push({status:'down', name:'Monitoring', age:`${Math.round(ageMin/60)}h`,
-      meaning:'The office Mac writes this status every few minutes; it has not updated in hours.',
-      action:'Check the office Mac is on and awake - everything resumes once it is. Still stale after it wakes? Tell Zak.',
-      selfheal:'Recovers once the Mac is awake.'});
+      meaning:'The status snapshot is republished through the day; it has not refreshed in over a day.',
+      action:'Check the office Mac is on and awake and that the daily pipeline ran - it resumes on its own once it is. Still stale after a day? Tell Zak.',
+      selfheal:'Refreshes on the next pipeline run.'});
   }
   (h.checks||[]).forEach(c=>{
     if (c.status==='down' || c.status==='warn'){
