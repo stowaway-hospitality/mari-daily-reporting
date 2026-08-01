@@ -70,11 +70,6 @@ ADVICE = {
         "action": "Run the Xero pull to refresh. Benign early in a new month before it is closed.",
         "selfheal": "Catches up with the monthly Xero pull.",
     },
-    "Pull integrity": {
-        "meaning": "Confirms the single Stowaway till is still feeding all three venues correctly.",
-        "action": "If this says the STOW export is narrowed: URGENT - Harry Gatos revenue is being dropped. Do NOT fix it inside Lightspeed yourself. Tell Zak the same day, or ask Claude - the Stowaway export must be the FULL SITE report.",
-        "selfheal": "No - someone changed the Lightspeed report and it must be put back.",
-    },
 }
 
 
@@ -197,12 +192,12 @@ def _pull_integrity(rel="data/pull_integrity.json"):
     'down'; the rest are transient/benign warns."""
     pth = ROOT / rel
     if not pth.exists():
-        return ("unknown", "no pull-integrity record yet")
+        return {"status": "unknown", "detail": "no pull-integrity record yet"}
     try:
         rec = json.loads(pth.read_text())
         days = rec.get("days", {})
         if not days:
-            return ("unknown", "no pull-integrity record yet")
+            return {"status": "unknown", "detail": "no pull-integrity record yet"}
         latest = max(days)  # YYYY-MM-DD sorts lexically
         venues = days[latest]
         narrowed = [v for v, f in venues.items() if f.get("narrowed")]
@@ -212,16 +207,32 @@ def _pull_integrity(rel="data/pull_integrity.json"):
         hg_missing_mon = (is_mon and "harry" in venues
                           and venues["harry"].get("realloc_rows", 0) == 0)
         if narrowed:
-            return ("down", f"STOW export narrowed {latest} — HG revenue at risk")
+            return {"status": "down", "detail": f"STOW export narrowed {latest} — HG revenue at risk",
+                    "meaning": "The single Stowaway till feeds all three venues; this checks it still does.",
+                    "action": (f"URGENT - the STOW export was narrowed on {latest} and Harry Gatos revenue is "
+                               "being dropped. Do NOT change it blindly in Lightspeed. Tell Zak today or ask "
+                               "Claude - the Stowaway export must be the FULL SITE report."),
+                    "selfheal": "No - the Lightspeed report must be put back."}
         if hg_missing_mon:
-            return ("warn", f"HG reallocation missing on Monday {latest}")
+            return {"status": "warn", "detail": f"HG reallocation missing on Monday {latest}",
+                    "meaning": "Harry Gatos' Monday food is carved from the Stow till.",
+                    "action": f"HG's Monday reallocation didn't run for {latest} - check the Stow export landed for that day.",
+                    "selfheal": "Clears once the day re-aggregates."}
         if drift:
-            return ("warn", f"Mari filter drift {latest}")
+            return {"status": "warn", "detail": f"Mari filter drift {latest}",
+                    "meaning": "Marilyna's sales are carved from the Stow till and cross-checked against her own Lightspeed report.",
+                    "action": (f"Minor: on {latest} a few Marilyna's rows weren't in her Lightspeed report, so the "
+                               "filter drifted slightly. The revenue is still attributed - this is a nudge to tidy the "
+                               "'Mari Daily Sales Auto' report in Lightspeed when convenient, not an outage."),
+                    "selfheal": "Clears on its own once a clean day aggregates; only needs a Lightspeed fix if it keeps recurring."}
         if siblings:
-            return ("warn", f"sibling CSV missing {latest} ({','.join(siblings)})")
-        return ("ok", f"Mari filter holding, HG reallocation intact ({latest})")
+            return {"status": "warn", "detail": f"sibling CSV missing {latest} ({','.join(siblings)})",
+                    "meaning": "A venue's cross-check export was missing for the day.",
+                    "action": f"A cross-check CSV was missing for {latest} ({','.join(siblings)}) - usually transient.",
+                    "selfheal": "Usually clears on the next pull."}
+        return {"status": "ok", "detail": f"Mari filter holding, HG reallocation intact ({latest})"}
     except Exception as e:
-        return ("unknown", f"integrity record unreadable: {e}")
+        return {"status": "unknown", "detail": f"integrity record unreadable: {e}"}
 
 
 def build() -> dict:
@@ -259,9 +270,13 @@ def build() -> dict:
         _csv_last_date_age_days("data/xero_cogs_weekly.csv", "week_ending"), 8.5, 12, unit="day")
     add("Xero overheads feed", "monthly overheads from Xero",
         _overheads_months_behind(), 1.5, 2.5, unit="mo")
-    _ig_status, _ig_detail = _pull_integrity()
-    checks.append({"name": "Pull integrity", "detail": _ig_detail,
-                   "age": None, "unit": "", "status": _ig_status})
+    ig = _pull_integrity()
+    _ig_check = {"name": "Pull integrity", "detail": ig.get("detail"),
+                 "age": None, "unit": "", "status": ig.get("status", "unknown")}
+    for _k in ("meaning", "action", "selfheal"):
+        if ig.get(_k):
+            _ig_check[_k] = ig[_k]
+    checks.append(_ig_check)
 
     # overall reflects AUTOMATION health — the jobs that must keep running. An
     # advisory (workload) check can raise a warn but never a down on its own.

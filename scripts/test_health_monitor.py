@@ -43,7 +43,7 @@ def _build_with(monkey_ages, queue_days):
     hm._insights_pull_age_days = lambda *a, **k: monkey_ages.get("insights_pull", 1)
     hm._csv_last_date_age_days = lambda rel, col: monkey_ages.get("xero_cogs", 4)
     hm._overheads_months_behind = lambda *a, **k: monkey_ages.get("overheads", 0)
-    hm._pull_integrity = lambda *a, **k: monkey_ages.get("integrity", ("ok", "clean"))
+    hm._pull_integrity = lambda *a, **k: monkey_ages.get("integrity", {"status": "ok", "detail": "clean"})
     return hm.build()
 
 
@@ -65,11 +65,11 @@ check("all healthy -> overall ok", out["overall"] == "ok")
 
 # ---- folded-in watchdog checks -------------------------------------------
 # Stow export narrowed is the six-figure-silent-loss case -> must go down
-out = _build_with(dict(allfresh, integrity=("down", "stow narrowed")), 0)
+out = _build_with(dict(allfresh, integrity={"status": "down", "detail": "stow narrowed"}), 0)
 check("stow export narrowed -> overall down", out["overall"] == "down")
 
 # Mari filter drift is a warn, never a down
-out = _build_with(dict(allfresh, integrity=("warn", "mari drift")), 0)
+out = _build_with(dict(allfresh, integrity={"status": "warn", "detail": "mari drift"}), 0)
 check("mari drift -> overall warn (not down)", out["overall"] == "warn")
 
 # stale Xero COGS feed (15 days > 12 down line) -> down
