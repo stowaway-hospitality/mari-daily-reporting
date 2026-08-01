@@ -75,11 +75,18 @@ def looks_like_statement(text: str) -> bool:
     t = (text or "").lower()
     if "tax invoice" in t:
         return False
-    titled = "statement" in t[:600]                     # word appears up top
+    titled = "statement" in t[:600] or "statement of account" in t  # word up top
     strong = ("running total" in t or "remaining amount" in t
               or ("opening balance" in t and "closing balance" in t)
               or ("starting date" in t and "ending date" in t)
-              or "amount outstanding" in t)
+              or "amount outstanding" in t
+              # Fresh Fruit Team (and others) email single-invoice STATEMENTS as
+              # "Invoice(s)" — a payment advice with a "balance due" and a remittance
+              # slip, no line items. They leaked into review as 0-line invoices. A
+              # real tax invoice never says "payment advice", and "tax invoice"
+              # already returned False above, so these are safe statement markers.
+              or "payment advice" in t
+              or ("balance due" in t and "amount enclosed" in t))
     return titled and strong
 
 
@@ -94,7 +101,10 @@ def looks_like_credit_note(text: str) -> bool:
     PHRASE so "credit terms" / "credit card" can't trip it.
     """
     t = (text or "").lower()
-    return "credit note" in t or "adjustment note" in t
+    # "credit note" catches "Tax Credit Note" (Gulli) by substring. Add the other
+    # AU/US phrasings, kept as PHRASES so "credit terms"/"credit card" can't trip it.
+    return ("credit note" in t or "adjustment note" in t
+            or "credit memo" in t or "rcti credit" in t)
 
 
 def _json_default(o):

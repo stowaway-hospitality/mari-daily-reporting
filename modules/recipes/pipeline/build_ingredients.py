@@ -130,6 +130,9 @@ _NAME_FIX = {
     "TGL10BX": "Tomatoes Gourmet Large", "ZGKG": "Zucchini Green",  # was "... 0.5Kg please"
     # Select Fresh: "Tomato Cherry Pun" — "Pun" is a truncated Punnet.
     "TOMCP": "Tomato Cherry",
+    # FFT codes that echoed into the name on older invoices (the real name sits in
+    # the note column: "Eggplant", "Lime"). Confirmed from the same rows' notes.
+    "EGPKG": "Eggplant", "LMKG": "Lime",
 }
 
 
