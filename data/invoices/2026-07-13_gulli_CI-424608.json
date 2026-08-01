@@ -1,0 +1,143 @@
+{
+  "invoice": {
+    "supplier_key": "gulli",
+    "supplier_name_raw": "Gulli Food Distributors Pty Ltd",
+    "invoice_ref": "CI-424608",
+    "invoice_date": "2026-07-13",
+    "total_incl": "352.26",
+    "lines": [
+      {
+        "description": "Manildra- Gem West Pizza Flour 12.5kg",
+        "qty": "5.000",
+        "line_total_incl": "69.00",
+        "unit_price_incl": "13.8000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "MANFLOPIZ-U",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "12.5",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "B Flute Lock Top 13\" Pizza Boxes x 50",
+        "qty": "2.000",
+        "line_total_incl": "64.26",
+        "unit_price_incl": "32.1310",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "PBLTB13-U",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Big Cheese- Shredded Mozzarella 2kg",
+        "qty": "10.000",
+        "line_total_incl": "210.00",
+        "unit_price_incl": "21.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "MOZZARELLA2KG-UC4",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "2",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Dairy-Free (Vegan) Shredded Mozzarella 500g",
+        "qty": "1.000",
+        "line_total_incl": "9.00",
+        "unit_price_incl": "9.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "VEGD004-UC10",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "0.5",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-08-30",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "13a8fb1e065f55252595ae18885bdb8e94e46bfa0b39f1799f72765aa573bbcc.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "352.26",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Marilyna's Pizza",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "Manildra- Gem West Pizza Flour 12.5kg",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "B Flute Lock Top 13\" Pizza Boxes x 50",
+        "account_code": "117",
+        "account_name": "Purchases - Packaging",
+        "reason": "line keyword -> Purchases - Packaging"
+      },
+      {
+        "description": "Big Cheese- Shredded Mozzarella 2kg",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Dairy-Free (Vegan) Shredded Mozzarella 500g",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

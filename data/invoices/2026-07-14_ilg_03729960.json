@@ -1,0 +1,143 @@
+{
+  "invoice": {
+    "supplier_key": "ilg",
+    "supplier_name_raw": "Independent Liquor Group",
+    "invoice_ref": "03729960",
+    "invoice_date": "2026-07-14",
+    "total_incl": "341.20",
+    "lines": [
+      {
+        "description": "APEROL",
+        "qty": "1",
+        "line_total_incl": "30.11",
+        "unit_price_incl": "30.1100",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "395-6785P",
+        "raw_qty": null,
+        "raw_uom": "6x700ML",
+        "pack_qty": "4.2",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "BUFFALO TRACE BOURBON 40%",
+        "qty": "1",
+        "line_total_incl": "53.77",
+        "unit_price_incl": "53.7700",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "305-1949P",
+        "raw_qty": null,
+        "raw_uom": "6x700ML",
+        "pack_qty": "4.2",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "SAILOR JERRY SPICED RUM",
+        "qty": "1",
+        "line_total_incl": "44.89",
+        "unit_price_incl": "44.8900",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "345-5638P",
+        "raw_qty": null,
+        "raw_uom": "6x700ML",
+        "pack_qty": "4.2",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "ALEHOUSE PREMIUM KEG",
+        "qty": "1",
+        "line_total_incl": "212.44",
+        "unit_price_incl": "212.4400",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "122-2858",
+        "raw_qty": null,
+        "raw_uom": "1xKEG49.",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-21",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "9a377298b56134d4d7559a4b16e01c6e79439a215fb18fb3e8fc6ab31385c684.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "341.21",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "APEROL",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "BUFFALO TRACE BOURBON 40%",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "SAILOR JERRY SPICED RUM",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "ALEHOUSE PREMIUM KEG",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

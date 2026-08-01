@@ -62,6 +62,15 @@
       "date": "2026-07-31"
     },
     {
+      "name": "Aperol",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 30.11,
+      "cost": 174.5,
+      "pct": 479.5,
+      "date": "2026-07-21"
+    },
+    {
       "name": "Bombay Dry Gin",
       "supplier": "ILG",
       "unit": "ea",
@@ -213,6 +222,15 @@
       "cost": 15.4,
       "pct": 16.7,
       "date": "2026-07-30"
+    },
+    {
+      "name": "Prosciutto Sliced",
+      "supplier": "B&E",
+      "unit": "kg",
+      "prev": 24.0,
+      "cost": 28.0,
+      "pct": 16.7,
+      "date": "2026-08-01"
     },
     {
       "name": "Process Garlic Peeled",
@@ -895,7 +913,7 @@
           "date": "2026-07-31",
           "desc": "ALEHOUSE PREMIUM KEG",
           "change_pct": -4.2,
-          "n": 7,
+          "n": 8,
           "prev_cost": 212.44,
           "spend": 0.0,
           "volume": 0.0
@@ -1127,7 +1145,7 @@
           "date": "2026-07-23",
           "desc": "ANTIPASTO - SUNDRIED",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -1155,9 +1173,9 @@
           "cost": 174.5,
           "date": "2026-07-21",
           "desc": "APEROL",
-          "change_pct": 0.0,
-          "n": 2,
-          "prev_cost": 174.49,
+          "change_pct": 479.5,
+          "n": 3,
+          "prev_cost": 30.11,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -1168,8 +1186,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 174.49,
-      "low_date": "2026-06-23",
+      "low": 30.11,
+      "low_date": "2026-07-14",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -1941,8 +1959,8 @@
           "change_pct": null,
           "n": 6,
           "prev_cost": null,
-          "spend": 2562.0,
-          "volume": 244.0
+          "spend": 2772.0,
+          "volume": 264.0
         }
       ],
       "cheapest": "Gulli",
@@ -2258,7 +2276,7 @@
           "date": "2026-07-31",
           "desc": "BUFFALO TRACE BOURBON 40%",
           "change_pct": -0.6,
-          "n": 4,
+          "n": 5,
           "prev_cost": 53.48,
           "spend": 0.0,
           "volume": 0.0
@@ -3362,8 +3380,8 @@
           "change_pct": null,
           "n": 4,
           "prev_cost": null,
-          "spend": 366.0,
-          "volume": 30.0
+          "spend": 427.0,
+          "volume": 35.0
         }
       ],
       "cheapest": "B&E",
@@ -4928,8 +4946,8 @@
           "change_pct": null,
           "n": 6,
           "prev_cost": null,
-          "spend": 72.0,
-          "volume": 4.0
+          "spend": 81.0,
+          "volume": 4.5
         }
       ],
       "cheapest": "Gulli",
@@ -5653,8 +5671,8 @@
           "change_pct": null,
           "n": 2,
           "prev_cost": null,
-          "spend": 12.1,
-          "volume": 1.0
+          "spend": 36.3,
+          "volume": 3.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -6001,8 +6019,8 @@
           "change_pct": 0.0,
           "n": 6,
           "prev_cost": 0.6426,
-          "spend": 578.34,
-          "volume": 900.0
+          "spend": 642.6,
+          "volume": 1000.0
         }
       ],
       "cheapest": "Gulli",
@@ -6318,7 +6336,7 @@
           "date": "2026-08-01",
           "desc": "FZ CHIPS - CRISPY COATED",
           "change_pct": null,
-          "n": 11,
+          "n": 12,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -6347,7 +6365,7 @@
           "date": "2026-08-01",
           "desc": "FZ CHIPS - ULTRA SWEET",
           "change_pct": -5.3,
-          "n": 8,
+          "n": 9,
           "prev_cost": 77.11,
           "spend": 0.0,
           "volume": 0.0
@@ -6463,7 +6481,7 @@
           "date": "2026-07-24",
           "desc": "FZ MASH POTATO - PLAIN",
           "change_pct": -4.0,
-          "n": 2,
+          "n": 3,
           "prev_cost": 50.0,
           "spend": 0.0,
           "volume": 0.0
@@ -6489,10 +6507,10 @@
         {
           "supplier": "B&E",
           "cost": 65.0,
-          "date": "2026-07-04",
+          "date": "2026-07-16",
           "desc": "FZ ONION RINGS - BEER",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -6521,7 +6539,7 @@
           "date": "2026-07-23",
           "desc": "FZ PIZZA - GLUTEN FREE",
           "change_pct": 6.9,
-          "n": 3,
+          "n": 4,
           "prev_cost": 83.0,
           "spend": 0.0,
           "volume": 0.0
@@ -6608,7 +6626,7 @@
           "date": "2026-08-01",
           "desc": "FZ PRAWN - RAW MEAT (I)",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -7217,7 +7235,7 @@
           "date": "2026-08-01",
           "desc": "HAM - SOCCERBALL SLICED",
           "change_pct": null,
-          "n": 8,
+          "n": 9,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -8901,8 +8919,8 @@
           "change_pct": null,
           "n": 6,
           "prev_cost": null,
-          "spend": 510.6,
-          "volume": 462.5
+          "spend": 579.6,
+          "volume": 525.0
         }
       ],
       "cheapest": "Gulli",
@@ -9679,10 +9697,10 @@
         {
           "supplier": "B&E",
           "cost": 55.0,
-          "date": "2026-07-01",
+          "date": "2026-07-16",
           "desc": "OIL - VEGETABLE W BUNG",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -10610,7 +10628,7 @@
           "date": "2026-08-01",
           "desc": "CANNED - PINEAPPLE PIZZA",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -10957,11 +10975,11 @@
           "cost": 28.0,
           "date": "2026-08-01",
           "desc": "PROSCIUTTO SLICED 500G",
-          "change_pct": -5.1,
-          "n": 7,
-          "prev_cost": 29.5,
-          "spend": 387.0,
-          "volume": 13.5
+          "change_pct": 16.7,
+          "n": 8,
+          "prev_cost": 24.0,
+          "spend": 447.0,
+          "volume": 16.0
         }
       ],
       "cheapest": "B&E",
@@ -10970,8 +10988,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 28.0,
-      "low_date": "2026-07-23",
+      "low": 24.0,
+      "low_date": "2026-07-16",
       "est_saving": 0.0,
       "main": "B&E",
       "switch": false
@@ -11654,7 +11672,7 @@
           "date": "2026-07-31",
           "desc": "SAILOR JERRY SPICED RUM",
           "change_pct": 480.9,
-          "n": 4,
+          "n": 5,
           "prev_cost": 44.6,
           "spend": 0.0,
           "volume": 0.0
@@ -11769,9 +11787,9 @@
           "cost": 7.42,
           "date": "2026-07-31",
           "desc": "SAPPORO KEG 50LT",
-          "change_pct": -2.3,
-          "n": 2,
-          "prev_cost": 7.598,
+          "change_pct": -2.4,
+          "n": 3,
+          "prev_cost": 7.599,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -11917,8 +11935,8 @@
           "change_pct": null,
           "n": 4,
           "prev_cost": null,
-          "spend": 178.1,
-          "volume": 13.0
+          "spend": 191.8,
+          "volume": 14.0
         }
       ],
       "cheapest": "B&E",
@@ -12785,7 +12803,7 @@
           "date": "2026-08-01",
           "desc": "TOMATO - PIZZA SAUCE",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -13280,8 +13298,8 @@
           "change_pct": null,
           "n": 3,
           "prev_cost": null,
-          "spend": 43.5,
-          "volume": 6.0
+          "spend": 58.0,
+          "volume": 8.0
         }
       ],
       "cheapest": "B&E",
