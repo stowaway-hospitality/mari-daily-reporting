@@ -18,38 +18,38 @@
         "cost_basis": "per_keg",
         "gst_amount": null,
         "wet_amount": null,
-        "supplier_code": null,
-        "raw_qty": "1.00",
-        "raw_uom": null,
+        "supplier_code": "GRIFTER-PALE-50L",
+        "raw_qty": "1",
+        "raw_uom": "KEG",
         "pack_qty": "50",
         "pack_unit": "L",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "Amount 265.50 ex-GST (295.00 less 10% discount); incl = 265.50 x 1.1 = 292.05. Verified against config observed keg 292.05."
+          "10% discount applied"
         ]
       },
       {
         "description": "BIG SUR CANS 24 PK",
         "qty": "1",
         "line_total_incl": "96.03",
-        "unit_price_incl": "4.0013",
+        "unit_price_incl": "4.001250",
         "unit_price_ex": null,
         "pack_size": 24,
         "line_class": "stock",
         "tax_treatment": "gst",
-        "cost_basis": "per_can",
+        "cost_basis": "per_unit",
         "gst_amount": null,
         "wet_amount": null,
-        "supplier_code": null,
-        "raw_qty": "1.00",
-        "raw_uom": null,
+        "supplier_code": "GRIFTER-BIGSUR-24PK",
+        "raw_qty": "1",
+        "raw_uom": "CTN24",
         "pack_qty": "1",
-        "pack_unit": "ea",
+        "pack_unit": "box",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
         "notes": [
-          "Amount 87.30 ex-GST (97.00 less 10%); incl = 87.30 x 1.1 = 96.03. Pack of 24 -> per-can = 96.03/24. Stowaway stocks singles; no supplier code on invoice -> lightspeed_product_id null, review."
+          "10% discount applied"
         ]
       },
       {
@@ -64,28 +64,26 @@
         "cost_basis": "per_unit",
         "gst_amount": null,
         "wet_amount": null,
-        "supplier_code": null,
-        "raw_qty": "1.00",
+        "supplier_code": "",
+        "raw_qty": "1",
         "raw_uom": null,
         "pack_qty": "1",
         "pack_unit": "ea",
         "lightspeed_product_id": null,
         "lightspeed_product_name": null,
-        "notes": [
-          "Freight 7.50 ex-GST -> incl 8.25. Grifter freight is a separate GST-taxable line; skip on LS receive, log as delivery_fee_rolled_in. Excluded from LS receive total; expected gap = 8.25."
-        ]
+        "notes": []
       }
     ],
-    "due_date": "2026-08-11",
+    "due_date": null,
     "is_credit_note": false,
     "venue": "stowaway",
     "po_refs": [],
     "subtotal_ex": null,
     "gst_total": "36.03",
     "wet_total": null,
-    "account_code": "STOWAWAY FRESHWATER / 24 Lawrence Street FRESHWATER NSW 2096",
-    "source_pdf": "8f903fd410e278db11bfe1e4531f82e2c716d78b8f6fb13e951ecb6473aece4e.pdf",
-    "extractor_version": "claude-opus-4-8"
+    "account_code": "",
+    "source_pdf": "GRIF83246",
+    "extractor_version": "claude-haiku-4-5"
   },
   "validation": {
     "status": "pass",
