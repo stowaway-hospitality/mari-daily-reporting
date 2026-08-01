@@ -1,0 +1,170 @@
+{
+  "invoice": {
+    "supplier_key": "select_fresh",
+    "supplier_name_raw": "Select Fresh Providores",
+    "invoice_ref": "3066577",
+    "invoice_date": "2026-06-25",
+    "total_incl": "82.50",
+    "lines": [
+      {
+        "description": "CHILLI JALAPENO GREEN KG",
+        "qty": "0.50",
+        "line_total_incl": "3.60",
+        "unit_price_incl": "7.20",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "CHJAL",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CUCUMBER TELE/CONTINENTAL EACH",
+        "qty": "1.00",
+        "line_total_incl": "2.90",
+        "unit_price_incl": "2.90",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "CUCTE",
+        "raw_qty": null,
+        "raw_uom": "EACH",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "LEMON EA",
+        "qty": "14.00",
+        "line_total_incl": "7.00",
+        "unit_price_incl": "0.50",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "LEME",
+        "raw_qty": null,
+        "raw_uom": "EACH",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "LIMES TRAY",
+        "qty": "1.00",
+        "line_total_incl": "58.50",
+        "unit_price_incl": "58.50",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "LIM",
+        "raw_qty": null,
+        "raw_uom": "TRAY",
+        "pack_qty": "1",
+        "pack_unit": "tray",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "EDIBLE FLOWER MIXED VIOLA PUN",
+        "qty": "1.00",
+        "line_total_incl": "10.50",
+        "unit_price_incl": "10.50",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "EDMVI",
+        "raw_qty": null,
+        "raw_uom": "PUNNET",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-09",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "ba256c8b346b9dd2aa7cb92e4a64e1cb27239f608054f90287ea6a4958a450ee.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "82.50",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "CHILLI JALAPENO GREEN KG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CUCUMBER TELE/CONTINENTAL EACH",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "LEMON EA",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "LIMES TRAY",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "EDIBLE FLOWER MIXED VIOLA PUN",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

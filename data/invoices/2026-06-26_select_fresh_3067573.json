@@ -1,0 +1,116 @@
+{
+  "invoice": {
+    "supplier_key": "select_fresh",
+    "supplier_name_raw": "Select Fresh Providores",
+    "invoice_ref": "3067573",
+    "invoice_date": "2026-06-26",
+    "total_incl": "9.40",
+    "lines": [
+      {
+        "description": "CUCUMBER TELE/CONTINENTAL EACH",
+        "qty": "1.00",
+        "line_total_incl": "2.90",
+        "unit_price_incl": "2.90",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "CUCTE",
+        "raw_qty": null,
+        "raw_uom": "EACH",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "HERB MINT ROUND LEAF BCH",
+        "qty": "2.00",
+        "line_total_incl": "2.60",
+        "unit_price_incl": "1.30",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "HRMIN",
+        "raw_qty": null,
+        "raw_uom": "BUNCH",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "HERB SHISO RED BCH",
+        "qty": "1.00",
+        "line_total_incl": "3.90",
+        "unit_price_incl": "3.90",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "HSHIR",
+        "raw_qty": null,
+        "raw_uom": "BUNCH",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-10",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "d91edc62b412971206e37c3d084aec5e4d3eaa6c5814a406166fc66cc112d570.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "9.40",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "CUCUMBER TELE/CONTINENTAL EACH",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "HERB MINT ROUND LEAF BCH",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "HERB SHISO RED BCH",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

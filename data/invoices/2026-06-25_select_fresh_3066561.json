@@ -1,0 +1,170 @@
+{
+  "invoice": {
+    "supplier_key": "select_fresh",
+    "supplier_name_raw": "Select Fresh Providores",
+    "invoice_ref": "3066561",
+    "invoice_date": "2026-06-25",
+    "total_incl": "53.80",
+    "lines": [
+      {
+        "description": "HERB CHIVES BCH",
+        "qty": "6.00",
+        "line_total_incl": "12.00",
+        "unit_price_incl": "2.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "HCHI",
+        "raw_qty": null,
+        "raw_uom": "BUNCH",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "SHALLOT BCH",
+        "qty": "4.00",
+        "line_total_incl": "8.00",
+        "unit_price_incl": "2.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "SHAL",
+        "raw_qty": null,
+        "raw_uom": "BUNCH",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "PROCESS GARLIC PEELED KG",
+        "qty": "1.00",
+        "line_total_incl": "5.80",
+        "unit_price_incl": "5.80",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "PGAR",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CAULIFLOWER FLORETS",
+        "qty": "3.00",
+        "line_total_incl": "20.40",
+        "unit_price_incl": "6.80",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "XCAUFL",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "POTATO PEELED PROCESSING KG",
+        "qty": "2.00",
+        "line_total_incl": "7.60",
+        "unit_price_incl": "3.80",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "PRPOTP",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-09",
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "6121073b5b6aea386e0b23a5db7d580a676fcda0e5f147aa34163e2d14d338ea.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "53.80",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "HERB CHIVES BCH",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "SHALLOT BCH",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "PROCESS GARLIC PEELED KG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CAULIFLOWER FLORETS",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "POTATO PEELED PROCESSING KG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

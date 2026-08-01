@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-01",
-  "count": 28,
-  "skipped_already_in_xero": 68,
+  "count": 29,
+  "skipped_already_in_xero": 92,
   "invoices": [
     {
       "ref": "7049766",
@@ -1196,6 +1196,78 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "supplier name looks like Purchases - Beverages"
+        }
+      ]
+    },
+    {
+      "ref": "5392564",
+      "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+      "supplier_key": "paramount",
+      "date": "2026-06-23",
+      "due_date": null,
+      "total": "211.19",
+      "venue": "stowaway",
+      "pdf_path": "af9e734933c49618a9533a9aa626594cac68ffe4ec47bbc4d983d54f05c75135.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Carton Freight",
+          "supplier_code": "9000000",
+          "qty": "1",
+          "amount": "1.43",
+          "unit_cost": "$1.43/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "Minimum Delivery Top-Up Charge",
+          "supplier_code": "10010294",
+          "qty": "1",
+          "amount": "15.07",
+          "unit_cost": "$15.07/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Temporary Fuel Levy Charge",
+          "supplier_code": "9000004",
+          "qty": "1",
+          "amount": "0.21",
+          "unit_cost": "$0.21/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "WOLF LANE DISTILLERY NAVY STRENGTH GIN :",
+          "supplier_code": "78607",
+          "qty": "1",
+          "amount": "85.14",
+          "unit_cost": "$85.14/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "ZACAPA CENTENARIO 23 : 700 ml",
+          "supplier_code": "66317",
+          "qty": "1",
+          "amount": "109.34",
+          "unit_cost": "$156.20/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
         }
       ]
     },
