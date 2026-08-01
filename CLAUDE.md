@@ -11,6 +11,7 @@ for Stowaway Hospitality Group (three venues: **Stowaway `stow`**, **Harry Gatos
 - `MODULES.md` — how modules stay independent (`data/` is the API contract).
 - `WORKING_HERE.md` — the operational gotchas that have already cost money.
 - `TROUBLESHOOTING.md` / `COWORK_FIRST_RESPONDER.md` — the management team's plain-language guides for triaging platform issues (and using Claude as first responder) without deep knowledge.
+- `ops/support-agent/` — the locked-down guardrail profile that lets non-technical management troubleshoot via Claude safely (deny-list + PreToolUse guard); pairs with `ops/branch-protection.md` and `ops/scoped-token.md`.
 - `INVOICES.md` / `COGS_ARCHITECTURE.md` / `EATCLUB_EXPANSION.md` — module deep-dives.
 
 ## The shape
