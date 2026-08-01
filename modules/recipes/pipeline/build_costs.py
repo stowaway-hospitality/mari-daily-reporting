@@ -50,6 +50,29 @@ ROOT = Path(__file__).resolve().parents[3]
 COGS = ROOT / "data" / "cogs_list.csv"
 OUT = ROOT / "data" / "costs.csv"
 PACK_OVERRIDES = ROOT / "data" / "pack_overrides.yaml"
+PRODUCT_MAP = ROOT / "data" / "product_map.csv"
+
+
+def load_bridge() -> dict:
+    """
+    supplier:code  ->  lightspeed:<ProductID>, from data/product_map.csv.
+
+    This is the seam that makes a REAL INVOICE update a beverage's cost. Beverage
+    costs are seeded from the Lightspeed export keyed by ProductID; invoices arrive
+    keyed by supplier code. The map links the two, so an invoice line's cost is
+    ALSO emitted under the bottle's ProductID identity — and since the seed is
+    dated in the past, the newer invoice observation wins the as-of lookup. One
+    bottle, one identity, invoices keep it current. Evidence-based (each row was a
+    real invoice line matched to a real export product), never fuzzy at read time.
+    """
+    if not PRODUCT_MAP.exists():
+        return {}
+    out = {}
+    for r in csv.DictReader(PRODUCT_MAP.open(encoding="utf-8-sig")):
+        sup, code, pid = r.get("supplier"), r.get("supplier_code"), r.get("product_id")
+        if sup and code and pid:
+            out[purchasable_id(sup, code)] = f"lightspeed:{pid.strip()}"
+    return out
 
 FIELDS = ["ingredient", "observed_on", "cost_per_unit", "unit", "venue",
           "source_invoice", "pack", "description"]
@@ -57,8 +80,31 @@ FIELDS = ["ingredient", "observed_on", "cost_per_unit", "unit", "venue",
 
 def main() -> int:
     overrides = load_pack_overrides(PACK_OVERRIDES)   # chef-confirmed pack sizes
-    rows, skipped = [], []
-    for r in csv.DictReader(COGS.open(encoding="utf-8-sig")):
+    bridge = load_bridge()                            # supplier:code -> lightspeed:ProductID
+    cogs_rows = list(csv.DictReader(COGS.open(encoding="utf-8-sig")))
+
+    # The BO seed defines each bottle's cost UNIT and the divisor to reach it (Aperol
+    # = a 700 ml bottle -> $/ml, so divisor 700, unit "ml"; a beer -> $/can, divisor
+    # 1). When we bridge an INVOICE cost onto that ProductID we must express it the
+    # SAME way, or the bottle carries two costs in two units and a recipe can't read
+    # the newer one. Take the seed's OWN resolved (qty, unit) — not its raw pack_unit,
+    # which can differ ("each" vs the resolved "can").
+    seed_conv: dict[str, tuple[Decimal, str]] = {}
+    for r in cogs_rows:
+        if (r.get("source_invoice") or "").startswith("bo-seed"):
+            pid = f"lightspeed:{(r.get('supplier_code') or '').strip()}"
+            try:
+                q, u, _p, _h, _b = resolve_pack(
+                    r["invoice_description"].strip(), Decimal(r["cost_per_unit_incl_gst"]),
+                    basis=r.get("basis", ""), note=r.get("note", ""),
+                    code=(r.get("supplier_code") or "").strip())
+                if q and u:
+                    seed_conv[pid] = (q, u)
+            except Exception:
+                pass
+
+    rows, skipped, bridged = [], [], 0
+    for r in cogs_rows:
         code = (r.get("supplier_code") or "").strip()
         if not code:
             skipped.append((r["supplier"], r["invoice_description"], "no supplier_code — no identity"))
@@ -94,12 +140,37 @@ def main() -> int:
             skipped.append((r["supplier"], desc, bad))   # arithmetically fine, physically absurd
             continue
 
-        rows.append(dict(
+        row = dict(
             ingredient=iid,
             observed_on=r["invoice_date"], cost_per_unit=str(per), unit=unit,
             venue=r.get("venue") or "", source_invoice=r.get("source_invoice", ""),
             pack=how, description=desc,
-        ))
+        )
+        rows.append(row)
+        # BRIDGE: if this supplier code is a known bottle (product_map), ALSO record
+        # the cost under its ProductID identity, so the invoice supersedes the BO
+        # seed and any recipe referencing the bottle by ProductID stays current.
+        # Convert into the SEED's unit (bottle price / 700 ml -> $/ml) so the two
+        # observations are comparable and the newer (invoice) one wins the as-of
+        # lookup. Skip seed rows themselves; skip if the size is unknown or units
+        # can't reconcile (never emit a wrong-unit cost).
+        pid = bridge.get(iid)
+        if pid and not iid.startswith("lightspeed:"):
+            sc = seed_conv.get(pid)
+            if sc and sc[0] > 0:
+                sqty, sunit = sc
+                if sunit == unit:                       # already the seed's unit
+                    bper = per
+                elif unit in ("bottle", "keg", "can", "ea", "each"):
+                    # invoice priced per whole selling unit; the seed splits that
+                    # unit into sqty of sunit (700 ml). $/sunit = whole cost / sqty.
+                    bper = (pack_cost / sqty).quantize(Decimal("0.000001"))
+                else:
+                    bper = None                         # units don't reconcile — skip
+                if bper is not None:
+                    rows.append({**row, "ingredient": pid, "unit": sunit,
+                                 "cost_per_unit": str(bper), "pack": f"{how} (via {iid})"})
+                    bridged += 1
 
     rows.sort(key=lambda x: (x["ingredient"], x["observed_on"]))
     with OUT.open("w", newline="") as f:
@@ -108,6 +179,7 @@ def main() -> int:
         w.writerows(rows)
 
     print(f"{len(rows)} cost observations -> {OUT.relative_to(ROOT)}")
+    print(f"  {bridged} invoice costs also bridged to a ProductID identity")
     print(f"  skipped {len(skipped)} (not guessed — see below)")
     for s, d, why in skipped[:8]:
         print(f"    {s:<13} {d[:34]:<36} {why[:60]}")
