@@ -49,6 +49,23 @@ def upload_pdf(pdf_bytes: bytes) -> str:
     return key
 
 
+def download_pdf(key: str, dest: "Path | None" = None) -> bytes:
+    """Fetch an invoice PDF back from the private bucket by its object key
+    (the `source_pdf` recorded on each invoice). Uses the service key the same
+    way upload does — for the Mac automation to re-open a stored source, e.g. to
+    re-extract a review-queue invoice locally without another mail pull. Writes to
+    `dest` if given. Returns the bytes."""
+    svc = _svc_key()
+    req = urllib.request.Request(
+        f"{SUPA_URL}/storage/v1/object/{BUCKET}/{key}",
+        method="GET",
+        headers={"apikey": svc, "authorization": f"Bearer {svc}"})
+    data = urllib.request.urlopen(req).read()
+    if dest is not None:
+        Path(dest).write_bytes(data)
+    return data
+
+
 def ensure_bucket() -> None:
     """Create the private bucket once (idempotent)."""
     svc = _svc_key()
