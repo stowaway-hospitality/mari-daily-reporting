@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-01",
-  "count": 453,
+  "count": 461,
   "compared": 12,
   "window_days": 90,
   "total_saving": 32.4,
@@ -168,6 +168,15 @@
       "cost": 65.0,
       "pct": 25.0,
       "date": "2026-07-31"
+    },
+    {
+      "name": "Gourmet",
+      "supplier": "Fresh Fruit Team",
+      "unit": "kg",
+      "prev": 2.75,
+      "cost": 3.4,
+      "pct": 23.6,
+      "date": "2026-07-30"
     },
     {
       "name": "Egg",
@@ -746,10 +755,10 @@
           "date": "2026-07-23",
           "desc": "Parsley Continental",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
-          "spend": 3.3,
-          "volume": 2.0
+          "spend": 6.6,
+          "volume": 4.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -760,7 +769,7 @@
       "suspect": false,
       "low": 1.3,
       "low_date": "2026-07-02",
-      "est_saving": 0.1,
+      "est_saving": 0.2,
       "main": "Fresh Fruit Team",
       "switch": false
     },
@@ -1319,10 +1328,10 @@
           "date": "2026-07-30",
           "desc": "Australian Garlic Bread- 9\" x 40",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
-          "spend": 358.86,
-          "volume": 240.0
+          "spend": 538.29,
+          "volume": 360.0
         }
       ],
       "cheapest": "Gulli",
@@ -1957,10 +1966,10 @@
           "date": "2026-07-30",
           "desc": "Big Cheese- Shredded Mozzarella 2kg",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
-          "spend": 2772.0,
-          "volume": 264.0
+          "spend": 3192.0,
+          "volume": 304.0
         }
       ],
       "cheapest": "Gulli",
@@ -2247,10 +2256,10 @@
           "date": "2026-07-28",
           "desc": "Brown",
           "change_pct": -14.3,
-          "n": 4,
+          "n": 5,
           "prev_cost": 1.54,
-          "spend": 17.38,
-          "volume": 13.0
+          "spend": 23.98,
+          "volume": 18.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -2260,7 +2269,7 @@
       "multi": false,
       "suspect": false,
       "low": 1.32,
-      "low_date": "2026-07-10",
+      "low_date": "2026-07-08",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -2885,10 +2894,10 @@
           "date": "2026-07-25",
           "desc": "CELE Each",
           "change_pct": 7.1,
-          "n": 6,
+          "n": 7,
           "prev_cost": 10.08,
-          "spend": 71.0,
-          "volume": 8.0
+          "spend": 81.08,
+          "volume": 9.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3900,7 +3909,7 @@
           "date": "2026-07-30",
           "desc": "Chives",
           "change_pct": 16.7,
-          "n": 8,
+          "n": 9,
           "prev_cost": 13.2,
           "spend": 0.0,
           "volume": 0.0
@@ -4269,6 +4278,35 @@
     {
       "key": "cocktail",
       "name": "Cocktail",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.17,
+          "date": "2026-07-08",
+          "desc": "Cocktail (Box)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 9.51,
+          "volume": 3.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.17,
+      "max": 3.17,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 3.17,
+      "low_date": "2026-07-08",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
+      "key": "cocktail",
+      "name": "Cocktail",
       "unit": "box",
       "suppliers": [
         {
@@ -4276,11 +4314,11 @@
           "cost": 49.5,
           "date": "2026-07-20",
           "desc": "Cocktail (Box)",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
-          "spend": 49.5,
-          "volume": 1.0
+          "change_pct": -31.2,
+          "n": 2,
+          "prev_cost": 72.0,
+          "spend": 121.5,
+          "volume": 2.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4422,7 +4460,7 @@
           "date": "2026-07-30",
           "desc": "Coriander",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -4741,10 +4779,10 @@
           "date": "2026-07-28",
           "desc": "Cos Baby Twin Pack",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
-          "spend": 110.0,
-          "volume": 40.0
+          "spend": 123.75,
+          "volume": 45.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5630,6 +5668,35 @@
       "switch": false
     },
     {
+      "key": "egplbx",
+      "name": "Egplbx",
+      "unit": "box",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 28.6,
+          "date": "2026-07-08",
+          "desc": "EGPLBX Box",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 28.6,
+          "volume": 1.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 28.6,
+      "max": 28.6,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 28.6,
+      "low_date": "2026-07-08",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
       "key": "eschallot french",
       "name": "Eschallot French",
       "unit": "kg",
@@ -5698,10 +5765,10 @@
           "date": "2026-07-16",
           "desc": "\"S&B\" EX Golden Curry Mid Hot 10/1kg",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
-          "spend": 36.3,
-          "volume": 3.0
+          "spend": 48.4,
+          "volume": 4.0
         }
       ],
       "cheapest": "Jun Pacific",
@@ -5724,10 +5791,10 @@
         {
           "supplier": "Jun Pacific",
           "cost": 9.45,
-          "date": "2026-07-02",
+          "date": "2026-07-09",
           "desc": "\u201cS&B\u201d EX (Mild) Torokeru Curry Flake",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -5901,10 +5968,10 @@
           "date": "2026-07-16",
           "desc": "Florets",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
-          "spend": 63.2,
-          "volume": 8.0
+          "spend": 86.9,
+          "volume": 11.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -6017,10 +6084,10 @@
           "date": "2026-07-30",
           "desc": "B Flute Lock Top 11\" Pizza Boxes x 50",
           "change_pct": null,
-          "n": 5,
+          "n": 6,
           "prev_cost": null,
-          "spend": 313.3,
-          "volume": 650.0
+          "spend": 409.7,
+          "volume": 850.0
         }
       ],
       "cheapest": "Gulli",
@@ -6046,10 +6113,10 @@
           "date": "2026-07-30",
           "desc": "B Flute Lock Top 13\" Pizza Boxes x 50",
           "change_pct": 0.0,
-          "n": 6,
+          "n": 7,
           "prev_cost": 0.6426,
-          "spend": 642.6,
-          "volume": 1000.0
+          "spend": 803.26,
+          "volume": 1250.0
         }
       ],
       "cheapest": "Gulli",
@@ -6278,7 +6345,7 @@
           "date": "2026-07-24",
           "desc": "FZ BEEF SLICE CHINESE",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -6291,7 +6358,7 @@
       "multi": false,
       "suspect": false,
       "low": 175.0,
-      "low_date": "2026-07-24",
+      "low_date": "2026-07-09",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -6336,7 +6403,7 @@
           "date": "2026-07-31",
           "desc": "FZ CHICKEN THIGH",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -6587,6 +6654,35 @@
       "switch": false
     },
     {
+      "key": "belly fz pork",
+      "name": "Fz Pork Belly",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "B&E",
+          "cost": 153.0,
+          "date": "2026-07-09",
+          "desc": "FZ PORK - BELLY B/L R/L",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "B&E",
+      "min": 153.0,
+      "max": 153.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 153.0,
+      "low_date": "2026-07-09",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "belly fz on pork",
       "name": "Fz Pork Belly On",
       "unit": "kg",
@@ -6684,7 +6780,7 @@
           "date": "2026-07-17",
           "desc": "FZ SPRING ROLL - VEGE",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -6727,6 +6823,35 @@
       "suspect": false,
       "low": 10.8,
       "low_date": "2026-07-01",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "brisket fz sliced wagyu",
+      "name": "Fz Wagyu Brisket Sliced",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "B&E",
+          "cost": 143.0,
+          "date": "2026-07-09",
+          "desc": "FZ WAGYU - BRISKET SLICED",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "B&E",
+      "min": 143.0,
+      "max": 143.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 143.0,
+      "low_date": "2026-07-09",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -6915,11 +7040,11 @@
           "cost": 3.4,
           "date": "2026-07-30",
           "desc": "Gourmet",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
-          "spend": 17.0,
-          "volume": 5.0
+          "change_pct": 23.6,
+          "n": 2,
+          "prev_cost": 2.75,
+          "spend": 25.25,
+          "volume": 8.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -6928,8 +7053,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 3.4,
-      "low_date": "2026-07-30",
+      "low": 2.75,
+      "low_date": "2026-07-08",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -7086,19 +7211,19 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 3.85,
-          "date": "2026-06-22",
+          "cost": 3.96,
+          "date": "2026-07-08",
           "desc": "Green",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
-          "spend": 7.7,
-          "volume": 2.0
+          "change_pct": 2.9,
+          "n": 2,
+          "prev_cost": 3.85,
+          "spend": 15.62,
+          "volume": 4.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 3.85,
-      "max": 3.85,
+      "min": 3.96,
+      "max": 3.96,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -7351,10 +7476,10 @@
           "date": "2026-07-28",
           "desc": "Hass",
           "change_pct": -6.7,
-          "n": 5,
+          "n": 6,
           "prev_cost": 33.0,
-          "spend": 202.4,
-          "volume": 7.0
+          "spend": 235.4,
+          "volume": 8.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -7786,7 +7911,7 @@
           "date": "2026-07-30",
           "desc": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -7931,7 +8056,7 @@
           "date": "2026-07-30",
           "desc": "\u201cJun\u201d Frozen Shelled Soybean Nut",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -7944,7 +8069,7 @@
       "multi": false,
       "suspect": false,
       "low": 2.25,
-      "low_date": "2026-07-30",
+      "low_date": "2026-07-09",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -7960,7 +8085,7 @@
           "date": "2026-07-30",
           "desc": "\u201cJun\u201d Frozen Soybean (Edamame)",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -8250,10 +8375,10 @@
           "date": "2026-07-30",
           "desc": "KRC- Sliced Calabrese Mild Salami 1kg",
           "change_pct": null,
-          "n": 5,
+          "n": 6,
           "prev_cost": null,
-          "spend": 338.78,
-          "volume": 13.0
+          "spend": 364.84,
+          "volume": 14.0
         }
       ],
       "cheapest": "Gulli",
@@ -8363,13 +8488,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 1.32,
-          "date": "2026-07-01",
+          "date": "2026-07-08",
           "desc": "Large",
           "change_pct": -7.7,
-          "n": 4,
+          "n": 5,
           "prev_cost": 1.43,
-          "spend": 47.41,
-          "volume": 34.5
+          "spend": 60.61,
+          "volume": 44.5
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -8975,10 +9100,10 @@
           "date": "2026-07-30",
           "desc": "Manildra- Gem West Pizza Flour 12.5kg",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
-          "spend": 579.6,
-          "volume": 525.0
+          "spend": 676.2,
+          "volume": 612.5
         }
       ],
       "cheapest": "Gulli",
@@ -9584,7 +9709,7 @@
           "date": "2026-08-01",
           "desc": "NAPKINS - DINNER BROWN",
           "change_pct": null,
-          "n": 7,
+          "n": 8,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -10338,10 +10463,10 @@
           "date": "2026-07-30",
           "desc": "Paesanella- Bocconcini 1kg",
           "change_pct": null,
-          "n": 5,
+          "n": 6,
           "prev_cost": null,
-          "spend": 330.6,
-          "volume": 19.0
+          "spend": 382.8,
+          "volume": 22.0
         }
       ],
       "cheapest": "Gulli",
@@ -10647,6 +10772,64 @@
       "switch": false
     },
     {
+      "key": "mixed pickled radish vegetable",
+      "name": "Pickled Radish Mixed Vegetable",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Jun Pacific",
+          "cost": 4.0,
+          "date": "2026-07-09",
+          "desc": "Pickled Radish Mixed Vegetable",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Jun Pacific",
+      "min": 4.0,
+      "max": 4.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 4.0,
+      "low_date": "2026-07-09",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "cucumber pickled red",
+      "name": "Pickled Red Cucumber",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Jun Pacific",
+          "cost": 4.5,
+          "date": "2026-07-09",
+          "desc": "Pickled Red Cucumber",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Jun Pacific",
+      "min": 4.5,
+      "max": 4.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 4.5,
+      "low_date": "2026-07-09",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "pineapple",
       "name": "Pineapple",
       "unit": "ea",
@@ -10773,10 +10956,10 @@
           "date": "2026-07-30",
           "desc": "Pizza Box Inserts 22.5cm x 100",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
-          "spend": 55.28,
-          "volume": 500.0
+          "spend": 77.39,
+          "volume": 700.0
         }
       ],
       "cheapest": "Gulli",
@@ -10786,7 +10969,7 @@
       "multi": false,
       "suspect": false,
       "low": 0.1105,
-      "low_date": "2026-07-17",
+      "low_date": "2026-07-08",
       "est_saving": 0.0,
       "main": "Gulli",
       "switch": false
@@ -11121,10 +11304,10 @@
           "date": "2026-07-20",
           "desc": "Radiccio",
           "change_pct": -3.2,
-          "n": 5,
+          "n": 6,
           "prev_cost": 6.25,
-          "spend": 91.35,
-          "volume": 15.0
+          "spend": 97.4,
+          "volume": 16.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -11701,10 +11884,10 @@
           "date": "2026-07-20",
           "desc": "Ruby Red",
           "change_pct": 20.0,
-          "n": 5,
+          "n": 6,
           "prev_cost": 1.1,
-          "spend": 58.94,
-          "volume": 54.58
+          "spend": 72.14,
+          "volume": 64.58
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -11846,7 +12029,7 @@
           "date": "2026-07-17",
           "desc": "Sapore- Roasted Red Peppers Strips A12",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -11933,7 +12116,7 @@
           "date": "2026-07-24",
           "desc": "SAUCE - HOI SIN SAUCE",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -11946,7 +12129,7 @@
       "multi": false,
       "suspect": false,
       "low": 6.0,
-      "low_date": "2026-07-24",
+      "low_date": "2026-07-09",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -12136,10 +12319,10 @@
           "date": "2026-07-13",
           "desc": "Seedless",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
-          "spend": 3.3,
-          "volume": 1.0
+          "spend": 6.6,
+          "volume": 2.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -12149,7 +12332,7 @@
       "multi": false,
       "suspect": false,
       "low": 3.3,
-      "low_date": "2026-07-13",
+      "low_date": "2026-07-08",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -12181,6 +12364,35 @@
       "low_date": "2026-07-02",
       "est_saving": 0.0,
       "main": null,
+      "switch": false
+    },
+    {
+      "key": "paste sharwood tandoori",
+      "name": "Sharwood Tandoori Paste",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Gulli",
+          "cost": 20.96,
+          "date": "2026-07-08",
+          "desc": "Sharwood- Tandoori Paste 1.25kg",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 26.2,
+          "volume": 1.25
+        }
+      ],
+      "cheapest": "Gulli",
+      "min": 20.96,
+      "max": 20.96,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 20.96,
+      "low_date": "2026-07-08",
+      "est_saving": 0.0,
+      "main": "Gulli",
       "switch": false
     },
     {
@@ -12426,10 +12638,10 @@
           "date": "2026-07-28",
           "desc": "Spanish",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
-          "spend": 17.42,
-          "volume": 7.2
+          "spend": 19.84,
+          "volume": 8.2
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -12861,7 +13073,7 @@
           "date": "2026-08-01",
           "desc": "TOFU - FRESH PRESS SILKEN",
           "change_pct": 11.5,
-          "n": 6,
+          "n": 7,
           "prev_cost": 5.2,
           "spend": 0.0,
           "volume": 0.0
@@ -13109,6 +13321,35 @@
       "low_date": "2026-07-24",
       "est_saving": 0.0,
       "main": "B&E",
+      "switch": false
+    },
+    {
+      "key": "pro rice uchibori vinegar",
+      "name": "Uchibori Rice Vinegar Pro",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Jun Pacific",
+          "cost": 37.75,
+          "date": "2026-07-09",
+          "desc": "\"Uchibori\" Rice Vinegar Pro (GF non GMO)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Jun Pacific",
+      "min": 37.75,
+      "max": 37.75,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 37.75,
+      "low_date": "2026-07-09",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -13557,10 +13798,10 @@
           "date": "2026-07-30",
           "desc": "Zammit- Sliced Pepperoni Salami 3kg",
           "change_pct": null,
-          "n": 5,
+          "n": 6,
           "prev_cost": null,
-          "spend": 833.0,
-          "volume": 51.0
+          "spend": 1029.0,
+          "volume": 63.0
         }
       ],
       "cheapest": "Gulli",

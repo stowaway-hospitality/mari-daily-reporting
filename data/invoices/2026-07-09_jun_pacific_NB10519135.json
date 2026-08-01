@@ -1,0 +1,116 @@
+{
+  "invoice": {
+    "supplier_key": "jun_pacific",
+    "supplier_name_raw": "Jun Pacific Corporation Pty Ltd",
+    "invoice_ref": "NB10519135",
+    "invoice_date": "2026-07-09",
+    "total_incl": "289.00",
+    "lines": [
+      {
+        "description": "Pickled Radish Mixed Vegetable",
+        "qty": "1",
+        "line_total_incl": "4.00",
+        "unit_price_incl": "4.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "PZ8517684",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Pickled Red Cucumber",
+        "qty": "1",
+        "line_total_incl": "4.50",
+        "unit_price_incl": "4.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "PD8517979",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
+        "qty": "30",
+        "line_total_incl": "280.50",
+        "unit_price_incl": "9.3500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "QB8514617",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-09",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "b635ae93aa1385e4be930d4222f8edd455c4ae35ec08c720e4b59ca2537274e3.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "289.00",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "Pickled Radish Mixed Vegetable",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Pickled Red Cucumber",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
