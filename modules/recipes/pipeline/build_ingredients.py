@@ -237,7 +237,10 @@ _NOT_A_PACK = re.compile(r"\b(\d+\s*INCH|U\d+|\d+/\d+)\b", re.I)
 _BOUNDS = {
     #            min $/unit   max $/unit
     "g":        (Decimal("0.0005"), Decimal("0.20")),   # $0.50/kg .. $200/kg
-    "ml":       (Decimal("0.0005"), Decimal("0.15")),   # $0.50/L  .. $150/L
+    "ml":       (Decimal("0.0005"), Decimal("0.60")),   # $0.50/L .. $600/L (premium
+                                                        # spirits + champagne reach
+                                                        # $400-600/L cost; food ml
+                                                        # liquids sit far below)
     "bunch":    (Decimal("0.50"),   Decimal("30.00")),
     "tray":     (Decimal("2.00"),   Decimal("120.00")),
     "punnet":   (Decimal("1.00"),   Decimal("30.00")),

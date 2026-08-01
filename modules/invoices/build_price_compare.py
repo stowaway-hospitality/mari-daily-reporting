@@ -154,6 +154,12 @@ def build() -> dict:
         supplier = canonical_supplier(r.get("supplier") or "")
         if not desc or not supplier:
             continue
+        # Beverage costs seeded from the Lightspeed BO export ("Lightspeed" supplier)
+        # are a COST SOURCE, not a supplier price to compare — a POS cost has no
+        # rival quote. Keep them out of the cross-supplier page (they're in the cost
+        # book for recipes, which is where they belong).
+        if supplier.lower() == "lightspeed" or (r.get("source_invoice") or "").startswith("bo-seed"):
+            continue
         base, unit = _base_cost(r)
         if base is None or base <= 0:
             continue
