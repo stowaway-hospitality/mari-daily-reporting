@@ -49,7 +49,12 @@ GRAPH = f"https://graph.microsoft.com/v1.0/users/{urllib.parse.quote(MAILBOX)}"
 PROCESSED_FOLDER = "Invoices Processed"
 REVIEW_FOLDER = "Invoices Review"
 BATCH = 20        # messages per run; the schedule catches the rest
-WINDOW_WEEKS = 6  # RECENT only — never reach back further than this (Zak)
+WINDOW_WEEKS = 12  # ~3 months. Widened from 6 for a one-off deep backfill (Zak:
+                   # "do another month of invoices to ensure we've caught
+                   # everything, incl. beverage purchases"). The daily pass still
+                   # only sees UNprocessed inbox mail (processed = moved out), so a
+                   # wide window is harmless day-to-day and just lets a backfill
+                   # reach older suppliers (liquor especially) that invoice monthly.
 
 # Clearly NOT an invoice — statements, reminders, remittances, receipts. We skip
 # these before spending an extraction on them. Conservative on purpose: only
