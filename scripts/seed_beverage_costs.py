@@ -78,13 +78,13 @@ _KITCHEN = re.compile(
 # Alcohol / bar-mixer identity words — lets us include (no-category) stock bottles
 # that are clearly bar items, and bar syrups/bitters/cordials a cocktail uses.
 _BAR = re.compile(
-    r"\b(gin|vodka|tequila|mezcal|rum|whisk|bourbon|scotch|cognac|brandy|pisco|"
+    r"\b(gin|vodka|tequila|mezcal|rum|whisk\w*|bourbon|scotch|cognac|brandy|pisco|"
     r"cachaca|cachaça|absinthe|aperol|campari|vermouth|amaro|amaretto|liqueur|"
     r"aperitif|aperitivo|sherry|port|prosecco|champagne|wine|shiraz|cabernet|"
     r"sauv|riesling|chardonnay|pinot|rose|rosé|rosso|rosso|bianco|sake|soju|"
     r"cider|lager|ale|ipa|stout|pilsner|seltzer|schnapps|curacao|curaçao|"
     r"triple sec|cointreau|chartreuse|maraschino|bitters|cordial|syrup|"
-    r"tonic|falernum|umeshu|limoncello|cassis|framboise|luxardo|italicus|"
+    r"tonic|falernum|umeshu|yuzushu|shochu|awamori|makgeolli|junmai|daiginjo|ginjo|nigori|genshu|honjozo|tokubetsu|limoncello|cassis|framboise|luxardo|italicus|"
     r"lillet|cocchi|cynar|braulio|pimm|frangelico|disaronno|chambord|"
     r"grand marnier|benedictine|drambuie|kahlua|baileys|midori|galliano)\b", re.I)
 
@@ -126,13 +126,13 @@ def is_beverage_stock(r) -> bool:
 # liqueurs, fortified/aromatised wine, bar syrups/bitters/cordials. Deliberately
 # EXCLUDES beer/cider/seltzer/soft-drink words (those are sold and used whole).
 _POUR = re.compile(
-    r"\b(gin|vodka|tequila|mezcal|rum|whisk|bourbon|scotch|cognac|brandy|pisco|"
+    r"\b(gin|vodka|tequila|mezcal|rum|whisk\w*|bourbon|scotch|cognac|brandy|pisco|"
     r"cachaca|cachaça|absinthe|aperol|campari|vermouth|amaro|amaretto|liqueur|"
     r"aperitif|aperitivo|sherry|port\b|schnapps|curacao|curaçao|triple sec|"
     r"cointreau|chartreuse|maraschino|bitters|cordial|syrup|falernum|cassis|"
     r"framboise|luxardo|italicus|lillet|cocchi|cynar|braulio|pimm|frangelico|"
     r"disaronno|chambord|grand marnier|benedictine|drambuie|kahlua|midori|"
-    r"galliano|umeshu|limoncello|select aperitivo|dubonnet|suze|becherovka)\b", re.I)
+    r"galliano|umeshu|yuzushu|shochu|awamori|makgeolli|junmai|daiginjo|ginjo|nigori|genshu|honjozo|tokubetsu|limoncello|select aperitivo|dubonnet|suze|becherovka)\b", re.I)
 
 _SIZE_IN_NAME = re.compile(r"([\d.]+)\s*(ml|lt?|litres?)\b", re.I)
 
@@ -240,13 +240,23 @@ def _write(path: Path, rows: list[dict]) -> None:
 
 
 def apply_to_cogs(seed: list[dict]) -> int:
-    """Merge seed rows into cogs_list.csv, replacing any prior bo-seed rows."""
+    """Merge seed rows into cogs_list.csv. The seed is a fallback FLOOR, so it is
+    STICKY: a bottle that the current export no longer costs (Lightspeed sometimes
+    blanks a bottle's InventoryType/CostPriceIncTax on re-export — Hendrick's,
+    Cointreau, Chartreuse all went to $0 this way) keeps its LAST-KNOWN seed cost
+    rather than losing it. Fresh seed wins on any ProductID it still carries;
+    invoices (dated recent) still win over both via the as-of lookup."""
     existing = list(csv.DictReader(COGS.open(encoding="utf-8-sig"))) if COGS.exists() else []
+    fresh_pids = {r.get("supplier_code") for r in seed}
+    carried = [r for r in existing
+               if (r.get("source_invoice") or "").startswith(SEED_SOURCE)
+               and r.get("supplier_code") not in fresh_pids]     # last-known, not re-seeded
     kept = [r for r in existing if not (r.get("source_invoice") or "").startswith(SEED_SOURCE)]
-    merged = kept + seed
+    merged = kept + seed + carried
     merged.sort(key=lambda r: (r.get("invoice_date", ""), r.get("supplier", ""),
                                r.get("supplier_code", ""), r.get("invoice_description", "")))
     _write(COGS, merged)
+    print(f"  carried forward {len(carried)} prior seed rows the current export no longer costs")
     return len(merged)
 
 
