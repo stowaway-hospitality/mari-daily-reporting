@@ -48,6 +48,12 @@
   by: "Claude ([24x12])"
   on: 2026-08-02
   by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22873876"          # Pizza Box Inserts — Gulli invoices "22.5cm x 100"
+  pack_qty: 100                      # so the seed must be per-insert like the invoice
+  pack_unit: ea                      # ($11.055/box / 100 = $0.11055 ea, exactly the
+  by: "Claude (Gulli CI-422469 'x 100'; 11.055/0.11055 = 100.0)"   # invoiced rate)
+  on: 2026-08-02
+  by_email: "hello@stowawaybar.com"
 - id: "lightspeed:22995335"          # Eggs 700 Grams [12x] = a dozen
   pack_qty: 12
   pack_unit: ea

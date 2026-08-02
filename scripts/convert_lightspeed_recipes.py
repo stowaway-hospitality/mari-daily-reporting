@@ -174,11 +174,21 @@ def load_seed_baseline():
     """ingredient id -> the SEED per-unit (the scrape-time baseline). Used to update
     a line by the ratio latest/baseline without needing the recipe's (often garbage)
     unit to match — a dimensionless price-movement factor, so it can't blow up."""
-    base = {}
+    base, earliest = {}, {}
     for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
+        k, d = r["ingredient"], r["observed_on"]
         if str(r.get("source_invoice") or "").startswith(
                 ("ls-recipe-seed", "bo-seed", "recipe-bridge-seed", "bo-ingredient-seed")):
-            base[r["ingredient"]] = (r["cost_per_unit"], r["unit"])
+            base[k] = (r["cost_per_unit"], r["unit"])
+        if k not in earliest or d < earliest[k][2]:
+            earliest[k] = (r["cost_per_unit"], r["unit"], d)
+    # A product with real invoices but no seed row still needs a scrape-time
+    # baseline, or the ratio path can't run and the line falls back to Lightspeed
+    # for want of a divisor. Its OLDEST observation is the best evidence we have of
+    # what it cost when the recipe was scraped, so use that. (A seed row, when one
+    # exists, still wins: it is dated at the scrape itself.)
+    for k, v in earliest.items():
+        base.setdefault(k, (v[0], v[1]))
     return base
 
 
@@ -188,9 +198,24 @@ def main() -> int:
     our_costs = load_our_costs()
     seed_base = load_seed_baseline()
     sell_by_norm, sell_by_tok = load_sell_prices()
-    recnames = {norm(k): k for k in rec}
+    # 47 recipe names collide once normalised (a base recipe and its "[Dine-in]"
+    # twin). Keep the SHORTEST — the base recipe — so a normalised lookup lands on
+    # the plain version rather than whichever happened to be inserted last.
+    recnames: dict[str, str] = {}
+    for _k in rec:
+        _n = norm(_k)
+        if _n not in recnames or len(_k) < len(recnames[_n]):
+            recnames[_n] = _k
 
     def resolve(name, parent=None):
+        # EXACT recipe name first. norm() strips a bracket suffix, so "Regular
+        # Margherita" and "Regular Margherita [Dine-in]" collapse to one key; when
+        # the [Dine-in] variant won that key, resolving its own "Regular Margherita"
+        # line looked like a self-reference, the guard blocked it, and the line fell
+        # through to an UNCOSTED product of the same name. Matching the literal name
+        # first keeps the two apart, so the costed base recipe is used.
+        if name in rec and name != parent:
+            return ("subrecipe", name)
         n = norm(name)
         # a recipe used as an ingredient is a SUB-RECIPE and folds in its build cost
         # off our book (via the safe ls-ratio scaling in cost_of). Block only a TRUE
