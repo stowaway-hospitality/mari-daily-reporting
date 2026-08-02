@@ -103,7 +103,7 @@ def main() -> int:
             except Exception:
                 pass
         # a confirmed recipe-bridge baseline records its own resolved unit directly
-        # (Zak-approved), so a future invoice for the mapped supplier code can be
+        # (Zak-confirmed), so a future invoice for the mapped supplier code can be
         # emitted onto this food ProductID in the same unit and supersede it.
         elif (r.get("source_invoice") or "").startswith("recipe-bridge-seed"):
             pid = f"lightspeed:{(r.get('supplier_code') or '').strip()}"
