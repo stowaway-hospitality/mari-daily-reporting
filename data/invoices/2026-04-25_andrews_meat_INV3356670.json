@@ -1,0 +1,62 @@
+{
+  "invoice": {
+    "supplier_key": "andrews_meat",
+    "supplier_name_raw": "Andrews Meat Industries Pty Ltd",
+    "invoice_ref": "INV3356670",
+    "invoice_date": "2026-04-25",
+    "total_incl": "97.00",
+    "lines": [
+      {
+        "description": "CHICKEN THIGH FILLET S/ON (5KG)",
+        "qty": "5.00",
+        "line_total_incl": "97.00",
+        "unit_price_incl": "19.40",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "5036K",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "526b5587734206e226ab217fd51a90c559a46ae810785e3796cf958e2bc1292e.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "97.00",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "CHICKEN THIGH FILLET S/ON (5KG)",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "supplier name looks like Purchases - Food"
+      }
+    ]
+  }
+}

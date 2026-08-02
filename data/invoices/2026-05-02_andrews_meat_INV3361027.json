@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "andrews_meat",
+    "supplier_name_raw": "Andrews Meat Industries Pty Ltd",
+    "invoice_ref": "INV3361027",
+    "invoice_date": "2026-05-02",
+    "total_incl": "221.86",
+    "lines": [
+      {
+        "description": "LAMB RUMP 100% DENUDED 220-250G (5/PK)",
+        "qty": "2.45",
+        "line_total_incl": "104.86",
+        "unit_price_incl": "42.80",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "2836K",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "PATTIES PLANT BASED BUDS 125G FROZEN",
+        "qty": "1.00",
+        "line_total_incl": "117.00",
+        "unit_price_incl": "117.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "9478C",
+        "raw_qty": null,
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "7395d06830e13033ea9e8a797a432c5f333372e51c0ce5e52ba451c86d27f159.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "221.86",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "LAMB RUMP 100% DENUDED 220-250G (5/PK)",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "supplier name looks like Purchases - Food"
+      },
+      {
+        "description": "PATTIES PLANT BASED BUDS 125G FROZEN",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "supplier name looks like Purchases - Food"
+      }
+    ]
+  }
+}

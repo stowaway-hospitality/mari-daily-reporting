@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "andrews_meat",
+    "supplier_name_raw": "Andrews Meat Industries Pty Ltd",
+    "invoice_ref": "INV3376993",
+    "invoice_date": "2026-05-23",
+    "total_incl": "173.25",
+    "lines": [
+      {
+        "description": "PATTIES PLANT BASED BUDS 125G FROZEN",
+        "qty": "1.00",
+        "line_total_incl": "117.00",
+        "unit_price_incl": "117.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "9478C",
+        "raw_qty": null,
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CHICKEN WHOLE #10 FRESH",
+        "qty": "5.00",
+        "line_total_incl": "56.25",
+        "unit_price_incl": "11.25",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "5062E",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "d2ce6d09c1a8558ab36afb0a9f16ddda2db00b13c90bc72074c1c0c214aef6a2.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "173.25",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "PATTIES PLANT BASED BUDS 125G FROZEN",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "supplier name looks like Purchases - Food"
+      },
+      {
+        "description": "CHICKEN WHOLE #10 FRESH",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "supplier name looks like Purchases - Food"
+      }
+    ]
+  }
+}

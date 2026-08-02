@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "andrews_meat",
+    "supplier_name_raw": "Andrews Meat Industries Pty Ltd",
+    "invoice_ref": "INV3384521",
+    "invoice_date": "2026-06-02",
+    "total_incl": "514.28",
+    "lines": [
+      {
+        "description": "BEEF TOPSIDE WAGYU MB8+",
+        "qty": "11.48",
+        "line_total_incl": "287.00",
+        "unit_price_incl": "25.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "1890K",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "PORK BELLY BONELESS S/ON",
+        "qty": "9.47",
+        "line_total_incl": "227.28",
+        "unit_price_incl": "24.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "3095K",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "7069b55bd4c01340ad1c5da2a384130bddaa1162d7ac920b499ba21e2c23652e.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "514.28",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "BEEF TOPSIDE WAGYU MB8+",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "supplier name looks like Purchases - Food"
+      },
+      {
+        "description": "PORK BELLY BONELESS S/ON",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "supplier name looks like Purchases - Food"
+      }
+    ]
+  }
+}
