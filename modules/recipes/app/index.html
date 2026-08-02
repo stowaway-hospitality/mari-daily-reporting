@@ -379,10 +379,12 @@ window.loadRecipe = (enc) => {
   document.getElementById('yu').value = r.yield_unit ?? '';
   LINES = [];
   for (const ln of r.lines) {
-    if (ln.subrecipe) {
+    if (ln.manual) {
+      LINES.push({ kind: 'manual', name: ln.name, unit: ln.unit || 'ea', cpu: +ln.unit_cost_incl || 0, qty: +ln.qty || 0 });
+    } else if (ln.subrecipe) {
       const s = SUBS.find(x => x.product === ln.subrecipe);
       LINES.push({ kind: 'sub', product: ln.subrecipe, unit: (s && s.yield_unit) || ln.unit, cpu: s ? subCpu(s) : 0, qty: +ln.qty || 0 });
-    } else if (ln.id && ING.find(x => x.id === ln.id)) {
+    } else if (ln.id) {
       LINES.push({ kind: 'ing', id: ln.id, qty: +ln.qty || 0 });
     }
   }
@@ -396,12 +398,15 @@ window.loadRecipe = (enc) => {
 
 function lineCost(l) {
   if (l.kind === 'sub') return l.cpu * l.qty;
+  if (l.kind === 'manual') return (+l.cpu || 0) * l.qty;
   const i = ING.find(x => x.id === l.id);
   return (i && !i.needs_pack_review) ? (+i.cost_per_base_unit) * l.qty : 0;
 }
 function lineMeta(l) {
   if (l.kind === 'sub') return { name: l.product + ' (recipe)', unit: l.unit };
+  if (l.kind === 'manual') return { name: l.name + ' (imported)', unit: l.unit || 'ea' };
   const i = ING.find(x => x.id === l.id);
+  if (!i) return { name: (l.name || l.id) + ' (no live cost)', unit: l.unit || 'ea' };
   return { name: i.description, unit: i.pack_unit === 'g' ? 'g' : i.pack_unit === 'ml' ? 'mL' : i.pack_unit };
 }
 
@@ -457,6 +462,7 @@ function buildYaml() {
   s += `  ingredients:\n`;
   for (const l of LINES) {
     if (l.kind === 'sub') s += `    - subrecipe: ${ys(l.product)}\n      qty: ${l.qty}\n      unit: ${ys(l.unit)}\n`;
+    else if (l.kind === 'manual') s += `    - manual: true\n      desc: ${ys(l.name)}\n      qty: ${l.qty}\n      unit: ${ys(l.unit || 'ea')}\n      unit_cost_incl: ${(+l.cpu || 0).toFixed(6)}\n`;
     else {
       const i = ING.find(x => x.id === l.id);
       s += `    - id: ${ys(i.id)}\n      desc: ${ys(i.description)}\n      qty: ${l.qty}\n      unit: ${ys(i.pack_unit)}\n      unit_cost_incl: ${(+i.cost_per_base_unit).toFixed(6)}\n`;

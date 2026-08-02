@@ -498,6 +498,41 @@ def main() -> int:
             review += 1
         out.append(item)
 
+    # Also expose the Lightspeed cost-book items (beverages, seeded + bridged foods)
+    # as first-class ingredients, keyed lightspeed:<ProductID> — the SAME id the
+    # scraped recipes reference — so every recipe ingredient is pickable and costs
+    # LIVE off the invoice-fed book (not a frozen number). These aren't 90-day
+    # windowed: they're the recipe ingredient universe and must always be available.
+    bo_name: dict[str, str] = {}
+    for _p in (ROOT / "data" / "bo_exports" / "stowaway_products.csv",
+               ROOT / "data" / "bo_exports" / "harry_gatos_products.csv"):
+        if _p.exists():
+            for _r in csv.DictReader(_p.open(encoding="utf-8-sig")):
+                bo_name.setdefault(_r["ProductID"], _r["ProductName"])
+    latest_ls: dict[str, tuple[str, str, str]] = {}
+    _costs = ROOT / "data" / "costs.csv"
+    if _costs.exists():
+        for _r in csv.DictReader(_costs.open(encoding="utf-8-sig")):
+            _id = _r["ingredient"]
+            if not _id.startswith("lightspeed:"):
+                continue
+            _d = _r["observed_on"]
+            if _id not in latest_ls or _d >= latest_ls[_id][2]:
+                latest_ls[_id] = (_r["cost_per_unit"], _r["unit"], _d)
+    for _id, (_cost, _unit, _d) in latest_ls.items():
+        pid = _id.split(":", 1)[1]
+        if _id in seen:
+            continue
+        seen.add(_id)
+        out.append({
+            "id": _id, "description": clean_name(bo_name.get(pid, pid)),
+            "supplier": "Lightspeed", "supplier_code": pid,
+            "pack_cost_incl": _cost, "source_invoice": "cost-book", "last_seen": _d,
+            "venue": "stowaway", "pack_qty": "1", "pack_unit": _unit,
+            "pack_parsed_as": "cost-book", "cost_per_base_unit": _cost,
+            "needs_pack_review": False,
+        })
+
     # Collapse parser-artefact duplicates: two rows whose only real difference is
     # a unit word bled into the supplier code ("AH20T" vs "AH20T Tray") are the
     # SAME product shown twice, and the bled row also carried a truncated name

@@ -78,3 +78,18 @@ def test_menu_gp_distribution_sane():
     R = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
     gps = [R[n]["gp_pct"] for n in R if R[n]["gp_pct"] is not None]
     assert 60 <= statistics.median(gps) <= 85, f"median GP off: {statistics.median(gps)}"
+
+
+def test_manual_lines_cost_self_contained():
+    """A Lightspeed-imported recipe loads as editable 'manual' lines that carry
+    their own cost — so cost_on prices them with no cost-book lookup."""
+    from decimal import Decimal
+    from datetime import date
+    from modules.recipes.cost import Recipe, RecipeLine, cost_on
+    from core.domain import CostSeries
+    r = Recipe(product="X", venue="stowaway", sell_incl_gst=None,
+               lines=(RecipeLine(ingredient="", qty=Decimal("30"), unit="ml",
+                                 fixed_unit_cost=Decimal("0.05")),
+                      RecipeLine(ingredient="", qty=Decimal("2"), unit="ea",
+                                 fixed_unit_cost=Decimal("1.10")),))
+    assert cost_on(r, CostSeries([]), date.today()) == Decimal("3.70")

@@ -53,6 +53,11 @@ class RecipeLine:
     # batch, a dough. When set, `ingredient` is ignored and the cost comes from
     # costing that recipe and dividing by its yield. See cost_on.
     subrecipe: Optional[str] = None
+    # A MANUAL line carries its own per-unit cost (e.g. a Lightspeed-imported
+    # recipe line that maps to no purchased ingredient). Self-contained: cost is
+    # fixed_unit_cost x qty, no cost-book lookup. Does not auto-update from
+    # invoices — swap it for a real ingredient id to get that.
+    fixed_unit_cost: Optional[Decimal] = None
 
 
 @dataclass(frozen=True)
@@ -103,6 +108,9 @@ def load_recipes(venue: str, path: Optional[Path] = None) -> list[Recipe]:
                     ingredient=l.get("id", ""), qty=Decimal(str(l["qty"])),
                     unit=l.get("unit", ""), desc=l.get("desc", ""),
                     subrecipe=l.get("subrecipe") or None,
+                    fixed_unit_cost=(Decimal(str(l["unit_cost_incl"]))
+                                     if l.get("manual") and l.get("unit_cost_incl") is not None
+                                     else None),
                 )
                 for l in d.get("ingredients", [])
             ),
@@ -164,6 +172,11 @@ def cost_on(recipe: Recipe, costs: CostSeries, on: date,
     total = Decimal("0")
 
     for line in recipe.lines:
+        # ---- a manual line that carries its own cost (Lightspeed import) -----
+        if line.fixed_unit_cost is not None:
+            total += line.fixed_unit_cost * line.qty
+            continue
+
         # ---- a line that is another recipe (sauce / batch / dough) ----------
         if line.subrecipe:
             sub = recipe_as_of(recipes or [], line.subrecipe, on)

@@ -203,10 +203,66 @@ def recipes_full() -> dict:
                 elif ln.get("id"):
                     lines.append({"id": ln["id"], "qty": ln.get("qty"), "unit": ln.get("unit")})
             out.append({
-                "product": d["product"], "venue": v,
+                "product": d["product"], "venue": v, "source": "builder",
                 "sell_incl_gst": d.get("sell_incl_gst"),
                 "yield_qty": d.get("yield_qty"), "yield_unit": d.get("yield_unit"),
                 "lines": lines,
+            })
+
+    # ALSO make every Lightspeed-scraped recipe editable, WIRED to real ingredients:
+    #   * an id line -> {id: lightspeed:<PID>} — a first-class ingredient (see
+    #     build_ingredients) that costs LIVE off the invoice-fed book and can be
+    #     swapped/searched in the picker;
+    #   * a sub-recipe line -> {subrecipe: name} — resolves against the sub list;
+    #   * only a genuinely unmatched line (no product id) falls back to a frozen
+    #     MANUAL line carrying its scrape cost, so nothing is lost.
+    # Builder-saved recipes above win on name.
+    have = {e["product"] for e in out}
+    # which lightspeed:<PID> ids are actually priced on our book — a line wired to
+    # one of these costs live; anything else must fall back to a named manual line
+    # (with its scrape cost) so it still shows and still costs.
+    import csv as _csv
+    costable: set[str] = set()
+    _cp = DATA / "costs.csv"
+    if _cp.exists():
+        for _r in _csv.DictReader(_cp.open(encoding="utf-8-sig")):
+            if _r["ingredient"].startswith("lightspeed:"):
+                costable.add(_r["ingredient"])
+    ls_path = DATA / "lightspeed_recipes_costed.json"
+    if ls_path.exists():
+        import re as _re
+        _Y = _re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre|pcs|pc|units|unit|each|ea)\]", _re.I)
+        for name, r in json.loads(ls_path.read_text()).get("recipes", {}).items():
+            if name in have:
+                continue
+            lines = []
+            for ln in r.get("ingredients", []):
+                kind, ref = ln.get("kind"), ln.get("ref")
+                if kind == "subrecipe" and ref:
+                    lines.append({"subrecipe": ref, "qty": ln.get("qty"), "unit": ln.get("unit")})
+                elif kind == "id" and ref in costable:
+                    lines.append({"id": ref, "qty": ln.get("qty"), "unit": ln.get("unit")})
+                else:
+                    try:
+                        q = float(ln.get("qty") or 0)
+                    except (TypeError, ValueError):
+                        q = 0
+                    our = ln.get("our_cost")
+                    ls = float(ln.get("ls_cost") or 0)
+                    per = float(our) if our is not None else (ls / q if q > 0 else ls)
+                    lines.append({"manual": True, "name": ln.get("name", ""),
+                                  "qty": ln.get("qty"), "unit": ln.get("unit"),
+                                  "unit_cost_incl": round(per, 6)})
+            m = _Y.search(name)
+            yq = yu = None
+            if m:
+                q = float(m.group(1)); u = m.group(2).lower()
+                yq, yu = (q * 1000, "g") if u == "kg" else (q * 1000, "ml") if u in ("l", "lt", "litre") \
+                    else (q, "g") if u == "g" else (q, "ml") if u == "ml" else (q, "each")
+            out.append({
+                "product": name, "venue": "stowaway", "source": "lightspeed",
+                "sell_incl_gst": r.get("sell_incl"),
+                "yield_qty": yq, "yield_unit": yu, "lines": lines,
             })
     return {"generated_at": date.today().isoformat(), "recipes": out}
 
