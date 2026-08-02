@@ -107,8 +107,12 @@ def main() -> int:
     sell_by_name = load_sell_prices()
     recnames = {norm(k): k for k in rec}
 
-    def resolve(name):
+    def resolve(name, parent=None):
         n = norm(name)
+        # a recipe used as an ingredient is a SUB-RECIPE — but only tag it when the
+        # scrape name differs from the recipe key (a genuine reference), never the
+        # recipe as its own ingredient. Its per-use cost comes from the scrape's own
+        # reliable line cost (below), NOT the batch total, so we don't need a yield.
         if n in recnames and recnames[n] != name:
             return ("subrecipe", recnames[n])
         if n in bo_by_name:
@@ -125,7 +129,7 @@ def main() -> int:
     for name, body in rec.items():
         lines = []
         for ing in body.get("ingredients", []):
-            kind, ref = resolve(ing["name"])
+            kind, ref = resolve(ing["name"], name)
             ing_res[kind or "unmatched"] += 1
             our = None
             if kind == "id" and ref in our_costs:
@@ -148,6 +152,17 @@ def main() -> int:
                           "ls_cost": ing.get("cost"), "our_cost": our})
         out[name] = {"ingredients": lines}
 
+    # a recipe used as an ingredient by another recipe is a PREP/BATCH (its POS
+    # "sell price" is a placeholder, and it may legitimately carry a big bulk line
+    # like $244 of chicken). Bracket sizes ([Batch]/[2Kg]/[1L]) mark bulk preps too.
+    _LS_LINE_CAP = 40.0
+    used_as_sub = {ln["ref"] for r in out.values() for ln in r["ingredients"]
+                   if ln["kind"] == "subrecipe" and ln["ref"]}
+    PREP_RE = re.compile(r"\[(batch|prep|\d+\s*(kg|g|l|ml))\]|\b(prep|mix|marination|batch|blend)\b", re.I)
+
+    def prep_ish(nm):
+        return nm in used_as_sub or bool(PREP_RE.search(nm))
+
     # recursive cost: prefer our_cost, else ls_cost; sub-recipes fold in their total
     memo = {}
 
@@ -162,40 +177,34 @@ def main() -> int:
         our_tot = ls_tot = 0.0
         full_ours = True
         for ln in r["ingredients"]:
+            # the scraped per-line `cost` is Lightspeed's own dollar amount for that
+            # line — reliable even when the qty/unit shown are garbage (a whole
+            # chicken logged as "0.5 ml"). So it is NOT divided by qty; doing so
+            # zeroed legitimate lines and under-costed roasts to 52c.
             ls = float(ln["ls_cost"] or 0)
-            # a scraped per-line cost whose implied per-ml/g exceeds the ceiling is
-            # bad Lightspeed data (e.g. a "Dehydrated Lime Garnish" logged at $274.40
-            # for 1 ml). Don't let it poison the total via the LS fallback below.
-            q_ls = float(ln["qty"] or 0)
-            ceil = _UNIT_CEIL.get(ln.get("unit") or "")
-            if ceil and q_ls > 0 and ls / q_ls > ceil:
-                ls = 0.0
-            ls_tot += ls
-            if ln["kind"] == "subrecipe":
-                so, sl, _ = cost_of(ln["ref"], stack + (name,))
-                # sub qty is a multiplier of the batch (usually ~1 for D/serve rows)
-                q = float(ln["qty"] or 1)
-                our_tot += (so if so else sl) * (q if q < 5 else 1)
-                if not so:
-                    full_ours = False
-            elif ln["our_cost"] is not None:
-                q = float(ln["qty"] or 0)
-                our_tot += float(ln["our_cost"]) * q
+            if ln["our_cost"] is not None:
+                # our invoice-fed book prices this line directly (unit matched, sane
+                # magnitude — it agrees with LS at ratio ~1.0). Trust it fully.
+                our_tot += float(ln["our_cost"]) * float(ln["qty"] or 0)
+                ls_tot += ls
             else:
-                our_tot += ls               # fall back to LS cost for this line
+                # fall back to LS's own per-line cost (this also covers sub-recipes:
+                # we use the per-USE line cost, not the batch total, since we have no
+                # yield). Cap the rare bad datum — a $274 "garnish" — but ONLY in a
+                # non-prep serve, where no single unresolved line should be that dear
+                # (a prep may legitimately hold a $244 bulk-chicken line).
+                if ls > _LS_LINE_CAP and not prep_ish(name):
+                    ls = 0.0
+                our_tot += ls
+                ls_tot += ls
                 full_ours = False
         res = (round(our_tot, 4), round(ls_tot, 4), full_ours)
         memo[name] = res
         return res
 
-    # a recipe used as an ingredient by another recipe is a PREP/BATCH, not a menu
-    # item — its POS "sell price" (often a $1-$2 placeholder) is meaningless, so we
-    # must not compute a GP off it (that's where -1085% garbage came from). Bracket
-    # sizes ([Batch], [2Kg], [1L], [Bottle]) mark bulk preps too.
-    used_as_sub = {ln["ref"] for r in out.values() for ln in r["ingredients"]
-                   if ln["kind"] == "subrecipe" and ln["ref"]}
-    PREP_RE = re.compile(r"\[(batch|prep|\d+\s*(kg|g|l|ml))\]|\b(prep|mix|marination|batch|blend)\b", re.I)
-
+    # is_prep (prep/batch, not a directly-sold menu line) reuses prep_ish above: its
+    # POS "sell price" is often a $1-$2 placeholder, so we must not compute a GP off
+    # it (that's where the -1085% garbage came from).
     fully_ours = 0
     for name in out:
         o, l, fo = cost_of(name)
@@ -205,7 +214,7 @@ def main() -> int:
         nl = len(out[name]["ingredients"]) or 1
         res = sum(1 for x in out[name]["ingredients"] if x["kind"])
         out[name]["resolved_pct"] = round(100 * res / nl)
-        is_prep = name in used_as_sub or bool(PREP_RE.search(name))
+        is_prep = prep_ish(name)
         out[name]["is_prep"] = is_prep
         # sell price (menu) + food GP off OUR cost. Preps and items with a token
         # placeholder price (< $3) are inputs, not menu lines — no GP.

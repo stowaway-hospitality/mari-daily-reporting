@@ -58,3 +58,23 @@ def test_no_absurd_costs_or_garbage_gp():
     garbage = [(n, R[n]["gp_pct"]) for n in R
                if R[n]["gp_pct"] is not None and (R[n]["gp_pct"] < -60 or R[n]["gp_pct"] > 99.5)]
     assert garbage == [], f"garbage GP: {garbage}"
+
+
+def test_no_undercosting_regressions():
+    """Guards two bugs a mis-built sanity guard caused: roasts under-costed to 52c
+    (LS line cost wrongly divided by a garbage qty), and gluten-free / variant
+    pizzas costing $0 (their base line zeroed). These must stay properly costed."""
+    R = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    for n, lo in [("Chicken Roast", 3.0), ("Nut Roast", 3.0), ("Gluten-free Pepperoni", 3.0),
+                  ("Large Pepperoni", 3.0), ("Large Meatlovers", 3.0)]:
+        if n in R:
+            assert R[n]["our_cost"] > lo, f"{n} under-costed at ${R[n]['our_cost']}"
+
+
+def test_menu_gp_distribution_sane():
+    """A healthy hospitality book: median food GP comfortably in the 60-85% band.
+    A crash here means costs went systemically wrong in one direction."""
+    import statistics
+    R = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    gps = [R[n]["gp_pct"] for n in R if R[n]["gp_pct"] is not None]
+    assert 60 <= statistics.median(gps) <= 85, f"median GP off: {statistics.median(gps)}"
