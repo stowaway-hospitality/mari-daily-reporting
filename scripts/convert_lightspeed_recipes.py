@@ -100,20 +100,33 @@ def load_our_costs():
     return {k: (v[0], v[1]) for k, v in latest.items()}
 
 
+def load_seed_baseline():
+    """ingredient id -> the SEED per-unit (the scrape-time baseline). Used to update
+    a line by the ratio latest/baseline without needing the recipe's (often garbage)
+    unit to match — a dimensionless price-movement factor, so it can't blow up."""
+    base = {}
+    for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
+        if str(r.get("source_invoice") or "").startswith(("ls-recipe-seed", "bo-seed")):
+            base[r["ingredient"]] = (r["cost_per_unit"], r["unit"])
+    return base
+
+
 def main() -> int:
     rec = json.loads(RECIPES.read_text())
     bo_by_name, bo_prefixes = load_bo_ids()
     our_costs = load_our_costs()
+    seed_base = load_seed_baseline()
     sell_by_name = load_sell_prices()
     recnames = {norm(k): k for k in rec}
 
     def resolve(name, parent=None):
         n = norm(name)
-        # a recipe used as an ingredient is a SUB-RECIPE — but only tag it when the
-        # scrape name differs from the recipe key (a genuine reference), never the
-        # recipe as its own ingredient. Its per-use cost comes from the scrape's own
-        # reliable line cost (below), NOT the batch total, so we don't need a yield.
-        if n in recnames and recnames[n] != name:
+        # a recipe used as an ingredient is a SUB-RECIPE and folds in its build cost
+        # off our book (via the safe ls-ratio scaling in cost_of). Block only a TRUE
+        # self-reference (a recipe listing itself). Many preps — Pizza Dough [Recipe],
+        # Sugar Syrup, Gravy Prep — are ALSO products in the export, so we must prefer
+        # the recipe here or those lines resolve to an uncosted product ("part LS").
+        if n in recnames and recnames[n] != parent:
             return ("subrecipe", recnames[n])
         if n in bo_by_name:
             return ("id", f"lightspeed:{bo_by_name[n]}")
@@ -182,22 +195,49 @@ def main() -> int:
             # chicken logged as "0.5 ml"). So it is NOT divided by qty; doing so
             # zeroed legitimate lines and under-costed roasts to 52c.
             ls = float(ln["ls_cost"] or 0)
-            if ln["our_cost"] is not None:
+            if ln["kind"] == "subrecipe":
+                # cost a sub-recipe off OUR book without needing its batch yield:
+                # scale the prep's our-book batch cost by the LS ratio of this line to
+                # the prep's LS batch total. (our_use = our_batch x ls_line/ls_batch =
+                # our_batch x qty_used/yield — the yield cancels.) So the prep's real
+                # invoice-fed ingredient costs flow through, and it can't blow up: when
+                # our_batch ~= ls_batch the line stays ~= the reliable LS per-use cost.
+                so, sl, sfo = cost_of(ln["ref"], stack + (name,))
+                if sl > 0 and so > 0:
+                    our_tot += so * (ls / sl)
+                    full_ours = full_ours and sfo
+                else:
+                    our_tot += ls
+                    full_ours = False
+                ls_tot += ls
+            elif ln["our_cost"] is not None:
                 # our invoice-fed book prices this line directly (unit matched, sane
                 # magnitude — it agrees with LS at ratio ~1.0). Trust it fully.
                 our_tot += float(ln["our_cost"]) * float(ln["qty"] or 0)
                 ls_tot += ls
             else:
-                # fall back to LS's own per-line cost (this also covers sub-recipes:
-                # we use the per-USE line cost, not the batch total, since we have no
-                # yield). Cap the rare bad datum — a $274 "garnish" — but ONLY in a
-                # non-prep serve, where no single unresolved line should be that dear
-                # (a prep may legitimately hold a $244 bulk-chicken line).
+                # this line falls back to the LS per-line cost. Cap a rare bad datum
+                # (a $274 "garnish" line, wrong unit) but only in a non-prep serve —
+                # this protects both paths below without touching the precise
+                # our_cost path above (so a $80 champagne bottle line stays intact).
                 if ls > _LS_LINE_CAP and not prep_ish(name):
                     ls = 0.0
-                our_tot += ls
-                ls_tot += ls
-                full_ours = False
+                # our book prices this ProductID but in a different unit than the
+                # recipe uses (a wine pour vs a per-bottle cost). Rather than reject
+                # it, update the reliable LS line by the dimensionless ratio of the
+                # product's CURRENT cost to its scrape-time baseline — so a real
+                # invoice still flows through, with no unit maths and no blow-up risk
+                # (ratio is 1.0 until an invoice moves the price).
+                ref = ln["ref"]
+                base = seed_base.get(ref)
+                cur = our_costs.get(ref)
+                if base and cur and float(base[0]) > 0 and base[1] == cur[1]:
+                    our_tot += ls * (float(cur[0]) / float(base[0]))
+                    ls_tot += ls
+                else:
+                    our_tot += ls
+                    ls_tot += ls
+                    full_ours = False
         res = (round(our_tot, 4), round(ls_tot, 4), full_ours)
         memo[name] = res
         return res
@@ -214,13 +254,19 @@ def main() -> int:
         nl = len(out[name]["ingredients"]) or 1
         res = sum(1 for x in out[name]["ingredients"] if x["kind"])
         out[name]["resolved_pct"] = round(100 * res / nl)
-        is_prep = prep_ish(name)
-        out[name]["is_prep"] = is_prep
-        # sell price (menu) + food GP off OUR cost. Preps and items with a token
-        # placeholder price (< $3) are inputs, not menu lines — no GP.
+        # PREP classification for GP purposes:
+        #  * a NAME-flagged prep (Blend/Batch/Prep/Mix/[2Kg]...) is always a prep —
+        #    its POS price is a per-unit that doesn't match the batch cost (a house
+        #    "Vermouth Blend [Bottle]" sells $12 but the batch costs $32).
+        #  * an item merely USED as a base keeps its GP if it has a real menu price
+        #    ("Large Meatlovers" is sold AND used by the gluten-free version).
         sell = sell_by_name.get(norm(name))
+        menu_priced = bool(sell and sell >= 3)
+        name_prep = bool(PREP_RE.search(name))
+        is_prep = name_prep or (name in used_as_sub and not menu_priced)
+        out[name]["is_prep"] = is_prep
         out[name]["sell_incl"] = sell
-        if sell and o and not is_prep and sell >= 3:
+        if menu_priced and o and not is_prep:
             ex = sell / 1.1                    # ex-GST revenue
             out[name]["gp_pct"] = round(100 * (ex - o) / ex, 1) if ex else None
         else:

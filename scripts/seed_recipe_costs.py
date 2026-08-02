@@ -55,14 +55,29 @@ def main() -> int:
     ap = argparse.ArgumentParser(); ap.add_argument("--apply", action="store_true"); a = ap.parse_args()
     rec = json.loads(RECIPES.read_text())
 
-    # BO name -> ProductID (+ display name)
-    bo, name_of = {}, {}
+    # BO name -> ProductID (+ display name). Keep prefixes too so we resolve exactly
+    # what the converter resolves (it also matches a truncated scrape name to a unique
+    # BO product that starts with it) — otherwise those ProductIDs never get seeded
+    # and their recipe lines stay "part LS" forever.
+    bo, name_of, prefixes = {}, {}, []
     for path in EXPORTS:
         if path.exists():
             for r in csv.DictReader(path.open(encoding="utf-8-sig")):
                 n = norm(r["ProductName"])
                 if n:
                     bo.setdefault(n, r["ProductID"]); name_of.setdefault(r["ProductID"], r["ProductName"])
+                    prefixes.append((n, r["ProductID"]))
+
+    def resolve_pid(nm):
+        n = norm(nm)
+        if n in bo:
+            return bo[n]
+        if len(n) >= 8:                       # unique-prefix match, same as converter
+            hits = {pid for pn, pid in prefixes if pn.startswith(n)}
+            if len(hits) == 1:
+                return hits.pop()
+        return None
+
     recnames = {norm(k) for k in rec}
     # "already priced" = a lightspeed:ProductID that a REAL invoice or the beverage
     # seed covers. We must NOT count this seed's OWN prior rows (source ls-recipe-
@@ -82,7 +97,7 @@ def main() -> int:
             n = norm(ing["name"])
             if n in recnames:            # a sub-recipe, not a stock item
                 continue
-            pid = bo.get(n)
+            pid = resolve_pid(ing["name"])
             if not pid:
                 continue
             try:

@@ -4,11 +4,11 @@
  "recipe_count": 671,
  "coverage": {
   "ingredient_refs": {
-   "id": 1335,
-   "subrecipe": 174,
+   "id": 1072,
+   "subrecipe": 437,
    "unmatched": 8
   },
-  "recipes_fully_on_our_book": 200
+  "recipes_fully_on_our_book": 263
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -24,8 +24,8 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "20",
      "unit": "ml",
      "ls_cost": "0.04",
@@ -42,15 +42,15 @@
     },
     {
      "name": "Sugar Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843872",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
      "qty": "10",
      "unit": "ml",
      "ls_cost": "0.02",
      "our_cost": null
     }
    ],
-   "our_cost": 2.0862,
+   "our_cost": 2.0864,
    "ls_cost": 2.09,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -82,8 +82,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -91,8 +91,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -198,7 +198,7 @@
      "our_cost": "0.013000"
     }
    ],
-   "our_cost": 8.8417,
+   "our_cost": 8.8257,
    "ls_cost": 8.84,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -210,8 +210,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -219,8 +219,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -344,7 +344,7 @@
      "our_cost": "0.012764"
     }
    ],
-   "our_cost": 7.7281,
+   "our_cost": 7.7121,
    "ls_cost": 7.73,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -356,8 +356,8 @@
    "ingredients": [
     {
      "name": "Large Garlic Cheese Pizza",
-     "kind": "id",
-     "ref": "lightspeed:20467616",
+     "kind": "subrecipe",
+     "ref": "Large Garlic Cheese Pizza",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "1.48",
@@ -373,7 +373,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 5.92,
+   "our_cost": 5.9224,
    "ls_cost": 5.92,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -394,28 +394,28 @@
     },
     {
      "name": "Large Pepperoni",
-     "kind": "id",
-     "ref": "lightspeed:20468085",
+     "kind": "subrecipe",
+     "ref": "Large Pepperoni",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.21",
      "our_cost": null
     }
    ],
-   "our_cost": 7.65,
+   "our_cost": 7.6374,
    "ls_cost": 7.65,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 57.9
+   "gp_pct": 58.0
   },
   "Gluten-free Pepperoni [Dine-in]": {
    "ingredients": [
     {
      "name": "Large Pepperoni",
-     "kind": "id",
-     "ref": "lightspeed:20468085",
+     "kind": "subrecipe",
+     "ref": "Large Pepperoni",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.21",
@@ -431,20 +431,20 @@
      "our_cost": null
     }
    ],
-   "our_cost": 7.65,
+   "our_cost": 7.6374,
    "ls_cost": 7.65,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 57.9
+   "gp_pct": 58.0
   },
   "Gluten-free Little Italy": {
    "ingredients": [
     {
      "name": "Large Little Italy",
-     "kind": "id",
-     "ref": "lightspeed:20565003",
+     "kind": "subrecipe",
+     "ref": "Large Little Italy",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "6.33",
@@ -460,13 +460,13 @@
      "our_cost": null
     }
    ],
-   "our_cost": 10.77,
+   "our_cost": 10.7598,
    "ls_cost": 10.77,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 50.6
+   "gp_pct": 50.7
   },
   "Gluten-free Little Italy [Dine-in]": {
    "ingredients": [
@@ -481,28 +481,28 @@
     },
     {
      "name": "Large Little Italy",
-     "kind": "id",
-     "ref": "lightspeed:20565003",
+     "kind": "subrecipe",
+     "ref": "Large Little Italy",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "6.33",
      "our_cost": null
     }
    ],
-   "our_cost": 10.77,
+   "our_cost": 10.7598,
    "ls_cost": 10.77,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 50.6
+   "gp_pct": 50.7
   },
   "Gluten-free No Chorizo, No Cry": {
    "ingredients": [
     {
      "name": "Large No Chorizo, No Cry",
-     "kind": "id",
-     "ref": "lightspeed:20565021",
+     "kind": "subrecipe",
+     "ref": "Large No Chorizo, No Cry",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.40",
@@ -518,7 +518,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 8.84,
+   "our_cost": 8.8301,
    "ls_cost": 8.84,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -539,15 +539,15 @@
     },
     {
      "name": "Large No Chorizo, No Cry",
-     "kind": "id",
-     "ref": "lightspeed:20565021",
+     "kind": "subrecipe",
+     "ref": "Large No Chorizo, No Cry",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.40",
      "our_cost": null
     }
    ],
-   "our_cost": 8.84,
+   "our_cost": 8.8301,
    "ls_cost": 8.84,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -568,28 +568,28 @@
     },
     {
      "name": "Large Paddock",
-     "kind": "id",
-     "ref": "lightspeed:20468218",
+     "kind": "subrecipe",
+     "ref": "Large Paddock",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.72",
      "our_cost": null
     }
    ],
-   "our_cost": 8.16,
+   "our_cost": 8.1514,
    "ls_cost": 8.16,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 31.0,
-   "gp_pct": 71.0
+   "gp_pct": 71.1
   },
   "Gluten-free Paddock": {
    "ingredients": [
     {
      "name": "Large Paddock",
-     "kind": "id",
-     "ref": "lightspeed:20468218",
+     "kind": "subrecipe",
+     "ref": "Large Paddock",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.72",
@@ -605,7 +605,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 8.16,
+   "our_cost": 8.1514,
    "ls_cost": 8.16,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -617,8 +617,8 @@
    "ingredients": [
     {
      "name": "Large Sanchez",
-     "kind": "id",
-     "ref": "lightspeed:20468100",
+     "kind": "subrecipe",
+     "ref": "Large Sanchez",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.87",
@@ -634,7 +634,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 8.31,
+   "our_cost": 8.3033,
    "ls_cost": 8.31,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -655,15 +655,15 @@
     },
     {
      "name": "Large Sanchez",
-     "kind": "id",
-     "ref": "lightspeed:20468100",
+     "kind": "subrecipe",
+     "ref": "Large Sanchez",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.87",
      "our_cost": null
     }
    ],
-   "our_cost": 8.31,
+   "our_cost": 8.3033,
    "ls_cost": 8.31,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -684,28 +684,28 @@
     },
     {
      "name": "Large Sanchez VEGAN",
-     "kind": "id",
-     "ref": "lightspeed:20565027",
+     "kind": "subrecipe",
+     "ref": "Large Sanchez VEGAN",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.96",
      "our_cost": null
     }
    ],
-   "our_cost": 7.4,
+   "our_cost": 7.3933,
    "ls_cost": 7.4,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 67.4
+   "gp_pct": 67.5
   },
   "Gluten-free Sanchez VEGAN": {
    "ingredients": [
     {
      "name": "Large Sanchez VEGAN",
-     "kind": "id",
-     "ref": "lightspeed:20565027",
+     "kind": "subrecipe",
+     "ref": "Large Sanchez VEGAN",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.96",
@@ -721,20 +721,20 @@
      "our_cost": null
     }
    ],
-   "our_cost": 7.4,
+   "our_cost": 7.3933,
    "ls_cost": 7.4,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 67.4
+   "gp_pct": 67.5
   },
   "Gluten-free Hail Africa": {
    "ingredients": [
     {
      "name": "Large Hail Africa",
-     "kind": "id",
-     "ref": "lightspeed:20564996",
+     "kind": "subrecipe",
+     "ref": "Large Hail Africa",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.41",
@@ -750,7 +750,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 8.85,
+   "our_cost": 8.8459,
    "ls_cost": 8.85,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -771,15 +771,15 @@
     },
     {
      "name": "Large Hail Africa",
-     "kind": "id",
-     "ref": "lightspeed:20564996",
+     "kind": "subrecipe",
+     "ref": "Large Hail Africa",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.41",
      "our_cost": null
     }
    ],
-   "our_cost": 8.85,
+   "our_cost": 8.8459,
    "ls_cost": 8.85,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -791,8 +791,8 @@
    "ingredients": [
     {
      "name": "Large Jimmy Jury",
-     "kind": "id",
-     "ref": "lightspeed:22038549",
+     "kind": "subrecipe",
+     "ref": "Large Jimmy Jury",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.37",
@@ -808,7 +808,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 8.81,
+   "our_cost": 8.8077,
    "ls_cost": 8.81,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -829,15 +829,15 @@
     },
     {
      "name": "Large Jimmy Jury",
-     "kind": "id",
-     "ref": "lightspeed:22038549",
+     "kind": "subrecipe",
+     "ref": "Large Jimmy Jury",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.37",
      "our_cost": null
     }
    ],
-   "our_cost": 8.81,
+   "our_cost": 8.8077,
    "ls_cost": 8.81,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -849,8 +849,8 @@
    "ingredients": [
     {
      "name": "Large El Patron",
-     "kind": "id",
-     "ref": "lightspeed:22038540",
+     "kind": "subrecipe",
+     "ref": "Large El Patron",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.13",
@@ -866,7 +866,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 8.57,
+   "our_cost": 8.5648,
    "ls_cost": 8.57,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -887,15 +887,15 @@
     },
     {
      "name": "Large El Patron",
-     "kind": "id",
-     "ref": "lightspeed:22038540",
+     "kind": "subrecipe",
+     "ref": "Large El Patron",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.13",
      "our_cost": null
     }
    ],
-   "our_cost": 8.57,
+   "our_cost": 8.5648,
    "ls_cost": 8.57,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -907,8 +907,8 @@
    "ingredients": [
     {
      "name": "Large Sorrento",
-     "kind": "id",
-     "ref": "lightspeed:20468115",
+     "kind": "subrecipe",
+     "ref": "Large Sorrento",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.08",
@@ -924,7 +924,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 9.52,
+   "our_cost": 9.5144,
    "ls_cost": 9.52,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -945,15 +945,15 @@
     },
     {
      "name": "Large Sorrento",
-     "kind": "id",
-     "ref": "lightspeed:20468115",
+     "kind": "subrecipe",
+     "ref": "Large Sorrento",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.08",
      "our_cost": null
     }
    ],
-   "our_cost": 9.52,
+   "our_cost": 9.5144,
    "ls_cost": 9.52,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -965,8 +965,8 @@
    "ingredients": [
     {
      "name": "Large New Yorker",
-     "kind": "id",
-     "ref": "lightspeed:20565009",
+     "kind": "subrecipe",
+     "ref": "Large New Yorker",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.53",
@@ -982,7 +982,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 7.97,
+   "our_cost": 7.9644,
    "ls_cost": 7.97,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1003,15 +1003,15 @@
     },
     {
      "name": "Large New Yorker",
-     "kind": "id",
-     "ref": "lightspeed:20565009",
+     "kind": "subrecipe",
+     "ref": "Large New Yorker",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.53",
      "our_cost": null
     }
    ],
-   "our_cost": 7.97,
+   "our_cost": 7.9644,
    "ls_cost": 7.97,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1023,8 +1023,8 @@
    "ingredients": [
     {
      "name": "Large Tandoori Chicken",
-     "kind": "id",
-     "ref": "lightspeed:20468192",
+     "kind": "subrecipe",
+     "ref": "Large Tandoori Chicken",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.12",
@@ -1040,13 +1040,13 @@
      "our_cost": null
     }
    ],
-   "our_cost": 6.56,
+   "our_cost": 6.5545,
    "ls_cost": 6.56,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 69.9
+   "gp_pct": 70.0
   },
   "Gluten-free Tandoori Chicken [Dine-in]": {
    "ingredients": [
@@ -1061,28 +1061,28 @@
     },
     {
      "name": "Large Tandoori Chicken",
-     "kind": "id",
-     "ref": "lightspeed:20468192",
+     "kind": "subrecipe",
+     "ref": "Large Tandoori Chicken",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.12",
      "our_cost": null
     }
    ],
-   "our_cost": 6.56,
+   "our_cost": 6.5545,
    "ls_cost": 6.56,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 69.9
+   "gp_pct": 70.0
   },
   "Gluten-free Bubba Gump": {
    "ingredients": [
     {
      "name": "Large Bubba Gump",
-     "kind": "id",
-     "ref": "lightspeed:20467984",
+     "kind": "subrecipe",
+     "ref": "Large Bubba Gump",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.09",
@@ -1098,7 +1098,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 8.53,
+   "our_cost": 8.5297,
    "ls_cost": 8.53,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1119,15 +1119,15 @@
     },
     {
      "name": "Large Bubba Gump",
-     "kind": "id",
-     "ref": "lightspeed:20467984",
+     "kind": "subrecipe",
+     "ref": "Large Bubba Gump",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.09",
      "our_cost": null
     }
    ],
-   "our_cost": 8.53,
+   "our_cost": 8.5297,
    "ls_cost": 8.53,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1139,8 +1139,8 @@
    "ingredients": [
     {
      "name": "Large Super House Special",
-     "kind": "id",
-     "ref": "lightspeed:20468107",
+     "kind": "subrecipe",
+     "ref": "Large Super House Special",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.74",
@@ -1156,13 +1156,13 @@
      "our_cost": null
     }
    ],
-   "our_cost": 10.18,
+   "our_cost": 10.1667,
    "ls_cost": 10.18,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 53.3
+   "gp_pct": 53.4
   },
   "Gluten-free Super House Special [Dine-in]": {
    "ingredients": [
@@ -1177,28 +1177,28 @@
     },
     {
      "name": "Large Super House Special",
-     "kind": "id",
-     "ref": "lightspeed:20468107",
+     "kind": "subrecipe",
+     "ref": "Large Super House Special",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.74",
      "our_cost": null
     }
    ],
-   "our_cost": 10.18,
+   "our_cost": 10.1667,
    "ls_cost": 10.18,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 53.3
+   "gp_pct": 53.4
   },
   "Gluten-free BBQ Chicken Pizza": {
    "ingredients": [
     {
      "name": "Large BBQ Chicken Pizza",
-     "kind": "id",
-     "ref": "lightspeed:20467968",
+     "kind": "subrecipe",
+     "ref": "Large BBQ Chicken Pizza",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.11",
@@ -1214,7 +1214,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 7.55,
+   "our_cost": 7.5459,
    "ls_cost": 7.55,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1235,15 +1235,15 @@
     },
     {
      "name": "Large BBQ Chicken Pizza",
-     "kind": "id",
-     "ref": "lightspeed:20467968",
+     "kind": "subrecipe",
+     "ref": "Large BBQ Chicken Pizza",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.11",
      "our_cost": null
     }
    ],
-   "our_cost": 7.55,
+   "our_cost": 7.5459,
    "ls_cost": 7.55,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1255,8 +1255,8 @@
    "ingredients": [
     {
      "name": "Large Cosmopolitan",
-     "kind": "id",
-     "ref": "lightspeed:20467998",
+     "kind": "subrecipe",
+     "ref": "Large Cosmopolitan",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.84",
@@ -1272,7 +1272,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 9.28,
+   "our_cost": 9.2728,
    "ls_cost": 9.28,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1293,15 +1293,15 @@
     },
     {
      "name": "Large Cosmopolitan",
-     "kind": "id",
-     "ref": "lightspeed:20467998",
+     "kind": "subrecipe",
+     "ref": "Large Cosmopolitan",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.84",
      "our_cost": null
     }
    ],
-   "our_cost": 9.28,
+   "our_cost": 9.2728,
    "ls_cost": 9.28,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1313,8 +1313,8 @@
    "ingredients": [
     {
      "name": "Large Meatlovers",
-     "kind": "id",
-     "ref": "lightspeed:20468049",
+     "kind": "subrecipe",
+     "ref": "Large Meatlovers",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.95",
@@ -1330,7 +1330,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 10.39,
+   "our_cost": 10.375,
    "ls_cost": 10.39,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1351,15 +1351,15 @@
     },
     {
      "name": "Large Meatlovers",
-     "kind": "id",
-     "ref": "lightspeed:20468049",
+     "kind": "subrecipe",
+     "ref": "Large Meatlovers",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.95",
      "our_cost": null
     }
    ],
-   "our_cost": 10.39,
+   "our_cost": 10.375,
    "ls_cost": 10.39,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1371,8 +1371,8 @@
    "ingredients": [
     {
      "name": "Large Truffalo Soldier",
-     "kind": "id",
-     "ref": "lightspeed:20565068",
+     "kind": "subrecipe",
+     "ref": "Large Truffalo Soldier",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.27",
@@ -1388,7 +1388,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 7.71,
+   "our_cost": 7.7092,
    "ls_cost": 7.71,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1409,15 +1409,15 @@
     },
     {
      "name": "Large Truffalo Soldier",
-     "kind": "id",
-     "ref": "lightspeed:20565068",
+     "kind": "subrecipe",
+     "ref": "Large Truffalo Soldier",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.27",
      "our_cost": null
     }
    ],
-   "our_cost": 7.71,
+   "our_cost": 7.7092,
    "ls_cost": 7.71,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1438,15 +1438,15 @@
     },
     {
      "name": "Large Vegetarian",
-     "kind": "id",
-     "ref": "lightspeed:20468250",
+     "kind": "subrecipe",
+     "ref": "Large Vegetarian",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.88",
      "our_cost": null
     }
    ],
-   "our_cost": 7.32,
+   "our_cost": 7.3152,
    "ls_cost": 7.32,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1458,8 +1458,8 @@
    "ingredients": [
     {
      "name": "Large Vegetarian",
-     "kind": "id",
-     "ref": "lightspeed:20468250",
+     "kind": "subrecipe",
+     "ref": "Large Vegetarian",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.88",
@@ -1475,7 +1475,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 7.32,
+   "our_cost": 7.3152,
    "ls_cost": 7.32,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1487,8 +1487,8 @@
    "ingredients": [
     {
      "name": "Large Hawaiian",
-     "kind": "id",
-     "ref": "lightspeed:20468021",
+     "kind": "subrecipe",
+     "ref": "Large Hawaiian",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.27",
@@ -1504,7 +1504,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 6.71,
+   "our_cost": 6.7081,
    "ls_cost": 6.71,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1516,8 +1516,8 @@
    "ingredients": [
     {
      "name": "Large Hawaiian",
-     "kind": "id",
-     "ref": "lightspeed:20468021",
+     "kind": "subrecipe",
+     "ref": "Large Hawaiian",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.27",
@@ -1533,7 +1533,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 6.71,
+   "our_cost": 6.7081,
    "ls_cost": 6.71,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1545,8 +1545,8 @@
    "ingredients": [
     {
      "name": "Large Margherita",
-     "kind": "id",
-     "ref": "lightspeed:20468415",
+     "kind": "subrecipe",
+     "ref": "Large Margherita",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "1.58",
@@ -1562,20 +1562,20 @@
      "our_cost": null
     }
    ],
-   "our_cost": 6.02,
+   "our_cost": 6.0135,
    "ls_cost": 6.02,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.0,
-   "gp_pct": 65.1
+   "gp_pct": 65.2
   },
   "Gluten-free Margherita": {
    "ingredients": [
     {
      "name": "Large Margherita",
-     "kind": "id",
-     "ref": "lightspeed:20468415",
+     "kind": "subrecipe",
+     "ref": "Large Margherita",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "1.58",
@@ -1591,13 +1591,13 @@
      "our_cost": null
     }
    ],
-   "our_cost": 6.02,
+   "our_cost": 6.0135,
    "ls_cost": 6.02,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.0,
-   "gp_pct": 65.1
+   "gp_pct": 65.2
   },
   "Gluten-free Uber Margherita [Dine-in]": {
    "ingredients": [
@@ -1612,15 +1612,15 @@
     },
     {
      "name": "Large Uber Margherita",
-     "kind": "id",
-     "ref": "lightspeed:20565077",
+     "kind": "subrecipe",
+     "ref": "Large Uber Margherita",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.13",
      "our_cost": null
     }
    ],
-   "our_cost": 7.57,
+   "our_cost": 7.5609,
    "ls_cost": 7.57,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1632,8 +1632,8 @@
    "ingredients": [
     {
      "name": "Large Uber Margherita",
-     "kind": "id",
-     "ref": "lightspeed:20565077",
+     "kind": "subrecipe",
+     "ref": "Large Uber Margherita",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.13",
@@ -1649,7 +1649,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 7.57,
+   "our_cost": 7.5609,
    "ls_cost": 7.57,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -1670,28 +1670,28 @@
     },
     {
      "name": "Large Roma Special",
-     "kind": "id",
-     "ref": "lightspeed:20468095",
+     "kind": "subrecipe",
+     "ref": "Large Roma Special",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.39",
      "our_cost": null
     }
    ],
-   "our_cost": 8.83,
+   "our_cost": 8.8232,
    "ls_cost": 8.83,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 59.5
+   "gp_pct": 59.6
   },
   "Gluten-free Roma Special": {
    "ingredients": [
     {
      "name": "Large Roma Special",
-     "kind": "id",
-     "ref": "lightspeed:20468095",
+     "kind": "subrecipe",
+     "ref": "Large Roma Special",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.39",
@@ -1707,20 +1707,20 @@
      "our_cost": null
     }
    ],
-   "our_cost": 8.83,
+   "our_cost": 8.8232,
    "ls_cost": 8.83,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 59.5
+   "gp_pct": 59.6
   },
   "Large BBQ Chicken Pizza": {
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -1728,8 +1728,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -1790,13 +1790,13 @@
      "our_cost": null
     }
    ],
-   "our_cost": 4.1725,
+   "our_cost": 4.1645,
    "ls_cost": 4.17,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 81.6
+   "gp_pct": 81.7
   },
   "La Petite Mort Rosso 2025 - Large": {
    "ingredients": [
@@ -1882,21 +1882,21 @@
    "ingredients": [
     {
      "name": "Disaronno [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Disaronno",
+     "kind": "id",
+     "ref": "lightspeed:20492688",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.99",
-     "our_cost": null
+     "our_cost": "0.061914"
     }
    ],
-   "our_cost": 1.99,
+   "our_cost": 1.8574,
    "ls_cost": 1.99,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 83.0
   },
   "Mezcal Paloma": {
    "ingredients": [
@@ -1911,17 +1911,17 @@
     },
     {
      "name": "Grapefruit Sherbert",
-     "kind": "id",
-     "ref": "lightspeed:22843702",
+     "kind": "subrecipe",
+     "ref": "Grapefruit Sherbert",
      "qty": "45",
      "unit": "ml",
      "ls_cost": "0.13",
      "our_cost": null
     }
    ],
-   "our_cost": 5.15,
+   "our_cost": 5.1567,
    "ls_cost": 5.15,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
@@ -1967,8 +1967,8 @@
     },
     {
      "name": "Demerara Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22893756",
+     "kind": "subrecipe",
+     "ref": "Demerara Syrup",
      "qty": "3.5",
      "unit": "ml",
      "ls_cost": "0.11",
@@ -1984,13 +1984,13 @@
      "our_cost": "0.190000"
     }
    ],
-   "our_cost": 4.8766,
+   "our_cost": 4.7938,
    "ls_cost": 4.88,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 77.6
+   "gp_pct": 78.0
   },
   "Biscoff Espresso": {
    "ingredients": [
@@ -2079,15 +2079,15 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "20",
      "unit": "ml",
      "ls_cost": "0.04",
      "our_cost": null
     }
    ],
-   "our_cost": 4.1321,
+   "our_cost": 4.1322,
    "ls_cost": 4.13,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -2126,17 +2126,17 @@
     },
     {
      "name": "Super Lemon Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21020206",
+     "kind": "subrecipe",
+     "ref": "Super Lemon Juice [1L]",
      "qty": "15",
      "unit": "ml",
      "ls_cost": "0.02",
      "our_cost": null
     }
    ],
-   "our_cost": 2.8669,
+   "our_cost": 2.8663,
    "ls_cost": 2.86,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 22.0,
@@ -2172,7 +2172,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 4.9125,
+   "our_cost": 4.9173,
    "ls_cost": 4.91,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -2201,9 +2201,9 @@
      "our_cost": "0.067500"
     }
    ],
-   "our_cost": 5.135,
+   "our_cost": 5.1405,
    "ls_cost": 5.14,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 22.0,
@@ -2213,21 +2213,21 @@
    "ingredients": [
     {
      "name": "400 Conejos Mezcal [Bottle]",
-     "kind": "subrecipe",
-     "ref": "400 Conejos Mezcal",
+     "kind": "id",
+     "ref": "lightspeed:23244215",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.34",
-     "our_cost": null
+     "our_cost": "0.111471"
     }
    ],
-   "our_cost": 3.34,
+   "our_cost": 3.3441,
    "ls_cost": 3.34,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 73.7
   },
   "Seppeltsfield Para Grand 10yo Tawny": {
    "ingredients": [
@@ -2242,8 +2242,8 @@
     },
     {
      "name": "Seppeltsfield Para Grand 10yo Tawny [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Seppeltsfield Para Grand 10yo Tawny",
+     "kind": "id",
+     "ref": "lightspeed:23217497",
      "qty": "60",
      "unit": "ml",
      "ls_cost": "2.51",
@@ -2254,9 +2254,9 @@
    "ls_cost": 5.02,
    "fully_our_book": false,
    "resolved_pct": 50,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 60.6
   },
   "Guinness Draught - Pint": {
    "ingredients": [
@@ -2377,13 +2377,13 @@
      "our_cost": null
     }
    ],
-   "our_cost": 4.3439,
+   "our_cost": 4.7279,
    "ls_cost": 4.34,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 23.0,
-   "gp_pct": 79.2
+   "gp_pct": 77.4
   },
   "Classic Margarita": {
    "ingredients": [
@@ -2407,8 +2407,8 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "0.06",
@@ -2434,15 +2434,15 @@
     },
     {
      "name": "Sugar Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843872",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
      "qty": "10",
      "unit": "ml",
      "ls_cost": "0.02",
      "our_cost": null
     }
    ],
-   "our_cost": 4.0789,
+   "our_cost": 4.0791,
    "ls_cost": 4.09,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -2472,8 +2472,8 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "0.06",
@@ -2489,7 +2489,7 @@
      "our_cost": "0.092308"
     }
    ],
-   "our_cost": 11.56,
+   "our_cost": 11.5602,
    "ls_cost": 11.56,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -2510,8 +2510,8 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "0.06",
@@ -2546,15 +2546,15 @@
     },
     {
      "name": "Sugar Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843872",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
      "qty": "9.25",
      "unit": "ml",
      "ls_cost": "0.01",
      "our_cost": null
     }
    ],
-   "our_cost": 4.1437,
+   "our_cost": 4.1439,
    "ls_cost": 4.14,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -2575,8 +2575,8 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "0.06",
@@ -2601,7 +2601,7 @@
      "our_cost": "0.092308"
     }
    ],
-   "our_cost": 4.9767,
+   "our_cost": 4.977,
    "ls_cost": 4.97,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -2613,21 +2613,21 @@
    "ingredients": [
     {
      "name": "Aether Vodka [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Aether Vodka",
+     "kind": "id",
+     "ref": "lightspeed:23114865",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.52",
-     "our_cost": null
+     "our_cost": "0.083986"
     }
    ],
-   "our_cost": 2.52,
+   "our_cost": 2.5196,
    "ls_cost": 2.52,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 11.5,
-   "gp_pct": null
+   "gp_pct": 75.9
   },
   "Chipotle Mayo [1.1kg]": {
    "ingredients": [
@@ -2654,7 +2654,7 @@
    "ls_cost": 7.1,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": false,
+   "is_prep": true,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -2689,8 +2689,8 @@
     },
     {
      "name": "Yorkshire Pudding Prep [110 units]",
-     "kind": "id",
-     "ref": "lightspeed:23032243",
+     "kind": "subrecipe",
+     "ref": "Yorkshire Pudding Prep [110 units]",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "0.21",
@@ -2698,8 +2698,8 @@
     },
     {
      "name": "Nut Roast Prep",
-     "kind": "id",
-     "ref": "lightspeed:23035261",
+     "kind": "subrecipe",
+     "ref": "Nut Roast Prep",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.61",
@@ -2707,15 +2707,15 @@
     },
     {
      "name": "Gravy Prep",
-     "kind": "id",
-     "ref": "lightspeed:23036845",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
      "qty": "145",
      "unit": "g",
      "ls_cost": "0.98",
      "our_cost": null
     }
    ],
-   "our_cost": 5.33,
+   "our_cost": 5.3301,
    "ls_cost": 5.33,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -2857,8 +2857,8 @@
     },
     {
      "name": "Sugar Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843872",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
      "qty": "7.5",
      "unit": "ml",
      "ls_cost": "0.01",
@@ -2877,8 +2877,8 @@
    "ingredients": [
     {
      "name": "Frozen Marg - Classic",
-     "kind": "id",
-     "ref": "lightspeed:22843981",
+     "kind": "subrecipe",
+     "ref": "Frozen Marg - Classic",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.88",
@@ -2886,28 +2886,28 @@
     },
     {
      "name": "Mango-Chilli Puree [1L]",
-     "kind": "id",
-     "ref": "lightspeed:22973178",
+     "kind": "subrecipe",
+     "ref": "Mango-Chilli Puree [1L]",
      "qty": "20",
      "unit": "ml",
      "ls_cost": "0.43",
      "our_cost": null
     }
    ],
-   "our_cost": 4.31,
+   "our_cost": 4.3186,
    "ls_cost": 4.31,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 22.0,
-   "gp_pct": 78.5
+   "gp_pct": 78.4
   },
   "Frozen Marg - Jalape\u00f1o": {
    "ingredients": [
     {
      "name": "Frozen Marg - Classic",
-     "kind": "id",
-     "ref": "lightspeed:22843981",
+     "kind": "subrecipe",
+     "ref": "Frozen Marg - Classic",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.88",
@@ -2923,7 +2923,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 3.88,
+   "our_cost": 3.8886,
    "ls_cost": 3.88,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -2953,8 +2953,8 @@
     },
     {
      "name": "Sugar Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843872",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
      "qty": "17.5",
      "unit": "ml",
      "ls_cost": "0.03",
@@ -2962,8 +2962,8 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "35",
      "unit": "ml",
      "ls_cost": "0.07",
@@ -2988,7 +2988,7 @@
      "our_cost": "0.013692"
     }
    ],
-   "our_cost": 3.8883,
+   "our_cost": 3.8886,
    "ls_cost": 3.88,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -3000,8 +3000,8 @@
    "ingredients": [
     {
      "name": "Cauliflower Cheese Prep",
-     "kind": "id",
-     "ref": "lightspeed:23036881",
+     "kind": "subrecipe",
+     "ref": "Cauliflower Cheese Prep",
      "qty": "0.077",
      "unit": "ml",
      "ls_cost": "0.07",
@@ -3038,8 +3038,8 @@
     },
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "259",
      "unit": "g",
      "ls_cost": "0.24",
@@ -3047,8 +3047,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -3091,20 +3091,20 @@
      "our_cost": "0.012764"
     }
    ],
-   "our_cost": 3.2653,
+   "our_cost": 3.2573,
    "ls_cost": 3.26,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 82.0
+   "gp_pct": 82.1
   },
   "Fancy Pants Parmy - Classic": {
    "ingredients": [
     {
      "name": "Stow Schnitty",
-     "kind": "id",
-     "ref": "lightspeed:20445548",
+     "kind": "subrecipe",
+     "ref": "Stow Schnitty",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "5.32",
@@ -3121,8 +3121,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "110",
      "unit": "g",
      "ls_cost": "0.41",
@@ -3138,7 +3138,7 @@
      "our_cost": "0.011761"
     }
    ],
-   "our_cost": 8.0945,
+   "our_cost": 8.0826,
    "ls_cost": 8.1,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -3168,8 +3168,8 @@
     },
     {
      "name": "Gravy Prep",
-     "kind": "id",
-     "ref": "lightspeed:23036845",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
      "qty": "45",
      "unit": "g",
      "ls_cost": "0.30",
@@ -3204,8 +3204,8 @@
     },
     {
      "name": "Balsamic Dressing House [4.9L]",
-     "kind": "id",
-     "ref": "lightspeed:22509675",
+     "kind": "subrecipe",
+     "ref": "Balsamic Dressing House [4.9L]",
      "qty": "20",
      "unit": "ml",
      "ls_cost": "0.08",
@@ -3221,7 +3221,7 @@
      "our_cost": "0.375000"
     }
    ],
-   "our_cost": 5.3274,
+   "our_cost": 5.3277,
    "ls_cost": 5.33,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -3251,8 +3251,8 @@
     },
     {
      "name": "Gravy Prep",
-     "kind": "id",
-     "ref": "lightspeed:23036845",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
      "qty": "45",
      "unit": "g",
      "ls_cost": "0.30",
@@ -3287,8 +3287,8 @@
     },
     {
      "name": "Balsamic Dressing House [4.9L]",
-     "kind": "id",
-     "ref": "lightspeed:22509675",
+     "kind": "subrecipe",
+     "ref": "Balsamic Dressing House [4.9L]",
      "qty": "20",
      "unit": "ml",
      "ls_cost": "0.08",
@@ -3304,7 +3304,7 @@
      "our_cost": "0.375000"
     }
    ],
-   "our_cost": 4.2674,
+   "our_cost": 4.2677,
    "ls_cost": 4.27,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -3316,8 +3316,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "259",
      "unit": "g",
      "ls_cost": "0.24",
@@ -3325,8 +3325,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -3369,7 +3369,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 2.2985,
+   "our_cost": 2.2905,
    "ls_cost": 2.3,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -3435,8 +3435,8 @@
     },
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "259",
      "unit": "g",
      "ls_cost": "0.24",
@@ -3444,8 +3444,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -3479,20 +3479,20 @@
      "our_cost": null
     }
    ],
-   "our_cost": 4.1211,
+   "our_cost": 4.1131,
    "ls_cost": 4.12,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 77.3
+   "gp_pct": 77.4
   },
   "Large Pepperoni": {
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -3500,8 +3500,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -3544,20 +3544,20 @@
      "our_cost": null
     }
    ],
-   "our_cost": 4.5701,
+   "our_cost": 4.552,
    "ls_cost": 4.57,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 74.9
+   "gp_pct": 75.0
   },
   "Large No Chorizo, No Cry": {
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -3601,8 +3601,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -3628,8 +3628,8 @@
     },
     {
      "name": "Garlic Oil [Batch]",
-     "kind": "id",
-     "ref": "lightspeed:22523808",
+     "kind": "subrecipe",
+     "ref": "Garlic Oil [Batch]",
      "qty": "20",
      "unit": "g",
      "ls_cost": "0.03",
@@ -3654,7 +3654,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 5.5055,
+   "our_cost": 5.4976,
    "ls_cost": 5.51,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -3666,8 +3666,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -3675,8 +3675,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -3764,7 +3764,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 5.1161,
+   "our_cost": 5.1081,
    "ls_cost": 5.12,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -3776,8 +3776,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -3785,8 +3785,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -3883,7 +3883,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 4.2085,
+   "our_cost": 4.2005,
    "ls_cost": 4.21,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -3895,8 +3895,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -3904,8 +3904,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -4011,7 +4011,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 5.4785,
+   "our_cost": 5.4705,
    "ls_cost": 5.48,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -4023,8 +4023,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -4032,8 +4032,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -4130,7 +4130,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 6.2421,
+   "our_cost": 6.2342,
    "ls_cost": 6.24,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -4142,8 +4142,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -4151,8 +4151,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -4214,8 +4214,8 @@
     },
     {
      "name": "J.J. Aioli [Batch]",
-     "kind": "id",
-     "ref": "lightspeed:22523868",
+     "kind": "subrecipe",
+     "ref": "J.J. Aioli [Batch]",
      "qty": "60",
      "unit": "g",
      "ls_cost": "0.43",
@@ -4240,7 +4240,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 6.1856,
+   "our_cost": 6.1768,
    "ls_cost": 6.18,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -4252,8 +4252,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -4261,8 +4261,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -4341,7 +4341,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 5.8506,
+   "our_cost": 5.8426,
    "ls_cost": 5.85,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -4353,8 +4353,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -4362,8 +4362,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -4433,7 +4433,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 7.17,
+   "our_cost": 7.1621,
    "ls_cost": 7.17,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -4445,8 +4445,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -4454,8 +4454,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -4507,7 +4507,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 5.0101,
+   "our_cost": 5.0021,
    "ls_cost": 5.01,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -4519,8 +4519,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -4528,8 +4528,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -4555,8 +4555,8 @@
     },
     {
      "name": "Mint Yoghurt [Batch]",
-     "kind": "id",
-     "ref": "lightspeed:20445575",
+     "kind": "subrecipe",
+     "ref": "Mint Yoghurt [Batch]",
      "qty": "35",
      "unit": "g",
      "ls_cost": "0.38",
@@ -4564,8 +4564,8 @@
     },
     {
      "name": "Tandoori Chicken [2Kg]",
-     "kind": "id",
-     "ref": "lightspeed:20445604",
+     "kind": "subrecipe",
+     "ref": "Tandoori Chicken [2Kg]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.97",
@@ -4590,7 +4590,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 3.05,
+   "our_cost": 3.0421,
    "ls_cost": 3.05,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -4602,8 +4602,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -4611,8 +4611,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -4682,13 +4682,13 @@
      "our_cost": null
     }
    ],
-   "our_cost": 5.5376,
+   "our_cost": 5.5296,
    "ls_cost": 5.53,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 75.6
+   "gp_pct": 75.7
   },
   "Large Cosmopolitan": {
    "ingredients": [
@@ -4792,7 +4792,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 6.6182,
+   "our_cost": 6.6101,
    "ls_cost": 6.62,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -4804,8 +4804,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -4813,8 +4813,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -4902,7 +4902,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 6.9584,
+   "our_cost": 6.9424,
    "ls_cost": 6.96,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -5042,8 +5042,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -5051,8 +5051,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -5140,7 +5140,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 5.6391,
+   "our_cost": 5.6312,
    "ls_cost": 5.64,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -5152,8 +5152,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -5161,8 +5161,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -5232,7 +5232,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 4.455,
+   "our_cost": 4.4471,
    "ls_cost": 4.46,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -5253,8 +5253,8 @@
     },
     {
      "name": "Salted Caramel Sauce",
-     "kind": "id",
-     "ref": "lightspeed:22510301",
+     "kind": "subrecipe",
+     "ref": "Salted Caramel Sauce",
      "qty": "25",
      "unit": "ml",
      "ls_cost": "0.27",
@@ -5263,7 +5263,7 @@
    ],
    "our_cost": 0.735,
    "ls_cost": 0.74,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 5.0,
@@ -5273,8 +5273,8 @@
    "ingredients": [
     {
      "name": "Brownie Prep [24 pcs]",
-     "kind": "id",
-     "ref": "lightspeed:23038892",
+     "kind": "subrecipe",
+     "ref": "Brownie Prep [24 pcs]",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "1.95",
@@ -5300,8 +5300,8 @@
     },
     {
      "name": "Salted Caramel Sauce",
-     "kind": "id",
-     "ref": "lightspeed:22510301",
+     "kind": "subrecipe",
+     "ref": "Salted Caramel Sauce",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "0.33",
@@ -5349,15 +5349,15 @@
    "ingredients": [
     {
      "name": "Espresso Martini",
-     "kind": "id",
-     "ref": "lightspeed:20445662",
+     "kind": "subrecipe",
+     "ref": "Espresso Martini",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.24",
      "our_cost": null
     }
    ],
-   "our_cost": 3.24,
+   "our_cost": 3.2336,
    "ls_cost": 3.24,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -5369,8 +5369,8 @@
    "ingredients": [
     {
      "name": "Brownie D",
-     "kind": "id",
-     "ref": "lightspeed:20468495",
+     "kind": "subrecipe",
+     "ref": "Brownie D",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "1.95",
@@ -5389,8 +5389,8 @@
    "ingredients": [
     {
      "name": "Brownie Prep [24 pcs]",
-     "kind": "id",
-     "ref": "lightspeed:23038892",
+     "kind": "subrecipe",
+     "ref": "Brownie Prep [24 pcs]",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "1.95",
@@ -5483,8 +5483,8 @@
     },
     {
      "name": "Salsa Rosa Prep",
-     "kind": "id",
-     "ref": "lightspeed:22493931",
+     "kind": "subrecipe",
+     "ref": "Salsa Rosa Prep",
      "qty": "50",
      "unit": "g",
      "ls_cost": "0.49",
@@ -5509,7 +5509,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 2.7726,
+   "our_cost": 2.7705,
    "ls_cost": 2.77,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -5521,15 +5521,15 @@
    "ingredients": [
     {
      "name": "Bang Bang Cauli",
-     "kind": "id",
-     "ref": "lightspeed:20445515",
+     "kind": "subrecipe",
+     "ref": "Bang Bang Cauli",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.76",
      "our_cost": null
     }
    ],
-   "our_cost": 2.76,
+   "our_cost": 2.7605,
    "ls_cost": 2.76,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -5541,8 +5541,8 @@
    "ingredients": [
     {
      "name": "Guacamole [4kg]",
-     "kind": "id",
-     "ref": "lightspeed:22975201",
+     "kind": "subrecipe",
+     "ref": "Guacamole [4kg]",
      "qty": "235",
      "unit": "g",
      "ls_cost": "2.04",
@@ -5559,8 +5559,8 @@
     },
     {
      "name": "Queso Dip Prep",
-     "kind": "id",
-     "ref": "lightspeed:23036889",
+     "kind": "subrecipe",
+     "ref": "Queso Dip Prep",
      "qty": "65",
      "unit": "g",
      "ls_cost": "0.67",
@@ -5568,15 +5568,15 @@
     },
     {
      "name": "Pico de Gallo [2.5kg]",
-     "kind": "id",
-     "ref": "lightspeed:22493876",
+     "kind": "subrecipe",
+     "ref": "Pico de Gallo [2.5kg]",
      "qty": "20",
      "unit": "g",
      "ls_cost": "0.10",
      "our_cost": null
     }
    ],
-   "our_cost": 3.6625,
+   "our_cost": 3.6653,
    "ls_cost": 3.66,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -5588,15 +5588,15 @@
    "ingredients": [
     {
      "name": "Holy Guacamole",
-     "kind": "id",
-     "ref": "lightspeed:20445511",
+     "kind": "subrecipe",
+     "ref": "Holy Guacamole",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.53",
      "our_cost": null
     }
    ],
-   "our_cost": 3.53,
+   "our_cost": 3.5351,
    "ls_cost": 3.53,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -5608,15 +5608,15 @@
    "ingredients": [
     {
      "name": "Queso Dip Prep",
-     "kind": "id",
-     "ref": "lightspeed:23036889",
+     "kind": "subrecipe",
+     "ref": "Queso Dip Prep",
      "qty": "50",
      "unit": "g",
      "ls_cost": "0.52",
      "our_cost": null
     }
    ],
-   "our_cost": 0.52,
+   "our_cost": 0.5217,
    "ls_cost": 0.52,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -5675,21 +5675,21 @@
    "ingredients": [
     {
      "name": "Kids Nuggets & Chips",
-     "kind": "id",
-     "ref": "lightspeed:20445561",
+     "kind": "subrecipe",
+     "ref": "Kids Nuggets & Chips",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.25",
      "our_cost": null
     }
    ],
-   "our_cost": 2.25,
+   "our_cost": 2.2527,
    "ls_cost": 2.25,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 13.0,
-   "gp_pct": 81.0
+   "gp_pct": 80.9
   },
   "Kids Nuggets & Chips": {
    "ingredients": [
@@ -5789,17 +5789,17 @@
    "ingredients": [
     {
      "name": "Gravy Prep",
-     "kind": "id",
-     "ref": "lightspeed:23036845",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
      "qty": "50",
      "unit": "g",
      "ls_cost": "0.34",
      "our_cost": null
     }
    ],
-   "our_cost": 0.34,
+   "our_cost": 0.3402,
    "ls_cost": 0.34,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 1.0,
@@ -5809,17 +5809,17 @@
    "ingredients": [
     {
      "name": "Gravy Prep",
-     "kind": "id",
-     "ref": "lightspeed:23036845",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
      "qty": "50",
      "unit": "g",
      "ls_cost": "0.34",
      "our_cost": null
     }
    ],
-   "our_cost": 0.34,
+   "our_cost": 0.3402,
    "ls_cost": 0.34,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 1.0,
@@ -5829,17 +5829,17 @@
    "ingredients": [
     {
      "name": "Gravy Prep",
-     "kind": "id",
-     "ref": "lightspeed:23036845",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
      "qty": "50",
      "unit": "g",
      "ls_cost": "0.34",
      "our_cost": null
     }
    ],
-   "our_cost": 0.34,
+   "our_cost": 0.3402,
    "ls_cost": 0.34,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 1.5,
@@ -5885,8 +5885,8 @@
     },
     {
      "name": "Yorkshire Pudding Prep [110 units]",
-     "kind": "id",
-     "ref": "lightspeed:23032243",
+     "kind": "subrecipe",
+     "ref": "Yorkshire Pudding Prep [110 units]",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "0.21",
@@ -5894,15 +5894,15 @@
     },
     {
      "name": "Gravy Prep",
-     "kind": "id",
-     "ref": "lightspeed:23036845",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
      "qty": "145",
      "unit": "g",
      "ls_cost": "0.98",
      "our_cost": null
     }
    ],
-   "our_cost": 4.92,
+   "our_cost": 4.9205,
    "ls_cost": 4.92,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -5950,8 +5950,8 @@
     },
     {
      "name": "Yorkshire Pudding Prep [110 units]",
-     "kind": "id",
-     "ref": "lightspeed:23032243",
+     "kind": "subrecipe",
+     "ref": "Yorkshire Pudding Prep [110 units]",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "0.21",
@@ -5959,15 +5959,15 @@
     },
     {
      "name": "Gravy Prep",
-     "kind": "id",
-     "ref": "lightspeed:23036845",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
      "qty": "145",
      "unit": "g",
      "ls_cost": "0.98",
      "our_cost": null
     }
    ],
-   "our_cost": 7.01,
+   "our_cost": 7.0105,
    "ls_cost": 7.01,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -6015,8 +6015,8 @@
     },
     {
      "name": "Yorkshire Pudding Prep [110 units]",
-     "kind": "id",
-     "ref": "lightspeed:23032243",
+     "kind": "subrecipe",
+     "ref": "Yorkshire Pudding Prep [110 units]",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "0.21",
@@ -6024,15 +6024,15 @@
     },
     {
      "name": "Gravy Prep",
-     "kind": "id",
-     "ref": "lightspeed:23036845",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
      "qty": "145",
      "unit": "g",
      "ls_cost": "0.98",
      "our_cost": null
     }
    ],
-   "our_cost": 5.69,
+   "our_cost": 5.6905,
    "ls_cost": 5.69,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -6275,8 +6275,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "200",
      "unit": "g",
      "ls_cost": "0.18",
@@ -6284,8 +6284,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.21",
@@ -6355,7 +6355,7 @@
      "our_cost": "0.030000"
     }
    ],
-   "our_cost": 2.3734,
+   "our_cost": 2.3685,
    "ls_cost": 2.38,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -6367,8 +6367,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "200",
      "unit": "g",
      "ls_cost": "0.18",
@@ -6376,8 +6376,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.21",
@@ -6411,7 +6411,7 @@
      "our_cost": "0.030000"
     }
    ],
-   "our_cost": 1.2439,
+   "our_cost": 1.239,
    "ls_cost": 1.25,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -6423,8 +6423,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "200",
      "unit": "g",
      "ls_cost": "0.18",
@@ -6432,8 +6432,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.21",
@@ -6458,13 +6458,13 @@
      "our_cost": "0.030000"
     }
    ],
-   "our_cost": 1.2283,
+   "our_cost": 1.2234,
    "ls_cost": 1.23,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": 90.3
+   "gp_pct": 90.4
   },
   "Chicken Roast": {
    "ingredients": [
@@ -6517,8 +6517,8 @@
    "ingredients": [
     {
      "name": "Fish Tacos",
-     "kind": "id",
-     "ref": "lightspeed:20445518",
+     "kind": "subrecipe",
+     "ref": "Fish Tacos",
      "qty": "0.5",
      "unit": "ml",
      "ls_cost": "1.09",
@@ -6537,15 +6537,15 @@
    "ingredients": [
     {
      "name": "Fish Tacos",
-     "kind": "id",
-     "ref": "lightspeed:20445518",
+     "kind": "subrecipe",
+     "ref": "Fish Tacos",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.18",
      "our_cost": null
     }
    ],
-   "our_cost": 2.18,
+   "our_cost": 2.1801,
    "ls_cost": 2.18,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -6566,8 +6566,8 @@
     },
     {
      "name": "Fish Cajun Marination",
-     "kind": "id",
-     "ref": "lightspeed:22971324",
+     "kind": "subrecipe",
+     "ref": "Fish Cajun Marination",
      "qty": "75",
      "unit": "g",
      "ls_cost": "1.02",
@@ -6575,8 +6575,8 @@
     },
     {
      "name": "Pico de Gallo [2.5kg]",
-     "kind": "id",
-     "ref": "lightspeed:22493876",
+     "kind": "subrecipe",
+     "ref": "Pico de Gallo [2.5kg]",
      "qty": "20",
      "unit": "g",
      "ls_cost": "0.10",
@@ -6593,15 +6593,15 @@
     },
     {
      "name": "Chipotle Mayo [1.1kg]",
-     "kind": "id",
-     "ref": "lightspeed:23007584",
+     "kind": "subrecipe",
+     "ref": "Chipotle Mayo [1.1kg]",
      "qty": "40",
      "unit": "g",
      "ls_cost": "0.26",
      "our_cost": null
     }
    ],
-   "our_cost": 2.1863,
+   "our_cost": 2.1901,
    "ls_cost": 2.19,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -6613,48 +6613,48 @@
    "ingredients": [
     {
      "name": "Regular Sorrento",
-     "kind": "id",
-     "ref": "lightspeed:20468114",
+     "kind": "subrecipe",
+     "ref": "Regular Sorrento",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.05",
      "our_cost": null
     }
    ],
-   "our_cost": 4.05,
+   "our_cost": 4.0353,
    "ls_cost": 4.05,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 77.7
+   "gp_pct": 77.8
   },
   "Regular Sorrento [Dine-in]": {
    "ingredients": [
     {
      "name": "Regular Sorrento",
-     "kind": "id",
-     "ref": "lightspeed:20468114",
+     "kind": "subrecipe",
+     "ref": "Regular Sorrento",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.05",
      "our_cost": null
     }
    ],
-   "our_cost": 4.05,
+   "our_cost": 4.0353,
    "ls_cost": 4.05,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 77.7
+   "gp_pct": 77.8
   },
   "Regular Sorrento": {
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "190",
      "unit": "g",
      "ls_cost": "0.17",
@@ -6662,8 +6662,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.21",
@@ -6715,7 +6715,7 @@
      "our_cost": "0.030000"
     }
    ],
-   "our_cost": 4.1,
+   "our_cost": 4.0951,
    "ls_cost": 4.11,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -6727,8 +6727,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "190",
      "unit": "g",
      "ls_cost": "0.17",
@@ -6736,8 +6736,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.21",
@@ -6807,7 +6807,7 @@
      "our_cost": "0.011761"
     }
    ],
-   "our_cost": 3.6344,
+   "our_cost": 3.6295,
    "ls_cost": 3.64,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -6819,8 +6819,8 @@
    "ingredients": [
     {
      "name": "Regular El Patron",
-     "kind": "subrecipe",
-     "ref": "Regular El Patron [Dine-in]",
+     "kind": "id",
+     "ref": "lightspeed:22038538",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.58",
@@ -6831,9 +6831,9 @@
    "ls_cost": 3.58,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": null
+   "gp_pct": 79.8
   },
   "Garlic Bread [Deal]": {
    "ingredients": [
@@ -6886,8 +6886,8 @@
     },
     {
      "name": "Balsamic Dressing House [4.9L]",
-     "kind": "id",
-     "ref": "lightspeed:22509675",
+     "kind": "subrecipe",
+     "ref": "Balsamic Dressing House [4.9L]",
      "qty": "45",
      "unit": "ml",
      "ls_cost": "0.18",
@@ -6903,7 +6903,7 @@
      "our_cost": "0.016546"
     }
    ],
-   "our_cost": 3.2,
+   "our_cost": 3.2003,
    "ls_cost": 3.2,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -6963,7 +6963,7 @@
    "ls_cost": 19.24,
    "fully_our_book": true,
    "resolved_pct": 100,
-   "is_prep": false,
+   "is_prep": true,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -6971,17 +6971,17 @@
    "ingredients": [
     {
      "name": "Sweet Potato Fries",
-     "kind": "id",
-     "ref": "lightspeed:20445525",
+     "kind": "subrecipe",
+     "ref": "Sweet Potato Fries",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.79",
      "our_cost": null
     }
    ],
-   "our_cost": 3.79,
+   "our_cost": 3.7901,
    "ls_cost": 3.79,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 13.9,
@@ -7092,8 +7092,8 @@
     },
     {
      "name": "Kewpie Lemon",
-     "kind": "id",
-     "ref": "lightspeed:22971321",
+     "kind": "subrecipe",
+     "ref": "Kewpie Lemon",
      "qty": "35",
      "unit": "g",
      "ls_cost": "0.42",
@@ -7112,8 +7112,8 @@
    "ingredients": [
     {
      "name": "Sensei Calamari",
-     "kind": "id",
-     "ref": "lightspeed:20445510",
+     "kind": "subrecipe",
+     "ref": "Sensei Calamari",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.31",
@@ -7161,8 +7161,8 @@
     },
     {
      "name": "Burrito Rice [3kg]",
-     "kind": "id",
-     "ref": "lightspeed:23007515",
+     "kind": "subrecipe",
+     "ref": "Burrito Rice [3kg]",
      "qty": "250",
      "unit": "g",
      "ls_cost": "0.33",
@@ -7170,8 +7170,8 @@
     },
     {
      "name": "Guacamole [4kg]",
-     "kind": "id",
-     "ref": "lightspeed:22975201",
+     "kind": "subrecipe",
+     "ref": "Guacamole [4kg]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.48",
@@ -7179,8 +7179,8 @@
     },
     {
      "name": "Pico de Gallo [2.5kg]",
-     "kind": "id",
-     "ref": "lightspeed:22493876",
+     "kind": "subrecipe",
+     "ref": "Pico de Gallo [2.5kg]",
      "qty": "45",
      "unit": "g",
      "ls_cost": "0.22",
@@ -7197,8 +7197,8 @@
     },
     {
      "name": "Pulled Mushroom [1Kg]",
-     "kind": "id",
-     "ref": "lightspeed:22975380",
+     "kind": "subrecipe",
+     "ref": "Pulled Mushroom [1Kg]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.94",
@@ -7215,8 +7215,8 @@
     },
     {
      "name": "Black Beans Prep",
-     "kind": "id",
-     "ref": "lightspeed:22975205",
+     "kind": "subrecipe",
+     "ref": "Black Beans Prep",
      "qty": "100",
      "unit": "g",
      "ls_cost": "0.36",
@@ -7224,8 +7224,8 @@
     },
     {
      "name": "Lime [ea]",
-     "kind": "id",
-     "ref": "lightspeed:20564868",
+     "kind": "subrecipe",
+     "ref": "Lime [ea]",
      "qty": "0.125",
      "unit": "ml",
      "ls_cost": "0.06",
@@ -7242,15 +7242,15 @@
     },
     {
      "name": "Chipotle Mayo [1.1kg]",
-     "kind": "id",
-     "ref": "lightspeed:23007584",
+     "kind": "subrecipe",
+     "ref": "Chipotle Mayo [1.1kg]",
      "qty": "85",
      "unit": "g",
      "ls_cost": "0.55",
      "our_cost": null
     }
    ],
-   "our_cost": 5.133,
+   "our_cost": 5.1315,
    "ls_cost": 5.13,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -7262,15 +7262,15 @@
    "ingredients": [
     {
      "name": "Fish Burrito",
-     "kind": "id",
-     "ref": "lightspeed:20445545",
+     "kind": "subrecipe",
+     "ref": "Fish Burrito",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "5.68",
      "our_cost": null
     }
    ],
-   "our_cost": 5.68,
+   "our_cost": 5.685,
    "ls_cost": 5.68,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -7291,8 +7291,8 @@
     },
     {
      "name": "Burrito Rice [3kg]",
-     "kind": "id",
-     "ref": "lightspeed:23007515",
+     "kind": "subrecipe",
+     "ref": "Burrito Rice [3kg]",
      "qty": "250",
      "unit": "g",
      "ls_cost": "0.33",
@@ -7300,8 +7300,8 @@
     },
     {
      "name": "Guacamole [4kg]",
-     "kind": "id",
-     "ref": "lightspeed:22975201",
+     "kind": "subrecipe",
+     "ref": "Guacamole [4kg]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.48",
@@ -7309,8 +7309,8 @@
     },
     {
      "name": "Pico de Gallo [2.5kg]",
-     "kind": "id",
-     "ref": "lightspeed:22493876",
+     "kind": "subrecipe",
+     "ref": "Pico de Gallo [2.5kg]",
      "qty": "45",
      "unit": "g",
      "ls_cost": "0.22",
@@ -7336,8 +7336,8 @@
     },
     {
      "name": "Black Beans Prep",
-     "kind": "id",
-     "ref": "lightspeed:22975205",
+     "kind": "subrecipe",
+     "ref": "Black Beans Prep",
      "qty": "100",
      "unit": "g",
      "ls_cost": "0.36",
@@ -7345,8 +7345,8 @@
     },
     {
      "name": "Chipotle Mayo [1.1kg]",
-     "kind": "id",
-     "ref": "lightspeed:23007584",
+     "kind": "subrecipe",
+     "ref": "Chipotle Mayo [1.1kg]",
      "qty": "85",
      "unit": "g",
      "ls_cost": "0.55",
@@ -7363,8 +7363,8 @@
     },
     {
      "name": "Mexican Fish Prep",
-     "kind": "id",
-     "ref": "lightspeed:23012350",
+     "kind": "subrecipe",
+     "ref": "Mexican Fish Prep",
      "qty": "110",
      "unit": "g",
      "ls_cost": "1.85",
@@ -7392,15 +7392,15 @@
     },
     {
      "name": "Fish Cajun Marination",
-     "kind": "id",
-     "ref": "lightspeed:22971324",
+     "kind": "subrecipe",
+     "ref": "Fish Cajun Marination",
      "qty": "82",
      "unit": "g",
      "ls_cost": "1.12",
      "our_cost": null
     }
    ],
-   "our_cost": 84.12,
+   "our_cost": 84.1236,
    "ls_cost": 84.12,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -7495,15 +7495,15 @@
    "ingredients": [
     {
      "name": "Cauliflower Burrito",
-     "kind": "id",
-     "ref": "lightspeed:20445546",
+     "kind": "subrecipe",
+     "ref": "Cauliflower Burrito",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "5.32",
      "our_cost": null
     }
    ],
-   "our_cost": 5.32,
+   "our_cost": 5.3216,
    "ls_cost": 5.32,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -7533,8 +7533,8 @@
     },
     {
      "name": "Chipotle Mayo [1.1kg]",
-     "kind": "id",
-     "ref": "lightspeed:23007584",
+     "kind": "subrecipe",
+     "ref": "Chipotle Mayo [1.1kg]",
      "qty": "60",
      "unit": "g",
      "ls_cost": "0.39",
@@ -7589,8 +7589,8 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "1000",
      "unit": "ml",
      "ls_cost": "2.03",
@@ -7606,7 +7606,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 261.6826,
+   "our_cost": 261.6907,
    "ls_cost": 261.69,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -7627,8 +7627,8 @@
     },
     {
      "name": "Salsa Rosa Prep",
-     "kind": "id",
-     "ref": "lightspeed:22493931",
+     "kind": "subrecipe",
+     "ref": "Salsa Rosa Prep",
      "qty": "300",
      "unit": "ml",
      "ls_cost": "2.92",
@@ -7662,7 +7662,7 @@
      "our_cost": "0.037500"
     }
    ],
-   "our_cost": 30.68,
+   "our_cost": 30.6675,
    "ls_cost": 30.68,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -7674,15 +7674,15 @@
    "ingredients": [
     {
      "name": "Beef Burrito",
-     "kind": "id",
-     "ref": "lightspeed:20445547",
+     "kind": "subrecipe",
+     "ref": "Beef Burrito",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "7.63",
      "our_cost": null
     }
    ],
-   "our_cost": 7.63,
+   "our_cost": 7.6306,
    "ls_cost": 7.63,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -7703,8 +7703,8 @@
     },
     {
      "name": "Burrito Rice [3kg]",
-     "kind": "id",
-     "ref": "lightspeed:23007515",
+     "kind": "subrecipe",
+     "ref": "Burrito Rice [3kg]",
      "qty": "250",
      "unit": "g",
      "ls_cost": "0.33",
@@ -7712,8 +7712,8 @@
     },
     {
      "name": "Guacamole [4kg]",
-     "kind": "id",
-     "ref": "lightspeed:22975201",
+     "kind": "subrecipe",
+     "ref": "Guacamole [4kg]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.48",
@@ -7721,8 +7721,8 @@
     },
     {
      "name": "Pico de Gallo [2.5kg]",
-     "kind": "id",
-     "ref": "lightspeed:22493876",
+     "kind": "subrecipe",
+     "ref": "Pico de Gallo [2.5kg]",
      "qty": "45",
      "unit": "g",
      "ls_cost": "0.22",
@@ -7739,8 +7739,8 @@
     },
     {
      "name": "Cooked Beef Brisket [1Kg]",
-     "kind": "id",
-     "ref": "lightspeed:22975377",
+     "kind": "subrecipe",
+     "ref": "Cooked Beef Brisket [1Kg]",
      "qty": "225",
      "unit": "g",
      "ls_cost": "3.03",
@@ -7757,8 +7757,8 @@
     },
     {
      "name": "Black Beans Prep",
-     "kind": "id",
-     "ref": "lightspeed:22975205",
+     "kind": "subrecipe",
+     "ref": "Black Beans Prep",
      "qty": "100",
      "unit": "g",
      "ls_cost": "0.36",
@@ -7766,8 +7766,8 @@
     },
     {
      "name": "Lime [ea]",
-     "kind": "id",
-     "ref": "lightspeed:20564868",
+     "kind": "subrecipe",
+     "ref": "Lime [ea]",
      "qty": "0.125",
      "unit": "ml",
      "ls_cost": "0.06",
@@ -7784,15 +7784,15 @@
     },
     {
      "name": "Chipotle Mayo [1.1kg]",
-     "kind": "id",
-     "ref": "lightspeed:23007584",
+     "kind": "subrecipe",
+     "ref": "Chipotle Mayo [1.1kg]",
      "qty": "85",
      "unit": "g",
      "ls_cost": "0.55",
      "our_cost": null
     }
    ],
-   "our_cost": 6.78,
+   "our_cost": 6.7805,
    "ls_cost": 6.78,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -7922,7 +7922,7 @@
    ],
    "our_cost": 141.2894,
    "ls_cost": 141.26,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -7989,7 +7989,7 @@
    "ls_cost": 12.42,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": false,
+   "is_prep": true,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -8006,8 +8006,8 @@
     },
     {
      "name": "Burrito Rice [3kg]",
-     "kind": "id",
-     "ref": "lightspeed:23007515",
+     "kind": "subrecipe",
+     "ref": "Burrito Rice [3kg]",
      "qty": "250",
      "unit": "g",
      "ls_cost": "0.33",
@@ -8015,8 +8015,8 @@
     },
     {
      "name": "Guacamole [4kg]",
-     "kind": "id",
-     "ref": "lightspeed:22975201",
+     "kind": "subrecipe",
+     "ref": "Guacamole [4kg]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.48",
@@ -8024,8 +8024,8 @@
     },
     {
      "name": "Pico de Gallo [2.5kg]",
-     "kind": "id",
-     "ref": "lightspeed:22493876",
+     "kind": "subrecipe",
+     "ref": "Pico de Gallo [2.5kg]",
      "qty": "45",
      "unit": "g",
      "ls_cost": "0.22",
@@ -8042,8 +8042,8 @@
     },
     {
      "name": "Achiote Chicken [15Kg]",
-     "kind": "id",
-     "ref": "lightspeed:22975378",
+     "kind": "subrecipe",
+     "ref": "Achiote Chicken [15Kg]",
      "qty": "175",
      "unit": "g",
      "ls_cost": "3.05",
@@ -8060,8 +8060,8 @@
     },
     {
      "name": "Black Beans Prep",
-     "kind": "id",
-     "ref": "lightspeed:22975205",
+     "kind": "subrecipe",
+     "ref": "Black Beans Prep",
      "qty": "100",
      "unit": "g",
      "ls_cost": "0.36",
@@ -8069,8 +8069,8 @@
     },
     {
      "name": "Lime [ea]",
-     "kind": "id",
-     "ref": "lightspeed:20564868",
+     "kind": "subrecipe",
+     "ref": "Lime [ea]",
      "qty": "0.125",
      "unit": "ml",
      "ls_cost": "0.06",
@@ -8078,8 +8078,8 @@
     },
     {
      "name": "Chipotle Mayo [1.1kg]",
-     "kind": "id",
-     "ref": "lightspeed:23007584",
+     "kind": "subrecipe",
+     "ref": "Chipotle Mayo [1.1kg]",
      "qty": "85",
      "unit": "g",
      "ls_cost": "0.55",
@@ -8095,7 +8095,7 @@
      "our_cost": "0.005500"
     }
    ],
-   "our_cost": 6.8,
+   "our_cost": 6.7999,
    "ls_cost": 6.8,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8116,15 +8116,15 @@
     },
     {
      "name": "Burrito Rice Sauce",
-     "kind": "id",
-     "ref": "lightspeed:22996434",
+     "kind": "subrecipe",
+     "ref": "Burrito Rice Sauce",
      "qty": "250",
      "unit": "g",
      "ls_cost": "2.02",
      "our_cost": null
     }
    ],
-   "our_cost": 3.96,
+   "our_cost": 3.9468,
    "ls_cost": 3.96,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8136,15 +8136,15 @@
    "ingredients": [
     {
      "name": "Chicken Burrito",
-     "kind": "id",
-     "ref": "lightspeed:20445532",
+     "kind": "subrecipe",
+     "ref": "Chicken Burrito",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "7.45",
      "our_cost": null
     }
    ],
-   "our_cost": 7.45,
+   "our_cost": 7.4499,
    "ls_cost": 7.45,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8156,8 +8156,8 @@
    "ingredients": [
     {
      "name": "Salsa Rosa Prep",
-     "kind": "id",
-     "ref": "lightspeed:22493931",
+     "kind": "subrecipe",
+     "ref": "Salsa Rosa Prep",
      "qty": "300",
      "unit": "ml",
      "ls_cost": "2.92",
@@ -8201,8 +8201,8 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "100",
      "unit": "ml",
      "ls_cost": "0.20",
@@ -8219,19 +8219,19 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "500",
      "unit": "g",
      "ls_cost": "1.88",
      "our_cost": null
     }
    ],
-   "our_cost": 8.4008,
+   "our_cost": 8.3452,
    "ls_cost": 8.4,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": false,
+   "is_prep": true,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -8239,8 +8239,8 @@
    "ingredients": [
     {
      "name": "Achiote Chicken [15Kg]",
-     "kind": "id",
-     "ref": "lightspeed:22975378",
+     "kind": "subrecipe",
+     "ref": "Achiote Chicken [15Kg]",
      "qty": "150",
      "unit": "g",
      "ls_cost": "2.62",
@@ -8284,15 +8284,15 @@
     },
     {
      "name": "Buffalo Aioli [1L]",
-     "kind": "id",
-     "ref": "lightspeed:22995590",
+     "kind": "subrecipe",
+     "ref": "Buffalo Aioli [1L]",
      "qty": "50",
      "unit": "g",
      "ls_cost": "0.35",
      "our_cost": null
     }
    ],
-   "our_cost": 4.4459,
+   "our_cost": 4.4464,
    "ls_cost": 4.45,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8324,15 +8324,15 @@
    "ingredients": [
     {
      "name": "Regular Jimmy Jury",
-     "kind": "id",
-     "ref": "lightspeed:22038548",
+     "kind": "subrecipe",
+     "ref": "Regular Jimmy Jury",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.28",
      "our_cost": null
     }
    ],
-   "our_cost": 3.28,
+   "our_cost": 3.2714,
    "ls_cost": 3.28,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8344,15 +8344,15 @@
    "ingredients": [
     {
      "name": "Regular Jimmy Jury",
-     "kind": "id",
-     "ref": "lightspeed:22038548",
+     "kind": "subrecipe",
+     "ref": "Regular Jimmy Jury",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.28",
      "our_cost": null
     }
    ],
-   "our_cost": 3.28,
+   "our_cost": 3.2714,
    "ls_cost": 3.28,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8364,8 +8364,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "190",
      "unit": "g",
      "ls_cost": "0.17",
@@ -8373,8 +8373,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.21",
@@ -8418,8 +8418,8 @@
     },
     {
      "name": "J.J. Aioli [Batch]",
-     "kind": "id",
-     "ref": "lightspeed:22523868",
+     "kind": "subrecipe",
+     "ref": "J.J. Aioli [Batch]",
      "qty": "30",
      "unit": "g",
      "ls_cost": "0.22",
@@ -8444,7 +8444,7 @@
      "our_cost": "0.030000"
     }
    ],
-   "our_cost": 3.3365,
+   "our_cost": 3.3312,
    "ls_cost": 3.34,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8485,15 +8485,15 @@
    "ingredients": [
     {
      "name": "Buffalo Wings",
-     "kind": "id",
-     "ref": "lightspeed:20470897",
+     "kind": "subrecipe",
+     "ref": "Buffalo Wings",
      "qty": "0.125",
      "unit": "ml",
      "ls_cost": "0.37",
      "our_cost": null
     }
    ],
-   "our_cost": 0.37,
+   "our_cost": 0.3698,
    "ls_cost": 0.37,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8505,8 +8505,8 @@
    "ingredients": [
     {
      "name": "BBQ Wings",
-     "kind": "id",
-     "ref": "lightspeed:20445521",
+     "kind": "subrecipe",
+     "ref": "BBQ Wings",
      "qty": "0.125",
      "unit": "ml",
      "ls_cost": "0.39",
@@ -8525,15 +8525,15 @@
    "ingredients": [
     {
      "name": "Buffalo Wings",
-     "kind": "id",
-     "ref": "lightspeed:20470897",
+     "kind": "subrecipe",
+     "ref": "Buffalo Wings",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.98",
      "our_cost": null
     }
    ],
-   "our_cost": 2.98,
+   "our_cost": 2.9781,
    "ls_cost": 2.98,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8545,8 +8545,8 @@
    "ingredients": [
     {
      "name": "BBQ Wings",
-     "kind": "id",
-     "ref": "lightspeed:20445521",
+     "kind": "subrecipe",
+     "ref": "BBQ Wings",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.14",
@@ -8574,8 +8574,8 @@
     },
     {
      "name": "House BBQ Sauce [11L]",
-     "kind": "id",
-     "ref": "lightspeed:22992789",
+     "kind": "subrecipe",
+     "ref": "House BBQ Sauce [11L]",
      "qty": "35",
      "unit": "ml",
      "ls_cost": "0.14",
@@ -8594,8 +8594,8 @@
    "ingredients": [
     {
      "name": "Blue Cheese Dip [5.5kg]",
-     "kind": "id",
-     "ref": "lightspeed:22989452",
+     "kind": "subrecipe",
+     "ref": "Blue Cheese Dip [5.5kg]",
      "qty": "35",
      "unit": "g",
      "ls_cost": "0.31",
@@ -8653,7 +8653,7 @@
    "ls_cost": 48.25,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": false,
+   "is_prep": true,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -8681,8 +8681,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "190",
      "unit": "g",
      "ls_cost": "0.17",
@@ -8690,8 +8690,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.21",
@@ -8761,7 +8761,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 2.9078,
+   "our_cost": 2.9029,
    "ls_cost": 2.91,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8773,8 +8773,8 @@
    "ingredients": [
     {
      "name": "Regular Hail Africa",
-     "kind": "subrecipe",
-     "ref": "Regular Hail Africa [Dine-in]",
+     "kind": "id",
+     "ref": "lightspeed:20564994",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.86",
@@ -8785,16 +8785,16 @@
    "ls_cost": 2.86,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": null
+   "gp_pct": 84.3
   },
   "Regular Margherita [Dine-in]": {
    "ingredients": [
     {
      "name": "Regular Margherita",
-     "kind": "subrecipe",
-     "ref": "Regular Margherita [Dine-in]",
+     "kind": "id",
+     "ref": "lightspeed:20468412",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "1.16",
@@ -8805,9 +8805,9 @@
    "ls_cost": 1.16,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 90.9
   },
   "House BBQ Sauce [11L]": {
    "ingredients": [
@@ -8842,8 +8842,8 @@
    "ingredients": [
     {
      "name": "Salsa Rosa Prep",
-     "kind": "id",
-     "ref": "lightspeed:22493931",
+     "kind": "subrecipe",
+     "ref": "Salsa Rosa Prep",
      "qty": "300",
      "unit": "ml",
      "ls_cost": "2.92",
@@ -8896,15 +8896,15 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "100",
      "unit": "ml",
      "ls_cost": "0.20",
      "our_cost": null
     }
    ],
-   "our_cost": 4.6431,
+   "our_cost": 4.6315,
    "ls_cost": 4.64,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8961,15 +8961,15 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "100",
      "unit": "ml",
      "ls_cost": "0.20",
      "our_cost": null
     }
    ],
-   "our_cost": 32.4125,
+   "our_cost": 32.4133,
    "ls_cost": 32.41,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -9000,7 +9000,7 @@
    ],
    "our_cost": 3.72,
    "ls_cost": 3.72,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 12.9,
@@ -9019,8 +9019,8 @@
     },
     {
      "name": "Salsa Rosa Prep",
-     "kind": "id",
-     "ref": "lightspeed:22493931",
+     "kind": "subrecipe",
+     "ref": "Salsa Rosa Prep",
      "qty": "200",
      "unit": "ml",
      "ls_cost": "1.95",
@@ -9081,7 +9081,7 @@
      "our_cost": "0.037500"
     }
    ],
-   "our_cost": 12.4206,
+   "our_cost": 12.4123,
    "ls_cost": 12.43,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -9121,7 +9121,7 @@
    ],
    "our_cost": 22.7701,
    "ls_cost": 22.77,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -9193,7 +9193,7 @@
      "our_cost": "0.037500"
     }
    ],
-   "our_cost": 24.6065,
+   "our_cost": 24.4749,
    "ls_cost": 24.58,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -9244,7 +9244,7 @@
    "ls_cost": 16.37,
    "fully_our_book": true,
    "resolved_pct": 100,
-   "is_prep": false,
+   "is_prep": true,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -9273,7 +9273,7 @@
    "ls_cost": 14.83,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": false,
+   "is_prep": true,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -9300,7 +9300,7 @@
    ],
    "our_cost": 23.72,
    "ls_cost": 23.72,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": null,
@@ -9328,8 +9328,8 @@
     },
     {
      "name": "Carnaval Fruit Mix",
-     "kind": "id",
-     "ref": "lightspeed:22893737",
+     "kind": "subrecipe",
+     "ref": "Carnaval Fruit Mix",
      "qty": "120",
      "unit": "g",
      "ls_cost": "0.14",
@@ -9346,8 +9346,8 @@
     },
     {
      "name": "Demerara Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22893756",
+     "kind": "subrecipe",
+     "ref": "Demerara Syrup",
      "qty": "5",
      "unit": "ml",
      "ls_cost": "0.15",
@@ -9366,8 +9366,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "190",
      "unit": "g",
      "ls_cost": "0.17",
@@ -9375,8 +9375,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.21",
@@ -9455,7 +9455,7 @@
      "our_cost": "0.030000"
     }
    ],
-   "our_cost": 3.3822,
+   "our_cost": 3.3773,
    "ls_cost": 3.4,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -9487,8 +9487,8 @@
    "ingredients": [
     {
      "name": "Regular Sanchez",
-     "kind": "subrecipe",
-     "ref": "Regular Sanchez [Dine-in]",
+     "kind": "id",
+     "ref": "lightspeed:20468099",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.33",
@@ -9499,16 +9499,16 @@
    "ls_cost": 3.33,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": null
+   "gp_pct": 81.2
   },
   "Regular The Paddock [Dine-in]": {
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "190",
      "unit": "g",
      "ls_cost": "0.17",
@@ -9516,8 +9516,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.21",
@@ -9578,7 +9578,7 @@
      "our_cost": "0.030000"
     }
    ],
-   "our_cost": 3.1049,
+   "our_cost": 3.1,
    "ls_cost": 3.11,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -9590,15 +9590,15 @@
    "ingredients": [
     {
      "name": "Regular The Paddock [Dine-in]",
-     "kind": "id",
-     "ref": "lightspeed:20565201",
+     "kind": "subrecipe",
+     "ref": "Regular The Paddock [Dine-in]",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.22",
      "our_cost": null
     }
    ],
-   "our_cost": 3.22,
+   "our_cost": 3.2096,
    "ls_cost": 3.22,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -9610,28 +9610,28 @@
    "ingredients": [
     {
      "name": "Regular The Paddock [Dine-in]",
-     "kind": "id",
-     "ref": "lightspeed:20565201",
+     "kind": "subrecipe",
+     "ref": "Regular The Paddock [Dine-in]",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.22",
      "our_cost": null
     }
    ],
-   "our_cost": 3.22,
+   "our_cost": 3.2096,
    "ls_cost": 3.22,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 81.8
+   "gp_pct": 81.9
   },
   "Regular No Chorizo, No Cry": {
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "190",
      "unit": "g",
      "ls_cost": "0.17",
@@ -9639,8 +9639,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.21",
@@ -9684,8 +9684,8 @@
     },
     {
      "name": "Garlic Oil [Batch]",
-     "kind": "id",
-     "ref": "lightspeed:22523808",
+     "kind": "subrecipe",
+     "ref": "Garlic Oil [Batch]",
      "qty": "15",
      "unit": "g",
      "ls_cost": "0.02",
@@ -9710,7 +9710,7 @@
      "our_cost": "0.030000"
     }
    ],
-   "our_cost": 2.4301,
+   "our_cost": 2.4252,
    "ls_cost": 2.44,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -9742,8 +9742,8 @@
    "ingredients": [
     {
      "name": "Regular No Chorizo, No Cry",
-     "kind": "subrecipe",
-     "ref": "Regular No Chorizo, No Cry [Dine-in]",
+     "kind": "id",
+     "ref": "lightspeed:20565022",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.78",
@@ -9754,56 +9754,56 @@
    "ls_cost": 2.78,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": null
+   "gp_pct": 84.3
   },
   "Regular Little Italy Solo Combo": {
    "ingredients": [
     {
      "name": "Regular Little Italy",
-     "kind": "id",
-     "ref": "lightspeed:20565000",
+     "kind": "subrecipe",
+     "ref": "Regular Little Italy",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.74",
      "our_cost": null
     }
    ],
-   "our_cost": 4.74,
+   "our_cost": 4.7201,
    "ls_cost": 4.74,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 73.9
+   "gp_pct": 74.0
   },
   "Regular Little Italy [Dine-in]": {
    "ingredients": [
     {
      "name": "Regular Little Italy",
-     "kind": "id",
-     "ref": "lightspeed:20565000",
+     "kind": "subrecipe",
+     "ref": "Regular Little Italy",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.74",
      "our_cost": null
     }
    ],
-   "our_cost": 4.74,
+   "our_cost": 4.7201,
    "ls_cost": 4.74,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 73.3
+   "gp_pct": 73.4
   },
   "Regular Little Italy": {
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "190",
      "unit": "g",
      "ls_cost": "0.17",
@@ -9811,8 +9811,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.21",
@@ -9891,60 +9891,60 @@
      "our_cost": null
     }
    ],
-   "our_cost": 4.8,
+   "our_cost": 4.7898,
    "ls_cost": 4.81,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 72.9
+   "gp_pct": 73.0
   },
   "Regular Pepperoni Solo Combo": {
    "ingredients": [
     {
      "name": "Pepperoni [Dine-in]",
-     "kind": "id",
-     "ref": "lightspeed:20445610",
+     "kind": "subrecipe",
+     "ref": "Pepperoni [Dine-in]",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.07",
      "our_cost": null
     }
    ],
-   "our_cost": 2.07,
+   "our_cost": 2.0579,
    "ls_cost": 2.07,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 88.6
+   "gp_pct": 88.7
   },
   "Regular Pepperoni": {
    "ingredients": [
     {
      "name": "Pepperoni [Dine-in]",
-     "kind": "id",
-     "ref": "lightspeed:20445610",
+     "kind": "subrecipe",
+     "ref": "Pepperoni [Dine-in]",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.07",
      "our_cost": null
     }
    ],
-   "our_cost": 2.07,
+   "our_cost": 2.0579,
    "ls_cost": 2.07,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 15.0,
-   "gp_pct": 84.8
+   "gp_pct": 84.9
   },
   "Pepperoni [Dine-in]": {
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "190",
      "unit": "g",
      "ls_cost": "0.17",
@@ -9952,8 +9952,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "55",
      "unit": "g",
      "ls_cost": "0.21",
@@ -9970,8 +9970,8 @@
     },
     {
      "name": "Pepperoni [3kg]",
-     "kind": "subrecipe",
-     "ref": "Pepperoni [Dine-in]",
+     "kind": "id",
+     "ref": "lightspeed:20445610",
      "qty": "67",
      "unit": "g",
      "ls_cost": "1.21",
@@ -9987,7 +9987,7 @@
      "our_cost": "0.030000"
     }
    ],
-   "our_cost": 2.1225,
+   "our_cost": 2.1176,
    "ls_cost": 2.13,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10019,8 +10019,8 @@
    "ingredients": [
     {
      "name": "Regular Vegetarian",
-     "kind": "subrecipe",
-     "ref": "Regular Vegetarian [Dine-in]",
+     "kind": "id",
+     "ref": "lightspeed:20468249",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.30",
@@ -10031,9 +10031,9 @@
    "ls_cost": 2.3,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 16.0,
-   "gp_pct": null
+   "gp_pct": 84.2
   },
   "Regular Hawaiian Solo Combo": {
    "ingredients": [
@@ -10059,8 +10059,8 @@
    "ingredients": [
     {
      "name": "Regular Hawaiian",
-     "kind": "subrecipe",
-     "ref": "Regular Hawaiian [Dine-in]",
+     "kind": "id",
+     "ref": "lightspeed:20468020",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "1.91",
@@ -10071,9 +10071,9 @@
    "ls_cost": 1.91,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 15.0,
-   "gp_pct": null
+   "gp_pct": 86.0
   },
   "Regular Margherita Solo Combo": {
    "ingredients": [
@@ -10144,8 +10144,8 @@
     },
     {
      "name": "Passionfruit Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843677",
+     "kind": "subrecipe",
+     "ref": "Passionfruit Syrup",
      "qty": "2",
      "unit": "ml",
      "ls_cost": "0.02",
@@ -10153,15 +10153,15 @@
     },
     {
      "name": "Super Lemon Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21020206",
+     "kind": "subrecipe",
+     "ref": "Super Lemon Juice [1L]",
      "qty": "15",
      "unit": "ml",
      "ls_cost": "0.02",
      "our_cost": null
     }
    ],
-   "our_cost": 3.5592,
+   "our_cost": 3.5586,
    "ls_cost": 3.52,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10209,8 +10209,8 @@
     },
     {
      "name": "Sugar Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843872",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
      "qty": "10",
      "unit": "ml",
      "ls_cost": "0.02",
@@ -10236,8 +10236,8 @@
     },
     {
      "name": "Super Lemon Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21020206",
+     "kind": "subrecipe",
+     "ref": "Super Lemon Juice [1L]",
      "qty": "20",
      "unit": "ml",
      "ls_cost": "0.02",
@@ -10245,15 +10245,15 @@
     },
     {
      "name": "Passionfruit Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843677",
+     "kind": "subrecipe",
+     "ref": "Passionfruit Syrup",
      "qty": "5",
      "unit": "ml",
      "ls_cost": "0.04",
      "our_cost": null
     }
    ],
-   "our_cost": 4.1003,
+   "our_cost": 4.0997,
    "ls_cost": 4.1,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10277,7 +10277,7 @@
    "ls_cost": 17.2,
    "fully_our_book": true,
    "resolved_pct": 100,
-   "is_prep": false,
+   "is_prep": true,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -10312,8 +10312,8 @@
     },
     {
      "name": "Dragon Soda [1L]",
-     "kind": "id",
-     "ref": "lightspeed:22893718",
+     "kind": "subrecipe",
+     "ref": "Dragon Soda [1L]",
      "qty": "330",
      "unit": "ml",
      "ls_cost": "0.62",
@@ -10321,15 +10321,15 @@
     },
     {
      "name": "Passionfruit Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843677",
+     "kind": "subrecipe",
+     "ref": "Passionfruit Syrup",
      "qty": "445",
      "unit": "ml",
      "ls_cost": "3.39",
      "our_cost": null
     }
    ],
-   "our_cost": 29.3801,
+   "our_cost": 29.3787,
    "ls_cost": 29.38,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10350,8 +10350,8 @@
     },
     {
      "name": "Sugar Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843872",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
      "qty": "43",
      "unit": "ml",
      "ls_cost": "0.07",
@@ -10369,7 +10369,7 @@
    ],
    "our_cost": 1.8677,
    "ls_cost": 1.87,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": 9.0,
@@ -10406,8 +10406,8 @@
     },
     {
      "name": "Passionfruit Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843677",
+     "kind": "subrecipe",
+     "ref": "Passionfruit Syrup",
      "qty": "15",
      "unit": "ml",
      "ls_cost": "0.11",
@@ -10424,8 +10424,8 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "0.06",
@@ -10433,15 +10433,15 @@
     },
     {
      "name": "Sugar Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843872",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
      "qty": "9",
      "unit": "ml",
      "ls_cost": "0.01",
      "our_cost": null
     }
    ],
-   "our_cost": 3.6577,
+   "our_cost": 3.6579,
    "ls_cost": 3.66,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10474,7 +10474,7 @@
    "ls_cost": 12.2,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": false,
+   "is_prep": true,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -10538,8 +10538,8 @@
    "ingredients": [
     {
      "name": "Lime [ea]",
-     "kind": "id",
-     "ref": "lightspeed:20564868",
+     "kind": "subrecipe",
+     "ref": "Lime [ea]",
      "qty": "3",
      "unit": "ml",
      "ls_cost": "1.50",
@@ -10594,15 +10594,15 @@
    "ingredients": [
     {
      "name": "Large Uber Margherita",
-     "kind": "id",
-     "ref": "lightspeed:20565077",
+     "kind": "subrecipe",
+     "ref": "Large Uber Margherita",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.13",
      "our_cost": null
     }
    ],
-   "our_cost": 3.13,
+   "our_cost": 3.1209,
    "ls_cost": 3.13,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10614,15 +10614,15 @@
    "ingredients": [
     {
      "name": "Large Uber Margherita",
-     "kind": "id",
-     "ref": "lightspeed:20565077",
+     "kind": "subrecipe",
+     "ref": "Large Uber Margherita",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.13",
      "our_cost": null
     }
    ],
-   "our_cost": 3.13,
+   "our_cost": 3.1209,
    "ls_cost": 3.13,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10634,15 +10634,15 @@
    "ingredients": [
     {
      "name": "Large Uber Margherita",
-     "kind": "id",
-     "ref": "lightspeed:20565077",
+     "kind": "subrecipe",
+     "ref": "Large Uber Margherita",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.13",
      "our_cost": null
     }
    ],
-   "our_cost": 3.13,
+   "our_cost": 3.1209,
    "ls_cost": 3.13,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10654,15 +10654,15 @@
    "ingredients": [
     {
      "name": "Large Roma Special",
-     "kind": "id",
-     "ref": "lightspeed:20468095",
+     "kind": "subrecipe",
+     "ref": "Large Roma Special",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.39",
      "our_cost": null
     }
    ],
-   "our_cost": 4.39,
+   "our_cost": 4.3832,
    "ls_cost": 4.39,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10674,15 +10674,15 @@
    "ingredients": [
     {
      "name": "Large Roma Special",
-     "kind": "id",
-     "ref": "lightspeed:20468095",
+     "kind": "subrecipe",
+     "ref": "Large Roma Special",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.39",
      "our_cost": null
     }
    ],
-   "our_cost": 4.39,
+   "our_cost": 4.3832,
    "ls_cost": 4.39,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10694,15 +10694,15 @@
    "ingredients": [
     {
      "name": "Large Roma Special",
-     "kind": "id",
-     "ref": "lightspeed:20468095",
+     "kind": "subrecipe",
+     "ref": "Large Roma Special",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.39",
      "our_cost": null
     }
    ],
-   "our_cost": 4.39,
+   "our_cost": 4.3832,
    "ls_cost": 4.39,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10714,15 +10714,15 @@
    "ingredients": [
     {
      "name": "Large Truffalo Soldier",
-     "kind": "id",
-     "ref": "lightspeed:20565068",
+     "kind": "subrecipe",
+     "ref": "Large Truffalo Soldier",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.27",
      "our_cost": null
     }
    ],
-   "our_cost": 3.27,
+   "our_cost": 3.2692,
    "ls_cost": 3.27,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10734,15 +10734,15 @@
    "ingredients": [
     {
      "name": "Large Truffalo Soldier",
-     "kind": "id",
-     "ref": "lightspeed:20565068",
+     "kind": "subrecipe",
+     "ref": "Large Truffalo Soldier",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.27",
      "our_cost": null
     }
    ],
-   "our_cost": 3.27,
+   "our_cost": 3.2692,
    "ls_cost": 3.27,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10754,15 +10754,15 @@
    "ingredients": [
     {
      "name": "Large Truffalo Soldier",
-     "kind": "id",
-     "ref": "lightspeed:20565068",
+     "kind": "subrecipe",
+     "ref": "Large Truffalo Soldier",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.27",
      "our_cost": null
     }
    ],
-   "our_cost": 3.27,
+   "our_cost": 3.2692,
    "ls_cost": 3.27,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10774,75 +10774,75 @@
    "ingredients": [
     {
      "name": "Large Meatlovers",
-     "kind": "id",
-     "ref": "lightspeed:20468049",
+     "kind": "subrecipe",
+     "ref": "Large Meatlovers",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.95",
      "our_cost": null
     }
    ],
-   "our_cost": 5.95,
+   "our_cost": 5.935,
    "ls_cost": 5.95,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 66.4
+   "gp_pct": 66.5
   },
   "Regular Meatlovers [Dine-in]": {
    "ingredients": [
     {
      "name": "Large Meatlovers",
-     "kind": "id",
-     "ref": "lightspeed:20468049",
+     "kind": "subrecipe",
+     "ref": "Large Meatlovers",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.95",
      "our_cost": null
     }
    ],
-   "our_cost": 5.95,
+   "our_cost": 5.935,
    "ls_cost": 5.95,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 66.4
+   "gp_pct": 66.5
   },
   "Regular Meatlovers Solo Combo": {
    "ingredients": [
     {
      "name": "Large Meatlovers",
-     "kind": "id",
-     "ref": "lightspeed:20468049",
+     "kind": "subrecipe",
+     "ref": "Large Meatlovers",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.95",
      "our_cost": null
     }
    ],
-   "our_cost": 5.95,
+   "our_cost": 5.935,
    "ls_cost": 5.95,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 67.3
+   "gp_pct": 67.4
   },
   "Regular Cosmopolitan": {
    "ingredients": [
     {
      "name": "Large Cosmopolitan",
-     "kind": "id",
-     "ref": "lightspeed:20467998",
+     "kind": "subrecipe",
+     "ref": "Large Cosmopolitan",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.84",
      "our_cost": null
     }
    ],
-   "our_cost": 4.84,
+   "our_cost": 4.8328,
    "ls_cost": 4.84,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10854,15 +10854,15 @@
    "ingredients": [
     {
      "name": "Large Cosmopolitan",
-     "kind": "id",
-     "ref": "lightspeed:20467998",
+     "kind": "subrecipe",
+     "ref": "Large Cosmopolitan",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.84",
      "our_cost": null
     }
    ],
-   "our_cost": 4.84,
+   "our_cost": 4.8328,
    "ls_cost": 4.84,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10874,15 +10874,15 @@
    "ingredients": [
     {
      "name": "Large Cosmopolitan",
-     "kind": "id",
-     "ref": "lightspeed:20467998",
+     "kind": "subrecipe",
+     "ref": "Large Cosmopolitan",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.84",
      "our_cost": null
     }
    ],
-   "our_cost": 4.84,
+   "our_cost": 4.8328,
    "ls_cost": 4.84,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10894,15 +10894,15 @@
    "ingredients": [
     {
      "name": "Large BBQ Chicken Pizza",
-     "kind": "id",
-     "ref": "lightspeed:20467968",
+     "kind": "subrecipe",
+     "ref": "Large BBQ Chicken Pizza",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.11",
      "our_cost": null
     }
    ],
-   "our_cost": 3.11,
+   "our_cost": 3.1059,
    "ls_cost": 3.11,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10914,15 +10914,15 @@
    "ingredients": [
     {
      "name": "Large BBQ Chicken Pizza",
-     "kind": "id",
-     "ref": "lightspeed:20467968",
+     "kind": "subrecipe",
+     "ref": "Large BBQ Chicken Pizza",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.11",
      "our_cost": null
     }
    ],
-   "our_cost": 3.11,
+   "our_cost": 3.1059,
    "ls_cost": 3.11,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10934,15 +10934,15 @@
    "ingredients": [
     {
      "name": "Large BBQ Chicken Pizza",
-     "kind": "id",
-     "ref": "lightspeed:20467968",
+     "kind": "subrecipe",
+     "ref": "Large BBQ Chicken Pizza",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.11",
      "our_cost": null
     }
    ],
-   "our_cost": 3.11,
+   "our_cost": 3.1059,
    "ls_cost": 3.11,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -10954,75 +10954,75 @@
    "ingredients": [
     {
      "name": "Large Super House Special",
-     "kind": "id",
-     "ref": "lightspeed:20468107",
+     "kind": "subrecipe",
+     "ref": "Large Super House Special",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.74",
      "our_cost": null
     }
    ],
-   "our_cost": 5.74,
+   "our_cost": 5.7267,
    "ls_cost": 5.74,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 67.6
+   "gp_pct": 67.7
   },
   "Regular Super House Special [Dine-in]": {
    "ingredients": [
     {
      "name": "Large Super House Special",
-     "kind": "id",
-     "ref": "lightspeed:20468107",
+     "kind": "subrecipe",
+     "ref": "Large Super House Special",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.74",
      "our_cost": null
     }
    ],
-   "our_cost": 5.74,
+   "our_cost": 5.7267,
    "ls_cost": 5.74,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 67.6
+   "gp_pct": 67.7
   },
   "Regular Super House Special Solo Combo": {
    "ingredients": [
     {
      "name": "Large Super House Special",
-     "kind": "id",
-     "ref": "lightspeed:20468107",
+     "kind": "subrecipe",
+     "ref": "Large Super House Special",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.74",
      "our_cost": null
     }
    ],
-   "our_cost": 5.74,
+   "our_cost": 5.7267,
    "ls_cost": 5.74,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 68.4
+   "gp_pct": 68.5
   },
   "Regular Bubba Gump": {
    "ingredients": [
     {
      "name": "Large Bubba Gump",
-     "kind": "id",
-     "ref": "lightspeed:20467984",
+     "kind": "subrecipe",
+     "ref": "Large Bubba Gump",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.09",
      "our_cost": null
     }
    ],
-   "our_cost": 4.09,
+   "our_cost": 4.0897,
    "ls_cost": 4.09,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -11034,15 +11034,15 @@
    "ingredients": [
     {
      "name": "Large Bubba Gump",
-     "kind": "id",
-     "ref": "lightspeed:20467984",
+     "kind": "subrecipe",
+     "ref": "Large Bubba Gump",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.09",
      "our_cost": null
     }
    ],
-   "our_cost": 4.09,
+   "our_cost": 4.0897,
    "ls_cost": 4.09,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -11054,15 +11054,15 @@
    "ingredients": [
     {
      "name": "Large Bubba Gump",
-     "kind": "id",
-     "ref": "lightspeed:20467984",
+     "kind": "subrecipe",
+     "ref": "Large Bubba Gump",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "4.09",
      "our_cost": null
     }
    ],
-   "our_cost": 4.09,
+   "our_cost": 4.0897,
    "ls_cost": 4.09,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -11074,75 +11074,75 @@
    "ingredients": [
     {
      "name": "Large Tandoori Chicken",
-     "kind": "id",
-     "ref": "lightspeed:20468192",
+     "kind": "subrecipe",
+     "ref": "Large Tandoori Chicken",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.12",
      "our_cost": null
     }
    ],
-   "our_cost": 2.12,
+   "our_cost": 2.1145,
    "ls_cost": 2.12,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 88.0
+   "gp_pct": 88.1
   },
   "Regular Tandoori Chicken [Dine-in]": {
    "ingredients": [
     {
      "name": "Large Tandoori Chicken",
-     "kind": "id",
-     "ref": "lightspeed:20468192",
+     "kind": "subrecipe",
+     "ref": "Large Tandoori Chicken",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.12",
      "our_cost": null
     }
    ],
-   "our_cost": 2.12,
+   "our_cost": 2.1145,
    "ls_cost": 2.12,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 88.0
+   "gp_pct": 88.1
   },
   "Regular Tandoori Chicken Solo Combo": {
    "ingredients": [
     {
      "name": "Large Tandoori Chicken",
-     "kind": "id",
-     "ref": "lightspeed:20468192",
+     "kind": "subrecipe",
+     "ref": "Large Tandoori Chicken",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.12",
      "our_cost": null
     }
    ],
-   "our_cost": 2.12,
+   "our_cost": 2.1145,
    "ls_cost": 2.12,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 88.3
+   "gp_pct": 88.4
   },
   "Regular New Yorker": {
    "ingredients": [
     {
      "name": "Large New Yorker",
-     "kind": "id",
-     "ref": "lightspeed:20565009",
+     "kind": "subrecipe",
+     "ref": "Large New Yorker",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.53",
      "our_cost": null
     }
    ],
-   "our_cost": 3.53,
+   "our_cost": 3.5244,
    "ls_cost": 3.53,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -11154,15 +11154,15 @@
    "ingredients": [
     {
      "name": "Large New Yorker",
-     "kind": "id",
-     "ref": "lightspeed:20565009",
+     "kind": "subrecipe",
+     "ref": "Large New Yorker",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.53",
      "our_cost": null
     }
    ],
-   "our_cost": 3.53,
+   "our_cost": 3.5244,
    "ls_cost": 3.53,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -11174,15 +11174,15 @@
    "ingredients": [
     {
      "name": "Large New Yorker",
-     "kind": "id",
-     "ref": "lightspeed:20565009",
+     "kind": "subrecipe",
+     "ref": "Large New Yorker",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "3.53",
      "our_cost": null
     }
    ],
-   "our_cost": 3.53,
+   "our_cost": 3.5244,
    "ls_cost": 3.53,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -11194,61 +11194,61 @@
    "ingredients": [
     {
      "name": "Large Sanchez VEGAN",
-     "kind": "id",
-     "ref": "lightspeed:20565027",
+     "kind": "subrecipe",
+     "ref": "Large Sanchez VEGAN",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.96",
      "our_cost": null
     }
    ],
-   "our_cost": 2.96,
+   "our_cost": 2.9533,
    "ls_cost": 2.96,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 83.7
+   "gp_pct": 83.8
   },
   "Regular Sanchez VEGAN [Dine-in]": {
    "ingredients": [
     {
      "name": "Large Sanchez VEGAN",
-     "kind": "id",
-     "ref": "lightspeed:20565027",
+     "kind": "subrecipe",
+     "ref": "Large Sanchez VEGAN",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "2.96",
      "our_cost": null
     }
    ],
-   "our_cost": 2.96,
+   "our_cost": 2.9533,
    "ls_cost": 2.96,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 83.7
+   "gp_pct": 83.8
   },
   "Regular Sanchez [Vegan] Solo Combo": {
    "ingredients": [
     {
      "name": "Gluten-free Sanchez VEGAN",
-     "kind": "id",
-     "ref": "lightspeed:20565029",
+     "kind": "subrecipe",
+     "ref": "Gluten-free Sanchez VEGAN",
      "qty": "0.716",
      "unit": "ml",
      "ls_cost": "5.30",
      "our_cost": null
     }
    ],
-   "our_cost": 5.3,
+   "our_cost": 5.2952,
    "ls_cost": 5.3,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 70.8
+   "gp_pct": 70.9
   },
   "Pineapple Juice Glass": {
    "ingredients": [
@@ -11441,19 +11441,19 @@
     },
     {
      "name": "Sugar Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843872",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
      "qty": "840",
      "unit": "ml",
      "ls_cost": "1.34",
      "our_cost": null
     }
    ],
-   "our_cost": 8.1468,
+   "our_cost": 8.1457,
    "ls_cost": 8.11,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
-   "is_prep": false,
+   "is_prep": true,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -11461,8 +11461,8 @@
    "ingredients": [
     {
      "name": "Frozen Marg - Classic",
-     "kind": "id",
-     "ref": "lightspeed:22843981",
+     "kind": "subrecipe",
+     "ref": "Frozen Marg - Classic",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.88",
@@ -11478,7 +11478,7 @@
      "our_cost": "0.028000"
     }
    ],
-   "our_cost": 4.3,
+   "our_cost": 4.3086,
    "ls_cost": 4.3,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -11526,8 +11526,8 @@
     },
     {
      "name": "Sugar Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843872",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
      "qty": "18",
      "unit": "ml",
      "ls_cost": "0.03",
@@ -11535,15 +11535,15 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "36",
      "unit": "ml",
      "ls_cost": "0.07",
      "our_cost": null
     }
    ],
-   "our_cost": 3.5379,
+   "our_cost": 3.5382,
    "ls_cost": 3.54,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -11564,8 +11564,8 @@
     },
     {
      "name": "Super Lime Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21019858",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "0.06",
@@ -11591,8 +11591,8 @@
     },
     {
      "name": "Sugar Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843872",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
      "qty": "10",
      "unit": "ml",
      "ls_cost": "0.02",
@@ -11600,15 +11600,15 @@
     },
     {
      "name": "Jalape\u00f1o Tequila [1L]",
-     "kind": "id",
-     "ref": "lightspeed:22843881",
+     "kind": "subrecipe",
+     "ref": "Jalape\u00f1o Tequila [1L]",
      "qty": "40",
      "unit": "ml",
      "ls_cost": "2.94",
      "our_cost": null
     }
    ],
-   "our_cost": 3.7539,
+   "our_cost": 3.7538,
    "ls_cost": 3.76,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -11705,8 +11705,8 @@
     },
     {
      "name": "Super Lemon Juice [1L]",
-     "kind": "id",
-     "ref": "lightspeed:21020206",
+     "kind": "subrecipe",
+     "ref": "Super Lemon Juice [1L]",
      "qty": "20",
      "unit": "ml",
      "ls_cost": "0.02",
@@ -11723,15 +11723,15 @@
     },
     {
      "name": "Sugar Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22843872",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
      "qty": "10",
      "unit": "ml",
      "ls_cost": "0.02",
      "our_cost": null
     }
    ],
-   "our_cost": 3.6192,
+   "our_cost": 3.6186,
    "ls_cost": 3.62,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -11755,7 +11755,7 @@
    "ls_cost": 2.55,
    "fully_our_book": true,
    "resolved_pct": 100,
-   "is_prep": false,
+   "is_prep": true,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -11763,8 +11763,8 @@
    "ingredients": [
     {
      "name": "Lime [Tray]",
-     "kind": "subrecipe",
-     "ref": "Lime [ea]",
+     "kind": "id",
+     "ref": "lightspeed:20564868",
      "qty": "0.0167",
      "unit": "ml",
      "ls_cost": "0.50",
@@ -11783,17 +11783,17 @@
    "ingredients": [
     {
      "name": "Grapefruit Sherbert",
-     "kind": "id",
-     "ref": "lightspeed:22843702",
+     "kind": "subrecipe",
+     "ref": "Grapefruit Sherbert",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "0.08",
      "our_cost": null
     }
    ],
-   "our_cost": 0.08,
+   "our_cost": 0.0804,
    "ls_cost": 0.08,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 9.0,
@@ -11803,15 +11803,15 @@
    "ingredients": [
     {
      "name": "Margarita PartyJar (6)",
-     "kind": "id",
-     "ref": "lightspeed:20459548",
+     "kind": "subrecipe",
+     "ref": "Margarita PartyJar (6)",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "25.92",
      "our_cost": null
     }
    ],
-   "our_cost": 25.92,
+   "our_cost": 25.915,
    "ls_cost": 25.92,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -11823,15 +11823,15 @@
    "ingredients": [
     {
      "name": "Regular Garlic Cheese Pizza",
-     "kind": "id",
-     "ref": "lightspeed:20467614",
+     "kind": "subrecipe",
+     "ref": "Regular Garlic Cheese Pizza",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "1.36",
      "our_cost": null
     }
    ],
-   "our_cost": 1.36,
+   "our_cost": 1.3622,
    "ls_cost": 1.36,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -11843,8 +11843,8 @@
    "ingredients": [
     {
      "name": "Trentham Estate Ros\u00e9 - Regular",
-     "kind": "id",
-     "ref": "lightspeed:20466116",
+     "kind": "subrecipe",
+     "ref": "Trentham Estate Ros\u00e9 - Regular",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.11",
@@ -11853,7 +11853,7 @@
    ],
    "our_cost": 2.11,
    "ls_cost": 2.11,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 5.0,
@@ -11863,17 +11863,17 @@
    "ingredients": [
     {
      "name": "Version Two Sparkling - Regular",
-     "kind": "id",
-     "ref": "lightspeed:20466133",
+     "kind": "subrecipe",
+     "ref": "Version Two Sparkling - Regular",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "1.77",
      "our_cost": null
     }
    ],
-   "our_cost": 1.77,
+   "our_cost": 1.7667,
    "ls_cost": 1.77,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 5.0,
@@ -11883,17 +11883,17 @@
    "ingredients": [
     {
      "name": "Version Two Pinot Grigio - Regular",
-     "kind": "id",
-     "ref": "lightspeed:20466125",
+     "kind": "subrecipe",
+     "ref": "Version Two Pinot Grigio - Regular",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "1.77",
      "our_cost": null
     }
    ],
-   "our_cost": 1.77,
+   "our_cost": 1.7667,
    "ls_cost": 1.77,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 5.0,
@@ -11903,21 +11903,21 @@
    "ingredients": [
     {
      "name": "Villa Fresco Sangiovese - Regular",
-     "kind": "id",
-     "ref": "lightspeed:20466171",
+     "kind": "subrecipe",
+     "ref": "Villa Fresco Sangiovese - Regular",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.41",
      "our_cost": null
     }
    ],
-   "our_cost": 2.41,
+   "our_cost": 2.4123,
    "ls_cost": 2.41,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 5.0,
-   "gp_pct": 47.0
+   "gp_pct": 46.9
   },
   "$5 Summer Lager Schooner": {
    "ingredients": [
@@ -12015,9 +12015,9 @@
    "ls_cost": 1.42,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 5.0,
-   "gp_pct": null
+   "gp_pct": 68.8
   },
   "Cheesy Garlic Bread": {
    "ingredients": [
@@ -12032,8 +12032,8 @@
     },
     {
      "name": "Garlic Bread",
-     "kind": "id",
-     "ref": "lightspeed:20467596",
+     "kind": "subrecipe",
+     "ref": "Garlic Bread",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "1.42",
@@ -12052,15 +12052,15 @@
    "ingredients": [
     {
      "name": "Large Vegetarian",
-     "kind": "id",
-     "ref": "lightspeed:20468250",
+     "kind": "subrecipe",
+     "ref": "Large Vegetarian",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.02",
      "our_cost": null
     }
    ],
-   "our_cost": 4.02,
+   "our_cost": 4.0133,
    "ls_cost": 4.02,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12072,35 +12072,35 @@
    "ingredients": [
     {
      "name": "Large Uber Margherita",
-     "kind": "id",
-     "ref": "lightspeed:20565077",
+     "kind": "subrecipe",
+     "ref": "Large Uber Margherita",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.38",
      "our_cost": null
     }
    ],
-   "our_cost": 4.38,
+   "our_cost": 4.3673,
    "ls_cost": 4.38,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 83.9
+   "gp_pct": 84.0
   },
   "Large Truffalo Soldier Wings Deal": {
    "ingredients": [
     {
      "name": "Large Truffalo Soldier",
-     "kind": "id",
-     "ref": "lightspeed:20565068",
+     "kind": "subrecipe",
+     "ref": "Large Truffalo Soldier",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.56",
      "our_cost": null
     }
    ],
-   "our_cost": 4.56,
+   "our_cost": 4.5589,
    "ls_cost": 4.56,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12112,55 +12112,55 @@
    "ingredients": [
     {
      "name": "Large Tandoori Chicken",
-     "kind": "id",
-     "ref": "lightspeed:20468192",
+     "kind": "subrecipe",
+     "ref": "Large Tandoori Chicken",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.96",
      "our_cost": null
     }
    ],
-   "our_cost": 2.96,
+   "our_cost": 2.9523,
    "ls_cost": 2.96,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 89.1
+   "gp_pct": 89.2
   },
   "Large Super House Special Wings Deal": {
    "ingredients": [
     {
      "name": "Large Super House Special",
-     "kind": "id",
-     "ref": "lightspeed:20468107",
+     "kind": "subrecipe",
+     "ref": "Large Super House Special",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "8.02",
      "our_cost": null
     }
    ],
-   "our_cost": 8.02,
+   "our_cost": 8.0014,
    "ls_cost": 8.02,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 70.6
+   "gp_pct": 70.7
   },
   "Large Sorrento Wings Deal": {
    "ingredients": [
     {
      "name": "Large Sorrento",
-     "kind": "id",
-     "ref": "lightspeed:20468115",
+     "kind": "subrecipe",
+     "ref": "Large Sorrento",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "7.09",
      "our_cost": null
     }
    ],
-   "our_cost": 7.09,
+   "our_cost": 7.0822,
    "ls_cost": 7.09,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12172,35 +12172,35 @@
    "ingredients": [
     {
      "name": "Large Sanchez VEGAN",
-     "kind": "id",
-     "ref": "lightspeed:20565027",
+     "kind": "subrecipe",
+     "ref": "Large Sanchez VEGAN",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.14",
      "our_cost": null
     }
    ],
-   "our_cost": 4.14,
+   "our_cost": 4.1307,
    "ls_cost": 4.14,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 84.8
+   "gp_pct": 84.9
   },
   "Large Sanchez Wings Deal": {
    "ingredients": [
     {
      "name": "Large Sanchez",
-     "kind": "id",
-     "ref": "lightspeed:20468100",
+     "kind": "subrecipe",
+     "ref": "Large Sanchez",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "5.41",
      "our_cost": null
     }
    ],
-   "our_cost": 5.41,
+   "our_cost": 5.4006,
    "ls_cost": 5.41,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12212,15 +12212,15 @@
    "ingredients": [
     {
      "name": "Large Roma Special",
-     "kind": "id",
-     "ref": "lightspeed:20468095",
+     "kind": "subrecipe",
+     "ref": "Large Roma Special",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "6.14",
      "our_cost": null
     }
    ],
-   "our_cost": 6.14,
+   "our_cost": 6.1304,
    "ls_cost": 6.14,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12232,35 +12232,35 @@
    "ingredients": [
     {
      "name": "Large Paddock",
-     "kind": "id",
-     "ref": "lightspeed:20468218",
+     "kind": "subrecipe",
+     "ref": "Large Paddock",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "5.20",
      "our_cost": null
     }
    ],
-   "our_cost": 5.2,
+   "our_cost": 5.1879,
    "ls_cost": 5.2,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 80.9
+   "gp_pct": 81.0
   },
   "Large No Chorizo No Cry Wings Deal": {
    "ingredients": [
     {
      "name": "Large No Chorizo, No Cry",
-     "kind": "id",
-     "ref": "lightspeed:20565021",
+     "kind": "subrecipe",
+     "ref": "Large No Chorizo, No Cry",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "6.14",
      "our_cost": null
     }
    ],
-   "our_cost": 6.14,
+   "our_cost": 6.1262,
    "ls_cost": 6.14,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12272,55 +12272,55 @@
    "ingredients": [
     {
      "name": "Large New Yorker",
-     "kind": "id",
-     "ref": "lightspeed:20565009",
+     "kind": "subrecipe",
+     "ref": "Large New Yorker",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.93",
      "our_cost": null
     }
    ],
-   "our_cost": 4.93,
+   "our_cost": 4.9222,
    "ls_cost": 4.93,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 81.9
+   "gp_pct": 82.0
   },
   "Large Meatlovers Wings Deal": {
    "ingredients": [
     {
      "name": "Large Meatlovers",
-     "kind": "id",
-     "ref": "lightspeed:20468049",
+     "kind": "subrecipe",
+     "ref": "Large Meatlovers",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "8.31",
      "our_cost": null
     }
    ],
-   "our_cost": 8.31,
+   "our_cost": 8.289,
    "ls_cost": 8.31,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 69.5
+   "gp_pct": 69.6
   },
   "Large Little Italy Wings Deal": {
    "ingredients": [
     {
      "name": "Large Little Italy",
-     "kind": "id",
-     "ref": "lightspeed:20565003",
+     "kind": "subrecipe",
+     "ref": "Large Little Italy",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "8.84",
      "our_cost": null
     }
    ],
-   "our_cost": 8.84,
+   "our_cost": 8.8257,
    "ls_cost": 8.84,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12332,15 +12332,15 @@
    "ingredients": [
     {
      "name": "Large Jimmy Jury",
-     "kind": "id",
-     "ref": "lightspeed:22038549",
+     "kind": "subrecipe",
+     "ref": "Large Jimmy Jury",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "6.10",
      "our_cost": null
     }
    ],
-   "our_cost": 6.1,
+   "our_cost": 6.0968,
    "ls_cost": 6.1,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12352,15 +12352,15 @@
    "ingredients": [
     {
      "name": "Large Hawaiian",
-     "kind": "id",
-     "ref": "lightspeed:20468021",
+     "kind": "subrecipe",
+     "ref": "Large Hawaiian",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.17",
      "our_cost": null
     }
    ],
-   "our_cost": 3.17,
+   "our_cost": 3.1674,
    "ls_cost": 3.17,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12372,15 +12372,15 @@
    "ingredients": [
     {
      "name": "Large Hail Africa",
-     "kind": "id",
-     "ref": "lightspeed:20564996",
+     "kind": "subrecipe",
+     "ref": "Large Hail Africa",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "6.16",
      "our_cost": null
     }
    ],
-   "our_cost": 6.16,
+   "our_cost": 6.1543,
    "ls_cost": 6.16,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12392,55 +12392,55 @@
    "ingredients": [
     {
      "name": "Large El Patron",
-     "kind": "id",
-     "ref": "lightspeed:22038540",
+     "kind": "subrecipe",
+     "ref": "Large El Patron",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "5.77",
      "our_cost": null
     }
    ],
-   "our_cost": 5.77,
+   "our_cost": 5.7627,
    "ls_cost": 5.77,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 78.8
+   "gp_pct": 78.9
   },
   "Large Cosmopolitan Wings Deal": {
    "ingredients": [
     {
      "name": "Large Cosmopolitan",
-     "kind": "id",
-     "ref": "lightspeed:20467998",
+     "kind": "subrecipe",
+     "ref": "Large Cosmopolitan",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "6.76",
      "our_cost": null
     }
    ],
-   "our_cost": 6.76,
+   "our_cost": 6.7499,
    "ls_cost": 6.76,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 75.2
+   "gp_pct": 75.3
   },
   "Large Bubba Gump Wings Deal": {
    "ingredients": [
     {
      "name": "Large Bubba Gump",
-     "kind": "id",
-     "ref": "lightspeed:20467984",
+     "kind": "subrecipe",
+     "ref": "Large Bubba Gump",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "5.72",
      "our_cost": null
     }
    ],
-   "our_cost": 5.72,
+   "our_cost": 5.7196,
    "ls_cost": 5.72,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12452,15 +12452,15 @@
    "ingredients": [
     {
      "name": "Large BBQ Chicken Pizza",
-     "kind": "id",
-     "ref": "lightspeed:20467968",
+     "kind": "subrecipe",
+     "ref": "Large BBQ Chicken Pizza",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.34",
      "our_cost": null
     }
    ],
-   "our_cost": 4.34,
+   "our_cost": 4.3343,
    "ls_cost": 4.34,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12472,35 +12472,35 @@
    "ingredients": [
     {
      "name": "Large Margherita",
-     "kind": "id",
-     "ref": "lightspeed:20468415",
+     "kind": "subrecipe",
+     "ref": "Large Margherita",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "2.20",
      "our_cost": null
     }
    ],
-   "our_cost": 2.2,
+   "our_cost": 2.1909,
    "ls_cost": 2.2,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 91.9
+   "gp_pct": 92.0
   },
   "Regular Garlic Cheese Pizza": {
    "ingredients": [
     {
      "name": "Large Garlic Cheese Pizza",
-     "kind": "id",
-     "ref": "lightspeed:20467616",
+     "kind": "subrecipe",
+     "ref": "Large Garlic Cheese Pizza",
      "qty": "0.66",
      "unit": "ml",
      "ls_cost": "1.36",
      "our_cost": null
     }
    ],
-   "our_cost": 1.36,
+   "our_cost": 1.3622,
    "ls_cost": 1.36,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12512,8 +12512,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -12521,8 +12521,8 @@
     },
     {
      "name": "Garlic Oil [Batch]",
-     "kind": "id",
-     "ref": "lightspeed:22523808",
+     "kind": "subrecipe",
+     "ref": "Garlic Oil [Batch]",
      "qty": "43",
      "unit": "g",
      "ls_cost": "0.06",
@@ -12629,7 +12629,7 @@
    ],
    "our_cost": 15.01,
    "ls_cost": 15.01,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
@@ -12649,7 +12649,7 @@
    ],
    "our_cost": 2.5,
    "ls_cost": 2.5,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 6.0,
@@ -12679,8 +12679,8 @@
    "ingredients": [
     {
      "name": "Campari [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Campari",
+     "kind": "id",
+     "ref": "lightspeed:20445894",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.67",
@@ -12691,23 +12691,23 @@
    "ls_cost": 1.67,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 10.0,
-   "gp_pct": null
+   "gp_pct": 81.6
   },
   "Large Pepperoni Wings Deal": {
    "ingredients": [
     {
      "name": "Large Pepperoni",
-     "kind": "id",
-     "ref": "lightspeed:20468085",
+     "kind": "subrecipe",
+     "ref": "Large Pepperoni",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.48",
      "our_cost": null
     }
    ],
-   "our_cost": 4.48,
+   "our_cost": 4.4624,
    "ls_cost": 4.48,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12748,8 +12748,8 @@
    "ingredients": [
     {
      "name": "Classic Margarita",
-     "kind": "id",
-     "ref": "lightspeed:20445677",
+     "kind": "subrecipe",
+     "ref": "Classic Margarita",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.07",
@@ -12765,7 +12765,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 4.5,
+   "our_cost": 4.4892,
    "ls_cost": 4.5,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12853,8 +12853,8 @@
    "ingredients": [
     {
      "name": "Fortaleza A\u00f1ejo [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Fortaleza A\u00f1ejo",
+     "kind": "id",
+     "ref": "lightspeed:22614115",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "7.31",
@@ -12865,16 +12865,16 @@
    "ls_cost": 7.31,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 28.0,
-   "gp_pct": null
+   "gp_pct": 71.3
   },
   "Caff\u00e9 Crema": {
    "ingredients": [
     {
      "name": "Espresso Martini",
-     "kind": "id",
-     "ref": "lightspeed:20445662",
+     "kind": "subrecipe",
+     "ref": "Espresso Martini",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.62",
@@ -12890,20 +12890,20 @@
      "our_cost": "0.020389"
     }
    ],
-   "our_cost": 2.4356,
+   "our_cost": 2.4324,
    "ls_cost": 2.43,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": 87.2
+   "gp_pct": 87.3
   },
   "Rocket Queen Crudo Pizza": {
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -12911,8 +12911,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -12982,7 +12982,7 @@
      "our_cost": null
     }
    ],
-   "our_cost": 8.58,
+   "our_cost": 8.5721,
    "ls_cost": 8.58,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12994,8 +12994,8 @@
    "ingredients": [
     {
      "name": "Pizza Dough [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22479953",
+     "kind": "subrecipe",
+     "ref": "Pizza Dough [Recipe]",
      "qty": "205",
      "unit": "g",
      "ls_cost": "0.19",
@@ -13003,8 +13003,8 @@
     },
     {
      "name": "Pizza Sauce [Recipe]",
-     "kind": "id",
-     "ref": "lightspeed:22514308",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.34",
@@ -13065,20 +13065,20 @@
      "our_cost": "0.012184"
     }
    ],
-   "our_cost": 4.0812,
+   "our_cost": 4.0733,
    "ls_cost": 4.08,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 26.0,
-   "gp_pct": 82.7
+   "gp_pct": 82.8
   },
   "Don Julio Blanco": {
    "ingredients": [
     {
      "name": "Don Julio Blanco [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Don Julio Blanco",
+     "kind": "id",
+     "ref": "lightspeed:22575954",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.19",
@@ -13089,16 +13089,16 @@
    "ls_cost": 3.19,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 16.0,
-   "gp_pct": null
+   "gp_pct": 78.1
   },
   "818 Tequila Blanco": {
    "ingredients": [
     {
      "name": "818 Tequila Blanco [700ml]",
-     "kind": "subrecipe",
-     "ref": "818 Tequila Blanco",
+     "kind": "id",
+     "ref": "lightspeed:22575946",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.36",
@@ -13109,9 +13109,9 @@
    "ls_cost": 3.36,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 16.0,
-   "gp_pct": null
+   "gp_pct": 76.9
   },
   "Ron Zacapa Dark & Stormy": {
    "ingredients": [
@@ -13566,8 +13566,8 @@
     },
     {
      "name": "Tandoori Sauce [Batch]",
-     "kind": "id",
-     "ref": "lightspeed:22533140",
+     "kind": "subrecipe",
+     "ref": "Tandoori Sauce [Batch]",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "7.35",
@@ -13653,8 +13653,8 @@
    "ingredients": [
     {
      "name": "Chimichurri",
-     "kind": "id",
-     "ref": "lightspeed:22524072",
+     "kind": "subrecipe",
+     "ref": "Chimichurri",
      "qty": "60",
      "unit": "g",
      "ls_cost": "0.85",
@@ -13670,7 +13670,7 @@
      "our_cost": "0.006500"
     }
    ],
-   "our_cost": 4.1,
+   "our_cost": 4.0922,
    "ls_cost": 4.1,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -13701,7 +13701,7 @@
    ],
    "our_cost": 5.7,
    "ls_cost": 5.7,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -13720,8 +13720,8 @@
     },
     {
      "name": "Garlic Oil [Batch]",
-     "kind": "id",
-     "ref": "lightspeed:22523808",
+     "kind": "subrecipe",
+     "ref": "Garlic Oil [Batch]",
      "qty": "10",
      "unit": "g",
      "ls_cost": "0.01",
@@ -13759,7 +13759,7 @@
    "ls_cost": 8.08,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": false,
+   "is_prep": true,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -13787,8 +13787,8 @@
    "ingredients": [
     {
      "name": "Espresso Martini",
-     "kind": "id",
-     "ref": "lightspeed:20445662",
+     "kind": "subrecipe",
+     "ref": "Espresso Martini",
      "qty": "1",
      "unit": "ml",
      "ls_cost": "3.24",
@@ -13804,7 +13804,7 @@
      "our_cost": "0.006650"
     }
    ],
-   "our_cost": 4.57,
+   "our_cost": 4.5636,
    "ls_cost": 4.57,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -13856,8 +13856,8 @@
    "ingredients": [
     {
      "name": "Plantation Original Dark [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Plantation Original Dark",
+     "kind": "id",
+     "ref": "lightspeed:22442475",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.54",
@@ -13868,16 +13868,16 @@
    "ls_cost": 2.54,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 80.0
   },
   "Caf\u00e9 Patron": {
    "ingredients": [
     {
      "name": "Caf\u00e9 Patron [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Caf\u00e9 Patron",
+     "kind": "id",
+     "ref": "lightspeed:22442211",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.28",
@@ -13888,9 +13888,9 @@
    "ls_cost": 3.28,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 17.0,
-   "gp_pct": null
+   "gp_pct": 78.8
   },
   "Hyoketsu Lemon - Schooner": {
    "ingredients": [
@@ -14006,7 +14006,7 @@
    ],
    "our_cost": 2.65,
    "ls_cost": 2.65,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 11.0,
@@ -14036,8 +14036,8 @@
    "ingredients": [
     {
      "name": "Hine Rare VSOP Cognac [700ml]",
-     "kind": "subrecipe",
-     "ref": "Hine Rare VSOP Cognac",
+     "kind": "id",
+     "ref": "lightspeed:22169755",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "5.10",
@@ -14048,9 +14048,9 @@
    "ls_cost": 5.1,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 17.0,
-   "gp_pct": null
+   "gp_pct": 67.0
   },
   "Daiquiri": {
    "ingredients": [
@@ -14106,7 +14106,7 @@
    ],
    "our_cost": 2.34,
    "ls_cost": 2.34,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 1.0,
@@ -14126,7 +14126,7 @@
    ],
    "our_cost": 4.27,
    "ls_cost": 4.27,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": null,
@@ -14144,13 +14144,13 @@
      "our_cost": null
     }
    ],
-   "our_cost": 1.9,
+   "our_cost": 2.4423,
    "ls_cost": 1.9,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 4.0,
-   "gp_pct": 47.8
+   "gp_pct": 32.8
   },
   "1.25L Coke": {
    "ingredients": [
@@ -14166,7 +14166,7 @@
    ],
    "our_cost": 3.69,
    "ls_cost": 3.69,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": null,
@@ -14186,7 +14186,7 @@
    ],
    "our_cost": 3.98,
    "ls_cost": 3.98,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": null,
@@ -14206,7 +14206,7 @@
    ],
    "our_cost": 1.89,
    "ls_cost": 1.89,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 4.0,
@@ -14226,7 +14226,7 @@
    ],
    "our_cost": 1.89,
    "ls_cost": 1.89,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 4.0,
@@ -14266,7 +14266,7 @@
    ],
    "our_cost": 9.35,
    "ls_cost": 9.35,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
@@ -14302,13 +14302,13 @@
      "our_cost": null
     }
    ],
-   "our_cost": 5.3185,
+   "our_cost": 6.1031,
    "ls_cost": 5.32,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": 72.1
+   "gp_pct": 68.0
   },
   "Coco Marg PartyJar (6)": {
    "ingredients": [
@@ -14714,7 +14714,7 @@
    ],
    "our_cost": 2.34,
    "ls_cost": 2.34,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 0.05,
@@ -14804,8 +14804,8 @@
    "ingredients": [
     {
      "name": "Diplomatico Mantuano [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Diplomatico Mantuano",
+     "kind": "id",
+     "ref": "lightspeed:21150832",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.68",
@@ -14816,9 +14816,9 @@
    "ls_cost": 2.68,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 13.0,
-   "gp_pct": null
+   "gp_pct": 77.3
   },
   "Fellr Watermelon Seltzer Seltzer D": {
    "ingredients": [
@@ -14969,21 +14969,21 @@
    "ingredients": [
     {
      "name": "Cocchi Chinato [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Cocchi Chinato",
+     "kind": "id",
+     "ref": "lightspeed:20961451",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.63",
-     "our_cost": null
+     "our_cost": "0.085329"
     }
    ],
-   "our_cost": 2.63,
+   "our_cost": 2.5599,
    "ls_cost": 2.63,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 76.5
   },
   "Geppetto Pinot Noir D": {
    "ingredients": [
@@ -15145,61 +15145,61 @@
    "ingredients": [
     {
      "name": "Unico Zelo Terra Cotta - Bottle",
-     "kind": "id",
-     "ref": "lightspeed:20645902",
+     "kind": "subrecipe",
+     "ref": "Unico Zelo Terra Cotta - Bottle",
      "qty": "750",
      "unit": "ml",
      "ls_cost": "21.89",
-     "our_cost": "0.023880"
+     "our_cost": null
     }
    ],
-   "our_cost": 17.91,
+   "our_cost": 21.89,
    "ls_cost": 21.89,
-   "fully_our_book": true,
+   "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 34.3
+   "gp_pct": 19.7
   },
   "Unico Zelo Terra Cotta - Large": {
    "ingredients": [
     {
      "name": "Unico Zelo Terra Cotta - Bottle",
-     "kind": "id",
-     "ref": "lightspeed:20645902",
+     "kind": "subrecipe",
+     "ref": "Unico Zelo Terra Cotta - Bottle",
      "qty": "250",
      "unit": "ml",
      "ls_cost": "7.30",
-     "our_cost": "0.023880"
+     "our_cost": null
     }
    ],
-   "our_cost": 5.97,
+   "our_cost": 7.3,
    "ls_cost": 7.3,
-   "fully_our_book": true,
+   "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 28.0,
-   "gp_pct": 76.5
+   "gp_pct": 71.3
   },
   "Unico Zelo Terra Cotta - Regular": {
    "ingredients": [
     {
      "name": "Unico Zelo Terra Cotta - Bottle",
-     "kind": "id",
-     "ref": "lightspeed:20645902",
+     "kind": "subrecipe",
+     "ref": "Unico Zelo Terra Cotta - Bottle",
      "qty": "150",
      "unit": "ml",
      "ls_cost": "4.38",
-     "our_cost": "0.023880"
+     "our_cost": null
     }
    ],
-   "our_cost": 3.582,
+   "our_cost": 4.38,
    "ls_cost": 4.38,
-   "fully_our_book": true,
+   "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.0,
-   "gp_pct": 79.3
+   "gp_pct": 74.6
   },
   "Tom Collins": {
    "ingredients": [
@@ -15293,8 +15293,8 @@
    "ingredients": [
     {
      "name": "Michter's Bourbon [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Michter's Bourbon",
+     "kind": "id",
+     "ref": "lightspeed:20729541",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "4.60",
@@ -15305,9 +15305,9 @@
    "ls_cost": 4.6,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 16.0,
-   "gp_pct": null
+   "gp_pct": 68.4
   },
   "Casa Gheller Prosecco D": {
    "ingredients": [
@@ -15413,41 +15413,41 @@
    "ingredients": [
     {
      "name": "De Kuyper Peach Schnapps [Bottle]",
-     "kind": "subrecipe",
-     "ref": "De Kuyper Peach Schnapps",
+     "kind": "id",
+     "ref": "lightspeed:20727968",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.84",
-     "our_cost": null
+     "our_cost": "0.054443"
     }
    ],
-   "our_cost": 1.84,
+   "our_cost": 1.6333,
    "ls_cost": 1.84,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 11.0,
-   "gp_pct": null
+   "gp_pct": 83.7
   },
   "De Kuyper Butterscotch Schnapps": {
    "ingredients": [
     {
      "name": "De Kuyper Butterscotch Schnapps [Bottle]",
-     "kind": "subrecipe",
-     "ref": "De Kuyper Butterscotch Schnapps",
+     "kind": "id",
+     "ref": "lightspeed:20727954",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.85",
-     "our_cost": null
+     "our_cost": "0.054400"
     }
    ],
-   "our_cost": 1.85,
+   "our_cost": 1.632,
    "ls_cost": 1.85,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 11.0,
-   "gp_pct": null
+   "gp_pct": 83.7
   },
   "Pink Lemonade [mixer]": {
    "ingredients": [
@@ -15573,8 +15573,8 @@
    "ingredients": [
     {
      "name": "Tempus Fugit Creme de Banane [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Tempus Fugit Creme de Banane",
+     "kind": "id",
+     "ref": "lightspeed:20710158",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.54",
@@ -15585,16 +15585,16 @@
    "ls_cost": 2.54,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 76.7
   },
   "Fireball": {
    "ingredients": [
     {
      "name": "Fireball [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Fireball",
+     "kind": "id",
+     "ref": "lightspeed:20710120",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.92",
@@ -15605,16 +15605,16 @@
    "ls_cost": 1.92,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 82.4
   },
   "Canadian Club": {
    "ingredients": [
     {
      "name": "Canadian Club [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Canadian Club",
+     "kind": "id",
+     "ref": "lightspeed:20710102",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.89",
@@ -15625,16 +15625,16 @@
    "ls_cost": 1.89,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 82.7
   },
   "Cherry Heering": {
    "ingredients": [
     {
      "name": "Cherry Heering [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Cherry Heering",
+     "kind": "id",
+     "ref": "lightspeed:20710041",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.75",
@@ -15645,36 +15645,36 @@
    "ls_cost": 1.75,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 11.0,
-   "gp_pct": null
+   "gp_pct": 82.5
   },
   "Frangelico": {
    "ingredients": [
     {
      "name": "Frangelico [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Frangelico",
+     "kind": "id",
+     "ref": "lightspeed:20710023",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.71",
-     "our_cost": null
+     "our_cost": "0.048100"
     }
    ],
-   "our_cost": 1.71,
+   "our_cost": 1.443,
    "ls_cost": 1.71,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 11.0,
-   "gp_pct": null
+   "gp_pct": 85.6
   },
   "Grey Goose": {
    "ingredients": [
     {
      "name": "Grey Goose [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Grey Goose",
+     "kind": "id",
+     "ref": "lightspeed:20445821",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.68",
@@ -15685,9 +15685,9 @@
    "ls_cost": 2.68,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 78.9
   },
   "De La Grosse Beaujolais - Bottle": {
    "ingredients": [],
@@ -15703,61 +15703,61 @@
    "ingredients": [
     {
      "name": "De La Grosse Beaujolais - Bottle",
-     "kind": "id",
-     "ref": "lightspeed:20655376",
+     "kind": "subrecipe",
+     "ref": "De La Grosse Beaujolais - Bottle",
      "qty": "750",
      "unit": "ml",
      "ls_cost": "35.54",
-     "our_cost": "0.046107"
+     "our_cost": null
     }
    ],
-   "our_cost": 34.5802,
+   "our_cost": 35.54,
    "ls_cost": 35.54,
-   "fully_our_book": true,
+   "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 68.0,
-   "gp_pct": 44.1
+   "gp_pct": 42.5
   },
   "De La Grosse Beaujolais - Large": {
    "ingredients": [
     {
      "name": "De La Grosse Beaujolais - Bottle",
-     "kind": "id",
-     "ref": "lightspeed:20655376",
+     "kind": "subrecipe",
+     "ref": "De La Grosse Beaujolais - Bottle",
      "qty": "250",
      "unit": "ml",
      "ls_cost": "11.85",
-     "our_cost": "0.046107"
+     "our_cost": null
     }
    ],
-   "our_cost": 11.5267,
+   "our_cost": 11.85,
    "ls_cost": 11.85,
-   "fully_our_book": true,
+   "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 42.0,
-   "gp_pct": 69.8
+   "gp_pct": 69.0
   },
   "De La Grosse Beaujolais - Regular": {
    "ingredients": [
     {
      "name": "De La Grosse Beaujolais - Bottle",
-     "kind": "id",
-     "ref": "lightspeed:20655376",
+     "kind": "subrecipe",
+     "ref": "De La Grosse Beaujolais - Bottle",
      "qty": "150",
      "unit": "ml",
      "ls_cost": "7.11",
-     "our_cost": "0.046107"
+     "our_cost": null
     }
    ],
-   "our_cost": 6.9161,
+   "our_cost": 7.11,
    "ls_cost": 7.11,
-   "fully_our_book": true,
+   "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 28.0,
-   "gp_pct": 72.8
+   "gp_pct": 72.1
   },
   "Add Baileys": {
    "ingredients": [
@@ -15932,8 +15932,8 @@
    "ingredients": [
     {
      "name": "Gosling's Black Rum [700ml]",
-     "kind": "subrecipe",
-     "ref": "Gosling's Black Rum",
+     "kind": "id",
+     "ref": "lightspeed:20645918",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.72",
@@ -15944,9 +15944,9 @@
    "ls_cost": 2.72,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 78.6
   },
   "Travelling While Standing Still Gin": {
    "ingredients": [
@@ -15961,21 +15961,21 @@
     },
     {
      "name": "Travelling While Standing Still Gin [700ml]",
-     "kind": "subrecipe",
-     "ref": "Travelling While Standing Still Gin",
+     "kind": "id",
+     "ref": "lightspeed:20645912",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.86",
-     "our_cost": null
+     "our_cost": "0.128571"
     }
    ],
-   "our_cost": 7.72,
+   "our_cost": 7.7171,
    "ls_cost": 7.72,
    "fully_our_book": false,
    "resolved_pct": 50,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 16.0,
-   "gp_pct": null
+   "gp_pct": 46.9
   },
   "Unico Zelo Terra Cotta - Bottle": {
    "ingredients": [],
@@ -16118,17 +16118,17 @@
    "ingredients": [
     {
      "name": "Stow Vermouth Blend [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Stow Vermouth Blend [30ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445892",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.25",
-     "our_cost": null
+     "our_cost": "0.059057"
     }
    ],
-   "our_cost": 1.25,
+   "our_cost": 1.7717,
    "ls_cost": 1.25,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": 12.0,
@@ -16164,13 +16164,13 @@
      "our_cost": "0.011778"
     }
    ],
-   "our_cost": 3.6267,
+   "our_cost": 4.1484,
    "ls_cost": 3.63,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": 81.0
+   "gp_pct": 78.3
   },
   "Pornstar Martini": {
    "ingredients": [
@@ -16318,13 +16318,13 @@
      "our_cost": "0.100000"
     }
    ],
-   "our_cost": 4.1113,
+   "our_cost": 4.4618,
    "ls_cost": 4.11,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": 78.5
+   "gp_pct": 76.6
   },
   "Mai Tai": {
    "ingredients": [
@@ -16816,13 +16816,13 @@
      "our_cost": null
     }
    ],
-   "our_cost": 4.39,
+   "our_cost": 5.1746,
    "ls_cost": 4.39,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": 77.0
+   "gp_pct": 72.9
   },
   "Amarretto Sour": {
    "ingredients": [
@@ -16845,13 +16845,13 @@
      "our_cost": "0.100000"
     }
    ],
-   "our_cost": 4.09,
+   "our_cost": 3.8241,
    "ls_cost": 4.09,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": 78.6
+   "gp_pct": 80.0
   },
   "Old Panther - Schooner": {
    "ingredients": [
@@ -16944,8 +16944,8 @@
    "ingredients": [
     {
      "name": "Sailor Jerry [700ml]",
-     "kind": "subrecipe",
-     "ref": "Sailor Jerry [House]",
+     "kind": "id",
+     "ref": "lightspeed:20445864",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.91",
@@ -16956,9 +16956,9 @@
    "ls_cost": 1.91,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 11.0,
-   "gp_pct": null
+   "gp_pct": 80.9
   },
   "Limoncello Spritz": {
    "ingredients": [
@@ -16993,8 +16993,8 @@
    "ingredients": [
     {
      "name": "Casamigos Reposado Tequila [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Casamigos Reposado Tequila",
+     "kind": "id",
+     "ref": "lightspeed:20445829",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "4.07",
@@ -17005,16 +17005,16 @@
    "ls_cost": 4.07,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 17.0,
-   "gp_pct": null
+   "gp_pct": 73.7
   },
   "Cointreau": {
    "ingredients": [
     {
      "name": "Cointreau [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Cointreau",
+     "kind": "id",
+     "ref": "lightspeed:20445868",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.44",
@@ -17025,9 +17025,9 @@
    "ls_cost": 2.44,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 80.8
   },
   "Year Wines 'Zagara' Orange - Regular": {
    "ingredients": [
@@ -17073,8 +17073,8 @@
    "ingredients": [
     {
      "name": "Yamazaki 12yr [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Yamazaki 12yr",
+     "kind": "id",
+     "ref": "lightspeed:20445839",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "12.43",
@@ -17085,16 +17085,16 @@
    "ls_cost": 12.43,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 54.0,
-   "gp_pct": null
+   "gp_pct": 74.7
   },
   "Wray & Nephew's OR Rumbar OP Rum": {
    "ingredients": [
     {
      "name": "Wray & Nephew's OR Rumbar OP Rum [Bottle",
-     "kind": "subrecipe",
-     "ref": "Wray & Nephew's OR Rumbar OP Rum",
+     "kind": "id",
+     "ref": "lightspeed:20492724",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "4.09",
@@ -17102,8 +17102,8 @@
     },
     {
      "name": "Wray & Nephew's OR Rumbar OP Rum [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Wray & Nephew's OR Rumbar OP Rum",
+     "kind": "id",
+     "ref": "lightspeed:20492724",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "4.09",
@@ -17114,7 +17114,7 @@
    "ls_cost": 8.18,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": null,
    "gp_pct": null
   },
@@ -17151,8 +17151,8 @@
    "ingredients": [
     {
      "name": "Wolf Lane Navy Gin [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Wolf Lane Navy Gin",
+     "kind": "id",
+     "ref": "lightspeed:20445812",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.65",
@@ -17163,9 +17163,9 @@
    "ls_cost": 3.65,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 16.0,
-   "gp_pct": null
+   "gp_pct": 74.9
   },
   "Young Henrys Cider Can D": {
    "ingredients": [
@@ -17181,7 +17181,7 @@
    ],
    "our_cost": 2.82,
    "ls_cost": 2.82,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 6.0,
@@ -17201,7 +17201,7 @@
    ],
    "our_cost": 16.93,
    "ls_cost": 16.93,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
@@ -17370,7 +17370,7 @@
    ],
    "our_cost": 2.34,
    "ls_cost": 2.34,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 6.0,
@@ -17390,7 +17390,7 @@
    ],
    "our_cost": 2.34,
    "ls_cost": 2.34,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 23.0,
@@ -17410,7 +17410,7 @@
    ],
    "our_cost": 5.41,
    "ls_cost": 5.41,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 14.0,
@@ -17430,7 +17430,7 @@
    ],
    "our_cost": 21.64,
    "ls_cost": 21.64,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 48.0,
@@ -17558,8 +17558,8 @@
    "ingredients": [
     {
      "name": "Tilde Raw Vodka [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Tilde Raw Vodka",
+     "kind": "id",
+     "ref": "lightspeed:20445819",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.53",
@@ -17570,9 +17570,9 @@
    "ls_cost": 2.53,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 80.1
   },
   "Tequila Ocho - Single Estate A\u00f1ejo": {
    "ingredients": [
@@ -17773,7 +17773,7 @@
    ],
    "our_cost": 14.76,
    "ls_cost": 14.76,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 23.0,
@@ -17823,8 +17823,8 @@
    "ingredients": [
     {
      "name": "St. Germain Elderflower Liqueur [Bottle]",
-     "kind": "subrecipe",
-     "ref": "St. Germain Elderflower Liqueur",
+     "kind": "id",
+     "ref": "lightspeed:20445875",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.12",
@@ -17835,9 +17835,9 @@
    "ls_cost": 2.12,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 80.6
   },
   "Sigurd White Blend - Regular": {
    "ingredients": [
@@ -18033,7 +18033,7 @@
    ],
    "our_cost": 2.34,
    "ls_cost": 2.34,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 6.0,
@@ -18063,8 +18063,8 @@
    "ingredients": [
     {
      "name": "Regal Rogue Wild Ros\u00e9 Vermouth [500ml]",
-     "kind": "subrecipe",
-     "ref": "Regal Rogue Wild Ros\u00e9 Vermouth",
+     "kind": "id",
+     "ref": "lightspeed:20445888",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.05",
@@ -18075,16 +18075,16 @@
    "ls_cost": 2.05,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 81.2
   },
   "Regal Rogue Bold Red Vermouth": {
    "ingredients": [
     {
      "name": "Regal Rogue Bold Red Vermouth [5L]",
-     "kind": "subrecipe",
-     "ref": "Regal Rogue Bold Red Vermouth",
+     "kind": "id",
+     "ref": "lightspeed:20445893",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "0.95",
@@ -18095,16 +18095,16 @@
    "ls_cost": 0.95,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 91.3
   },
   "Redbreast 12yr": {
    "ingredients": [
     {
      "name": "Redbreast 12yr [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Redbreast 12yr",
+     "kind": "id",
+     "ref": "lightspeed:20445848",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "5.10",
@@ -18115,16 +18115,16 @@
    "ls_cost": 5.1,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": null
+   "gp_pct": 73.3
   },
   "Quiquiriqui Mezcal": {
    "ingredients": [
     {
      "name": "Quiquiriqui Mezcal [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Quiquiriqui Mezcal",
+     "kind": "id",
+     "ref": "lightspeed:20445835",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.37",
@@ -18135,9 +18135,9 @@
    "ls_cost": 3.37,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 15.0,
-   "gp_pct": null
+   "gp_pct": 75.3
   },
   "Poor Tom's Strawberry Gin Tonica": {
    "ingredients": [
@@ -18203,8 +18203,8 @@
    "ingredients": [
     {
      "name": "Appleton Rum [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Appleton Rum [House]",
+     "kind": "id",
+     "ref": "lightspeed:20445860",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.43",
@@ -18215,16 +18215,16 @@
    "ls_cost": 2.43,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 11.0,
-   "gp_pct": null
+   "gp_pct": 75.7
   },
   "Plantation 3 Stars White Rum": {
    "ingredients": [
     {
      "name": "Plantation 3 Stars White Rum [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Plantation 3 Stars White Rum",
+     "kind": "id",
+     "ref": "lightspeed:20445856",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.61",
@@ -18235,9 +18235,9 @@
    "ls_cost": 2.61,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 79.5
   },
   "Pink Galah Can D": {
    "ingredients": [
@@ -18253,7 +18253,7 @@
    ],
    "our_cost": 3.51,
    "ls_cost": 3.51,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 8.0,
@@ -18273,7 +18273,7 @@
    ],
    "our_cost": 3.51,
    "ls_cost": 3.51,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
@@ -18333,7 +18333,7 @@
    ],
    "our_cost": 2.56,
    "ls_cost": 2.56,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 6.0,
@@ -18353,7 +18353,7 @@
    ],
    "our_cost": 15.36,
    "ls_cost": 15.36,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
@@ -18363,8 +18363,8 @@
    "ingredients": [
     {
      "name": "Patron Silver [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Patron Silver",
+     "kind": "id",
+     "ref": "lightspeed:20445825",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.28",
@@ -18375,16 +18375,16 @@
    "ls_cost": 3.28,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 15.0,
-   "gp_pct": null
+   "gp_pct": 75.9
   },
   "Patron Reposado": {
    "ingredients": [
     {
      "name": "Patron Reposado [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Patron Reposado",
+     "kind": "id",
+     "ref": "lightspeed:20445827",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.78",
@@ -18395,9 +18395,9 @@
    "ls_cost": 3.78,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 15.0,
-   "gp_pct": null
+   "gp_pct": 72.3
   },
   "Ottelia Chardonnay - Regular": {
    "ingredients": [
@@ -18443,8 +18443,8 @@
    "ingredients": [
     {
      "name": "Oscar.697 Rosso Vermouth [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Oscar.697 Rosso Vermouth",
+     "kind": "id",
+     "ref": "lightspeed:20445891",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.44",
@@ -18455,16 +18455,16 @@
    "ls_cost": 1.44,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 86.8
   },
   "Oscar.697 Bianco Vermouth": {
    "ingredients": [
     {
      "name": "Oscar.697 Bianco Vermouth [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Oscar.697 Bianco Vermouth",
+     "kind": "id",
+     "ref": "lightspeed:20445883",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.71",
@@ -18475,9 +18475,9 @@
    "ls_cost": 1.71,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 84.3
   },
   "Omen Stout Can D": {
    "ingredients": [
@@ -18493,7 +18493,7 @@
    ],
    "our_cost": 3.51,
    "ls_cost": 3.51,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 7.0,
@@ -18513,7 +18513,7 @@
    ],
    "our_cost": 14.03,
    "ls_cost": 14.03,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
@@ -18599,8 +18599,8 @@
    "ingredients": [
     {
      "name": "Never Never Oyster Shell Gin [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Never Never Oyster Shell Gin",
+     "kind": "id",
+     "ref": "lightspeed:20445807",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.78",
@@ -18611,16 +18611,16 @@
    "ls_cost": 2.78,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 15.0,
-   "gp_pct": null
+   "gp_pct": 79.6
   },
   "Myer's Jamaican Rum": {
    "ingredients": [
     {
      "name": "Myer's Jamaican Rum [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Myer's Jamaican Rum",
+     "kind": "id",
+     "ref": "lightspeed:20445861",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.83",
@@ -18631,23 +18631,23 @@
    "ls_cost": 1.83,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 15.0,
-   "gp_pct": null
+   "gp_pct": 86.6
   },
   "Mulled Wine PartyJar (4)": {
    "ingredients": [
     {
      "name": "Mulled Wine",
-     "kind": "id",
-     "ref": "lightspeed:20467849",
+     "kind": "subrecipe",
+     "ref": "Mulled Wine",
      "qty": "3.89",
      "unit": "ml",
      "ls_cost": "7.93",
      "our_cost": null
     }
    ],
-   "our_cost": 7.93,
+   "our_cost": 7.9277,
    "ls_cost": 7.93,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -18659,15 +18659,15 @@
    "ingredients": [
     {
      "name": "Mulled Wine",
-     "kind": "id",
-     "ref": "lightspeed:20467849",
+     "kind": "subrecipe",
+     "ref": "Mulled Wine",
      "qty": "1.39",
      "unit": "ml",
      "ls_cost": "2.83",
      "our_cost": null
     }
    ],
-   "our_cost": 2.83,
+   "our_cost": 2.8292,
    "ls_cost": 2.83,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -18679,8 +18679,8 @@
    "ingredients": [
     {
      "name": "Mr Black Coffee Liqueur [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Mr Black Coffee Liqueur",
+     "kind": "id",
+     "ref": "lightspeed:20445870",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.64",
@@ -18691,9 +18691,9 @@
    "ls_cost": 1.64,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 85.0
   },
   "Mother's Milk Shiraz - Regular": {
    "ingredients": [
@@ -18749,7 +18749,7 @@
    ],
    "our_cost": 3.11,
    "ls_cost": 3.11,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 6.0,
@@ -18769,7 +18769,7 @@
    ],
    "our_cost": 12.44,
    "ls_cost": 12.44,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
@@ -18834,13 +18834,13 @@
      "our_cost": null
     }
    ],
-   "our_cost": 4.54,
+   "our_cost": 4.7153,
    "ls_cost": 4.54,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 22.0,
-   "gp_pct": 77.3
+   "gp_pct": 76.4
   },
   "Manhattan - Sweet": {
    "ingredients": [
@@ -18872,13 +18872,13 @@
      "our_cost": "0.100000"
     }
    ],
-   "our_cost": 4.48,
+   "our_cost": 4.8306,
    "ls_cost": 4.48,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 22.0,
-   "gp_pct": 77.6
+   "gp_pct": 75.8
   },
   "Manhattan - Dry": {
    "ingredients": [
@@ -18922,8 +18922,8 @@
    "ingredients": [
     {
      "name": "Mancino Sakura Vermouth [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Mancino Sakura Vermouth",
+     "kind": "id",
+     "ref": "lightspeed:20445889",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.85",
@@ -18934,16 +18934,16 @@
    "ls_cost": 2.85,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 73.9
   },
   "Macallan Sherry Oak 12yr": {
    "ingredients": [
     {
      "name": "Macallan Sherry Oak 12yr [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Macallan Sherry Oak 12yr",
+     "kind": "id",
+     "ref": "lightspeed:20445841",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "5.40",
@@ -18954,16 +18954,16 @@
    "ls_cost": 5.4,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 26.0,
-   "gp_pct": null
+   "gp_pct": 77.2
   },
   "Brookie's Mac. Liqueur": {
    "ingredients": [
     {
      "name": "Brookie's Mac. Liqueur [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Brookie's Mac. Liqueur",
+     "kind": "id",
+     "ref": "lightspeed:20445869",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.35",
@@ -18974,16 +18974,16 @@
    "ls_cost": 2.35,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 13.0,
-   "gp_pct": null
+   "gp_pct": 80.1
   },
   "Lost Explorer Espad\u00edn Mezcal": {
    "ingredients": [
     {
      "name": "Lost Explorer Espad\u00edn Mezcal [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Lost Explorer Espad\u00edn Mezcal",
+     "kind": "id",
+     "ref": "lightspeed:20445834",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.00",
@@ -18994,9 +18994,9 @@
    "ls_cost": 3.0,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 76.4
   },
   "Lemon, Lime & Bitters": {
    "ingredients": [
@@ -19022,8 +19022,8 @@
    "ingredients": [
     {
      "name": "Laphroaig 10yr [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Laphroaig 10yr",
+     "kind": "id",
+     "ref": "lightspeed:20445847",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "4.38",
@@ -19034,16 +19034,16 @@
    "ls_cost": 4.38,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 18.0,
-   "gp_pct": null
+   "gp_pct": 73.2
   },
   "Lagavulin 16yr": {
    "ingredients": [
     {
      "name": "Lagavulin 16yr [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Lagavulin 16yr",
+     "kind": "id",
+     "ref": "lightspeed:20445846",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "7.50",
@@ -19054,16 +19054,16 @@
    "ls_cost": 7.5,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 27.0,
-   "gp_pct": null
+   "gp_pct": 69.4
   },
   "Kraken Rum": {
    "ingredients": [
     {
      "name": "Kraken Rum [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Kraken Rum",
+     "kind": "id",
+     "ref": "lightspeed:20445865",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.12",
@@ -19074,9 +19074,9 @@
    "ls_cost": 2.12,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 83.3
   },
   "Add Mac. Liqueur": {
    "ingredients": [
@@ -19142,8 +19142,8 @@
    "ingredients": [
     {
      "name": "Johnnie Walker Black [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Johnnie Walker Black",
+     "kind": "id",
+     "ref": "lightspeed:20445844",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.34",
@@ -19154,9 +19154,9 @@
    "ls_cost": 2.34,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 17.0,
-   "gp_pct": null
+   "gp_pct": 84.9
   },
   "Padrillos Malbec - Regular": {
    "ingredients": [
@@ -19202,8 +19202,8 @@
    "ingredients": [
     {
      "name": "Jameson Irish Whiskey [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Jameson Irish Whiskey",
+     "kind": "id",
+     "ref": "lightspeed:20445850",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.26",
@@ -19214,9 +19214,9 @@
    "ls_cost": 2.26,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 79.3
   },
   "Jala Marg Jar": {
    "ingredients": [
@@ -19316,8 +19316,8 @@
    "ingredients": [
     {
      "name": "Jack Daniels [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Jack Daniels",
+     "kind": "id",
+     "ref": "lightspeed:20445854",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.26",
@@ -19328,16 +19328,16 @@
    "ls_cost": 2.26,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": null
+   "gp_pct": 79.3
   },
   "Illegal Reposado Mezcal": {
    "ingredients": [
     {
      "name": "Illegal Reposado Mezcal [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Illegal Reposado Mezcal",
+     "kind": "id",
+     "ref": "lightspeed:20445836",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "5.46",
@@ -19348,16 +19348,16 @@
    "ls_cost": 5.46,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": null
+   "gp_pct": 71.4
   },
   "Herradura Plata": {
    "ingredients": [
     {
      "name": "Herradura Plata [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Herradura Plata",
+     "kind": "id",
+     "ref": "lightspeed:20445826",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.39",
@@ -19368,9 +19368,9 @@
    "ls_cost": 3.39,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 16.0,
-   "gp_pct": null
+   "gp_pct": 76.7
   },
   "Hendricks Gin Tonica": {
    "ingredients": [
@@ -19405,8 +19405,8 @@
    "ingredients": [
     {
      "name": "Hendrick's Gin [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Hendrick's Gin",
+     "kind": "id",
+     "ref": "lightspeed:20445808",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.69",
@@ -19417,9 +19417,9 @@
    "ls_cost": 2.69,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 78.9
   },
   "Heaps Normal XPA D": {
    "ingredients": [
@@ -19433,9 +19433,9 @@
      "our_cost": null
     }
    ],
-   "our_cost": 2.67,
+   "our_cost": 2.6704,
    "ls_cost": 2.67,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 7.0,
@@ -19453,9 +19453,9 @@
      "our_cost": null
     }
    ],
-   "our_cost": 10.68,
+   "our_cost": 10.6816,
    "ls_cost": 10.68,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
@@ -19465,8 +19465,8 @@
    "ingredients": [
     {
      "name": "Hartshorn Sheep Whey Vodka [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Hartshorn Sheep Whey Vodka",
+     "kind": "id",
+     "ref": "lightspeed:20445818",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.09",
@@ -19477,16 +19477,16 @@
    "ls_cost": 3.09,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 17.0,
-   "gp_pct": null
+   "gp_pct": 80.0
   },
   "Hakushu 12yr": {
    "ingredients": [
     {
      "name": "Hakushu 12yr [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Hakushu 12yr",
+     "kind": "id",
+     "ref": "lightspeed:20445838",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "12.63",
@@ -19497,9 +19497,9 @@
    "ls_cost": 12.63,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 42.0,
-   "gp_pct": null
+   "gp_pct": 66.9
   },
   "Grifter Pale Ale 4-pack D": {
    "ingredients": [
@@ -19515,7 +19515,7 @@
    ],
    "our_cost": 12.38,
    "ls_cost": 12.38,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
@@ -19575,7 +19575,7 @@
    ],
    "our_cost": 4.0,
    "ls_cost": 4.0,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 8.0,
@@ -19585,8 +19585,8 @@
    "ingredients": [
     {
      "name": "Grand Marnier [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Grand Marnier",
+     "kind": "id",
+     "ref": "lightspeed:20445871",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.09",
@@ -19597,9 +19597,9 @@
    "ls_cost": 2.09,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 83.6
   },
   "Gospel Rye": {
    "ingredients": [
@@ -19645,8 +19645,8 @@
    "ingredients": [
     {
      "name": "Glenmorangie Signet [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Glenmorangie Signet",
+     "kind": "id",
+     "ref": "lightspeed:20445842",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "12.19",
@@ -19657,16 +19657,16 @@
    "ls_cost": 12.19,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 51.0,
-   "gp_pct": null
+   "gp_pct": 73.7
   },
   "Glendronach 12yr": {
    "ingredients": [
     {
      "name": "Glendronach 12yr [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Glendronach 12yr",
+     "kind": "id",
+     "ref": "lightspeed:20445843",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "4.43",
@@ -19677,9 +19677,9 @@
    "ls_cost": 4.43,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": null
+   "gp_pct": 76.8
   },
   "Glaetzer Anaperenna Shiraz Cab - Regular": {
    "ingredients": [
@@ -19863,8 +19863,8 @@
    "ingredients": [
     {
      "name": "Four Pillars Rare Dry [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Four Pillars Rare Dry",
+     "kind": "id",
+     "ref": "lightspeed:20445815",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.45",
@@ -19875,9 +19875,9 @@
    "ls_cost": 2.45,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.5,
-   "gp_pct": null
+   "gp_pct": 81.4
   },
   "Four Pillars Olive Leaf Gin Tonica": {
    "ingredients": [
@@ -19903,8 +19903,8 @@
    "ingredients": [
     {
      "name": "Four Pillars Olive Leaf [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Four Pillars Olive Leaf",
+     "kind": "id",
+     "ref": "lightspeed:20445814",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.45",
@@ -19915,9 +19915,9 @@
    "ls_cost": 3.45,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.5,
-   "gp_pct": null
+   "gp_pct": 73.8
   },
   "Four Pillars Bloody Shiraz Gin Tonica": {
    "ingredients": [
@@ -19972,8 +19972,8 @@
    "ingredients": [
     {
      "name": "Fortaleza Reposado [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Fortaleza Reposado",
+     "kind": "id",
+     "ref": "lightspeed:20445831",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "7.29",
@@ -19984,16 +19984,16 @@
    "ls_cost": 7.29,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 26.0,
-   "gp_pct": null
+   "gp_pct": 69.2
   },
   "Flor De Ca\u00f1a 4 Extra Seco": {
    "ingredients": [
     {
      "name": "Flor De Ca\u00f1a 4 Extra Seco [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Flor De Ca\u00f1a 4 Extra Seco",
+     "kind": "id",
+     "ref": "lightspeed:20445858",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.48",
@@ -20004,16 +20004,16 @@
    "ls_cost": 2.48,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 80.5
   },
   "Flor De Ca\u00f1a 12yr": {
    "ingredients": [
     {
      "name": "Flor De Ca\u00f1a 12yr [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Flor De Ca\u00f1a 12yr",
+     "kind": "id",
+     "ref": "lightspeed:20445862",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.07",
@@ -20024,16 +20024,16 @@
    "ls_cost": 3.07,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 16.0,
-   "gp_pct": null
+   "gp_pct": 78.9
   },
   "Fernet Branca": {
    "ingredients": [
     {
      "name": "Fernet Branca [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Fernet Branca",
+     "kind": "id",
+     "ref": "lightspeed:20445882",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "3.10",
@@ -20044,9 +20044,9 @@
    "ls_cost": 3.1,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 13.0,
-   "gp_pct": null
+   "gp_pct": 73.8
   },
   "Dark & Stormy": {
    "ingredients": [
@@ -20090,8 +20090,8 @@
    "ingredients": [
     {
      "name": "Clairin Vaval [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Clairin Vaval",
+     "kind": "id",
+     "ref": "lightspeed:20445859",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "4.71",
@@ -20102,16 +20102,16 @@
    "ls_cost": 4.71,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": null
+   "gp_pct": 75.3
   },
   "Cazcabel Reposado Tequila": {
    "ingredients": [
     {
      "name": "Cazcabel Reposado Tequila [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Cazcabel Reposado Tequila",
+     "kind": "id",
+     "ref": "lightspeed:20445828",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.76",
@@ -20122,9 +20122,9 @@
    "ls_cost": 2.76,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": null
+   "gp_pct": 78.3
   },
   "Btl Year Zagara Orange D": {
    "ingredients": [
@@ -20846,8 +20846,8 @@
    "ingredients": [
     {
      "name": "Bunnahabhain 12yr [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Bunnahabhain 12yr",
+     "kind": "id",
+     "ref": "lightspeed:20445837",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "5.23",
@@ -20858,16 +20858,16 @@
    "ls_cost": 5.23,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 22.0,
-   "gp_pct": null
+   "gp_pct": 73.8
   },
   "Bundaberg Ginger Beer": {
    "ingredients": [
     {
      "name": "Bundaberg Ginger Beer [750ml]",
-     "kind": "subrecipe",
-     "ref": "Bundaberg Ginger Beer",
+     "kind": "id",
+     "ref": "lightspeed:20445917",
      "qty": "200",
      "unit": "ml",
      "ls_cost": "0.96",
@@ -20878,16 +20878,16 @@
    "ls_cost": 0.96,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 5.0,
-   "gp_pct": null
+   "gp_pct": 78.9
   },
   "Buffalo Trace Bourbon [House]": {
    "ingredients": [
     {
      "name": "Buffalo Trace Bourbon [Bottle]",
-     "kind": "subrecipe",
-     "ref": "Buffalo Trace Bourbon [House]",
+     "kind": "id",
+     "ref": "lightspeed:20445852",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.29",
@@ -20898,9 +20898,9 @@
    "ls_cost": 2.29,
    "fully_our_book": false,
    "resolved_pct": 100,
-   "is_prep": true,
+   "is_prep": false,
    "sell_incl": 11.0,
-   "gp_pct": null
+   "gp_pct": 77.1
   },
   "Corona D": {
    "ingredients": [
@@ -20914,9 +20914,9 @@
      "our_cost": null
     }
    ],
-   "our_cost": 2.58,
+   "our_cost": 2.5799,
    "ls_cost": 2.58,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 6.0,
@@ -20934,9 +20934,9 @@
      "our_cost": null
     }
    ],
-   "our_cost": 15.46,
+   "our_cost": 15.4594,
    "ls_cost": 15.46,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
@@ -20956,7 +20956,7 @@
    ],
    "our_cost": 13.48,
    "ls_cost": 13.48,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 26.0,
@@ -20976,7 +20976,7 @@
    ],
    "our_cost": 2.25,
    "ls_cost": 2.25,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 6.0,
@@ -20996,7 +20996,7 @@
    ],
    "our_cost": 15.28,
    "ls_cost": 15.28,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 29.0,
@@ -21016,7 +21016,7 @@
    ],
    "our_cost": 2.55,
    "ls_cost": 2.55,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 6.5,
