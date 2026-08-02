@@ -41,6 +41,7 @@ from modules.invoices.parsers import lion               # noqa: E402,F401
 from modules.invoices.parsers import paramount          # noqa: E402,F401
 from modules.invoices.parsers import nicholas_seafood   # noqa: E402,F401
 from modules.invoices.parsers import andrews_meat        # noqa: E402,F401
+from modules.invoices.parsers import farmer_joes         # noqa: E402,F401
 
 
 def parse_pdf(pdf_bytes: bytes, sender_domain: Optional[str] = None) -> Optional[Invoice]:

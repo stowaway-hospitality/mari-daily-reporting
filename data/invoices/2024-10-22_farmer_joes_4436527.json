@@ -1,0 +1,62 @@
+{
+  "invoice": {
+    "supplier_key": "farmer_joes",
+    "supplier_name_raw": "F J Chickens Pty Ltd",
+    "invoice_ref": "4436527",
+    "invoice_date": "2024-10-22",
+    "total_incl": "104.00",
+    "lines": [
+      {
+        "description": "BR/FILLETSK/OFF200\u2212250G",
+        "qty": "8.00",
+        "line_total_incl": "104.00",
+        "unit_price_incl": "13.00",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "8c850b15db2dc6b03f14042cd4bac4895c1b3175df6b05e5fbf11d5dd5f01c6d.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "104.00",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "BR/FILLETSK/OFF200\u2212250G",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "supplier name looks like Purchases - Food"
+      }
+    ]
+  }
+}
