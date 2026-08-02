@@ -99,6 +99,21 @@
       unit: "g"
       unit_cost_incl: 0.006878
 
+- product: "Passionfruit Syrup"
+  yield_qty: 1600           # 1L Berry Man passionfruit puree + 1kg sugar -> 1.6L
+  yield_unit: "ml"
+  ingredients:
+    - id: "lightspeed:22843691"
+      desc: "Passionfruit Puree Seedless (Berry Man)"
+      qty: 1000
+      unit: "g"
+      unit_cost_incl: 0.009650
+    - id: "foodlink:100464"
+      desc: "Sugar Caster 1kg Csr"
+      qty: 1000
+      unit: "g"
+      unit_cost_incl: 0.003500
+
 - product: "Honey + Ginger Syrup"
   yield_qty: 500           # (est) 2:1 honey:water + 1.1% ginger
   yield_unit: "ml"
@@ -139,11 +154,11 @@
       qty: 300
       unit: "ml"
       unit_cost_incl: 0.062857
-    - id: "lightspeed:23114865"
-      desc: "Aether Vodka [Bottle] (house)"
+    - id: "lightspeed:20484930"
+      desc: "White Light Vodka [20L] (house)"
       qty: 150
       unit: "ml"
-      unit_cost_incl: 0.083986
+      unit_cost_incl: 0.050639
     - subrecipe: "Sugar Syrup"
       qty: 75
       unit: "ml"
@@ -152,11 +167,11 @@
   yield_qty: 665
   yield_unit: "ml"
   ingredients:
-    - id: "lightspeed:23114865"
-      desc: "Aether Vodka [Bottle] (house)"
+    - id: "lightspeed:20484930"
+      desc: "White Light Vodka [20L] (house)"
       qty: 250
       unit: "ml"
-      unit_cost_incl: 0.083986
+      unit_cost_incl: 0.050639
     - id: "lightspeed:20492630"
       desc: "St. Germain Elderflower Liqueur [Bottle]"
       qty: 125
@@ -184,7 +199,7 @@
       desc: "Passionfruit Puree Seedless"
       qty: 20
       unit: "g"
-      unit_cost_incl: 0.000792
+      unit_cost_incl: 0.009650
     - id: "lightspeed:22488947"
       desc: "lime juice"
       qty: 30
@@ -272,8 +287,6 @@
 - product: "Stow Soda - Passionfruit"
   sell_incl_gst: 9.0
   ingredients:
-    - id: "lightspeed:22843691"
-      desc: "Passionfruit Puree Seedless (as 30ml syrup, est)"
+    - subrecipe: "Passionfruit Syrup"
       qty: 30
-      unit: "g"
-      unit_cost_incl: 0.000792
+      unit: "ml"

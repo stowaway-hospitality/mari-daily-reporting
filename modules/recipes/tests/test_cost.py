@@ -71,6 +71,27 @@ def test_price_before_any_observation_refuses(squid, costs):
         cost_on(squid, costs, date(2026, 1, 1))
 
 
+def test_same_dimension_units_convert():
+    """A $/kg price against a gram recipe line is the SAME quantity — convert it
+    (Berry Man passionfruit is priced $/kg, poured in g). $9.50/kg x 20g = $0.19."""
+    cs = CostSeries([CostObservation("pf", date(2026, 7, 1), Decimal("9.50"), "kg", "stowaway", "BM")])
+    r = Recipe("Trade Winds", "stowaway", lines=(RecipeLine("pf", Decimal("20"), "g"),))
+    assert cost_on(r, cs, date(2026, 7, 20)) == Decimal("0.190")
+    # litres->ml too
+    cs2 = CostSeries([CostObservation("syr", date(2026, 7, 1), Decimal("2.00"), "l", "stowaway", "S")])
+    r2 = Recipe("Soda", "stowaway", lines=(RecipeLine("syr", Decimal("30"), "ml"),))
+    assert cost_on(r2, cs2, date(2026, 7, 20)) == Decimal("0.06")
+
+
+def test_cross_dimension_or_pack_still_refuses():
+    """The $11,400/serve guard stays: a per-'ea'/pack price vs a gram line has no
+    safe conversion and must still refuse."""
+    cs = CostSeries([CostObservation("box", date(2026, 7, 1), Decimal("57.00"), "ea", "stowaway", "P")])
+    r = Recipe("Squid", "stowaway", lines=(RecipeLine("box", Decimal("200"), "g"),))
+    with pytest.raises(MissingCost, match="unit mismatch"):
+        cost_on(r, cs, date(2026, 7, 20))
+
+
 def test_gp_is_calculated_ex_gst(squid, costs):
     c = cost_on(squid, costs, date(2026, 7, 20))          # 2.28
     gp = gp_percent(squid, c)                              # sell 26.33 incl -> 23.94 ex

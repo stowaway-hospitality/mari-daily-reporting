@@ -4,6 +4,16 @@
   by: "Zak"
   on: 2026-07-25
   by_email: "zak@stowawaybar.com"
+# Berry Man passionfruit puree: invoice line "12x1kg" priced $9.50 was read as
+# $9.50 for the whole 12kg tub -> $0.79/kg, a 12x undercost. The $9.50 is the
+# per-1kg-unit price (BO export independently shows $9.65/kg). Pin 1kg so the
+# invoice reads $9.50/kg; a future invoice still reprices automatically.
+- id: "the-berry-man-nsw-pty-ltd:PJ1"
+  pack_qty: 1
+  pack_unit: kg
+  by: "Claude (invoice unit price is per 1kg; BO confirms ~$9.65/kg)"
+  on: 2026-08-02
+  by_email: "hello@stowawaybar.com"
 # --- B&E pack sizes read from the befoodsonline catalogue (invoices omit them).
 # CTN-sold items use the FULL carton weight (invoice price is per carton); PK /
 # UNIT / CAN / EACH items use the single selling-unit weight. Bamboo A10 has no

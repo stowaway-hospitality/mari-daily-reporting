@@ -42,6 +42,22 @@ from core.domain import CostSeries  # noqa: E402
 ROOT = Path(__file__).resolve().parents[2]
 RECIPES_DIR = ROOT / "data" / "recipes"
 
+# base-unit sizes for same-dimension cost conversion (kg->g, L->ml). Anything not
+# here (ea, bottle, can, pack) has no conversion — those must match exactly.
+_MASS = {"g": 1, "gm": 1, "gram": 1, "grams": 1, "kg": 1000, "kgs": 1000, "kilogram": 1000}
+_VOL = {"ml": 1, "milliliter": 1, "l": 1000, "lt": 1000, "litre": 1000, "litres": 1000, "liter": 1000}
+
+
+def _same_dim_factor(from_unit: str, to_unit: str) -> Optional[Decimal]:
+    """Multiplier to convert a $/from_unit price into $/to_unit, IFF the two units
+    are the same physical dimension (mass or volume). Returns None otherwise, so
+    the caller still refuses a pack/each vs base mismatch (the $11,400/serve bug)."""
+    fu, tu = (from_unit or "").lower(), (to_unit or "").lower()
+    for fam in (_MASS, _VOL):
+        if fu in fam and tu in fam:
+            return Decimal(fam[tu]) / Decimal(fam[fu])
+    return None
+
 
 @dataclass(frozen=True)
 class RecipeLine:
@@ -241,14 +257,23 @@ def cost_on(recipe: Recipe, costs: CostSeries, on: date,
         # multiplied by a gram count until someone says how big the pack is.
         # Refuse; don't convert on a hunch.
         if line.unit and obs.unit and line.unit != obs.unit:
-            raise MissingCost(
-                f"{recipe.product!r}: unit mismatch on {line.ingredient!r} — recipe says "
-                f"{line.qty}{line.unit}, price is ${obs.cost_per_unit} per '{obs.unit}'. "
-                f"Multiplying these gives a number that is arithmetically perfect and "
-                f"physically absurd (this exact case produced $11,400/serve). The cost "
-                f"feed must publish {line.unit}-priced observations — see "
-                f"modules/recipes/pipeline/build_costs.py."
-            )
+            # SAME-DIMENSION conversion is safe: kg<->g and L<->ml are the same
+            # physical quantity, so a $/kg price against a gram recipe line just
+            # scales by 1000 (Berry Man passionfruit is priced $/kg, poured in g).
+            # We do NOT convert across dimensions or from a pack/each price — that
+            # is the $11,400/serve bug; those still refuse below.
+            factor = _same_dim_factor(obs.unit, line.unit)
+            if factor is None:
+                raise MissingCost(
+                    f"{recipe.product!r}: unit mismatch on {line.ingredient!r} — recipe says "
+                    f"{line.qty}{line.unit}, price is ${obs.cost_per_unit} per '{obs.unit}'. "
+                    f"Multiplying these gives a number that is arithmetically perfect and "
+                    f"physically absurd (this exact case produced $11,400/serve). The cost "
+                    f"feed must publish {line.unit}-priced observations — see "
+                    f"modules/recipes/pipeline/build_costs.py."
+                )
+            total += obs.cost_per_unit * factor * line.qty
+            continue
         total += obs.cost_per_unit * line.qty
     return total
 
