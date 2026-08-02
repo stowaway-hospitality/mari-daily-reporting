@@ -1,0 +1,22 @@
+# Harry Gatos recipes — what actually goes in the glass/dish.
+# Effective-dated: editing writes a NEW version so old COGS stays reproducible.
+
+# Sapporo on tap — poured from the 50L keg (lightspeed:20944710, $371 -> $0.00742/ml).
+# Costs live off the keg, so a new keg invoice reprices every serve automatically.
+- product: "Sapporo - Schooner"
+  sell_incl_gst: 13.0
+  ingredients:
+    - id: "lightspeed:20944710"
+      desc: "Sapporo [Keg] (50L) — 425ml schooner"
+      qty: 425
+      unit: "ml"
+      unit_cost_incl: 0.007420
+
+- product: "Sapporo - 500ml"
+  sell_incl_gst: 16.5
+  ingredients:
+    - id: "lightspeed:20944710"
+      desc: "Sapporo [Keg] (50L) — 500ml serve"
+      qty: 500
+      unit: "ml"
+      unit_cost_incl: 0.007420

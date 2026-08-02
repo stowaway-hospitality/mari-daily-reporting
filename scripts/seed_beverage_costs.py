@@ -53,6 +53,8 @@ SEED_OUT = ROOT / "data" / "beverage_seed.csv"
 # invoice history so the seed never shadows a real observation.
 SEED_DATE = "2026-01-01"
 SEED_SOURCE = "bo-seed"          # source_invoice tag; build_cogs_list keeps these
+KEG_ML = 50000                   # AU standard keg = 50L; verified against our own
+                                 # keg$/schooner$ ratios (all land ~50L)
 
 BEV_CATS = {"SPIRITS", "WINE", "BEERS", "NON-ALC", "SAKE / SOJU", "MARILYNA'S DRINKS"}
 
@@ -116,6 +118,9 @@ def is_beverage_stock(r) -> bool:
         return False                       # a pour, not a stock item
     if _KITCHEN.search(name):
         return False                       # kitchen good, costed via its own invoice
+    if "[keg]" in name.lower() or re.search(r"\bkeg\b", name.lower()):
+        return True                        # a keg is always bar stock (e.g. "Sapporo
+                                           # [Keg]" carries no category/bar-word)
     if _bev_cats(r):
         return True
     # (no category) stock bottle: include only if it names a bar/alcohol/mixer word
@@ -140,15 +145,15 @@ _SIZE_IN_NAME = re.compile(r"([\d.]+)\s*(ml|lt?|litres?)\b", re.I)
 def classify(r) -> tuple[str, int | None]:
     """
     (unit_kind, ml) for a stock row.
-      'ml'   -> poured; ml is the bottle volume (cocktail uses part of it)
+      'ml'   -> poured; ml is the bottle/keg volume (a serve uses part of it)
       'each' -> sold/used whole (beer/cider/seltzer/can/tin/soft drink)
-      'keg'  -> per keg (a serve calc lives elsewhere)
     """
     name = r["ProductName"]
     low = name.lower()
     cats = _bev_cats(r)
     if re.search(r"\bkeg\b", low) or "[keg]" in low:
-        return "keg", None
+        return "ml", KEG_ML                 # AU kegs are 50L; cost per ml so tap
+                                            # serves (schooner/pint) derive from it
     is_wine = ("WINE" in cats) or bool(_WINE.search(name))
     pour = ("SPIRITS" in cats) or ("SAKE / SOJU" in cats) or is_wine or bool(_POUR.search(name))
     # explicit can/tin/seltzer/cider, or a beer/soft category -> whole unit
@@ -200,11 +205,11 @@ def collect() -> tuple[list[dict], list[str]]:
                 continue
             seen.add(pid)
             kind, ml = classify(r)
-            if kind == "keg":
-                basis, desc, pq, pu = "keg", disp, "1", "keg"
-                flags.append(f"KEG (per-keg only, no serve calc): {disp}")
-            elif kind == "ml":
+            if kind == "ml":
+                tag = " (50L keg)" if ml == KEG_ML else ""
                 basis, desc, pq, pu = "", f"{disp} {ml}ML", str(ml), "ml"
+                if ml == KEG_ML:
+                    flags.append(f"KEG costed per ml @ 50L: {disp}")
             else:                                   # each — beer / cider / seltzer / soft
                 basis, desc, pq, pu = "can", disp, "1", "each"
             seed.append({
