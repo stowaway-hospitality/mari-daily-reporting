@@ -68,6 +68,23 @@ def load_bo_ids():
     return by_name, prefixes
 
 
+def load_sell_prices():
+    """normalised ProductName -> sell price incl GST (what the menu charges)."""
+    out = {}
+    for _v, path in EXPORTS:
+        if not path.exists():
+            continue
+        for r in csv.DictReader(path.open(encoding="utf-8-sig")):
+            try:
+                p = float(r.get("SellPriceIncTax") or 0)
+            except ValueError:
+                p = 0
+            n = norm(r["ProductName"])
+            if n and p > 0:
+                out.setdefault(n, p)
+    return out
+
+
 def load_our_costs():
     """ingredient id -> latest (cost_per_unit, unit) from our cost book."""
     latest = {}
@@ -83,6 +100,7 @@ def main() -> int:
     rec = json.loads(RECIPES.read_text())
     bo_by_name, bo_prefixes = load_bo_ids()
     our_costs = load_our_costs()
+    sell_by_name = load_sell_prices()
     recnames = {norm(k): k for k in rec}
 
     def resolve(name):
@@ -107,7 +125,13 @@ def main() -> int:
             ing_res[kind or "unmatched"] += 1
             our = None
             if kind == "id" and ref in our_costs:
-                our = our_costs[ref][0]
+                oc, ou = our_costs[ref]
+                # only use our number when its unit matches how the recipe uses it.
+                # a keg priced per-keg used as 570 "ml", or a bottle per-bottle used
+                # as ml, must NOT be multiplied by the ml qty — fall back to the
+                # scraped per-pour cost, which is already in the right unit.
+                if ou == (ing.get("unit") or ""):
+                    our = oc
             lines.append({"name": ing["name"], "kind": kind, "ref": ref,
                           "qty": ing.get("qty"), "unit": ing.get("unit"),
                           "ls_cost": ing.get("cost"), "our_cost": our})
@@ -155,6 +179,15 @@ def main() -> int:
         nl = len(out[name]["ingredients"]) or 1
         res = sum(1 for x in out[name]["ingredients"] if x["kind"])
         out[name]["resolved_pct"] = round(100 * res / nl)
+        # sell price (menu) + food GP off OUR cost. Sub-recipes/preps have no sell
+        # price — that's expected (they're inputs, not menu items).
+        sell = sell_by_name.get(norm(name))
+        out[name]["sell_incl"] = sell
+        if sell and o:
+            ex = sell / 1.1                    # ex-GST revenue
+            out[name]["gp_pct"] = round(100 * (ex - o) / ex, 1) if ex else None
+        else:
+            out[name]["gp_pct"] = None
         if fo:
             fully_ours += 1
 

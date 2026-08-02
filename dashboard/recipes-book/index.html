@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recipe book · Stowaway Hospitality Group</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/_shared/tokens.css?v=20260719b">
+<!--
+  The full Lightspeed recipe book, scraped into our repo and costed off OUR cost
+  book (invoice-updated), not Lightspeed's stale hand-typed numbers. Read-only.
+  our_cost   = costed from our cost feed (data/costs.csv) where the ingredient is
+               priced; falls back to the scraped Lightspeed per-pour cost per line.
+  ls_cost    = Lightspeed's own recipe cost at scrape time — a provenance baseline.
+  GP%        = (sell ex-GST - our_cost) / sell ex-GST, for items with a menu price.
+-->
+<style>
+  .wrap{max-width:1000px}
+  .sub{color:var(--ink-soft);font-size:13px;margin:-4px 0 16px;line-height:1.5}
+  .bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .bar input{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:14px}
+  .bar select{padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:13px}
+  .stat{font-size:12px;color:var(--ink-soft);white-space:nowrap}.stat b{color:var(--ink)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-bottom:20px}
+  .kpi{border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:12px 14px}
+  .kpi .n{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700}
+  .kpi .l{font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+  h2.sec{font-family:'Space Grotesk',sans-serif;font-size:15px;margin:24px 0 4px}
+  .sec-note{font-size:12px;color:var(--ink-soft);margin:0 0 12px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);text-align:left;padding:8px 10px;font-weight:600}
+  th.r{text-align:right}
+  td{padding:7px 10px;border-top:1px solid var(--line);vertical-align:middle}
+  td.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  tbody tr:hover{background:color-mix(in srgb,var(--paper) 90%,var(--ink) 4%)}
+  .pl{border:1px solid var(--line);border-radius:12px;background:var(--paper);overflow:hidden}
+  .gp{font-weight:700;font-variant-numeric:tabular-nums}
+  .gp.bad{color:var(--red)} .gp.warn{color:var(--amber)} .gp.good{color:var(--green)}
+  .tag{font-size:10px;padding:1px 7px;border-radius:99px;background:color-mix(in srgb,var(--green) 14%,var(--paper));color:var(--green);margin-left:6px}
+  .tag.ls{background:color-mix(in srgb,var(--amber) 14%,var(--paper));color:var(--amber)}
+  .ings{font-size:11.5px;color:var(--ink-soft)}
+  .empty{text-align:center;color:var(--ink-soft);padding:50px 20px}
+  tr.det td{background:color-mix(in srgb,var(--paper) 94%,var(--ink) 3%);font-size:12px;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<div id="gate"></div>
+<div id="app" style="display:none">
+  <header class="app-header"><div class="app-header-inner">
+    <a class="brand-row" href="/"><img src="/logo_512.png" alt=""><span class="group-brand">Stowaway Hospitality Group</span></a>
+    <div class="who"><span id="who"></span><a href="/">home</a></div>
+  </div></header>
+  <div class="wrap">
+    <h1>Recipe book</h1>
+    <p class="sub">Every recipe from Lightspeed, costed off <b>our own book</b> — the invoice-updated cost
+      feed, not Lightspeed's stale numbers. Each dish and drink shows its cost, menu price and gross profit;
+      the food-GP alerts flag anything selling too thin. Costs refresh as invoices land.</p>
+    <div class="bar">
+      <input id="q" type="search" placeholder="Search a recipe — negroni, meatlovers, gravy…" autocomplete="off">
+      <select id="filter">
+        <option value="all">All recipes</option>
+        <option value="menu">Menu items (has price)</option>
+        <option value="alert">GP alerts</option>
+        <option value="batch">Batches / preps</option>
+      </select>
+      <span class="stat" id="stat"></span>
+    </div>
+    <div class="cards" id="kpis"></div>
+    <div id="body"><div class="empty">Loading…</div></div>
+  </div>
+</div>
+<script type="module">
+import { Auth } from '/_shared/auth.js';
+let DATA = { recipes:{} };
+const esc = s => String(s ?? '').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const money = n => '$' + Number(n||0).toFixed(2);
+
+Auth.gate(document.getElementById('gate'), {
+  roles:['admin','bigchef','stowfood','hgfood','pizza'],
+  onOk: async (user) => {
+    document.getElementById('app').style.display='';
+    document.getElementById('who').textContent=user.name;
+    DATA = await fetch('/data/lightspeed_recipes_costed.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>({recipes:{}}));
+    document.getElementById('q').addEventListener('input',render);
+    document.getElementById('filter').addEventListener('change',render);
+    render();
+  },
+});
+
+const gpClass = g => g==null?'':(g<0?'gp bad':g<55?'gp bad':g<65?'gp warn':'gp good');
+const isBatch = r => r.sell_incl==null && r.ingredients.length>0;
+
+function row(name,r){
+  const gp = r.gp_pct;
+  const tag = r.fully_our_book ? '<span class="tag">our book</span>'
+            : '<span class="tag ls">part LS</span>';
+  const ings = r.ingredients.map(i=>esc(i.name)).slice(0,6).join(', ');
+  return `<tr class="main" onclick="this.nextElementSibling?.classList.toggle('hide')">
+      <td>${esc(name)}${tag}</td>
+      <td class="r">${r.sell_incl?money(r.sell_incl):'—'}</td>
+      <td class="r">${money(r.our_cost)}</td>
+      <td class="r"><span class="${gpClass(gp)}">${gp==null?'—':gp+'%'}</span></td>
+      <td class="r" style="color:var(--ink-soft)">${money(r.ls_cost)}</td>
+    </tr>
+    <tr class="det hide"><td colspan="5"><span class="ings">${ings}${r.ingredients.length>6?' …':''}</span></td></tr>`;
+}
+
+function render(){
+  const q=(document.getElementById('q').value||'').trim().toLowerCase();
+  const f=document.getElementById('filter').value;
+  const all=Object.entries(DATA.recipes||{});
+  const menu=all.filter(([n,r])=>r.sell_incl!=null);
+  const gpvals=menu.map(([n,r])=>r.gp_pct).filter(g=>g!=null);
+  const avg=gpvals.length?Math.round(gpvals.reduce((a,b)=>a+b,0)/gpvals.length):0;
+  const alerts=menu.filter(([n,r])=>r.gp_pct!=null && r.gp_pct<55);
+  const fully=all.filter(([n,r])=>r.fully_our_book).length;
+
+  document.getElementById('kpis').innerHTML =
+    `<div class="kpi"><div class="n">${all.length}</div><div class="l">recipes costed</div></div>
+     <div class="kpi"><div class="n">${fully}</div><div class="l">fully on our book</div></div>
+     <div class="kpi"><div class="n">${avg}%</div><div class="l">avg food GP (menu)</div></div>
+     <div class="kpi"><div class="n" style="color:${alerts.length?'var(--red)':'var(--green)'}">${alerts.length}</div><div class="l">GP alerts (&lt;55%)</div></div>`;
+
+  let rows=all;
+  if(f==='menu') rows=menu;
+  else if(f==='alert') rows=alerts;
+  else if(f==='batch') rows=all.filter(([n,r])=>isBatch(r));
+  rows=rows.filter(([n])=>!q||n.toLowerCase().includes(q));
+  rows.sort((a,b)=>{
+    if(f==='alert'||f==='menu') return (a[1].gp_pct??999)-(b[1].gp_pct??999);
+    return a[0].localeCompare(b[0]);
+  });
+  document.getElementById('stat').innerHTML=`<b>${rows.length}</b> shown`;
+  document.getElementById('body').innerHTML = rows.length
+    ? `<div class="pl"><table><thead><tr><th>Recipe</th><th class="r">Sell</th><th class="r">Our cost</th><th class="r">Food GP</th><th class="r">LS cost</th></tr></thead><tbody>${rows.map(([n,r])=>row(n,r)).join('')}</tbody></table></div>`
+    : '<div class="empty">No recipes match.</div>';
+}
+</script>
+</body>
+</html>
