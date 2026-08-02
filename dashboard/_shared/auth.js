@@ -394,10 +394,22 @@ export const Auth = (() => {
     return data?.signedUrl || null;
   }
 
+  // The bookings page talks to a live engine whose bearer token is shared by all
+  // staff. It used to be pasted per-device; instead we keep it in a Supabase
+  // table (app_config) readable only by authenticated users (RLS), so a signed-in
+  // user gets it automatically and it never sits in this public repo/page.
+  async function bookingToken() {
+    if (!sb) return null;
+    const { data, error } = await sb.from("app_config")
+      .select("value").eq("key", "booking_token").maybeSingle();
+    return error ? null : (data?.value || null);
+  }
+
   return {
     login, signUp, forgotPassword, completePasswordReset, logout,
     current, requireToken, canWrite, hasRole, gate, KITCHEN_ROLES,
     configured, SUPABASE_URL,
     listUsers, inviteUser, setUserRole, decideInvoice, decidedRefs, invoicePdfUrl,
+    bookingToken,
   };
 })();

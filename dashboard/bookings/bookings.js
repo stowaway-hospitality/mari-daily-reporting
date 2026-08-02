@@ -27,8 +27,17 @@ const svcToken = () => localStorage.getItem(TOKEN_KEY) || '';
 const hdrs = () => ({ 'Authorization': 'Bearer ' + svcToken(),
                       'Content-Type': 'application/json' });
 
-async function call(path, opts = {}) {
+async function call(path, opts = {}, _retried = false) {
   const r = await fetch(API + path, { ...opts, headers: { ...hdrs(), ...(opts.headers || {}) } });
+  // Token rotated or stale: pull the current one from Supabase once and retry,
+  // so a rotation heals itself with no per-device re-paste.
+  if ((r.status === 401 || r.status === 403) && !_retried) {
+    localStorage.removeItem(TOKEN_KEY);
+    try {
+      const fresh = await Auth.bookingToken();
+      if (fresh) { localStorage.setItem(TOKEN_KEY, fresh); return call(path, opts, true); }
+    } catch (_) { /* fall through to the error below */ }
+  }
   if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || ('HTTP ' + r.status));
   return r;
 }
@@ -312,6 +321,13 @@ function selectEvent(ev, card) {
 }
 
 async function init() {
+  // No per-device paste step: if this device has no token yet, fetch the shared
+  // one from Supabase (readable only to signed-in staff). The manual box only
+  // appears as a fallback if Supabase has nothing for us.
+  if (!svcToken()) {
+    try { const t = await Auth.bookingToken(); if (t) localStorage.setItem(TOKEN_KEY, t); }
+    catch (_) { /* fall through to the manual box */ }
+  }
   if (!svcToken()) { showToken(); return; }
   $('tokenbox').style.display = 'none';
   $('main').style.display = 'block';
