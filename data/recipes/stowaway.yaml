@@ -47,3 +47,233 @@
       qty: 1000
       unit: "g"
       unit_cost_incl: 0.003500
+
+# ============================================================================
+# TIKI / COCKTAIL PROGRAM — entered by Claude from chef's recipe cards, 2026-08-02.
+# Costs are LIVE off the invoice book (ids resolve at build). Quantities marked
+# (est) are Claude's reasonable defaults — chef to confirm yields in the builder.
+# Sub-recipe syrups are defined first so the drinks can reference them.
+# ============================================================================
+
+# ---- SHARED SYRUPS / BATCHES (sub-recipes) ----
+- product: "Sugar Syrup"
+  yield_qty: 1540            # (est) 1kg sugar dissolved 1:1 -> ~1.54L
+  yield_unit: "ml"
+  ingredients:
+    - id: "foodlink:100464"
+      desc: "Sugar Caster 1kg Csr"
+      qty: 1000
+      unit: "g"
+      unit_cost_incl: 0.003500
+
+- product: "Grapefruit Sherbet"
+  yield_qty: 2250
+  yield_unit: "ml"
+  ingredients:
+    - id: "lightspeed:22843720"
+      desc: "East Coast Grapefruit [2L]"
+      qty: 1285
+      unit: "ml"
+      unit_cost_incl: 0.002989
+    - id: "lightspeed:22843972"
+      desc: "Citric Acid [20kg]"
+      qty: 25
+      unit: "g"
+      unit_cost_incl: 0.005556
+    - id: "lightspeed:22843971"
+      desc: "Malic Acid [1kg]"
+      qty: 25
+      unit: "g"
+      unit_cost_incl: 0.015164
+    - subrecipe: "Sugar Syrup"
+      qty: 965
+      unit: "ml"
+
+- product: "Lychee Lime Leaf Syrup"
+  yield_qty: 400            # (est) cold-pressed jar of lychee in syrup
+  yield_unit: "ml"
+  ingredients:
+    - id: "foodlink:106538"
+      desc: "LYCHEES IN SYRUP 567GM Osha"
+      qty: 567
+      unit: "g"
+      unit_cost_incl: 0.006878
+
+- product: "Honey + Ginger Syrup"
+  yield_qty: 500           # (est) 2:1 honey:water + 1.1% ginger
+  yield_unit: "ml"
+  ingredients:
+    - id: "foodlink:101313"
+      desc: "HONEY PURE 3KG Wild Flower"
+      qty: 400
+      unit: "g"
+      unit_cost_incl: 0.007000
+    - id: "fresh-fruit-team:GINKG"
+      desc: "Ginger"
+      qty: 7
+      unit: "g"
+      unit_cost_incl: 0.013200
+
+- product: "Dragon Soda"
+  yield_qty: 20000
+  yield_unit: "ml"
+  ingredients:
+    - id: "lightspeed:22893724"
+      desc: "Dragonfruit Puree [10kg]"
+      qty: 3380
+      unit: "g"
+      unit_cost_incl: 0.008639
+    - subrecipe: "Sugar Syrup"
+      qty: 845
+      unit: "ml"
+    - subrecipe: "Grapefruit Sherbet"
+      qty: 2250
+      unit: "ml"
+
+- product: "Dragon Juice Batch"
+  yield_qty: 525
+  yield_unit: "ml"
+  ingredients:
+    - id: "lightspeed:20810699"
+      desc: "Kunizakari Umeshu [Bottle]"
+      qty: 300
+      unit: "ml"
+      unit_cost_incl: 0.062857
+    - id: "lightspeed:23114865"
+      desc: "Aether Vodka [Bottle] (house)"
+      qty: 150
+      unit: "ml"
+      unit_cost_incl: 0.083986
+    - subrecipe: "Sugar Syrup"
+      qty: 75
+      unit: "ml"
+
+- product: "Drunken Koi Batch"
+  yield_qty: 665
+  yield_unit: "ml"
+  ingredients:
+    - id: "lightspeed:23114865"
+      desc: "Aether Vodka [Bottle] (house)"
+      qty: 250
+      unit: "ml"
+      unit_cost_incl: 0.083986
+    - id: "lightspeed:20492630"
+      desc: "St. Germain Elderflower Liqueur [Bottle]"
+      qty: 125
+      unit: "ml"
+      unit_cost_incl: 0.069914
+    - subrecipe: "Lychee Lime Leaf Syrup"
+      qty: 290
+      unit: "ml"
+    - manual: true
+      desc: "Blue Spirulina (1/4 tsp) — PRICE PENDING"
+      qty: 1
+      unit: "ea"
+      unit_cost_incl: 0.0
+
+# ---- FINISHED DRINKS ----
+- product: "Trade Winds"
+  sell_incl_gst: 14.0
+  ingredients:
+    - id: "lightspeed:20492716"
+      desc: "John D. Taylor's Velvet Falernum"
+      qty: 15
+      unit: "ml"
+      unit_cost_incl: 0.049986
+    - id: "lightspeed:22843691"
+      desc: "Passionfruit Puree Seedless"
+      qty: 20
+      unit: "g"
+      unit_cost_incl: 0.000792
+    - id: "lightspeed:22488947"
+      desc: "lime juice"
+      qty: 30
+      unit: "ml"
+      unit_cost_incl: 0.008300
+    - id: "lightspeed:20747514"
+      desc: "Angostura Bitters (2 drops)"
+      qty: 0.2
+      unit: "ml"
+      unit_cost_incl: 0.006700
+    - id: "fresh-fruit-team:HMRBCH BUNCH"
+      desc: "Mint sprig"
+      qty: 0.05
+      unit: "bunch"
+      unit_cost_incl: 1.100000
+    - id: "lightspeed:21019999"
+      desc: "Dehydrated Lime Garnish (1 wheel)"
+      qty: 2
+      unit: "g"
+      unit_cost_incl: 0.092308
+
+- product: "Dragon Juice"
+  sell_incl_gst: 17.0
+  ingredients:
+    - subrecipe: "Dragon Juice Batch"
+      qty: 50
+      unit: "ml"
+    - subrecipe: "Dragon Soda"
+      qty: 120
+      unit: "ml"
+    - id: "select-fresh:HSHIR"
+      desc: "Shiso leaf (garnish)"
+      qty: 0.025
+      unit: "bunch"
+      unit_cost_incl: 3.900000
+
+- product: "Drunken Koi"
+  sell_incl_gst: 21.0
+  ingredients:
+    - subrecipe: "Drunken Koi Batch"
+      qty: 75
+      unit: "ml"
+    - id: "fresh-fruit-team:LKG"
+      desc: "Lemon juice"
+      qty: 10
+      unit: "g"
+      unit_cost_incl: 0.003080
+    - manual: true
+      desc: "Watermelon fish jelly x2 (gelatine/watermelon) — est"
+      qty: 1
+      unit: "ea"
+      unit_cost_incl: 0.10
+    - manual: true
+      desc: "Nasturtium / lilypad garnish — PRICE PENDING"
+      qty: 1
+      unit: "ea"
+      unit_cost_incl: 0.0
+
+- product: "Sensei Highball"
+  sell_incl_gst: 12.0
+  ingredients:
+    - id: "lightspeed:22253061"
+      desc: "Nikka Black Whisky"
+      qty: 15
+      unit: "ml"
+      unit_cost_incl: 0.086350
+    - subrecipe: "Honey + Ginger Syrup"
+      qty: 15
+      unit: "ml"
+    - id: "fresh-fruit-team:LKG"
+      desc: "Lemon slice"
+      qty: 5
+      unit: "g"
+      unit_cost_incl: 0.003080
+
+- product: "Yuzu Chu-hi"
+  sell_incl_gst: 12.0
+  ingredients:
+    - id: "lightspeed:20904019"
+      desc: "Wa no Kokoro Yuzushu"
+      qty: 30
+      unit: "ml"
+      unit_cost_incl: 0.048457
+
+- product: "Stow Soda - Passionfruit"
+  sell_incl_gst: 9.0
+  ingredients:
+    - id: "lightspeed:22843691"
+      desc: "Passionfruit Puree Seedless (as 30ml syrup, est)"
+      qty: 30
+      unit: "g"
+      unit_cost_incl: 0.000792
