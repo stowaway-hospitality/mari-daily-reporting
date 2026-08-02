@@ -1,16 +1,16 @@
 {
   "generated": "2026-08-02",
-  "count": 529,
-  "compared": 12,
+  "count": 559,
+  "compared": 13,
   "window_days": 90,
-  "total_saving": 41.1,
+  "total_saving": 50.6,
   "switches": [
     {
       "name": "Cauliflower Floret",
       "unit": "kg",
       "from": "Fresh Fruit Team",
       "to": "Select Fresh",
-      "saving": 32.3,
+      "saving": 41.8,
       "from_cost": 7.9,
       "to_cost": 6.0
     },
@@ -125,6 +125,15 @@
       "date": "2026-07-30"
     },
     {
+      "name": "Mushroom King Brown",
+      "supplier": "Fresh Fruit Team",
+      "unit": "kg",
+      "prev": 30.25,
+      "cost": 43.2,
+      "pct": 42.8,
+      "date": "2026-07-30"
+    },
+    {
       "name": "Choy Sum",
       "supplier": "Fresh Fruit Team",
       "unit": "bunch",
@@ -213,6 +222,15 @@
       "cost": 1.6,
       "pct": 23.1,
       "date": "2026-07-29"
+    },
+    {
+      "name": "Corn Sweet",
+      "supplier": "Fresh Fruit Team",
+      "unit": "ea",
+      "prev": 1.1,
+      "cost": 1.32,
+      "pct": 20.0,
+      "date": "2026-07-30"
     },
     {
       "name": "Rosemary",
@@ -449,10 +467,10 @@
           "date": "2026-07-18",
           "desc": "Cauliflower Florets",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
-          "spend": 134.3,
-          "volume": 17.0
+          "spend": 173.8,
+          "volume": 22.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -463,7 +481,7 @@
       "suspect": false,
       "low": 6.0,
       "low_date": "2026-07-22",
-      "est_saving": 32.3,
+      "est_saving": 41.8,
       "main": "Fresh Fruit Team",
       "switch": true
     },
@@ -508,6 +526,46 @@
       "switch": true
     },
     {
+      "key": "bean green",
+      "name": "Bean Green",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.3,
+          "date": "2026-06-04",
+          "desc": "Bean Green",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 6.6,
+          "volume": 2.0
+        },
+        {
+          "supplier": "Select Fresh",
+          "cost": 8.2,
+          "date": "2026-06-24",
+          "desc": "BEAN GREEN KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.3,
+      "max": 8.2,
+      "spread_pct": 148.5,
+      "multi": true,
+      "suspect": false,
+      "low": 3.3,
+      "low_date": "2026-06-04",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
       "key": "carrot",
       "name": "Carrot",
       "unit": "kg",
@@ -517,11 +575,11 @@
           "cost": 1.32,
           "date": "2026-07-30",
           "desc": "Carrot Large",
-          "change_pct": null,
-          "n": 6,
-          "prev_cost": null,
-          "spend": 7.92,
-          "volume": 6.0
+          "change_pct": -7.7,
+          "n": 7,
+          "prev_cost": 1.43,
+          "spend": 9.35,
+          "volume": 7.0
         },
         {
           "supplier": "Select Fresh",
@@ -729,7 +787,7 @@
           "date": "2026-07-30",
           "desc": "Shallot",
           "change_pct": -7.9,
-          "n": 6,
+          "n": 7,
           "prev_cost": 3.41,
           "spend": 0.0,
           "volume": 0.0
@@ -849,7 +907,7 @@
           "date": "2026-07-30",
           "desc": "Herb Chives",
           "change_pct": -79.2,
-          "n": 5,
+          "n": 6,
           "prev_cost": 13.2,
           "spend": 0.0,
           "volume": 0.0
@@ -1933,10 +1991,10 @@
           "date": "2026-07-23",
           "desc": "BEANS EDAMAME SOY 350GM FROZEN (WITH SHELL)",
           "change_pct": 26.7,
-          "n": 2,
+          "n": 3,
           "prev_cost": 8.571,
-          "spend": 45.4,
-          "volume": 4.55
+          "spend": 57.9,
+          "volume": 6.3
         }
       ],
       "cheapest": "Foodlink",
@@ -1945,39 +2003,10 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 8.571,
-      "low_date": "2026-06-13",
+      "low": 7.143,
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Foodlink",
-      "switch": false
-    },
-    {
-      "key": "bean green",
-      "name": "Bean Green",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Select Fresh",
-          "cost": 8.2,
-          "date": "2026-06-24",
-          "desc": "BEAN GREEN KG",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
-          "spend": 0.0,
-          "volume": 0.0
-        }
-      ],
-      "cheapest": "Select Fresh",
-      "min": 8.2,
-      "max": 8.2,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false,
-      "low": 8.2,
-      "low_date": "2026-06-24",
-      "est_saving": 0.0,
-      "main": null,
       "switch": false
     },
     {
@@ -2416,6 +2445,64 @@
       "switch": false
     },
     {
+      "key": "breadcrumb fine nature",
+      "name": "Breadcrumb Fine Nature",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 4.5,
+          "date": "2026-06-05",
+          "desc": "BREADCRUMBS FINE 1KG Natures",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 13.5,
+          "volume": 3.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 4.5,
+      "max": 4.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 4.5,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
+      "key": "breadcrumb japanese panko",
+      "name": "Breadcrumb Japanese Panko",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 52.0,
+          "date": "2026-06-05",
+          "desc": "BREADCRUMBS JAPANESE PANKO",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 52.0,
+      "max": 52.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 52.0,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "brl",
       "name": "Brl",
       "unit": "box",
@@ -2764,6 +2851,64 @@
       "switch": false
     },
     {
+      "key": "butter jeff unsalted",
+      "name": "Butter Unsalted Jeff",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 17.9,
+          "date": "2026-06-05",
+          "desc": "BUTTER UNSALTED 1KG Jeffs",
+          "change_pct": null,
+          "n": 2,
+          "prev_cost": null,
+          "spend": 71.6,
+          "volume": 4.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 17.9,
+      "max": 17.9,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 17.9,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
+      "key": "button",
+      "name": "Button",
+      "unit": "box",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 33.0,
+          "date": "2026-06-05",
+          "desc": "Button B Grade",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 33.0,
+          "volume": 1.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 33.0,
+      "max": 33.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 33.0,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
       "key": "button",
       "name": "Button",
       "unit": "kg",
@@ -2919,10 +3064,10 @@
           "date": "2026-07-30",
           "desc": "Cabbage Shredded",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
-          "spend": 48.3,
-          "volume": 7.0
+          "spend": 55.2,
+          "volume": 8.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -2932,7 +3077,7 @@
       "multi": false,
       "suspect": false,
       "low": 6.9,
-      "low_date": "2026-07-02",
+      "low_date": "2026-06-04",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -3267,10 +3412,10 @@
           "date": "2026-07-25",
           "desc": "CELE Each",
           "change_pct": 7.1,
-          "n": 8,
+          "n": 9,
           "prev_cost": 10.08,
-          "spend": 88.72,
-          "volume": 11.0
+          "spend": 100.18,
+          "volume": 14.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -3280,7 +3425,7 @@
       "multi": false,
       "suspect": false,
       "low": 3.82,
-      "low_date": "2026-06-15",
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -3431,6 +3576,35 @@
       "switch": false
     },
     {
+      "key": "burger cheese slice",
+      "name": "Cheese Burger Slice",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 17.333,
+          "date": "2026-06-05",
+          "desc": "CHEESE BURGER SLICE 1.35KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 23.4,
+          "volume": 1.35
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 17.333,
+      "max": 17.333,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 17.333,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "burger cheese dairy hi melt pure sliced thick",
       "name": "Cheese Burger Sliced Hi Melt Thick Pure Dairy",
       "unit": "kg",
@@ -3515,6 +3689,35 @@
       "low_date": "2026-07-23",
       "est_saving": 0.0,
       "main": "Foodlink",
+      "switch": false
+    },
+    {
+      "key": "blend cheese mexican",
+      "name": "Cheese Mexican Blend",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 30.0,
+          "date": "2026-06-05",
+          "desc": "CHEESE MEXICAN BLEND",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 30.0,
+      "max": 30.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 30.0,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -3731,10 +3934,10 @@
           "date": "2026-07-23",
           "desc": "Cherry",
           "change_pct": 12.5,
-          "n": 3,
+          "n": 4,
           "prev_cost": 1.76,
-          "spend": 32.34,
-          "volume": 17.0
+          "spend": 43.56,
+          "volume": 23.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4369,10 +4572,10 @@
           "date": "2026-07-30",
           "desc": "Chillies Red Long",
           "change_pct": 46.7,
-          "n": 3,
+          "n": 4,
           "prev_cost": 8.25,
-          "spend": 7.02,
-          "volume": 0.75
+          "spend": 16.92,
+          "volume": 1.75
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -4456,7 +4659,7 @@
           "date": "2026-07-30",
           "desc": "Chives",
           "change_pct": 16.7,
-          "n": 12,
+          "n": 13,
           "prev_cost": 13.2,
           "spend": 0.0,
           "volume": 0.0
@@ -4543,10 +4746,10 @@
           "date": "2026-07-30",
           "desc": "Choy Sum (Bunch)",
           "change_pct": 42.5,
-          "n": 5,
+          "n": 6,
           "prev_cost": 1.93,
-          "spend": 48.16,
-          "volume": 20.0
+          "spend": 56.96,
+          "volume": 24.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5123,7 +5326,7 @@
           "date": "2026-07-30",
           "desc": "Coriander",
           "change_pct": null,
-          "n": 8,
+          "n": 9,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -5136,7 +5339,7 @@
       "multi": false,
       "suspect": false,
       "low": 7.7,
-      "low_date": "2026-06-15",
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -5181,7 +5384,7 @@
           "date": "2026-06-13",
           "desc": "CORN FLOUR MAIZE GLUTEN FREE",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -5325,9 +5528,9 @@
           "cost": 1.32,
           "date": "2026-07-30",
           "desc": "Corn Sweet",
-          "change_pct": null,
-          "n": 3,
-          "prev_cost": null,
+          "change_pct": 20.0,
+          "n": 4,
+          "prev_cost": 1.1,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -5338,8 +5541,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 1.32,
-      "low_date": "2026-06-19",
+      "low": 1.1,
+      "low_date": "2026-06-04",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -5442,10 +5645,10 @@
           "date": "2026-07-28",
           "desc": "Cos Baby Twin Pack",
           "change_pct": null,
-          "n": 9,
+          "n": 10,
           "prev_cost": null,
-          "spend": 178.75,
-          "volume": 65.0
+          "spend": 192.5,
+          "volume": 70.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -5455,7 +5658,7 @@
       "multi": false,
       "suspect": false,
       "low": 2.75,
-      "low_date": "2026-06-10",
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -6331,6 +6534,64 @@
       "switch": false
     },
     {
+      "key": "egg free range",
+      "name": "Egg Free Range",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 8.0,
+          "date": "2026-06-04",
+          "desc": "Eggs Free Range 700 Grams",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 8.0,
+      "max": 8.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 8.0,
+      "low_date": "2026-06-04",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "char eggplant grill",
+      "name": "Eggplant Char Grill",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 21.176,
+          "date": "2026-06-05",
+          "desc": "EGGPLANT CHAR GRILL 1.7KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 72.0,
+          "volume": 3.4
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 21.176,
+      "max": 21.176,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 21.176,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "egpkg kilogram",
       "name": "Egpkg Kilogram",
       "unit": "kg",
@@ -6718,10 +6979,10 @@
           "date": "2026-07-16",
           "desc": "Florets",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
-          "spend": 118.5,
-          "volume": 15.0
+          "spend": 158.0,
+          "volume": 20.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -6731,7 +6992,7 @@
       "multi": false,
       "suspect": false,
       "low": 7.9,
-      "low_date": "2026-06-10",
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -6937,6 +7198,35 @@
       "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Gulli",
+      "switch": false
+    },
+    {
+      "key": "44x150 capri foil",
+      "name": "Foil 44x150 Capri",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 26.4,
+          "date": "2026-06-05",
+          "desc": "FOIL 44X150 Capri",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 26.4,
+      "max": 26.4,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 26.4,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -7907,10 +8197,10 @@
           "date": "2026-07-30",
           "desc": "Garlic Peeled",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
-          "spend": 23.1,
-          "volume": 6.0
+          "spend": 26.95,
+          "volume": 7.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -7920,7 +8210,7 @@
       "multi": false,
       "suspect": false,
       "low": 3.85,
-      "low_date": "2026-06-19",
+      "low_date": "2026-06-04",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -8052,10 +8342,10 @@
           "date": "2026-07-30",
           "desc": "Gourmet",
           "change_pct": 23.6,
-          "n": 2,
+          "n": 3,
           "prev_cost": 2.75,
-          "spend": 25.25,
-          "volume": 8.0
+          "spend": 33.5,
+          "volume": 11.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -8065,7 +8355,7 @@
       "multi": false,
       "suspect": false,
       "low": 2.75,
-      "low_date": "2026-07-08",
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -8226,10 +8516,10 @@
           "date": "2026-07-08",
           "desc": "Green",
           "change_pct": 2.9,
-          "n": 2,
+          "n": 3,
           "prev_cost": 3.85,
-          "spend": 15.62,
-          "volume": 4.0
+          "spend": 23.32,
+          "volume": 6.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -8239,7 +8529,7 @@
       "multi": false,
       "suspect": false,
       "low": 3.85,
-      "low_date": "2026-06-22",
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -8487,10 +8777,10 @@
           "date": "2026-07-28",
           "desc": "Hass",
           "change_pct": -6.7,
-          "n": 8,
+          "n": 9,
           "prev_cost": 33.0,
-          "spend": 292.6,
-          "volume": 10.0
+          "spend": 349.8,
+          "volume": 12.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -8619,6 +8909,35 @@
       "low_date": "2026-06-30",
       "est_saving": 0.0,
       "main": null,
+      "switch": false
+    },
+    {
+      "key": "flower honey pure wild",
+      "name": "Honey Pure Wild Flower",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 7.0,
+          "date": "2026-06-05",
+          "desc": "HONEY PURE 3KG Wild Flower",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 42.0,
+          "volume": 6.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 7.0,
+      "max": 7.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 7.0,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
       "switch": false
     },
     {
@@ -8909,6 +9228,64 @@
       "low_date": "2026-07-01",
       "est_saving": 0.0,
       "main": null,
+      "switch": false
+    },
+    {
+      "key": "juice lime salt yuzu",
+      "name": "Juice Lime Yuzu Salt",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 95.0,
+          "date": "2026-06-05",
+          "desc": "JUICE LIME YUZU 100% NO SALT",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 95.0,
+      "max": 95.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 95.0,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "juice lime tonami yuzu",
+      "name": "Juice Lime Yuzu Tonami",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 71.29,
+          "date": "2026-06-05",
+          "desc": "JUICE LIME YUZU 1LT Tonami",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 71.29,
+          "volume": 1.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 71.29,
+      "max": 71.29,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 71.29,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
       "switch": false
     },
     {
@@ -10024,10 +10401,10 @@
           "date": "2026-07-01",
           "desc": "LKG Kilogram",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
-          "spend": 9.24,
-          "volume": 3.0
+          "spend": 12.32,
+          "volume": 4.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -10037,7 +10414,7 @@
       "multi": false,
       "suspect": false,
       "low": 3.08,
-      "low_date": "2026-06-26",
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -10185,6 +10562,35 @@
       "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Gulli",
+      "switch": false
+    },
+    {
+      "key": "18mm 50m hystick masking tape",
+      "name": "Masking Tape 18mm 50m Hystick",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 2.75,
+          "date": "2026-06-05",
+          "desc": "MASKING TAPE 18MM x 50M Hystick",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 2.75,
+      "max": 2.75,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 2.75,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -10449,6 +10855,64 @@
       "switch": false
     },
     {
+      "key": "blood monin orange",
+      "name": "Monin Blood Orange",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Paramount",
+          "cost": 28.557,
+          "date": "2026-06-05",
+          "desc": "MONIN BLOOD ORANGE : 700 ml",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Paramount",
+      "min": 28.557,
+      "max": 28.557,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 28.557,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "coconut monin puree",
+      "name": "Monin Coconut Puree",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Paramount",
+          "cost": 34.3,
+          "date": "2026-06-05",
+          "desc": "MONIN COCONUT PUREE : 1000 ml",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Paramount",
+      "min": 34.3,
+      "max": 34.3,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 34.3,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "coconut monin syrup",
       "name": "Monin Coconut Syrup",
       "unit": "ea",
@@ -10473,6 +10937,64 @@
       "suspect": false,
       "low": 15.41,
       "low_date": "2026-06-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "monin pet puree yuzu",
+      "name": "Monin Pet Yuzu Puree",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Paramount",
+          "cost": 46.15,
+          "date": "2026-06-05",
+          "desc": "MONIN PET YUZU PUREE : 1000 ml",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Paramount",
+      "min": 46.15,
+      "max": 46.15,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 46.15,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "caramel monin salted syrup",
+      "name": "Monin Salted Caramel Syrup",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Paramount",
+          "cost": 28.557,
+          "date": "2026-06-05",
+          "desc": "MONIN SALTED CARAMEL SYRUP : 700 ml",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Paramount",
+      "min": 28.557,
+      "max": 28.557,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 28.557,
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -10719,11 +11241,11 @@
           "cost": 43.2,
           "date": "2026-07-30",
           "desc": "Mushroom King Brown (500g Punnet)",
-          "change_pct": null,
-          "n": 5,
-          "prev_cost": null,
-          "spend": 108.0,
-          "volume": 2.5
+          "change_pct": 42.8,
+          "n": 6,
+          "prev_cost": 30.25,
+          "spend": 120.1,
+          "volume": 2.9
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -10732,8 +11254,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 43.2,
-      "low_date": "2026-06-19",
+      "low": 30.25,
+      "low_date": "2026-06-04",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -11171,6 +11693,64 @@
       "low_date": "2026-06-19",
       "est_saving": 0.0,
       "main": null,
+      "switch": false
+    },
+    {
+      "key": "green olive pitted riviana",
+      "name": "Olive Pitted Green Riviana",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 12.0,
+          "date": "2026-06-05",
+          "desc": "OLIVES PITTED GREEN 2KG Riviana",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 48.0,
+          "volume": 4.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 12.0,
+      "max": 12.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 12.0,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
+      "key": "kalamata olive pitted",
+      "name": "Olive Pitted Kalamata",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 9.75,
+          "date": "2026-06-05",
+          "desc": "OLIVES PITTED KALAMATA 2KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 19.5,
+          "volume": 2.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 9.75,
+      "max": 9.75,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 9.75,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
       "switch": false
     },
     {
@@ -11812,6 +12392,35 @@
       "switch": false
     },
     {
+      "key": "australian curly parsley",
+      "name": "Parsley Australian Curly",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.6,
+          "date": "2026-06-05",
+          "desc": "Parsley Australian Curly",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 10.8,
+          "volume": 3.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.6,
+      "max": 3.6,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 3.6,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
       "key": "12x1kg passionfruit puree seedless",
       "name": "Passionfruit Puree Seedless 12x1kg",
       "unit": "kg",
@@ -12331,6 +12940,35 @@
       "low_date": "2026-06-06",
       "est_saving": 0.0,
       "main": null,
+      "switch": false
+    },
+    {
+      "key": "lady pink",
+      "name": "Pink Lady",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.85,
+          "date": "2026-06-05",
+          "desc": "Pink Lady",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 3.85,
+          "volume": 1.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.85,
+      "max": 3.85,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 3.85,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
       "switch": false
     },
     {
@@ -13185,10 +13823,10 @@
           "date": "2026-06-13",
           "desc": "RICE VERMICILI NOODLES 500GM",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
-          "spend": 2.5,
-          "volume": 0.5
+          "spend": 7.5,
+          "volume": 1.5
         }
       ],
       "cheapest": "Foodlink",
@@ -13198,7 +13836,7 @@
       "multi": false,
       "suspect": false,
       "low": 5.0,
-      "low_date": "2026-06-13",
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Foodlink",
       "switch": false
@@ -13320,6 +13958,64 @@
       "switch": false
     },
     {
+      "key": "roma",
+      "name": "Roma",
+      "unit": "box",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 35.2,
+          "date": "2026-06-05",
+          "desc": "Roma",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 35.2,
+          "volume": 1.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 35.2,
+      "max": 35.2,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 35.2,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
+      "key": "roma",
+      "name": "Roma",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.85,
+          "date": "2026-06-05",
+          "desc": "Roma",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 11.55,
+          "volume": 3.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 3.85,
+      "max": 3.85,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 3.85,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
       "key": "blanco rojo rooster",
       "name": "Rooster Rojo Blanco",
       "unit": "L",
@@ -13359,7 +14055,7 @@
           "date": "2026-07-31",
           "desc": "ROOSTER ROJO TEQUILA BLANCO",
           "change_pct": -0.6,
-          "n": 7,
+          "n": 8,
           "prev_cost": 309.97,
           "spend": 0.0,
           "volume": 0.0
@@ -13929,6 +14625,35 @@
       "switch": false
     },
     {
+      "key": "sbch",
+      "name": "Sbch",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 1.77,
+          "date": "2026-06-05",
+          "desc": "SBCH Bunch",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 7.08,
+          "volume": 4.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 1.77,
+      "max": 1.77,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 1.77,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
       "key": "16x150gm food plant protein schnitzel v2",
       "name": "Schnitzel Plant Protein 16x150gm V2 Food",
       "unit": "ea",
@@ -14258,10 +14983,10 @@
           "date": "2026-07-23",
           "desc": "SMOKEY BBQ SAUCE 3LT Sunshine",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
-          "spend": 25.0,
-          "volume": 6.0
+          "spend": 50.0,
+          "volume": 12.0
         }
       ],
       "cheapest": "Foodlink",
@@ -14271,7 +14996,7 @@
       "multi": false,
       "suspect": false,
       "low": 4.167,
-      "low_date": "2026-07-23",
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Foodlink",
       "switch": false
@@ -14448,6 +15173,64 @@
       "low_date": "2026-06-19",
       "est_saving": 0.0,
       "main": "B&E",
+      "switch": false
+    },
+    {
+      "key": "brancourt cream full sour",
+      "name": "Sour Cream Full Brancourt",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 9.5,
+          "date": "2026-06-05",
+          "desc": "SOUR CREAM FULL 2LT Brancourts",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 19.0,
+          "volume": 2.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 9.5,
+      "max": 9.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 9.5,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
+      "key": "genuine sauce soy tamari",
+      "name": "Soy Sauce Tamari Genuine",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 14.0,
+          "date": "2026-06-05",
+          "desc": "SOY SAUCE TAMARI GENUINE 10LT",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 140.0,
+          "volume": 10.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 14.0,
+      "max": 14.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 14.0,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
       "switch": false
     },
     {
@@ -14678,6 +15461,35 @@
       "suspect": false,
       "low": 11.4,
       "low_date": "2026-05-12",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
+      "key": "chilli sauce sriracha",
+      "name": "Sriracha Chilli Sauce",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 10.971,
+          "date": "2026-06-05",
+          "desc": "SRIRACHA CHILLI SAUCE 793ML",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 17.4,
+          "volume": 1.586
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 10.971,
+      "max": 10.971,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 10.971,
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Foodlink",
       "switch": false
@@ -15408,6 +16220,35 @@
       "switch": false
     },
     {
+      "key": "nature secret walnut",
+      "name": "Walnut Nature Secret",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 16.5,
+          "date": "2026-06-05",
+          "desc": "WALNUTS 1KG Natures Secret",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 16.5,
+          "volume": 1.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 16.5,
+      "max": 16.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 16.5,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "light original vodka white",
       "name": "White Light Vodka Original",
       "unit": "L",
@@ -15553,6 +16394,35 @@
       "switch": false
     },
     {
+      "key": "egg mc wonton wrapper",
+      "name": "Wonton Egg Wrapper Mc",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 13.5,
+          "date": "2026-06-05",
+          "desc": "WONTON EGG WRAPPER 300GM Mc",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 4.05,
+          "volume": 0.3
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 13.5,
+      "max": 13.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 13.5,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "125gx5 5pc noodle ramen straight wpm yellow",
       "name": "Wpm Yellow Ramen 5pc Straight Noodle 125gx5",
       "unit": "ea",
@@ -15637,6 +16507,35 @@
       "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
+      "switch": false
+    },
+    {
+      "key": "yeast",
+      "name": "Yeast",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 5.5,
+          "date": "2026-06-05",
+          "desc": "YEAST FRESH 1KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 11.0,
+          "volume": 2.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 5.5,
+      "max": 5.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 5.5,
+      "low_date": "2026-06-05",
+      "est_saving": 0.0,
+      "main": "Foodlink",
       "switch": false
     },
     {
@@ -15766,10 +16665,10 @@
           "date": "2026-06-09",
           "desc": "ZAATAR 500GM",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
-          "spend": 7.5,
-          "volume": 0.5
+          "spend": 22.5,
+          "volume": 1.5
         }
       ],
       "cheapest": "Foodlink",
@@ -15779,7 +16678,7 @@
       "multi": false,
       "suspect": false,
       "low": 15.0,
-      "low_date": "2026-06-09",
+      "low_date": "2026-06-05",
       "est_saving": 0.0,
       "main": "Foodlink",
       "switch": false

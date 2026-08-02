@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-02",
-  "count": 43,
-  "skipped_already_in_xero": 201,
+  "count": 44,
+  "skipped_already_in_xero": 209,
   "invoices": [
     {
       "ref": "7049766",
@@ -1966,6 +1966,100 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "known supplier 'paramount'"
+        }
+      ]
+    },
+    {
+      "ref": "5356745",
+      "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+      "supplier_key": "paramount",
+      "date": "2026-06-05",
+      "due_date": null,
+      "total": "137.13",
+      "venue": "stowaway",
+      "pdf_path": "ba5c2ee278f60180871288c109b222e8416c5ba9d7c99adf663fd75d749925aa.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Carton Freight",
+          "supplier_code": "9000000",
+          "qty": "1",
+          "amount": "1.43",
+          "unit_cost": "$1.43/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "Minimum Delivery Top-Up Charge",
+          "supplier_code": "10010294",
+          "qty": "1",
+          "amount": "15.07",
+          "unit_cost": "$15.07/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "MONIN BLOOD ORANGE : 700 ml",
+          "supplier_code": "93185",
+          "qty": "1",
+          "amount": "19.99",
+          "unit_cost": "$28.56/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "MONIN COCONUT PUREE : 1000 ml",
+          "supplier_code": "93164",
+          "qty": "1",
+          "amount": "34.30",
+          "unit_cost": "$34.30/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "MONIN PET YUZU PUREE : 1000 ml",
+          "supplier_code": "95871",
+          "qty": "1",
+          "amount": "46.15",
+          "unit_cost": "$46.15/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "MONIN SALTED CARAMEL SYRUP : 700 ml",
+          "supplier_code": "95853",
+          "qty": "1",
+          "amount": "19.99",
+          "unit_cost": "$28.56/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Temporary Fuel Levy Charge",
+          "supplier_code": "9000004",
+          "qty": "1",
+          "amount": "0.21",
+          "unit_cost": "$0.21/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
         }
       ]
     },

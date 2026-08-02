@@ -1,0 +1,233 @@
+{
+  "invoice": {
+    "supplier_key": "paramount",
+    "supplier_name_raw": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+    "invoice_ref": "5356745",
+    "invoice_date": "2026-06-05",
+    "total_incl": "137.13",
+    "lines": [
+      {
+        "description": "Carton Freight",
+        "qty": "1",
+        "line_total_incl": "1.43",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "9000000",
+        "raw_qty": null,
+        "raw_uom": "MISC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Minimum Delivery Top-Up Charge",
+        "qty": "1",
+        "line_total_incl": "15.07",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "10010294",
+        "raw_qty": null,
+        "raw_uom": "MISC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "MONIN BLOOD ORANGE : 700 ml",
+        "qty": "1",
+        "line_total_incl": "19.99",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "93185",
+        "raw_qty": null,
+        "raw_uom": "6/700 ml",
+        "pack_qty": "0.7",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "MONIN COCONUT PUREE : 1000 ml",
+        "qty": "1",
+        "line_total_incl": "34.30",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "93164",
+        "raw_qty": null,
+        "raw_uom": "4/1000 ml",
+        "pack_qty": "1",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "MONIN PET YUZU PUREE : 1000 ml",
+        "qty": "1",
+        "line_total_incl": "46.15",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "95871",
+        "raw_qty": null,
+        "raw_uom": "4/1000 ml",
+        "pack_qty": "1",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "MONIN SALTED CARAMEL SYRUP : 700 ml",
+        "qty": "1",
+        "line_total_incl": "19.99",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "95853",
+        "raw_qty": null,
+        "raw_uom": "6/700 ml",
+        "pack_qty": "0.7",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Temporary Fuel Levy Charge",
+        "qty": "1",
+        "line_total_incl": "0.21",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "9000004",
+        "raw_qty": null,
+        "raw_uom": "MISC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "ba5c2ee278f60180871288c109b222e8416c5ba9d7c99adf663fd75d749925aa.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $16.71 under the invoice total \u2014 expected. Skipped: Carton Freight ($1.43), Minimum Delivery Top-Up Charge ($15.07), Temporary Fuel Levy Charge ($0.21). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "120.43",
+        "actual": "137.13"
+      }
+    ],
+    "expected_ls_receive_total": "120.43",
+    "extras_total": "16.71"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "Carton Freight",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      },
+      {
+        "description": "Minimum Delivery Top-Up Charge",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "MONIN BLOOD ORANGE : 700 ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "MONIN COCONUT PUREE : 1000 ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "MONIN PET YUZU PUREE : 1000 ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "MONIN SALTED CARAMEL SYRUP : 700 ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "Temporary Fuel Levy Charge",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}
