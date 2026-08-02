@@ -20,3 +20,58 @@
       qty: 500
       unit: "ml"
       unit_cost_incl: 0.007420
+
+# ---- Sake / soju neat pours: costed from the bottle, per ml ----
+- product: "Saika Junmai Daiginjo - 60ml"
+  sell_incl_gst: 13.0
+  ingredients:
+    - id: "lightspeed:20768432"
+      desc: "Saika Junmai Daiginjo [720ml] — 60ml pour"
+      qty: 60
+      unit: "ml"
+      unit_cost_incl: 0.061097
+
+- product: "Saika Junmai Daiginjo - 180ml"
+  sell_incl_gst: 34.0
+  ingredients:
+    - id: "lightspeed:20768432"
+      desc: "Saika Junmai Daiginjo [720ml] — 180ml pour"
+      qty: 180
+      unit: "ml"
+      unit_cost_incl: 0.061097
+
+- product: "Tengumai Junmai - 60ml [SERVE WARM]"
+  sell_incl_gst: 12.0
+  ingredients:
+    - id: "lightspeed:20768495"
+      desc: "Tengumai Umajan Junmai [1.8L] — 60ml pour"
+      qty: 60
+      unit: "ml"
+      unit_cost_incl: 0.039417
+
+- product: "Tengumai Junmai - 180ml  [SERVE WARM]"
+  sell_incl_gst: 30.0
+  ingredients:
+    - id: "lightspeed:20768495"
+      desc: "Tengumai Umajan Junmai [1.8L] — 180ml pour"
+      qty: 180
+      unit: "ml"
+      unit_cost_incl: 0.039417
+
+- product: "Jinro Chamisul - 60ml"
+  sell_incl_gst: 9.0
+  ingredients:
+    - id: "lightspeed:21750311"
+      desc: "Jinro Chamisul [360ml] — 60ml pour"
+      qty: 60
+      unit: "ml"
+      unit_cost_incl: 0.033667
+
+- product: "Jinro Strawberry - 60ml"
+  sell_incl_gst: 9.0
+  ingredients:
+    - id: "lightspeed:21750316"
+      desc: "Jinro Strawberry [360ml] — 60ml pour"
+      qty: 60
+      unit: "ml"
+      unit_cost_incl: 0.031750
