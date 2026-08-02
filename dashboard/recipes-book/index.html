@@ -88,12 +88,13 @@ Auth.gate(document.getElementById('gate'), {
 });
 
 const gpClass = g => g==null?'':(g<0?'gp bad':g<55?'gp bad':g<65?'gp warn':'gp good');
-const isBatch = r => r.sell_incl==null && r.ingredients.length>0;
+const isBatch = r => r.is_prep === true;
 
 function row(name,r){
   const gp = r.gp_pct;
-  const tag = r.fully_our_book ? '<span class="tag">our book</span>'
-            : '<span class="tag ls">part LS</span>';
+  const tag = (r.is_prep ? '<span class="tag" style="background:color-mix(in srgb,var(--ink) 8%,var(--paper));color:var(--ink-soft)">prep</span>' : '')
+            + (r.fully_our_book ? '<span class="tag">our book</span>'
+                                : '<span class="tag ls">part LS</span>');
   const ings = r.ingredients.map(i=>esc(i.name)).slice(0,6).join(', ');
   return `<tr class="main" onclick="this.nextElementSibling?.classList.toggle('hide')">
       <td>${esc(name)}${tag}</td>
@@ -109,7 +110,7 @@ function render(){
   const q=(document.getElementById('q').value||'').trim().toLowerCase();
   const f=document.getElementById('filter').value;
   const all=Object.entries(DATA.recipes||{});
-  const menu=all.filter(([n,r])=>r.sell_incl!=null);
+  const menu=all.filter(([n,r])=>r.sell_incl!=null && !r.is_prep);
   const gpvals=menu.map(([n,r])=>r.gp_pct).filter(g=>g!=null);
   const avg=gpvals.length?Math.round(gpvals.reduce((a,b)=>a+b,0)/gpvals.length):0;
   const alerts=menu.filter(([n,r])=>r.gp_pct!=null && r.gp_pct<55);

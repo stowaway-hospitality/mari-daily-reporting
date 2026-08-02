@@ -64,8 +64,16 @@ def main() -> int:
                 if n:
                     bo.setdefault(n, r["ProductID"]); name_of.setdefault(r["ProductID"], r["ProductName"])
     recnames = {norm(k) for k in rec}
-    already = {r["ingredient"] for r in csv.DictReader(COSTS.open(encoding="utf-8-sig"))
-               if r["ingredient"].startswith("lightspeed:")}
+    # "already priced" = a lightspeed:ProductID that a REAL invoice or the beverage
+    # seed covers. We must NOT count this seed's OWN prior rows (source ls-recipe-
+    # seed), or a re-run can never recompute them — which would freeze in any bad
+    # values written before the sanity guard existed. Read from cogs_list so we can
+    # see the source and exclude ourselves.
+    already = {f"lightspeed:{r['supplier_code']}"
+               for r in csv.DictReader(COGS.open(encoding="utf-8-sig"))
+               if r.get("supplier_code") and str(r.get("cost_per_base_unit"))
+               and r.get("source_invoice") != SEED_SRC
+               and r.get("supplier", "").lower() == "lightspeed"}
 
     # collect per-unit observations per ProductID from every ingredient line
     obs = defaultdict(list)             # pid -> [(per_unit, unit)]
@@ -92,6 +100,13 @@ def main() -> int:
         unit = statistics.mode([u for _p, u in lst]) if lst else "g"
         per = statistics.median([p for p, u in lst if u == unit] or [p for p, _ in lst])
         if not (per > 0):
+            continue
+        # magnitude sanity: a per-ml above $0.60 or per-g above $0.20 means the
+        # scraped qty/unit for this item was garbage (e.g. a pizza box logged as
+        # "0.02 ml" -> $26.50/ml). Seeding it would blow up any recipe that uses
+        # the item in real ml/g. Skip it — the recipe keeps the sane scraped
+        # per-line cost, and a real invoice can still price it later.
+        if (unit == "ml" and per > 0.60) or (unit == "g" and per > 0.20):
             continue
         # express as a cogs row build_costs will resolve back to this per-unit:
         #   g  -> basis per_kg, pack cost = per_g * 1000
