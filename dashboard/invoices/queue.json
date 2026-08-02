@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-02",
-  "count": 41,
-  "skipped_already_in_xero": 193,
+  "count": 43,
+  "skipped_already_in_xero": 197,
   "invoices": [
     {
       "ref": "7049766",
@@ -1800,6 +1800,172 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "5362684",
+      "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+      "supplier_key": "paramount",
+      "date": "2026-06-09",
+      "due_date": null,
+      "total": "475.05",
+      "venue": "stowaway",
+      "pdf_path": "a7046e8f9cb7cb8e32b6bec7f63faf7b2237b824beb6a0f9f340958a9841967f.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "400 CONEJOS MEZCAL JOVEN : 750 ml",
+          "supplier_code": "60765",
+          "qty": "1",
+          "amount": "156.07",
+          "unit_cost": "$208.09/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "CARPANO CLASSICO VERMOUTH : 750ml",
+          "supplier_code": "10015926",
+          "qty": "1",
+          "amount": "23.17",
+          "unit_cost": "$30.89/L",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Carton Freight",
+          "supplier_code": "9000000",
+          "qty": "1",
+          "amount": "2.86",
+          "unit_cost": "$2.86/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "FORTALEZA TEQUILA REPOSADO : 750 ml",
+          "supplier_code": "67607",
+          "qty": "1",
+          "amount": "140.60",
+          "unit_cost": "$187.47/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Minimum Delivery Top-Up Charge",
+          "supplier_code": "10010294",
+          "qty": "1",
+          "amount": "13.64",
+          "unit_cost": "$13.64/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "SEPPELTSFIELD PARA GRAND 10 YEAR OLD TA",
+          "supplier_code": "43786",
+          "qty": "1",
+          "amount": "62.75",
+          "unit_cost": "$62.75/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Temporary Fuel Levy Charge",
+          "supplier_code": "9000004",
+          "qty": "1",
+          "amount": "0.42",
+          "unit_cost": "$0.42/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "TEMPUS FUGIT CREME DE BANANE : 700 ml",
+          "supplier_code": "79885",
+          "qty": "1",
+          "amount": "75.54",
+          "unit_cost": "$107.91/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        }
+      ]
+    },
+    {
+      "ref": "5362727",
+      "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+      "supplier_key": "paramount",
+      "date": "2026-06-09",
+      "due_date": null,
+      "total": "1029.49",
+      "venue": "harry_gatos",
+      "pdf_path": "126da42e3988e3612d2d32ff40181b5e3e3426fa6da5a72b2899175c150e079e.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Carton Freight",
+          "supplier_code": "9000000",
+          "qty": "1",
+          "amount": "1.43",
+          "unit_cost": "$1.43/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "Minimum Delivery Top-Up Charge",
+          "supplier_code": "10010294",
+          "qty": "1",
+          "amount": "15.07",
+          "unit_cost": "$15.07/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
+        },
+        {
+          "description": "Temporary Fuel Levy Charge",
+          "supplier_code": "9000004",
+          "qty": "1",
+          "amount": "0.21",
+          "unit_cost": "$0.21/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        },
+        {
+          "description": "WHITE LIGHT VODKA ORIGINAL : 20000ml",
+          "supplier_code": "32051",
+          "qty": "1",
+          "amount": "1012.78",
+          "unit_cost": "$50.64/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "known supplier 'paramount'"
         }
       ]
     },
