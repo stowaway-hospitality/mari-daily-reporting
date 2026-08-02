@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-02",
-  "count": 488,
+  "count": 503,
   "compared": 12,
   "window_days": 90,
   "total_saving": 41.1,
@@ -168,6 +168,15 @@
       "cost": 153.0,
       "pct": 27.5,
       "date": "2026-07-09"
+    },
+    {
+      "name": "Bean Edamame Soy",
+      "supplier": "Foodlink",
+      "unit": "kg",
+      "prev": 8.571,
+      "cost": 10.857,
+      "pct": 26.7,
+      "date": "2026-07-23"
     },
     {
       "name": "Lime",
@@ -909,7 +918,7 @@
           "date": "2026-07-31",
           "desc": "ALEHOUSE CRISP KEG",
           "change_pct": -4.8,
-          "n": 3,
+          "n": 4,
           "prev_cost": 184.94,
           "spend": 0.0,
           "volume": 0.0
@@ -967,7 +976,7 @@
           "date": "2026-07-31",
           "desc": "ALEHOUSE PREMIUM KEG",
           "change_pct": -4.2,
-          "n": 10,
+          "n": 11,
           "prev_cost": 212.44,
           "spend": 0.0,
           "volume": 0.0
@@ -1111,9 +1120,9 @@
           "cost": 86.525,
           "date": "2026-06-30",
           "desc": "ANGOSTURA BITTERS 200ML 12PK R",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
+          "change_pct": -0.1,
+          "n": 2,
+          "prev_cost": 86.65,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -1431,10 +1440,10 @@
           "date": "2026-07-30",
           "desc": "Australian Garlic Bread- 9\" x 40",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
-          "spend": 657.91,
-          "volume": 440.0
+          "spend": 717.72,
+          "volume": 480.0
         }
       ],
       "cheapest": "Gulli",
@@ -1444,7 +1453,7 @@
       "multi": false,
       "suspect": false,
       "low": 1.4952,
-      "low_date": "2026-06-18",
+      "low_date": "2026-06-12",
       "est_saving": 0.0,
       "main": "Gulli",
       "switch": false
@@ -1517,9 +1526,9 @@
           "cost": 50.19,
           "date": "2026-07-07",
           "desc": "BACARDI CARTA BL (WHITE SUP)",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
+          "change_pct": 0.5,
+          "n": 2,
+          "prev_cost": 49.94,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -1530,8 +1539,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 50.19,
-      "low_date": "2026-07-07",
+      "low": 49.94,
+      "low_date": "2026-06-11",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -1711,6 +1720,35 @@
       "switch": false
     },
     {
+      "key": "barramundi fillet",
+      "name": "Barramundi Fillet",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 83.0,
+          "date": "2026-06-12",
+          "desc": "BARRAMUNDI FILLETS IMP 200/300",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 83.0,
+      "max": 83.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 83.0,
+      "low_date": "2026-06-12",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "barramundi fillet off",
       "name": "Barramundi Fillet Off",
       "unit": "kg",
@@ -1865,11 +1903,11 @@
           "cost": 10.857,
           "date": "2026-07-23",
           "desc": "BEANS EDAMAME SOY 350GM FROZEN (WITH SHELL)",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
-          "spend": 30.4,
-          "volume": 2.8
+          "change_pct": 26.7,
+          "n": 2,
+          "prev_cost": 8.571,
+          "spend": 45.4,
+          "volume": 4.55
         }
       ],
       "cheapest": "Foodlink",
@@ -1878,8 +1916,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 10.857,
-      "low_date": "2026-07-23",
+      "low": 8.571,
+      "low_date": "2026-06-13",
       "est_saving": 0.0,
       "main": "Foodlink",
       "switch": false
@@ -2098,10 +2136,10 @@
           "date": "2026-07-30",
           "desc": "Big Cheese- Shredded Mozzarella 2kg",
           "change_pct": null,
-          "n": 8,
+          "n": 9,
           "prev_cost": null,
-          "spend": 3906.0,
-          "volume": 372.0
+          "spend": 4242.0,
+          "volume": 404.0
         }
       ],
       "cheapest": "Gulli",
@@ -2111,7 +2149,7 @@
       "multi": false,
       "suspect": false,
       "low": 10.5,
-      "low_date": "2026-06-18",
+      "low_date": "2026-06-12",
       "est_saving": 0.0,
       "main": "Gulli",
       "switch": false
@@ -2233,6 +2271,35 @@
       "switch": false
     },
     {
+      "key": "bocconcini traditional",
+      "name": "Bocconcini Traditional",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 18.0,
+          "date": "2026-06-13",
+          "desc": "BOCCONCINI TRADITIONAL 1KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 54.0,
+          "volume": 3.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 18.0,
+      "max": 18.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 18.0,
+      "low_date": "2026-06-13",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "bombay dry gin",
       "name": "Bombay Dry Gin",
       "unit": "ea",
@@ -2243,7 +2310,7 @@
           "date": "2026-07-31",
           "desc": "BOMBAY DRY GIN",
           "change_pct": 474.6,
-          "n": 5,
+          "n": 7,
           "prev_cost": 51.3,
           "spend": 0.0,
           "volume": 0.0
@@ -2255,8 +2322,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 51.3,
-      "low_date": "2026-07-21",
+      "low": 50.85,
+      "low_date": "2026-06-11",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -2417,7 +2484,7 @@
           "date": "2026-07-31",
           "desc": "BUFFALO TRACE BOURBON 40%",
           "change_pct": -0.6,
-          "n": 6,
+          "n": 7,
           "prev_cost": 53.48,
           "spend": 0.0,
           "volume": 0.0
@@ -2504,7 +2571,7 @@
           "date": "2026-07-31",
           "desc": "BUNDABERG GINGER BEER 750ML",
           "change_pct": -4.0,
-          "n": 2,
+          "n": 3,
           "prev_cost": 62.013,
           "spend": 0.0,
           "volume": 0.0
@@ -2520,6 +2587,35 @@
       "low_date": "2026-07-31",
       "est_saving": 0.0,
       "main": null,
+      "switch": false
+    },
+    {
+      "key": "burger sauce",
+      "name": "Burger Sauce",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 15.0,
+          "date": "2026-06-12",
+          "desc": "BURGER SAUCE PREMIUM 1LT",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 30.0,
+          "volume": 2.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 15.0,
+      "max": 15.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 15.0,
+      "low_date": "2026-06-12",
+      "est_saving": 0.0,
+      "main": "Foodlink",
       "switch": false
     },
     {
@@ -2794,7 +2890,7 @@
           "date": "2026-07-31",
           "desc": "CAMPARI APERITIF 25%",
           "change_pct": -4.6,
-          "n": 4,
+          "n": 6,
           "prev_cost": 43.33,
           "spend": 0.0,
           "volume": 0.0
@@ -3780,7 +3876,7 @@
           "date": "2026-07-18",
           "desc": "CHICKEN - WHOLE BIRD NO.8",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -3793,7 +3889,7 @@
       "multi": false,
       "suspect": false,
       "low": 6.1,
-      "low_date": "2026-06-26",
+      "low_date": "2026-06-13",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -4086,6 +4182,35 @@
       "low_date": "2026-06-19",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
+      "key": "a10in adobe chilli chipotle",
+      "name": "Chipotle Chilli A10in Adobe",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 18.0,
+          "date": "2026-06-12",
+          "desc": "CHIPOTLE CHILLIS A10 IN ADOBE",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 18.0,
+      "max": 18.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 18.0,
+      "low_date": "2026-06-12",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -4669,6 +4794,64 @@
       "switch": false
     },
     {
+      "key": "baking cooking powder",
+      "name": "Cooking Baking Powder",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "B&E",
+          "cost": 8.1,
+          "date": "2026-06-13",
+          "desc": "COOKING - BAKING POWDER",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "B&E",
+      "min": 8.1,
+      "max": 8.1,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 8.1,
+      "low_date": "2026-06-13",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "ale cooper keg pale",
+      "name": "Cooper Pale Ale Keg",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 6.404,
+          "date": "2026-06-11",
+          "desc": "COOPERS PALE ALE KEG 49.5LT",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 6.404,
+      "max": 6.404,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 6.404,
+      "low_date": "2026-06-11",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "coriander",
       "name": "Coriander",
       "unit": "ea",
@@ -4734,10 +4917,10 @@
         {
           "supplier": "Foodlink",
           "cost": 23.0,
-          "date": "2026-05-12",
+          "date": "2026-06-13",
           "desc": "CORN FLOUR MAIZE GLUTEN FREE",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -4940,7 +5123,7 @@
           "date": "2026-07-07",
           "desc": "CORONA MEXICAN 6PK BRW BX R",
           "change_pct": 0.6,
-          "n": 2,
+          "n": 3,
           "prev_cost": 61.71,
           "spend": 0.0,
           "volume": 0.0
@@ -4953,7 +5136,7 @@
       "multi": false,
       "suspect": false,
       "low": 61.71,
-      "low_date": "2026-06-30",
+      "low_date": "2026-06-11",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -5346,7 +5529,7 @@
           "date": "2026-07-31",
           "desc": "DESCLANS WHISPERING ANGEL ROSE",
           "change_pct": -0.9,
-          "n": 2,
+          "n": 3,
           "prev_cost": 207.62,
           "spend": 0.0,
           "volume": 0.0
@@ -5565,6 +5748,35 @@
       "low_date": "2026-07-25",
       "est_saving": 0.0,
       "main": "Foodlink",
+      "switch": false
+    },
+    {
+      "key": "dolin vermouth white",
+      "name": "Dolin White Vermouth",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 27.05,
+          "date": "2026-06-11",
+          "desc": "DOLIN WHITE VERMOUTH (BLANC)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 27.05,
+      "max": 27.05,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 27.05,
+      "low_date": "2026-06-11",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -6206,6 +6418,35 @@
       "switch": false
     },
     {
+      "key": "cleaner floor",
+      "name": "Floor Cleaner",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 1.925,
+          "date": "2026-06-13",
+          "desc": "FLOOR CLEANER 20LTR",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 38.5,
+          "volume": 20.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 1.925,
+      "max": 1.925,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 1.925,
+      "low_date": "2026-06-13",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "floret",
       "name": "Floret",
       "unit": "kg",
@@ -6293,6 +6534,35 @@
       "switch": false
     },
     {
+      "key": "12x91gm flour tortilla",
+      "name": "Flour Tortilla 12x91gm",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 2.8,
+          "date": "2026-06-12",
+          "desc": "FLOUR TORTILLAS 12X91GM",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 33.6,
+          "volume": 12.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 2.8,
+      "max": 2.8,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 2.8,
+      "low_date": "2026-06-12",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "12in 12x91gm flour tortilla",
       "name": "Flour Tortilla 12x91gm 12in",
       "unit": "ea",
@@ -6361,10 +6631,10 @@
           "date": "2026-07-30",
           "desc": "B Flute Lock Top 11\" Pizza Boxes x 50",
           "change_pct": null,
-          "n": 7,
+          "n": 8,
           "prev_cost": null,
-          "spend": 482.0,
-          "volume": 1000.0
+          "spend": 602.5,
+          "volume": 1250.0
         }
       ],
       "cheapest": "Gulli",
@@ -6374,7 +6644,7 @@
       "multi": false,
       "suspect": false,
       "low": 0.482,
-      "low_date": "2026-06-18",
+      "low_date": "2026-06-12",
       "est_saving": 0.0,
       "main": "Gulli",
       "switch": false
@@ -6390,10 +6660,10 @@
           "date": "2026-07-30",
           "desc": "B Flute Lock Top 13\" Pizza Boxes x 50",
           "change_pct": 0.0,
-          "n": 8,
+          "n": 9,
           "prev_cost": 0.6426,
-          "spend": 899.65,
-          "volume": 1400.0
+          "spend": 1060.31,
+          "volume": 1650.0
         }
       ],
       "cheapest": "Gulli",
@@ -6403,7 +6673,7 @@
       "multi": false,
       "suspect": false,
       "low": 0.6426,
-      "low_date": "2026-06-18",
+      "low_date": "2026-06-12",
       "est_saving": 0.0,
       "main": "Gulli",
       "switch": false
@@ -6564,7 +6834,7 @@
           "date": "2026-08-01",
           "desc": "FZ BEEF - ANGUS BURGER",
           "change_pct": -6.3,
-          "n": 6,
+          "n": 7,
           "prev_cost": 138.7,
           "spend": 0.0,
           "volume": 0.0
@@ -6709,7 +6979,7 @@
           "date": "2026-08-01",
           "desc": "FZ CHIPS - CRISPY COATED",
           "change_pct": null,
-          "n": 17,
+          "n": 18,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -6738,7 +7008,7 @@
           "date": "2026-08-01",
           "desc": "FZ CHIPS - ULTRA SWEET",
           "change_pct": -5.3,
-          "n": 12,
+          "n": 13,
           "prev_cost": 77.11,
           "spend": 0.0,
           "volume": 0.0
@@ -7724,10 +7994,10 @@
           "date": "2026-07-22",
           "desc": "Guzzardi- Basil Pesto Caterers 2kg",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
-          "spend": 38.4,
-          "volume": 4.0
+          "spend": 57.6,
+          "volume": 6.0
         }
       ],
       "cheapest": "Gulli",
@@ -7737,7 +8007,7 @@
       "multi": false,
       "suspect": false,
       "low": 9.6,
-      "low_date": "2026-07-01",
+      "low_date": "2026-06-12",
       "est_saving": 0.0,
       "main": "Gulli",
       "switch": false
@@ -7840,7 +8110,7 @@
           "date": "2026-07-17",
           "desc": "HAND TOWEL - SLIMLINE",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -7853,7 +8123,7 @@
       "multi": false,
       "suspect": false,
       "low": 41.86,
-      "low_date": "2026-07-02",
+      "low_date": "2026-06-13",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -7927,7 +8197,7 @@
           "date": "2026-07-31",
           "desc": "HEAPS NORMAL QUIET XPA NON ALC",
           "change_pct": -2.9,
-          "n": 4,
+          "n": 5,
           "prev_cost": 64.08,
           "spend": 0.0,
           "volume": 0.0
@@ -7985,7 +8255,7 @@
           "date": "2026-07-21",
           "desc": "HENDRICKS GIN",
           "change_pct": -0.9,
-          "n": 3,
+          "n": 4,
           "prev_cost": 63.32,
           "spend": 0.0,
           "volume": 0.0
@@ -8333,7 +8603,7 @@
           "date": "2026-07-30",
           "desc": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -8346,7 +8616,7 @@
       "multi": false,
       "suspect": false,
       "low": 9.35,
-      "low_date": "2026-06-18",
+      "low_date": "2026-06-11",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -8449,7 +8719,7 @@
           "date": "2026-07-23",
           "desc": "\"Jun\" Roasted Sesame Seed White",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -8462,7 +8732,7 @@
       "multi": false,
       "suspect": false,
       "low": 9.46,
-      "low_date": "2026-06-25",
+      "low_date": "2026-06-11",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -8565,7 +8835,7 @@
           "date": "2026-07-07",
           "desc": "KAHLUA 1 LTR 6PK",
           "change_pct": -0.2,
-          "n": 4,
+          "n": 6,
           "prev_cost": 47.955,
           "spend": 0.0,
           "volume": 0.0
@@ -8739,7 +9009,7 @@
           "date": "2026-07-30",
           "desc": "\u201cKobayashi\u201d Gluten Free Ramen Noodle",
           "change_pct": 52.2,
-          "n": 4,
+          "n": 5,
           "prev_cost": 2.3,
           "spend": 0.0,
           "volume": 0.0
@@ -8797,10 +9067,10 @@
           "date": "2026-07-30",
           "desc": "KRC- Sliced Calabrese Mild Salami 1kg",
           "change_pct": null,
-          "n": 7,
+          "n": 8,
           "prev_cost": null,
-          "spend": 390.9,
-          "volume": 15.0
+          "spend": 469.08,
+          "volume": 18.0
         }
       ],
       "cheapest": "Gulli",
@@ -8810,7 +9080,7 @@
       "multi": false,
       "suspect": false,
       "low": 26.06,
-      "low_date": "2026-06-18",
+      "low_date": "2026-06-12",
       "est_saving": 0.0,
       "main": "Gulli",
       "switch": false
@@ -9464,7 +9734,7 @@
           "date": "2026-07-11",
           "desc": "MAIZE CORN FLOUR GLUTEN",
           "change_pct": null,
-          "n": 5,
+          "n": 6,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -9477,7 +9747,7 @@
       "multi": false,
       "suspect": false,
       "low": 14.4,
-      "low_date": "2026-06-22",
+      "low_date": "2026-06-13",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -9522,10 +9792,10 @@
           "date": "2026-07-30",
           "desc": "Manildra- Gem West Pizza Flour 12.5kg",
           "change_pct": null,
-          "n": 8,
+          "n": 9,
           "prev_cost": null,
-          "spend": 786.6,
-          "volume": 712.5
+          "spend": 869.4,
+          "volume": 787.5
         }
       ],
       "cheapest": "Gulli",
@@ -9535,7 +9805,7 @@
       "multi": false,
       "suspect": false,
       "low": 1.104,
-      "low_date": "2026-06-18",
+      "low_date": "2026-06-12",
       "est_saving": 0.0,
       "main": "Gulli",
       "switch": false
@@ -9696,7 +9966,7 @@
           "date": "2026-07-23",
           "desc": "\"Momoya\" Kimchi Sauce Value Pack",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -9709,7 +9979,7 @@
       "multi": false,
       "suspect": false,
       "low": 8.6,
-      "low_date": "2026-07-02",
+      "low_date": "2026-06-11",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -10179,6 +10449,35 @@
       "switch": false
     },
     {
+      "key": "10mm noodle pad thai",
+      "name": "Noodle Pad Thai 10mm",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 9.333,
+          "date": "2026-06-13",
+          "desc": "NOODLES PAD THAI 375GM 10MM",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 7.0,
+          "volume": 0.75
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 9.333,
+      "max": 9.333,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 9.333,
+      "low_date": "2026-06-13",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "instant noodle plain",
       "name": "Noodle Plain Instant",
       "unit": "ea",
@@ -10292,6 +10591,35 @@
       "low_date": "2026-07-20",
       "est_saving": 0.0,
       "main": "B&E",
+      "switch": false
+    },
+    {
+      "key": "oil sesame",
+      "name": "Oil Sesame",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 9.5,
+          "date": "2026-06-13",
+          "desc": "OIL SESAME 2LT",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 38.0,
+          "volume": 4.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 9.5,
+      "max": 9.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 9.5,
+      "low_date": "2026-06-13",
+      "est_saving": 0.0,
+      "main": "Foodlink",
       "switch": false
     },
     {
@@ -10943,10 +11271,10 @@
           "date": "2026-07-30",
           "desc": "Paesanella- Bocconcini 1kg",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
-          "spend": 382.8,
-          "volume": 22.0
+          "spend": 417.6,
+          "volume": 24.0
         }
       ],
       "cheapest": "Gulli",
@@ -10956,9 +11284,38 @@
       "multi": false,
       "suspect": false,
       "low": 17.4,
-      "low_date": "2026-06-25",
+      "low_date": "2026-06-12",
       "est_saving": 0.0,
       "main": "Gulli",
+      "switch": false
+    },
+    {
+      "key": "black cut gingham paper",
+      "name": "Paper Gingham Cut Black",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 49.5,
+          "date": "2026-06-12",
+          "desc": "PAPER GINGHAM 1/4 CUT BLACK",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 49.5,
+      "max": 49.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 49.5,
+      "low_date": "2026-06-12",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -11117,7 +11474,7 @@
           "date": "2026-07-21",
           "desc": "S.PELLEGRINO SPARKLING WATER",
           "change_pct": 2300.0,
-          "n": 4,
+          "n": 5,
           "prev_cost": 2.3558,
           "spend": 0.0,
           "volume": 0.0
@@ -12132,10 +12489,10 @@
           "date": "2026-08-01",
           "desc": "RICE - JASMINE RICE 10KG",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
-          "spend": 63.0,
-          "volume": 30.0
+          "spend": 84.0,
+          "volume": 40.0
         }
       ],
       "cheapest": "B&E",
@@ -12145,7 +12502,7 @@
       "multi": false,
       "suspect": false,
       "low": 2.1,
-      "low_date": "2026-07-01",
+      "low_date": "2026-06-13",
       "est_saving": 0.0,
       "main": "B&E",
       "switch": false
@@ -12206,6 +12563,35 @@
       "low_date": "2026-06-13",
       "est_saving": 0.0,
       "main": "B&E",
+      "switch": false
+    },
+    {
+      "key": "noodle rice vermicili",
+      "name": "Rice Vermicili Noodle",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 5.0,
+          "date": "2026-06-13",
+          "desc": "RICE VERMICILI NOODLES 500GM",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 2.5,
+          "volume": 0.5
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 5.0,
+      "max": 5.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 5.0,
+      "low_date": "2026-06-13",
+      "est_saving": 0.0,
+      "main": "Foodlink",
       "switch": false
     },
     {
@@ -12364,7 +12750,7 @@
           "date": "2026-07-31",
           "desc": "ROOSTER ROJO TEQUILA BLANCO",
           "change_pct": -0.6,
-          "n": 5,
+          "n": 7,
           "prev_cost": 309.97,
           "spend": 0.0,
           "volume": 0.0
@@ -12538,7 +12924,7 @@
           "date": "2026-07-31",
           "desc": "SAILOR JERRY SPICED RUM",
           "change_pct": 480.9,
-          "n": 6,
+          "n": 7,
           "prev_cost": 44.6,
           "spend": 0.0,
           "volume": 0.0
@@ -12654,7 +13040,7 @@
           "date": "2026-07-17",
           "desc": "Sapore- Roasted Red Peppers Strips A12",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -12667,7 +13053,7 @@
       "multi": false,
       "suspect": false,
       "low": 14.0,
-      "low_date": "2026-07-01",
+      "low_date": "2026-06-12",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -12934,6 +13320,35 @@
       "switch": false
     },
     {
+      "key": "flake salt sea",
+      "name": "Sea Salt Flake",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 39.583,
+          "date": "2026-06-13",
+          "desc": "SEA SALT FLAKES 240GM",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 9.5,
+          "volume": 0.24
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 39.583,
+      "max": 39.583,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 39.583,
+      "low_date": "2026-06-13",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "garlic seasoning",
       "name": "Seasoning Garlic",
       "unit": "ea",
@@ -12944,7 +13359,7 @@
           "date": "2026-07-08",
           "desc": "SEASONING - GARLIC",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -12957,7 +13372,7 @@
       "multi": false,
       "suspect": false,
       "low": 12.2,
-      "low_date": "2026-07-08",
+      "low_date": "2026-06-13",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -14555,6 +14970,35 @@
       "low_date": "2026-07-16",
       "est_saving": 0.0,
       "main": null,
+      "switch": false
+    },
+    {
+      "key": "greek style yoghurt",
+      "name": "Yoghurt Greek Style",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 7.35,
+          "date": "2026-06-12",
+          "desc": "YOGHURT GREEK STYLE 2KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 14.7,
+          "volume": 2.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 7.35,
+      "max": 7.35,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 7.35,
+      "low_date": "2026-06-12",
+      "est_saving": 0.0,
+      "main": "Foodlink",
       "switch": false
     },
     {
