@@ -218,33 +218,21 @@ def recipes_full() -> dict:
     #     MANUAL line carrying its scrape cost, so nothing is lost.
     # Builder-saved recipes above win on name.
     have = {e["product"] for e in out}
-    # which lightspeed:<PID> ids are actually priced on our book — a line wired to
-    # one of these costs live; anything else must fall back to a named manual line
-    # (with its scrape cost) so it still shows and still costs.
-    import csv as _csv
+    # which lightspeed:<PID> ids are actually IN THE PICKER (ingredients.json) — a
+    # line wired to one of these costs live. Anything else (uncosted product, a
+    # sub-recipe with no yield, an unmatched line) falls back to a named manual line
+    # carrying its costed-feed per-use cost, so it still shows a real number, never $0.
     costable: set[str] = set()
-    _cp = DATA / "costs.csv"
-    if _cp.exists():
-        for _r in _csv.DictReader(_cp.open(encoding="utf-8-sig")):
-            if _r["ingredient"].startswith("lightspeed:"):
-                costable.add(_r["ingredient"])
+    _ing = DATA / "ingredients.json"
+    if _ing.exists():
+        for _i in json.loads(_ing.read_text()).get("ingredients", []):
+            if str(_i.get("id", "")).startswith("lightspeed:"):
+                costable.add(_i["id"])
     ls_path = DATA / "lightspeed_recipes_costed.json"
     if ls_path.exists():
         import re as _re
         _Y = _re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre|pcs|pc|units|unit|each|ea)\]", _re.I)
         LSR = json.loads(ls_path.read_text()).get("recipes", {})
-
-        def _passthrough_id(sub_name):
-            """A scraped 'recipe' that is really a product served neat (e.g. Campari =
-            one pour of the bottle) — single id ingredient, no batch yield. Wire the
-            parent straight to that product so it costs live instead of $0."""
-            s = LSR.get(sub_name)
-            if not s or _Y.search(sub_name):        # a real batch has a bracket yield
-                return None
-            ings = s.get("ingredients", [])
-            if len(ings) == 1 and ings[0].get("kind") == "id" and ings[0].get("ref") in costable:
-                return ings[0]["ref"]
-            return None
 
         for name, r in LSR.items():
             if name in have:
@@ -252,20 +240,28 @@ def recipes_full() -> dict:
             lines = []
             for ln in r.get("ingredients", []):
                 kind, ref = ln.get("kind"), ln.get("ref")
-                if kind == "subrecipe" and ref and _passthrough_id(ref):
-                    lines.append({"id": _passthrough_id(ref), "qty": ln.get("qty"), "unit": ln.get("unit")})
-                elif kind == "subrecipe" and ref:
-                    lines.append({"subrecipe": ref, "qty": ln.get("qty"), "unit": ln.get("unit")})
-                elif kind == "id" and ref in costable:
+                # A line is wired LIVE (id x qty) ONLY when the recipe book costed it
+                # cleanly — our_cost set means the unit matched and the magnitude was
+                # sane, so id x qty equals the book AND keeps updating from invoices.
+                # EVERY other line (a sub-recipe, a product referenced by a garbage qty
+                # like a 1 ml glass of wine, a capped garnish, a pour-only 'recipe')
+                # uses the book's EXACT per-line contribution (eff_cost) — the number
+                # that already sums to the audited recipe cost — so the builder can
+                # never blow up ($3216 nip), never read $0, always matches the book.
+                if kind == "id" and ref in costable and ln.get("our_cost") is not None:
                     lines.append({"id": ref, "qty": ln.get("qty"), "unit": ln.get("unit")})
                 else:
                     try:
                         q = float(ln.get("qty") or 0)
                     except (TypeError, ValueError):
                         q = 0
-                    our = ln.get("our_cost")
-                    ls = float(ln.get("ls_cost") or 0)
-                    per = float(our) if our is not None else (ls / q if q > 0 else ls)
+                    eff = ln.get("eff_cost")
+                    if eff is not None:
+                        per = (float(eff) / q) if q > 0 else float(eff)
+                    else:
+                        our = ln.get("our_cost")
+                        ls = float(ln.get("ls_cost") or 0)
+                        per = float(our) if our is not None else (ls / q if q > 0 else ls)
                     lines.append({"manual": True, "name": ln.get("name", ""),
                                   "qty": ln.get("qty"), "unit": ln.get("unit"),
                                   "unit_cost_incl": round(per, 6)})

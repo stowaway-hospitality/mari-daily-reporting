@@ -195,6 +195,7 @@ def main() -> int:
             # chicken logged as "0.5 ml"). So it is NOT divided by qty; doing so
             # zeroed legitimate lines and under-costed roasts to 52c.
             ls = float(ln["ls_cost"] or 0)
+            eff = 0.0                          # this line's ACTUAL $ contribution
             if ln["kind"] == "subrecipe":
                 # cost a sub-recipe off OUR book without needing its batch yield:
                 # scale the prep's our-book batch cost by the LS ratio of this line to
@@ -204,16 +205,18 @@ def main() -> int:
                 # our_batch ~= ls_batch the line stays ~= the reliable LS per-use cost.
                 so, sl, sfo = cost_of(ln["ref"], stack + (name,))
                 if sl > 0 and so > 0:
-                    our_tot += so * (ls / sl)
+                    eff = so * (ls / sl)
                     full_ours = full_ours and sfo
                 else:
-                    our_tot += ls
+                    eff = ls
                     full_ours = False
+                our_tot += eff
                 ls_tot += ls
             elif ln["our_cost"] is not None:
                 # our invoice-fed book prices this line directly (unit matched, sane
                 # magnitude — it agrees with LS at ratio ~1.0). Trust it fully.
-                our_tot += float(ln["our_cost"]) * float(ln["qty"] or 0)
+                eff = float(ln["our_cost"]) * float(ln["qty"] or 0)
+                our_tot += eff
                 ls_tot += ls
             else:
                 # this line falls back to the LS per-line cost. Cap a rare bad datum
@@ -232,12 +235,15 @@ def main() -> int:
                 base = seed_base.get(ref)
                 cur = our_costs.get(ref)
                 if base and cur and float(base[0]) > 0 and base[1] == cur[1]:
-                    our_tot += ls * (float(cur[0]) / float(base[0]))
+                    eff = ls * (float(cur[0]) / float(base[0]))
+                    our_tot += eff
                     ls_tot += ls
                 else:
+                    eff = ls
                     our_tot += ls
                     ls_tot += ls
                     full_ours = False
+            ln["eff_cost"] = round(eff, 6)      # the number the builder shows for this line
         res = (round(our_tot, 4), round(ls_tot, 4), full_ours)
         memo[name] = res
         return res

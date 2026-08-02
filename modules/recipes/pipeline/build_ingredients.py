@@ -524,12 +524,26 @@ def main() -> int:
         if _id in seen:
             continue
         seen.add(_id)
+        # normalise to the RECIPE base unit (recipes portion in ml / g). The cost
+        # book may hold a spirit per-LITRE or a food per-KG; the builder multiplies
+        # cost x a ml/g qty, so a per-L cost x 60 ml would read $3216 for a nip.
+        try:
+            _per = Decimal(_cost)
+        except Exception:
+            continue
+        _u = (_unit or "").strip().lower()
+        if _u in ("l", "lt", "litre", "litres"):
+            _per, _unit = _per / 1000, "ml"
+        elif _u == "kg":
+            _per, _unit = _per / 1000, "g"
+        else:
+            _unit = _unit or "ea"
         out.append({
             "id": _id, "description": clean_name(bo_name.get(pid, pid)),
             "supplier": "Lightspeed", "supplier_code": pid,
-            "pack_cost_incl": _cost, "source_invoice": "cost-book", "last_seen": _d,
+            "pack_cost_incl": str(_per), "source_invoice": "cost-book", "last_seen": _d,
             "venue": "stowaway", "pack_qty": "1", "pack_unit": _unit,
-            "pack_parsed_as": "cost-book", "cost_per_base_unit": _cost,
+            "pack_parsed_as": "cost-book", "cost_per_base_unit": str(_per),
             "needs_pack_review": False,
         })
 
