@@ -78,6 +78,16 @@ def _tok(s):
     return " ".join(sorted(re.findall(r"[a-z0-9]+", (s or "").lower())))
 
 
+# Discontinued products still living under an old name in Produce. The recipe
+# keeps the retired name but is poured/priced as the CURRENT product, so its sell
+# price must follow the replacement, not the stale POS entry. Keyed recipe-name
+# -> current product name (looked up in the priced product sheet). Add a line here
+# whenever a product is renamed/replaced but the Produce recipe name lags behind.
+RENAMED_TO = {
+    "Btl Disco Volante D": "Trutta Streamside Shiraz [Chilled] - Bottle",  # $68 bottle
+}
+
+
 def load_sell_prices():
     """normalised ProductName -> sell price incl GST (what the menu charges).
 
@@ -106,8 +116,10 @@ def load_sell_prices():
 
 
 def sell_of(name, by_norm, by_tok):
-    """exact normalised name first, then the unambiguous word-order fallback."""
-    return by_norm.get(norm(name)) or by_tok.get(_tok(name))
+    """current-product override (renamed items) first, then exact normalised name,
+    then the unambiguous word-order fallback."""
+    lookup = RENAMED_TO.get(name, name)
+    return by_norm.get(norm(lookup)) or by_tok.get(_tok(lookup))
 
 
 def load_our_costs():
