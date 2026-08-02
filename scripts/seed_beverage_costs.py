@@ -123,8 +123,14 @@ def is_beverage_stock(r) -> bool:
                                            # [Keg]" carries no category/bar-word)
     if _bev_cats(r):
         return True
-    # (no category) stock bottle: include only if it names a bar/alcohol/mixer word
-    return bool((_SIZE.search(name) or _SIZE_ALT.search(name)) and _BAR.search(name))
+    # (no category) stock item carrying a bottle/can/size marker. Lightspeed has
+    # dropped CategoryNames on ~111 real bar items (Fireball, Grey Goose, Cherry
+    # Heering, the whole single-malt shelf), and keeping a hand-written brand
+    # vocabulary in sync with the back bar is whack-a-mole — the same lesson the
+    # missing sake/whisky families taught. An inventory-tracked, costed, sized,
+    # non-kitchen, non-serve product IS stock worth costing, so include it and let
+    # classify() pick the unit.
+    return bool(_SIZE.search(name) or _SIZE_ALT.search(name))
 
 
 # Words that mean POUR (costed per ml — a cocktail uses 30-60 ml): spirits,
@@ -154,6 +160,22 @@ def classify(r) -> tuple[str, int | None]:
     if re.search(r"\bkeg\b", low) or "[keg]" in low:
         return "ml", KEG_ML                 # AU kegs are 50L; cost per ml so tap
                                             # serves (schooner/pint) derive from it
+    if not cats:
+        # Category-less stock (Lightspeed dropped CategoryNames on the back bar).
+        # Trust the size printed in the name: an explicit ml/L is the pack volume,
+        # and a bare [Bottle] on an uncategorised stock item is a spirit bottle.
+        # Scoped to `not cats` so every previously-seeded (categorised) row keeps
+        # its exact unit — this may only ADD cost rows, never restate one.
+        mm = _SIZE_IN_NAME.search(name)
+        if mm:
+            v = Decimal(mm.group(1))
+            return "ml", int(v * 1000) if mm.group(2).lower().startswith("l") else int(v)
+        # A BARE [Bottle] carries no size, so we must assume one. Only do that for a
+        # spirit-priced bottle (>= $20): a $4.11 Fever-Tree is a 500ml mixer, and
+        # calling it 700ml would UNDERSTATE its per-ml cost — the flattering
+        # direction, which is the dangerous one. Cheap bare bottles stay per-unit.
+        if re.search(r"\[\s*bottle\s*\]|[-–]\s*bottle\b", low) and (_cost(r) or 0) >= 20:
+            return "ml", (750 if _WINE.search(name) else 700)
     is_wine = ("WINE" in cats) or bool(_WINE.search(name))
     pour = ("SPIRITS" in cats) or ("SAKE / SOJU" in cats) or is_wine or bool(_POUR.search(name))
     # explicit can/tin/seltzer/cider, or a beer/soft category -> whole unit

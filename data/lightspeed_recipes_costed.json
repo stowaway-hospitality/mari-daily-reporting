@@ -7,7 +7,7 @@
    "id": 1070,
    "subrecipe": 437
   },
-  "recipes_fully_on_our_book": 336
+  "recipes_fully_on_our_book": 398
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -409,7 +409,7 @@
    ],
    "our_cost": 5.9224,
    "ls_cost": 5.92,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.5,
@@ -2404,17 +2404,17 @@
      "qty": "60",
      "unit": "ml",
      "ls_cost": "2.51",
-     "our_cost": null,
-     "eff_cost": 2.51
+     "our_cost": "0.044814",
+     "eff_cost": 2.68884
     }
    ],
-   "our_cost": 2.51,
+   "our_cost": 2.6888,
    "ls_cost": 2.51,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": 80.3
+   "gp_pct": 78.9
   },
   "Guinness Draught - Pint": {
    "ingredients": [
@@ -2841,7 +2841,7 @@
    ],
    "our_cost": 7.1,
    "ls_cost": 7.1,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -2887,7 +2887,7 @@
      "unit": "ml",
      "ls_cost": "0.21",
      "our_cost": null,
-     "eff_cost": 0.179267
+     "eff_cost": 0.210014
     },
     {
      "name": "Nut Roast Prep",
@@ -2907,16 +2907,16 @@
      "unit": "g",
      "ls_cost": "0.98",
      "our_cost": null,
-     "eff_cost": 0.980516
+     "eff_cost": 0.976862
     }
    ],
-   "our_cost": 5.2994,
+   "our_cost": 5.3264,
    "ls_cost": 5.33,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 80.6
+   "gp_pct": 80.5
   },
   "Pizza Dough [Recipe]": {
    "ingredients": [
@@ -2953,7 +2953,7 @@
    ],
    "our_cost": 6.41,
    "ls_cost": 6.41,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -3059,8 +3059,8 @@
      "qty": "157",
      "unit": "ml",
      "ls_cost": "0.59",
-     "our_cost": "0.003754",
-     "eff_cost": 0.589378
+     "our_cost": "0.003726",
+     "eff_cost": 0.584982
     },
     {
      "name": "Sugar Syrup",
@@ -3073,13 +3073,13 @@
      "eff_cost": 0.009992
     }
    ],
-   "our_cost": 2.0394,
+   "our_cost": 2.035,
    "ls_cost": 2.04,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 15.0,
-   "gp_pct": 85.0
+   "gp_pct": 85.1
   },
   "Scorched As": {
    "ingredients": [
@@ -3224,16 +3224,16 @@
      "unit": "ml",
      "ls_cost": "0.07",
      "our_cost": null,
-     "eff_cost": 0.049211
+     "eff_cost": 0.069968
     }
    ],
-   "our_cost": 0.0492,
+   "our_cost": 0.07,
    "ls_cost": 0.07,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 6.5,
-   "gp_pct": 99.2
+   "gp_pct": 98.8
   },
   "Large Hawaiian": {
    "ingredients": [
@@ -3336,7 +3336,7 @@
      "unit": "ml",
      "ls_cost": "5.32",
      "our_cost": null,
-     "eff_cost": 5.317704
+     "eff_cost": 5.316606
     },
     {
      "name": "Prosciutto Sliced [500g]",
@@ -3369,9 +3369,9 @@
      "eff_cost": 0.764465
     }
    ],
-   "our_cost": 8.0826,
+   "our_cost": 8.0815,
    "ls_cost": 8.1,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 29.0,
@@ -3407,7 +3407,7 @@
      "unit": "g",
      "ls_cost": "0.30",
      "our_cost": null,
-     "eff_cost": 0.300158
+     "eff_cost": 0.299039
     },
     {
      "name": "Onion Spanish [10kg]",
@@ -3460,9 +3460,9 @@
      "eff_cost": 0.03
     }
    ],
-   "our_cost": 5.3277,
+   "our_cost": 5.3266,
    "ls_cost": 5.33,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 26.9,
@@ -3498,7 +3498,7 @@
      "unit": "g",
      "ls_cost": "0.30",
      "our_cost": null,
-     "eff_cost": 0.300158
+     "eff_cost": 0.299039
     },
     {
      "name": "Onion Spanish [10kg]",
@@ -3551,9 +3551,9 @@
      "eff_cost": 0.03
     }
    ],
-   "our_cost": 4.2677,
+   "our_cost": 4.2666,
    "ls_cost": 4.27,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 26.0,
@@ -5754,7 +5754,7 @@
    ],
    "our_cost": 2.8225,
    "ls_cost": 2.82,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 12.0,
@@ -5769,7 +5769,7 @@
      "qty": "4",
      "unit": "ml",
      "ls_cost": "45.60",
-     "our_cost": null,
+     "our_cost": "0.045600",
      "eff_cost": 45.6
     },
     {
@@ -5785,7 +5785,7 @@
    ],
    "our_cost": 65.6,
    "ls_cost": 65.6,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -5827,7 +5827,7 @@
    ],
    "our_cost": 1.95,
    "ls_cost": 1.95,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": null,
@@ -5848,7 +5848,7 @@
    ],
    "our_cost": 1.95,
    "ls_cost": 1.95,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 10.0,
@@ -5919,7 +5919,7 @@
    ],
    "our_cost": 46.7207,
    "ls_cost": 46.72,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -6084,7 +6084,7 @@
    ],
    "our_cost": 0.5217,
    "ls_cost": 0.52,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 1.0,
@@ -6135,7 +6135,7 @@
    ],
    "our_cost": 53.108,
    "ls_cost": 52.94,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -6213,7 +6213,7 @@
      "unit": "ml",
      "ls_cost": "3.40",
      "our_cost": "0.000875",
-     "eff_cost": 0.00175
+     "eff_cost": 3.4
     },
     {
      "name": "Cheese Mexican Blend Shredded [2kg]",
@@ -6256,7 +6256,7 @@
      "eff_cost": 1.10838
     }
    ],
-   "our_cost": 8.0565,
+   "our_cost": 11.4548,
    "ls_cost": 11.46,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -6274,10 +6274,10 @@
      "unit": "g",
      "ls_cost": "0.34",
      "our_cost": null,
-     "eff_cost": 0.340179
+     "eff_cost": 0.338911
     }
    ],
-   "our_cost": 0.3402,
+   "our_cost": 0.3389,
    "ls_cost": 0.34,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -6295,10 +6295,10 @@
      "unit": "g",
      "ls_cost": "0.34",
      "our_cost": null,
-     "eff_cost": 0.340179
+     "eff_cost": 0.338911
     }
    ],
-   "our_cost": 0.3402,
+   "our_cost": 0.3389,
    "ls_cost": 0.34,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -6316,10 +6316,10 @@
      "unit": "g",
      "ls_cost": "0.34",
      "our_cost": null,
-     "eff_cost": 0.340179
+     "eff_cost": 0.338911
     }
    ],
-   "our_cost": 0.3402,
+   "our_cost": 0.3389,
    "ls_cost": 0.34,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -6377,7 +6377,7 @@
      "unit": "ml",
      "ls_cost": "0.21",
      "our_cost": null,
-     "eff_cost": 0.179267
+     "eff_cost": 0.210014
     },
     {
      "name": "Gravy Prep",
@@ -6387,16 +6387,16 @@
      "unit": "g",
      "ls_cost": "0.98",
      "our_cost": null,
-     "eff_cost": 0.980516
+     "eff_cost": 0.976862
     }
    ],
-   "our_cost": 4.8898,
+   "our_cost": 4.9169,
    "ls_cost": 4.92,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 82.1
+   "gp_pct": 82.0
   },
   "Lamb Roast": {
    "ingredients": [
@@ -6448,7 +6448,7 @@
      "unit": "ml",
      "ls_cost": "0.21",
      "our_cost": null,
-     "eff_cost": 0.179267
+     "eff_cost": 0.210014
     },
     {
      "name": "Gravy Prep",
@@ -6458,16 +6458,16 @@
      "unit": "g",
      "ls_cost": "0.98",
      "our_cost": null,
-     "eff_cost": 0.980516
+     "eff_cost": 0.976862
     }
    ],
-   "our_cost": 6.9798,
+   "our_cost": 7.0069,
    "ls_cost": 7.01,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 74.4
+   "gp_pct": 74.3
   },
   "Beef Roast": {
    "ingredients": [
@@ -6519,7 +6519,7 @@
      "unit": "ml",
      "ls_cost": "0.21",
      "our_cost": null,
-     "eff_cost": 0.179267
+     "eff_cost": 0.210014
     },
     {
      "name": "Gravy Prep",
@@ -6529,16 +6529,16 @@
      "unit": "g",
      "ls_cost": "0.98",
      "our_cost": null,
-     "eff_cost": 0.980516
+     "eff_cost": 0.976862
     }
    ],
-   "our_cost": 5.6598,
+   "our_cost": 5.6869,
    "ls_cost": 5.69,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 79.2
+   "gp_pct": 79.1
   },
   "Gravy Prep": {
    "ingredients": [
@@ -6549,8 +6549,8 @@
      "qty": "2000",
      "unit": "ml",
      "ls_cost": "7.50",
-     "our_cost": "0.003754",
-     "eff_cost": 7.508
+     "our_cost": "0.003726",
+     "eff_cost": 7.452
     },
     {
      "name": "Sugar Brown 1kg CSR",
@@ -6583,7 +6583,7 @@
      "eff_cost": 0.45999
     }
    ],
-   "our_cost": 14.9979,
+   "our_cost": 14.942,
    "ls_cost": 14.99,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -6746,7 +6746,7 @@
    ],
    "our_cost": 62.6192,
    "ls_cost": 62.63,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -6762,7 +6762,7 @@
      "unit": "ml",
      "ls_cost": "3.40",
      "our_cost": "0.000875",
-     "eff_cost": 0.00175
+     "eff_cost": 3.4
     },
     {
      "name": "Eggs 700 Grams [12x]",
@@ -6781,13 +6781,13 @@
      "qty": "1650",
      "unit": "g",
      "ls_cost": "1.82",
-     "our_cost": null,
-     "eff_cost": 1.82
+     "our_cost": "0.001104",
+     "eff_cost": 1.8216
     }
    ],
-   "our_cost": 19.8218,
+   "our_cost": 23.2216,
    "ls_cost": 23.22,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -6888,7 +6888,7 @@
    ],
    "our_cost": 2.3685,
    "ls_cost": 2.38,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 16.0,
@@ -6949,7 +6949,7 @@
    ],
    "our_cost": 1.239,
    "ls_cost": 1.25,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 15.0,
@@ -7000,7 +7000,7 @@
    ],
    "our_cost": 1.2234,
    "ls_cost": 1.23,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 14.0,
@@ -7175,7 +7175,7 @@
    ],
    "our_cost": 4.0353,
    "ls_cost": 4.05,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
@@ -7196,7 +7196,7 @@
    ],
    "our_cost": 4.0353,
    "ls_cost": 4.05,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
@@ -7277,7 +7277,7 @@
    ],
    "our_cost": 4.0951,
    "ls_cost": 4.11,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
@@ -7378,7 +7378,7 @@
    ],
    "our_cost": 3.6295,
    "ls_cost": 3.64,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
@@ -7481,7 +7481,7 @@
    ],
    "our_cost": 3.2003,
    "ls_cost": 3.2,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.0,
@@ -8021,7 +8021,7 @@
    ],
    "our_cost": 84.1236,
    "ls_cost": 84.12,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -8112,7 +8112,7 @@
    ],
    "our_cost": 1.1136,
    "ls_cost": 1.11,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -8322,10 +8322,10 @@
      "unit": "ml",
      "ls_cost": "7.63",
      "our_cost": null,
-     "eff_cost": 7.630563
+     "eff_cost": 7.630225
     }
    ],
-   "our_cost": 7.6306,
+   "our_cost": 7.6302,
    "ls_cost": 7.63,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8393,7 +8393,7 @@
      "unit": "g",
      "ls_cost": "3.03",
      "our_cost": null,
-     "eff_cost": 3.030631
+     "eff_cost": 3.03033
     },
     {
      "name": "Cheese Mexican Blend Shredded [2kg]",
@@ -8446,7 +8446,7 @@
      "eff_cost": 0.55
     }
    ],
-   "our_cost": 6.7805,
+   "our_cost": 6.7802,
    "ls_cost": 6.78,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -8553,8 +8553,8 @@
      "qty": "500",
      "unit": "ml",
      "ls_cost": "1.88",
-     "our_cost": "0.003754",
-     "eff_cost": 1.877
+     "our_cost": "0.003726",
+     "eff_cost": 1.863
     },
     {
      "name": "Salt Cooking 10kg Olssons",
@@ -8587,7 +8587,7 @@
      "eff_cost": 0.13
     }
    ],
-   "our_cost": 141.2894,
+   "our_cost": 141.2754,
    "ls_cost": 141.26,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -8990,10 +8990,10 @@
      "unit": "g",
      "ls_cost": "0.35",
      "our_cost": null,
-     "eff_cost": 0.350455
+     "eff_cost": 0.350326
     }
    ],
-   "our_cost": 4.4464,
+   "our_cost": 4.4462,
    "ls_cost": 4.45,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -9037,7 +9037,7 @@
    ],
    "our_cost": 3.2714,
    "ls_cost": 3.28,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
@@ -9058,7 +9058,7 @@
    ],
    "our_cost": 3.2714,
    "ls_cost": 3.28,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
@@ -9159,7 +9159,7 @@
    ],
    "our_cost": 3.3312,
    "ls_cost": 3.34,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
@@ -9174,8 +9174,8 @@
      "qty": "750",
      "unit": "g",
      "ls_cost": "4.88",
-     "our_cost": null,
-     "eff_cost": 4.88
+     "our_cost": "0.006500",
+     "eff_cost": 4.875
     },
     {
      "name": "Frank's Hot Sauce 1Galln 3.8L Franks",
@@ -9188,9 +9188,9 @@
      "eff_cost": 8.76775
     }
    ],
-   "our_cost": 13.6477,
+   "our_cost": 13.6427,
    "ls_cost": 13.63,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -9211,7 +9211,7 @@
    ],
    "our_cost": 0.3698,
    "ls_cost": 0.37,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 2.0,
@@ -9227,10 +9227,10 @@
      "unit": "ml",
      "ls_cost": "0.39",
      "our_cost": null,
-     "eff_cost": 0.372611
+     "eff_cost": 0.39
     }
    ],
-   "our_cost": 0.3726,
+   "our_cost": 0.39,
    "ls_cost": 0.39,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -9253,7 +9253,7 @@
    ],
    "our_cost": 2.9781,
    "ls_cost": 2.98,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 16.5,
@@ -9269,16 +9269,16 @@
      "unit": "ml",
      "ls_cost": "3.14",
      "our_cost": null,
-     "eff_cost": 3.0
+     "eff_cost": 3.14
     }
    ],
-   "our_cost": 3.0,
+   "our_cost": 3.14,
    "ls_cost": 3.14,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 16.0,
-   "gp_pct": 79.4
+   "gp_pct": 78.4
   },
   "BBQ Wings": {
    "ingredients": [
@@ -9300,16 +9300,16 @@
      "unit": "ml",
      "ls_cost": "0.14",
      "our_cost": null,
-     "eff_cost": 1e-05
+     "eff_cost": 0.14
     }
    ],
-   "our_cost": 3.0,
+   "our_cost": 3.14,
    "ls_cost": 3.14,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 16.9,
-   "gp_pct": 80.5
+   "gp_pct": 79.6
   },
   "Buffalo Wings": {
    "ingredients": [
@@ -9346,7 +9346,7 @@
    ],
    "our_cost": 3.9075,
    "ls_cost": 3.91,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 17.5,
@@ -9377,7 +9377,7 @@
    ],
    "our_cost": 48.25,
    "ls_cost": 48.25,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -9557,7 +9557,7 @@
      "unit": "ml",
      "ls_cost": "30.58",
      "our_cost": "0.000869",
-     "eff_cost": 0.001738
+     "eff_cost": 30.58
     },
     {
      "name": "Sunshine Smokey BBQ Sauce [3L]",
@@ -9567,10 +9567,10 @@
      "unit": "ml",
      "ls_cost": "13.75",
      "our_cost": "0.001389",
-     "eff_cost": 0.001389
+     "eff_cost": 13.75
     }
    ],
-   "our_cost": 0.0031,
+   "our_cost": 44.33,
    "ls_cost": 44.33,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -10376,7 +10376,7 @@
    ],
    "our_cost": 3.1,
    "ls_cost": 3.11,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 26.0,
@@ -10397,7 +10397,7 @@
    ],
    "our_cost": 3.2096,
    "ls_cost": 3.22,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
@@ -10418,7 +10418,7 @@
    ],
    "our_cost": 3.2096,
    "ls_cost": 3.22,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
@@ -10519,7 +10519,7 @@
    ],
    "our_cost": 2.4252,
    "ls_cost": 2.44,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
@@ -10958,7 +10958,7 @@
      "unit": "ml",
      "ls_cost": "0.42",
      "our_cost": null,
-     "eff_cost": 0.42
+     "eff_cost": 0.420513
     },
     {
      "name": "Massenez Cacao Blanc [750ml]",
@@ -11001,7 +11001,7 @@
      "eff_cost": 0.019431
     }
    ],
-   "our_cost": 3.5586,
+   "our_cost": 3.5591,
    "ls_cost": 3.52,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -12763,7 +12763,7 @@
    ],
    "our_cost": 25.915,
    "ls_cost": 25.92,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 42.5,
@@ -12784,7 +12784,7 @@
    ],
    "our_cost": 1.3622,
    "ls_cost": 1.36,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": null,
@@ -13487,7 +13487,7 @@
    ],
    "our_cost": 1.3622,
    "ls_cost": 1.36,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 13.5,
@@ -13538,7 +13538,7 @@
    ],
    "our_cost": 1.9231,
    "ls_cost": 1.92,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.0,
@@ -13865,17 +13865,17 @@
      "qty": "30",
      "unit": "ml",
      "ls_cost": "7.31",
-     "our_cost": null,
-     "eff_cost": 7.31
+     "our_cost": "0.260957",
+     "eff_cost": 7.82871
     }
    ],
-   "our_cost": 7.31,
+   "our_cost": 7.8287,
    "ls_cost": 7.31,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 28.0,
-   "gp_pct": 71.3
+   "gp_pct": 69.2
   },
   "Caff\u00e9 Crema": {
    "ingredients": [
@@ -14094,7 +14094,7 @@
    ],
    "our_cost": 4.0733,
    "ls_cost": 4.08,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 26.0,
@@ -14743,7 +14743,7 @@
    ],
    "our_cost": 4.0922,
    "ls_cost": 4.1,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -14835,7 +14835,7 @@
    ],
    "our_cost": 8.0054,
    "ls_cost": 8.08,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": true,
    "sell_incl": null,
@@ -15446,7 +15446,7 @@
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.56",
-     "our_cost": null,
+     "our_cost": "0.006514",
      "eff_cost": 4.56
     },
     {
@@ -15462,7 +15462,7 @@
    ],
    "our_cost": 26.9927,
    "ls_cost": 26.99,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 55.0,
@@ -16236,8 +16236,8 @@
      "qty": "7.6",
      "unit": "ml",
      "ls_cost": "0.23",
-     "our_cost": "0.030571",
-     "eff_cost": 0.23234
+     "our_cost": "0.030893",
+     "eff_cost": 0.234787
     },
     {
      "name": "Antica Formula Rosso Vermouth [Bottle]",
@@ -16250,7 +16250,7 @@
      "eff_cost": 0.489235
     }
    ],
-   "our_cost": 3.892,
+   "our_cost": 3.8944,
    "ls_cost": 3.86,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -16393,8 +16393,8 @@
      "qty": "330",
      "unit": "ml",
      "ls_cost": "10.19",
-     "our_cost": "0.030571",
-     "eff_cost": 10.08843
+     "our_cost": "0.030893",
+     "eff_cost": 10.19469
     },
     {
      "name": "Antica Formula Rosso Vermouth [Bottle]",
@@ -16417,7 +16417,7 @@
      "eff_cost": 15.700472
     }
    ],
-   "our_cost": 47.032,
+   "our_cost": 47.1383,
    "ls_cost": 41.81,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -16759,13 +16759,13 @@
      "qty": "30",
      "unit": "ml",
      "ls_cost": "2.54",
-     "our_cost": null,
-     "eff_cost": 2.54
+     "our_cost": "0.084771",
+     "eff_cost": 2.54313
     }
    ],
-   "our_cost": 2.54,
+   "our_cost": 2.5431,
    "ls_cost": 2.54,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 12.0,
@@ -16780,13 +16780,13 @@
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.92",
-     "our_cost": null,
-     "eff_cost": 1.92
+     "our_cost": "0.063943",
+     "eff_cost": 1.91829
     }
    ],
-   "our_cost": 1.92,
+   "our_cost": 1.9183,
    "ls_cost": 1.92,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 12.0,
@@ -16801,17 +16801,17 @@
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.89",
-     "our_cost": null,
-     "eff_cost": 1.89
+     "our_cost": "0.058043",
+     "eff_cost": 1.74129
     }
    ],
-   "our_cost": 1.89,
+   "our_cost": 1.7413,
    "ls_cost": 1.89,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": 82.7
+   "gp_pct": 84.0
   },
   "Cherry Heering": {
    "ingredients": [
@@ -16822,17 +16822,17 @@
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.75",
-     "our_cost": null,
-     "eff_cost": 1.75
+     "our_cost": "0.062443",
+     "eff_cost": 1.87329
     }
    ],
-   "our_cost": 1.75,
+   "our_cost": 1.8733,
    "ls_cost": 1.75,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 11.0,
-   "gp_pct": 82.5
+   "gp_pct": 81.3
   },
   "Frangelico": {
    "ingredients": [
@@ -18168,7 +18168,7 @@
      "qty": "1",
      "unit": "ml",
      "ls_cost": "1.39",
-     "our_cost": null,
+     "our_cost": "0.005560",
      "eff_cost": 1.39
     },
     {
@@ -18184,7 +18184,7 @@
    ],
    "our_cost": 9.41,
    "ls_cost": 9.41,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": null,
@@ -19209,7 +19209,7 @@
    ],
    "our_cost": 3.19,
    "ls_cost": 3.19,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 8.0,
@@ -19230,7 +19230,7 @@
    ],
    "our_cost": 12.75,
    "ls_cost": 12.75,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
@@ -19884,7 +19884,7 @@
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.56",
-     "our_cost": null,
+     "our_cost": "0.006514",
      "eff_cost": 4.56
     },
     {
@@ -19900,7 +19900,7 @@
    ],
    "our_cost": 25.915,
    "ls_cost": 25.92,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 50.0,
@@ -19958,10 +19958,10 @@
      "unit": "ml",
      "ls_cost": "7.93",
      "our_cost": null,
-     "eff_cost": 7.927668
+     "eff_cost": 7.910564
     }
    ],
-   "our_cost": 7.9277,
+   "our_cost": 7.9106,
    "ls_cost": 7.93,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -19979,10 +19979,10 @@
      "unit": "ml",
      "ls_cost": "2.83",
      "our_cost": null,
-     "eff_cost": 2.829168
+     "eff_cost": 2.823064
     }
    ],
-   "our_cost": 2.8292,
+   "our_cost": 2.8231,
    "ls_cost": 2.83,
    "fully_our_book": false,
    "resolved_pct": 100,
@@ -20593,7 +20593,7 @@
      "qty": "1",
      "unit": "ml",
      "ls_cost": "1.39",
-     "our_cost": null,
+     "our_cost": "0.005560",
      "eff_cost": 1.39
     },
     {
@@ -20609,7 +20609,7 @@
    ],
    "our_cost": 9.41,
    "ls_cost": 9.41,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": null,
@@ -20644,7 +20644,7 @@
      "qty": "1",
      "unit": "ml",
      "ls_cost": "4.56",
-     "our_cost": null,
+     "our_cost": "0.006514",
      "eff_cost": 4.56
     },
     {
@@ -20660,7 +20660,7 @@
    ],
    "our_cost": 25.915,
    "ls_cost": 25.92,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 55.0,
@@ -21000,11 +21000,11 @@
      "qty": "1000",
      "unit": "ml",
      "ls_cost": "3.75",
-     "our_cost": "0.003754",
-     "eff_cost": 3.754
+     "our_cost": "0.003726",
+     "eff_cost": 3.726
     }
    ],
-   "our_cost": 3.754,
+   "our_cost": 3.726,
    "ls_cost": 3.75,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -21393,7 +21393,7 @@
    ],
    "our_cost": 2.48,
    "ls_cost": 2.48,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 14.0,

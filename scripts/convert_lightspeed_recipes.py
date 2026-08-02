@@ -44,6 +44,43 @@ _TRAIL_UNIT = re.compile(r"\b(kgs?|k|gm?|mls?|lt?|litres?|ea|each|box|bunch|punn
 # plausible ceiling for a single base unit. A per-ml cost above $0.60 (premium
 # spirit) or a per-g above $0.20 (saffron) is a mis-unit seed, not a real price.
 _UNIT_CEIL = {"ml": 0.60, "g": 0.20}
+# How far our price x recipe-qty may stray from Lightspeed's own line cost before we
+# stop believing the recipe's (qty, unit) pair. A real price move is a few tens of
+# percent; 5x/0.2x means the quantity is garbage, not that the price moved.
+_AGREE_LO, _AGREE_HI = 0.2, 5.0
+# An LS line above this in a NON-prep serve is itself garbage (a whole bottle logged
+# against one cocktail), so it may not be used to judge anything.
+_LS_LINE_CAP = 40.0
+
+
+def _trust_direct(ln, ls, is_prep):
+    """May we cost this line as our_price x recipe_qty?
+
+    Only if the recipe's (qty, unit) pair is believable, and the check for that is
+    agreement with Lightspeed's own line cost — but ONLY when that line is itself
+    credible. Two real cases pull in opposite directions:
+
+      * Truffle Oil Prep: qty "4 ml", LS line $45.60. It is really 4 BOTTLES, so
+        4 x $0.0456 = 18c is a 250x UNDER-cost. It is a PREP, so a $45.60 line is
+        legitimate -> LS is credible -> the disagreement condemns the quantity.
+      * Vesper Martini: qty "45 ml" of gin, LS line $95.34. Here 45 x $0.0706 =
+        $3.18 is right and the LS line is the garbage one (a whole bottle against
+        one serve). It is a NON-prep above the cap -> LS is not credible -> it may
+        not veto our price.
+
+    Under-costing is the flattering direction, so when the evidence is good enough
+    to doubt the quantity we drop to the dimensionless ratio path, which never
+    multiplies by a garbage number."""
+    try:
+        qty = float(ln.get("qty") or 0)
+    except (TypeError, ValueError):
+        return True
+    if ls <= 0 or qty <= 0:
+        return True
+    if ls > _LS_LINE_CAP and not is_prep:      # LS line is the untrustworthy one
+        return True
+    direct = float(ln["our_cost"]) * qty
+    return _AGREE_LO * ls <= direct <= _AGREE_HI * ls
 
 
 def norm(s: str) -> str:
@@ -139,7 +176,8 @@ def load_seed_baseline():
     unit to match — a dimensionless price-movement factor, so it can't blow up."""
     base = {}
     for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
-        if str(r.get("source_invoice") or "").startswith(("ls-recipe-seed", "bo-seed", "recipe-bridge-seed")):
+        if str(r.get("source_invoice") or "").startswith(
+                ("ls-recipe-seed", "bo-seed", "recipe-bridge-seed", "bo-ingredient-seed")):
             base[r["ingredient"]] = (r["cost_per_unit"], r["unit"])
     return base
 
@@ -220,7 +258,7 @@ def main() -> int:
     # a recipe used as an ingredient by another recipe is a PREP/BATCH (its POS
     # "sell price" is a placeholder, and it may legitimately carry a big bulk line
     # like $244 of chicken). Bracket sizes ([Batch]/[2Kg]/[1L]) mark bulk preps too.
-    _LS_LINE_CAP = 40.0
+    # (cap lives at module level so _trust_direct can read it too)
     used_as_sub = {ln["ref"] for r in out.values() for ln in r["ingredients"]
                    if ln["kind"] == "subrecipe" and ln["ref"]}
     PREP_RE = re.compile(r"\[(batch|prep|\d+\s*(kg|g|l|ml))\]|\b(prep|mix|marination|batch|blend)\b", re.I)
@@ -264,7 +302,7 @@ def main() -> int:
                     full_ours = False
                 our_tot += eff
                 ls_tot += ls
-            elif ln["our_cost"] is not None:
+            elif ln["our_cost"] is not None and _trust_direct(ln, ls, prep_ish(name)):
                 # our invoice-fed book prices this line directly (unit matched, sane
                 # magnitude — it agrees with LS at ratio ~1.0). Trust it fully.
                 eff = float(ln["our_cost"]) * float(ln["qty"] or 0)

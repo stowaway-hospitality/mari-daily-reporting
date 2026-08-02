@@ -8,6 +8,52 @@
 # $9.50 for the whole 12kg tub -> $0.79/kg, a 12x undercost. The $9.50 is the
 # per-1kg-unit price (BO export independently shows $9.65/kg). Pin 1kg so the
 # invoice reads $9.50/kg; a future invoice still reprices automatically.
+# --- Pack COUNTS for kitchen packs the description can't be parsed for. Each is
+# cross-checked two ways: the count printed in the product name, and the scraped
+# recipe quantity, which is a pack FRACTION (GF base "0.05" = 1 of 20; 0.05 x
+# $88.75 = $4.44, exactly Lightspeed's own line cost). Both agree on every entry.
+- id: "lightspeed:22996511"          # Pizza Base Gluten Free 11in [10x2 CTN] = 20
+  pack_qty: 20
+  pack_unit: ea
+  by: "Claude ([10x2 CTN]; recipe qty 0.05 = 1/20; $88.75/20 = $4.44 = LS line)"
+  on: 2026-08-02
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22996461"          # same base, Harry Gatos product id
+  pack_qty: 20
+  pack_unit: ea
+  by: "Claude ([10x2 CTN])"
+  on: 2026-08-02
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22995336"          # Flour Tortillas 12" [72's]
+  pack_qty: 72
+  pack_unit: ea
+  by: "Claude ([72's]; recipe qty 0.0139 = 1/72; $34.00/72 = $0.47 = LS line)"
+  on: 2026-08-02
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22995403"          # Flour Tortillas 12" [72's], HG
+  pack_qty: 72
+  pack_unit: ea
+  by: "Claude ([72's])"
+  on: 2026-08-02
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22995337"          # Flour Tortillas 6" [24x12] = 288
+  pack_qty: 288
+  pack_unit: ea
+  by: "Claude ([24x12])"
+  on: 2026-08-02
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22995404"          # Flour Tortillas 6" [24x12], HG
+  pack_qty: 288
+  pack_unit: ea
+  by: "Claude ([24x12])"
+  on: 2026-08-02
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22995335"          # Eggs 700 Grams [12x] = a dozen
+  pack_qty: 12
+  pack_unit: ea
+  by: "Claude ([12x]; $6.00/12 = $0.50 an egg)"
+  on: 2026-08-02
+  by_email: "hello@stowawaybar.com"
 - id: "the-berry-man-nsw-pty-ltd:PJ1"
   pack_qty: 1
   pack_unit: kg
