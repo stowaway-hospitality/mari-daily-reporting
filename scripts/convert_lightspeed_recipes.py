@@ -106,7 +106,7 @@ def load_seed_baseline():
     unit to match — a dimensionless price-movement factor, so it can't blow up."""
     base = {}
     for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
-        if str(r.get("source_invoice") or "").startswith(("ls-recipe-seed", "bo-seed")):
+        if str(r.get("source_invoice") or "").startswith(("ls-recipe-seed", "bo-seed", "recipe-bridge-seed")):
             base[r["ingredient"]] = (r["cost_per_unit"], r["unit"])
     return base
 

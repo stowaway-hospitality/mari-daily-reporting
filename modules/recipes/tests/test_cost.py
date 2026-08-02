@@ -189,8 +189,13 @@ def test_the_real_feed_prices_in_recipe_units():
     obs = load_cost_observations()
     assert obs, "no cost observations — run modules/recipes/pipeline/build_costs.py"
     units = {o.unit for o in obs}
+    # g/ml/ea are the recipe units. Discrete pack units (bottle/keg/can/box/kg/L)
+    # are allowed too: they belong to whole-unit products (a keg, a bottle) and to
+    # confirmed recipe-bridge baselines, which the recipe book consumes ONLY through
+    # a dimensionless current/baseline ratio — never multiplied by a recipe qty — so
+    # a kg baseline never triggers the builder's g/ml mismatch guard on a real dish.
     assert units <= {"g", "ml", "ea", "bunch", "tray", "punnet", "doz", "box", "pkt",
-                     "bag", "bottle", "keg", "can"}, \
+                     "bag", "bottle", "keg", "can", "kg", "L"}, \
         f"unexpected units in the cost feed: {units}"
     assert "unit" not in units, "'unit' means a pack price leaked into the feed"
 

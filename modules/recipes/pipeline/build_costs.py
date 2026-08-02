@@ -102,6 +102,15 @@ def main() -> int:
                     seed_conv[pid] = (q, u)
             except Exception:
                 pass
+        # a confirmed recipe-bridge baseline records its own resolved unit directly
+        # (Zak-approved), so a future invoice for the mapped supplier code can be
+        # emitted onto this food ProductID in the same unit and supersede it.
+        elif (r.get("source_invoice") or "").startswith("recipe-bridge-seed"):
+            pid = f"lightspeed:{(r.get('supplier_code') or '').strip()}"
+            try:
+                seed_conv[pid] = (Decimal("1"), (r.get("pack_unit") or "").strip())
+            except Exception:
+                pass
 
     rows, skipped, bridged = [], [], 0
     for r in cogs_rows:
