@@ -100,3 +100,6 @@
 2026-08-01T23:20:51Z   marketing: no separate ads/marketing invoice chased (STEP 4) - all discretionary marketing already inside offers_inc_gst. uber_marketing_weekly.csv unchanged (deprecated).
 2026-08-01T23:20:51Z   Uber Direct: none observed in Payouts view.
 2026-08-01T23:20:51Z   NOTE: CSV committed first (515aed8); this log appended in a follow-up commit (the first push_files call sent the CSV only).
+2026-08-02T23:09:34Z uber-eats-daily-fees: ABORTED — Claude-in-Chrome extension not connected. tabs_context_mcp returned "Claude in Chrome is not connected" on 3 attempts (with a 3s wait before the last). Could not reach merchants.ubereats.com/manager/payments, so no login-state determination and no data captured. Aug 2 (expected "Yesterday" card for both shops) NOT recorded — will be picked up on the next healthy run (Uber re-settles figures up to 72h, so no data is lost).
+2026-08-02T23:09:34Z   GAP NOTE: no Aug-2-evening run is present in this log — last captured day remains Aug 1 (committed 2026-08-01T23:20:51Z). The next healthy run should cover Aug 1 re-verify through the latest settled day for both shops.
+2026-08-02T23:09:34Z   uber_daily.csv unchanged; uber_marketing_weekly.csv unchanged (deprecated). Re-run needed once the browser session is healthy.
