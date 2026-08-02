@@ -1,0 +1,256 @@
+{
+  "date": "2026-08-02",
+  "generated_at": "2026-08-02T20:02:59.608258Z",
+  "venue": "harry",
+  "venue_display": "Harry Gatos",
+  "lane_config": [
+    "revenue",
+    "cogs",
+    "wages",
+    "gp"
+  ],
+  "data_status": {
+    "lightspeed": "ok",
+    "deputy": "ok",
+    "payments": "missing"
+  },
+  "sales": {
+    "revenue_inc_gst": 2416.5,
+    "revenue_ex_gst": 2196.82,
+    "cogs_dollars": 244.24,
+    "cogs_pct": 11.1,
+    "gp_dollars": 1952.58,
+    "gp_pct": 88.9,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 244.24,
+    "recipe_coverage_pct": 0.0,
+    "uber_eats_revenue": 0,
+    "net_takings_ex_gst": null,
+    "eatclub_giveaway_ex_gst": 0.0,
+    "eatclub_covers": 0,
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 15.0,
+    "bev_ex_gst": 2181.82,
+    "food_cogs": 0.0,
+    "bev_cogs": 244.24,
+    "food_cogs_pct": 0.0,
+    "bev_cogs_pct": 11.2,
+    "food_gp_pct": 100.0,
+    "bev_gp_pct": 88.8,
+    "mari_rideon_ex_gst": 0.0,
+    "hg_food_out_ex_gst": 0.0,
+    "stow_food_out_ex_gst": 0.0
+  },
+  "wages": {
+    "kitchen_dollars": 0,
+    "foh_dollars": 0,
+    "driver_dollars": 0,
+    "admin_dollars": 0,
+    "leave_dollars": 0,
+    "total_dollars": 0,
+    "wages_pct": 0.0,
+    "net_wage_pct": null,
+    "kitchen_hours": 0,
+    "foh_hours": 0,
+    "wages_kitchen_pct": 0.0,
+    "wages_foh_pct": 0.0,
+    "includes_super": true,
+    "salaried_synthesized": true
+  },
+  "delivery": null,
+  "payments_breakdown": null,
+  "alerts": {
+    "cogs": "green",
+    "wages": "green",
+    "delivery": "n/a",
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "green",
+    "wages_kitchen": "green",
+    "wages_foh": "green"
+  },
+  "targets": {
+    "cogs": {
+      "target": 32.0,
+      "amber": 35.0,
+      "red": 38.0,
+      "note": "HG food-heavy mix (dumplings, shared plates) runs ~32-35% blended \u2014 heavier than Stow"
+    },
+    "wages": {
+      "target": 30.0,
+      "amber": 33.0,
+      "red": 36.0,
+      "note": "Zak-set 30% target \u2014 hospitality benchmark; splits kitchen + FOH"
+    },
+    "cogs_food": {
+      "target": 32.0,
+      "amber": 36.0,
+      "red": 40.0,
+      "note": "DRAFT \u2014 Zak to confirm. Food COGS vs food revenue (ex-GST). Olly's BEP work put HG food COGS ~35%."
+    },
+    "cogs_bev": {
+      "target": 22.0,
+      "amber": 25.0,
+      "red": 28.0,
+      "note": "DRAFT \u2014 Zak to confirm. Bev COGS vs bev revenue (ex-GST)."
+    },
+    "wages_kitchen": {
+      "target": 14.0,
+      "amber": 17.0,
+      "red": 20.0,
+      "note": "DRAFT \u2014 Zak to confirm. Kitchen wages as % of FOOD revenue (ex-GST), not total. HG kitchen is heavier than Stow's."
+    },
+    "wages_foh": {
+      "target": 16.0,
+      "amber": 20.0,
+      "red": 24.0,
+      "note": "DRAFT \u2014 Zak to confirm. FOH wages as % of BEV revenue (ex-GST), not total."
+    },
+    "gp": {
+      "note": "Higher is better \u2014 68% target; status inversion not yet implemented so alerts left empty",
+      "target_direction": "high_is_good"
+    }
+  },
+  "top_products": [
+    {
+      "name": "Open Price",
+      "qty": 3.0,
+      "rev": 2400.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Kids Fried Rice",
+      "qty": 1.0,
+      "rev": 14.3,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Tofu.",
+      "qty": 1.0,
+      "rev": 2.2,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Sapporo - Schooner",
+      "qty": 19.0,
+      "rev": 0.0,
+      "cost": 61.36,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Harry's Lager - Schooner",
+      "qty": 13.0,
+      "rev": 0.0,
+      "cost": 21.71,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Classic Margarita",
+      "qty": 13.0,
+      "rev": 0.0,
+      "cost": 43.23,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Lemon Chu-hi",
+      "qty": 10.0,
+      "rev": 0.0,
+      "cost": 15.19,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Sapporo - 500ml",
+      "qty": 9.0,
+      "rev": 0.0,
+      "cost": 34.19,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Palloncino Prosecco - Regular",
+      "qty": 8.0,
+      "rev": 0.0,
+      "cost": 18.4,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Birdseye Chilli Marg",
+      "qty": 6.0,
+      "rev": 0.0,
+      "cost": 19.95,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Harry's Lager - Pint",
+      "qty": 5.0,
+      "rev": 0.0,
+      "cost": 11.2,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Soda",
+      "qty": 4.0,
+      "rev": 0.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Lime",
+      "qty": 4.0,
+      "rev": 0.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Asahi Zero",
+      "qty": 3.0,
+      "rev": 0.0,
+      "cost": 6.29,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Rooster Blanco Tequila [House]",
+      "qty": 3.0,
+      "rev": 0.0,
+      "cost": 6.27,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Diplomatico Mantuana",
+      "qty": 2.0,
+      "rev": 0.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Pepsi",
+      "qty": 1.0,
+      "rev": 0.0,
+      "cost": 0.8,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Margato",
+      "qty": 1.0,
+      "rev": 0.0,
+      "cost": 3.9,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "No Garnish",
+      "qty": 1.0,
+      "rev": 0.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Angas & Bremer Grenache - Regular",
+      "qty": 1.0,
+      "rev": 0.0,
+      "cost": 1.75,
+      "cost_source": "lightspeed"
+    }
+  ]
+}
