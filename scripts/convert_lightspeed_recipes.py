@@ -72,9 +72,22 @@ def load_bo_ids():
     return by_name, prefixes
 
 
+def _tok(s):
+    """word-order-independent key: the alnum tokens, sorted. 'Coke 1.25L' and
+    '1.25L Coke' collapse to the same key so a reversed menu name still matches."""
+    return " ".join(sorted(re.findall(r"[a-z0-9]+", (s or "").lower())))
+
+
 def load_sell_prices():
-    """normalised ProductName -> sell price incl GST (what the menu charges)."""
-    out = {}
+    """normalised ProductName -> sell price incl GST (what the menu charges).
+
+    Returns (by_norm, by_tok). by_norm is the exact match. by_tok is a
+    word-order-tolerant fallback that ONLY carries a token key when every priced
+    product sharing that key agrees on ONE price — so 'Coke 1.25L' ($6) rescues
+    the recipe named '1.25L Coke', but an ambiguous key like the three-size
+    'Trutta Streamside Shiraz' ($18/$27/$68) is dropped rather than guessed."""
+    by_norm = {}
+    tok_prices = {}
     for _v, path in EXPORTS:
         if not path.exists():
             continue
@@ -83,10 +96,18 @@ def load_sell_prices():
                 p = float(r.get("SellPriceIncTax") or 0)
             except ValueError:
                 p = 0
-            n = norm(r["ProductName"])
+            nm = r["ProductName"]
+            n = norm(nm)
             if n and p > 0:
-                out.setdefault(n, p)
-    return out
+                by_norm.setdefault(n, p)
+                tok_prices.setdefault(_tok(nm), set()).add(round(p, 2))
+    by_tok = {t: next(iter(ps)) for t, ps in tok_prices.items() if len(ps) == 1}
+    return by_norm, by_tok
+
+
+def sell_of(name, by_norm, by_tok):
+    """exact normalised name first, then the unambiguous word-order fallback."""
+    return by_norm.get(norm(name)) or by_tok.get(_tok(name))
 
 
 def load_our_costs():
@@ -116,7 +137,7 @@ def main() -> int:
     bo_by_name, bo_prefixes = load_bo_ids()
     our_costs = load_our_costs()
     seed_base = load_seed_baseline()
-    sell_by_name = load_sell_prices()
+    sell_by_norm, sell_by_tok = load_sell_prices()
     recnames = {norm(k): k for k in rec}
 
     def resolve(name, parent=None):
@@ -266,7 +287,7 @@ def main() -> int:
         #    "Vermouth Blend [Bottle]" sells $12 but the batch costs $32).
         #  * an item merely USED as a base keeps its GP if it has a real menu price
         #    ("Large Meatlovers" is sold AND used by the gluten-free version).
-        sell = sell_by_name.get(norm(name))
+        sell = sell_of(name, sell_by_norm, sell_by_tok)
         menu_priced = bool(sell and sell >= 3)
         name_prep = bool(PREP_RE.search(name))
         is_prep = name_prep or (name in used_as_sub and not menu_priced)
