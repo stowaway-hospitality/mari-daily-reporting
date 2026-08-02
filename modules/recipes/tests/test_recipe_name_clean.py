@@ -80,6 +80,36 @@ def test_menu_gp_distribution_sane():
     assert 60 <= statistics.median(gps) <= 85, f"median GP off: {statistics.median(gps)}"
 
 
+def test_trust_direct_rejects_a_coincidental_unit_match():
+    """Costing our_price x recipe_qty assumes the scraped (qty, unit) pair is real.
+    Truffle Oil Prep says 4 "ml" but means 4 BOTTLES — once a $/ml price existed it
+    costed 18c instead of $45.60, a 250x UNDER-cost (the flattering direction). Our
+    price must agree with Lightspeed's line when that line is itself credible."""
+    import sys
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from convert_lightspeed_recipes import _trust_direct
+    truffle = {"qty": "4", "our_cost": "0.0456"}          # 4 x 0.0456 = $0.18
+    assert not _trust_direct(truffle, 45.60, is_prep=True)   # prep -> LS line credible
+    vesper = {"qty": "45", "our_cost": "0.070633"}         # 45ml gin = $3.18, correct
+    assert _trust_direct(vesper, 95.34, is_prep=False)      # >$40 on a serve: LS is the
+    agree = {"qty": "200", "our_cost": "0.0114"}           # garbage one, must not veto
+    assert _trust_direct(agree, 2.28, is_prep=False)        # agreement -> trusted
+
+
+def test_no_recipe_costs_off_a_stale_cheap_seed():
+    """The Berry Man passionfruit invoice ($9.50/kg) must reach the product, not be
+    dropped in favour of the 12x-too-cheap scrape seed ($0.79/kg). A pack override
+    in the wrong unit silently broke the bridge once; this pins the outcome."""
+    import csv
+    ing = {i["id"]: i for i in
+           json.loads((ROOT / "data" / "ingredients.json").read_text())["ingredients"]}
+    pf = ing.get("lightspeed:22843691")
+    assert pf is not None, "passionfruit puree missing from the ingredient book"
+    assert float(pf["cost_per_base_unit"]) > 0.005, (
+        f"passionfruit at ${pf['cost_per_base_unit']}/{pf['pack_unit']} — the invoice "
+        f"is not reaching the product (expect ~$0.0095/g, not the $0.00079/g seed)")
+
+
 def test_manual_lines_cost_self_contained():
     """A Lightspeed-imported recipe loads as editable 'manual' lines that carry
     their own cost — so cost_on prices them with no cost-book lookup."""

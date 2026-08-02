@@ -61,8 +61,11 @@
   on: 2026-08-02
   by_email: "hello@stowawaybar.com"
 - id: "the-berry-man-nsw-pty-ltd:PJ1"
-  pack_qty: 1
-  pack_unit: kg
+  pack_qty: 1                        # MUST stay in kg: the bridge re-expresses this
+  pack_unit: kg                      # invoice in the seed's own unit (kg), and a
+                                     # per-g override makes the two irreconcilable,
+                                     # silently dropping the invoice and restoring
+                                     # the 12x-too-cheap seed price.
   by: "Claude (invoice unit price is per 1kg; BO confirms ~$9.65/kg)"
   on: 2026-08-02
   by_email: "hello@stowawaybar.com"

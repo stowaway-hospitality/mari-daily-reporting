@@ -48,6 +48,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from modules.recipes.pipeline.build_ingredients import resolve_pack  # noqa: E402
+from scripts.convert_lightspeed_recipes import norm as _norm         # noqa: E402
 
 EXPORTS = [
     ("stowaway", ROOT / "data" / "bo_exports" / "stowaway_products.csv"),
@@ -86,18 +87,50 @@ def ingredient_pids() -> set[str]:
     return out
 
 
+COSTS = ROOT / "data" / "costs.csv"
+
+
 def already_costed() -> set[str]:
-    """ProductIDs that already carry a Lightspeed-keyed cost row (any source)."""
-    if not COGS.exists():
+    """ProductIDs that already carry a USABLE cost.
+
+    Read the built cost book, not cogs_list: a raw cogs row whose pack can't be
+    resolved is dropped by build_costs, so it yields no price at all. Several
+    pours ("Jack Daniels", $6.55 with no readable pack) have exactly such a row —
+    counting those as costed left them blocked AND blocked the fix."""
+    if not COSTS.exists():
         return set()
-    return {(r.get("supplier_code") or "").strip()
-            for r in csv.DictReader(COGS.open(encoding="utf-8-sig"))
-            if (r.get("supplier") or "").strip().lower() == "lightspeed"}
+    return {r["ingredient"].split(":", 1)[1]
+            for r in csv.DictReader(COSTS.open(encoding="utf-8-sig"))
+            if r.get("ingredient", "").startswith("lightspeed:")}
+
+
+def sibling_costs() -> dict:
+    """base name -> (product name, cost) for every costed product.
+
+    A back bar carries the same spirit twice: the POUR the recipe names ("Jack
+    Daniels", no cost) and the STOCK BOTTLE that holds the cost ("Jack Daniels
+    [Bottle]", $45.25). They are one product with two SKUs, and norm() already
+    strips the bracket/size suffix, so the pair collapses to one key. Costing the
+    pour from its own bottle is evidence, not a guess."""
+    out = {}
+    for _v, path in EXPORTS:
+        if not path.exists():
+            continue
+        for r in csv.DictReader(path.open(encoding="utf-8-sig")):
+            c = _cost(r)
+            if c is None:
+                continue
+            k = _norm(r["ProductName"])
+            # prefer the priciest match: the full bottle, not a sample pour
+            if k and (k not in out or c > out[k][1]):
+                out[k] = (r["ProductName"].strip(), c)
+    return out
 
 
 def collect():
     pids = ingredient_pids()
     have = already_costed()
+    sibs = sibling_costs()
     seed, skipped, seen = [], [], set()
     for venue, path in EXPORTS:
         if not path.exists():
@@ -109,8 +142,15 @@ def collect():
             cost = _cost(r)
             name = r["ProductName"].strip()
             if cost is None:
-                skipped.append((name, "no BO cost — needs an invoice"))
-                continue
+                # no cost on this SKU — inherit the twin SKU's cost if there is one,
+                # and price it off the TWIN's name so the pack size is read from the
+                # bottle ("[700ml]") rather than the bare pour name.
+                sib = sibs.get(_norm(name))
+                if sib and _norm(sib[0]) == _norm(name) and sib[0] != name:
+                    name, cost = sib[0], sib[1]
+                else:
+                    skipped.append((name, "no BO cost — needs an invoice"))
+                    continue
             seen.add(pid)
             # Prefer a real pack read from the name ($/g, $/ml); otherwise price the
             # whole pack as one unit. Either way the ratio path does the work, so an
