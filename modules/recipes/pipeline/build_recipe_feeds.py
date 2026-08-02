@@ -232,13 +232,29 @@ def recipes_full() -> dict:
     if ls_path.exists():
         import re as _re
         _Y = _re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre|pcs|pc|units|unit|each|ea)\]", _re.I)
-        for name, r in json.loads(ls_path.read_text()).get("recipes", {}).items():
+        LSR = json.loads(ls_path.read_text()).get("recipes", {})
+
+        def _passthrough_id(sub_name):
+            """A scraped 'recipe' that is really a product served neat (e.g. Campari =
+            one pour of the bottle) — single id ingredient, no batch yield. Wire the
+            parent straight to that product so it costs live instead of $0."""
+            s = LSR.get(sub_name)
+            if not s or _Y.search(sub_name):        # a real batch has a bracket yield
+                return None
+            ings = s.get("ingredients", [])
+            if len(ings) == 1 and ings[0].get("kind") == "id" and ings[0].get("ref") in costable:
+                return ings[0]["ref"]
+            return None
+
+        for name, r in LSR.items():
             if name in have:
                 continue
             lines = []
             for ln in r.get("ingredients", []):
                 kind, ref = ln.get("kind"), ln.get("ref")
-                if kind == "subrecipe" and ref:
+                if kind == "subrecipe" and ref and _passthrough_id(ref):
+                    lines.append({"id": _passthrough_id(ref), "qty": ln.get("qty"), "unit": ln.get("unit")})
+                elif kind == "subrecipe" and ref:
                     lines.append({"subrecipe": ref, "qty": ln.get("qty"), "unit": ln.get("unit")})
                 elif kind == "id" and ref in costable:
                     lines.append({"id": ref, "qty": ln.get("qty"), "unit": ln.get("unit")})
