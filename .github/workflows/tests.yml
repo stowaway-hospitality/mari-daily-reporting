@@ -11,6 +11,13 @@ name: Tests
 on:
   push:
     branches: [main]
+    # Heartbeat/bookkeeping commits (health snapshot, logs, ingest ledger) can
+    # not change any test outcome — skip CI for them so a red state (or the
+    # pipeline's own status writes) does not re-notify on every auto-commit.
+    paths-ignore:
+      - 'data/system_health.json'
+      - '**/*.log'
+      - '.ingest/**'
   pull_request:
   workflow_dispatch:
 
