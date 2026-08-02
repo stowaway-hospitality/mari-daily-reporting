@@ -114,6 +114,7 @@ def _load_our_costs(venue_key, target):
         return {}
 from core import venues as V
 from wage_model import super_lookup
+from cogs_blend import blend_reported_cogs
 
 REPO_ROOT = Path(os.environ.get("REPO_ROOT", "."))
 DATA_DIR = REPO_ROOT / "data"
@@ -582,7 +583,11 @@ else:
         except (json.JSONDecodeError, AttributeError, ValueError, TypeError) as e:
             print(f"  WARNING: could not parse {_ec_file}: {e}")
 
-    cogs = sum(row_cogs(r) for r in rows)
+    # Lightspeed's own COGS (Produce recipe x Average Cost). Kept as the
+    # comparison and per-product fallback; the reported headline is the recipe
+    # blend, finalised just before lightspeed_data once products are costed.
+    cogs_ls = sum(row_cogs(r) for r in rows)
+    cogs = cogs_ls
     gp = revenue_net - cogs
 
     category_breakdown = {}
@@ -652,6 +657,14 @@ else:
         if "uber" in pay_type:
             uber_eats_rev += row_rev(r)
 
+    # Reported "estimated" COGS = our recipe cost where we have a recipe, LS
+    # elsewhere (COGS_ARCHITECTURE.md). Xero purchases stay the separate ACTUAL
+    # COGS feed on the dashboard. recipe_coverage_pct = share of revenue on a
+    # real recipe, so a low-coverage estimate is not read as precise.
+    cogs, cogs_source, recipe_coverage_pct = blend_reported_cogs(
+        product_breakdown, cogs_ls, revenue_net)
+    gp = revenue_net - cogs
+
     lightspeed_data = {
         "revenue_inc": revenue_inc,
         "revenue_ex": revenue_net,
@@ -659,6 +672,9 @@ else:
         "gp": gp,
         "gp_pct": gp / revenue_net * 100 if revenue_net else 0,
         "cogs_pct": cogs / revenue_net * 100 if revenue_net else 0,
+        "cogs_lightspeed": cogs_ls,
+        "cogs_source": cogs_source,
+        "recipe_coverage_pct": recipe_coverage_pct,
         "uber_eats_rev": uber_eats_rev,
         "eatclub_giveaway_ex": eatclub_giveaway_ex,
         "eatclub_covers": eatclub_covers,
@@ -974,6 +990,9 @@ record = {
         "cogs_pct":        round(cogs_pct, 1) if cogs_pct is not None else None,
         "gp_dollars":      round(lightspeed_data["gp"], 2) if lightspeed_data else None,
         "gp_pct":          round(lightspeed_data["gp_pct"], 1) if lightspeed_data else None,
+        "cogs_source":             lightspeed_data.get("cogs_source") if lightspeed_data else None,
+        "cogs_lightspeed_dollars": round(lightspeed_data["cogs_lightspeed"], 2) if lightspeed_data else None,
+        "recipe_coverage_pct":     round(lightspeed_data["recipe_coverage_pct"], 1) if lightspeed_data else None,
         "uber_eats_revenue": round(lightspeed_data.get("uber_eats_rev", 0), 2) if lightspeed_data else 0,
         "net_takings_ex_gst": round(net_takings_ex, 2) if net_takings_ex is not None else None,
         "eatclub_giveaway_ex_gst": round(lightspeed_data.get("eatclub_giveaway_ex", 0), 2) if lightspeed_data else 0,
@@ -1047,6 +1066,8 @@ nr = {
     "revenue_ex_gst":   record["sales"]["revenue_ex_gst"],
     "cogs_dollars":     record["sales"]["cogs_dollars"],
     "cogs_pct":         record["sales"]["cogs_pct"],
+    "recipe_coverage_pct":     record["sales"]["recipe_coverage_pct"],
+    "cogs_lightspeed_dollars": record["sales"]["cogs_lightspeed_dollars"],
     "wages_dollars":    record["wages"]["total_dollars"],
     "wages_pct":        record["wages"]["wages_pct"],
     "delivery_dollars": record["delivery"]["total_dollars"] if record["delivery"] else "",

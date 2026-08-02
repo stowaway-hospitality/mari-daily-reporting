@@ -605,20 +605,20 @@ var CURRENT_USER = null;
 
 var VENUE_CONFIG = {
   group: { label: 'Group', chipClass: 'group', historyFile: null, dayFilePrefix: null,
-    cards: ['revenue', 'cogs', 'wages', 'gp'], chart_lines: ['cogs', 'wages', 'gp'],
+    cards: ['revenue', 'cogs_merged', 'wages', 'gp'], chart_lines: ['cogs', 'wages', 'gp'],
     history_cols: ['date', 'revenue_ex_gst', 'cogs_pct', 'wages_pct', 'gp_pct'], synthetic: true },
   mari: { label: "Marilyna's", chipClass: 'mari',
     historyFile: '/data/mari_daily_history.csv', dayFilePrefix: '/data/mari_daily_',
-    cards: ['revenue', 'cogs', 'wages', 'delivery'], chart_lines: ['cogs', 'wages', 'delivery'],
+    cards: ['revenue', 'cogs_merged', 'wages', 'delivery'], chart_lines: ['cogs', 'wages', 'delivery'],
     history_cols: ['date', 'revenue_ex_gst', 'cogs_pct', 'wages_pct', 'delivery_pct', 'gp_pct'] },
   stow: { label: 'Stowaway', chipClass: 'stow',
     historyFile: '/data/stow_daily_history.csv', dayFilePrefix: '/data/stow_daily_',
-    cards: ['revenue', 'cogs_food', 'cogs_bev', 'wages_kitchen', 'wages_foh', 'gp'],
+    cards: ['revenue', 'cogs_food', 'cogs_bev', 'cogs_merged', 'wages_kitchen', 'wages_foh', 'gp'],
     chart_lines: ['cogs', 'wages', 'gp'],
     history_cols: ['date', 'revenue_ex_gst', 'food_ex_gst', 'bev_ex_gst', 'wages_kitchen_pct', 'wages_foh_pct', 'gp_pct'] },
   hg: { label: 'Harry Gatos', chipClass: 'hg',
     historyFile: '/data/hg_daily_history.csv', dayFilePrefix: '/data/hg_daily_',
-    cards: ['revenue', 'cogs_food', 'cogs_bev', 'wages_kitchen', 'wages_foh', 'gp'],
+    cards: ['revenue', 'cogs_food', 'cogs_bev', 'cogs_merged', 'wages_kitchen', 'wages_foh', 'gp'],
     chart_lines: ['cogs', 'wages', 'gp'],
     history_cols: ['date', 'revenue_ex_gst', 'food_ex_gst', 'bev_ex_gst', 'wages_kitchen_pct', 'wages_foh_pct', 'gp_pct'] },
 };
@@ -950,13 +950,13 @@ var CARD_DEFS = {
   cogs_merged: (day, cfg) => {
     const a = actualCogs(STATE.currentVenue, winEnd(day));
     const est = hasVal(day.cogs_pct) ? toNum(day.cogs_pct) : null;
-    if (!a) return { label: 'COGS', value: est !== null ? fmtPct(est) : '\u2014', sub: 'expected (Lightspeed) \u2014 no Xero purchases yet', status: day.cogs_alert };
+    if (!a) return { label: 'COGS', value: est !== null ? fmtPct(est) : '\u2014', sub: 'estimated (recipe) \u2014 no Xero purchases yet', status: day.cogs_alert };
     let chip = '';
     if (est !== null) {
       const d = a.pct - est;
       chip = ' ' + pill((d >= 0 ? '+' : '\u2212') + Math.abs(d).toFixed(1) + 'pp vs expected', d > 1.5 ? 'red' : 'green');
     }
-    let sub2 = `actual, Xero 4-wk purchases \u00b7 expected ${est !== null ? fmtPct(est) : '\u2014'} (Lightspeed)`;
+    let sub2 = `actual, Xero 4-wk purchases \u00b7 estimated ${est !== null ? fmtPct(est) : '\u2014'} (recipe)`;
     const sp = actualCogsSplit(STATE.currentVenue, winEnd(day));
     if (sp && (sp.food !== null || sp.bev !== null)) {
       const bits = [];
@@ -964,6 +964,8 @@ var CARD_DEFS = {
       if (sp.bev !== null) bits.push('bev ' + fmtPct(sp.bev));
       sub2 += ' \u00b7 ' + bits.join(' / ') + ' actual';
     }
+    if (hasVal(day.recipe_coverage_pct) && String(day.date || '').length === 10)
+      sub2 += ` · ${Math.round(toNum(day.recipe_coverage_pct))}% recipe-costed`;
     sub2 += ` · tgt ${fmtPct(COGS_TARGET_PCT)}`;
     return { label: 'COGS', value: fmtPct(a.pct) + chip, sub: sub2, status: cogsStatus(a.pct) };
   },
@@ -1013,9 +1015,12 @@ var CARD_DEFS = {
   cogs: (day, cfg) => {
     const has = hasVal(day.cogs_pct);
     return {
-      label: 'Expected COGS (Lightspeed)',
+      label: 'Estimated COGS (recipe)',
       value: has ? fmtPct(toNum(day.cogs_pct)) : '—',
-      sub: (cfg.show_dollar_amounts ? fmtDollars(toNum(day.cogs_dollars)) : '') + (has ? ` · tgt ${fmtPct(COGS_TARGET_PCT)}` : ''),
+      sub: (cfg.show_dollar_amounts ? fmtDollars(toNum(day.cogs_dollars)) : '')
+           + (has ? ` · tgt ${fmtPct(COGS_TARGET_PCT)}` : '')
+           + ((hasVal(day.recipe_coverage_pct) && String(day.date || '').length === 10)
+                ? ` · ${Math.round(toNum(day.recipe_coverage_pct))}% recipe-costed` : ''),
       status: has ? cogsStatus(toNum(day.cogs_pct)) : day.cogs_alert,
     };
   },

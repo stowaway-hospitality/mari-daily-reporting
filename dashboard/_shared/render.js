@@ -634,7 +634,7 @@ function renderChart() {
                          fn: (k, B = bins) => B[k].rev },
         wages_hero:    { label: 'Wages %', unit: '%', target: WAGE_TARGET_PCT,
                          fn: (k, B = bins) => B[k].wageDays && B[k].rev ? (B[k].wages - (isMariGrp ? B[k].drv : 0)) / B[k].rev * 100 : null },
-        cogs_merged:   { label: 'Expected COGS % (Lightspeed)', unit: '%', target: COGS_TARGET_PCT,
+        cogs_merged:   { label: 'Estimated COGS % (recipe)', unit: '%', target: COGS_TARGET_PCT,
                          fn: (k, B = bins) => B[k].rev ? B[k].cogs / B[k].rev * 100 : null },
         delivery_fees: { label: 'Delivery %', unit: '%', target: t.delivery && t.delivery.target,
                          fn: (k, B = bins) => B[k].rev ? ((isMariGrp ? B[k].drv : 0) + (dfr ? B[k].rev * dfr.pct / 100 : 0)) / B[k].rev * 100 : null },
