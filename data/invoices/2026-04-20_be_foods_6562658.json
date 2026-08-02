@@ -1,0 +1,179 @@
+{
+  "invoice": {
+    "supplier_key": "be_foods",
+    "supplier_name_raw": "B&E Foods Pty Ltd",
+    "invoice_ref": "6562658",
+    "invoice_date": "2026-04-20",
+    "total_incl": "516.60",
+    "lines": [
+      {
+        "description": "CHICKEN THIGH (F) DICE 1 X",
+        "qty": "15.00",
+        "line_total_incl": "222.00",
+        "unit_price_incl": "14.8000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "10453",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CHICKEN WING 5KG BAG",
+        "qty": "10.00",
+        "line_total_incl": "48.00",
+        "unit_price_incl": "4.8000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "10716",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "FZ PORK - BELLY B/L R/L",
+        "qty": "1.00",
+        "line_total_incl": "153.00",
+        "unit_price_incl": "153.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "16538",
+        "raw_qty": null,
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CHICKEN BREAST SCHNITZEL",
+        "qty": "6.00",
+        "line_total_incl": "87.00",
+        "unit_price_incl": "14.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "16632",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "FUEL LEVY",
+        "qty": "1.00",
+        "line_total_incl": "6.60",
+        "unit_price_incl": "6.6000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": "0.60",
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-04-27",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "62999665c058d84ef497d3f630bcf3ed73f51542575a9d41f14336baeb401c4c.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $6.60 under the invoice total \u2014 expected. Skipped: FUEL LEVY ($6.60). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "510.00",
+        "actual": "516.60"
+      }
+    ],
+    "expected_ls_receive_total": "510.00",
+    "extras_total": "6.60"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "CHICKEN THIGH (F) DICE 1 X",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CHICKEN WING 5KG BAG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "FZ PORK - BELLY B/L R/L",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CHICKEN BREAST SCHNITZEL",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "FUEL LEVY",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

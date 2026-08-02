@@ -1,0 +1,116 @@
+{
+  "invoice": {
+    "supplier_key": "ilg",
+    "supplier_name_raw": "Independent Liquor Group",
+    "invoice_ref": "03666774",
+    "invoice_date": "2026-03-26",
+    "total_incl": "409.83",
+    "lines": [
+      {
+        "description": "BOMBAY DRY GIN",
+        "qty": "1",
+        "line_total_incl": "310.51",
+        "unit_price_incl": "310.5100",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "285-3870",
+        "raw_qty": null,
+        "raw_uom": "6x700ML",
+        "pack_qty": "4.2",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CAMPARI APERITIF 25%",
+        "qty": "1",
+        "line_total_incl": "42.80",
+        "unit_price_incl": "42.8000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "395-1021P",
+        "raw_qty": null,
+        "raw_uom": "6x700ML",
+        "pack_qty": "4.2",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "SOLO 1.25LT",
+        "qty": "1",
+        "line_total_incl": "56.53",
+        "unit_price_incl": "56.5300",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "460-6046",
+        "raw_qty": null,
+        "raw_uom": "12x1.25LT",
+        "pack_qty": "15.00",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-04-23",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "e0a181ab76b20b6d13e6f6a7e9405934d02d4ed064e5f1356fa5d06a8c30a420.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "409.84",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "BOMBAY DRY GIN",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CAMPARI APERITIF 25%",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "SOLO 1.25LT",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

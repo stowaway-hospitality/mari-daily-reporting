@@ -1,0 +1,62 @@
+{
+  "invoice": {
+    "supplier_key": "ilg",
+    "supplier_name_raw": "Independent Liquor Group",
+    "invoice_ref": "03682186",
+    "invoice_date": "2026-04-23",
+    "total_incl": "214.86",
+    "lines": [
+      {
+        "description": "APEROL",
+        "qty": "1",
+        "line_total_incl": "214.86",
+        "unit_price_incl": "214.8600",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "395-6785",
+        "raw_qty": null,
+        "raw_uom": "6x700ML",
+        "pack_qty": "4.2",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-21",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "610f98ddcece6c7669c0c1793ab1fa821a9ee9c9dc693fd5edd7ab785b2f3391.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "214.86",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "APEROL",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

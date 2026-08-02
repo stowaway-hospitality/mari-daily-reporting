@@ -1,0 +1,206 @@
+{
+  "invoice": {
+    "supplier_key": "be_foods",
+    "supplier_name_raw": "B&E Foods Pty Ltd",
+    "invoice_ref": "6569830",
+    "invoice_date": "2026-04-22",
+    "total_incl": "1091.69",
+    "lines": [
+      {
+        "description": "PICKLED - BREAD & BUTTER",
+        "qty": "1.00",
+        "line_total_incl": "9.60",
+        "unit_price_incl": "9.6000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "16531",
+        "raw_qty": null,
+        "raw_uom": "UNIT",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CHICKEN BREAST SCHNITZEL",
+        "qty": "24.00",
+        "line_total_incl": "336.00",
+        "unit_price_incl": "14.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "12382",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "LAMB - LEG ROLLED &",
+        "qty": "21.82",
+        "line_total_incl": "425.49",
+        "unit_price_incl": "19.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "16787",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CHICKEN THIGH (F) S/OFF",
+        "qty": "5.00",
+        "line_total_incl": "74.00",
+        "unit_price_incl": "14.8000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "10258",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "FZ CHIPS - CRISPY COATED",
+        "qty": "6.00",
+        "line_total_incl": "240.00",
+        "unit_price_incl": "40.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "15555",
+        "raw_qty": null,
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "FUEL LEVY",
+        "qty": "1.00",
+        "line_total_incl": "6.60",
+        "unit_price_incl": "6.6000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": "0.60",
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-04-29",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "d21d76f2702e8279eb19b53c061b766aae06899843e78081fdfea42c16202fe9.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $6.60 under the invoice total \u2014 expected. Skipped: FUEL LEVY ($6.60). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "1085.09",
+        "actual": "1091.69"
+      }
+    ],
+    "expected_ls_receive_total": "1085.09",
+    "extras_total": "6.60"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "PICKLED - BREAD & BUTTER",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CHICKEN BREAST SCHNITZEL",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "LAMB - LEG ROLLED &",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CHICKEN THIGH (F) S/OFF",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "FZ CHIPS - CRISPY COATED",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "FUEL LEVY",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

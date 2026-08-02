@@ -1,0 +1,62 @@
+{
+  "invoice": {
+    "supplier_key": "ilg",
+    "supplier_name_raw": "Independent Liquor Group",
+    "invoice_ref": "03690692",
+    "invoice_date": "2026-05-05",
+    "total_incl": "8.94",
+    "lines": [
+      {
+        "description": "ALEHOUSE PREMIUM KEG",
+        "qty": "1",
+        "line_total_incl": "8.94",
+        "unit_price_incl": "8.9400",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "122-2858E",
+        "raw_qty": null,
+        "raw_uom": "1xKEG49.",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-12",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "0e76cc83fe145b8ad88d2e78e115c2b7a73845c61ef3402d3648f441c0f78413.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "8.94",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "ALEHOUSE PREMIUM KEG",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

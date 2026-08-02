@@ -1,0 +1,143 @@
+{
+  "invoice": {
+    "supplier_key": "ilg",
+    "supplier_name_raw": "Independent Liquor Group",
+    "invoice_ref": "03701256",
+    "invoice_date": "2026-05-21",
+    "total_incl": "269.50",
+    "lines": [
+      {
+        "description": "HEAPS NORMAL QUIET XPA NON ALC",
+        "qty": "1",
+        "line_total_incl": "72.53",
+        "unit_price_incl": "72.5300",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "117-4213",
+        "raw_qty": null,
+        "raw_uom": "24x375ML",
+        "pack_qty": "9",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "VICTORIA BITTER CANS 30PK",
+        "qty": "1",
+        "line_total_incl": "80.13",
+        "unit_price_incl": "80.1300",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "110-4682P",
+        "raw_qty": null,
+        "raw_uom": "30x375ML",
+        "pack_qty": "11.25",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "COCA COLA",
+        "qty": "1",
+        "line_total_incl": "52.78",
+        "unit_price_incl": "52.7800",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "460-1504",
+        "raw_qty": null,
+        "raw_uom": "12x1.25LT",
+        "pack_qty": "15.00",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "S.PELLEGRINO SPARKLING WATER",
+        "qty": "1",
+        "line_total_incl": "64.09",
+        "unit_price_incl": "64.0900",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "450-1293",
+        "raw_qty": null,
+        "raw_uom": "24x500ML",
+        "pack_qty": "12",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-28",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "5a7df916742f2ca209b7b914df1b5a6fae52133f3710fc0d5b6a886d1dc2c274.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "269.53",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "HEAPS NORMAL QUIET XPA NON ALC",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "VICTORIA BITTER CANS 30PK",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "COCA COLA",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "S.PELLEGRINO SPARKLING WATER",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

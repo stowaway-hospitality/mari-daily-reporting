@@ -1,0 +1,152 @@
+{
+  "invoice": {
+    "supplier_key": "foodlink",
+    "supplier_name_raw": "Foodlink Australia Pty Ltd",
+    "invoice_ref": "SI4315431",
+    "invoice_date": "2026-04-24",
+    "total_incl": "184.10",
+    "lines": [
+      {
+        "description": "CHICKEN NUGGETS DINOSNACKS",
+        "qty": "1",
+        "line_total_incl": "88.00",
+        "unit_price_incl": "88.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "103383",
+        "raw_qty": null,
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "BAGS CARRY MEDIUM BROWN",
+        "qty": "1",
+        "line_total_incl": "74.80",
+        "unit_price_incl": "74.8000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "105014",
+        "raw_qty": null,
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CHIPOTLE CHILLIS A10 IN ADOBE",
+        "qty": "1",
+        "line_total_incl": "18.00",
+        "unit_price_incl": "18.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "100653",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Fuel Levy",
+        "qty": "1",
+        "line_total_incl": "3.30",
+        "unit_price_incl": "3.3000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-01",
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "11eb9dd75efc3be8e6b10a190a3742b53f6966cf5103829df86b53d3be6430c6.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $3.30 under the invoice total \u2014 expected. Skipped: Fuel Levy ($3.30). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "180.80",
+        "actual": "184.10"
+      }
+    ],
+    "expected_ls_receive_total": "180.80",
+    "extras_total": "3.30"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "CHICKEN NUGGETS DINOSNACKS",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "BAGS CARRY MEDIUM BROWN",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CHIPOTLE CHILLIS A10 IN ADOBE",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Fuel Levy",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

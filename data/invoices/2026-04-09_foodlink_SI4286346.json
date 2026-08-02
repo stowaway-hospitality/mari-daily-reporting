@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "foodlink",
+    "supplier_name_raw": "Foodlink Australia Pty Ltd",
+    "invoice_ref": "SI4286346",
+    "invoice_date": "2026-04-09",
+    "total_incl": "43.00",
+    "lines": [
+      {
+        "description": "SUGAR CASTER 15KG Bundaberg",
+        "qty": "1",
+        "line_total_incl": "32.00",
+        "unit_price_incl": "32.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "100463",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "15",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "GLOVES VINYL BLUE POWDER",
+        "qty": "2",
+        "line_total_incl": "11.00",
+        "unit_price_incl": "5.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "101214",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-04-16",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "3cb137b7ecff2bbe2d7d2c1f82105cbafd68e29a3057fab8a78254094d66d8c4.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "43.00",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "SUGAR CASTER 15KG Bundaberg",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "GLOVES VINYL BLUE POWDER",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "invoice": {
+    "supplier_key": "foodlink",
+    "supplier_name_raw": "Foodlink Australia Pty Ltd",
+    "invoice_ref": "SI4343530",
+    "invoice_date": "2026-05-09",
+    "total_incl": "32.00",
+    "lines": [
+      {
+        "description": "SUGAR CASTER 15KG Bundaberg",
+        "qty": "1",
+        "line_total_incl": "32.00",
+        "unit_price_incl": "32.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "100463",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "15",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-16",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "61d2cd4152a72bfbda01e0575d134ab9d056952a4d02a93e1ece4ea81dcd1cfa.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "32.00",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "SUGAR CASTER 15KG Bundaberg",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

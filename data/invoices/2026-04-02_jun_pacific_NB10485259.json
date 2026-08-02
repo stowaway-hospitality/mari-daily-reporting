@@ -1,0 +1,143 @@
+{
+  "invoice": {
+    "supplier_key": "jun_pacific",
+    "supplier_name_raw": "Jun Pacific Corporation Pty Ltd",
+    "invoice_ref": "NB10485259",
+    "invoice_date": "2026-04-02",
+    "total_incl": "216.95",
+    "lines": [
+      {
+        "description": "\u201cSempio\u201d Gochujang Korean Chilli Paste",
+        "qty": "1",
+        "line_total_incl": "18.70",
+        "unit_price_incl": "18.7000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "EZ9523255",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "\u201cJun\u201d Frozen Soybean (Edamame)",
+        "qty": "3",
+        "line_total_incl": "7.50",
+        "unit_price_incl": "2.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "KF8524001",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Fresh Ramen Frozen (150gx12pcs) R8",
+        "qty": "4",
+        "line_total_incl": "52.00",
+        "unit_price_incl": "13.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "BF912590",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
+        "qty": "15",
+        "line_total_incl": "138.75",
+        "unit_price_incl": "9.2500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "QB8514617",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-04-02",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "0280beaac25f6ebaa959892037a48092e373e503baab069a06ded3df6c4de047.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "216.95",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "\u201cSempio\u201d Gochujang Korean Chilli Paste",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "\u201cJun\u201d Frozen Soybean (Edamame)",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Fresh Ramen Frozen (150gx12pcs) R8",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

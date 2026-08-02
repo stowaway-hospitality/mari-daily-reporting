@@ -1,0 +1,206 @@
+{
+  "invoice": {
+    "supplier_key": "be_foods",
+    "supplier_name_raw": "B&E Foods Pty Ltd",
+    "invoice_ref": "6616547",
+    "invoice_date": "2026-05-01",
+    "total_incl": "295.62",
+    "lines": [
+      {
+        "description": "CHICKEN WING 5KG BAG",
+        "qty": "5.00",
+        "line_total_incl": "24.00",
+        "unit_price_incl": "4.8000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "10716",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "FZ BEEF SLICE CHINESE",
+        "qty": "1.00",
+        "line_total_incl": "175.00",
+        "unit_price_incl": "175.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "28734",
+        "raw_qty": null,
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "SAUCE - HOI SIN SAUCE",
+        "qty": "4.00",
+        "line_total_incl": "24.00",
+        "unit_price_incl": "6.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "10756",
+        "raw_qty": null,
+        "raw_uom": "UNIT",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "NAPKINS - DINNER BROWN",
+        "qty": "1.00",
+        "line_total_incl": "34.32",
+        "unit_price_incl": "34.3200",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": "3.12",
+        "wet_amount": null,
+        "supplier_code": "27719",
+        "raw_qty": null,
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "RICE - THAI JASMINE 20KG",
+        "qty": "1.00",
+        "line_total_incl": "35.00",
+        "unit_price_incl": "35.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "28470",
+        "raw_qty": null,
+        "raw_uom": "BAG",
+        "pack_qty": "20",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "FUEL LEVY",
+        "qty": "1.00",
+        "line_total_incl": "3.30",
+        "unit_price_incl": "3.3000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": "0.30",
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-08",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "eb81bcaa7a9fabe6544a4f0613d6aae48659667f9ad027416e37a51be4553570.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $3.30 under the invoice total \u2014 expected. Skipped: FUEL LEVY ($3.30). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "292.32",
+        "actual": "295.62"
+      }
+    ],
+    "expected_ls_receive_total": "292.32",
+    "extras_total": "3.30"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "CHICKEN WING 5KG BAG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "FZ BEEF SLICE CHINESE",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "SAUCE - HOI SIN SAUCE",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "NAPKINS - DINNER BROWN",
+        "account_code": "117",
+        "account_name": "Purchases - Packaging",
+        "reason": "line keyword -> Purchases - Packaging"
+      },
+      {
+        "description": "RICE - THAI JASMINE 20KG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "FUEL LEVY",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

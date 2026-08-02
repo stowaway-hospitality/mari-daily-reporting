@@ -1,0 +1,62 @@
+{
+  "invoice": {
+    "supplier_key": "ilg",
+    "supplier_name_raw": "Independent Liquor Group",
+    "invoice_ref": "03697607",
+    "invoice_date": "2026-05-19",
+    "total_incl": "278.92",
+    "lines": [
+      {
+        "description": "MISCELLANEOUS BEVERAGES",
+        "qty": "4",
+        "line_total_incl": "278.92",
+        "unit_price_incl": "69.7300",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "498-0015E",
+        "raw_qty": null,
+        "raw_uom": "6x750ML",
+        "pack_qty": "4.5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-26",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "fdf2167593fb8f1267eb960607369ebaafdcfa4bdfaafddb25c97d448e0d1426.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "278.92",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "MISCELLANEOUS BEVERAGES",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

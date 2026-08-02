@@ -1,0 +1,206 @@
+{
+  "invoice": {
+    "supplier_key": "foodlink",
+    "supplier_name_raw": "Foodlink Australia Pty Ltd",
+    "invoice_ref": "SI4286330",
+    "invoice_date": "2026-04-09",
+    "total_incl": "178.32",
+    "lines": [
+      {
+        "description": "SOUR CREAM FULL 2LT Brancourts",
+        "qty": "3",
+        "line_total_incl": "57.00",
+        "unit_price_incl": "19.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "102638",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "2",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "OLIVES PITTED GREEN 2KG Riviana",
+        "qty": "2",
+        "line_total_incl": "40.72",
+        "unit_price_incl": "20.3600",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "101871",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "2",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "OLIVES PITTED KALAMATA 2KG",
+        "qty": "1",
+        "line_total_incl": "19.00",
+        "unit_price_incl": "19.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "101873",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "2",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "SAUCE BOTTLE EMPTY 480ML",
+        "qty": "4",
+        "line_total_incl": "22.00",
+        "unit_price_incl": "5.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "108119",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "0.48",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "SAUCE BOTTLE EMPTY PLASTIC",
+        "qty": "6",
+        "line_total_incl": "36.30",
+        "unit_price_incl": "6.0500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "100280",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Fuel Levy",
+        "qty": "1",
+        "line_total_incl": "3.30",
+        "unit_price_incl": "3.3000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-04-16",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "58350e3e91eb6b4705815466f7f811d019cce773e472815eb9090cc1ce60891d.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $3.30 under the invoice total \u2014 expected. Skipped: Fuel Levy ($3.30). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "175.02",
+        "actual": "178.32"
+      }
+    ],
+    "expected_ls_receive_total": "175.02",
+    "extras_total": "3.30"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "SOUR CREAM FULL 2LT Brancourts",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "OLIVES PITTED GREEN 2KG Riviana",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "OLIVES PITTED KALAMATA 2KG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "SAUCE BOTTLE EMPTY 480ML",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "SAUCE BOTTLE EMPTY PLASTIC",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Fuel Levy",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

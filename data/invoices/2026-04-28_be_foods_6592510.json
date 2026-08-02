@@ -1,0 +1,179 @@
+{
+  "invoice": {
+    "supplier_key": "be_foods",
+    "supplier_name_raw": "B&E Foods Pty Ltd",
+    "invoice_ref": "6592510",
+    "invoice_date": "2026-04-28",
+    "total_incl": "596.58",
+    "lines": [
+      {
+        "description": "FZ CHICKEN BREAST",
+        "qty": "2.00",
+        "line_total_incl": "174.00",
+        "unit_price_incl": "87.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "16952",
+        "raw_qty": null,
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "FZ FLOUR TORTILLAS - 12''",
+        "qty": "1.00",
+        "line_total_incl": "34.70",
+        "unit_price_incl": "34.7000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "13315",
+        "raw_qty": null,
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "BEEF - BRISKET YG POINT",
+        "qty": "17.28",
+        "line_total_incl": "233.28",
+        "unit_price_incl": "13.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "10876",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CHICKEN THIGH (F) STRIP",
+        "qty": "10.00",
+        "line_total_incl": "148.00",
+        "unit_price_incl": "14.8000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "10595",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "FUEL LEVY",
+        "qty": "1.00",
+        "line_total_incl": "6.60",
+        "unit_price_incl": "6.6000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": "0.60",
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-05",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "c9c63934f32b1d5009d2ff73d81f30a2661eb10dae8fa89e88665c9cfc205005.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $6.60 under the invoice total \u2014 expected. Skipped: FUEL LEVY ($6.60). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "589.98",
+        "actual": "596.58"
+      }
+    ],
+    "expected_ls_receive_total": "589.98",
+    "extras_total": "6.60"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "FZ CHICKEN BREAST",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "FZ FLOUR TORTILLAS - 12''",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "BEEF - BRISKET YG POINT",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CHICKEN THIGH (F) STRIP",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "FUEL LEVY",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

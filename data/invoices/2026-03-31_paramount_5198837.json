@@ -1,0 +1,125 @@
+{
+  "invoice": {
+    "supplier_key": "paramount",
+    "supplier_name_raw": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+    "invoice_ref": "5198837",
+    "invoice_date": "2026-03-31",
+    "total_incl": "1374.64",
+    "lines": [
+      {
+        "description": "Carton Freight",
+        "qty": "1",
+        "line_total_incl": "2.86",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "9000000",
+        "raw_qty": null,
+        "raw_uom": "MISC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "MASSENEZ TRIPLE SEC LIQUEUR 35% BIB 2PACK",
+        "qty": "1",
+        "line_total_incl": "359.00",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "10017813",
+        "raw_qty": null,
+        "raw_uom": "2/5000 ml",
+        "pack_qty": "5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "WHITE LIGHT VODKA ORIGINAL : 20000ml",
+        "qty": "1",
+        "line_total_incl": "1012.78",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "32051",
+        "raw_qty": null,
+        "raw_uom": "1/20000 ml",
+        "pack_qty": "20",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "9d7e9bf771cd0773cf81b435e4bcdfe89cc3e6bf8d8bbf7af6204535c2ca7647.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $2.86 under the invoice total \u2014 expected. Skipped: Carton Freight ($2.86). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "1371.78",
+        "actual": "1374.64"
+      }
+    ],
+    "expected_ls_receive_total": "1371.78",
+    "extras_total": "2.86"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "Carton Freight",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      },
+      {
+        "description": "MASSENEZ TRIPLE SEC LIQUEUR 35% BIB 2PACK",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "WHITE LIGHT VODKA ORIGINAL : 20000ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      }
+    ]
+  }
+}

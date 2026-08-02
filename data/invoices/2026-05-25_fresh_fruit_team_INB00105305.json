@@ -1,0 +1,143 @@
+{
+  "invoice": {
+    "supplier_key": "fresh_fruit_team",
+    "supplier_name_raw": "The Fresh Fruit Team Pty Ltd",
+    "invoice_ref": "INB00105305",
+    "invoice_date": "2026-05-25",
+    "total_incl": "66.13",
+    "lines": [
+      {
+        "description": "Capsicum Green Washed And Sanitised",
+        "qty": "4",
+        "line_total_incl": "39.20",
+        "unit_price_incl": "9.80",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "KITCGWASKG",
+        "raw_qty": null,
+        "raw_uom": "Kilogram",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Herb Basil",
+        "qty": "3",
+        "line_total_incl": "11.55",
+        "unit_price_incl": "3.85",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "HBGQBCH",
+        "raw_qty": null,
+        "raw_uom": "Bunch",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Tomatoes Cherry",
+        "qty": "4",
+        "line_total_incl": "7.48",
+        "unit_price_incl": "1.87",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "TCPUN",
+        "raw_qty": null,
+        "raw_uom": "Punnet",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Zucchini Green Batons",
+        "qty": "1",
+        "line_total_incl": "7.90",
+        "unit_price_incl": "7.90",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "KITZGB",
+        "raw_qty": null,
+        "raw_uom": "Kilogram",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-06-08",
+    "is_credit_note": false,
+    "venue": "marilynas",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "2effe6da9bf7a377bf918b8ba6797c9ba9350d7ed520c4dd18dc3b915b204954.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "66.13",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Marilyna's Pizza",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "Capsicum Green Washed And Sanitised",
+        "account_code": "306",
+        "account_name": "Cleaning",
+        "reason": "line keyword -> Cleaning"
+      },
+      {
+        "description": "Herb Basil",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Tomatoes Cherry",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Zucchini Green Batons",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

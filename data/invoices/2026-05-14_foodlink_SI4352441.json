@@ -1,0 +1,233 @@
+{
+  "invoice": {
+    "supplier_key": "foodlink",
+    "supplier_name_raw": "Foodlink Australia Pty Ltd",
+    "invoice_ref": "SI4352441",
+    "invoice_date": "2026-05-14",
+    "total_incl": "300.17",
+    "lines": [
+      {
+        "description": "YEAST FRESH 1KG",
+        "qty": "2",
+        "line_total_incl": "11.00",
+        "unit_price_incl": "5.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "103153",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "METHELATED SPIRITS 4LT Reliance",
+        "qty": "1",
+        "line_total_incl": "82.17",
+        "unit_price_incl": "82.1700",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "101633",
+        "raw_qty": null,
+        "raw_uom": "CTN-3",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "OLIVES PITTED QUEEN GREEN 2KG",
+        "qty": "4",
+        "line_total_incl": "60.00",
+        "unit_price_incl": "15.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "101859",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "2",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "OLIVES PITTED KALAMATA 2KG",
+        "qty": "2",
+        "line_total_incl": "38.00",
+        "unit_price_incl": "19.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "101873",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "2",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "HARISSA PASTE 70GM House Food",
+        "qty": "1",
+        "line_total_incl": "67.20",
+        "unit_price_incl": "67.2000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "105030",
+        "raw_qty": null,
+        "raw_uom": "CTN-24",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "OIL OLIVE POMACE 4L Trading",
+        "qty": "1",
+        "line_total_incl": "38.50",
+        "unit_price_incl": "38.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "101839",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "4",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Fuel Levy",
+        "qty": "1",
+        "line_total_incl": "3.30",
+        "unit_price_incl": "3.3000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-21",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "5c5723e89a7b86636fa54fdb310b59b1cf6aa04bf7e8a307374f6241c9de6d86.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $3.30 under the invoice total \u2014 expected. Skipped: Fuel Levy ($3.30). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "296.87",
+        "actual": "300.17"
+      }
+    ],
+    "expected_ls_receive_total": "296.87",
+    "extras_total": "3.30"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "YEAST FRESH 1KG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "METHELATED SPIRITS 4LT Reliance",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "OLIVES PITTED QUEEN GREEN 2KG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "OLIVES PITTED KALAMATA 2KG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "HARISSA PASTE 70GM House Food",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "OIL OLIVE POMACE 4L Trading",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Fuel Levy",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

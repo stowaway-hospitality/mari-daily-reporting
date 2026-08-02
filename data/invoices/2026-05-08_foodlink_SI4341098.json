@@ -1,0 +1,233 @@
+{
+  "invoice": {
+    "supplier_key": "foodlink",
+    "supplier_name_raw": "Foodlink Australia Pty Ltd",
+    "invoice_ref": "SI4341098",
+    "invoice_date": "2026-05-08",
+    "total_incl": "207.70",
+    "lines": [
+      {
+        "description": "SOY SAUCE TAMARI GENUINE 10LT",
+        "qty": "1",
+        "line_total_incl": "140.00",
+        "unit_price_incl": "140.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "104595",
+        "raw_qty": null,
+        "raw_uom": "CTN",
+        "pack_qty": "1",
+        "pack_unit": "box",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CORN FLOUR MAIZE GLUTEN FREE",
+        "qty": "1",
+        "line_total_incl": "23.00",
+        "unit_price_incl": "23.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "100848",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "KOREAN CHILLI POWDER COARSE",
+        "qty": "1",
+        "line_total_incl": "16.00",
+        "unit_price_incl": "16.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "107707",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "MAYONNAISE MILD JAPANESE 1KG",
+        "qty": "1",
+        "line_total_incl": "10.90",
+        "unit_price_incl": "10.9000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "101396",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "NOODLES PAD THAI 375GM 10MM",
+        "qty": "2",
+        "line_total_incl": "7.00",
+        "unit_price_incl": "3.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "101792",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "0.375",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "RICE VERMICILI NOODLES 500GM",
+        "qty": "3",
+        "line_total_incl": "7.50",
+        "unit_price_incl": "2.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "102376",
+        "raw_qty": null,
+        "raw_uom": "EA",
+        "pack_qty": "0.5",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Fuel Levy",
+        "qty": "1",
+        "line_total_incl": "3.30",
+        "unit_price_incl": "3.3000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-15",
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "47e48f5f4e2fb0f70592eef472fc46de29d2f0a9d0f81b302dc2de53746df0ef.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $3.30 under the invoice total \u2014 expected. Skipped: Fuel Levy ($3.30). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "204.40",
+        "actual": "207.70"
+      }
+    ],
+    "expected_ls_receive_total": "204.40",
+    "extras_total": "3.30"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "SOY SAUCE TAMARI GENUINE 10LT",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "CORN FLOUR MAIZE GLUTEN FREE",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "KOREAN CHILLI POWDER COARSE",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "MAYONNAISE MILD JAPANESE 1KG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "NOODLES PAD THAI 375GM 10MM",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "RICE VERMICILI NOODLES 500GM",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Fuel Levy",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

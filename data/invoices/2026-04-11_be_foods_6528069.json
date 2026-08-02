@@ -1,0 +1,116 @@
+{
+  "invoice": {
+    "supplier_key": "be_foods",
+    "supplier_name_raw": "B&E Foods Pty Ltd",
+    "invoice_ref": "6528069",
+    "invoice_date": "2026-04-11",
+    "total_incl": "102.69",
+    "lines": [
+      {
+        "description": "SAUSAGE - MILD SPANISH",
+        "qty": "3.00",
+        "line_total_incl": "41.10",
+        "unit_price_incl": "13.7000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "19626",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "OIL - VEGETABLE W BUNG",
+        "qty": "1.00",
+        "line_total_incl": "55.00",
+        "unit_price_incl": "55.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "28366",
+        "raw_qty": null,
+        "raw_uom": "DRU",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "MICROFIBER MOP HEAD RED",
+        "qty": "1.00",
+        "line_total_incl": "6.59",
+        "unit_price_incl": "6.5900",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": "0.60",
+        "wet_amount": null,
+        "supplier_code": "18767",
+        "raw_qty": null,
+        "raw_uom": "EAC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-04-18",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "cf8792fec25deadbb4326fc2ae107752f54107aeefd5085a23f23b25b3e1d369.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "102.69",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "SAUSAGE - MILD SPANISH",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "OIL - VEGETABLE W BUNG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "MICROFIBER MOP HEAD RED",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

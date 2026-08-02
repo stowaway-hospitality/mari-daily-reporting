@@ -1,0 +1,143 @@
+{
+  "invoice": {
+    "supplier_key": "jun_pacific",
+    "supplier_name_raw": "Jun Pacific Corporation Pty Ltd",
+    "invoice_ref": "NB10504531",
+    "invoice_date": "2026-05-28",
+    "total_incl": "332.75",
+    "lines": [
+      {
+        "description": "Frozen Tiramisu Mousse Rice Cake 50g",
+        "qty": "2",
+        "line_total_incl": "33.00",
+        "unit_price_incl": "16.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "UZ8141301",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "0.05",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Frozen Mango Mousse Rice Cake 50g",
+        "qty": "2",
+        "line_total_incl": "33.00",
+        "unit_price_incl": "16.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "UZ8141304",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "0.05",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Frozen Strawberry Mousse Rice Cake 50g",
+        "qty": "2",
+        "line_total_incl": "33.00",
+        "unit_price_incl": "16.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "UZ8141305",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "0.05",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
+        "qty": "25",
+        "line_total_incl": "233.75",
+        "unit_price_incl": "9.3500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "QB8514617",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-28",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "0f7302bbdf0b4da7d099e66efda24bc455c55f5fef0d955713e2671b8b1832a7.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "332.75",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "Frozen Tiramisu Mousse Rice Cake 50g",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Frozen Mango Mousse Rice Cake 50g",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Frozen Strawberry Mousse Rice Cake 50g",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

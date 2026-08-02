@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "lion",
+    "supplier_name_raw": "Lion - Beer, Spirits & Wine Pty Ltd",
+    "invoice_ref": "94684681",
+    "invoice_date": "2026-05-26",
+    "total_incl": "1214.59",
+    "lines": [
+      {
+        "description": "S & W Pacific Ale 49.5L KEG",
+        "qty": "2",
+        "line_total_incl": "769.41",
+        "unit_price_incl": "384.7050",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "1256672",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "49.5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Kirin Ichb 5% 49.5L KEG",
+        "qty": "1",
+        "line_total_incl": "445.18",
+        "unit_price_incl": "445.1800",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "1254690",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "49.5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-06-08",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "960e5bc69aee7749bef8abbd523a889c2b503b69b1d572a3d2b208d8fe1c1f11.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "1214.59",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "high",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "S & W Pacific Ale 49.5L KEG",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Kirin Ichb 5% 49.5L KEG",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

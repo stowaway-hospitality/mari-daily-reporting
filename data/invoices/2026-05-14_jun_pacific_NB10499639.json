@@ -1,0 +1,170 @@
+{
+  "invoice": {
+    "supplier_key": "jun_pacific",
+    "supplier_name_raw": "Jun Pacific Corporation Pty Ltd",
+    "invoice_ref": "NB10499639",
+    "invoice_date": "2026-05-14",
+    "total_incl": "295.96",
+    "lines": [
+      {
+        "description": "\u201cJun Pacific\u201dCooking Sake",
+        "qty": "1",
+        "line_total_incl": "34.55",
+        "unit_price_incl": "34.5500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "EE8101034",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "\u201cKobayashi\u201d Gluten Free Ramen Noodle",
+        "qty": "2",
+        "line_total_incl": "7.00",
+        "unit_price_incl": "3.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "BF7517145",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "\"Jun\" Roasted Sesame Seed White",
+        "qty": "1",
+        "line_total_incl": "9.46",
+        "unit_price_incl": "9.4600",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "DE81595",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
+        "qty": "25",
+        "line_total_incl": "233.75",
+        "unit_price_incl": "9.3500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "QB8514617",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "\u201cYamasan\u201d Fish Cake (Naruto Maki)",
+        "qty": "4",
+        "line_total_incl": "11.20",
+        "unit_price_incl": "2.8000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "SJ7520704",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-14",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "bd91d5a133a575a583bb3e9067932fa0e0e4f864c2459ff086297b267f08a6c3.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "295.96",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "\u201cJun Pacific\u201dCooking Sake",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "\u201cKobayashi\u201d Gluten Free Ramen Noodle",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "\"Jun\" Roasted Sesame Seed White",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "\u201cYamasan\u201d Fish Cake (Naruto Maki)",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

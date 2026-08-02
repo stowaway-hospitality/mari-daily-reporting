@@ -1,0 +1,116 @@
+{
+  "invoice": {
+    "supplier_key": "ilg",
+    "supplier_name_raw": "Independent Liquor Group",
+    "invoice_ref": "03680513",
+    "invoice_date": "2026-04-21",
+    "total_incl": "154.92",
+    "lines": [
+      {
+        "description": "BOMBAY DRY GIN",
+        "qty": "1",
+        "line_total_incl": "51.30",
+        "unit_price_incl": "51.3000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "285-3870",
+        "raw_qty": null,
+        "raw_uom": "6x700ML",
+        "pack_qty": "4.2",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "KAHLUA 1 LTR 6PK",
+        "qty": "1",
+        "line_total_incl": "48.64",
+        "unit_price_incl": "48.6400",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "410-3945",
+        "raw_qty": null,
+        "raw_uom": "6x1LT",
+        "pack_qty": "6",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "TSINGTAO PREMIUM BEER 640ML",
+        "qty": "1",
+        "line_total_incl": "55.00",
+        "unit_price_incl": "55.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "115-3860",
+        "raw_qty": null,
+        "raw_uom": "12x640ML",
+        "pack_qty": "7.68",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-19",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "df6169cf6fef88d099ca7459ff83be2fb2814bb8c39b60bef1e506b79cf1e7c9.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "154.94",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "BOMBAY DRY GIN",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "KAHLUA 1 LTR 6PK",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "TSINGTAO PREMIUM BEER 640ML",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

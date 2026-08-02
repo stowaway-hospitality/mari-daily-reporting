@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "ilg",
+    "supplier_name_raw": "Independent Liquor Group",
+    "invoice_ref": "03698717",
+    "invoice_date": "2026-05-19",
+    "total_incl": "524.27",
+    "lines": [
+      {
+        "description": "DESCLANS WHISPERING ANGEL ROSE",
+        "qty": "1",
+        "line_total_incl": "216.16",
+        "unit_price_incl": "216.1600",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "215-3314",
+        "raw_qty": null,
+        "raw_uom": "6x750ML",
+        "pack_qty": "4.5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "ROOSTER ROJO TEQUILA BLANCO",
+        "qty": "1",
+        "line_total_incl": "308.11",
+        "unit_price_incl": "308.1100",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "360-1310",
+        "raw_qty": null,
+        "raw_uom": "6x700ML",
+        "pack_qty": "4.2",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-05-26",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "08239004f769e97ade07d428ba4990448d05456fe739ac82782c18fa6078bd15.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "524.27",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "DESCLANS WHISPERING ANGEL ROSE",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "ROOSTER ROJO TEQUILA BLANCO",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
