@@ -402,6 +402,19 @@ function lineCost(l) {
   const i = ING.find(x => x.id === l.id);
   return (i && !i.needs_pack_review) ? (+i.cost_per_base_unit) * l.qty : 0;
 }
+// the per-line RATE, in a sensible unit (g→kg, ml→L), so the cost never reads as
+// "$X per ml". Returns e.g. { rate: 2.32, unit: 'L' } = $2.32 per litre.
+function lineRate(l) {
+  let per, u;
+  if (l.kind === 'sub') { per = +l.cpu || 0; u = l.unit; }
+  else if (l.kind === 'manual') { per = +l.cpu || 0; u = l.unit || 'ea'; }
+  else { const i = ING.find(x => x.id === l.id); per = i ? +i.cost_per_base_unit : 0; u = i ? i.pack_unit : (l.unit || 'ea'); }
+  return { rate: per * perMult(u), unit: perUnit(u) };
+}
+function lineCostLabel(l) {
+  const r = lineRate(l);
+  return `${money(r.rate)}/${esc(r.unit)} · ${money(lineCost(l))}`;
+}
 function lineMeta(l) {
   if (l.kind === 'sub') return { name: l.product + ' (recipe)', unit: l.unit };
   if (l.kind === 'manual') return { name: l.name + ' (imported)', unit: l.unit || 'ea' };
@@ -415,7 +428,7 @@ function renderLines() {
   box.innerHTML = LINES.length ? LINES.map((l, k) => {
     const { name, unit } = lineMeta(l);
     return `<div class="line">
-      <div class="nm">${esc(name)}<small id="ct-${k}">${esc(unit)} · ${money(lineCost(l))}</small></div>
+      <div class="nm">${esc(name)}<small id="ct-${k}">${lineCostLabel(l)}</small></div>
       <input type="number" inputmode="decimal" step="any" value="${l.qty || ''}" placeholder="0 ${esc(unit)}" oninput="setQty(${k},this.value)">
       <button class="x" onclick="del(${k})" aria-label="remove">×</button></div>`;
   }).join('') : '<div class="empty">Nothing added yet — tap an ingredient above.</div>';
@@ -425,7 +438,7 @@ function calc() { renderLines(); recompute(); }
 function recompute() {
   LINES.forEach((l, k) => {
     const cell = document.getElementById('ct-' + k);
-    if (cell) cell.textContent = `${lineMeta(l).unit} · ${money(lineCost(l))}`;
+    if (cell) cell.textContent = lineCostLabel(l);
   });
   const food = LINES.reduce((a, l) => a + lineCost(l), 0);
   document.getElementById('c-food').textContent = money(food);
