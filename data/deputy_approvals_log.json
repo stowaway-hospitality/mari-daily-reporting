@@ -168,5 +168,58 @@
         "result": "approved + round FAILED HTTP 400 {\"error\":{\"code\":400,\"message\":\"Sorry, the date is not set.\"}}"
       }
     ]
+  },
+  {
+    "run": "2026-08-02T18:01:27+00:00",
+    "approved": [
+      {
+        "id": 35639,
+        "employee": "Olly",
+        "reason": "clean \u2014 within rostered finish, break normal",
+        "result": "approved + rounded"
+      },
+      {
+        "id": 35652,
+        "employee": "Devon Lukiana",
+        "reason": "salaried (Devon) \u2014 overstay auto-approve rule",
+        "result": "approved"
+      },
+      {
+        "id": 35653,
+        "employee": "Min",
+        "reason": "salaried (Min) \u2014 overstay auto-approve rule",
+        "result": "approved"
+      },
+      {
+        "id": 35655,
+        "employee": "Sam Hall",
+        "reason": "clean \u2014 within rostered finish, break normal",
+        "result": "approved"
+      },
+      {
+        "id": 35656,
+        "employee": "David Armour",
+        "reason": "clean \u2014 within rostered finish, break normal",
+        "result": "approved"
+      },
+      {
+        "id": 35657,
+        "employee": "Sophie Campbell",
+        "reason": "clean \u2014 within rostered finish, break normal",
+        "result": "approved"
+      },
+      {
+        "id": 35661,
+        "employee": "Rhys Taylor",
+        "reason": "Rhys Taylor \u2014 overstays approved (non-runaway) per policy",
+        "result": "approved"
+      },
+      {
+        "id": 35662,
+        "employee": "Sushant Acharya",
+        "reason": "clean \u2014 within rostered finish, break normal",
+        "result": "approved"
+      }
+    ]
   }
 ]
