@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-02",
-  "count": 258,
+  "count": 281,
   "skipped_already_in_xero": 220,
   "invoices": [
     {
@@ -1355,6 +1355,34 @@
       ]
     },
     {
+      "ref": "INV3413956",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-07-11",
+      "due_date": null,
+      "total": "253.50",
+      "venue": "harry_gatos",
+      "pdf_path": "5e8013443af5f816101f76e416f4b788dbe7844426de1316689a2dfe2394f964.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BEEF TOPSIDE WAGYU MB8+",
+          "supplier_code": "1890K",
+          "qty": "10.14",
+          "amount": "253.50",
+          "unit_cost": "$25.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
       "ref": "5428882",
       "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
       "supplier_key": "paramount",
@@ -1656,6 +1684,34 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "INV3401843",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-06-25",
+      "due_date": null,
+      "total": "317.75",
+      "venue": "harry_gatos",
+      "pdf_path": "499e53cf76b08f6dd9c2c9f278335fe6fcebb96047b30a63c8007f4b347995b3.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BEEF TOPSIDE WAGYU MB8+",
+          "supplier_code": "1890K",
+          "qty": "12.71",
+          "amount": "317.75",
+          "unit_cost": "$25.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
         }
       ]
     },
@@ -2060,6 +2116,45 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "INV3384521",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-06-02",
+      "due_date": null,
+      "total": "514.28",
+      "venue": "harry_gatos",
+      "pdf_path": "7069b55bd4c01340ad1c5da2a384130bddaa1162d7ac920b499ba21e2c23652e.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BEEF TOPSIDE WAGYU MB8+",
+          "supplier_code": "1890K",
+          "qty": "11.48",
+          "amount": "287.00",
+          "unit_cost": "$25.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "PORK BELLY BONELESS S/ON",
+          "supplier_code": "3095K",
+          "qty": "9.47",
+          "amount": "227.28",
+          "unit_cost": "$24.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
         }
       ]
     },
@@ -4038,6 +4133,45 @@
       ]
     },
     {
+      "ref": "INV3376993",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-05-23",
+      "due_date": null,
+      "total": "173.25",
+      "venue": "harry_gatos",
+      "pdf_path": "d2ce6d09c1a8558ab36afb0a9f16ddda2db00b13c90bc72074c1c0c214aef6a2.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "PATTIES PLANT BASED BUDS 125G FROZEN",
+          "supplier_code": "9478C",
+          "qty": "1.00",
+          "amount": "117.00",
+          "unit_cost": "$936.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "CHICKEN WHOLE #10 FRESH",
+          "supplier_code": "5062E",
+          "qty": "5.00",
+          "amount": "56.25",
+          "unit_cost": "$11.25/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
       "ref": "6718182",
       "supplier": "B&E Foods Pty Ltd",
       "supplier_key": "be_foods",
@@ -4128,6 +4262,34 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "INV3376750",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-05-22",
+      "due_date": null,
+      "total": "323.00",
+      "venue": "harry_gatos",
+      "pdf_path": "e98c469527f4b68da49ce005bf73d6d3cbd30f40f595f89ebaa71320c06195fa.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BEEF TOPSIDE WAGYU MB8+",
+          "supplier_code": "1890K",
+          "qty": "12.92",
+          "amount": "323.00",
+          "unit_cost": "$25.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
         }
       ]
     },
@@ -9087,6 +9249,67 @@
       ]
     },
     {
+      "ref": "INV3364687",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-05-07",
+      "due_date": null,
+      "total": "206.69",
+      "venue": "harry_gatos",
+      "pdf_path": "6ed0204f4d8c7794bd38ceb73edb0ad1b0a2a4a9fbeed00a57c8db257ddbc236.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BEEF TOPSIDE WAGYU MB8+",
+          "supplier_code": "1890K",
+          "qty": "5.63",
+          "amount": "140.75",
+          "unit_cost": "$25.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "PORK BONES FROZEN (15-20KG CTN)",
+          "supplier_code": "3000K",
+          "qty": "16.92",
+          "amount": "42.30",
+          "unit_cost": "$0.12/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "PORK MINCE BACK FAT FROZEN",
+          "supplier_code": "3002K",
+          "qty": "1.21",
+          "amount": "14.52",
+          "unit_cost": "$12.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "PORK SKIN FROZEN",
+          "supplier_code": "3090K",
+          "qty": "2.28",
+          "amount": "9.12",
+          "unit_cost": "$4.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
       "ref": "6640164",
       "supplier": "B&E Foods Pty Ltd",
       "supplier_key": "be_foods",
@@ -10933,6 +11156,45 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "INV3361027",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-05-02",
+      "due_date": null,
+      "total": "221.86",
+      "venue": "stowaway",
+      "pdf_path": "7395d06830e13033ea9e8a797a432c5f333372e51c0ce5e52ba451c86d27f159.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "LAMB RUMP 100% DENUDED 220-250G (5/PK)",
+          "supplier_code": "2836K",
+          "qty": "2.45",
+          "amount": "104.86",
+          "unit_cost": "$171.20/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "PATTIES PLANT BASED BUDS 125G FROZEN",
+          "supplier_code": "9478C",
+          "qty": "1.00",
+          "amount": "117.00",
+          "unit_cost": "$936.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
         }
       ]
     },
@@ -13211,6 +13473,62 @@
       ]
     },
     {
+      "ref": "INV3356632",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-04-25",
+      "due_date": null,
+      "total": "30.00",
+      "venue": "harry_gatos",
+      "pdf_path": "7e1ca1fc6ec5f848f728ef0c30d61e1de1678b0c9f7d054e36ec0f259b02924e.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "PORK CANTONESE LEG",
+          "supplier_code": "3093K",
+          "qty": "2.00",
+          "amount": "30.00",
+          "unit_cost": "$15.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
+      "ref": "INV3356670",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-04-25",
+      "due_date": null,
+      "total": "97.00",
+      "venue": "stowaway",
+      "pdf_path": "526b5587734206e226ab217fd51a90c559a46ae810785e3796cf958e2bc1292e.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CHICKEN THIGH FILLET S/ON (5KG)",
+          "supplier_code": "5036K",
+          "qty": "5.00",
+          "amount": "97.00",
+          "unit_cost": "$3.88/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
       "ref": "SI4317823",
       "supplier": "Foodlink Australia Pty Ltd",
       "supplier_key": "foodlink",
@@ -13290,6 +13608,34 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "INV3355738",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-04-24",
+      "due_date": null,
+      "total": "99.45",
+      "venue": "harry_gatos",
+      "pdf_path": "11752235f3dc41858b7efbc661b4739ac7dcd477a85e712ffc69e05e221d34f6.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BEEF CANTONESE",
+          "supplier_code": "1069K",
+          "qty": "5.01",
+          "amount": "99.45",
+          "unit_cost": "$19.85/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
         }
       ]
     },
@@ -13611,6 +13957,95 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "INV3354334",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-04-23",
+      "due_date": null,
+      "total": "250.80",
+      "venue": "harry_gatos",
+      "pdf_path": "6f41339181f51df751254769323fe1bc32e5f043f75ad0ef784e695962830721.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BEEF TOPSIDE WAGYU MB8+",
+          "supplier_code": "1890K",
+          "qty": "7.37",
+          "amount": "184.25",
+          "unit_cost": "$25.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "PORK BONES FROZEN (15-20KG CTN)",
+          "supplier_code": "3000K",
+          "qty": "15.42",
+          "amount": "38.55",
+          "unit_cost": "$0.12/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "PORK MINCE BACK FAT FROZEN",
+          "supplier_code": "3002K",
+          "qty": "1.00",
+          "amount": "12.00",
+          "unit_cost": "$12.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "PORK SKIN FROZEN",
+          "supplier_code": "3090K",
+          "qty": "4.00",
+          "amount": "16.00",
+          "unit_cost": "$4.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
+      "ref": "INV3354394",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-04-23",
+      "due_date": null,
+      "total": "179.69",
+      "venue": "stowaway",
+      "pdf_path": "e7b811b459146ebe6a82b0f919db9a90241142bd7487c70e93da48216ce4a38a.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BEEF OSSO BUCCO",
+          "supplier_code": "1541K",
+          "qty": "10.57",
+          "amount": "179.69",
+          "unit_cost": "$17.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
         }
       ]
     },
@@ -15865,6 +16300,56 @@
       ]
     },
     {
+      "ref": "INV3351230",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-04-18",
+      "due_date": null,
+      "total": "665.88",
+      "venue": "stowaway",
+      "pdf_path": "411b121c35f94d5d097bdb6ed3e32983816c5af4fc9e823b192d0d0c0b333b07.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BEEF TOPSIDE WAGYU MB8+",
+          "supplier_code": "1890K",
+          "qty": "9.93",
+          "amount": "248.25",
+          "unit_cost": "$25.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "PORK BELLY S/ON COOKED",
+          "supplier_code": "8059K",
+          "qty": "9.12",
+          "amount": "215.23",
+          "unit_cost": "$23.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "CHICKEN WINGETTE (MID WING) (2KG)",
+          "supplier_code": "5039K",
+          "qty": "16.00",
+          "amount": "202.40",
+          "unit_cost": "$6.32/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
       "ref": "SI4304335",
       "supplier": "Foodlink Australia Pty Ltd",
       "supplier_key": "foodlink",
@@ -15999,6 +16484,34 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "INV3350197",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-04-17",
+      "due_date": null,
+      "total": "150.00",
+      "venue": "stowaway",
+      "pdf_path": "aa1cf395d8c3c516909b7546938b2b1628de30cdc370e1791261a70c23fd2b13.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "PROSCIUTTO SLICED 500G",
+          "supplier_code": "6087P",
+          "qty": "6.00",
+          "amount": "150.00",
+          "unit_cost": "$50.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
         }
       ]
     },
@@ -17991,6 +18504,67 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "INV3345074",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-04-10",
+      "due_date": null,
+      "total": "354.96",
+      "venue": "harry_gatos",
+      "pdf_path": "bd6d6395e7053279d5f71d5658436291a55c1798f868fb8271075d317e7e7610.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BEEF TOPSIDE WAGYU MB8+",
+          "supplier_code": "1890K",
+          "qty": "9.47",
+          "amount": "236.75",
+          "unit_cost": "$25.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "BEEF TOP SIRLOIN GRAINGE SILVER MSA 200G (5PK)",
+          "supplier_code": "1896K",
+          "qty": "2.08",
+          "amount": "85.28",
+          "unit_cost": "$205.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "PORK BONES FROZEN (15-20KG CTN)",
+          "supplier_code": "3000K",
+          "qty": "9.49",
+          "amount": "23.73",
+          "unit_cost": "$0.12/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "PORK SKIN FROZEN",
+          "supplier_code": "3090K",
+          "qty": "2.30",
+          "amount": "9.20",
+          "unit_cost": "$4.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
         }
       ]
     },
@@ -22670,6 +23244,241 @@
           "account_code": "115",
           "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "4447116",
+      "supplier": "F J Chickens Pty Ltd",
+      "supplier_key": "farmer_joes",
+      "date": "2024-11-16",
+      "due_date": null,
+      "total": "280.00",
+      "venue": "stowaway",
+      "pdf_path": "2ce5a72de87d9d38db309cca9e2b6abc80b21d9e8f61cdeacaf942f4586f42ad.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "THIGH FILLET SK/OFF",
+          "supplier_code": null,
+          "qty": "20.00",
+          "amount": "280.00",
+          "unit_cost": "$14.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
+      "ref": "4446142",
+      "supplier": "F J Chickens Pty Ltd",
+      "supplier_key": "farmer_joes",
+      "date": "2024-11-14",
+      "due_date": null,
+      "total": "140.00",
+      "venue": "stowaway",
+      "pdf_path": "e2b8ab1955c94e17daba07d437b02714764e3e8708543464238d697fe80fd102.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "THIGH FILLET SK/OFF",
+          "supplier_code": null,
+          "qty": "10.00",
+          "amount": "140.00",
+          "unit_cost": "$14.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
+      "ref": "4445139",
+      "supplier": "F J Chickens Pty Ltd",
+      "supplier_key": "farmer_joes",
+      "date": "2024-11-12",
+      "due_date": null,
+      "total": "378.00",
+      "venue": "stowaway",
+      "pdf_path": "5db797785e837a402fc34a3bd769b3f4d3203b6cf68014d1dfc3f4427d3483f6.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "MID WINGS AND DRUMETTES MIXED 80\u221290G",
+          "supplier_code": null,
+          "qty": "70.00",
+          "amount": "378.00",
+          "unit_cost": "$60.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
+      "ref": "4444134",
+      "supplier": "F J Chickens Pty Ltd",
+      "supplier_key": "farmer_joes",
+      "date": "2024-11-09",
+      "due_date": null,
+      "total": "210.00",
+      "venue": "stowaway",
+      "pdf_path": "01a82c0ba67e6a5cf4674907af2e821b286c7c99cbe243bfdc4da265d39a8cc9.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "THIGH FILLET SK/OFF",
+          "supplier_code": null,
+          "qty": "15.00",
+          "amount": "210.00",
+          "unit_cost": "$14.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
+      "ref": "4442204",
+      "supplier": "F J Chickens Pty Ltd",
+      "supplier_key": "farmer_joes",
+      "date": "2024-11-05",
+      "due_date": null,
+      "total": "65.00",
+      "venue": "stowaway",
+      "pdf_path": "02559e2a8aed3b245972ee34949d638b9f1f10bbe95e3bd69eaa554896ad1361.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BR/FILLETSK/OFF200\u2212250G",
+          "supplier_code": null,
+          "qty": "5.00",
+          "amount": "65.00",
+          "unit_cost": "$52.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
+      "ref": "4441238",
+      "supplier": "F J Chickens Pty Ltd",
+      "supplier_key": "farmer_joes",
+      "date": "2024-11-02",
+      "due_date": null,
+      "total": "210.00",
+      "venue": "stowaway",
+      "pdf_path": "94a54da7c6dabc57a036945ae2b632d5bed9bdce10ce0e08cd6c3c7c87356dbe.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "THIGH FILLET SK/OFF",
+          "supplier_code": null,
+          "qty": "15.00",
+          "amount": "210.00",
+          "unit_cost": "$14.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
+      "ref": "4439346",
+      "supplier": "F J Chickens Pty Ltd",
+      "supplier_key": "farmer_joes",
+      "date": "2024-10-29",
+      "due_date": null,
+      "total": "604.00",
+      "venue": "stowaway",
+      "pdf_path": "a6770293809ebf9531ef5465c8134fc8608f96473cc34211db0da841d316ad4b.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "MID WINGS AND DRUMETTES MIXED 80\u221290G",
+          "supplier_code": null,
+          "qty": "60.00",
+          "amount": "324.00",
+          "unit_cost": "$60.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "THIGH FILLET SK/OFF",
+          "supplier_code": null,
+          "qty": "20.00",
+          "amount": "280.00",
+          "unit_cost": "$14.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
+      "ref": "4436527",
+      "supplier": "F J Chickens Pty Ltd",
+      "supplier_key": "farmer_joes",
+      "date": "2024-10-22",
+      "due_date": null,
+      "total": "104.00",
+      "venue": "stowaway",
+      "pdf_path": "8c850b15db2dc6b03f14042cd4bac4895c1b3175df6b05e5fbf11d5dd5f01c6d.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BR/FILLETSK/OFF200\u2212250G",
+          "supplier_code": null,
+          "qty": "8.00",
+          "amount": "104.00",
+          "unit_cost": "$52.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
         }
       ]
     },

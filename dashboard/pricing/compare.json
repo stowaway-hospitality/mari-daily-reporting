@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-02",
-  "count": 832,
-  "compared": 16,
+  "count": 850,
+  "compared": 17,
   "window_days": 90,
   "total_saving": 117.9,
   "switches": [
@@ -323,6 +323,15 @@
       "date": "2026-07-22"
     },
     {
+      "name": "Prosciutto Sliced",
+      "supplier": "B&E",
+      "unit": "kg",
+      "prev": 24.0,
+      "cost": 28.0,
+      "pct": 16.7,
+      "date": "2026-08-01"
+    },
+    {
       "name": "Avocado Hass",
       "supplier": "Fresh Fruit Team",
       "unit": "tray",
@@ -339,15 +348,6 @@
       "cost": 15.4,
       "pct": 16.7,
       "date": "2026-07-30"
-    },
-    {
-      "name": "Prosciutto Sliced",
-      "supplier": "B&E",
-      "unit": "kg",
-      "prev": 24.0,
-      "cost": 28.0,
-      "pct": 16.7,
-      "date": "2026-08-01"
     },
     {
       "name": "Process Garlic Peeled",
@@ -885,6 +885,46 @@
       "low_date": "2026-07-06",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
+      "key": "prosciutto sliced",
+      "name": "Prosciutto Sliced",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "B&E",
+          "cost": 28.0,
+          "date": "2026-08-01",
+          "desc": "PROSCIUTTO SLICED 500G",
+          "change_pct": 16.7,
+          "n": 24,
+          "prev_cost": 24.0,
+          "spend": 1051.75,
+          "volume": 36.5
+        },
+        {
+          "supplier": "Andrews Meat",
+          "cost": 50.0,
+          "date": "2026-04-17",
+          "desc": "PROSCIUTTO SLICED 500G",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "B&E",
+      "min": 28.0,
+      "max": 50.0,
+      "spread_pct": 78.6,
+      "multi": true,
+      "suspect": false,
+      "low": 24.0,
+      "low_date": "2026-07-16",
+      "est_saving": 0.0,
+      "main": "B&E",
       "switch": false
     },
     {
@@ -2872,6 +2912,35 @@
       "switch": false
     },
     {
+      "key": "beef cantonese",
+      "name": "Beef Cantonese",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 19.85,
+          "date": "2026-04-24",
+          "desc": "BEEF CANTONESE",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 19.85,
+      "max": 19.85,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 19.85,
+      "low_date": "2026-04-24",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "beef brisket diced navel",
       "name": "Beef Diced Brisket Navel",
       "unit": "kg",
@@ -2901,6 +2970,35 @@
       "switch": false
     },
     {
+      "key": "beef bucco osso",
+      "name": "Beef Osso Bucco",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 17.0,
+          "date": "2026-04-23",
+          "desc": "BEEF OSSO BUCCO",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 17.0,
+      "max": 17.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 17.0,
+      "low_date": "2026-04-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "beef fry stir",
       "name": "Beef Stir Fry",
       "unit": "kg",
@@ -2927,6 +3025,64 @@
       "low_date": "2026-04-15",
       "est_saving": 0.0,
       "main": null,
+      "switch": false
+    },
+    {
+      "key": "beef grainge msa silver sirloin top",
+      "name": "Beef Top Sirloin Grainge Silver Msa",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 41.0,
+          "date": "2026-04-10",
+          "desc": "BEEF TOP SIRLOIN GRAINGE SILVER MSA 200G (5PK)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 41.0,
+      "max": 41.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 41.0,
+      "low_date": "2026-04-10",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "beef mb8 topside wagyu",
+      "name": "Beef Topside Wagyu Mb8",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 25.0,
+          "date": "2026-07-11",
+          "desc": "BEEF TOPSIDE WAGYU MB8+",
+          "change_pct": null,
+          "n": 8,
+          "prev_cost": null,
+          "spend": 1322.0,
+          "volume": 52.88
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 25.0,
+      "max": 25.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 25.0,
+      "low_date": "2026-04-10",
+      "est_saving": 0.0,
+      "main": "Andrews Meat",
       "switch": false
     },
     {
@@ -3331,6 +3487,35 @@
       "suspect": false,
       "low": 9.46,
       "low_date": "2026-07-07",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "br filletsk off200",
+      "name": "Br Filletsk Off200",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "F J Chickens",
+          "cost": 13.0,
+          "date": "2024-11-05",
+          "desc": "BR/FILLETSK/OFF200\u2212250G",
+          "change_pct": null,
+          "n": 2,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "F J Chickens",
+      "min": 13.0,
+      "max": 13.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 13.0,
+      "low_date": "2024-10-22",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -5888,6 +6073,35 @@
       "switch": false
     },
     {
+      "key": "chicken fillet on thigh",
+      "name": "Chicken Thigh Fillet On",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 19.4,
+          "date": "2026-04-25",
+          "desc": "CHICKEN THIGH FILLET S/ON (5KG)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 19.4,
+      "max": 19.4,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 19.4,
+      "low_date": "2026-04-25",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "chicken off thigh",
       "name": "Chicken Thigh Off",
       "unit": "kg",
@@ -5943,6 +6157,35 @@
       "low_date": "2026-06-02",
       "est_saving": 0.0,
       "main": "B&E",
+      "switch": false
+    },
+    {
+      "key": "chicken whole",
+      "name": "Chicken Whole",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 11.25,
+          "date": "2026-05-23",
+          "desc": "CHICKEN WHOLE #10 FRESH",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 11.25,
+      "max": 11.25,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 11.25,
+      "low_date": "2026-05-23",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -6088,6 +6331,35 @@
       "low_date": "2026-03-28",
       "est_saving": 0.0,
       "main": "B&E",
+      "switch": false
+    },
+    {
+      "key": "chicken wingette",
+      "name": "Chicken Wingette",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 12.65,
+          "date": "2026-04-18",
+          "desc": "CHICKEN WINGETTE (MID WING) (2KG)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 12.65,
+      "max": 12.65,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 12.65,
+      "low_date": "2026-04-18",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -14472,6 +14744,35 @@
       "switch": false
     },
     {
+      "key": "denuded lamb rump",
+      "name": "Lamb Rump Denuded",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 42.8,
+          "date": "2026-05-02",
+          "desc": "LAMB RUMP 100% DENUDED 220-250G (5/PK)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 42.8,
+      "max": 42.8,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 42.8,
+      "low_date": "2026-05-02",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "large",
       "name": "Large",
       "unit": "kg",
@@ -15859,6 +16160,35 @@
       "suspect": false,
       "low": 6.59,
       "low_date": "2026-04-11",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "drumette mid mixed wing",
+      "name": "Mid Wing Drumette Mixed",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "F J Chickens",
+          "cost": 5.4,
+          "date": "2024-11-12",
+          "desc": "MID WINGS AND DRUMETTES MIXED 80\u221290G",
+          "change_pct": null,
+          "n": 2,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "F J Chickens",
+      "min": 5.4,
+      "max": 5.4,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 5.4,
+      "low_date": "2024-10-29",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -18416,6 +18746,35 @@
       "switch": false
     },
     {
+      "key": "based bud patty plant",
+      "name": "Patty Plant Based Bud",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 936.0,
+          "date": "2026-05-23",
+          "desc": "PATTIES PLANT BASED BUDS 125G FROZEN",
+          "change_pct": null,
+          "n": 2,
+          "prev_cost": null,
+          "spend": 117.0,
+          "volume": 0.125
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 936.0,
+      "max": 936.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 936.0,
+      "low_date": "2026-05-02",
+      "est_saving": 0.0,
+      "main": "Andrews Meat",
+      "switch": false
+    },
+    {
       "key": "paw paw shredded",
       "name": "Paw Paw Shredded",
       "unit": "kg",
@@ -19228,6 +19587,35 @@
       "switch": false
     },
     {
+      "key": "belly boneless on pork",
+      "name": "Pork Belly Boneless On",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 24.0,
+          "date": "2026-06-02",
+          "desc": "PORK BELLY BONELESS S/ON",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 227.28,
+          "volume": 9.47
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 24.0,
+      "max": 24.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 24.0,
+      "low_date": "2026-06-02",
+      "est_saving": 0.0,
+      "main": "Andrews Meat",
+      "switch": false
+    },
+    {
       "key": "belly cooked pork roast",
       "name": "Pork Belly Cooked Roast",
       "unit": "kg",
@@ -19252,6 +19640,93 @@
       "suspect": false,
       "low": 13.938,
       "low_date": "2026-04-29",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "belly cooked on pork",
+      "name": "Pork Belly On Cooked",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 23.6,
+          "date": "2026-04-18",
+          "desc": "PORK BELLY S/ON COOKED",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 23.6,
+      "max": 23.6,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 23.6,
+      "low_date": "2026-04-18",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "bone pork",
+      "name": "Pork Bone",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 2.5,
+          "date": "2026-05-07",
+          "desc": "PORK BONES FROZEN (15-20KG CTN)",
+          "change_pct": null,
+          "n": 3,
+          "prev_cost": null,
+          "spend": 42.3,
+          "volume": 16.92
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 2.5,
+      "max": 2.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 2.5,
+      "low_date": "2026-04-10",
+      "est_saving": 0.0,
+      "main": "Andrews Meat",
+      "switch": false
+    },
+    {
+      "key": "cantonese leg pork",
+      "name": "Pork Cantonese Leg",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 15.0,
+          "date": "2026-04-25",
+          "desc": "PORK CANTONESE LEG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 15.0,
+      "max": 15.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 15.0,
+      "low_date": "2026-04-25",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -19286,6 +19761,35 @@
       "switch": false
     },
     {
+      "key": "back fat mince pork",
+      "name": "Pork Mince Back Fat",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 12.0,
+          "date": "2026-05-07",
+          "desc": "PORK MINCE BACK FAT FROZEN",
+          "change_pct": null,
+          "n": 2,
+          "prev_cost": null,
+          "spend": 14.52,
+          "volume": 1.21
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 12.0,
+      "max": 12.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 12.0,
+      "low_date": "2026-04-23",
+      "est_saving": 0.0,
+      "main": "Andrews Meat",
+      "switch": false
+    },
+    {
       "key": "dumpling parsley pork",
       "name": "Pork Parsley Dumpling",
       "unit": "kg",
@@ -19312,6 +19816,35 @@
       "low_date": "2026-07-16",
       "est_saving": 0.0,
       "main": "Sun Circle",
+      "switch": false
+    },
+    {
+      "key": "pork skin",
+      "name": "Pork Skin",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Andrews Meat",
+          "cost": 4.0,
+          "date": "2026-05-07",
+          "desc": "PORK SKIN FROZEN",
+          "change_pct": null,
+          "n": 3,
+          "prev_cost": null,
+          "spend": 9.12,
+          "volume": 2.28
+        }
+      ],
+      "cheapest": "Andrews Meat",
+      "min": 4.0,
+      "max": 4.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 4.0,
+      "low_date": "2026-04-10",
+      "est_saving": 0.0,
+      "main": "Andrews Meat",
       "switch": false
     },
     {
@@ -19602,35 +20135,6 @@
       "low_date": "2026-07-02",
       "est_saving": 0.0,
       "main": null,
-      "switch": false
-    },
-    {
-      "key": "prosciutto sliced",
-      "name": "Prosciutto Sliced",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "B&E",
-          "cost": 28.0,
-          "date": "2026-08-01",
-          "desc": "PROSCIUTTO SLICED 500G",
-          "change_pct": 16.7,
-          "n": 24,
-          "prev_cost": 24.0,
-          "spend": 1051.75,
-          "volume": 36.5
-        }
-      ],
-      "cheapest": "B&E",
-      "min": 28.0,
-      "max": 28.0,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false,
-      "low": 24.0,
-      "low_date": "2026-07-16",
-      "est_saving": 0.0,
-      "main": "B&E",
       "switch": false
     },
     {
@@ -23196,6 +23700,35 @@
       "suspect": false,
       "low": 11.52,
       "low_date": "2026-04-08",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "fillet off sk thigh",
+      "name": "Thigh Fillet Sk Off",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "F J Chickens",
+          "cost": 14.0,
+          "date": "2024-11-16",
+          "desc": "THIGH FILLET SK/OFF",
+          "change_pct": null,
+          "n": 5,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "F J Chickens",
+      "min": 14.0,
+      "max": 14.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 14.0,
+      "low_date": "2024-10-29",
       "est_saving": 0.0,
       "main": null,
       "switch": false
