@@ -269,7 +269,18 @@ function renderPick() {
   if (q) hits = hits.filter(i => i.description.toLowerCase().includes(q) || (i.supplier || '').toLowerCase().includes(q));
   else if (sup) hits = hits.filter(i => i.supplier === sup);
   else hits = hits.slice(0, 0);   // avoid dumping everything; pick a supplier or search
-  document.getElementById('picklist').innerHTML = hits.length ? hits.map(i => {
+  // sub-recipes are searchable here too, so "achio" surfaces Achiote Chicken — not
+  // only in the Batch/sub-recipe section. They render first, tagged "recipe".
+  const subHits = q ? SUBS.filter(s => s.product.toLowerCase().includes(q)) : [];
+  const subHtml = subHits.map(s => {
+    const c = subCpu(s);
+    const cost = c ? `${money(c)} <span class="m">/${esc(s.yield_unit)}</span>` : '<span class="m">cost pending</span>';
+    return `<div class="ing" onclick="addSub('${encodeURIComponent(s.product)}')">
+      <div><div class="n">${esc(s.product)}<span class="pill sub">recipe</span></div>
+      <div class="m">makes ${esc(s.yield_qty)} ${esc(s.yield_unit)}</div></div>
+      <div class="c">${cost}</div></div>`;
+  }).join('');
+  const ingHtml = hits.map(i => {
     const ok = !i.needs_pack_review;
     const cost = ok ? `${money(i.cost_per_base_unit * perMult(i.pack_unit))} <span class="m">/${esc(perUnit(i.pack_unit))}</span>`
                     : `<span class="m">pack?</span>`;
@@ -277,7 +288,9 @@ function renderPick() {
       <div><div class="n">${esc(i.description)}${ok ? '' : '<span class="pill">confirm pack</span>'}</div>
       <div class="m">${esc(i.supplier)}</div></div>
       <div class="c">${cost}</div></div>`;
-  }).join('') : `<div class="empty">${sup || q ? 'No match.' : 'Choose a supplier or search to add ingredients.'}</div>`;
+  }).join('');
+  document.getElementById('picklist').innerHTML = (subHtml + ingHtml) ||
+    `<div class="empty">${sup || q ? 'No match.' : 'Choose a supplier or search to add ingredients.'}</div>`;
 }
 
 // a batch's per-unit cost INCLUDING its prep labour, when we have it — so a dish

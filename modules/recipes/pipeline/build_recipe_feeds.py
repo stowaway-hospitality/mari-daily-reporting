@@ -123,6 +123,45 @@ def recipes_index() -> dict:
             except Exception:
                 pass
             items.append(entry)
+
+    # ALSO surface the Lightspeed-scraped PREPS as sub-recipes, so the builder's
+    # picker shows them (Pico de Gallo, Achiote Chicken, Guacamole, ...). A recipe
+    # saved in the builder above wins on name. Yield comes from the bracket size in
+    # the name ("[2.5kg]", "[1L]", "[24 pcs]"); its our-book cost is the batch cost.
+    import re as _re
+    have = {e["product"] for e in items}
+    ls_path = DATA / "lightspeed_recipes_costed.json"
+    if ls_path.exists():
+        _Y = _re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre|pcs|pc|units|unit|each|ea)\]", _re.I)
+        for name, r in json.loads(ls_path.read_text()).get("recipes", {}).items():
+            if not r.get("is_prep") or name in have:
+                continue
+            m = _Y.search(name)
+            yq = yu = None
+            if m:
+                q = Decimal(m.group(1)); u = m.group(2).lower()
+                if u == "kg":
+                    yq, yu = q * 1000, "g"
+                elif u in ("l", "lt", "litre"):
+                    yq, yu = q * 1000, "ml"
+                elif u == "g":
+                    yq, yu = q, "g"
+                elif u == "ml":
+                    yq, yu = q, "ml"
+                else:
+                    yq, yu = q, "each"
+            cost = Decimal(str(r.get("our_cost") or 0))
+            items.append({
+                "product": name, "venue": "stowaway",
+                "yield_qty": _dec(yq) if yq else None, "yield_unit": yu,
+                "usable_as_subrecipe": bool(yq and yu),
+                "cost": _dec(cost.quantize(Decimal("0.0001"))) if cost else None,
+                "cost_per_yield_unit": _dec((cost / yq).quantize(Decimal("0.000001"))) if yq else None,
+                "prep_minutes_avg": None, "prep_count": 0, "prep_cost": None,
+                "cost_with_prep": None, "cost_per_yield_unit_with_prep": None,
+                "source": "lightspeed",
+            })
+
     return {"generated_at": today.isoformat(), "recipes": items}
 
 
