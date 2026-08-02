@@ -158,11 +158,30 @@ def main() -> int:
                 return ("id", f"lightspeed:{hits.pop()}")
         return (None, None)
 
+    def _dedupe_truncated(ings):
+        """The Produce scrape truncates long ingredient names at a fixed width, and
+        for some rows emits BOTH the cut name ('...Shiraz [Chilled] - Bot') and the
+        full one ('...- Bottle') — same qty, unit and cost — so the recipe counts the
+        pour twice ($39.68 for a $19.84 bottle). Drop a line whose name is a strict
+        prefix of another line's name when qty, unit AND scraped cost all match: a
+        real second ingredient never collides on all three."""
+        def sig(i):
+            return (str(i.get("qty")), i.get("unit"), str(i.get("cost")))
+        drop = set()
+        for a in range(len(ings)):
+            for b in range(len(ings)):
+                if a == b or a in drop or b in drop:
+                    continue
+                na, nb = ings[a].get("name") or "", ings[b].get("name") or ""
+                if na != nb and nb.startswith(na) and sig(ings[a]) == sig(ings[b]):
+                    drop.add(a)          # a is the truncated prefix -> drop it
+        return [i for k, i in enumerate(ings) if k not in drop]
+
     out = {}
     ing_res = Counter()
     for name, body in rec.items():
         lines = []
-        for ing in body.get("ingredients", []):
+        for ing in _dedupe_truncated(body.get("ingredients", [])):
             kind, ref = resolve(ing["name"], name)
             ing_res[kind or "unmatched"] += 1
             our = None
