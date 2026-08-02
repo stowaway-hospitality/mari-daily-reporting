@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-02",
-  "count": 253,
+  "count": 255,
   "skipped_already_in_xero": 220,
   "invoices": [
     {
@@ -2056,6 +2056,205 @@
           "qty": "1",
           "amount": "0.21",
           "unit_cost": "$0.21/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "6751391",
+      "supplier": "B&E Foods Pty Ltd",
+      "supplier_key": "be_foods",
+      "date": "2026-06-01",
+      "due_date": "2026-06-08",
+      "total": "211.12",
+      "venue": "stowaway",
+      "pdf_path": "bab8d87ea4415bb3b866b1e7200d1d57b161af220084fab7d139e992614bc154.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "FZ VEGETABLES - IQF CORN",
+          "supplier_code": "19941",
+          "qty": "1.00",
+          "amount": "10.80",
+          "unit_cost": "$10.80/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "NAPKINS - DINNER BROWN",
+          "supplier_code": "27719",
+          "qty": "1.00",
+          "amount": "34.32",
+          "unit_cost": "$34.32/ea",
+          "tax": "gst",
+          "account_code": "117",
+          "account_name": "Purchases - Packaging",
+          "reason": "line keyword -> Purchases - Packaging"
+        },
+        {
+          "description": "CHICKEN BOOSTER GF 2.4KG",
+          "supplier_code": "30562",
+          "qty": "1.00",
+          "amount": "35.30",
+          "unit_cost": "$14.71/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MSG 1KG (20)",
+          "supplier_code": "12874",
+          "qty": "2.00",
+          "amount": "13.80",
+          "unit_cost": "$6.90/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "TOFU - EXTRA FIRM 900G",
+          "supplier_code": "28782",
+          "qty": "1.00",
+          "amount": "5.20",
+          "unit_cost": "$5.78/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHICKEN WING 5KG BAG",
+          "supplier_code": "10716",
+          "qty": "5.00",
+          "amount": "24.00",
+          "unit_cost": "$0.96/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHICKEN 1/2 BREAST (F)",
+          "supplier_code": "10228",
+          "qty": "5.00",
+          "amount": "58.00",
+          "unit_cost": "$11.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHICKEN BONE 12KG",
+          "supplier_code": "10536",
+          "qty": "12.00",
+          "amount": "26.40",
+          "unit_cost": "$0.18/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FUEL LEVY",
+          "supplier_code": null,
+          "qty": "1.00",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "SI4384899",
+      "supplier": "Foodlink Australia Pty Ltd",
+      "supplier_key": "foodlink",
+      "date": "2026-06-01",
+      "due_date": "2026-06-08",
+      "total": "288.80",
+      "venue": "stowaway",
+      "pdf_path": "81935408e4ae92506fb17661d2e0e3e7aa4e0705ac2d1dcca958848127ee6d8e.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "PIZZA DOUGH BALLS 55X200GM",
+          "supplier_code": "108784",
+          "qty": "1",
+          "amount": "70.00",
+          "unit_cost": "$6.36/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHOCOLATE DARK 1KG Natures",
+          "supplier_code": "100710",
+          "qty": "3",
+          "amount": "43.50",
+          "unit_cost": "$14.50/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "OLIVES MIXED MARINATED 10KG",
+          "supplier_code": "101869",
+          "qty": "1",
+          "amount": "81.00",
+          "unit_cost": "$8.10/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BURGER SAUCE PREMIUM 1LT Birch",
+          "supplier_code": "106022",
+          "qty": "3",
+          "amount": "45.00",
+          "unit_cost": "$15.00/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CORN FLOUR MAIZE GLUTEN FREE",
+          "supplier_code": "100848",
+          "qty": "2",
+          "amount": "46.00",
+          "unit_cost": "$23.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Fuel Levy",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
           "tax": "gst",
           "account_code": "342",
           "account_name": "Freight & Courier",
