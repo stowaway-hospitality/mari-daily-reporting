@@ -114,6 +114,15 @@
     <!-- ================= BUILD ================= -->
     <section id="view-build">
       <div class="card">
+        <label for="editq">Edit an existing recipe</label>
+        <input id="editq" placeholder="Search your saved recipes…" oninput="renderEdit()" autocomplete="off">
+        <div id="editlist"></div>
+        <div id="editing" class="m" style="display:none;margin-top:8px">
+          Editing <b id="editing-name"></b> — change anything and Save to overwrite.
+          <a href="#" onclick="resetBuild();return false" style="margin-left:8px">start fresh</a>
+        </div>
+      </div>
+      <div class="card">
         <label for="dish">Dish name</label>
         <input id="dish" placeholder="e.g. Salt &amp; Pepper Squid" oninput="calc()" autocomplete="off">
         <label for="sell">Sell price (incl GST)</label>
@@ -204,7 +213,7 @@ import { Auth } from '/_shared/auth.js';
 import { Feed } from '/_shared/feed.js';
 import { WORKER_URL } from '/_shared/config.js';
 
-let ING = [], SUBS = [], RECIPES = [], LINES = [], USER = null, RATE = 0;
+let ING = [], SUBS = [], RECIPES = [], EDITABLE = [], LINES = [], USER = null, RATE = 0;
 let prepRecipe = null, prepMin = 0;
 let timing = false, tStart = 0, tPrev = 0, tick = null;
 
@@ -231,13 +240,15 @@ Auth.gate(document.getElementById('gate'), {
 });
 
 async function boot() {
-  const [ing, idx, lab] = await Promise.all([
+  const [ing, idx, lab, full] = await Promise.all([
     Feed.load('/data/ingredients.json'),
     Feed.load('/data/recipes_index.json').catch(() => null),
     Feed.load('/data/labour_rate.json').catch(() => null),
+    Feed.load('/data/recipes_full.json').catch(() => null),
   ]);
   ING = (ing && ing.ingredients) || [];
   RECIPES = (idx && idx.recipes) || [];
+  EDITABLE = (full && full.recipes) || [];
   SUBS = RECIPES.filter(r => r.usable_as_subrecipe);
   const v = venueOf(USER);
   RATE = +((lab && (lab.venues?.[v]?.rate_per_minute || lab.default_rate_per_minute)) || 0);
@@ -345,6 +356,44 @@ window.addSub = (enc) => {
 window.setQty = (k, v) => { const l = LINES[k]; if (l) l.qty = +v || 0; recompute(); };
 window.del = (k) => { LINES.splice(k, 1); calc(); };
 
+// ---------------- BUILD: load an existing recipe for editing ----------------
+window.renderEdit = () => {
+  const q = document.getElementById('editq').value.toLowerCase().trim();
+  const el = document.getElementById('editlist');
+  if (!q) { el.innerHTML = ''; return; }
+  const hits = EDITABLE.filter(r => r.product.toLowerCase().includes(q)).slice(0, 8);
+  el.innerHTML = hits.length ? hits.map(r =>
+    `<div class="ing" onclick="loadRecipe('${encodeURIComponent(r.product)}')">
+       <div><div class="n">${esc(r.product)}</div><div class="m">${r.lines.length} ingredient(s)</div></div>
+       <div class="c m">edit →</div></div>`).join('')
+    : `<div class="empty">No saved recipe matches "${esc(q)}".</div>`;
+};
+
+window.loadRecipe = (enc) => {
+  const product = decodeURIComponent(enc);
+  const r = EDITABLE.find(x => x.product === product);
+  if (!r) return;
+  document.getElementById('dish').value = r.product;
+  document.getElementById('sell').value = r.sell_incl_gst ?? '';
+  document.getElementById('yq').value = r.yield_qty ?? '';
+  document.getElementById('yu').value = r.yield_unit ?? '';
+  LINES = [];
+  for (const ln of r.lines) {
+    if (ln.subrecipe) {
+      const s = SUBS.find(x => x.product === ln.subrecipe);
+      LINES.push({ kind: 'sub', product: ln.subrecipe, unit: (s && s.yield_unit) || ln.unit, cpu: s ? subCpu(s) : 0, qty: +ln.qty || 0 });
+    } else if (ln.id && ING.find(x => x.id === ln.id)) {
+      LINES.push({ kind: 'ing', id: ln.id, qty: +ln.qty || 0 });
+    }
+  }
+  document.getElementById('editq').value = '';
+  document.getElementById('editlist').innerHTML = '';
+  document.getElementById('editing').style.display = '';
+  document.getElementById('editing-name').textContent = r.product;
+  calc();
+  window.scrollTo(0, 0);
+};
+
 function lineCost(l) {
   if (l.kind === 'sub') return l.cpu * l.qty;
   const i = ING.find(x => x.id === l.id);
@@ -418,9 +467,11 @@ function buildYaml() {
 
 window.resetBuild = () => {
   LINES = [];
-  ['dish', 'sell', 'yq'].forEach(id => document.getElementById(id).value = '');
+  ['dish', 'sell', 'yq', 'editq'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('yu').value = '';
   document.getElementById('save-result').textContent = '';
+  document.getElementById('editlist').innerHTML = '';
+  document.getElementById('editing').style.display = 'none';
   calc();
 };
 

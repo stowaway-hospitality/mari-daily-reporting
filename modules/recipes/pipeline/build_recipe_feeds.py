@@ -35,7 +35,7 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
 from core.domain import CostSeries, load_cost_observations       # noqa: E402
-from modules.recipes.cost import cost_on, load_recipes           # noqa: E402
+from modules.recipes.cost import cost_on, load_recipes, RECIPES_DIR  # noqa: E402
 from modules.recipes.labour import (load_prep_sessions,          # noqa: E402
                                     product_labour,
                                     venue_estimate_rate_per_minute)
@@ -173,10 +173,49 @@ def employees() -> dict:
     return {"generated_at": date.today().isoformat(), "employees": people}
 
 
+def recipes_full() -> dict:
+    """Every builder-saved recipe with its FULL lines, so the app can load one back
+    for editing. Latest version per product (venue-scoped). Only the recipes saved
+    through the builder (data/recipes/*.yaml) — those carry ingredient ids that map
+    to the picker; the scraped Lightspeed book uses a different id space."""
+    import yaml as _yaml
+    out = []
+    for v in VENUES:
+        p = RECIPES_DIR / f"{v}.yaml"
+        if not p.exists():
+            continue
+        docs = _yaml.safe_load(p.read_text()) or []
+        latest: dict[str, dict] = {}
+        for d in docs:
+            prod = d.get("product")
+            if not prod:
+                continue
+            ef = d.get("effective_from") or ""
+            cur = latest.get(prod)
+            if cur is None or ef >= (cur.get("effective_from") or ""):
+                latest[prod] = d
+        for d in latest.values():
+            lines = []
+            for ln in d.get("ingredients", []):
+                if ln.get("subrecipe"):
+                    lines.append({"subrecipe": ln["subrecipe"], "qty": ln.get("qty"),
+                                  "unit": ln.get("unit")})
+                elif ln.get("id"):
+                    lines.append({"id": ln["id"], "qty": ln.get("qty"), "unit": ln.get("unit")})
+            out.append({
+                "product": d["product"], "venue": v,
+                "sell_incl_gst": d.get("sell_incl_gst"),
+                "yield_qty": d.get("yield_qty"), "yield_unit": d.get("yield_unit"),
+                "lines": lines,
+            })
+    return {"generated_at": date.today().isoformat(), "recipes": out}
+
+
 def main() -> int:
     (DATA / "labour_rate.json").write_text(json.dumps(labour_rate(), indent=2))
     idx = recipes_index()
     (DATA / "recipes_index.json").write_text(json.dumps(idx, indent=2))
+    (DATA / "recipes_full.json").write_text(json.dumps(recipes_full(), indent=2))
     (DATA / "employees.json").write_text(json.dumps(employees(), indent=2))
     print(f"labour_rate.json, recipes_index.json ({len(idx['recipes'])} recipes), employees.json")
     return 0
