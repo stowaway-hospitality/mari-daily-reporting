@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-02T13:10:54+00:00",
+  "generated": "2026-08-03T00:02:06+00:00",
   "overall": "unknown",
   "checks": [
     {
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 6.6,
+      "age": 0.9,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -35,7 +35,7 @@
     {
       "name": "Weekly Xero pull",
       "detail": "runs once a week",
-      "age": 6.5,
+      "age": 7.0,
       "unit": "day",
       "status": "ok",
       "meaning": "Pulls payroll and overheads from Xero once a week.",
@@ -55,7 +55,7 @@
     {
       "name": "Xero COGS feed",
       "detail": "weekly actual COGS from Xero",
-      "age": 7,
+      "age": 8,
       "unit": "day",
       "status": "ok",
       "meaning": "Weekly actual cost-of-goods from Xero (drives the margin figures).",
@@ -74,7 +74,7 @@
     },
     {
       "name": "Pull integrity",
-      "detail": "Mari filter holding, HG reallocation intact (2026-08-01)",
+      "detail": "Mari filter holding, HG reallocation intact (2026-08-02)",
       "age": null,
       "unit": "",
       "status": "ok"
