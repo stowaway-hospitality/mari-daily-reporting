@@ -1,102 +1,59 @@
 {
-  "generated": "2026-08-02T18:01:27+00:00",
+  "generated": "2026-08-03T18:52:22+00:00",
   "mode": "live-approve",
   "counts": {
-    "would_approve": 8,
-    "park_for_human": 23,
+    "would_approve": 5,
+    "park_for_human": 24,
     "skip": 0
   },
   "would_approve": [
     {
-      "timesheet_id": 35639,
-      "employee": "Olly",
-      "area": "Stow Kitchen",
-      "start": 1785563820,
-      "end": 1785585420,
-      "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved + rounded"
-    },
-    {
-      "timesheet_id": 35652,
+      "timesheet_id": 35671,
       "employee": "Devon Lukiana",
-      "area": "Stow Kitchen",
-      "start": 1785630600,
-      "end": 1785670200,
+      "area": "Harry's Kitchen",
+      "start": 1785729600,
+      "end": 1785760200,
       "reason": "salaried (Devon) \u2014 overstay auto-approve rule",
       "result": "approved"
     },
     {
-      "timesheet_id": 35653,
-      "employee": "Min",
-      "area": "Stow Kitchen",
-      "start": 1785632400,
-      "end": 1785672000,
-      "reason": "salaried (Min) \u2014 overstay auto-approve rule",
+      "timesheet_id": 35672,
+      "employee": "Marssheel Marssheel",
+      "area": "Harry's Kitchen",
+      "start": 1785729600,
+      "end": 1785760200,
+      "reason": "salaried (Marssheel) \u2014 overstay auto-approve rule",
       "result": "approved"
     },
     {
-      "timesheet_id": 35655,
-      "employee": "Sam Hall",
-      "area": "Stow Bar",
-      "start": 1785633300,
-      "end": 1785656700,
-      "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35656,
-      "employee": "David Armour",
-      "area": "Stow Bar",
-      "start": 1785636000,
-      "end": 1785672000,
-      "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35657,
-      "employee": "Sophie Campbell",
-      "area": "Stow Floor",
-      "start": 1785637800,
-      "end": 1785648600,
-      "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35661,
+      "timesheet_id": 35674,
       "employee": "Rhys Taylor",
-      "area": "Stow Bar",
-      "start": 1785652200,
-      "end": 1785677400,
+      "area": "Harry's Floor",
+      "start": 1785735000,
+      "end": 1785761100,
       "reason": "Rhys Taylor \u2014 overstays approved (non-runaway) per policy",
       "result": "approved"
     },
     {
-      "timesheet_id": 35662,
-      "employee": "Sushant Acharya",
-      "area": "Pizza Shop",
-      "start": 1785654000,
-      "end": 1785668400,
+      "timesheet_id": 35677,
+      "employee": "Annarita Dagostino",
+      "area": "Stow Floor",
+      "start": 1785740400,
+      "end": 1785758400,
+      "reason": "casual FOH overstay 0.25h \u2264 1.5h, break normal",
+      "result": "approved"
+    },
+    {
+      "timesheet_id": 35678,
+      "employee": "Emily",
+      "area": "Harry's Floor",
+      "start": 1785743100,
+      "end": 1785758400,
       "reason": "clean \u2014 within rostered finish, break normal",
       "result": "approved"
     }
   ],
   "parked": [
-    {
-      "timesheet_id": 35552,
-      "employee": "TAKUMI ISHII",
-      "area": "Harry's Kitchen",
-      "start": 1785124800,
-      "end": 1785155400,
-      "reason": "casual overstay 0.50h in non-FOH area (ou16) \u2014 Kris"
-    },
-    {
-      "timesheet_id": 35559,
-      "employee": "Olivia",
-      "area": "Harry's Kitchen",
-      "start": 1785135600,
-      "end": 1785155400,
-      "reason": "casual overstay 0.50h in non-FOH area (ou16) \u2014 Kris"
-    },
     {
       "timesheet_id": 35586,
       "employee": "Min",
@@ -264,6 +221,30 @@
       "start": 1785649500,
       "end": 1785672000,
       "reason": "clock/area correction \u2014 start 3:30 \u2014 verify & set (Kris)"
+    },
+    {
+      "timesheet_id": 35670,
+      "employee": "Stephanie Kunde",
+      "area": "Admin",
+      "start": 1785736800,
+      "end": 1785759300,
+      "reason": "comment states 30m break but 0m deducted \u2014 reconcile (Kris)"
+    },
+    {
+      "timesheet_id": 35675,
+      "employee": "Sam",
+      "area": "Stow Bar",
+      "start": 1785739500,
+      "end": 1785759300,
+      "reason": "clock/area correction \u2014 start 4:30, finish 10 \u2014 verify & set (Kris)"
+    },
+    {
+      "timesheet_id": 35676,
+      "employee": "Daniel",
+      "area": "Harry's Kitchen",
+      "start": 1785740400,
+      "end": 1785759300,
+      "reason": "casual overstay 0.25h in non-FOH area (ou16) \u2014 Kris"
     }
   ],
   "skipped": []
