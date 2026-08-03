@@ -1,0 +1,256 @@
+{
+  "date": "2026-08-03",
+  "generated_at": "2026-08-03T20:20:01.052064Z",
+  "venue": "stowaway",
+  "venue_display": "Stowaway Bar",
+  "lane_config": [
+    "revenue",
+    "cogs",
+    "wages",
+    "gp"
+  ],
+  "data_status": {
+    "lightspeed": "ok",
+    "deputy": "ok",
+    "payments": "missing"
+  },
+  "sales": {
+    "revenue_inc_gst": 1875.23,
+    "revenue_ex_gst": 1704.81,
+    "cogs_dollars": 352.52,
+    "cogs_pct": 20.7,
+    "gp_dollars": 1352.29,
+    "gp_pct": 79.3,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 352.52,
+    "recipe_coverage_pct": 0.0,
+    "uber_eats_revenue": 0,
+    "net_takings_ex_gst": null,
+    "eatclub_giveaway_ex_gst": 0.0,
+    "eatclub_covers": 0,
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 0.0,
+    "bev_ex_gst": 1704.75,
+    "food_cogs": 0.0,
+    "bev_cogs": 352.52,
+    "food_cogs_pct": null,
+    "bev_cogs_pct": 20.7,
+    "food_gp_pct": null,
+    "bev_gp_pct": 79.3,
+    "mari_rideon_ex_gst": 10.91,
+    "hg_food_out_ex_gst": 2466.18,
+    "stow_food_out_ex_gst": 0.0
+  },
+  "wages": {
+    "kitchen_dollars": 0,
+    "foh_dollars": 195.59,
+    "driver_dollars": 0,
+    "admin_dollars": 229.42,
+    "leave_dollars": 0,
+    "total_dollars": 425.01,
+    "wages_pct": 24.9,
+    "net_wage_pct": null,
+    "kitchen_hours": 0,
+    "foh_hours": 10.5,
+    "wages_kitchen_pct": null,
+    "wages_foh_pct": 11.5,
+    "includes_super": true,
+    "salaried_synthesized": true
+  },
+  "delivery": null,
+  "payments_breakdown": null,
+  "alerts": {
+    "cogs": "green",
+    "wages": "green",
+    "delivery": "n/a",
+    "gp": "green",
+    "cogs_food": "unknown",
+    "cogs_bev": "green",
+    "wages_kitchen": "unknown",
+    "wages_foh": "green"
+  },
+  "targets": {
+    "cogs": {
+      "target": 28.0,
+      "amber": 32.0,
+      "red": 35.0,
+      "note": "Blended food+bev COGS; bar-heavy Stow typically lands ~28-30% \u2014 refine after 8 weeks of daily data"
+    },
+    "wages": {
+      "target": 30.0,
+      "amber": 33.0,
+      "red": 36.0,
+      "note": "Zak-set 30% target \u2014 hospitality benchmark; splits kitchen + FOH"
+    },
+    "cogs_food": {
+      "target": 32.0,
+      "amber": 36.0,
+      "red": 40.0,
+      "note": "DRAFT \u2014 Zak to confirm. Food COGS vs food revenue (ex-GST). Weekly-report placeholder food GP is 65% (i.e. 35% COGS); target set slightly tighter."
+    },
+    "cogs_bev": {
+      "target": 22.0,
+      "amber": 25.0,
+      "red": 28.0,
+      "note": "DRAFT \u2014 Zak to confirm. Bev COGS vs bev revenue (ex-GST). Drinks GP at Stow runs ~80% on cocktails (known-margins.md); blended bev incl. beer/wine lands lower."
+    },
+    "wages_kitchen": {
+      "target": 12.0,
+      "amber": 15.0,
+      "red": 18.0,
+      "note": "DRAFT \u2014 Zak to confirm. Kitchen wages as % of FOOD revenue (ex-GST), not total."
+    },
+    "wages_foh": {
+      "target": 18.0,
+      "amber": 22.0,
+      "red": 26.0,
+      "note": "DRAFT \u2014 Zak to confirm. FOH wages as % of BEV revenue (ex-GST), not total."
+    },
+    "gp": {
+      "note": "Higher is better \u2014 70% target; status inversion not yet implemented so alerts left empty",
+      "target_direction": "high_is_good"
+    }
+  },
+  "top_products": [
+    {
+      "name": "Stone & Wood - Schooner",
+      "qty": 10.0,
+      "rev": 130.43,
+      "cost": 32.65,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Trentham Estate Ros\u00e9 - Regular",
+      "qty": 12.0,
+      "rev": 118.0,
+      "cost": 25.32,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Guinness Draught - Pint",
+      "qty": 6.0,
+      "rev": 105.0,
+      "cost": 28.59,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fresh is Best Lager - Pint",
+      "qty": 7.0,
+      "rev": 84.82,
+      "cost": 17.16,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Pepsi Max Glass",
+      "qty": 16.0,
+      "rev": 72.45,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Biscoff Espresso",
+      "qty": 3.0,
+      "rev": 69.0,
+      "cost": 9.74,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Petits Detours Ros\u00e9 - Regular",
+      "qty": 4.0,
+      "rev": 64.0,
+      "cost": 13.87,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Version Two Pinot Grigio - Regular",
+      "qty": 5.0,
+      "rev": 61.2,
+      "cost": 8.83,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Pepsi Glass",
+      "qty": 13.0,
+      "rev": 58.5,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Grifter Pale - Pint",
+      "qty": 5.0,
+      "rev": 58.5,
+      "cost": 16.65,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Jalape\u00f1o Marg",
+      "qty": 3.0,
+      "rev": 55.0,
+      "cost": 2.43,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Stone & Wood - Pint",
+      "qty": 4.0,
+      "rev": 51.56,
+      "cost": 17.51,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Version Two Pinot Grigio - Bottle",
+      "qty": 1.0,
+      "rev": 49.0,
+      "cost": 8.83,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Ottelia Chardonnay - Regular",
+      "qty": 3.0,
+      "rev": 48.53,
+      "cost": 10.38,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Quiet Riot Negroni",
+      "qty": 2.0,
+      "rev": 46.0,
+      "cost": 8.75,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Lemon, Lime & Bitters",
+      "qty": 9.0,
+      "rev": 45.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Old Fashioned",
+      "qty": 2.0,
+      "rev": 44.0,
+      "cost": 9.56,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Hugo Spritz",
+      "qty": 2.0,
+      "rev": 42.0,
+      "cost": 2.69,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Southside",
+      "qty": 2.0,
+      "rev": 42.0,
+      "cost": 8.67,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Aperol Spritz",
+      "qty": 2.0,
+      "rev": 40.0,
+      "cost": 7.11,
+      "cost_source": "lightspeed"
+    }
+  ]
+}
