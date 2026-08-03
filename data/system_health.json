@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-03T21:36:38+00:00",
-  "overall": "warn",
+  "generated": "2026-08-03T22:09:20+00:00",
+  "overall": "unknown",
   "checks": [
     {
       "name": "Invoice poller",
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 11.0,
+      "age": 0.5,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -45,9 +45,9 @@
     {
       "name": "Daily sales pull",
       "detail": "aggregates yesterday's Lightspeed exports",
-      "age": 2,
+      "age": 1,
       "unit": "day",
-      "status": "warn",
+      "status": "ok",
       "meaning": "Yesterday's Lightspeed sales landing in the dashboard.",
       "action": "Usually the Stowaway sales email has not arrived yet. It retries every 20 min until ~10am. Still missing after 10am? Ask Claude to check the Stow export landed and re-run the ingest, or tell Zak. Numbers fill in once it arrives.",
       "selfheal": "Retries through the morning; often fixes itself before 10am."
@@ -55,9 +55,9 @@
     {
       "name": "Xero COGS feed",
       "detail": "weekly actual COGS from Xero",
-      "age": 9,
+      "age": 2,
       "unit": "day",
-      "status": "warn",
+      "status": "ok",
       "meaning": "Weekly actual cost-of-goods from Xero (drives the margin figures).",
       "action": "The weekly Xero pull is behind - see 'Weekly Xero pull'. Margins show the last good week meanwhile.",
       "selfheal": "Catches up with the weekly Xero pull."
@@ -65,7 +65,7 @@
     {
       "name": "Xero overheads feed",
       "detail": "monthly overheads from Xero",
-      "age": 1,
+      "age": 0,
       "unit": "mo",
       "status": "ok",
       "meaning": "Monthly overheads from Xero (rent, utilities and the like).",
@@ -74,7 +74,7 @@
     },
     {
       "name": "Pull integrity",
-      "detail": "Mari filter holding, HG reallocation intact (2026-08-02)",
+      "detail": "Mari filter holding, HG reallocation intact (2026-08-03)",
       "age": null,
       "unit": "",
       "status": "ok"
