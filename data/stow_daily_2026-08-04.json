@@ -1,0 +1,256 @@
+{
+  "date": "2026-08-04",
+  "generated_at": "2026-08-04T20:16:08.556738Z",
+  "venue": "stowaway",
+  "venue_display": "Stowaway Bar",
+  "lane_config": [
+    "revenue",
+    "cogs",
+    "wages",
+    "gp"
+  ],
+  "data_status": {
+    "lightspeed": "ok",
+    "deputy": "ok",
+    "payments": "missing"
+  },
+  "sales": {
+    "revenue_inc_gst": 2685.24,
+    "revenue_ex_gst": 2441.2,
+    "cogs_dollars": 555.08,
+    "cogs_pct": 22.7,
+    "gp_dollars": 1886.12,
+    "gp_pct": 77.3,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 555.08,
+    "recipe_coverage_pct": 0.0,
+    "uber_eats_revenue": 0,
+    "net_takings_ex_gst": null,
+    "eatclub_giveaway_ex_gst": 0.0,
+    "eatclub_covers": 0,
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 256.86,
+    "bev_ex_gst": 2184.26,
+    "food_cogs": 37.37,
+    "bev_cogs": 517.71,
+    "food_cogs_pct": 14.5,
+    "bev_cogs_pct": 23.7,
+    "food_gp_pct": 85.5,
+    "bev_gp_pct": 76.3,
+    "mari_rideon_ex_gst": 1124.6,
+    "hg_food_out_ex_gst": 0.0,
+    "stow_food_out_ex_gst": 0.0
+  },
+  "wages": {
+    "kitchen_dollars": 0,
+    "foh_dollars": 690.08,
+    "driver_dollars": 0,
+    "admin_dollars": 742.92,
+    "leave_dollars": 0,
+    "total_dollars": 1433.0,
+    "wages_pct": 58.7,
+    "net_wage_pct": null,
+    "kitchen_hours": 0,
+    "foh_hours": 15.8,
+    "wages_kitchen_pct": 0.0,
+    "wages_foh_pct": 31.6,
+    "includes_super": true,
+    "salaried_synthesized": true
+  },
+  "delivery": null,
+  "payments_breakdown": null,
+  "alerts": {
+    "cogs": "green",
+    "wages": "red",
+    "delivery": "n/a",
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "yellow",
+    "wages_kitchen": "green",
+    "wages_foh": "red"
+  },
+  "targets": {
+    "cogs": {
+      "target": 28.0,
+      "amber": 32.0,
+      "red": 35.0,
+      "note": "Blended food+bev COGS; bar-heavy Stow typically lands ~28-30% \u2014 refine after 8 weeks of daily data"
+    },
+    "wages": {
+      "target": 30.0,
+      "amber": 33.0,
+      "red": 36.0,
+      "note": "Zak-set 30% target \u2014 hospitality benchmark; splits kitchen + FOH"
+    },
+    "cogs_food": {
+      "target": 32.0,
+      "amber": 36.0,
+      "red": 40.0,
+      "note": "DRAFT \u2014 Zak to confirm. Food COGS vs food revenue (ex-GST). Weekly-report placeholder food GP is 65% (i.e. 35% COGS); target set slightly tighter."
+    },
+    "cogs_bev": {
+      "target": 22.0,
+      "amber": 25.0,
+      "red": 28.0,
+      "note": "DRAFT \u2014 Zak to confirm. Bev COGS vs bev revenue (ex-GST). Drinks GP at Stow runs ~80% on cocktails (known-margins.md); blended bev incl. beer/wine lands lower."
+    },
+    "wages_kitchen": {
+      "target": 12.0,
+      "amber": 15.0,
+      "red": 18.0,
+      "note": "DRAFT \u2014 Zak to confirm. Kitchen wages as % of FOOD revenue (ex-GST), not total."
+    },
+    "wages_foh": {
+      "target": 18.0,
+      "amber": 22.0,
+      "red": 26.0,
+      "note": "DRAFT \u2014 Zak to confirm. FOH wages as % of BEV revenue (ex-GST), not total."
+    },
+    "gp": {
+      "note": "Higher is better \u2014 70% target; status inversion not yet implemented so alerts left empty",
+      "target_direction": "high_is_good"
+    }
+  },
+  "top_products": [
+    {
+      "name": "Guinness Draught - Pint",
+      "qty": 11.0,
+      "rev": 176.7,
+      "cost": 52.41,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Version Two Pinot Grigio - Regular",
+      "qty": 15.0,
+      "rev": 157.8,
+      "cost": 26.5,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fresh is Best Lager - Pint",
+      "qty": 11.0,
+      "rev": 135.23,
+      "cost": 26.97,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Geppetto Pinot Noir - Regular",
+      "qty": 8.0,
+      "rev": 118.96,
+      "cost": 28.1,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Stone & Wood - Schooner",
+      "qty": 9.0,
+      "rev": 118.27,
+      "cost": 29.38,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Mulled Wine",
+      "qty": 7.0,
+      "rev": 104.98,
+      "cost": 14.26,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Status Quo - Pint",
+      "qty": 6.0,
+      "rev": 102.64,
+      "cost": 24.98,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Rosemary Salted Fries",
+      "qty": 7.0,
+      "rev": 92.03,
+      "cost": 12.99,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Kuku Sauvignon Blanc - Regular",
+      "qty": 6.0,
+      "rev": 85.38,
+      "cost": 17.49,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Ottelia Cab Sav - Regular",
+      "qty": 5.0,
+      "rev": 85.0,
+      "cost": 23.04,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Stone & Wood - Pint",
+      "qty": 5.0,
+      "rev": 84.42,
+      "cost": 21.89,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Petits Detours Ros\u00e9 - Regular",
+      "qty": 5.0,
+      "rev": 82.63,
+      "cost": 17.33,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Coconut Margarita",
+      "qty": 5.0,
+      "rev": 80.0,
+      "cost": 19.79,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Ottelia Chardonnay - Regular",
+      "qty": 4.0,
+      "rev": 64.0,
+      "cost": 13.84,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Grifter Pale - Pint",
+      "qty": 4.0,
+      "rev": 58.99,
+      "cost": 13.32,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Padrillos Malbec - Large",
+      "qty": 2.0,
+      "rev": 55.78,
+      "cost": 12.89,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "BBQ Wings",
+      "qty": 3.0,
+      "rev": 52.39,
+      "cost": 9.42,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Little Dragon Can",
+      "qty": 4.0,
+      "rev": 50.0,
+      "cost": 13.97,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fresh is Best Lager - Schooner",
+      "qty": 6.0,
+      "rev": 49.05,
+      "cost": 10.97,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Villa Fresco Sangiovese - Regular",
+      "qty": 4.0,
+      "rev": 47.19,
+      "cost": 9.65,
+      "cost_source": "lightspeed"
+    }
+  ]
+}
