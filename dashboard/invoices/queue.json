@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-04",
-  "count": 281,
+  "count": 282,
   "skipped_already_in_xero": 225,
   "invoices": [
     {
@@ -96,6 +96,56 @@
           "qty": "1",
           "amount": "83.31",
           "unit_cost": "$83.31/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "94788282",
+      "supplier": "Lion - Beer, Spirits & Wine Pty Ltd",
+      "supplier_key": "lion",
+      "date": "2026-08-04",
+      "due_date": "2026-08-17",
+      "total": "1660.26",
+      "venue": "stowaway",
+      "pdf_path": "7ce63a5de5c037e92f92eb72f377197f48bfa7b3181ad61d19575a8a84fa740e.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "S & W Pacific Ale 49.5L KEG",
+          "supplier_code": "1256672",
+          "qty": "1",
+          "amount": "383.81",
+          "unit_cost": "$7.75/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Guinness 49.5L KEG",
+          "supplier_code": "1200769",
+          "qty": "2",
+          "amount": "834.33",
+          "unit_cost": "$8.43/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Kirin Ichb 5% 49.5L KEG",
+          "supplier_code": "1254690",
+          "qty": "1",
+          "amount": "442.12",
+          "unit_cost": "$8.93/L",
           "tax": "gst",
           "account_code": "113",
           "account_name": "Purchases - Beverages",

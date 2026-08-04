@@ -1,0 +1,116 @@
+{
+  "invoice": {
+    "supplier_key": "lion",
+    "supplier_name_raw": "Lion - Beer, Spirits & Wine Pty Ltd",
+    "invoice_ref": "94788282",
+    "invoice_date": "2026-08-04",
+    "total_incl": "1660.26",
+    "lines": [
+      {
+        "description": "S & W Pacific Ale 49.5L KEG",
+        "qty": "1",
+        "line_total_incl": "383.81",
+        "unit_price_incl": "383.8100",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "1256672",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "49.5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Guinness 49.5L KEG",
+        "qty": "2",
+        "line_total_incl": "834.33",
+        "unit_price_incl": "417.1650",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "1200769",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "49.5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Kirin Ichb 5% 49.5L KEG",
+        "qty": "1",
+        "line_total_incl": "442.12",
+        "unit_price_incl": "442.1200",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "1254690",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "49.5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-08-17",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "7ce63a5de5c037e92f92eb72f377197f48bfa7b3181ad61d19575a8a84fa740e.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "1660.26",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "high",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "S & W Pacific Ale 49.5L KEG",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Guinness 49.5L KEG",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Kirin Ichb 5% 49.5L KEG",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
