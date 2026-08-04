@@ -170,15 +170,6 @@
       "date": "2026-07-30"
     },
     {
-      "name": "Egplbx",
-      "supplier": "Fresh Fruit Team",
-      "unit": "box",
-      "prev": 19.8,
-      "cost": 28.6,
-      "pct": 44.4,
-      "date": "2026-07-08"
-    },
-    {
       "name": "Mushroom King Brown",
       "supplier": "Fresh Fruit Team",
       "unit": "kg",
@@ -287,6 +278,15 @@
       "date": "2026-07-29"
     },
     {
+      "name": "Pqea",
+      "supplier": "Fresh Fruit Team",
+      "unit": "ea",
+      "prev": 4.95,
+      "cost": 6.05,
+      "pct": 22.2,
+      "date": "2026-08-04"
+    },
+    {
       "name": "Tomato Cherry",
       "supplier": "Fresh Fruit Team",
       "unit": "punnet",
@@ -368,22 +368,13 @@
       "date": "2026-07-25"
     },
     {
-      "name": "Cauli",
-      "supplier": "Fresh Fruit Team",
-      "unit": "ea",
-      "prev": 3.3,
-      "cost": 3.85,
-      "pct": 16.7,
-      "date": "2026-08-01"
-    },
-    {
       "name": "Chive",
       "supplier": "Fresh Fruit Team",
       "unit": "ea",
       "prev": 13.2,
       "cost": 15.4,
       "pct": 16.7,
-      "date": "2026-08-01"
+      "date": "2026-08-04"
     },
     {
       "name": "Jalapino Green",
@@ -528,6 +519,15 @@
       "cost": 55.02,
       "pct": 9.1,
       "date": "2026-06-30"
+    },
+    {
+      "name": "Radiccio",
+      "supplier": "Fresh Fruit Team",
+      "unit": "ea",
+      "prev": 6.05,
+      "cost": 6.6,
+      "pct": 9.1,
+      "date": "2026-08-04"
     },
     {
       "name": "Sweet",
@@ -4810,24 +4810,24 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 3.85,
-          "date": "2026-08-01",
+          "cost": 3.08,
+          "date": "2026-08-04",
           "desc": "cauli-ea Each",
-          "change_pct": 16.7,
-          "n": 2,
-          "prev_cost": 3.3,
-          "spend": 35.75,
-          "volume": 10.0
+          "change_pct": -20.0,
+          "n": 3,
+          "prev_cost": 3.85,
+          "spend": 60.39,
+          "volume": 18.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 3.85,
-      "max": 3.85,
+      "min": 3.08,
+      "max": 3.08,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 3.3,
-      "low_date": "2026-07-10",
+      "low": 3.08,
+      "low_date": "2026-08-04",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -5101,13 +5101,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 2.2,
-          "date": "2026-08-01",
+          "date": "2026-08-04",
           "desc": "Chat Washed",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
-          "spend": 57.2,
-          "volume": 26.0
+          "spend": 86.68,
+          "volume": 39.4
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -6928,10 +6928,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 15.4,
-          "date": "2026-08-01",
+          "date": "2026-08-04",
           "desc": "Chives",
           "change_pct": 16.7,
-          "n": 21,
+          "n": 22,
           "prev_cost": 13.2,
           "spend": 0.0,
           "volume": 0.0
@@ -8001,10 +8001,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 7.7,
-          "date": "2026-07-30",
+          "date": "2026-08-04",
           "desc": "Coriander",
           "change_pct": -50.0,
-          "n": 13,
+          "n": 14,
           "prev_cost": 15.4,
           "spend": 0.0,
           "volume": 0.0
@@ -10001,19 +10001,19 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 28.6,
-          "date": "2026-07-08",
+          "cost": 24.2,
+          "date": "2026-08-04",
           "desc": "EGPLBX Box",
-          "change_pct": 44.4,
-          "n": 2,
-          "prev_cost": 19.8,
-          "spend": 48.4,
-          "volume": 2.0
+          "change_pct": -15.4,
+          "n": 3,
+          "prev_cost": 28.6,
+          "spend": 72.6,
+          "volume": 3.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 28.6,
-      "max": 28.6,
+      "min": 24.2,
+      "max": 24.2,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -13220,19 +13220,19 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 30.8,
-          "date": "2026-07-28",
+          "cost": 26.4,
+          "date": "2026-08-04",
           "desc": "Hass",
-          "change_pct": -6.7,
-          "n": 13,
-          "prev_cost": 33.0,
-          "spend": 492.8,
-          "volume": 17.0
+          "change_pct": -14.3,
+          "n": 14,
+          "prev_cost": 30.8,
+          "spend": 519.2,
+          "volume": 18.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 30.8,
-      "max": 30.8,
+      "min": 26.4,
+      "max": 26.4,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -13859,13 +13859,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 2.3,
-          "date": "2026-07-28",
+          "date": "2026-08-04",
           "desc": "Jap",
           "change_pct": null,
-          "n": 5,
+          "n": 6,
           "prev_cost": null,
-          "spend": 71.25,
-          "volume": 30.98
+          "spend": 87.35,
+          "volume": 37.98
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -14874,13 +14874,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 1.32,
-          "date": "2026-07-08",
+          "date": "2026-08-04",
           "desc": "Large",
           "change_pct": -7.7,
-          "n": 13,
+          "n": 14,
           "prev_cost": 1.43,
-          "spend": 100.1,
-          "volume": 72.5
+          "spend": 114.62,
+          "volume": 83.5
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -19485,13 +19485,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 1.5,
-          "date": "2026-07-28",
+          "date": "2026-08-04",
           "desc": "Pink Peeled",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
-          "spend": 15.0,
-          "volume": 10.0
+          "spend": 37.5,
+          "volume": 25.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -20151,19 +20151,19 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 4.95,
-          "date": "2026-07-01",
+          "cost": 6.05,
+          "date": "2026-08-04",
           "desc": "PQEA Each",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
-          "spend": 4.95,
-          "volume": 1.0
+          "change_pct": 22.2,
+          "n": 2,
+          "prev_cost": 4.95,
+          "spend": 17.05,
+          "volume": 3.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 4.95,
-      "max": 4.95,
+      "min": 6.05,
+      "max": 6.05,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -20325,19 +20325,19 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 6.05,
-          "date": "2026-07-20",
+          "cost": 6.6,
+          "date": "2026-08-04",
           "desc": "Radiccio",
-          "change_pct": -3.2,
-          "n": 11,
-          "prev_cost": 6.25,
-          "spend": 194.2,
-          "volume": 32.0
+          "change_pct": 9.1,
+          "n": 12,
+          "prev_cost": 6.05,
+          "spend": 207.4,
+          "volume": 34.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 6.05,
-      "max": 6.05,
+      "min": 6.6,
+      "max": 6.6,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -20529,13 +20529,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 7.9,
-          "date": "2026-08-01",
+          "date": "2026-08-04",
           "desc": "Red And Green",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
-          "spend": 102.7,
-          "volume": 13.0
+          "spend": 118.5,
+          "volume": 15.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
