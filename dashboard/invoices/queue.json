@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-04",
-  "count": 282,
-  "skipped_already_in_xero": 227,
+  "count": 283,
+  "skipped_already_in_xero": 226,
   "invoices": [
     {
       "ref": "INB00113731",
@@ -1381,6 +1381,111 @@
           "qty": "1",
           "amount": "0.21",
           "unit_cost": "$0.21/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "6771349",
+      "supplier": "B&E Foods Pty Ltd",
+      "supplier_key": "be_foods",
+      "date": "2026-06-04",
+      "due_date": "2026-06-11",
+      "total": "486.90",
+      "venue": "stowaway",
+      "pdf_path": "95933a3b503786b1bf35ea60dd299b92584a03f12036db9e5fcbd79536e2448f.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "FZ PORK - BELLY B/L R/L",
+          "supplier_code": "16579",
+          "qty": "1.00",
+          "amount": "120.00",
+          "unit_cost": "$120.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ PRAWN - RAW MEAT VANN",
+          "supplier_code": "13582",
+          "qty": "10.00",
+          "amount": "159.00",
+          "unit_cost": "$15.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MAYONNAISE 1KG(12)",
+          "supplier_code": "17530",
+          "qty": "2.00",
+          "amount": "23.00",
+          "unit_cost": "$11.50/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ WAGYU - KNUCKLE MB 4-5",
+          "supplier_code": "10689",
+          "qty": "1.00",
+          "amount": "138.00",
+          "unit_cost": "$138.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "TOFU - FRESH PRESS SILKEN",
+          "supplier_code": "28783",
+          "qty": "1.00",
+          "amount": "5.20",
+          "unit_cost": "$5.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ SPRING ROLL - VEGE",
+          "supplier_code": "18620",
+          "qty": "1.00",
+          "amount": "18.90",
+          "unit_cost": "$18.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CANNED - CORN KERNELS",
+          "supplier_code": "13812",
+          "qty": "3.00",
+          "amount": "19.50",
+          "unit_cost": "$6.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FUEL LEVY",
+          "supplier_code": null,
+          "qty": "1.00",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
           "tax": "gst",
           "account_code": "342",
           "account_name": "Freight & Courier",
