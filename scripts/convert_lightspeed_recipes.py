@@ -138,6 +138,10 @@ INGREDIENT_ALIAS = {
     "Passionfruit Juice": "Passionfruit Syrup",     # Zak: Puerto Sunset uses the syrup
     # Two names for one prep — 4 pizzas use the bare name, 42 the bracketed one.
     "Pizza Dough": "Pizza Dough [Recipe]",
+    # Same onion, entered twice with the words swapped and on two ProductIDs.
+    # 49 recipes use one, 6 the other. Consolidated onto the one with four
+    # recent Fresh Fruit Team invoices behind it.
+    "Onion Spanish [10kg]": "Spanish Onion [10Kg]",
 
 }
 
@@ -155,6 +159,8 @@ RETIRED_RECIPES = re.compile(r"\bSolo Combo\b", re.I)
 # follows the invoices; only the CHOICE of box is encoded here.
 _SIZE_WORD = re.compile(r"^(Large|Regular|Gluten-free|Kids|Family)\b", re.I)
 _PACKAGING = re.compile(r"pizza box|box insert", re.I)
+# A bare unit word stuck on the end of an ingredient NAME (not a bracketed pack).
+_TAIL_UNIT_WORD = re.compile(r"\s+(kgs?|g|gm|ml|lt?|ea|each)$", re.I)
 # What makes a recipe a PIZZA rather than just a menu item with a size word.
 _BASE_LINE = re.compile(r"pizza dough|pizza base|pizza sauce", re.I)
 # A PREP/batch name (module-level twin of PREP_RE, which is built later in main()).
@@ -434,6 +440,14 @@ def main() -> int:
             nm = (ing.get("name") or "").strip()
             if nm in IGNORE_INGREDIENTS:
                 continue
+            # A bare unit word glued on the end — "Mushrooms [4Kg box] kg",
+            # "Pizza Sauce [Recipe] kg". Same ProductID as the clean name every
+            # time, so it is a display duplicate: the picker and the recipe book
+            # list one product twice. Strip it when the clean name is a real one.
+            stripped = _TAIL_UNIT_WORD.sub("", nm).strip()
+            if stripped and stripped != nm:
+                nm = stripped
+                ing = dict(ing, name=nm)
             canon = INGREDIENT_ALIAS.get(ing.get("name")) or INGREDIENT_ALIAS.get(nm)
             if canon:
                 ing = dict(ing, name=canon)

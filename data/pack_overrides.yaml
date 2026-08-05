@@ -300,3 +300,13 @@
   by: "Claude (invoice basis; patty count per carton UNCONFIRMED)"
   on: 2026-08-05
   by_email: "hello@stowawaybar.com"
+# Fresh Fruit Team "Onion Spanish" OS10BG — the code says 10BG and Lightspeed
+# names it "[10kg]", but the invoice line reads as 1kg, making it $22.00/kg.
+# The SAME onion on code OSKG invoices at $2.42/kg, and $22.00/10kg = $2.20/kg
+# agrees with it. Without this, 6 recipes carried a 10x over-cost on onion.
+- id: "fresh-fruit-team:OS10BG"
+  pack_qty: 10
+  pack_unit: kg
+  by: "Claude (code 10BG + LS name [10kg]; $22/10kg = $2.20/kg matches OSKG $2.42)"
+  on: 2026-08-05
+  by_email: "hello@stowawaybar.com"
