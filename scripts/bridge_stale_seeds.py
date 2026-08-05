@@ -127,17 +127,20 @@ def main() -> int:
         cands.append(dict(
             supplier=r["ingredient"].split(":", 1)[0], supplier_code=r_code,
             product_id=pid, product_name=seed.get("description", ""), venue=r.get("venue", ""),
-            bo_cost=f"{seed_c:.6f}", invoice_cost=f"{inv_c:.6f}",
-            delta=f"{drift:+.1f}%", confidence="name-prefix",
+            # bo_cost/invoice_cost are a PACK-cost contract the invoices module
+            # re-checks at resolve time; these are per-UNIT rates, so putting them
+            # there fails that guard. Keep them as provenance in confidence instead.
+            bo_cost="", invoice_cost="",
+            delta=f"{drift:+.1f}%",
+            confidence=f"name-prefix; seed ${seed_c:.6f} -> invoice ${inv_c:.6f}/{r['unit']} ({drift:+.1f}%)",
             source_invoice=r.get("source_invoice", ""), invoice_date=r.get("observed_on", ""),
         ))
 
     print(f"{len(stale)} Lightspeed products are still priced from a stale seed")
     print(f"{len(cands)} can be bridged to a real invoice by name:\n")
-    print(f"{'seed $':>10} {'invoice $':>10} {'drift':>8}  product")
+    print(f"{'drift':>8}  product")
     for c in sorted(cands, key=lambda x: -abs(float(x["delta"].rstrip('%')))):
-        print(f"{float(c['bo_cost']):10.4f} {float(c['invoice_cost']):10.4f} {c['delta']:>8}  "
-              f"{c['product_name'][:44]}  <- {c['supplier']}:{c['supplier_code']}")
+        print(f"{c['delta']:>8}  {c['product_name'][:44]:46} <- {c['supplier']}:{c['supplier_code']}")
     print(f"\n{len(review)} matched by name but the prices disagree too much to trust —\n  a pack-size clash to resolve by hand, NOT applied:")
     for d, sc, ic, dr, sid in sorted(review, key=lambda x: -abs(x[3])):
         print(f"    {str(d)[:40]:42} seed ${sc:<10.4f} inv ${ic:<10.4f} {dr:+.0f}%  <- {sid}")
