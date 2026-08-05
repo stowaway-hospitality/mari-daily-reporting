@@ -131,6 +131,9 @@ INGREDIENT_ALIAS = {
     "S.S.C [Small Bottle]": "Spiced Sour Cream [Batch]",   # S.S.C = spiced sour cream
     "S.S.C": "Spiced Sour Cream [Batch]",
     "Oregano": "Oregano Leaves Rubbed - Torino",   # same herb, one costed
+    # lowercase generics entered beside the real, costed product
+    "shaved parmesan": "Dairy Farmers Shaved Parmesan [1kg]",
+    "parmesan": "Dairy Farmers Shaved Parmesan [1kg]",
 
 }
 
