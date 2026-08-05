@@ -249,7 +249,16 @@ def recipes_full() -> dict:
         if _idxf.exists():
             usable_subs = {e["product"] for e in json.loads(_idxf.read_text()).get("recipes", [])
                            if e.get("usable_as_subrecipe")}
-        ing_rate = {}
+        ing_rate, ing_pack = {}, {}
+        # The PACK COUNT (50 boxes to a carton) lives in pack_overrides — by the
+        # time a cost reaches ingredients.json it is already per-unit, so the
+        # count is gone. This is what turns a "0.02" pack fraction back into 1 box.
+        try:
+            from core.pack_overrides import load_pack_overrides as _lpo
+            for _k, _v in (_lpo(DATA / "pack_overrides.yaml") or {}).items():
+                ing_pack[_k] = (float(_v[0]), str(_v[1]))
+        except Exception:
+            pass
         _ingf = DATA / "ingredients.json"
         if _ingf.exists():
             for _i in json.loads(_ingf.read_text()).get("ingredients", []):
@@ -284,6 +293,18 @@ def recipes_full() -> dict:
                 # the builder shows "Pizza Sauce [Recipe]" and re-costs it whenever
                 # that batch changes. (Freezing these was why the pizzas still read
                 # "(imported)" even though the prep was right there.)
+                # PACK FRACTIONS. The scrape records a pizza box as "0.02 ml" —
+                # 1/50th of a carton of 50 — so freezing it showed the box at
+                # $29,160/L. Multiply by the pack count and it is what it really
+                # is: 1 box at $0.64. Only accepted when the result lands on a
+                # whole unit, which is the proof the fraction meant a pack.
+                _pk = ing_pack.get(ref)
+                if (kind == "id" and _pk and _pk[0] > 1 and _q > 0
+                        and (ln.get("unit") or "").lower() != _pk[1].lower()):
+                    _real = _q * _pk[0]
+                    if abs(_real - round(_real)) < 0.02 and round(_real) >= 1:
+                        lines.append({"id": ref, "qty": round(_real), "unit": _pk[1]})
+                        continue
                 if kind == "subrecipe" and ref in usable_subs:
                     lines.append({"subrecipe": ref, "qty": ln.get("qty"), "unit": ln.get("unit")})
                 # An ingredient is wired LIVE when the book prices it AND the live

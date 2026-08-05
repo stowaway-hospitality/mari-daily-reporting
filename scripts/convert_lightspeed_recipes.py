@@ -136,6 +136,11 @@ INGREDIENT_ALIAS = {
 # scrape stays intact; the converter just stops carrying them into the book.
 IGNORE_INGREDIENTS = {"bolognese"}
 
+# Products no longer sold. Dropped from the book so they stop padding counts and
+# skewing the GP spread — a Solo Combo that hasn't sold in months still reported a
+# GP. The scrape on disk keeps them, so restoring one is deleting a line here.
+RETIRED_RECIPES = re.compile(r"\bSolo Combo\b", re.I)
+
 RENAMED_TO = {
     "Btl Disco Volante D": "Trutta Streamside Shiraz [Chilled] - Bottle",  # $68 bottle
 }
@@ -321,6 +326,8 @@ def main() -> int:
     out = {}
     ing_res = Counter()
     for name, body in rec.items():
+        if RETIRED_RECIPES.search(name):
+            continue
         lines = []
         for ing in _canonicalise(_dedupe_truncated(body.get("ingredients", []))):
             kind, ref = resolve(ing["name"], name)

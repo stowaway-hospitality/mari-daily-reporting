@@ -118,6 +118,7 @@ const COLS=[
   {k:'cost',  label:'Our cost',  cls:'r',     val:(n,r)=>r.our_cost},
   {k:'gp',    label:'Food GP',   cls:'r',     val:(n,r)=>r.gp_pct},
   {k:'qty',   label:'Sold 13wk', cls:'r',     val:(n,r)=>sale(n).qty||null},
+  {k:'size',  label:'Size',      cls:'',      val:(n,r)=>sizeOf(n).rank||null},
   {k:'cat',   label:'Category',  cls:'',      val:(n,r)=>(sale(n).group||'').toLowerCase()},
 ];
 window.sortBy = k => { SORT = (SORT.key===k) ? {key:k,dir:-SORT.dir}
@@ -129,6 +130,12 @@ window.sortBy = k => { SORT = (SORT.key===k) ? {key:k,dir:-SORT.dir}
 // Stripping it merged three real products into one and reported the same
 // 209 units against each.
 const nrm = s => (s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+// Size lives in the product NAME, so read it there and rank it physically
+// (Kids < Regular < Large < Family) rather than alphabetically, which would put
+// Family before Kids and make the column useless for comparing like with like.
+const SIZES=[[/\bkids?\b/i,'Kids',1],[/\bgluten[- ]free\b/i,'Gluten-free',2],
+             [/\bregular\b/i,'Regular',3],[/\blarge\b/i,'Large',4],[/\bfamily\b/i,'Family',5]];
+const sizeOf = n => { for(const [rx,lab,rank] of SIZES) if(rx.test(n)) return {lab,rank}; return {lab:'',rank:0}; };
 const sale = n => SALES[nrm(n)] || {qty:0,rev:0,group:''};
 const gpClass = g => g==null?'':(g<0?'gp bad':g<55?'gp bad':g<65?'gp warn':'gp good');
 const isBatch = r => r.is_prep === true;
@@ -144,6 +151,7 @@ function row(name,r){
       <td class="r">${money(r.our_cost)}</td>
       <td class="r"><span class="${gpClass(gp)}">${gp==null?'—':gp+'%'}</span></td>
       <td class="r" style="color:var(--ink-soft)">${sale(name).qty?Math.round(sale(name).qty).toLocaleString():'—'}</td>
+      <td style="color:var(--ink-soft)">${esc(sizeOf(name).lab||'—')}</td>
       <td style="color:var(--ink-soft)">${esc(sale(name).group||'—')}</td>
     </tr>`;
 }

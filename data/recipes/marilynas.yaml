@@ -1,0 +1,124 @@
+# Marilyna's pizza topping sauces — entered from Zak's "Pizza Topping sauces
+# Recipe" doc, 2026-08-05. Costed off the invoice-fed book.
+#
+# Yields are the batch weight: what goes in is what comes out for a blended cold
+# sauce (nothing is cooked off). Spoon measures converted at 1 Tbsp = 15 ml/g,
+# a bunch of herbs ~60 g, one long red chilli ~15 g.
+
+- product: "Spiced Sour Cream"
+  yield_qty: 1190
+  yield_unit: "ml"
+  ingredients:
+    - id: "lightspeed:22992688"
+      desc: "Sour Cream [2L]"
+      qty: 1000
+      unit: "ml"
+      unit_cost_incl: 0.009500
+    - id: "lightspeed:22888819"
+      desc: "Paprika Smoked Bulk (2 Tbsp)"
+      qty: 30
+      unit: "g"
+      unit_cost_incl: 0.013292
+    - id: "lightspeed:22533121"
+      desc: "Lime Juice [2Lt]"
+      qty: 80
+      unit: "ml"
+      unit_cost_incl: 0.008250
+    - id: "lightspeed:22888805"
+      desc: "Nectar Agave Organic (1 Tbsp)"
+      qty: 15
+      unit: "ml"
+      unit_cost_incl: 0.013750
+    - id: "foodlink:106504"
+      desc: "Sriracha Chilli Sauce (or Cholula)"
+      qty: 80
+      unit: "ml"
+      unit_cost_incl: 0.010971
+
+- product: "Mint Yoghurt"
+  yield_qty: 1160
+  yield_unit: "g"
+  ingredients:
+    - id: "lightspeed:22533097"
+      desc: "Yoghurt Greek Style [1Kg]"
+      qty: 1000
+      unit: "g"
+      unit_cost_incl: 0.007350
+    - id: "select-fresh:HRMIN"
+      desc: "Herb Mint Round Leaf (1 bunch, leaves only)"
+      qty: 1
+      unit: "bunch"
+      unit_cost_incl: 1.300000
+    - id: "lightspeed:22533121"
+      desc: "Lime Juice [2Lt]"
+      qty: 100
+      unit: "ml"
+      unit_cost_incl: 0.008250
+    - id: "lightspeed:22888836"
+      desc: "Salt Cooking (pinch)"
+      qty: 2
+      unit: "g"
+      unit_cost_incl: 0.000800
+    - id: "lightspeed:22888658"
+      desc: "Pepper White Ground (pinch)"
+      qty: 1
+      unit: "g"
+      unit_cost_incl: 0.037500
+
+- product: "Chimichurri"
+  yield_qty: 650
+  yield_unit: "ml"
+  ingredients:
+    - id: "lightspeed:22524105"
+      desc: "Olive Oil [4L]"
+      qty: 500
+      unit: "ml"
+      unit_cost_incl: 0.009477
+    - id: "select-fresh:HCONT"
+      desc: "Herb Parsley Continental (2 bunches, finely chopped)"
+      qty: 2
+      unit: "bunch"
+      unit_cost_incl: 1.300000
+    - id: "lightspeed:22524104"
+      desc: "Balsamic Vinegar [5L] (4 Tbsp)"
+      qty: 60
+      unit: "ml"
+      unit_cost_incl: 0.003990
+    - id: "select-fresh:CHLR"
+      desc: "Chilli Red Long (1, finely chopped)"
+      qty: 15
+      unit: "g"
+      unit_cost_incl: 0.013500
+    - id: "lightspeed:23036620"
+      desc: "Garlic Minced [kg] (1 Tbsp)"
+      qty: 15
+      unit: "g"
+      unit_cost_incl: 0.004444
+
+- product: "Jimmy Jury Aioli"
+  yield_qty: 560
+  yield_unit: "g"
+  ingredients:
+    - id: "lightspeed:22888615"
+      desc: "Aioli Garlic Mayonnaise 10kg Birch & Waite"
+      qty: 500
+      unit: "g"
+      unit_cost_incl: 0.013000
+    - subrecipe: "Chimichurri"
+      qty: 60
+      unit: "ml"
+
+- product: "Tandoori Yoghurt"
+  yield_qty: 1240
+  yield_unit: "g"
+  ingredients:
+    - id: "lightspeed:22533097"
+      desc: "Yoghurt Greek Style [1Kg]"
+      qty: 1000
+      unit: "g"
+      unit_cost_incl: 0.007350
+    - id: "lightspeed:22533151"
+      desc: "Tandoori Paste [1.25Kg]"
+      qty: 240
+      unit: "g"
+      unit_cost_incl: 0.023875
