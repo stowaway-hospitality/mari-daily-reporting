@@ -47,10 +47,6 @@ tr.tot td{border-top:2px solid #333;background:#fafafa;font-weight:700}
   // /data/eatclub_nights_<key>.json (rebuilt each daily pull). Tabs switch venue;
   // the choice rides in the URL hash so a link opens on the right venue.
   import { Auth } from '/_shared/auth.js';
-  let me = null;
-  try { me = await Auth.current(); } catch (e) { console.error('auth', e); }
-  if (!me) { location.replace('/'); }
-  else { document.documentElement.style.visibility = ''; boot(); }
 
   const VENUES = [
     { key: 'hg',   label: 'Harry Gatos' },
@@ -157,5 +153,13 @@ tr.tot td{border-top:2px solid #333;background:#fafafa;font-weight:700}
 
     app.innerHTML = html;
   }
+
+  // Gate + start LAST, after every const/function above is initialised (calling
+  // boot() before the consts hit the temporal dead zone - 'Cannot access VENUES
+  // before initialization' - and the page stuck on Loading).
+  let me = null;
+  try { me = await Auth.current(); } catch (e) { console.error('auth', e); }
+  if (!me) { location.replace('/'); }
+  else { document.documentElement.style.visibility = ''; boot(); }
 </script>
 </body></html>
