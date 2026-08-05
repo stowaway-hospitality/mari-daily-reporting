@@ -72,6 +72,60 @@ from datetime import date, timedelta, datetime
 
 sys.path.insert(0, str(Path(__file__).parent.parent))   # repo root -> core/, modules/
 
+COSTED_BOOK = Path(__file__).resolve().parents[1] / "data" / "lightspeed_recipes_costed.json"
+_BOOK_VENUE = {"stowaway": "stow", "harry": "hg", "harry_gatos": "hg", "marilynas": "mari"}
+
+
+def _load_book_costs(venue_key):
+    """
+    POS product name -> our cost per serve, from the 648-recipe costed book.
+
+    WHY THIS EXISTS
+    ---------------
+    _load_our_costs below reads data/recipes/*.yaml — 35 hand-authored recipes
+    whose names do not match POS product names. So every published day carried
+    `recipe_coverage_pct: 0.0`: the blend blended nothing and COGS fell through to
+    Lightspeed's figure for 100% of revenue, while the 648 invoice-fed recipes this
+    project exists to produce sat unused. Wiring the book in lifts coverage to ~49%
+    of revenue (91.5% at Marilyna's, 45% at Stowaway).
+
+    AS-OF CAVEAT, stated plainly: the book is a CURRENT snapshot — it carries no
+    effective date, so it cannot answer "what did this cost in June?". It is
+    therefore used as a present-day cost, which is right for the daily 6am pull and
+    approximate for a historical backfill. The builder recipes (properly as-of via
+    CostSeries) still WIN wherever both price the same product, so this only ever
+    fills a gap that was previously Lightspeed's number. Making the book itself
+    effective-dated is the clean follow-up; until then this is strictly better than
+    the stale Average-Cost figure it replaces, and never overrides a dated source.
+
+    NOT filtered by venue, deliberately: the book carries no venue field, product
+    names are unique across the three venues, and the caller has ALREADY split rows
+    by venue — so an unfiltered lookup can only match this venue's own products.
+    The venue key is still validated, so an unknown venue returns {} rather than
+    silently costing against a map it was never meant to use.
+
+    Never raises: this runs unattended at 6am and a recipe problem must not take
+    the pull down.
+    """
+    if venue_key not in _BOOK_VENUE:
+        return {}
+    try:
+        book = json.loads(COSTED_BOOK.read_text())["recipes"]
+    except Exception as e:                                   # noqa: BLE001
+        print(f"  costed book unavailable ({e}) — falling back")
+        return {}
+    out = {}
+    for name, r in book.items():
+        if r.get("is_prep"):
+            continue                                          # a batch is not a sold product
+        try:
+            c = float(r.get("our_cost"))
+        except (TypeError, ValueError):
+            continue
+        if c >= 0:
+            out[name] = c
+    return out
+
 
 def _load_our_costs(venue_key, target):
     """
@@ -611,7 +665,12 @@ else:
     # So: use our own cost where we have a recipe, keep LS's where we don't,
     # and ALWAYS emit both so they can be compared rather than trusted.
     # See COGS_ARCHITECTURE.md.
-    our_costs = _load_our_costs(venue_key, target)
+    # The 648-recipe costed book fills the gap the 35 builder recipes never
+    # covered (coverage was 0.0% of revenue on every published day). Builder
+    # recipes are layered ON TOP because they are properly effective-dated, so a
+    # dated source always beats the book's current snapshot.
+    our_costs = _load_book_costs(venue_key)
+    our_costs.update(_load_our_costs(venue_key, target))
 
     product_breakdown = []
     for r in rows:
