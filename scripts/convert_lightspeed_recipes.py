@@ -280,7 +280,12 @@ def main() -> int:
         # line looked like a self-reference, the guard blocked it, and the line fell
         # through to an UNCOSTED product of the same name. Matching the literal name
         # first keeps the two apart, so the costed base recipe is used.
-        if name in rec and name != parent:
+        # An EMPTY recipe is not a recipe. Produce holds "De La Grosse Beaujolais -
+        # Bottle" with no ingredients at all, so every size referencing it inherited
+        # nothing and the whole wine stayed off our book. When the recipe is empty,
+        # fall through to the PRODUCT of the same name, which is costed ($34.58 a
+        # 750ml bottle) — that is what a "bottle" line actually means.
+        if name in rec and name != parent and (rec[name] or {}).get("ingredients"):
             return ("subrecipe", name)
         n = norm(name)
         # a recipe used as an ingredient is a SUB-RECIPE and folds in its build cost
@@ -288,7 +293,7 @@ def main() -> int:
         # self-reference (a recipe listing itself). Many preps — Pizza Dough [Recipe],
         # Sugar Syrup, Gravy Prep — are ALSO products in the export, so we must prefer
         # the recipe here or those lines resolve to an uncosted product ("part LS").
-        if n in recnames and recnames[n] != parent:
+        if n in recnames and recnames[n] != parent and (rec.get(recnames[n]) or {}).get("ingredients"):
             return ("subrecipe", recnames[n])
         if n in bo_by_name:
             return ("id", f"lightspeed:{bo_by_name[n]}")
