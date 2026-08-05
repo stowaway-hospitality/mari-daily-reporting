@@ -148,6 +148,19 @@ IGNORE_INGREDIENTS = {"bolognese"}
 # GP. The scrape on disk keeps them, so restoring one is deleting a line here.
 RETIRED_RECIPES = re.compile(r"\bSolo Combo\b", re.I)
 
+# Countable packaging, and which box each pizza size actually goes in. Both boxes
+# are invoiced by Gulli every week (11" $24.10/50, 13" $32.13/50), so the cost
+# follows the invoices; only the CHOICE of box is encoded here.
+_SIZE_WORD = re.compile(r"^(Large|Regular|Gluten-free|Kids|Family)\b", re.I)
+_PACKAGING = re.compile(r"pizza box|box insert", re.I)
+_BOX_BY_SIZE = {
+    "large": ('Large Pizza Box 13"', "lightspeed:22873851"),
+    "family": ('Large Pizza Box 13"', "lightspeed:22873851"),
+    "regular": ('Regular Pizza Box 11"', "lightspeed:22873831"),
+    "gluten-free": ('Regular Pizza Box 11"', "lightspeed:22873831"),   # 11in base
+    "kids": ('Regular Pizza Box 11"', "lightspeed:22873831"),
+}
+
 RENAMED_TO = {
     "Btl Disco Volante D": "Trutta Streamside Shiraz [Chilled] - Bottle",  # $68 bottle
 }
@@ -234,6 +247,65 @@ def load_our_costs():
     return {k: _to_base(v[0], v[1]) for k, v in latest.items()}
 
 
+def load_our_preps(our_costs):
+    """OUR OWN recipe book (data/recipes/*.yaml), priced per BASE unit.
+
+    The sauces Zak keyed in — Spiced Sour Cream, Chimichurri, Minced Garlic Prep —
+    are costed in our book, but the Lightspeed converter never read them. Produce
+    also carries each one as an empty PRODUCT stub, so every pizza drawing 40g of
+    spiced sour cream resolved to the stub and added $0. Five Sanchez variants were
+    understating cost that way. Our own recipe is the better source: it is built
+    from invoice-fed ingredients, so it reprices when they do.
+    """
+    import yaml
+
+    specs = {}
+    for f in sorted((ROOT / "data" / "recipes").glob("*.yaml")):
+        for r in (yaml.safe_load(f.read_text()) or []):
+            if isinstance(r, dict) and r.get("product"):
+                specs[r["product"]] = r
+
+    memo: dict[str, tuple[float, str] | None] = {}
+
+    def rate_of(nm, stack=()):
+        if nm in memo:
+            return memo[nm]
+        r = specs.get(nm)
+        if not r or nm in stack:
+            return None
+        total = 0.0
+        for ln in (r.get("ingredients") or []):
+            q = float(ln.get("qty") or 0)
+            unit = (ln.get("unit") or "").lower()
+            if ln.get("subrecipe"):
+                sub = rate_of(ln["subrecipe"], stack + (nm,))
+                if not sub or sub[1] != unit:
+                    return None
+                total += q * sub[0]
+                continue
+            live = our_costs.get(ln.get("id") or "")
+            if live and live[1] == unit:
+                total += q * float(live[0])           # invoice-fed, preferred
+            elif ln.get("unit_cost_incl") is not None:
+                total += q * float(ln["unit_cost_incl"])   # the keyed-in snapshot
+            else:
+                return None
+        y, yu = r.get("yield_qty"), (r.get("yield_unit") or "").lower()
+        if not y or float(y) <= 0:
+            return None
+        if yu in _BASE:                                # kg -> g, L -> ml
+            yu, y = _BASE[yu][0], float(y) * _BASE[yu][1]
+        memo[nm] = (total / float(y), yu)
+        return memo[nm]
+
+    out = {}
+    for nm in specs:
+        got = rate_of(nm)
+        if got:
+            out[norm(nm)] = got
+    return out
+
+
 def load_packs():
     """ingredient id -> (pack_qty, unit) in BASE units, from the cost book's own
     pack contract. Used to price a whole pack — a "- Bottle" menu line is one
@@ -283,6 +355,7 @@ def main() -> int:
     rec = json.loads(RECIPES.read_text())
     bo_by_name, bo_prefixes = load_bo_ids()
     our_costs = load_our_costs()
+    our_preps = load_our_preps(our_costs)
     packs = load_packs()
     seed_base = load_seed_baseline()
     sell_by_norm, sell_by_tok = load_sell_prices()
@@ -406,6 +479,19 @@ def main() -> int:
                     ceil = _UNIT_CEIL.get(ou)
                     if ceil is None or float(oc) <= ceil:
                         our = oc
+            if our is None:
+                # Produce's empty PRODUCT stub for a sauce we actually have a
+                # recipe for. Our book knows what it costs to make — use that.
+                p = our_preps.get(norm(ing["name"]))
+                lu = (ing.get("unit") or "").lower()
+                # g <-> ml is allowed HERE ONLY, at density 1.0. Our sauces yield in
+                # ml (Spiced Sour Cream 1190ml) while the pizza recipes draw them in
+                # grams — a kitchen weighs a sauce and pours a batch. These are all
+                # water/dairy-based, so 1ml = 1g within a few percent, and the
+                # alternative was costing 40g of sauce at $0. Cross-DIMENSION
+                # conversion (ml -> ea) stays banned; that one caused $11,400 serves.
+                if p and (p[1] == lu or {p[1], lu} == {"g", "ml"}):
+                    our = p[0]
             lines.append({"name": ing["name"], "kind": kind, "ref": ref,
                           "qty": ing.get("qty"), "unit": ing.get("unit"),
                           "ls_cost": ing.get("cost"), "our_cost": our})
@@ -455,6 +541,67 @@ def main() -> int:
             if not changed:
                 break
     _expand_serves()
+
+    def _fix_packaging():
+        """A pizza goes in ONE box with ONE insert, whatever size it is.
+
+        Produce builds a Regular as "0.716 x the Large", and that ratio was landing
+        on the PACKAGING too — a regular pizza was charged 0.716 of a 13" box. You
+        cannot use 71.6% of a box, and it isn't even the right box: Gulli invoice
+        both 11" ($0.482 ea) and 13" ($0.643 ea) cartons weekly, and a regular
+        pizza goes in the 11". Flour scales with size; cardboard does not.
+
+        So packaging is forced to exactly 1 whole unit, and the box is chosen by
+        the size the recipe name declares.
+        """
+        def priced(ref):
+            oc = our_costs.get(ref or "")
+            return float(oc[0]) if oc and oc[1] == "ea" else None
+
+        fixed = added = removed = 0
+        for name, r in out.items():
+            m = _SIZE_WORD.match(name)
+            if not m:
+                continue
+            box = _BOX_BY_SIZE.get(m.group(1).lower())
+            # A DINE-IN pizza comes out on a plate. Produce charged 34 of them for a
+            # box anyway. A TAKEAWAY pizza physically cannot leave without one, yet
+            # 19 had none. The rule is the physical fact, not the data entry.
+            dine_in = "[dine-in]" in name.lower()
+            keep = []
+            for ln in r["ingredients"]:
+                nm = ln.get("name") or ""
+                if not _PACKAGING.search(nm):
+                    keep.append(ln)
+                    continue
+                if dine_in:
+                    removed += 1
+                    continue
+                if box and "insert" not in nm.lower():
+                    ln["name"], ln["ref"], ln["kind"] = box[0], box[1], "id"
+                ln["qty"], ln["unit"] = 1, "ea"
+                # The scraped per-line cost was a fraction of the WRONG box, so it
+                # can't stand as a fallback. Price the line off our book directly —
+                # both boxes are invoiced weekly and carry a live per-box rate.
+                ln["our_cost"] = priced(ln["ref"])
+                ln["ls_cost"] = ln["our_cost"]
+                keep.append(ln)
+                fixed += 1
+            if not dine_in and box and not any(_PACKAGING.search(l.get("name") or "")
+                                               for l in keep):
+                keep.append({"name": box[0], "kind": "id", "ref": box[1], "qty": 1,
+                             "unit": "ea", "ls_cost": priced(box[1]),
+                             "our_cost": priced(box[1])})
+                added += 1
+            r["ingredients"] = keep
+        # Inserts are NOT synthesised — 80 takeaway pizzas carry one and 19 don't,
+        # and unlike the box I have no physical rule that says which is right. Left
+        # as found, and flagged, rather than guessed at 11c a go.
+        return fixed, added, removed
+
+    _pf, _pa, _pr = _fix_packaging()
+    print(f"  packaging: {_pf} lines set to one whole box, {_pa} takeaway pizzas "
+          f"given the box they were missing, {_pr} dine-in box lines removed")
 
     # a recipe used as an ingredient by another recipe is a PREP/BATCH (its POS
     # "sell price" is a placeholder, and it may legitimately carry a big bulk line
@@ -532,6 +679,17 @@ def main() -> int:
                     # a $10 brownie at $46.72.
                     eff = so * _q2
                     full_ours = full_ours and sfo
+                elif (so > 0 and 0 < _q2 < 1
+                      and (not _y or (ln.get("unit") or "").lower() != _y[1])):
+                    # A sub-1 quantity against a yield-less BATCH is a batch
+                    # FRACTION, the same notation Produce uses for a pack ("0.05" of
+                    # a 20-base carton). Cauliflower Cheese draws "0.077" of its prep
+                    # — one thirteenth of the tray, $0.88 — but the price-ratio path
+                    # below read Lightspeed's own line cost and returned 7c, a 12x
+                    # under-cost on a $6.50 side. The fraction is the honest reading:
+                    # it uses OUR batch cost and needs no yield we haven't measured.
+                    eff = so * _q2
+                    full_ours = full_ours and sfo
                 elif sl > 0 and so > 0 and ls > 0:
                     # Lightspeed gives a reference for this line, so scale the
                     # batch by it. Preferred over yield maths because it is
@@ -572,6 +730,22 @@ def main() -> int:
                 ref = ln["ref"]
                 base = seed_base.get(ref)
                 cur = our_costs.get(ref)
+                # A COUNTABLE drawn as a pack fraction. Produce writes "0.025" for
+                # one garlic bread out of a 40-carton and "0.05" for one base out of
+                # 20 — but our book has already divided the carton down to a single
+                # unit ($1.49 a bread), so multiplying by the fraction divides twice
+                # and bills a $5 side 4c. When our price is per-EACH and the recipe
+                # asks for less than one, it means exactly one of them.
+                try:
+                    _qf = float(ln.get("qty") or 0)
+                except (TypeError, ValueError):
+                    _qf = 0.0
+                if cur and cur[1] == "ea" and 0 < _qf < 1:
+                    eff = float(cur[0])
+                    our_tot += eff
+                    ls_tot += ls
+                    ln["eff_cost"] = round(eff, 6)
+                    continue
                 if base and cur and float(base[0]) > 0 and base[1] == cur[1]:
                     eff = ls * (float(cur[0]) / float(base[0]))
                     our_tot += eff

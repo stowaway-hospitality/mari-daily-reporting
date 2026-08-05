@@ -276,3 +276,27 @@
   on: 2026-07-30
   by_email: "thefreshfruitteamptyltd.shop.bossqi.app"
 
+# The 11" pizza box, bought by the carton of 50 and used ONE per regular
+# pizza — same contract as the 13" box above.
+- id: "gulli:PBLTB11-U"
+  pack_qty: 50
+  pack_unit: ea
+  by: "Claude (Gulli '11\" Pizza Boxes x 50')"
+  on: 2026-08-05
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22873831"          # Regular Pizza Box 11" — carton of 50
+  pack_qty: 50
+  pack_unit: ea
+  by: "Claude (Gulli '11\" Pizza Boxes x 50', same contract as the 13\")"
+  on: 2026-08-05
+  by_email: "hello@stowawaybar.com"
+# Andrews Meat plant-based patties. The invoice says "1 box" at $117.00, but the
+# "125G" in the description (the size of ONE patty) was read as the pack, giving
+# $936/kg. Held at the invoiced box until someone counts a carton — used in no
+# recipe today, so a box price is honest and a guessed count would not be.
+- id: "andrews-meat:9478C"
+  pack_qty: 1
+  pack_unit: box
+  by: "Claude (invoice basis; patty count per carton UNCONFIRMED)"
+  on: 2026-08-05
+  by_email: "hello@stowawaybar.com"

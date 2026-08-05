@@ -49,7 +49,7 @@
      "qty": "10",
      "unit": "ml",
      "ls_cost": "0.02",
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "eff_cost": 0.019984
     }
    ],
@@ -188,21 +188,21 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     },
     {
      "name": "Sundried Tomato Strips Mezzat [2kg]",
@@ -215,13 +215,13 @@
      "eff_cost": 0.26
     }
    ],
-   "our_cost": 7.3134,
-   "ls_cost": 8.84,
+   "our_cost": 7.3833,
+   "ls_cost": 8.9632,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 27.0,
-   "gp_pct": 70.2
+   "gp_pct": 69.9
   },
   "Large Super House Special": {
    "ingredients": [
@@ -349,21 +349,21 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     },
     {
      "name": "Ham Soccerball Sliced Pendle [1kg]",
@@ -376,13 +376,13 @@
      "eff_cost": 0.635
     }
    ],
-   "our_cost": 7.5406,
-   "ls_cost": 7.73,
+   "our_cost": 7.6106,
+   "ls_cost": 7.8532,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 29.0,
-   "gp_pct": 71.4
+   "gp_pct": 71.1
   },
   "Gluten-free Garlic Cheese Pizza": {
    "ingredients": [
@@ -438,16 +438,26 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 5.6887,
-   "ls_cost": 5.8147,
+   "our_cost": 6.1682,
+   "ls_cost": 6.2967,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.5,
-   "gp_pct": 66.2
+   "gp_pct": 63.3
   },
   "Gluten-free Pepperoni": {
    "ingredients": [
@@ -459,7 +469,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -506,35 +516,35 @@
      "eff_cost": 1.138452
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Pepperoni x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Pepperoni x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 7.509,
-   "ls_cost": 7.7121,
+   "our_cost": 7.6099,
+   "ls_cost": 7.8536,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 58.7
+   "gp_pct": 58.1
   },
   "Gluten-free Pepperoni [Dine-in]": {
    "ingredients": [
@@ -583,28 +593,6 @@
      "eff_cost": 1.138452
     },
     {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Pepperoni x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Pepperoni x0.716",
-     "eff_cost": 0.0716
-    },
-    {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
      "kind": "id",
      "ref": "lightspeed:22996511",
@@ -612,16 +600,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 7.509,
-   "ls_cost": 7.7121,
+   "our_cost": 7.0173,
+   "ls_cost": 7.261,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 58.7
+   "gp_pct": 61.4
   },
   "Gluten-free Little Italy": {
    "ingredients": [
@@ -736,26 +724,26 @@
      "eff_cost": 0.008354
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Little Italy x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Little Italy x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Sundried Tomato Strips Mezzat [2kg]",
@@ -776,16 +764,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 9.6764,
-   "ls_cost": 10.7694,
+   "our_cost": 9.7773,
+   "ls_cost": 10.9109,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 55.6
+   "gp_pct": 55.2
   },
   "Gluten-free Little Italy [Dine-in]": {
    "ingredients": [
@@ -797,7 +785,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -910,28 +898,6 @@
      "eff_cost": 0.008354
     },
     {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Little Italy x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Little Italy x0.716",
-     "eff_cost": 0.0716
-    },
-    {
      "name": "Sundried Tomato Strips Mezzat [2kg]",
      "kind": "id",
      "ref": "lightspeed:22995363",
@@ -943,13 +909,13 @@
      "eff_cost": 0.18616
     }
    ],
-   "our_cost": 9.6764,
-   "ls_cost": 10.7694,
+   "our_cost": 9.1847,
+   "ls_cost": 10.3184,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 55.6
+   "gp_pct": 57.9
   },
   "Gluten-free No Chorizo, No Cry": {
    "ingredients": [
@@ -1053,26 +1019,26 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large No Chorizo, No Cry x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large No Chorizo, No Cry x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -1082,16 +1048,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 8.285,
-   "ls_cost": 8.3852,
+   "our_cost": 8.3859,
+   "ls_cost": 8.5267,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 62.0
+   "gp_pct": 61.6
   },
   "Gluten-free No Chorizo, No Cry [Dine-in]": {
    "ingredients": [
@@ -1103,7 +1069,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -1203,37 +1169,15 @@
      "our_cost": null,
      "scaled_from": "Large No Chorizo, No Cry x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large No Chorizo, No Cry x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large No Chorizo, No Cry x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 8.285,
-   "ls_cost": 8.3852,
+   "our_cost": 7.7933,
+   "ls_cost": 7.9341,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 62.0
+   "gp_pct": 64.3
   },
   "Gluten-free The Paddock [Dine-in]": {
    "ingredients": [
@@ -1245,7 +1189,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -1345,37 +1289,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large Paddock x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Paddock x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Paddock x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 8.0236,
-   "ls_cost": 8.1059,
+   "our_cost": 7.532,
+   "ls_cost": 7.6548,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 31.0,
-   "gp_pct": 71.5
+   "gp_pct": 73.3
   },
   "Gluten-free Paddock": {
    "ingredients": [
@@ -1479,26 +1401,26 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Paddock x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Paddock x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -1508,16 +1430,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 8.0236,
-   "ls_cost": 8.1059,
+   "our_cost": 8.1245,
+   "ls_cost": 8.2474,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 63.2
+   "gp_pct": 62.8
   },
   "Gluten-free Sanchez": {
    "ingredients": [
@@ -1627,9 +1549,9 @@
      "qty": 32.22,
      "unit": "g",
      "ls_cost": 0.0,
-     "our_cost": null,
+     "our_cost": 0.009783773109243698,
      "scaled_from": "Large Sanchez x0.716",
-     "eff_cost": 0.0
+     "eff_cost": 0.315233
     },
     {
      "name": "Shallots [Bunch]",
@@ -1643,26 +1565,26 @@
      "eff_cost": 0.057276
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Sanchez x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Sanchez x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -1672,16 +1594,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 8.2656,
-   "ls_cost": 8.3637,
+   "our_cost": 8.6818,
+   "ls_cost": 8.5052,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 62.1
+   "gp_pct": 60.2
   },
   "Gluten-free Sanchez [Dine-in]": {
    "ingredients": [
@@ -1693,7 +1615,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -1801,9 +1723,9 @@
      "qty": 32.22,
      "unit": "g",
      "ls_cost": 0.0,
-     "our_cost": null,
+     "our_cost": 0.009783773109243698,
      "scaled_from": "Large Sanchez x0.716",
-     "eff_cost": 0.0
+     "eff_cost": 0.315233
     },
     {
      "name": "Shallots [Bunch]",
@@ -1815,37 +1737,15 @@
      "our_cost": "0.005333",
      "scaled_from": "Large Sanchez x0.716",
      "eff_cost": 0.057276
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Sanchez x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Sanchez x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 8.2656,
-   "ls_cost": 8.3637,
+   "our_cost": 8.0892,
+   "ls_cost": 7.9126,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 62.1
+   "gp_pct": 62.9
   },
   "Gluten-free Sanchez VEGAN [Dine-in]": {
    "ingredients": [
@@ -1857,7 +1757,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -1968,37 +1868,15 @@
      "our_cost": "0.005333",
      "scaled_from": "Large Sanchez VEGAN x0.716",
      "eff_cost": 0.057276
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Sanchez VEGAN x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Sanchez VEGAN x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 7.3563,
-   "ls_cost": 7.4544,
+   "our_cost": 6.8646,
+   "ls_cost": 7.0033,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 67.6
+   "gp_pct": 69.8
   },
   "Gluten-free Sanchez VEGAN": {
    "ingredients": [
@@ -2113,26 +1991,26 @@
      "eff_cost": 0.057276
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Sanchez VEGAN x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Sanchez VEGAN x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -2142,16 +2020,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 7.3563,
-   "ls_cost": 7.4544,
+   "our_cost": 7.4572,
+   "ls_cost": 7.5959,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 67.6
+   "gp_pct": 67.2
   },
   "Gluten-free Hail Africa": {
    "ingredients": [
@@ -2266,26 +2144,26 @@
      "eff_cost": 0.0716
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Hail Africa x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Hail Africa x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -2295,16 +2173,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 8.8276,
-   "ls_cost": 8.9078,
+   "our_cost": 8.9285,
+   "ls_cost": 9.0493,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 61.2
+   "gp_pct": 60.7
   },
   "Gluten-free Hail Africa [Dine-in]": {
    "ingredients": [
@@ -2316,7 +2194,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -2427,37 +2305,15 @@
      "our_cost": null,
      "scaled_from": "Large Hail Africa x0.716",
      "eff_cost": 0.0716
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Hail Africa x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Hail Africa x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 8.8276,
-   "ls_cost": 8.9078,
+   "our_cost": 8.336,
+   "ls_cost": 8.4568,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 61.2
+   "gp_pct": 63.3
   },
   "Gluten-free Jimmy Jury": {
    "ingredients": [
@@ -2561,26 +2417,26 @@
      "eff_cost": 0.307294
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Jimmy Jury x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Jimmy Jury x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -2590,16 +2446,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 8.804,
-   "ls_cost": 8.8649,
+   "our_cost": 8.9049,
+   "ls_cost": 9.0064,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 59.6
+   "gp_pct": 59.2
   },
   "Gluten-free Jimmy Jury [Dine-in]": {
    "ingredients": [
@@ -2611,7 +2467,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -2711,37 +2567,15 @@
      "our_cost": null,
      "scaled_from": "Large Jimmy Jury x0.716",
      "eff_cost": 0.307294
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Jimmy Jury x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Jimmy Jury x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 8.804,
-   "ls_cost": 8.8649,
+   "our_cost": 8.3124,
+   "ls_cost": 8.4138,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 59.6
+   "gp_pct": 61.9
   },
   "Gluten-free El Patron": {
    "ingredients": [
@@ -2834,26 +2668,26 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large El Patron x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large El Patron x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -2863,16 +2697,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 8.5321,
-   "ls_cost": 8.6286,
+   "our_cost": 8.633,
+   "ls_cost": 8.7701,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 60.9
+   "gp_pct": 60.4
   },
   "Gluten-free El Patron [Dine-in]": {
    "ingredients": [
@@ -2884,7 +2718,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -2973,37 +2807,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large El Patron x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large El Patron x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large El Patron x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 8.5321,
-   "ls_cost": 8.6286,
+   "our_cost": 8.0404,
+   "ls_cost": 8.1775,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 60.9
+   "gp_pct": 63.1
   },
   "Gluten-free Sorrento": {
    "ingredients": [
@@ -3085,26 +2897,26 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Sorrento x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Sorrento x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -3114,16 +2926,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 8.5646,
-   "ls_cost": 9.5737,
+   "our_cost": 8.6655,
+   "ls_cost": 9.7152,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 62.3
+   "gp_pct": 61.9
   },
   "Gluten-free Sorrento [Dine-in]": {
    "ingredients": [
@@ -3135,7 +2947,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -3213,37 +3025,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large Sorrento x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Sorrento x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Sorrento x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 8.5646,
-   "ls_cost": 9.5737,
+   "our_cost": 8.073,
+   "ls_cost": 9.1226,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 62.3
+   "gp_pct": 64.5
   },
   "Gluten-free New Yorker": {
    "ingredients": [
@@ -3303,26 +3093,26 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large New Yorker x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large New Yorker x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -3332,16 +3122,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 7.9314,
-   "ls_cost": 8.0272,
+   "our_cost": 8.0323,
+   "ls_cost": 8.1686,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 63.6
+   "gp_pct": 63.2
   },
   "Gluten-free New Yorker [Dine-in]": {
    "ingredients": [
@@ -3353,7 +3143,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -3409,37 +3199,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large New Yorker x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large New Yorker x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large New Yorker x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 7.9314,
-   "ls_cost": 8.0272,
+   "our_cost": 7.4397,
+   "ls_cost": 7.5761,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 63.6
+   "gp_pct": 65.9
   },
   "Gluten-free Tandoori Chicken": {
    "ingredients": [
@@ -3494,7 +3262,7 @@
      "qty": 25.06,
      "unit": "g",
      "ls_cost": 0.27208,
-     "our_cost": null,
+     "our_cost": 0.008201810344827585,
      "scaled_from": "Large Tandoori Chicken x0.716",
      "eff_cost": 0.27208
     },
@@ -3510,26 +3278,26 @@
      "eff_cost": 0.69452
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Tandoori Chicken x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Tandoori Chicken x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -3539,16 +3307,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 6.6562,
-   "ls_cost": 6.6238,
+   "our_cost": 6.7571,
+   "ls_cost": 6.7653,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 69.5
+   "gp_pct": 69.0
   },
   "Gluten-free Tandoori Chicken [Dine-in]": {
    "ingredients": [
@@ -3560,7 +3328,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -3613,7 +3381,7 @@
      "qty": 25.06,
      "unit": "g",
      "ls_cost": 0.27208,
-     "our_cost": null,
+     "our_cost": 0.008201810344827585,
      "scaled_from": "Large Tandoori Chicken x0.716",
      "eff_cost": 0.27208
     },
@@ -3627,37 +3395,15 @@
      "our_cost": null,
      "scaled_from": "Large Tandoori Chicken x0.716",
      "eff_cost": 0.69452
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Tandoori Chicken x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Tandoori Chicken x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 6.6562,
-   "ls_cost": 6.6238,
+   "our_cost": 6.1645,
+   "ls_cost": 6.1727,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 69.5
+   "gp_pct": 71.7
   },
   "Gluten-free Bubba Gump": {
    "ingredients": [
@@ -3739,26 +3485,26 @@
      "eff_cost": 0.001718
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Bubba Gump x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Bubba Gump x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -3768,16 +3514,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 8.3091,
-   "ls_cost": 8.3995,
+   "our_cost": 8.41,
+   "ls_cost": 8.541,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 63.4
+   "gp_pct": 63.0
   },
   "Gluten-free Bubba Gump [Dine-in]": {
    "ingredients": [
@@ -3789,7 +3535,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -3867,37 +3613,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large Bubba Gump x0.716",
      "eff_cost": 0.001718
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Bubba Gump x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Bubba Gump x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 8.3091,
-   "ls_cost": 8.3995,
+   "our_cost": 7.8174,
+   "ls_cost": 7.9484,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 63.4
+   "gp_pct": 65.6
   },
   "Gluten-free Super House Special": {
    "ingredients": [
@@ -4034,26 +3758,26 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Super House Special x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Super House Special x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Ham Soccerball Sliced Pendle [1kg]",
@@ -4074,16 +3798,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 9.8391,
-   "ls_cost": 9.9747,
+   "our_cost": 9.94,
+   "ls_cost": 10.1162,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 54.9
+   "gp_pct": 54.4
   },
   "Gluten-free Super House Special [Dine-in]": {
    "ingredients": [
@@ -4095,7 +3819,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -4230,28 +3954,6 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Super House Special x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Super House Special x0.716",
-     "eff_cost": 0.0716
-    },
-    {
      "name": "Ham Soccerball Sliced Pendle [1kg]",
      "kind": "id",
      "ref": "lightspeed:22995341",
@@ -4263,13 +3965,13 @@
      "eff_cost": 0.45466
     }
    ],
-   "our_cost": 9.8391,
-   "ls_cost": 9.9747,
+   "our_cost": 9.3474,
+   "ls_cost": 9.5236,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 54.9
+   "gp_pct": 57.2
   },
   "Gluten-free BBQ Chicken Pizza": {
    "ingredients": [
@@ -4329,26 +4031,26 @@
      "eff_cost": 0.001718
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large BBQ Chicken Pizza x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large BBQ Chicken Pizza x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Sunshine Smokey BBQ Sauce [3L]",
@@ -4369,16 +4071,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 7.1919,
-   "ls_cost": 7.4257,
+   "our_cost": 7.2928,
+   "ls_cost": 7.5672,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 67.0
+   "gp_pct": 66.6
   },
   "Gluten-free BBQ Chicken Pizza [Dine-in]": {
    "ingredients": [
@@ -4390,7 +4092,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -4448,28 +4150,6 @@
      "eff_cost": 0.001718
     },
     {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large BBQ Chicken Pizza x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large BBQ Chicken Pizza x0.716",
-     "eff_cost": 0.0716
-    },
-    {
      "name": "Sunshine Smokey BBQ Sauce [3L]",
      "kind": "id",
      "ref": "lightspeed:22989451",
@@ -4481,13 +4161,13 @@
      "eff_cost": 0.060666
     }
    ],
-   "our_cost": 7.1919,
-   "ls_cost": 7.4257,
+   "our_cost": 6.7002,
+   "ls_cost": 6.9746,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 67.0
+   "gp_pct": 69.3
   },
   "Gluten-free Cosmopolitan": {
    "ingredients": [
@@ -4591,26 +4271,26 @@
      "eff_cost": 0.20048
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Cosmopolitan x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Cosmopolitan x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -4620,16 +4300,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 9.4454,
-   "ls_cost": 9.1799,
+   "our_cost": 9.5463,
+   "ls_cost": 9.3214,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 56.7
+   "gp_pct": 56.2
   },
   "Gluten-free Cosmopolitan [Dine-in]": {
    "ingredients": [
@@ -4641,7 +4321,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough",
@@ -4741,37 +4421,15 @@
      "our_cost": "0.028000",
      "scaled_from": "Large Cosmopolitan x0.716",
      "eff_cost": 0.20048
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Cosmopolitan x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Cosmopolitan x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 9.4454,
-   "ls_cost": 9.1799,
+   "our_cost": 8.9537,
+   "ls_cost": 8.7288,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 56.7
+   "gp_pct": 59.0
   },
   "Gluten-free Meatlovers": {
    "ingredients": [
@@ -4875,26 +4533,26 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Meatlovers x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Meatlovers x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -4904,16 +4562,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 9.2413,
-   "ls_cost": 9.4234,
+   "our_cost": 9.3422,
+   "ls_cost": 9.5648,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 57.6
+   "gp_pct": 57.2
   },
   "Gluten-free Meatlovers [Dine-in]": {
    "ingredients": [
@@ -4925,7 +4583,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -5025,37 +4683,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large Meatlovers x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Meatlovers x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Meatlovers x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 9.2413,
-   "ls_cost": 9.4234,
+   "our_cost": 8.7496,
+   "ls_cost": 8.9723,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 57.6
+   "gp_pct": 59.9
   },
   "Gluten-free Truffalo Soldier": {
    "ingredients": [
@@ -5181,26 +4817,26 @@
      "eff_cost": 0.0716
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Truffalo Soldier x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Truffalo Soldier x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -5210,16 +4846,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 8.1131,
-   "ls_cost": 7.705,
+   "our_cost": 8.214,
+   "ls_cost": 7.8464,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 62.8
+   "gp_pct": 62.4
   },
   "Gluten-free Truffalo Soldier [Dine-in]": {
    "ingredients": [
@@ -5231,7 +4867,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough",
@@ -5353,37 +4989,15 @@
      "our_cost": null,
      "scaled_from": "Large Truffalo Soldier x0.716",
      "eff_cost": 0.0716
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Truffalo Soldier x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Truffalo Soldier x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 8.1131,
-   "ls_cost": 7.705,
+   "our_cost": 7.6214,
+   "ls_cost": 7.2539,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 62.8
+   "gp_pct": 65.1
   },
   "Gluten-free Vegetarian [Dine-in]": {
    "ingredients": [
@@ -5395,7 +5009,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Mushrooms [4Kg box]",
@@ -5495,37 +5109,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large Vegetarian x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Vegetarian x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Vegetarian x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 7.409,
-   "ls_cost": 7.3899,
+   "our_cost": 6.9173,
+   "ls_cost": 6.9388,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": 61.2
+   "gp_pct": 63.8
   },
   "Gluten-free Vegetarian": {
    "ingredients": [
@@ -5629,26 +5221,26 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Vegetarian x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Vegetarian x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -5658,16 +5250,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 7.409,
-   "ls_cost": 7.3899,
+   "our_cost": 7.5099,
+   "ls_cost": 7.5314,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": 61.2
+   "gp_pct": 60.7
   },
   "Gluten-free Hawaiian [Dine-in]": {
    "ingredients": [
@@ -5727,28 +5319,6 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Hawaiian x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Hawaiian x0.716",
-     "eff_cost": 0.0716
-    },
-    {
      "name": "Ham Soccerball Sliced Pendle [1kg]",
      "kind": "id",
      "ref": "lightspeed:22995341",
@@ -5767,16 +5337,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 6.7446,
-   "ls_cost": 6.7742,
+   "our_cost": 6.2529,
+   "ls_cost": 6.3231,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 62.9
+   "gp_pct": 65.6
   },
   "Gluten-free Hawaiian": {
    "ingredients": [
@@ -5836,26 +5406,26 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Hawaiian x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Hawaiian x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Ham Soccerball Sliced Pendle [1kg]",
@@ -5876,16 +5446,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 6.7446,
-   "ls_cost": 6.7742,
+   "our_cost": 6.8455,
+   "ls_cost": 6.9157,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 62.9
+   "gp_pct": 62.3
   },
   "Gluten-free Margherita [Dine-in]": {
    "ingredients": [
@@ -5934,28 +5504,6 @@
      "eff_cost": 0.67662
     },
     {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Margherita x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Margherita x0.716",
-     "eff_cost": 0.0716
-    },
-    {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
      "kind": "id",
      "ref": "lightspeed:22996511",
@@ -5963,16 +5511,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 6.0369,
-   "ls_cost": 6.0868,
+   "our_cost": 5.5452,
+   "ls_cost": 5.6357,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.0,
-   "gp_pct": 65.0
+   "gp_pct": 67.9
   },
   "Gluten-free Margherita": {
    "ingredients": [
@@ -6021,26 +5569,26 @@
      "eff_cost": 0.67662
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Margherita x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Margherita x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -6050,16 +5598,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 6.0369,
-   "ls_cost": 6.0868,
+   "our_cost": 6.1378,
+   "ls_cost": 6.2283,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.0,
-   "gp_pct": 65.0
+   "gp_pct": 64.5
   },
   "Gluten-free Uber Margherita [Dine-in]": {
    "ingredients": [
@@ -6071,7 +5619,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -6149,37 +5697,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large Uber Margherita x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Uber Margherita x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Uber Margherita x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 7.5097,
-   "ls_cost": 7.6334,
+   "our_cost": 7.018,
+   "ls_cost": 7.1823,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 65.6
+   "gp_pct": 67.8
   },
   "Gluten-free Uber Margherita": {
    "ingredients": [
@@ -6261,26 +5787,26 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Uber Margherita x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Uber Margherita x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -6290,16 +5816,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 7.5097,
-   "ls_cost": 7.6334,
+   "our_cost": 7.6106,
+   "ls_cost": 7.7748,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 65.6
+   "gp_pct": 65.1
   },
   "Gluten-free Roma Special [Dine-in]": {
    "ingredients": [
@@ -6311,7 +5837,7 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     },
     {
      "name": "Pizza Dough [Recipe]",
@@ -6411,37 +5937,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large Roma Special x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Roma Special x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Roma Special x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 8.3818,
-   "ls_cost": 8.4782,
+   "our_cost": 7.8901,
+   "ls_cost": 8.0272,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 61.6
+   "gp_pct": 63.8
   },
   "Gluten-free Roma Special": {
    "ingredients": [
@@ -6545,26 +6049,26 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Roma Special x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Roma Special x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -6574,16 +6078,16 @@
      "unit": "ml",
      "ls_cost": "4.44",
      "our_cost": null,
-     "eff_cost": 4.44
+     "eff_cost": 4.4375
     }
    ],
-   "our_cost": 8.3818,
-   "ls_cost": 8.4782,
+   "our_cost": 8.4827,
+   "ls_cost": 8.6197,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 61.6
+   "gp_pct": 61.1
   },
   "Large BBQ Chicken Pizza": {
    "ingredients": [
@@ -6641,21 +6145,21 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     },
     {
      "name": "Sunshine Smokey BBQ Sauce [3L]",
@@ -6668,13 +6172,13 @@
      "eff_cost": 0.084729
     }
    ],
-   "our_cost": 3.8434,
-   "ls_cost": 4.17,
+   "our_cost": 3.9134,
+   "ls_cost": 4.2932,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 83.1
+   "gp_pct": 82.8
   },
   "La Petite Mort Rosso 2025 - Large": {
    "ingredients": [
@@ -7075,7 +6579,7 @@
      "qty": "7.5",
      "unit": "ml",
      "ls_cost": "0.00",
-     "our_cost": null,
+     "our_cost": 0.008125,
      "eff_cost": 0.056475
     }
    ],
@@ -7354,7 +6858,7 @@
      "qty": "10",
      "unit": "ml",
      "ls_cost": "0.02",
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "eff_cost": 0.019984
     }
    ],
@@ -7476,7 +6980,7 @@
      "qty": "9.25",
      "unit": "ml",
      "ls_cost": "0.01",
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "eff_cost": 0.009992
     }
    ],
@@ -7813,7 +7317,7 @@
      "qty": "7.5",
      "unit": "ml",
      "ls_cost": "0.01",
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "eff_cost": 0.009992
     }
    ],
@@ -7856,7 +7360,7 @@
      "qty": 17.5,
      "unit": "ml",
      "ls_cost": 0.03,
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "scaled_from": "Frozen Marg - Classic x1",
      "eff_cost": 0.029976
     },
@@ -7943,7 +7447,7 @@
      "qty": 17.5,
      "unit": "ml",
      "ls_cost": 0.03,
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "scaled_from": "Frozen Marg - Classic x1",
      "eff_cost": 0.029976
     },
@@ -8028,7 +7532,7 @@
      "qty": "17.5",
      "unit": "ml",
      "ls_cost": "0.03",
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "eff_cost": 0.029976
     },
     {
@@ -8080,16 +7584,16 @@
      "unit": "ml",
      "ls_cost": "0.07",
      "our_cost": null,
-     "eff_cost": 0.069884
+     "eff_cost": 0.880957
     }
    ],
-   "our_cost": 0.0699,
+   "our_cost": 0.881,
    "ls_cost": 0.07,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 6.5,
-   "gp_pct": 98.8
+   "gp_pct": 85.1
   },
   "Large Hawaiian": {
    "ingredients": [
@@ -8147,21 +7651,21 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     },
     {
      "name": "Ham Soccerball Sliced Pendle [1kg]",
@@ -8174,13 +7678,13 @@
      "eff_cost": 0.6985
     }
    ],
-   "our_cost": 3.2187,
-   "ls_cost": 3.26,
+   "our_cost": 3.2887,
+   "ls_cost": 3.3832,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 82.3
+   "gp_pct": 81.9
   },
   "Fancy Pants Parmy - Classic": {
    "ingredients": [
@@ -8539,30 +8043,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 2.2303,
-   "ls_cost": 2.3,
+   "our_cost": 2.3002,
+   "ls_cost": 2.4232,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 87.7
+   "gp_pct": 87.3
   },
   "Large Vegetarian": {
    "ingredients": [
@@ -8660,30 +8164,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 4.1466,
-   "ls_cost": 4.12,
+   "our_cost": 4.2166,
+   "ls_cost": 4.2432,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 77.2
+   "gp_pct": 76.8
   },
   "Large Pepperoni": {
    "ingredients": [
@@ -8731,30 +8235,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 4.2863,
-   "ls_cost": 4.57,
+   "our_cost": 4.3562,
+   "ls_cost": 4.6932,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 76.4
+   "gp_pct": 76.0
   },
   "Large No Chorizo, No Cry": {
    "ingredients": [
@@ -8852,30 +8356,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.3701,
-   "ls_cost": 5.51,
+   "our_cost": 5.4401,
+   "ls_cost": 5.6332,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 27.0,
-   "gp_pct": 78.1
+   "gp_pct": 77.8
   },
   "Large Paddock": {
    "ingredients": [
@@ -8973,30 +8477,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.0051,
-   "ls_cost": 5.12,
+   "our_cost": 5.075,
+   "ls_cost": 5.2432,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 27.0,
-   "gp_pct": 79.6
+   "gp_pct": 79.3
   },
   "Large Sanchez VEGAN": {
    "ingredients": [
@@ -9104,30 +8608,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 4.073,
-   "ls_cost": 4.21,
+   "our_cost": 4.143,
+   "ls_cost": 4.3332,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 27.0,
-   "gp_pct": 83.4
+   "gp_pct": 83.1
   },
   "Large Sanchez": {
    "ingredients": [
@@ -9228,8 +8732,8 @@
      "qty": "45",
      "unit": "g",
      "ls_cost": "0.00",
-     "our_cost": null,
-     "eff_cost": 0.0
+     "our_cost": 0.009783773109243698,
+     "eff_cost": 0.44027
     },
     {
      "name": "Shallots [Bunch]",
@@ -9245,30 +8749,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.343,
-   "ls_cost": 5.48,
+   "our_cost": 5.8533,
+   "ls_cost": 5.6032,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 27.0,
-   "gp_pct": 78.2
+   "gp_pct": 76.2
   },
   "Large Hail Africa": {
    "ingredients": [
@@ -9376,30 +8880,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 6.128,
-   "ls_cost": 6.24,
+   "our_cost": 6.198,
+   "ls_cost": 6.3632,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 27.0,
-   "gp_pct": 75.0
+   "gp_pct": 74.7
   },
   "Large Jimmy Jury": {
    "ingredients": [
@@ -9497,30 +9001,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 6.095,
-   "ls_cost": 6.18,
+   "our_cost": 6.165,
+   "ls_cost": 6.3032,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 27.0,
-   "gp_pct": 75.2
+   "gp_pct": 74.9
   },
   "Large El Patron": {
    "ingredients": [
@@ -9608,30 +9112,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.7152,
-   "ls_cost": 5.85,
+   "our_cost": 5.7851,
+   "ls_cost": 5.9732,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 27.0,
-   "gp_pct": 76.7
+   "gp_pct": 76.4
   },
   "Large Sorrento": {
    "ingredients": [
@@ -9709,30 +9213,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.7607,
-   "ls_cost": 7.17,
+   "our_cost": 5.8306,
+   "ls_cost": 7.2932,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 27.0,
-   "gp_pct": 76.5
+   "gp_pct": 76.2
   },
   "Large New Yorker": {
    "ingredients": [
@@ -9790,30 +9294,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 4.8763,
-   "ls_cost": 5.01,
+   "our_cost": 4.9462,
+   "ls_cost": 5.1332,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 27.0,
-   "gp_pct": 80.1
+   "gp_pct": 79.8
   },
   "Large Tandoori Chicken": {
    "ingredients": [
@@ -9864,7 +9368,7 @@
      "qty": "35",
      "unit": "g",
      "ls_cost": "0.38",
-     "our_cost": null,
+     "our_cost": 0.008201810344827585,
      "eff_cost": 0.38
     },
     {
@@ -9881,30 +9385,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 3.0953,
-   "ls_cost": 3.05,
+   "our_cost": 3.1652,
+   "ls_cost": 3.1732,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 86.4
+   "gp_pct": 86.1
   },
   "Large Bubba Gump": {
    "ingredients": [
@@ -9982,30 +9486,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.4038,
-   "ls_cost": 5.53,
+   "our_cost": 5.4738,
+   "ls_cost": 5.6532,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 76.2
+   "gp_pct": 75.9
   },
   "Large Cosmopolitan": {
    "ingredients": [
@@ -10103,30 +9607,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 6.9907,
-   "ls_cost": 6.62,
+   "our_cost": 7.0607,
+   "ls_cost": 6.7432,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 69.2
+   "gp_pct": 68.9
   },
   "Large Meatlovers": {
    "ingredients": [
@@ -10224,30 +9728,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 6.7057,
-   "ls_cost": 6.96,
+   "our_cost": 6.7756,
+   "ls_cost": 7.0832,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 28.0,
-   "gp_pct": 73.7
+   "gp_pct": 73.4
   },
   "Large Truffalo Soldier": {
    "ingredients": [
@@ -10365,30 +9869,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.13,
-   "ls_cost": 4.56,
+   "our_cost": 5.2,
+   "ls_cost": 4.6832,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 77.4
+   "gp_pct": 77.1
   },
   "Large Roma Special": {
    "ingredients": [
@@ -10486,30 +9990,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.5053,
-   "ls_cost": 5.64,
+   "our_cost": 5.5753,
+   "ls_cost": 5.7632,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 75.8
+   "gp_pct": 75.5
   },
   "Large Uber Margherita": {
    "ingredients": [
@@ -10587,30 +10091,30 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": "0.02",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": null,
-     "eff_cost": 0.5832
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": "0.01",
-     "unit": "ml",
-     "ls_cost": "0.10",
-     "our_cost": null,
-     "eff_cost": 0.1
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 4.2872,
-   "ls_cost": 4.46,
+   "our_cost": 4.3572,
+   "ls_cost": 4.5832,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 81.1
+   "gp_pct": 80.8
   },
   "Kids Icecream": {
    "ingredients": [
@@ -10633,15 +10137,25 @@
      "ls_cost": "0.27",
      "our_cost": null,
      "eff_cost": 0.27
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 0.735,
-   "ls_cost": 0.74,
+   "our_cost": 1.217,
+   "ls_cost": 1.222,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 5.0,
-   "gp_pct": 83.8
+   "gp_pct": 73.2
   },
   "Brownie": {
    "ingredients": [
@@ -11234,15 +10748,25 @@
      "our_cost": "0.002848",
      "scaled_from": "Kids Nuggets & Chips x1",
      "eff_cost": 0.1424
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 2.2427,
-   "ls_cost": 2.24,
+   "our_cost": 2.7247,
+   "ls_cost": 2.722,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 13.0,
-   "gp_pct": 81.0
+   "gp_pct": 76.9
   },
   "Kids Nuggets & Chips": {
    "ingredients": [
@@ -11275,15 +10799,25 @@
      "ls_cost": "0.14",
      "our_cost": "0.002848",
      "eff_cost": 0.1424
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 2.2427,
-   "ls_cost": 2.24,
+   "our_cost": 2.7247,
+   "ls_cost": 2.722,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 13.0,
-   "gp_pct": 81.0
+   "gp_pct": 76.9
   },
   "Cauliflower Cheese Prep": {
    "ingredients": [
@@ -11966,15 +11500,25 @@
      "ls_cost": "0.02",
      "our_cost": "0.030000",
      "eff_cost": 0.015
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 2.3553,
-   "ls_cost": 2.38,
+   "our_cost": 2.8373,
+   "ls_cost": 2.862,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 16.0,
-   "gp_pct": 83.8
+   "gp_pct": 80.5
   },
   "Regular Hawaiian": {
    "ingredients": [
@@ -12027,15 +11571,25 @@
      "ls_cost": "0.02",
      "our_cost": "0.030000",
      "eff_cost": 0.015
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 1.1835,
-   "ls_cost": 1.25,
+   "our_cost": 1.6655,
+   "ls_cost": 1.732,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 15.0,
-   "gp_pct": 91.3
+   "gp_pct": 87.8
   },
   "Regular Margherita": {
    "ingredients": [
@@ -12078,15 +11632,25 @@
      "ls_cost": "0.02",
      "our_cost": "0.030000",
      "eff_cost": 0.015
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 1.1351,
-   "ls_cost": 1.23,
+   "our_cost": 1.6171,
+   "ls_cost": 1.712,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 14.0,
-   "gp_pct": 91.1
+   "gp_pct": 87.3
   },
   "Chicken Roast": {
    "ingredients": [
@@ -12150,7 +11714,7 @@
      "ls_cost": 0.225,
      "our_cost": null,
      "scaled_from": "Fish Tacos x0.5",
-     "eff_cost": 0.225
+     "eff_cost": 0.116667
     },
     {
      "name": "Fish Cajun Marination",
@@ -12197,13 +11761,13 @@
      "eff_cost": 0.13
     }
    ],
-   "our_cost": 1.0941,
+   "our_cost": 0.9858,
    "ls_cost": 1.095,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 7.0,
-   "gp_pct": 82.8
+   "gp_pct": 84.5
   },
   "Fish Tacos D": {
    "ingredients": [
@@ -12216,7 +11780,7 @@
      "ls_cost": 0.45,
      "our_cost": null,
      "scaled_from": "Fish Tacos x1",
-     "eff_cost": 0.45
+     "eff_cost": 0.116667
     },
     {
      "name": "Fish Cajun Marination",
@@ -12263,13 +11827,13 @@
      "eff_cost": 0.26
     }
    ],
-   "our_cost": 2.1882,
+   "our_cost": 1.8549,
    "ls_cost": 2.19,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.0,
-   "gp_pct": 86.6
+   "gp_pct": 88.7
   },
   "Fish Tacos": {
    "ingredients": [
@@ -12281,7 +11845,7 @@
      "unit": "ml",
      "ls_cost": "0.45",
      "our_cost": null,
-     "eff_cost": 0.45
+     "eff_cost": 0.116667
     },
     {
      "name": "Fish Cajun Marination",
@@ -12324,13 +11888,13 @@
      "eff_cost": 0.26
     }
    ],
-   "our_cost": 2.1882,
+   "our_cost": 1.8549,
    "ls_cost": 2.19,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 88.0
+   "gp_pct": 89.8
   },
   "Regular Sorrento [Dine-in]": {
    "ingredients": [
@@ -12491,15 +12055,25 @@
      "ls_cost": "0.03",
      "our_cost": "0.030000",
      "eff_cost": 0.03
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 3.2471,
-   "ls_cost": 4.11,
+   "our_cost": 3.7291,
+   "ls_cost": 4.592,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 82.1
+   "gp_pct": 79.5
   },
   "Regular El Patron": {
    "ingredients": [
@@ -12592,15 +12166,25 @@
      "ls_cost": "0.52",
      "our_cost": "0.010500",
      "eff_cost": 0.462
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 3.5724,
-   "ls_cost": 3.64,
+   "our_cost": 4.0544,
+   "ls_cost": 4.122,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 79.8
+   "gp_pct": 77.1
   },
   "Regular El Patron [Dine-in]": {
    "ingredients": [
@@ -12723,16 +12307,16 @@
      "ls_cost": 0.0355,
      "our_cost": null,
      "scaled_from": "Garlic Bread x0.025",
-     "eff_cost": 0.037193
+     "eff_cost": 1.49525
     }
    ],
-   "our_cost": 0.0372,
+   "our_cost": 1.4952,
    "ls_cost": 0.0355,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 5.0,
-   "gp_pct": 99.2
+   "gp_pct": 67.1
   },
   "Rocket Man": {
    "ingredients": [
@@ -12918,7 +12502,7 @@
      "unit": "ml",
      "ls_cost": "0.23",
      "our_cost": null,
-     "eff_cost": 0.23
+     "eff_cost": 2.75
     },
     {
      "name": "T2 Milk Bun Sliced White Sesame [85g]",
@@ -12971,13 +12555,13 @@
      "eff_cost": 0.299992
     }
    ],
-   "our_cost": 5.8341,
+   "our_cost": 8.3541,
    "ls_cost": 5.85,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 26.9,
-   "gp_pct": 76.1
+   "gp_pct": 65.8
   },
   "Sensei Calamari": {
    "ingredients": [
@@ -13074,7 +12658,7 @@
      "unit": "ml",
      "ls_cost": "0.47",
      "our_cost": null,
-     "eff_cost": 0.47
+     "eff_cost": 0.472222
     },
     {
      "name": "Burrito Rice [3kg]",
@@ -13154,7 +12738,7 @@
      "unit": "ml",
      "ls_cost": "0.06",
      "our_cost": null,
-     "eff_cost": 0.06
+     "eff_cost": 0.0625
     },
     {
      "name": "Corn Chips [bag]",
@@ -13177,7 +12761,7 @@
      "eff_cost": 0.55
     }
    ],
-   "our_cost": 5.2157,
+   "our_cost": 5.2204,
    "ls_cost": 5.13,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -13196,7 +12780,7 @@
      "ls_cost": 0.47,
      "our_cost": null,
      "scaled_from": "Fish Burrito x1",
-     "eff_cost": 0.47
+     "eff_cost": 0.472222
     },
     {
      "name": "Burrito Rice [3kg]",
@@ -13298,7 +12882,7 @@
      "eff_cost": 1.850062
     }
    ],
-   "our_cost": 5.7541,
+   "our_cost": 5.7563,
    "ls_cost": 5.67,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -13316,7 +12900,7 @@
      "unit": "ml",
      "ls_cost": "0.47",
      "our_cost": null,
-     "eff_cost": 0.47
+     "eff_cost": 0.472222
     },
     {
      "name": "Burrito Rice [3kg]",
@@ -13409,7 +12993,7 @@
      "eff_cost": 1.850062
     }
    ],
-   "our_cost": 5.7541,
+   "our_cost": 5.7563,
    "ls_cost": 5.67,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -13550,7 +13134,7 @@
      "ls_cost": 0.47,
      "our_cost": null,
      "scaled_from": "Cauliflower Burrito x1",
-     "eff_cost": 0.47
+     "eff_cost": 0.472222
     },
     {
      "name": "Burrito Rice [3kg]",
@@ -13638,7 +13222,7 @@
      "ls_cost": 0.06,
      "our_cost": null,
      "scaled_from": "Cauliflower Burrito x1",
-     "eff_cost": 0.06
+     "eff_cost": 0.0625
     },
     {
      "name": "Corn Chips [bag]",
@@ -13663,13 +13247,13 @@
      "eff_cost": 0.55
     }
    ],
-   "our_cost": 5.2157,
+   "our_cost": 5.2204,
    "ls_cost": 5.13,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 77.1
+   "gp_pct": 77.0
   },
   "Corn Star": {
    "ingredients": [
@@ -13681,7 +13265,7 @@
      "unit": "ml",
      "ls_cost": "1.65",
      "our_cost": null,
-     "eff_cost": 1.98
+     "eff_cost": 1.32
     },
     {
      "name": "Cheese Parmesan Block Grana 1/4 Avg 4.4kg R/W Emilgrana",
@@ -13704,13 +13288,13 @@
      "eff_cost": 0.39
     }
    ],
-   "our_cost": 2.882,
+   "our_cost": 2.222,
    "ls_cost": 2.55,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 16.0,
-   "gp_pct": 80.2
+   "gp_pct": 84.7
   },
   "Achiote Chicken [15Kg]": {
    "ingredients": [
@@ -13855,7 +13439,7 @@
      "ls_cost": 0.47,
      "our_cost": null,
      "scaled_from": "Beef Burrito x1",
-     "eff_cost": 0.47
+     "eff_cost": 0.472222
     },
     {
      "name": "Burrito Rice [3kg]",
@@ -13943,7 +13527,7 @@
      "ls_cost": 0.06,
      "our_cost": null,
      "scaled_from": "Beef Burrito x1",
-     "eff_cost": 0.06
+     "eff_cost": 0.0625
     },
     {
      "name": "Corn Chips [bag]",
@@ -13968,7 +13552,7 @@
      "eff_cost": 0.55
     }
    ],
-   "our_cost": 6.9677,
+   "our_cost": 6.9724,
    "ls_cost": 6.78,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -13986,7 +13570,7 @@
      "unit": "ml",
      "ls_cost": "0.47",
      "our_cost": null,
-     "eff_cost": 0.47
+     "eff_cost": 0.472222
     },
     {
      "name": "Burrito Rice [3kg]",
@@ -14066,7 +13650,7 @@
      "unit": "ml",
      "ls_cost": "0.06",
      "our_cost": null,
-     "eff_cost": 0.06
+     "eff_cost": 0.0625
     },
     {
      "name": "Corn Chips [bag]",
@@ -14089,7 +13673,7 @@
      "eff_cost": 0.55
     }
    ],
-   "our_cost": 6.9677,
+   "our_cost": 6.9724,
    "ls_cost": 6.78,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -14319,7 +13903,7 @@
      "unit": "ml",
      "ls_cost": "0.47",
      "our_cost": null,
-     "eff_cost": 0.47
+     "eff_cost": 0.472222
     },
     {
      "name": "Burrito Rice [3kg]",
@@ -14399,7 +13983,7 @@
      "unit": "ml",
      "ls_cost": "0.06",
      "our_cost": null,
-     "eff_cost": 0.06
+     "eff_cost": 0.0625
     },
     {
      "name": "Chipotle Mayo [1.1kg]",
@@ -14422,7 +14006,7 @@
      "eff_cost": 0.11
     }
    ],
-   "our_cost": 6.8801,
+   "our_cost": 6.8848,
    "ls_cost": 6.8,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -14472,7 +14056,7 @@
      "ls_cost": 0.47,
      "our_cost": null,
      "scaled_from": "Chicken Burrito x1",
-     "eff_cost": 0.47
+     "eff_cost": 0.472222
     },
     {
      "name": "Burrito Rice [3kg]",
@@ -14560,7 +14144,7 @@
      "ls_cost": 0.06,
      "our_cost": null,
      "scaled_from": "Chicken Burrito x1",
-     "eff_cost": 0.06
+     "eff_cost": 0.0625
     },
     {
      "name": "Chipotle Mayo [1.1kg]",
@@ -14585,7 +14169,7 @@
      "eff_cost": 0.11
     }
    ],
-   "our_cost": 6.8801,
+   "our_cost": 6.8848,
    "ls_cost": 6.8,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -14956,15 +14540,25 @@
      "ls_cost": "0.03",
      "our_cost": "0.030000",
      "eff_cost": 0.03
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 3.3164,
-   "ls_cost": 3.34,
+   "our_cost": 3.7984,
+   "ls_cost": 3.822,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 81.3
+   "gp_pct": 78.6
   },
   "Buffalo Aioli [1L]": {
    "ingredients": [
@@ -15345,15 +14939,25 @@
      "ls_cost": "0.10",
      "our_cost": null,
      "eff_cost": 0.1
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 2.8642,
-   "ls_cost": 2.91,
+   "our_cost": 3.3462,
+   "ls_cost": 3.392,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 84.2
+   "gp_pct": 81.6
   },
   "Regular Hail Africa [Dine-in]": {
    "ingredients": [
@@ -16200,8 +15804,8 @@
      "qty": "40",
      "unit": "g",
      "ls_cost": "0.00",
-     "our_cost": null,
-     "eff_cost": 0.0
+     "our_cost": 0.009783773109243698,
+     "eff_cost": 0.391351
     },
     {
      "name": "Oregano Leaves Rubbed - Torino",
@@ -16212,15 +15816,25 @@
      "ls_cost": "0.02",
      "our_cost": "0.030000",
      "eff_cost": 0.015
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 3.3202,
-   "ls_cost": 3.4,
+   "our_cost": 4.1936,
+   "ls_cost": 3.882,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 81.3
+   "gp_pct": 76.3
   },
   "Regular Sanchez [Dine-in]": {
    "ingredients": [
@@ -16319,9 +15933,9 @@
      "qty": 40.0,
      "unit": "g",
      "ls_cost": 0.0,
-     "our_cost": null,
+     "our_cost": 0.009783773109243698,
      "scaled_from": "Regular Sanchez x1",
-     "eff_cost": 0.0
+     "eff_cost": 0.391351
     },
     {
      "name": "Oregano Leaves Rubbed - Torino",
@@ -16335,13 +15949,13 @@
      "eff_cost": 0.015
     }
    ],
-   "our_cost": 3.3202,
+   "our_cost": 3.7115,
    "ls_cost": 3.4,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 81.3
+   "gp_pct": 79.1
   },
   "Regular The Paddock [Dine-in]": {
    "ingredients": [
@@ -16523,15 +16137,25 @@
      "our_cost": "0.030000",
      "scaled_from": "Regular The Paddock [Dine-in] x1",
      "eff_cost": 0.015
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 3.0649,
-   "ls_cost": 3.11,
+   "our_cost": 3.5469,
+   "ls_cost": 3.592,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 82.7
+   "gp_pct": 80.0
   },
   "Regular No Chorizo, No Cry": {
    "ingredients": [
@@ -16624,15 +16248,25 @@
      "ls_cost": "0.02",
      "our_cost": "0.030000",
      "eff_cost": 0.015
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 2.3681,
-   "ls_cost": 2.44,
+   "our_cost": 2.8501,
+   "ls_cost": 2.922,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 86.6
+   "gp_pct": 83.9
   },
   "Regular No Chorizo, No Cry [Dine-in]": {
    "ingredients": [
@@ -16966,15 +16600,25 @@
      "ls_cost": "0.00",
      "our_cost": null,
      "eff_cost": 0.0
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 3.9079,
-   "ls_cost": 4.81,
+   "our_cost": 4.3899,
+   "ls_cost": 5.292,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 78.0
+   "gp_pct": 75.2
   },
   "Regular Pepperoni": {
    "ingredients": [
@@ -16987,15 +16631,25 @@
      "ls_cost": "2.07",
      "our_cost": null,
      "eff_cost": 1.891572
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 1.8916,
-   "ls_cost": 2.07,
+   "our_cost": 2.3736,
+   "ls_cost": 2.552,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 15.0,
-   "gp_pct": 86.1
+   "gp_pct": 82.6
   },
   "Pepperoni [Dine-in]": {
    "ingredients": [
@@ -17293,7 +16947,7 @@
      "qty": "2",
      "unit": "ml",
      "ls_cost": "0.02",
-     "our_cost": null,
+     "our_cost": 0.008125,
      "eff_cost": 0.019751
     },
     {
@@ -17364,7 +17018,7 @@
      "qty": "10",
      "unit": "ml",
      "ls_cost": "0.02",
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "eff_cost": 0.019984
     },
     {
@@ -17404,7 +17058,7 @@
      "qty": "5",
      "unit": "ml",
      "ls_cost": "0.04",
-     "our_cost": null,
+     "our_cost": 0.008125,
      "eff_cost": 0.039502
     }
    ],
@@ -17476,7 +17130,7 @@
      "qty": "330",
      "unit": "ml",
      "ls_cost": "0.62",
-     "our_cost": null,
+     "our_cost": 0.0018601250681818183,
      "eff_cost": 0.611446
     },
     {
@@ -17486,7 +17140,7 @@
      "qty": "445",
      "unit": "ml",
      "ls_cost": "3.39",
-     "our_cost": null,
+     "our_cost": 0.008125,
      "eff_cost": 3.347764
     }
    ],
@@ -17517,7 +17171,7 @@
      "qty": "43",
      "unit": "ml",
      "ls_cost": "0.07",
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "eff_cost": 0.069945
     },
     {
@@ -17578,7 +17232,7 @@
      "qty": "15",
      "unit": "ml",
      "ls_cost": "0.11",
-     "our_cost": null,
+     "our_cost": 0.008125,
      "eff_cost": 0.10863
     },
     {
@@ -17608,7 +17262,7 @@
      "qty": "9",
      "unit": "ml",
      "ls_cost": "0.01",
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "eff_cost": 0.009992
     }
    ],
@@ -17853,35 +17507,35 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Uber Margherita x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Uber Margherita x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 3.0697,
-   "ls_cost": 3.1934,
+   "our_cost": 3.1731,
+   "ls_cost": 3.3348,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.5,
-   "gp_pct": 81.7
+   "gp_pct": 81.1
   },
   "Regular Uber Margherita [Dine-in]": {
    "ingredients": [
@@ -17961,37 +17615,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large Uber Margherita x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Uber Margherita x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Uber Margherita x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 3.0697,
-   "ls_cost": 3.1934,
+   "our_cost": 2.5805,
+   "ls_cost": 2.7423,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.5,
-   "gp_pct": 81.7
+   "gp_pct": 84.7
   },
   "Regular Roma Special": {
    "ingredients": [
@@ -18095,35 +17727,35 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Roma Special x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Roma Special x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 3.9418,
-   "ls_cost": 4.0382,
+   "our_cost": 4.0452,
+   "ls_cost": 4.1797,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.5,
-   "gp_pct": 76.6
+   "gp_pct": 75.9
   },
   "Regular Roma Special [Dine-in]": {
    "ingredients": [
@@ -18225,37 +17857,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large Roma Special x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Roma Special x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Roma Special x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 3.9418,
-   "ls_cost": 4.0382,
+   "our_cost": 3.4526,
+   "ls_cost": 3.5872,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.5,
-   "gp_pct": 76.6
+   "gp_pct": 79.5
   },
   "Regular Truffalo Soldier": {
    "ingredients": [
@@ -18381,35 +17991,35 @@
      "eff_cost": 0.0716
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Truffalo Soldier x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Truffalo Soldier x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 3.6731,
-   "ls_cost": 3.265,
+   "our_cost": 3.7765,
+   "ls_cost": 3.4064,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.5,
-   "gp_pct": 78.2
+   "gp_pct": 77.5
   },
   "Regular Truffalo Soldier [Dine-in]": {
    "ingredients": [
@@ -18533,37 +18143,15 @@
      "our_cost": null,
      "scaled_from": "Large Truffalo Soldier x0.716",
      "eff_cost": 0.0716
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Truffalo Soldier x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Truffalo Soldier x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 3.6731,
-   "ls_cost": 3.265,
+   "our_cost": 3.1839,
+   "ls_cost": 2.8139,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.5,
-   "gp_pct": 78.2
+   "gp_pct": 81.1
   },
   "Regular Meatlovers": {
    "ingredients": [
@@ -18667,35 +18255,35 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Meatlovers x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Meatlovers x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 4.8013,
-   "ls_cost": 4.9834,
+   "our_cost": 4.9047,
+   "ls_cost": 5.1249,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 72.9
+   "gp_pct": 72.3
   },
   "Regular Meatlovers [Dine-in]": {
    "ingredients": [
@@ -18797,37 +18385,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large Meatlovers x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Meatlovers x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Meatlovers x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 4.8013,
-   "ls_cost": 4.9834,
+   "our_cost": 4.3121,
+   "ls_cost": 4.5323,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 72.9
+   "gp_pct": 75.7
   },
   "Regular Cosmopolitan": {
    "ingredients": [
@@ -18931,35 +18497,35 @@
      "eff_cost": 0.20048
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Cosmopolitan x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Cosmopolitan x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.0054,
-   "ls_cost": 4.7399,
+   "our_cost": 5.1088,
+   "ls_cost": 4.8814,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 71.8
+   "gp_pct": 71.2
   },
   "Regular Cosmopolitan [Dine-in]": {
    "ingredients": [
@@ -19061,37 +18627,15 @@
      "our_cost": "0.028000",
      "scaled_from": "Large Cosmopolitan x0.716",
      "eff_cost": 0.20048
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Cosmopolitan x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Cosmopolitan x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 5.0054,
-   "ls_cost": 4.7399,
+   "our_cost": 4.5162,
+   "ls_cost": 4.2888,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 71.8
+   "gp_pct": 74.5
   },
   "Regular BBQ Chicken Pizza": {
    "ingredients": [
@@ -19151,26 +18695,26 @@
      "eff_cost": 0.001718
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large BBQ Chicken Pizza x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large BBQ Chicken Pizza x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Sunshine Smokey BBQ Sauce [3L]",
@@ -19184,13 +18728,13 @@
      "eff_cost": 0.060666
     }
    ],
-   "our_cost": 2.7519,
-   "ls_cost": 2.9857,
+   "our_cost": 2.8553,
+   "ls_cost": 3.1272,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 84.5
+   "gp_pct": 83.9
   },
   "Regular BBQ Chicken Pizza [Dine-in]": {
    "ingredients": [
@@ -19250,28 +18794,6 @@
      "eff_cost": 0.001718
     },
     {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large BBQ Chicken Pizza x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large BBQ Chicken Pizza x0.716",
-     "eff_cost": 0.0716
-    },
-    {
      "name": "Sunshine Smokey BBQ Sauce [3L]",
      "kind": "id",
      "ref": "lightspeed:22989451",
@@ -19283,13 +18805,13 @@
      "eff_cost": 0.060666
     }
    ],
-   "our_cost": 2.7519,
-   "ls_cost": 2.9857,
+   "our_cost": 2.2627,
+   "ls_cost": 2.5346,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 84.5
+   "gp_pct": 87.2
   },
   "Regular Super House Special": {
    "ingredients": [
@@ -19426,26 +18948,26 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Super House Special x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Super House Special x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     },
     {
      "name": "Ham Soccerball Sliced Pendle [1kg]",
@@ -19459,13 +18981,13 @@
      "eff_cost": 0.45466
     }
    ],
-   "our_cost": 5.3991,
-   "ls_cost": 5.5347,
+   "our_cost": 5.5025,
+   "ls_cost": 5.6762,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 69.5
+   "gp_pct": 69.0
   },
   "Regular Super House Special [Dine-in]": {
    "ingredients": [
@@ -19602,28 +19124,6 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Super House Special x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Super House Special x0.716",
-     "eff_cost": 0.0716
-    },
-    {
      "name": "Ham Soccerball Sliced Pendle [1kg]",
      "kind": "id",
      "ref": "lightspeed:22995341",
@@ -19635,13 +19135,13 @@
      "eff_cost": 0.45466
     }
    ],
-   "our_cost": 5.3991,
-   "ls_cost": 5.5347,
+   "our_cost": 4.9099,
+   "ls_cost": 5.0836,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 69.5
+   "gp_pct": 72.3
   },
   "Regular Bubba Gump": {
    "ingredients": [
@@ -19723,35 +19223,35 @@
      "eff_cost": 0.001718
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Bubba Gump x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Bubba Gump x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 3.8691,
-   "ls_cost": 3.9595,
+   "our_cost": 3.9725,
+   "ls_cost": 4.101,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 78.7
+   "gp_pct": 78.2
   },
   "Regular Bubba Gump [Dine-in]": {
    "ingredients": [
@@ -19831,37 +19331,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large Bubba Gump x0.716",
      "eff_cost": 0.001718
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Bubba Gump x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Bubba Gump x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 3.8691,
-   "ls_cost": 3.9595,
+   "our_cost": 3.3799,
+   "ls_cost": 3.5084,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 78.7
+   "gp_pct": 81.4
   },
   "Regular Tandoori Chicken": {
    "ingredients": [
@@ -19916,7 +19394,7 @@
      "qty": 25.06,
      "unit": "g",
      "ls_cost": 0.27208,
-     "our_cost": null,
+     "our_cost": 0.008201810344827585,
      "scaled_from": "Large Tandoori Chicken x0.716",
      "eff_cost": 0.27208
     },
@@ -19932,35 +19410,35 @@
      "eff_cost": 0.69452
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Tandoori Chicken x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Tandoori Chicken x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 2.2162,
-   "ls_cost": 2.1838,
+   "our_cost": 2.3196,
+   "ls_cost": 2.3253,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 87.5
+   "gp_pct": 86.9
   },
   "Regular Tandoori Chicken [Dine-in]": {
    "ingredients": [
@@ -20015,7 +19493,7 @@
      "qty": 25.06,
      "unit": "g",
      "ls_cost": 0.27208,
-     "our_cost": null,
+     "our_cost": 0.008201810344827585,
      "scaled_from": "Large Tandoori Chicken x0.716",
      "eff_cost": 0.27208
     },
@@ -20029,37 +19507,15 @@
      "our_cost": null,
      "scaled_from": "Large Tandoori Chicken x0.716",
      "eff_cost": 0.69452
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Tandoori Chicken x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Tandoori Chicken x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 2.2162,
-   "ls_cost": 2.1838,
+   "our_cost": 1.727,
+   "ls_cost": 1.7327,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 87.5
+   "gp_pct": 90.3
   },
   "Regular New Yorker": {
    "ingredients": [
@@ -20119,35 +19575,35 @@
      "eff_cost": 0.02148
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large New Yorker x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large New Yorker x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 3.4914,
-   "ls_cost": 3.5872,
+   "our_cost": 3.5948,
+   "ls_cost": 3.7286,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 80.3
+   "gp_pct": 79.7
   },
   "Regular New Yorker [Dine-in]": {
    "ingredients": [
@@ -20205,37 +19661,15 @@
      "our_cost": "0.030000",
      "scaled_from": "Large New Yorker x0.716",
      "eff_cost": 0.02148
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large New Yorker x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large New Yorker x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 3.4914,
-   "ls_cost": 3.5872,
+   "our_cost": 3.0022,
+   "ls_cost": 3.1361,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 80.3
+   "gp_pct": 83.1
   },
   "Regular Sanchez VEGAN": {
    "ingredients": [
@@ -20350,35 +19784,35 @@
      "eff_cost": 0.057276
     },
     {
-     "name": "Large Pizza Box 13\"",
+     "name": "Regular Pizza Box 11\"",
      "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
      "scaled_from": "Large Sanchez VEGAN x0.716",
-     "eff_cost": 0.417571
+     "eff_cost": 0.48202
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Sanchez VEGAN x0.716",
-     "eff_cost": 0.0716
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 2.9163,
-   "ls_cost": 3.0144,
+   "our_cost": 3.0197,
+   "ls_cost": 3.1558,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 84.0
+   "gp_pct": 83.4
   },
   "Regular Sanchez VEGAN [Dine-in]": {
    "ingredients": [
@@ -20491,37 +19925,15 @@
      "our_cost": "0.005333",
      "scaled_from": "Large Sanchez VEGAN x0.716",
      "eff_cost": 0.057276
-    },
-    {
-     "name": "Large Pizza Box 13\"",
-     "kind": "id",
-     "ref": "lightspeed:22873851",
-     "qty": 0.01432,
-     "unit": "ml",
-     "ls_cost": 0.37948,
-     "our_cost": null,
-     "scaled_from": "Large Sanchez VEGAN x0.716",
-     "eff_cost": 0.417571
-    },
-    {
-     "name": "Pizza Box Inserts",
-     "kind": "id",
-     "ref": "lightspeed:22873876",
-     "qty": 0.00716,
-     "unit": "ml",
-     "ls_cost": 0.0716,
-     "our_cost": null,
-     "scaled_from": "Large Sanchez VEGAN x0.716",
-     "eff_cost": 0.0716
     }
    ],
-   "our_cost": 2.9163,
-   "ls_cost": 3.0144,
+   "our_cost": 2.4271,
+   "ls_cost": 2.5633,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 84.0
+   "gp_pct": 86.7
   },
   "Pineapple Juice Glass": {
    "ingredients": [
@@ -20730,7 +20142,7 @@
      "qty": "840",
      "unit": "ml",
      "ls_cost": "1.34",
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "eff_cost": 1.338949
     }
    ],
@@ -20773,7 +20185,7 @@
      "qty": 17.5,
      "unit": "ml",
      "ls_cost": 0.03,
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "scaled_from": "Frozen Marg - Classic x1",
      "eff_cost": 0.029976
     },
@@ -20878,7 +20290,7 @@
      "qty": "18",
      "unit": "ml",
      "ls_cost": "0.03",
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "eff_cost": 0.029976
     },
     {
@@ -20949,7 +20361,7 @@
      "qty": "10",
      "unit": "ml",
      "ls_cost": "0.02",
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "eff_cost": 0.019984
     },
     {
@@ -21092,7 +20504,7 @@
      "qty": "10",
      "unit": "ml",
      "ls_cost": "0.02",
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "eff_cost": 0.019984
     }
    ],
@@ -21607,32 +21019,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Vegetarian x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Vegetarian x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 4.1466,
-   "ls_cost": 4.12,
+   "our_cost": 4.2166,
+   "ls_cost": 4.2432,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 84.8
+   "gp_pct": 84.5
   },
   "Large Uber Margherita Wings Deal": {
    "ingredients": [
@@ -21717,32 +21129,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Uber Margherita x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Uber Margherita x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 4.2872,
-   "ls_cost": 4.46,
+   "our_cost": 4.3572,
+   "ls_cost": 4.5832,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 84.3
+   "gp_pct": 84.0
   },
   "Large Truffalo Soldier Wings Deal": {
    "ingredients": [
@@ -21871,32 +21283,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Truffalo Soldier x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Truffalo Soldier x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.13,
-   "ls_cost": 4.56,
+   "our_cost": 5.2,
+   "ls_cost": 4.6832,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 81.2
+   "gp_pct": 80.9
   },
   "Large Tandoori Chicken Wings Deal": {
    "ingredients": [
@@ -21951,7 +21363,7 @@
      "qty": 35.0,
      "unit": "g",
      "ls_cost": 0.38,
-     "our_cost": null,
+     "our_cost": 0.008201810344827585,
      "scaled_from": "Large Tandoori Chicken x1",
      "eff_cost": 0.38
     },
@@ -21970,32 +21382,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Tandoori Chicken x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Tandoori Chicken x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 3.0953,
-   "ls_cost": 3.05,
+   "our_cost": 3.1652,
+   "ls_cost": 3.1732,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 88.7
+   "gp_pct": 88.4
   },
   "Large Super House Special Wings Deal": {
    "ingredients": [
@@ -22135,23 +21547,23 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Super House Special x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Super House Special x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     },
     {
      "name": "Ham Soccerball Sliced Pendle [1kg]",
@@ -22165,13 +21577,13 @@
      "eff_cost": 0.635
     }
    ],
-   "our_cost": 7.5406,
-   "ls_cost": 7.73,
+   "our_cost": 7.6106,
+   "ls_cost": 7.8532,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 72.4
+   "gp_pct": 72.1
   },
   "Large Sorrento Wings Deal": {
    "ingredients": [
@@ -22256,32 +21668,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Sorrento x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Sorrento x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.7607,
-   "ls_cost": 7.17,
+   "our_cost": 5.8306,
+   "ls_cost": 7.2932,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 78.9
+   "gp_pct": 78.6
   },
   "Large Sanchez [Vegan] Wings Deal": {
    "ingredients": [
@@ -22399,32 +21811,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Sanchez VEGAN x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Sanchez VEGAN x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 4.073,
-   "ls_cost": 4.21,
+   "our_cost": 4.143,
+   "ls_cost": 4.3332,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 85.1
+   "gp_pct": 84.8
   },
   "Large Sanchez Wings Deal": {
    "ingredients": [
@@ -22534,9 +21946,9 @@
      "qty": 45.0,
      "unit": "g",
      "ls_cost": 0.0,
-     "our_cost": null,
+     "our_cost": 0.009783773109243698,
      "scaled_from": "Large Sanchez x1",
-     "eff_cost": 0.0
+     "eff_cost": 0.44027
     },
     {
      "name": "Shallots [Bunch]",
@@ -22553,32 +21965,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Sanchez x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Sanchez x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.343,
-   "ls_cost": 5.48,
+   "our_cost": 5.8533,
+   "ls_cost": 5.6032,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 80.4
+   "gp_pct": 78.5
   },
   "Large Roma Special Wings Deal": {
    "ingredients": [
@@ -22685,32 +22097,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Roma Special x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Roma Special x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.5053,
-   "ls_cost": 5.64,
+   "our_cost": 5.5753,
+   "ls_cost": 5.7632,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 79.8
+   "gp_pct": 79.6
   },
   "Large Paddock Wings Deal": {
    "ingredients": [
@@ -22817,32 +22229,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Paddock x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Paddock x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.0051,
-   "ls_cost": 5.12,
+   "our_cost": 5.075,
+   "ls_cost": 5.2432,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 81.6
+   "gp_pct": 81.4
   },
   "Large No Chorizo No Cry Wings Deal": {
    "ingredients": [
@@ -22949,32 +22361,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large No Chorizo, No Cry x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large No Chorizo, No Cry x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.3701,
-   "ls_cost": 5.51,
+   "our_cost": 5.4401,
+   "ls_cost": 5.6332,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 80.3
+   "gp_pct": 80.1
   },
   "Large New Yorker Wings Deal": {
    "ingredients": [
@@ -23037,32 +22449,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large New Yorker x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large New Yorker x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 4.8763,
-   "ls_cost": 5.01,
+   "our_cost": 4.9462,
+   "ls_cost": 5.1332,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 82.1
+   "gp_pct": 81.9
   },
   "Large Meatlovers Wings Deal": {
    "ingredients": [
@@ -23169,32 +22581,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Meatlovers x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Meatlovers x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 6.7057,
-   "ls_cost": 6.96,
+   "our_cost": 6.7756,
+   "ls_cost": 7.0832,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 75.4
+   "gp_pct": 75.2
   },
   "Large Little Italy Wings Deal": {
    "ingredients": [
@@ -23312,23 +22724,23 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Little Italy x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Little Italy x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     },
     {
      "name": "Sundried Tomato Strips Mezzat [2kg]",
@@ -23342,13 +22754,13 @@
      "eff_cost": 0.26
     }
    ],
-   "our_cost": 7.3134,
-   "ls_cost": 8.84,
+   "our_cost": 7.3833,
+   "ls_cost": 8.9632,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 73.2
+   "gp_pct": 72.9
   },
   "Large Jimmy Jury Wings Deal": {
    "ingredients": [
@@ -23455,32 +22867,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Jimmy Jury x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Jimmy Jury x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 6.095,
-   "ls_cost": 6.18,
+   "our_cost": 6.165,
+   "ls_cost": 6.3032,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 77.7
+   "gp_pct": 77.4
   },
   "Large Hawaiian Wings Deal": {
    "ingredients": [
@@ -23543,23 +22955,23 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Hawaiian x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Hawaiian x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     },
     {
      "name": "Ham Soccerball Sliced Pendle [1kg]",
@@ -23573,13 +22985,13 @@
      "eff_cost": 0.6985
     }
    ],
-   "our_cost": 3.2187,
-   "ls_cost": 3.26,
+   "our_cost": 3.2887,
+   "ls_cost": 3.3832,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 88.2
+   "gp_pct": 87.9
   },
   "Large Hail Africa Wings Deal": {
    "ingredients": [
@@ -23697,32 +23109,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Hail Africa x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Hail Africa x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 6.128,
-   "ls_cost": 6.24,
+   "our_cost": 6.198,
+   "ls_cost": 6.3632,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 77.5
+   "gp_pct": 77.3
   },
   "Large El Patron Wings Deal": {
    "ingredients": [
@@ -23818,32 +23230,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large El Patron x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large El Patron x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.7152,
-   "ls_cost": 5.85,
+   "our_cost": 5.7851,
+   "ls_cost": 5.9732,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 79.0
+   "gp_pct": 78.8
   },
   "Large Cosmopolitan Wings Deal": {
    "ingredients": [
@@ -23950,32 +23362,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Cosmopolitan x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Cosmopolitan x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 6.9907,
-   "ls_cost": 6.62,
+   "our_cost": 7.0607,
+   "ls_cost": 6.7432,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 74.4
+   "gp_pct": 74.1
   },
   "Large Bubba Gump Wings Deal": {
    "ingredients": [
@@ -24060,32 +23472,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Bubba Gump x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Bubba Gump x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 5.4038,
-   "ls_cost": 5.53,
+   "our_cost": 5.4738,
+   "ls_cost": 5.6532,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 80.2
+   "gp_pct": 79.9
   },
   "Large BBQ Chicken Wings Deal": {
    "ingredients": [
@@ -24148,23 +23560,23 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large BBQ Chicken Pizza x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large BBQ Chicken Pizza x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     },
     {
      "name": "Sunshine Smokey BBQ Sauce [3L]",
@@ -24178,13 +23590,13 @@
      "eff_cost": 0.084729
     }
    ],
-   "our_cost": 3.8434,
-   "ls_cost": 4.17,
+   "our_cost": 3.9134,
+   "ls_cost": 4.2932,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 85.9
+   "gp_pct": 85.7
   },
   "Large Margherita Wings Deal": {
    "ingredients": [
@@ -24236,32 +23648,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Margherita x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Margherita x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 2.2303,
-   "ls_cost": 2.3,
+   "our_cost": 2.3002,
+   "ls_cost": 2.4232,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 91.8
+   "gp_pct": 91.6
   },
   "Regular Garlic Cheese Pizza": {
    "ingredients": [
@@ -24308,15 +23720,25 @@
      "our_cost": "0.030000",
      "scaled_from": "Large Garlic Cheese Pizza x0.66",
      "eff_cost": 0.00198
+    },
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
     }
    ],
-   "our_cost": 1.151,
-   "ls_cost": 1.2672,
+   "our_cost": 1.6331,
+   "ls_cost": 1.7492,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 13.5,
-   "gp_pct": 90.6
+   "gp_pct": 86.7
   },
   "Large Garlic Cheese Pizza": {
    "ingredients": [
@@ -24359,15 +23781,25 @@
      "ls_cost": "0.00",
      "our_cost": "0.030000",
      "eff_cost": 0.003
+    },
+    {
+     "name": "Large Pizza Box 13\"",
+     "kind": "id",
+     "ref": "lightspeed:22873851",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
+     "eff_cost": 0.64262
     }
    ],
-   "our_cost": 1.744,
-   "ls_cost": 1.92,
+   "our_cost": 2.3866,
+   "ls_cost": 2.5626,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.0,
-   "gp_pct": 89.3
+   "gp_pct": 85.4
   },
   "Mojito": {
    "ingredients": [
@@ -24566,32 +23998,32 @@
      "name": "Large Pizza Box 13\"",
      "kind": "id",
      "ref": "lightspeed:22873851",
-     "qty": 0.02,
-     "unit": "ml",
-     "ls_cost": 0.53,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.64262,
+     "our_cost": 0.64262,
      "scaled_from": "Large Pepperoni x1",
-     "eff_cost": 0.5832
+     "eff_cost": 0.64262
     },
     {
      "name": "Pizza Box Inserts",
      "kind": "id",
      "ref": "lightspeed:22873876",
-     "qty": 0.01,
-     "unit": "ml",
-     "ls_cost": 0.1,
-     "our_cost": null,
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.11055,
+     "our_cost": 0.11055,
      "scaled_from": "Large Pepperoni x1",
-     "eff_cost": 0.1
+     "eff_cost": 0.11055
     }
    ],
-   "our_cost": 4.2863,
-   "ls_cost": 4.57,
+   "our_cost": 4.3562,
+   "ls_cost": 4.6932,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 84.3
+   "gp_pct": 84.0
   },
   "Hugo Spritz": {
    "ingredients": [
@@ -24688,7 +24120,7 @@
      "qty": 10.0,
      "unit": "ml",
      "ls_cost": 0.02,
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "scaled_from": "Classic Margarita x1",
      "eff_cost": 0.019984
     },
@@ -25664,7 +25096,7 @@
      "qty": "60",
      "unit": "g",
      "ls_cost": "0.85",
-     "our_cost": null,
+     "our_cost": 0.012995476923076925,
      "eff_cost": 0.842152
     },
     {
@@ -25779,14 +25211,25 @@
    "gp_pct": null
   },
   "Kids Spag Bol": {
-   "ingredients": [],
-   "our_cost": 0.0,
-   "ls_cost": 0.0,
+   "ingredients": [
+    {
+     "name": "Regular Pizza Box 11\"",
+     "kind": "id",
+     "ref": "lightspeed:22873831",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": 0.48202,
+     "our_cost": 0.48202,
+     "eff_cost": 0.48202
+    }
+   ],
+   "our_cost": 0.482,
+   "ls_cost": 0.482,
    "fully_our_book": true,
-   "resolved_pct": 0,
+   "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 13.0,
-   "gp_pct": null
+   "gp_pct": 95.9
   },
   "Nitro Sorbet Espresso": {
    "ingredients": [
@@ -31015,7 +30458,7 @@
      "qty": 10.424999999999999,
      "unit": "ml",
      "ls_cost": 0.0139,
-     "our_cost": null,
+     "our_cost": 0.0022727272727272726,
      "scaled_from": "Mulled Wine x1.39",
      "eff_cost": 0.013889
     }

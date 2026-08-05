@@ -26,11 +26,10 @@ COSTED = ROOT / "data" / "lightspeed_recipes_costed.json"
 # Known and accepted, each for a stated reason. Keep this list SHORT and justified —
 # an entry here is a promise that the $0 is understood, not that it's fine.
 KNOWN_ZERO = {
-    # Its only ingredient was the "bolognese" batch, which Zak retired as redundant
-    # (2026-08-05). Needs the real sauce wired in before its GP means anything.
-    "Kids Spag Bol",
     # Sea Foam is discontinued — it is on the reorder skill's exclusion list, so no
-    # invoice will ever price it again. Left visible rather than back-filled.
+    # invoice will ever price it again, yet the POS still sells it at $28 on
+    # delivery. Left visible rather than back-filled: the fix is delisting it, not
+    # inventing a cost for a wine we cannot buy.
     "Sea Foam Pet Nat D",
 }
 
