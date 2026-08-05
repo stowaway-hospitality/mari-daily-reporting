@@ -136,6 +136,8 @@ INGREDIENT_ALIAS = {
     "shaved parmesan": "Dairy Farmers Shaved Parmesan [1kg]",
     "parmesan": "Dairy Farmers Shaved Parmesan [1kg]",
     "Passionfruit Juice": "Passionfruit Syrup",     # Zak: Puerto Sunset uses the syrup
+    # Two names for one prep — 4 pizzas use the bare name, 42 the bracketed one.
+    "Pizza Dough": "Pizza Dough [Recipe]",
 
 }
 
@@ -785,6 +787,32 @@ def main() -> int:
                                    if _PACKAGING.search(l.get("name") or "")])
             n += 1
         return n
+
+    def _strip_wheat_from_gf():
+        """A gluten-free pizza does not contain wheat dough.
+
+        Every one of the 47 GF recipes carried BOTH the gluten-free base AND
+        "Pizza Dough [Recipe]" — Produce built the GF variants by copying a normal
+        pizza and adding the GF base, without taking the dough out. It double-counts
+        the base, but the real problem is that the recipe a kitchen reads for a
+        coeliac order lists wheat flour.
+
+        Only ever removes the wheat line, and only from a recipe that already has a
+        gluten-free base to replace it.
+        """
+        n = 0
+        for name, r in out.items():
+            if not any("gluten free" in (l.get("name") or "").lower()
+                       for l in r["ingredients"]):
+                continue
+            keep = [l for l in r["ingredients"]
+                    if not re.search(r"pizza dough", l.get("name") or "", re.I)]
+            n += len(r["ingredients"]) - len(keep)
+            r["ingredients"] = keep
+        return n
+
+    _wheat = _strip_wheat_from_gf()
+    print(f"  removed {_wheat} wheat-dough line(s) from gluten-free recipes")
 
     _flat = _flatten_pointer_pizzas()
     if _flat:
