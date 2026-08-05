@@ -67,6 +67,7 @@
         <option value="under">Under-costed (GP 95%+)</option>
         <option value="batch">Batches / preps</option>
       </select>
+      <select id="size"><option value="all">All sizes</option></select>
       <select id="cat"><option value="all">All categories</option></select>
       <span class="stat" id="stat"></span>
     </div>
@@ -101,6 +102,12 @@ Auth.gate(document.getElementById('gate'), {
     }
     const cats=[...new Set(Object.values(SALES).map(x=>x.group).filter(Boolean))].sort();
     document.getElementById('cat').innerHTML='<option value="all">All categories</option>'+cats.map(c=>`<option>${esc(c)}</option>`).join('');
+    // Filter by size so a GP ranking compares like with like — a Regular and a
+    // Large are different dishes, and mixing them makes the order meaningless.
+    const szs=[...new Set(Object.keys(DATA.recipes||{}).map(n=>sizeOf(n).lab).filter(Boolean))]
+      .sort((a,b)=>(SIZES.find(x=>x[1]===a)?.[2]||0)-(SIZES.find(x=>x[1]===b)?.[2]||0));
+    document.getElementById('size').innerHTML='<option value="all">All sizes</option>'+szs.map(x=>`<option>${esc(x)}</option>`).join('');
+    document.getElementById('size').addEventListener('change',render);
     document.getElementById('cat').addEventListener('change',render);
     document.getElementById('q').addEventListener('input',render);
     document.getElementById('filter').addEventListener('change',render);
@@ -186,6 +193,8 @@ function render(){
   rows=rows.filter(([n])=>!q||n.toLowerCase().includes(q));
   const c=document.getElementById('cat').value;
   if(c!=='all') rows=rows.filter(([n])=>sale(n).group===c);
+  const sz=document.getElementById('size').value;
+  if(sz!=='all') rows=rows.filter(([n])=>sizeOf(n).lab===sz);
   const col=COLS.find(c=>c.k===SORT.key)||COLS[4];
   rows.sort((a,b)=>{
     const x=col.val(a[0],a[1]), y=col.val(b[0],b[1]);

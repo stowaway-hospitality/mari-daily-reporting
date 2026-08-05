@@ -122,3 +122,21 @@
       qty: 240
       unit: "g"
       unit_cost_incl: 0.023875
+
+# Minced garlic — 1kg peeled garlic blended with 1L vegetable oil. Nothing is
+# cooked off, so the batch weighs what went in: 1000g garlic + 1L oil at ~0.92
+# g/ml = 920g, giving 1,920g. Kept in grams because that is how a recipe draws it.
+- product: "Minced Garlic Prep"
+  yield_qty: 1920
+  yield_unit: "g"
+  ingredients:
+    - id: "lightspeed:22524134"
+      desc: "Peeled Garlic [1Kg]"
+      qty: 1000
+      unit: "g"
+      unit_cost_incl: 0.004400
+    - id: "lightspeed:22918982"
+      desc: "Oil Vegetable [20L] (1L)"
+      qty: 1000
+      unit: "ml"
+      unit_cost_incl: 0.002595
