@@ -390,17 +390,35 @@ def main() -> int:
                 if not _y and _yb:
                     _q, _u = float(_yb.group(1)), _yb.group(2).lower()
                     _y = (_q * 1000, "g") if _u == "kg" else (_q * 1000, "ml") if _u in ("l", "lt", "litre") else (_q, _u)
-                if sl > 0 and so > 0 and ls > 0:
+                try:
+                    _q2 = float(ln.get("qty") or 0)
+                except (TypeError, ValueError):
+                    _q2 = 0.0
+                if (so > 0 and not _y and 0 < _q2 <= 2
+                        and (sell_of(ln["ref"], sell_by_norm, sell_by_tok) or 0) >= 3):
+                    # A whole SERVE used inside another product: a Regular pizza is
+                    # "0.716 of the Large", a Wings Deal is "1 x the Large", so the
+                    # quantity IS the multiplier. Scaling by Lightspeed's price ratio
+                    # instead drifts badly — it billed a Wings Deal $8.26 for one
+                    # $6.92 pizza (+19%), and every Regular the same way.
+                    #
+                    # The sub must itself be SOLD (sell price >= $3) for this to mean
+                    # a serve. A batch tray is also "qty 1" but that means one
+                    # PORTION, not the whole tray — reading it as a multiplier costed
+                    # a $10 brownie at $46.72.
+                    eff = so * _q2
+                    full_ours = full_ours and sfo
+                elif sl > 0 and so > 0 and ls > 0:
+                    # Lightspeed gives a reference for this line, so scale the
+                    # batch by it. Preferred over yield maths because it is
+                    # self-correcting: it cannot be thrown by a wrong batch cost
+                    # or a garbage quantity (costing Beef Burrito off the
+                    # $141/kg "Cooked Beef Brisket" batch made it $35.70).
                     eff = so * (ls / sl)
                     full_ours = full_ours and sfo
                 elif so > 0 and _y and _y[0] > 0 and (ln.get("unit") or "").lower() == _y[1]:
-                    # No Lightspeed reference to scale (an aliased duplicate carried
-                    # no cost of its own), but the batch HAS a yield — so cost the
-                    # line the honest way: qty / yield x batch cost.
-                    try:
-                        _q2 = float(ln.get("qty") or 0)
-                    except (TypeError, ValueError):
-                        _q2 = 0.0
+                    # No reference at all (an aliased duplicate carried none),
+                    # but the batch HAS a yield -> qty / yield x batch cost.
                     eff = so * (_q2 / _y[0])
                     full_ours = full_ours and sfo
                 else:
