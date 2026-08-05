@@ -120,6 +120,16 @@
   match: "prawn"
   grams: 52
 
+- label: "shallots"
+  match: "shallot"
+  grams: 15
+
+# MUST stay above the plain "chicken" rule — first match wins, and /chicken/ would
+# otherwise claim "Tandoori Chicken [2Kg]" at 105g.
+- label: "tandoori chicken"
+  match: "tandoori chicken"
+  grams: 126
+
 - label: "chicken"
   match: "chicken"
   grams: 105

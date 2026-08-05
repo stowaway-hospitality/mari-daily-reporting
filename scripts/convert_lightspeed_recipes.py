@@ -699,6 +699,17 @@ def main() -> int:
                         continue
                     if float(ln.get("qty") or 0) != float(s["grams"]):
                         ln["qty"], ln["unit"] = float(s["grams"]), "g"
+                        # RE-RESOLVE. our_cost was worked out earlier against the
+                        # line's ORIGINAL unit — Produce writes some of these in
+                        # "bunch" — so after rewriting to grams it was left null and
+                        # the line fell back to Lightspeed's cost for the OLD
+                        # quantity. That is how 15g of shallots cost 8c on one pizza
+                        # and 37c on another. Re-price against our book in the unit
+                        # the line now uses, and bring the referee with it.
+                        oc = our_costs.get(ln.get("ref") or "")
+                        if oc and oc[1] == "g":
+                            ln["our_cost"] = oc[0]
+                            ln["ls_cost"] = float(oc[0]) * float(s["grams"])
                         changed += 1
                         hit = True
                     break
