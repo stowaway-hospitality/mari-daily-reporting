@@ -35,6 +35,12 @@ COSTED = ROOT / "data" / "lightspeed_recipes_costed.json"
 INGREDIENTS = ROOT / "data" / "ingredients.json"
 COSTS = ROOT / "data" / "costs.csv"
 COGS = ROOT / "data" / "cogs_list.csv"
+PRODUCTS_WEEKLY = ROOT / "data" / "products_weekly.csv"
+
+# Real pour sizes, AU: middy 285 ml, schooner 425 ml, pint 570 ml. Nothing that
+# sells for $8-15 is poured below a middy, so a POS cost implying less than this
+# is not a small pour — it is a wrong cost.
+MIN_REAL_POUR_ML = 300
 
 # What a sane bar/kitchen ingredient costs, per BASE unit, incl GST. Anything past
 # these is a pack/unit confusion, not a real price. Calibrated on the real book:
@@ -181,6 +187,38 @@ def audit():
                 add("INFO", "ingredient in the LARGE but missing from the REGULAR",
                     f"{stem}: {lname[:30]} ({lq:g} in large, absent in regular)")
 
+    # ---------- A BATCH THAT CANNOT FIT IN ITS OWN CONTAINER ----------
+    # "Jalapeño Tequila [1L]" draws 7000 ml of tequila; "Coconut-washed Rooster
+    # Blanco [1L]" draws 4200 ml. You cannot get 1 L out of 7 L of input — the
+    # quantity is wrong (10 bottles where 1 was meant), and it books the batch at
+    # $551 instead of ~$55. Spirits infusions are not reductions, so input far
+    # above the declared yield is impossible rather than merely surprising.
+    # Deliberately blunt: 3x headroom so a genuine reduction (stock, caramel)
+    # never trips it.
+    _YIELD_IN_NAME = re.compile(r"\[\s*([\d.]+)\s*(ml|l|kg|g)\s*\]", re.I)
+    _TO_BASE = {"ml": 1.0, "l": 1000.0, "g": 1.0, "kg": 1000.0}
+    for name, r in sorted(recipes.items()):
+        m = _YIELD_IN_NAME.search(name)
+        if not m:
+            continue
+        try:
+            declared = float(m.group(1)) * _TO_BASE[m.group(2).lower()]
+        except (ValueError, KeyError):
+            continue
+        if declared <= 0:
+            continue
+        # sum only same-dimension inputs (ml/l with ml/l, g/kg with g/kg)
+        want = {"ml", "l"} if m.group(2).lower() in ("ml", "l") else {"g", "kg"}
+        total = 0.0
+        for ln in (r.get("ingredients") or []):
+            u = (ln.get("unit") or "").lower()
+            if u in want:
+                total += money(ln.get("qty")) * _TO_BASE.get(u, 1.0)
+        if total > 3 * declared:
+            add("SEVERE", "batch uses far more input than the yield in its own name",
+                f"{name}: {total:,.0f} vs {declared:,.0f} declared "
+                f"({total/declared:.1f}x)  costs ${money(r.get('our_cost')):,.2f}")
+
     # collisions: two recipes that normalise to one name double-count in rollups
     seen = defaultdict(list)
     for n in recipes:
@@ -263,6 +301,51 @@ def audit():
                     "invoice price way off this ingredient's own history (pack misread)",
                     f"{c / med:>5.1f}x median  ${c:<10.6f} {str(r.get('description'))[:26]:28}"
                     f" {r.get('source_invoice', '')[:12]} {r['observed_on']}{live}")
+
+    # ---------- THE POS COST vs OUR KEG COST: AN IMPOSSIBLE POUR ----------
+    # The single largest money error found so far, and it is invisible in the
+    # recipe book because tap beer has no recipe — it is a pour.
+    #
+    # Divide what the POS books as cost for one unit sold by OUR invoiced keg rate
+    # and you get the pour size the POS believes it is selling. Harry Gatos comes
+    # out at 482 ml and 410 ml (real). Stowaway comes out at 126-171 ml for
+    # schooners that are 425 ml, i.e. tap beer reporting ~92% GP when the same
+    # beers at HG report 68-78%. Same method validates one venue and condemns the
+    # other, which is what makes this a finding rather than a guess.
+    if PRODUCTS_WEEKLY.exists():
+        keg = {}
+        for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
+            d = (r.get("description") or "").upper()
+            if "KEG" in d and r.get("unit") == "ml":
+                k = re.sub(r"[^A-Z0-9]", "", d.split("KEG")[0])[:8]
+                if k and (k not in keg or r["observed_on"] >= keg[k][1]):
+                    keg[k] = (money(r["cost_per_unit"]), r["observed_on"])
+        pw = list(csv.DictReader(PRODUCTS_WEEKLY.open(encoding="utf-8-sig")))
+        wks = sorted({r["week_ending"] for r in pw})
+        if wks and keg:
+            cut = wks[max(0, len(wks) - 13)]
+            agg = defaultdict(lambda: [0.0, 0.0, 0.0])
+            for r in pw:
+                if r["week_ending"] < cut or r.get("reporting_group") != "Tap Beer":
+                    continue
+                a = agg[(r["venue"], r["product_name"])]
+                a[0] += money(r.get("qty")); a[1] += money(r.get("sales_ex_gst"))
+                a[2] += money(r.get("cost"))
+            for (ven, nm), (q, rev, cost) in sorted(agg.items(), key=lambda x: -x[1][1]):
+                if q < 20 or cost <= 0:
+                    continue
+                n8 = re.sub(r"[^A-Z0-9]", "", nm.upper())
+                rate = next((v[0] for k, v in keg.items()
+                             if k and (k in n8 or n8[:8] == k)), None)
+                if not rate or rate <= 0:
+                    continue
+                pour = (cost / q) / rate
+                if pour < MIN_REAL_POUR_ML:
+                    lost = (rate * 425 * q) - cost      # vs a 425 ml schooner
+                    add("SEVERE", "POS cost implies a physically impossible pour "
+                                  "(tap beer COGS understated)",
+                        f"[{ven}] {nm[:26]:<28} implies {pour:>4.0f}ml/serve "
+                        f"— {q:,.0f} sold, ${lost:,.0f} of COGS missing (13wk)")
 
     # ---------- COST BOOK ----------
     rows = list(csv.DictReader(COSTS.open(encoding="utf-8-sig")))
