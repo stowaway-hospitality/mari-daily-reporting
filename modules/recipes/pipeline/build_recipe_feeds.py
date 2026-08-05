@@ -26,12 +26,57 @@ as data/ingredients.json.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from datetime import date
 from decimal import Decimal
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
+
+# --- which venue does a recipe belong to? ------------------------------------
+# It was hard-coded "stowaway" for every Lightspeed recipe, so all 144 of
+# Marilyna's pizzas were filed under Stowaway and the only recipes tagged
+# marilynas were the six sauces keyed in by hand. All three venues ring through
+# ONE till (CLAUDE.md), so the NAME cannot tell you the venue — but the Sales
+# Product API already splits them by reporting group, and CLAUDE.md names it the
+# authority for product questions. So ask it instead of guessing.
+_VENUE_BY_PRODUCT: dict[str, str] | None = None
+
+
+def venue_of(product_name: str, default: str = "stowaway") -> str:
+    global _VENUE_BY_PRODUCT
+    if _VENUE_BY_PRODUCT is None:
+        _VENUE_BY_PRODUCT = {}
+        base = ROOT / "dashboard" / "sales" / "products"
+        for venue, fn in (("stowaway", "rollup_stow.json"),
+                          ("harry_gatos", "rollup_hg.json"),
+                          ("marilynas", "rollup_mari.json")):
+            f = base / fn
+            if not f.exists():
+                continue
+            for prod in (json.loads(f.read_text()).get("products") or []):
+                nm = (prod.get("name") or "").strip().lower()
+                if nm:
+                    _VENUE_BY_PRODUCT.setdefault(nm, venue)
+    nm = (product_name or "").strip().lower()
+    hit = _VENUE_BY_PRODUCT.get(nm)
+    if hit:
+        return hit
+    # A variant with no sales row of its own — a [Dine-in] twin, a Wings Deal, a
+    # kids' size. Ask the same dish in another size before falling back, or the
+    # venue split gets decided by which variants happen to have sold.
+    stem = re.sub(r"\s*\[dine-in\]\s*$", "", nm)
+    stem = re.sub(r"\s+wings deal$", "", stem)
+    if stem != nm and (hit := _VENUE_BY_PRODUCT.get(stem)):
+        return hit
+    bare = re.sub(r"^(large|regular|gluten-free|kids|family)\s+", "", stem)
+    if bare != stem:
+        for pre in ("large ", "regular ", "gluten-free ", "kids ", "family "):
+            if (hit := _VENUE_BY_PRODUCT.get(pre + bare)):
+                return hit
+    return default
+
 sys.path.insert(0, str(ROOT))
 
 from core.domain import CostSeries, load_cost_observations       # noqa: E402
@@ -163,7 +208,7 @@ def recipes_index() -> dict:
                     yq, yu = q, "each"
             cost = Decimal(str(r.get("our_cost") or 0))
             items.append({
-                "product": name, "venue": "stowaway",
+                "product": name, "venue": venue_of(name),
                 "yield_qty": _dec(yq) if yq else None, "yield_unit": yu,
                 "usable_as_subrecipe": bool(yq and yu),
                 "cost": _dec(cost.quantize(Decimal("0.0001"))) if cost else None,
@@ -339,7 +384,7 @@ def recipes_full() -> dict:
                 yq, yu = (q * 1000, "g") if u == "kg" else (q * 1000, "ml") if u in ("l", "lt", "litre") \
                     else (q, "g") if u == "g" else (q, "ml") if u == "ml" else (q, "each")
             out.append({
-                "product": name, "venue": "stowaway", "source": "lightspeed",
+                "product": name, "venue": venue_of(name), "source": "lightspeed",
                 "sell_incl_gst": r.get("sell_incl"),
                 "yield_qty": yq, "yield_unit": yu, "lines": lines,
             })
