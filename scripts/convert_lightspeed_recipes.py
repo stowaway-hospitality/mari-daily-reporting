@@ -346,6 +346,51 @@ def main() -> int:
                           "ls_cost": ing.get("cost"), "our_cost": our})
         out[name] = {"ingredients": lines}
 
+    # ---- EXPAND size variants into real ingredient lists -------------------
+    # Produce builds a Regular pizza as "0.716 x the Large" and a Wings Deal as
+    # "1 x the Large" — one sub-recipe line, no ingredients of its own. That is
+    # unreadable on the floor and impossible to cost line-by-line, so the
+    # reference is replaced by the parent's OWN lines with every quantity scaled
+    # by the fraction. Each size becomes a self-contained recipe whose cost is
+    # computed from its ingredients, not inherited.
+    #
+    # Only a SOLD serve (>= $3) at a serve-sized multiple is expanded: a batch
+    # tray is also "qty 1" but that means one portion of it, not the whole thing.
+    def _expand_serves():
+        for _ in range(5):                       # nested variants; converges fast
+            changed = False
+            for nm, body in out.items():
+                fresh, hit = [], False
+                for ln in body["ingredients"]:
+                    ref = ln.get("kind") == "subrecipe" and ln.get("ref")
+                    if ref and ref in out and ref != nm:
+                        try:
+                            q = float(ln.get("qty") or 0)
+                        except (TypeError, ValueError):
+                            q = 0.0
+                        if 0 < q <= 2 and (sell_of(ref, sell_by_norm, sell_by_tok) or 0) >= 3:
+                            for sub in out[ref]["ingredients"]:
+                                c = dict(sub)
+                                for k in ("qty", "ls_cost"):   # the LS reference must scale too
+                                    # (scaling "cost" was a no-op: the built
+                                    #  line names the field ls_cost, so every
+                                    #  ratio-costed line kept its FULL-size
+                                    #  figure and a Regular came out 0.819x)
+                                    try:
+                                        c[k] = float(sub.get(k) or 0) * q
+                                    except (TypeError, ValueError):
+                                        pass
+                                c["scaled_from"] = f"{ref} x{q:g}"
+                                fresh.append(c)
+                            hit = changed = True
+                            continue
+                    fresh.append(ln)
+                if hit:
+                    body["ingredients"] = fresh
+            if not changed:
+                break
+    _expand_serves()
+
     # a recipe used as an ingredient by another recipe is a PREP/BATCH (its POS
     # "sell price" is a placeholder, and it may legitimately carry a big bulk line
     # like $244 of chicken). Bracket sizes ([Batch]/[2Kg]/[1L]) mark bulk preps too.
