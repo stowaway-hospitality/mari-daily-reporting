@@ -200,6 +200,28 @@ def load_yields():
     return out
 
 
+_BASE = {"kg": ("g", 1000.0), "l": ("ml", 1000.0), "lt": ("ml", 1000.0), "litre": ("ml", 1000.0)}
+
+
+def _to_base(cost, unit):
+    """Express a price in BASE units: $/kg -> $/g, $/L -> $/ml.
+
+    The seed and the invoice for one product often disagree only in scale — the
+    passionfruit seed resolves per GRAM while the Berry Man invoice bridges per
+    KILO. Same price, same dimension, but the ratio path compares unit strings,
+    so it could never run and the syrup stayed uncosted off our book. Normalising
+    both sides at load makes them comparable without any unit maths downstream.
+    Only mass and volume convert; ea/box/bunch have no base and pass through."""
+    u = (unit or "").lower()
+    if u in _BASE:
+        nu, div = _BASE[u]
+        try:
+            return (str(float(cost) / div), nu)
+        except (TypeError, ValueError):
+            return (cost, unit)
+    return (cost, unit)
+
+
 def load_our_costs():
     """ingredient id -> latest (cost_per_unit, unit) from our cost book."""
     latest = {}
@@ -208,7 +230,7 @@ def load_our_costs():
         d = r["observed_on"]
         if k not in latest or d >= latest[k][2]:
             latest[k] = (r["cost_per_unit"], r["unit"], d)
-    return {k: (v[0], v[1]) for k, v in latest.items()}
+    return {k: _to_base(v[0], v[1]) for k, v in latest.items()}
 
 
 def load_seed_baseline():
@@ -221,7 +243,7 @@ def load_seed_baseline():
         if str(r.get("source_invoice") or "").startswith(
                 ("ls-recipe-seed", "bo-seed", "recipe-bridge-seed", "bo-ingredient-seed",
                  "house-recipe-seed", "invoice-derived-seed")):
-            base[k] = (r["cost_per_unit"], r["unit"])
+            base[k] = _to_base(r["cost_per_unit"], r["unit"])
         if k not in earliest or d < earliest[k][2]:
             earliest[k] = (r["cost_per_unit"], r["unit"], d)
     # A product with real invoices but no seed row still needs a scrape-time
@@ -230,7 +252,7 @@ def load_seed_baseline():
     # what it cost when the recipe was scraped, so use that. (A seed row, when one
     # exists, still wins: it is dated at the scrape itself.)
     for k, v in earliest.items():
-        base.setdefault(k, (v[0], v[1]))
+        base.setdefault(k, _to_base(v[0], v[1]))
     return base
 
 
