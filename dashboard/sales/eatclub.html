@@ -1,8 +1,11 @@
-<!doctype html><html><head><meta charset=utf-8><title>EatClub — Harry Gatos</title>
+<!doctype html><html><head><meta charset=utf-8><title>EatClub — Stowaway Hospitality Group</title>
 <style>
 body{font-family:-apple-system,Helvetica,Arial;margin:32px;color:#16181d;background:#fff}
 h1{margin-bottom:2px;font-size:26px} h2{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#666;margin:34px 0 10px}
-.sub{color:#777;margin-bottom:24px;font-size:14px}
+.sub{color:#777;margin-bottom:20px;font-size:14px}
+.tabs{display:flex;gap:8px;margin:6px 0 22px;flex-wrap:wrap}
+.tab{border:1px solid #e0e0e0;background:#fafafa;border-radius:22px;padding:7px 16px;font-size:14px;font-weight:600;color:#555;cursor:pointer;user-select:none}
+.tab.on{background:#16181d;border-color:#16181d;color:#fff}
 .cards{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px}
 .card{border:1px solid #e6e6e6;border-radius:10px;padding:13px 17px;min-width:118px}
 .card .v{font-size:21px;font-weight:600} .card .l{font-size:11px;color:#777;text-transform:uppercase;letter-spacing:.04em}
@@ -12,44 +15,48 @@ th:first-child,td:first-child,th:last-child,td:last-child{text-align:left}
 th{background:#fafafa;font-size:11px;text-transform:uppercase;color:#666;letter-spacing:.04em}
 .pos{color:#12794a;font-weight:600} .neg{color:#b23b3b;font-weight:600}
 .mutetxt{color:#999;font-size:12px} .whytxt{color:#777;font-size:12px;margin-top:3px;max-width:330px;line-height:1.35}
-.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.03em}
-.pill.good{background:#e4f5eb;color:#12794a} .pill.warn{background:#fff2e0;color:#9a5b12} .pill.mute{background:#f0f0f0;color:#777}
 .flag{background:#fff8ea;border-left:4px solid #e8a33d;padding:13px 16px;border-radius:6px;margin-top:14px;font-size:14px;line-height:1.5}
 .flag.red{background:#fdefef;border-left-color:#c9524f}
+.flag.info{background:#eef4fb;border-left-color:#5b8fd0}
 .big{font-size:16px;font-weight:700;color:#12794a}
 tr.tot td{border-top:2px solid #333;background:#fafafa;font-weight:700}
-
 @media (prefers-color-scheme: dark) {
   body{color:#f2f0ea;background:#161512}
   h2,.sub,.card .l,.mutetxt,.whytxt{color:#a7a29a}
   .card{border-color:#3a382f}
+  .tab{background:#1f1e19;border-color:#3a382f;color:#c9c5bc} .tab.on{background:#f2f0ea;border-color:#f2f0ea;color:#161512}
   th{background:#1f1e19;color:#a7a29a}
   th,td{border-bottom-color:#2c2a24}
   .pos{color:#5dcaa5} .neg{color:#f09595}
-  .pill.good{background:#0a3d2c;color:#9fe1cb}
-  .pill.warn{background:#43300b;color:#fac775}
-  .pill.mute{background:#2c2c2a;color:#b4b2a9}
   .flag{background:#332a12;border-left-color:#e8a33d}
   .flag.red{background:#3b1a1a;border-left-color:#c9524f}
+  .flag.info{background:#182635;border-left-color:#5b8fd0}
   tr.tot td{background:#1f1e19;border-top-color:#a7a29a}
   a{color:#85b7eb}
 }
 </style></head><body>
 <script>document.documentElement.style.visibility = 'hidden';</script>
 <div style="margin-bottom:14px"><a href="/" style="font-size:14px;color:#666;text-decoration:none">&larr; Back to dashboard</a></div>
-<h1>EatClub — Harry Gatos</h1>
+<h1 id=title>EatClub</h1>
+<div class=tabs id=tabs></div>
 <div class=sub id=sub>Loading…</div>
 <div id=app></div>
 
 <script type="module">
-  // Open to ALL signed-in users; live data from /data/eatclub_nights.json (rebuilt
-  // each daily pull), so the page stays current instead of being a static snapshot.
+  // Open to ALL signed-in users. Per-venue live data from
+  // /data/eatclub_nights_<key>.json (rebuilt each daily pull). Tabs switch venue;
+  // the choice rides in the URL hash so a link opens on the right venue.
   import { Auth } from '/_shared/auth.js';
   let me = null;
   try { me = await Auth.current(); } catch (e) { console.error('auth', e); }
   if (!me) { location.replace('/'); }
-  else { document.documentElement.style.visibility = ''; render(); }
+  else { document.documentElement.style.visibility = ''; boot(); }
 
+  const VENUES = [
+    { key: 'hg',   label: 'Harry Gatos' },
+    { key: 'stow', label: 'Stowaway' },
+    { key: 'mari', label: "Marilyna's" },
+  ];
   const $ = n => (n < 0 ? '−$' : '$') + Math.round(Math.abs(n)).toLocaleString();
   const $2 = n => '$' + n.toFixed(2);
   const pc = n => n.toFixed(1) + '%';
@@ -58,25 +65,48 @@ tr.tot td{border-top:2px solid #333;background:#fafafa;font-weight:700}
   const dow = iso => new Date(iso + 'T00:00').toLocaleDateString('en-AU', { weekday: 'short' });
   const weekEnding = iso => { const d = new Date(iso + 'T00:00'); const off = (7 - d.getDay()) % 7; d.setDate(d.getDate() + off); return d.toISOString().slice(0, 10); };
 
+  function boot() {
+    const bar = document.getElementById('tabs');
+    bar.innerHTML = VENUES.map(v => `<div class=tab data-k="${v.key}">${v.label}</div>`).join('');
+    bar.querySelectorAll('.tab').forEach(el =>
+      el.addEventListener('click', () => { location.hash = el.dataset.k; }));
+    window.addEventListener('hashchange', render);
+    render();
+  }
+
+  function currentKey() {
+    const k = (location.hash || '').replace('#', '');
+    return VENUES.some(v => v.key === k) ? k : 'hg';
+  }
+
   async function render() {
+    const key = currentKey();
+    document.querySelectorAll('.tab').forEach(el => el.classList.toggle('on', el.dataset.k === key));
     const app = document.getElementById('app');
+    const subEl = document.getElementById('sub');
+    subEl.textContent = 'Loading…';
+    app.innerHTML = '';
     let d;
-    try { d = await (await fetch('/data/eatclub_nights.json?t=' + Date.now())).json(); }
-    catch (e) { document.getElementById('sub').textContent = 'Could not load EatClub data.'; return; }
-    const N = d.nights, cogs = d.cogs_pct;
-    document.getElementById('sub').textContent =
-      `Launched ${dfmt(d.launch)} 2026 · ${N.length} nights · latest ${dfmt(d.latest)} 2026 · live`;
+    try { d = await (await fetch(`/data/eatclub_nights_${key}.json?t=` + Date.now())).json(); }
+    catch (e) { subEl.textContent = 'Could not load EatClub data.'; return; }
+
+    const N = d.nights || [], cogs = d.cogs_pct;
+    document.getElementById('title').textContent = `EatClub — ${d.venue}`;
+    document.title = `EatClub — ${d.venue}`;
+    if (!N.length) { subEl.textContent = `No EatClub redemptions captured for ${d.venue} yet.`; return; }
+    subEl.textContent =
+      `Launched ${dfmt(d.launch)} 2026 · ${N.length} night${N.length === 1 ? '' : 's'} · latest ${dfmt(d.latest)} 2026 · live`;
+
     const sum = f => N.reduce((t, n) => t + f(n), 0);
     const tables = sum(n => n.tables), covers = sum(n => n.covers);
     const menuInc = sum(n => n.menu_inc), netInc = sum(n => n.net_inc), give = sum(n => n.giveaway_inc);
     const costPct = menuInc ? give / menuInc * 100 : 0;
 
-    // cards
     let html = `<div class=cards>
       <div class=card><div class=l>Redeemed tables</div><div class=v>${tables}</div></div>
       <div class=card><div class=l>Covers</div><div class=v>${covers}</div></div>
       <div class=card><div class=l>Full menu value</div><div class=v>${$(menuInc)}</div></div>
-      <div class=card><div class=l>Net to HG</div><div class=v>${$(netInc)}</div></div>
+      <div class=card><div class=l>Net revenue</div><div class=v>${$(netInc)}</div></div>
       <div class=card><div class=l>Channel cost</div><div class=v>${$(give)}</div><div class=l>${pc(costPct)} of bill</div></div>
       <div class=card><div class=l>Avg / cover (net)</div><div class=v>${covers ? $2(netInc / covers) : '—'}</div></div>
     </div>`;
@@ -93,18 +123,25 @@ tr.tot td{border-top:2px solid #333;background:#fafafa;font-weight:700}
       const com = exgst(ns.reduce((t, n) => t + n.commission_inc, 0));
       const net = exgst(ns.reduce((t, n) => t + n.net_inc, 0));
       const cov = ns.reduce((t, n) => t + n.covers, 0);
-      const cog = m * cogs / 100, contr = net - cog;
-      tM += m; tD += dis; tC += com; tNet += net; tCog += cog; tCov += cov;
-      rowsHtml += `<tr><td>w/e ${dfmt(w)}<br><span class=mutetxt>${ns.length} nights · ${ns.reduce((t, n) => t + n.tables, 0)} tables · ${cov} covers</span></td>` +
+      const cog = cogs == null ? null : m * cogs / 100;
+      const contr = cog == null ? null : net - cog;
+      tM += m; tD += dis; tC += com; tNet += net; tCov += cov; if (cog != null) tCog += cog;
+      rowsHtml += `<tr><td>w/e ${dfmt(w)}<br><span class=mutetxt>${ns.length} night${ns.length === 1 ? '' : 's'} · ${ns.reduce((t, n) => t + n.tables, 0)} tables · ${cov} covers</span></td>` +
         `<td>${$(m)}</td><td class=neg>−${$(dis)}</td><td class=neg>−${$(com)}</td><td>${$(net)}</td>` +
-        `<td class=neg>−${$(cog)}</td><td class=big>${$(contr)}</td><td>${net ? pc(contr / net * 100) : '—'}</td><td>${cov ? $2(contr / cov) : '—'}</td></tr>`;
+        `<td class=neg>${cog == null ? '—' : '−' + $(cog)}</td><td class=big>${contr == null ? '—' : $(contr)}</td>` +
+        `<td>${contr == null ? '—' : (net ? pc(contr / net * 100) : '—')}</td><td>${contr == null ? '—' : (cov ? $2(contr / cov) : '—')}</td></tr>`;
     }
-    const tContr = tNet - tCog;
-    html += `<h2>Weekly contribution — net of EatClub discount, commission &amp; actual COGS (ex-GST)</h2>
-      <table><tr><th>Week</th><th>Menu value</th><th>Discount</th><th>Commission</th><th>Net revenue</th><th>COGS @ ${cogs}% actual</th><th>Contribution</th><th>% of net</th><th>Per cover</th></tr>
+    const tContr = cogs == null ? null : tNet - tCog;
+    const cogsHead = cogs == null ? 'COGS' : `COGS @ ${cogs}% actual`;
+    html += `<h2>Weekly contribution — net of EatClub discount, commission${cogs == null ? '' : ' &amp; actual COGS'} (ex-GST)</h2>
+      <table><tr><th>Week</th><th>Menu value</th><th>Discount</th><th>Commission</th><th>Net revenue</th><th>${cogsHead}</th><th>Contribution</th><th>% of net</th><th>Per cover</th></tr>
       ${rowsHtml}
-      <tr class=tot><td>Program to date</td><td>${$(tM)}</td><td class=neg>−${$(tD)}</td><td class=neg>−${$(tC)}</td><td>${$(tNet)}</td><td class=neg>−${$(tCog)}</td><td class=big>${$(tContr)}</td><td>${tNet ? pc(tContr / tNet * 100) : '—'}</td><td>${tCov ? $2(tContr / tCov) : '—'}</td></tr></table>
-      <div class=flag><b>COGS ${cogs}%</b> charged on the <b>full</b> menu volume (the kitchen cooks the whole dish; the discount comes off the price, not the plate). Commission is 10% ex-GST (the 11% billed includes GST, which you reclaim). <b>Labour is excluded.</b></div>`;
+      <tr class=tot><td>Program to date</td><td>${$(tM)}</td><td class=neg>−${$(tD)}</td><td class=neg>−${$(tC)}</td><td>${$(tNet)}</td><td class=neg>${tContr == null ? '—' : '−' + $(tCog)}</td><td class=big>${tContr == null ? '—' : $(tContr)}</td><td>${tContr == null ? '—' : (tNet ? pc(tContr / tNet * 100) : '—')}</td><td>${tContr == null ? '—' : (tCov ? $2(tContr / tCov) : '—')}</td></tr></table>`;
+    if (cogs == null) {
+      html += `<div class="flag info">Redemptions and revenue are live. <b>Contribution is pending a food-COGS% for ${d.venue}</b> — set it (Harry Gatos uses <b>27.6%</b>, the trailing actual food cost) and this fills in. We don't show a guessed cost.</div>`;
+    } else {
+      html += `<div class=flag><b>COGS ${cogs}%</b> charged on the <b>full</b> menu volume (the kitchen cooks the whole dish; the discount comes off the price, not the plate). Commission is 10% ex-GST (the 11% billed includes GST, which you reclaim). <b>Labour is excluded.</b></div>`;
+    }
 
     // nightly redemptions (newest first)
     let nightRows = '';
