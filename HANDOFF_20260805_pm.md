@@ -1,32 +1,33 @@
 # Handoff — recipe/COGS deep audit, 2026-08-05 (afternoon)
 
 Continues `HANDOFF_20260805.md`. **Run `python3 scripts/audit_book.py` first** — it
-now reproduces every finding below with current numbers, including five NEW rules
-that did not exist this morning.
+reproduces every finding below with current numbers, including six rules that did
+not exist this morning.
 
-Branch `recipes/liquor-pack-discriminator` @ `c9402d7` is **pushed**. Everything
-after that is committed locally / staged and needs one push (see END).
+Branch `recipes/liquor-pack-discriminator` — **PR #5 open**, 7 commits, all pushed.
 
 ---
 
 ## The one idea, this round
 
-**Our cost book quietly deferred to Lightspeed whenever the two disagreed.**
+**The P&L was not using the cost book at all, and the book was deferring to
+Lightspeed wherever the two disagreed.**
 
-`_trust_direct()` in `convert_lightspeed_recipes.py` uses "does our price agree
-with Lightspeed's line?" as evidence that a recipe's *quantity* is believable.
-That is sound — it is what stops Truffle Oil's "4 ml" (really 4 bottles) from
-under-costing 250x.
+Two independent failures pointing the same way. Every published day carried
+`recipe_coverage_pct: 0.0` and a `cogs_source: recipe_blend` that had blended
+nothing — `_load_our_costs` read only the 35 hand-authored builder recipes, whose
+names do not match POS product names, so COGS fell through to Lightspeed's stale
+Average-Cost figure for 100% of revenue while 648 invoice-fed recipes sat unused.
 
-But it has a blind spot: when **our** rate is right and **Lightspeed's** is wrong,
-the disagreement condemns our price and we fall back to theirs. So the one moment
-the book is adding value — being right where Lightspeed is wrong — is the moment
-it surrendered. Hugo Spritz reported **92.9% GP** because of it.
+And inside the book, `_trust_direct()` used agreement-with-Lightspeed as evidence
+that a recipe *quantity* was believable. Sound in general — it is what stops
+Truffle Oil's "4 ml" (really 4 bottles) under-costing 250x. But when **our** rate
+is right and **Lightspeed's** is wrong, the disagreement condemned our price and we
+fell back to theirs. The one moment the book adds value was the moment it
+surrendered.
 
-The fix is narrow and evidence-based: only for ProductIDs where Lightspeed
-*contradicts itself* (its BO export and its own recipe seed disagree >3x) may our
-rate override its line. Truffle Oil and Rosemary Salted Fries — the two documented
-regression guards — are provably untouched.
+Both are fixed. Recipe coverage of revenue: **0.0% → 49.2%** (Mari 91.5%,
+Stow 45.1%, HG 4.3%).
 
 ---
 
@@ -34,81 +35,104 @@ regression guards — are provably untouched.
 
 | | |
 |---|---|
-| Liquor invoices reaching the book | +29 seed-validated bridges |
-| Recipes now costed off real invoices | **76** (49 up, 27 down) |
-| Hugo Spritz | $1.35 (92.9% GP) -> **$4.10 (78.5%)** |
-| Patron Silver | $2.94 -> **$3.28** (76.0% GP) |
-| New audit rules | **5** |
-| Tests | 366 -> **371 pass** |
+| P&L recipe coverage | 0.0% → **49.2%** of revenue |
+| Builder recipes actually costing | 25 → **35** (all of them) |
+| Liquor bridges | **+29**, seed-validated |
+| Recipes costed off real invoices | **76** (49 up, 27 down) |
+| Hugo Spritz | $1.35 (92.9% GP) → **$4.10 (78.5%)** |
+| New audit rules | **6** |
+| Tests | 366 → **371** |
 
-Both derived files still reproduce byte-identically (CI's hard gate).
+Both derived files still reproduce byte-identically (CI's hard gate); `build_site`
+and `arch_guard` clean.
 
-### Two live cost errors fixed at the root
+### Root-cause fixes
+- **`cost_on` was never passed `recipes`**, so every sub-recipe resolved against an
+  empty list: *"sub-recipe 'Sugar Syrup' has no version in force"*. 9 of 21
+  Stowaway builder recipes — every one using a syrup, jam or batch — silently fell
+  back to Lightspeed each morning. The message printed every run and read like a
+  data gap, which is why it survived.
 - **Massenez Elderflower**: BO export says $253/5L ($0.0506/ml, matching every
   Massenez sibling); a `ls-recipe-seed` dated ONE DAY LATER said $24.17/5L and won
-  the as-of lookup forever. 10.5x undercost across 3 cocktails.
+  the as-of lookup forever. 10.5x undercost, 3 cocktails.
 - **Bittermen's Tiki Bitters**: same class, 6.45x the other way.
-
-Now guarded generally: `ls_seed_is_misread()` drops a recipe-seed that contradicts
-the product's own BO export by >3x. The BO export is a *stated* cost; the LS
-recipe cost is the computed number this project exists to escape.
+- **Liquor invoices never reaching the book**: `resolve_pack` refuses a sizeless
+  description ("BOMBAY DRY GIN"). The naive fix (divide by `pack_qty`) is wrong —
+  ILG records the CASE but prices *some* lines per BOTTLE, under-costing Patron 6x.
+  `seed_matched_liquor_cost()` forms both readings and keeps whichever agrees with
+  the product's own seed, else skips.
 
 ---
 
-## NEW audit rules (this is the durable part)
+## The six audit rules (the durable part)
 
-Zak's complaint was "I constantly find issues". These five turn each class of
-issue found by hand into something the audit finds automatically, forever.
+Zak's brief was "I constantly find issues". Each rule turns a class of issue found
+by hand today into one the audit finds by itself, forever.
 
-1. **combo costs the same as its base** — caught **20 Wings Deals** that are
-   byte-identical to the plain pizza. The wings were never added, so each $30 item
-   reports ~88% GP on a ~$5 cost.
-2. **real recipe priced below cost (POS price looks wrong)** — caught
-   **Pepperoni [Dine-in]: sells $2.00, costs $2.11**, with a full 5-line pizza
-   recipe behind it while every dine-in sibling sells $15. Loses money on every
-   order. It hid because the old rule ignored anything under $3.
-3. **LARGE carries LESS than the REGULAR** — 19 lines (ham 55g vs 85g, spanish
-   onion 20g vs 33g across 8 pizzas, chicken, mozzarella, pesto).
-4. **ingredient in the REGULAR but missing from the LARGE** — 28 (+30 the other
-   way, INFO). This is the "Hawaiian had no ham" class, generalised.
-5. **batch uses far more input than the yield in its own name** — Jalapeño Tequila
-   [1L] draws **7000 ml** of tequila; Coconut-washed Rooster Blanco [1L] draws
-   4200 ml. You cannot get 1 L out of 7 L. (Cooked Beef Brisket [1Kg] at 10.9x
-   also trips it — confirm whether "[1Kg]" is a yield or a pricing label.)
+1. **combo costs the same as its base** → 20 Wings Deals contain no wings
+2. **real recipe priced below cost** → Pepperoni [Dine-in] sells $2.00, costs $2.11
+   (hid under the old $3 floor)
+3. **LARGE carries LESS than the REGULAR** → 19 lines
+4. **ingredient in the REGULAR but missing from the LARGE** → 28 (the "Hawaiian had
+   no ham" class, generalised)
+5. **batch uses more input than its own name's yield** → Jalapeño Tequila [1L] draws
+   7000 ml of tequila
+6. **POS cost column far below our book** → reported per venue + category
+
+---
+
+## A correction kept in the history
+
+Commit `f82c51e` diagnosed tap beer as poured at 139 ml. **Wrong.** Zak: *"ALL
+schooners are 425ml… how did you get those wrong numbers when everything on
+lightspeed was correct when you scraped it"*. He was right — the same shortfall
+appears in every category (pizza 0.29x, classic cocktails 0.24x), so it was never a
+pour, and the Harry Gatos "control group" was two low-volume products I over-read.
+`24b0c2e` supersedes it. Both commits kept so the wrong diagnosis cannot outlive
+its correction.
+
+Related: the "$54k missing from the P&L" claim was also wrong. That 6.7% figure
+came from `products_weekly.csv`, whose `cost` column is incomplete (the Looker
+backfill has null costs). **The daily P&L reports 16.8–22.7% COGS and is sane.**
+That feed drives the products API, not the P&L.
 
 ---
 
 ## What needs Zak — cannot be coded, must not be guessed
 
-1. **The 20 Wings Deals** — which wings, and how many? The wings recipes exist
+1. **Harry Gatos: 95.7% of revenue has no recipe anywhere** — not in our book and
+   not in the Lightspeed scrape. Unlimited Dumplings alone is $18,936/13wk. These
+   have to be built in Lightspeed Produce before any code can cost them. **This is
+   the largest remaining gap by a wide margin.**
+2. **The 20 Wings Deals** — which wings, how many? The wings recipes exist
    (BBQ $3.14 / Buffalo $3.91). One number each and the audit goes quiet.
-2. **Pepperoni [Dine-in] $2.00** — a POS price error, not a recipe error. Fix in
-   Lightspeed.
-3. **Jalapeño Tequila / Coconut-washed Rooster** — almost certainly 700 ml
-   (1 bottle) written as 7000/4200. Confirm before anyone edits; changing it
-   moves cost DOWN, the flattering and therefore dangerous direction.
-4. **Large-pizza weights** — the 19 large<regular lines need the "large mains"
-   weighed sheet, the same way `pizza_regular_grams.yaml` settled the regulars.
-5. **Cocktails carrying only their spirit** — Mojito has rum and nothing else;
-   Whisky Sour has no sour; 7 premium Old Fashioneds dropped the bitters line;
-   7 branded Margaritas have no lime/salt/sugar though Classic Margarita does.
-   These are Lightspeed Produce recipe gaps. A bar spec fixes them; inventing
-   quantities would be exactly the wrong move.
-6. **Kids Spag Bol / Sea Foam Pet Nat D** — unchanged from this morning
-   (sauce choice / delist). Zak said ignore for now.
+   (Small money: 65 sold in 13 weeks, ~$16–20/wk.)
+3. **Pepperoni [Dine-in] $2.00** — a POS price error. Note: 0 units sold in 13
+   weeks, so it is a dormant SKU, not an active loss.
+4. **Jalapeño Tequila / Coconut-washed Rooster** — almost certainly 700 ml written
+   as 7000/4200. Confirm before editing: the change moves cost DOWN, the flattering
+   and therefore dangerous direction.
+5. **Large-pizza weights** — the 19 large<regular lines need a weighed "large mains"
+   sheet, the way `pizza_regular_grams.yaml` settled the regulars.
+6. **Cocktails carrying only their spirit** — Mojito has rum and nothing else;
+   Whisky Sour has no sour; 7 premium Old Fashioneds dropped the bitters; 7 branded
+   Margaritas have no lime/salt/sugar though Classic Margarita does. Produce recipe
+   gaps; a bar spec fixes them.
 
-## Verified NOT errors (do not re-chase these)
-- Carpano vermouth: $23.17/750 ml = $0.0309/ml is **correct** (an earlier pass
-  called it a ÷1000 bug; it is not).
-- Beaujolais + Terra Cotta: correctly costed from Zak's seeds ($34.58 / $21.89).
-  The "no ingredient lines" warning is cosmetic — the cost arrives via the seed.
-- The 680 vs 648 recipe gap: by design. The 32 extra are builder-authored
-  recipes in `data/recipes/*.yaml`, a separate feed from the Lightspeed book.
-  They cost fine (Southern Squid $2.28).
-- Batch-yield backlog from the morning handoff: already cleared. Coverage is
-  648/648 fully on our book.
-- ~20 alarming-looking cost-book rates (10x onion, 24x Sprite, box prices never
-  divided) are real defects but referenced by **zero** recipes — no live impact.
+## Verified NOT errors — do not re-chase
+- **Carpano vermouth**: $23.17/750 ml = $0.0309/ml is correct.
+- **Beaujolais + Terra Cotta**: correctly costed from Zak's seeds ($34.58/$21.89).
+  The "no ingredient lines" warning is cosmetic — cost arrives via the seed.
+- **680 vs 648 recipes**: by design. The 32 extra are builder-authored recipes in
+  `data/recipes/*.yaml`, a separate feed. They cost fine (Southern Squid $2.28).
+- **Batch-yield backlog** from the morning handoff: cleared; 648/648 on our book.
+- **~20 alarming cost-book rates** (10x onion, 24x Sprite, undivided box prices):
+  real defects, but referenced by **zero** recipes — no live impact.
+- **Tap beer pours**: see the correction above. Not a pour problem.
 
-## END — the one thing left
-Push the local commits on `recipes/liquor-pack-discriminator`, then open the PR.
+## Known limitation, stated not hidden
+The costed book carries no effective date, so `_load_book_costs` answers "what does
+this cost now", not "what did it cost in June" — right for the daily 6am pull,
+approximate for a historical backfill. It never overrides a dated source (builder
+recipes win) and only ever displaces Lightspeed's stale figure. **Making the book
+effective-dated is the clean follow-up** and would close the last as-of gap.
