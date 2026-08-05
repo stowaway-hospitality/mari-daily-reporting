@@ -1,0 +1,22 @@
+# Ingredients Lightspeed Produce left off a recipe entirely.
+#
+# This file is deliberately SMALL and each entry needs positive evidence — the same
+# pizza in another size carrying the ingredient, plus Zak confirming it. A recipe
+# missing an ingredient under-costs the dish and flatters its GP, which is the
+# dangerous direction, but inventing toppings is worse. So: evidence, or nothing.
+#
+# The QUANTITY is not set here. It comes from data/pizza_regular_grams.yaml, which
+# is Zak's weighed sheet, so there is one source of truth for how much goes on.
+
+- recipes:
+    - "Regular Hawaiian"
+    - "Regular Hawaiian [Dine-in]"
+  name: "Ham Soccerball Sliced Pendle [1kg]"
+  ref: "lightspeed:22995341"
+  unit: "g"
+  # Evidence: Large Hawaiian, Gluten-free Hawaiian and Gluten-free Hawaiian
+  # [Dine-in] all carry this exact product; only the two REGULARS were missing it.
+  # Zak's sheet lists "Ham (hawaiian) 85" — a weight for an ingredient he expects to
+  # be on the pizza. A Hawaiian without ham is a Produce omission, not a recipe.
+  # Zak, 2026-08-05: "fix the ham line".
+  why: "on the Large and both GF Hawaiians; Zak's sheet weighs it at 85g"

@@ -671,6 +671,43 @@ def main() -> int:
             touched += 1 if hit else 0
         return changed, touched
 
+    def _add_missing_lines():
+        """Put back a topping Produce omitted from a recipe entirely.
+
+        A missing ingredient under-costs the dish and flatters its GP — the
+        dangerous direction — but inventing toppings is worse, so every entry in
+        data/recipe_missing_lines.yaml needs the same pizza in another size to
+        carry it. Added BEFORE the weighed-grams pass so the quantity comes from
+        Zak's sheet, not from here.
+        """
+        import yaml
+        path = ROOT / "data" / "recipe_missing_lines.yaml"
+        if not path.exists():
+            return 0
+        added = 0
+        for spec in (yaml.safe_load(path.read_text()) or []):
+            for rname in spec.get("recipes") or []:
+                r = out.get(rname)
+                if not r:
+                    continue
+                if any((l.get("ref") == spec["ref"]) or
+                       norm(l.get("name") or "") == norm(spec["name"])
+                       for l in r["ingredients"]):
+                    continue                      # already there — never duplicate
+                oc = our_costs.get(spec["ref"])
+                r["ingredients"].append({
+                    "name": spec["name"], "kind": "id", "ref": spec["ref"],
+                    "qty": 0, "unit": spec.get("unit") or "g",
+                    "ls_cost": None,
+                    "our_cost": float(oc[0]) if oc and oc[1] == (spec.get("unit") or "g") else None,
+                })
+                added += 1
+        return added
+
+    _missing = _add_missing_lines()
+    if _missing:
+        print(f"  restored {_missing} ingredient line(s) Produce had omitted")
+
     _rg_changed, _rg_recipes = _apply_regular_grams()
     print(f"  regular pizzas: {_rg_changed} quantities set from Zak's weighed sheet "
           f"across {_rg_recipes} recipes")
