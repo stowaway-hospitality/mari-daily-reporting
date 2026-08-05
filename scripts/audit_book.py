@@ -124,6 +124,32 @@ def audit():
         if i.get("needs_pack_review"):
             add("WARN", "pack size unconfirmed", desc)
 
+    # ---------- COST BOOK: PRICE OUTLIERS ----------
+    # A pack misread doesn't look wrong on its own — it looks like a price. It only
+    # shows up NEXT TO the same ingredient's other invoices. Foodlink's black beans
+    # invoiced at $8.70 a tin twice and $52.20 once (a CTN-6 carton read as one tin);
+    # the camembert went the other way, a per-piece price divided by a carton of 12.
+    # Comparing each observation to its own median catches both directions.
+    hist = defaultdict(list)
+    for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
+        c = money(r.get("cost_per_unit"))
+        if c > 0:
+            hist[(r["ingredient"], r["unit"])].append((c, r))
+    for (iid, _u), obs in hist.items():
+        if len(obs) < 3:
+            continue
+        med = sorted(x[0] for x in obs)[len(obs) // 2]
+        if med <= 0:
+            continue
+        for c, r in obs:
+            if c > 3 * med or c < med / 3:
+                newest = max(x[1]["observed_on"] for x in obs)
+                live = " <-- THIS IS THE LIVE PRICE" if r["observed_on"] == newest else ""
+                add("SEVERE" if live else "WARN",
+                    "invoice price way off this ingredient's own history (pack misread)",
+                    f"{c / med:>5.1f}x median  ${c:<10.6f} {str(r.get('description'))[:26]:28}"
+                    f" {r.get('source_invoice', '')[:12]} {r['observed_on']}{live}")
+
     # ---------- COST BOOK ----------
     rows = list(csv.DictReader(COSTS.open(encoding="utf-8-sig")))
     for r in rows:

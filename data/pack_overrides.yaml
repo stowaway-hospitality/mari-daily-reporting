@@ -310,3 +310,21 @@
   by: "Claude (code 10BG + LS name [10kg]; $22/10kg = $2.20/kg matches OSKG $2.42)"
   on: 2026-08-05
   by_email: "hello@stowawaybar.com"
+# Foodlink camembert. The line is "CHEESE CAMEMBERT 125GM" at $3.80 with a
+# CTN-12 note. CTN-12 says twelve to a carton, but the $3.80 is the price of
+# ONE 125g piece — $3.80 for twelve would be 32c each, which is not a price for
+# camembert. Applying the carton count made it 12x too cheap. Pinned to the
+# single piece the invoice actually charges for.
+- id: "foodlink:100487"
+  pack_qty: 125
+  pack_unit: g
+  # KNOWN TRADE-OFF: Foodlink bills this code BOTH ways — $3.80 for one piece
+  # (notes "EA" and "CTN-12") and $45.60 for a carton (note "UOM CTN-12"). A pack
+  # override is per-CODE, so it cannot serve both. Pinning the single piece makes
+  # the LIVE price right ($0.0304/g) and leaves the one historical carton row
+  # reading 12x dear. That row is not the as-of price, and too-dear is the
+  # non-flattering direction. audit_book.py flags it so it stays visible. The
+  # real fix is teaching resolve_pack to read a CTN-n note by magnitude.
+  by: "Claude ($3.80/125g = $30.40/kg; the CTN-12 reading gave $2.53/kg)"
+  on: 2026-08-05
+  by_email: "hello@stowawaybar.com"
