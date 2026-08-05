@@ -28,6 +28,9 @@
   h2.sec{font-family:'Space Grotesk',sans-serif;font-size:15px;margin:24px 0 4px}
   .sec-note{font-size:12px;color:var(--ink-soft);margin:0 0 12px}
   table{width:100%;border-collapse:collapse;font-size:13px}
+  th.sortable{cursor:pointer;user-select:none}
+  th.sortable:hover{color:var(--ink)}
+  th.on{color:var(--ink)}
   th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);text-align:left;padding:8px 10px;font-weight:600}
   th.r{text-align:right}
   td{padding:7px 10px;border-top:1px solid var(--line);vertical-align:middle}
@@ -64,13 +67,6 @@
         <option value="batch">Batches / preps</option>
       </select>
       <select id="cat"><option value="all">All categories</option></select>
-      <select id="sort">
-        <option value="sales">Sort: best sellers (13 wks)</option>
-        <option value="revenue">Sort: revenue (13 wks)</option>
-        <option value="gp">Sort: GP % — worst first</option>
-        <option value="gpdesc">Sort: GP % — best first</option>
-        <option value="name">Sort: name</option>
-      </select>
       <span class="stat" id="stat"></span>
     </div>
     <div class="cards" id="kpis"></div>
@@ -105,7 +101,6 @@ Auth.gate(document.getElementById('gate'), {
     const cats=[...new Set(Object.values(SALES).map(x=>x.group).filter(Boolean))].sort();
     document.getElementById('cat').innerHTML='<option value="all">All categories</option>'+cats.map(c=>`<option>${esc(c)}</option>`).join('');
     document.getElementById('cat').addEventListener('change',render);
-    document.getElementById('sort').addEventListener('change',render);
     document.getElementById('q').addEventListener('input',render);
     document.getElementById('filter').addEventListener('change',render);
     render();
@@ -113,6 +108,20 @@ Auth.gate(document.getElementById('gate'), {
 });
 
 const SALES={};
+// Click a column heading to sort by it; click again to flip. Default is the
+// question most often asked of this page: what sells most.
+let SORT={key:'qty', dir:-1};
+const COLS=[
+  {k:'name',  label:'Recipe',    cls:'',      val:(n,r)=>n.toLowerCase()},
+  {k:'sell',  label:'Sell',      cls:'r',     val:(n,r)=>r.sell_incl},
+  {k:'cost',  label:'Our cost',  cls:'r',     val:(n,r)=>r.our_cost},
+  {k:'gp',    label:'Food GP',   cls:'r',     val:(n,r)=>r.gp_pct},
+  {k:'qty',   label:'Sold 13wk', cls:'r',     val:(n,r)=>sale(n).qty||null},
+  {k:'cat',   label:'Category',  cls:'',      val:(n,r)=>(sale(n).group||'').toLowerCase()},
+];
+window.sortBy = k => { SORT = (SORT.key===k) ? {key:k,dir:-SORT.dir}
+                                            : {key:k, dir:(k==='name'||k==='cat')?1:-1};
+                       render(); };
 const nrm = s => (s||'').toLowerCase().replace(/\[[^\]]*\]/g,' ').replace(/[^a-z0-9]+/g,' ').trim();
 const sale = n => SALES[nrm(n)] || {qty:0,rev:0,group:''};
 const gpClass = g => g==null?'':(g<0?'gp bad':g<55?'gp bad':g<65?'gp warn':'gp good');
@@ -157,17 +166,21 @@ function render(){
   const c=document.getElementById('cat').value;
   if(c!=='all') rows=rows.filter(([n])=>sale(n).group===c);
   const sk=document.getElementById('sort').value;
+  const col=COLS.find(c=>c.k===SORT.key)||COLS[4];
   rows.sort((a,b)=>{
-    if(sk==='sales')   return sale(b[0]).qty-sale(a[0]).qty || a[0].localeCompare(b[0]);
-    if(sk==='revenue') return sale(b[0]).rev-sale(a[0]).rev || a[0].localeCompare(b[0]);
-    // unpriced recipes have no GP: park them at the end of EITHER direction
-    if(sk==='gp')      return (a[1].gp_pct??999)-(b[1].gp_pct??999);
-    if(sk==='gpdesc')  return (b[1].gp_pct??-999)-(a[1].gp_pct??-999);
-    return a[0].localeCompare(b[0]);
+    const x=col.val(a[0],a[1]), y=col.val(b[0],b[1]);
+    // A missing value is not "zero" — an unpriced recipe has no GP and an
+    // unmatched one no sales. Park them LAST whichever way the column is sorted,
+    // so flipping direction never fills the top with blanks.
+    const bx=(x===null||x===undefined||x===''), by=(y===null||y===undefined||y==='');
+    if(bx||by) return bx&&by ? a[0].localeCompare(b[0]) : (bx?1:-1);
+    if(typeof x==='string') return SORT.dir*x.localeCompare(y) || a[0].localeCompare(b[0]);
+    return SORT.dir*(x-y) || a[0].localeCompare(b[0]);
   });
   document.getElementById('stat').innerHTML=`<b>${rows.length}</b> shown`;
   document.getElementById('body').innerHTML = rows.length
-    ? `<div class="pl"><table><thead><tr><th>Recipe</th><th class="r">Sell</th><th class="r">Our cost</th><th class="r">Food GP</th><th class="r">Sold 13wk</th><th>Category</th></tr></thead><tbody>${rows.map(([n,r])=>row(n,r)).join('')}</tbody></table></div>`
+    ? `<div class="pl"><table><thead><tr>${COLS.map(c=>
+        `<th class="${c.cls} sortable${SORT.key===c.k?' on':''}" onclick="sortBy('${c.k}')">${c.label}${SORT.key===c.k?(SORT.dir<0?' ▼':' ▲'):''}</th>`).join('')}</tr></thead><tbody>${rows.map(([n,r])=>row(n,r)).join('')}</tbody></table></div>`
     : '<div class="empty">No recipes match.</div>';
 }
 </script>
