@@ -100,14 +100,17 @@
       unit_cost_incl: 0.006878
 
 - product: "Passionfruit Syrup"
-  yield_qty: 1600           # 1L Berry Man passionfruit puree + 1kg sugar -> 1.6L
+  yield_qty: 1600           # Zak: 1kg seedless juice + 1kg sugar, nothing else
   yield_unit: "ml"
   ingredients:
     - id: "lightspeed:22843691"
-      desc: "Passionfruit Puree Seedless (Berry Man)"
+      # Berry Man PJ1 — the code is literally Passionfruit Juice; the Lightspeed
+      # description says "Puree" but it is the one seedless product, $9.50/kg on
+      # invoice IN372963. Zak: the syrup is made with the seedless JUICE.
+      desc: "Seedless Passionfruit Juice (Berry Man PJ1)"
       qty: 1000
       unit: "g"
-      unit_cost_incl: 0.009650
+      unit_cost_incl: 0.009500
     - id: "foodlink:100464"
       desc: "Sugar Caster 1kg Csr"
       qty: 1000
@@ -196,10 +199,10 @@
       unit: "ml"
       unit_cost_incl: 0.049986
     - id: "lightspeed:22843691"
-      desc: "Passionfruit Puree Seedless"
+      desc: "Seedless Passionfruit Juice (Berry Man PJ1)"
       qty: 20
       unit: "g"
-      unit_cost_incl: 0.009650
+      unit_cost_incl: 0.009500
     - id: "lightspeed:22488947"
       desc: "lime juice"
       qty: 30
@@ -475,3 +478,17 @@
       qty: 350
       unit: "ml"
       unit_cost_incl: 0.002595
+
+# Jalapeño juice — Zak: pickled jalapeño slices blended with a touch of water,
+# then strained. One 3kg tin plus ~500ml water goes in; the strained pulp is
+# discarded, so the liquid off a soft pickled slice is roughly 60% of what went
+# in = ~2.1L. Water is free, so the whole cost is the tin.
+- product: "Jalapeno Juice Prep"
+  yield_qty: 2100
+  yield_unit: "ml"
+  ingredients:
+    - id: "lightspeed:22480112"
+      desc: "Jalapenos [3Kg] — pickled slices, whole tin"
+      qty: 3000
+      unit: "g"
+      unit_cost_incl: 0.003137
