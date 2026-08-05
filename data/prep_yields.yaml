@@ -58,6 +58,12 @@ Passionfruit Syrup:
   basis: 'Zak: 1L juice + 1kg sugar = 1600ml'
   yield_qty: 1600
   yield_unit: ml
+Pizza Dough [Recipe]:
+  basis: '4kg flour + 62% hydration water (2480g, uncosted but real weight) + 500ml
+    oil + 125g yeast, less ~2% ferment loss. Cross-checks: 34 bases at 205g, and $6.41/6900g
+    = $0.93/kg, the rate Lightspeed''s own line already implies.'
+  yield_qty: 6900
+  yield_unit: g
 Pizza Sauce [Recipe]:
   basis: sum of ingredients x0.9
   yield_qty: 9338
