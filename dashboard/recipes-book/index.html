@@ -67,7 +67,8 @@
       <select id="sort">
         <option value="sales">Sort: best sellers (13 wks)</option>
         <option value="revenue">Sort: revenue (13 wks)</option>
-        <option value="gp">Sort: lowest GP</option>
+        <option value="gp">Sort: GP % — worst first</option>
+        <option value="gpdesc">Sort: GP % — best first</option>
         <option value="name">Sort: name</option>
       </select>
       <span class="stat" id="stat"></span>
@@ -161,7 +162,9 @@ function render(){
   rows.sort((a,b)=>{
     if(sk==='sales')   return sale(b[0]).qty-sale(a[0]).qty || a[0].localeCompare(b[0]);
     if(sk==='revenue') return sale(b[0]).rev-sale(a[0]).rev || a[0].localeCompare(b[0]);
+    // unpriced recipes have no GP: park them at the end of EITHER direction
     if(sk==='gp')      return (a[1].gp_pct??999)-(b[1].gp_pct??999);
+    if(sk==='gpdesc')  return (b[1].gp_pct??-999)-(a[1].gp_pct??-999);
     return a[0].localeCompare(b[0]);
   });
   document.getElementById('stat').innerHTML=`<b>${rows.length}</b> shown`;
