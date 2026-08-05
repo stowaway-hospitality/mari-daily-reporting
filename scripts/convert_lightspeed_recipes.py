@@ -798,44 +798,14 @@ def main() -> int:
     print(f"  regular pizzas: {_rg_changed} quantities set from Zak's weighed sheet "
           f"across {_rg_recipes} recipes")
 
-    def _tidy_pizza_quantities():
-        """Round the leftover 0.716-scaled decimals to something a chef can weigh.
+    # NO ROUNDING PASS HERE, DELIBERATELY. I added one to turn leftovers like
+    # "2.14799g of basil" into weighable numbers, and Zak pushed back. He is right:
+    # those quantities are still Produce's 0.716-scaled DERIVATIONS, not
+    # measurements, and rounding 42.96 -> 43 makes a guess look like a weighed fact.
+    # An ugly number is honest signal that nobody has weighed that ingredient yet.
+    # Quantities from data/pizza_regular_grams.yaml are exact because Zak weighed
+    # them; everything else should stay visibly derived until he does.
 
-        Zak's sheet covers the main toppings; everything else on a pizza still
-        carries the artefact of Produce's "0.716 x the Large" maths — 2.14799g of
-        basil, 42.96g of cherry tomato, 60.144g of pineapple. Nobody weighs to five
-        decimal places, and a recipe that reads like that isn't usable on a bench.
-
-        Rounding only: no quantity is invented, and the precision kept is finer than
-        any kitchen scale, so the cost impact is fractions of a cent. Whole grams
-        above 10, one decimal from 1-10, two below that.
-        """
-        def tidy(q):
-            if q >= 10:
-                return round(q)
-            return round(q, 1) if q >= 1 else round(q, 2)
-
-        n = 0
-        for name, r in out.items():
-            if not any(_BASE_LINE.search(l.get("name") or "")
-                       or "pizza base" in (l.get("name") or "").lower()
-                       for l in r["ingredients"]):
-                continue
-            for ln in r["ingredients"]:
-                if (ln.get("unit") or "").lower() not in ("g", "ml"):
-                    continue                      # never touch counted packaging
-                try:
-                    q = float(ln.get("qty") or 0)
-                except (TypeError, ValueError):
-                    continue
-                t = tidy(q)
-                if q > 0 and t > 0 and t != q:
-                    ln["qty"] = t
-                    n += 1
-        return n
-
-    _tidied = _tidy_pizza_quantities()
-    print(f"  tidied {_tidied} pizza quantities out of 0.716-scaled decimals")
 
     _mir, _mir_skip = _mirror_dine_in()
     print(f"  dine-in: {_mir} recipes mirrored from their takeaway twin "
