@@ -37,10 +37,13 @@ COSTS = ROOT / "data" / "costs.csv"
 COGS = ROOT / "data" / "cogs_list.csv"
 PRODUCTS_WEEKLY = ROOT / "data" / "products_weekly.csv"
 
-# Real pour sizes, AU: middy 285 ml, schooner 425 ml, pint 570 ml. Nothing that
-# sells for $8-15 is poured below a middy, so a POS cost implying less than this
-# is not a small pour — it is a wrong cost.
-MIN_REAL_POUR_ML = 300
+# A reporting group whose POS cost is below (our cost / this) is not a pricing
+# nuance, it is a broken feed. 2x is wide; the real gap measures ~3.6x.
+POS_COST_MIN_RATIO = 2.0
+
+
+def _nrm_name(s: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", (s or "").lower())
 
 # What a sane bar/kitchen ingredient costs, per BASE unit, incl GST. Anything past
 # these is a pack/unit confusion, not a real price. Calibrated on the real book:
@@ -302,50 +305,54 @@ def audit():
                     f"{c / med:>5.1f}x median  ${c:<10.6f} {str(r.get('description'))[:26]:28}"
                     f" {r.get('source_invoice', '')[:12]} {r['observed_on']}{live}")
 
-    # ---------- THE POS COST vs OUR KEG COST: AN IMPOSSIBLE POUR ----------
-    # The single largest money error found so far, and it is invisible in the
-    # recipe book because tap beer has no recipe — it is a pour.
+    # ---------- THE POS COST COLUMN IS ~3.6x LOW, ON EVERYTHING ----------
+    # This is the project's founding thesis, finally measured. daily_aggregator
+    # copies Lightspeed's `cost` column verbatim into the P&L. Triangulated over
+    # 13 weeks against two independent sources:
     #
-    # Divide what the POS books as cost for one unit sold by OUR invoiced keg rate
-    # and you get the pour size the POS believes it is selling. Harry Gatos comes
-    # out at 482 ml and 410 ml (real). Stowaway comes out at 126-171 ml for
-    # schooners that are 425 ml, i.e. tap beer reporting ~92% GP when the same
-    # beers at HG report 68-78%. Same method validates one venue and condemns the
-    # other, which is what makes this a finding rather than a guess.
+    #     POS cost column     6.7% of revenue      <- what the P&L reports
+    #     our recipe book    21.6% of revenue      <- invoice-fed, this project
+    #     Xero purchases     32.0% of revenue      <- what was actually bought
+    #
+    # 6.7% COGS is not a hospitality business. Our book sits between the two and
+    # near Xero (purchases legitimately run above consumption: stock build, waste,
+    # theft), so our book is the credible one and the POS column is ~3.6x low.
+    #
+    # It is NOT a beer/pour problem — an earlier pass framed it that way and was
+    # wrong. The ratio is flat across categories: pizza 0.29, classic cocktails
+    # 0.24, big plates 0.24, small plates 0.29, kitchen specials 0.26. Tap beer is
+    # not special; it just has no recipe to compare against, so it hid longer.
     if PRODUCTS_WEEKLY.exists():
-        keg = {}
-        for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
-            d = (r.get("description") or "").upper()
-            if "KEG" in d and r.get("unit") == "ml":
-                k = re.sub(r"[^A-Z0-9]", "", d.split("KEG")[0])[:8]
-                if k and (k not in keg or r["observed_on"] >= keg[k][1]):
-                    keg[k] = (money(r["cost_per_unit"]), r["observed_on"])
         pw = list(csv.DictReader(PRODUCTS_WEEKLY.open(encoding="utf-8-sig")))
         wks = sorted({r["week_ending"] for r in pw})
-        if wks and keg:
+        if wks:
             cut = wks[max(0, len(wks) - 13)]
-            agg = defaultdict(lambda: [0.0, 0.0, 0.0])
+            agg = defaultdict(lambda: [0.0, 0.0, 0.0, ""])
             for r in pw:
-                if r["week_ending"] < cut or r.get("reporting_group") != "Tap Beer":
+                if r["week_ending"] < cut:
                     continue
-                a = agg[(r["venue"], r["product_name"])]
+                a = agg[(r["venue"], _nrm_name(r["product_name"]))]
                 a[0] += money(r.get("qty")); a[1] += money(r.get("sales_ex_gst"))
-                a[2] += money(r.get("cost"))
-            for (ven, nm), (q, rev, cost) in sorted(agg.items(), key=lambda x: -x[1][1]):
-                if q < 20 or cost <= 0:
+                a[2] += money(r.get("cost")); a[3] = r.get("reporting_group") or ""
+            bynorm = {_nrm_name(n): r for n, r in recipes.items()}
+            grp = defaultdict(lambda: [0.0, 0.0, 0.0])
+            for (ven, k), (q, rev, cost, g) in agg.items():
+                rec = bynorm.get(k)
+                if not rec or rec.get("is_prep") or q <= 0 or rev <= 0:
                     continue
-                n8 = re.sub(r"[^A-Z0-9]", "", nm.upper())
-                rate = next((v[0] for k, v in keg.items()
-                             if k and (k in n8 or n8[:8] == k)), None)
-                if not rate or rate <= 0:
+                ours = money(rec.get("our_cost")) * q
+                if ours <= 0:
                     continue
-                pour = (cost / q) / rate
-                if pour < MIN_REAL_POUR_ML:
-                    lost = (rate * 425 * q) - cost      # vs a 425 ml schooner
-                    add("SEVERE", "POS cost implies a physically impossible pour "
-                                  "(tap beer COGS understated)",
-                        f"[{ven}] {nm[:26]:<28} implies {pour:>4.0f}ml/serve "
-                        f"— {q:,.0f} sold, ${lost:,.0f} of COGS missing (13wk)")
+                b = grp[(ven, g)]
+                b[0] += rev; b[1] += cost; b[2] += ours
+            for (ven, g), (rev, pos_c, ours) in sorted(grp.items(), key=lambda x: -x[1][2]):
+                if ours <= 0 or rev < 1000:
+                    continue
+                if pos_c < ours / POS_COST_MIN_RATIO:
+                    add("SEVERE", "POS cost column far below our own book "
+                                  "(the number the P&L copies is wrong)",
+                        f"[{ven}] {g[:24]:<26} POS ${pos_c:>8,.0f} vs ours ${ours:>8,.0f} "
+                        f"({pos_c/ours:.2f}x)  ${ours-pos_c:>8,.0f} of COGS missing (13wk)")
 
     # ---------- COST BOOK ----------
     rows = list(csv.DictReader(COSTS.open(encoding="utf-8-sig")))
