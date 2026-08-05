@@ -129,6 +129,14 @@ def recipes_index() -> dict:
     # saved in the builder above wins on name. Yield comes from the bracket size in
     # the name ("[2.5kg]", "[1L]", "[24 pcs]"); its our-book cost is the batch cost.
     import re as _re
+    # Preps whose Produce recipe carries no bracket yield get an ESTIMATE from
+    # data/prep_yields.yaml, so a dish built on them costs per gram/ml instead of
+    # freezing a scrape number. A measured yield in the name still wins.
+    _EST = {}
+    _ey = ROOT / "data" / "prep_yields.yaml"
+    if _ey.exists():
+        import yaml as _yaml
+        _EST = _yaml.safe_load(_ey.read_text()) or {}
     have = {e["product"] for e in items}
     ls_path = DATA / "lightspeed_recipes_costed.json"
     if ls_path.exists():
@@ -138,6 +146,9 @@ def recipes_index() -> dict:
                 continue
             m = _Y.search(name)
             yq = yu = None
+            if not m and name in _EST:
+                _e = _EST[name]
+                yq, yu = Decimal(str(_e["yield_qty"])), _e["yield_unit"]
             if m:
                 q = Decimal(m.group(1)); u = m.group(2).lower()
                 if u == "kg":
