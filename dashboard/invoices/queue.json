@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-06",
-  "count": 298,
+  "count": 299,
   "skipped_already_in_xero": 216,
   "invoices": [
     {
@@ -160,6 +160,122 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "NB10529155",
+      "supplier": "Jun Pacific Corporation Pty Ltd",
+      "supplier_key": "jun_pacific",
+      "date": "2026-08-06",
+      "due_date": "2026-08-06",
+      "total": "262.31",
+      "venue": "stowaway",
+      "pdf_path": "d8eb0ac53413521cb89c215412c69853ac08121d4d4beb4583bb2b7d47c24747.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "\"Momoya\" Kimchi Sauce Value Pack",
+          "supplier_code": "JB8203032",
+          "qty": "1",
+          "amount": "8.60",
+          "unit_cost": "$8.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\u201cKobayashi\u201d Gluten Free Ramen Noodle",
+          "supplier_code": "BF7517145",
+          "qty": "15",
+          "amount": "52.50",
+          "unit_cost": "$3.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\"Jun\" Roasted Sesame Seed White",
+          "supplier_code": "DE81595",
+          "qty": "1",
+          "amount": "9.46",
+          "unit_cost": "$9.46/ea",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\u201cJun\u201d Frozen Soybean (Edamame)",
+          "supplier_code": "KF8524001",
+          "qty": "15",
+          "amount": "37.50",
+          "unit_cost": "$2.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\u201cJun\u201d Frozen Shelled Soybean Nut",
+          "supplier_code": "KF8524003",
+          "qty": "5",
+          "amount": "11.25",
+          "unit_cost": "$2.25/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Frozen Tiramisu Mousse Rice Cake 50g",
+          "supplier_code": "UZ8141301",
+          "qty": "1",
+          "amount": "16.50",
+          "unit_cost": "$330.00/kg",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Frozen Mango Mousse Rice Cake 50g",
+          "supplier_code": "UZ8141304",
+          "qty": "1",
+          "amount": "16.50",
+          "unit_cost": "$330.00/kg",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Frozen Strawberry Mousse Rice Cake 50g",
+          "supplier_code": "UZ8141305",
+          "qty": "1",
+          "amount": "16.50",
+          "unit_cost": "$330.00/kg",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
+          "supplier_code": "QB8514617",
+          "qty": "10",
+          "amount": "93.50",
+          "unit_cost": "$9.35/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
