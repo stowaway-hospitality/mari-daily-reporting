@@ -120,6 +120,22 @@ def _tok(s):
 # price must follow the replacement, not the stale POS entry. Keyed recipe-name
 # -> current product name (looked up in the priced product sheet). Add a line here
 # whenever a product is renamed/replaced but the Produce recipe name lags behind.
+# Same physical thing entered under several names in Produce. Confirmed by Zak.
+# The scrape treats each as its own uncosted product, so a dish built on the
+# duplicate costs nothing while the real recipe sits right there. Alias them and
+# the line resolves to the costed original.
+INGREDIENT_ALIAS = {
+    "Tomato Base": "Pizza Sauce [Recipe]",          # Zak: "tomato base IS pizza sauce"
+    "Pizza Tomato Sauce": "Pizza Sauce [Recipe]",   # ditto
+    "Pizza Tomato Sauce ": "Pizza Sauce [Recipe]",  # trailing space in the export
+    "S.S.C [Small Bottle]": "Spiced Sour Cream [Batch]",   # S.S.C = spiced sour cream
+    "S.S.C": "Spiced Sour Cream [Batch]",
+}
+
+# Redundant lines Zak has asked to drop. NOT deleted from any source file — the
+# scrape stays intact; the converter just stops carrying them into the book.
+IGNORE_INGREDIENTS = {"bolognese"}
+
 RENAMED_TO = {
     "Btl Disco Volante D": "Trutta Streamside Shiraz [Chilled] - Bottle",  # $68 bottle
 }
@@ -157,6 +173,20 @@ def sell_of(name, by_norm, by_tok):
     then the unambiguous word-order fallback."""
     lookup = RENAMED_TO.get(name, name)
     return by_norm.get(norm(lookup)) or by_tok.get(_tok(lookup))
+
+
+_YB = re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre)\]", re.I)
+
+
+def load_yields():
+    """recipe name -> (qty, unit) from the name bracket or data/prep_yields.yaml."""
+    out = {}
+    y = ROOT / "data" / "prep_yields.yaml"
+    if y.exists():
+        import yaml
+        for k, v in (yaml.safe_load(y.read_text()) or {}).items():
+            out[k] = (float(v["yield_qty"]), v["yield_unit"])
+    return out
 
 
 def load_our_costs():
@@ -198,6 +228,7 @@ def main() -> int:
     our_costs = load_our_costs()
     seed_base = load_seed_baseline()
     sell_by_norm, sell_by_tok = load_sell_prices()
+    yields = load_yields()
     # 47 recipe names collide once normalised (a base recipe and its "[Dine-in]"
     # twin). Keep the SHORTEST — the base recipe — so a normalised lookup lands on
     # the plain version rather than whichever happened to be inserted last.
@@ -208,6 +239,7 @@ def main() -> int:
             recnames[_n] = _k
 
     def resolve(name, parent=None):
+        name = INGREDIENT_ALIAS.get(name, INGREDIENT_ALIAS.get((name or '').strip(), name))
         # EXACT recipe name first. norm() strips a bracket suffix, so "Regular
         # Margherita" and "Regular Margherita [Dine-in]" collapse to one key; when
         # the [Dine-in] variant won that key, resolving its own "Regular Margherita"
@@ -257,6 +289,8 @@ def main() -> int:
     for name, body in rec.items():
         lines = []
         for ing in _dedupe_truncated(body.get("ingredients", [])):
+            if (ing.get("name") or "").strip() in IGNORE_INGREDIENTS:
+                continue
             kind, ref = resolve(ing["name"], name)
             ing_res[kind or "unmatched"] += 1
             our = None
@@ -319,8 +353,23 @@ def main() -> int:
                 # invoice-fed ingredient costs flow through, and it can't blow up: when
                 # our_batch ~= ls_batch the line stays ~= the reliable LS per-use cost.
                 so, sl, sfo = cost_of(ln["ref"], stack + (name,))
-                if sl > 0 and so > 0:
+                _yb = _YB.search(ln["ref"] or "")
+                _y = yields.get(ln["ref"])
+                if not _y and _yb:
+                    _q, _u = float(_yb.group(1)), _yb.group(2).lower()
+                    _y = (_q * 1000, "g") if _u == "kg" else (_q * 1000, "ml") if _u in ("l", "lt", "litre") else (_q, _u)
+                if sl > 0 and so > 0 and ls > 0:
                     eff = so * (ls / sl)
+                    full_ours = full_ours and sfo
+                elif so > 0 and _y and _y[0] > 0 and (ln.get("unit") or "").lower() == _y[1]:
+                    # No Lightspeed reference to scale (an aliased duplicate carried
+                    # no cost of its own), but the batch HAS a yield — so cost the
+                    # line the honest way: qty / yield x batch cost.
+                    try:
+                        _q2 = float(ln.get("qty") or 0)
+                    except (TypeError, ValueError):
+                        _q2 = 0.0
+                    eff = so * (_q2 / _y[0])
                     full_ours = full_ours and sfo
                 else:
                     eff = ls

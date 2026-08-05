@@ -4,10 +4,10 @@
  "recipe_count": 671,
  "coverage": {
   "ingredient_refs": {
-   "id": 1062,
-   "subrecipe": 445
+   "id": 1059,
+   "subrecipe": 447
   },
-  "recipes_fully_on_our_book": 615
+  "recipes_fully_on_our_book": 624
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -1355,7 +1355,7 @@
      "unit": "ml",
      "ls_cost": "4.84",
      "our_cost": null,
-     "eff_cost": 4.816897
+     "eff_cost": 5.218134
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -1368,13 +1368,13 @@
      "eff_cost": 4.44
     }
    ],
-   "our_cost": 9.2569,
+   "our_cost": 9.6581,
    "ls_cost": 9.28,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 57.6
+   "gp_pct": 55.7
   },
   "Gluten-free Cosmopolitan [Dine-in]": {
    "ingredients": [
@@ -1396,16 +1396,16 @@
      "unit": "ml",
      "ls_cost": "4.84",
      "our_cost": null,
-     "eff_cost": 4.816897
+     "eff_cost": 5.218134
     }
    ],
-   "our_cost": 9.2569,
+   "our_cost": 9.6581,
    "ls_cost": 9.28,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 57.6
+   "gp_pct": 55.7
   },
   "Gluten-free Meatlovers": {
    "ingredients": [
@@ -1479,7 +1479,7 @@
      "unit": "ml",
      "ls_cost": "3.27",
      "our_cost": null,
-     "eff_cost": 3.307361
+     "eff_cost": 3.44397
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -1492,13 +1492,13 @@
      "eff_cost": 4.44
     }
    ],
-   "our_cost": 7.7474,
+   "our_cost": 7.884,
    "ls_cost": 7.71,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 64.5
+   "gp_pct": 63.9
   },
   "Gluten-free Truffalo Soldier [Dine-in]": {
    "ingredients": [
@@ -1520,16 +1520,16 @@
      "unit": "ml",
      "ls_cost": "3.27",
      "our_cost": null,
-     "eff_cost": 3.307361
+     "eff_cost": 3.44397
     }
    ],
-   "our_cost": 7.7474,
+   "our_cost": 7.884,
    "ls_cost": 7.71,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 64.5
+   "gp_pct": 63.9
   },
   "Gluten-free Vegetarian [Dine-in]": {
    "ingredients": [
@@ -5083,17 +5083,17 @@
      "unit": "g",
      "ls_cost": "0.00",
      "our_cost": null,
-     "eff_cost": 0.0
+     "eff_cost": 0.190442
     },
     {
      "name": "Tomato Base",
-     "kind": "id",
-     "ref": "lightspeed:22479972",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "90",
      "unit": "g",
      "ls_cost": "0.00",
      "our_cost": null,
-     "eff_cost": 0.0
+     "eff_cost": 0.358439
     },
     {
      "name": "Mushrooms [4Kg box]",
@@ -5186,13 +5186,13 @@
      "eff_cost": 0.1
     }
    ],
-   "our_cost": 6.5884,
+   "our_cost": 7.1372,
    "ls_cost": 6.62,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 71.0
+   "gp_pct": 68.6
   },
   "Large Meatlovers": {
    "ingredients": [
@@ -5325,7 +5325,7 @@
      "unit": "g",
      "ls_cost": "0.00",
      "our_cost": null,
-     "eff_cost": 0.0
+     "eff_cost": 0.190442
     },
     {
      "name": "Garlic Sauce Base",
@@ -5448,13 +5448,13 @@
      "eff_cost": 0.1
     }
    ],
-   "our_cost": 4.6121,
+   "our_cost": 4.8026,
    "ls_cost": 4.56,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 79.7
+   "gp_pct": 78.9
   },
   "Large Roma Special": {
    "ingredients": [
@@ -9632,13 +9632,13 @@
     },
     {
      "name": "Pizza Tomato Sauce",
-     "kind": "id",
-     "ref": "lightspeed:22514322",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
      "qty": "500",
      "unit": "g",
      "ls_cost": "0.00",
      "our_cost": null,
-     "eff_cost": 0.0
+     "eff_cost": 1.991326
     },
     {
      "name": "Super Lime Juice [1L]",
@@ -9651,9 +9651,9 @@
      "eff_cost": 0.200797
     }
    ],
-   "our_cost": 4.6315,
+   "our_cost": 6.6228,
    "ls_cost": 4.64,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": null,
@@ -10223,7 +10223,7 @@
     {
      "name": "S.S.C [Small Bottle]",
      "kind": "id",
-     "ref": "lightspeed:22480120",
+     "ref": "lightspeed:22524158",
      "qty": "40",
      "unit": "g",
      "ls_cost": "0.00",
@@ -11603,16 +11603,16 @@
      "unit": "ml",
      "ls_cost": "3.27",
      "our_cost": null,
-     "eff_cost": 3.307361
+     "eff_cost": 3.44397
     }
    ],
-   "our_cost": 3.3074,
+   "our_cost": 3.444,
    "ls_cost": 3.27,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.5,
-   "gp_pct": 80.3
+   "gp_pct": 79.5
   },
   "Regular Truffalo Soldier [Dine-in]": {
    "ingredients": [
@@ -11624,16 +11624,16 @@
      "unit": "ml",
      "ls_cost": "3.27",
      "our_cost": null,
-     "eff_cost": 3.307361
+     "eff_cost": 3.44397
     }
    ],
-   "our_cost": 3.3074,
+   "our_cost": 3.444,
    "ls_cost": 3.27,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 18.5,
-   "gp_pct": 80.3
+   "gp_pct": 79.5
   },
   "Regular Truffalo Soldier Solo Combo": {
    "ingredients": [
@@ -11645,16 +11645,16 @@
      "unit": "ml",
      "ls_cost": "3.27",
      "our_cost": null,
-     "eff_cost": 3.307361
+     "eff_cost": 3.44397
     }
    ],
-   "our_cost": 3.3074,
+   "our_cost": 3.444,
    "ls_cost": 3.27,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 81.8
+   "gp_pct": 81.1
   },
   "Regular Meatlovers": {
    "ingredients": [
@@ -11729,16 +11729,16 @@
      "unit": "ml",
      "ls_cost": "4.84",
      "our_cost": null,
-     "eff_cost": 4.816897
+     "eff_cost": 5.218134
     }
    ],
-   "our_cost": 4.8169,
+   "our_cost": 5.2181,
    "ls_cost": 4.84,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 72.8
+   "gp_pct": 70.6
   },
   "Regular Cosmopolitan [Dine-in]": {
    "ingredients": [
@@ -11750,16 +11750,16 @@
      "unit": "ml",
      "ls_cost": "4.84",
      "our_cost": null,
-     "eff_cost": 4.816897
+     "eff_cost": 5.218134
     }
    ],
-   "our_cost": 4.8169,
+   "our_cost": 5.2181,
    "ls_cost": 4.84,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 72.8
+   "gp_pct": 70.6
   },
   "Regular Cosmo Solo Combo": {
    "ingredients": [
@@ -11771,16 +11771,16 @@
      "unit": "ml",
      "ls_cost": "4.84",
      "our_cost": null,
-     "eff_cost": 4.816897
+     "eff_cost": 5.218134
     }
    ],
-   "our_cost": 4.8169,
+   "our_cost": 5.2181,
    "ls_cost": 4.84,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 73.5
+   "gp_pct": 71.3
   },
   "Regular BBQ Chicken Pizza": {
    "ingredients": [
@@ -13062,16 +13062,16 @@
      "unit": "ml",
      "ls_cost": "4.56",
      "our_cost": null,
-     "eff_cost": 4.6121
+     "eff_cost": 4.8026
     }
    ],
-   "our_cost": 4.6121,
+   "our_cost": 4.8026,
    "ls_cost": 4.56,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 83.1
+   "gp_pct": 82.4
   },
   "Large Tandoori Chicken Wings Deal": {
    "ingredients": [
@@ -13398,16 +13398,16 @@
      "unit": "ml",
      "ls_cost": "6.76",
      "our_cost": null,
-     "eff_cost": 6.727732
+     "eff_cost": 7.288138
     }
    ],
-   "our_cost": 6.7277,
+   "our_cost": 7.2881,
    "ls_cost": 6.76,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 75.3
+   "gp_pct": 73.3
   },
   "Large Bubba Gump Wings Deal": {
    "ingredients": [
@@ -14842,22 +14842,11 @@
    "gp_pct": null
   },
   "Kids Spag Bol": {
-   "ingredients": [
-    {
-     "name": "bolognese",
-     "kind": "id",
-     "ref": "lightspeed:22510332",
-     "qty": "100",
-     "unit": "g",
-     "ls_cost": "0.00",
-     "our_cost": null,
-     "eff_cost": 0.0
-    }
-   ],
+   "ingredients": [],
    "our_cost": 0.0,
    "ls_cost": 0.0,
-   "fully_our_book": false,
-   "resolved_pct": 100,
+   "fully_our_book": true,
+   "resolved_pct": 0,
    "is_prep": false,
    "sell_incl": 13.0,
    "gp_pct": null
