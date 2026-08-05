@@ -63,7 +63,8 @@
       <select id="filter">
         <option value="all">All recipes</option>
         <option value="menu">Menu items (has price)</option>
-        <option value="alert">GP alerts</option>
+        <option value="alert">GP alerts — selling too thin</option>
+        <option value="under">Under-costed (GP 95%+)</option>
         <option value="batch">Batches / preps</option>
       </select>
       <select id="cat"><option value="all">All categories</option></select>
@@ -155,17 +156,24 @@ function render(){
   const gpvals=menu.map(([n,r])=>r.gp_pct).filter(g=>g!=null);
   const avg=gpvals.length?Math.round(gpvals.reduce((a,b)=>a+b,0)/gpvals.length):0;
   const alerts=menu.filter(([n,r])=>r.gp_pct!=null && r.gp_pct<55);
+  // A menu GP at or above 95% is not a win, it is a missing ingredient or a bad
+  // quantity — Garlic Bread [Deal] charges 0.025 of a garlic bread where the
+  // normal one charges 1. Under-costing flatters GP, which is the direction that
+  // hurts, so it gets its own alert rather than sitting quietly at the top.
+  const under=menu.filter(([n,r])=>r.gp_pct!=null && r.gp_pct>=95);
   const fully=all.filter(([n,r])=>r.fully_our_book).length;
 
   document.getElementById('kpis').innerHTML =
     `<div class="kpi"><div class="n">${all.length}</div><div class="l">recipes costed</div></div>
      <div class="kpi"><div class="n">${fully}</div><div class="l">fully on our book</div></div>
      <div class="kpi"><div class="n">${avg}%</div><div class="l">avg food GP (menu)</div></div>
-     <div class="kpi"><div class="n" style="color:${alerts.length?'var(--red)':'var(--green)'}">${alerts.length}</div><div class="l">GP alerts (&lt;55%)</div></div>`;
+     <div class="kpi"><div class="n" style="color:${alerts.length?'var(--red)':'var(--green)'}">${alerts.length}</div><div class="l">GP alerts (&lt;55%)</div></div>
+     <div class="kpi"><div class="n" style="color:${under.length?'var(--red)':'var(--green)'}">${under.length}</div><div class="l">under-costed (95%+)</div></div>`;
 
   let rows=all;
   if(f==='menu') rows=menu;
   else if(f==='alert') rows=alerts;
+  else if(f==='under') rows=under;
   else if(f==='batch') rows=all.filter(([n,r])=>isBatch(r));
   rows=rows.filter(([n])=>!q||n.toLowerCase().includes(q));
   const c=document.getElementById('cat').value;
