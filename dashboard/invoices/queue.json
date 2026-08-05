@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-05",
-  "count": 290,
-  "skipped_already_in_xero": 223,
+  "count": 292,
+  "skipped_already_in_xero": 221,
   "invoices": [
     {
       "ref": "7064443",
@@ -1755,6 +1755,183 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "known supplier 'paramount'"
+        }
+      ]
+    },
+    {
+      "ref": "SI4393113",
+      "supplier": "Foodlink Australia Pty Ltd",
+      "supplier_key": "foodlink",
+      "date": "2026-06-05",
+      "due_date": "2026-06-12",
+      "total": "322.79",
+      "venue": "stowaway",
+      "pdf_path": "d8f49a647e4779f8435ed15f02c4b723b65cac9a1af0b80ef43ce6db2bb65194.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "JUICE LIME YUZU 1LT Tonami",
+          "supplier_code": "103169",
+          "qty": "1",
+          "amount": "71.29",
+          "unit_cost": "$71.29/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BUTTER UNSALTED 1KG Jeffs",
+          "supplier_code": "105844",
+          "qty": "3",
+          "amount": "53.70",
+          "unit_cost": "$17.90/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "YEAST FRESH 1KG",
+          "supplier_code": "103153",
+          "qty": "2",
+          "amount": "11.00",
+          "unit_cost": "$5.50/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SOUR CREAM FULL 2LT Brancourts",
+          "supplier_code": "102638",
+          "qty": "1",
+          "amount": "19.00",
+          "unit_cost": "$9.50/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "OLIVES PITTED GREEN 2KG Riviana",
+          "supplier_code": "101871",
+          "qty": "2",
+          "amount": "48.00",
+          "unit_cost": "$12.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "OLIVES PITTED KALAMATA 2KG",
+          "supplier_code": "101873",
+          "qty": "1",
+          "amount": "19.50",
+          "unit_cost": "$9.75/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SMOKEY BBQ SAUCE 3LT Sunshine",
+          "supplier_code": "102601",
+          "qty": "2",
+          "amount": "25.00",
+          "unit_cost": "$4.17/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "EGGPLANT CHAR GRILL 1.7KG",
+          "supplier_code": "101034",
+          "qty": "2",
+          "amount": "72.00",
+          "unit_cost": "$21.18/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Fuel Levy",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "SI4393133",
+      "supplier": "Foodlink Australia Pty Ltd",
+      "supplier_key": "foodlink",
+      "date": "2026-06-05",
+      "due_date": "2026-06-12",
+      "total": "118.90",
+      "venue": "stowaway",
+      "pdf_path": "e68fd48e30c5ca7b7e50c0f507898437654a04f198d5e7ba514bbfd391fcf76d.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CHEESE BURGER SLICE 1.35KG",
+          "supplier_code": "100484",
+          "qty": "1",
+          "amount": "23.40",
+          "unit_cost": "$17.33/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHEESE MEXICAN BLEND",
+          "supplier_code": "108970",
+          "qty": "1",
+          "amount": "30.00",
+          "unit_cost": "$30.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BREADCRUMBS FINE 1KG Natures",
+          "supplier_code": "100293",
+          "qty": "3",
+          "amount": "13.50",
+          "unit_cost": "$4.50/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BREADCRUMBS JAPANESE PANKO",
+          "supplier_code": "100292",
+          "qty": "1",
+          "amount": "52.00",
+          "unit_cost": "$52.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
