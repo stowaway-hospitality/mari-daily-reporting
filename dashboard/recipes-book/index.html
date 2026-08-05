@@ -123,16 +123,14 @@ function row(name,r){
   const tag = (r.is_prep ? '<span class="tag" style="background:color-mix(in srgb,var(--ink) 8%,var(--paper));color:var(--ink-soft)">prep</span>' : '')
             + (r.fully_our_book ? '<span class="tag">our book</span>'
                                 : '<span class="tag ls">part LS</span>');
-  const ings = r.ingredients.map(i=>esc(i.name)).slice(0,6).join(', ');
-  return `<tr class="main" onclick="this.nextElementSibling?.classList.toggle('hide')">
+  return `<tr class="main">
       <td>${esc(name)}${tag}</td>
       <td class="r">${r.sell_incl?money(r.sell_incl):'—'}</td>
       <td class="r">${money(r.our_cost)}</td>
       <td class="r"><span class="${gpClass(gp)}">${gp==null?'—':gp+'%'}</span></td>
       <td class="r" style="color:var(--ink-soft)">${sale(name).qty?Math.round(sale(name).qty).toLocaleString():'—'}</td>
       <td style="color:var(--ink-soft)">${esc(sale(name).group||'—')}</td>
-    </tr>
-    <tr class="det hide"><td colspan="5"><span class="ings">${ings}${r.ingredients.length>6?' …':''}</span></td></tr>`;
+    </tr>`;
 }
 
 function render(){
