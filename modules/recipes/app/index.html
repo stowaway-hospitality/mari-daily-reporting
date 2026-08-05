@@ -457,7 +457,26 @@ function recompute() {
   const sell = +document.getElementById('sell').value || 0;
   const ex = sell / 1.1;
   const gpEl = document.getElementById('gp-food'), mgEl = document.getElementById('gp-marg');
-  if (sell > 0 && food > 0) {
+  // A BATCH IS NOT A MENU ITEM. "Tandoori Chicken [2Kg]" carries a $2 placeholder
+  // POS price against a $19 tray, and the builder was reporting that as -574% GP
+  // with a -$10.44 margin, in red. Nothing is wrong with the recipe's cost; the
+  // sell price just isn't a sell price. The cost book already refuses to compute a
+  // GP for these (is_prep), and the builder now agrees: a recipe with a batch YIELD,
+  // or a prep/batch name, or a price too low to be a menu line, shows its cost and
+  // no GP. Showing a frightening number that means nothing trains people to ignore
+  // the number that does.
+  const nm = (document.getElementById('dish')?.value || '');
+  const yq = +(document.getElementById('yq')?.value || 0);
+  const isPrep = yq > 0
+    || /\[(batch|prep|recipe|\d+\s*(kg|g|l|ml))\]|\b(prep|batch|blend|mix)\b/i.test(nm)
+    || (sell > 0 && sell < 3);
+  if (isPrep && food > 0) {
+    gpEl.textContent = '—'; gpEl.className = 'gp';
+    mgEl.textContent = '—'; mgEl.className = 'gp';
+    document.getElementById('gp-note').textContent =
+      `${money(food)} to make this batch. No GP shown — a batch's POS price is a `
+      + `placeholder, not what it sells for, so any GP off it is meaningless.`;
+  } else if (sell > 0 && food > 0) {
     const gp = 100 * (ex - food) / ex;
     gpEl.textContent = gp.toFixed(0) + '%';
     gpEl.className = 'gp ' + (gp > 85 ? 'warn' : gp < 55 ? 'bad' : gp < 65 ? 'warn' : 'good');

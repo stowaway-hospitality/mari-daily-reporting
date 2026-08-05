@@ -1,18 +1,12 @@
-# ESTIMATED batch yields for preps whose Produce recipe carries no yield.
-#
-# A prep without a yield cannot be costed per gram/ml, so any dish using it
-# falls back to a frozen scrape number and shows as '(imported)' in the
-# builder. These estimates unblock that. They are DERIVED, not measured:
-# the batch weighs what went into it, less an allowance where the method
-# clearly drives off water (gravy/caramel 0.75, sauces 0.90), plus the
-# reverse for syrups, where dissolved sugar ADDS volume.
-#
-# Replace any line with a measured yield when someone next makes the batch —
-# the cost per unit moves in direct proportion, so this is the one number
-# worth checking on the floor.
+# Estimated batch yields. Where a line's literal quantity is a PACK COUNT ("1"
+# meaning one 1kg tub of yoghurt), the weight is taken from what the line COSTS
+# divided by our per-gram rate — the cost is invoice-fed, so it is the reliable
+# side. Reading those literally gave Tandoori Sauce a 216g yield when its
+# ingredients weigh ~1.1kg, which then reported the batch at $60.56/kg.
 Black Beans Prep:
-  basis: sum of ingredients x1.0
-  yield_qty: 303
+  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a
+    "1" that is really a 1kg tub)
+  yield_qty: 7125
   yield_unit: ml
 Burrito Rice Sauce:
   basis: sum of ingredients x0.9
@@ -23,16 +17,18 @@ Carnaval Fruit Mix:
   yield_qty: 2660
   yield_unit: g
 Cauliflower Cheese Prep:
-  basis: sum of ingredients x1.0
-  yield_qty: 490
+  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a
+    "1" that is really a 1kg tub)
+  yield_qty: 4376
   yield_unit: g
 Demerara Syrup:
   basis: 750g demerara 1:1 -> ~1.16L
   yield_qty: 1160
   yield_unit: ml
 Garlic Oil [Batch]:
-  basis: sum of ingredients x1.0
-  yield_qty: 501
+  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a
+    "1" that is really a 1kg tub)
+  yield_qty: 1500
   yield_unit: ml
 Grapefruit Sherbert:
   basis: sum of ingredients x1.0
@@ -47,12 +43,14 @@ J.J. Aioli [Batch]:
   yield_qty: 560
   yield_unit: g
 Mint Yoghurt [Batch]:
-  basis: sum of ingredients x1.0
-  yield_qty: 103
+  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a
+    "1" that is really a 1kg tub)
+  yield_qty: 1102
   yield_unit: ml
 Nut Roast Prep:
-  basis: sum of ingredients x1.0
-  yield_qty: 4803
+  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a
+    "1" that is really a 1kg tub)
+  yield_qty: 7304
   yield_unit: g
 Passionfruit Syrup:
   basis: 'Zak: 1L juice + 1kg sugar = 1600ml'
@@ -69,12 +67,14 @@ Pizza Sauce [Recipe]:
   yield_qty: 9338
   yield_unit: g
 Queso Dip Prep:
-  basis: sum of ingredients x0.9
-  yield_qty: 901
+  basis: sum of ingredients x0.9, weights taken from the invoice-implied amounts (a
+    "1" that is really a 1kg tub)
+  yield_qty: 4275
   yield_unit: ml
 Salsa Rosa Prep:
-  basis: sum of ingredients x1.0
-  yield_qty: 788
+  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a
+    "1" that is really a 1kg tub)
+  yield_qty: 1222
   yield_unit: g
 Salted Caramel Sauce:
   basis: sum of ingredients x0.75
@@ -89,6 +89,7 @@ Sugar Syrup:
   yield_qty: 1540
   yield_unit: ml
 Tandoori Sauce [Batch]:
-  basis: sum of ingredients x0.9
-  yield_qty: 216
+  basis: sum of ingredients x0.9, weights taken from the invoice-implied amounts (a
+    "1" that is really a 1kg tub)
+  yield_qty: 1116
   yield_unit: g
