@@ -122,7 +122,12 @@ const COLS=[
 window.sortBy = k => { SORT = (SORT.key===k) ? {key:k,dir:-SORT.dir}
                                             : {key:k, dir:(k==='name'||k==='cat')?1:-1};
                        render(); };
-const nrm = s => (s||'').toLowerCase().replace(/\[[^\]]*\]/g,' ').replace(/[^a-z0-9]+/g,' ').trim();
+// Match the POS product EXACTLY (bar case/punctuation). The bracket is not
+// decoration: 'Regular Margherita' is the takeaway/delivery product and
+// 'Regular Margherita [Dine-in]' is a different one that sells separately.
+// Stripping it merged three real products into one and reported the same
+// 209 units against each.
+const nrm = s => (s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const sale = n => SALES[nrm(n)] || {qty:0,rev:0,group:''};
 const gpClass = g => g==null?'':(g<0?'gp bad':g<55?'gp bad':g<65?'gp warn':'gp good');
 const isBatch = r => r.is_prep === true;
@@ -165,7 +170,6 @@ function render(){
   rows=rows.filter(([n])=>!q||n.toLowerCase().includes(q));
   const c=document.getElementById('cat').value;
   if(c!=='all') rows=rows.filter(([n])=>sale(n).group===c);
-  const sk=document.getElementById('sort').value;
   const col=COLS.find(c=>c.k===SORT.key)||COLS[4];
   rows.sort((a,b)=>{
     const x=col.val(a[0],a[1]), y=col.val(b[0],b[1]);
