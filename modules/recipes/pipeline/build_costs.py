@@ -95,6 +95,44 @@ def _liq_base(unit: str):
     return _LIQ_BASE.get((unit or "").strip().upper())
 
 
+# A ls-recipe-seed beyond this multiple of the SAME product's BO-export seed is a
+# unit misread, not a price. 3x is wide on purpose: real drift never reaches it,
+# and the two failures it catches are 10.5x and 6.45x.
+SEED_CONFLICT_X = 3.0
+
+
+def ls_seed_is_misread(ls_rate, bo_rate, band: float = SEED_CONFLICT_X) -> bool:
+    """
+    Is this Lightspeed recipe-derived seed contradicted by the Back Office export?
+
+    Two seeds can describe one ProductID: `bo-seed` (a STATED cost from the BO
+    export) and `ls-recipe-seed` (Lightspeed's own computed recipe-line cost —
+    precisely the number this project exists to escape). When they disagree wildly
+    the LS one is a unit misread, and because it is dated a day later it otherwise
+    wins the as-of lookup forever:
+
+        Massenez Elderflower  BO $0.0506/ml   LS $0.004833/ml   10.5x LOW
+        Bittermen's Tiki      BO $0.037186/ml LS $0.240000/ml    6.45x HIGH
+
+    Elderflower at $24.17 for 5L is cheaper than sesame oil and 10x off every
+    Massenez sibling; it is what made Hugo Spritz report 92.9% GP.
+
+    Returns True only when a second, independent, stated figure contradicts the
+    derived one by more than `band`. Never fires on a missing/zero reference —
+    absence of a second opinion is not evidence of error.
+    """
+    if ls_rate is None or bo_rate is None:
+        return False
+    try:
+        ls_v, bo_v = float(ls_rate), float(bo_rate)
+    except (TypeError, ValueError):
+        return False
+    if ls_v <= 0 or bo_v <= 0:
+        return False
+    ratio = ls_v / bo_v
+    return ratio > band or ratio < 1.0 / band
+
+
 def seed_matched_liquor_cost(pack_cost, pack_qty, pack_unit, note, seed_per_unit,
                              seed_single_base=None, band=Decimal("3")):
     """
@@ -219,12 +257,43 @@ def main() -> int:
             except Exception:
                 pass
 
+    # BO-export rate per ProductID, in the recipe's own base unit. The second
+    # opinion the ls-recipe-seed guard below is checked against.
+    bo_rate: dict[str, Decimal] = {}
+    for r in cogs_rows:
+        if not (r.get("source_invoice") or "").startswith("bo-seed"):
+            continue
+        pid = f"lightspeed:{(r.get('supplier_code') or '').strip()}"
+        try:
+            q = Decimal(r["pack_qty"])
+            if (r.get("pack_unit") or "").strip().lower() in ("ml", "g") and q > 0:
+                bo_rate[pid] = Decimal(r["cost_per_unit_incl_gst"]) / q
+        except Exception:
+            pass
+
     rows, skipped, bridged = [], [], 0
     for r in cogs_rows:
         code = (r.get("supplier_code") or "").strip()
         if not code:
             skipped.append((r["supplier"], r["invoice_description"], "no supplier_code — no identity"))
             continue
+
+        # SEED CONFLICT GUARD. A ls-recipe-seed that contradicts the SAME product's
+        # BO export by >3x is a unit misread, and since it is dated a day later it
+        # would win the as-of lookup forever. Drop it and let the stated BO cost
+        # stand. (Massenez Elderflower read 10.5x LOW -> Hugo Spritz 92.9% GP;
+        # Bittermen's Tiki Bitters read 6.45x HIGH.) See ls_seed_is_misread.
+        if (r.get("source_invoice") or "").startswith("ls-recipe-seed"):
+            _pid = f"lightspeed:{code}"
+            try:
+                _lsr = Decimal(r.get("cost_per_base_unit") or 0)
+            except Exception:
+                _lsr = None
+            if ls_seed_is_misread(_lsr, bo_rate.get(_pid)):
+                skipped.append((r["supplier"], r["invoice_description"],
+                                f"ls-recipe-seed {_lsr}/u contradicts BO export "
+                                f"{bo_rate[_pid]}/u by >{SEED_CONFLICT_X}x — unit misread"))
+                continue
 
         iid = purchasable_id(r["supplier"], code)
         desc = r["invoice_description"].strip()

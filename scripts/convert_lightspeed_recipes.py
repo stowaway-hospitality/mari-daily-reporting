@@ -54,6 +54,54 @@ _AGREE_LO, _AGREE_HI = 0.2, 5.0
 _LS_LINE_CAP = 40.0
 
 
+# ProductIDs whose Lightspeed cost is PROVEN wrong: the BO export states one cost
+# and Lightspeed's own recipe-derived seed contradicts it by >3x (see
+# build_costs.ls_seed_is_misread). For these, and ONLY these, an LS line cost may
+# not veto our price — it is computed from the same misread number.
+_LS_MISREAD_REFS: set[str] = set()
+
+
+def load_ls_misread_refs(cogs_path=None) -> set[str]:
+    """Which ProductIDs does Lightspeed itself price wrong?
+
+    Elderflower is the case: BO export $253/5L ($0.0506/ml, matching every Massenez
+    sibling) vs Lightspeed $24.17/5L. The bad number reached BOTH the seed and the
+    per-line cost, so Hugo Spritz's 60ml line reads $0.29 instead of $3.04 and the
+    drink reports 92.9% GP. Agreement-with-LS is normally good evidence that a
+    recipe quantity is sane -- but not when LS's own price for that product is the
+    thing we can prove wrong.
+    """
+    import csv as _csv
+    from decimal import Decimal as _D
+    path = cogs_path or COGS
+    bo, ls = {}, {}
+    try:
+        rows = list(_csv.DictReader(open(path, encoding="utf-8-sig")))
+    except OSError:
+        return set()
+    for r in rows:
+        pid = (r.get("supplier_code") or "").strip()
+        src = r.get("source_invoice") or ""
+        try:
+            if src.startswith("bo-seed"):
+                q = _D(r["pack_qty"])
+                if (r.get("pack_unit") or "").strip().lower() in ("ml", "g") and q > 0:
+                    bo[pid] = _D(r["cost_per_unit_incl_gst"]) / q
+            elif src.startswith("ls-recipe-seed"):
+                v = _D(r.get("cost_per_base_unit") or 0)
+                if v > 0:
+                    ls[pid] = v
+        except Exception:
+            continue
+    out = set()
+    for pid in set(bo) & set(ls):
+        if bo[pid] > 0:
+            ratio = float(ls[pid] / bo[pid])
+            if ratio > 3.0 or ratio < 1 / 3.0:
+                out.add(f"lightspeed:{pid}")
+    return out
+
+
 def _trust_direct(ln, ls, is_prep):
     """May we cost this line as our_price x recipe_qty?
 
@@ -79,6 +127,13 @@ def _trust_direct(ln, ls, is_prep):
     if ls <= 0 or qty <= 0:
         return True
     if ls > _LS_LINE_CAP and not is_prep:      # LS line is the untrustworthy one
+        return True
+    # Lightspeed's price for THIS product is provably a misread (its own two seeds
+    # contradict each other >3x), so its line cost carries the same error and may
+    # not veto our stated, invoice/BO-backed rate. Narrow by construction: only
+    # products with that contradiction qualify, so Truffle Oil's "4 ml" quantity
+    # is still condemned by a credible LS line exactly as before.
+    if ln.get("ref") in _LS_MISREAD_REFS:
         return True
     direct = float(ln["our_cost"]) * qty
     return _AGREE_LO * ls <= direct <= _AGREE_HI * ls
@@ -371,6 +426,11 @@ def load_seed_baseline():
 
 def main() -> int:
     rec = json.loads(RECIPES.read_text())
+    global _LS_MISREAD_REFS
+    _LS_MISREAD_REFS = load_ls_misread_refs()
+    if _LS_MISREAD_REFS:
+        print(f"  {len(_LS_MISREAD_REFS)} ProductIDs Lightspeed prices wrong "
+              f"(BO export contradicts its own seed >3x) — our rate wins on those")
     bo_by_name, bo_prefixes = load_bo_ids()
     our_costs = load_our_costs()
     our_preps = load_our_preps(our_costs)

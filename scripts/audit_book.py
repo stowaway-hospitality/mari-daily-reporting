@@ -105,6 +105,82 @@ def audit():
                     f"{name} -> {ln.get('name') or ln.get('product') or ln.get('id')}"
                     f" ({ln.get('qty')}{ln.get('unit') or ''})")
 
+    # ---------- PRICED BELOW COST (any price, not just menu-priced) ----------
+    # The "costs more than it sells for" rule above only looks at items over
+    # $3, because a $1 POS price is usually a placeholder. But a REAL recipe
+    # behind a $2 price is a different animal: Pepperoni [Dine-in] carries a
+    # full pizza (dough, sauce, mozzarella, pepperoni = $2.11) against a $2.00
+    # price, and every dine-in sibling sells for $15. That is a POS price
+    # error losing money on every order, and it hid under the threshold.
+    for name, r in sorted(recipes.items()):
+        if r.get("is_prep"):
+            continue
+        sell, cost = money(r.get("sell_incl")), money(r.get("our_cost"))
+        lines = r.get("ingredients") or []
+        if 0 < sell < MENU_PRICED and cost > sell and len(lines) >= 2:
+            add("SEVERE", "real recipe priced below cost (POS price looks wrong)",
+                f"sell ${sell:>6.2f} vs cost ${cost:>6.2f}  ({len(lines)} lines)  {name}")
+
+    # ---------- A COMBO THAT CONTAINS NOTHING EXTRA ----------
+    # "Large X Wings Deal" is a pizza AND wings, so it must cost more than the
+    # plain "Large X". All 22 of them were byte-identical to the base pizza —
+    # the wings were never added — so each reported ~88% GP on a $30 item.
+    # Generalised: any recipe whose name extends another recipe's name must not
+    # have an identical ingredient list to it.
+    for name, r in sorted(recipes.items()):
+        if r.get("is_prep"):
+            continue
+        for suffix in (" Wings Deal", " Deal", " Combo", " + Wings", " & Wings"):
+            if not name.endswith(suffix):
+                continue
+            base = name[: -len(suffix)].strip()
+            b = recipes.get(base)
+            if not b:
+                continue
+            def _sig(rec):
+                # compare quantities NUMERICALLY — the feed writes "259" in one
+                # recipe and "259.0" in the other, which is the same 259g.
+                return sorted((str(l.get("ref") or l.get("name")), money(l.get("qty")))
+                              for l in (rec.get("ingredients") or []))
+            if _sig(r) == _sig(b) and _sig(r):
+                add("SEVERE", "combo costs the same as its base — the extra item is missing",
+                    f"${money(r.get('our_cost')):>6.2f}  {name}  ==  {base}")
+            break
+
+    # ---------- SIZE REGRESSION: a LARGE carrying less than its REGULAR ----------
+    # A Large pizza cannot contain less of an ingredient than the Regular. Found
+    # on ham (55g vs 85g), spanish onion (20g vs 33g on 8 pizzas), chicken,
+    # mozzarella, pesto. Also catches a topping present in one size and absent
+    # from the other, which is the "Hawaiian had no ham" class.
+    def _lines_by_ref(rec):
+        out = {}
+        for l in (rec.get("ingredients") or []):
+            k = str(l.get("ref") or l.get("name") or "")
+            try:
+                out[k] = (float(l.get("qty") or 0), str(l.get("name") or k))
+            except (TypeError, ValueError):
+                pass
+        return out
+    for name, r in sorted(recipes.items()):
+        if not name.startswith("Large ") or r.get("is_prep"):
+            continue
+        stem = name[len("Large "):]
+        reg = recipes.get(f"Regular {stem}")
+        if not reg:
+            continue
+        L, R = _lines_by_ref(r), _lines_by_ref(reg)
+        for ref, (rq, rname) in R.items():
+            if ref not in L:
+                add("WARN", "ingredient in the REGULAR but missing from the LARGE",
+                    f"{stem}: {rname[:30]} ({rq:g} in regular, absent in large)")
+            elif rq > 0 and L[ref][0] < rq:
+                add("WARN", "LARGE carries LESS of an ingredient than the REGULAR",
+                    f"{stem}: {rname[:30]:<32} large {L[ref][0]:g} < regular {rq:g}")
+        for ref, (lq, lname) in L.items():
+            if ref not in R:
+                add("INFO", "ingredient in the LARGE but missing from the REGULAR",
+                    f"{stem}: {lname[:30]} ({lq:g} in large, absent in regular)")
+
     # collisions: two recipes that normalise to one name double-count in rollups
     seen = defaultdict(list)
     for n in recipes:

@@ -21,10 +21,6 @@
   .bar input{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:14px}
   .bar select{padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:13px}
   .stat{font-size:12px;color:var(--ink-soft);white-space:nowrap}.stat b{color:var(--ink)}
-  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-bottom:20px}
-  .kpi{border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:12px 14px}
-  .kpi .n{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700}
-  .kpi .l{font-size:11.5px;color:var(--ink-soft);margin-top:2px}
   h2.sec{font-family:'Space Grotesk',sans-serif;font-size:15px;margin:24px 0 4px}
   .sec-note{font-size:12px;color:var(--ink-soft);margin:0 0 12px}
   table{width:100%;border-collapse:collapse;font-size:13px}
@@ -71,7 +67,6 @@
       <select id="cat"><option value="all">All categories</option></select>
       <span class="stat" id="stat"></span>
     </div>
-    <div class="cards" id="kpis"></div>
     <div id="body"><div class="empty">Loading…</div></div>
   </div>
 </div>
@@ -149,9 +144,10 @@ const isBatch = r => r.is_prep === true;
 
 function row(name,r){
   const gp = r.gp_pct;
-  const tag = (r.is_prep ? '<span class="tag" style="background:color-mix(in srgb,var(--ink) 8%,var(--paper));color:var(--ink-soft)">prep</span>' : '')
-            + (r.fully_our_book ? '<span class="tag">our book</span>'
-                                : '<span class="tag ls">part LS</span>');
+  // No "our book" / "part LS" tag: coverage is 648/648, so it labelled every row
+  // identically and told nobody anything. If coverage ever regresses, audit_book.py
+  // is the thing that says so — not a badge on every line.
+  const tag = (r.is_prep ? '<span class="tag" style="background:color-mix(in srgb,var(--ink) 8%,var(--paper));color:var(--ink-soft)">prep</span>' : '');
   return `<tr class="main">
       <td>${esc(name)}${tag}</td>
       <td class="r">${r.sell_incl?money(r.sell_incl):'—'}</td>
@@ -168,22 +164,12 @@ function render(){
   const f=document.getElementById('filter').value;
   const all=Object.entries(DATA.recipes||{});
   const menu=all.filter(([n,r])=>r.sell_incl!=null && !r.is_prep);
-  const gpvals=menu.map(([n,r])=>r.gp_pct).filter(g=>g!=null);
-  const avg=gpvals.length?Math.round(gpvals.reduce((a,b)=>a+b,0)/gpvals.length):0;
   const alerts=menu.filter(([n,r])=>r.gp_pct!=null && r.gp_pct<55);
   // A menu GP at or above 95% is not a win, it is a missing ingredient or a bad
   // quantity — Garlic Bread [Deal] charges 0.025 of a garlic bread where the
   // normal one charges 1. Under-costing flatters GP, which is the direction that
   // hurts, so it gets its own alert rather than sitting quietly at the top.
   const under=menu.filter(([n,r])=>r.gp_pct!=null && r.gp_pct>=95);
-  const fully=all.filter(([n,r])=>r.fully_our_book).length;
-
-  document.getElementById('kpis').innerHTML =
-    `<div class="kpi"><div class="n">${all.length}</div><div class="l">recipes costed</div></div>
-     <div class="kpi"><div class="n">${fully}</div><div class="l">fully on our book</div></div>
-     <div class="kpi"><div class="n">${avg}%</div><div class="l">avg food GP (menu)</div></div>
-     <div class="kpi"><div class="n" style="color:${alerts.length?'var(--red)':'var(--green)'}">${alerts.length}</div><div class="l">GP alerts (&lt;55%)</div></div>
-     <div class="kpi"><div class="n" style="color:${under.length?'var(--red)':'var(--green)'}">${under.length}</div><div class="l">under-costed (95%+)</div></div>`;
 
   let rows=all;
   if(f==='menu') rows=menu;
