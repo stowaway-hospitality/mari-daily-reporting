@@ -155,6 +155,9 @@ _SIZE_WORD = re.compile(r"^(Large|Regular|Gluten-free|Kids|Family)\b", re.I)
 _PACKAGING = re.compile(r"pizza box|box insert", re.I)
 # What makes a recipe a PIZZA rather than just a menu item with a size word.
 _BASE_LINE = re.compile(r"pizza dough|pizza base|pizza sauce", re.I)
+# A PREP/batch name (module-level twin of PREP_RE, which is built later in main()).
+_PREP_NAME = re.compile(r"\[(batch|prep|recipe|\d+\s*(kg|g|l|ml))\]"
+                        r"|\b(prep|mix|marination|batch|blend)\b", re.I)
 _BOX_BY_SIZE = {
     "large": ('Large Pizza Box 13"', "lightspeed:22873851"),
     "family": ('Large Pizza Box 13"', "lightspeed:22873851"),
@@ -592,7 +595,20 @@ def main() -> int:
             # ...but only for something that is actually a PIZZA. "Kids" matches
             # Kids Spag Bol too, and handing a bowl of pasta a pizza box made its
             # only cost line a cardboard box. A pizza has a base or a dough.
-            is_pizza = any(_BASE_LINE.search(l.get("name") or "") for l in keep)
+            def _has_base(lines, depth=0):
+                # Some takeaway pizzas are entered as "1 x the [Dine-in] one", so
+                # the dough is a level down. Without following the reference,
+                # Regular Pepperoni looked like it had no base and went out unboxed.
+                for l in lines:
+                    if _BASE_LINE.search(l.get("name") or ""):
+                        return True
+                    ref = l.get("ref")
+                    if depth < 2 and l.get("kind") == "subrecipe" and ref in out:
+                        if _has_base(out[ref]["ingredients"], depth + 1):
+                            return True
+                return False
+
+            is_pizza = _has_base(keep)
             if (not dine_in and box and is_pizza
                     and not any(_PACKAGING.search(l.get("name") or "") for l in keep)):
                 keep.append({"name": box[0], "kind": "id", "ref": box[1], "qty": 1,
@@ -604,6 +620,60 @@ def main() -> int:
         # and unlike the box I have no physical rule that says which is right. Left
         # as found, and flagged, rather than guessed at 11c a go.
         return fixed, added, removed
+
+    def _apply_regular_grams():
+        """Put Zak's WEIGHED regular-pizza quantities in place of the derived ones.
+
+        Produce had no real regular recipe — it built one as "0.716 x the Large", so
+        every quantity was a ratio off another size. data/pizza_regular_grams.yaml
+        holds the measured grams. Per Zak: "if the ingredient is on the pizza, this
+        is how much of it is used" — so this CORRECTS quantities on lines that are
+        already there and never adds an ingredient a recipe doesn't list.
+        """
+        import yaml
+        spec_path = ROOT / "data" / "pizza_regular_grams.yaml"
+        if not spec_path.exists():
+            return 0, 0
+        spec = [s for s in (yaml.safe_load(spec_path.read_text()) or []) if s.get("match")]
+        for s in spec:
+            s["_re"] = re.compile(s["match"], re.I)
+
+        changed = touched = 0
+        for name, r in out.items():
+            if not re.match(r"^Regular\b", name, re.I):
+                continue
+            low = name.lower()
+            hit = False
+            for ln in r["ingredients"]:
+                nm = ln.get("name") or ""
+                if _PACKAGING.search(nm):
+                    continue                      # boxes are counted, not weighed
+                # A line can be a whole SOLD pizza rather than an ingredient —
+                # "Regular Pepperoni" is built from one "Pepperoni [Dine-in]", where
+                # qty 1 means one pizza. Matching /pepperoni/ there and writing "62g"
+                # turned a $15 pizza into a 62-gram nothing. Only weigh INGREDIENTS.
+                # (Checked against the recipe book, not the price sheet — the sell
+                # lookup misses on names like "Pepperoni [Dine-in]" and a miss here
+                # silently lets a whole pizza be re-weighed as 62g of topping.)
+                if (ln.get("kind") == "subrecipe" and ln["ref"] in out
+                        and not _PREP_NAME.search(ln["ref"])):
+                    continue
+                for s in spec:                    # first match wins; `when` rules
+                    if not s["_re"].search(nm):   # are listed before the default
+                        continue
+                    if s.get("when") and s["when"].lower() not in low:
+                        continue
+                    if float(ln.get("qty") or 0) != float(s["grams"]):
+                        ln["qty"], ln["unit"] = float(s["grams"]), "g"
+                        changed += 1
+                        hit = True
+                    break
+            touched += 1 if hit else 0
+        return changed, touched
+
+    _rg_changed, _rg_recipes = _apply_regular_grams()
+    print(f"  regular pizzas: {_rg_changed} quantities set from Zak's weighed sheet "
+          f"across {_rg_recipes} recipes")
 
     _pf, _pa, _pr = _fix_packaging()
     print(f"  packaging: {_pf} lines set to one whole box, {_pa} takeaway pizzas "

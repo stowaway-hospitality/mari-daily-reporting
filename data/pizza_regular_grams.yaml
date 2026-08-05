@@ -1,0 +1,125 @@
+# AUTHORITATIVE regular-pizza gram weights — from Zak's "regular main pizzas.xlsx",
+# 2026-08-05. Supersedes the derived quantities for every REGULAR pizza.
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# Lightspeed Produce never held a real regular recipe. It built one as "0.716 x the
+# Large", so every regular pizza's quantities were a ratio off another size rather
+# than a measurement. Zak asked for the opposite: "figure it out so that the regular
+# size doesn't reference the large, it just is an actual calculation on the
+# ingredients." These are those numbers, weighed.
+#
+# HOW TO READ IT (Zak, 2026-08-05): "this indicates that if the ingredient is on the
+# pizza, this is how much of it is used." So these CORRECT the quantity of a line
+# already on a recipe. They do NOT add missing ingredients — a pizza's ingredient
+# list stays whatever Produce says it is.
+#
+# `match` is a case-insensitive regex against our ingredient name. `when` narrows a
+# weight to particular pizzas (the sheet gives some ingredients twice, e.g. cheese
+# is 100g on a Margherita and 67g everywhere else); the entry without `when` is the
+# default and must come last for that ingredient.
+
+- label: "Pizza base"
+  match: "pizza dough"
+  grams: 177
+
+- label: "pizza sauce"
+  match: "pizza sauce"
+  grams: 53
+
+- label: "cheese (margherita pizza)"
+  match: "shredded mozzarella|big cheese"
+  when: "margherita"
+  grams: 100
+- label: "cheese (other pizzas)"
+  match: "shredded mozzarella|big cheese"
+  grams: 67
+
+- label: "pepperoni(pepp pizza)"
+  match: "pepperoni"
+  when: "pepperoni"
+  grams: 62
+- label: "pepperoni(other pizzas)"
+  match: "pepperoni"
+  grams: 30
+
+- label: "mush"
+  match: "mushroom"
+  grams: 40
+
+# Zak: the weight applies to whichever capsicum the pizza actually carries.
+- label: "caps"
+  match: "capsicum|char-grilled caps"
+  grams: 37
+
+- label: "onion"
+  match: "brown onion"
+  grams: 36
+
+- label: "ham (hawaiian)"
+  match: "\\bham\\b"
+  when: "hawaiian"
+  grams: 85
+- label: "ham"
+  match: "\\bham\\b"
+  grams: 60
+
+- label: "pineapple (hawaiian)"
+  match: "pineapple"
+  when: "hawaiian"
+  grams: 85
+- label: "pineapple"
+  match: "pineapple"
+  grams: 30
+
+- label: "olives"
+  match: "olive"
+  grams: 25
+
+- label: "roma tomatos"
+  match: "roma tomato"
+  grams: 56
+
+- label: "bacon"
+  match: "bacon"
+  grams: 30
+
+- label: "beef brieskt"
+  match: "beef brisket"
+  grams: 65
+
+- label: "BBQ sauce"
+  match: "bbq sauce"
+  grams: 32
+
+- label: "sundried tom"
+  match: "sundried|sun dried"
+  grams: 17
+
+- label: "prosciutto"
+  match: "prosciutto"
+  grams: 48
+
+- label: "bocconcini"
+  match: "bocconcini"
+  grams: 49
+
+- label: "s. onion"
+  match: "spanish onion"
+  grams: 33
+
+- label: "anchovies"
+  match: "anchov"
+  grams: 12
+
+- label: "prawns (bubba gump)"
+  match: "prawn"
+  when: "bubba gump"
+  grams: 85
+- label: "prawns (other pizzas)"
+  match: "prawn"
+  grams: 52
+
+- label: "chicken"
+  match: "chicken"
+  grams: 105
