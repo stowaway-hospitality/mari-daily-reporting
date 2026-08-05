@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-05T10:40:24+00:00",
-  "overall": "unknown",
+  "generated": "2026-08-05T14:20:20+00:00",
+  "overall": "warn",
   "checks": [
     {
       "name": "Invoice poller",
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 0.5,
+      "age": 3.2,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -35,7 +35,7 @@
     {
       "name": "Weekly Xero pull",
       "detail": "runs once a week",
-      "age": 2.4,
+      "age": 2.6,
       "unit": "day",
       "status": "ok",
       "meaning": "Pulls payroll and overheads from Xero once a week.",
@@ -45,9 +45,9 @@
     {
       "name": "Daily sales pull",
       "detail": "aggregates yesterday's Lightspeed exports",
-      "age": 1,
+      "age": 2,
       "unit": "day",
-      "status": "ok",
+      "status": "warn",
       "meaning": "Yesterday's Lightspeed sales landing in the dashboard.",
       "action": "Usually the Stowaway sales email has not arrived yet. It retries every 20 min until ~10am. Still missing after 10am? Ask Claude to check the Stow export landed and re-run the ingest, or tell Zak. Numbers fill in once it arrives.",
       "selfheal": "Retries through the morning; often fixes itself before 10am."
@@ -55,7 +55,7 @@
     {
       "name": "Xero COGS feed",
       "detail": "weekly actual COGS from Xero",
-      "age": 3,
+      "age": 4,
       "unit": "day",
       "status": "ok",
       "meaning": "Weekly actual cost-of-goods from Xero (drives the margin figures).",
