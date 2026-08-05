@@ -419,7 +419,13 @@ function lineCostLabel(l) {           // the RATE only; the line's own cost has 
   return `${money(r.rate)}/${esc(r.unit)}`;
 }
 function lineMeta(l) {
-  if (l.kind === 'sub') return { name: l.product + ' (recipe)', unit: l.unit };
+  // "(recipe)" marks a line as a sub-recipe rather than a bought ingredient. Six
+  // of them are NAMED "[Recipe]"/"[Batch]"/"[Prep]" already, which read as
+  // "Pizza Dough [Recipe] (recipe)". Only add the tag when the name doesn't say it.
+  if (l.kind === 'sub') {
+    const s = /\[(recipe|batch|prep)\]/i.test(l.product) ? '' : ' (recipe)';
+    return { name: l.product + s, unit: l.unit };
+  }
   if (l.kind === 'manual') return { name: l.name + ' (imported)', unit: l.unit || 'ea' };
   const i = ING.find(x => x.id === l.id);
   if (!i) return { name: (l.name || l.id) + ' (no live cost)', unit: l.unit || 'ea' };

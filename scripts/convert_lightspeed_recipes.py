@@ -34,6 +34,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 RECIPES = ROOT / "data" / "lightspeed_recipes.json"
 COSTS = ROOT / "data" / "costs.csv"
+COGS = ROOT / "data" / "cogs_list.csv"
 EXPORTS = [("stowaway", ROOT / "data" / "bo_exports" / "stowaway_products.csv"),
            ("harry_gatos", ROOT / "data" / "bo_exports" / "harry_gatos_products.csv")]
 OUT = ROOT / "data" / "lightspeed_recipes_costed.json"
@@ -233,6 +234,28 @@ def load_our_costs():
     return {k: _to_base(v[0], v[1]) for k, v in latest.items()}
 
 
+def load_packs():
+    """ingredient id -> (pack_qty, unit) in BASE units, from the cost book's own
+    pack contract. Used to price a whole pack — a "- Bottle" menu line is one
+    750ml bottle, not one millilitre."""
+    out = {}
+    for r in csv.DictReader(COGS.open(encoding="utf-8-sig")):
+        q, u = (r.get("pack_qty") or "").strip(), (r.get("pack_unit") or "").strip().lower()
+        k, d = r.get("lightspeed_id") or "", (r.get("invoice_date") or "")
+        k = f"lightspeed:{r['supplier_code']}" if (r.get("supplier") or "") == "Lightspeed" else ""
+        if not (k and q and u):
+            continue
+        try:
+            qf = float(q)
+        except ValueError:
+            continue
+        if u in _BASE:                     # kg -> g, L -> ml, matching _to_base()
+            u, qf = _BASE[u][0], qf * _BASE[u][1]
+        if k not in out or d >= out[k][2]:
+            out[k] = (qf, u, d)
+    return {k: (v[0], v[1]) for k, v in out.items()}
+
+
 def load_seed_baseline():
     """ingredient id -> the SEED per-unit (the scrape-time baseline). Used to update
     a line by the ratio latest/baseline without needing the recipe's (often garbage)
@@ -260,6 +283,7 @@ def main() -> int:
     rec = json.loads(RECIPES.read_text())
     bo_by_name, bo_prefixes = load_bo_ids()
     our_costs = load_our_costs()
+    packs = load_packs()
     seed_base = load_seed_baseline()
     sell_by_norm, sell_by_tok = load_sell_prices()
     yields = load_yields()
@@ -454,6 +478,20 @@ def main() -> int:
         r = out.get(name)
         if not r:
             return (0.0, 0.0, False)
+        # AN EMPTY RECIPE THAT SELLS IS THE DANGEROUS CASE. Produce holds
+        # "Unico Zelo Terra Cotta - Bottle" with no ingredients at all, so it costed
+        # $0 against a $73 sell price — a 100% GP that reads like the best line on
+        # the menu. resolve() already sends the SIZES to the product; the bottle
+        # itself still needs a cost, and a "- Bottle" line means exactly one full
+        # pack of that product ($21.89 for the 750ml). Cost it that way.
+        if not r["ingredients"]:
+            pid = bo_by_name.get(norm(name))
+            pack = packs.get(f"lightspeed:{pid}") if pid else None
+            cur = our_costs.get(f"lightspeed:{pid}") if pid else None
+            if pack and cur and pack[1] == cur[1] and float(pack[0]) > 0:
+                whole = float(cur[0]) * float(pack[0])
+                memo[name] = (round(whole, 4), round(whole, 4), True)
+                return memo[name]
         our_tot = ls_tot = 0.0
         full_ours = True
         for ln in r["ingredients"]:
