@@ -1,63 +1,28 @@
 {
-  "generated": "2026-08-05T17:36:29+10:00",
-  "reviewed": 706,
-  "clean": 698,
+  "generated": "2026-08-06",
+  "reviewed": 18,
+  "clean": 15,
   "flags": [
     {
       "supplier": "Fresh Fruit Team",
-      "name": "Tomatoes Roma half box please",
-      "code": "TR10BX",
-      "issue": "Leaked order-note text in the product name ('half box please').",
-      "suggested_fix": "Rename to 'Tomatoes Roma' (box). Cost $37.40/box looks fine; only the name is polluted."
-    },
-    {
-      "supplier": "Fresh Fruit Team",
-      "name": "Roma",
-      "code": "TRKG",
-      "issue": "Truncated fragment name \u2014 'Roma' alone is ambiguous (Roma what?).",
-      "suggested_fix": "Rename to 'Tomatoes Roma' (per kg). Derived from supplier_code TRKG (Tomato Roma KG) \u2014 Zak to confirm."
-    },
-    {
-      "supplier": "Andrews Meat",
-      "name": "Patties Plant Based Buds 125g Frozen",
-      "code": "9478C",
-      "issue": "cost_per_base_unit 0.936 $/g = $936/kg \u2014 ~40x too high for plant-based patties (real ~$15-25/kg). Likely a carton total or pack decimal slip. Also flagged needs_pack_review.",
-      "suggested_fix": "Confirm true unit cost from Andrews invoice INV3376993 (source). Cannot confirm value here \u2014 flag for Zak."
+      "name": "Mushroom Button B Grade",
+      "code": "MSHB2 Box",
+      "issue": "Pack is a weightless 'box' ($33.00/box, pack_qty 1) for a product bought and cooked by weight. cost_per_base_unit is $/box, so any recipe using button mushrooms in grams cannot be costed. needs_pack_review is false, so this is not currently surfaced to the chef.",
+      "suggested_fix": "Confirm the actual box weight with Fresh Fruit Team (or from a delivery docket) and set pack_qty to that weight in g with pack_unit 'g'. NOT guessed here - the $/kg only follows once the weight is confirmed."
     },
     {
       "supplier": "Lightspeed",
-      "name": "Lemon",
-      "code": "20564869",
-      "issue": "pack_unit is 'ml' with cost 0.375 -> $375/L, implausible for lemon. A lemon is a per-each item, not measured in ml.",
-      "suggested_fix": "Set unit to 'each' (cost ~$0.375/lemon looks right) \u2014 or, if this is lemon juice, confirm the true $/L. Zak to confirm."
+      "name": "Regular Pizza Box 11\"",
+      "code": "22873831",
+      "issue": "Packaging, not a food ingredient ($0.4820 each). It has landed in the recipe ingredient feed where it will appear in the chef's ingredient picker alongside food.",
+      "suggested_fix": "Confirm intent with Zak. Marilyna's box cost per pizza is a real delivery-margin cost, so it may be deliberate - but if so it belongs in a packaging line, not the food ingredient picker. If not deliberate, exclude the packaging category from build_ingredients."
     },
     {
       "supplier": "Lightspeed",
-      "name": "Cocktail Sticker",
-      "code": "20484940",
-      "issue": "Non-food garnish pick costed per ml ($0.40 'ml'). Not a food a chef cooks with; unit is wrong.",
-      "suggested_fix": "Exclude from the food/recipe picker (accessory), or set unit to 'each' at ~$0.40."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "250ml Glass Bottle",
-      "code": "20484714",
-      "issue": "Packaging (empty glass bottle for batching), not a food ingredient; costed per ml.",
-      "suggested_fix": "Exclude from the food/recipe picker (packaging, not costed as food)."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "700ml Glass Bottle",
-      "code": "20484711",
-      "issue": "Packaging (empty glass bottle for batching), not a food ingredient; costed per ml.",
-      "suggested_fix": "Exclude from the food/recipe picker (packaging, not costed as food)."
-    },
-    {
-      "supplier": "Foodlink",
-      "name": "FLOOR CLEANER 20LTR Reliance",
-      "code": "101084",
-      "issue": "Cleaning chemical, not food. Should not be costed as a recipe ingredient.",
-      "suggested_fix": "Exclude from the food/recipe picker (chemical/cleaning)."
+      "name": "Zaat'ar",
+      "code": "22523874",
+      "issue": "Non-standard spelling (normally 'Za'atar'). Cost is fine at $0.015/g = $15.00/kg. Risk is a duplicate product record later when the same spice is entered with the conventional spelling.",
+      "suggested_fix": "Rename to 'Za'atar' in Lightspeed, or add a _NAME_FIX mapping, so the two spellings resolve to one ingredient."
     }
   ]
 }
