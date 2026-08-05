@@ -84,3 +84,35 @@ def test_paramount_bucket_reads_a_misc_charge_line():
     assert c["size"] == "MISC"
     assert c["desc"] == "Carton Freight"
     assert c["incgst"] == "$7.15"
+
+
+# Andrews Meat column starts (Code | Description | Qty | Unit | Unit Price |
+# GST | Total). Coordinates taken from a real invoice (INV3364687).
+ANDREWS_COLS = [("code", 20), ("desc", 72), ("qty", 515), ("unit", 558),
+                ("price", 615), ("gst", 705), ("total", 758)]
+
+
+def test_andrews_bucket_reads_a_gst_free_meat_line():
+    # BEEF TOPSIDE WAGYU line: qty 5.63 KG x $25.00 = $140.75, GST-free (gst
+    # cell empty). Description wraps across four words but stays in one cell.
+    row = _row((33, "1890K"), (80, "BEEF"), (111, "TOPSIDE"), (163, "WAGYU"),
+               (207, "MB8+"), (537, "5.63"), (564, "KG"), (640, "$25.00"),
+               (769, "$140.75"))
+    c = pdf_text.bucket(row, ANDREWS_COLS)
+    assert c["code"] == "1890K"
+    assert c["desc"] == "BEEF TOPSIDE WAGYU MB8+"
+    assert c["qty"] == "5.63"
+    assert c["unit"] == "KG"
+    assert c["price"] == "$25.00"
+    assert c["gst"] == ""              # GST-free meat -> empty gst cell
+    assert c["total"] == "$140.75"     # qty x price reconciles here
+
+
+def test_andrews_meat_is_wired_to_its_invoice_domain():
+    # The parser is registered on the INVOICE domain (accountsreceivable@
+    # andrewsmeat.com); statements come from andrewsmeat.com.au. Guard the
+    # mapping so the regression harness keeps scoring this parser.
+    from modules.invoices.domains import DOMAIN_KEY
+    from modules.invoices.parsers import DOMAIN_TO_PARSER
+    assert DOMAIN_KEY.get("andrewsmeat.com") == "andrews_meat"
+    assert "andrewsmeat.com" in DOMAIN_TO_PARSER

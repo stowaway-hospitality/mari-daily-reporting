@@ -21,4 +21,10 @@ DOMAIN_KEY: dict[str, str] = {
     "ilg.com.au": "ilg",
     "lionco.com": "lion",
     "paramountliquor.com.au": "paramount",
+    # Andrews Meat: invoices are sent from accountsreceivable@andrewsmeat.com
+    # (monthly statements come from the separate andrewsmeat.com.au domain and
+    # are handled by the statement guard, not this parser). The coordinate
+    # parser in parsers/andrews_meat.py was already registered on this domain;
+    # this mapping wires it into the regression harness + corpus routing.
+    "andrewsmeat.com": "andrews_meat",
 }
