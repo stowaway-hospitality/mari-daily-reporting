@@ -265,6 +265,40 @@ def main() -> int:
                 return ("id", f"lightspeed:{hits.pop()}")
         return (None, None)
 
+    def _canonicalise(ings):
+        """Rewrite duplicate ingredient names to the ONE real thing, drop the
+        redundant ones, and merge any line that now collides.
+
+        Produce holds the same prep under several names ("Tomato Base", "Pizza
+        Tomato Sauce" = Pizza Sauce). Aliasing only the lookup left the old name
+        on display and could leave a recipe carrying the same sauce twice, so the
+        line itself is renamed and same-name/same-unit lines are summed. The
+        scrape on disk is untouched — this is a read-time normalisation."""
+        out, seen = [], {}
+        for ing in ings:
+            nm = (ing.get("name") or "").strip()
+            if nm in IGNORE_INGREDIENTS:
+                continue
+            canon = INGREDIENT_ALIAS.get(ing.get("name")) or INGREDIENT_ALIAS.get(nm)
+            if canon:
+                ing = dict(ing, name=canon)
+            key = (ing.get("name"), (ing.get("unit") or "").lower())
+            if key in seen:                      # same prep twice -> one line
+                prev = seen[key]
+                try:
+                    prev["qty"] = float(prev.get("qty") or 0) + float(ing.get("qty") or 0)
+                except (TypeError, ValueError):
+                    pass
+                try:
+                    prev["cost"] = float(prev.get("cost") or 0) + float(ing.get("cost") or 0)
+                except (TypeError, ValueError):
+                    pass
+                continue
+            ing = dict(ing)
+            seen[key] = ing
+            out.append(ing)
+        return out
+
     def _dedupe_truncated(ings):
         """The Produce scrape truncates long ingredient names at a fixed width, and
         for some rows emits BOTH the cut name ('...Shiraz [Chilled] - Bot') and the
@@ -288,9 +322,7 @@ def main() -> int:
     ing_res = Counter()
     for name, body in rec.items():
         lines = []
-        for ing in _dedupe_truncated(body.get("ingredients", [])):
-            if (ing.get("name") or "").strip() in IGNORE_INGREDIENTS:
-                continue
+        for ing in _canonicalise(_dedupe_truncated(body.get("ingredients", []))):
             kind, ref = resolve(ing["name"], name)
             ing_res[kind or "unmatched"] += 1
             our = None
