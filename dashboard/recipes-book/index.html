@@ -63,6 +63,13 @@
         <option value="alert">GP alerts</option>
         <option value="batch">Batches / preps</option>
       </select>
+      <select id="cat"><option value="all">All categories</option></select>
+      <select id="sort">
+        <option value="sales">Sort: best sellers (13 wks)</option>
+        <option value="revenue">Sort: revenue (13 wks)</option>
+        <option value="gp">Sort: lowest GP</option>
+        <option value="name">Sort: name</option>
+      </select>
       <span class="stat" id="stat"></span>
     </div>
     <div class="cards" id="kpis"></div>
@@ -81,12 +88,32 @@ Auth.gate(document.getElementById('gate'), {
     document.getElementById('app').style.display='';
     document.getElementById('who').textContent=user.name;
     DATA = await fetch('/data/lightspeed_recipes_costed.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>({recipes:{}}));
+    // Category + how it actually SELLS, straight from the Sales Product API that
+    // already lives in this repo (built by scripts/build_products_api.py).
+    const cut=new Date(Date.now()-91*864e5).toISOString().slice(0,10);
+    for(const v of ['stow','hg','mari']){
+      const d=await fetch(`/sales/products/rollup_${v}.json`,{cache:'no-store'}).then(r=>r.json()).catch(()=>null);
+      if(!d) continue;
+      for(const p of (d.products||[])){
+        let q=0,rev=0;
+        for(const w of (p.weekly||[])) if(w.we>=cut){ q+=(+w.qty||0); rev+=(+w.sales_ex||0); }
+        const k=nrm(p.name), cur=SALES[k]||{qty:0,rev:0,group:p.reporting_group||''};
+        SALES[k]={qty:cur.qty+q, rev:cur.rev+rev, group:cur.group||p.reporting_group||''};
+      }
+    }
+    const cats=[...new Set(Object.values(SALES).map(x=>x.group).filter(Boolean))].sort();
+    document.getElementById('cat').innerHTML='<option value="all">All categories</option>'+cats.map(c=>`<option>${esc(c)}</option>`).join('');
+    document.getElementById('cat').addEventListener('change',render);
+    document.getElementById('sort').addEventListener('change',render);
     document.getElementById('q').addEventListener('input',render);
     document.getElementById('filter').addEventListener('change',render);
     render();
   },
 });
 
+const SALES={};
+const nrm = s => (s||'').toLowerCase().replace(/\[[^\]]*\]/g,' ').replace(/[^a-z0-9]+/g,' ').trim();
+const sale = n => SALES[nrm(n)] || {qty:0,rev:0,group:''};
 const gpClass = g => g==null?'':(g<0?'gp bad':g<55?'gp bad':g<65?'gp warn':'gp good');
 const isBatch = r => r.is_prep === true;
 
@@ -101,7 +128,8 @@ function row(name,r){
       <td class="r">${r.sell_incl?money(r.sell_incl):'—'}</td>
       <td class="r">${money(r.our_cost)}</td>
       <td class="r"><span class="${gpClass(gp)}">${gp==null?'—':gp+'%'}</span></td>
-      <td class="r" style="color:var(--ink-soft)">${money(r.ls_cost)}</td>
+      <td class="r" style="color:var(--ink-soft)">${sale(name).qty?Math.round(sale(name).qty).toLocaleString():'—'}</td>
+      <td style="color:var(--ink-soft)">${esc(sale(name).group||'—')}</td>
     </tr>
     <tr class="det hide"><td colspan="5"><span class="ings">${ings}${r.ingredients.length>6?' …':''}</span></td></tr>`;
 }
@@ -127,13 +155,18 @@ function render(){
   else if(f==='alert') rows=alerts;
   else if(f==='batch') rows=all.filter(([n,r])=>isBatch(r));
   rows=rows.filter(([n])=>!q||n.toLowerCase().includes(q));
+  const c=document.getElementById('cat').value;
+  if(c!=='all') rows=rows.filter(([n])=>sale(n).group===c);
+  const sk=document.getElementById('sort').value;
   rows.sort((a,b)=>{
-    if(f==='alert'||f==='menu') return (a[1].gp_pct??999)-(b[1].gp_pct??999);
+    if(sk==='sales')   return sale(b[0]).qty-sale(a[0]).qty || a[0].localeCompare(b[0]);
+    if(sk==='revenue') return sale(b[0]).rev-sale(a[0]).rev || a[0].localeCompare(b[0]);
+    if(sk==='gp')      return (a[1].gp_pct??999)-(b[1].gp_pct??999);
     return a[0].localeCompare(b[0]);
   });
   document.getElementById('stat').innerHTML=`<b>${rows.length}</b> shown`;
   document.getElementById('body').innerHTML = rows.length
-    ? `<div class="pl"><table><thead><tr><th>Recipe</th><th class="r">Sell</th><th class="r">Our cost</th><th class="r">Food GP</th><th class="r">LS cost</th></tr></thead><tbody>${rows.map(([n,r])=>row(n,r)).join('')}</tbody></table></div>`
+    ? `<div class="pl"><table><thead><tr><th>Recipe</th><th class="r">Sell</th><th class="r">Our cost</th><th class="r">Food GP</th><th class="r">Sold 13wk</th><th>Category</th></tr></thead><tbody>${rows.map(([n,r])=>row(n,r)).join('')}</tbody></table></div>`
     : '<div class="empty">No recipes match.</div>';
 }
 </script>
