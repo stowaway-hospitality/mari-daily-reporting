@@ -4,10 +4,10 @@
  "recipe_count": 648,
  "coverage": {
   "ingredient_refs": {
-   "id": 1059,
-   "subrecipe": 424
+   "id": 1058,
+   "subrecipe": 425
   },
-  "recipes_fully_on_our_book": 633
+  "recipes_fully_on_our_book": 634
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -7069,23 +7069,23 @@
      "eff_cost": 1.0125
     },
     {
-     "name": "Passionfruit Juice",
-     "kind": "id",
-     "ref": "lightspeed:20484706",
+     "name": "Passionfruit Syrup",
+     "kind": "subrecipe",
+     "ref": "Passionfruit Syrup",
      "qty": "7.5",
      "unit": "ml",
      "ls_cost": "0.00",
      "our_cost": null,
-     "eff_cost": 0.0
+     "eff_cost": 0.057178
     }
    ],
-   "our_cost": 4.9173,
+   "our_cost": 4.9745,
    "ls_cost": 4.91,
    "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 23.0,
-   "gp_pct": 76.5
+   "gp_pct": 76.2
   },
   "400 Conejos Margarita": {
    "ingredients": [
@@ -27982,17 +27982,17 @@
      "qty": "750",
      "unit": "ml",
      "ls_cost": "0.00",
-     "our_cost": null,
-     "eff_cost": 0.0
+     "our_cost": "0.020000",
+     "eff_cost": 15.0
     }
    ],
-   "our_cost": 0.0,
+   "our_cost": 15.0,
    "ls_cost": 0.0,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 32.0,
-   "gp_pct": null
+   "gp_pct": 48.4
   },
   "Bundaberg Ginger Beer D": {
    "ingredients": [

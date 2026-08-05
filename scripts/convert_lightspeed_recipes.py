@@ -134,6 +134,7 @@ INGREDIENT_ALIAS = {
     # lowercase generics entered beside the real, costed product
     "shaved parmesan": "Dairy Farmers Shaved Parmesan [1kg]",
     "parmesan": "Dairy Farmers Shaved Parmesan [1kg]",
+    "Passionfruit Juice": "Passionfruit Syrup",     # Zak: Puerto Sunset uses the syrup
 
 }
 
