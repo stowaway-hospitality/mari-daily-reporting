@@ -242,6 +242,22 @@ def recipes_full() -> dict:
     ls_path = DATA / "lightspeed_recipes_costed.json"
     if ls_path.exists():
         import re as _re
+        # sub-recipes the picker can actually cost (they carry a yield), and the
+        # live per-unit rate of every costable ingredient
+        _idxf = DATA / "recipes_index.json"
+        usable_subs = set()
+        if _idxf.exists():
+            usable_subs = {e["product"] for e in json.loads(_idxf.read_text()).get("recipes", [])
+                           if e.get("usable_as_subrecipe")}
+        ing_rate = {}
+        _ingf = DATA / "ingredients.json"
+        if _ingf.exists():
+            for _i in json.loads(_ingf.read_text()).get("ingredients", []):
+                try:
+                    if not _i.get("needs_pack_review"):
+                        ing_rate[_i["id"]] = float(_i["cost_per_base_unit"])
+                except (TypeError, ValueError, KeyError):
+                    pass
         _Y = _re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre|pcs|pc|units|unit|each|ea)\]", _re.I)
         LSR = json.loads(ls_path.read_text()).get("recipes", {})
 
@@ -259,7 +275,26 @@ def recipes_full() -> dict:
                 # uses the book's EXACT per-line contribution (eff_cost) — the number
                 # that already sums to the audited recipe cost — so the builder can
                 # never blow up ($3216 nip), never read $0, always matches the book.
-                if kind == "id" and ref in costable and ln.get("our_cost") is not None:
+                _eff = ln.get("eff_cost")
+                try:
+                    _q = float(ln.get("qty") or 0)
+                except (TypeError, ValueError):
+                    _q = 0.0
+                # A SUB-RECIPE with a usable yield is wired as a real sub-recipe, so
+                # the builder shows "Pizza Sauce [Recipe]" and re-costs it whenever
+                # that batch changes. (Freezing these was why the pizzas still read
+                # "(imported)" even though the prep was right there.)
+                if kind == "subrecipe" and ref in usable_subs:
+                    lines.append({"subrecipe": ref, "qty": ln.get("qty"), "unit": ln.get("unit")})
+                # An ingredient is wired LIVE when the book prices it AND the live
+                # number agrees with the audited line cost. our_cost being None only
+                # means the converter took a safer route to the same figure — if the
+                # live price still lands on it, the line is genuinely live (pepperoni
+                # at $0.0163/g vs the book's $0.0171/g).
+                elif kind == "id" and ref in costable and (
+                        ln.get("our_cost") is not None
+                        or (_eff and _q > 0 and ing_rate.get(ref)
+                            and abs(ing_rate[ref] * _q - float(_eff)) <= 0.25 * abs(float(_eff)))):
                     lines.append({"id": ref, "qty": ln.get("qty"), "unit": ln.get("unit")})
                 else:
                     try:
