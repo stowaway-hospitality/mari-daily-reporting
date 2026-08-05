@@ -57,10 +57,13 @@
   .pill.sub{background:var(--hg)}
 
   /* recipe lines */
-  .line{display:grid;grid-template-columns:1fr 92px 32px;gap:8px;align-items:center;
+  .line{display:grid;grid-template-columns:1fr 92px 68px 32px;gap:8px;align-items:center;
     padding:9px 0;border-top:1px solid var(--line)}
   .line:first-child{border-top:0}
   .line .nm{font-size:14px;line-height:1.2;overflow:hidden}
+  /* what THIS line contributes to the dish — the number you are actually
+     deciding on, so it gets its own column instead of hiding after the rate */
+  .line .lc{text-align:right;font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
   .line .nm small{display:block;color:var(--ink-soft);font-size:11px;margin-top:2px;font-variant-numeric:tabular-nums}
   .line input{padding:10px;text-align:right}
   .line .x{background:transparent;color:var(--red);border:0;font-size:22px;cursor:pointer;line-height:1}
@@ -411,9 +414,9 @@ function lineRate(l) {
   else { const i = ING.find(x => x.id === l.id); per = i ? +i.cost_per_base_unit : 0; u = i ? i.pack_unit : (l.unit || 'ea'); }
   return { rate: per * perMult(u), unit: perUnit(u) };
 }
-function lineCostLabel(l) {
+function lineCostLabel(l) {           // the RATE only; the line's own cost has a column
   const r = lineRate(l);
-  return `${money(r.rate)}/${esc(r.unit)} · ${money(lineCost(l))}`;
+  return `${money(r.rate)}/${esc(r.unit)}`;
 }
 function lineMeta(l) {
   if (l.kind === 'sub') return { name: l.product + ' (recipe)', unit: l.unit };
@@ -430,6 +433,7 @@ function renderLines() {
     return `<div class="line">
       <div class="nm">${esc(name)}<small id="ct-${k}">${lineCostLabel(l)}</small></div>
       <input type="number" inputmode="decimal" step="any" value="${l.qty || ''}" placeholder="0 ${esc(unit)}" oninput="setQty(${k},this.value)">
+      <div class="lc" id="lc-${k}">${money(lineCost(l))}</div>
       <button class="x" onclick="del(${k})" aria-label="remove">×</button></div>`;
   }).join('') : '<div class="empty">Nothing added yet — tap an ingredient above.</div>';
 }
@@ -439,6 +443,8 @@ function recompute() {
   LINES.forEach((l, k) => {
     const cell = document.getElementById('ct-' + k);
     if (cell) cell.textContent = lineCostLabel(l);
+    const lc = document.getElementById('lc-' + k);
+    if (lc) lc.textContent = money(lineCost(l));
   });
   const food = LINES.reduce((a, l) => a + lineCost(l), 0);
   document.getElementById('c-food').textContent = money(food);
