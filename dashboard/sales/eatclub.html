@@ -138,9 +138,9 @@ tr.tot td{border-top:2px solid #333;background:#fafafa;font-weight:700}
       ${rowsHtml}
       <tr class=tot><td>Program to date</td><td>${$(tM)}</td><td class=neg>−${$(tD)}</td><td class=neg>−${$(tC)}</td><td>${$(tNet)}</td><td class=neg>${tContr == null ? '—' : '−' + $(tCog)}</td><td class=big>${tContr == null ? '—' : $(tContr)}</td><td>${tContr == null ? '—' : (tNet ? pc(tContr / tNet * 100) : '—')}</td><td>${tContr == null ? '—' : (tCov ? $2(tContr / tCov) : '—')}</td></tr></table>`;
     if (cogs == null) {
-      html += `<div class="flag info">Redemptions and revenue are live. <b>Contribution is pending a food-COGS% for ${d.venue}</b> — set it (Harry Gatos uses <b>27.6%</b>, the trailing actual food cost) and this fills in. We don't show a guessed cost.</div>`;
+      html += `<div class="flag info">Redemptions and revenue are live. <b>Contribution is pending actual-COGS data for ${d.venue}</b> — it links to the daily reporting's blended food+bev actual (Xero) and fills in once there are enough complete weeks.</div>`;
     } else {
-      html += `<div class=flag><b>COGS ${cogs}%</b> charged on the <b>full</b> menu volume (the kitchen cooks the whole dish; the discount comes off the price, not the plate). Commission is 10% ex-GST (the 11% billed includes GST, which you reclaim). <b>Labour is excluded.</b></div>`;
+      html += `<div class=flag><b>COGS ${cogs}%</b> is ${d.venue}'s <b>blended food+bev actual</b> COGS from the daily reporting (Xero purchases ÷ revenue, trailing 4 weeks), charged on the <b>full</b> menu volume (the discount comes off the price, not the plate). Commission is 10% ex-GST (the 11% billed includes GST, which you reclaim). <b>Labour is excluded.</b></div>`;
     }
 
     // nightly redemptions (newest first)
