@@ -746,6 +746,15 @@ def main() -> int:
                     _qf = float(ln.get("qty") or 0)
                 except (TypeError, ValueError):
                     _qf = 0.0
+                # NOT DONE ON PURPOSE: reading a "ml" line against our per-g price
+                # at density 1.0. It would rescue three sub-cent garnish lines
+                # (dehydrated lime, rubbed oregano) that currently contribute $0.
+                # I tried it and it was badly wrong: Produce also writes "0.35 ml"
+                # for 0.35 KG of Farm Frites, so the rule read 350g of chips as
+                # 0.35g and took Rosemary Salted Fries from $1.86 to $0.0019 — a
+                # 100% GP on a $12.90 dish. The unit in Produce is not reliable
+                # enough to reinterpret, and under-costing is the direction that
+                # flatters. Three garnishes at 2c stay visible in the audit instead.
                 if cur and cur[1] == "ea" and 0 < _qf < 1:
                     eff = float(cur[0])
                     our_tot += eff
