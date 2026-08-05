@@ -48,6 +48,16 @@
   by: "Claude ([24x12])"
   on: 2026-08-02
   by_email: "hello@stowawaybar.com"
+# Pizza boxes are bought by the CARTON but used ONE box per pizza, so the cost book
+# must hold a per-BOX price. Gulli invoice "B Flute Lock Top 13\" Pizza Boxes x 50"
+# confirms 50 to a carton, so $29.20/carton = $0.584 a box (and the live Gulli
+# invoice then supersedes it at $0.6426 a box).
+- id: "lightspeed:22873851"          # Large Pizza Box 13" — carton of 50
+  pack_qty: 50
+  pack_unit: ea
+  by: "Claude (Gulli 'Pizza Boxes x 50'; recipe qty 0.02 = 1/50)"
+  on: 2026-08-05
+  by_email: "hello@stowawaybar.com"
 - id: "lightspeed:22873876"          # Pizza Box Inserts — Gulli invoices "22.5cm x 100"
   pack_qty: 100                      # so the seed must be per-insert like the invoice
   pack_unit: ea                      # ($11.055/box / 100 = $0.11055 ea, exactly the

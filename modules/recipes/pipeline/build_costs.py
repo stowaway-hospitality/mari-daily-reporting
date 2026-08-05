@@ -90,16 +90,32 @@ def main() -> int:
     # the newer one. Take the seed's OWN resolved (qty, unit) — not its raw pack_unit,
     # which can differ ("each" vs the resolved "can").
     seed_conv: dict[str, tuple[Decimal, str]] = {}
+    seed_price: dict[str, Decimal] = {}
     for r in cogs_rows:
-        if (r.get("source_invoice") or "").startswith("bo-seed"):
+        # every seed family that defines a product's cost BASIS belongs here, or a
+        # bridged invoice can't be expressed in that basis and is silently dropped —
+        # which is how prosciutto kept quoting a $45.71/kg January scrape while B&E
+        # were invoicing it at $28.00/kg.
+        if (r.get("source_invoice") or "").startswith(("bo-seed", "ls-recipe-seed",
+                                                       "bo-ingredient-seed")):
             pid = f"lightspeed:{(r.get('supplier_code') or '').strip()}"
             try:
                 q, u, _p, _h, _b = resolve_pack(
                     r["invoice_description"].strip(), Decimal(r["cost_per_unit_incl_gst"]),
                     basis=r.get("basis", ""), note=r.get("note", ""),
                     code=(r.get("supplier_code") or "").strip())
-                if q and u:
+                # A confirmed pack size is authoritative for the BASIS too. Without
+                # this the seed row itself is per-box ($0.584 a pizza box) while the
+                # bridged invoice comes back per-carton ($32.13), and the newer
+                # carton price wins — reintroducing the very per-unit error the
+                # override was added to fix.
+                if pid in overrides:
+                    seed_conv[pid] = overrides[pid]
+                elif q and u:
                     seed_conv[pid] = (q, u)
+                sq, su = seed_conv.get(pid, (None, None))
+                if sq:
+                    seed_price[pid] = Decimal(r['cost_per_unit_incl_gst']) / sq
             except Exception:
                 pass
         # a confirmed recipe-bridge baseline records its own resolved unit directly
@@ -176,6 +192,15 @@ def main() -> int:
                     bper = (pack_cost / sqty).quantize(Decimal("0.000001"))
                 else:
                     bper = None                         # units don't reconcile — skip
+                # MAGNITUDE GUARD. A supplier code can map to a product whose seed is
+                # on a totally different basis (a $300 KEG invoice against a per-ml
+                # beer): the units 'agree' but the number is 50x out, and schooners
+                # priced at $124. A real price move is never 10x, so refuse.
+                sp = seed_price.get(pid)
+                if bper is not None and sp and sp > 0:
+                    ratio = float(bper) / float(sp)
+                    if ratio > 10 or ratio < 0.1:
+                        bper = None
                 if bper is not None:
                     rows.append({**row, "ingredient": pid, "unit": sunit,
                                  "cost_per_unit": str(bper), "pack": f"{how} (via {iid})"})
