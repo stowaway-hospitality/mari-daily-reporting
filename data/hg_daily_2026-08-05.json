@@ -1,6 +1,6 @@
 {
   "date": "2026-08-05",
-  "generated_at": "2026-08-05T20:19:59.805894Z",
+  "generated_at": "2026-08-05T20:20:07.700719Z",
   "venue": "harry",
   "venue_display": "Harry Gatos",
   "lane_config": [
@@ -15,12 +15,12 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 1397.5,
-    "revenue_ex_gst": 1270.55,
+    "revenue_inc_gst": 1478.5,
+    "revenue_ex_gst": 1344.2,
     "cogs_dollars": 191.57,
-    "cogs_pct": 15.1,
-    "gp_dollars": 1078.98,
-    "gp_pct": 84.9,
+    "cogs_pct": 14.3,
+    "gp_dollars": 1152.63,
+    "gp_pct": 85.7,
     "cogs_source": "recipe_blend",
     "cogs_lightspeed_dollars": 191.57,
     "recipe_coverage_pct": 0.0,
@@ -29,13 +29,13 @@
     "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
     "revenue_ex_gst_before_eatclub": null,
-    "food_ex_gst": 983.64,
+    "food_ex_gst": 1057.27,
     "bev_ex_gst": 286.82,
     "food_cogs": 117.24,
     "bev_cogs": 74.33,
-    "food_cogs_pct": 11.9,
+    "food_cogs_pct": 11.1,
     "bev_cogs_pct": 25.9,
-    "food_gp_pct": 88.1,
+    "food_gp_pct": 88.9,
     "bev_gp_pct": 74.1,
     "mari_rideon_ex_gst": 0.0,
     "hg_food_out_ex_gst": 0.0,
@@ -48,11 +48,11 @@
     "admin_dollars": 152.9,
     "leave_dollars": 0,
     "total_dollars": 893.36,
-    "wages_pct": 70.3,
+    "wages_pct": 66.5,
     "net_wage_pct": null,
     "kitchen_hours": 15.2,
     "foh_hours": 0,
-    "wages_kitchen_pct": 75.3,
+    "wages_kitchen_pct": 70.0,
     "wages_foh_pct": 0.0,
     "includes_super": true,
     "salaried_synthesized": true
@@ -145,6 +145,13 @@
       "qty": 3.0,
       "rev": 81.0,
       "cost": 8.57,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Katsu Curry",
+      "qty": 3.0,
+      "rev": 81.0,
+      "cost": 0.0,
       "cost_source": "lightspeed"
     },
     {
@@ -243,13 +250,6 @@
       "qty": 2.0,
       "rev": 22.0,
       "cost": 0.0,
-      "cost_source": "lightspeed"
-    },
-    {
-      "name": "Harry's Lager - Schooner",
-      "qty": 2.0,
-      "rev": 19.0,
-      "cost": 3.38,
       "cost_source": "lightspeed"
     }
   ]
