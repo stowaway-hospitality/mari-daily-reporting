@@ -1,210 +1,63 @@
 {
-  "generated": "2026-08-02",
-  "reviewed": 141,
-  "clean": 112,
+  "generated": "2026-08-05T17:36:29+10:00",
+  "reviewed": 706,
+  "clean": 698,
   "flags": [
     {
       "supplier": "Fresh Fruit Team",
-      "name": "Gourmet",
-      "code": "TG10BX Box",
-      "issue": "NAME truncated \u2014 'Gourmet' is a fragment",
-      "suggested_fix": "Code TG10BX = Tomatoes Gourmet 10kg box; rename to 'Tomatoes Gourmet'. Confirm w/ FFT."
+      "name": "Tomatoes Roma half box please",
+      "code": "TR10BX",
+      "issue": "Leaked order-note text in the product name ('half box please').",
+      "suggested_fix": "Rename to 'Tomatoes Roma' (box). Cost $37.40/box looks fine; only the name is polluted."
     },
     {
       "supplier": "Fresh Fruit Team",
-      "name": "Cocktail",
-      "code": "POTCOKG Kilogram",
-      "issue": "NAME truncated \u2014 'Cocktail' is a fragment",
-      "suggested_fix": "Code POTCO = Potato Cocktail; rename to 'Potato Cocktail'. Confirm w/ FFT."
+      "name": "Roma",
+      "code": "TRKG",
+      "issue": "Truncated fragment name \u2014 'Roma' alone is ambiguous (Roma what?).",
+      "suggested_fix": "Rename to 'Tomatoes Roma' (per kg). Derived from supplier_code TRKG (Tomato Roma KG) \u2014 Zak to confirm."
     },
     {
-      "supplier": "Fresh Fruit Team",
-      "name": "Cocktail (Box)",
-      "code": "BROCE",
-      "issue": "NAME/CODE mismatch \u2014 desc 'Cocktail (Box)' but code BROCE & unit=bunch suggest broccoli",
-      "suggested_fix": "Ambiguous/mislabelled line. Flag for Zak \u2014 cannot confirm."
+      "supplier": "Andrews Meat",
+      "name": "Patties Plant Based Buds 125g Frozen",
+      "code": "9478C",
+      "issue": "cost_per_base_unit 0.936 $/g = $936/kg \u2014 ~40x too high for plant-based patties (real ~$15-25/kg). Likely a carton total or pack decimal slip. Also flagged needs_pack_review.",
+      "suggested_fix": "Confirm true unit cost from Andrews invoice INV3376993 (source). Cannot confirm value here \u2014 flag for Zak."
     },
     {
-      "supplier": "Fresh Fruit Team",
-      "name": "Large",
-      "code": "CL20KGBX 20kg",
-      "issue": "NAME truncated \u2014 'Large' is a fragment",
-      "suggested_fix": "20kg box; likely 'Carrots Large 20kg'. Low confidence \u2014 confirm w/ FFT."
+      "supplier": "Lightspeed",
+      "name": "Lemon",
+      "code": "20564869",
+      "issue": "pack_unit is 'ml' with cost 0.375 -> $375/L, implausible for lemon. A lemon is a per-each item, not measured in ml.",
+      "suggested_fix": "Set unit to 'each' (cost ~$0.375/lemon looks right) \u2014 or, if this is lemon juice, confirm the true $/L. Zak to confirm."
     },
     {
-      "supplier": "Fresh Fruit Team",
-      "name": "Peeled",
-      "code": "KITLEPKG Kilogram",
-      "issue": "NAME truncated \u2014 'Peeled' is a fragment",
-      "suggested_fix": "KIT=kitchen-cut prefix; underlying product unclear. Flag for Zak \u2014 cannot confirm."
+      "supplier": "Lightspeed",
+      "name": "Cocktail Sticker",
+      "code": "20484940",
+      "issue": "Non-food garnish pick costed per ml ($0.40 'ml'). Not a food a chef cooks with; unit is wrong.",
+      "suggested_fix": "Exclude from the food/recipe picker (accessory), or set unit to 'each' at ~$0.40."
     },
     {
-      "supplier": "Fresh Fruit Team",
-      "name": "Paw Shredded",
-      "code": "KITPPSKG Kilogram",
-      "issue": "NAME fragment \u2014 'Paw Shredded'",
-      "suggested_fix": "Likely 'Pawpaw (Papaya) Shredded'. Confirm w/ FFT."
+      "supplier": "Lightspeed",
+      "name": "250ml Glass Bottle",
+      "code": "20484714",
+      "issue": "Packaging (empty glass bottle for batching), not a food ingredient; costed per ml.",
+      "suggested_fix": "Exclude from the food/recipe picker (packaging, not costed as food)."
     },
     {
-      "supplier": "Fresh Fruit Team",
-      "name": "Pencil",
-      "code": "LPBCH Bunch",
-      "issue": "NAME truncated \u2014 'Pencil' is a fragment",
-      "suggested_fix": "Likely 'Leek Pencil' (pencil leeks), per bunch. Confirm w/ FFT."
-    },
-    {
-      "supplier": "Fresh Fruit Team",
-      "name": "Red Long",
-      "code": "SBCH",
-      "issue": "NAME truncated \u2014 'Red Long' is a fragment",
-      "suggested_fix": "Per-bunch; underlying product unclear (radish/shallot?). Flag for Zak \u2014 cannot confirm."
-    },
-    {
-      "supplier": "Fresh Fruit Team",
-      "name": "Seedless",
-      "code": "LSKG Kilogram",
-      "issue": "NAME truncated \u2014 'Seedless' is a fragment",
-      "suggested_fix": "Per-kg $3.30; likely seedless watermelon/grape. Flag for Zak \u2014 cannot confirm."
-    },
-    {
-      "supplier": "Fresh Fruit Team",
-      "name": "Topless (Bethonga)",
-      "code": "PTEA Each",
-      "issue": "NAME fragment \u2014 'Topless (Bethonga)'",
-      "suggested_fix": "Code PT = Pineapple Topless; rename 'Pineapple Topless (Bethonga)'. Confirm w/ FFT."
-    },
-    {
-      "supplier": "Fresh Fruit Team",
-      "name": "Ruby Red",
-      "code": "GRR12BX Box",
-      "issue": "NAME truncated \u2014 'Ruby Red' is a fragment",
-      "suggested_fix": "Code GRR = Grapefruit Ruby Red (cf GRREA); rename 'Grapefruit Ruby Red' 12-box. Confirm w/ FFT."
-    },
-    {
-      "supplier": "Fresh Fruit Team",
-      "name": "Royal Gala",
-      "code": "ARGKG Kilogram",
-      "issue": "NAME truncated \u2014 'Royal Gala' is a fragment",
-      "suggested_fix": "Code ARG = Apple Royal Gala; rename 'Apple Royal Gala'. Confirm w/ FFT."
-    },
-    {
-      "supplier": "Fresh Fruit Team",
-      "name": "Telegraph",
-      "code": "CTBG Bag",
-      "issue": "NAME truncated \u2014 'Telegraph' is a fragment (also needs_pack_review)",
-      "suggested_fix": "Code CTBG = Cucumber Telegraph bag; rename 'Cucumber Telegraph'. Confirm w/ FFT."
-    },
-    {
-      "supplier": "B&E",
-      "name": "(Sub 18120) Instant",
-      "code": "15379",
-      "issue": "NAME junk \u2014 leaked substitution ref '(Sub 18120)' + truncated 'Instant'",
-      "suggested_fix": "Strip '(Sub 18120)'; item substituted by B&E 18120. Flag for Zak \u2014 confirm on befoodsonline."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Canned - Italian Black",
-      "code": "13836",
-      "issue": "NAME truncated \u2014 'Canned - Italian Black'",
-      "suggested_fix": "Likely 'Canned Italian Black Olives'. Confirm on befoodsonline."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Lamb - Leg Rolled &",
-      "code": "16787",
-      "issue": "NAME truncated \u2014 trailing '&' ('Lamb - Leg Rolled &')",
-      "suggested_fix": "Likely 'Lamb Leg Rolled & Boned/Tied'. Confirm on befoodsonline."
+      "supplier": "Lightspeed",
+      "name": "700ml Glass Bottle",
+      "code": "20484711",
+      "issue": "Packaging (empty glass bottle for batching), not a food ingredient; costed per ml.",
+      "suggested_fix": "Exclude from the food/recipe picker (packaging, not costed as food)."
     },
     {
       "supplier": "Foodlink",
-      "name": "Floor Cleaner 20ltr",
+      "name": "FLOOR CLEANER 20LTR Reliance",
       "code": "101084",
-      "issue": "CATEGORY \u2014 cleaning chemical costed as food",
-      "suggested_fix": "'Floor Cleaner 20ltr' \u2014 exclude from ingredient picker."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Burger Box - Soft",
-      "code": "26321",
-      "issue": "CATEGORY \u2014 packaging costed as food ($59.18/box)",
-      "suggested_fix": "'Burger Box - Soft' \u2014 exclude from ingredient picker."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Snack Box - Hard",
-      "code": "18240",
-      "issue": "CATEGORY \u2014 packaging costed as food ($33.11/box)",
-      "suggested_fix": "'Snack Box - Hard' \u2014 exclude from ingredient picker."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Baking Paper 30cm*120m",
-      "code": "16245",
-      "issue": "CATEGORY \u2014 packaging",
-      "suggested_fix": "'Baking Paper 30cm*120m' \u2014 exclude from ingredient picker."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Chopsticks - Bamboo",
-      "code": "17897",
-      "issue": "CATEGORY \u2014 disposable/packaging",
-      "suggested_fix": "'Chopsticks - Bamboo' \u2014 exclude from ingredient picker."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Hand Towel - Slimline",
-      "code": "19319",
-      "issue": "CATEGORY \u2014 paper/cleaning",
-      "suggested_fix": "'Hand Towel - Slimline' \u2014 exclude from ingredient picker."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Hand Towel Roll - White",
-      "code": "14336",
-      "issue": "CATEGORY \u2014 paper/cleaning",
-      "suggested_fix": "'Hand Towel Roll - White' \u2014 exclude from ingredient picker."
-    },
-    {
-      "supplier": "Foodlink",
-      "name": "Paper Gingham 1/4 Cut Black",
-      "code": "108800",
-      "issue": "CATEGORY \u2014 packaging",
-      "suggested_fix": "'Paper Gingham 1/4 Cut Black' \u2014 exclude from ingredient picker."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Rectangular Lid - Paper",
-      "code": "17477",
-      "issue": "CATEGORY \u2014 packaging",
-      "suggested_fix": "'Rectangular Lid - Paper' \u2014 exclude from ingredient picker."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Salad Bowl - Bamboo 25oz",
-      "code": "21889",
-      "issue": "CATEGORY \u2014 packaging",
-      "suggested_fix": "'Salad Bowl - Bamboo 25oz' \u2014 exclude from ingredient picker."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Salad Bowl Lid - Raised Pp",
-      "code": "17046",
-      "issue": "CATEGORY \u2014 packaging",
-      "suggested_fix": "'Salad Bowl Lid - Raised Pp' \u2014 exclude from ingredient picker."
-    },
-    {
-      "supplier": "Foodlink",
-      "name": "Easy Bake Paper Roll",
-      "code": "101027",
-      "issue": "CATEGORY \u2014 packaging",
-      "suggested_fix": "'Easy Bake Paper Roll' \u2014 exclude from ingredient picker."
-    },
-    {
-      "supplier": "Select Fresh",
-      "name": "Kutjera Bush Tomato Whole100gm",
-      "code": "BUSHTOMG",
-      "issue": "COST high \u2014 $480/kg ($48 per 100g pack)",
-      "suggested_fix": "Kutjera bush tomato is a premium native spice, may be legitimate; verify pack/price on Select Fresh."
+      "issue": "Cleaning chemical, not food. Should not be costed as a recipe ingredient.",
+      "suggested_fix": "Exclude from the food/recipe picker (chemical/cleaning)."
     }
   ]
 }
