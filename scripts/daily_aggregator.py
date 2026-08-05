@@ -156,7 +156,12 @@ def _load_our_costs(venue_key, target):
             if not r:
                 continue
             try:
-                out[product] = float(cost_on(r, costs, target))
+                # PASS `recipes`. Without it cost_on resolves sub-recipes against
+                # an EMPTY list, so every batch-using dish died with "sub-recipe
+                # 'Sugar Syrup' has no version in force" and silently fell back to
+                # Lightspeed's cost — 9 of the 21 Stowaway recipes, i.e. every one
+                # that draws on a syrup, jam or batch.
+                out[product] = float(cost_on(r, costs, target, recipes=recipes))
             except MissingCost as e:
                 # Refusing to cost one dish is correct; it must not stop the pull.
                 print(f"  recipe cost skipped: {e}")

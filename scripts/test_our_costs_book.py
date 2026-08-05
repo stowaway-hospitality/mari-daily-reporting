@@ -64,3 +64,29 @@ def test_missing_book_degrades_quietly(tmp_path, monkeypatch):
     import daily_aggregator as da
     monkeypatch.setattr(da, "COSTED_BOOK", tmp_path / "nope.json")
     assert da._load_book_costs("stowaway") == {}
+
+
+def test_builder_recipes_resolve_their_sub_recipes():
+    """
+    cost_on was called WITHOUT `recipes`, so it resolved every sub-recipe against
+    an empty list: "sub-recipe 'Sugar Syrup' has no version in force". 9 of the 21
+    Stowaway builder recipes — every one drawing on a syrup, jam or batch — died
+    that way and fell back to Lightspeed's cost.
+
+    Assert every builder recipe costs, so a batch-using dish can never silently
+    drop out again.
+    """
+    from datetime import date
+
+    from daily_aggregator import _load_our_costs
+    from modules.recipes.cost import load_recipes
+
+    on = date(2026, 8, 4)
+    for venue_key, venue_file in (("stowaway", "stowaway"),
+                                  ("marilynas", "marilynas"),
+                                  ("harry", "harry_gatos")):
+        defined = {r.product for r in load_recipes(venue_file)}
+        costed = set(_load_our_costs(venue_key, on))
+        assert defined - costed == set(), (
+            f"{venue_key}: these builder recipes failed to cost: {sorted(defined - costed)}"
+        )
