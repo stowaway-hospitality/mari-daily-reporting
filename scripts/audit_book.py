@@ -34,6 +34,7 @@ ROOT = Path(__file__).resolve().parents[1]
 COSTED = ROOT / "data" / "lightspeed_recipes_costed.json"
 INGREDIENTS = ROOT / "data" / "ingredients.json"
 COSTS = ROOT / "data" / "costs.csv"
+COGS = ROOT / "data" / "cogs_list.csv"
 
 # What a sane bar/kitchen ingredient costs, per BASE unit, incl GST. Anything past
 # these is a pack/unit confusion, not a real price. Calibrated on the real book:
@@ -123,6 +124,30 @@ def audit():
             add("WARN", "priced at effectively zero", f"${rate:.8f}  {desc}")
         if i.get("needs_pack_review"):
             add("WARN", "pack size unconfirmed", desc)
+
+    # ---------- MONEY SPENT THAT NEVER REACHES THE COST BOOK ----------
+    # A line resolve_pack can't read is SKIPPED — correctly, because guessing a pack
+    # is how a $76 bottle becomes $12.75. But a skip is silent, and the product then
+    # costs off whatever stale seed it had. $1,583 of Bombay Dry gin was invoiced
+    # since June and never reached the book; 13 cocktails priced off a January seed.
+    # Ranked by spend, because that is the order worth fixing them in.
+    priced = {r["ingredient"] for r in csv.DictReader(COSTS.open(encoding="utf-8-sig"))}
+    spend, seen = defaultdict(float), {}
+    if COGS.exists():
+        for r in csv.DictReader(COGS.open(encoding="utf-8-sig")):
+            sup, code = (r.get("supplier") or ""), (r.get("supplier_code") or "").strip()
+            if not code or sup == "Lightspeed" or (r.get("invoice_date") or "") < "2026-06-01":
+                continue
+            iid = f"{re.sub(r'[^a-z0-9]+', '-', sup.lower()).strip('-')}:{code.upper()}"
+            if iid in priced:
+                continue
+            spend[iid] += money(r.get("cost_per_unit_incl_gst"))
+            seen[iid] = r.get("invoice_description")
+    for iid, amt in sorted(spend.items(), key=lambda x: -x[1]):
+        if amt < 100:
+            continue
+        add("WARN", "bought since June but never reached the cost book (pack unreadable)",
+            f"${amt:>9,.0f}  {str(seen[iid])[:38]:40} {iid}")
 
     # ---------- COST BOOK: PRICE OUTLIERS ----------
     # A pack misread doesn't look wrong on its own — it looks like a price. It only

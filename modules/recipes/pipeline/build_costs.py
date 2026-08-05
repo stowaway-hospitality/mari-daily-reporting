@@ -151,6 +151,24 @@ def main() -> int:
         # exactly this). Now both read the code, so their identities and costs agree.
         qty, unit, per, how, bad = resolve_pack(
             desc, pack_cost, basis=r.get("basis", ""), note=r.get("note", ""), code=code)
+        # NOT DONE: falling back to the row's explicit pack_qty/pack_unit columns.
+        # It is tempting — resolve_pack reads only the DESCRIPTION, a liquor
+        # description is just "BOMBAY DRY GIN" with no size in it, and 1,152 of the
+        # 1,154 rejected lines DO carry an explicit pack. That is $1,583 of gin since
+        # June never reaching the cost book.
+        #
+        # I implemented it and it made Patron Silver 4.8x CHEAPER ($2.94 -> $0.61 a
+        # pour, i.e. $20 a bottle). The reason: ILG records pack_qty as the CASE
+        # (4.2L = 6x700ML) but prices SOME lines per BOTTLE. Bombay's $296.60 really
+        # is a case, so dividing by 4.2L is right; Patron's $76.52 is one bottle, so
+        # the same division is wrong by six. The column pair cannot be trusted without
+        # knowing which basis the PRICE is on, and guessing that from magnitude is how
+        # a $76 bottle becomes $12.75.
+        #
+        # Under-costing spirits is the flattering direction, so this stays out until
+        # the ILG parser records the price basis alongside the pack. The lines it
+        # would unlock are listed by scripts/audit_book.py.
+
         # A confirmed pack (chef or catalogue) is AUTHORITATIVE — it wins even over
         # a resolved pack, so it can CORRECT a wrong one (a box of loose produce
         # that parsed to "1 box" becomes the real weight). Must match build_ingredients.
