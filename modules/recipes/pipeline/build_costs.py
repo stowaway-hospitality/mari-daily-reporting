@@ -35,6 +35,8 @@ parsed to $364/kg on its first run).
 from __future__ import annotations
 
 import csv
+import math
+import re
 import sys
 from datetime import datetime
 from decimal import Decimal
@@ -76,6 +78,95 @@ def load_bridge() -> dict:
 
 FIELDS = ["ingredient", "observed_on", "cost_per_unit", "unit", "venue",
           "source_invoice", "pack", "description"]
+
+# Mass/volume pack units -> (multiplier to base, base unit). A recipe portions in
+# g / ml, so this is the only dimension the liquor discriminator can work in.
+_LIQ_BASE = {
+    "ML": (Decimal(1), "ml"), "L": (Decimal(1000), "ml"), "LT": (Decimal(1000), "ml"),
+    "LTR": (Decimal(1000), "ml"), "LITRE": (Decimal(1000), "ml"),
+    "KG": (Decimal(1000), "g"), "G": (Decimal(1), "g"), "GM": (Decimal(1), "g"),
+}
+# The invoice's own "6x700ML" note states the true case structure: N bottles of
+# SIZE. It is stated data, not a guess — the authority for one bottle's size.
+_CASE_NOTE = re.compile(r"(\d+)\s*[xX]\s*(\d+(?:\.\d+)?)\s*(ML|LTR|LITRE|LT|L|KG|GM|G)\b", re.I)
+
+
+def _liq_base(unit: str):
+    return _LIQ_BASE.get((unit or "").strip().upper())
+
+
+def seed_matched_liquor_cost(pack_cost, pack_qty, pack_unit, note, seed_per_unit,
+                             seed_single_base=None, band=Decimal("3")):
+    """
+    Rescue a liquor invoice line that resolve_pack skipped — WITHOUT guessing.
+
+    The description ("BOMBAY DRY GIN") carries no size, so resolve_pack refuses and
+    build_costs drops the line: $1,583 of gin since June never reaches the book and
+    13 cocktails price off a January seed. The line DOES carry an explicit
+    (pack_qty, pack_unit), but ILG records it as the CASE (4.2 L = 6x700 ML) while
+    pricing SOME lines per BOTTLE — so dividing by it is right for Bombay's $296.60
+    case and 6x wrong for Patron's $76.52 bottle. The columns alone can't tell which.
+
+    So form BOTH candidate per-ml costs — the case reading (÷ whole pack) and the
+    single-bottle reading (÷ one bottle, size taken from the "6x700ML" note) — and
+    keep whichever agrees with the product's own seed rate (the bridged ProductID's
+    seeded price). If neither lands within `band` of the seed, return None and let
+    the caller skip it: under-costing spirits is the flattering, dangerous direction,
+    so a line that matches nothing stays out of the book.
+
+    Fires only where a seed exists (a bridged product) — never invents a rate.
+
+    -> (cost_per_base_unit: Decimal, base_unit: str, label: str) | None
+    """
+    if seed_per_unit is None:
+        return None
+    base = _liq_base(pack_unit)
+    if base is None:
+        return None                       # not a mass/volume pack (e.g. a keg 'EA')
+    mult, base_unit = base
+    try:
+        seed = Decimal(str(seed_per_unit))
+        pc = Decimal(str(pack_cost))
+        pq = Decimal(str(pack_qty))
+    except Exception:
+        return None
+    if seed <= 0 or pc <= 0 or pq <= 0:
+        return None
+
+    cands = []
+    case_base = pq * mult
+    if case_base > 0:
+        cands.append((pc / case_base, base_unit, f"case /{case_base}{base_unit}"))
+
+    # one bottle's size: the "6x700ML" note is the authority; the seed's own
+    # single-unit size is the fallback when the note is silent.
+    single_base = None
+    m = _CASE_NOTE.search(note or "")
+    if m:
+        nb = _liq_base(m.group(3))
+        if nb and nb[1] == base_unit:
+            single_base = Decimal(m.group(2)) * nb[0]
+    if single_base is None and seed_single_base:
+        try:
+            single_base = Decimal(str(seed_single_base))
+        except Exception:
+            single_base = None
+    if single_base and single_base > 0 and single_base != case_base:
+        cands.append((pc / single_base, base_unit, f"single /{single_base}{base_unit}"))
+
+    if not cands:
+        return None
+    lo, hi = Decimal(1) / band, band
+    best = None
+    for per, u, label in cands:
+        ratio = per / seed
+        dist = abs(math.log(float(ratio)))
+        if best is None or dist < best[0]:
+            best = (dist, per, u, label, ratio)
+    _, per, u, label, ratio = best
+    if lo <= ratio <= hi:
+        return per.quantize(Decimal("0.000001")), u, label
+    return None
 
 
 def main() -> int:
@@ -151,23 +242,21 @@ def main() -> int:
         # exactly this). Now both read the code, so their identities and costs agree.
         qty, unit, per, how, bad = resolve_pack(
             desc, pack_cost, basis=r.get("basis", ""), note=r.get("note", ""), code=code)
-        # NOT DONE: falling back to the row's explicit pack_qty/pack_unit columns.
-        # It is tempting — resolve_pack reads only the DESCRIPTION, a liquor
-        # description is just "BOMBAY DRY GIN" with no size in it, and 1,152 of the
-        # 1,154 rejected lines DO carry an explicit pack. That is $1,583 of gin since
-        # June never reaching the cost book.
+        # The row's explicit pack_qty/pack_unit columns look like the fix —
+        # resolve_pack reads only the DESCRIPTION, a liquor description is just
+        # "BOMBAY DRY GIN" with no size, and 1,152 of the 1,154 rejected lines DO
+        # carry an explicit pack ($1,583 of gin since June never reaching the book).
         #
-        # I implemented it and it made Patron Silver 4.8x CHEAPER ($2.94 -> $0.61 a
-        # pour, i.e. $20 a bottle). The reason: ILG records pack_qty as the CASE
-        # (4.2L = 6x700ML) but prices SOME lines per BOTTLE. Bombay's $296.60 really
-        # is a case, so dividing by 4.2L is right; Patron's $76.52 is one bottle, so
-        # the same division is wrong by six. The column pair cannot be trusted without
-        # knowing which basis the PRICE is on, and guessing that from magnitude is how
-        # a $76 bottle becomes $12.75.
+        # The NAIVE fix (just divide by the pack) is WRONG and stays out: ILG records
+        # pack_qty as the CASE (4.2L = 6x700ML) but prices SOME lines per BOTTLE, so
+        # dividing Patron's $76.52 by 4.2L under-costs it 6x ($2.94 -> $0.61 a pour).
+        # The columns can't say which basis the PRICE is on.
         #
-        # Under-costing spirits is the flattering direction, so this stays out until
-        # the ILG parser records the price basis alongside the pack. The lines it
-        # would unlock are listed by scripts/audit_book.py.
+        # DONE, the safe way, below the override block: seed_matched_liquor_cost tests
+        # BOTH readings against the product's OWN seed rate (via the bridge) and keeps
+        # the one that agrees — case for Bombay, bottle for Patron — or skips if
+        # neither does. Never guesses; fires only where a seed exists. The lines it
+        # still can't reach (no bridge / no seed) remain listed by scripts/audit_book.py.
 
         # A confirmed pack (chef or catalogue) is AUTHORITATIVE — it wins even over
         # a resolved pack, so it can CORRECT a wrong one (a box of loose produce
@@ -176,6 +265,27 @@ def main() -> int:
             oq, ou = overrides[iid]
             qty, unit, bad, how = oq, ou, "", "chef-confirmed"
             per = (pack_cost / oq).quantize(Decimal("0.000001"))
+
+        # LIQUOR RESCUE. resolve_pack refuses a sizeless liquor description
+        # ("BOMBAY DRY GIN") and the line is dropped — but if this code bridges to a
+        # SEEDED ProductID we can read the explicit case pack against that seed and
+        # tell a case price from a bottle price (see seed_matched_liquor_cost). Only
+        # where a seed exists; never a guess. This is what puts the gin / Rooster /
+        # Aperol invoices back into the book instead of leaving 13 cocktails on a seed.
+        seed_liquor = False   # a rescue that exists only to feed the bridge, below
+        if (not qty or not unit) and not (iid in overrides):
+            _pid = bridge.get(iid)
+            _sp = seed_price.get(_pid) if _pid else None
+            if _sp is not None:
+                _ssb = (seed_conv.get(_pid) or (None, None))[0]
+                fb = seed_matched_liquor_cost(
+                    pack_cost, r.get("pack_qty"), r.get("pack_unit"),
+                    r.get("note", ""), _sp, seed_single_base=_ssb)
+                if fb:
+                    per, unit, _lbl = fb
+                    qty, bad, seed_liquor = Decimal(1), None, True
+                    how = f"seed-matched {_lbl} vs seed ${_sp}"
+
         if not qty or not unit:
             skipped.append((r["supplier"], desc, f"pack unreadable ({how})"))
             continue
@@ -189,7 +299,15 @@ def main() -> int:
             venue=r.get("venue") or "", source_invoice=r.get("source_invoice", ""),
             pack=how, description=desc,
         )
-        rows.append(row)
+        # A seed-matched liquor cost is a per-ml (recipe-unit) number derived ONLY to
+        # supersede the seed on the bridged ProductID — which is what recipes read
+        # (no recipe references a raw ilg:/paramount: liquor code). Emitting it under
+        # the supplier code too would put a per-ml row next to that code's real
+        # per-bottle pricebook row (Aperol, Rooster, Antica), giving one identity two
+        # units and making its as-of lookup return whichever is newest. So feed the
+        # bridge only; leave the supplier code's series in its own purchased unit.
+        if not seed_liquor:
+            rows.append(row)
         # BRIDGE: if this supplier code is a known bottle (product_map), ALSO record
         # the cost under its ProductID identity, so the invoice supersedes the BO
         # seed and any recipe referencing the bottle by ProductID stays current.

@@ -132,6 +132,19 @@ def audit():
     # since June and never reached the book; 13 cocktails priced off a January seed.
     # Ranked by spend, because that is the order worth fixing them in.
     priced = {r["ingredient"] for r in csv.DictReader(COSTS.open(encoding="utf-8-sig"))}
+    # A supplier code is "reached" if it is priced directly OR it bridges to a
+    # ProductID that is priced. A seed-matched liquor line (Rooster, De Bortoli)
+    # feeds the bridge only — the bottle invoice supersedes the seed on the
+    # ProductID recipes read — so the code is genuinely in the book even though no
+    # row carries the raw supplier id. Without this join those codes would read as
+    # "never reached" the moment build_costs stopped double-emitting them.
+    pmap = ROOT / "data" / "product_map.csv"
+    bridged = {}
+    if pmap.exists():
+        for r in csv.DictReader(pmap.open(encoding="utf-8-sig")):
+            sup, code, pdi = r.get("supplier"), r.get("supplier_code"), r.get("product_id")
+            if sup and code and pdi:
+                bridged[f"{re.sub(r'[^a-z0-9]+', '-', sup.lower()).strip('-')}:{code.strip().upper()}"] = f"lightspeed:{pdi.strip()}"
     spend, seen = defaultdict(float), {}
     if COGS.exists():
         for r in csv.DictReader(COGS.open(encoding="utf-8-sig")):
@@ -139,7 +152,7 @@ def audit():
             if not code or sup == "Lightspeed" or (r.get("invoice_date") or "") < "2026-06-01":
                 continue
             iid = f"{re.sub(r'[^a-z0-9]+', '-', sup.lower()).strip('-')}:{code.upper()}"
-            if iid in priced:
+            if iid in priced or bridged.get(iid) in priced:
                 continue
             spend[iid] += money(r.get("cost_per_unit_incl_gst"))
             seen[iid] = r.get("invoice_description")
