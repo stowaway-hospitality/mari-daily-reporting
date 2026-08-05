@@ -156,8 +156,13 @@ _PACKAGING = re.compile(r"pizza box|box insert", re.I)
 # What makes a recipe a PIZZA rather than just a menu item with a size word.
 _BASE_LINE = re.compile(r"pizza dough|pizza base|pizza sauce", re.I)
 # A PREP/batch name (module-level twin of PREP_RE, which is built later in main()).
+# A bracket that names a PACK — weight, volume or container. Marks a stock item.
+_PACK_BRACKET = re.compile(r"\[\s*(?:[\d.]+\s*(?:kgs?|g|gm|l|lt|ml)\b"
+                           r"|bottle|btl|ea|each|tin|can|box|bunch|punnet|jar|tub|keg|pack)",
+                           re.I)
 _PREP_NAME = re.compile(r"\[(batch|prep|recipe|\d+\s*(kg|g|l|ml))\]"
                         r"|\b(prep|mix|marination|batch|blend)\b", re.I)
+_INSERT_REF = "lightspeed:22873876"   # Pizza Box Inserts, $0.11055 ea (Gulli)
 _BOX_BY_SIZE = {
     "large": ('Large Pizza Box 13"', "lightspeed:22873851"),
     "family": ('Large Pizza Box 13"', "lightspeed:22873851"),
@@ -390,6 +395,13 @@ def main() -> int:
         if name in rec and name != parent and (rec[name] or {}).get("ingredients"):
             return ("subrecipe", name)
         n = norm(name)
+        # A PACK-SIZED name is a stock item, not a menu item. norm() strips brackets,
+        # so "Pepperoni [3kg]" — a bag of pepperoni — normalised to "pepperoni" and
+        # matched the RECIPE "Pepperoni [Dine-in]", costing a topping as a whole
+        # pizza. A bracket carrying a weight, volume or container is the giveaway
+        # that the line means stock, so the product wins for those.
+        if _PACK_BRACKET.search(name) and n in bo_by_name:
+            return ("id", f"lightspeed:{bo_by_name[n]}")
         # a recipe used as an ingredient is a SUB-RECIPE and folds in its build cost
         # off our book (via the safe ls-ratio scaling in cost_of). Block only a TRUE
         # self-reference (a recipe listing itself). Many preps — Pizza Dough [Recipe],
@@ -609,12 +621,18 @@ def main() -> int:
                 return False
 
             is_pizza = _has_base(keep)
-            if (not dine_in and box and is_pizza
-                    and not any(_PACKAGING.search(l.get("name") or "") for l in keep)):
-                keep.append({"name": box[0], "kind": "id", "ref": box[1], "qty": 1,
-                             "unit": "ea", "ls_cost": priced(box[1]),
-                             "our_cost": priced(box[1])})
-                added += 1
+            if not dine_in and box and is_pizza:
+                # Zak: a takeaway pizza has the box AND the insert. Produce had 80
+                # carrying an insert and 19 not, which was data entry rather than a
+                # decision, so both are now guaranteed — exactly one of each.
+                for pname, pref in ((box[0], box[1]),
+                                    ("Pizza Box Inserts", _INSERT_REF)):
+                    if any((l.get("ref") == pref) for l in keep):
+                        continue
+                    keep.append({"name": pname, "kind": "id", "ref": pref, "qty": 1,
+                                 "unit": "ea", "ls_cost": priced(pref),
+                                 "our_cost": priced(pref)})
+                    added += 1
             r["ingredients"] = keep
         # Inserts are NOT synthesised — 80 takeaway pizzas carry one and 19 don't,
         # and unlike the box I have no physical rule that says which is right. Left
@@ -704,6 +722,74 @@ def main() -> int:
                 added += 1
         return added
 
+    def _mirror_dine_in():
+        """A dine-in pizza IS the takeaway one, minus the packaging (Zak).
+
+        Produce maintained the two separately, so they drifted: different toppings,
+        different weights, and the dine-in twins never got the weighed-grams pass or
+        the restored Hawaiian ham. Copying the takeaway recipe makes one of them the
+        single source of truth and the other a plate.
+
+        NOT done when the takeaway is itself built as "1 x the [Dine-in] one" —
+        Regular Pepperoni is exactly that, and copying it back would replace the
+        dine-in's real toppings with a reference to itself.
+        """
+        import copy
+        mirrored = skipped = 0
+        for name in list(out):
+            if not name.endswith(" [Dine-in]"):
+                continue
+            stem = name[:-len(" [Dine-in]")]
+            # "Pepperoni [Dine-in]" has no size prefix at all — a legacy name whose
+            # takeaway twin is "Regular Pepperoni". Without this fallback it kept
+            # Produce's derived weights forever, because no rule matched its name.
+            src = out.get(stem) or out.get(f"Regular {stem}")
+            if not src:
+                continue
+            if any(l.get("ref") == name for l in src["ingredients"]):
+                skipped += 1                  # takeaway points AT this recipe
+                continue
+            out[name]["ingredients"] = [
+                copy.deepcopy(l) for l in src["ingredients"]
+                if not _PACKAGING.search(l.get("name") or "")
+            ]
+            mirrored += 1
+        return mirrored, skipped
+
+    def _flatten_pointer_pizzas():
+        """Give a pizza its own ingredients when it is only a pointer at another.
+
+        Regular Pepperoni had ONE line: "1 x Pepperoni [Dine-in]" — a stray legacy
+        recipe with no size prefix and a $2 placeholder price. Because its toppings
+        lived a level down, the weighed-grams pass skipped it entirely and it kept
+        Produce's derived weights. Copying the lines up means every regular pizza is
+        a real ingredient list, which is what Zak asked for.
+        """
+        n = 0
+        for name, r in out.items():
+            if not _SIZE_WORD.match(name):
+                continue
+            body = [l for l in r["ingredients"] if not _PACKAGING.search(l.get("name") or "")]
+            if len(body) != 1:
+                continue
+            ln = body[0]
+            src = out.get(ln.get("ref") or "")
+            if (ln.get("kind") != "subrecipe" or not src
+                    or not any(_BASE_LINE.search(x.get("name") or "")
+                               for x in src["ingredients"])):
+                continue                       # not a pointer at another pizza
+            import copy
+            r["ingredients"] = ([copy.deepcopy(x) for x in src["ingredients"]
+                                 if not _PACKAGING.search(x.get("name") or "")]
+                                + [l for l in r["ingredients"]
+                                   if _PACKAGING.search(l.get("name") or "")])
+            n += 1
+        return n
+
+    _flat = _flatten_pointer_pizzas()
+    if _flat:
+        print(f"  flattened {_flat} pizza(s) that were only a pointer at another")
+
     _missing = _add_missing_lines()
     if _missing:
         print(f"  restored {_missing} ingredient line(s) Produce had omitted")
@@ -711,6 +797,49 @@ def main() -> int:
     _rg_changed, _rg_recipes = _apply_regular_grams()
     print(f"  regular pizzas: {_rg_changed} quantities set from Zak's weighed sheet "
           f"across {_rg_recipes} recipes")
+
+    def _tidy_pizza_quantities():
+        """Round the leftover 0.716-scaled decimals to something a chef can weigh.
+
+        Zak's sheet covers the main toppings; everything else on a pizza still
+        carries the artefact of Produce's "0.716 x the Large" maths — 2.14799g of
+        basil, 42.96g of cherry tomato, 60.144g of pineapple. Nobody weighs to five
+        decimal places, and a recipe that reads like that isn't usable on a bench.
+
+        Rounding only: no quantity is invented, and the precision kept is finer than
+        any kitchen scale, so the cost impact is fractions of a cent. Whole grams
+        above 10, one decimal from 1-10, two below that.
+        """
+        def tidy(q):
+            if q >= 10:
+                return round(q)
+            return round(q, 1) if q >= 1 else round(q, 2)
+
+        n = 0
+        for name, r in out.items():
+            if not any(_BASE_LINE.search(l.get("name") or "")
+                       or "pizza base" in (l.get("name") or "").lower()
+                       for l in r["ingredients"]):
+                continue
+            for ln in r["ingredients"]:
+                if (ln.get("unit") or "").lower() not in ("g", "ml"):
+                    continue                      # never touch counted packaging
+                try:
+                    q = float(ln.get("qty") or 0)
+                except (TypeError, ValueError):
+                    continue
+                t = tidy(q)
+                if q > 0 and t > 0 and t != q:
+                    ln["qty"] = t
+                    n += 1
+        return n
+
+    _tidied = _tidy_pizza_quantities()
+    print(f"  tidied {_tidied} pizza quantities out of 0.716-scaled decimals")
+
+    _mir, _mir_skip = _mirror_dine_in()
+    print(f"  dine-in: {_mir} recipes mirrored from their takeaway twin "
+          f"({_mir_skip} left alone — the takeaway is built FROM the dine-in)")
 
     _pf, _pa, _pr = _fix_packaging()
     print(f"  packaging: {_pf} lines set to one whole box, {_pa} takeaway pizzas "
