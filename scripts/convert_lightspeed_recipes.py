@@ -153,6 +153,8 @@ RETIRED_RECIPES = re.compile(r"\bSolo Combo\b", re.I)
 # follows the invoices; only the CHOICE of box is encoded here.
 _SIZE_WORD = re.compile(r"^(Large|Regular|Gluten-free|Kids|Family)\b", re.I)
 _PACKAGING = re.compile(r"pizza box|box insert", re.I)
+# What makes a recipe a PIZZA rather than just a menu item with a size word.
+_BASE_LINE = re.compile(r"pizza dough|pizza base|pizza sauce", re.I)
 _BOX_BY_SIZE = {
     "large": ('Large Pizza Box 13"', "lightspeed:22873851"),
     "family": ('Large Pizza Box 13"', "lightspeed:22873851"),
@@ -587,8 +589,12 @@ def main() -> int:
                 ln["ls_cost"] = ln["our_cost"]
                 keep.append(ln)
                 fixed += 1
-            if not dine_in and box and not any(_PACKAGING.search(l.get("name") or "")
-                                               for l in keep):
+            # ...but only for something that is actually a PIZZA. "Kids" matches
+            # Kids Spag Bol too, and handing a bowl of pasta a pizza box made its
+            # only cost line a cardboard box. A pizza has a base or a dough.
+            is_pizza = any(_BASE_LINE.search(l.get("name") or "") for l in keep)
+            if (not dine_in and box and is_pizza
+                    and not any(_PACKAGING.search(l.get("name") or "") for l in keep)):
                 keep.append({"name": box[0], "kind": "id", "ref": box[1], "qty": 1,
                              "unit": "ea", "ls_cost": priced(box[1]),
                              "our_cost": priced(box[1])})
