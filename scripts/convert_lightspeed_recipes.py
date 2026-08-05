@@ -130,6 +130,8 @@ INGREDIENT_ALIAS = {
     "Pizza Tomato Sauce ": "Pizza Sauce [Recipe]",  # trailing space in the export
     "S.S.C [Small Bottle]": "Spiced Sour Cream [Batch]",   # S.S.C = spiced sour cream
     "S.S.C": "Spiced Sour Cream [Batch]",
+    "Oregano": "Oregano Leaves Rubbed - Torino",   # same herb, one costed
+
 }
 
 # Redundant lines Zak has asked to drop. NOT deleted from any source file — the
@@ -213,7 +215,8 @@ def load_seed_baseline():
     for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
         k, d = r["ingredient"], r["observed_on"]
         if str(r.get("source_invoice") or "").startswith(
-                ("ls-recipe-seed", "bo-seed", "recipe-bridge-seed", "bo-ingredient-seed")):
+                ("ls-recipe-seed", "bo-seed", "recipe-bridge-seed", "bo-ingredient-seed",
+                 "house-recipe-seed")):
             base[k] = (r["cost_per_unit"], r["unit"])
         if k not in earliest or d < earliest[k][2]:
             earliest[k] = (r["cost_per_unit"], r["unit"], d)
