@@ -1037,6 +1037,45 @@ def main() -> int:
     # is_prep (prep/batch, not a directly-sold menu line) reuses prep_ish above: its
     # POS "sell price" is often a $1-$2 placeholder, so we must not compute a GP off
     # it (that's where the -1085% garbage came from).
+    def _restate_pack_quantities():
+        """Say what the line actually uses, in the unit our book prices it in.
+
+        Produce writes a PACK COUNT and calls it millilitres: "1 ml" of Yoghurt
+        Greek Style [1Kg] means one 1kg tub, "3 ml" of black beans means three tins,
+        "4 ml" of pizza flour means four bags. The COST has always been right — it
+        comes from the pack — which is why the totals looked sane while the recipe
+        read as gibberish and the builder quoted "$7350.00/L".
+
+        So this changes ONLY the stated quantity and unit, never the cost: divide
+        what the line costs by our per-gram rate and you get what it really uses.
+        Applied only when the two disagree by 5x or more, and only when the result
+        lands within 2% of a whole number of packs — a partial pack means the
+        quantity was a real measurement after all, so it is left alone.
+        """
+        n = 0
+        for rname, r in out.items():
+            for ln in r["ingredients"]:
+                cur = our_costs.get(ln.get("ref") or "")
+                if not cur:
+                    continue
+                try:
+                    q, eff, rate = (float(ln.get("qty") or 0),
+                                    float(ln.get("eff_cost") or 0), float(cur[0]))
+                except (TypeError, ValueError):
+                    continue
+                if q <= 0 or eff <= 0 or rate <= 0 or cur[1] == (ln.get("unit") or "").lower():
+                    continue
+                implied = eff / rate
+                if implied < q * 5:
+                    continue
+                packs = implied / q                 # e.g. 1000 g per "1"
+                if abs(packs - round(packs)) > 0.02 * packs:
+                    continue                        # not a clean pack multiple
+                ln["qty"] = round(implied, 2)
+                ln["unit"] = cur[1]
+                n += 1
+        return n
+
     fully_ours = 0
     for name in out:
         o, l, fo = cost_of(name)
@@ -1065,6 +1104,11 @@ def main() -> int:
             out[name]["gp_pct"] = None
         if fo:
             fully_ours += 1
+
+    _restated = _restate_pack_quantities()
+    print(f"  restated {_restated} pack-count quantities into real units "
+          f"(costs unchanged)")
+
 
     payload = {
         "generated": date.today().isoformat(),
