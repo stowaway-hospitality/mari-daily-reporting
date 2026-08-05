@@ -216,7 +216,7 @@ def load_seed_baseline():
         k, d = r["ingredient"], r["observed_on"]
         if str(r.get("source_invoice") or "").startswith(
                 ("ls-recipe-seed", "bo-seed", "recipe-bridge-seed", "bo-ingredient-seed",
-                 "house-recipe-seed")):
+                 "house-recipe-seed", "invoice-derived-seed")):
             base[k] = (r["cost_per_unit"], r["unit"])
         if k not in earliest or d < earliest[k][2]:
             earliest[k] = (r["cost_per_unit"], r["unit"], d)
