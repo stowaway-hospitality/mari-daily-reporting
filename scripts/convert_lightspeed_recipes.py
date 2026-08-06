@@ -397,7 +397,16 @@ INGREDIENT_ALIAS = {
     # 49 recipes use one, 6 the other. Consolidated onto the one with four
     # recent Fresh Fruit Team invoices behind it.
     "Onion Spanish [10kg]": "Spanish Onion [10Kg]",
-
+    # Harry Gatos' name for Stowaway's house blend. data/recipe_venue_mirrors.yaml
+    # already records the decision — "'Stow Vermouth Blend' vs 'Vermouth Blend'.
+    # Same liquid, same pour. One spec, maintained once." — and mirrors Americano,
+    # Boulevardier, Manhattan and Sbagliato Negroni to Stowaway's recipes. But the
+    # mirror is at RECIPE level, and these four drinks reach the blend through an
+    # INGREDIENT line, so the decision never got applied: four cocktails costed
+    # 20-45 ml of vermouth at $0.00. Harry Gatos' Produce carries both names with
+    # no cost on either; Stowaway's carries the price ($41.34 / 990 ml) and the
+    # blend recipe (Carpano + Antica + Regal Rogue, 330 ml each).
+    "Vermouth Blend [Bottle]": "Stow Vermouth Blend [Bottle]",
 }
 
 # Redundant lines Zak has asked to drop. NOT deleted from any source file — the
