@@ -38,8 +38,8 @@ def test_sales_load_and_are_keyed_by_normalised_pos_name():
 def test_a_venue_tag_is_stripped_before_matching():
     """Recipe names carry the venue; POS product names do not."""
     fake = {"caipirinha": (4.0, 57.0)}
-    assert sold(fake, "Caipirinha [HG]") == (4.0, 57.0)
-    assert sold(fake, "Caipirinha") == (4.0, 57.0)
+    assert sold(fake, "Caipirinha [HG]") == (4.0, 57.0, False)
+    assert sold(fake, "Caipirinha") == (4.0, 57.0, False)
 
 
 def test_no_record_is_not_the_same_as_no_sales():
@@ -51,9 +51,29 @@ def test_no_record_is_not_the_same_as_no_sales():
 
 def test_looser_matching_is_refused():
     """A wrong denominator is worse than no denominator: "Whispering Angel -
-    Regular" must not silently inherit "Whispering Angel Rose"'s revenue."""
+    Regular" must not silently inherit "Whispering Angel Rose"'s revenue —
+    the size collapse gives "Whispering Angel", which is a different name."""
     fake = {"whisperingangelrose": (262.0, 9313.0)}
     assert sold(fake, "Whispering Angel - Regular [HG]") is None
+
+
+def test_a_size_variant_matches_the_collapsed_product_and_says_so():
+    """products_weekly deliberately merges a beer's pints and schooners into one
+    drink. Without following that collapse, every tap beer and wine-by-the-glass
+    read "no POS sales record" — $95,000 of Stowaway revenue with no weight on
+    it. The match is flagged, because the revenue is the whole product's."""
+    fake = {"kukusauvignonblanc": (410.0, 8577.0)}
+    assert sold(fake, "Kuku Sauvignon Blanc - Regular") == (410.0, 8577.0, True)
+    _rev, _sev, detail = weigh(fake, "Kuku Sauvignon Blanc - Large", "SEVERE", "x")
+    assert "all sizes" in detail
+
+
+def test_the_collapse_never_eats_a_flavour_or_a_delivery_zone():
+    """The whitelist is products_weekly's, not a second looser one invented here:
+    "- Passionfruit" and "- Freshwater / Queenscliff" are not sizes."""
+    fake = {"mojito": (10.0, 100.0), "pizza": (10.0, 100.0)}
+    assert sold(fake, "Mojito - Passionfruit") is None
+    assert sold(fake, "Pizza - Freshwater / Queenscliff") is None
 
 
 def test_a_dormant_product_is_reported_but_not_severe():

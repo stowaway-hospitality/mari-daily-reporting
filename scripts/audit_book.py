@@ -31,6 +31,11 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+# The size-variant collapse is DEFINED there; importing it keeps one whitelist
+# rather than a second, looser copy drifting in the auditor. See sold().
+from build_products_weekly import normalize_product  # noqa: E402
+
 COSTED = ROOT / "data" / "lightspeed_recipes_costed.json"
 INGREDIENTS = ROOT / "data" / "ingredients.json"
 COSTS = ROOT / "data" / "costs.csv"
@@ -109,18 +114,39 @@ def load_sales(weeks=13):
 
 
 def sold(sales, name):
-    """(units, revenue) for a recipe, or None when no POS product matches it.
+    """(units, revenue, whole_product) for a recipe, or None if nothing matches.
 
     "No sales record" and "sold nothing" are different claims and the audit must
-    not conflate them: 433 of the 829 recipes are preps, size variants and
-    delivery twins whose names were never POS product names. Only two lookups are
-    tried — the name as written, and the name with its venue tag removed — because
-    anything looser starts matching "Whispering Angel - Regular" onto a different
-    product's revenue, and a wrong denominator is worse than no denominator."""
+    not conflate them: many of the 829 recipes are preps and delivery twins whose
+    names were never POS product names.
+
+    Three lookups, in order: the name as written; the name with its venue tag
+    removed; and the name with its SIZE suffix removed. That last one is not a
+    fuzzy match invented here — products_weekly.py deliberately collapses
+    "- Pint"/"- Schooner"/"- Regular"/"- Large" so a beer's pints and schooners
+    report as one drink, off a whitelist that never touches a flavour
+    ("- Passionfruit") or a delivery zone. Reusing that exact function is the
+    only safe way to cross the gap, and skipping it left every tap beer and
+    wine-by-the-glass reading "no POS sales record" — $95,000 of Stowaway
+    revenue with no weight on it at all.
+
+    `whole_product` is True when the match came from that collapse, because then
+    the revenue belongs to ALL the sizes, not to the one variant the finding is
+    about. The caller says so rather than implying a precision it does not have.
+    """
     hit = sales.get(_nrm_name(name))
-    if hit is None:
-        hit = sales.get(_nrm_name(_VENUE_TAG.sub("", name)))
-    return hit
+    if hit is not None:
+        return hit[0], hit[1], False
+    bare = _VENUE_TAG.sub("", name)
+    hit = sales.get(_nrm_name(bare))
+    if hit is not None:
+        return hit[0], hit[1], False
+    collapsed = normalize_product(bare)
+    if collapsed != bare:
+        hit = sales.get(_nrm_name(collapsed))
+        if hit is not None:
+            return hit[0], hit[1], True
+    return None
 
 
 def weigh(sales, product, sev, detail):
@@ -136,9 +162,11 @@ def weigh(sales, product, sev, detail):
     s = sold(sales, product)
     if s is None:
         return 0.0, sev, f"{detail}   [no POS sales record]"
-    if s[0] <= 0:
+    qty, rev, whole = s
+    if qty <= 0:
         return 0.0, "WARN", f"{detail}   [dormant — 0 sold in 13wk]"
-    return max(0.0, s[1]), sev, f"{detail}   [{s[0]:,.0f} sold, ${s[1]:,.0f} in 13wk]"
+    scope = "all sizes" if whole else "13wk"
+    return max(0.0, rev), sev, f"{detail}   [{qty:,.0f} sold, ${rev:,.0f} {scope}]"
 
 
 def audit():
@@ -458,6 +486,53 @@ def audit():
                                   "(the number the P&L copies is wrong)",
                         f"[{ven}] {g[:24]:<26} POS ${pos_c:>8,.0f} vs ours ${ours:>8,.0f} "
                         f"({pos_c/ours:.2f}x)  ${ours-pos_c:>8,.0f} of COGS missing (13wk)")
+
+    # ---------- WHAT THE BOOK STILL DOES NOT REACH ----------
+    # The audit lists what is WRONG. This lists what is ABSENT, which is the
+    # bigger number and the one nobody was tracking: revenue whose product has no
+    # costed recipe at all, so the P&L falls through to Lightspeed's figure —
+    # and Lightspeed's figure runs about 0.28x of ours across every category.
+    #
+    # It is also the work queue. "Build recipes for these seven dishes" is a
+    # sentence someone can act on; "coverage is 86%" is not.
+    if sales:
+        costed = set()
+        for n, r in recipes.items():
+            if r.get("is_prep") or money(r.get("our_cost")) <= 0:
+                continue
+            costed.add(_nrm_name(n))
+            costed.add(_nrm_name(normalize_product(_VENUE_TAG.sub("", n))))
+        # products_weekly collapses size variants, so the recipe side is
+        # collapsed the same way before comparing — otherwise every tap beer
+        # reads as uncovered when in fact all its sizes are costed.
+        tot = defaultdict(float)
+        cov = defaultdict(float)
+        pw2 = list(csv.DictReader(PRODUCTS_WEEKLY.open(encoding="utf-8-sig")))
+        wks2 = sorted({r["week_ending"] for r in pw2})
+        cut2 = wks2[max(0, len(wks2) - 13)] if wks2 else ""
+        gaps = defaultdict(float)
+        for r in pw2:
+            if r["week_ending"] < cut2:
+                continue
+            rev = money(r.get("sales_ex_gst"))
+            if rev <= 0:
+                continue
+            tot[r["venue"]] += rev
+            if _nrm_name(r["product_name"]) in costed:
+                cov[r["venue"]] += rev
+            else:
+                gaps[(r["venue"], r["product_name"], r.get("reporting_group") or "")] += rev
+        for ven in sorted(tot):
+            pct = 100 * cov[ven] / tot[ven] if tot[ven] else 0.0
+            add("INFO" if pct >= 85 else "WARN",
+                "cost book coverage of revenue (the rest falls through to Lightspeed)",
+                f"[{ven}] {pct:5.1f}% of ${tot[ven]:>10,.0f}  "
+                f"— ${tot[ven] - cov[ven]:>9,.0f} uncosted (13wk)")
+        for (ven, nm, g), rev in sorted(gaps.items(), key=lambda x: -x[1])[:25]:
+            if rev < 500:
+                break
+            add("WARN", "sells well, has no costed recipe anywhere",
+                f"[{ven}] ${rev:>8,.0f} (13wk)  {nm[:42]:<44} {g[:24]}")
 
     # ---------- COST BOOK ----------
     rows = list(csv.DictReader(COSTS.open(encoding="utf-8-sig")))
