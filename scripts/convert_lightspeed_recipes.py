@@ -452,6 +452,26 @@ INGREDIENT_ALIAS = {
     # point at and they stay visible in the audit until an invoice arrives.
     "Whispering Angel - Bottle [HG]": "Whispering Angel Rosé - Bottle",
     "Veuve Clicquot - Bottle [HG]": "Veuve Clicquot Yellow Label - Bottle",
+    # Zak: "havana club definitely has a price somewhere". It does — under a
+    # name one word shorter. Pika Pika draws "Havana Club 3yr [700ml]"; the
+    # priced Stowaway product is "Havana 3yr [700ml]" at $0.041556/ml. Both Back
+    # Office entries read $0.00, and there is one Havana in the group.
+    #
+    # NOT bridged to the ILG invoice, deliberately. ILG bills "HAVANA CLUB 700ML
+    # 3YO." at $58.01, and resolve_pack read the 700ML out of the description and
+    # divided by one bottle — $82.87/L, exactly twice the seed. Neither the
+    # single-bottle nor the 6-pack reading lands anywhere sensible ($58.01 or
+    # $9.67 a bottle); $58.01 over TWO bottles is $29.01, and the seed says
+    # $29.09. The line is two bottles, so the invoice-derived rate in costs.csv
+    # is the one that is wrong, and the seed is right. Bridging it would double
+    # the cost of every Havana pour. (That row is inert today — nothing
+    # references ilg:355-0552 — but it is why this is an alias and not a bridge.)
+    "Havana Club 3yr [700ml]": "Havana 3yr [700ml]",
+    # Produce holds dried shiitake twice: "Shiitake Mushrooms Dried" (DefaultSize
+    # 1 g, $25.00 — i.e. $25 a GRAM) and "Mushroom Shiitake Dried [1kg]" at
+    # $31.25/kg. Jun Pacific invoice NB10486744 settles it: "Dried Shiitake
+    # Mushroom 1kg", $31.25. Shiitake Tare draws 50 g of the broken one.
+    "Shiitake Mushrooms Dried": "Mushroom Shiitake Dried [1kg]",
 }
 
 # Redundant lines Zak has asked to drop. NOT deleted from any source file — the

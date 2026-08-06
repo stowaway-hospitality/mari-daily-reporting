@@ -7,7 +7,7 @@
    "id": 1544,
    "subrecipe": 381
   },
-  "recipes_fully_on_our_book": 805
+  "recipes_fully_on_our_book": 806
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -5858,7 +5858,7 @@
      "qty": "3.5",
      "unit": "ml",
      "ls_cost": "0.11",
-     "our_cost": null,
+     "our_cost": 0.007414008620689655,
      "eff_cost": 0.055001
     },
     {
@@ -15268,7 +15268,7 @@
      "qty": "5",
      "unit": "ml",
      "ls_cost": "0.15",
-     "our_cost": null,
+     "our_cost": 0.007414008620689655,
      "eff_cost": 0.075002
     }
    ],
@@ -35069,14 +35069,14 @@
   "Shiitake Tare": {
    "ingredients": [
     {
-     "name": "Shiitake Mushrooms Dried",
+     "name": "Mushroom Shiitake Dried [1kg]",
      "kind": "id",
-     "ref": "lightspeed:22947358",
+     "ref": "lightspeed:22918987",
      "qty": "50",
      "unit": "g",
      "ls_cost": "1250.00",
-     "our_cost": null,
-     "eff_cost": 0.0
+     "our_cost": "0.031250",
+     "eff_cost": 1.5625
     },
     {
      "name": "Soy Sauce Tamari Spiral [10L]",
@@ -35129,8 +35129,8 @@
      "eff_cost": 0.14
     }
    ],
-   "our_cost": 30.0364,
-   "ls_cost": 30.0333,
+   "our_cost": 31.5989,
+   "ls_cost": 1280.0333,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
@@ -36335,14 +36335,14 @@
      "eff_cost": 2.14809
     },
     {
-     "name": "Havana Club 3yr [700ml]",
+     "name": "Havana 3yr [700ml]",
      "kind": "id",
-     "ref": "lightspeed:22082316",
+     "ref": "lightspeed:21999746",
      "qty": "15",
      "unit": "ml",
      "ls_cost": "0.00",
-     "our_cost": null,
-     "eff_cost": 0.0
+     "our_cost": "0.041556",
+     "eff_cost": 0.62334
     },
     {
      "name": "Domaine de Canton Ginger Liqueur [Bottle]",
@@ -36355,13 +36355,13 @@
      "eff_cost": 1.425195
     }
    ],
-   "our_cost": 3.5733,
+   "our_cost": 4.1966,
    "ls_cost": 3.1,
-   "fully_our_book": false,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 80.3
+   "gp_pct": 76.9
   },
   "Whispering Angel - Large [HG]": {
    "ingredients": [

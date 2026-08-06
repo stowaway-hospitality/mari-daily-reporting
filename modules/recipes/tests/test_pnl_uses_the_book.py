@@ -356,3 +356,69 @@ def test_a_pour_with_no_twin_anywhere_stays_visible():
 
     for absent in ("Milagro Reposado Tequila [Bottle]", "Velho Berreiro Cachaça [Bottle]"):
         assert absent not in INGREDIENT_ALIAS
+
+
+def test_davys_old_fashioned_costs_off_its_batch():
+    """Back Office sells it at $24 (Cocktails - Signature) and Produce had no
+    recipe for it at all, so it was one of the products reporting 100% GP. Spec
+    from Zak, 2026-08-06: a 594 ml batch, 75 ml a serve.
+
+    Water is 150 ml of the batch and costs nothing, which is why the priced
+    lines sum to less than the yield. A drop is the metric drop, 1/20 ml —
+    reading the 30 drops of Xocolatl as dasher DASHES instead would put 24 ml of
+    bitters in the batch, which is not a thing anyone does.
+    """
+    from datetime import date
+
+    from core.domain import CostSeries, load_cost_observations
+    from modules.recipes.cost import cost_on, load_recipes, recipe_as_of
+
+    on = date(2026, 8, 4)
+    recipes = load_recipes("stowaway")
+    costs = CostSeries(load_cost_observations())
+
+    batch = recipe_as_of(recipes, "Davy's Old Fashioned Batch", on)
+    assert batch and batch.yield_qty == 594 and batch.yield_unit == "ml"
+    assert 35 < float(cost_on(batch, costs, on, recipes=recipes)) < 45
+
+    serve = recipe_as_of(recipes, "Davy's Old Fashioned", on)
+    assert serve and serve.sell_incl_gst == 24
+    c = float(cost_on(serve, costs, on, recipes=recipes))
+    gp = (float(serve.sell_incl_gst) / 1.1 - c) / (float(serve.sell_incl_gst) / 1.1) * 100
+    assert 4.0 < c < 6.0, c
+    assert 70 < gp < 85, gp
+
+
+def test_havana_is_aliased_but_deliberately_not_bridged():
+    """Zak: "havana club definitely has a price somewhere". It does, under a name
+    one word shorter — the recipe says "Havana Club 3yr [700ml]", the priced
+    product is "Havana 3yr [700ml]".
+
+    NOT bridged to the ILG invoice on purpose. ILG bills $58.01 and resolve_pack
+    read the 700ML out of the description and divided by one bottle, giving
+    exactly twice the seed. Neither the single-bottle nor the 6-pack reading
+    lands anywhere sensible; $58.01 over TWO bottles is $29.01 and the seed says
+    $29.09. The seed is the right number, so bridging would double every Havana
+    pour."""
+    book = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    pika = book["Pika Pika"]
+    havana = [l for l in pika["ingredients"] if "Havana" in (l.get("name") or "")]
+    assert havana and havana[0]["eff_cost"] > 0
+    assert abs(float(havana[0]["our_cost"]) - 0.041556) < 1e-6, "must be the seed, not the invoice"
+
+
+def test_dried_shiitake_is_not_twenty_five_dollars_a_gram():
+    """Produce holds it twice: "Shiitake Mushrooms Dried" at DefaultSize 1 g and
+    $25.00 — i.e. $25 a gram — and "Mushroom Shiitake Dried [1kg]" at $31.25/kg.
+    Jun Pacific invoice NB10486744 settles it: "Dried Shiitake Mushroom 1kg",
+    $31.25."""
+    book = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    for name in ("Shiitake Tare", "Shiitake Bouillon"):
+        lines = [l for l in book[name]["ingredients"] if "hiitake" in (l.get("name") or "")]
+        assert lines, name
+        for l in lines:
+            rate = float(l["eff_cost"]) / float(l["qty"])
+            assert 0 < rate < 0.05, f"{name}: ${rate:.4f}/g"
+    # and Produce still believes 50 g of it costs $1,250
+    tare = [l for l in book["Shiitake Tare"]["ingredients"] if "hiitake" in (l.get("name") or "")][0]
+    assert float(tare["ls_cost"]) > 1000 and tare["eff_cost"] < 2
