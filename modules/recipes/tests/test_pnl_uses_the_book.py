@@ -422,3 +422,48 @@ def test_dried_shiitake_is_not_twenty_five_dollars_a_gram():
     # and Produce still believes 50 g of it costs $1,250
     tare = [l for l in book["Shiitake Tare"]["ingredients"] if "hiitake" in (l.get("name") or "")][0]
     assert float(tare["ls_cost"]) > 1000 and tare["eff_cost"] < 2
+
+
+def test_a_countable_cost_can_be_multiplied_by_a_countable_quantity():
+    """resolve_pack answers "one whole pack" as "can" — its basis word — while
+    every recipe line says "ea". So 105 cost rows in "can" could never be matched
+    to 274 recipe lines in "ea", and each mismatch fell through to Lightspeed's
+    number or to $0. They are the same dimension at the same magnitude: one of
+    the thing you bought.
+
+    Lemon, Lime & Bitters was 2 ml of Angostura and nothing else — a $5.00 drink
+    costing 20c. Zak: "lemon lime bitters is the same as lemonade, plus the
+    bitters", and Back Office prices one Lemonade [mixer] at $0.8032."""
+    book = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    llb = book["Lemon, Lime & Bitters"]
+    mixer = [l for l in llb["ingredients"] if "mixer" in (l.get("name") or "").lower()]
+    assert mixer and abs(mixer[0]["eff_cost"] - 0.8032) < 0.001
+    assert 70 < llb["gp_pct"] < 85, llb["gp_pct"]
+
+    pink = book["Pink Lemonade Glass"]
+    assert 70 < pink["gp_pct"] < 85, pink["gp_pct"]
+
+
+def test_a_delivery_twin_costs_the_same_as_the_dish_it_copies():
+    """A "X D" recipe is a copy of X and has no scrape line of its own, so there
+    is no raw cost to judge whole-vs-fraction with — and the default is WHOLE,
+    the expensive reading. Bang Bang Cauli D took "0.01" of a $9.90 bunch of
+    chives as a whole bunch and cost $12.57 on a $16 dish, while the identical
+    Bang Bang Cauli read the same line as 10c."""
+    book = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    a = book["Bang Bang Cauli"]["our_cost"]
+    b = book["Bang Bang Cauli D"]["our_cost"]
+    assert abs(a - b) < 0.01, f"${a} vs ${b}"
+    assert a < 4, a
+
+    # Any OTHER twin that diverges is a real finding, not a test failure — the
+    # audit reports them (Bundaberg Ginger Beer is one: $0.86 against $3.22, a
+    # known pack clash on ilg:460-4128). Assert only that the list stays short
+    # enough to be read.
+    pairs = [(n, n + " D") for n in book if n + " D" in book and not book[n].get("is_prep")]
+    assert pairs, "fixture sanity: the book has delivery twins"
+    off = [n for n, t in pairs
+           if (book[n].get("our_cost") or 0) and (book[t].get("our_cost") or 0)
+           and abs(book[n]["our_cost"] - book[t]["our_cost"])
+           / max(book[n]["our_cost"], book[t]["our_cost"]) > 0.35]
+    assert len(off) <= 3, off

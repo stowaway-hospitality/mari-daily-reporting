@@ -133,3 +133,31 @@
   qty: 2
   unit: "ml"
   why: "Old Fashioned carries 2ml; branded ones are the same spec (Zak, 2026-08-06)"
+
+# --- Postmix: the mixer was never on the drink -----------------------------------
+# Zak, 2026-08-06: "lemon lime bitters is the same as lemonade, plus the bitters"
+# and "pink lemonade should be the same qty of postmix as the rest".
+#
+# Lemon, Lime & Bitters carried 2 ml of Angostura and nothing else — a $5.00 drink
+# costing 20c, 95.6% GP. Pink Lemonade Glass carried only the raspberry cordial.
+#
+# The postmix cost was in Back Office the whole time. Stowaway holds four mixer
+# products — Lemonade, Pepsi, Pepsi Max, Pink Lemonade — and every one is
+# $0.8032 for one serve, to four decimal places. Four flavours at an identical
+# figure is one postmix cost applied to all of them, which is also why Zak's
+# "creaming soda postmix from CUB" for the pink lemonade changes the flavour and
+# not the number.
+- recipes:
+    - "Lemon, Lime & Bitters"
+  name: "Lemonade [mixer]"
+  ref: "lightspeed:20681676"
+  qty: 1
+  unit: "ea"
+  why: "Zak: LLB is lemonade plus the bitters; BO prices one Lemonade [mixer] at $0.8032"
+- recipes:
+    - "Pink Lemonade Glass"
+  name: "Pink Lemonade [mixer]"
+  ref: "lightspeed:20681681"
+  qty: 1
+  unit: "ea"
+  why: "Zak: same qty of postmix as the rest; BO prices one Pink Lemonade [mixer] at $0.8032"

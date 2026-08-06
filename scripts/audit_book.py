@@ -55,6 +55,13 @@ CEIL = {"g": 0.20, "ml": 0.60}
 # only ever cry wolf. Select Fresh 3064370: "KUTJERA BUSH TOMATO WHOLE100GM"
 # $48.00 for 100g — a premium native spice used a pinch at a time.
 DEAR_BUT_REAL = {"select-fresh:BUSHTOMG"}
+# Products whose high GP Zak has confirmed is REAL, with what he said. A rule
+# that keeps reporting a checked answer is how a list stops being read.
+VERIFIED_HIGH_GP = {
+    # Zak, 2026-08-06: "grapefruit soda only uses sherbet". 30 ml of house
+    # sherbert in soda water; there is no second ingredient to be missing.
+    "Stow Soda - Grapefruit": "sherbet only — confirmed by Zak 2026-08-06",
+}
 FLOOR = 0.000_01          # a real ingredient is never free
 ABSURD_SERVE = 120.0      # no single non-prep menu item costs more than this
 GP_FLATTER = 95.0
@@ -299,8 +306,12 @@ def audit():
             add("SEVERE", "costs more than it sells for",
                 f"cost ${cost:>7.2f} vs sell ${sell:>7.2f}  {name}", product=name)
         if gp is not None and gp >= GP_FLATTER and not prep:
-            add("WARN", f"GP >= {GP_FLATTER:.0f}% — a cost is probably missing",
-                f"{gp:>5.1f}%  ${cost:>6.2f} -> ${sell:>7.2f}  {name}", product=name)
+            if name in VERIFIED_HIGH_GP:
+                add("INFO", "high GP, confirmed real",
+                    f"{gp:>5.1f}%  {name}  ({VERIFIED_HIGH_GP[name]})")
+            else:
+                add("WARN", f"GP >= {GP_FLATTER:.0f}% — a cost is probably missing",
+                    f"{gp:>5.1f}%  ${cost:>6.2f} -> ${sell:>7.2f}  {name}", product=name)
         if gp is not None and gp < 0 and not prep:
             add("SEVERE", "negative GP", f"{gp:>7.1f}%  {name}", product=name)
 
@@ -737,6 +748,25 @@ def audit():
                 break
             add("WARN", "sells well, has no costed recipe anywhere",
                 f"[{ven}] ${rev:>8,.0f} (13wk)  {nm[:42]:<44} {g[:24]}")
+
+    # ---------- A DELIVERY TWIN IS THE SAME DISH ----------
+    # "X D" is the Uber/delivery version of X. Same food, same recipe, so a
+    # material cost difference means one of them read an ingredient differently.
+    # Bang Bang Cauli D took "0.01" of a $9.90 bunch of chives as a WHOLE bunch
+    # and cost $12.57 on a $16 dish while the identical Bang Bang Cauli read the
+    # same line as 10c — the twin has no scrape line of its own, so there was no
+    # raw cost to judge whole-vs-fraction with and the default is the expensive
+    # reading. That one is fixed; this keeps the class visible.
+    for name in sorted(recipes):
+        twin = f"{name} D"
+        if twin not in recipes or recipes[name].get("is_prep"):
+            continue
+        a, b = money(recipes[name].get("our_cost")), money(recipes[twin].get("our_cost"))
+        if a <= 0 or b <= 0 or abs(a - b) / max(a, b) <= 0.35:
+            continue
+        add("WARN", "a delivery twin costs materially more than the dish it copies",
+            f"{name[:30]:32} ${a:>7.2f}   vs   {twin[:32]:34} ${b:>7.2f}"
+            f"   ({max(a, b) / min(a, b):.1f}x)", product=name)
 
     # ---------- THE /pricing PAGE'S "BIGGEST MOVERS" ----------
     # The page exists so a supplier creeping prices up gets noticed the week it

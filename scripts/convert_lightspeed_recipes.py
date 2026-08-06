@@ -600,7 +600,18 @@ def load_yields():
     return out
 
 
-_BASE = {"kg": ("g", 1000.0), "l": ("ml", 1000.0), "lt": ("ml", 1000.0), "litre": ("ml", 1000.0)}
+_BASE = {"kg": ("g", 1000.0), "l": ("ml", 1000.0), "lt": ("ml", 1000.0), "litre": ("ml", 1000.0),
+         # A COUNTABLE IS A COUNTABLE. resolve_pack answers "one whole pack" as
+         # "can" (its basis word) while every recipe line says "ea", so a cost we
+         # hold per-unit could never be multiplied by a per-unit quantity: 105
+         # cost rows in "can" against 274 recipe lines in "ea", and each mismatch
+         # silently fell through to Lightspeed's number or to $0.
+         #
+         # They are the same dimension and the same magnitude — one of the thing
+         # you bought — so this is a rename, not a conversion, and the factor is
+         # 1.0. Nothing here means "a 375 ml can": that is a pack SIZE, which
+         # lives in the pack columns, not the unit.
+         "can": ("ea", 1.0)}
 
 
 def _to_base(cost, unit):
@@ -1437,6 +1448,15 @@ def main() -> int:
                 if cur and cur[1] == "ea" and 0 < _qf < 1:
                     _whole = float(cur[0])
                     _raw = _RAW_LINE_COST.get((name, norm(ln.get("name") or "")))
+                    if _raw is None and name.endswith(" D"):
+                        # A delivery twin is a copy of the dine-in recipe and has
+                        # no scrape line of its own, so there is no raw cost to
+                        # judge whole-vs-fraction with — and the default is WHOLE,
+                        # the expensive reading. Bang Bang Cauli D took "0.01" of
+                        # a $9.90 bunch of chives as a whole bunch and cost $12.57
+                        # on a $16 dish, while the identical Bang Bang Cauli read
+                        # the same line as 10c. Ask the twin.
+                        _raw = _RAW_LINE_COST.get((name[:-2], norm(ln.get("name") or "")))
                     if _raw and _raw > 0 and abs(_whole * _qf - _raw) < abs(_whole - _raw):
                         eff = _whole * _qf        # a real fraction of a real pack
                     else:
