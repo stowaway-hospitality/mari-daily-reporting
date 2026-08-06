@@ -824,6 +824,38 @@ _DEALS = {
 }
 
 
+def apply_product_aliases(out: dict) -> int:
+    """Publish a costed recipe under the name the TILL sells it as.
+
+    The till and Produce are two naming systems nobody keeps in step. "Outback
+    Prawn Toast" on the menu is "Devon's Prawn Toast" in the book — same dish,
+    already costed — and no normaliser connects those words because there is
+    nothing to connect. It is a rename.
+
+    That costs real money, not just a bad audit line: cogs_blend._load_book_costs
+    keys on the POS product name, so a renamed dish never reaches the P&L and the
+    day falls through to Lightspeed's stale cost while a perfectly good recipe
+    sits unused three feet away.
+
+    The alias PUBLISHES the recipe under the POS name rather than renaming it, so
+    the Produce name keeps working for anything that still references it, and
+    both names cost identically. Never overwrites an existing entry.
+    """
+    path = ROOT / "data" / "product_recipe_aliases.yaml"
+    if not path.exists():
+        return 0
+    import copy
+    import yaml
+    n = 0
+    for pos_name, book_name in (yaml.safe_load(path.read_text()) or {}).items():
+        if pos_name in out or book_name not in out:
+            continue
+        out[pos_name] = copy.deepcopy(out[book_name])
+        out[pos_name]["alias_of"] = book_name
+        n += 1
+    return n
+
+
 def add_deal_recipes(out: dict, cost_of) -> int:
     """Cost a deal header from what the deal contains.
 
@@ -1892,6 +1924,10 @@ def main() -> int:
             _renamed += 1
     if _renamed:
         print(f"  renamed {_renamed} recipe(s) to the name Back Office sells them under")
+
+    _al = apply_product_aliases(out)
+    if _al:
+        print(f"  {_al} POS name(s) pointed at the recipe that is that product")
 
     _dl = add_deal_recipes(out, cost_of)
     if _dl:

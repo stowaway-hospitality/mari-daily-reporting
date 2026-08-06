@@ -1,13 +1,13 @@
 {
  "generated": "2026-08-06",
  "source": "Lightspeed Produce (scraped)",
- "recipe_count": 888,
+ "recipe_count": 892,
  "coverage": {
   "ingredient_refs": {
    "id": 1544,
    "subrecipe": 381
   },
-  "recipes_fully_on_our_book": 867
+  "recipes_fully_on_our_book": 870
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -39668,6 +39668,264 @@
    "is_prep": false,
    "sell_incl": 21.0,
    "gp_pct": 89.0
+  },
+  "Outback Prawn Toast": {
+   "ingredients": [
+    {
+     "name": "Prawn Mix",
+     "kind": "subrecipe",
+     "ref": "Prawn Mix",
+     "qty": "100",
+     "unit": "g",
+     "ls_cost": "2.78",
+     "our_cost": null,
+     "eff_cost": 2.780124
+    },
+    {
+     "name": "Sesame Seed White Roasted Jun [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898082",
+     "qty": "5",
+     "unit": "g",
+     "ls_cost": "0.05",
+     "our_cost": "0.009460",
+     "eff_cost": 0.0473
+    },
+    {
+     "name": "Turkish Bread [loaf]",
+     "kind": "id",
+     "ref": "lightspeed:22931830",
+     "qty": "20",
+     "unit": "g",
+     "ls_cost": "0.15",
+     "our_cost": null,
+     "eff_cost": 0.15
+    },
+    {
+     "name": "Wattleseed Honey Soy",
+     "kind": "subrecipe",
+     "ref": "Wattleseed Honey Soy",
+     "qty": "29",
+     "unit": "g",
+     "ls_cost": "0.91",
+     "our_cost": null,
+     "eff_cost": 0.91
+    }
+   ],
+   "alias_of": "Devon's Prawn Toast",
+   "our_cost": 3.8874,
+   "ls_cost": 3.89,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.0,
+   "gp_pct": 73.3
+  },
+  "Beef Burger D": {
+   "ingredients": [
+    {
+     "name": "Patties Wagyu Tajima Classic 150g Fresh (20/Pk)",
+     "kind": "id",
+     "ref": "lightspeed:22888898",
+     "qty": "150",
+     "unit": "g",
+     "ls_cost": "2.20",
+     "our_cost": "0.014667",
+     "eff_cost": 2.20005
+    },
+    {
+     "name": "Roma Tomatoes [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22975143",
+     "qty": "34",
+     "unit": "g",
+     "ls_cost": "0.14",
+     "our_cost": "0.004059",
+     "eff_cost": 0.138006
+    },
+    {
+     "name": "Pickles Whole Dill 20kg Westmont",
+     "kind": "id",
+     "ref": "lightspeed:22888828",
+     "qty": "8",
+     "unit": "g",
+     "ls_cost": "0.05",
+     "our_cost": "0.006250",
+     "eff_cost": 0.05
+    },
+    {
+     "name": "Lettuce Cos Baby Twin Pack [Each]",
+     "kind": "id",
+     "ref": "lightspeed:22995348",
+     "qty": 1.0,
+     "unit": "ea",
+     "ls_cost": "0.23",
+     "our_cost": null,
+     "eff_cost": 2.75
+    },
+    {
+     "name": "T2 Milk Bun Sliced White Sesame [85g]",
+     "kind": "id",
+     "ref": "lightspeed:22995947",
+     "qty": "1",
+     "unit": "ml",
+     "ls_cost": "0.98",
+     "our_cost": null,
+     "eff_cost": 0.98
+    },
+    {
+     "name": "Farm Frites Crispy Coated 10mm [2.5kg]",
+     "kind": "id",
+     "ref": "lightspeed:22888630",
+     "qty": "190",
+     "unit": "g",
+     "ls_cost": "1.01",
+     "our_cost": "0.005316",
+     "eff_cost": 1.01004
+    },
+    {
+     "name": "Spanish Onion [10Kg]",
+     "kind": "id",
+     "ref": "lightspeed:20445597",
+     "qty": "8",
+     "unit": "g",
+     "ls_cost": "0.19",
+     "our_cost": "0.002420",
+     "eff_cost": 0.18392
+    },
+    {
+     "name": "Burger Sauce Birch & Waite [1L]",
+     "kind": "id",
+     "ref": "lightspeed:23007804",
+     "qty": "50",
+     "unit": "ml",
+     "ls_cost": "0.75",
+     "our_cost": "0.015000",
+     "eff_cost": 0.75
+    },
+    {
+     "name": "Cheese Burger Sliced Hi Melt Thick [2.25kg] Pure Dairy",
+     "kind": "id",
+     "ref": "lightspeed:22996505",
+     "qty": "22",
+     "unit": "g",
+     "ls_cost": "0.30",
+     "our_cost": "0.013636",
+     "eff_cost": 0.299992
+    }
+   ],
+   "alias_of": "American Standard Burger",
+   "our_cost": 8.362,
+   "ls_cost": 5.85,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 24.0,
+   "gp_pct": 61.7
+  },
+  "Petits Detours Ros\u00e9 Mediterranee - Bottle": {
+   "ingredients": [
+    {
+     "name": "Petits Detours Ros\u00e9 Mediterranee - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20466106",
+     "qty": "750",
+     "unit": "ml",
+     "ls_cost": "17.33",
+     "our_cost": "0.023120",
+     "eff_cost": 17.34
+    }
+   ],
+   "alias_of": "Petits Detours Ros\u00e9 D",
+   "our_cost": 17.34,
+   "ls_cost": 17.33,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 64.0,
+   "gp_pct": 70.2
+  },
+  "Katsu Curry": {
+   "ingredients": [
+    {
+     "name": "Chicken Thigh Flt S/Off RSPCA [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22893557",
+     "qty": "120",
+     "unit": "g",
+     "ls_cost": "1.96",
+     "our_cost": "0.016300",
+     "eff_cost": 1.956
+    },
+    {
+     "name": "Katsu Curry Sauce",
+     "kind": "subrecipe",
+     "ref": "Katsu Curry Sauce",
+     "qty": "150",
+     "unit": "ml",
+     "ls_cost": "0.33",
+     "our_cost": null,
+     "eff_cost": 0.318153
+    },
+    {
+     "name": "Carrot Shredded [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995325",
+     "qty": "40",
+     "unit": "g",
+     "ls_cost": "0.10",
+     "our_cost": "0.003900",
+     "eff_cost": 0.156
+    },
+    {
+     "name": "Potato Peeled [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995357",
+     "qty": "40",
+     "unit": "g",
+     "ls_cost": "0.12",
+     "our_cost": null,
+     "eff_cost": 0.12
+    },
+    {
+     "name": "Pickle Cabbage",
+     "kind": "subrecipe",
+     "ref": "Pickle Cabbage",
+     "qty": "30",
+     "unit": "ml",
+     "ls_cost": "0.13",
+     "our_cost": null,
+     "eff_cost": 0.130088
+    },
+    {
+     "name": "Rice Jasmine Fragrant [20kg]",
+     "kind": "id",
+     "ref": "lightspeed:22893550",
+     "qty": "120",
+     "unit": "g",
+     "ls_cost": "0.25",
+     "our_cost": "0.002100",
+     "eff_cost": 0.252
+    },
+    {
+     "name": "Shallot [bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22996509",
+     "qty": "15",
+     "unit": "g",
+     "ls_cost": "0.10",
+     "our_cost": null,
+     "eff_cost": 0.1
+    }
+   ],
+   "alias_of": "Chicken Katsu Curry",
+   "our_cost": 3.0322,
+   "ls_cost": 2.99,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 27.0,
+   "gp_pct": 87.6
   },
   "Large Pizza [menu average]": {
    "ingredients": [
