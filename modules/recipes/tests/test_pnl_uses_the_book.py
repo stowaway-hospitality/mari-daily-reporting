@@ -120,3 +120,45 @@ def test_products_with_no_price_anywhere_are_absent_not_free():
     assert free, "fixture sanity: some products still have no cost source at all"
     offered = set(_load_book_costs("stowaway")) | set(_load_book_costs("harry_gatos"))
     assert not (free & offered), sorted(free & offered)
+
+
+def test_a_wine_called_blend_is_not_a_batch():
+    """
+    The prep classifier reads the recipe NAME for "blend"/"batch"/"mix"/"[2Kg]".
+    "Sigurd GSM Red Blend" is a wine. It matched on "Blend", was filed as a
+    batch, and a prep is excluded from the P&L's cost book — so $2,417 of wine
+    revenue was costed off Lightspeed instead of our own $4.62 a glass.
+    "Yuzushu [60ml]" and "Kunizakari Umeshu [60ml]" matched on their SERVE size.
+
+    Back Office settles it: all 64 real preps carry a blank ReportingGroup and a
+    $0 price, so a product filed under a menu category at a menu price is
+    something a customer orders, whatever word is in its name.
+    """
+    book = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    for name in ("Sigurd GSM Red Blend - Regular", "Sigurd GSM Red Blend - Large",
+                 "Sigurd White Blend - Regular", "Yuzushu [60ml]",
+                 "Kunizakari Umeshu [60ml]"):
+        r = book.get(name)
+        assert r, f"fixture: {name} should be in the book"
+        assert not r["is_prep"], f"{name} is sold, not a batch"
+        assert r["gp_pct"] is not None, f"{name} should report a GP"
+    assert set(book) & set(_load_book_costs("stowaway")) >= {"Sigurd GSM Red Blend - Regular"}
+
+
+def test_a_real_batch_is_still_a_batch():
+    """The guard the rule must not break. Mint Yoghurt [Batch] and Tandoori
+    Chicken [2Kg] DO carry a Back Office group, but their prices are $1 and $2
+    placeholders and both are used as sub-recipes — costing a sale against a
+    $10.78 tray is where the -1085% GP figures came from.
+
+    And "Stow Vermouth Blend [Bottle]" must stay a prep while "Stow Vermouth
+    Blend [30ml]" becomes a product: the two collapse to one key once the
+    bracket is normalised away, so the category lookup has to be exact.
+    """
+    book = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    for name in ("Mint Yoghurt [Batch]", "Tandoori Chicken [2Kg]",
+                 "Stow Vermouth Blend [Bottle]", "Pizza Sauce [Recipe]"):
+        r = book.get(name)
+        assert r, f"fixture: {name} should be in the book"
+        assert r["is_prep"], f"{name} is a batch and must not report a GP"
+    assert "Stow Vermouth Blend [Bottle]" not in _load_book_costs("stowaway")

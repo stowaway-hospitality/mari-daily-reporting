@@ -365,6 +365,32 @@ def load_bo_ids():
     return by_name, prefixes
 
 
+def load_bo_groups():
+    """normalised ProductName -> ReportingGroup, for products that have one.
+
+    A blank ReportingGroup means Back Office does not sell the thing: every one
+    of the 64 real preps in the book is blank. So a non-blank group is Lightspeed
+    stating that a customer can order this, which is the fact that separates a
+    house blend we make from a wine called "Red Blend".
+
+    Keyed on the EXACT ProductName, deliberately. norm() strips the bracket, so
+    "Stow Vermouth Blend [Bottle]" and "Stow Vermouth Blend [30ml]" collapse to
+    one key — and they are precisely the pair that must NOT: the 30 ml pour is
+    sold at $12 and the bottle is a $44.65 batch. Letting the pour's category
+    reach the bottle turned the bottle into a menu item reporting -309% GP. An
+    exact match can only ever fail closed, back to the name rule."""
+    out = {}
+    for _v, path in EXPORTS:
+        if not path.exists():
+            continue
+        for r in csv.DictReader(path.open(encoding="utf-8-sig")):
+            g = (r.get("ReportingGroup") or "").strip()
+            n = (r.get("ProductName") or "").strip()
+            if n and g:
+                out.setdefault(n, g)
+    return out
+
+
 def _tok(s):
     """word-order-independent key: the alnum tokens, sorted. 'Coke 1.25L' and
     '1.25L Coke' collapse to the same key so a reversed menu name still matches."""
@@ -652,6 +678,11 @@ def main() -> int:
         print(f"  {len(_LS_MISREAD_REFS)} ProductIDs Lightspeed prices wrong "
               f"(BO export contradicts its own seed >3x) — our rate wins on those")
     bo_by_name, bo_prefixes = load_bo_ids()
+    bo_groups = load_bo_groups()
+
+    def bo_group(nm):
+        """The menu category Back Office files this product under, or ""."""
+        return bo_groups.get((nm or "").strip()) or ""
     our_costs = load_our_costs()
     our_preps = load_our_preps(our_costs)
     packs = load_packs()
@@ -1407,9 +1438,22 @@ def main() -> int:
         #    "Vermouth Blend [Bottle]" sells $12 but the batch costs $32).
         #  * an item merely USED as a base keeps its GP if it has a real menu price
         #    ("Large Meatlovers" is sold AND used by the gluten-free version).
+        #  * ...but the NAME is only a hint, and Back Office knows better. A
+        #    product it files under a menu category at a menu price is something
+        #    a customer orders, whatever word is in its name. "Sigurd GSM Red
+        #    Blend" is a wine, not a blend we make: it matched on "Blend", was
+        #    filed as a batch, and was therefore excluded from the P&L's cost
+        #    book — $2,417 of wine revenue costed off Lightspeed instead of our
+        #    own $4.62/glass. "Yuzushu [60ml]" and "Kunizakari Umeshu [60ml]"
+        #    matched the same way on their SERVE size.
+        #    The real batches are unmistakable on the same test: all 64 of them
+        #    carry a blank ReportingGroup and a $0 Back Office price, and the two
+        #    that do have a group — Mint Yoghurt [Batch] $1, Tandoori Chicken
+        #    [2Kg] $2 — are placeholder prices on things used as sub-recipes,
+        #    which the used_as_sub clause below keeps as preps regardless.
         sell = sell_of(name, sell_by_norm, sell_by_tok)
         menu_priced = bool(sell and sell >= 3)
-        name_prep = bool(PREP_RE.search(name))
+        name_prep = bool(PREP_RE.search(name)) and not (menu_priced and bo_group(name))
         is_prep = name_prep or (name in used_as_sub and not menu_priced)
         out[name]["is_prep"] = is_prep
         out[name]["sell_incl"] = sell
