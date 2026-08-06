@@ -1,0 +1,57 @@
+# Lines where Produce's UNIT is a typo, corrected with arithmetic proof.
+#
+# "The unit in Produce is not trustworthy — only the magnitude is" (HANDOFF
+# 2026-08-05). Usually we refuse to reinterpret a unit, because reading "0.35 ml"
+# as 0.35 KG took Rosemary Salted Fries from $1.86 to $0.0019. So this file needs
+# more than a hunch: the entry must state the proof, and the proof must be
+# arithmetic, not judgement.
+#
+# Keep this file SMALL. If a line needs a paragraph of reasoning rather than a
+# sum, it does not belong here — flag it in the audit instead.
+
+- recipe: "Peking Sauce [6.75L]"
+  ingredient: "Soy Sauce Tamari Spiral [10L]"
+  from_unit: "L"
+  to_unit: "mL"
+  cost_factor: 0.001   # Produce derived its $10,500 from the SAME typo: $14/L x 750 L
+  # PROOF: read every quantity in this recipe as g/mL and they sum to
+  #   1500 + 750 + 750 + 1500 + 750 + 375 + 375 + 750 = 6750
+  # which is EXACTLY the 6.75L the recipe name declares. A batch cannot yield more
+  # than it contains, so all eight are base units and the "L" labels are typos.
+  #
+  # CORROBORATION: Produce's own line costs already price four of the five "L"
+  # lines as mL — tomato $4.13, sake $1.39, sriracha $4.47, vinegar $3.75, all
+  # sane. Only the soy line did Produce ALSO read as litres, at $10,500.00, and
+  # that is the one number our book inherited. $14/L x 750 L = $10,500;
+  # 750 mL of the same soy is $10.50.
+  #
+  # EFFECT: the batch drops $10,530.95 -> $41.45 for 6.75L ($0.0061/mL). No dish
+  # was over-costed by it — the three spring rolls that draw on it were already
+  # costing 15mL at $0.09 via the Lightspeed ratio path — but the batch record
+  # itself was nonsense and it masked everything else in the audit.
+  why: "quantities sum to exactly the declared 6.75L yield; 4 of 5 sibling L-lines already cost as mL"
+
+# The same proof covers the other four "L" lines in this recipe. These need NO
+# cost_factor: Produce already priced them as mL (tomato $4.13, sake $1.39,
+# sriracha $4.47, vinegar $3.75 — all sane), so only the label was wrong. Fixing
+# them makes the inputs sum to 6750 and the batch stop reading as 500x its yield.
+- recipe: "Peking Sauce [6.75L]"
+  ingredient: "Tomato Sauce Heinz [4L]"
+  from_unit: "L"
+  to_unit: "mL"
+  why: "see the Soy Tamari entry: all eight quantities sum to the declared 6.75L"
+- recipe: "Peking Sauce [6.75L]"
+  ingredient: "Cooking Sake Jun [18L]"
+  from_unit: "L"
+  to_unit: "mL"
+  why: "as above"
+- recipe: "Peking Sauce [6.75L]"
+  ingredient: "Sriracha [730mL]"
+  from_unit: "L"
+  to_unit: "mL"
+  why: "as above"
+- recipe: "Peking Sauce [6.75L]"
+  ingredient: "Rice Wine Vinegar [500mL]"
+  from_unit: "L"
+  to_unit: "mL"
+  why: "as above"

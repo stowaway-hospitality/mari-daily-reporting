@@ -67,6 +67,39 @@ _LS_MISREAD_REFS: set[str] = set()
 _RAW_LINE_COST: dict = {}
 
 
+
+def apply_unit_fixes(rec: dict) -> int:
+    """Rewrite units Produce typed wrong. Refuses silently if the file is absent.
+
+    Deliberately narrow: it only touches the exact (recipe, ingredient) pairs
+    named in data/recipe_line_unit_fixes.yaml, and only when the line still shows
+    the `from_unit` stated there — so a fix that Produce later corrects at source
+    becomes a no-op instead of double-applying.
+    """
+    path = ROOT / "data" / "recipe_line_unit_fixes.yaml"
+    if not path.exists():
+        return 0
+    import yaml
+    n = 0
+    for spec in (yaml.safe_load(path.read_text()) or []):
+        body = (rec or {}).get(spec.get("recipe"))
+        if not body:
+            continue
+        for ing in (body.get("ingredients") or []):
+            if (ing.get("name") == spec.get("ingredient")
+                    and str(ing.get("unit") or "").lower() == str(spec.get("from_unit")).lower()):
+                ing["unit"] = spec["to_unit"]
+                # Produce derived this line's COST from the same wrong unit, so the
+                # cost carries the identical error and must be scaled with it.
+                f = spec.get("cost_factor")
+                if f:
+                    try:
+                        ing["cost"] = str(float(ing.get("cost") or 0) * float(f))
+                    except (TypeError, ValueError):
+                        pass
+                n += 1
+    return n
+
 def load_raw_line_costs(rec: dict) -> dict:
     out = {}
     for rname, body in (rec or {}).items():
@@ -445,6 +478,11 @@ def main() -> int:
     rec = json.loads(RECIPES.read_text())
     global _LS_MISREAD_REFS, _RAW_LINE_COST
     _LS_MISREAD_REFS = load_ls_misread_refs()
+    # Correct any unit typo BEFORE anything reads the line — see
+    # data/recipe_line_unit_fixes.yaml, where each entry carries arithmetic proof.
+    _fixed = apply_unit_fixes(rec)
+    if _fixed:
+        print(f"  corrected {_fixed} mislabelled unit(s) (recipe_line_unit_fixes.yaml)")
     _RAW_LINE_COST = load_raw_line_costs(rec)
     if _LS_MISREAD_REFS:
         print(f"  {len(_LS_MISREAD_REFS)} ProductIDs Lightspeed prices wrong "
