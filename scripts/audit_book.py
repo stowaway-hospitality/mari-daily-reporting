@@ -47,6 +47,36 @@ def _nrm_name(s: str) -> str:
     return re.sub(r"[^a-z0-9]", "", (s or "").lower())
 
 
+def _closest_recipes(name, recipes, limit=3):
+    """Costed dishes that share a distinctive word with this POS product.
+
+    Deliberately dumb and deliberately not a decision: it proposes, a human
+    disposes. Shared-word overlap finds "Chicken Katsu Curry" for "Katsu Curry"
+    and finds NOTHING for "Outback Prawn Toast" vs "Devon's Prawn Toast" — which
+    is the honest result, because those names have nothing in common and only
+    someone who knows the menu could ever have paired them. Silence here means
+    "I cannot help", not "it does not exist".
+    """
+    stop = {"the", "and", "of", "with", "side", "extra", "add", "swap", "for",
+            "a", "d", "kids", "large", "regular"}
+    def words(x):
+        return set(re.findall(r"[a-z]+", re.sub(r"\[.*?\]", "", x or "").lower())) - stop
+    t = words(name)
+    if not t:
+        return ""
+    hits = []
+    for n, r in recipes.items():
+        if r.get("is_prep") or money(r.get("our_cost")) <= 0:
+            continue
+        shared = len(t & words(n))
+        if shared:
+            hits.append((shared, -abs(len(words(n)) - len(t)), n, money(r.get("our_cost"))))
+    if not hits:
+        return ""
+    hits.sort(reverse=True)
+    return "; ".join(f"{n} ${c:.2f}" for _, _, n, c in hits[:limit])
+
+
 def _nrm_bottle(s: str) -> str:
     """A bottle's name with Back Office's bracketed suffix removed.
 
@@ -758,13 +788,33 @@ def audit():
         for n, r in recipes.items():
             if r.get("is_prep") or money(r.get("our_cost")) <= 0:
                 continue
+            # A SIZE/COUNT SUFFIX AND A PLURAL ARE NOT A DIFFERENT DISH.
+            #
+            # Zak, 2026-08-06: "duck spring rolls are done too!!!!!" They were.
+            # The book holds "Duck Spring Roll" at $3.57 and "Duck Spring Rolls
+            # [2pc]" at $3.20; the POS sells "Duck Spring Rolls". Exact-name
+            # matching met none of them, so a costed dish was reported as
+            # uncosted — and it was the third time in one session that this
+            # auditor sent someone to write a recipe that already existed.
+            #
+            # That is the worst failure mode a work queue has. A missed defect
+            # costs you the defect; a FALSE defect costs you the reader, and
+            # after two or three the whole list stops being believed.
+            #
+            # So: strip the bracketed suffix as well as the venue tag, and match
+            # singular against plural. Both are lossy in the safe direction —
+            # they can only ever mark something as covered that is covered by a
+            # near-identical name, and the cost figure itself is untouched.
             bare = _VENUE_TAG.sub("", n)
-            costed.add(_nrm_name(n))
-            costed.add(_nrm_name(normalize_product(bare)))
-            for form in (n, bare, normalize_product(bare)):
-                k = _stripped_key(form)
+            unsized = re.sub(r"\s*\[.*?\]\s*$", "", bare).strip()
+            for form in (n, bare, unsized, normalize_product(bare), normalize_product(unsized)):
+                k = _nrm_name(form)
                 if k:
                     costed.add(k)
+                    costed.add(k.rstrip("s"))       # roll / rolls, wing / wings
+                sk = _stripped_key(form)
+                if sk:
+                    costed.add(sk)
         tot = defaultdict(float)
         cov = defaultdict(float)
         pw2 = list(csv.DictReader(PRODUCTS_WEEKLY.open(encoding="utf-8-sig")))
@@ -792,8 +842,27 @@ def audit():
         for (ven, nm, g), rev in sorted(gaps.items(), key=lambda x: -x[1])[:25]:
             if rev < 500:
                 break
-            add("WARN", "sells well, has no costed recipe anywhere",
-                f"[{ven}] ${rev:>8,.0f} (13wk)  {nm[:42]:<44} {g[:24]}")
+            # THE BOOK MAY ALREADY HOLD IT UNDER ANOTHER NAME.
+            #
+            # "Outback Prawn Toast" is "Devon's Prawn Toast" — same dish, costed
+            # since long before anyone looked. The till and Produce are two
+            # naming systems nobody keeps in step, so "has no recipe" and "has no
+            # recipe UNDER THIS NAME" are different claims and only the second
+            # one is ever provable from here.
+            #
+            # I made the first claim three times in one session (Unlimited
+            # Dumplings twice, Duck Spring Rolls once) and each time sent Zak to
+            # write a recipe that already existed. So this rule no longer asserts
+            # absence — it shows the nearest costed dishes and lets someone who
+            # knows the menu decide. A confirmed pair goes in
+            # data/product_recipe_aliases.yaml, which fixes the P&L too:
+            # cogs_blend keys on the POS name, so a rename costs real money.
+            near = _closest_recipes(nm, recipes)
+            add("WARN",
+                ("sells well — no costed recipe UNDER THIS NAME (the book may "
+                 "hold it under another)"),
+                f"[{ven}] ${rev:>8,.0f} (13wk)  {nm[:34]:<36} {g[:18]:<20}"
+                + (f"  near: {near}" if near else "  (nothing close — a real gap)"))
 
     # ---------- A DELIVERY TWIN IS THE SAME DISH ----------
     # "X D" is the Uber/delivery version of X. Same food, same recipe, so a
