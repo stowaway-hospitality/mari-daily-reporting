@@ -203,3 +203,28 @@ def test_the_audit_and_the_pnl_agree_on_what_is_covered():
     for name in ("Bombay Dry [House]", "Bombay Sapphire", "Baileys Irish Cream",
                  "1800 Coconut", "Coke 1.25L"):
         assert not [d for d in gaps if name in d], f"{name} is costed; do not ask for it"
+
+
+def test_a_severe_never_describes_a_problem_that_is_already_fixed():
+    """The "POS cost column far below our own book" rule only ever aggregated
+    products that DO have a costed recipe — which are exactly the products the
+    P&L stopped copying Lightspeed for when _load_book_costs was wired in. So
+    "$62,456 of COGS missing" described a fixed problem, at SEVERE, above every
+    live one. A SEVERE that is already fixed trains people to skim the list.
+
+    The measurement is worth keeping — it is the evidence this project rests on
+    — so it stays, as INFO, saying what it actually is."""
+    F = audit()
+    severe = {rule for (sev, rule) in F if sev == "SEVERE"}
+    assert not [r for r in severe if "POS cost column" in r], severe
+    info = {rule for (sev, rule) in F if sev == "INFO"}
+    assert [r for r in info if "Lightspeed's cost column" in r], \
+        "the measurement must stay visible, not disappear"
+
+
+def test_every_remaining_severe_is_something_nobody_has_fixed_yet():
+    """A short SEVERE list is only useful if everything on it is real."""
+    F = audit()
+    severe = [(rule, d) for (sev, rule), v in F.items() if sev == "SEVERE"
+              for _rev, d in v]
+    assert len(severe) < 20, f"{len(severe)} SEVERE — the list has stopped being a list"

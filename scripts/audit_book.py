@@ -565,14 +565,31 @@ def audit():
                     continue
                 b = grp[(ven, g)]
                 b[0] += rev; b[1] += cost; b[2] += ours
+            # THIS RULE MEASURES ITSELF OUT OF A JOB, AND HAS.
+            #
+            # It only aggregates products that DO have a costed recipe — and
+            # those are exactly the products the P&L no longer copies Lightspeed
+            # for. So "$X of COGS missing" stopped being true the moment
+            # _load_book_costs was wired in; what the numbers now show is HOW
+            # WRONG Lightspeed's column is, which is the evidence this whole
+            # project rests on and worth keeping visible. INFO, not SEVERE: a
+            # SEVERE that describes a fixed problem trains people to ignore the
+            # list. The live exposure is the UNCOSTED revenue, reported below.
+            gap = 0.0
             for (ven, g), (rev, pos_c, ours) in sorted(grp.items(), key=lambda x: -x[1][2]):
                 if ours <= 0 or rev < 1000:
                     continue
                 if pos_c < ours / POS_COST_MIN_RATIO:
-                    add("SEVERE", "POS cost column far below our own book "
-                                  "(the number the P&L copies is wrong)",
+                    gap += ours - pos_c
+                    add("INFO", "how far Lightspeed's cost column sits below our own "
+                                "book (these products no longer use it)",
                         f"[{ven}] {g[:24]:<26} POS ${pos_c:>8,.0f} vs ours ${ours:>8,.0f} "
-                        f"({pos_c/ours:.2f}x)  ${ours-pos_c:>8,.0f} of COGS missing (13wk)")
+                        f"({pos_c/ours:.2f}x)  ${ours-pos_c:>8,.0f} over 13wk")
+            if gap:
+                add("INFO", "how far Lightspeed's cost column sits below our own "
+                            "book (these products no longer use it)",
+                    f"{'':<32} TOTAL ${gap:>8,.0f} of COGS that the book now states "
+                    f"and Lightspeed's column did not")
 
     # ---------- WHAT THE BOOK STILL DOES NOT REACH ----------
     # The audit lists what is WRONG. This lists what is ABSENT, which is the
