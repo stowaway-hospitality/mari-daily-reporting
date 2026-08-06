@@ -263,10 +263,15 @@ def test_an_ingredient_problem_no_recipe_can_reach_is_not_a_warning():
     """All 75 "pack size unconfirmed" ingredients are referenced by exactly zero
     recipes. At WARN they sat at the top of the list, ahead of everything that
     does misstate money. They still matter — a chef building a new recipe would
-    meet them — so they stay, at INFO, saying which they are."""
+    meet them — so they stay, at INFO, saying which they are.
+
+    Asserted as a classification, not a count: these rules read
+    data/ingredients.json, which is deliberately not committed, so on a clean
+    checkout there is nothing to classify. Requiring the finding to EXIST is the
+    same trap that took CI down earlier today — a test that passes on a
+    developer's tree because a generated file happens to be sitting there."""
     F = audit()
-    warn_rules = {rule for (sev, rule) in F if sev == "WARN"}
-    assert not [r for r in warn_rules if r == "pack size unconfirmed"], warn_rules
-    info_rules = {rule for (sev, rule) in F if sev == "INFO"}
-    assert [r for r in info_rules if "pack size unconfirmed" in r], \
-        "they must stay visible, not disappear"
+    for sev, rule in F:
+        if "pack size unconfirmed" in rule:
+            assert sev == "INFO", f"{sev}: {rule}"
+            assert "no recipe uses it" in rule, rule
