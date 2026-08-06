@@ -257,3 +257,16 @@ def test_a_real_serve_is_never_called_a_batch():
              for _rev, d in v]
     for real in ("Super House Special", "Jug", "Burrito", "Unlimited Dumplings"):
         assert not [d for d in batch if real in d], real
+
+
+def test_an_ingredient_problem_no_recipe_can_reach_is_not_a_warning():
+    """All 75 "pack size unconfirmed" ingredients are referenced by exactly zero
+    recipes. At WARN they sat at the top of the list, ahead of everything that
+    does misstate money. They still matter — a chef building a new recipe would
+    meet them — so they stay, at INFO, saying which they are."""
+    F = audit()
+    warn_rules = {rule for (sev, rule) in F if sev == "WARN"}
+    assert not [r for r in warn_rules if r == "pack size unconfirmed"], warn_rules
+    info_rules = {rule for (sev, rule) in F if sev == "INFO"}
+    assert [r for r in info_rules if "pack size unconfirmed" in r], \
+        "they must stay visible, not disappear"

@@ -487,6 +487,14 @@ def audit():
             add("INFO", "names collide once normalised (keep them distinct)", " | ".join(v))
 
     # ---------- INGREDIENTS ----------
+    # An ingredient problem only misstates money if a recipe draws on it. All 75
+    # of the unconfirmed packs are referenced by exactly zero recipes, and at
+    # WARN they sat at the top of the list ahead of everything that does. They
+    # still matter — a chef building a new recipe would meet them — so they stay,
+    # at INFO, counted rather than listed one by one.
+    used_by_recipe = {ln.get("ref") for r in recipes.values()
+                      for ln in (r.get("ingredients") or []) if ln.get("ref")}
+
     for i in ings:
         rate, unit = money(i.get("cost_per_base_unit")), (i.get("pack_unit") or "").lower()
         desc = i.get("description") or i.get("id")
@@ -496,7 +504,12 @@ def audit():
         if rate and rate < FLOOR:
             add("WARN", "priced at effectively zero", f"${rate:.8f}  {desc}")
         if i.get("needs_pack_review"):
-            add("WARN", "pack size unconfirmed", desc)
+            live = i.get("id") in used_by_recipe
+            add("WARN" if live else "INFO",
+                "pack size unconfirmed, and a recipe uses it" if live
+                else "pack size unconfirmed (no recipe uses it — nothing is "
+                     "mispriced today, but a new recipe would meet it)",
+                desc)
 
     # ---------- MONEY SPENT THAT NEVER REACHES THE COST BOOK ----------
     # A line resolve_pack can't read is SKIPPED — correctly, because guessing a pack
