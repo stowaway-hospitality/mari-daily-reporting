@@ -190,3 +190,55 @@ def test_importing_the_cost_sources_does_not_run_a_daily_pull(tmp_path, monkeypa
     assert before == after, f"importing cogs_blend wrote {sorted(after - before)}"
     assert callable(cb._load_book_costs) and callable(cb._load_our_costs)
     assert callable(cb.blend_reported_cogs)
+
+
+def test_a_category_word_is_not_part_of_a_products_identity():
+    """
+    Produce names the recipe "Bombay Dry Gin [House]"; the POS sells "Bombay Dry
+    [House]". One word apart, same gin — and the exact-name lookup missed it,
+    $2,827 of it in 13 weeks costed off Lightspeed while a $2.11 recipe sat in
+    the book. Same for Baileys Irish Cream vs "...Liqueur", Bombay Sapphire vs
+    "...Gin", 1800 Coconut vs "...Tequila", Monkey Shoulder Scotch vs
+    "...Whisky".
+    """
+    from cogs_blend import book_cost
+
+    out = _load_book_costs("stowaway")
+    for pos_name in ("Bombay Dry [House]", "Bombay Sapphire",
+                     "Baileys Irish Cream", "1800 Coconut",
+                     "Monkey Shoulder Scotch [House]"):
+        assert pos_name not in out, f"fixture: {pos_name} should not match exactly"
+        assert book_cost(out, pos_name) > 0, pos_name
+
+
+def test_the_normalised_form_also_settles_punctuation_and_word_order():
+    """Same class of difference: "Lemon Lime Bitters" vs "Lemon, Lime & Bitters",
+    "Coke 1.25L" vs "1.25L Coke"."""
+    from cogs_blend import book_cost
+
+    assert book_cost(_load_book_costs("harry_gatos"), "Lemon Lime Bitters") > 0
+    assert book_cost(_load_book_costs("marilynas"), "Coke 1.25L") > 0
+
+
+def test_one_word_is_never_enough_and_ambiguity_is_dropped():
+    """"Ginger" must not find "Ginger Beer". And "Gin Martini [HG]" and "Vodka
+    Martini [HG]" both reduce to the same key at $3.90 and $2.89 — a real
+    collision on the real book, which is discarded rather than resolved to
+    whichever happened to win."""
+    from cogs_blend import _stripped_key, book_cost
+
+    assert _stripped_key("Ginger") is None
+    assert _stripped_key("Gin") is None
+    out = _load_book_costs("harry_gatos")
+    assert _stripped_key("Gin Martini [HG]") == _stripped_key("Vodka Martini [HG]")
+    assert book_cost(out, "Something Martini [HG]") is None
+
+
+def test_an_exact_name_still_wins():
+    """The fallback must never displace a builder recipe or a recipe whose name
+    already matches — those are the properly-sourced numbers."""
+    from cogs_blend import book_cost
+
+    out = _load_book_costs("stowaway")
+    out["Bombay Dry [House]"] = 99.0
+    assert book_cost(out, "Bombay Dry [House]") == 99.0

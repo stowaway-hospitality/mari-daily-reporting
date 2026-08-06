@@ -77,7 +77,7 @@ from wage_model import super_lookup
 # The two cost sources and the blend all live in cogs_blend, so they can be
 # imported without running this script. See that module's docstring.
 from cogs_blend import (COSTED_BOOK, _load_book_costs,   # noqa: F401
-                        _load_our_costs, blend_reported_cogs)
+                        _load_our_costs, blend_reported_cogs, book_cost)
 
 REPO_ROOT = Path(os.environ.get("REPO_ROOT", "."))
 DATA_DIR = REPO_ROOT / "data"
@@ -595,7 +595,7 @@ else:
             "cost": ls_cost,
             "cost_source": "lightspeed",
         }
-        ours = our_costs.get(name)
+        ours = book_cost(our_costs, name)
         if ours is not None:
             entry["cost"] = round(ours * qty, 4)      # per-serve x units sold
             entry["cost_source"] = "recipe"

@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 from pathlib import Path
 
 
@@ -95,7 +96,71 @@ def _load_book_costs(venue_key):
         # (cost_source='lightspeed') and the audit is already shouting about it.
         if c > 0:
             out[name] = c
+
+    # A SPIRIT'S CATEGORY WORD IS NOT PART OF ITS IDENTITY.
+    #
+    # Produce names the recipe "Bombay Dry Gin [House]"; the POS sells "Bombay
+    # Dry [House]". One word apart, same gin, and the exact-name lookup below
+    # missed it — $2,827 of it in 13 weeks, costed off Lightspeed's figure while
+    # a $2.11 recipe sat in the book. Same for "Baileys Irish Cream" vs
+    # "...Liqueur", "Bombay Sapphire" vs "...Gin", "1800 Coconut" vs
+    # "...Tequila", "Monkey Shoulder Scotch" vs "...Whisky".
+    #
+    # So each recipe also answers to a normalised form of its name: lowercase
+    # alphanumeric words, sorted, with the category words dropped. That also
+    # settles punctuation and word order, which is the same class of difference
+    # — "Lemon Lime Bitters" vs "Lemon, Lime & Bitters", "Coke 1.25L" vs
+    # "1.25L Coke", "Flor De Cana" vs the export's mangled "Flor De Ca|a".
+    #
+    # Two guards keep it from becoming a fuzzy match:
+    #   * at least two words must remain, so "Ginger" cannot become "Ginger Beer"
+    #   * the form must identify exactly ONE cost, or it is dropped entirely.
+    #     It earns its keep on the real book: "Gin Martini [HG]" and "Vodka
+    #     Martini [HG]" both reduce to "hg martini" and are $3.90 and $2.89, so
+    #     that key is discarded rather than resolved to whichever won.
+    #
+    # It is a fallback. An exact name always wins, and so does a builder recipe.
+    stripped: dict = {}
+    for name, c in list(out.items()):
+        k = _stripped_key(name)
+        if k:
+            stripped.setdefault(k, set()).add(c)
+    for k, costs in stripped.items():
+        if len(costs) == 1 and k not in out:
+            out[k] = next(iter(costs))
     return out
+
+
+# Words that name a drink's CATEGORY rather than the drink. "Bombay Dry" and
+# "Bombay Dry Gin" cannot be two different products behind the same bar. Kept
+# short on purpose: every word added here is a distinction the P&L stops making.
+_CATEGORY_WORDS = {"gin", "vodka", "whisky", "whiskey", "rum", "tequila",
+                   "wine", "beer", "liqueur"}
+_KEY_PREFIX = "\x00tok:"        # cannot collide with a real POS product name
+
+
+def _stripped_key(name):
+    """A comparable key for `name` with its category words removed, or None.
+
+    None when fewer than two words survive — one word is not enough to identify
+    a product, and matching on it is how "Ginger" would find "Ginger Beer"."""
+    words = [w for w in re.findall(r"[a-z0-9]+", (name or "").lower())
+             if w not in _CATEGORY_WORDS]
+    if len(words) < 2:
+        return None
+    return _KEY_PREFIX + " ".join(sorted(words))
+
+
+def book_cost(our_costs, product_name):
+    """Our cost per serve for a POS product name, or None.
+
+    Exact name first — that is a builder recipe or a recipe whose name already
+    matches — then the category-word-stripped form. Never the other way round."""
+    hit = our_costs.get(product_name)
+    if hit is not None:
+        return hit
+    k = _stripped_key(product_name)
+    return our_costs.get(k) if k else None
 
 
 def _load_our_costs(venue_key, target):
