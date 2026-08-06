@@ -191,13 +191,21 @@ def audit():
                     f"{stem}: {lname[:30]} ({lq:g} in large, absent in regular)")
 
     # ---------- A BATCH THAT CANNOT FIT IN ITS OWN CONTAINER ----------
-    # "Jalapeño Tequila [1L]" draws 7000 ml of tequila; "Coconut-washed Rooster
-    # Blanco [1L]" draws 4200 ml. You cannot get 1 L out of 7 L of input — the
-    # quantity is wrong (10 bottles where 1 was meant), and it books the batch at
-    # $551 instead of ~$55. Spirits infusions are not reductions, so input far
-    # above the declared yield is impossible rather than merely surprising.
-    # Deliberately blunt: 3x headroom so a genuine reduction (stock, caramel)
-    # never trips it.
+    # Compares a batch's inputs against its DECLARED yield (data/prep_yields.yaml).
+    #
+    # It does NOT read the bracket in the name. Zak, 2026-08-06: "i was naming
+    # sub-recipes such as jalapeno tequila [1L] to describe the unit of measurement
+    # that sub recipe was defined in" — [1L] means "this one is measured in
+    # litres", not "this batch makes one litre". An earlier version of this rule
+    # read it as a yield and so flagged every correctly-built infusion in the book:
+    # Jalapeño Tequila (7L), Coconut-washed Rooster (4.2L) and Cooked Beef Brisket
+    # were all false positives against a convention nobody had written down.
+    #
+    # A declared yield is a stated fact with its basis recorded. A name is a label.
+    # Only the first can carry this check.
+    #
+    # Deliberately blunt: 3x headroom so a genuine reduction (stock, caramel) never
+    # trips it.
     _YIELD_IN_NAME = re.compile(r"\[\s*([\d.]+)\s*(ml|l|kg|g)\s*\]", re.I)
     _TO_BASE = {"ml": 1.0, "l": 1000.0, "g": 1.0, "kg": 1000.0}
     # A DECLARED yield in data/prep_yields.yaml beats the name every time: the name
@@ -217,18 +225,9 @@ def audit():
     except Exception:                                        # noqa: BLE001
         pass
     for name, r in sorted(recipes.items()):
-        m = _YIELD_IN_NAME.search(name)
-        if name in _declared:
-            declared, _unit = _declared[name]
-            m = None
-        elif m:
-            try:
-                declared = float(m.group(1)) * _TO_BASE[m.group(2).lower()]
-                _unit = m.group(2).lower()
-            except (ValueError, KeyError):
-                continue
-        else:
-            continue
+        if name not in _declared:
+            continue                      # no stated yield -> nothing to check against
+        declared, _unit = _declared[name]
         if declared <= 0:
             continue
         # sum only same-dimension inputs (ml/l with ml/l, g/kg with g/kg)
