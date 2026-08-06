@@ -185,3 +185,21 @@ def test_the_audit_says_which_of_the_two_numbers_was_measured():
     assert len(weighed) >= 15, f"only {len(weighed)} of {len(items)} identified"
     # and it must not claim a measurement it cannot find
     assert len(weighed) < len(items), "some regulars are still derived; do not claim otherwise"
+
+
+def test_the_audit_and_the_pnl_agree_on_what_is_covered():
+    """An auditor with its own, stricter idea of a match reports work that is
+    already done. cogs_blend resolves "Bombay Dry [House]" to the recipe "Bombay
+    Dry Gin [House]", so listing it under "sells well, has no costed recipe"
+    would send someone to write a recipe that exists — and it is the single
+    biggest line that rule was reporting, at $2,827 a quarter.
+
+    _stripped_key is imported from cogs_blend rather than reimplemented, so the
+    two can only ever agree."""
+    F = audit()
+    gaps = [d for (_s, rule), v in F.items() if "no costed recipe" in rule
+            for _rev, d in v]
+    assert gaps, "fixture sanity: some products really have no recipe"
+    for name in ("Bombay Dry [House]", "Bombay Sapphire", "Baileys Irish Cream",
+                 "1800 Coconut", "Coke 1.25L"):
+        assert not [d for d in gaps if name in d], f"{name} is costed; do not ask for it"

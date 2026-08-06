@@ -35,6 +35,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 # The size-variant collapse is DEFINED there; importing it keeps one whitelist
 # rather than a second, looser copy drifting in the auditor. See sold().
 from build_products_weekly import normalize_product  # noqa: E402
+from cogs_blend import _stripped_key  # noqa: E402
 
 COSTED = ROOT / "data" / "lightspeed_recipes_costed.json"
 INGREDIENTS = ROOT / "data" / "ingredients.json"
@@ -582,15 +583,29 @@ def audit():
     # It is also the work queue. "Build recipes for these seven dishes" is a
     # sentence someone can act on; "coverage is 86%" is not.
     if sales:
+        # WHAT COUNTS AS COVERED MUST BE WHAT THE P&L ACTUALLY MATCHES.
+        #
+        # An auditor with its own, stricter idea of a match reports work that is
+        # already done: cogs_blend resolves "Bombay Dry [House]" to "Bombay Dry
+        # Gin [House]", so listing it under "sells well, has no costed recipe"
+        # would send someone to write a recipe that exists. _stripped_key is
+        # imported from there rather than reimplemented, so the two can only
+        # ever agree.
+        #
+        # On top of it, products_weekly collapses size variants, so the recipe
+        # side is collapsed the same way — otherwise every tap beer reads as
+        # uncovered when in fact all its sizes are costed.
         costed = set()
         for n, r in recipes.items():
             if r.get("is_prep") or money(r.get("our_cost")) <= 0:
                 continue
+            bare = _VENUE_TAG.sub("", n)
             costed.add(_nrm_name(n))
-            costed.add(_nrm_name(normalize_product(_VENUE_TAG.sub("", n))))
-        # products_weekly collapses size variants, so the recipe side is
-        # collapsed the same way before comparing — otherwise every tap beer
-        # reads as uncovered when in fact all its sizes are costed.
+            costed.add(_nrm_name(normalize_product(bare)))
+            for form in (n, bare, normalize_product(bare)):
+                k = _stripped_key(form)
+                if k:
+                    costed.add(k)
         tot = defaultdict(float)
         cov = defaultdict(float)
         pw2 = list(csv.DictReader(PRODUCTS_WEEKLY.open(encoding="utf-8-sig")))
@@ -604,7 +619,8 @@ def audit():
             if rev <= 0:
                 continue
             tot[r["venue"]] += rev
-            if _nrm_name(r["product_name"]) in costed:
+            if (_nrm_name(r["product_name"]) in costed
+                    or (_stripped_key(r["product_name"]) or "\x00") in costed):
                 cov[r["venue"]] += rev
             else:
                 gaps[(r["venue"], r["product_name"], r.get("reporting_group") or "")] += rev
