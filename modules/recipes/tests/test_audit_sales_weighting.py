@@ -228,3 +228,32 @@ def test_every_remaining_severe_is_something_nobody_has_fixed_yet():
     severe = [(rule, d) for (sev, rule), v in F.items() if sev == "SEVERE"
               for _rev, d in v]
     assert len(severe) < 20, f"{len(severe)} SEVERE — the list has stopped being a list"
+
+
+def test_a_batch_masquerading_as_a_serve_is_named_as_one():
+    """Potato Salad's Produce recipe is a kilo of potato and half a kilo of
+    Kewpie — 1,780 g — against a $7.00 side. Reported as "negative GP" and
+    "costs more than it sells for", it sends someone to fix the price. It is a
+    batch with no portion size, and saying so is the only useful version.
+
+    The bound is not a guess: the heaviest real menu item in the book is a Large
+    Super House Special at 1,006 g and a beer jug is 1,000 ml."""
+    F = audit()
+    batch = [d for (_s, rule), v in F.items() if "BATCH, not a serve" in rule
+             for _rev, d in v]
+    assert any("Potato Salad" in d for d in batch), batch
+    for rule_frag in ("negative GP", "costs more than it sells for"):
+        clashing = [d for (_s, rule), v in F.items() if rule_frag in rule
+                    for _rev, d in v if "Potato Salad" in d]
+        assert not clashing, f"{rule_frag} should defer to the batch finding: {clashing}"
+
+
+def test_a_real_serve_is_never_called_a_batch():
+    """1,006 g of Super House Special and a 1,000 ml jug are real menu items."""
+    from audit_book import SERVE_MAX_BASE_UNITS
+    assert SERVE_MAX_BASE_UNITS > 1006
+    F = audit()
+    batch = [d for (_s, rule), v in F.items() if "BATCH, not a serve" in rule
+             for _rev, d in v]
+    for real in ("Super House Special", "Jug", "Burrito", "Unlimited Dumplings"):
+        assert not [d for d in batch if real in d], real

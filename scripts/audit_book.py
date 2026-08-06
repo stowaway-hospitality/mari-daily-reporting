@@ -68,6 +68,16 @@ GP_FLATTER = 95.0
 # auditor that ignores the threshold just reports the engine working.
 MENU_PRICED = 3.0         # a 95%+ GP on a food/drink item means a missing cost
 
+# Above this many grams or millilitres of ingredients, a "serve" is a batch.
+#
+# Not a guess: the heaviest real menu item in the 829-recipe book is a Large
+# Super House Special at 1,006 g, and a one-litre beer jug is 1,000 ml. The next
+# thing up is Potato Salad at 1,780 g — one kilo of potato, half a kilo of Kewpie
+# — against a $7.00 side. A side dish is not 1.8 kg. Produce holds the batch and
+# has no portion size on it, which is a different defect from "this dish loses
+# money", and reporting it as the latter sends someone to fix the price.
+SERVE_MAX_BASE_UNITS = 1200.0
+
 
 def _pack_count_hint(observed, median):
     """"  (a case of 12 read as one unit)" when the ratio is a whole pack count.
@@ -230,11 +240,38 @@ def audit():
             "run modules/recipes/pipeline/build_ingredients.py first")
 
     # ---------- RECIPES ----------
+    def _input_mass(rec):
+        """Total grams + millilitres of ingredients. Countables are not summed —
+        "2 ea" of anything says nothing about weight."""
+        m = 0.0
+        for l in (rec.get("ingredients") or []):
+            if (l.get("unit") or "").lower() in ("g", "ml"):
+                m += money(l.get("qty"))
+        return m
+
+    # A recipe that is physically a batch cannot also be judged as a serve: its
+    # cost is a tray's cost and its POS price is one portion's. Identify them
+    # first so the GP rules below can defer rather than shout the wrong thing.
+    batch_shaped = {n for n, rec in recipes.items()
+                    if not rec.get("is_prep")
+                    and money(rec.get("sell_incl")) >= MENU_PRICED
+                    and _input_mass(rec) > SERVE_MAX_BASE_UNITS}
+    for n in sorted(batch_shaped):
+        rec = recipes[n]
+        mass = _input_mass(rec)
+        add("SEVERE", "recipe is a BATCH, not a serve — it has no portion size",
+            f"{n[:34]:36} {mass:,.0f} g/ml of inputs costing ${money(rec.get('our_cost')):,.2f}"
+            f" against a ${money(rec.get('sell_incl')):.2f} menu price"
+            f"  (${100 * money(rec.get('our_cost')) / mass:.2f}/100g)", product=n)
+
     for name, r in sorted(recipes.items()):
         prep = bool(r.get("is_prep"))
         sell, cost = money(r.get("sell_incl")), money(r.get("our_cost"))
         lines = r.get("ingredients") or []
         gp = r.get("gp_pct")
+        if name in batch_shaped:
+            # already reported above, as what it is
+            continue
 
         if sell >= MENU_PRICED and cost == 0 and not prep:
             add("SEVERE", "sells for money but costs $0 (reads as 100% GP)",
