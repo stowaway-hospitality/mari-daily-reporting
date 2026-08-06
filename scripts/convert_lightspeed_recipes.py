@@ -804,6 +804,131 @@ def load_seed_baseline():
     return base
 
 
+def add_passthrough_products(out: dict) -> int:
+    """Cost the things we sell exactly as we bought them.
+
+    THE HOLE
+    --------
+    The costed book contains what Lightspeed PRODUCE has a recipe for, and nobody
+    writes a recipe for a can of Corona. So every packaged drink at every venue —
+    beer, cider, seltzer, soft drink in a bottle, a glass of Pepsi — was absent
+    from the book entirely, fell through to Lightspeed's stale Average-Cost
+    figure, and counted against recipe coverage. 47 products, $80,118 of lifetime
+    revenue, at Stowaway as much as Harry Gatos: Heaps Normal $17,195, Corona
+    $13,981, Monteith's $5,921.
+
+    They were never going to arrive by the recipe route. A recipe answers "what
+    goes into this"; for a can the answer is the can, and Produce has no way to
+    say that.
+
+    WHY THIS NEEDS NO JUDGEMENT
+    ---------------------------
+    The cost is already in the system, on the same product, typed by Zak: Back
+    Office's CostPriceIncTax. This does not derive it, infer it, or reconcile it
+    — it reads the number off the product being sold. Spot-checked against ILG's
+    own price book, which is independent of both: Corona $2.57 vs $2.44 a bottle
+    (1.05x), Asahi 3.5% $2.18 vs $2.12 (1.03x), Peroni 0% $1.85 vs $1.59 (1.16x).
+    The resulting GPs land at 70-80%, which is what packaged beer is.
+
+    SCOPE, deliberately tight:
+      * unit-priced only. A per-ml or per-g product is a bottle you POUR from —
+        that is an ingredient, and pricing it as a serve would cost a 30 ml nip
+        at a whole bottle. This is the countable you hand over intact.
+      * sold and costed. Both a Back Office price and a Back Office cost, both
+        above zero. No price means it is not a menu item; no cost means there is
+        nothing to read and it stays visibly at $0 for the audit to shout about.
+      * never overrides Produce. If the book already has the name, Produce's
+        recipe wins — this only fills absences.
+      * never a prep or a stock pack. _PREP_NAME (Batch/Prep/[2Kg]) and
+        _PACK_BRACKET ([Bottle]/[750ml]/[Can]) names are excluded: a
+        batch's unit price is not its batch cost, which is the trap that made
+        Dragon Soda book $37.20 against a $9.00 drink.
+
+    Each entry carries one line — itself — so it costs through the ordinary
+    machinery and reads honestly in the book: 1 x the thing, at what we paid.
+    """
+    import csv as _csv
+
+    def _stock_key(nm):
+        """A packaged drink's identity, with the venue tag and the container word
+        removed. Harry Gatos files the same beer as "Grifter Big Sur IPA Can [HG]"
+        that Stowaway files as "Grifter Big Sur IPA Tin", and "Monteith's Apple
+        Cider [HG]" against "Monteith's Apple Cider Bottle". Can, tin and bottle
+        are how it arrives, not what it is."""
+        nm = re.sub(r"\[.*?\]", "", nm or "")
+        nm = re.sub(r"\b(can|tin|bottle|btl|stubby|longneck|glass)\b", "", nm, flags=re.I)
+        return re.sub(r"[^a-z0-9]", "", nm.lower())
+
+    # Stowaway's costed packaged drinks, by stock identity. Used ONLY as a
+    # fallback for a Harry Gatos product Back Office leaves at $0.00.
+    #
+    # The reason is purchasing, not naming — the same reason Whispering Angel and
+    # Veuve are aliased across the two venues: of 449 non-seed supplier rows filed
+    # to harry_gatos, every one is food except two lines of White Light Vodka. Harry
+    # Gatos has no drinks supplier. The cans it sells were bought on a Stowaway
+    # invoice, because there is no other invoice they could have come from.
+    #
+    # Requires exactly one Stowaway match. Two would mean the identity is ambiguous
+    # and the honest answer is to leave the zero visible.
+    _stow_cost, _stow_dupe = {}, set()
+    _sp = ROOT / "data" / "bo_exports" / "stowaway_products.csv"
+    if _sp.exists():
+        for row in _csv.reader(_sp.open(encoding="utf-8-sig")):
+            if len(row) < 12 or not row[0].isdigit() or row[6] != "unit":
+                continue
+            try:
+                if float(row[10] or 0) <= 0:
+                    continue
+            except ValueError:
+                continue
+            k = _stock_key(row[2])
+            if k in _stow_cost:
+                _stow_dupe.add(k)
+            _stow_cost[k] = (row[2].strip(), float(row[10]))
+    for k in _stow_dupe:
+        _stow_cost.pop(k, None)
+
+    added = borrowed = 0
+    for venue, fname in (("stowaway", "stowaway_products.csv"),
+                         ("harry_gatos", "harry_gatos_products.csv")):
+        path = ROOT / "data" / "bo_exports" / fname
+        if not path.exists():
+            continue
+        for row in _csv.reader(path.open(encoding="utf-8-sig")):
+            if len(row) < 12 or not row[0].isdigit():
+                continue
+            pid, name, unit, sell, cost = row[0], row[2].strip(), row[6], row[8], row[10]
+            if unit != "unit" or not name or name in out:
+                continue
+            twin = ""
+            try:
+                if float(sell or 0) <= 0:
+                    continue
+                if float(cost or 0) <= 0:
+                    if venue != "harry_gatos":
+                        continue
+                    got = _stow_cost.get(_stock_key(name))
+                    if not got:
+                        continue
+                    twin, cost = got[0], f"{got[1]:.4f}"
+                    borrowed += 1
+            except ValueError:
+                continue
+            if _PREP_NAME.search(name) or _PACK_BRACKET.search(name):
+                continue
+            out[name] = {"ingredients": [{
+                "name": name, "kind": "id", "ref": f"lightspeed:{pid}",
+                "qty": "1", "unit": "ea", "ls_cost": None,
+                "our_cost": f"{float(cost):.4f}", "passthrough": True,
+                **({"stock_twin": twin} if twin else {})}],
+                "passthrough": venue}
+            added += 1
+    if borrowed:
+        print(f"  {borrowed} Harry Gatos product(s) costed from Stowaway's price "
+              f"for the same stock")
+    return added
+
+
 def main() -> int:
     rec = json.loads(RECIPES.read_text())
     global _LS_MISREAD_REFS, _RAW_LINE_COST
@@ -1195,6 +1320,14 @@ def main() -> int:
         for spec in (yaml.safe_load(path.read_text()) or []):
             for rname in spec.get("recipes") or []:
                 r = out.get(rname)
+                if r is None and spec.get("create"):
+                    # Produce has no recipe for this product AT ALL — not an
+                    # incomplete one, an absent one. A house soda, a mixer glass,
+                    # a drink one venue serves from another's build. Creating the
+                    # entry here is the only way it can ever be costed, and it
+                    # must happen BEFORE add_passthrough_products so a real recipe
+                    # always beats a Back Office unit price.
+                    r = out.setdefault(rname, {"ingredients": []})
                 if not r:
                     continue
                 if any((l.get("ref") == spec["ref"]) or
@@ -1562,6 +1695,11 @@ def main() -> int:
         n = 0
         for rname, r in out.items():
             for ln in r["ingredients"]:
+                # A pass-through's "1 ea" is not a pack count Produce mistyped —
+                # it is the whole statement: one of the thing, sold as bought.
+                # Restating it would turn "1 ea of Dom Pérignon" into "643 ml".
+                if ln.get("passthrough"):
+                    continue
                 cur = our_costs.get(ln.get("ref") or "")
                 if not cur:
                     continue
@@ -1602,6 +1740,10 @@ def main() -> int:
             _renamed += 1
     if _renamed:
         print(f"  renamed {_renamed} recipe(s) to the name Back Office sells them under")
+
+    _pt = add_passthrough_products(out)
+    if _pt:
+        print(f"  {_pt} sold-as-bought product(s) costed from their own Back Office price")
 
     fully_ours = 0
     for name in out:

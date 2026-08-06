@@ -1,13 +1,13 @@
 {
  "generated": "2026-08-06",
  "source": "Lightspeed Produce (scraped)",
- "recipe_count": 829,
+ "recipe_count": 881,
  "coverage": {
   "ingredient_refs": {
    "id": 1544,
    "subrecipe": 381
   },
-  "recipes_fully_on_our_book": 808
+  "recipes_fully_on_our_book": 860
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -39503,6 +39503,111 @@
    "sell_incl": 14.0,
    "gp_pct": 77.3
   },
+  "Soda & Lime Glass": {
+   "ingredients": [
+    {
+     "name": "Lime [ea]",
+     "kind": "subrecipe",
+     "ref": "Lime [ea]",
+     "qty": 0.0833,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": null,
+     "eff_cost": 0.04165
+    }
+   ],
+   "our_cost": 0.0416,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 3.0,
+   "gp_pct": 98.5
+  },
+  "Lemonade Glass": {
+   "ingredients": [
+    {
+     "name": "Lemonade [mixer]",
+     "kind": "id",
+     "ref": "lightspeed:20681676",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": 0.8032,
+     "eff_cost": 0.8032
+    }
+   ],
+   "our_cost": 0.8032,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 4.5,
+   "gp_pct": 80.4
+  },
+  "Mulled Wine [HG]": {
+   "ingredients": [
+    {
+     "name": "Mulled Wine",
+     "kind": "subrecipe",
+     "ref": "Mulled Wine",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": null,
+     "eff_cost": 2.0381
+    }
+   ],
+   "our_cost": 2.0381,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 85.1
+  },
+  "Dragon Soda": {
+   "ingredients": [
+    {
+     "name": "Dragon Soda [1L]",
+     "kind": "subrecipe",
+     "ref": "Dragon Soda [1L]",
+     "qty": 0.03,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": null,
+     "eff_cost": 0.055326
+    }
+   ],
+   "our_cost": 0.0553,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 9.0,
+   "gp_pct": 99.3
+  },
+  "Kraken Black Rum": {
+   "ingredients": [
+    {
+     "name": "Kraken Black Spiced Rum [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445865",
+     "qty": 30,
+     "unit": "ml",
+     "ls_cost": null,
+     "our_cost": 0.080414,
+     "eff_cost": 2.41242
+    }
+   ],
+   "our_cost": 2.4124,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 81.0
+  },
   "Regular Pepperoni [Dine-in]": {
    "ingredients": [
     {
@@ -39563,6 +39668,1089 @@
    "is_prep": false,
    "sell_incl": 21.0,
    "gp_pct": 89.0
+  },
+  "Better Beer Tin": {
+   "ingredients": [
+    {
+     "name": "Better Beer Tin",
+     "kind": "id",
+     "ref": "lightspeed:20445702",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.3800",
+     "passthrough": true,
+     "eff_cost": 2.38
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 2.38,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 10.5,
+   "gp_pct": 75.1
+  },
+  "Corona": {
+   "ingredients": [
+    {
+     "name": "Corona",
+     "kind": "id",
+     "ref": "lightspeed:20445701",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.5713",
+     "passthrough": true,
+     "eff_cost": 2.5713
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 2.5713,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 10.5,
+   "gp_pct": 73.1
+  },
+  "Peroni": {
+   "ingredients": [
+    {
+     "name": "Peroni",
+     "kind": "id",
+     "ref": "lightspeed:20445700",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.5217",
+     "passthrough": true,
+     "eff_cost": 2.5217
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 2.5217,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 10.5,
+   "gp_pct": 73.6
+  },
+  "Asahi 3.5%": {
+   "ingredients": [
+    {
+     "name": "Asahi 3.5%",
+     "kind": "id",
+     "ref": "lightspeed:20445705",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.1800",
+     "passthrough": true,
+     "eff_cost": 2.18
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 2.18,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 10.5,
+   "gp_pct": 77.2
+  },
+  "Grifter Big Sur IPA Tin": {
+   "ingredients": [
+    {
+     "name": "Grifter Big Sur IPA Tin",
+     "kind": "id",
+     "ref": "lightspeed:20445709",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "4.0000",
+     "passthrough": true,
+     "eff_cost": 4.0
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 4.0,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 68.6
+  },
+  "Grifter Omen Stout Tin": {
+   "ingredients": [
+    {
+     "name": "Grifter Omen Stout Tin",
+     "kind": "id",
+     "ref": "lightspeed:20445710",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.1900",
+     "passthrough": true,
+     "eff_cost": 3.19
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 3.19,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 13.0,
+   "gp_pct": 73.0
+  },
+  "Grifter Pink Galah Tin": {
+   "ingredients": [
+    {
+     "name": "Grifter Pink Galah Tin",
+     "kind": "id",
+     "ref": "lightspeed:20445708",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.1900",
+     "passthrough": true,
+     "eff_cost": 3.19
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 3.19,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 70.8
+  },
+  "James Boags Light": {
+   "ingredients": [
+    {
+     "name": "James Boags Light",
+     "kind": "id",
+     "ref": "lightspeed:20445706",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.3400",
+     "passthrough": true,
+     "eff_cost": 2.34
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 2.34,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 9.5,
+   "gp_pct": 72.9
+  },
+  "Two Bays Pale Ale Can": {
+   "ingredients": [
+    {
+     "name": "Two Bays Pale Ale Can",
+     "kind": "id",
+     "ref": "lightspeed:20445703",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "4.7100",
+     "passthrough": true,
+     "eff_cost": 4.71
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 4.71,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 18.0,
+   "gp_pct": 71.2
+  },
+  "VB Tinnie": {
+   "ingredients": [
+    {
+     "name": "VB Tinnie",
+     "kind": "id",
+     "ref": "lightspeed:20445704",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.9600",
+     "passthrough": true,
+     "eff_cost": 1.96
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 1.96,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 9.0,
+   "gp_pct": 76.0
+  },
+  "Young Henrys Cloudy Cider Can": {
+   "ingredients": [
+    {
+     "name": "Young Henrys Cloudy Cider Can",
+     "kind": "id",
+     "ref": "lightspeed:20445713",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.5800",
+     "passthrough": true,
+     "eff_cost": 2.58
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 2.58,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 76.3
+  },
+  "Heaps Normal Tin": {
+   "ingredients": [
+    {
+     "name": "Heaps Normal Tin",
+     "kind": "id",
+     "ref": "lightspeed:20445707",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.6696",
+     "passthrough": true,
+     "eff_cost": 2.6696
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 2.6696,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.0,
+   "gp_pct": 73.3
+  },
+  "Monteith's Apple Cider Bottle": {
+   "ingredients": [
+    {
+     "name": "Monteith's Apple Cider Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20445714",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.1100",
+     "passthrough": true,
+     "eff_cost": 3.11
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 3.11,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 10.5,
+   "gp_pct": 67.4
+  },
+  "Dom P\u00e9rignon Champagne - Bottle": {
+   "ingredients": [
+    {
+     "name": "Dom P\u00e9rignon Champagne - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20445737",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "332.5500",
+     "passthrough": true,
+     "eff_cost": 332.55
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 332.55,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 440.0,
+   "gp_pct": 16.9
+  },
+  "San Pellegrino 500ml": {
+   "ingredients": [
+    {
+     "name": "San Pellegrino 500ml",
+     "kind": "id",
+     "ref": "lightspeed:20445897",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.3200",
+     "passthrough": true,
+     "eff_cost": 2.32
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 2.32,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 9.0,
+   "gp_pct": 71.6
+  },
+  "4 Pines Kolsch Bottle D": {
+   "ingredients": [
+    {
+     "name": "4 Pines Kolsch Bottle D",
+     "kind": "id",
+     "ref": "lightspeed:20459447",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.6500",
+     "passthrough": true,
+     "eff_cost": 2.65
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 2.65,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 6.0,
+   "gp_pct": 51.4
+  },
+  "Grifter Pale Ale Cans D": {
+   "ingredients": [
+    {
+     "name": "Grifter Pale Ale Cans D",
+     "kind": "id",
+     "ref": "lightspeed:20459505",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.7400",
+     "passthrough": true,
+     "eff_cost": 2.74
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 2.74,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 7.0,
+   "gp_pct": 56.9
+  },
+  "Coke 1.25L": {
+   "ingredients": [
+    {
+     "name": "Coke 1.25L",
+     "kind": "id",
+     "ref": "lightspeed:20459552",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.6900",
+     "passthrough": true,
+     "eff_cost": 3.69
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 3.69,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 6.0,
+   "gp_pct": 32.3
+  },
+  "Coke Zero 1.25L": {
+   "ingredients": [
+    {
+     "name": "Coke Zero 1.25L",
+     "kind": "id",
+     "ref": "lightspeed:20459553",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.0900",
+     "passthrough": true,
+     "eff_cost": 3.09
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 3.09,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 6.0,
+   "gp_pct": 43.4
+  },
+  "Status Quo Can D": {
+   "ingredients": [
+    {
+     "name": "Status Quo Can D",
+     "kind": "id",
+     "ref": "lightspeed:20459532",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.6900",
+     "passthrough": true,
+     "eff_cost": 3.69
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 3.69,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 7.0,
+   "gp_pct": 42.0
+  },
+  "Solo 1.25L": {
+   "ingredients": [
+    {
+     "name": "Solo 1.25L",
+     "kind": "id",
+     "ref": "lightspeed:20459554",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.0300",
+     "passthrough": true,
+     "eff_cost": 2.03
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 2.03,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 6.0,
+   "gp_pct": 62.8
+  },
+  "Sprite 1.25L": {
+   "ingredients": [
+    {
+     "name": "Sprite 1.25L",
+     "kind": "id",
+     "ref": "lightspeed:20459555",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "4.2654",
+     "passthrough": true,
+     "eff_cost": 4.2654
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 4.2654,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 6.0,
+   "gp_pct": 21.8
+  },
+  "Sunkist 1.25L": {
+   "ingredients": [
+    {
+     "name": "Sunkist 1.25L",
+     "kind": "id",
+     "ref": "lightspeed:20459557",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.7700",
+     "passthrough": true,
+     "eff_cost": 3.77
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 3.77,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 6.0,
+   "gp_pct": 30.9
+  },
+  "Grifter Serpents Kiss Can": {
+   "ingredients": [
+    {
+     "name": "Grifter Serpents Kiss Can",
+     "kind": "id",
+     "ref": "lightspeed:20488066",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.0800",
+     "passthrough": true,
+     "eff_cost": 3.08
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 3.08,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 10.0,
+   "gp_pct": 66.1
+  },
+  "Gluten-free Base": {
+   "ingredients": [
+    {
+     "name": "Gluten-free Base",
+     "kind": "id",
+     "ref": "lightspeed:21712396",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "4.1000",
+     "passthrough": true,
+     "eff_cost": 4.1
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 4.1,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 5.0,
+   "gp_pct": 9.8
+  },
+  "Little Dragon Can": {
+   "ingredients": [
+    {
+     "name": "Little Dragon Can",
+     "kind": "id",
+     "ref": "lightspeed:21939293",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.4861",
+     "passthrough": true,
+     "eff_cost": 3.4861
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 3.4861,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.5,
+   "gp_pct": 69.3
+  },
+  "Peroni 0%": {
+   "ingredients": [
+    {
+     "name": "Peroni 0%",
+     "kind": "id",
+     "ref": "lightspeed:21999769",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.8463",
+     "passthrough": true,
+     "eff_cost": 1.8463
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 1.8463,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 9.0,
+   "gp_pct": 77.4
+  },
+  "Hard Rated Can": {
+   "ingredients": [
+    {
+     "name": "Hard Rated Can",
+     "kind": "id",
+     "ref": "lightspeed:22614595",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.9600",
+     "passthrough": true,
+     "eff_cost": 3.96
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 3.96,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 68.9
+  },
+  "Hahn Super Dry GF": {
+   "ingredients": [
+    {
+     "name": "Hahn Super Dry GF",
+     "kind": "id",
+     "ref": "lightspeed:22931792",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.6250",
+     "passthrough": true,
+     "eff_cost": 2.625
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 2.625,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 10.5,
+   "gp_pct": 72.5
+  },
+  "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Bottle": {
+   "ingredients": [
+    {
+     "name": "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:23358932",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "40.7000",
+     "passthrough": true,
+     "eff_cost": 40.7
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 40.7,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 116.0,
+   "gp_pct": 61.4
+  },
+  "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Large Glass": {
+   "ingredients": [
+    {
+     "name": "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Large Glass",
+     "kind": "id",
+     "ref": "lightspeed:23358931",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "8.1400",
+     "passthrough": true,
+     "eff_cost": 8.14
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 8.14,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 48.0,
+   "gp_pct": 81.3
+  },
+  "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Regular Glass": {
+   "ingredients": [
+    {
+     "name": "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Regular Glass",
+     "kind": "id",
+     "ref": "lightspeed:23358927",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "8.1400",
+     "passthrough": true,
+     "eff_cost": 8.14
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 8.14,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 29.0,
+   "gp_pct": 69.1
+  },
+  "Tiziano Grasso Barolo Briccolina 2019 - Bottle": {
+   "ingredients": [
+    {
+     "name": "Tiziano Grasso Barolo Briccolina 2019 - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:23358952",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "154.0000",
+     "passthrough": true,
+     "eff_cost": 154.0
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 154.0,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 244.0,
+   "gp_pct": 30.6
+  },
+  "Tiziano Grasso Barolo Briccolina 2019 - Large Glass": {
+   "ingredients": [
+    {
+     "name": "Tiziano Grasso Barolo Briccolina 2019 - Large Glass",
+     "kind": "id",
+     "ref": "lightspeed:23358951",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "30.8000",
+     "passthrough": true,
+     "eff_cost": 30.8
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 30.8,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 96.0,
+   "gp_pct": 64.7
+  },
+  "Tiziano Grasso Barolo Briccolina 2019 - Regular Glass": {
+   "ingredients": [
+    {
+     "name": "Tiziano Grasso Barolo Briccolina 2019 - Regular Glass",
+     "kind": "id",
+     "ref": "lightspeed:23358946",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "30.8000",
+     "passthrough": true,
+     "eff_cost": 30.8
+    }
+   ],
+   "passthrough": "stowaway",
+   "our_cost": 30.8,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 58.0,
+   "gp_pct": 41.6
+  },
+  "Pepsi Glass": {
+   "ingredients": [
+    {
+     "name": "Pepsi Glass",
+     "kind": "id",
+     "ref": "lightspeed:20702600",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.3100",
+     "passthrough": true,
+     "eff_cost": 1.31
+    }
+   ],
+   "passthrough": "harry_gatos",
+   "our_cost": 1.31,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 4.5,
+   "gp_pct": 68.0
+  },
+  "Heaps Normal Quiet XPA": {
+   "ingredients": [
+    {
+     "name": "Heaps Normal Quiet XPA",
+     "kind": "id",
+     "ref": "lightspeed:20691638",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.4600",
+     "passthrough": true,
+     "eff_cost": 2.46
+    }
+   ],
+   "passthrough": "harry_gatos",
+   "our_cost": 2.46,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 10.5,
+   "gp_pct": 74.2
+  },
+  "Pepsi Max Glass": {
+   "ingredients": [
+    {
+     "name": "Pepsi Max Glass",
+     "kind": "id",
+     "ref": "lightspeed:20779180",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.3100",
+     "passthrough": true,
+     "eff_cost": 1.31
+    }
+   ],
+   "passthrough": "harry_gatos",
+   "our_cost": 1.31,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 4.5,
+   "gp_pct": 68.0
+  },
+  "Monteith's Apple Cider [HG]": {
+   "ingredients": [
+    {
+     "name": "Monteith's Apple Cider [HG]",
+     "kind": "id",
+     "ref": "lightspeed:20795747",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.1100",
+     "passthrough": true,
+     "stock_twin": "Monteith's Apple Cider Bottle",
+     "eff_cost": 3.11
+    }
+   ],
+   "passthrough": "harry_gatos",
+   "our_cost": 3.11,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.0,
+   "gp_pct": 68.9
+  },
+  "Grifter Big Sur IPA Can [HG]": {
+   "ingredients": [
+    {
+     "name": "Grifter Big Sur IPA Can [HG]",
+     "kind": "id",
+     "ref": "lightspeed:22442938",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "4.0000",
+     "passthrough": true,
+     "stock_twin": "Grifter Big Sur IPA Tin",
+     "eff_cost": 4.0
+    }
+   ],
+   "passthrough": "harry_gatos",
+   "our_cost": 4.0,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 68.6
+  },
+  "Little Dragon Ginger Beer Can": {
+   "ingredients": [
+    {
+     "name": "Little Dragon Ginger Beer Can",
+     "kind": "id",
+     "ref": "lightspeed:22384136",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.3783",
+     "passthrough": true,
+     "eff_cost": 3.3783
+    }
+   ],
+   "passthrough": "harry_gatos",
+   "our_cost": 3.3783,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 73.5
+  },
+  "Tsingtao Longneck": {
+   "ingredients": [
+    {
+     "name": "Tsingtao Longneck",
+     "kind": "id",
+     "ref": "lightspeed:20691644",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "4.6900",
+     "passthrough": true,
+     "eff_cost": 4.69
+    }
+   ],
+   "passthrough": "harry_gatos",
+   "our_cost": 4.69,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 17.0,
+   "gp_pct": 69.7
+  },
+  "Philter Old Ale [HG]": {
+   "ingredients": [
+    {
+     "name": "Philter Old Ale [HG]",
+     "kind": "id",
+     "ref": "lightspeed:20691649",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.0000",
+     "passthrough": true,
+     "eff_cost": 3.0
+    }
+   ],
+   "passthrough": "harry_gatos",
+   "our_cost": 3.0,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.0,
+   "gp_pct": 70.0
+  },
+  "Hyoketsu Lemon [HG]": {
+   "ingredients": [
+    {
+     "name": "Hyoketsu Lemon [HG]",
+     "kind": "id",
+     "ref": "lightspeed:21319585",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "4.3100",
+     "passthrough": true,
+     "eff_cost": 4.31
+    }
+   ],
+   "passthrough": "harry_gatos",
+   "our_cost": 4.31,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 66.1
+  },
+  "Bintang": {
+   "ingredients": [
+    {
+     "name": "Bintang",
+     "kind": "id",
+     "ref": "lightspeed:20691643",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.3400",
+     "passthrough": true,
+     "eff_cost": 2.34
+    }
+   ],
+   "passthrough": "harry_gatos",
+   "our_cost": 2.34,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.0,
+   "gp_pct": 76.6
+  },
+  "Two Bays GF Rice Lager Can [HG]": {
+   "ingredients": [
+    {
+     "name": "Two Bays GF Rice Lager Can [HG]",
+     "kind": "id",
+     "ref": "lightspeed:22795730",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "4.9900",
+     "passthrough": true,
+     "eff_cost": 4.99
+    }
+   ],
+   "passthrough": "harry_gatos",
+   "our_cost": 4.99,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 60.8
+  },
+  "Kaiju Hazy Pale [HG]": {
+   "ingredients": [
+    {
+     "name": "Kaiju Hazy Pale [HG]",
+     "kind": "id",
+     "ref": "lightspeed:20691647",
+     "qty": "1",
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "2.2900",
+     "passthrough": true,
+     "eff_cost": 2.29
+    }
+   ],
+   "passthrough": "harry_gatos",
+   "our_cost": 2.29,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 79.0
   }
  }
 }
