@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from audit_book import audit, load_sales, sold, weigh  # noqa: E402
+from audit_book import _pack_count_hint, audit, load_sales, sold, weigh  # noqa: E402
 
 
 def test_sales_load_and_are_keyed_by_normalised_pos_name():
@@ -131,3 +131,22 @@ def test_the_audit_runs_on_a_clean_checkout(tmp_path, monkeypatch):
     assert F, "the recipe and cost-book rules do not need ingredients.json"
     assert any("ingredients.json not built" in r for _sev, r in F), \
         "and it must SAY the ingredient rules were skipped, not skip them quietly"
+
+
+def test_a_pack_misread_lands_on_a_whole_number():
+    """A misread pack is not a random price move — it is the line total divided
+    by the wrong number of units, so the ratio is an integer. The camembert sat
+    at exactly 12.0x its own median and the black beans at 6.0x. Saying "looks
+    like a case of 12 priced as one unit" names the defect; "12.0x median" only
+    flags it."""
+    assert "case of 12" in _pack_count_hint(0.3648, 0.0304)
+    assert "case of 6" in _pack_count_hint(0.0174, 0.0029)
+    assert "one unit priced as a case of 12" in _pack_count_hint(0.0029, 0.0348)
+
+
+def test_a_real_price_move_gets_no_pack_hint():
+    """A 4.5x is not a case size and a 12% rise is just a price rise. Claiming a
+    pack count for either would be a guess dressed as a diagnosis."""
+    assert _pack_count_hint(0.0174, 0.00387) == ""      # 4.5x
+    assert _pack_count_hint(1.12, 1.00) == ""           # a real rise
+    assert _pack_count_hint(0.0, 1.0) == "" and _pack_count_hint(1.0, 0.0) == ""

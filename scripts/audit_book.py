@@ -68,6 +68,29 @@ GP_FLATTER = 95.0
 MENU_PRICED = 3.0         # a 95%+ GP on a food/drink item means a missing cost
 
 
+def _pack_count_hint(observed, median):
+    """"  (a case of 12 read as one unit)" when the ratio is a whole pack count.
+
+    A misread pack is not a random price move — it is the line total divided by
+    the wrong number of units, so the ratio lands on an integer. The camembert
+    sat at exactly 12.0x its own median and the black beans at 6.0x, which names
+    the defect instead of just flagging it: a case of 12 and a case of 6, each
+    priced as a single unit. A real price rise does not arrive at 12.00x.
+
+    Silent unless the ratio is within 2% of a whole number between 2 and 24 —
+    below 2 there is nothing to say, and past 24 the "case" reading stops being
+    the obvious explanation."""
+    if median <= 0 or observed <= 0:
+        return ""
+    hi, lo = max(observed, median), min(observed, median)
+    ratio = hi / lo
+    n = round(ratio)
+    if not (2 <= n <= 24) or abs(ratio - n) > 0.02 * n:
+        return ""
+    return (f"   (looks like a case of {n} priced as one unit)" if observed > median
+            else f"   (looks like one unit priced as a case of {n})")
+
+
 def money(x):
     try:
         return float(x or 0)
@@ -448,7 +471,8 @@ def audit():
                 add("SEVERE" if live else "WARN",
                     "invoice price way off this ingredient's own history (pack misread)",
                     f"{c / med:>5.1f}x median  ${c:<10.6f} {str(r.get('description'))[:26]:28}"
-                    f" {r.get('source_invoice', '')[:12]} {r['observed_on']}{live}")
+                    f" {r.get('source_invoice', '')[:12]} {r['observed_on']}"
+                    f"{_pack_count_hint(c, med)}{live}")
 
     # ---------- THE POS COST COLUMN IS ~3.6x LOW, ON EVERYTHING ----------
     # This is the project's founding thesis, finally measured. daily_aggregator
