@@ -7,10 +7,9 @@
  *      service on every call ("auth is at the endpoint"). Entered once per
  *      device, kept in localStorage. Never committed — this repo is public.
  *
- * The engine is a live service (stowaway-bookings on Render): availability is
- * a seating-solver run over the whole day, so accepts/refusals/edits must be
- * answered by the server that holds the current state — that's why this page
- * talks to it directly instead of reading committed data/ files.
+ * Cards come from /api/admin/overview: every upcoming PUBLIC event plus any
+ * regular day holding staff bookings ("House bookings"). Any date is
+ * openable via the date picker card — house days take free start/end times.
  */
 import { Auth } from '/_shared/auth.js';
 
@@ -20,24 +19,14 @@ const TOKEN_KEY = 'stowaway_booking_token';
 const $ = (id) => document.getElementById(id);
 let DAY = null;
 let EDITING = null;
-let SEL = null;   // the selected event {date, name, sittings}
+let SEL = null;   // selected card {date, name, sittings, public}
 
-// ---------------------------------------------------------------- service io
 const svcToken = () => localStorage.getItem(TOKEN_KEY) || '';
 const hdrs = () => ({ 'Authorization': 'Bearer ' + svcToken(),
                       'Content-Type': 'application/json' });
 
-async function call(path, opts = {}, _retried = false) {
+async function call(path, opts = {}) {
   const r = await fetch(API + path, { ...opts, headers: { ...hdrs(), ...(opts.headers || {}) } });
-  // Token rotated or stale: pull the current one from Supabase once and retry,
-  // so a rotation heals itself with no per-device re-paste.
-  if ((r.status === 401 || r.status === 403) && !_retried) {
-    localStorage.removeItem(TOKEN_KEY);
-    try {
-      const fresh = await Auth.bookingToken();
-      if (fresh) { localStorage.setItem(TOKEN_KEY, fresh); return call(path, opts, true); }
-    } catch (_) { /* fall through to the error below */ }
-  }
   if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || ('HTTP ' + r.status));
   return r;
 }
@@ -49,8 +38,18 @@ function fmtBooked(iso) {
       hour: 'numeric', minute: '2-digit' });
 }
 
-// ---------------------------------------------------------------- rendering
-const T12 = (t) => t.replace('12:00', '12pm').replace('14:00', '2pm').replace('19:00', '7pm');
+const T12 = (t) => {
+  const [h, m] = t.split(':').map(Number);
+  const h12 = ((h + 11) % 12) + 1;
+  return h12 + (m ? ':' + String(m).padStart(2, '0') : '') + (h >= 12 ? 'pm' : 'am');
+};
+
+function endTime(b) {
+  if (!b.hold_minutes) return '';
+  const [h, m] = b.time.split(':').map(Number);
+  const mins = h * 60 + m + b.hold_minutes;
+  return `–${T12(String(Math.floor(mins / 60) % 24).padStart(2, '0') + ':' + String(mins % 60).padStart(2, '0'))}`;
+}
 
 function rowHtml(b) {
   const covers = b.adults + b.kids;
@@ -78,26 +77,23 @@ function rowHtml(b) {
 }
 
 function renderDay(d) {
-  // One block per sitting (covers + capacity in its header), rows inside
-  // ordered by when they booked. Cancelled collapse at the bottom — they're
-  // history, not service.
   const wrap = $('daywrap');
   wrap.innerHTML = '';
   const active = d.bookings.filter(b => b.status !== 'cancelled');
   const cancelled = d.bookings.filter(b => b.status === 'cancelled');
+  const times = d.sittings.length ? d.sittings
+    : [...new Set(active.map(b => b.time))].sort();
 
-  d.sittings.forEach(t => {
+  times.forEach(t => {
     const rows = active.filter(b => b.time === t)
       .sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)));
     const covers = rows.reduce((n, b) => n + b.adults + b.kids, 0);
-    // remaining[t][size] is true/false/null — null means the engine is still
-    // proving that size in the background (day view reads cache only). Never
-    // show FULL until every size is actually known to not fit.
     const sizes = d.remaining[t] || {};
     const vals = Object.entries(sizes);
     const fitting = vals.filter(([, ok]) => ok === true).map(([s]) => +s);
     const unknown = vals.some(([, ok]) => ok === null || ok === undefined);
-    const fit = fitting.length && vals.every(([, ok]) => ok === true)
+    const fit = !vals.length ? ''
+      : fitting.length && vals.every(([, ok]) => ok === true)
         ? '<span class="yes">any party fits</span>'
       : fitting.length ? `<span class="yes">room up to ${Math.max(...fitting)}p</span>`
       : unknown ? '<span class="sit-meta">checking capacity…</span>'
@@ -112,6 +108,9 @@ function renderDay(d) {
         '<div class="bsub" style="padding:14px 18px">No bookings yet.</div>');
     wrap.appendChild(block);
   });
+  if (!times.length) {
+    wrap.innerHTML = '<div class="bsub" style="padding:14px 4px">No bookings on this day yet — use + New booking.</div>';
+  }
 
   if (cancelled.length) {
     const det = document.createElement('details');
@@ -143,18 +142,21 @@ function copyBtn(text, label) {
 }
 
 function showGuestLink() {
-  // One compact row per event: short hyperlink + copy buttons. The full URL
-  // and Wix iframe snippet live in the clipboard, not on screen.
+  const g = $('guestlink');
+  g.innerHTML = '';
+  const row = document.createElement('div');
+  row.className = 'glrow';
+  if (SEL.public === false) {
+    row.textContent = 'Staff-only day — guests can’t see or book it.';
+    g.appendChild(row);
+    return;
+  }
   const url = `${API}/?date=${SEL.date}`;
   const embed = `<iframe src="${API}/?bare=1&date=${SEL.date}" `
     + `style="width:100%;max-width:560px;height:780px;border:0" `
     + `title="Book ${SEL.name}"></iframe>`;
   const short = new Date(SEL.date + 'T12:00:00').toLocaleDateString('en-AU',
     { day: 'numeric', month: 'short' });
-  const g = $('guestlink');
-  g.innerHTML = '';
-  const row = document.createElement('div');
-  row.className = 'glrow';
   row.innerHTML = `🔗 <a href="${url}" target="_blank" rel="noopener">Booking page — ${SEL.name}, ${short}</a>`;
   row.appendChild(copyBtn(url, 'copy link'));
   row.appendChild(copyBtn(embed, 'copy Wix embed'));
@@ -162,9 +164,6 @@ function showGuestLink() {
 }
 
 async function pickTable(id, chip) {
-  // Swap the chip for a dropdown of every table the engine PROVES this
-  // booking could move to (each option = a full day re-solve). Picking one
-  // pins it; "auto" hands the choice back to the engine.
   const original = chip.textContent;
   chip.textContent = '…';
   chip.disabled = true;
@@ -198,7 +197,6 @@ async function pickTable(id, chip) {
   sel.addEventListener('blur', () => { if (!done) loadDay(); });
 }
 
-// ---------------------------------------------------------------- actions
 async function loadDay() {
   $('status').textContent = 'loading…';
   try {
@@ -228,8 +226,15 @@ function openEdit(id) {
   if (!b) return;
   EDITING = id;
   $('edit_name').textContent = '— ' + b.name;
-  $('ed_time').innerHTML = (DAY.sittings || []).map(t =>
-    `<option ${t === b.time ? 'selected' : ''}>${t}</option>`).join('');
+  const virt = !!DAY.virtual;
+  $('ed_time').style.display = virt ? 'none' : '';
+  $('ed_time2').style.display = virt ? '' : 'none';
+  if (virt) {
+    $('ed_time2').value = b.time;
+  } else {
+    $('ed_time').innerHTML = (DAY.sittings || []).map(t =>
+      `<option ${t === b.time ? 'selected' : ''}>${t}</option>`).join('');
+  }
   $('ed_adults').value = b.adults; $('ed_kids').value = b.kids;
   $('ed_babies').value = b.babies; $('ed_dogs').value = b.dogs;
   $('ed_phone').value = b.phone || ''; $('ed_notes').value = b.notes || '';
@@ -239,10 +244,11 @@ function openEdit(id) {
 
 async function saveEdit() {
   try {
+    const t = DAY.virtual ? $('ed_time2').value : $('ed_time').value;
     await call(`/api/admin/bookings/${EDITING}`, {
       method: 'PATCH',
       body: JSON.stringify({
-        time: $('ed_time').value, adults: +$('ed_adults').value,
+        time: t, adults: +$('ed_adults').value,
         kids: +$('ed_kids').value, babies: +$('ed_babies').value,
         dogs: +$('ed_dogs').value, phone: $('ed_phone').value,
         notes: $('ed_notes').value,
@@ -253,13 +259,19 @@ async function saveEdit() {
   } catch (e) { $('status').textContent = 'edit refused: ' + e.message; }
 }
 
-// New booking (phone/staff entry). Goes to the ADMIN create endpoint: works
-// inside the guest cutoff and email is optional — but the seating solver
-// still has the final say, so an impossible party is refused with a reason.
+// New booking. On event days: pick a sitting. On house days: free start time
+// plus optional end time (becomes the booking's table hold).
 function openAdd() {
-  $('nb_time').innerHTML = ((DAY && DAY.sittings) || SEL.sittings || []).map(t =>
-    `<option value="${t}">${T12(t)}</option>`).join('');
+  const virt = !SEL.public && (!DAY || DAY.virtual !== false);
+  $('nb_timewrap').style.display = virt ? 'none' : '';
+  $('nb_startwrap').style.display = virt ? '' : 'none';
+  $('nb_endwrap').style.display = virt ? '' : 'none';
+  if (!virt) {
+    $('nb_time').innerHTML = ((DAY && DAY.sittings) || SEL.sittings || []).map(t =>
+      `<option value="${t}">${T12(t)}</option>`).join('');
+  }
   ['nb_name', 'nb_phone', 'nb_email', 'nb_notes'].forEach(id => { $(id).value = ''; });
+  $('nb_start').value = '18:00'; $('nb_end').value = '';
   $('nb_adults').value = 2; $('nb_kids').value = 0;
   $('nb_babies').value = 0; $('nb_dogs').value = 0;
   $('editbox').style.display = 'none';
@@ -273,21 +285,33 @@ async function saveNew() {
   if (($('nb_phone').value || '').replace(/\D/g, '').length < 8) {
     $('status').textContent = 'phone number looks too short'; return;
   }
+  const virt = !SEL.public;
+  const time = virt ? $('nb_start').value : $('nb_time').value;
+  if (!time) { $('status').textContent = 'start time is required'; return; }
+  let hold = null;
+  if (virt && $('nb_end').value) {
+    const [sh, sm] = time.split(':').map(Number);
+    const [eh, em] = $('nb_end').value.split(':').map(Number);
+    hold = (eh * 60 + em) - (sh * 60 + sm);
+    if (hold < 30) { $('status').textContent = 'end time must be at least 30 min after start'; return; }
+  }
   try {
     const r = await (await call('/api/admin/bookings', {
       method: 'POST',
       body: JSON.stringify({
-        date: SEL.date, time: $('nb_time').value,
+        date: SEL.date, time,
         name: $('nb_name').value.trim(),
         phone: $('nb_phone').value.trim(),
         email: $('nb_email').value.trim() || null,
         adults: +$('nb_adults').value, kids: +$('nb_kids').value,
         babies: +$('nb_babies').value, dogs: +$('nb_dogs').value,
         notes: $('nb_notes').value,
+        hold_minutes: hold,
       }),
     })).json();
     $('addbox').style.display = 'none';
     $('status').textContent = `booked — ${r.covers} pax at ${T12(r.time)}`;
+    refreshCards();
     loadDay();
   } catch (e) { $('status').textContent = 'booking refused: ' + e.message; }
 }
@@ -320,45 +344,61 @@ function selectEvent(ev, card) {
   loadDay();
 }
 
+function cardFor(ev, selected) {
+  const dt = new Date(ev.date + 'T12:00:00');
+  const dow = dt.toLocaleDateString('en-AU', { weekday: 'short' });
+  const dm = dt.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
+  const card = document.createElement('div');
+  card.className = 'event-card' + (selected ? ' sel' : '') + (ev.public ? ' pub' : '');
+  card.title = `${ev.name} — ${niceDate(ev.date)}`;
+  const badge = ev.bookings ? `<span class="ec-count">${ev.bookings} bkg · ${ev.covers}p</span>` : '';
+  card.innerHTML = `<div class="ec-dow">${dow}</div>
+    <div class="ec-date">${dm}</div>
+    <div class="ec-name">${ev.name}</div>${badge}`;
+  card.addEventListener('click', () => selectEvent(ev, card));
+  return card;
+}
+
+async function refreshCards() {
+  const days = await (await call('/api/admin/overview')).json();
+  $('eventline').textContent = 'Pick a day:';
+  $('events').innerHTML = '';
+  days.forEach(ev => $('events').appendChild(cardFor(ev, SEL && SEL.date === ev.date)));
+  // "+ any date" opener — every day is staff-bookable
+  const add = document.createElement('div');
+  add.className = 'event-card anyday';
+  add.innerHTML = `<div class="ec-dow">any day</div>
+    <input type="date" id="anydate" class="ec-datepick">
+    <div class="ec-name">open a date</div>`;
+  add.querySelector('#anydate').addEventListener('change', (e) => {
+    if (!e.target.value) return;
+    selectEvent({ date: e.target.value, name: 'House bookings',
+                  sittings: [], public: false }, null);
+  });
+  $('events').appendChild(add);
+  return days;
+}
+
 async function init() {
-  // No per-device paste step: if this device has no token yet, fetch the shared
-  // one from Supabase (readable only to signed-in staff). The manual box only
-  // appears as a fallback if Supabase has nothing for us.
-  if (!svcToken()) {
-    try { const t = await Auth.bookingToken(); if (t) localStorage.setItem(TOKEN_KEY, t); }
-    catch (_) { /* fall through to the manual box */ }
-  }
   if (!svcToken()) { showToken(); return; }
   $('tokenbox').style.display = 'none';
   $('main').style.display = 'block';
-  // No date picker: upcoming open events are compact date tiles — DOW and
-  // date up front so a long row scans like a calendar strip.
   try {
-    const dates = await (await fetch(API + '/api/dates')).json();
-    if (!dates.length) {
-      $('eventline').textContent = 'No event open for bookings right now.';
-      $('events').innerHTML = '';
+    const days = await refreshCards();
+    if (!days.length) {
+      $('eventline').textContent = 'Nothing upcoming — open any date below.';
       return;
     }
-    $('eventline').textContent = 'Pick an event:';
-    $('events').innerHTML = '';
-    dates.forEach((ev, i) => {
-      const dt = new Date(ev.date + 'T12:00:00');
-      const dow = dt.toLocaleDateString('en-AU', { weekday: 'short' });
-      const dm = dt.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
-      const card = document.createElement('div');
-      card.className = 'event-card' + (i === 0 ? ' sel' : '');
-      card.title = `${ev.name} — ${niceDate(ev.date)} · ${ev.sittings.map(T12).join(' & ')}`;
-      card.innerHTML = `<div class="ec-dow">${dow}</div>
-        <div class="ec-date">${dm}</div>
-        <div class="ec-name">${ev.name}</div>`;
-      card.addEventListener('click', () => selectEvent(ev, card));
-      $('events').appendChild(card);
-    });
-    SEL = dates[0];
+    SEL = days[0];
+    document.querySelector('.event-card')?.classList.add('sel');
     loadDay();
   } catch (e) {
-    $('eventline').textContent = 'Booking engine unreachable: ' + e.message;
+    if (String(e.message).includes('bad admin token')) {
+      localStorage.removeItem(TOKEN_KEY);
+      showToken();
+    } else {
+      $('eventline').textContent = 'Booking engine unreachable: ' + e.message;
+    }
   }
 }
 
