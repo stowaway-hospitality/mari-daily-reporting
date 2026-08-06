@@ -46,6 +46,19 @@ PRODUCTS_WEEKLY = ROOT / "data" / "products_weekly.csv"
 def _nrm_name(s: str) -> str:
     return re.sub(r"[^a-z0-9]", "", (s or "").lower())
 
+
+def _nrm_bottle(s: str) -> str:
+    """A bottle's name with Back Office's bracketed suffix removed.
+
+    Back Office files the same bottle as "Hendrick's Gin [Bottle]" and ILG's
+    price book calls it "Hendricks Gin". _nrm_name keeps the bracket — "bottle"
+    and "700ml" survive as letters — so the two never meet. Dropping the bracket
+    (and the apostrophe, which _nrm_name already handles) takes the confident
+    name+size pairs from 2 to ~30. The SIZE is never taken from the name; it is
+    matched separately from Back Office's own DefaultSize column, so this loosens
+    only the half that is safe to loosen."""
+    return _nrm_name(re.sub(r"\[.*?\]", "", s or ""))
+
 # What a sane bar/kitchen ingredient costs, per BASE unit, incl GST. Anything past
 # these is a pack/unit confusion, not a real price. Calibrated on the real book:
 # the dearest legitimate per-g item is saffron-class spice; the dearest per-ml is
@@ -61,6 +74,10 @@ VERIFIED_HIGH_GP = {
     # Zak, 2026-08-06: "grapefruit soda only uses sherbet". 30 ml of house
     # sherbert in soda water; there is no second ingredient to be missing.
     "Stow Soda - Grapefruit": "sherbet only — confirmed by Zak 2026-08-06",
+    # Zak, 2026-08-06: "soda + lime's cost is only 1/12 of a lime unit." A twelfth
+    # of a $0.50 lime is 4.2c, the soda is postmix off the gun, and there is no
+    # third thing in the glass. 98.5% GP on a $3.00 drink is the whole truth of it.
+    "Soda & Lime Glass": "a twelfth of a lime, soda off the gun — confirmed by Zak 2026-08-06",
 }
 
 # Delivery twins that legitimately cost more than the dish they copy, because
@@ -86,6 +103,12 @@ GP_FLATTER = 95.0
 # price — the cost engine already refuses to compute GP under it, and an
 # auditor that ignores the threshold just reports the engine working.
 MENU_PRICED = 3.0         # a 95%+ GP on a food/drink item means a missing cost
+# How far under ILG's published book price a bottle may sit before it is a
+# finding rather than a discount. Measured, not chosen: over the products where
+# a Back Office cost and a price-book line agree on name AND size, the ratio
+# runs 0.85 to 1.12 with a median of 1.02. Real buying moves a bottle by 15%;
+# a pack misread or a Produce-derived seed moves it by 40% or more.
+PRICEBOOK_FLOOR = 0.80
 
 # Above this many grams or millilitres of ingredients, a "serve" is a batch.
 #
@@ -316,7 +339,13 @@ def audit():
                 f"${sell:>7.2f}  {name}", product=name)
         if not lines and not prep:
             add("WARN", "no ingredient lines at all", name)
-        if cost > ABSURD_SERVE and not prep:
+        # A sold-as-bought bottle is exempt: ABSURD_SERVE exists to catch a
+        # unit/pack confusion (the $11,400 serve), and a pass-through cannot have
+        # one — its cost is one unit of the thing, read off the product being
+        # sold. A bottle of Dom Pérignon costing $332 against a $440 menu price
+        # is not a costing defect, it is bottle service. If the price were wrong
+        # the GP rules would say so on their own.
+        if cost > ABSURD_SERVE and not prep and not r.get("passthrough"):
             add("SEVERE", f"single serve costs more than ${ABSURD_SERVE:.0f}",
                 f"${cost:>8.2f}  {name}", product=name)
         if sell >= MENU_PRICED and cost > sell and not prep:
@@ -789,6 +818,71 @@ def audit():
         add("WARN", "a delivery twin costs materially more than the dish it copies",
             f"{name[:30]:32} ${a:>7.2f}   vs   {twin[:32]:34} ${b:>7.2f}"
             f"   ({max(a, b) / min(a, b):.1f}x)", product=name)
+
+    # ---------- COSTED BELOW WHAT THE SUPPLIER PUBLISHES ----------
+    # ILG send a price book (data/ilg_pricebook.csv, built by
+    # scripts/build_ilg_pricebook.py). It is the only price in this system that
+    # neither we nor Lightspeed derived — a supplier stating, in writing, what a
+    # bottle costs. That makes it a FLOOR, and a floor is exactly what a cost
+    # book that under-costs in the flattering direction has been missing.
+    #
+    # This rule has its own origin story: Havana Club sat at $29.09 a bottle
+    # against a book price of $49.20 and survived scrutiny for hours, because the
+    # only thing it was ever checked against was itself.
+    #
+    # THE JOIN IS THE ILG CODE, NOT THE NAME. The first version of this matched
+    # Back Office names to price-book descriptions and found almost nothing —
+    # "Havana 3yr [700ml]" and "Havana Club 700ml 3yo." are the same bottle and
+    # no normaliser is going to say so, while the pairs that DO match by name are
+    # exactly the well-behaved ones with nothing to report. data/product_map.csv
+    # already carries the evidence-based supplier-code -> ProductID link, and the
+    # price book is keyed by that same code. Joining on it needs no guessing at
+    # all, and it covers the bottles that actually get invoiced.
+    _pbk = ROOT / "data" / "ilg_pricebook.csv"
+    _pmap = ROOT / "data" / "product_map.csv"
+    if _pbk.exists() and _pmap.exists():
+        _book = {}
+        for r in csv.DictReader(_pbk.open(encoding="utf-8-sig")):
+            try:
+                _book[r["code"].replace("-", "")] = (r["description"],
+                                                     float(r["size_ml"]),
+                                                     float(r["book_price_unit"]))
+            except (TypeError, ValueError):
+                continue
+        _latest = {}
+        if COSTS.exists():
+            for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
+                if (r.get("unit") or "") != "ml":
+                    continue
+                k, d = r["ingredient"], r["observed_on"]
+                if k not in _latest or d >= _latest[k][0]:
+                    try:
+                        _latest[k] = (d, float(r["cost_per_unit"]), r.get("source_invoice") or "")
+                    except (TypeError, ValueError):
+                        pass
+        _under = []
+        for r in csv.DictReader(_pmap.open(encoding="utf-8-sig")):
+            if (r.get("supplier") or "") != "ILG":
+                continue
+            code = (r.get("supplier_code") or "").replace("-", "").rstrip("P")
+            hit = _book.get(code)
+            got = _latest.get(f"lightspeed:{(r.get('product_id') or '').strip()}")
+            if not hit or not got:
+                continue
+            desc, size_ml, book = hit
+            ours = got[1] * size_ml
+            if book <= 0 or ours <= 0 or ours / book >= PRICEBOOK_FLOOR:
+                continue
+            _under.append((ours / book, r.get("product_name") or desc, ours, book,
+                           r.get("supplier_code"), got[2]))
+        for ratio, nm, ours, book, code, src in sorted(_under)[:15]:
+            add("WARN", "costed below ILG's own published price for the same bottle",
+                f"{nm[:34]:36} ours ${ours:>7.2f}  vs book ${book:>7.2f}"
+                f"  ({ratio:.2f}x, {code}, from {src[:18]})", product=nm)
+    else:
+        add("INFO", "no ILG price book extracted",
+            "run scripts/build_ilg_pricebook.py where the corpus lives — without "
+            "it a cost has no independent floor to be checked against")
 
     # ---------- THE /pricing PAGE'S "BIGGEST MOVERS" ----------
     # The page exists so a supplier creeping prices up gets noticed the week it
