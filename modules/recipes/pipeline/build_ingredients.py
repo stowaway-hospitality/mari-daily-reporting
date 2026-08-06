@@ -430,9 +430,26 @@ def main() -> int:
     cutoff = date.today() - timedelta(days=RECENT_DAYS)
     overrides = load_pack_overrides(PACK_OVERRIDES)   # chef-confirmed pack sizes
 
+    # THE LATEST INVOICE FOR EACH THING, NOT THE FIRST ONE IN THE FILE.
+    #
+    # cogs_list.csv is sorted oldest-first, and this loop used to keep whichever
+    # row it met first and skip the rest. So the picker a chef builds a recipe in
+    # showed the OLDEST price inside the 90-day window: 257 of 477 ingredients
+    # were on a superseded row and 98 of those had since changed price. Sriracha
+    # read $7.10 against a current $4.70; a tin of black beans read $52.20 against
+    # $8.70, a 6x overstatement sitting in the UI.
+    #
+    # It also put ingredients.json and costs.csv on different observations of the
+    # same product — costs.csv keys by the LATEST, as every consumer does — which
+    # is what the pipeline seam test kept catching and what a "unit split" between
+    # the two files really was.
+    #
+    # Ties go to the later row in the file, which is the same tie-break the cost
+    # book uses, so the two files can never disagree about which one it is.
+    rows.sort(key=lambda r: r.get("invoice_date") or "")
     out, review = [], 0
     seen: set[str] = set()
-    for r in rows:
+    for r in reversed(rows):
         if r["supplier"] not in KITCHEN_SUPPLIERS:
             continue
         try:
