@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from daily_aggregator import _load_book_costs  # noqa: E402
+from cogs_blend import _load_book_costs  # noqa: E402
 
 
 def test_book_costs_load_and_are_keyed_by_product_name():
@@ -61,9 +61,9 @@ def test_unknown_venue_is_empty_not_an_exception():
 
 def test_missing_book_degrades_quietly(tmp_path, monkeypatch):
     """This runs unattended at 6am. A recipe problem must never stop the pull."""
-    import daily_aggregator as da
-    monkeypatch.setattr(da, "COSTED_BOOK", tmp_path / "nope.json")
-    assert da._load_book_costs("stowaway") == {}
+    import cogs_blend as cb
+    monkeypatch.setattr(cb, "COSTED_BOOK", tmp_path / "nope.json")
+    assert cb._load_book_costs("stowaway") == {}
 
 
 def test_builder_recipes_resolve_their_sub_recipes():
@@ -78,7 +78,7 @@ def test_builder_recipes_resolve_their_sub_recipes():
     """
     from datetime import date
 
-    from daily_aggregator import _load_our_costs
+    from cogs_blend import _load_our_costs
     from modules.recipes.cost import load_recipes
 
     on = date(2026, 8, 4)
@@ -162,3 +162,31 @@ def test_a_real_batch_is_still_a_batch():
         assert r, f"fixture: {name} should be in the book"
         assert r["is_prep"], f"{name} is a batch and must not report a GP"
     assert "Stow Vermouth Blend [Bottle]" not in _load_book_costs("stowaway")
+
+
+def test_importing_the_cost_sources_does_not_run_a_daily_pull(tmp_path, monkeypatch):
+    """
+    daily_aggregator.py is a SCRIPT — no main(), no __main__ guard — so importing
+    it runs the whole daily pull: reads the exports, writes
+    data/<venue>_daily_<date>.json and rewrites the history CSV.
+
+    cogs_blend's docstring has warned about that since the module was created,
+    and then both cost loaders were written into daily_aggregator anyway. A test
+    that wanted to check the P&L used the cost book had no choice but to import
+    it, so `pytest` published a day's record and rewrote a history file as a side
+    effect — on CI, and on the Mac where the real exports live. It surfaced as
+    data/ files turning up dirty after a test run and was read as noise.
+
+    This asserts the loaders stay importable on their own.
+    """
+    import importlib
+    import sys
+
+    for mod in ("cogs_blend",):
+        sys.modules.pop(mod, None)
+    before = {p.name for p in (ROOT / "data").glob("*_daily_*")}
+    cb = importlib.import_module("cogs_blend")
+    after = {p.name for p in (ROOT / "data").glob("*_daily_*")}
+    assert before == after, f"importing cogs_blend wrote {sorted(after - before)}"
+    assert callable(cb._load_book_costs) and callable(cb._load_our_costs)
+    assert callable(cb.blend_reported_cogs)
