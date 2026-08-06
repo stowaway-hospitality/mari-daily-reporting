@@ -1,13 +1,13 @@
 {
-  "generated": "2026-08-06T04:10:16+00:00",
-  "overall": "warn",
+  "generated": "2026-08-06T21:43:34+00:00",
+  "overall": "down",
   "checks": [
     {
       "name": "Invoice poller",
       "detail": "reads the accounts@ inbox every 30 min",
-      "age": 0.0,
+      "age": 1053.2,
       "unit": "min",
-      "status": "ok",
+      "status": "down",
       "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
       "action": "Check the office Mac is on and awake - it resumes on its own and no bills are lost. Still red an hour after it is awake? Tell Zak.",
       "selfheal": "Recovers by itself once the Mac is awake."
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 3.0,
+      "age": 0.3,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -35,7 +35,7 @@
     {
       "name": "Weekly Xero pull",
       "detail": "runs once a week",
-      "age": 3.1,
+      "age": 3.9,
       "unit": "day",
       "status": "ok",
       "meaning": "Pulls payroll and overheads from Xero once a week.",
@@ -45,9 +45,9 @@
     {
       "name": "Daily sales pull",
       "detail": "aggregates yesterday's Lightspeed exports",
-      "age": 2,
+      "age": 3,
       "unit": "day",
-      "status": "warn",
+      "status": "down",
       "meaning": "Yesterday's Lightspeed sales landing in the dashboard.",
       "action": "Usually the Stowaway sales email has not arrived yet. It retries every 20 min until ~10am. Still missing after 10am? Ask Claude to check the Stow export landed and re-run the ingest, or tell Zak. Numbers fill in once it arrives.",
       "selfheal": "Retries through the morning; often fixes itself before 10am."
@@ -55,7 +55,7 @@
     {
       "name": "Xero COGS feed",
       "detail": "weekly actual COGS from Xero",
-      "age": 4,
+      "age": 5,
       "unit": "day",
       "status": "ok",
       "meaning": "Weekly actual cost-of-goods from Xero (drives the margin figures).",
