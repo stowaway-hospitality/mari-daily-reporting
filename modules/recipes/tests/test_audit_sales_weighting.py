@@ -205,21 +205,30 @@ def test_the_audit_and_the_pnl_agree_on_what_is_covered():
         assert not [d for d in gaps if name in d], f"{name} is costed; do not ask for it"
 
 
-def test_a_severe_never_describes_a_problem_that_is_already_fixed():
-    """The "POS cost column far below our own book" rule only ever aggregated
-    products that DO have a costed recipe — which are exactly the products the
-    P&L stopped copying Lightspeed for when _load_book_costs was wired in. So
-    "$62,456 of COGS missing" described a fixed problem, at SEVERE, above every
-    live one. A SEVERE that is already fixed trains people to skim the list.
+def test_the_retracted_pos_cost_claim_does_not_come_back():
+    """"The POS cost column is ~3.6x low, on everything" was wrong. It was
+    measured on products_weekly.csv, where 3,767 of 5,018 rows in the window
+    carry a cost of exactly zero because the Looker backfill has no costs;
+    summing those against real recipe costs manufactures a 0.28x ratio.
 
-    The measurement is worth keeping — it is the evidence this project rests on
-    — so it stays, as INFO, saying what it actually is."""
+    On the daily exports — what the P&L actually reads — Lightspeed agrees with
+    our book to 0.96x where it states a cost at all. The defect is that 17.5% of
+    revenue has no cost stated, which is what the rule measures now."""
     F = audit()
-    severe = {rule for (sev, rule) in F if sev == "SEVERE"}
-    assert not [r for r in severe if "POS cost column" in r], severe
-    info = {rule for (sev, rule) in F if sev == "INFO"}
-    assert [r for r in info if "Lightspeed's cost column" in r], \
-        "the measurement must stay visible, not disappear"
+    rules = {rule for (_sev, rule) in F}
+    assert not [r for r in rules if "POS cost column" in r], rules
+    assert [r for r in rules if "booked at 100% GP" in r], \
+        "the real measurement must be reported"
+
+
+def test_the_hundred_percent_gp_measure_reads_the_daily_exports():
+    """Not products_weekly. That file's cost column is incomplete and has now
+    produced two retracted claims."""
+    F = audit()
+    hits = [d for (_s, rule), v in F.items() if "booked at 100% GP" in rule
+            for _rev, d in v]
+    assert any("of $" in d and "%" in d for d in hits), hits[:3]
+    assert any("product-days" in d for d in hits), "measured per product per DAY"
 
 
 def test_every_remaining_severe_is_something_nobody_has_fixed_yet():

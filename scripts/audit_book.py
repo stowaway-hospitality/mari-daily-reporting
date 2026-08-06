@@ -35,18 +35,13 @@ sys.path.insert(0, str(ROOT / "scripts"))
 # The size-variant collapse is DEFINED there; importing it keeps one whitelist
 # rather than a second, looser copy drifting in the auditor. See sold().
 from build_products_weekly import normalize_product  # noqa: E402
-from cogs_blend import _stripped_key  # noqa: E402
+from cogs_blend import _load_book_costs, _stripped_key, book_cost  # noqa: E402
 
 COSTED = ROOT / "data" / "lightspeed_recipes_costed.json"
 INGREDIENTS = ROOT / "data" / "ingredients.json"
 COSTS = ROOT / "data" / "costs.csv"
 COGS = ROOT / "data" / "cogs_list.csv"
 PRODUCTS_WEEKLY = ROOT / "data" / "products_weekly.csv"
-
-# A reporting group whose POS cost is below (our cost / this) is not a pricing
-# nuance, it is a broken feed. 2x is wide; the real gap measures ~3.6x.
-POS_COST_MIN_RATIO = 2.0
-
 
 def _nrm_name(s: str) -> str:
     return re.sub(r"[^a-z0-9]", "", (s or "").lower())
@@ -107,6 +102,25 @@ def money(x):
         return float(x or 0)
     except (TypeError, ValueError):
         return 0.0
+
+
+def _money_cell(x):
+    """A Lightspeed Insights currency cell: "$1,234.50", "($12.00)", "".
+
+    money() cannot read these — it returns 0.0 for anything with a $ or a comma,
+    which would report every row as costing nothing."""
+    s = str(x or "").strip()
+    neg = s.startswith("(") and s.endswith(")")
+    if neg:
+        s = s[1:-1]
+    s = s.replace("$", "").replace(",", "").strip()
+    if not s:
+        return 0.0
+    try:
+        v = float(s)
+    except ValueError:
+        return 0.0
+    return -v if neg else v
 
 
 # A recipe name carries the venue; a POS product name does not.
@@ -575,80 +589,78 @@ def audit():
                     f" {r.get('source_invoice', '')[:12]} {r['observed_on']}"
                     f"{_pack_count_hint(c, med)}{live}")
 
-    # ---------- THE POS COST COLUMN IS ~3.6x LOW, ON EVERYTHING ----------
-    # This is the project's founding thesis, finally measured. daily_aggregator
-    # copies Lightspeed's `cost` column verbatim into the P&L. Triangulated over
-    # 13 weeks against two independent sources:
+    # ---------- WHERE LIGHTSPEED REPORTS NO COST AT ALL ----------
+    # A CORRECTION, AND IT MATTERS MORE THAN WHAT IT REPLACES.
     #
-    #     POS cost column     6.7% of revenue      <- what the P&L reports
-    #     our recipe book    21.6% of revenue      <- invoice-fed, this project
-    #     Xero purchases     32.0% of revenue      <- what was actually bought
+    # This block used to assert "the POS cost column is ~3.6x low, on
+    # everything", calling it the project's founding thesis, finally measured.
+    # It was measured on data/products_weekly.csv — and 3,767 of that file's
+    # 5,018 rows in the 13-week window carry a cost of exactly zero, because the
+    # Looker backfill that built it has no costs. Summing those zeros against
+    # real recipe costs manufactures a 0.28x ratio out of nothing. The same file
+    # had already produced one retracted claim ("$54k missing from the P&L") and
+    # its own docstring warns the cost column is incomplete; the rule kept using
+    # it anyway.
     #
-    # 6.7% COGS is not a hospitality business. Our book sits between the two and
-    # near Xero (purchases legitimately run above consumption: stock build, waste,
-    # theft), so our book is the credible one and the POS column is ~3.6x low.
+    # Measured instead on the daily Insights exports, which is what the P&L
+    # actually reads, over 5,636 rows and $306,618 of revenue:
     #
-    # It is NOT a beer/pour problem — an earlier pass framed it that way and was
-    # wrong. The ratio is flat across categories: pizza 0.29, classic cocktails
-    # 0.24, big plates 0.24, small plates 0.29, kitchen specials 0.26. Tap beer is
-    # not special; it just has no recipe to compare against, so it hid longer.
-    if PRODUCTS_WEEKLY.exists():
-        pw = list(csv.DictReader(PRODUCTS_WEEKLY.open(encoding="utf-8-sig")))
-        wks = sorted({r["week_ending"] for r in pw})
-        if wks:
-            cut = wks[max(0, len(wks) - 13)]
-            agg = defaultdict(lambda: [0.0, 0.0, 0.0, ""])
-            for r in pw:
-                if r["week_ending"] < cut:
+    #     where Lightspeed states a cost, it agrees with our invoice-fed
+    #     book to 0.96x — within four percent.
+    #
+    # Lightspeed's cost column is not wrong. It is ABSENT: 17.5% of revenue has
+    # Cost $0.00, booked at 100% gross profit, because Lightspeed has no recipe
+    # for that product. daily_aggregator's own comment said exactly this in July
+    # ("11 products report $0.00 cost — 4.6% of revenue at 100% GP"); the share
+    # has since more than tripled.
+    #
+    # So the value of this project is not that it corrects a wrong number. It is
+    # that it puts a number where there was none — and what is left below is the
+    # revenue where neither source has one.
+    for ven, key in (("stow", "stowaway"), ("hg", "harry"), ("mari", "marilynas")):
+        book = _load_book_costs(key)
+        tot = uncosted = 0.0
+        rows_n = 0
+        worst: dict = defaultdict(float)
+        for f in sorted((ROOT / "data").glob(f"insights_{ven}_*.csv")):
+            try:
+                rows = list(csv.DictReader(f.open(encoding="utf-8-sig")))
+            except Exception:                                    # noqa: BLE001
+                continue
+            for r in rows:
+                nm = (r.get("Product Name") or "").strip()
+                rev = _money_cell(r.get("$ Sales"))
+                if not nm or rev <= 0:
                     continue
-                a = agg[(r["venue"], _nrm_name(r["product_name"]))]
-                a[0] += money(r.get("qty")); a[1] += money(r.get("sales_ex_gst"))
-                a[2] += money(r.get("cost")); a[3] = r.get("reporting_group") or ""
-            bynorm = {_nrm_name(n): r for n, r in recipes.items()}
-            grp = defaultdict(lambda: [0.0, 0.0, 0.0])
-            for (ven, k), (q, rev, cost, g) in agg.items():
-                rec = bynorm.get(k)
-                if not rec or rec.get("is_prep") or q <= 0 or rev <= 0:
-                    continue
-                ours = money(rec.get("our_cost")) * q
-                if ours <= 0:
-                    continue
-                b = grp[(ven, g)]
-                b[0] += rev; b[1] += cost; b[2] += ours
-            # THIS RULE MEASURES ITSELF OUT OF A JOB, AND HAS.
-            #
-            # It only aggregates products that DO have a costed recipe — and
-            # those are exactly the products the P&L no longer copies Lightspeed
-            # for. So "$X of COGS missing" stopped being true the moment
-            # _load_book_costs was wired in; what the numbers now show is HOW
-            # WRONG Lightspeed's column is, which is the evidence this whole
-            # project rests on and worth keeping visible. INFO, not SEVERE: a
-            # SEVERE that describes a fixed problem trains people to ignore the
-            # list. The live exposure is the UNCOSTED revenue, reported below.
-            gap = 0.0
-            for (ven, g), (rev, pos_c, ours) in sorted(grp.items(), key=lambda x: -x[1][2]):
-                if ours <= 0 or rev < 1000:
-                    continue
-                if pos_c < ours / POS_COST_MIN_RATIO:
-                    gap += ours - pos_c
-                    add("INFO", "how far Lightspeed's cost column sits below our own "
-                                "book (these products no longer use it)",
-                        f"[{ven}] {g[:24]:<26} POS ${pos_c:>8,.0f} vs ours ${ours:>8,.0f} "
-                        f"({pos_c/ours:.2f}x)  ${ours-pos_c:>8,.0f} over 13wk")
-            if gap:
-                add("INFO", "how far Lightspeed's cost column sits below our own "
-                            "book (these products no longer use it)",
-                    f"{'':<32} TOTAL ${gap:>8,.0f} of COGS that the book now states "
-                    f"and Lightspeed's column did not")
+                tot += rev
+                if _money_cell(r.get("Cost")) == 0 and book_cost(book, nm) is None:
+                    uncosted += rev
+                    rows_n += 1
+                    worst[nm] += rev
+        if tot <= 0 or uncosted <= 0:
+            continue
+        add("WARN", "revenue booked at 100% GP — Lightspeed has no cost for it "
+                    "and neither do we",
+            f"[{ven}] ${uncosted:>9,.0f} of ${tot:>10,.0f} = {100 * uncosted / tot:4.1f}% "
+            f"across {rows_n} product-days")
+        for nm, rev in sorted(worst.items(), key=lambda x: -x[1])[:8]:
+            if rev < 500:
+                break
+            add("WARN", "revenue booked at 100% GP — Lightspeed has no cost for it "
+                        "and neither do we",
+                f"[{ven}] ${rev:>9,.0f}   {nm[:44]}")
 
     # ---------- WHAT THE BOOK STILL DOES NOT REACH ----------
     # The audit lists what is WRONG. This lists what is ABSENT, which is the
     # bigger number and the one nobody was tracking: revenue whose product has no
-    # costed recipe at all, so the P&L falls through to Lightspeed's figure —
-    # and Lightspeed's figure runs about 0.28x of ours across every category.
+    # costed recipe at all, so the P&L falls through to Lightspeed's figure.
     #
     # It is also the work queue. "Build recipes for these seven dishes" is a
     # sentence someone can act on; "coverage is 86%" is not.
+    #
+    # NOTE on what "falls through to Lightspeed" costs: where Lightspeed states a
+    # cost it agrees with our book to 0.96x, measured on the daily exports. The
+    # damage is not a wrong number, it is an ABSENT one — see the block above.
     if sales:
         # WHAT COUNTS AS COVERED MUST BE WHAT THE P&L ACTUALLY MATCHES.
         #
