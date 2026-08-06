@@ -169,3 +169,19 @@ def test_packaging_is_not_compared_across_pizza_sizes():
         for _rev, detail in items:
             assert "Pizza Box" not in detail and "box insert" not in detail.lower(), \
                 f"{rule}: {detail}"
+
+
+def test_the_audit_says_which_of_the_two_numbers_was_measured():
+    """16 of the 19 "large carries less than the regular" findings are a regular
+    Zak WEIGHED against a large Produce derived — Spanish onion is 33 g on a
+    weighed regular and 20 g on a guessed large, seven times over. Reporting
+    those as an inconsistent recipe is misleading: the large has simply never
+    been weighed, and saying so names the one action that clears them."""
+    F = audit()
+    items = [d for (_s, rule), v in F.items() if "LARGE carries LESS" in rule
+             for _rev, d in v]
+    assert items, "fixture sanity: the rule should fire"
+    weighed = [d for d in items if "regular is WEIGHED" in d]
+    assert len(weighed) >= 15, f"only {len(weighed)} of {len(items)} identified"
+    # and it must not claim a measurement it cannot find
+    assert len(weighed) < len(items), "some regulars are still derived; do not claim otherwise"

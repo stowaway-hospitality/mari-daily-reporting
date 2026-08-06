@@ -317,6 +317,43 @@ def audit():
     # reads it to skim, which costs more than the rule earns.
     _PACKAGING = re.compile(r"pizza box|box insert", re.I)
 
+    # Zak's WEIGHED regular-pizza grams. The audit reads them for one reason: to
+    # say WHICH of the two numbers is a measurement.
+    #
+    # 16 of the 19 "large carries less than the regular" findings are a regular
+    # that Zak weighed against a large that Produce derived — Spanish onion is
+    # 33 g on a weighed regular and 20 g on a guessed large, seven times over.
+    # The rule was reporting those as if the recipe were inconsistent. It is not:
+    # the large has simply never been weighed, and saying so turns the finding
+    # into the one action that clears it.
+    #
+    # The match rule is re-stated here rather than imported, deliberately: the
+    # audit must not reach into the converter's internals, and if the two ever
+    # drift this one falls back to "derived", which under-claims. That is the
+    # safe direction for an auditor.
+    _WEIGHED: list = []
+    try:
+        import yaml
+        _wp = ROOT / "data" / "pizza_regular_grams.yaml"
+        if _wp.exists():
+            _WEIGHED = [s for s in (yaml.safe_load(_wp.read_text()) or []) if s.get("match")]
+    except Exception:                                          # noqa: BLE001
+        _WEIGHED = []
+
+    def _is_weighed(stem, ingredient_name, qty):
+        """Did this REGULAR quantity come from the weighed sheet?"""
+        low = (stem or "").lower()
+        for s in _WEIGHED:                     # first match wins; `when` before default
+            if not re.search(s["match"], ingredient_name or "", re.I):
+                continue
+            if s.get("when") and s["when"].lower() not in low:
+                continue
+            try:
+                return abs(float(s["grams"]) - float(qty)) < 0.51
+            except (TypeError, ValueError):
+                return False
+        return False
+
     def _lines_by_ref(rec):
         out = {}
         for l in (rec.get("ingredients") or []):
@@ -342,8 +379,10 @@ def audit():
                 add("WARN", "ingredient in the REGULAR but missing from the LARGE",
                     f"{stem}: {rname[:30]} ({rq:g} in regular, absent in large)")
             elif rq > 0 and L[ref][0] < rq:
+                why = ("  <- regular is WEIGHED, large is still Produce's derived figure"
+                       if _is_weighed(stem, rname, rq) else "")
                 add("WARN", "LARGE carries LESS of an ingredient than the REGULAR",
-                    f"{stem}: {rname[:30]:<32} large {L[ref][0]:g} < regular {rq:g}")
+                    f"{stem}: {rname[:30]:<32} large {L[ref][0]:g} < regular {rq:g}{why}")
         for ref, (lq, lname) in L.items():
             if ref not in R:
                 add("INFO", "ingredient in the LARGE but missing from the REGULAR",
