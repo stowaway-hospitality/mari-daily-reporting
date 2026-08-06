@@ -60,6 +60,23 @@ _LS_LINE_CAP = 40.0
 # not veto our price — it is computed from the same misread number.
 _LS_MISREAD_REFS: set[str] = set()
 
+# (recipe name, normalised ingredient name) -> the cost Produce itself states for
+# that line, straight from the scrape and untouched by any later scaling. The
+# whole-vs-fraction decision below needs the ORIGINAL figure; ln["ls_cost"] has by
+# then been rescaled for deal lines and would answer the wrong question.
+_RAW_LINE_COST: dict = {}
+
+
+def load_raw_line_costs(rec: dict) -> dict:
+    out = {}
+    for rname, body in (rec or {}).items():
+        for ing in (body.get("ingredients") or []):
+            try:
+                out[(rname, norm(ing.get("name") or ""))] = float(ing.get("cost") or 0)
+            except (TypeError, ValueError):
+                continue
+    return out
+
 
 def load_ls_misread_refs(cogs_path=None) -> set[str]:
     """Which ProductIDs does Lightspeed itself price wrong?
@@ -426,8 +443,9 @@ def load_seed_baseline():
 
 def main() -> int:
     rec = json.loads(RECIPES.read_text())
-    global _LS_MISREAD_REFS
+    global _LS_MISREAD_REFS, _RAW_LINE_COST
     _LS_MISREAD_REFS = load_ls_misread_refs()
+    _RAW_LINE_COST = load_raw_line_costs(rec)
     if _LS_MISREAD_REFS:
         print(f"  {len(_LS_MISREAD_REFS)} ProductIDs Lightspeed prices wrong "
               f"(BO export contradicts its own seed >3x) — our rate wins on those")
@@ -1074,8 +1092,29 @@ def main() -> int:
                 # 100% GP on a $12.90 dish. The unit in Produce is not reliable
                 # enough to reinterpret, and under-costing is the direction that
                 # flatters. Three garnishes at 2c stay visible in the audit instead.
+                # ...but "less than one" means two different things, and Produce's
+                # own stated line cost tells them apart. Form BOTH readings and keep
+                # whichever matches it:
+                #
+                #   Garlic Bread [Deal]  0.025 of "Garlic Bread [9" x40]"; Produce
+                #     says $1.32. Whole = $1.50 (matches), fraction = $0.04 (does
+                #     not) -> the 0.025 means ONE bread out of the 40-carton.
+                #   American Standard Burger  0.083 of "Lettuce Cos Baby Twin Pack";
+                #     Produce says $0.23. Fraction = $0.228 (matches), whole = $2.75
+                #     (12x out) -> Fresh Fruit Team's "each" IS the pack, so 0.083 is
+                #     a real twelfth of it, and promoting it made lettuce the dearest
+                #     thing in the burger — above the wagyu patty.
+                #
+                # Compare against the RAW scrape figure, never ln["ls_cost"]: that has
+                # already been scaled for deal lines ($0.0355 on the garlic bread), so
+                # comparing against it picks the wrong reading every time.
                 if cur and cur[1] == "ea" and 0 < _qf < 1:
-                    eff = float(cur[0])
+                    _whole = float(cur[0])
+                    _raw = _RAW_LINE_COST.get((name, norm(ln.get("name") or "")))
+                    if _raw and _raw > 0 and abs(_whole * _qf - _raw) < abs(_whole - _raw):
+                        eff = _whole * _qf        # a real fraction of a real pack
+                    else:
+                        eff = _whole              # "one of them" out of the carton
                     our_tot += eff
                     ls_tot += ls
                     ln["eff_cost"] = round(eff, 6)
