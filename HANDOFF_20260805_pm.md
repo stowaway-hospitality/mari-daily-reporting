@@ -96,6 +96,15 @@ came from `products_weekly.csv`, whose `cost` column is incomplete (the Looker
 backfill has null costs). **The daily P&L reports 16.8–22.7% COGS and is sane.**
 That feed drives the products API, not the P&L.
 
+> **ADDENDUM, 2026-08-06.** The "0.29x / 0.24x per category" figures quoted two
+> paragraphs up came from that same incomplete column, and are not real either.
+> Measured on the daily Insights exports — what the P&L actually reads — over
+> 5,636 rows and $306,618 of revenue, **Lightspeed agrees with our book to 0.96x
+> wherever it states a cost at all.** The defect is that 17.5% of revenue has no
+> cost stated. The conclusion above still stands (tap beer was never a pour
+> problem — Zak said so directly), but the evidence offered for it did not.
+> See `HANDOFF_20260806.md`, "A claim retracted".
+
 ---
 
 ## What needs Zak — cannot be coded, must not be guessed
