@@ -817,6 +817,17 @@ def main() -> int:
                        norm(l.get("name") or "") == norm(spec["name"])
                        for l in r["ingredients"]):
                     continue                      # already there — never duplicate
+                # A SUB-RECIPE line carries its own quantity (a Wings Deal is one
+                # portion of BBQ Wings), unlike an ingredient line whose grams come
+                # from Zak's weighed sheet in the pass below.
+                if spec.get("subrecipe"):
+                    r["ingredients"].append({
+                        "name": spec["name"], "kind": "subrecipe", "ref": spec["ref"],
+                        "qty": spec.get("qty", 1), "unit": spec.get("unit") or "ea",
+                        "ls_cost": None, "our_cost": None,
+                    })
+                    added += 1
+                    continue
                 oc = our_costs.get(spec["ref"])
                 r["ingredients"].append({
                     "name": spec["name"], "kind": "id", "ref": spec["ref"],

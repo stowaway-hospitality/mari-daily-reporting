@@ -20,3 +20,42 @@
   # be on the pizza. A Hawaiian without ham is a Produce omission, not a recipe.
   # Zak, 2026-08-05: "fix the ham line".
   why: "on the Large and both GF Hawaiians; Zak's sheet weighs it at 85g"
+
+# --- Wings Deals: the wings were never added ------------------------------------
+# Every "Large X Wings Deal" was byte-for-byte identical to the plain "Large X":
+# same ingredients, same $3-7 cost, sold at $30. They reported ~88% GP because the
+# wings half of the deal simply did not exist in Produce.
+#
+# Evidence: the deal NAME states it, and "BBQ Wings" is an existing costed product
+# ($3.14). Zak, 2026-08-06: "wings deal has 1 portion of normal bbq wings."
+# So: one portion of BBQ Wings, as a sub-recipe line, on each of the 23 deals.
+- recipes:
+    - "Large BBQ Chicken Wings Deal"
+    - "Large Bubba Gump Wings Deal"
+    - "Large Cosmopolitan Wings Deal"
+    - "Large El Patron Wings Deal"
+    - "Large Hail Africa Wings Deal"
+    - "Large Hawaiian Wings Deal"
+    - "Large Jimmy Jury Wings Deal"
+    - "Large Little Italy Wings Deal"
+    - "Large Margherita Wings Deal"
+    - "Large Meatlovers Wings Deal"
+    - "Large New Yorker Wings Deal"
+    - "Large No Chorizo No Cry Wings Deal"
+    - "Large Paddock Wings Deal"
+    - "Large Pepperoni Wings Deal"
+    - "Large Roma Special Wings Deal"
+    - "Large Sanchez Wings Deal"
+    - "Large Sanchez [Vegan] Wings Deal"
+    - "Large Sorrento Wings Deal"
+    - "Large Super House Special Wings Deal"
+    - "Large Tandoori Chicken Wings Deal"
+    - "Large Truffalo Soldier Wings Deal"
+    - "Large Uber Margherita Wings Deal"
+    - "Large Vegetarian Wings Deal"
+  name: "BBQ Wings"
+  ref: "BBQ Wings"
+  subrecipe: true
+  qty: 1
+  unit: "ea"
+  why: "the deal is a pizza AND wings; BBQ Wings is a costed product at $3.14 (Zak, 2026-08-06)"
