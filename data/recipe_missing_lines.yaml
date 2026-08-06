@@ -161,3 +161,80 @@
   qty: 1
   unit: "ea"
   why: "Zak: same qty of postmix as the rest; BO prices one Pink Lemonade [mixer] at $0.8032"
+
+# --- Drinks Produce has no recipe for AT ALL -------------------------------------
+# `create: true` makes the entry rather than adding to one. Everything below is a
+# drink Harry Gatos sells that Lightspeed Produce simply never had a build for, so
+# it could not be costed by any route — it was not an incomplete recipe, it was an
+# absent one. Zak, 2026-08-06: "go and do it all. i've absolutely put costs for
+# these into lightspeed, or there's invoices for them." He was right; every number
+# below already existed somewhere in the system.
+
+# Soda & lime. Zak, 2026-08-06: "soda + lime's cost is only 1/12 of a lime unit."
+# "Lime [ea]" is an existing costed product — 0.0167 of a $30 Lime [Tray], i.e.
+# $0.50 a lime — so a twelfth of one is 0.0833 of that recipe. The soda itself is
+# postmix off the gun and is not a line.
+- recipes: ["Soda & Lime Glass"]
+  create: true
+  name: "Lime [ea]"
+  ref: "Lime [ea]"
+  subrecipe: true
+  qty: 0.0833
+  unit: "ea"
+  why: "Zak 2026-08-06: a twelfth of a lime unit; soda is off the gun"
+
+# Lemonade by the glass. The postmix already carries a cost in Back Office —
+# "Lemonade [mixer]" at $0.8032, the same product and the same price at both
+# venues — and the glass simply never referenced it. Same shape as the Lemon,
+# Lime & Bitters and Pink Lemonade Glass entries above.
+- recipes: ["Lemonade Glass"]
+  create: true
+  name: "Lemonade [mixer]"
+  ref: "lightspeed:20681676"
+  qty: 1
+  unit: "ea"
+  why: "the postmix is costed at $0.8032; the glass never pointed at it"
+
+# Harry Gatos' mulled wine is Stowaway's mulled wine. Stowaway holds the full
+# build (Sailor Jerry, Kahlua, black cacao, walnut bitters, De Bortoli red, sugar
+# syrup); HG's entry is a bare $15 product with no lines. The name carries the
+# venue tag so the name-keyed book cannot resolve it on its own — hence one
+# sub-recipe line rather than a mirror.
+- recipes: ["Mulled Wine [HG]"]
+  create: true
+  name: "Mulled Wine"
+  ref: "Mulled Wine"
+  subrecipe: true
+  qty: 1
+  unit: "ea"
+  why: "same drink, same spec; Stowaway holds the build"
+
+# Dragon Soda. Zak, 2026-08-06: "i've also given you a dragon soda recipe, no?" —
+# he had: "Dragon Soda [1L]" is a costed 1 L build (dragonfruit puree, sugar
+# syrup, East Coast grapefruit). What was missing was the SERVE drawing on it.
+#
+# 30 ml of the litre, at 0.03 of the batch. That is the house-soda pour this bar
+# already uses: "Stow Soda - Grapefruit" is 30 ml of Grapefruit Sherbert, sells at
+# $9.00, and Zak confirmed it on 2026-08-06 as sherbet-only. Dragon Soda is the
+# same category at the same $9.00. It is the one assumption in this batch —
+# correct the 0.03 here if the pour is different.
+- recipes: ["Dragon Soda"]
+  create: true
+  name: "Dragon Soda [1L]"
+  ref: "Dragon Soda [1L]"
+  subrecipe: true
+  qty: 0.03
+  unit: "ea"
+  why: "30 ml of the 1 L build, matching Stow Soda - Grapefruit's 30 ml at the same $9"
+
+# Kraken by the nip. The bottle is costed — "Kraken Black Spiced Rum [700ml]" at
+# $52.42 from ILG's own MAR 2026 price book — and Harry Gatos' $14.00 pour simply
+# had no build. 30 ml is HG's own spirit measure, not a guess: Disaronno, 400
+# Conejos Mezcal and Aether Vodka are each a single 30 ml line in the same book.
+- recipes: ["Kraken Black Rum"]
+  create: true
+  name: "Kraken Black Spiced Rum [700ml]"
+  ref: "lightspeed:20445865"
+  qty: 30
+  unit: "ml"
+  why: "HG pours 30 ml on every other spirit in the book; the bottle is price-book costed"
