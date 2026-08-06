@@ -78,6 +78,36 @@ def test_builder_recipes_resolve_their_sub_recipes():
     """
     from datetime import date
 
+    from core.domain import CostSeries, load_cost_observations
+    from modules.recipes.cost import cost_on, load_recipes
+
+    # Asserted against cost_on directly, on EVERY recipe including the batches.
+    # _load_our_costs deliberately withholds batches now (a batch is not a serve
+    # cost — see the next test), so going through it would stop testing the thing
+    # this guards: that sub-recipes resolve at all.
+    on = date(2026, 8, 4)
+    costs = CostSeries(load_cost_observations())
+    for venue_file in ("stowaway", "marilynas", "harry_gatos"):
+        recipes = load_recipes(venue_file)
+        for r in recipes:
+            cost_on(r, costs, on, recipes=recipes)      # raises MissingCost if broken
+
+
+def test_a_builder_batch_is_never_published_as_a_serve_cost():
+    """
+    The distinction is already in the recipe: a batch declares a yield ("Dragon
+    Soda: 20,000 ml") and carries no sell price; a serve carries a sell price and
+    no yield.
+
+    Publishing the batch cost as a serve cost books it against every unit sold,
+    and both of these names ARE real Back Office products: Dragon Soda would have
+    cost $37.20 on a $9.00 drink and Mint Yoghurt $9.51 on a $1.00 side.
+    _load_book_costs already refuses this for the scraped book; the builder
+    recipes had no such guard, and they OVERRIDE the book. Neither had fired yet
+    only because neither product sold in the last 13 weeks.
+    """
+    from datetime import date
+
     from cogs_blend import _load_our_costs
     from modules.recipes.cost import load_recipes
 
@@ -85,11 +115,11 @@ def test_builder_recipes_resolve_their_sub_recipes():
     for venue_key, venue_file in (("stowaway", "stowaway"),
                                   ("marilynas", "marilynas"),
                                   ("harry", "harry_gatos")):
-        defined = {r.product for r in load_recipes(venue_file)}
-        costed = set(_load_our_costs(venue_key, on))
-        assert defined - costed == set(), (
-            f"{venue_key}: these builder recipes failed to cost: {sorted(defined - costed)}"
-        )
+        served = _load_our_costs(venue_key, on)
+        batches = {r.product for r in load_recipes(venue_file) if r.yield_qty}
+        assert not (batches & set(served)), sorted(batches & set(served))
+    assert "Dragon Soda" not in _load_our_costs("stowaway", on)
+    assert "Mint Yoghurt" not in _load_our_costs("marilynas", on)
 
 
 def test_a_zero_cost_is_never_published_as_a_cost():

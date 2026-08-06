@@ -191,6 +191,22 @@ def _load_our_costs(venue_key, target):
             r = recipe_as_of(recipes, product, target)
             if not r:
                 continue
+            if r.yield_qty:
+                # A BATCH IS NOT A SERVE, AND THIS DICT IS SERVE COSTS.
+                #
+                # The distinction is already in the recipe: a batch declares a
+                # yield ("Dragon Soda: 20,000 ml") and carries no sell price; a
+                # serve carries a sell price and no yield. Publishing the batch
+                # cost here books it against every unit sold — Dragon Soda would
+                # have cost $37.20 on a $9.00 drink and Mint Yoghurt $9.51 on a
+                # $1.00 side, because both names ARE real Back Office products.
+                #
+                # _load_book_costs already refuses this for the scraped book
+                # ("a batch is not a sold product"); the builder recipes had no
+                # such guard, and they OVERRIDE the book. Neither had fired yet
+                # — neither product sold in the last 13 weeks — which is the only
+                # reason nobody had seen a 4x over-cost land in a day's COGS.
+                continue
             try:
                 # PASS `recipes`. Without it cost_on resolves sub-recipes against
                 # an EMPTY list, so every batch-using dish died with "sub-recipe
