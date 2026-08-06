@@ -1,15 +1,19 @@
 /**
  * Bookings module — all logic for /bookings/ (the HTML is a shell).
  *
- * Two layers of auth, deliberately:
- *   1. Supabase gate (shared with every tool) decides who may open the page.
+ * AUTH — two layers, and staff should never see a token box:
+ *   1. Supabase gate decides who may open the page.
  *   2. The booking engine's bearer token is the REAL auth, verified by the
- *      service on every call ("auth is at the endpoint"). Entered once per
- *      device, kept in localStorage. Never committed — this repo is public.
+ *      service on every call. It is fetched automatically via
+ *      Auth.bookingToken() from the Supabase app_config table (RLS: readable
+ *      by authenticated users only), so a signed-in user is simply in.
+ *      The manual paste box is a FALLBACK for when that lookup fails — it is
+ *      not the normal path. (Regression note: earlier revisions of this file
+ *      skipped bookingToken() and always prompted; don't do that again.)
  *
  * Cards come from /api/admin/overview: every upcoming PUBLIC event plus any
- * regular day holding staff bookings ("House bookings"). Any date is
- * openable via the date picker card — house days take free start/end times.
+ * regular day holding staff bookings ("House bookings"). Any date is openable
+ * via the date-picker card — house days take free start/end times.
  */
 import { Auth } from '/_shared/auth.js';
 
@@ -20,8 +24,21 @@ const $ = (id) => document.getElementById(id);
 let DAY = null;
 let EDITING = null;
 let SEL = null;   // selected card {date, name, sittings, public}
+let SVC = null;   // service token held in memory for this session
 
-const svcToken = () => localStorage.getItem(TOKEN_KEY) || '';
+// ---------------------------------------------------------------- service io
+const svcToken = () => SVC || localStorage.getItem(TOKEN_KEY) || '';
+
+/** Supabase first (no paste), then any locally-saved fallback. */
+async function ensureToken() {
+  if (SVC) return SVC;
+  try {
+    const t = await Auth.bookingToken();
+    if (t) { SVC = t; return SVC; }
+  } catch (_) { /* fall through to the manual fallback */ }
+  return localStorage.getItem(TOKEN_KEY) || '';
+}
+
 const hdrs = () => ({ 'Authorization': 'Bearer ' + svcToken(),
                       'Content-Type': 'application/json' });
 
@@ -43,13 +60,6 @@ const T12 = (t) => {
   const h12 = ((h + 11) % 12) + 1;
   return h12 + (m ? ':' + String(m).padStart(2, '0') : '') + (h >= 12 ? 'pm' : 'am');
 };
-
-function endTime(b) {
-  if (!b.hold_minutes) return '';
-  const [h, m] = b.time.split(':').map(Number);
-  const mins = h * 60 + m + b.hold_minutes;
-  return `–${T12(String(Math.floor(mins / 60) % 24).padStart(2, '0') + ':' + String(mins % 60).padStart(2, '0'))}`;
-}
 
 function rowHtml(b) {
   const covers = b.adults + b.kids;
@@ -207,6 +217,7 @@ async function loadDay() {
     renderDay(DAY);
   } catch (e) {
     if (String(e.message).includes('bad admin token')) {
+      SVC = null;
       localStorage.removeItem(TOKEN_KEY);
       showToken();
     } else {
@@ -218,6 +229,7 @@ async function loadDay() {
 async function cancelBooking(id) {
   if (!confirm('Cancel this booking?')) return;
   await call(`/api/admin/bookings/${id}/cancel`, { method: 'POST' });
+  refreshCards();
   loadDay();
 }
 
@@ -282,9 +294,9 @@ function openAdd() {
 
 async function saveNew() {
   if (!$('nb_name').value.trim()) { $('status').textContent = 'name is required'; return; }
-  if (($('nb_phone').value || '').replace(/\D/g, '').length < 8) {
-    $('status').textContent = 'phone number looks too short'; return;
-  }
+  const phone = ($('nb_phone').value || '').trim();
+  const email = ($('nb_email').value || '').trim();
+  if (!phone && !email) { $('status').textContent = 'a phone number or an email is required'; return; }
   const virt = !SEL.public;
   const time = virt ? $('nb_start').value : $('nb_time').value;
   if (!time) { $('status').textContent = 'start time is required'; return; }
@@ -301,8 +313,8 @@ async function saveNew() {
       body: JSON.stringify({
         date: SEL.date, time,
         name: $('nb_name').value.trim(),
-        phone: $('nb_phone').value.trim(),
-        email: $('nb_email').value.trim() || null,
+        phone: phone || null,
+        email: email || null,
         adults: +$('nb_adults').value, kids: +$('nb_kids').value,
         babies: +$('nb_babies').value, dogs: +$('nb_dogs').value,
         notes: $('nb_notes').value,
@@ -364,7 +376,6 @@ async function refreshCards() {
   $('eventline').textContent = 'Pick a day:';
   $('events').innerHTML = '';
   days.forEach(ev => $('events').appendChild(cardFor(ev, SEL && SEL.date === ev.date)));
-  // "+ any date" opener — every day is staff-bookable
   const add = document.createElement('div');
   add.className = 'event-card anyday';
   add.innerHTML = `<div class="ec-dow">any day</div>
@@ -380,7 +391,10 @@ async function refreshCards() {
 }
 
 async function init() {
-  if (!svcToken()) { showToken(); return; }
+  // Signed in = authorised. The service token comes from Supabase; the paste
+  // box only appears if that lookup fails.
+  const t = await ensureToken();
+  if (!t) { showToken(); return; }
   $('tokenbox').style.display = 'none';
   $('main').style.display = 'block';
   try {
@@ -394,6 +408,7 @@ async function init() {
     loadDay();
   } catch (e) {
     if (String(e.message).includes('bad admin token')) {
+      SVC = null;
       localStorage.removeItem(TOKEN_KEY);
       showToken();
     } else {
@@ -404,8 +419,7 @@ async function init() {
 
 Auth.gate($('gate'), {
   roles: null,        // open to all signed-in staff (Zak, 2026-07: bookings is for
-                      // everyone). NB: guest phone numbers are visible here — every
-                      // signed-in role can now see them.
+                      // everyone). NB: guest phone numbers are visible here.
   onOk: (user) => {
     $('app').style.display = '';
     $('whotop').innerHTML = `<strong>${user.name}</strong>`;
@@ -413,7 +427,8 @@ Auth.gate($('gate'), {
       e.preventDefault(); await Auth.logout(); location.href = '/';
     };
     $('savetoken').addEventListener('click', () => {
-      localStorage.setItem(TOKEN_KEY, $('svc_token').value.trim());
+      SVC = $('svc_token').value.trim();
+      localStorage.setItem(TOKEN_KEY, SVC);
       init();
     });
     $('addbtn').addEventListener('click', openAdd);
