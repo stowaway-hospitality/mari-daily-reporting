@@ -122,7 +122,19 @@ def _load_book_costs(venue_key):
             c = float(r.get("our_cost"))
         except (TypeError, ValueError):
             continue
-        if c >= 0:
+        # ZERO IS NOT A PRICE, IT IS THE ABSENCE OF ONE.
+        #
+        # 10 products reach this point at exactly $0.00 — Whispering Angel, Veuve
+        # Clicquot, Laphroaig, a Caipirinha. None of them is free. Each is a real
+        # pour whose product carries no cost anywhere: Lightspeed's Back Office
+        # has CostPriceIncTax 0.0000 for it and no invoice has bridged to it yet.
+        #
+        # Publishing that 0 to the P&L does not report "we don't know". It reports
+        # a $40 glass of rosé at 100% gross profit, and it does it silently, in the
+        # flattering direction. Falling through to Lightspeed's own figure is the
+        # honest answer — it is wrong too, but it is visibly sourced
+        # (cost_source='lightspeed') and the audit is already shouting about it.
+        if c > 0:
             out[name] = c
     return out
 

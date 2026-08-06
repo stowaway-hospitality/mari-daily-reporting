@@ -100,6 +100,156 @@ def apply_unit_fixes(rec: dict) -> int:
                 n += 1
     return n
 
+
+# How a recipe line's unit LABEL maps onto the base unit our cost book prices in,
+# and by what factor its quantity must be multiplied to get there.
+_LINE_UNIT = {
+    "ml": ("ml", 1.0), "millilitre": ("ml", 1.0), "milliliter": ("ml", 1.0),
+    "l": ("ml", 1000.0), "lt": ("ml", 1000.0), "ltr": ("ml", 1000.0),
+    "litre": ("ml", 1000.0), "liter": ("ml", 1000.0),
+    "g": ("g", 1.0), "gm": ("g", 1.0), "gr": ("g", 1.0), "gram": ("g", 1.0),
+    "kg": ("g", 1000.0), "kilo": ("g", 1000.0), "kilogram": ("g", 1000.0),
+    "ea": ("ea", 1.0), "each": ("ea", 1.0), "unit": ("ea", 1.0),
+    "units": ("ea", 1.0), "pc": ("ea", 1.0), "pcs": ("ea", 1.0), "piece": ("ea", 1.0),
+}
+
+# The largest single ingredient line this kitchen can physically hold, in litres
+# or kilograms. Not a guess about any one recipe — a statement about the business:
+# the biggest legitimate line anywhere in the 829-recipe book is Achiote Chicken's
+# 15 kg, and it says so in its own name. See _bulk_label_is_typo below.
+_MAX_REAL_BULK_LINE = 25.0
+
+
+def _bulk_label_is_typo(qty: float, unit_l: str) -> bool:
+    """Is a line labelled "L"/"kg" really a base-unit quantity that kept the
+    product's bulk label?
+
+    THE DEFECT
+    ----------
+    Harry Gatos' Produce entries carry lines like "Soy Sauce Tamari Spiral [10L]
+    — 1600 L" inside Shiitake Tare, and "Mirin [1.8L] — 4000 L" inside Gochujang
+    Honey Soy. 2,800 litres of tare and 11,000 litres of gochujang. The cook typed
+    the millilitre figure and left the bulk label sitting next to it.
+
+    This is the defect data/recipe_line_unit_fixes.yaml was opened for — Peking
+    Sauce's "750 L" of soy, proved by the quantities summing to the 6.75 L the
+    recipe name declares. That proof needed a declared yield. None of these 13
+    Harry Gatos batches has one, so the yield proof cannot be run on them, and
+    naming each line in the yaml would need 25 hand-written proofs of a fact that
+    is one fact.
+
+    THE PROOF THAT DOES RUN
+    -----------------------
+    The book contains the same recipe typed BOTH ways. "HG's Soy Chilli Sauce"
+    reads 2.5 L soy + 0.25 kg chilli. "HG Soy Chilli Sauce" — same sauce, same
+    kitchen — reads 2500 L soy + 250 kg chilli. Identical recipe, identical
+    ratios, exactly 1000x apart. The correctly-typed twin states what the
+    magnitudes mean, and it means the big one is a label, not a quantity.
+
+    WHICH WAY THIS MOVES THE MONEY
+    ------------------------------
+    Both ways, which is why it is not the flattering kind of fix. Wattleseed
+    Honey Soy falls $7,093 -> $9 and Corpse Reviver No. 2 falls $1,438 -> $2.75;
+    but the same normalisation lifts Garlic Oil off $0 and gives 162 Harry Gatos
+    lines an invoice-fed cost they never had. What it removes is not cost, it is
+    nonsense, and nonsense in a batch is what hides the real numbers behind it.
+
+    DELIBERATELY CONSERVATIVE
+    -------------------------
+    Only "L" and "kg" labels, never "ml"/"g" — reading a base-unit label as bulk
+    is the mistake that took Rosemary Salted Fries from $1.86 to $0.0019, and
+    this function cannot make it. And only above 25 L/kg, which leaves every real
+    line in the book (5 kg pork belly, 4.3 L vodka, 15 kg achiote chicken)
+    untouched with a wide margin. The nearest thing it does catch is 90 L.
+    """
+    return unit_l in ("l", "lt", "ltr", "litre", "liter", "kg", "kilo", "kilogram") \
+        and qty > _MAX_REAL_BULK_LINE
+
+
+def normalise_line_units(rec: dict) -> int:
+    """Express every recipe line's (qty, unit) in BASE units — the same units
+    `_to_base` puts the cost book in.
+
+    WHY THIS IS NOT COSMETIC
+    ------------------------
+    Our book's price is only used when its unit matches how the recipe uses the
+    line (`if ou == ing["unit"]`), and that comparison is a raw string compare.
+    The Stowaway scrape writes "ml"; the Harry Gatos scrape writes "mL", "L",
+    "kg" and "Units". So 299 lines — every one of them at Harry Gatos — could
+    never match, no matter how good our invoice data was. 162 of those lines have
+    a real invoice-fed cost sitting in data/costs.csv that was never consulted.
+
+    They did not fail loudly. They fell through to Lightspeed's scraped figure,
+    and where Lightspeed's figure is 0.00 the line cost $0 and the drink read as
+    100% GP. That is the flattering direction, which is the dangerous one.
+
+    NO JUDGEMENT IS APPLIED HERE. This is arithmetic on a label: 0.27 L is 270 ml
+    and 0.25 kg is 250 g, always. The line's COST is untouched — it is a dollar
+    figure and carries no unit. A label this function does not recognise is left
+    exactly as it is, so an unknown unit stays visible rather than being guessed
+    into a base unit it may not belong to.
+
+    Runs AFTER apply_unit_fixes(), so a line whose label is a typo is corrected to
+    the unit it should have had before it is scaled — otherwise Peking Sauce's
+    "750 L" of soy would be normalised to 750,000 ml on the way past.
+    """
+    n = 0
+    typos: list[str] = []
+    for rname, body in (rec or {}).items():
+        for ing in (body.get("ingredients") or []):
+            raw = str(ing.get("unit") or "").strip()
+            m = _LINE_UNIT.get(raw.lower())
+            if not m:
+                continue
+            base, mult = m
+            try:
+                q = float(ing.get("qty") or 0)
+            except (TypeError, ValueError):
+                continue              # non-numeric qty: leave the label alone too
+            if mult != 1.0 and _bulk_label_is_typo(q, raw.lower()):
+                # The quantity is already in base units; only the label is bulk.
+                #
+                # Produce sometimes derived this line's COST from the same wrong
+                # label and sometimes did not — inside ONE recipe, Gochujang Honey
+                # Soy, it priced "4000 L" of mirin at $26,666.67 (bulk) and "4000
+                # L" of sake at $7.39 (base). Which way it went depends on the
+                # product's own stock unit, so the cost has to be judged per line
+                # rather than scaled blindly.
+                #
+                # The test is the one _UNIT_CEIL already states: no real product
+                # costs more than 60c a millilitre or 20c a gram. An implied rate
+                # above that is a bulk rate wearing a base-unit label, and only
+                # then is the cost divided down with the quantity.
+                #
+                # It is checkable: "HG Soy Chilli Sauce" resolves to $35.00 of soy
+                # and $4.38 of chilli — the exact figures its correctly-typed twin
+                # "HG's Soy Chilli Sauce" states at 2.5 L and 0.25 kg.
+                note = ""
+                try:
+                    c = float(ing.get("cost") or 0)
+                except (TypeError, ValueError):
+                    c = 0.0
+                ceil = _UNIT_CEIL.get(base)
+                if c > 0 and q > 0 and ceil is not None and (c / q) > ceil:
+                    ing["cost"] = str(c / mult)
+                    note = f", cost ${c:,.2f} -> ${c / mult:,.2f}"
+                typos.append(f"{rname} / {ing.get('name')}: "
+                             f"{q:g} {raw} -> {q:g} {base}{note}")
+                mult = 1.0
+            if base == raw and mult == 1.0:
+                continue
+            if mult != 1.0:
+                ing["qty"] = q * mult
+            ing["unit"] = base
+            n += 1
+    if typos:
+        print(f"  {len(typos)} bulk-label typo(s) read as base units "
+              f"(a line cannot be >{_MAX_REAL_BULK_LINE:g} L/kg):")
+        for t in typos:
+            print(f"      {t}")
+    return n
+
+
 def load_raw_line_costs(rec: dict) -> dict:
     out = {}
     for rname, body in (rec or {}).items():
@@ -483,6 +633,11 @@ def main() -> int:
     _fixed = apply_unit_fixes(rec)
     if _fixed:
         print(f"  corrected {_fixed} mislabelled unit(s) (recipe_line_unit_fixes.yaml)")
+    # ...then put every line in the base units our cost book is priced in, so the
+    # Harry Gatos scrape's "mL"/"L"/"kg"/"Units" can reach it at all.
+    _normalised = normalise_line_units(rec)
+    if _normalised:
+        print(f"  normalised {_normalised} line unit(s) to base units")
     _RAW_LINE_COST = load_raw_line_costs(rec)
     if _LS_MISREAD_REFS:
         print(f"  {len(_LS_MISREAD_REFS)} ProductIDs Lightspeed prices wrong "

@@ -55,3 +55,21 @@
   from_unit: "L"
   to_unit: "mL"
   why: "as above"
+
+# Harry Gatos. The same bulk-label defect as Peking Sauce, but at 20 the quantity
+# sits under the >25 L/kg bound that convert_lightspeed_recipes.py uses to read a
+# bulk label as base units — so it needs naming here, with its own proof.
+- recipe: "Corpse Reviver No. 2 [HG]"
+  ingredient: "Massenez Triple Sec [5L]"
+  from_unit: "L"
+  to_unit: "mL"
+  cost_factor: 0.001   # Produce derived its $1,080.32 from the SAME label: $54/L x 20 L
+  # PROOF: the recipe's other three lines are 20 mL gin, 20 mL Lillet Blanc and
+  # 2 mL absinthe. A Corpse Reviver No. 2 is equal parts gin, triple sec, Lillet
+  # and lemon with an absinthe rinse, and three of those four parts are written
+  # here as 20 mL. The fourth is 20 of the same thing.
+  #
+  # EFFECT: the cocktail drops $1,438.40 -> ~$2.75 against a $21.00 sell price.
+  # Before the unit normalisation this line was silently rejected and cost $0,
+  # which is why a 1000x error in a live cocktail had never surfaced.
+  why: "three sibling lines in the same drink are 20 mL; the spec is equal parts"

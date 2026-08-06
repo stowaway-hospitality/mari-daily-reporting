@@ -90,3 +90,33 @@ def test_builder_recipes_resolve_their_sub_recipes():
         assert defined - costed == set(), (
             f"{venue_key}: these builder recipes failed to cost: {sorted(defined - costed)}"
         )
+
+
+def test_a_zero_cost_is_never_published_as_a_cost():
+    """
+    ZERO IS NOT A PRICE, IT IS THE ABSENCE OF ONE.
+
+    10 products reached the P&L at exactly $0.00 — Whispering Angel, Veuve
+    Clicquot, Laphroaig, a Caipirinha. None of them is free. Each is a real pour
+    whose product carries no cost anywhere: Back Office holds CostPriceIncTax
+    0.0000 and no invoice has bridged to it.
+
+    Publishing that 0 does not report "unknown". It reports a $40 glass of rosé
+    at 100% gross profit, silently, in the flattering direction. Falling through
+    to Lightspeed's own figure is wrong too, but it is visibly sourced
+    (cost_source='lightspeed') and the audit is already shouting about it.
+    """
+    out = _load_book_costs("stowaway")
+    assert all(v > 0 for v in out.values()), \
+        [k for k, v in out.items() if v <= 0]
+
+
+def test_products_with_no_price_anywhere_are_absent_not_free():
+    """The specific products that were reading as 100% GP."""
+    book = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    free = {n for n, r in book.items()
+            if not r.get("is_prep") and (r.get("our_cost") or 0) == 0
+            and (r.get("sell_incl") or 0) > 0}
+    assert free, "fixture sanity: some products still have no cost source at all"
+    offered = set(_load_book_costs("stowaway")) | set(_load_book_costs("harry_gatos"))
+    assert not (free & offered), sorted(free & offered)

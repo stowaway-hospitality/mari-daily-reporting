@@ -90,28 +90,101 @@ def ingredient_pids() -> set[str]:
 COSTS = ROOT / "data" / "costs.csv"
 
 
-def already_costed() -> set[str]:
-    """ProductIDs that already carry a USABLE cost.
+def already_costed() -> dict:
+    """ProductID -> the units it is already priced in.
 
     Read the built cost book, not cogs_list: a raw cogs row whose pack can't be
     resolved is dropped by build_costs, so it yields no price at all. Several
     pours ("Jack Daniels", $6.55 with no readable pack) have exactly such a row —
-    counting those as costed left them blocked AND blocked the fix."""
+    counting those as costed left them blocked AND blocked the fix.
+
+    The UNITS matter, not just the presence of a row — see `_can_improve`."""
+    out: dict = {}
     if not COSTS.exists():
-        return set()
-    return {r["ingredient"].split(":", 1)[1]
-            for r in csv.DictReader(COSTS.open(encoding="utf-8-sig"))
-            if r.get("ingredient", "").startswith("lightspeed:")}
+        return out
+    for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
+        k = r.get("ingredient", "")
+        if k.startswith("lightspeed:"):
+            out.setdefault(k.split(":", 1)[1], set()).add((r.get("unit") or "").lower())
+    return out
+
+
+# The units a recipe can multiply a quantity by. Anything else is a whole-pack
+# price: usable for the ratio path, useless for "30 ml of this".
+_POURABLE = {"ml", "g"}
+
+
+def _can_improve(units: set, pack) -> bool:
+    """Is an existing cost worth replacing with one priced per ml/g?
+
+    Four Pillars Olive Leaf, Johnnie Walker Black and Laphroaig each carried a
+    cost — $82.58, $57.26, $86.97 — priced per "each", because the bottle SKU
+    that holds the price is named "[Bottle]" and there is no size in that word.
+    A 30 ml pour cannot be multiplied by a per-bottle price, so the unit clash
+    was refused and three spirits selling at $14.50-$19.00 costed $0.00 and
+    reported 100% GP.
+
+    Having a row therefore is not the same as being costed. This says: if every
+    price we hold for a product is a whole-pack price, and the export declares a
+    pack we can divide it by, re-seed it. If it is already per ml or per g,
+    leave it — that is either an invoice or a better seed, and neither should be
+    overwritten by a Back Office figure."""
+    return bool(pack) and not (units & _POURABLE)
+
+
+def _declared_pack(r):
+    """(qty, unit) the BO export itself states for this product, or None.
+
+    Lightspeed holds the pack in two structured columns — Unit and DefaultSize —
+    and "Four Pillars Olive Leaf [Bottle]" fills them in as ml / 700. The name
+    does not: there is no size in the word "Bottle". resolve_pack() reads names,
+    so it had nothing to read and fell back to pricing the whole bottle as one
+    countable "can". A 30 ml pour then asked for 30 CANS of gin, the unit clash
+    was refused, and a $14.50 gin cost $0.00 and reported 100% GP.
+
+    THIS IS A FALLBACK, NOT A REPLACEMENT, because the two columns do not agree
+    with each other across the catalogue:
+
+        Sriracha [730mL]               Unit=l    DefaultSize=730     (really 730 mL)
+        Rice Wine Vinegar [500mL]      Unit=l    DefaultSize=500     (really 500 mL)
+        Tomato Sauce Heinz [4L]        Unit=l    DefaultSize=4000    (really 4000 mL)
+        Ginger [kg]                    Unit=kg   DefaultSize=1       (really 1 kg)
+        Oyster Sauce Megachef [5.4kg]  Unit=kg   DefaultSize=5.4     (really 5.4 kg)
+
+    DefaultSize is in millilitres for some "l" products and in litres for none of
+    them, while "kg" products state kilograms. Every one of those products,
+    though, carries its pack in its NAME — so the name is read first and this is
+    consulted only for the ones that do not ("[Bottle]", "Potato Starch").
+
+    Two guards, both arithmetic. A "g"/"ml" size of 1 or less is not a pack, it is
+    the default of an unconfigured product, and pricing $25 of dried shiitake
+    against 1 g would make it the dearest ingredient in the building. And a "kg"/
+    "l" size above 30 is not a single purchasable pack either — that is the
+    Sriracha reading, 730 litres of chilli sauce — so it is refused rather than
+    multiplied."""
+    u = (r.get("Unit") or "").strip().lower()
+    if u not in ("ml", "g", "l", "kg"):
+        return None
+    try:
+        q = float(r.get("DefaultSize") or 0)
+    except (TypeError, ValueError):
+        return None
+    if u in ("ml", "g"):
+        return (q, u) if q > 1 else None
+    return (q * 1000, "ml" if u == "l" else "g") if 0 < q <= 30 else None
 
 
 def sibling_costs() -> dict:
-    """base name -> (product name, cost) for every costed product.
+    """base name -> (product name, cost, pack) for every costed product.
 
     A back bar carries the same spirit twice: the POUR the recipe names ("Jack
     Daniels", no cost) and the STOCK BOTTLE that holds the cost ("Jack Daniels
     [Bottle]", $45.25). They are one product with two SKUs, and norm() already
     strips the bracket/size suffix, so the pair collapses to one key. Costing the
-    pour from its own bottle is evidence, not a guess."""
+    pour from its own bottle is evidence, not a guess.
+
+    `pack` is what the BO export declares for the SKU the cost came from — the
+    bottle — which is the only SKU that has one. See _declared_pack."""
     out = {}
     for _v, path in EXPORTS:
         if not path.exists():
@@ -123,7 +196,7 @@ def sibling_costs() -> dict:
             k = _norm(r["ProductName"])
             # prefer the priciest match: the full bottle, not a sample pour
             if k and (k not in out or c > out[k][1]):
-                out[k] = (r["ProductName"].strip(), c)
+                out[k] = (r["ProductName"].strip(), c, _declared_pack(r))
     return out
 
 
@@ -137,10 +210,11 @@ def collect():
             continue
         for r in csv.DictReader(path.open(encoding="utf-8-sig")):
             pid = (r.get("ProductID") or "").strip()
-            if pid not in pids or pid in have or pid in seen:
+            if pid not in pids or pid in seen:
                 continue
             cost = _cost(r)
             name = r["ProductName"].strip()
+            pack = _declared_pack(r)
             if cost is None:
                 # no cost on this SKU — inherit the twin SKU's cost if there is one,
                 # and price it off the TWIN's name so the pack size is read from the
@@ -148,21 +222,41 @@ def collect():
                 sib = sibs.get(_norm(name))
                 if sib and _norm(sib[0]) == _norm(name) and sib[0] != name:
                     name, cost = sib[0], sib[1]
+                    pack = sib[2] or pack     # the bottle's declared pack, not the pour's
                 else:
-                    skipped.append((name, "no BO cost — needs an invoice"))
+                    if pid not in have:
+                        skipped.append((name, "no BO cost — needs an invoice"))
                     continue
+            if pid in have and not _can_improve(have[pid], pack):
+                continue
             seen.add(pid)
-            # Prefer a real pack read from the name ($/g, $/ml); otherwise price the
-            # whole pack as one unit. Either way the ratio path does the work, so an
-            # unreadable pack never blocks the fix.
+            # The pack stated in the NAME first ("[730mL]", "[5kg bag]") — it is the
+            # figure the two BO columns disagree with, and it is the one that is
+            # right. Then the pack the export declares, which is all a "[Bottle]"
+            # has. And only if neither exists, price the whole thing as one
+            # countable unit so the ratio path can still work.
+            #
+            # The declared pack has to be written INTO THE DESCRIPTION, not just
+            # the pack_qty/pack_unit columns. build_costs deliberately ignores
+            # those columns — ILG records the CASE there while pricing some lines
+            # per bottle, so trusting them under-costs Patron 6x — and reads the
+            # description instead. A row whose pack lives only in the columns is
+            # dropped as "pack unreadable", which is how 63 seeded spirits landed
+            # in cogs_list.csv and never appeared in the cost book. This is the
+            # same convention seed_beverage_costs.py already uses: the description
+            # states the pack, `lightspeed_product` keeps the clean name.
+            desc = name
             q, u, _per, _how, bad = resolve_pack(name, cost, basis="", note="", code="")
             if q and u and not bad:
                 basis, pq, pu = "", str(q), u
+            elif pack:
+                basis, pq, pu = "", str(pack[0]), pack[1]
+                desc = f"{name} {pack[0]:g}{pack[1]}"
             else:
                 basis, pq, pu = "can", "1", "each"
             seed.append({
                 "supplier": "Lightspeed", "supplier_code": pid,
-                "invoice_description": name, "lightspeed_product": name,
+                "invoice_description": desc, "lightspeed_product": name,
                 "cost_per_unit_incl_gst": str(cost), "basis": basis,
                 "pack_size": "1", "pack_qty": pq, "pack_unit": pu,
                 "cost_per_base_unit": "", "venue": venue,
