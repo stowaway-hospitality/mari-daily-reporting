@@ -139,7 +139,7 @@ def stamp_versions() -> None:
 
 
 
-_APPICON_BLOCK = '<!--shg-appicons-->\n<link rel="icon" href="/favicon.ico" sizes="any">\n<link rel="icon" type="image/png" sizes="32x32" href="/logo_32.png">\n<link rel="icon" type="image/png" sizes="128x128" href="/logo_128.png">\n<link rel="apple-touch-icon" sizes="180x180" href="/logo_180.png">\n<link rel="manifest" href="/manifest.webmanifest">\n<meta name="apple-mobile-web-app-capable" content="yes">\n<meta name="mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">\n<meta name="apple-mobile-web-app-title" content="Stowaway">\n<meta name="theme-color" content="#161512">\n'
+_APPICON_BLOCK = '<!--shg-appicons-->\n<link rel="icon" href="/favicon.ico" sizes="any">\n<link rel="icon" type="image/png" sizes="32x32" href="/logo_32.png">\n<link rel="icon" type="image/png" sizes="128x128" href="/logo_128.png">\n<link rel="apple-touch-icon" sizes="180x180" href="/appicon-180.png">\n<link rel="manifest" href="/manifest.webmanifest">\n<meta name="apple-mobile-web-app-capable" content="yes">\n<meta name="mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">\n<meta name="apple-mobile-web-app-title" content="Stowaway">\n<meta name="theme-color" content="#161512">\n'
 
 
 def inject_app_icons() -> None:
