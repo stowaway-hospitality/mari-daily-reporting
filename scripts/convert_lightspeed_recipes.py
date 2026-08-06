@@ -473,15 +473,48 @@ RENAMED_TO = {
     "Btl Disco Volante D": "Trutta Streamside Shiraz [Chilled] - Bottle",  # $68 bottle
 }
 
+# A recipe whose Produce NAME is not the name Back Office sells it under. The
+# book is renamed on the way out, after every transform has run against the name
+# the scrape uses, so nothing upstream has to know.
+#
+# Get this wrong and a recipe stops matching its product, so entries need the
+# same standard as any other: the Back Office export must carry the new name and
+# NOT the old one.
+RECIPE_RENAMED_TO = {
+    # Every other dine-in pizza is "Regular X [Dine-in]" — twenty of them. This
+    # one lost its size prefix in Produce, and _mirror_dine_in already had to
+    # special-case it ("a legacy name whose takeaway twin is Regular Pepperoni").
+    #
+    # The name cost real money twice over. Back Office sells "Regular Pepperoni
+    # [Dine-in]" at $21 and has no product called "Pepperoni [Dine-in]" at all,
+    # so the P&L could not match the recipe to the SKU — $253 a quarter, 114
+    # serves since launch, costed off Lightspeed. And the sell-price lookup
+    # normalises the bracket away, landing on the $2.00 "Pepperoni" add-on, which
+    # is where the SEVERE "real recipe priced below cost, sells $2.00 costs
+    # $2.11" came from. That was never a POS pricing error. It was this.
+    "Pepperoni [Dine-in]": "Regular Pepperoni [Dine-in]",
+}
+
 
 def load_sell_prices():
     """normalised ProductName -> sell price incl GST (what the menu charges).
 
-    Returns (by_norm, by_tok). by_norm is the exact match. by_tok is a
-    word-order-tolerant fallback that ONLY carries a token key when every priced
-    product sharing that key agrees on ONE price — so 'Coke 1.25L' ($6) rescues
-    the recipe named '1.25L Coke', but an ambiguous key like the three-size
-    'Trutta Streamside Shiraz' ($18/$27/$68) is dropped rather than guessed."""
+    Returns (by_exact, by_norm, by_tok), tried in that order.
+
+    by_exact IS THE ONE THAT MATTERS AND IT WAS MISSING. norm() strips the
+    bracket, so "Regular Margherita [Dine-in]" and "Regular Margherita" collapse
+    to one key and whichever the export listed first won. It was always the
+    takeaway, so every dine-in pizza carried its takeaway price — $14 against a
+    real $21, six to eight dollars low, on all 77 of them. The cost was right and
+    the GP was not, in the direction that makes a dish look worse than it is.
+    Matching the product's own name first cannot be ambiguous, so it goes first.
+
+    by_norm is the bracket-insensitive match. by_tok is a word-order-tolerant
+    fallback that ONLY carries a token key when every priced product sharing that
+    key agrees on ONE price — so 'Coke 1.25L' ($6) rescues the recipe named
+    '1.25L Coke', but an ambiguous key like the three-size 'Trutta Streamside
+    Shiraz' ($18/$27/$68) is dropped rather than guessed."""
+    exact_prices = {}
     by_norm = {}
     tok_prices = {}
     for _v, path in EXPORTS:
@@ -495,17 +528,23 @@ def load_sell_prices():
             nm = r["ProductName"]
             n = norm(nm)
             if n and p > 0:
+                exact_prices.setdefault(nm.strip(), set()).add(round(p, 2))
                 by_norm.setdefault(n, p)
                 tok_prices.setdefault(_tok(nm), set()).add(round(p, 2))
+    # Same discipline as by_tok: a name that two venues price differently is
+    # dropped rather than resolved to whichever export was read first.
+    by_exact = {k: next(iter(ps)) for k, ps in exact_prices.items() if len(ps) == 1}
     by_tok = {t: next(iter(ps)) for t, ps in tok_prices.items() if len(ps) == 1}
-    return by_norm, by_tok
+    return by_exact, by_norm, by_tok
 
 
-def sell_of(name, by_norm, by_tok):
-    """current-product override (renamed items) first, then exact normalised name,
-    then the unambiguous word-order fallback."""
+def sell_of(name, by_exact, by_norm, by_tok):
+    """current-product override (renamed items) first, then the product's OWN
+    name, then the bracket-insensitive match, then the word-order fallback."""
     lookup = RENAMED_TO.get(name, name)
-    return by_norm.get(norm(lookup)) or by_tok.get(_tok(lookup))
+    return (by_exact.get(lookup.strip())
+            or by_norm.get(norm(lookup))
+            or by_tok.get(_tok(lookup)))
 
 
 _YB = re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre)\]", re.I)
@@ -687,7 +726,7 @@ def main() -> int:
     our_preps = load_our_preps(our_costs)
     packs = load_packs()
     seed_base = load_seed_baseline()
-    sell_by_norm, sell_by_tok = load_sell_prices()
+    sell_by_exact, sell_by_norm, sell_by_tok = load_sell_prices()
     yields = load_yields()
     # 47 recipe names collide once normalised (a base recipe and its "[Dine-in]"
     # twin). Keep the SHORTEST — the base recipe — so a normalised lookup lands on
@@ -863,7 +902,7 @@ def main() -> int:
                             q = float(ln.get("qty") or 0)
                         except (TypeError, ValueError):
                             q = 0.0
-                        if 0 < q <= 2 and (sell_of(ref, sell_by_norm, sell_by_tok) or 0) >= 3:
+                        if 0 < q <= 2 and (sell_of(ref, sell_by_exact, sell_by_norm, sell_by_tok) or 0) >= 3:
                             for sub in out[ref]["ingredients"]:
                                 c = dict(sub)
                                 for k in ("qty", "ls_cost"):   # the LS reference must scale too
@@ -1257,7 +1296,7 @@ def main() -> int:
                 except (TypeError, ValueError):
                     _q2 = 0.0
                 if (so > 0 and not _y and 0 < _q2 <= 2
-                        and (sell_of(ln["ref"], sell_by_norm, sell_by_tok) or 0) >= 3):
+                        and (sell_of(ln["ref"], sell_by_exact, sell_by_norm, sell_by_tok) or 0) >= 3):
                     # A whole SERVE used inside another product: a Regular pizza is
                     # "0.716 of the Large", a Wings Deal is "1 x the Large", so the
                     # quantity IS the multiplier. Scaling by Lightspeed's price ratio
@@ -1423,6 +1462,26 @@ def main() -> int:
                 n += 1
         return n
 
+    # RENAME BEFORE COSTING, not after. Every transform above works on the name
+    # the scrape uses; everything below — the sell price, the GP, the key the P&L
+    # looks up — must use the name Back Office sells. Renaming at the end left the
+    # recipe carrying the $2.00 price of the "Pepperoni" add-on it had matched on
+    # the way past. Verified first: nothing references the old name as a
+    # sub-recipe (_flatten_pointer_pizzas has already lifted Regular Pepperoni's
+    # lines up), so the rename cannot orphan a reference.
+    _renamed = 0
+    for _old, _new in RECIPE_RENAMED_TO.items():
+        if _old in out and _new not in out:
+            _still_used = any(l.get("ref") == _old
+                              for r in out.values() for l in r["ingredients"])
+            if _still_used:
+                print(f"  NOT renaming {_old!r}: still referenced as a sub-recipe")
+                continue
+            out[_new] = out.pop(_old)
+            _renamed += 1
+    if _renamed:
+        print(f"  renamed {_renamed} recipe(s) to the name Back Office sells them under")
+
     fully_ours = 0
     for name in out:
         o, l, fo = cost_of(name)
@@ -1451,7 +1510,7 @@ def main() -> int:
         #    that do have a group — Mint Yoghurt [Batch] $1, Tandoori Chicken
         #    [2Kg] $2 — are placeholder prices on things used as sub-recipes,
         #    which the used_as_sub clause below keeps as preps regardless.
-        sell = sell_of(name, sell_by_norm, sell_by_tok)
+        sell = sell_of(name, sell_by_exact, sell_by_norm, sell_by_tok)
         menu_priced = bool(sell and sell >= 3)
         name_prep = bool(PREP_RE.search(name)) and not (menu_priced and bo_group(name))
         is_prep = name_prep or (name in used_as_sub and not menu_priced)

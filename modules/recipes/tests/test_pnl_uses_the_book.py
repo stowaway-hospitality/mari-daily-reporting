@@ -242,3 +242,56 @@ def test_an_exact_name_still_wins():
     out = _load_book_costs("stowaway")
     out["Bombay Dry [House]"] = 99.0
     assert book_cost(out, "Bombay Dry [House]") == 99.0
+
+
+def test_a_dine_in_pizza_is_priced_at_its_own_menu_price():
+    """
+    norm() strips the bracket, so "Regular Margherita [Dine-in]" and "Regular
+    Margherita" collapsed to one sell-price key and whichever the export listed
+    first won. It was always the takeaway, so every one of the 77 dine-in pizzas
+    carried its takeaway price — $14 against a real $21, six to eight dollars
+    low. The cost was right; the GP was not, in the direction that makes a dish
+    look worse than it is.
+
+    Asserted against Back Office directly: a recipe whose name IS a product name
+    must carry that product's price.
+    """
+    import csv
+
+    exact = {}
+    for f in ("stowaway_products.csv", "harry_gatos_products.csv"):
+        p = ROOT / "data" / "bo_exports" / f
+        if not p.exists():
+            continue
+        for r in csv.DictReader(p.open(encoding="utf-8-sig")):
+            try:
+                v = float(r.get("SellPriceIncTax") or 0)
+            except ValueError:
+                v = 0.0
+            if v > 0:
+                exact.setdefault(r["ProductName"].strip(), set()).add(round(v, 2))
+    exact = {k: next(iter(v)) for k, v in exact.items() if len(v) == 1}
+
+    book = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    # RENAMED_TO deliberately overrides a discontinued product's price; that is
+    # the one exception and it is declared in the converter.
+    from convert_lightspeed_recipes import RENAMED_TO
+
+    wrong = [(n, r["sell_incl"], exact[n]) for n, r in book.items()
+             if not r.get("is_prep") and n in exact and r.get("sell_incl")
+             and n not in RENAMED_TO and abs(exact[n] - r["sell_incl"]) > 0.01]
+    assert not wrong, wrong[:5]
+    assert book["Regular Margherita [Dine-in]"]["sell_incl"] == 21.0
+
+
+def test_the_legacy_dine_in_pepperoni_is_named_what_the_pos_sells():
+    """Every other dine-in pizza is "Regular X [Dine-in]" — twenty of them. This
+    one lost its size prefix in Produce, so the P&L could not match it to the SKU
+    Back Office sells ($253 a quarter, 114 serves since launch), and the sell
+    lookup landed on the $2.00 "Pepperoni" add-on instead — which is where the
+    SEVERE "real recipe priced below cost, sells $2.00 costs $2.11" came from.
+    That was never a POS pricing error."""
+    book = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    assert "Pepperoni [Dine-in]" not in book
+    r = book["Regular Pepperoni [Dine-in]"]
+    assert r["sell_incl"] == 21.0 and r["our_cost"] > 0 and r["gp_pct"] > 0
