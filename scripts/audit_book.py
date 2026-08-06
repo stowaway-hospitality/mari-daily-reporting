@@ -70,16 +70,100 @@ def money(x):
         return 0.0
 
 
+# A recipe name carries the venue; a POS product name does not.
+_VENUE_TAG = re.compile(r"\s*\[(hg|harrys|harry gatos)\]\s*$", re.I)
+
+
+def load_sales(weeks=13):
+    """POS product name (normalised) -> (units, revenue ex GST) over `weeks`.
+
+    WHY THE AUDIT NEEDS THIS
+    ------------------------
+    Without it every finding weighs the same, and the list is sorted by name. So
+    "Corpse Reviver No. 2" — one sold, ever, in June 2025 — sat above "Kids Spag
+    Bol", which is 303 serves and $3,618 and has no recipe at all. The audit was
+    telling the truth and burying it.
+
+    A defect on a dormant SKU is still a defect, but it misstates nothing: there
+    is no revenue for it to misstate. It stays listed, at WARN, saying so.
+
+    Only qty and sales_ex_gst are read. products_weekly's `cost` column is
+    incomplete (the Looker backfill has null costs) and is not used here — an
+    earlier pass built a "$54k missing from the P&L" claim on it and was wrong.
+    """
+    if not PRODUCTS_WEEKLY.exists():
+        return {}
+    pw = list(csv.DictReader(PRODUCTS_WEEKLY.open(encoding="utf-8-sig")))
+    wks = sorted({r["week_ending"] for r in pw})
+    if not wks:
+        return {}
+    cut = wks[max(0, len(wks) - weeks)]
+    out: dict = {}
+    for r in pw:
+        if r["week_ending"] < cut:
+            continue
+        a = out.setdefault(_nrm_name(r["product_name"]), [0.0, 0.0])
+        a[0] += money(r.get("qty"))
+        a[1] += money(r.get("sales_ex_gst"))
+    return {k: tuple(v) for k, v in out.items()}
+
+
+def sold(sales, name):
+    """(units, revenue) for a recipe, or None when no POS product matches it.
+
+    "No sales record" and "sold nothing" are different claims and the audit must
+    not conflate them: 433 of the 829 recipes are preps, size variants and
+    delivery twins whose names were never POS product names. Only two lookups are
+    tried — the name as written, and the name with its venue tag removed — because
+    anything looser starts matching "Whispering Angel - Regular" onto a different
+    product's revenue, and a wrong denominator is worse than no denominator."""
+    hit = sales.get(_nrm_name(name))
+    if hit is None:
+        hit = sales.get(_nrm_name(_VENUE_TAG.sub("", name)))
+    return hit
+
+
+def weigh(sales, product, sev, detail):
+    """-> (revenue_at_stake, severity, detail) for one finding.
+
+    A defect on a dormant SKU is still a defect, but it misstates nothing: there
+    is no revenue for it to misstate. It drops to WARN and says why, so the
+    SEVERE list is the things costing money this quarter.
+
+    Revenue is floored at zero. A handful of POS products are discount and refund
+    SKUs whose 13-week revenue is negative; that is real, but it must not sort a
+    finding BELOW one worth nothing."""
+    s = sold(sales, product)
+    if s is None:
+        return 0.0, sev, f"{detail}   [no POS sales record]"
+    if s[0] <= 0:
+        return 0.0, "WARN", f"{detail}   [dormant — 0 sold in 13wk]"
+    return max(0.0, s[1]), sev, f"{detail}   [{s[0]:,.0f} sold, ${s[1]:,.0f} in 13wk]"
+
+
 def audit():
     recipes = json.loads(COSTED.read_text())["recipes"]
     ing_raw = json.loads(INGREDIENTS.read_text())
     ings = ing_raw["ingredients"] if isinstance(ing_raw, dict) else ing_raw
     by_id = {i["id"]: i for i in ings}
 
-    F = defaultdict(list)   # (severity, rule) -> [detail]
+    sales = load_sales()
 
-    def add(sev, rule, detail):
-        F[(sev, rule)].append(detail)
+    F = defaultdict(list)   # (severity, rule) -> [(revenue_at_stake, detail)]
+
+    def add(sev, rule, detail, product=None):
+        """Record a finding, weighted by what the product actually sells.
+
+        `product` names the POS item the finding is about. Given one, the detail
+        gains a 13-week sales tail and the rule sorts by revenue, so the biggest
+        real number is at the top instead of whatever starts with 'A'. A finding
+        on something with no sales in 13 weeks is demoted to WARN — the number is
+        still wrong, but there is no money for it to misstate, and leaving it at
+        SEVERE crowds out the ones that cost something today."""
+        rev = 0.0
+        if product is not None:
+            rev, sev, detail = weigh(sales, product, sev, detail)
+        F[(sev, rule)].append((rev, detail))
 
     # ---------- RECIPES ----------
     for name, r in sorted(recipes.items()):
@@ -90,20 +174,20 @@ def audit():
 
         if sell >= MENU_PRICED and cost == 0 and not prep:
             add("SEVERE", "sells for money but costs $0 (reads as 100% GP)",
-                f"${sell:>7.2f}  {name}")
+                f"${sell:>7.2f}  {name}", product=name)
         if not lines and not prep:
             add("WARN", "no ingredient lines at all", name)
         if cost > ABSURD_SERVE and not prep:
             add("SEVERE", f"single serve costs more than ${ABSURD_SERVE:.0f}",
-                f"${cost:>8.2f}  {name}")
+                f"${cost:>8.2f}  {name}", product=name)
         if sell >= MENU_PRICED and cost > sell and not prep:
             add("SEVERE", "costs more than it sells for",
-                f"cost ${cost:>7.2f} vs sell ${sell:>7.2f}  {name}")
+                f"cost ${cost:>7.2f} vs sell ${sell:>7.2f}  {name}", product=name)
         if gp is not None and gp >= GP_FLATTER and not prep:
             add("WARN", f"GP >= {GP_FLATTER:.0f}% — a cost is probably missing",
-                f"{gp:>5.1f}%  ${cost:>6.2f} -> ${sell:>7.2f}  {name}")
+                f"{gp:>5.1f}%  ${cost:>6.2f} -> ${sell:>7.2f}  {name}", product=name)
         if gp is not None and gp < 0 and not prep:
-            add("SEVERE", "negative GP", f"{gp:>7.1f}%  {name}")
+            add("SEVERE", "negative GP", f"{gp:>7.1f}%  {name}", product=name)
 
         for ln in lines:
             if not ln.get("kind"):
@@ -128,7 +212,8 @@ def audit():
         lines = r.get("ingredients") or []
         if 0 < sell < MENU_PRICED and cost > sell and len(lines) >= 2:
             add("SEVERE", "real recipe priced below cost (POS price looks wrong)",
-                f"sell ${sell:>6.2f} vs cost ${cost:>6.2f}  ({len(lines)} lines)  {name}")
+                f"sell ${sell:>6.2f} vs cost ${cost:>6.2f}  ({len(lines)} lines)  {name}",
+                product=name)
 
     # ---------- A COMBO THAT CONTAINS NOTHING EXTRA ----------
     # "Large X Wings Deal" is a pizza AND wings, so it must cost more than the
@@ -390,15 +475,21 @@ def main():
 
     F = audit()
     order = {"SEVERE": 0, "WARN": 1, "INFO": 2}
-    keys = sorted(F, key=lambda k: (order[k[0]], -len(F[k])))
+    # Rules with real money behind them first, then the biggest lists. A rule
+    # about a product nobody buys should not outrank one about the menu.
+    rule_rev = {k: sum(rev for rev, _ in F[k]) for k in F}
+    keys = sorted(F, key=lambda k: (order[k[0]], -rule_rev[k], -len(F[k])))
     n_sev = sum(len(F[k]) for k in F if k[0] == "SEVERE")
 
     for sev, rule in keys:
         if args.severe and sev != "SEVERE":
             continue
-        items = F[(sev, rule)]
-        print(f"\n[{sev}] {rule} — {len(items)}")
-        for d in items[:20]:
+        items = sorted(F[(sev, rule)], key=lambda x: -x[0])
+        head = f"\n[{sev}] {rule} — {len(items)}"
+        if rule_rev[(sev, rule)] > 0:
+            head += f"   (${rule_rev[(sev, rule)]:,.0f} of 13wk revenue affected)"
+        print(head)
+        for _rev, d in items[:20]:
             print(f"    {d}")
         if len(items) > 20:
             print(f"    ... and {len(items) - 20} more")

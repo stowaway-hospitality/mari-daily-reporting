@@ -1,0 +1,92 @@
+"""
+The audit has to know what actually sells, or it buries its own best findings.
+
+THE GAP
+-------
+Every finding weighed the same and each rule listed alphabetically. So "Corpse
+Reviver No. 2" — one sold, ever, in June 2025 — sat above "Kids Spag Bol", and
+"Milagro Reposado Tequila", which has never sold a single unit, sat in the same
+SEVERE list as a product turning over real money. The audit was telling the truth
+and burying it.
+
+WHAT THIS GUARDS
+----------------
+- three states are distinguished: sold, sold nothing, and no POS record at all
+- a defect on a dormant SKU drops to WARN — it misstates no revenue — and says so
+- findings sort by revenue at stake, biggest first
+- a finding with no `product` is unweighted and still reported
+"""
+
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from audit_book import audit, load_sales, sold, weigh  # noqa: E402
+
+
+def test_sales_load_and_are_keyed_by_normalised_pos_name():
+    s = load_sales()
+    assert s, "products_weekly.csv should give the audit a sales denominator"
+    for qty, rev in s.values():
+        assert isinstance(qty, float) and isinstance(rev, float)
+        assert qty >= 0
+
+
+def test_a_venue_tag_is_stripped_before_matching():
+    """Recipe names carry the venue; POS product names do not."""
+    fake = {"caipirinha": (4.0, 57.0)}
+    assert sold(fake, "Caipirinha [HG]") == (4.0, 57.0)
+    assert sold(fake, "Caipirinha") == (4.0, 57.0)
+
+
+def test_no_record_is_not_the_same_as_no_sales():
+    """433 of the 829 recipes are preps, size variants and delivery twins whose
+    names were never POS product names. Reporting those as "0 sold" would be a
+    claim we cannot make."""
+    assert sold({"caipirinha": (4.0, 57.0)}, "Something Else") is None
+
+
+def test_looser_matching_is_refused():
+    """A wrong denominator is worse than no denominator: "Whispering Angel -
+    Regular" must not silently inherit "Whispering Angel Rose"'s revenue."""
+    fake = {"whisperingangelrose": (262.0, 9313.0)}
+    assert sold(fake, "Whispering Angel - Regular [HG]") is None
+
+
+def test_a_dormant_product_is_reported_but_not_severe():
+    """It is still a defect. It just cannot misstate money that is not being
+    made, and at SEVERE it crowds out the ones that cost something today."""
+    rev, sev, detail = weigh({"deadsku": (0.0, 0.0)}, "Dead SKU", "SEVERE", "x")
+    assert (rev, sev) == (0.0, "WARN") and "dormant" in detail
+
+    F = audit()
+    severe = [d for (s, _r), items in F.items() if s == "SEVERE" for _rev, d in items]
+    assert not [d for d in severe if "dormant" in d], severe[:5]
+
+
+def test_a_refund_sku_never_outranks_a_finding_worth_nothing():
+    """A few POS products carry NEGATIVE 13-week revenue (discounts, refunds).
+    That is real, but a negative weight would sort the finding below unweighted
+    ones, so it floors at zero rather than going backwards."""
+    rev, sev, _d = weigh({"refunds": (72.0, -842.92)}, "Refunds", "SEVERE", "x")
+    assert rev == 0.0 and sev == "SEVERE"
+
+
+def test_every_finding_carries_a_revenue_weight():
+    F = audit()
+    for items in F.values():
+        for rev, detail in items:
+            assert isinstance(rev, float) and rev >= 0
+            assert isinstance(detail, str) and detail
+
+
+def test_a_live_product_keeps_its_severity_and_states_its_volume():
+    F = audit()
+    live = [d for (sev, _r), items in F.items() if sev == "SEVERE"
+            for rev, d in items if rev > 0]
+    assert live, "fixture sanity: some SEVERE findings are on selling products"
+    for d in live:
+        assert "sold, $" in d

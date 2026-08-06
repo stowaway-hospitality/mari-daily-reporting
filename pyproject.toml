@@ -16,6 +16,19 @@
 # pytest-shaped. So: point pytest at the pytest tests, and let CI run the two
 # scripts as scripts, checking their exit code. Do not rewrite working tests to
 # please a runner.
+#
+# THE TRAP THIS SETS, AND WHERE TO PUT A NEW TEST
+#
+# A pytest-shaped test written under scripts/ is never run. Not by `pytest`,
+# because of the line below; and not by CI, because CI names the script-shaped
+# ones one at a time. It passes locally when you point pytest at it and then
+# silently guards nothing. scripts/test_our_costs_book.py sat like that — 6 tests
+# on the P&L's use of the cost book, green on demand, never once run by CI.
+#
+# So: a test with `def test_*` and no sys.exit belongs under modules/, whatever
+# it covers. It can still import from scripts/. Only genuinely script-shaped
+# tests (the ones that sys.exit at module level) go in scripts/, and each of
+# those needs its own CI line.
 testpaths = ["modules"]
 pythonpath = ["."]   # repo root: core/ and modules/ are packages
 addopts = "-q --strict-markers"
