@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-07",
-  "count": 300,
+  "count": 303,
   "skipped_already_in_xero": 216,
   "invoices": [
     {
@@ -388,6 +388,167 @@
           "qty": "10",
           "amount": "93.50",
           "unit_cost": "$9.35/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3108983",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-08-06",
+      "due_date": "2026-08-20",
+      "total": "108.50",
+      "venue": "stowaway",
+      "pdf_path": "0954905636d178465454275900f774d3a2d65a62ec792b0993ba9a375ce98aff.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "TOMATO CHERRY PUN",
+          "supplier_code": "TOMCP",
+          "qty": "6.00",
+          "amount": "19.20",
+          "unit_cost": "$3.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "TOMATO ROMA / EGG CTN",
+          "supplier_code": "TOMR",
+          "qty": "1.00",
+          "amount": "47.00",
+          "unit_cost": "$47.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HERB BASIL BCH",
+          "supplier_code": "HBAS",
+          "qty": "2.00",
+          "amount": "9.20",
+          "unit_cost": "$4.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HERB PARSLEY CONTINENTAL BCH",
+          "supplier_code": "HCONT",
+          "qty": "2.00",
+          "amount": "3.20",
+          "unit_cost": "$1.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SHALLOT BCH",
+          "supplier_code": "SHAL",
+          "qty": "4.00",
+          "amount": "10.40",
+          "unit_cost": "$2.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHILLI SHISHITO KG",
+          "supplier_code": "CHSHK",
+          "qty": "0.50",
+          "amount": "19.50",
+          "unit_cost": "$39.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3109083",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-08-06",
+      "due_date": "2026-08-20",
+      "total": "72.60",
+      "venue": "harry_gatos",
+      "pdf_path": "6ab496360245f9aeaf1b18764a73d2b07222a014d3d04b55e046a7f4552e869c.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BROCCOLINI BABY BCH",
+          "supplier_code": "BROLB",
+          "qty": "1.00",
+          "amount": "4.60",
+          "unit_cost": "$4.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CURRY LEAVES W & S KG",
+          "supplier_code": "XXCURR",
+          "qty": "1.00",
+          "amount": "68.00",
+          "unit_cost": "$68.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3109086",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-08-06",
+      "due_date": "2026-08-20",
+      "total": "84.20",
+      "venue": "stowaway",
+      "pdf_path": "cd5a2283f7e40c2b11db7d6770c14cd5ca2f6a257dea139623d8179ad23e8397.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "LEMON AMALFI KG",
+          "supplier_code": "LEMAMALK",
+          "qty": "3.00",
+          "amount": "19.20",
+          "unit_cost": "$6.40/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "LIMES TRAY",
+          "supplier_code": "LIM",
+          "qty": "1.00",
+          "amount": "65.00",
+          "unit_cost": "$65.00/ea",
           "tax": "gst_free",
           "account_code": "115",
           "account_name": "Purchases - Food",
