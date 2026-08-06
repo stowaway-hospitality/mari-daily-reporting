@@ -478,9 +478,11 @@ INGREDIENT_ALIAS = {
     # supplier. The bottles it pours were bought on a Stowaway invoice, because
     # there is no other invoice they could have come from.
     #
-    # Milagro Reposado is deliberately NOT here: it has no costed twin anywhere in
-    # the group, so there is nothing to point at and it stays visible in the audit
-    # until an invoice arrives.
+    # Milagro Reposado was listed here as deliberately absent — no costed twin in
+    # the group, nothing to point at. Zak, 2026-08-06: "milagro definitely has a
+    # price somewhere too." It does, and not as a twin: ILG's own MAR 2026 price
+    # book carries 360-126-7 Milagro Reposado Tequila 700ml at $66.66 a bottle.
+    # That is a seed, not an alias — data/cogs_list.csv, source bo-seed-ilgpb.
     #
     # Velho Berreiro Cachaça was listed alongside it until 2026-08-06, on the same
     # reasoning. That reasoning was answered rather than met: Zak says the drink is
@@ -495,15 +497,31 @@ INGREDIENT_ALIAS = {
     # priced Stowaway product is "Havana 3yr [700ml]" at $0.041556/ml. Both Back
     # Office entries read $0.00, and there is one Havana in the group.
     #
-    # NOT bridged to the ILG invoice, deliberately. ILG bills "HAVANA CLUB 700ML
-    # 3YO." at $58.01, and resolve_pack read the 700ML out of the description and
-    # divided by one bottle — $82.87/L, exactly twice the seed. Neither the
-    # single-bottle nor the 6-pack reading lands anywhere sensible ($58.01 or
-    # $9.67 a bottle); $58.01 over TWO bottles is $29.01, and the seed says
-    # $29.09. The line is two bottles, so the invoice-derived rate in costs.csv
-    # is the one that is wrong, and the seed is right. Bridging it would double
-    # the cost of every Havana pour. (That row is inert today — nothing
-    # references ilg:355-0552 — but it is why this is an alias and not a bridge.)
+    # It IS bridged to the ILG invoice, as of 2026-08-06. It was not, and the
+    # reasoning that kept it out was wrong — recorded here because the shape of
+    # the mistake is worth keeping.
+    #
+    # ILG bills "HAVANA CLUB 700ML 3YO." at $58.01 on a "6x700ML" uom. Reading
+    # that as one bottle gives $82.87/L, exactly twice the seed, and the case
+    # reading gives $9.67 a bottle, which is absurd. From those two the earlier
+    # call was: the line must be TWO bottles at $29.01, because $29.09 is what
+    # the seed says, and a figure that agrees with the seed to eight cents is not
+    # a coincidence. So the invoice was judged wrong and the seed right.
+    #
+    # It was a coincidence. ILG's own MAR 2026 price book lists 355-055-2 Havana
+    # Club 700ml 3yo. at $49.20 a bottle. $29.09 is 41% under the supplier's own
+    # book price for a bottle they sell us — not a discount, an impossibility.
+    # The seed was never an observation: "Lightspeed recipe cost (median of 4)",
+    # i.e. Produce's own derived figure, which is exactly the input this project
+    # exists because it cannot trust. The $58.01 line is one bottle, 18% over
+    # book, which is what a single bottle costs when you don't buy the case.
+    #
+    # THE LESSON: two candidate readings were tested against ONE reference, and
+    # the reference was the number under suspicion. A third, independent source
+    # was sitting in data/invoice_corpus/ilg_pricebook.pdf the whole time. When
+    # the tie-breaker is the thing being adjudicated, there is no tie-breaker.
+    #
+    # Bridging doubles the cost of every Havana pour. That is the point.
     "Havana Club 3yr [700ml]": "Havana 3yr [700ml]",
     # Produce holds dried shiitake twice: "Shiitake Mushrooms Dried" (DefaultSize
     # 1 g, $25.00 — i.e. $25 a GRAM) and "Mushroom Shiitake Dried [1kg]" at

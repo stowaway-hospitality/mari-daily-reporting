@@ -389,22 +389,47 @@ def test_davys_old_fashioned_costs_off_its_batch():
     assert 70 < gp < 85, gp
 
 
-def test_havana_is_aliased_but_deliberately_not_bridged():
+def test_havana_is_aliased_AND_bridged_the_seed_was_impossible():
     """Zak: "havana club definitely has a price somewhere". It does, under a name
     one word shorter — the recipe says "Havana Club 3yr [700ml]", the priced
     product is "Havana 3yr [700ml]".
 
-    NOT bridged to the ILG invoice on purpose. ILG bills $58.01 and resolve_pack
-    read the 700ML out of the description and divided by one bottle, giving
-    exactly twice the seed. Neither the single-bottle nor the 6-pack reading
-    lands anywhere sensible; $58.01 over TWO bottles is $29.01 and the seed says
-    $29.09. The seed is the right number, so bridging would double every Havana
-    pour."""
+    This test asserted the OPPOSITE until 2026-08-06, and the reversal is the
+    point of keeping it.
+
+    The old reasoning: ILG bills $58.01 on a "6x700ML" uom. One bottle gives
+    $82.87/L (twice the seed); six gives $9.67 a bottle (absurd). $58.01 over TWO
+    bottles is $29.01 and the seed said $29.09 — eight cents apart, surely not a
+    coincidence. So the invoice was ruled wrong and the seed right.
+
+    It was a coincidence. ILG's own MAR 2026 price book lists 355-055-2 Havana
+    Club 700ml 3yo. at $49.20 a bottle. $29.09 is 41% under what the supplier
+    themselves publish — not a keen price, an impossibility. And the seed was
+    never an observation: "Lightspeed recipe cost (median of 4)", i.e. Produce's
+    own derived number, the exact input this project exists because it cannot
+    trust.
+
+    THE LESSON, which is why this docstring is longer than the assertions: two
+    candidate readings were adjudicated against ONE reference, and that reference
+    was the number under suspicion. When the tie-breaker is the thing being
+    tied, there is no tie-breaker. A third independent source was sitting in
+    data/invoice_corpus/ilg_pricebook.pdf the whole time.
+
+    Bridged now. Every Havana pour doubled, which is the correct direction."""
     book = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
     pika = book["Pika Pika"]
     havana = [l for l in pika["ingredients"] if "Havana" in (l.get("name") or "")]
     assert havana and havana[0]["eff_cost"] > 0
-    assert abs(float(havana[0]["our_cost"]) - 0.041556) < 1e-6, "must be the seed, not the invoice"
+    rate = float(havana[0]["our_cost"])
+    # Not pinned to a snapshot: two ILG invoices are already in the series
+    # ($0.082871 on 19 May, $0.083114 on 2 June) and the as-of lookup takes the
+    # latest, so any exact figure here would go red the next time Havana is
+    # delivered. What must hold is the INVARIANT — the bottle never costs less
+    # than the supplier's own published price again.
+    assert rate * 700 > 49.20, (
+        f"${rate * 700:.2f}/bottle is under ILG's MAR 2026 book price of $49.20 — "
+        f"the Produce seed ($29.09) is back")
+    assert rate > 0.070, f"{rate} is not an invoice-derived rate"
 
 
 def test_dried_shiitake_is_not_twenty_five_dollars_a_gram():
