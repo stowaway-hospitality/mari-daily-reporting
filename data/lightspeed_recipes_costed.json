@@ -1,13 +1,13 @@
 {
  "generated": "2026-08-06",
  "source": "Lightspeed Produce (scraped)",
- "recipe_count": 881,
+ "recipe_count": 888,
  "coverage": {
   "ingredient_refs": {
    "id": 1544,
    "subrecipe": 381
   },
-  "recipes_fully_on_our_book": 860
+  "recipes_fully_on_our_book": 867
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -39668,6 +39668,290 @@
    "is_prep": false,
    "sell_incl": 21.0,
    "gp_pct": 89.0
+  },
+  "Large Pizza [menu average]": {
+   "ingredients": [
+    {
+     "name": "large pizza, sales-weighted mean of every large sold",
+     "kind": "id",
+     "ref": "",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "5.2523",
+     "eff_cost": 5.2523
+    }
+   ],
+   "menu_average": true,
+   "our_cost": 5.2523,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "WINGS DEAL": {
+   "ingredients": [
+    {
+     "name": "Large Pizza [menu average]",
+     "kind": "id",
+     "ref": "",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "5.2523",
+     "eff_cost": 5.2523
+    },
+    {
+     "name": "BBQ Wings",
+     "kind": "id",
+     "ref": "",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.1400",
+     "eff_cost": 3.14
+    },
+    {
+     "name": "Garlic Bread",
+     "kind": "id",
+     "ref": "",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.4877",
+     "eff_cost": 1.4877
+    }
+   ],
+   "deal_header": true,
+   "our_cost": 9.88,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 30.0,
+   "gp_pct": 63.8
+  },
+  "$45 FEAST": {
+   "ingredients": [
+    {
+     "name": "Large Pizza [menu average]",
+     "kind": "id",
+     "ref": "",
+     "qty": 2,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "5.2523",
+     "eff_cost": 10.5046
+    },
+    {
+     "name": "Garlic Bread",
+     "kind": "id",
+     "ref": "",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.4877",
+     "eff_cost": 1.4877
+    },
+    {
+     "name": "Choc Brownie",
+     "kind": "id",
+     "ref": "",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.9501",
+     "eff_cost": 1.9501
+    }
+   ],
+   "deal_header": true,
+   "our_cost": 13.9424,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 45.0,
+   "gp_pct": 65.9
+  },
+  "Feast Deal Pizzas": {
+   "ingredients": [
+    {
+     "name": "Large Pizza [menu average]",
+     "kind": "id",
+     "ref": "",
+     "qty": 2,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "5.2523",
+     "eff_cost": 10.5046
+    },
+    {
+     "name": "Garlic Bread",
+     "kind": "id",
+     "ref": "",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.4877",
+     "eff_cost": 1.4877
+    },
+    {
+     "name": "Choc Brownie",
+     "kind": "id",
+     "ref": "",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.9501",
+     "eff_cost": 1.9501
+    }
+   ],
+   "deal_header": true,
+   "our_cost": 13.9424,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 45.0,
+   "gp_pct": 65.9
+  },
+  "$60 BANQUET": {
+   "ingredients": [
+    {
+     "name": "Large Pizza [menu average]",
+     "kind": "id",
+     "ref": "",
+     "qty": 3,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "5.2523",
+     "eff_cost": 15.7569
+    },
+    {
+     "name": "Garlic Bread",
+     "kind": "id",
+     "ref": "",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.4877",
+     "eff_cost": 1.4877
+    },
+    {
+     "name": "1.25L Coke",
+     "kind": "id",
+     "ref": "",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.6900",
+     "eff_cost": 3.69
+    }
+   ],
+   "deal_header": true,
+   "our_cost": 20.9346,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 60.0,
+   "gp_pct": 61.6
+  },
+  "Banquet Deal Pizzas": {
+   "ingredients": [
+    {
+     "name": "Large Pizza [menu average]",
+     "kind": "id",
+     "ref": "",
+     "qty": 3,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "5.2523",
+     "eff_cost": 15.7569
+    },
+    {
+     "name": "Garlic Bread",
+     "kind": "id",
+     "ref": "",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.4877",
+     "eff_cost": 1.4877
+    },
+    {
+     "name": "1.25L Coke",
+     "kind": "id",
+     "ref": "",
+     "qty": 1,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.6900",
+     "eff_cost": 3.69
+    }
+   ],
+   "deal_header": true,
+   "our_cost": 20.9346,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 60.0,
+   "gp_pct": 61.6
+  },
+  "$90 PIZZA PARTY": {
+   "ingredients": [
+    {
+     "name": "Large Pizza [menu average]",
+     "kind": "id",
+     "ref": "",
+     "qty": 4,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "5.2523",
+     "eff_cost": 21.0092
+    },
+    {
+     "name": "Garlic Bread",
+     "kind": "id",
+     "ref": "",
+     "qty": 2,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.4877",
+     "eff_cost": 2.9754
+    },
+    {
+     "name": "Choc Brownie",
+     "kind": "id",
+     "ref": "",
+     "qty": 2,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "1.9501",
+     "eff_cost": 3.9002
+    },
+    {
+     "name": "1.25L Coke",
+     "kind": "id",
+     "ref": "",
+     "qty": 2,
+     "unit": "ea",
+     "ls_cost": null,
+     "our_cost": "3.6900",
+     "eff_cost": 7.38
+    }
+   ],
+   "deal_header": true,
+   "our_cost": 35.2648,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 90.0,
+   "gp_pct": 56.9
   },
   "Better Beer Tin": {
    "ingredients": [

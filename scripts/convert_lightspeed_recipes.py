@@ -804,6 +804,158 @@ def load_seed_baseline():
     return base
 
 
+# What each deal contains, from the Marilyna's menu Zak sent on 2026-08-06:
+#   WINGS DEAL     1 large pizza, BBQ wings, garlic bread                  $30
+#   FEAST DEAL     2 large pizzas, garlic bread, choc brownie              $45
+#   BANQUET DEAL   3 large pizzas, garlic bread, 1.25L soft drink          $60
+#   PIZZA PARTY    4 large pizzas, 2 garlic breads, 2 brownies, 2 x 1.25L  $90
+#
+# Keyed by the POS SKU. Marilyna's has sold these under two generations of name —
+# the per-pizza SKUs ("Large Meatlovers Wings Deal") and the generic headers — and
+# both are listed because both still ring.
+_DEALS = {
+    "WINGS DEAL":          [("Large Pizza [menu average]", 1), ("BBQ Wings", 1), ("Garlic Bread", 1)],
+    "$45 FEAST":           [("Large Pizza [menu average]", 2), ("Garlic Bread", 1), ("Choc Brownie", 1)],
+    "Feast Deal Pizzas":   [("Large Pizza [menu average]", 2), ("Garlic Bread", 1), ("Choc Brownie", 1)],
+    "$60 BANQUET":         [("Large Pizza [menu average]", 3), ("Garlic Bread", 1), ("1.25L Coke", 1)],
+    "Banquet Deal Pizzas": [("Large Pizza [menu average]", 3), ("Garlic Bread", 1), ("1.25L Coke", 1)],
+    "$90 PIZZA PARTY":     [("Large Pizza [menu average]", 4), ("Garlic Bread", 2), ("Choc Brownie", 2),
+                            ("1.25L Coke", 2)],
+}
+
+
+def add_deal_recipes(out: dict, cost_of) -> int:
+    """Cost a deal header from what the deal contains.
+
+    THE DEFECT
+    ----------
+    Marilyna's deals used to ring as per-pizza SKUs — "Large Meatlovers Wings
+    Deal", $99 of revenue against $20.88 of cost, correct. They now ring as
+    generic headers: "$45 FEAST", "$60 BANQUET", "$90 PIZZA PARTY", "WINGS
+    DEAL". The header carries the whole deal price at zero cost, and NO pizza
+    rings anywhere to carry it — across every daily Insights export only $316 of
+    component cost rings at zero revenue, and all of it is garlic bread,
+    brownies and 1.25 L Cokes. Not one pizza.
+
+    So $9,447 of revenue books at 100% GP. It is the single largest remaining
+    under-cost in the book and it is entirely an artefact of a SKU rename.
+
+    (I told Zak earlier that the deals were already costed and that giving the
+    headers recipes would double-count. That was true of the Wings Deal, whose
+    components genuinely do ring separately, and I generalised it to the rest
+    without checking. This is the correction.)
+
+    WHY AN AVERAGE, AND WHY IT IS NOT A GUESS
+    -----------------------------------------
+    The header does not record WHICH pizza was chosen — that information is not
+    in the till, so no amount of care recovers it. What the till does record is
+    every large pizza actually sold, with a costed recipe each. The
+    sales-weighted mean of those is the best available statement of what a large
+    pizza off this menu costs, and it is computed from real sales mix at build
+    time rather than typed in, so it tracks the menu instead of going stale.
+
+    It lands at ~$5.25 over ~1,800 pizzas across 32 SKUs. Under-costing is the
+    flattering direction, so the mean is deliberately taken over pizzas SOLD
+    (which weights toward the cheap high-volume Margherita and Hawaiian) rather
+    than over the menu (which would weight toward the dear ones and flatter the
+    deal's cost upward). If that is wrong it is wrong toward reporting a WORSE
+    GP than reality, which is the safe side.
+
+    A deal is skipped entirely if any component is missing from the book — a
+    partial deal cost is worse than a visible zero, because it looks finished.
+    """
+    avg = _mean_large_pizza_cost(out, cost_of)
+    if not avg:
+        return 0
+    # A real book entry, not a hidden constant: one line carrying the computed
+    # mean, so the deal's cost is inspectable in the same place as every other
+    # recipe and the number is visible rather than buried in code. ref is empty
+    # because there is no ProductID for "the average large pizza" — kind stays
+    # "id" so the auditor does not read it as a line that resolves to nothing.
+    out.setdefault("Large Pizza [menu average]", {"ingredients": [{
+        "name": "large pizza, sales-weighted mean of every large sold",
+        "kind": "id", "ref": "", "qty": 1, "unit": "ea",
+        "ls_cost": None, "our_cost": f"{avg:.4f}"}], "menu_average": True})
+    added = 0
+    for sku, parts in _DEALS.items():
+        if sku in out:
+            continue
+        if any(nm != "Large Pizza [menu average]" and nm not in out for nm, _ in parts):
+            continue
+        # Resolved at BUILD time rather than left as sub-recipe references.
+        # A sub-recipe line costed cleanly for BBQ Wings and Garlic Bread and
+        # came back $0.00 for Choc Brownie and the menu average — so two of the
+        # four components in a $45 deal silently contributed nothing while the
+        # recipe still looked complete. Whatever the resolver is doing there, a
+        # deal is not the place to find out: cost each component here, where a
+        # zero is visible immediately and the deal is skipped rather than shipped
+        # half-priced.
+        lines, ok = [], True
+        for nm, q in parts:
+            try:
+                c = avg if nm == "Large Pizza [menu average]" else float(cost_of(nm)[0] or 0)
+            except (TypeError, ValueError, KeyError):
+                c = 0.0
+            if not c or c <= 0:
+                ok = False
+                break
+            lines.append({"name": nm, "kind": "id", "ref": "", "qty": q, "unit": "ea",
+                          "ls_cost": None, "our_cost": f"{c:.4f}"})
+        if not ok:
+            continue
+        out[sku] = {"ingredients": lines, "deal_header": True}
+        added += 1
+    return added
+
+
+def _mean_large_pizza_cost(out: dict, cost_of):
+    """Sales-weighted mean cost of a large pizza, from the daily Insights exports.
+
+    Weighted by units actually sold, not a flat average across the menu: a deal
+    pizza is drawn from the same distribution customers order from, and the flat
+    average would sit higher (more dear SKUs than cheap ones) and flatter the
+    deal. Falls back to None — and the deals stay uncosted — if there is no sales
+    data to weight with, because an unweighted number here would be a guess
+    wearing a computed number's clothes.
+    """
+    import csv as _csv
+    import glob as _glob
+    sold = {}
+    for f in sorted(_glob.glob(str(ROOT / "data" / "insights_*.csv"))):
+        try:
+            rows = list(_csv.DictReader(open(f, encoding="utf-8-sig")))
+        except UnicodeDecodeError:
+            rows = list(_csv.DictReader(open(f, encoding="latin-1")))
+        except OSError:
+            continue
+        for r in rows:
+            nm = (r.get("Product Name") or "").strip()
+            if not nm.lower().startswith("large "):
+                continue
+            try:
+                q = float(str(r.get("Product Quantity") or 0).replace(",", "") or 0)
+            except ValueError:
+                continue
+            if q > 0:
+                sold[nm] = sold.get(nm, 0.0) + q
+    # cost_of, not rec["our_cost"]: this runs BEFORE the pass that writes
+    # our_cost onto every entry, so reading the field would see nothing and the
+    # mean would silently come out None with the deals left uncosted — which is
+    # exactly what happened on the first attempt.
+    tq = tc = 0.0
+    for nm, q in sold.items():
+        if nm not in out:
+            continue
+        try:
+            c = float(cost_of(nm)[0] or 0)
+        except (TypeError, ValueError, KeyError):
+            c = 0.0
+        if c > 0:
+            tq += q
+            tc += c * q
+    return round(tc / tq, 4) if tq else None
+
+
 def add_passthrough_products(out: dict) -> int:
     """Cost the things we sell exactly as we bought them.
 
@@ -1740,6 +1892,10 @@ def main() -> int:
             _renamed += 1
     if _renamed:
         print(f"  renamed {_renamed} recipe(s) to the name Back Office sells them under")
+
+    _dl = add_deal_recipes(out, cost_of)
+    if _dl:
+        print(f"  {_dl} deal header(s) costed from their stated contents")
 
     _pt = add_passthrough_products(out)
     if _pt:
