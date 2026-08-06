@@ -110,3 +110,24 @@ def test_a_live_product_keeps_its_severity_and_states_its_volume():
     assert live, "fixture sanity: some SEVERE findings are on selling products"
     for d in live:
         assert "sold, $" in d
+
+
+def test_the_audit_runs_on_a_clean_checkout(tmp_path, monkeypatch):
+    """
+    data/ingredients.json is deliberately NOT committed — it is a 90-day window
+    off date.today(), so a committed copy rots on whatever Tuesday an invoice
+    crosses the line. On a clean checkout it does not exist until
+    build_ingredients has run.
+
+    Reading it blind turned "the audit has nothing to say about ingredients yet"
+    into a FileNotFoundError, and because these tests call audit(), that took CI
+    down twice — green locally every time, because a local tree has the file.
+
+    Any test that reads a generated artifact has to survive its absence.
+    """
+    import audit_book as ab
+    monkeypatch.setattr(ab, "INGREDIENTS", tmp_path / "not-built-yet.json")
+    F = ab.audit()
+    assert F, "the recipe and cost-book rules do not need ingredients.json"
+    assert any("ingredients.json not built" in r for _sev, r in F), \
+        "and it must SAY the ingredient rules were skipped, not skip them quietly"

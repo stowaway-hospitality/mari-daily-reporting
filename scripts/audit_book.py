@@ -171,8 +171,16 @@ def weigh(sales, product, sev, detail):
 
 def audit():
     recipes = json.loads(COSTED.read_text())["recipes"]
-    ing_raw = json.loads(INGREDIENTS.read_text())
-    ings = ing_raw["ingredients"] if isinstance(ing_raw, dict) else ing_raw
+    # data/ingredients.json is DELIBERATELY not committed — it is a 90-day window
+    # off date.today(), so a committed copy would rot on whatever Tuesday an
+    # invoice crossed the line. On a clean checkout it does not exist until
+    # build_ingredients has run, and reading it blind turned "the audit has
+    # nothing to say about ingredients yet" into a FileNotFoundError traceback
+    # that took CI down. Say so and audit everything else.
+    ings: list = []
+    if INGREDIENTS.exists():
+        ing_raw = json.loads(INGREDIENTS.read_text())
+        ings = ing_raw["ingredients"] if isinstance(ing_raw, dict) else ing_raw
     by_id = {i["id"]: i for i in ings}
 
     sales = load_sales()
@@ -192,6 +200,10 @@ def audit():
         if product is not None:
             rev, sev, detail = weigh(sales, product, sev, detail)
         F[(sev, rule)].append((rev, detail))
+
+    if not ings:
+        add("INFO", "ingredients.json not built — ingredient-level rules skipped",
+            "run modules/recipes/pipeline/build_ingredients.py first")
 
     # ---------- RECIPES ----------
     for name, r in sorted(recipes.items()):
