@@ -9,6 +9,10 @@
 <!--
   Bookings admin — shell only; ALL logic lives in bookings.js (arch_guard).
   Bump the ?v= on bookings.js whenever it changes.
+
+  Signed-in staff never paste a token: bookings.js calls Auth.bookingToken(),
+  which reads it from Supabase app_config (RLS-protected). #tokenbox below is
+  only a fallback for when that lookup fails.
 -->
 <style>
   .wrap{max-width:1100px;margin:0 auto;padding:24px}
@@ -111,9 +115,11 @@
     <div class="sub" id="eventline">Loading…</div>
 
     <div id="tokenbox" style="display:none">
-      <h2>Connect to the booking engine</h2>
+      <h2>Couldn't reach the booking engine key</h2>
       <p style="font-size:13px;color:var(--ink-soft);margin:6px 0 12px">
-        One-time on this device: paste the booking service token
+        You shouldn't normally see this — signed-in staff are connected
+        automatically. If the automatic lookup failed, an admin can paste the
+        service token here as a one-off for this device
         (Render → stowaway-bookings → Environment → STOWAWAY_ADMIN_TOKEN).</p>
       <div class="bar">
         <div style="flex:1"><label>Service token</label>
@@ -139,9 +145,9 @@
           <div id="nb_endwrap" style="display:none"><label>End (optional)</label><input id="nb_end" type="time"></div>
           <div><label>Name</label><input id="nb_name"></div>
           <div><label>Phone</label><input id="nb_phone" type="tel"></div>
-          <div><label>Email (optional)</label><input id="nb_email" type="email"></div>
-          <div><label>Adults</label><input id="nb_adults" type="number" min="1" max="12" value="2" style="width:70px"></div>
-          <div><label>Kids</label><input id="nb_kids" type="number" min="0" max="8" value="0" style="width:70px"></div>
+          <div><label>Email</label><input id="nb_email" type="email"></div>
+          <div><label>Adults</label><input id="nb_adults" type="number" min="1" max="200" value="2" style="width:70px"></div>
+          <div><label>Kids</label><input id="nb_kids" type="number" min="0" max="20" value="0" style="width:70px"></div>
           <div><label>Babies</label><input id="nb_babies" type="number" min="0" max="4" value="0" style="width:70px"></div>
           <div><label>Dogs</label><input id="nb_dogs" type="number" min="0" max="3" value="0" style="width:70px"></div>
           <div style="flex:1;min-width:180px"><label>Notes</label><input id="nb_notes" style="width:100%"></div>
@@ -156,8 +162,8 @@
         <h2>Edit booking <span id="edit_name" style="font-weight:normal"></span></h2>
         <div class="bar">
           <div><label>Time</label><select id="ed_time"></select><input id="ed_time2" type="time" style="display:none"></div>
-          <div><label>Adults</label><input id="ed_adults" type="number" min="1" max="12" style="width:70px"></div>
-          <div><label>Kids</label><input id="ed_kids" type="number" min="0" max="8" style="width:70px"></div>
+          <div><label>Adults</label><input id="ed_adults" type="number" min="1" max="200" style="width:70px"></div>
+          <div><label>Kids</label><input id="ed_kids" type="number" min="0" max="20" style="width:70px"></div>
           <div><label>Babies</label><input id="ed_babies" type="number" min="0" max="4" style="width:70px"></div>
           <div><label>Dogs</label><input id="ed_dogs" type="number" min="0" max="3" style="width:70px"></div>
           <div><label>Phone</label><input id="ed_phone"></div>
@@ -170,6 +176,6 @@
   </div>
 </div>
 
-<script type="module" src="./bookings.js?v=20260729c"></script>
+<script type="module" src="./bookings.js?v=20260806a"></script>
 </body>
 </html>
