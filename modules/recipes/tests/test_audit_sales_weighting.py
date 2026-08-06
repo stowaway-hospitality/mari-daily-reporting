@@ -284,3 +284,19 @@ def test_an_ingredient_problem_no_recipe_can_reach_is_not_a_warning():
         if "pack size unconfirmed" in rule:
             assert sev == "INFO", f"{sev}: {rule}"
             assert "no recipe uses it" in rule, rule
+
+
+def test_the_100pc_gp_number_is_split_into_work_someone_can_do():
+    """$45,370 at 100% GP reads as one problem. It is three, and they need
+    different work: a fee has no food cost and never will, a deal contains real
+    product whose contents are not declared anywhere, and everything else is a
+    dish nobody has written a recipe for. The patterns are triage labels only —
+    they change no figure."""
+    F = audit()
+    lines = [d for (_s, rule), v in F.items() if "booked at 100% GP" in rule
+             for _rev, d in v]
+    split = [d for d in lines if "SPLIT:" in d]
+    assert len(split) == 1, split
+    for phrase in ("dishes with no recipe", "deals whose contents are undeclared",
+                   "fees that have no food cost"):
+        assert phrase in split[0], phrase

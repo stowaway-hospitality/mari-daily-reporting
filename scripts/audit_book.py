@@ -617,6 +617,19 @@ def audit():
     # So the value of this project is not that it corrects a wrong number. It is
     # that it puts a number where there was none — and what is left below is the
     # revenue where neither source has one.
+    # Three kinds of thing hide in that number and they need different work, so
+    # the rule says which. The patterns are TRIAGE LABELS ONLY — they change no
+    # figure, they just stop "$45,370 at 100% GP" reading as one problem:
+    #   a fee has no food cost and never will;
+    #   a deal contains real product whose contents are not declared anywhere
+    #     (data/recipe_missing_lines.yaml is where the Wings Deals were settled);
+    #   everything else is a dish nobody has written a recipe for.
+    _FEE_SKU = re.compile(r"delivery fee|surcharge|gift|voucher|open price|booking"
+                          r"|tip|service charge|deposit|donation", re.I)
+    _BUNDLE_SKU = re.compile(r"\$\d|deal|feast|banquet|party|soiree|shindigg|monty"
+                             r"|combo|package", re.I)
+    split = {"fee": 0.0, "bundle": 0.0, "dish": 0.0}
+
     for ven, key in (("stow", "stowaway"), ("hg", "harry"), ("mari", "marilynas")):
         book = _load_book_costs(key)
         tot = uncosted = 0.0
@@ -637,6 +650,9 @@ def audit():
                     uncosted += rev
                     rows_n += 1
                     worst[nm] += rev
+                    kind = ("fee" if _FEE_SKU.search(nm)
+                            else "bundle" if _BUNDLE_SKU.search(nm) else "dish")
+                    split[kind] += rev
         if tot <= 0 or uncosted <= 0:
             continue
         add("WARN", "revenue booked at 100% GP — Lightspeed has no cost for it "
@@ -649,6 +665,13 @@ def audit():
             add("WARN", "revenue booked at 100% GP — Lightspeed has no cost for it "
                         "and neither do we",
                 f"[{ven}] ${rev:>9,.0f}   {nm[:44]}")
+
+    if sum(split.values()) > 0:
+        add("WARN", "revenue booked at 100% GP — Lightspeed has no cost for it "
+                    "and neither do we",
+            f"{'':<6} SPLIT: ${split['dish']:>8,.0f} dishes with no recipe · "
+            f"${split['bundle']:>7,.0f} deals whose contents are undeclared · "
+            f"${split['fee']:>7,.0f} fees that have no food cost by nature")
 
     # ---------- WHAT THE BOOK STILL DOES NOT REACH ----------
     # The audit lists what is WRONG. This lists what is ABSENT, which is the
