@@ -59,3 +59,77 @@
   qty: 1
   unit: "ea"
   why: "the deal is a pizza AND wings; BBQ Wings is a costed product at $3.14 (Zak, 2026-08-06)"
+
+# --- Branded Margaritas: the Classic's spec with the tequila swapped -------------
+# Zak, 2026-08-06: "the branded margaritas are all the same as the classic marg,
+# just substituting the tequila". Each carried only its own tequila + triple sec,
+# so the whole sour side was missing and they reported ~85% GP.
+# Quantities are the Classic Margarita's, which is the spec being substituted into.
+- recipes: &branded_margs
+    - "400 Conejos Margarita"
+    - "Casamigos Reposado Margarita"
+    - "Don Julio 1942 Anejo Margarita"
+    - "Herradura Silver Margarita"
+    - "Patron Reposodo Margarita"
+    - "Patron Silver Margarita"
+    - "Quiquiquiri Mezcal Margarita"
+  name: "Super Lime Juice [1L]"
+  ref: "Super Lime Juice [1L]"
+  subrecipe: true
+  qty: 30
+  unit: "ml"
+  why: "Classic Margarita carries 30ml; branded margs are the same spec (Zak, 2026-08-06)"
+- recipes: *branded_margs
+  name: "Sugar Syrup"
+  ref: "Sugar Syrup"
+  subrecipe: true
+  qty: 10
+  unit: "ml"
+  why: "Classic Margarita carries 10ml"
+- recipes: *branded_margs
+  name: "Flake Salt [6kg Box]"
+  ref: "lightspeed:21020008"
+  qty: 0.65
+  unit: "g"
+  why: "Classic Margarita carries 0.65g (the rim)"
+- recipes: *branded_margs
+  name: "Dehydrated Lime Garnish"
+  ref: "lightspeed:21019999"
+  qty: 1.95
+  unit: "g"
+  why: "Classic Margarita carries 1.95g"
+
+# Cadillac keeps Grand Marnier in place of triple sec — that IS the Cadillac — and
+# already carries the lime and garnish. Only the rim salt and syrup were missing.
+- recipes: ["Cadillac Margarita"]
+  name: "Flake Salt [6kg Box]"
+  ref: "lightspeed:21020008"
+  qty: 0.65
+  unit: "g"
+  why: "carries lime + garnish already; only the rim salt and syrup were missing"
+- recipes: ["Cadillac Margarita"]
+  name: "Sugar Syrup"
+  ref: "Sugar Syrup"
+  subrecipe: true
+  qty: 10
+  unit: "ml"
+  why: "as above"
+
+# --- Branded Old Fashioneds: the Old Fashioned with the spirit swapped ----------
+# Zak, 2026-08-06: "same with old fash". Each carried only its 60ml spirit, so
+# every one of them was an Old Fashioned without bitters.
+# Davy's Old Fashioned is NOT here: it is a different build (Zacapa + Appleton +
+# Frangelico + sherry), not a substitution, so it needs its own spec from Zak.
+- recipes:
+    - "Angel's Envy Old Fash"
+    - "Balvenie 14yr Old Fash"
+    - "Hakushu Old Fash"
+    - "Laphraoig 10yr Old Fash"
+    - "Macallan Sherry Oak 12yr Old Fash"
+    - "Ron Zacapa Old Fash"
+    - "Yamazaki Old Fash"
+  name: "Angostura Bitters [200ml]"
+  ref: "lightspeed:20487270"
+  qty: 2
+  unit: "ml"
+  why: "Old Fashioned carries 2ml; branded ones are the same spec (Zak, 2026-08-06)"

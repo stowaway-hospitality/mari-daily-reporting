@@ -829,9 +829,13 @@ def main() -> int:
                     added += 1
                     continue
                 oc = our_costs.get(spec["ref"])
+                # qty 0 = "the grams come from Zak's weighed sheet in the pass
+                # below" (pizza toppings). A cocktail line states its own ml here,
+                # because a branded Margarita is the Classic's spec with the base
+                # spirit swapped — there is no weighed sheet for a pour.
                 r["ingredients"].append({
                     "name": spec["name"], "kind": "id", "ref": spec["ref"],
-                    "qty": 0, "unit": spec.get("unit") or "g",
+                    "qty": spec.get("qty", 0), "unit": spec.get("unit") or "g",
                     "ls_cost": None,
                     "our_cost": float(oc[0]) if oc and oc[1] == (spec.get("unit") or "g") else None,
                 })

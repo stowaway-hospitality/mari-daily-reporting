@@ -200,18 +200,39 @@ def audit():
     # never trips it.
     _YIELD_IN_NAME = re.compile(r"\[\s*([\d.]+)\s*(ml|l|kg|g)\s*\]", re.I)
     _TO_BASE = {"ml": 1.0, "l": 1000.0, "g": 1.0, "kg": 1000.0}
+    # A DECLARED yield in data/prep_yields.yaml beats the name every time: the name
+    # is a label someone typed, the yaml is a stated basis with working shown.
+    # Jalapeño Tequila is named "[1L]" but makes 7L (10 bottles of tequila), which
+    # is exactly why reading the name costed it at $551/L.
+    _declared = {}
+    try:
+        import yaml as _yaml
+        _py = ROOT / "data" / "prep_yields.yaml"
+        if _py.exists():
+            for _k, _v in (_yaml.safe_load(_py.read_text()) or {}).items():
+                try:
+                    _declared[_k] = (float(_v["yield_qty"]), str(_v["yield_unit"]).lower())
+                except (KeyError, TypeError, ValueError):
+                    pass
+    except Exception:                                        # noqa: BLE001
+        pass
     for name, r in sorted(recipes.items()):
         m = _YIELD_IN_NAME.search(name)
-        if not m:
-            continue
-        try:
-            declared = float(m.group(1)) * _TO_BASE[m.group(2).lower()]
-        except (ValueError, KeyError):
+        if name in _declared:
+            declared, _unit = _declared[name]
+            m = None
+        elif m:
+            try:
+                declared = float(m.group(1)) * _TO_BASE[m.group(2).lower()]
+                _unit = m.group(2).lower()
+            except (ValueError, KeyError):
+                continue
+        else:
             continue
         if declared <= 0:
             continue
         # sum only same-dimension inputs (ml/l with ml/l, g/kg with g/kg)
-        want = {"ml", "l"} if m.group(2).lower() in ("ml", "l") else {"g", "kg"}
+        want = {"ml", "l"} if _unit in ("ml", "l") else {"g", "kg"}
         total = 0.0
         for ln in (r.get("ingredients") or []):
             u = (ln.get("unit") or "").lower()
