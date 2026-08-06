@@ -738,6 +738,41 @@ def audit():
             add("WARN", "sells well, has no costed recipe anywhere",
                 f"[{ven}] ${rev:>8,.0f} (13wk)  {nm[:42]:<44} {g[:24]}")
 
+    # ---------- THE /pricing PAGE'S "BIGGEST MOVERS" ----------
+    # The page exists so a supplier creeping prices up gets noticed the week it
+    # happens. Its top entries are currently: Pellegrino +2300%, Coca Cola
+    # +1100%, Bombay Dry Gin +475%, Aperol +480%, Sailor Jerry +481%.
+    #
+    # None of those moved. Pellegrino's "rise" is exactly 24.00x and Coca Cola's
+    # exactly 12.00x — one invoice priced the bottle, the next priced the case.
+    # Aperol went from $30.11 a bottle to $174.50 a case, which is $29.08 a
+    # bottle: a 3% FALL reported as a 480% rise. The rest are the same shape at
+    # 5.7-5.8x, a six-pack with a small real price move on top.
+    #
+    # A single ingredient's per-unit price does not double between two deliveries
+    # from the same supplier. Anything at 2x or more is the pack being read two
+    # ways, and while it sits at the top of that page the page cannot be used for
+    # what it is for.
+    #
+    # Reported here rather than fixed in build_price_compare: the fix belongs
+    # with resolve_pack reading the invoice's own "6x700ML" note, which is a
+    # change to the invoice pipeline and wants its own pass.
+    compare = ROOT / "dashboard" / "pricing" / "compare.json"
+    if compare.exists():
+        try:
+            movers = (json.loads(compare.read_text()) or {}).get("movers") or []
+        except Exception:                                        # noqa: BLE001
+            movers = []
+        for m in movers:
+            prev, cost = money(m.get("prev")), money(m.get("cost"))
+            if prev <= 0 or cost / prev < 2.0:
+                continue
+            add("WARN", "the /pricing page reports a price rise that is a pack-size "
+                        "change (bottle priced one week, case the next)",
+                f"{str(m.get('name'))[:28]:30} {str(m.get('supplier'))[:14]:16} "
+                f"${prev:>9,.4f} -> ${cost:>9,.2f} = {cost / prev:>5.1f}x "
+                f"(shown as +{money(m.get('pct')):,.0f}%)")
+
     # ---------- COST BOOK ----------
     rows = list(csv.DictReader(COSTS.open(encoding="utf-8-sig")))
     for r in rows:
