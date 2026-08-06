@@ -1,0 +1,45 @@
+# Where one venue deliberately serves another venue's recipe.
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# data/lightspeed_recipes.json is keyed by PRODUCT NAME with no venue, because
+# the Lightspeed Produce scrape has no venue dimension. So when two venues both
+# have a recipe called "Classic Margarita", only one can win.
+#
+# That is not merely a merge conflict — it is a decision about what we serve, and
+# it belongs in the repo rather than in a scrape. Harry Gatos' Produce entries for
+# these five are incomplete or wrong (its Classic Margarita has tequila and triple
+# sec but no lime, sugar or salt; its "Lychee Martini" lists Massenez TRIPLE SEC
+# where Stowaway lists Massenez LYCHEE — almost certainly the wrong product picked
+# from the dropdown). Stowaway's specs are the correct ones.
+#
+# Zak, 2026-08-06: "everything from group C, mirror the stowaway recipe over to
+# HG" and "dont write anything into produce. we're doing everything ourselves on
+# the repo now."
+#
+# So: we do NOT edit Lightspeed Produce. Produce is the legacy source we are
+# migrating off; writing there would make it the master again and the edit would
+# be invisible to git. Instead the intent is declared here, versioned, and the
+# importer honours it — which means a future re-scrape of Harry Gatos cannot
+# silently reintroduce the broken recipe.
+#
+# HOW IT IS APPLIED
+# -----------------
+# scripts/merge_venue_scrape.py refuses to import a venue's own version of a
+# mirrored dish, so the source venue's recipe stands. This is a no-op against
+# today's data (the name-keyed book already resolves HG to Stowaway's recipe) —
+# the point is that it is now DELIBERATE and cannot drift.
+#
+# NOT a mirror: a dish that genuinely differs by venue. Harry Gatos pours
+# Palloncino Prosecco where Stowaway pours Version Two Sparkling, and its Negroni
+# uses a different vermouth blend. Those are real venue differences and must NOT
+# be listed here — they need per-venue recipes, which needs a venue-keyed recipe
+# store (see WORKING_HERE.md / the follow-up note in HANDOFF_20260805_pm.md).
+
+harry_gatos:
+  # dish: the venue whose recipe should be used instead
+  Classic Margarita: stowaway        # HG had 2 lines; Stowaway's has lime, sugar, salt, garnish
+  Espresso Martini: stowaway         # HG had 3 lines; Stowaway's adds Sailor Jerry, vanilla, beans
+  Lychee Martini: stowaway           # HG listed Triple Sec, not Lychee — wrong product
+  Negroni: stowaway                  # mirrored on Zak's instruction (HG's own vermouth blend differs)
+  Nitro Sorbet Espresso: stowaway    # HG omitted the liquid nitrogen line
