@@ -74,7 +74,52 @@ def load_bridge() -> dict:
         sup, code, pid = r.get("supplier"), r.get("supplier_code"), r.get("product_id")
         if sup and code and pid:
             out[purchasable_id(sup, code)] = f"lightspeed:{pid.strip()}"
-    return out
+    return _extend_bridge_to_p_codes(out)
+
+
+def _extend_bridge_to_p_codes(bridge: dict) -> dict:
+    """ILG bills the same product under two codes: "395-6785" and "395-6785P".
+
+    Seven products in the book carry both, and in every one of the seven the two
+    codes share an identical invoice description — APEROL and APEROL, BOMBAY DRY
+    GIN and BOMBAY DRY GIN. They are one product with two ILG codes.
+
+    A bridge built from one invoice therefore covers only the code that invoice
+    happened to use. Aperol is bridged on "395-6785P" and not on "395-6785", so a
+    $215 delivery never reached the book — and the next split like it would be
+    silent in the same way.
+
+    Extending a bridge across the pair needs no judgement: the descriptions must
+    match exactly, on the same supplier, and only the trailing "P" may differ. It
+    is also safe if that ever turns out to be wrong — a bridged liquor line is
+    still checked by seed_matched_liquor_cost against the product's OWN seed rate
+    and skipped if it disagrees, so a bad pairing yields no cost rather than a
+    wrong one."""
+    if not COGS.exists():
+        return bridge
+    desc: dict = {}
+    for r in csv.DictReader(COGS.open(encoding="utf-8-sig")):
+        code = (r.get("supplier_code") or "").strip()
+        if not code:
+            continue
+        try:
+            iid = purchasable_id(r["supplier"], code)
+        except ValueError:
+            continue
+        desc.setdefault(iid, set()).add((r.get("invoice_description") or "").strip().upper())
+
+    added = 0
+    for iid, pid in list(bridge.items()):
+        twin = iid[:-1] if iid.endswith("P") else iid + "P"
+        if twin in bridge or twin not in desc or iid not in desc:
+            continue
+        if desc[iid] and desc[iid] == desc[twin]:
+            bridge[twin] = pid
+            added += 1
+    if added:
+        print(f"  bridge extended to {added} ILG P/non-P code twin(s) "
+              f"(identical description, same supplier)")
+    return bridge
 
 FIELDS = ["ingredient", "observed_on", "cost_per_unit", "unit", "venue",
           "source_invoice", "pack", "description"]
