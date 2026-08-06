@@ -309,12 +309,23 @@ def audit():
     # on ham (55g vs 85g), spanish onion (20g vs 33g on 8 pizzas), chicken,
     # mozzarella, pesto. Also catches a topping present in one size and absent
     # from the other, which is the "Hawaiian had no ham" class.
+    # PACKAGING IS SUPPOSED TO DIFFER BY SIZE. A Regular pizza goes in the 11"
+    # box and a Large in the 13" — convert_lightspeed_recipes assigns them that
+    # way on purpose. Comparing the two sizes' line lists then reports every
+    # pizza twice, once for each box, and 31 of the 40 findings this pair of
+    # rules produced were exactly that. A rule that is 78% noise teaches whoever
+    # reads it to skim, which costs more than the rule earns.
+    _PACKAGING = re.compile(r"pizza box|box insert", re.I)
+
     def _lines_by_ref(rec):
         out = {}
         for l in (rec.get("ingredients") or []):
-            k = str(l.get("ref") or l.get("name") or "")
+            nm = str(l.get("name") or "")
+            if _PACKAGING.search(nm):
+                continue
+            k = str(l.get("ref") or nm)
             try:
-                out[k] = (float(l.get("qty") or 0), str(l.get("name") or k))
+                out[k] = (float(l.get("qty") or 0), nm or k)
             except (TypeError, ValueError):
                 pass
         return out

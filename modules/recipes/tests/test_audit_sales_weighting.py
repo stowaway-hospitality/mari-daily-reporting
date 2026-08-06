@@ -150,3 +150,22 @@ def test_a_real_price_move_gets_no_pack_hint():
     assert _pack_count_hint(0.0174, 0.00387) == ""      # 4.5x
     assert _pack_count_hint(1.12, 1.00) == ""           # a real rise
     assert _pack_count_hint(0.0, 1.0) == "" and _pack_count_hint(1.0, 0.0) == ""
+
+
+def test_packaging_is_not_compared_across_pizza_sizes():
+    """A Regular pizza goes in the 11" box and a Large in the 13" —
+    convert_lightspeed_recipes assigns them that way on purpose. Comparing the
+    two sizes' line lists then reports every pizza twice, once for each box: 31
+    of the 40 findings these two rules produced were exactly that.
+
+    A rule that is 78% noise teaches whoever reads it to skim, which costs more
+    than the rule earns. What is left is 4 toppings genuinely missing from a
+    Large and 6 the other way — every one of them worth a look."""
+    F = audit()
+    size_rules = [(rule, items) for (_sev, rule), items in F.items()
+                  if "REGULAR" in rule or "LARGE" in rule]
+    assert size_rules, "fixture sanity: the size-comparison rules should fire"
+    for rule, items in size_rules:
+        for _rev, detail in items:
+            assert "Pizza Box" not in detail and "box insert" not in detail.lower(), \
+                f"{rule}: {detail}"
