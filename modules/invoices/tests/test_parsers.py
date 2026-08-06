@@ -116,3 +116,120 @@ def test_andrews_meat_is_wired_to_its_invoice_domain():
     from modules.invoices.parsers import DOMAIN_TO_PARSER
     assert DOMAIN_KEY.get("andrewsmeat.com") == "andrews_meat"
     assert "andrewsmeat.com" in DOMAIN_TO_PARSER
+
+
+# --------------------------------------------------------------------------
+# looks_like_statement — the guard that decides whether a PDF is a bill at all.
+# A false positive here is the expensive direction: the invoice is thrown away
+# silently and the supplier stops costing. These fixtures hold the real text.
+# --------------------------------------------------------------------------
+
+SELECT_FRESH_HEAD = """lic. 2024-13434
+order enquiries
+www.selectprovidores.com.au
+TAX  INVOICE   2986250
+invoice date
+01-apr-26
+stowaway
+lvl 1, shp 18, 1-3 moore road
+LEMON KG            1.00   KG    3.80    3.80
+INVOICE TOTAL       55.20
+terms: 14 days
+please email remittance advice to accounts@selectprovidores.com.au
+"""
+
+
+def test_select_fresh_double_spaced_masthead_is_not_a_statement():
+    # REGRESSION, and an expensive one. Select Fresh renders "TAX  INVOICE" with
+    # two spaces, so the `"tax invoice"` escape hatch missed it; the footer's
+    # "please email remittance advice to ..." then matched the remittance rule and
+    # every one of their invoices was discarded as a statement — four months of
+    # produce, herbs and citrus never reached data/invoices or COGS.
+    from modules.invoices.run import looks_like_statement
+    assert looks_like_statement(SELECT_FRESH_HEAD) is False
+
+
+def test_a_tax_invoice_is_never_a_statement_however_it_is_spaced():
+    from modules.invoices.run import looks_like_statement
+    for masthead in ("TAX INVOICE", "TAX  INVOICE", "TAX\nINVOICE", "Tax   Invoice"):
+        body = masthead + "\nremittance advice\nstatement\ncurrent 7 days 14 days\n"
+        assert looks_like_statement(body) is False, masthead
+
+
+ANDREWS_STATEMENT = """Andrews Meat Industries Pty Ltd
+STATEMENT
+38 Birnie Ave, Lidcombe NSW 2141
+STOWAWAY FRESHWATER P/L (HAR038)
+Total Due 253.50
+DATE REFERENCE DESCRIPTION DEBIT CREDIT O/S AMOUNT
+11/07/2026 INV3413956 Sales Order 253.50 253.50
+28 Days+ 21 Days+ 14 Days 7 Days Current
+0 0.00 0.00 253.50 0.00
+"""
+
+FARMER_JOES_STATEMENT = """STATEMENT
+STOWAWAY BAR
+Account Statement For Trading Terms: 7 DAYS NET
+F J Chickens Pty Ltd
+14/11/2024 4446142 INVOICE INV 4446142 140.00
+CURRENT 7 DAYS 14 DAYS 21 +DAYS
+$280.00 $280.00 $0.00 $0.00 $0.00
+TOTAL DUE $280.00
+ARSTARPT  V2.01 2
+"""
+
+
+def test_ageing_buckets_identify_a_statement():
+    # Andrews Meat and Farmer Joes head these "STATEMENT" but print none of the
+    # older balance phrases — they age the balance across day columns instead.
+    # Both were reaching the LLM and burning an extraction apiece.
+    from modules.invoices.run import looks_like_statement
+    assert looks_like_statement(ANDREWS_STATEMENT) is True
+    assert looks_like_statement(FARMER_JOES_STATEMENT) is True
+
+
+def test_one_terms_line_is_not_an_ageing_table():
+    # "Terms: 7 DAYS NET" plus the word "current" must NOT make an invoice a
+    # statement — the rule needs two DISTINCT day buckets.
+    from modules.invoices.run import looks_like_statement
+    assert looks_like_statement(
+        "STATEMENT of deliveries\ncurrent\nterms: 7 days net\n") is False
+
+
+def test_direct_debit_request_form_is_not_an_invoice():
+    # Paramount's and Foodlink's authority forms carry no line items and no total.
+    # Paramount's renders through a broken font map 29 codepoints low, so the
+    # title extracts as "',5(&7'(%,75(48(67".
+    from modules.invoices.run import looks_like_statement
+    assert looks_like_statement("Foodlink Australia\nDirect Debit Request (DRR)\n") is True
+    assert looks_like_statement("$&1  $)6/ ',5(&7'(%,75(48(67 3K )D[") is True
+
+
+def test_gulli_payment_receipt_is_not_an_invoice():
+    # Lists the invoices it settles; "statement" never appears near the top.
+    from modules.invoices.run import looks_like_statement
+    assert looks_like_statement(
+        "Gulli Food Distributors Pty Ltd\nPayment Receipt: PCBAAU/2026/10542\n"
+        "Payment Amount: $ 8,821.38\nINVOICE DATE INVOICE NUMBER REFERENCE AMOUNT\n"
+    ) is True
+
+
+def test_farmer_joes_and_nicholas_seafood_are_wired_to_their_domains():
+    # Both parsers existed and worked in production (run.py passes the real sender
+    # domain), but were missing from DOMAIN_KEY — so parser_regression scored them
+    # 0% and build_corpus could never grow their corpora.
+    from modules.invoices.domains import DOMAIN_KEY
+    from modules.invoices.parsers import DOMAIN_TO_PARSER
+    for dom, key in (("farmerjoes.com.au", "farmer_joes"),
+                     ("nicholasseafood.com.au", "nicholas_seafood")):
+        assert DOMAIN_KEY.get(dom) == key
+        assert dom in DOMAIN_TO_PARSER
+
+
+def test_every_parser_domain_has_a_domain_key_entry():
+    # The gap above must not reopen for the next parser someone adds.
+    from modules.invoices.domains import DOMAIN_KEY
+    from modules.invoices.parsers import DOMAIN_TO_PARSER
+    missing = sorted(d for d in DOMAIN_TO_PARSER
+                     if d not in DOMAIN_KEY and not d.startswith("members."))
+    assert not missing, f"parser domains absent from DOMAIN_KEY: {missing}"
