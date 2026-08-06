@@ -295,3 +295,34 @@ def test_the_legacy_dine_in_pepperoni_is_named_what_the_pos_sells():
     assert "Pepperoni [Dine-in]" not in book
     r = book["Regular Pepperoni [Dine-in]"]
     assert r["sell_incl"] == 21.0 and r["our_cost"] > 0 and r["gp_pct"] > 0
+
+
+def test_harry_gatos_wine_costs_off_the_invoice_that_actually_bought_it():
+    """
+    Harry Gatos' own SKUs for Whispering Angel and Veuve Clicquot carry
+    CostPriceIncTax 0.0000, so a $26 glass of rosé and a $32 glass of champagne
+    reported 100% GP.
+
+    The reason to read them as Stowaway's stock is not the name, it is the
+    purchasing: of 449 non-seed supplier rows filed to harry_gatos, every one is
+    food except two lines of White Light Vodka. Harry Gatos has no wine
+    supplier. Those bottles were bought on a Stowaway invoice because there is
+    no other invoice they could have come from.
+    """
+    book = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    for name in ("Whispering Angel - Regular [HG]", "Whispering Angel - Large [HG]",
+                 "Veuve Clicquot - Glass [HG]"):
+        r = book[name]
+        assert r["our_cost"] > 0, name
+        assert 0 < r["gp_pct"] < 95, f"{name} {r['gp_pct']}"
+
+
+def test_a_pour_with_no_twin_anywhere_stays_visible():
+    """Milagro Reposado and Velho Berreiro Cachaça have no costed twin in the
+    group, so there is nothing to point them at. They must keep reading $0 and
+    keep showing up in the audit until an invoice arrives — inventing a cost for
+    them would be the flattering direction."""
+    from convert_lightspeed_recipes import INGREDIENT_ALIAS
+
+    for absent in ("Milagro Reposado Tequila [Bottle]", "Velho Berreiro Cachaça [Bottle]"):
+        assert absent not in INGREDIENT_ALIAS

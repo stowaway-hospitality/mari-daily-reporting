@@ -433,6 +433,25 @@ INGREDIENT_ALIAS = {
     # no cost on either; Stowaway's carries the price ($41.34 / 990 ml) and the
     # blend recipe (Carpano + Antica + Regal Rogue, 330 ml each).
     "Vermouth Blend [Bottle]": "Stow Vermouth Blend [Bottle]",
+    # Harry Gatos' own SKUs for two wines it does not buy.
+    #
+    # Both carry a 750 ml size and CostPriceIncTax 0.0000 in Harry Gatos' Back
+    # Office, so a $26 glass of rosé and a $32 glass of Veuve reported 100% GP.
+    # Stowaway's records for the same two wines are invoice-fed — Whispering
+    # Angel at $0.0457/ml off four ILG deliveries, Veuve at $0.1077/ml — and
+    # there is exactly one product of each name in the group.
+    #
+    # The reason to read them as the same stock is not the name, it is the
+    # purchasing: of 449 non-seed supplier rows filed to harry_gatos, every one
+    # is food except two lines of White Light Vodka. Harry Gatos has no wine
+    # supplier. The bottles it pours were bought on a Stowaway invoice, because
+    # there is no other invoice they could have come from.
+    #
+    # Milagro Reposado and Velho Berreiro Cachaça are deliberately NOT here:
+    # neither has a costed twin anywhere in the group, so there is nothing to
+    # point at and they stay visible in the audit until an invoice arrives.
+    "Whispering Angel - Bottle [HG]": "Whispering Angel Rosé - Bottle",
+    "Veuve Clicquot - Bottle [HG]": "Veuve Clicquot Yellow Label - Bottle",
 }
 
 # Redundant lines Zak has asked to drop. NOT deleted from any source file — the
