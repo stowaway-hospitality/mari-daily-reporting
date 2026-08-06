@@ -1,13 +1,13 @@
 {
- "generated": "2026-08-05",
+ "generated": "2026-08-06",
  "source": "Lightspeed Produce (scraped)",
- "recipe_count": 648,
+ "recipe_count": 829,
  "coverage": {
   "ingredient_refs": {
-   "id": 1135,
-   "subrecipe": 348
+   "id": 1548,
+   "subrecipe": 377
   },
-  "recipes_fully_on_our_book": 648
+  "recipes_fully_on_our_book": 745
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -20011,13 +20011,13 @@
    "ingredients": [
     {
      "name": "Massenez Lychee [5L]",
-     "kind": "id",
-     "ref": "lightspeed:20487547",
+     "kind": "subrecipe",
+     "ref": "Massenez Lychee [5L]",
      "qty": "30",
      "unit": "ml",
      "ls_cost": "1.74",
-     "our_cost": "0.058000",
-     "eff_cost": 1.74
+     "our_cost": null,
+     "eff_cost": 1.797211
     },
     {
      "name": "White Light Vodka [20L]",
@@ -20070,13 +20070,13 @@
      "eff_cost": 0.019984
     }
    ],
-   "our_cost": 3.6186,
+   "our_cost": 3.6758,
    "ls_cost": 3.62,
-   "fully_our_book": true,
+   "fully_our_book": false,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 20.0,
-   "gp_pct": 80.1
+   "gp_pct": 79.8
   },
   "Sugar Syrup": {
    "ingredients": [
@@ -32509,6 +32509,6440 @@
    "is_prep": false,
    "sell_incl": 18.0,
    "gp_pct": 66.0
+  },
+  "Yuzu Chu-hi": {
+   "ingredients": [
+    {
+     "name": "Wa no Kokoro Yuzushu [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20904019",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.04",
+     "our_cost": null,
+     "eff_cost": 2.04
+    }
+   ],
+   "our_cost": 2.04,
+   "ls_cost": 2.04,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 81.3
+  },
+  "Lemon Chu-hi": {
+   "ingredients": [
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.52",
+     "our_cost": null,
+     "eff_cost": 1.52
+    }
+   ],
+   "our_cost": 1.52,
+   "ls_cost": 1.52,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 86.1
+  },
+  "Katsu Curry Dumplings": {
+   "ingredients": [
+    {
+     "name": "Dumpling Chicken Corn Sun Circle [600g]",
+     "kind": "id",
+     "ref": "lightspeed:22918996",
+     "qty": "0.2",
+     "unit": "Units",
+     "ls_cost": "0.90",
+     "our_cost": null,
+     "eff_cost": 0.9
+    },
+    {
+     "name": "Katsu Curry Sauce",
+     "kind": "subrecipe",
+     "ref": "Katsu Curry Sauce",
+     "qty": "100",
+     "unit": "mL",
+     "ls_cost": "0.22",
+     "our_cost": null,
+     "eff_cost": 0.220007
+    }
+   ],
+   "our_cost": 1.12,
+   "ls_cost": 1.12,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.0,
+   "gp_pct": 92.3
+  },
+  "Vegetarian Spring Rolls": {
+   "ingredients": [
+    {
+     "name": "Spring Roll Veg Hakka [ea]",
+     "kind": "id",
+     "ref": "lightspeed:22898080",
+     "qty": 2.0,
+     "unit": "Units",
+     "ls_cost": 1.28,
+     "our_cost": null,
+     "scaled_from": "Veg Spring Rolls [2pc] x1",
+     "eff_cost": 1.28
+    },
+    {
+     "name": "Peking Sauce [6.75L]",
+     "kind": "subrecipe",
+     "ref": "Peking Sauce [6.75L]",
+     "qty": 15.0,
+     "unit": "mL",
+     "ls_cost": 0.09,
+     "our_cost": null,
+     "scaled_from": "Veg Spring Rolls [2pc] x1",
+     "eff_cost": 0.09
+    },
+    {
+     "name": "Kutjera Bush Tomato Powder [100g]",
+     "kind": "id",
+     "ref": "lightspeed:22918953",
+     "qty": 0.5,
+     "unit": "g",
+     "ls_cost": 0.28,
+     "our_cost": null,
+     "scaled_from": "Veg Spring Rolls [2pc] x1",
+     "eff_cost": 0.28
+    }
+   ],
+   "our_cost": 1.65,
+   "ls_cost": 1.65,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 87.9
+  },
+  "Unlimited Dumplings": {
+   "ingredients": [
+    {
+     "name": "Dumpling Beef Cabbage Sun Circle [600g]",
+     "kind": "id",
+     "ref": "lightspeed:22918997",
+     "qty": "0.3",
+     "unit": "Units",
+     "ls_cost": "1.35",
+     "our_cost": null,
+     "eff_cost": 1.35
+    },
+    {
+     "name": "Dumpling Chicken Corn Sun Circle [600g]",
+     "kind": "id",
+     "ref": "lightspeed:22918996",
+     "qty": "0.3",
+     "unit": "Units",
+     "ls_cost": "1.35",
+     "our_cost": null,
+     "eff_cost": 1.35
+    },
+    {
+     "name": "Dumpling Pork Chive Sun Circle [600g]",
+     "kind": "id",
+     "ref": "lightspeed:22918993",
+     "qty": "0.3",
+     "unit": "Units",
+     "ls_cost": "1.35",
+     "our_cost": null,
+     "eff_cost": 1.35
+    },
+    {
+     "name": "Gyoza Vegetable Marumatsu Jun [800g]",
+     "kind": "id",
+     "ref": "lightspeed:22893568",
+     "qty": "0.225",
+     "unit": "Units",
+     "ls_cost": "2.08",
+     "our_cost": null,
+     "eff_cost": 2.08
+    },
+    {
+     "name": "Davidson Plum Hoisin",
+     "kind": "subrecipe",
+     "ref": "Davidson Plum Hoisin",
+     "qty": "40",
+     "unit": "mL",
+     "ls_cost": "0.42",
+     "our_cost": null,
+     "eff_cost": 0.42
+    },
+    {
+     "name": "HG's Soy Chilli Sauce",
+     "kind": "subrecipe",
+     "ref": "HG's Soy Chilli Sauce",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.22",
+     "our_cost": null,
+     "eff_cost": 0.220035
+    },
+    {
+     "name": "Ginger Ponzu",
+     "kind": "subrecipe",
+     "ref": "Ginger Ponzu",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "0.24",
+     "our_cost": null,
+     "eff_cost": 0.24
+    }
+   ],
+   "our_cost": 7.01,
+   "ls_cost": 7.01,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 24.0,
+   "gp_pct": 67.9
+  },
+  "Dumplings - Beef & Cabbage": {
+   "ingredients": [
+    {
+     "name": "Dumpling Beef Cabbage Sun Circle [600g]",
+     "kind": "id",
+     "ref": "lightspeed:22918997",
+     "qty": "0.2",
+     "unit": "Units",
+     "ls_cost": "0.90",
+     "our_cost": null,
+     "eff_cost": 0.9
+    },
+    {
+     "name": "Davidson Plum Hoisin",
+     "kind": "subrecipe",
+     "ref": "Davidson Plum Hoisin",
+     "qty": "24",
+     "unit": "mL",
+     "ls_cost": "0.25",
+     "our_cost": null,
+     "eff_cost": 0.25
+    },
+    {
+     "name": "HG's Soy Chilli Sauce",
+     "kind": "subrecipe",
+     "ref": "HG's Soy Chilli Sauce",
+     "qty": "21",
+     "unit": "mL",
+     "ls_cost": "0.15",
+     "our_cost": null,
+     "eff_cost": 0.150024
+    },
+    {
+     "name": "Ginger Ponzu",
+     "kind": "subrecipe",
+     "ref": "Ginger Ponzu",
+     "qty": "14",
+     "unit": "mL",
+     "ls_cost": "0.17",
+     "our_cost": null,
+     "eff_cost": 0.17
+    }
+   ],
+   "our_cost": 1.47,
+   "ls_cost": 1.47,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 13.0,
+   "gp_pct": 87.6
+  },
+  "Chashu Pork Belly Prep": {
+   "ingredients": [
+    {
+     "name": "Pork Belly Boneless S/Less [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22893540",
+     "qty": "5",
+     "unit": "kg",
+     "ls_cost": "115.00",
+     "our_cost": null,
+     "eff_cost": 115.0
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "1000",
+     "unit": "mL",
+     "ls_cost": "14.00",
+     "our_cost": null,
+     "eff_cost": 14.0
+    },
+    {
+     "name": "Mirin [1.8L]",
+     "kind": "id",
+     "ref": "lightspeed:22902956",
+     "qty": "500",
+     "unit": "mL",
+     "ls_cost": "3.33",
+     "our_cost": null,
+     "eff_cost": 3.33
+    },
+    {
+     "name": "Ginger [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22931835",
+     "qty": "40",
+     "unit": "g",
+     "ls_cost": "1.00",
+     "our_cost": null,
+     "eff_cost": 1.0
+    },
+    {
+     "name": "Cloves [400g]",
+     "kind": "id",
+     "ref": "lightspeed:22920842",
+     "qty": "1.3",
+     "unit": "g",
+     "ls_cost": "0.07",
+     "our_cost": null,
+     "eff_cost": 0.07
+    },
+    {
+     "name": "Garlic Peeled [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995939",
+     "qty": "40",
+     "unit": "g",
+     "ls_cost": "0.21",
+     "our_cost": null,
+     "eff_cost": 0.21
+    },
+    {
+     "name": "Star Anise [200g]",
+     "kind": "id",
+     "ref": "lightspeed:22920840",
+     "qty": "20",
+     "unit": "g",
+     "ls_cost": "1.00",
+     "our_cost": null,
+     "eff_cost": 1.0
+    },
+    {
+     "name": "Pepper Black Whole Windsor Farm [500g]",
+     "kind": "id",
+     "ref": "lightspeed:22898079",
+     "qty": "6",
+     "unit": "g",
+     "ls_cost": "0.15",
+     "our_cost": null,
+     "eff_cost": 0.15
+    },
+    {
+     "name": "Vegetable Stock Powder [2.5kg]",
+     "kind": "id",
+     "ref": "lightspeed:22920846",
+     "qty": "10",
+     "unit": "g",
+     "ls_cost": "0.15",
+     "our_cost": null,
+     "eff_cost": 0.15
+    },
+    {
+     "name": "Brown Sugar [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22920848",
+     "qty": "200",
+     "unit": "g",
+     "ls_cost": "0.84",
+     "our_cost": null,
+     "eff_cost": 0.84
+    },
+    {
+     "name": "White Pepper",
+     "kind": "id",
+     "ref": "lightspeed:22962978",
+     "qty": "7.5",
+     "unit": "g",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 135.75,
+   "ls_cost": 135.75,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Fried Rice": {
+   "ingredients": [
+    {
+     "name": "Rice Jasmine Fragrant [20kg]",
+     "kind": "id",
+     "ref": "lightspeed:22893550",
+     "qty": "85",
+     "unit": "g",
+     "ls_cost": "0.18",
+     "our_cost": null,
+     "eff_cost": 0.18
+    },
+    {
+     "name": "Garlic Peeled [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995939",
+     "qty": "10",
+     "unit": "g",
+     "ls_cost": "0.05",
+     "our_cost": null,
+     "eff_cost": 0.05
+    },
+    {
+     "name": "Beans Edamame Soy Frozen [350g]",
+     "kind": "id",
+     "ref": "lightspeed:22898623",
+     "qty": "30",
+     "unit": "g",
+     "ls_cost": "0.27",
+     "our_cost": null,
+     "eff_cost": 0.27
+    },
+    {
+     "name": "Carrot Shredded [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995325",
+     "qty": "30",
+     "unit": "g",
+     "ls_cost": "0.08",
+     "our_cost": null,
+     "eff_cost": 0.08
+    },
+    {
+     "name": "Soy Sauce Sweet Megachef [4.5L]",
+     "kind": "id",
+     "ref": "lightspeed:22898073",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.28",
+     "our_cost": null,
+     "eff_cost": 0.28
+    },
+    {
+     "name": "Oil Cottonseed [20L]",
+     "kind": "id",
+     "ref": "lightspeed:22893549",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.10",
+     "our_cost": null,
+     "eff_cost": 0.1
+    },
+    {
+     "name": "Oyster Sauce Megachef [5.4kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898071",
+     "qty": "20",
+     "unit": "g",
+     "ls_cost": "0.14",
+     "our_cost": null,
+     "eff_cost": 0.14
+    },
+    {
+     "name": "Egg Fresh [ea]",
+     "kind": "id",
+     "ref": "lightspeed:22918951",
+     "qty": "2",
+     "unit": "Units",
+     "ls_cost": "1.27",
+     "our_cost": null,
+     "eff_cost": 1.27
+    },
+    {
+     "name": "Shallot [bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22996509",
+     "qty": "20",
+     "unit": "g",
+     "ls_cost": "0.13",
+     "our_cost": null,
+     "eff_cost": 0.13
+    },
+    {
+     "name": "Sesame Oil Heaven Dragon [2L]",
+     "kind": "id",
+     "ref": "lightspeed:22898507",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.10",
+     "our_cost": null,
+     "eff_cost": 0.1
+    },
+    {
+     "name": "Vegetable Oil Simply [20L]",
+     "kind": "id",
+     "ref": "lightspeed:22995366",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.09",
+     "our_cost": null,
+     "eff_cost": 0.09
+    }
+   ],
+   "our_cost": 2.69,
+   "ls_cost": 2.69,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 23.0,
+   "gp_pct": 87.1
+  },
+  "Seitan Katsu Curry [vegan]": {
+   "ingredients": [
+    {
+     "name": "Katsu Curry Sauce",
+     "kind": "subrecipe",
+     "ref": "Katsu Curry Sauce",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "0.33",
+     "our_cost": null,
+     "eff_cost": 0.330011
+    },
+    {
+     "name": "Carrot Shredded [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995325",
+     "qty": "40",
+     "unit": "g",
+     "ls_cost": "0.10",
+     "our_cost": null,
+     "eff_cost": 0.1
+    },
+    {
+     "name": "Potato Peeled [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995357",
+     "qty": "40",
+     "unit": "g",
+     "ls_cost": "0.12",
+     "our_cost": null,
+     "eff_cost": 0.12
+    },
+    {
+     "name": "Pickle Cabbage",
+     "kind": "subrecipe",
+     "ref": "Pickle Cabbage",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.13",
+     "our_cost": null,
+     "eff_cost": 0.13
+    },
+    {
+     "name": "Rice Jasmine Fragrant [20kg]",
+     "kind": "id",
+     "ref": "lightspeed:22893550",
+     "qty": "120",
+     "unit": "g",
+     "ls_cost": "0.25",
+     "our_cost": null,
+     "eff_cost": 0.25
+    },
+    {
+     "name": "Shallot [bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22996509",
+     "qty": "15",
+     "unit": "g",
+     "ls_cost": "0.10",
+     "our_cost": null,
+     "eff_cost": 0.1
+    }
+   ],
+   "our_cost": 1.03,
+   "ls_cost": 1.03,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 27.0,
+   "gp_pct": 95.8
+  },
+  "Chicken Wings": {
+   "ingredients": [
+    {
+     "name": "Chicken Wing [5KG]",
+     "kind": "id",
+     "ref": "lightspeed:22507818",
+     "qty": "280",
+     "unit": "g",
+     "ls_cost": "1.34",
+     "our_cost": null,
+     "eff_cost": 1.34
+    },
+    {
+     "name": "Gochujang Honey Soy",
+     "kind": "subrecipe",
+     "ref": "Gochujang Honey Soy",
+     "qty": "100",
+     "unit": "mL",
+     "ls_cost": "0.73",
+     "our_cost": null,
+     "eff_cost": 0.73
+    },
+    {
+     "name": "Sesame Seed Black Jun [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898081",
+     "qty": "0.5",
+     "unit": "g",
+     "ls_cost": "0.01",
+     "our_cost": null,
+     "eff_cost": 0.01
+    },
+    {
+     "name": "Sesame Seed White Roasted Jun [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898082",
+     "qty": "0.5",
+     "unit": "g",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 2.08,
+   "ls_cost": 2.08,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 80.9
+  },
+  "Quandong Sambal": {
+   "ingredients": [
+    {
+     "name": "Quandong Halves Frozen [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22918950",
+     "qty": "735",
+     "unit": "g",
+     "ls_cost": "102.90",
+     "our_cost": null,
+     "eff_cost": 102.9
+    },
+    {
+     "name": "Sweet Chilli Jam Knorr [920g]",
+     "kind": "id",
+     "ref": "lightspeed:22918967",
+     "qty": "1840",
+     "unit": "g",
+     "ls_cost": "106.00",
+     "our_cost": null,
+     "eff_cost": 106.0
+    },
+    {
+     "name": "Garlic Chilli Sauce LKK [1.05kg]",
+     "kind": "id",
+     "ref": "lightspeed:22918970",
+     "qty": "920",
+     "unit": "g",
+     "ls_cost": "12.70",
+     "our_cost": null,
+     "eff_cost": 12.7
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "460",
+     "unit": "mL",
+     "ls_cost": "6.44",
+     "our_cost": null,
+     "eff_cost": 6.44
+    },
+    {
+     "name": "Super Lime Juice [L]",
+     "kind": "subrecipe",
+     "ref": "Super Lime Juice [1L]",
+     "qty": "460",
+     "unit": "mL",
+     "ls_cost": "0.93",
+     "our_cost": null,
+     "eff_cost": 0.933704
+    }
+   ],
+   "our_cost": 228.9737,
+   "ls_cost": 228.97,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Fried Rice Mix": {
+   "ingredients": [
+    {
+     "name": "Quandong Sambal",
+     "kind": "subrecipe",
+     "ref": "Quandong Sambal",
+     "qty": "500",
+     "unit": "mL",
+     "ls_cost": "24.75",
+     "our_cost": null,
+     "eff_cost": 24.7504
+    },
+    {
+     "name": "Soy Sauce Sweet Megachef [4.5L]",
+     "kind": "id",
+     "ref": "lightspeed:22898073",
+     "qty": "500",
+     "unit": "mL",
+     "ls_cost": "4.67",
+     "our_cost": null,
+     "eff_cost": 4.67
+    },
+    {
+     "name": "Oyster Sauce Megachef [5.4kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898071",
+     "qty": "200",
+     "unit": "g",
+     "ls_cost": "1.37",
+     "our_cost": null,
+     "eff_cost": 1.37
+    },
+    {
+     "name": "Sesame Oil Heaven Dragon [2L]",
+     "kind": "id",
+     "ref": "lightspeed:22898507",
+     "qty": "100",
+     "unit": "mL",
+     "ls_cost": "0.95",
+     "our_cost": null,
+     "eff_cost": 0.95
+    }
+   ],
+   "our_cost": 31.7404,
+   "ls_cost": 31.74,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Mie Goreng": {
+   "ingredients": [
+    {
+     "name": "Cabbage Green Shredded [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898086",
+     "qty": "18",
+     "unit": "g",
+     "ls_cost": "0.08",
+     "our_cost": null,
+     "eff_cost": 0.08
+    },
+    {
+     "name": "Carrot Shredded [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995325",
+     "qty": "17",
+     "unit": "g",
+     "ls_cost": "0.04",
+     "our_cost": null,
+     "eff_cost": 0.04
+    },
+    {
+     "name": "Garlic Peeled [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995939",
+     "qty": "5",
+     "unit": "g",
+     "ls_cost": "0.03",
+     "our_cost": null,
+     "eff_cost": 0.03
+    },
+    {
+     "name": "Egg Whole Pulp Frozen [10kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898076",
+     "qty": "100",
+     "unit": "g",
+     "ls_cost": "0.95",
+     "our_cost": null,
+     "eff_cost": 0.95
+    },
+    {
+     "name": "Soy Sauce Dark Pearl River [600mL]",
+     "kind": "id",
+     "ref": "lightspeed:22898072",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "0.15",
+     "our_cost": null,
+     "eff_cost": 0.15
+    },
+    {
+     "name": "Soy Sauce Sweet Megachef [4.5L]",
+     "kind": "id",
+     "ref": "lightspeed:22898073",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "0.19",
+     "our_cost": null,
+     "eff_cost": 0.19
+    },
+    {
+     "name": "Pepper White Ground Galaxy [500g]",
+     "kind": "id",
+     "ref": "lightspeed:22898078",
+     "qty": "3",
+     "unit": "g",
+     "ls_cost": "0.11",
+     "our_cost": null,
+     "eff_cost": 0.11
+    },
+    {
+     "name": "Noodles Instant Ayam [700g]",
+     "kind": "id",
+     "ref": "lightspeed:22931827",
+     "qty": "180",
+     "unit": "g",
+     "ls_cost": "1.36",
+     "our_cost": null,
+     "eff_cost": 1.36
+    },
+    {
+     "name": "Salt Cooking [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898520",
+     "qty": "5",
+     "unit": "g",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Choi Sum [bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22898085",
+     "qty": "20",
+     "unit": "g",
+     "ls_cost": "0.18",
+     "our_cost": null,
+     "eff_cost": 0.18
+    },
+    {
+     "name": "Sesame Oil Heaven Dragon [2L]",
+     "kind": "id",
+     "ref": "lightspeed:22898507",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.10",
+     "our_cost": null,
+     "eff_cost": 0.1
+    }
+   ],
+   "our_cost": 3.19,
+   "ls_cost": 3.19,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 23.0,
+   "gp_pct": 84.7
+  },
+  "Duck Spring Roll": {
+   "ingredients": [
+    {
+     "name": "Peking Duck Spring Rolls Canton [ea]",
+     "kind": "id",
+     "ref": "lightspeed:22898084",
+     "qty": "2",
+     "unit": "Units",
+     "ls_cost": "3.20",
+     "our_cost": null,
+     "eff_cost": 3.2
+    },
+    {
+     "name": "Peking Sauce [6.75L]",
+     "kind": "subrecipe",
+     "ref": "Peking Sauce [6.75L]",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.09",
+     "our_cost": null,
+     "eff_cost": 0.09
+    },
+    {
+     "name": "Kutjera Bush Tomato Powder [100g]",
+     "kind": "id",
+     "ref": "lightspeed:22918953",
+     "qty": "0.5",
+     "unit": "g",
+     "ls_cost": "0.28",
+     "our_cost": null,
+     "eff_cost": 0.28
+    }
+   ],
+   "our_cost": 3.57,
+   "ls_cost": 3.57,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.0,
+   "gp_pct": 75.5
+  },
+  "Peking Sauce [6.75L]": {
+   "ingredients": [
+    {
+     "name": "Honey [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902953",
+     "qty": "1500",
+     "unit": "g",
+     "ls_cost": "10.50",
+     "our_cost": null,
+     "eff_cost": 10.5
+    },
+    {
+     "name": "Brown Sugar [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22920848",
+     "qty": "750",
+     "unit": "g",
+     "ls_cost": "3.15",
+     "our_cost": null,
+     "eff_cost": 3.15
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "750",
+     "unit": "L",
+     "ls_cost": "10500.00",
+     "our_cost": null,
+     "eff_cost": 10500.0
+    },
+    {
+     "name": "Tomato Sauce Heinz [4L]",
+     "kind": "id",
+     "ref": "lightspeed:22918981",
+     "qty": "1500",
+     "unit": "L",
+     "ls_cost": "4.13",
+     "our_cost": null,
+     "eff_cost": 4.13
+    },
+    {
+     "name": "Cooking Sake Jun [18L]",
+     "kind": "id",
+     "ref": "lightspeed:22893566",
+     "qty": "750",
+     "unit": "L",
+     "ls_cost": "1.39",
+     "our_cost": null,
+     "eff_cost": 1.39
+    },
+    {
+     "name": "Sesame Oil Heaven Dragon [2L]",
+     "kind": "id",
+     "ref": "lightspeed:22898507",
+     "qty": "375",
+     "unit": "mL",
+     "ls_cost": "3.56",
+     "our_cost": null,
+     "eff_cost": 3.56
+    },
+    {
+     "name": "Sriracha [730mL]",
+     "kind": "id",
+     "ref": "lightspeed:22902937",
+     "qty": "375",
+     "unit": "L",
+     "ls_cost": "4.47",
+     "our_cost": null,
+     "eff_cost": 4.47
+    },
+    {
+     "name": "Rice Wine Vinegar [500mL]",
+     "kind": "id",
+     "ref": "lightspeed:22902975",
+     "qty": "750",
+     "unit": "L",
+     "ls_cost": "3.75",
+     "our_cost": null,
+     "eff_cost": 3.75
+    }
+   ],
+   "our_cost": 10530.95,
+   "ls_cost": 10530.95,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Dumplings - Prawn Har Gow [GF]": {
+   "ingredients": [
+    {
+     "name": "Prawn Har Gao Sun Circle - 50pcs [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22918998",
+     "qty": "0.12",
+     "unit": "Units",
+     "ls_cost": "3.84",
+     "our_cost": null,
+     "eff_cost": 3.84
+    },
+    {
+     "name": "Davidson Plum Hoisin",
+     "kind": "subrecipe",
+     "ref": "Davidson Plum Hoisin",
+     "qty": "24",
+     "unit": "mL",
+     "ls_cost": "0.25",
+     "our_cost": null,
+     "eff_cost": 0.25
+    },
+    {
+     "name": "HG's Soy Chilli Sauce",
+     "kind": "subrecipe",
+     "ref": "HG's Soy Chilli Sauce",
+     "qty": "21",
+     "unit": "mL",
+     "ls_cost": "0.15",
+     "our_cost": null,
+     "eff_cost": 0.150024
+    },
+    {
+     "name": "Ginger Ponzu",
+     "kind": "subrecipe",
+     "ref": "Ginger Ponzu",
+     "qty": "14",
+     "unit": "mL",
+     "ls_cost": "0.17",
+     "our_cost": null,
+     "eff_cost": 0.17
+    }
+   ],
+   "our_cost": 4.41,
+   "ls_cost": 4.41,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 18.0,
+   "gp_pct": 73.0
+  },
+  "Davidson Plum Hoisin": {
+   "ingredients": [
+    {
+     "name": "Hoi Sin Sauce LKK [2.27kg]",
+     "kind": "id",
+     "ref": "lightspeed:22918968",
+     "qty": "4",
+     "unit": "Units",
+     "ls_cost": "42.20",
+     "our_cost": null,
+     "eff_cost": 42.2
+    },
+    {
+     "name": "Davidson Plum Puree",
+     "kind": "id",
+     "ref": "lightspeed:22947356",
+     "qty": "1000",
+     "unit": "mL",
+     "ls_cost": "51.00",
+     "our_cost": null,
+     "eff_cost": 51.0
+    }
+   ],
+   "our_cost": 93.2,
+   "ls_cost": 93.2,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Dumplings - Veg Gyoza": {
+   "ingredients": [
+    {
+     "name": "Gyoza Vegetable Marumatsu Jun [800g]",
+     "kind": "id",
+     "ref": "lightspeed:22893568",
+     "qty": "0.15",
+     "unit": "Units",
+     "ls_cost": "1.39",
+     "our_cost": null,
+     "eff_cost": 1.39
+    },
+    {
+     "name": "Davidson Plum Hoisin",
+     "kind": "subrecipe",
+     "ref": "Davidson Plum Hoisin",
+     "qty": "24",
+     "unit": "mL",
+     "ls_cost": "0.25",
+     "our_cost": null,
+     "eff_cost": 0.25
+    },
+    {
+     "name": "HG's Soy Chilli Sauce",
+     "kind": "subrecipe",
+     "ref": "HG's Soy Chilli Sauce",
+     "qty": "21",
+     "unit": "mL",
+     "ls_cost": "0.15",
+     "our_cost": null,
+     "eff_cost": 0.150024
+    },
+    {
+     "name": "Ginger Ponzu",
+     "kind": "subrecipe",
+     "ref": "Ginger Ponzu",
+     "qty": "14",
+     "unit": "mL",
+     "ls_cost": "0.17",
+     "our_cost": null,
+     "eff_cost": 0.17
+    }
+   ],
+   "our_cost": 1.96,
+   "ls_cost": 1.96,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 13.0,
+   "gp_pct": 83.4
+  },
+  "Ginger Ponzu": {
+   "ingredients": [
+    {
+     "name": "Ponzu Dashi Vinegar Uchibori [360mL]",
+     "kind": "id",
+     "ref": "lightspeed:22918966",
+     "qty": "1000",
+     "unit": "mL",
+     "ls_cost": "15.30",
+     "our_cost": null,
+     "eff_cost": 15.3
+    },
+    {
+     "name": "Pickled Ginger",
+     "kind": "id",
+     "ref": "lightspeed:22973738",
+     "qty": "250",
+     "unit": "g",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 15.3,
+   "ls_cost": 15.3,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "HG's Soy Chilli Sauce": {
+   "ingredients": [
+    {
+     "name": "Garlic Minced [kg]",
+     "kind": "id",
+     "ref": "lightspeed:23036620",
+     "qty": "500",
+     "unit": "g",
+     "ls_cost": "2.20",
+     "our_cost": "0.004444",
+     "eff_cost": 2.222
+    },
+    {
+     "name": "Ginger [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22931835",
+     "qty": "500",
+     "unit": "g",
+     "ls_cost": "12.50",
+     "our_cost": null,
+     "eff_cost": 12.5
+    },
+    {
+     "name": "Chilli Red Long [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22918956",
+     "qty": "0.25",
+     "unit": "kg",
+     "ls_cost": "4.38",
+     "our_cost": null,
+     "eff_cost": 4.38
+    },
+    {
+     "name": "Shallot [bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22996509",
+     "qty": "250",
+     "unit": "g",
+     "ls_cost": "1.65",
+     "our_cost": null,
+     "eff_cost": 1.65
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "2.5",
+     "unit": "L",
+     "ls_cost": "35.00",
+     "our_cost": null,
+     "eff_cost": 35.0
+    },
+    {
+     "name": "Honey [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902953",
+     "qty": "5000",
+     "unit": "g",
+     "ls_cost": "35.00",
+     "our_cost": null,
+     "eff_cost": 35.0
+    },
+    {
+     "name": "Bundaberg White Sugar [25kg]",
+     "kind": "id",
+     "ref": "lightspeed:22843745",
+     "qty": "500",
+     "unit": "g",
+     "ls_cost": "1.28",
+     "our_cost": "0.002548",
+     "eff_cost": 1.274
+    },
+    {
+     "name": "MSG Sasa [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902977",
+     "qty": "500",
+     "unit": "g",
+     "ls_cost": "4.45",
+     "our_cost": null,
+     "eff_cost": 4.45
+    },
+    {
+     "name": "Chilli Powder Korean Coarse [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902964",
+     "qty": "250",
+     "unit": "g",
+     "ls_cost": "4.00",
+     "our_cost": null,
+     "eff_cost": 4.0
+    }
+   ],
+   "our_cost": 100.476,
+   "ls_cost": 100.46,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Toasted Rice Syrup [1L]": {
+   "ingredients": [
+    {
+     "name": "Jasmine Rice",
+     "kind": "id",
+     "ref": "lightspeed:22562653",
+     "qty": "1",
+     "unit": "kg",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Bundaberg White Sugar [25kg]",
+     "kind": "id",
+     "ref": "lightspeed:22843745",
+     "qty": 1000.78,
+     "unit": "g",
+     "ls_cost": "2.55",
+     "our_cost": null,
+     "eff_cost": 2.55
+    },
+    {
+     "name": "Ginger [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22931835",
+     "qty": "0.2",
+     "unit": "kg",
+     "ls_cost": "5.00",
+     "our_cost": null,
+     "eff_cost": 5.0
+    },
+    {
+     "name": "Cinnamon Quills [200g]",
+     "kind": "id",
+     "ref": "lightspeed:22920844",
+     "qty": "0.005",
+     "unit": "Units",
+     "ls_cost": "0.05",
+     "our_cost": null,
+     "eff_cost": 0.05
+    }
+   ],
+   "our_cost": 7.6,
+   "ls_cost": 7.6,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "BBQ Pork Buns [2pc]": {
+   "ingredients": [
+    {
+     "name": "BBQ Pork Buns Canton [ea]",
+     "kind": "id",
+     "ref": "lightspeed:22898083",
+     "qty": "2",
+     "unit": "Units",
+     "ls_cost": "3.50",
+     "our_cost": null,
+     "eff_cost": 3.5
+    }
+   ],
+   "our_cost": 3.5,
+   "ls_cost": 3.5,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 74.3
+  },
+  "Duck Spring Rolls [2pc]": {
+   "ingredients": [
+    {
+     "name": "Peking Duck Spring Rolls Canton [ea]",
+     "kind": "id",
+     "ref": "lightspeed:22898084",
+     "qty": "2",
+     "unit": "Units",
+     "ls_cost": "3.20",
+     "our_cost": null,
+     "eff_cost": 3.2
+    }
+   ],
+   "our_cost": 3.2,
+   "ls_cost": 3.2,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.0,
+   "gp_pct": 78.0
+  },
+  "Potato Salad": {
+   "ingredients": [
+    {
+     "name": "Potato Brushed Sebago [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22903010",
+     "qty": "1000",
+     "unit": "g",
+     "ls_cost": "2.70",
+     "our_cost": null,
+     "eff_cost": 2.7
+    },
+    {
+     "name": "Carrot Diced 5mm [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22918959",
+     "qty": "200",
+     "unit": "g",
+     "ls_cost": "0.58",
+     "our_cost": null,
+     "eff_cost": 0.58
+    },
+    {
+     "name": "Mayonnaise Japanese Kewpie [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22918985",
+     "qty": "0.5",
+     "unit": "Units",
+     "ls_cost": "5.45",
+     "our_cost": null,
+     "eff_cost": 5.45
+    },
+    {
+     "name": "Shallot [bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22996509",
+     "qty": "50",
+     "unit": "g",
+     "ls_cost": "0.33",
+     "our_cost": null,
+     "eff_cost": 0.33
+    },
+    {
+     "name": "Garlic Peeled [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995939",
+     "qty": "20",
+     "unit": "g",
+     "ls_cost": "0.10",
+     "our_cost": null,
+     "eff_cost": 0.1
+    },
+    {
+     "name": "Togarashi",
+     "kind": "id",
+     "ref": "lightspeed:22970070",
+     "qty": "10",
+     "unit": "g",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 9.16,
+   "ls_cost": 9.16,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 7.0,
+   "gp_pct": -43.9
+  },
+  "Shiitake Bouillon": {
+   "ingredients": [
+    {
+     "name": "Mushroom Shiitake Dried [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22918987",
+     "qty": "0.5",
+     "unit": "Units",
+     "ls_cost": "15.63",
+     "our_cost": null,
+     "eff_cost": 15.63
+    },
+    {
+     "name": "Onion Brown [10kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995352",
+     "qty": "500",
+     "unit": "g",
+     "ls_cost": "1.63",
+     "our_cost": null,
+     "eff_cost": 1.63
+    },
+    {
+     "name": "Carrot Diced 5mm [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22918959",
+     "qty": "300",
+     "unit": "g",
+     "ls_cost": "0.87",
+     "our_cost": null,
+     "eff_cost": 0.87
+    },
+    {
+     "name": "Garlic Peeled [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995939",
+     "qty": "100",
+     "unit": "g",
+     "ls_cost": "0.52",
+     "our_cost": null,
+     "eff_cost": 0.52
+    },
+    {
+     "name": "Shallot [bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22996509",
+     "qty": "100",
+     "unit": "g",
+     "ls_cost": "0.66",
+     "our_cost": null,
+     "eff_cost": 0.66
+    },
+    {
+     "name": "Ginger [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22931835",
+     "qty": "100",
+     "unit": "g",
+     "ls_cost": "2.50",
+     "our_cost": null,
+     "eff_cost": 2.5
+    },
+    {
+     "name": "White Pepper",
+     "kind": "id",
+     "ref": "lightspeed:22962978",
+     "qty": "10",
+     "unit": "g",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 21.81,
+   "ls_cost": 21.81,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Menma (Bamboo Shoots)": {
+   "ingredients": [
+    {
+     "name": "Bamboo Shoot Sliced A10 [2.84kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898077",
+     "qty": "2.84",
+     "unit": "kg",
+     "ls_cost": "8.15",
+     "our_cost": null,
+     "eff_cost": 8.15
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "0.2",
+     "unit": "L",
+     "ls_cost": "2.80",
+     "our_cost": null,
+     "eff_cost": 2.8
+    },
+    {
+     "name": "Caster Sugar [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902927",
+     "qty": "200",
+     "unit": "g",
+     "ls_cost": "0.70",
+     "our_cost": null,
+     "eff_cost": 0.7
+    },
+    {
+     "name": "Sesame Oil Heaven Dragon [2L]",
+     "kind": "id",
+     "ref": "lightspeed:22898507",
+     "qty": 100.0,
+     "unit": "ml",
+     "ls_cost": "0.95",
+     "our_cost": null,
+     "eff_cost": 0.95
+    }
+   ],
+   "our_cost": 12.6,
+   "ls_cost": 12.6,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Garlic Oil": {
+   "ingredients": [
+    {
+     "name": "Garlic Peeled [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995939",
+     "qty": "500",
+     "unit": "g",
+     "ls_cost": "2.60",
+     "our_cost": null,
+     "eff_cost": 2.6
+    },
+    {
+     "name": "Vegetable Oil",
+     "kind": "id",
+     "ref": "lightspeed:22514234",
+     "qty": "2000",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 2.6,
+   "ls_cost": 2.6,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Tofu Marination": {
+   "ingredients": [
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "1",
+     "unit": "L",
+     "ls_cost": "14.00",
+     "our_cost": null,
+     "eff_cost": 14.0
+    }
+   ],
+   "our_cost": 14.0,
+   "ls_cost": 14.0,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Chicken Marination": {
+   "ingredients": [
+    {
+     "name": "bicarb",
+     "kind": "id",
+     "ref": "lightspeed:22962975",
+     "qty": "50",
+     "unit": "g",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Sesame Oil Heaven Dragon [2L]",
+     "kind": "id",
+     "ref": "lightspeed:22898507",
+     "qty": 270.53,
+     "unit": "ml",
+     "ls_cost": "2.57",
+     "our_cost": null,
+     "eff_cost": 2.57
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "0.27",
+     "unit": "L",
+     "ls_cost": "3.78",
+     "our_cost": null,
+     "eff_cost": 3.78
+    },
+    {
+     "name": "Caster Sugar [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902927",
+     "qty": "135",
+     "unit": "g",
+     "ls_cost": "0.47",
+     "our_cost": null,
+     "eff_cost": 0.47
+    },
+    {
+     "name": "White Pepper",
+     "kind": "id",
+     "ref": "lightspeed:22962978",
+     "qty": "10",
+     "unit": "g",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 6.82,
+   "ls_cost": 6.82,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Beef Marination": {
+   "ingredients": [
+    {
+     "name": "Sesame Oil Heaven Dragon [2L]",
+     "kind": "id",
+     "ref": "lightspeed:22898507",
+     "qty": 270.53,
+     "unit": "ml",
+     "ls_cost": "2.57",
+     "our_cost": null,
+     "eff_cost": 2.57
+    },
+    {
+     "name": "bicarb",
+     "kind": "id",
+     "ref": "lightspeed:22962975",
+     "qty": "50",
+     "unit": "g",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "0.27",
+     "unit": "L",
+     "ls_cost": "3.78",
+     "our_cost": null,
+     "eff_cost": 3.78
+    },
+    {
+     "name": "Caster Sugar [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902927",
+     "qty": "135",
+     "unit": "g",
+     "ls_cost": "0.47",
+     "our_cost": null,
+     "eff_cost": 0.47
+    },
+    {
+     "name": "White Pepper",
+     "kind": "id",
+     "ref": "lightspeed:22962978",
+     "qty": "10",
+     "unit": "g",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 6.82,
+   "ls_cost": 6.82,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Sunomono Pickle Salad": {
+   "ingredients": [
+    {
+     "name": "Cucumber",
+     "kind": "id",
+     "ref": "lightspeed:20564881",
+     "qty": "10",
+     "unit": "Units",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "0.1",
+     "unit": "L",
+     "ls_cost": "1.40",
+     "our_cost": null,
+     "eff_cost": 1.4
+    },
+    {
+     "name": "Caster Sugar [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902927",
+     "qty": "200",
+     "unit": "g",
+     "ls_cost": "0.70",
+     "our_cost": null,
+     "eff_cost": 0.7
+    },
+    {
+     "name": "Rice Vinegar Uchibori [20L]",
+     "kind": "id",
+     "ref": "lightspeed:22893567",
+     "qty": "0.3",
+     "unit": "L",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 2.1,
+   "ls_cost": 2.1,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "HG Soy Chilli Sauce": {
+   "ingredients": [
+    {
+     "name": "Garlic Peeled [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995939",
+     "qty": "500",
+     "unit": "g",
+     "ls_cost": "2.60",
+     "our_cost": null,
+     "eff_cost": 2.6
+    },
+    {
+     "name": "Ginger [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22931835",
+     "qty": "500",
+     "unit": "g",
+     "ls_cost": "12.50",
+     "our_cost": null,
+     "eff_cost": 12.5
+    },
+    {
+     "name": "Chilli Red Long [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22918956",
+     "qty": "250",
+     "unit": "kg",
+     "ls_cost": "4375.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Shallot [bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22996509",
+     "qty": "250",
+     "unit": "g",
+     "ls_cost": "1.65",
+     "our_cost": null,
+     "eff_cost": 1.65
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "2500",
+     "unit": "L",
+     "ls_cost": "35000.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Honey [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902953",
+     "qty": "5000",
+     "unit": "g",
+     "ls_cost": "35.00",
+     "our_cost": null,
+     "eff_cost": 35.0
+    },
+    {
+     "name": "Caster Sugar [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902927",
+     "qty": "500",
+     "unit": "g",
+     "ls_cost": "1.75",
+     "our_cost": null,
+     "eff_cost": 1.75
+    },
+    {
+     "name": "MSG Sasa [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902977",
+     "qty": "500",
+     "unit": "g",
+     "ls_cost": "4.45",
+     "our_cost": null,
+     "eff_cost": 4.45
+    },
+    {
+     "name": "Chilli Powder Korean Coarse [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902964",
+     "qty": "250",
+     "unit": "g",
+     "ls_cost": "4.00",
+     "our_cost": null,
+     "eff_cost": 4.0
+    }
+   ],
+   "our_cost": 61.95,
+   "ls_cost": 61.95,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Miso Tare": {
+   "ingredients": [
+    {
+     "name": "White Miso",
+     "kind": "id",
+     "ref": "lightspeed:22962728",
+     "qty": "1000",
+     "unit": "g",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "400",
+     "unit": "L",
+     "ls_cost": "5600.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Cooking Sake Jun [18L]",
+     "kind": "id",
+     "ref": "lightspeed:22893566",
+     "qty": "200",
+     "unit": "L",
+     "ls_cost": "0.37",
+     "our_cost": null,
+     "eff_cost": 0.37
+    },
+    {
+     "name": "Caster Sugar [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902927",
+     "qty": "120",
+     "unit": "g",
+     "ls_cost": "0.42",
+     "our_cost": null,
+     "eff_cost": 0.42
+    },
+    {
+     "name": "MSG Sasa [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902977",
+     "qty": "120",
+     "unit": "g",
+     "ls_cost": "1.07",
+     "our_cost": null,
+     "eff_cost": 1.07
+    },
+    {
+     "name": "Potato Starch",
+     "kind": "id",
+     "ref": "lightspeed:22947363",
+     "qty": "50",
+     "unit": "g",
+     "ls_cost": "250.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 1.86,
+   "ls_cost": 1.86,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Garlic Soy": {
+   "ingredients": [
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "1200",
+     "unit": "L",
+     "ls_cost": "16800.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Honey [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902953",
+     "qty": "1200",
+     "unit": "g",
+     "ls_cost": "8.40",
+     "our_cost": null,
+     "eff_cost": 8.4
+    },
+    {
+     "name": "Cooking Sake Jun [18L]",
+     "kind": "id",
+     "ref": "lightspeed:22893566",
+     "qty": "1500",
+     "unit": "L",
+     "ls_cost": "2.77",
+     "our_cost": null,
+     "eff_cost": 2.77
+    },
+    {
+     "name": "Mirin [1.8L]",
+     "kind": "id",
+     "ref": "lightspeed:22902956",
+     "qty": "3000",
+     "unit": "L",
+     "ls_cost": "20000.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Garlic Minced [kg]",
+     "kind": "id",
+     "ref": "lightspeed:23036620",
+     "qty": "450",
+     "unit": "g",
+     "ls_cost": "1.98",
+     "our_cost": "0.004444",
+     "eff_cost": 1.9998
+    },
+    {
+     "name": "MSG Sasa [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902977",
+     "qty": "750",
+     "unit": "g",
+     "ls_cost": "6.68",
+     "our_cost": null,
+     "eff_cost": 6.68
+    },
+    {
+     "name": "Sesame Seed White Roasted Jun [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898082",
+     "qty": "150",
+     "unit": "g",
+     "ls_cost": "1.42",
+     "our_cost": null,
+     "eff_cost": 1.42
+    }
+   ],
+   "our_cost": 21.2698,
+   "ls_cost": 21.25,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Shiitake Tare": {
+   "ingredients": [
+    {
+     "name": "Shiitake Mushrooms Dried",
+     "kind": "id",
+     "ref": "lightspeed:22947358",
+     "qty": "50",
+     "unit": "g",
+     "ls_cost": "1250.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "1600",
+     "unit": "L",
+     "ls_cost": "22400.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Mirin [1.8L]",
+     "kind": "id",
+     "ref": "lightspeed:22902956",
+     "qty": "800",
+     "unit": "L",
+     "ls_cost": "5333.33",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Cooking Sake Jun [18L]",
+     "kind": "id",
+     "ref": "lightspeed:22893566",
+     "qty": "400",
+     "unit": "L",
+     "ls_cost": "0.74",
+     "our_cost": null,
+     "eff_cost": 0.74
+    },
+    {
+     "name": "MSG Sasa [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902977",
+     "qty": "160",
+     "unit": "g",
+     "ls_cost": "1.42",
+     "our_cost": null,
+     "eff_cost": 1.42
+    },
+    {
+     "name": "Caster Sugar [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902927",
+     "qty": "40",
+     "unit": "g",
+     "ls_cost": "0.14",
+     "our_cost": null,
+     "eff_cost": 0.14
+    }
+   ],
+   "our_cost": 2.3,
+   "ls_cost": 2.3,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Noodle Mix": {
+   "ingredients": [
+    {
+     "name": "Soy Sauce Sweet Megachef [4.5L]",
+     "kind": "id",
+     "ref": "lightspeed:22898073",
+     "qty": "500",
+     "unit": "L",
+     "ls_cost": "4666.67",
+     "our_cost": null,
+     "eff_cost": 4666.67
+    },
+    {
+     "name": "Soy Sauce Dark Pearl River [600mL]",
+     "kind": "id",
+     "ref": "lightspeed:22898072",
+     "qty": "300",
+     "unit": "L",
+     "ls_cost": "2200.00",
+     "our_cost": null,
+     "eff_cost": 2200.0
+    },
+    {
+     "name": "Sesame Oil Heaven Dragon [2L]",
+     "kind": "id",
+     "ref": "lightspeed:22898507",
+     "qty": 200000.0,
+     "unit": "ml",
+     "ls_cost": "1900.00",
+     "our_cost": null,
+     "eff_cost": 1900.0
+    },
+    {
+     "name": "Oyster Sauce Megachef [5.4kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898071",
+     "qty": "200",
+     "unit": "kg",
+     "ls_cost": "1370.37",
+     "our_cost": null,
+     "eff_cost": 1370.37
+    }
+   ],
+   "our_cost": 10137.04,
+   "ls_cost": 10137.04,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Pickle Cabbage": {
+   "ingredients": [
+    {
+     "name": "Cabbage Red/Green Shredded Mix [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902924",
+     "qty": "1000",
+     "unit": "g",
+     "ls_cost": "5.20",
+     "our_cost": null,
+     "eff_cost": 5.2
+    },
+    {
+     "name": "Salt Cooking [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898520",
+     "qty": "30",
+     "unit": "g",
+     "ls_cost": "0.02",
+     "our_cost": null,
+     "eff_cost": 0.02
+    },
+    {
+     "name": "Caster Sugar [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902927",
+     "qty": "20",
+     "unit": "g",
+     "ls_cost": "0.07",
+     "our_cost": null,
+     "eff_cost": 0.07
+    },
+    {
+     "name": "Cabbage Green Shredded [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898086",
+     "qty": "1000",
+     "unit": "g",
+     "ls_cost": "4.20",
+     "our_cost": null,
+     "eff_cost": 4.2
+    },
+    {
+     "name": "Rice Vinegar Uchibori [20L]",
+     "kind": "id",
+     "ref": "lightspeed:22893567",
+     "qty": "150",
+     "unit": "L",
+     "ls_cost": "0.28",
+     "our_cost": null,
+     "eff_cost": 0.28
+    }
+   ],
+   "our_cost": 9.77,
+   "ls_cost": 9.77,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Gochujang Honey Soy": {
+   "ingredients": [
+    {
+     "name": "Gochujang [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902950",
+     "qty": "1000",
+     "unit": "g",
+     "ls_cost": "10.15",
+     "our_cost": null,
+     "eff_cost": 10.15
+    },
+    {
+     "name": "Honey [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902953",
+     "qty": "1000",
+     "unit": "g",
+     "ls_cost": "7.00",
+     "our_cost": null,
+     "eff_cost": 7.0
+    },
+    {
+     "name": "Chilli Powder Korean Coarse [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902964",
+     "qty": "200",
+     "unit": "g",
+     "ls_cost": "3.20",
+     "our_cost": null,
+     "eff_cost": 3.2
+    },
+    {
+     "name": "Garlic Minced [kg]",
+     "kind": "id",
+     "ref": "lightspeed:23036620",
+     "qty": "200",
+     "unit": "g",
+     "ls_cost": "0.88",
+     "our_cost": "0.004444",
+     "eff_cost": 0.8888
+    },
+    {
+     "name": "Ginger [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22931835",
+     "qty": "200",
+     "unit": "g",
+     "ls_cost": "5.00",
+     "our_cost": null,
+     "eff_cost": 5.0
+    },
+    {
+     "name": "MSG Sasa [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902977",
+     "qty": "200",
+     "unit": "g",
+     "ls_cost": "1.78",
+     "our_cost": null,
+     "eff_cost": 1.78
+    },
+    {
+     "name": "Mirin [1.8L]",
+     "kind": "id",
+     "ref": "lightspeed:22902956",
+     "qty": "4000",
+     "unit": "L",
+     "ls_cost": "26666.67",
+     "our_cost": null,
+     "eff_cost": 26666.67
+    },
+    {
+     "name": "Cooking Sake Jun [18L]",
+     "kind": "id",
+     "ref": "lightspeed:22893566",
+     "qty": "4000",
+     "unit": "L",
+     "ls_cost": "7.39",
+     "our_cost": null,
+     "eff_cost": 7.39
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "2000",
+     "unit": "L",
+     "ls_cost": "28000.00",
+     "our_cost": null,
+     "eff_cost": 28000.0
+    },
+    {
+     "name": "Rice Wine Vinegar [500mL]",
+     "kind": "id",
+     "ref": "lightspeed:22902975",
+     "qty": "1000",
+     "unit": "L",
+     "ls_cost": "5.00",
+     "our_cost": null,
+     "eff_cost": 5.0
+    }
+   ],
+   "our_cost": 54707.0788,
+   "ls_cost": 54707.07,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Katsu Curry Sauce": {
+   "ingredients": [
+    {
+     "name": "Onion Brown [10kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995352",
+     "qty": "800",
+     "unit": "g",
+     "ls_cost": "2.60",
+     "our_cost": null,
+     "eff_cost": 2.6
+    },
+    {
+     "name": "Ginger [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22931835",
+     "qty": "100",
+     "unit": "g",
+     "ls_cost": "2.50",
+     "our_cost": null,
+     "eff_cost": 2.5
+    },
+    {
+     "name": "Garlic Minced [kg]",
+     "kind": "id",
+     "ref": "lightspeed:23036620",
+     "qty": "16",
+     "unit": "g",
+     "ls_cost": "0.07",
+     "our_cost": "0.004444",
+     "eff_cost": 0.071104
+    },
+    {
+     "name": "Curry Block Mid Hot [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902997",
+     "qty": "1000",
+     "unit": "g",
+     "ls_cost": "12.25",
+     "our_cost": null,
+     "eff_cost": 12.25
+    },
+    {
+     "name": "Curry Flake [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902999",
+     "qty": "1000",
+     "unit": "g",
+     "ls_cost": "9.45",
+     "our_cost": null,
+     "eff_cost": 9.45
+    },
+    {
+     "name": "Potato Brushed Sebago [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22903010",
+     "qty": "1000",
+     "unit": "g",
+     "ls_cost": "2.70",
+     "our_cost": null,
+     "eff_cost": 2.7
+    },
+    {
+     "name": "Carrot [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22903011",
+     "qty": "1000",
+     "unit": "g",
+     "ls_cost": "2.10",
+     "our_cost": null,
+     "eff_cost": 2.1
+    },
+    {
+     "name": "Tonkatsu Sauce Bulldog [1.8L]",
+     "kind": "id",
+     "ref": "lightspeed:22903033",
+     "qty": "200",
+     "unit": "L",
+     "ls_cost": "1.23",
+     "our_cost": null,
+     "eff_cost": 1.23
+    }
+   ],
+   "our_cost": 32.9011,
+   "ls_cost": 32.9,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Wok Green Beans": {
+   "ingredients": [
+    {
+     "name": "Bean Green [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898695",
+     "qty": "130",
+     "unit": "g",
+     "ls_cost": "0.83",
+     "our_cost": null,
+     "eff_cost": 0.83
+    },
+    {
+     "name": "Garlic Peeled [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995939",
+     "qty": "5",
+     "unit": "g",
+     "ls_cost": "0.03",
+     "our_cost": null,
+     "eff_cost": 0.03
+    },
+    {
+     "name": "Sesame Seed White Roasted Jun [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898082",
+     "qty": "1",
+     "unit": "g",
+     "ls_cost": "0.01",
+     "our_cost": null,
+     "eff_cost": 0.01
+    },
+    {
+     "name": "Garlic Fried Royles [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898074",
+     "qty": "1",
+     "unit": "g",
+     "ls_cost": "0.01",
+     "our_cost": null,
+     "eff_cost": 0.01
+    },
+    {
+     "name": "Onion Fried Heaven Dragon [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898075",
+     "qty": "1",
+     "unit": "g",
+     "ls_cost": "0.01",
+     "our_cost": null,
+     "eff_cost": 0.01
+    },
+    {
+     "name": "Onion Brown [10kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995352",
+     "qty": "35",
+     "unit": "g",
+     "ls_cost": "0.11",
+     "our_cost": null,
+     "eff_cost": 0.11
+    }
+   ],
+   "our_cost": 1.0,
+   "ls_cost": 1.0,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 92.7
+  },
+  "Prawn Mix": {
+   "ingredients": [
+    {
+     "name": "Prawn Meat Raw Vannamei [700g]",
+     "kind": "id",
+     "ref": "lightspeed:22902935",
+     "qty": "2100",
+     "unit": "g",
+     "ls_cost": "61.50",
+     "our_cost": null,
+     "eff_cost": 61.5
+    },
+    {
+     "name": "Chives [bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22493903",
+     "qty": "120",
+     "unit": "g",
+     "ls_cost": "5.10",
+     "our_cost": null,
+     "eff_cost": 5.1
+    },
+    {
+     "name": "Egg Fresh [ea]",
+     "kind": "id",
+     "ref": "lightspeed:22918951",
+     "qty": "3",
+     "unit": "Units",
+     "ls_cost": "1.90",
+     "our_cost": null,
+     "eff_cost": 1.9
+    },
+    {
+     "name": "Sriracha [730mL]",
+     "kind": "id",
+     "ref": "lightspeed:22902937",
+     "qty": "90",
+     "unit": "L",
+     "ls_cost": "1.07",
+     "our_cost": null,
+     "eff_cost": 1.07
+    },
+    {
+     "name": "Lemon [kg]",
+     "kind": "id",
+     "ref": "lightspeed:20564869",
+     "qty": "13",
+     "unit": "g",
+     "ls_cost": "0.05",
+     "our_cost": null,
+     "eff_cost": 0.05
+    }
+   ],
+   "our_cost": 69.62,
+   "ls_cost": 69.62,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Chicken Katsu Curry": {
+   "ingredients": [
+    {
+     "name": "Chicken Thigh Flt S/Off RSPCA [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22893557",
+     "qty": "120",
+     "unit": "g",
+     "ls_cost": "1.96",
+     "our_cost": null,
+     "eff_cost": 1.96
+    },
+    {
+     "name": "Katsu Curry Sauce",
+     "kind": "subrecipe",
+     "ref": "Katsu Curry Sauce",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "0.33",
+     "our_cost": null,
+     "eff_cost": 0.330011
+    },
+    {
+     "name": "Carrot Shredded [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995325",
+     "qty": "40",
+     "unit": "g",
+     "ls_cost": "0.10",
+     "our_cost": null,
+     "eff_cost": 0.1
+    },
+    {
+     "name": "Potato Peeled [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995357",
+     "qty": "40",
+     "unit": "g",
+     "ls_cost": "0.12",
+     "our_cost": null,
+     "eff_cost": 0.12
+    },
+    {
+     "name": "Pickle Cabbage",
+     "kind": "subrecipe",
+     "ref": "Pickle Cabbage",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.13",
+     "our_cost": null,
+     "eff_cost": 0.13
+    },
+    {
+     "name": "Rice Jasmine Fragrant [20kg]",
+     "kind": "id",
+     "ref": "lightspeed:22893550",
+     "qty": "120",
+     "unit": "g",
+     "ls_cost": "0.25",
+     "our_cost": null,
+     "eff_cost": 0.25
+    },
+    {
+     "name": "Shallot [bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22996509",
+     "qty": "15",
+     "unit": "g",
+     "ls_cost": "0.10",
+     "our_cost": null,
+     "eff_cost": 0.1
+    }
+   ],
+   "our_cost": 2.99,
+   "ls_cost": 2.99,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 27.0,
+   "gp_pct": 87.8
+  },
+  "Tonkotsu": {
+   "ingredients": [
+    {
+     "name": "Tonkotsu Broth",
+     "kind": "subrecipe",
+     "ref": "Tonkotsu Broth",
+     "qty": "450",
+     "unit": "mL",
+     "ls_cost": "0.95",
+     "our_cost": null,
+     "eff_cost": 0.95
+    },
+    {
+     "name": "Ramen Noodles Fresh [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898787",
+     "qty": "150",
+     "unit": "g",
+     "ls_cost": "1.08",
+     "our_cost": null,
+     "eff_cost": 1.08
+    },
+    {
+     "name": "Pork Belly Boneless S/Less [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22893540",
+     "qty": "75",
+     "unit": "g",
+     "ls_cost": "1.73",
+     "our_cost": null,
+     "eff_cost": 1.73
+    },
+    {
+     "name": "Carrot Shredded [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995325",
+     "qty": "35",
+     "unit": "g",
+     "ls_cost": "0.09",
+     "our_cost": null,
+     "eff_cost": 0.09
+    },
+    {
+     "name": "Bamboo Shoot Sliced A10 [2.84kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898077",
+     "qty": "50",
+     "unit": "g",
+     "ls_cost": "0.14",
+     "our_cost": null,
+     "eff_cost": 0.14
+    },
+    {
+     "name": "Sesame Seed White Roasted Jun [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898082",
+     "qty": "2",
+     "unit": "g",
+     "ls_cost": "0.02",
+     "our_cost": null,
+     "eff_cost": 0.02
+    },
+    {
+     "name": "Shallot [bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22996509",
+     "qty": "20",
+     "unit": "g",
+     "ls_cost": "0.13",
+     "our_cost": null,
+     "eff_cost": 0.13
+    },
+    {
+     "name": "Nori [125g]",
+     "kind": "id",
+     "ref": "lightspeed:22900613",
+     "qty": "0.2",
+     "unit": "g",
+     "ls_cost": "0.03",
+     "our_cost": null,
+     "eff_cost": 0.03
+    }
+   ],
+   "our_cost": 4.17,
+   "ls_cost": 4.17,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 29.0,
+   "gp_pct": 84.2
+  },
+  "Devon's Prawn Toast": {
+   "ingredients": [
+    {
+     "name": "Prawn Mix",
+     "kind": "subrecipe",
+     "ref": "Prawn Mix",
+     "qty": "100",
+     "unit": "g",
+     "ls_cost": "2.78",
+     "our_cost": null,
+     "eff_cost": 2.78
+    },
+    {
+     "name": "Sesame Seed White Roasted Jun [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898082",
+     "qty": "5",
+     "unit": "g",
+     "ls_cost": "0.05",
+     "our_cost": null,
+     "eff_cost": 0.05
+    },
+    {
+     "name": "Turkish Bread [loaf]",
+     "kind": "id",
+     "ref": "lightspeed:22931830",
+     "qty": "20",
+     "unit": "g",
+     "ls_cost": "0.15",
+     "our_cost": null,
+     "eff_cost": 0.15
+    },
+    {
+     "name": "Wattleseed Honey Soy",
+     "kind": "subrecipe",
+     "ref": "Wattleseed Honey Soy",
+     "qty": "29",
+     "unit": "g",
+     "ls_cost": "0.91",
+     "our_cost": null,
+     "eff_cost": 0.91
+    }
+   ],
+   "our_cost": 3.89,
+   "ls_cost": 3.89,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.0,
+   "gp_pct": 73.3
+  },
+  "Wattleseed Honey Soy": {
+   "ingredients": [
+    {
+     "name": "Honey [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22902953",
+     "qty": "2000",
+     "unit": "g",
+     "ls_cost": "14.00",
+     "our_cost": null,
+     "eff_cost": 14.0
+    },
+    {
+     "name": "Soy Sauce Tamari Spiral [10L]",
+     "kind": "id",
+     "ref": "lightspeed:22902961",
+     "qty": "500",
+     "unit": "L",
+     "ls_cost": "7000.00",
+     "our_cost": null,
+     "eff_cost": 7000.0
+    },
+    {
+     "name": "Rice Wine Vinegar [500mL]",
+     "kind": "id",
+     "ref": "lightspeed:22902975",
+     "qty": "500",
+     "unit": "L",
+     "ls_cost": "2.50",
+     "our_cost": null,
+     "eff_cost": 2.5
+    },
+    {
+     "name": "Wattleseed [100g]",
+     "kind": "id",
+     "ref": "lightspeed:22920854",
+     "qty": "200",
+     "unit": "g",
+     "ls_cost": "77.00",
+     "our_cost": null,
+     "eff_cost": 77.0
+    }
+   ],
+   "our_cost": 7093.5,
+   "ls_cost": 7093.5,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Tonkotsu Broth": {
+   "ingredients": [
+    {
+     "name": "Pork Bones [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22931833",
+     "qty": "6000",
+     "unit": "g",
+     "ls_cost": "15.00",
+     "our_cost": null,
+     "eff_cost": 15.0
+    },
+    {
+     "name": "Pork Skin Frozen [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22918962",
+     "qty": "1000",
+     "unit": "g",
+     "ls_cost": "4.00",
+     "our_cost": null,
+     "eff_cost": 4.0
+    },
+    {
+     "name": "Onion Brown [10kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995352",
+     "qty": "1200",
+     "unit": "g",
+     "ls_cost": "3.90",
+     "our_cost": null,
+     "eff_cost": 3.9
+    },
+    {
+     "name": "Ginger [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22931835",
+     "qty": "100",
+     "unit": "g",
+     "ls_cost": "2.50",
+     "our_cost": null,
+     "eff_cost": 2.5
+    },
+    {
+     "name": "Shallot [bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22996509",
+     "qty": "900",
+     "unit": "g",
+     "ls_cost": "5.94",
+     "our_cost": null,
+     "eff_cost": 5.94
+    },
+    {
+     "name": "Garlic Peeled [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995939",
+     "qty": "100",
+     "unit": "g",
+     "ls_cost": "0.52",
+     "our_cost": null,
+     "eff_cost": 0.52
+    }
+   ],
+   "our_cost": 31.86,
+   "ls_cost": 31.86,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Veg Spring Rolls [2pc]": {
+   "ingredients": [
+    {
+     "name": "Spring Roll Veg Hakka [ea]",
+     "kind": "id",
+     "ref": "lightspeed:22898080",
+     "qty": "2",
+     "unit": "Units",
+     "ls_cost": "1.28",
+     "our_cost": null,
+     "eff_cost": 1.28
+    },
+    {
+     "name": "Peking Sauce [6.75L]",
+     "kind": "subrecipe",
+     "ref": "Peking Sauce [6.75L]",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.09",
+     "our_cost": null,
+     "eff_cost": 0.09
+    },
+    {
+     "name": "Kutjera Bush Tomato Powder [100g]",
+     "kind": "id",
+     "ref": "lightspeed:22918953",
+     "qty": "0.5",
+     "unit": "g",
+     "ls_cost": "0.28",
+     "our_cost": null,
+     "eff_cost": 0.28
+    }
+   ],
+   "our_cost": 1.65,
+   "ls_cost": 1.65,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 87.9
+  },
+  "Holy Guacamole [HG]": {
+   "ingredients": [
+    {
+     "name": "Avocado [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22488995",
+     "qty": "160",
+     "unit": "g",
+     "ls_cost": "1.24",
+     "our_cost": null,
+     "eff_cost": 1.52768
+    },
+    {
+     "name": "Lime [ea]",
+     "kind": "subrecipe",
+     "ref": "Lime [ea]",
+     "qty": "1",
+     "unit": "Units",
+     "ls_cost": "0.60",
+     "our_cost": null,
+     "eff_cost": 0.6
+    },
+    {
+     "name": "Corn Chips [bag]",
+     "kind": "id",
+     "ref": "lightspeed:20445539",
+     "qty": "70",
+     "unit": "g",
+     "ls_cost": "1.80",
+     "our_cost": "0.005500",
+     "eff_cost": 0.385
+    }
+   ],
+   "our_cost": 2.5127,
+   "ls_cost": 3.64,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.0,
+   "gp_pct": 82.7
+  },
+  "Popcorn Cauliflower": {
+   "ingredients": [
+    {
+     "name": "Cauliflower [ea]",
+     "kind": "id",
+     "ref": "lightspeed:22931826",
+     "qty": "180",
+     "unit": "g",
+     "ls_cost": "0.38",
+     "our_cost": null,
+     "eff_cost": 0.38
+    },
+    {
+     "name": "Gochujang Honey Soy",
+     "kind": "subrecipe",
+     "ref": "Gochujang Honey Soy",
+     "qty": "80",
+     "unit": "mL",
+     "ls_cost": "0.58",
+     "our_cost": null,
+     "eff_cost": 0.58
+    },
+    {
+     "name": "Sesame Seed Black Jun [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898081",
+     "qty": "0.5",
+     "unit": "g",
+     "ls_cost": "0.01",
+     "our_cost": null,
+     "eff_cost": 0.01
+    },
+    {
+     "name": "Sesame Seed White Roasted Jun [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22898082",
+     "qty": "0.5",
+     "unit": "g",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 0.97,
+   "ls_cost": 0.97,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 92.4
+  },
+  "BBQ Pork Buns": {
+   "ingredients": [
+    {
+     "name": "BBQ Pork Buns Canton [ea]",
+     "kind": "id",
+     "ref": "lightspeed:22898083",
+     "qty": "2",
+     "unit": "Units",
+     "ls_cost": "3.50",
+     "our_cost": null,
+     "eff_cost": 3.5
+    }
+   ],
+   "our_cost": 3.5,
+   "ls_cost": 3.5,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 74.3
+  },
+  "Green Glass Highball": {
+   "ingredients": [
+    {
+     "name": "Saika Junmai Daiginjo [720ml]",
+     "kind": "id",
+     "ref": "lightspeed:20768432",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "1.22",
+     "our_cost": null,
+     "eff_cost": 1.22
+    },
+    {
+     "name": "Massenez Apple [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:22874518",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 1.22,
+   "ls_cost": 1.22,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 88.8
+  },
+  "Shiba Highball": {
+   "ingredients": [
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.76",
+     "our_cost": null,
+     "eff_cost": 0.76
+    },
+    {
+     "name": "Yuzu Juice",
+     "kind": "id",
+     "ref": "lightspeed:22874517",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 0.76,
+   "ls_cost": 0.76,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 93.0
+  },
+  "Sensei Highball": {
+   "ingredients": [
+    {
+     "name": "Nikka Black Whisky [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:22253061",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "1.30",
+     "our_cost": null,
+     "eff_cost": 1.3
+    },
+    {
+     "name": "Ginger Honey Syrup",
+     "kind": "id",
+     "ref": "lightspeed:22874477",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 1.3,
+   "ls_cost": 1.3,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 88.1
+  },
+  "L'esprit Ros\u00e9 - Regular": {
+   "ingredients": [
+    {
+     "name": "L'esprit Ros\u00e9 - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700634",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "5.04",
+     "our_cost": null,
+     "eff_cost": 5.04
+    }
+   ],
+   "our_cost": 5.04,
+   "ls_cost": 5.04,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.0,
+   "gp_pct": 65.3
+  },
+  "Two Tonne Riesling - Large Glass [HG]": {
+   "ingredients": [
+    {
+     "name": "Two Tonne Riesling - Bottle [HG]",
+     "kind": "id",
+     "ref": "lightspeed:20464707",
+     "qty": "250",
+     "unit": "mL",
+     "ls_cost": "7.12",
+     "our_cost": null,
+     "eff_cost": 7.12
+    }
+   ],
+   "our_cost": 7.12,
+   "ls_cost": 7.12,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 27.0,
+   "gp_pct": 71.0
+  },
+  "Two Tonne Riesling - Glass [HG]": {
+   "ingredients": [
+    {
+     "name": "Two Tonne Riesling - Bottle [HG]",
+     "kind": "id",
+     "ref": "lightspeed:20464707",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "4.27",
+     "our_cost": null,
+     "eff_cost": 4.27
+    }
+   ],
+   "our_cost": 4.27,
+   "ls_cost": 4.27,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 18.0,
+   "gp_pct": 73.9
+  },
+  "Strawberry Hibiscus Daiquiri": {
+   "ingredients": [
+    {
+     "name": "Bacardi Blanca [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445866",
+     "qty": "45",
+     "unit": "mL",
+     "ls_cost": "3.14",
+     "our_cost": null,
+     "eff_cost": 3.14
+    }
+   ],
+   "our_cost": 3.14,
+   "ls_cost": 3.14,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 19.0,
+   "gp_pct": 81.8
+  },
+  "Harry's Lager - Jug": {
+   "ingredients": [
+    {
+     "name": "Alehouse Premium Lager [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20744549",
+     "qty": "1000",
+     "unit": "mL",
+     "ls_cost": "3.97",
+     "our_cost": null,
+     "eff_cost": 3.97
+    }
+   ],
+   "our_cost": 3.97,
+   "ls_cost": 3.97,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 20.0,
+   "gp_pct": 78.2
+  },
+  "Grifter Extra Pale - Jug": {
+   "ingredients": [
+    {
+     "name": "Grifter XPA [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20744554",
+     "qty": "1000",
+     "unit": "mL",
+     "ls_cost": "5.84",
+     "our_cost": null,
+     "eff_cost": 5.84
+    }
+   ],
+   "our_cost": 5.84,
+   "ls_cost": 5.84,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 69.4
+  },
+  "Sapporo - Jug": {
+   "ingredients": [
+    {
+     "name": "Sapporo [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20944710",
+     "qty": "1000",
+     "unit": "mL",
+     "ls_cost": "7.48",
+     "our_cost": null,
+     "eff_cost": 7.48
+    }
+   ],
+   "our_cost": 7.48,
+   "ls_cost": 7.48,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 28.0,
+   "gp_pct": 70.6
+  },
+  "Pika Pika": {
+   "ingredients": [
+    {
+     "name": "Bacardi Blanca [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445866",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.09",
+     "our_cost": null,
+     "eff_cost": 2.09
+    },
+    {
+     "name": "Havana Club 3yr [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:22082316",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Domaine de Canton Ginger Liqueur [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20492689",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "1.01",
+     "our_cost": null,
+     "eff_cost": 1.372588
+    }
+   ],
+   "our_cost": 3.4626,
+   "ls_cost": 3.1,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 20.0,
+   "gp_pct": 81.0
+  },
+  "Whispering Angel - Large [HG]": {
+   "ingredients": [
+    {
+     "name": "Whispering Angel - Bottle [HG]",
+     "kind": "id",
+     "ref": "lightspeed:22285385",
+     "qty": "250",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 0.0,
+   "ls_cost": 0.0,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 40.0,
+   "gp_pct": null
+  },
+  "Whispering Angel - Regular [HG]": {
+   "ingredients": [
+    {
+     "name": "Whispering Angel - Bottle [HG]",
+     "kind": "id",
+     "ref": "lightspeed:22285385",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 0.0,
+   "ls_cost": 0.0,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 26.0,
+   "gp_pct": null
+  },
+  "Nikka Black Whisky": {
+   "ingredients": [
+    {
+     "name": "Nikka Black Whisky [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:22253061",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.59",
+     "our_cost": null,
+     "eff_cost": 2.59
+    }
+   ],
+   "our_cost": 2.59,
+   "ls_cost": 2.59,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 13.0,
+   "gp_pct": 78.1
+  },
+  "Soju Bomb": {
+   "ingredients": [
+    {
+     "name": "Alehouse Premium Lager [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20744549",
+     "qty": "300",
+     "unit": "mL",
+     "ls_cost": "1.19",
+     "our_cost": null,
+     "eff_cost": 1.19
+    },
+    {
+     "name": "Jinro Chamisul - 360ml",
+     "kind": "id",
+     "ref": "lightspeed:21750311",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.05",
+     "our_cost": null,
+     "eff_cost": 1.05
+    }
+   ],
+   "our_cost": 2.24,
+   "ls_cost": 2.24,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 79.5
+  },
+  "Veuve Clicquot - Glass [HG]": {
+   "ingredients": [
+    {
+     "name": "Veuve Clicquot - Bottle [HG]",
+     "kind": "id",
+     "ref": "lightspeed:21925763",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 0.0,
+   "ls_cost": 0.0,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 32.0,
+   "gp_pct": null
+  },
+  "Coconut Margarita [HG]": {
+   "ingredients": [
+    {
+     "name": "Rooster Blanco Tequila [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20744471",
+     "qty": "42.5",
+     "unit": "mL",
+     "ls_cost": "2.96",
+     "our_cost": null,
+     "eff_cost": 2.96
+    },
+    {
+     "name": "Massenez Triple Sec [5L]",
+     "kind": "id",
+     "ref": "lightspeed:20483413",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.54",
+     "our_cost": null,
+     "eff_cost": 0.5744
+    }
+   ],
+   "our_cost": 3.5344,
+   "ls_cost": 3.5,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 23.0,
+   "gp_pct": 83.1
+  },
+  "Margato": {
+   "ingredients": [
+    {
+     "name": "Rooster Blanco Tequila [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20744471",
+     "qty": "42.5",
+     "unit": "mL",
+     "ls_cost": "2.96",
+     "our_cost": null,
+     "eff_cost": 2.96
+    },
+    {
+     "name": "Italicus Bergamot Liqueur [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20492690",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.94",
+     "our_cost": null,
+     "eff_cost": 0.94
+    }
+   ],
+   "our_cost": 3.9,
+   "ls_cost": 3.9,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 20.0,
+   "gp_pct": 78.5
+  },
+  "Kuromatsu Honjozo - 180ml": {
+   "ingredients": [
+    {
+     "name": "Kuromatsu Honjozo [900ml]",
+     "kind": "id",
+     "ref": "lightspeed:21750877",
+     "qty": "180",
+     "unit": "mL",
+     "ls_cost": "12.32",
+     "our_cost": null,
+     "eff_cost": 12.32
+    }
+   ],
+   "our_cost": 12.32,
+   "ls_cost": 12.32,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 38.0,
+   "gp_pct": 64.3
+  },
+  "Kunizakari Umeshu [60ml]": {
+   "ingredients": [
+    {
+     "name": "Kunizakari Umeshu [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:21004391",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "3.67",
+     "our_cost": null,
+     "eff_cost": 3.67
+    }
+   ],
+   "our_cost": 3.67,
+   "ls_cost": 3.67,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": 12.0,
+   "gp_pct": null
+  },
+  "Kuromatsu Honjozo - 60ml": {
+   "ingredients": [
+    {
+     "name": "Kuromatsu Honjozo [900ml]",
+     "kind": "id",
+     "ref": "lightspeed:21750877",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "4.11",
+     "our_cost": null,
+     "eff_cost": 4.11
+    }
+   ],
+   "our_cost": 4.11,
+   "ls_cost": 4.11,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.0,
+   "gp_pct": 71.7
+  },
+  "Jinro Strawberry - 60ml": {
+   "ingredients": [
+    {
+     "name": "Jinro Strawberry - 360ml",
+     "kind": "id",
+     "ref": "lightspeed:21750316",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "1.93",
+     "our_cost": null,
+     "eff_cost": 1.93
+    }
+   ],
+   "our_cost": 1.93,
+   "ls_cost": 1.93,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 9.0,
+   "gp_pct": 76.4
+  },
+  "Jinro Chamisul - 60ml": {
+   "ingredients": [
+    {
+     "name": "Jinro Chamisul - 360ml",
+     "kind": "id",
+     "ref": "lightspeed:21750311",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "2.09",
+     "our_cost": null,
+     "eff_cost": 2.09
+    }
+   ],
+   "our_cost": 2.09,
+   "ls_cost": 2.09,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 9.0,
+   "gp_pct": 74.5
+  },
+  "Geisha Girl": {
+   "ingredients": [
+    {
+     "name": "Bacardi Blanca [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445866",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.09",
+     "our_cost": null,
+     "eff_cost": 2.09
+    },
+    {
+     "name": "St. Felix Yuzu Green Tea Spirit [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20840007",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "1.36",
+     "our_cost": null,
+     "eff_cost": 1.36
+    },
+    {
+     "name": "Massenez Cacao Blanc [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20492692",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.69",
+     "our_cost": null,
+     "eff_cost": 0.69
+    }
+   ],
+   "our_cost": 4.14,
+   "ls_cost": 4.14,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 67.5
+  },
+  "Fuji Blended Whisky": {
+   "ingredients": [
+    {
+     "name": "Fuji Blended Whisky [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:21364082",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "4.10",
+     "our_cost": null,
+     "eff_cost": 4.1
+    }
+   ],
+   "our_cost": 4.1,
+   "ls_cost": 4.1,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 18.0,
+   "gp_pct": 74.9
+  },
+  "Balvenie 14yr Caribbean Cask Whisky": {
+   "ingredients": [
+    {
+     "name": "Balvenie 14yr Caribbean Cask [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20484688",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 0.0,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 22.0,
+   "gp_pct": null
+  },
+  "Disaronno Amaretto": {
+   "ingredients": [
+    {
+     "name": "Disaronno [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20492688",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.97",
+     "our_cost": null,
+     "eff_cost": 1.97
+    }
+   ],
+   "our_cost": 1.97,
+   "ls_cost": 1.97,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 81.9
+  },
+  "Poor Tom's Strawberry Gin": {
+   "ingredients": [
+    {
+     "name": "Poor Tom's Strawberry Gin [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20487958",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "3.06",
+     "our_cost": null,
+     "eff_cost": 3.06
+    }
+   ],
+   "our_cost": 3.06,
+   "ls_cost": 3.06,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 76.0
+  },
+  "Opihr Spiced Gin": {
+   "ingredients": [
+    {
+     "name": "Opihr Spiced Gin [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:21003110",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "3.11",
+     "our_cost": null,
+     "eff_cost": 3.11
+    }
+   ],
+   "our_cost": 3.11,
+   "ls_cost": 3.11,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 75.6
+  },
+  "Jinzu Gin": {
+   "ingredients": [
+    {
+     "name": "Jinzu Gin [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:21003096",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "3.30",
+     "our_cost": null,
+     "eff_cost": 3.3
+    }
+   ],
+   "our_cost": 3.3,
+   "ls_cost": 3.3,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 75.8
+  },
+  "Harry's Lager - Pint": {
+   "ingredients": [
+    {
+     "name": "Alehouse Premium Lager [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20744549",
+     "qty": "570",
+     "unit": "mL",
+     "ls_cost": "2.27",
+     "our_cost": null,
+     "eff_cost": 2.27
+    }
+   ],
+   "our_cost": 2.27,
+   "ls_cost": 2.27,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.5,
+   "gp_pct": 80.0
+  },
+  "Grifter Extra Pale - Schooner": {
+   "ingredients": [
+    {
+     "name": "Grifter XPA [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20744554",
+     "qty": "425",
+     "unit": "mL",
+     "ls_cost": "2.48",
+     "our_cost": null,
+     "eff_cost": 2.48
+    }
+   ],
+   "our_cost": 2.48,
+   "ls_cost": 2.48,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 10.5,
+   "gp_pct": 74.0
+  },
+  "Harry's Lager - Schooner": {
+   "ingredients": [
+    {
+     "name": "Alehouse Premium Lager [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20744549",
+     "qty": "425",
+     "unit": "mL",
+     "ls_cost": "1.69",
+     "our_cost": null,
+     "eff_cost": 1.69
+    }
+   ],
+   "our_cost": 1.69,
+   "ls_cost": 1.69,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 9.5,
+   "gp_pct": 80.4
+  },
+  "Grifter Extra Pale - Pint": {
+   "ingredients": [
+    {
+     "name": "Grifter XPA [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20744554",
+     "qty": "570",
+     "unit": "mL",
+     "ls_cost": "3.33",
+     "our_cost": null,
+     "eff_cost": 3.33
+    }
+   ],
+   "our_cost": 3.33,
+   "ls_cost": 3.33,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 73.8
+  },
+  "Sapporo - Schooner": {
+   "ingredients": [
+    {
+     "name": "Sapporo [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20944710",
+     "qty": "425",
+     "unit": "mL",
+     "ls_cost": "3.18",
+     "our_cost": null,
+     "eff_cost": 3.18
+    }
+   ],
+   "our_cost": 3.18,
+   "ls_cost": 3.18,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.5,
+   "gp_pct": 69.6
+  },
+  "Sapporo - 500ml": {
+   "ingredients": [
+    {
+     "name": "Sapporo [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20944710",
+     "qty": "500",
+     "unit": "mL",
+     "ls_cost": "3.74",
+     "our_cost": null,
+     "eff_cost": 3.74
+    }
+   ],
+   "our_cost": 3.74,
+   "ls_cost": 3.74,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.5,
+   "gp_pct": 75.1
+  },
+  "Yuzushu Spritz": {
+   "ingredients": [
+    {
+     "name": "Wa no Kokoro Yuzushu [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20904019",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "4.07",
+     "our_cost": null,
+     "eff_cost": 4.07
+    },
+    {
+     "name": "Palloncino Prosecco - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700620",
+     "qty": "90",
+     "unit": "mL",
+     "ls_cost": "1.38",
+     "our_cost": null,
+     "eff_cost": 1.38
+    }
+   ],
+   "our_cost": 5.45,
+   "ls_cost": 5.45,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 19.0,
+   "gp_pct": 68.4
+  },
+  "Yuzushu [60ml]": {
+   "ingredients": [
+    {
+     "name": "Wa no Kokoro Yuzushu [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20904019",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "4.07",
+     "our_cost": null,
+     "eff_cost": 4.07
+    }
+   ],
+   "our_cost": 4.07,
+   "ls_cost": 4.07,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": 10.0,
+   "gp_pct": null
+  },
+  "Ronin Negroni": {
+   "ingredients": [
+    {
+     "name": "Mancino Sakura Vermouth [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445889",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.53",
+     "our_cost": null,
+     "eff_cost": 0.53
+    },
+    {
+     "name": "Campari [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445894",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.85",
+     "our_cost": null,
+     "eff_cost": 0.85
+    },
+    {
+     "name": "St. Felix Bitter Aperitivo [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20727873",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.80",
+     "our_cost": null,
+     "eff_cost": 0.8
+    },
+    {
+     "name": "Brookie's Shirl the Pearl [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20768355",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.85",
+     "our_cost": null,
+     "eff_cost": 2.85
+    },
+    {
+     "name": "Barebones Clear Ice Block",
+     "kind": "id",
+     "ref": "lightspeed:20873385",
+     "qty": "1",
+     "unit": "Units",
+     "ls_cost": "0.71",
+     "our_cost": null,
+     "eff_cost": 0.71
+    }
+   ],
+   "our_cost": 5.74,
+   "ls_cost": 5.74,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 22.0,
+   "gp_pct": 71.3
+  },
+  "Taipei Tea": {
+   "ingredients": [
+    {
+     "name": "Bacardi Blanca [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445866",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.09",
+     "our_cost": null,
+     "eff_cost": 2.09
+    },
+    {
+     "name": "St. Felix Yuzu Green Tea Spirit [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20840007",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "1.81",
+     "our_cost": null,
+     "eff_cost": 1.81
+    }
+   ],
+   "our_cost": 3.9,
+   "ls_cost": 3.9,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 64.2
+  },
+  "Dragon Juice": {
+   "ingredients": [
+    {
+     "name": "Kunizakari Umeshu [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:21004391",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.83",
+     "our_cost": null,
+     "eff_cost": 1.83
+    },
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.76",
+     "our_cost": null,
+     "eff_cost": 0.76
+    }
+   ],
+   "our_cost": 2.59,
+   "ls_cost": 2.59,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 17.0,
+   "gp_pct": 83.2
+  },
+  "Demon Slayer": {
+   "ingredients": [
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.52",
+     "our_cost": null,
+     "eff_cost": 1.52
+    },
+    {
+     "name": "Mr Black Coffee Liqueur [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445870",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.87",
+     "our_cost": null,
+     "eff_cost": 0.87
+    },
+    {
+     "name": "Diplomatico Mantuana [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20873421",
+     "qty": "5",
+     "unit": "mL",
+     "ls_cost": "0.49",
+     "our_cost": null,
+     "eff_cost": 0.49
+    },
+    {
+     "name": "Kraken Rum [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445865",
+     "qty": "5",
+     "unit": "mL",
+     "ls_cost": "0.33",
+     "our_cost": null,
+     "eff_cost": 0.35436
+    },
+    {
+     "name": "Massenez Raspberry Framboise [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20873427",
+     "qty": "2.5",
+     "unit": "mL",
+     "ls_cost": "0.15",
+     "our_cost": null,
+     "eff_cost": 0.15
+    },
+    {
+     "name": "Barrel One Coffee Concentrate [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20484935",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "0.37",
+     "our_cost": null,
+     "eff_cost": 0.37
+    }
+   ],
+   "our_cost": 3.7544,
+   "ls_cost": 3.73,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 80.3
+  },
+  "Crouching Tiger": {
+   "ingredients": [
+    {
+     "name": "Buffalo Trace Bourbon [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445852",
+     "qty": "25",
+     "unit": "mL",
+     "ls_cost": "1.83",
+     "our_cost": null,
+     "eff_cost": 1.83
+    },
+    {
+     "name": "Monkey Shoulder Scotch [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445855",
+     "qty": "25",
+     "unit": "mL",
+     "ls_cost": "2.01",
+     "our_cost": null,
+     "eff_cost": 2.01
+    },
+    {
+     "name": "Joseph Cartron Creme de Peche [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20729561",
+     "qty": "5",
+     "unit": "mL",
+     "ls_cost": "0.27",
+     "our_cost": null,
+     "eff_cost": 0.27
+    }
+   ],
+   "our_cost": 4.11,
+   "ls_cost": 4.11,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 78.5
+  },
+  "Birdseye Chilli Marg": {
+   "ingredients": [
+    {
+     "name": "Rooster Blanco Tequila [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20744471",
+     "qty": "40",
+     "unit": "mL",
+     "ls_cost": "2.79",
+     "our_cost": null,
+     "eff_cost": 2.79
+    },
+    {
+     "name": "Massenez Triple Sec [5L]",
+     "kind": "id",
+     "ref": "lightspeed:20483413",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.54",
+     "our_cost": null,
+     "eff_cost": 0.5744
+    }
+   ],
+   "our_cost": 3.3644,
+   "ls_cost": 3.33,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 82.4
+  },
+  "Canadian Club Whisky": {
+   "ingredients": [
+    {
+     "name": "Canadian Club [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20710102",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.74",
+     "our_cost": null,
+     "eff_cost": 1.883893
+    }
+   ],
+   "our_cost": 1.8839,
+   "ls_cost": 1.74,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 82.7
+  },
+  "Laphraoig 10yr Whisky": {
+   "ingredients": [
+    {
+     "name": "Laphroaig 10yr [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445847",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 0.0,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 19.0,
+   "gp_pct": null
+  },
+  "Harry's Lager": {
+   "ingredients": [
+    {
+     "name": "Alehouse Premium Lager [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20744549",
+     "qty": "425",
+     "unit": "mL",
+     "ls_cost": "1.69",
+     "our_cost": null,
+     "eff_cost": 1.69
+    }
+   ],
+   "our_cost": 1.69,
+   "ls_cost": 1.69,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Grifter Extra Pale": {
+   "ingredients": [
+    {
+     "name": "Grifter XPA [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20744554",
+     "qty": "425",
+     "unit": "mL",
+     "ls_cost": "2.48",
+     "our_cost": null,
+     "eff_cost": 2.48
+    }
+   ],
+   "our_cost": 2.48,
+   "ls_cost": 2.48,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Drunken Koi": {
+   "ingredients": [
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.52",
+     "our_cost": null,
+     "eff_cost": 1.52
+    },
+    {
+     "name": "St. Germain Elderflower Liqueur [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445875",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "1.13",
+     "our_cost": null,
+     "eff_cost": 1.13
+    }
+   ],
+   "our_cost": 2.65,
+   "ls_cost": 2.65,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 86.1
+  },
+  "Stone & Wood": {
+   "ingredients": [
+    {
+     "name": "Stone & Wood [Keg]",
+     "kind": "id",
+     "ref": "lightspeed:20492637",
+     "qty": "425",
+     "unit": "mL",
+     "ls_cost": "2.94",
+     "our_cost": null,
+     "eff_cost": 2.969488
+    }
+   ],
+   "our_cost": 2.9695,
+   "ls_cost": 2.94,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.5,
+   "gp_pct": 71.6
+  },
+  "Massenez Lychee [5L]": {
+   "ingredients": [
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "4.3",
+     "unit": "L",
+     "ls_cost": "217.75",
+     "our_cost": null,
+     "eff_cost": 217.75
+    },
+    {
+     "name": "Massenez Triple Sec [5L]",
+     "kind": "id",
+     "ref": "lightspeed:20483413",
+     "qty": 3441.04,
+     "unit": "ml",
+     "ls_cost": "232.27",
+     "our_cost": null,
+     "eff_cost": 247.066459
+    }
+   ],
+   "our_cost": 464.8165,
+   "ls_cost": 450.02,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": true,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Tengumai Junmai - 180ml [SERVE WARM]": {
+   "ingredients": [
+    {
+     "name": "Tengumai Umajan Junmai [1.8L]",
+     "kind": "id",
+     "ref": "lightspeed:20768495",
+     "qty": "180",
+     "unit": "mL",
+     "ls_cost": "7.10",
+     "our_cost": null,
+     "eff_cost": 7.1
+    }
+   ],
+   "our_cost": 7.1,
+   "ls_cost": 7.1,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 30.0,
+   "gp_pct": 74.0
+  },
+  "Tengumai Junmai - 60ml [SERVE WARM]": {
+   "ingredients": [
+    {
+     "name": "Tengumai Umajan Junmai [1.8L]",
+     "kind": "id",
+     "ref": "lightspeed:20768495",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "2.37",
+     "our_cost": null,
+     "eff_cost": 2.37
+    }
+   ],
+   "our_cost": 2.37,
+   "ls_cost": 2.37,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 78.3
+  },
+  "Handago Junmai Ginjo - 60ml": {
+   "ingredients": [
+    {
+     "name": "Handago Junmai Ginjo [1.8L]",
+     "kind": "id",
+     "ref": "lightspeed:20768492",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "2.11",
+     "our_cost": null,
+     "eff_cost": 2.11
+    }
+   ],
+   "our_cost": 2.11,
+   "ls_cost": 2.11,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 8.0,
+   "gp_pct": 71.0
+  },
+  "Handago Junmai Ginjo - 180ml": {
+   "ingredients": [
+    {
+     "name": "Handago Junmai Ginjo [1.8L]",
+     "kind": "id",
+     "ref": "lightspeed:20768492",
+     "qty": "180",
+     "unit": "mL",
+     "ls_cost": "6.34",
+     "our_cost": null,
+     "eff_cost": 6.34
+    }
+   ],
+   "our_cost": 6.34,
+   "ls_cost": 6.34,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 22.0,
+   "gp_pct": 68.3
+  },
+  "Saika Junmai Daiginjo - 180ml": {
+   "ingredients": [
+    {
+     "name": "Saika Junmai Daiginjo [720ml]",
+     "kind": "id",
+     "ref": "lightspeed:20768432",
+     "qty": "180",
+     "unit": "mL",
+     "ls_cost": "11.00",
+     "our_cost": null,
+     "eff_cost": 11.0
+    }
+   ],
+   "our_cost": 11.0,
+   "ls_cost": 11.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 34.0,
+   "gp_pct": 64.4
+  },
+  "Saika Junmai Daiginjo - 60ml": {
+   "ingredients": [
+    {
+     "name": "Saika Junmai Daiginjo [720ml]",
+     "kind": "id",
+     "ref": "lightspeed:20768432",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "3.67",
+     "our_cost": null,
+     "eff_cost": 3.67
+    }
+   ],
+   "our_cost": 3.67,
+   "ls_cost": 3.67,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 13.0,
+   "gp_pct": 68.9
+  },
+  "Milagro Reposado Tequila": {
+   "ingredients": [
+    {
+     "name": "Milagro Reposado Tequila [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20768400",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 0.0,
+   "ls_cost": 0.0,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 17.0,
+   "gp_pct": null
+  },
+  "Trutta Streamside Shiraz - Large [HG]": {
+   "ingredients": [
+    {
+     "name": "Trutta Streamside Shiraz - Bottle [HG]",
+     "kind": "id",
+     "ref": "lightspeed:20464635",
+     "qty": "250",
+     "unit": "mL",
+     "ls_cost": "6.02",
+     "our_cost": null,
+     "eff_cost": 6.02
+    }
+   ],
+   "our_cost": 6.02,
+   "ls_cost": 6.02,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 27.0,
+   "gp_pct": 75.5
+  },
+  "Trutta Streamside Shiraz - Regular [HG]": {
+   "ingredients": [
+    {
+     "name": "Trutta Streamside Shiraz - Bottle [HG]",
+     "kind": "id",
+     "ref": "lightspeed:20464635",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "3.61",
+     "our_cost": null,
+     "eff_cost": 3.61
+    }
+   ],
+   "our_cost": 3.61,
+   "ls_cost": 3.61,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 18.0,
+   "gp_pct": 77.9
+  },
+  "Vodka Martini [HG]": {
+   "ingredients": [
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "50",
+     "unit": "mL",
+     "ls_cost": "2.53",
+     "our_cost": null,
+     "eff_cost": 2.53
+    },
+    {
+     "name": "Noilly Prat Dry Vermouth [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20487319",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.48",
+     "our_cost": null,
+     "eff_cost": 0.38627
+    }
+   ],
+   "our_cost": 2.9163,
+   "ls_cost": 3.01,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 22.0,
+   "gp_pct": 85.4
+  },
+  "Vesper Martini [HG]": {
+   "ingredients": [
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.76",
+     "our_cost": null,
+     "eff_cost": 0.76
+    },
+    {
+     "name": "Bombay Dry [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445811",
+     "qty": "45",
+     "unit": "mL",
+     "ls_cost": "3.30",
+     "our_cost": null,
+     "eff_cost": 3.278789
+    },
+    {
+     "name": "Lillet Blanc Aperitif [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20512429",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 4.0388,
+   "ls_cost": 4.06,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 22.0,
+   "gp_pct": 79.8
+  },
+  "Southside [HG]": {
+   "ingredients": [
+    {
+     "name": "Bombay Dry [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445811",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "4.40",
+     "our_cost": null,
+     "eff_cost": 4.371719
+    }
+   ],
+   "our_cost": 4.3717,
+   "ls_cost": 4.4,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 77.1
+  },
+  "Sidecar [HG]": {
+   "ingredients": [
+    {
+     "name": "St. Remy Brandy [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20512800",
+     "qty": "45",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Massenez Triple Sec [5L]",
+     "kind": "id",
+     "ref": "lightspeed:20483413",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.81",
+     "our_cost": null,
+     "eff_cost": 0.8616
+    }
+   ],
+   "our_cost": 0.8616,
+   "ls_cost": 0.81,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 95.5
+  },
+  "Sbagliato Negroni [HG]": {
+   "ingredients": [
+    {
+     "name": "Vermouth Blend [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20745353",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Campari [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445894",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.69",
+     "our_cost": null,
+     "eff_cost": 1.69
+    },
+    {
+     "name": "Palloncino Prosecco - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700620",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "0.92",
+     "our_cost": null,
+     "eff_cost": 0.92
+    }
+   ],
+   "our_cost": 2.61,
+   "ls_cost": 2.61,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 86.3
+  },
+  "Moscow Mule [HG]": {
+   "ingredients": [
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "3.04",
+     "our_cost": null,
+     "eff_cost": 3.04
+    },
+    {
+     "name": "Bundaberg Ginger beer [750ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445917",
+     "qty": "75",
+     "unit": "mL",
+     "ls_cost": "0.33",
+     "our_cost": null,
+     "eff_cost": 0.33
+    }
+   ],
+   "our_cost": 3.37,
+   "ls_cost": 3.37,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 82.3
+  },
+  "Mojito [HG]": {
+   "ingredients": [
+    {
+     "name": "Bacardi Blanca [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445866",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "4.18",
+     "our_cost": null,
+     "eff_cost": 4.18
+    }
+   ],
+   "our_cost": 4.18,
+   "ls_cost": 4.18,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 78.1
+  },
+  "Manhattan - Perfect [HG]": {
+   "ingredients": [
+    {
+     "name": "Noilly Prat Dry Vermouth [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20487319",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.48",
+     "our_cost": null,
+     "eff_cost": 0.38627
+    },
+    {
+     "name": "Buffalo Trace Bourbon [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445852",
+     "qty": "45",
+     "unit": "mL",
+     "ls_cost": "3.29",
+     "our_cost": null,
+     "eff_cost": 3.29
+    },
+    {
+     "name": "Angostura Bitters - Bottle 200ml",
+     "kind": "id",
+     "ref": "lightspeed:20747514",
+     "qty": "2",
+     "unit": "mL",
+     "ls_cost": "0.17",
+     "our_cost": null,
+     "eff_cost": 0.17
+    },
+    {
+     "name": "Vermouth Blend [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20745353",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 3.8463,
+   "ls_cost": 3.94,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 22.0,
+   "gp_pct": 80.8
+  },
+  "Manhattan - Dry [HG]": {
+   "ingredients": [
+    {
+     "name": "Noilly Prat Dry Vermouth [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20487319",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "0.95",
+     "our_cost": null,
+     "eff_cost": 0.764493
+    },
+    {
+     "name": "Buffalo Trace Bourbon [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445852",
+     "qty": "45",
+     "unit": "mL",
+     "ls_cost": "3.29",
+     "our_cost": null,
+     "eff_cost": 3.29
+    },
+    {
+     "name": "Angostura Bitters - Bottle 200ml",
+     "kind": "id",
+     "ref": "lightspeed:20747514",
+     "qty": "2",
+     "unit": "mL",
+     "ls_cost": "0.17",
+     "our_cost": null,
+     "eff_cost": 0.17
+    }
+   ],
+   "our_cost": 4.2245,
+   "ls_cost": 4.41,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 22.0,
+   "gp_pct": 78.9
+  },
+  "Mai Tai [HG]": {
+   "ingredients": [
+    {
+     "name": "Appleton Rum [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445860",
+     "qty": "45",
+     "unit": "mL",
+     "ls_cost": "3.53",
+     "our_cost": null,
+     "eff_cost": 3.53
+    },
+    {
+     "name": "Massenez Triple Sec [5L]",
+     "kind": "id",
+     "ref": "lightspeed:20483413",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.81",
+     "our_cost": null,
+     "eff_cost": 0.8616
+    },
+    {
+     "name": "Angostura Bitters - Bottle 200ml",
+     "kind": "id",
+     "ref": "lightspeed:20747514",
+     "qty": "2",
+     "unit": "mL",
+     "ls_cost": "0.17",
+     "our_cost": null,
+     "eff_cost": 0.17
+    }
+   ],
+   "our_cost": 4.5616,
+   "ls_cost": 4.51,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 22.0,
+   "gp_pct": 77.2
+  },
+  "Long Island Iced Tea [HG]": {
+   "ingredients": [
+    {
+     "name": "Massenez Triple Sec [5L]",
+     "kind": "id",
+     "ref": "lightspeed:20483413",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.81",
+     "our_cost": null,
+     "eff_cost": 0.8616
+    },
+    {
+     "name": "Bombay Dry [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445811",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "1.10",
+     "our_cost": null,
+     "eff_cost": 1.09293
+    },
+    {
+     "name": "Bacardi Blanca [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445866",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "1.05",
+     "our_cost": null,
+     "eff_cost": 1.05
+    },
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.76",
+     "our_cost": null,
+     "eff_cost": 0.76
+    },
+    {
+     "name": "Rooster Blanco Tequila [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20744471",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "1.04",
+     "our_cost": null,
+     "eff_cost": 1.04
+    }
+   ],
+   "our_cost": 4.8045,
+   "ls_cost": 4.76,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 23.0,
+   "gp_pct": 77.0
+  },
+  "Last Word [HG]": {
+   "ingredients": [
+    {
+     "name": "Bombay Dry [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445811",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "1.47",
+     "our_cost": null,
+     "eff_cost": 1.460551
+    },
+    {
+     "name": "Chartreuse Green [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20512442",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Luxardo Maraschino [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20512320",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 1.4606,
+   "ls_cost": 1.47,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 92.3
+  },
+  "Gin Martini [HG]": {
+   "ingredients": [
+    {
+     "name": "Bombay Dry [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445811",
+     "qty": "50",
+     "unit": "mL",
+     "ls_cost": "3.66",
+     "our_cost": null,
+     "eff_cost": 3.636475
+    },
+    {
+     "name": "Noilly Prat Dry Vermouth [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20487319",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.48",
+     "our_cost": null,
+     "eff_cost": 0.38627
+    }
+   ],
+   "our_cost": 4.0227,
+   "ls_cost": 4.14,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 22.0,
+   "gp_pct": 79.9
+  },
+  "French Martini [HG]": {
+   "ingredients": [
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "45",
+     "unit": "mL",
+     "ls_cost": "2.28",
+     "our_cost": null,
+     "eff_cost": 2.28
+    },
+    {
+     "name": "Chambord [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20492707",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 2.28,
+   "ls_cost": 2.28,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 20.0,
+   "gp_pct": 87.5
+  },
+  "Dark & Stormy [HG]": {
+   "ingredients": [
+    {
+     "name": "Sailor Jerry [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445864",
+     "qty": "45",
+     "unit": "mL",
+     "ls_cost": "2.89",
+     "our_cost": null,
+     "eff_cost": 2.89
+    },
+    {
+     "name": "Bundaberg Ginger beer [750ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445917",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "0.66",
+     "our_cost": null,
+     "eff_cost": 0.66
+    },
+    {
+     "name": "Angostura Bitters - Bottle 200ml",
+     "kind": "id",
+     "ref": "lightspeed:20747514",
+     "qty": "2",
+     "unit": "mL",
+     "ls_cost": "0.17",
+     "our_cost": null,
+     "eff_cost": 0.17
+    }
+   ],
+   "our_cost": 3.72,
+   "ls_cost": 3.72,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 20.0,
+   "gp_pct": 79.5
+  },
+  "Cosmo [HG]": {
+   "ingredients": [
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "45",
+     "unit": "mL",
+     "ls_cost": "2.28",
+     "our_cost": null,
+     "eff_cost": 2.28
+    },
+    {
+     "name": "Massenez Triple Sec [5L]",
+     "kind": "id",
+     "ref": "lightspeed:20483413",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.81",
+     "our_cost": null,
+     "eff_cost": 0.8616
+    }
+   ],
+   "our_cost": 3.1416,
+   "ls_cost": 3.09,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 20.0,
+   "gp_pct": 82.7
+  },
+  "Corpse Reviver No. 2 [HG]": {
+   "ingredients": [
+    {
+     "name": "Bombay Dry [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445811",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "1.47",
+     "our_cost": null,
+     "eff_cost": 1.460551
+    },
+    {
+     "name": "Massenez Triple Sec [5L]",
+     "kind": "id",
+     "ref": "lightspeed:20483413",
+     "qty": "20",
+     "unit": "L",
+     "ls_cost": "1080.32",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Lillet Blanc Aperitif [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20512429",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Pernod Absinthe [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20512432",
+     "qty": "2",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 1.4606,
+   "ls_cost": 1.47,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 92.3
+  },
+  "Charlie Chaplin [HG]": {
+   "ingredients": [
+    {
+     "name": "Joseph Cartron Apricot Brandy [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20512418",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.94",
+     "our_cost": null,
+     "eff_cost": 1.94
+    },
+    {
+     "name": "Brookie's Slow Gin [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20512419",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 1.94,
+   "ls_cost": 1.94,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 20.0,
+   "gp_pct": 89.3
+  },
+  "Caipirinha [HG]": {
+   "ingredients": [
+    {
+     "name": "Velho Berreiro Cacha\u00e7a [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20750196",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 0.0,
+   "ls_cost": 0.0,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": null
+  },
+  "Brooklyn [HG]": {
+   "ingredients": [
+    {
+     "name": "Gospel Solera Rye [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20487331",
+     "qty": "40",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Noilly Prat Dry Vermouth [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20487319",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.43",
+     "our_cost": null,
+     "eff_cost": 1.150763
+    },
+    {
+     "name": "Braulio [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445879",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Luxardo Maraschino [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20512320",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 1.1508,
+   "ls_cost": 1.43,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 94.0
+  },
+  "Bramble [HG]": {
+   "ingredients": [
+    {
+     "name": "Bombay Dry [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445811",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "4.40",
+     "our_cost": null,
+     "eff_cost": 4.371719
+    },
+    {
+     "name": "Chambord [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20492707",
+     "qty": "15",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 4.3717,
+   "ls_cost": 4.4,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 77.1
+  },
+  "Boulevardier [HG]": {
+   "ingredients": [
+    {
+     "name": "Buffalo Trace Bourbon [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445852",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "1.46",
+     "our_cost": null,
+     "eff_cost": 1.46
+    },
+    {
+     "name": "Campari [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445894",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "1.13",
+     "our_cost": null,
+     "eff_cost": 1.13
+    },
+    {
+     "name": "Vermouth Blend [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20745353",
+     "qty": "20",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 2.59,
+   "ls_cost": 2.59,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 22.0,
+   "gp_pct": 87.0
+  },
+  "Bloody Mary [HG]": {
+   "ingredients": [
+    {
+     "name": "White Light Pure Vodka [20L]",
+     "kind": "id",
+     "ref": "lightspeed:20445822",
+     "qty": "60",
+     "unit": "mL",
+     "ls_cost": "3.04",
+     "our_cost": null,
+     "eff_cost": 3.04
+    }
+   ],
+   "our_cost": 3.04,
+   "ls_cost": 3.04,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 23.0,
+   "gp_pct": 85.5
+  },
+  "Aviation [HG]": {
+   "ingredients": [
+    {
+     "name": "Bombay Sapphire [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445810",
+     "qty": "45",
+     "unit": "mL",
+     "ls_cost": "3.10",
+     "our_cost": null,
+     "eff_cost": 3.09988
+    },
+    {
+     "name": "Tempus Fugit Violette [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20512316",
+     "qty": "10",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Luxardo Maraschino [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20512320",
+     "qty": "2.5",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 3.0999,
+   "ls_cost": 3.1,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 83.8
+  },
+  "Americano [HG]": {
+   "ingredients": [
+    {
+     "name": "Vermouth Blend [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20745353",
+     "qty": "45",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    },
+    {
+     "name": "Campari [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445894",
+     "qty": "45",
+     "unit": "mL",
+     "ls_cost": "2.54",
+     "our_cost": null,
+     "eff_cost": 2.54
+    }
+   ],
+   "our_cost": 2.54,
+   "ls_cost": 2.54,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 86.7
+  },
+  "Fireball Cinnamon Whisky": {
+   "ingredients": [
+    {
+     "name": "Fireball [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20710120",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.69",
+     "our_cost": null,
+     "eff_cost": 1.69
+    }
+   ],
+   "our_cost": 1.69,
+   "ls_cost": 1.69,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 84.5
+  },
+  "Calle 23 Blanco Tequila": {
+   "ingredients": [
+    {
+     "name": "Calle 23 Blanco Tequila [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20744688",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "3.54",
+     "our_cost": null,
+     "eff_cost": 3.54
+    }
+   ],
+   "our_cost": 3.54,
+   "ls_cost": 3.54,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.0,
+   "gp_pct": 75.7
+  },
+  "Hibiki Harmony Whisky": {
+   "ingredients": [
+    {
+     "name": "Hibiki Harmony [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20744663",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "6.80",
+     "our_cost": null,
+     "eff_cost": 6.8
+    }
+   ],
+   "our_cost": 6.8,
+   "ls_cost": 6.8,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 24.0,
+   "gp_pct": 68.8
+  },
+  "Haku Vodka": {
+   "ingredients": [
+    {
+     "name": "Haku Vodka [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20744656",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.13",
+     "our_cost": null,
+     "eff_cost": 2.13
+    }
+   ],
+   "our_cost": 2.13,
+   "ls_cost": 2.13,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 84.4
+  },
+  "Roku Gin": {
+   "ingredients": [
+    {
+     "name": "Roku Gin [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20744653",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.35",
+     "our_cost": null,
+     "eff_cost": 2.35
+    }
+   ],
+   "our_cost": 2.35,
+   "ls_cost": 2.35,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 82.8
+  },
+  "Kuku Sauv Blanc - Large": {
+   "ingredients": [
+    {
+     "name": "Kuku Sauv Blanc - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700643",
+     "qty": "250",
+     "unit": "mL",
+     "ls_cost": "4.86",
+     "our_cost": null,
+     "eff_cost": 4.86
+    }
+   ],
+   "our_cost": 4.86,
+   "ls_cost": 4.86,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 22.0,
+   "gp_pct": 75.7
+  },
+  "Kuku Sauv Blanc - Regular": {
+   "ingredients": [
+    {
+     "name": "Kuku Sauv Blanc - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700643",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "2.91",
+     "our_cost": null,
+     "eff_cost": 2.91
+    }
+   ],
+   "our_cost": 2.91,
+   "ls_cost": 2.91,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 13.0,
+   "gp_pct": 75.4
+  },
+  "Palloncino Prosecco - Regular": {
+   "ingredients": [
+    {
+     "name": "Palloncino Prosecco - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700620",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "2.30",
+     "our_cost": null,
+     "eff_cost": 2.3
+    }
+   ],
+   "our_cost": 2.3,
+   "ls_cost": 2.3,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 78.9
+  },
+  "River Retreat Pinot Grigio - Large": {
+   "ingredients": [
+    {
+     "name": "River Retreat Pinot Grigio - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700650",
+     "qty": "250",
+     "unit": "mL",
+     "ls_cost": "3.35",
+     "our_cost": null,
+     "eff_cost": 3.35
+    }
+   ],
+   "our_cost": 3.35,
+   "ls_cost": 3.35,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 82.5
+  },
+  "River Retreat Pinot Grigio - Regular": {
+   "ingredients": [
+    {
+     "name": "River Retreat Pinot Grigio - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700650",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "2.01",
+     "our_cost": null,
+     "eff_cost": 2.01
+    }
+   ],
+   "our_cost": 2.01,
+   "ls_cost": 2.01,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 81.6
+  },
+  "L'esprit Ros\u00e9 - Large": {
+   "ingredients": [
+    {
+     "name": "L'esprit Ros\u00e9 - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700634",
+     "qty": "250",
+     "unit": "mL",
+     "ls_cost": "8.41",
+     "our_cost": null,
+     "eff_cost": 8.41
+    }
+   ],
+   "our_cost": 8.41,
+   "ls_cost": 8.41,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 24.0,
+   "gp_pct": 61.5
+  },
+  "From Sundays Shiraz - Large": {
+   "ingredients": [
+    {
+     "name": "From Sundays Shiraz - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700646",
+     "qty": "250",
+     "unit": "mL",
+     "ls_cost": "4.67",
+     "our_cost": null,
+     "eff_cost": 4.67
+    }
+   ],
+   "our_cost": 4.67,
+   "ls_cost": 4.67,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 24.0,
+   "gp_pct": 78.6
+  },
+  "From Sundays Shiraz - Regular": {
+   "ingredients": [
+    {
+     "name": "From Sundays Shiraz - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700646",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "2.80",
+     "our_cost": null,
+     "eff_cost": 2.8
+    }
+   ],
+   "our_cost": 2.8,
+   "ls_cost": 2.8,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 79.5
+  },
+  "Geppetto Chardonnay - Large": {
+   "ingredients": [
+    {
+     "name": "Geppetto Chardonnay - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700630",
+     "qty": "250",
+     "unit": "mL",
+     "ls_cost": "6.05",
+     "our_cost": null,
+     "eff_cost": 6.05
+    }
+   ],
+   "our_cost": 6.05,
+   "ls_cost": 6.05,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 24.0,
+   "gp_pct": 72.3
+  },
+  "Geppetto Chardonnay - Regular": {
+   "ingredients": [
+    {
+     "name": "Geppetto Chardonnay - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700630",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "3.63",
+     "our_cost": null,
+     "eff_cost": 3.63
+    }
+   ],
+   "our_cost": 3.63,
+   "ls_cost": 3.63,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 73.4
+  },
+  "Esoterico Orange - Large": {
+   "ingredients": [
+    {
+     "name": "Esoterico Orange - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700625",
+     "qty": "250",
+     "unit": "mL",
+     "ls_cost": "4.48",
+     "our_cost": null,
+     "eff_cost": 4.48
+    }
+   ],
+   "our_cost": 4.48,
+   "ls_cost": 4.48,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 24.0,
+   "gp_pct": 79.5
+  },
+  "Esoterico Orange - Regular": {
+   "ingredients": [
+    {
+     "name": "Esoterico Orange - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700625",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "2.69",
+     "our_cost": null,
+     "eff_cost": 2.69
+    }
+   ],
+   "our_cost": 2.69,
+   "ls_cost": 2.69,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 80.3
+  },
+  "Azurescens Pinot Noir - Large": {
+   "ingredients": [
+    {
+     "name": "Azurescens Pinot Noir - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700639",
+     "qty": "250",
+     "unit": "mL",
+     "ls_cost": "4.67",
+     "our_cost": null,
+     "eff_cost": 4.67
+    }
+   ],
+   "our_cost": 4.67,
+   "ls_cost": 4.67,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 24.0,
+   "gp_pct": 78.6
+  },
+  "Azurescens Pinot Noir - Regular": {
+   "ingredients": [
+    {
+     "name": "Azurescens Pinot Noir - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700639",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "2.80",
+     "our_cost": null,
+     "eff_cost": 2.8
+    }
+   ],
+   "our_cost": 2.8,
+   "ls_cost": 2.8,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 15.0,
+   "gp_pct": 79.5
+  },
+  "Angas & Bremer Ros\u00e9 - Large": {
+   "ingredients": [
+    {
+     "name": "Angas & Bremer Ros\u00e9 - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700616",
+     "qty": "250",
+     "unit": "mL",
+     "ls_cost": "3.22",
+     "our_cost": null,
+     "eff_cost": 3.22
+    }
+   ],
+   "our_cost": 3.22,
+   "ls_cost": 3.22,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 83.1
+  },
+  "Angas & Bremer Ros\u00e9 - Regular": {
+   "ingredients": [
+    {
+     "name": "Angas & Bremer Ros\u00e9 - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700616",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "1.93",
+     "our_cost": null,
+     "eff_cost": 1.93
+    }
+   ],
+   "our_cost": 1.93,
+   "ls_cost": 1.93,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 82.3
+  },
+  "Angas & Bremer Grenache - Large": {
+   "ingredients": [
+    {
+     "name": "Angas & Bremer Grenache - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700602",
+     "qty": "250",
+     "unit": "mL",
+     "ls_cost": "2.92",
+     "our_cost": null,
+     "eff_cost": 2.92
+    }
+   ],
+   "our_cost": 2.92,
+   "ls_cost": 2.92,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 21.0,
+   "gp_pct": 84.7
+  },
+  "Angas & Bremer Grenache - Regular": {
+   "ingredients": [
+    {
+     "name": "Angas & Bremer Grenache - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20700602",
+     "qty": "150",
+     "unit": "mL",
+     "ls_cost": "1.75",
+     "our_cost": null,
+     "eff_cost": 1.75
+    }
+   ],
+   "our_cost": 1.75,
+   "ls_cost": 1.75,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 84.0
+  },
+  "Sailor Jerry Spiced Rum [House]": {
+   "ingredients": [
+    {
+     "name": "Sailor Jerry [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445864",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.92",
+     "our_cost": null,
+     "eff_cost": 1.92
+    }
+   ],
+   "our_cost": 1.92,
+   "ls_cost": 1.92,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.0,
+   "gp_pct": 80.8
+  },
+  "Rooster Blanco Tequila [House]": {
+   "ingredients": [
+    {
+     "name": "Rooster Blanco Tequila [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20744471",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.09",
+     "our_cost": null,
+     "eff_cost": 2.09
+    }
+   ],
+   "our_cost": 2.09,
+   "ls_cost": 2.09,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.0,
+   "gp_pct": 79.1
+  },
+  "Ron Zacapa 23yr Dark Rum": {
+   "ingredients": [
+    {
+     "name": "Ron Zacapa 23yr [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445863",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "4.16",
+     "our_cost": null,
+     "eff_cost": 4.16
+    }
+   ],
+   "our_cost": 4.16,
+   "ls_cost": 4.16,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 19.0,
+   "gp_pct": 75.9
+  },
+  "Patron Silver Tequila": {
+   "ingredients": [
+    {
+     "name": "Patron Silver [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445825",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "3.44",
+     "our_cost": null,
+     "eff_cost": 3.841064
+    }
+   ],
+   "our_cost": 3.8411,
+   "ls_cost": 3.44,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.0,
+   "gp_pct": 73.6
+  },
+  "Patron Reposado Tequila": {
+   "ingredients": [
+    {
+     "name": "Patron Reposado [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445827",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "3.27",
+     "our_cost": null,
+     "eff_cost": 3.27
+    }
+   ],
+   "our_cost": 3.27,
+   "ls_cost": 3.27,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.0,
+   "gp_pct": 77.5
+  },
+  "Mr. Black Coffee Liqueur": {
+   "ingredients": [
+    {
+     "name": "Mr Black Coffee Liqueur [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445870",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.74",
+     "our_cost": null,
+     "eff_cost": 1.74
+    }
+   ],
+   "our_cost": 1.74,
+   "ls_cost": 1.74,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 84.0
+  },
+  "Monkey Shoulder Scotch Whisky [House]": {
+   "ingredients": [
+    {
+     "name": "Monkey Shoulder Scotch [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445855",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.41",
+     "our_cost": null,
+     "eff_cost": 2.41
+    }
+   ],
+   "our_cost": 2.41,
+   "ls_cost": 2.41,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.0,
+   "gp_pct": 75.9
+  },
+  "Johnnie Walker Black Whisky": {
+   "ingredients": [
+    {
+     "name": "Johnnie Walker Black [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445844",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 0.0,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 16.0,
+   "gp_pct": null
+  },
+  "Jack Daniels Whisky": {
+   "ingredients": [
+    {
+     "name": "Jack Daniels [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445854",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.94",
+     "our_cost": null,
+     "eff_cost": 1.94
+    }
+   ],
+   "our_cost": 1.94,
+   "ls_cost": 1.94,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 12.0,
+   "gp_pct": 82.2
+  },
+  "Hakushu 12yr Whisky": {
+   "ingredients": [
+    {
+     "name": "Hakushu 12yr [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445838",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "12.63",
+     "our_cost": null,
+     "eff_cost": 12.63
+    }
+   ],
+   "our_cost": 12.63,
+   "ls_cost": 12.63,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 42.0,
+   "gp_pct": 66.9
+  },
+  "Grey Goose Vodka": {
+   "ingredients": [
+    {
+     "name": "Grey Goose [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445821",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "3.05",
+     "our_cost": null,
+     "eff_cost": 3.05
+    }
+   ],
+   "our_cost": 3.05,
+   "ls_cost": 3.05,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 76.0
+  },
+  "Four Pillars Rare Dry Gin": {
+   "ingredients": [
+    {
+     "name": "Four Pillars Rare Dry [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445815",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.56",
+     "our_cost": null,
+     "eff_cost": 2.56
+    }
+   ],
+   "our_cost": 2.56,
+   "ls_cost": 2.56,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.5,
+   "gp_pct": 80.6
+  },
+  "Four Pillars Olive Leaf Gin": {
+   "ingredients": [
+    {
+     "name": "Four Pillars Olive Leaf [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445814",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "0.00",
+     "our_cost": null,
+     "eff_cost": 0.0
+    }
+   ],
+   "our_cost": 0.0,
+   "ls_cost": 0.0,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.5,
+   "gp_pct": null
+  },
+  "Buffalo Trace Bourbon Whisky [House]": {
+   "ingredients": [
+    {
+     "name": "Buffalo Trace Bourbon [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445852",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.19",
+     "our_cost": null,
+     "eff_cost": 2.19
+    }
+   ],
+   "our_cost": 2.19,
+   "ls_cost": 2.19,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.0,
+   "gp_pct": 78.1
+  },
+  "Bombay Sapphire Gin": {
+   "ingredients": [
+    {
+     "name": "Bombay Sapphire [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445810",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.07",
+     "our_cost": null,
+     "eff_cost": 2.06992
+    }
+   ],
+   "our_cost": 2.0699,
+   "ls_cost": 2.07,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 83.7
+  },
+  "Bombay Dry Gin [House]": {
+   "ingredients": [
+    {
+     "name": "Bombay Dry [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445811",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.20",
+     "our_cost": null,
+     "eff_cost": 2.185859
+    }
+   ],
+   "our_cost": 2.1859,
+   "ls_cost": 2.2,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.0,
+   "gp_pct": 78.1
+  },
+  "Belvedere Vodka": {
+   "ingredients": [
+    {
+     "name": "Belvedere Vodka [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445823",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.57",
+     "our_cost": null,
+     "eff_cost": 2.57
+    }
+   ],
+   "our_cost": 2.57,
+   "ls_cost": 2.57,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 79.8
+  },
+  "Baileys Irish Cream Liqueur": {
+   "ingredients": [
+    {
+     "name": "Baileys Irish Cream [1L Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445872",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.27",
+     "our_cost": null,
+     "eff_cost": 1.27
+    }
+   ],
+   "our_cost": 1.27,
+   "ls_cost": 1.27,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.0,
+   "gp_pct": 87.3
+  },
+  "Bacardi Blanca White Rum [House]": {
+   "ingredients": [
+    {
+     "name": "Bacardi Blanca [700ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445866",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.09",
+     "our_cost": null,
+     "eff_cost": 2.09
+    }
+   ],
+   "our_cost": 2.09,
+   "ls_cost": 2.09,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.0,
+   "gp_pct": 79.1
+  },
+  "Archie Rose Signature Gin": {
+   "ingredients": [
+    {
+     "name": "Archie Rose Signature Gin [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445809",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "2.83",
+     "our_cost": null,
+     "eff_cost": 2.83
+    }
+   ],
+   "our_cost": 2.83,
+   "ls_cost": 2.83,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 13.0,
+   "gp_pct": 76.1
+  },
+  "Aperol": {
+   "ingredients": [
+    {
+     "name": "Aperol [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445895",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.16",
+     "our_cost": null,
+     "eff_cost": 1.16
+    }
+   ],
+   "our_cost": 1.16,
+   "ls_cost": 1.16,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 9.0,
+   "gp_pct": 85.8
+  },
+  "Amaro Montenegro": {
+   "ingredients": [
+    {
+     "name": "Amaro Montenegro [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445878",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "1.91",
+     "our_cost": null,
+     "eff_cost": 1.91
+    }
+   ],
+   "our_cost": 1.91,
+   "ls_cost": 1.91,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 13.0,
+   "gp_pct": 83.8
+  },
+  "1800 Coconut Tequila": {
+   "ingredients": [
+    {
+     "name": "1800 Coconut [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20445824",
+     "qty": "30",
+     "unit": "mL",
+     "ls_cost": "3.03",
+     "our_cost": null,
+     "eff_cost": 3.03
+    }
+   ],
+   "our_cost": 3.03,
+   "ls_cost": 3.03,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 76.2
   }
  }
 }
