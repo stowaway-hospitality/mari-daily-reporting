@@ -101,6 +101,37 @@ def apply_unit_fixes(rec: dict) -> int:
     return n
 
 
+def apply_ingredient_swaps(rec: dict) -> int:
+    """Repoint a line at the bottle the venue actually pours.
+
+    Distinct from INGREDIENT_ALIAS, which asserts two NAMES are one stock. This
+    asserts the opposite: Produce records one product and the bar pours another.
+    Scoped to the exact (recipe, ingredient) pair named in
+    data/recipe_ingredient_swaps.yaml — see that file for why it is not an alias.
+
+    Produce's stated line cost goes with the old name. It was computed for a
+    product this recipe no longer contains, so carrying it forward would let a
+    price for the wrong bottle survive the swap; the line is re-costed from the
+    book like any other. A no-op if the line already names the replacement, so a
+    correction made at source later does not double-apply.
+    """
+    path = ROOT / "data" / "recipe_ingredient_swaps.yaml"
+    if not path.exists():
+        return 0
+    import yaml
+    n = 0
+    for spec in (yaml.safe_load(path.read_text()) or []):
+        body = (rec or {}).get(spec.get("recipe"))
+        if not body:
+            continue
+        for ing in (body.get("ingredients") or []):
+            if ing.get("name") == spec.get("from"):
+                ing["name"] = spec["to"]
+                ing["cost"] = ""
+                n += 1
+    return n
+
+
 # How a recipe line's unit LABEL maps onto the base unit our cost book prices in,
 # and by what factor its quantity must be multiplied to get there.
 _LINE_UNIT = {
@@ -447,9 +478,16 @@ INGREDIENT_ALIAS = {
     # supplier. The bottles it pours were bought on a Stowaway invoice, because
     # there is no other invoice they could have come from.
     #
-    # Milagro Reposado and Velho Berreiro Cachaça are deliberately NOT here:
-    # neither has a costed twin anywhere in the group, so there is nothing to
-    # point at and they stay visible in the audit until an invoice arrives.
+    # Milagro Reposado is deliberately NOT here: it has no costed twin anywhere in
+    # the group, so there is nothing to point at and it stays visible in the audit
+    # until an invoice arrives.
+    #
+    # Velho Berreiro Cachaça was listed alongside it until 2026-08-06, on the same
+    # reasoning. That reasoning was answered rather than met: Zak says the drink is
+    # made with Germana, so the right fix is not to declare the two bottles one
+    # stock — they are two brands — but to record that Harry Gatos pours a
+    # different bottle than Produce says. That lives in
+    # data/recipe_ingredient_swaps.yaml, scoped to the one recipe.
     "Whispering Angel - Bottle [HG]": "Whispering Angel Rosé - Bottle",
     "Veuve Clicquot - Bottle [HG]": "Veuve Clicquot Yellow Label - Bottle",
     # Zak: "havana club definitely has a price somewhere". It does — under a
@@ -757,6 +795,12 @@ def main() -> int:
     _fixed = apply_unit_fixes(rec)
     if _fixed:
         print(f"  corrected {_fixed} mislabelled unit(s) (recipe_line_unit_fixes.yaml)")
+    # ...repoint any line Produce files against a bottle the venue no longer pours,
+    # BEFORE the raw line costs are captured — the old bottle's cost must not
+    # survive the swap. See data/recipe_ingredient_swaps.yaml.
+    _swapped = apply_ingredient_swaps(rec)
+    if _swapped:
+        print(f"  swapped {_swapped} ingredient(s) (recipe_ingredient_swaps.yaml)")
     # ...then put every line in the base units our cost book is priced in, so the
     # Harry Gatos scrape's "mL"/"L"/"kg"/"Units" can reach it at all.
     _normalised = normalise_line_units(rec)

@@ -62,6 +62,23 @@ VERIFIED_HIGH_GP = {
     # sherbert in soda water; there is no second ingredient to be missing.
     "Stow Soda - Grapefruit": "sherbet only — confirmed by Zak 2026-08-06",
 }
+
+# Delivery twins that legitimately cost more than the dish they copy, because
+# they are not in fact the same serve. Keyed on the DINE-IN name (the rule's
+# `name`), value is the reason, in Zak's words where he gave them.
+#
+# The twin rule assumes "X D" is X in a box. Where that assumption is wrong the
+# gap is the answer, not the question, and re-reporting a checked answer every
+# run is how a work queue turns into wallpaper.
+VERIFIED_TWIN_GAP = {
+    # Zak, 2026-08-06: "bundaberg ginger beer D is a WHOLE BOTTLE vs dine-in's
+    # smaller ml serve." Dine-in pours 200 ml of a 750 ml bottle at $5.00
+    # ($0.86); delivery sends the whole 750 ml bottle at $8.00 ($3.22). Both
+    # recipes are right and both GPs are right — 3.75x the cost for 1.6x the
+    # price is a real margin decision, not a costing defect.
+    "Bundaberg Ginger Beer": "delivery sends the whole 750 ml bottle, dine-in "
+                             "pours 200 ml — confirmed by Zak 2026-08-06",
+}
 FLOOR = 0.000_01          # a real ingredient is never free
 ABSURD_SERVE = 120.0      # no single non-prep menu item costs more than this
 GP_FLATTER = 95.0
@@ -763,6 +780,11 @@ def audit():
             continue
         a, b = money(recipes[name].get("our_cost")), money(recipes[twin].get("our_cost"))
         if a <= 0 or b <= 0 or abs(a - b) / max(a, b) <= 0.35:
+            continue
+        if name in VERIFIED_TWIN_GAP:
+            add("INFO", "delivery twin differs, and that is the correct answer",
+                f"{name[:30]:32} ${a:>7.2f}   vs   {twin[:32]:34} ${b:>7.2f}"
+                f"   ({VERIFIED_TWIN_GAP[name]})")
             continue
         add("WARN", "a delivery twin costs materially more than the dish it copies",
             f"{name[:30]:32} ${a:>7.2f}   vs   {twin[:32]:34} ${b:>7.2f}"
