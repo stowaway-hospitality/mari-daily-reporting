@@ -253,6 +253,11 @@ def seed_matched_liquor_cost(pack_cost, pack_qty, pack_unit, note, seed_per_unit
 
 
 def main() -> int:
+    # stdout is output too: under an ASCII locale a single em-dash in a progress
+    # line kills the run *after* the fact table is written, so the file is right
+    # and the exit code says otherwise. Pin it for the same reason we pin the file.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     overrides = load_pack_overrides(PACK_OVERRIDES)   # chef-confirmed pack sizes
     bridge = load_bridge()                            # supplier:code -> lightspeed:ProductID
     cogs_rows = list(csv.DictReader(COGS.open(encoding="utf-8-sig")))
@@ -457,7 +462,7 @@ def main() -> int:
                     bridged += 1
 
     rows.sort(key=lambda x: (x["ingredient"], x["observed_on"]))
-    with OUT.open("w", newline="") as f:
+    with OUT.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS)
         w.writeheader()
         w.writerows(rows)

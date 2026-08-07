@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import csv
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -119,6 +120,11 @@ def _rows_from_invoice(payload: dict) -> list[dict]:
 
 
 def main() -> int:
+    # stdout is output too: under an ASCII locale a single em-dash in a progress
+    # line kills the run *after* the fact table is written, so the file is right
+    # and the exit code says otherwise. Pin it for the same reason we pin the file.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     rows, seen = _load_existing()
     added, invoices = 0, 0
     for p in sorted(INVOICES.glob("*.json")) if INVOICES.exists() else []:
@@ -137,7 +143,7 @@ def main() -> int:
             added += 1
 
     rows.sort(key=lambda r: (r["invoice_date"], r["supplier"], r["supplier_code"], r["invoice_description"]))
-    with COGS.open("w", newline="") as f:
+    with COGS.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS)
         w.writeheader()
         w.writerows(rows)
