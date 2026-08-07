@@ -995,6 +995,42 @@ def audit():
                 f"${prev:>9,.4f} -> ${cost:>9,.2f} = {cost / prev:>5.1f}x "
                 f"(shown as +{money(m.get('pct')):,.0f}%)")
 
+    # ---------- A BRIDGE THAT REACHES NO RECIPE ----------
+    # A product_map row exists to carry an invoice onto the ProductID a recipe
+    # reads. When it lands on an identity NO recipe references, the invoice is
+    # collected, converted, published — and read by nothing, while the sibling the
+    # recipes DO use stays frozen on its January seed. That is the Appleton
+    # [Bottle]/[House] pattern, and it hid for months because every part of it
+    # looked like it was working.
+    #
+    # load_bridge now emits onto EVERY identity a code maps to, so a bridge with a
+    # live sibling is harmless. What is still worth shouting about is a code whose
+    # targets are ALL inert: nothing that code ever bills can reach a recipe.
+    try:
+        sys.path.insert(0, str(ROOT))
+        from modules.recipes.pipeline.build_costs import load_bridge as _lb
+        import contextlib as _ctx, io as _io
+        with _ctx.redirect_stdout(_io.StringIO()):        # its duplicate-key report
+            _bridge = _lb()
+        _used = set()
+        for _r in recipes.values():
+            for _ln in _r.get("ingredients", []):
+                _ref = str(_ln.get("ref") or "")
+                if _ref.startswith("lightspeed:"):
+                    _used.add(_ref)
+        _dead = {c: t for c, t in _bridge.items() if t and not (set(t) & _used)}
+        if _dead:
+            add("WARN", "a bridge that reaches no recipe — the invoice is published "
+                        "and read by nothing",
+                f"{len(_dead)} of {len(_bridge)} bridged supplier codes land only on "
+                f"ProductIDs no recipe references")
+            for _c, _t in sorted(_dead.items()):
+                add("WARN", "a bridge that reaches no recipe — the invoice is published "
+                            "and read by nothing",
+                    f"{_c:<26} -> {', '.join(sorted(_t))}")
+    except Exception as _e:                                  # noqa: BLE001
+        add("INFO", "inert-bridge check unavailable", str(_e))
+
     # ---------- COST BOOK ----------
     rows = list(csv.DictReader(COSTS.open(encoding="utf-8-sig")))
     for r in rows:
