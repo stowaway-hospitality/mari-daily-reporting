@@ -1,11 +1,11 @@
 {
-  "generated": "2026-08-07T11:42:38+00:00",
-  "overall": "down",
+  "generated": "2026-08-07T11:45:40+00:00",
+  "overall": "warn",
   "checks": [
     {
       "name": "Invoice poller",
       "detail": "reads the accounts@ inbox every 30 min",
-      "age": 6.7,
+      "age": 9.7,
       "unit": "min",
       "status": "ok",
       "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
@@ -15,7 +15,7 @@
     {
       "name": "Xero approvals poller",
       "detail": "posts approved bills every 2 min",
-      "age": 0.8,
+      "age": 1.8,
       "unit": "min",
       "status": "ok",
       "meaning": "Posts approved supplier bills into Xero every couple of minutes (office Mac).",
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 0.1,
+      "age": 0.2,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -45,9 +45,9 @@
     {
       "name": "Daily sales pull",
       "detail": "aggregates yesterday's Lightspeed exports",
-      "age": 3,
+      "age": 1,
       "unit": "day",
-      "status": "down",
+      "status": "ok",
       "meaning": "Yesterday's Lightspeed sales landing in the dashboard.",
       "action": "Usually the Stowaway sales email has not arrived yet. It retries every 20 min until ~10am. Still missing after 10am? Ask Claude to check the Stow export landed and re-run the ingest, or tell Zak. Numbers fill in once it arrives.",
       "selfheal": "Retries through the morning; often fixes itself before 10am."
@@ -74,10 +74,13 @@
     },
     {
       "name": "Pull integrity",
-      "detail": "Mari filter holding, HG reallocation intact (2026-08-04)",
+      "detail": "Mari filter drift 2026-08-06",
       "age": null,
       "unit": "",
-      "status": "ok"
+      "status": "warn",
+      "meaning": "Marilyna's sales are carved from the Stow till and cross-checked against her own Lightspeed report.",
+      "action": "Minor: on 2026-08-06 a few Marilyna's rows weren't in her Lightspeed report, so the filter drifted slightly. The revenue is still attributed - this is a nudge to tidy the 'Mari Daily Sales Auto' report in Lightspeed when convenient, not an outage.",
+      "selfheal": "Clears on its own once a clean day aggregates; only needs a Lightspeed fix if it keeps recurring."
     }
   ]
 }
