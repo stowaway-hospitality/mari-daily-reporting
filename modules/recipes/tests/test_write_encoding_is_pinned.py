@@ -53,40 +53,50 @@ ASCII_ENV = {"LC_ALL": "C", "LANG": "C", "PYTHONCOERCECLOCALE": "0", "PYTHONUTF8
 
 
 @pytest.mark.parametrize("script,output", BUILDERS, ids=lambda v: Path(v).name)
-def test_builder_output_is_byte_identical_under_an_ascii_locale(script, output):
+def test_builder_output_does_not_depend_on_the_locale(script, output):
+    """Build it twice — once in UTF-8, once in ASCII — and compare the two runs.
+
+    An earlier version compared the ASCII run against the file already on disk.
+    That was wrong in a way worth recording: another test in the suite can
+    legitimately rebuild costs.csv first, so the committed bytes are not a fixed
+    point mid-run, and the test failed for a reason that had nothing to do with
+    encodings. Locale-independence is a property of the two runs, not of what
+    happens to be on disk when this test starts.
+    """
     script_path = ROOT / script
     out_path = ROOT / output
     if not script_path.exists() or not out_path.exists():
         pytest.skip(f"{script} or {output} not present in this checkout")
 
-    before = out_path.read_bytes()
-
-    # If the file were pure ASCII this test would pass for the wrong reason and
-    # keep passing after a regression. Refuse to be vacuous.
+    original = out_path.read_bytes()
     try:
-        before.decode("ascii")
+        original.decode("ascii")
     except UnicodeDecodeError:
         pass
     else:
         pytest.skip(f"{output} holds no non-ASCII today — nothing for the locale to break")
 
-    env = {**os.environ, **ASCII_ENV}
+    def build(extra_env):
+        run = subprocess.run(["python3", str(script_path)], cwd=str(ROOT),
+                             env={**os.environ, **extra_env},
+                             capture_output=True, text=True, timeout=300)
+        return run, out_path.read_bytes()
+
     try:
-        run = subprocess.run(
-            ["python3", str(script_path)],
-            cwd=str(ROOT), env=env, capture_output=True, text=True, timeout=300,
-        )
-        after = out_path.read_bytes()
+        utf8_run, utf8_bytes = build({"LC_ALL": "en_AU.UTF-8", "LANG": "en_AU.UTF-8"})
+        ascii_run, ascii_bytes = build(ASCII_ENV)
     finally:
         # Restore before asserting: a failure here must not leave the repo
         # holding the truncated file this test exists to prevent.
-        out_path.write_bytes(before)
+        out_path.write_bytes(original)
 
-    assert run.returncode == 0, (
-        f"{script} failed under LC_ALL=C — the write is taking its encoding from "
-        f"the locale again.\n{run.stderr[-2000:]}"
+    assert utf8_run.returncode == 0, f"{script} failed even in UTF-8\n{utf8_run.stderr[-1500:]}"
+    assert ascii_run.returncode == 0, (
+        f"{script} failed under LC_ALL=C — something in it is taking its encoding "
+        f"from the locale.\n{ascii_run.stderr[-2000:]}"
     )
-    assert after == before, (
-        f"{output} differs when built under an ASCII locale "
-        f"({len(before)} bytes -> {len(after)}). The write is locale-dependent."
+    assert utf8_bytes == ascii_bytes, (
+        f"{output} differs between a UTF-8 and an ASCII locale "
+        f"({len(utf8_bytes)} bytes -> {len(ascii_bytes)}). Same inputs, same code, "
+        f"different machine — that is the bug."
     )
