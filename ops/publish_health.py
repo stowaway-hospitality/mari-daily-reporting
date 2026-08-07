@@ -89,6 +89,23 @@ def main():
     sys.path.insert(0, CLONE)
     import scripts.health_monitor as hm
     snap = hm.build()
+    # Surface the exact failure that hid for 2 days (Aug 2026): the shared Mac
+    # working tree parked off main, so Mac-side jobs commit to a feature branch
+    # and main quietly falls behind. Make it visible on the panel next time.
+    try:
+        br = subprocess.run(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=MOUNTED,
+                            capture_output=True, text=True).stdout.strip()
+        if br and br != "main":
+            snap.setdefault("checks", []).append({
+                "name": "Working tree", "detail": f"Mac working copy is on '{br}', not main",
+                "age": None, "unit": "", "status": "warn",
+                "meaning": "The office Mac's shared repo is checked out on a feature branch, so Mac-side jobs (invoice poller etc.) commit there, not to main.",
+                "action": f"Mac-written data is landing on '{br}', not main - it reaches the dashboard when that branch merges. Merge/return the tree to main to realign now.",
+                "selfheal": "Resolves when the branch is merged to main."})
+            if snap.get("overall") in ("ok", "unknown"):
+                snap["overall"] = "warn"
+    except Exception:
+        pass
     cur, st = api("GET", f"contents/{FILE}?ref=main")
     old, sha = None, None
     if st == 200 and isinstance(cur, dict):
