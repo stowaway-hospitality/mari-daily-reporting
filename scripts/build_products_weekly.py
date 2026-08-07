@@ -19,6 +19,9 @@ from collections import defaultdict
 from datetime import date, timedelta
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+from core.insights_export import (                                   # noqa: E402
+    InsightsSchemaError, WrongReportError, ex_gst, read_insights)
 DATA = os.path.join(ROOT, "data")
 DEPT_MAP_FILE = os.path.join(ROOT, "scripts", "product_dept_map.json")
 PRODUCT_OVERRIDES = {"$60 BANQUET": "m"}          # mirrors daily_aggregator
@@ -151,6 +154,7 @@ def main():
     dmap = load_dept_map()
     rgnames = load_rg_names()
     agg = defaultdict(lambda: [0.0, 0.0, 0.0])   # (we, venue, rg, product) -> [ex_gst, qty, cost]
+    rejected = []                                # (kind, week_ending, message)
 
     # Stow + HG till files only. Mari's revenue rides in on the Stow 'm' slice.
     for path in sorted(glob.glob(os.path.join(DATA, "insights_*.csv"))):
@@ -159,24 +163,31 @@ def main():
             continue
         prefix, dstr = m.group(1), m.group(2)
         we = week_ending(date.fromisoformat(dstr)).isoformat()
-        with open(path, encoding="utf-8-sig") as f:
-            for row in csv.DictReader(f):
-                name = (row.get("Product Name") or row.get("ProductName") or "").strip()
-                if not name:
-                    continue                         # footer / subtotal row
-                inc = parse_num(row.get("$ Sales") or row.get("Sales"))
-                tax = parse_num(row.get("Total Tax"))
-                ex = (inc - tax) if tax else inc / 1.1
-                qty = parse_num(row.get("Product Quantity") or row.get("Qty") or row.get("Quantity"))
-                if not ex:
-                    continue
-                code = dept_for(name, prefix, dmap)
-                venue = DEPT_VENUE.get(code, prefix)             # reattribute cross-till
-                rg = rgnames.get(prefix, {}).get(name) or UNMAPPED.get(code, "Unmapped")
-                k = (we, venue, rg, normalize_product(name))
-                agg[k][0] += ex
-                agg[k][1] += qty
-                agg[k][2] += parse_num(row.get("Cost"))     # for GP% (daily feed carries cost)
+        # This used to read "Product Name"/"$ Sales" inline and skip anything
+        # else as a footer row. Lightspeed changed the export's columns mid-week
+        # on 2026-07-11, so six of that week's seven files were read as pure
+        # footer and week-ending 2026-07-12 published $15,955 against $67,000 in
+        # the daily history — $51,046 missing, silently, on the dashboard.
+        # core/insights_export knows both shapes and refuses to guess at a third.
+        try:
+            rows = read_insights(path)
+        except WrongReportError as e:
+            rejected.append(("no product export that day", we, str(e)))
+            continue
+        except InsightsSchemaError as e:
+            rejected.append(("UNREADABLE", we, str(e)))
+            continue
+        for row in rows:
+            name, ex = row["name"], ex_gst(row)
+            if not ex:
+                continue
+            code = dept_for(name, prefix, dmap)
+            venue = DEPT_VENUE.get(code, prefix)             # reattribute cross-till
+            rg = rgnames.get(prefix, {}).get(name) or UNMAPPED.get(code, "Unmapped")
+            k = (we, venue, rg, normalize_product(name))
+            agg[k][0] += ex
+            agg[k][1] += row["qty"]
+            agg[k][2] += row["cost"]                    # for GP% (daily feed carries cost)
 
     # Historical backfill (Lightspeed Insights export) for every week the daily
     # feed doesn't already cover — extends product trends back ~13 months.
@@ -206,6 +217,21 @@ def main():
     for k in sorted(tot)[-9:]:
         print(f"  {k[0]} {k[1]:5} ex-GST ${tot[k]:,.0f}")
 
+    # FAIL LOUDLY. A week that publishes short is worse than a week that doesn't
+    # publish, because a plausible number invites no questions. Name every file
+    # we could not read and which week it thins out, and exit non-zero if any of
+    # them was unreadable rather than merely the wrong report.
+    if rejected:
+        print("\nFILES NOT COUNTED — these weeks are published SHORT:")
+        for kind, we, msg in sorted(rejected, key=lambda x: x[2]):
+            print(f"  [{kind}] week ending {we}: {msg}")
+    hard = [r for r in rejected if r[0] == "UNREADABLE"]
+    if hard:
+        print(f"\n{len(hard)} file(s) could not be parsed at all. That is a bug, not a "
+              f"collection miss — products_weekly.csv was still written, but it is short.")
+        return 1
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main() or 0)

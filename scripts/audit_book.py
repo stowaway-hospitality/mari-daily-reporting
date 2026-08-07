@@ -37,6 +37,9 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from build_products_weekly import normalize_product  # noqa: E402
 from cogs_blend import _load_book_costs, _stripped_key, book_cost  # noqa: E402
 
+sys.path.insert(0, str(ROOT))
+from core.insights_export import InsightsSchemaError, read_insights  # noqa: E402
+
 COSTED = ROOT / "data" / "lightspeed_recipes_costed.json"
 INGREDIENTS = ROOT / "data" / "ingredients.json"
 COSTS = ROOT / "data" / "costs.csv"
@@ -722,18 +725,22 @@ def audit():
         tot = uncosted = 0.0
         rows_n = 0
         worst: dict = defaultdict(float)
+        # Reading "Product Name"/"$ Sales" directly made this audit blind to
+        # every OLD-schema export — half of July 2026 — and a blind auditor
+        # reports clean. core/insights_export knows both shapes.
         for f in sorted((ROOT / "data").glob(f"insights_{ven}_*.csv")):
             try:
-                rows = list(csv.DictReader(f.open(encoding="utf-8-sig")))
+                rows = read_insights(f)
+            except InsightsSchemaError:
+                continue                     # named loudly by build_products_weekly
             except Exception:                                    # noqa: BLE001
                 continue
             for r in rows:
-                nm = (r.get("Product Name") or "").strip()
-                rev = _money_cell(r.get("$ Sales"))
+                nm, rev = r["name"], r["inc_gst"]
                 if not nm or rev <= 0:
                     continue
                 tot += rev
-                if _money_cell(r.get("Cost")) == 0 and book_cost(book, nm) is None:
+                if r["cost"] == 0 and book_cost(book, nm) is None:
                     uncosted += rev
                     rows_n += 1
                     worst[nm] += rev

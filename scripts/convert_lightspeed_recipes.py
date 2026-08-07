@@ -950,26 +950,35 @@ def _mean_large_pizza_cost(out: dict, cost_of):
     data to weight with, because an unweighted number here would be a guess
     wearing a computed number's clothes.
     """
-    import csv as _csv
     import glob as _glob
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT))
+    from core.insights_export import InsightsSchemaError, read_insights
+
+    # This read "Product Name" directly and let csv.DictReader loose on whatever
+    # matched the glob. Two consequences, both live until 2026-08-07:
+    #   * data/insights_2026-07-11.csv is a ZIP archive committed under a .csv
+    #     name, so DictReader raised `_csv.Error: line contains NUL` from three
+    #     frames down and took the WHOLE recipe build with it. Neither exception
+    #     handler above caught it.
+    #   * every OLD-schema export ("Product", not "Product Name") contributed
+    #     nothing, so the weighting quietly ignored half of July.
+    # This is a WEIGHTING helper, not the deliverable — a file it cannot read
+    # should cost us that file's weight and say so, never the whole build.
     sold = {}
     for f in sorted(_glob.glob(str(ROOT / "data" / "insights_*.csv"))):
         try:
-            rows = list(_csv.DictReader(open(f, encoding="utf-8-sig")))
-        except UnicodeDecodeError:
-            rows = list(_csv.DictReader(open(f, encoding="latin-1")))
+            rows = read_insights(f)
+        except InsightsSchemaError as e:
+            print(f"  large-pizza weighting: skipping {e}")
+            continue
         except OSError:
             continue
         for r in rows:
-            nm = (r.get("Product Name") or "").strip()
-            if not nm.lower().startswith("large "):
+            if not r["name"].lower().startswith("large "):
                 continue
-            try:
-                q = float(str(r.get("Product Quantity") or 0).replace(",", "") or 0)
-            except ValueError:
-                continue
-            if q > 0:
-                sold[nm] = sold.get(nm, 0.0) + q
+            if r["qty"] > 0:
+                sold[r["name"]] = sold.get(r["name"], 0.0) + r["qty"]
     # cost_of, not rec["our_cost"]: this runs BEFORE the pass that writes
     # our_cost onto every entry, so reading the field would see nothing and the
     # mean would silently come out None with the deals left uncosted — which is
