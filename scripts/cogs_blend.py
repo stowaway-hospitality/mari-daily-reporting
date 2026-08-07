@@ -235,13 +235,44 @@ def blend_reported_cogs(product_breakdown, cogs_lightspeed, revenue_net):
     broken/flattering GP to the board.
     """
     cogs_recipe = sum((p.get("cost") or 0) for p in product_breakdown)
-    recipe_rev = sum((p.get("rev") or 0) for p in product_breakdown
-                     if p.get("cost_source") == "recipe")
-    prod_rev = sum((p.get("rev") or 0) for p in product_breakdown)
-    coverage = (recipe_rev / prod_rev * 100) if prod_rev else 0.0
+
+    # COVERAGE IS A SHARE OF REVENUE, SO A REFUND CANNOT BE PART OF THE SHARE.
+    #
+    # This divided recipe_rev by the sum of ALL rows. A discount or refund is a
+    # NEGATIVE row with no recipe, so it shrank only the denominator and pushed
+    # the ratio above 100 — Marilyna's published 102.3% one day, a number that
+    # cannot mean anything. Count only rows that actually took money, on both
+    # sides of the fraction, and clamp: a coverage figure exists to tell the
+    # reader how much to trust the estimate, so it must never be the least
+    # trustworthy number on the page.
+    earned = [p for p in product_breakdown if (p.get("rev") or 0) > 0]
+    prod_rev = sum(p["rev"] for p in earned)
+    recipe_rev = sum(p["rev"] for p in earned if p.get("cost_source") == "recipe")
+    coverage = min(100.0, recipe_rev / prod_rev * 100) if prod_rev else 0.0
 
     ok = (bool(revenue_net) and cogs_recipe >= 0
           and 0.0 <= (revenue_net - cogs_recipe) / revenue_net <= 1.0)
-    if ok:
+
+    # SAY WHERE THE PUBLISHED NUMBER CAME FROM, NOT WHERE IT WAS MEANT TO.
+    #
+    # Two ways this returned a lie:
+    #
+    #  * On the fallback path it returned Lightspeed's COGS and Lightspeed's
+    #    label, but carried `coverage` through unchanged — so a day whose blend
+    #    was REJECTED still advertised 91% recipe coverage on a number in which
+    #    no recipe took part.
+    #
+    #  * When nothing matched a recipe at all, cogs_recipe is just the sum of
+    #    Lightspeed's own per-product costs, so `ok` passes and it shipped
+    #    Lightspeed's figure labelled "recipe_blend" at 0.0% coverage. That is
+    #    live on main right now: 527392f wired the 648-recipe book into the
+    #    aggregator on THIS branch and has not merged, so every published day
+    #    reads cogs_dollars == cogs_lightspeed_dollars, cogs_source
+    #    "recipe_blend", recipe_coverage_pct 0.0. The dashboard is claiming a
+    #    provenance it does not have, and the 0.0 beside it is the only tell.
+    #
+    # A blend of nothing is not a blend. If no revenue rode on a recipe, the
+    # number IS Lightspeed's and must say so.
+    if ok and coverage > 0:
         return cogs_recipe, "recipe_blend", coverage
-    return cogs_lightspeed, "lightspeed", coverage
+    return cogs_lightspeed, "lightspeed", 0.0
