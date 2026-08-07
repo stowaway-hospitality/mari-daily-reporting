@@ -1946,12 +1946,48 @@ def main() -> int:
     if _pt:
         print(f"  {_pt} sold-as-bought product(s) costed from their own Back Office price")
 
+
     fully_ours = 0
+    _free = 0
     for name in out:
         o, l, fo = cost_of(name)
         out[name]["our_cost"] = o
         out[name]["ls_cost"] = l
+
+        # A FREE INGREDIENT IS NOT A COSTED INGREDIENT.
+        #
+        # Several paths above can leave a line at $0 while the recipe still
+        # reports fully_our_book: a line whose Lightspeed cost is 0.00 and which
+        # our book does not price (Oregano Leaves Rubbed, White Miso, Pickled
+        # Ginger), and — the nastier one — a line CAPPED by _LS_LINE_CAP, where
+        # a figure judged too big to trust is replaced by nothing at all.
+        # Frozen Marg's Dehydrated Lime came in at $274.40 and was published as
+        # free; Miso Tare's Potato Starch at $250.00 the same way. Capping a
+        # suspicious cost to zero moves it in the flattering direction, which is
+        # the direction that does not get questioned.
+        #
+        # audit_book already shouts about each line ("line contributes $0 despite
+        # a real quantity"), but the recipe itself went on claiming to be fully
+        # on our book, and cogs_blend reads our_cost with no way to know. So the
+        # flag now tells the truth, and the lines are named beside it: a reader
+        # who sees fully_our_book False can see exactly what is missing.
+        #
+        # Not resolved_pct — that means "we know WHAT this ingredient is", which
+        # is still true. Knowing what it is and knowing what it costs are two
+        # different claims and the book should keep making both separately.
+        def _q(x):                       # Produce writes qty as a string sometimes
+            try:
+                return float(x.get("qty") or 0)
+            except (TypeError, ValueError):
+                return 0.0
+        zero = [x.get("name") or x.get("id") for x in out[name]["ingredients"]
+                if (x.get("eff_cost") or 0) == 0 and _q(x) > 0]
+        if zero:
+            out[name]["zero_cost_lines"] = zero
+            fo = False
+            _free += len(zero)
         out[name]["fully_our_book"] = fo
+
         nl = len(out[name]["ingredients"]) or 1
         res = sum(1 for x in out[name]["ingredients"] if x["kind"])
         out[name]["resolved_pct"] = round(100 * res / nl)
@@ -2008,6 +2044,9 @@ def main() -> int:
     print(f"{len(out)} recipes -> {OUT.relative_to(ROOT)}")
     print(f"  ingredient refs: {dict(ing_res)}  ({100*(tot-ing_res['unmatched'])//tot}% resolved)")
     print(f"  recipes fully costable on our book: {fully_ours}/{len(out)}")
+    if _free:
+        print(f"  {_free} ingredient line(s) contribute $0 against a real quantity — "
+              f"those recipes are now marked NOT fully_our_book and list zero_cost_lines")
     return 0
 
 
