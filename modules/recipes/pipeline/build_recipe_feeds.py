@@ -55,7 +55,7 @@ def venue_of(product_name: str, default: str = "stowaway") -> str:
             f = base / fn
             if not f.exists():
                 continue
-            for prod in (json.loads(f.read_text()).get("products") or []):
+            for prod in (json.loads(f.read_text(encoding="utf-8-sig")).get("products") or []):
                 nm = (prod.get("name") or "").strip().lower()
                 if nm:
                     _VENUE_BY_PRODUCT.setdefault(nm, venue)
@@ -181,12 +181,12 @@ def recipes_index() -> dict:
     _ey = ROOT / "data" / "prep_yields.yaml"
     if _ey.exists():
         import yaml as _yaml
-        _EST = _yaml.safe_load(_ey.read_text()) or {}
+        _EST = _yaml.safe_load(_ey.read_text(encoding="utf-8-sig")) or {}
     have = {e["product"] for e in items}
     ls_path = DATA / "lightspeed_recipes_costed.json"
     if ls_path.exists():
         _Y = _re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre|pcs|pc|units|unit|each|ea)\]", _re.I)
-        for name, r in json.loads(ls_path.read_text()).get("recipes", {}).items():
+        for name, r in json.loads(ls_path.read_text(encoding="utf-8-sig")).get("recipes", {}).items():
             if not r.get("is_prep") or name in have:
                 continue
             m = _Y.search(name)
@@ -223,7 +223,7 @@ def recipes_index() -> dict:
 
 def employees() -> dict:
     p = DATA / "employee_map.json"
-    m = json.loads(p.read_text()) if p.exists() else {}
+    m = json.loads(p.read_text(encoding="utf-8-sig")) if p.exists() else {}
     people = [{"id": str(k), "name": v} for k, v in m.items()]
     people.sort(key=lambda e: e["name"].lower())
     return {"generated_at": date.today().isoformat(), "employees": people}
@@ -240,7 +240,7 @@ def recipes_full() -> dict:
         p = RECIPES_DIR / f"{v}.yaml"
         if not p.exists():
             continue
-        docs = _yaml.safe_load(p.read_text()) or []
+        docs = _yaml.safe_load(p.read_text(encoding="utf-8-sig")) or []
         latest: dict[str, dict] = {}
         for d in docs:
             prod = d.get("product")
@@ -281,7 +281,7 @@ def recipes_full() -> dict:
     costable: set[str] = set()
     _ing = DATA / "ingredients.json"
     if _ing.exists():
-        for _i in json.loads(_ing.read_text()).get("ingredients", []):
+        for _i in json.loads(_ing.read_text(encoding="utf-8-sig")).get("ingredients", []):
             if str(_i.get("id", "")).startswith("lightspeed:"):
                 costable.add(_i["id"])
     ls_path = DATA / "lightspeed_recipes_costed.json"
@@ -292,7 +292,7 @@ def recipes_full() -> dict:
         _idxf = DATA / "recipes_index.json"
         usable_subs = set()
         if _idxf.exists():
-            usable_subs = {e["product"] for e in json.loads(_idxf.read_text()).get("recipes", [])
+            usable_subs = {e["product"] for e in json.loads(_idxf.read_text(encoding="utf-8-sig")).get("recipes", [])
                            if e.get("usable_as_subrecipe")}
         ing_rate, ing_pack = {}, {}
         # The PACK COUNT (50 boxes to a carton) lives in pack_overrides — by the
@@ -306,14 +306,14 @@ def recipes_full() -> dict:
             pass
         _ingf = DATA / "ingredients.json"
         if _ingf.exists():
-            for _i in json.loads(_ingf.read_text()).get("ingredients", []):
+            for _i in json.loads(_ingf.read_text(encoding="utf-8-sig")).get("ingredients", []):
                 try:
                     if not _i.get("needs_pack_review"):
                         ing_rate[_i["id"]] = float(_i["cost_per_base_unit"])
                 except (TypeError, ValueError, KeyError):
                     pass
         _Y = _re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre|pcs|pc|units|unit|each|ea)\]", _re.I)
-        LSR = json.loads(ls_path.read_text()).get("recipes", {})
+        LSR = json.loads(ls_path.read_text(encoding="utf-8-sig")).get("recipes", {})
 
         for name, r in LSR.items():
             if name in have:
@@ -392,11 +392,11 @@ def recipes_full() -> dict:
 
 
 def main() -> int:
-    (DATA / "labour_rate.json").write_text(json.dumps(labour_rate(), indent=2))
+    (DATA / "labour_rate.json").write_text(json.dumps(labour_rate(), indent=2), encoding="utf-8")
     idx = recipes_index()
-    (DATA / "recipes_index.json").write_text(json.dumps(idx, indent=2))
-    (DATA / "recipes_full.json").write_text(json.dumps(recipes_full(), indent=2))
-    (DATA / "employees.json").write_text(json.dumps(employees(), indent=2))
+    (DATA / "recipes_index.json").write_text(json.dumps(idx, indent=2), encoding="utf-8")
+    (DATA / "recipes_full.json").write_text(json.dumps(recipes_full(), indent=2), encoding="utf-8")
+    (DATA / "employees.json").write_text(json.dumps(employees(), indent=2), encoding="utf-8")
     print(f"labour_rate.json, recipes_index.json ({len(idx['recipes'])} recipes), employees.json")
     return 0
 

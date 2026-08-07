@@ -70,7 +70,7 @@ def _load_book_costs(venue_key):
     if venue_key not in _BOOK_VENUE:
         return {}
     try:
-        book = json.loads(COSTED_BOOK.read_text())["recipes"]
+        book = json.loads(COSTED_BOOK.read_text(encoding="utf-8-sig"))["recipes"]
     except Exception as e:                                   # noqa: BLE001
         print(f"  costed book unavailable ({e}) — falling back")
         return {}

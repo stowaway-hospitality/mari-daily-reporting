@@ -50,7 +50,7 @@ def load_mirrors(venue: str) -> dict:
     """dish -> source venue, for this venue. {} if the file is absent."""
     if not MIRRORS.exists():
         return {}
-    doc = yaml.safe_load(MIRRORS.read_text()) or {}
+    doc = yaml.safe_load(MIRRORS.read_text(encoding="utf-8-sig")) or {}
     return dict(doc.get(venue) or {})
 
 
@@ -74,8 +74,8 @@ def main() -> int:
     ap.add_argument("--apply", action="store_true", help="write the merge (default: dry run)")
     a = ap.parse_args()
 
-    scrape = json.loads(Path(a.scrape).read_text())
-    current = json.loads(RECIPES.read_text())
+    scrape = json.loads(Path(a.scrape).read_text(encoding="utf-8-sig"))
+    current = json.loads(RECIPES.read_text(encoding="utf-8-sig"))
     mirrors = load_mirrors(a.venue)
 
     new, mirrored, conflict = plan(scrape, current, mirrors)
@@ -101,7 +101,7 @@ def main() -> int:
 
     for n in new:
         current[n] = scrape[n]
-    RECIPES.write_text(json.dumps(current, indent=1, ensure_ascii=False))
+    RECIPES.write_text(json.dumps(current, indent=1, ensure_ascii=False), encoding="utf-8")
     print(f"\nwrote {RECIPES.relative_to(ROOT)}: +{len(new)} -> {len(current)} recipes")
     print("now rebuild: build_costs -> build_ingredients -> convert_lightspeed_recipes -> build_recipe_feeds")
     return 0

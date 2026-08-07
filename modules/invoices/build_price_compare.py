@@ -67,7 +67,7 @@ def _purchase_stats() -> dict:
     stats: dict[tuple[str, str], dict] = {}
     for p in sorted(INVOICES.glob("*.json")) if INVOICES.exists() else []:
         try:
-            inv = json.loads(p.read_text()).get("invoice", {})
+            inv = json.loads(p.read_text(encoding="utf-8-sig")).get("invoice", {})
         except Exception:
             continue
         try:
@@ -300,9 +300,13 @@ def build() -> dict:
 
 
 def main() -> int:
+    # stdout is output too — see build_costs.py. An em-dash in a progress line
+    # under an ASCII locale kills a run whose files are already correct.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     OUT.parent.mkdir(parents=True, exist_ok=True)
     data = build()
-    OUT.write_text(json.dumps(data, indent=2))
+    OUT.write_text(json.dumps(data, indent=2), encoding="utf-8")
     print(f"compare.json: {data['count']} ingredients, "
           f"{data['compared']} compared across >1 supplier -> {OUT.relative_to(ROOT)}")
     return 0

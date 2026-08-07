@@ -24,6 +24,7 @@ Output: data/lightspeed_recipes_costed.json
 
 from __future__ import annotations
 
+import sys
 import csv
 import json
 import re
@@ -81,7 +82,7 @@ def apply_unit_fixes(rec: dict) -> int:
         return 0
     import yaml
     n = 0
-    for spec in (yaml.safe_load(path.read_text()) or []):
+    for spec in (yaml.safe_load(path.read_text(encoding="utf-8-sig")) or []):
         body = (rec or {}).get(spec.get("recipe"))
         if not body:
             continue
@@ -120,7 +121,7 @@ def apply_ingredient_swaps(rec: dict) -> int:
         return 0
     import yaml
     n = 0
-    for spec in (yaml.safe_load(path.read_text()) or []):
+    for spec in (yaml.safe_load(path.read_text(encoding="utf-8-sig")) or []):
         body = (rec or {}).get(spec.get("recipe"))
         if not body:
             continue
@@ -651,7 +652,7 @@ def load_yields():
     y = ROOT / "data" / "prep_yields.yaml"
     if y.exists():
         import yaml
-        for k, v in (yaml.safe_load(y.read_text()) or {}).items():
+        for k, v in (yaml.safe_load(y.read_text(encoding="utf-8-sig")) or {}).items():
             out[k] = (float(v["yield_qty"]), v["yield_unit"])
     return out
 
@@ -714,7 +715,7 @@ def load_our_preps(our_costs):
 
     specs = {}
     for f in sorted((ROOT / "data" / "recipes").glob("*.yaml")):
-        for r in (yaml.safe_load(f.read_text()) or []):
+        for r in (yaml.safe_load(f.read_text(encoding="utf-8-sig")) or []):
             if isinstance(r, dict) and r.get("product"):
                 specs[r["product"]] = r
 
@@ -847,7 +848,7 @@ def apply_product_aliases(out: dict) -> int:
     import copy
     import yaml
     n = 0
-    for pos_name, book_name in (yaml.safe_load(path.read_text()) or {}).items():
+    for pos_name, book_name in (yaml.safe_load(path.read_text(encoding="utf-8-sig")) or {}).items():
         if pos_name in out or book_name not in out:
             continue
         out[pos_name] = copy.deepcopy(out[book_name])
@@ -1114,7 +1115,11 @@ def add_passthrough_products(out: dict) -> int:
 
 
 def main() -> int:
-    rec = json.loads(RECIPES.read_text())
+    # stdout is output too — see build_costs.py. An em-dash in a progress line
+    # under an ASCII locale kills a run whose files are already correct.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    rec = json.loads(RECIPES.read_text(encoding="utf-8-sig"))
     global _LS_MISREAD_REFS, _RAW_LINE_COST
     _LS_MISREAD_REFS = load_ls_misread_refs()
     # Correct any unit typo BEFORE anything reads the line — see
@@ -1439,7 +1444,7 @@ def main() -> int:
         spec_path = ROOT / "data" / "pizza_regular_grams.yaml"
         if not spec_path.exists():
             return 0, 0
-        spec = [s for s in (yaml.safe_load(spec_path.read_text()) or []) if s.get("match")]
+        spec = [s for s in (yaml.safe_load(spec_path.read_text(encoding="utf-8-sig")) or []) if s.get("match")]
         for s in spec:
             s["_re"] = re.compile(s["match"], re.I)
 
@@ -1501,7 +1506,7 @@ def main() -> int:
         if not path.exists():
             return 0
         added = 0
-        for spec in (yaml.safe_load(path.read_text()) or []):
+        for spec in (yaml.safe_load(path.read_text(encoding="utf-8-sig")) or []):
             for rname in spec.get("recipes") or []:
                 r = out.get(rname)
                 if r is None and spec.get("create"):
@@ -1994,7 +1999,7 @@ def main() -> int:
         },
         "recipes": out,
     }
-    OUT.write_text(json.dumps(payload, indent=1))
+    OUT.write_text(json.dumps(payload, indent=1), encoding="utf-8")
     tot = sum(ing_res.values())
     print(f"{len(out)} recipes -> {OUT.relative_to(ROOT)}")
     print(f"  ingredient refs: {dict(ing_res)}  ({100*(tot-ing_res['unmatched'])//tot}% resolved)")

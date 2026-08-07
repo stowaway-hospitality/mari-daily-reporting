@@ -295,7 +295,7 @@ def weigh(sales, product, sev, detail):
 
 
 def audit():
-    recipes = json.loads(COSTED.read_text())["recipes"]
+    recipes = json.loads(COSTED.read_text(encoding="utf-8-sig"))["recipes"]
     # data/ingredients.json is DELIBERATELY not committed — it is a 90-day window
     # off date.today(), so a committed copy would rot on whatever Tuesday an
     # invoice crossed the line. On a clean checkout it does not exist until
@@ -304,7 +304,7 @@ def audit():
     # that took CI down. Say so and audit everything else.
     ings: list = []
     if INGREDIENTS.exists():
-        ing_raw = json.loads(INGREDIENTS.read_text())
+        ing_raw = json.loads(INGREDIENTS.read_text(encoding="utf-8-sig"))
         ings = ing_raw["ingredients"] if isinstance(ing_raw, dict) else ing_raw
     by_id = {i["id"]: i for i in ings}
 
@@ -475,7 +475,7 @@ def audit():
         import yaml
         _wp = ROOT / "data" / "pizza_regular_grams.yaml"
         if _wp.exists():
-            _WEIGHED = [s for s in (yaml.safe_load(_wp.read_text()) or []) if s.get("match")]
+            _WEIGHED = [s for s in (yaml.safe_load(_wp.read_text(encoding="utf-8-sig")) or []) if s.get("match")]
     except Exception:                                          # noqa: BLE001
         _WEIGHED = []
 
@@ -554,7 +554,7 @@ def audit():
         import yaml as _yaml
         _py = ROOT / "data" / "prep_yields.yaml"
         if _py.exists():
-            for _k, _v in (_yaml.safe_load(_py.read_text()) or {}).items():
+            for _k, _v in (_yaml.safe_load(_py.read_text(encoding="utf-8-sig")) or {}).items():
                 try:
                     _declared[_k] = (float(_v["yield_qty"]), str(_v["yield_unit"]).lower())
                 except (KeyError, TypeError, ValueError):
@@ -975,7 +975,7 @@ def audit():
     compare = ROOT / "dashboard" / "pricing" / "compare.json"
     if compare.exists():
         try:
-            movers = (json.loads(compare.read_text()) or {}).get("movers") or []
+            movers = (json.loads(compare.read_text(encoding="utf-8-sig")) or {}).get("movers") or []
         except Exception:                                        # noqa: BLE001
             movers = []
         for m in movers:
@@ -998,6 +998,10 @@ def audit():
 
 
 def main():
+    # stdout is output too — see build_costs.py. An em-dash in a progress line
+    # under an ASCII locale kills a run whose files are already correct.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     ap = argparse.ArgumentParser()
     ap.add_argument("--severe", action="store_true", help="only money-misstating findings")
     args = ap.parse_args()

@@ -129,7 +129,7 @@ def main() -> int:
     added, invoices = 0, 0
     for p in sorted(INVOICES.glob("*.json")) if INVOICES.exists() else []:
         try:
-            payload = json.loads(p.read_text())
+            payload = json.loads(p.read_text(encoding="utf-8-sig"))
         except Exception as e:
             print(f"  skip {p.name}: {e}")
             continue

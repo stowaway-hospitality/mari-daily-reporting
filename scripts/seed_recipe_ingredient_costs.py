@@ -79,7 +79,7 @@ def ingredient_pids() -> set[str]:
     if not COSTED.exists():
         return set()
     out = set()
-    for r in json.loads(COSTED.read_text()).get("recipes", {}).values():
+    for r in json.loads(COSTED.read_text(encoding="utf-8-sig")).get("recipes", {}).values():
         for ln in r.get("ingredients", []):
             ref = ln.get("ref") or ""
             if ln.get("kind") == "id" and ref.startswith("lightspeed:"):
@@ -268,7 +268,7 @@ def collect():
 
 
 def _write(path, rows):
-    with path.open("w", newline="") as f:
+    with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS)
         w.writeheader()
         w.writerows(rows)

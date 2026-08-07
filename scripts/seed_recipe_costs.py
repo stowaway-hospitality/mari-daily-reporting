@@ -53,7 +53,7 @@ def norm(s):
 
 def main() -> int:
     ap = argparse.ArgumentParser(); ap.add_argument("--apply", action="store_true"); a = ap.parse_args()
-    rec = json.loads(RECIPES.read_text())
+    rec = json.loads(RECIPES.read_text(encoding="utf-8-sig"))
 
     # BO name -> ProductID (+ display name). Keep prefixes too so we resolve exactly
     # what the converter resolves (it also matches a truncated scrape name to a unique
@@ -156,7 +156,7 @@ def main() -> int:
         merged = kept + rows_add
         merged.sort(key=lambda r: (r.get("invoice_date", ""), r.get("supplier", ""),
                                    r.get("supplier_code", ""), r.get("invoice_description", "")))
-        with COGS.open("w", newline="") as f:
+        with COGS.open("w", newline="", encoding="utf-8") as f:
             w = csv.DictWriter(f, fieldnames=FIELDS); w.writeheader(); w.writerows(merged)
         print(f"applied -> data/cogs_list.csv now {len(merged)} rows")
     return 0

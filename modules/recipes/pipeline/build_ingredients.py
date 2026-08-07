@@ -41,6 +41,7 @@ Traps encoded from real descriptions:
 
 from __future__ import annotations
 
+import sys
 import csv
 import json
 import re
@@ -426,6 +427,10 @@ def slug(s: str) -> str:
 
 
 def main() -> int:
+    # stdout is output too — see build_costs.py. An em-dash in a progress line
+    # under an ASCII locale kills a run whose files are already correct.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     rows = list(csv.DictReader(COGS.open(encoding="utf-8-sig")))
     cutoff = date.today() - timedelta(days=RECENT_DAYS)
     overrides = load_pack_overrides(PACK_OVERRIDES)   # chef-confirmed pack sizes
@@ -623,7 +628,7 @@ def main() -> int:
         "suspect_names": [{"supplier": s, "name": n, "code": c, "why": w}
                           for s, n, c, w in suspects],
         "ingredients": out,
-    }, indent=2))
+    }, indent=2), encoding="utf-8")
 
     print(f"{len(out)} ingredients -> {OUT.relative_to(ROOT)}")
     print(f"  pack parsed:  {len(out)-review}")
