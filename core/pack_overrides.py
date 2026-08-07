@@ -22,9 +22,23 @@ def load_pack_overrides(path: Path) -> dict[str, tuple[Decimal, str]]:
     """{purchasable_id: (pack_qty, base_unit)} — base_unit in g | ml | ea. Last wins."""
     if not path.exists():
         return {}
+    # PIN THE ENCODING, AND DO NOT SWALLOW A READ ERROR.
+    #
+    # read_text() with no encoding uses locale.getpreferredencoding(). Under a C
+    # or latin-1 locale that is ASCII, and this file carries UTF-8 (chef notes
+    # about "Pizza Box Inserts — Gulli", "Fresh Fruit Team market herbs —"). The
+    # decode then raised UnicodeDecodeError, the bare `except Exception` turned
+    # it into {}, and EVERY chef-confirmed pack vanished without a word: 45
+    # overrides -> 0, and 322 chef-confirmed observations dropped out of
+    # costs.csv while the build still exited 0. Silent under-costing on the file
+    # the whole system derives from — the same defect class as the unpinned
+    # WRITES, but this one never even raised.
+    #
+    # Malformed YAML is still tolerated (a half-written append is expected); an
+    # unreadable file is not, because that is a bug, not a chef's typo.
     try:
-        docs = yaml.safe_load(path.read_text()) or []
-    except Exception:
+        docs = yaml.safe_load(path.read_text(encoding="utf-8-sig")) or []
+    except yaml.YAMLError:
         return {}
     out: dict[str, tuple[Decimal, str]] = {}
     for d in docs:

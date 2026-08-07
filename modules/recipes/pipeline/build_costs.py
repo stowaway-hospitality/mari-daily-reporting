@@ -54,6 +54,11 @@ OUT = ROOT / "data" / "costs.csv"
 PACK_OVERRIDES = ROOT / "data" / "pack_overrides.yaml"
 PRODUCT_MAP = ROOT / "data" / "product_map.csv"
 
+# resolve_pack returns one of these as its `how` when the pack came from the
+# invoice's BASIS word (per_kg / per_L) rather than a size stated on the line.
+# It is a nominal 1000 that means "priced by weight/volume" — NOT a container.
+_NOMINAL_HOW = ("per kg (invoice)", "per L (invoice)")
+
 
 def load_bridge() -> dict:
     """
@@ -253,6 +258,16 @@ def seed_matched_liquor_cost(pack_cost, pack_qty, pack_unit, note, seed_per_unit
 
 
 def main() -> int:
+    # The progress lines below contain an em-dash, and so do supplier descriptions.
+    # Under a C/latin-1 locale stdout is ASCII and print() raises AFTER costs.csv
+    # has already been written correctly — a build that did its job and still
+    # exits 1. The data is the deliverable; the log is not worth failing over.
+    for _stream in (sys.stdout, sys.stderr):
+        try:
+            _stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
+
     overrides = load_pack_overrides(PACK_OVERRIDES)   # chef-confirmed pack sizes
     bridge = load_bridge()                            # supplier:code -> lightspeed:ProductID
     cogs_rows = list(csv.DictReader(COGS.open(encoding="utf-8-sig")))
@@ -264,6 +279,7 @@ def main() -> int:
     # the newer one. Take the seed's OWN resolved (qty, unit) — not its raw pack_unit,
     # which can differ ("each" vs the resolved "can").
     seed_conv: dict[str, tuple[Decimal, str]] = {}
+    seed_how: dict[str, str] = {}                     # how seed_conv[pid] was arrived at
     seed_price: dict[str, Decimal] = {}
     for r in cogs_rows:
         # every seed family that defines a product's cost BASIS belongs here, or a
@@ -274,7 +290,7 @@ def main() -> int:
                                                        "bo-ingredient-seed")):
             pid = f"lightspeed:{(r.get('supplier_code') or '').strip()}"
             try:
-                q, u, _p, _h, _b = resolve_pack(
+                q, u, _p, how, _b = resolve_pack(
                     r["invoice_description"].strip(), Decimal(r["cost_per_unit_incl_gst"]),
                     basis=r.get("basis", ""), note=r.get("note", ""),
                     code=(r.get("supplier_code") or "").strip())
@@ -284,12 +300,44 @@ def main() -> int:
                 # carton price wins — reintroducing the very per-unit error the
                 # override was added to fix.
                 if pid in overrides:
-                    seed_conv[pid] = overrides[pid]
+                    conv = overrides[pid]
                 elif q and u:
-                    seed_conv[pid] = (q, u)
-                sq, su = seed_conv.get(pid, (None, None))
-                if sq:
-                    seed_price[pid] = Decimal(r['cost_per_unit_incl_gst']) / sq
+                    conv = (q, u)
+                else:
+                    conv = None
+                if conv:
+                    # SPECIFICITY BEATS FILE ORDER.
+                    #
+                    # A per_kg/per_L basis says "this line is priced by weight or
+                    # volume". It says NOTHING about the container, and resolve_pack
+                    # answers with a nominal 1000. A bo-seed that STATES the size
+                    # ("Geppetto Pinot Noir 750ML", "Alehouse Draught Lager 50L") is
+                    # real evidence about the container.
+                    #
+                    # cogs_list.csv is date-sorted and the ls-recipe-seed family is
+                    # dated one day after the bo-seed family, so the nominal 1000 used
+                    # to land second and win on FILE ORDER alone. Every bridged
+                    # invoice for that bottle was then divided by 1000 instead of 750
+                    # — under-costing every glass poured off it by exactly 25%, a
+                    # ratio that sits comfortably inside the magnitude guard below.
+                    #
+                    # So: a nominal never overwrites a stated pack. Anything else
+                    # keeps the previous last-wins behaviour, and a product genuinely
+                    # sold in 1 L states 1 L on its bo-seed and is unaffected.
+                    prev = seed_conv.get(pid)
+                    if (prev is not None and pid not in overrides
+                            and how in _NOMINAL_HOW
+                            and seed_how.get(pid, "") not in _NOMINAL_HOW
+                            and prev[1] == conv[1]):
+                        pass                          # keep the stated pack
+                    else:
+                        seed_conv[pid], seed_how[pid] = conv, how
+                    # The magnitude guard's reference stays in THIS row's own basis:
+                    # a per_L row really is per litre, so /1000 is right for it even
+                    # when the container it names is 750 ml. Using the kept pack here
+                    # instead would put the guard 50x out on every keg and refuse the
+                    # bridge outright.
+                    seed_price[pid] = Decimal(r['cost_per_unit_incl_gst']) / conv[0]
             except Exception:
                 pass
         # a confirmed recipe-bridge baseline records its own resolved unit directly
@@ -457,7 +505,7 @@ def main() -> int:
                     bridged += 1
 
     rows.sort(key=lambda x: (x["ingredient"], x["observed_on"]))
-    with OUT.open("w", newline="") as f:
+    with OUT.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS)
         w.writeheader()
         w.writerows(rows)

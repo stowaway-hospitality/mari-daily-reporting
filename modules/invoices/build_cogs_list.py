@@ -137,7 +137,7 @@ def main() -> int:
             added += 1
 
     rows.sort(key=lambda r: (r["invoice_date"], r["supplier"], r["supplier_code"], r["invoice_description"]))
-    with COGS.open("w", newline="") as f:
+    with COGS.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS)
         w.writeheader()
         w.writerows(rows)
