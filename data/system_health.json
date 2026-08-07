@@ -1,11 +1,11 @@
 {
-  "generated": "2026-08-07T11:45:40+00:00",
+  "generated": "2026-08-07T11:58:01+00:00",
   "overall": "warn",
   "checks": [
     {
       "name": "Invoice poller",
       "detail": "reads the accounts@ inbox every 30 min",
-      "age": 9.7,
+      "age": 22.0,
       "unit": "min",
       "status": "ok",
       "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
@@ -15,7 +15,7 @@
     {
       "name": "Xero approvals poller",
       "detail": "posts approved bills every 2 min",
-      "age": 1.8,
+      "age": 2.0,
       "unit": "min",
       "status": "ok",
       "meaning": "Posts approved supplier bills into Xero every couple of minutes (office Mac).",
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 0.2,
+      "age": 0.4,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -81,6 +81,16 @@
       "meaning": "Marilyna's sales are carved from the Stow till and cross-checked against her own Lightspeed report.",
       "action": "Minor: on 2026-08-06 a few Marilyna's rows weren't in her Lightspeed report, so the filter drifted slightly. The revenue is still attributed - this is a nudge to tidy the 'Mari Daily Sales Auto' report in Lightspeed when convenient, not an outage.",
       "selfheal": "Clears on its own once a clean day aggregates; only needs a Lightspeed fix if it keeps recurring."
+    },
+    {
+      "name": "Working tree",
+      "detail": "Mac working copy is on 'recipes/liquor-pack-discriminator', not main",
+      "age": null,
+      "unit": "",
+      "status": "warn",
+      "meaning": "The office Mac's shared repo is checked out on a feature branch, so Mac-side jobs (invoice poller etc.) commit there, not to main.",
+      "action": "Mac-written data is landing on 'recipes/liquor-pack-discriminator', not main - it reaches the dashboard when that branch merges. Merge/return the tree to main to realign now.",
+      "selfheal": "Resolves when the branch is merged to main."
     }
   ]
 }
