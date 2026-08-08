@@ -1859,6 +1859,19 @@ def main() -> int:
                     ls_tot += ls
                     full_ours = False
             ln["eff_cost"] = round(eff, 6)      # the number the builder shows for this line
+            # A LINE WORTH NOTHING IS NOT A LINE ON OUR BOOK.
+            #
+            # `fully_our_book` is the flag the P&L and the pricing page trust to
+            # mean "every ingredient here is priced off a real invoice". A line
+            # that resolved to $0 is the opposite of that: it is uncosted, and
+            # the dish still totals without it. Three recipes claimed the flag
+            # while carrying one (Frozen Marg's dehydrated lime, Regular Little
+            # Italy's rubbed oregano) — small in dollars, but it is exactly the
+            # shape that let Choc Brownie contribute $0 to a $45 deal while the
+            # recipe read as complete. Cheap to state, and it makes the audit
+            # able to see the class at all.
+            if not eff:
+                full_ours = False
         res = (round(our_tot, 4), round(ls_tot, 4), full_ours)
         memo[name] = res
         return res

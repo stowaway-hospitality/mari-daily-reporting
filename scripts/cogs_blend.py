@@ -235,13 +235,36 @@ def blend_reported_cogs(product_breakdown, cogs_lightspeed, revenue_net):
     broken/flattering GP to the board.
     """
     cogs_recipe = sum((p.get("cost") or 0) for p in product_breakdown)
-    recipe_rev = sum((p.get("rev") or 0) for p in product_breakdown
-                     if p.get("cost_source") == "recipe")
-    prod_rev = sum((p.get("rev") or 0) for p in product_breakdown)
-    coverage = (recipe_rev / prod_rev * 100) if prod_rev else 0.0
+
+    # COVERAGE IS A SHARE OF REVENUE, so both halves must sit on the same base and
+    # that base must not be allowed to shrink. A discount, void or refund row
+    # carries NEGATIVE rev and never has a recipe, so it came off the denominator
+    # only — which is how Marilyna's published 102.3% coverage, a share of a
+    # shrinking base. Clamp the parts, then clamp the result: a percentage of
+    # revenue cannot exceed 100 whatever the rows do.
+    covered_rev = sum(max(p.get("rev") or 0, 0) for p in product_breakdown
+                      if p.get("cost_source") == "recipe")
+    prod_rev = sum(max(p.get("rev") or 0, 0) for p in product_breakdown)
+    coverage = min(covered_rev / prod_rev * 100, 100.0) if prod_rev else 0.0
 
     ok = (bool(revenue_net) and cogs_recipe >= 0
           and 0.0 <= (revenue_net - cogs_recipe) / revenue_net <= 1.0)
-    if ok:
-        return cogs_recipe, "recipe_blend", coverage
-    return cogs_lightspeed, "lightspeed", coverage
+
+    if not ok:
+        # The blend was REFUSED and none of it is being published, so its coverage
+        # is not a fact about the number on the screen. Returning it anyway told
+        # the dashboard a recipe figure was in play when the COGS shown came
+        # wholly from Lightspeed.
+        return cogs_lightspeed, "lightspeed", 0.0
+
+    if coverage <= 0:
+        # Every row priced off Lightspeed. Summing per-product Lightspeed costs is
+        # not a recipe blend, and calling it one claims a provenance the number
+        # does not have — 8 committed day files say `recipe_blend` beside
+        # `recipe_coverage_pct: 0.0` today.
+        #
+        # The NUMBER is deliberately unchanged (cogs_recipe is the same per-product
+        # sum it always was); only the label stops overstating where it came from.
+        return cogs_recipe, "lightspeed", 0.0
+
+    return cogs_recipe, "recipe_blend", coverage

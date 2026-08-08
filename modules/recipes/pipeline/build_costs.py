@@ -46,7 +46,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from core.domain import purchasable_id                                   # noqa: E402
 from core.pack_overrides import load_pack_overrides                      # noqa: E402
-from modules.recipes.pipeline.build_ingredients import resolve_pack      # noqa: E402
+from modules.recipes.pipeline.build_ingredients import (                 # noqa: E402
+    out_of_bounds, resolve_pack)
 
 ROOT = Path(__file__).resolve().parents[3]
 COGS = ROOT / "data" / "cogs_list.csv"
@@ -66,14 +67,45 @@ def load_bridge() -> dict:
     dated in the past, the newer invoice observation wins the as-of lookup. One
     bottle, one identity, invoices keep it current. Evidence-based (each row was a
     real invoice line matched to a real export product), never fuzzy at read time.
+
+    ONE CODE CAN FEED SEVERAL IDENTITIES, and this used to be a plain dict, so
+    the LAST row silently won. Lightspeed keeps a spirit twice — the stock bottle
+    ("Buffalo Trace [Bottle]") and the pour a recipe names ("Buffalo Trace
+    [House]") — and product_map legitimately carries a row for each. Keeping one
+    meant 26 of 179 bridges wrote to a ProductID **no recipe references**, while
+    the sibling the recipes DO use stayed frozen on its January seed:
+
+        20487225 Grand Marnier [Bottle]  0 recipes   <- the invoice landed here
+        20445871 Grand Marnier            2 recipes   0.075414 vs 0.097720  22.8% under
+        20483410 Rooster Rojo [Bottle]   0 recipes
+        20445833 Rooster Rojo           19 recipes   1.7% under, ~$535/yr
+
+    So emit onto every mapped identity. Each one is still checked against its OWN
+    seed by the magnitude guard downstream, so a bad pairing yields no cost
+    rather than a wrong one — the same safety the P/non-P twin extension relies on.
+
+    (Duplicate keys were also how a WRONG bridge hid: ILG 285-0409P is Four
+    Pillars *Bloody Shiraz* and carried rows for Olive Leaf and Rare Dry too.
+    Last-row-wins landed it on Rare Dry. Those two rows are now corrected to
+    285-1480 and 285-0132P, whose invoice rates match each product's own seed to
+    four decimal places.)
     """
     if not PRODUCT_MAP.exists():
         return {}
-    out = {}
+    out: dict[str, list[str]] = {}
     for r in csv.DictReader(PRODUCT_MAP.open(encoding="utf-8-sig")):
         sup, code, pid = r.get("supplier"), r.get("supplier_code"), r.get("product_id")
         if sup and code and pid:
-            out[purchasable_id(sup, code)] = f"lightspeed:{pid.strip()}"
+            targets = out.setdefault(purchasable_id(sup, code), [])
+            target = f"lightspeed:{pid.strip()}"
+            if target not in targets:
+                targets.append(target)
+    multi = {k: v for k, v in out.items() if len(v) > 1}
+    if multi:
+        print(f"  bridge: {len(multi)} supplier code(s) feed more than one ProductID "
+              f"(emitting onto all)")
+        for k, v in sorted(multi.items()):
+            print(f"    {k} -> {', '.join(v)}")
     return _extend_bridge_to_p_codes(out)
 
 
@@ -109,12 +141,12 @@ def _extend_bridge_to_p_codes(bridge: dict) -> dict:
         desc.setdefault(iid, set()).add((r.get("invoice_description") or "").strip().upper())
 
     added = 0
-    for iid, pid in list(bridge.items()):
+    for iid, pids in list(bridge.items()):
         twin = iid[:-1] if iid.endswith("P") else iid + "P"
         if twin in bridge or twin not in desc or iid not in desc:
             continue
         if desc[iid] and desc[iid] == desc[twin]:
-            bridge[twin] = pid
+            bridge[twin] = list(pids)
             added += 1
     if added:
         print(f"  bridge extended to {added} ILG P/non-P code twin(s) "
@@ -166,6 +198,47 @@ def pack_evidence(how: str) -> int:
     return PACK_FROM_BASIS if (how or "") in _BASIS_DERIVED_HOW else PACK_STATED
 
 
+def stated_pack_in_base_units(pack_qty, pack_unit):
+    """A row's OWN stated pack, in the unit a recipe portions in. -> (qty, unit)|None
+
+    A `recipe-bridge-seed` row is a Zak-confirmed baseline: it states its pack in
+    its own columns ("1", "L") and its price is ALREADY per that pack. Two things
+    went wrong with reading it.
+
+    Downstream, `seed_conv[pid]` was set to `(1, "L")` verbatim. Invoices arrive
+    in ml and g, so `sunit == unit` never matched and "L" is not a whole selling
+    unit either — so the bridge emitted nothing and **118 invoice observations
+    were silently dropped**, every affected product frozen on its January seed:
+    Buffalo Trace [House] (18 dropped, 12 recipes), Sailor Jerry [House] (13, 9
+    recipes), Pizza Tomato Sauce (22), Herb Chives (13), Milk (8), Kewpie (8).
+
+    So express the stated pack in base units — 1 L is 1000 ml, 1 kg is 1000 g —
+    and the two sides can meet.
+
+    ONLY a measurable unit is returned. "box"/"ea"/"bunch" is a CONTAINER, not a
+    measure: there the price IS per container and the description is the only
+    thing that says how much is inside. Barramundi states "1 box" at $83.00 and
+    its name carries the 5 kg — taking the container literally would publish
+    $83/box against a recipe asking for 180 g, a 5000x error in the direction
+    that flatters nobody but breaks the dish. So containers stay with the
+    description reader and this returns None for them.
+    """
+    u = (pack_unit or "").strip()
+    if not u:
+        return None
+    base = _liq_base(u)
+    if not base:
+        return None                       # a container, not a measure — see above
+    try:
+        q = Decimal(str(pack_qty if pack_qty not in (None, "") else 1))
+    except Exception:
+        return None
+    if q <= 0:
+        return None
+    mult, base_unit = base
+    return q * mult, base_unit
+
+
 def better_seed_pack(current, incoming):
     """
     Which of two seed readings describes ONE SELLING UNIT? -> the winner.
@@ -215,7 +288,64 @@ def better_seed_pack(current, incoming):
     return incoming
 
 
-def build_seed_conv(cogs_rows, overrides):
+def bo_stated_rates(cogs_rows):
+    """ProductID -> the Back Office's STATED rate per base unit.
+
+    The second opinion every seed guard is checked against. It reads `bo-seed`
+    AND `bo-ingredient-seed`: both are stated figures from the export, and
+    leaving the latter out meant the eight spirits that carry only a
+    bo-ingredient-seed had no second opinion at all — which is how a
+    recipe-bridge-seed claiming Jack Daniels at $6.55 a LITRE (ILG publish
+    $43.28 for 700 ml, i.e. $61.83/L) had nothing to contradict it.
+    """
+    out: dict[str, Decimal] = {}
+    for r in cogs_rows:
+        if not (r.get("source_invoice") or "").startswith(("bo-seed", "bo-ingredient-seed")):
+            continue
+        pid = f"lightspeed:{(r.get('supplier_code') or '').strip()}"
+        try:
+            q = Decimal(r["pack_qty"])
+            if (r.get("pack_unit") or "").strip().lower() in ("ml", "g") and q > 0:
+                out[pid] = Decimal(r["cost_per_unit_incl_gst"]) / q
+        except Exception:
+            pass
+    return out
+
+
+def bridge_seed_is_misread(row, bo_rate):
+    """Is this recipe-bridge-seed contradicted by the Back Office's own figure?
+
+    These rows state "1 L" and a price that is supposed to be per litre. For
+    eight spirits it is not, and the gap is not subtle:
+
+        Jack Daniels        seed $0.00655/ml   BO $0.064643/ml    9.9x LOW
+        Four Pillars Olive  seed $0.015902/ml  BO $0.117971/ml    7.4x LOW
+        Sailor Jerry        seed $0.010605/ml  BO $0.063529/ml    6.0x LOW
+        Buffalo Trace       seed $0.012726/ml  BO $0.075643/ml    5.9x LOW
+
+    ILG's published price book agrees with the BO figure to within their usual
+    broken-carton premium, so the seed is the outlier, not the bargain. It went
+    unnoticed because resolve_pack could not read a sizeless spirit description
+    and dropped these rows entirely — the right answer for the wrong reason. The
+    moment they became readable they undercut ILG's own published price by 4-10x,
+    which is the flattering direction and exactly what must never ship.
+
+    Same shape, same band and same reasoning as ls_seed_is_misread.
+    """
+    if not (row.get("source_invoice") or "").startswith("recipe-bridge-seed"):
+        return False
+    sp = stated_pack_in_base_units(row.get("pack_qty"), row.get("pack_unit"))
+    if not sp:
+        return False                      # a container: no rate to compare
+    pid = f"lightspeed:{(row.get('supplier_code') or '').strip()}"
+    try:
+        rate = Decimal(row["cost_per_unit_incl_gst"]) / sp[0]
+    except Exception:
+        return False
+    return ls_seed_is_misread(rate, bo_rate.get(pid))
+
+
+def build_seed_conv(cogs_rows, overrides, bo_rate=None):
     """
     -> (seed_conv, seed_price), keyed by `lightspeed:<ProductID>`.
 
@@ -275,10 +405,50 @@ def build_seed_conv(cogs_rows, overrides):
         # emitted onto this food ProductID in the same unit and supersede it.
         elif (r.get("source_invoice") or "").startswith("recipe-bridge-seed"):
             pid = f"lightspeed:{(r.get('supplier_code') or '').strip()}"
+            if bridge_seed_is_misread(r, bo_rate or {}):
+                continue         # contradicted by the BO export — see the guard
             try:
-                unit = (r.get("pack_unit") or "").strip()
-                evidence[pid] = (Decimal("1"), unit, "recipe-bridge-seed")
-                seed_conv[pid] = (Decimal("1"), unit)
+                # Was `(Decimal("1"), pack_unit)` verbatim — a pack of "1 L" that
+                # no ml-denominated invoice could ever match. See
+                # stated_pack_in_base_units: 118 observations died here.
+                sp = stated_pack_in_base_units(r.get("pack_qty"), r.get("pack_unit"))
+                if sp is None:
+                    # A container ("ea", "box", "bunch") has no base unit, but it
+                    # is still the seed's unit and an invoice priced per each must
+                    # keep matching it — dropping these took Garlic Bread, Corn
+                    # Baby Sweet and Pizza Box Inserts out of the book entirely.
+                    unit = (r.get("pack_unit") or "").strip()
+                    if not unit:
+                        continue
+                    sp = (Decimal(str(r.get("pack_qty") or 1)), unit)
+                    # ...and do NOT give a container seed a reference rate. Its
+                    # "per each" is the least reliable figure in the file: Garlic
+                    # Bread is seeded at $59.81 "ea" when the Gulli line is a case
+                    # of 40 (~$1.43 each), and Pizza Box Inserts at $11.055 "ea"
+                    # against a case of 100 (~$0.11). Arming the magnitude guard
+                    # with those would refuse the CORRECT invoice rate and leave
+                    # the product on a 40x/100x seed — the guard would be doing
+                    # damage in the flattering direction. scripts/audit_book.py
+                    # reports these instead, where a human can fix the seed.
+                    evidence[pid] = better_seed_pack(
+                        evidence.get(pid), (sp[0], sp[1], "recipe-bridge-seed"))
+                    seed_conv[pid] = (evidence[pid][0], evidence[pid][1])
+                    continue
+                # A MEASURABLE bridge-seed pack is a PRICE BASIS, not a bottle
+                # size: "1 L" means the confirmed price is per litre. Patron
+                # Silver, Kraken and Wolf Lane each carry one of these AND a
+                # bo-seed stating the real bottle (700/700/500 ml), and the real
+                # size must win — the same rule, and for the same reason, as the
+                # per_L collision in better_seed_pack. It happened to come out
+                # right on file order alone; now it is decided by evidence.
+                evidence[pid] = better_seed_pack(
+                    evidence.get(pid), (sp[0], sp[1], _BASIS_DERIVED_HOW[0]))
+                seed_conv[pid] = (evidence[pid][0], evidence[pid][1])
+                # A MEASURABLE seed (per L, per kg) is trustworthy — it is the
+                # confirmed baseline this row family exists to record — so give it
+                # a reference rate and let the bridge's magnitude guard cover it.
+                if sp[0] > 0:
+                    seed_price[pid] = Decimal(r["cost_per_unit_incl_gst"]) / sp[0]
             except Exception:
                 pass
 
@@ -401,21 +571,12 @@ def main() -> int:
     bridge = load_bridge()                            # supplier:code -> lightspeed:ProductID
     cogs_rows = list(csv.DictReader(COGS.open(encoding="utf-8-sig")))
 
-    seed_conv, seed_price = build_seed_conv(cogs_rows, overrides)
-
     # BO-export rate per ProductID, in the recipe's own base unit. The second
-    # opinion the ls-recipe-seed guard below is checked against.
-    bo_rate: dict[str, Decimal] = {}
-    for r in cogs_rows:
-        if not (r.get("source_invoice") or "").startswith("bo-seed"):
-            continue
-        pid = f"lightspeed:{(r.get('supplier_code') or '').strip()}"
-        try:
-            q = Decimal(r["pack_qty"])
-            if (r.get("pack_unit") or "").strip().lower() in ("ml", "g") and q > 0:
-                bo_rate[pid] = Decimal(r["cost_per_unit_incl_gst"]) / q
-        except Exception:
-            pass
+    # opinion every seed guard below is checked against. Built FIRST, because
+    # build_seed_conv needs it to refuse a bridge seed the export contradicts.
+    bo_rate = bo_stated_rates(cogs_rows)
+
+    seed_conv, seed_price = build_seed_conv(cogs_rows, overrides, bo_rate)
 
     rows, skipped, bridged = [], [], 0
     for r in cogs_rows:
@@ -473,6 +634,36 @@ def main() -> int:
         # neither does. Never guesses; fires only where a seed exists. The lines it
         # still can't reach (no bridge / no seed) remain listed by scripts/audit_book.py.
 
+        # A recipe-bridge-seed row STATES its own pack, and its price is already
+        # per that pack. resolve_pack reads only the DESCRIPTION, so the size in
+        # the name got applied to a price that had already been divided by it:
+        #
+        #   Heinz BBQ Sauce [4L]        $3.475/L stated -> recorded $0.87/L   4x UNDER
+        #   Sunshine Smokey BBQ [3L]    $4.167/L stated -> recorded $1.39/L   3x UNDER (7 live recipes)
+        #   Milk Full Cream 2L          $1.75/L  stated -> recorded $0.875/L  2x UNDER
+        #   T2 Milk Bun [85g]           $11.53/kg stated -> recorded $135.64/kg  11.8x OVER
+        #
+        # Large BBQ Chicken Pizza booked 61 ml of sauce at $0.085 instead of
+        # $0.254 and published 82.8% GP with fully_our_book:true.
+        #
+        # The row's own columns are the authority here precisely because this seed
+        # family exists to record a confirmed baseline. (Note cost_per_base_unit is
+        # NOT usable: on this family it repeats the per-pack price, and on
+        # Passionfruit Puree it still holds a superseded 12x-undercost figure.)
+        if (r.get("source_invoice") or "").startswith("recipe-bridge-seed"):
+            if bridge_seed_is_misread(r, bo_rate):
+                skipped.append((r["supplier"], desc,
+                                f"recipe-bridge-seed contradicts the BO export "
+                                f"{bo_rate.get(f'lightspeed:{code}')}/u by "
+                                f">{SEED_CONFLICT_X}x — not a per-pack price"))
+                continue
+            _sp = stated_pack_in_base_units(r.get("pack_qty"), r.get("pack_unit"))
+            if _sp:
+                qty, unit = _sp
+                per = (pack_cost / qty).quantize(Decimal("0.000001"))
+                how = f"stated {r.get('pack_qty')}{r.get('pack_unit')} (recipe-bridge-seed)"
+                bad = out_of_bounds(per, unit)
+
         # A confirmed pack (chef or catalogue) is AUTHORITATIVE — it wins even over
         # a resolved pack, so it can CORRECT a wrong one (a box of loose produce
         # that parsed to "1 box" becomes the real weight). Must match build_ingredients.
@@ -489,7 +680,9 @@ def main() -> int:
         # Aperol invoices back into the book instead of leaving 13 cocktails on a seed.
         seed_liquor = False   # a rescue that exists only to feed the bridge, below
         if (not qty or not unit) and not (iid in overrides):
-            _pid = bridge.get(iid)
+            # Any mapped identity that carries a seed will do as the reference —
+            # they are the same bottle under two Lightspeed records.
+            _pid = next((p for p in (bridge.get(iid) or ()) if p in seed_price), None)
             _sp = seed_price.get(_pid) if _pid else None
             if _sp is not None:
                 _ssb = (seed_conv.get(_pid) or (None, None))[0]
@@ -530,8 +723,9 @@ def main() -> int:
         # observations are comparable and the newer (invoice) one wins the as-of
         # lookup. Skip seed rows themselves; skip if the size is unknown or units
         # can't reconcile (never emit a wrong-unit cost).
-        pid = bridge.get(iid)
-        if pid and not iid.startswith("lightspeed:"):
+        for pid in (bridge.get(iid) or ()):
+            if iid.startswith("lightspeed:"):
+                break
             sc = seed_conv.get(pid)
             if sc and sc[0] > 0:
                 sqty, sunit = sc
@@ -542,7 +736,16 @@ def main() -> int:
                     # unit into sqty of sunit (700 ml). $/sunit = whole cost / sqty.
                     bper = (pack_cost / sqty).quantize(Decimal("0.000001"))
                 else:
-                    bper = None                         # units don't reconcile — skip
+                    # SAME DIMENSION, DIFFERENT SCALE. An invoice priced per kg
+                    # against a seed held per g is not a unit clash, it is a
+                    # thousandfold. Refusing it dropped Passionfruit Puree the
+                    # moment its seed started being expressed in base units.
+                    # kg<->g and L<->ml only, exactly like core cost.py's guard —
+                    # never pack/each <-> a base unit, which is the conversion
+                    # that produced the original $11,400 serve.
+                    conv = _liq_base(unit)
+                    bper = ((per / conv[0]).quantize(Decimal("0.000001"))
+                            if conv and conv[1] == sunit else None)
                 # MAGNITUDE GUARD. A supplier code can map to a product whose seed is
                 # on a totally different basis (a $300 KEG invoice against a per-ml
                 # beer): the units 'agree' but the number is 50x out, and schooners

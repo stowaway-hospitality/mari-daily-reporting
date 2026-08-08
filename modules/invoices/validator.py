@@ -299,6 +299,46 @@ class Validator:
                 ))
         return out
 
+    def _check_line_priced(self, inv: Invoice) -> list[Finding]:
+        """
+        The net has a hole, and this closes it.
+
+        _check_line_arithmetic returns early when unit_price_incl is None, and
+        _check_sanity_bounds returns early when cost_basis is UNKNOWN. A parser
+        that leaves both unset therefore passes BOTH per-line checks by not
+        participating in them — silently, with no finding anywhere. Paramount
+        did exactly that for its whole life: 47 stock lines over 19 invoices, of
+        which the only thing ever checked was the invoice-level reconcile, which
+        a case-total-in-a-per-unit-field passes perfectly.
+
+        Skipping a check is a fact about the invoice, so it gets stated. A stock
+        line we cannot bound-check is not provably consistent, and this file's
+        rule for that is review, not a shrug.
+
+        SCOPE, deliberately narrow: this fires only when a stock line escapes
+        BOTH per-line checks, i.e. it has no unit price at all. A line that has
+        a price but an UNKNOWN cost_basis (Select Fresh's produce, priced per kg
+        and per bunch off the same column) still goes through the arithmetic
+        check, so it is not silent — it just misses the bounds, which is a
+        suppliers.yaml basis-mapping gap and not this check's business.
+        """
+        out: list[Finding] = []
+        for i, line in enumerate(inv.lines):
+            if line.line_class != LineClass.STOCK:
+                continue
+            if line.unit_price_incl is None:
+                out.append(Finding(
+                    code="LINE_UNPRICED",
+                    severity=Severity.ERROR,
+                    message=(
+                        f"{line.description!r}: no per-unit price, so neither the "
+                        f"line arithmetic nor the sanity bounds can run on it. "
+                        f"A case total in a per-unit field would pass unseen."
+                    ),
+                    line_index=i,
+                ))
+        return out
+
     def _check_required_fields(self, inv: Invoice) -> list[Finding]:
         out: list[Finding] = []
         if not inv.lines:
@@ -326,6 +366,7 @@ class Validator:
         findings: list[Finding] = []
         findings += self._check_required_fields(inv)
         findings += self._check_unclassified(inv)
+        findings += self._check_line_priced(inv)
         findings += self._check_line_arithmetic(inv)
         findings += self._check_invoice_reconciles(inv)
         findings += self._check_gst(inv)

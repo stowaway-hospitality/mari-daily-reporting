@@ -25,6 +25,32 @@ spend its day building a parser for a supplier whose invoices are images.
 The harness now applies run.py's own looks_like_statement first, exactly as
 production does before it ever reaches a parser — so a supplier's PASS rate here
 means what it says: of the real, readable invoices, how many parse for free.
+
+TRIAGE LOG — 2026-08-08: every remaining non-PASS was opened and identified.
+None of them is a parser defect, so do NOT spend a day writing a parser for one.
+The corpus is at 407/415 (98%), and the 8 shortfalls are:
+
+  * be_foods d02385290774 — a $0.00 "PICK UP RETURN FOR CREDIT" docket.
+  * ilg      e23ce69fe899 — a $0.00 WOS invoice (qty column literally "WOS").
+  * ilg      b46bfb0a542a — a "TAX ADJUST" buy-back note, not a tax invoice;
+                            its only line is "Stock / Quantity - 4 / Buy at -
+                            $65.89" with no product code.
+  * paramount 670685f29215 — the NSW April 2026 craft-beer PRICE LIST.
+  * farmer_joes 4444676 — parses fine; SANITY_BOUNDS correctly fires because
+                            CHICKEN BONES at $0.80/kg is under the $1.00/kg
+                            per_kg floor. Real price. Fixing it means raising a
+                            GLOBAL floor downward, which weakens the net for
+                            every supplier in the too-cheap direction. Left.
+  * reward_dist (2), vanguard (1) — no parser, but both are dormant: 0 invoices
+                            in data/invoices, corpus copies date from 2020-2024,
+                            and neither domain is in domains.py. Not worth one.
+
+The three zero-total documents can never PASS by construction: validator's
+_check_required_fields treats total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
+So no parser can promote them — the only way to stop them costing an LLM call on
+every retry pass forever is to classify a STATED $0.00 total as not-an-invoice in
+run.py::looks_like_statement. That is a shared, cross-supplier gate, so it wants
+Zak's eyes before it ships, not an unattended daily run's.
 """
 
 from __future__ import annotations

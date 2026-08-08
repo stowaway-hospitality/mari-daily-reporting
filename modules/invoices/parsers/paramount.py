@@ -148,12 +148,22 @@ def parse(pdf_bytes: bytes) -> Invoice:
         # carry a real unit count.
         units = (None if is_extra
                  else units_on_line(c["size"], c["qty"], _m(c["base"]), _m(c["net"])))
+        # WHERE THE COUNT PROVED, state the per-unit price and the basis. Until
+        # this was done every Paramount line carried unit_price_incl=None and
+        # cost_basis=UNKNOWN, and BOTH per-line validator checks return early on
+        # exactly those — so no Paramount invoice has ever been through the
+        # arithmetic or the sanity net that validator.py's docstring promises;
+        # only the invoice-level reconcile ran. Where it did NOT prove we still
+        # say nothing: an unproved basis is not a basis, and validator's
+        # LINE_UNPRICED now flags the gap instead of swallowing it.
+        unit_price = ((inc / units).quantize(Decimal("0.0001")) if units else None)
         items.append(InvoiceLine(
             description=desc, qty=units or Decimal("1"), line_total_incl=inc,
-            unit_price_incl=None, pack_size=1,
+            unit_price_incl=unit_price, pack_size=1,
             line_class=LineClass.EXTRA if is_extra else LineClass.STOCK,
             tax_treatment=(TaxTreatment.WET if (wet and wet > 0) else TaxTreatment.GST),
-            cost_basis=CostBasis.UNKNOWN, supplier_code=code,
+            cost_basis=(CostBasis.PER_UNIT if units else CostBasis.UNKNOWN),
+            supplier_code=code, raw_qty=c["qty"].strip() or None,
             raw_uom=c["size"] or None))
     if not items:
         raise ValueError("Paramount: no line items parsed")

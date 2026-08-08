@@ -22,7 +22,7 @@ Env:
     GH_REPO              owner/repo (default zakstowaway/mari-daily-reporting)
     STATE_FILE           ledger path (default .ingest/processed.json)
 """
-import base64, email, imaplib, json, os, re, sys, urllib.request
+import base64, email, imaplib, io, json, os, re, sys, urllib.request, zipfile
 from email.utils import parsedate_to_datetime
 from datetime import datetime, timedelta, timezone
 
@@ -54,13 +54,52 @@ def classify(subject):
     return None
 
 
+# Insights sometimes attaches the product export as a ZIP of the whole dashboard
+# rather than a bare CSV. This used to base64 the ZIP unchanged, and the workflow
+# wrote those bytes to data/insights_<date>.csv — a ZIP under a .csv name.
+#
+# data/insights_2026-07-11.csv is one, committed in c44c6cb. Nothing that reads it
+# says "this is not a CSV"; csv.DictReader raises `_csv.Error: line contains NUL`
+# from wherever it is first opened, which took out BOTH scripts/build_site.py and
+# the recipe build, and left the Marilyna's coverage cross-check blind for the day.
+#
+# So unwrap here, at the only place that knows the attachment was ever a ZIP.
+_PRODUCT_MEMBER = "sales_by_product"
+
+
+def _csv_from_zip(raw, fn):
+    """-> the product-sales CSV inside an Insights dashboard ZIP, or None."""
+    try:
+        z = zipfile.ZipFile(io.BytesIO(raw))
+    except zipfile.BadZipFile:
+        print(f"  '{fn}' claims to be a zip but will not open — skipped")
+        return None
+    members = [n for n in z.namelist() if n.lower().endswith(".csv")]
+    want = [n for n in members if _PRODUCT_MEMBER in n.lower().replace(" ", "_")]
+    if len(want) == 1:
+        return z.read(want[0])
+    if len(members) == 1:
+        return z.read(members[0])
+    # Never guess which sheet is the product export — a wrong pick would publish
+    # reporting-group subtotals as products and look plausible.
+    print(f"  '{fn}': cannot identify the product CSV among {members} — skipped")
+    return None
+
+
 def attachment_b64(msg):
     for part in msg.walk():
         fn = part.get_filename() or ""
-        if fn.lower().endswith((".zip", ".csv")):
-            raw = part.get_payload(decode=True)
-            if raw:
-                return base64.b64encode(raw).decode()
+        if not fn.lower().endswith((".zip", ".csv")):
+            continue
+        raw = part.get_payload(decode=True)
+        if not raw:
+            continue
+        # Trust the BYTES, not the extension: the ZIP has arrived named .csv too.
+        if raw[:4] == b"PK\x03\x04" or fn.lower().endswith(".zip"):
+            raw = _csv_from_zip(raw, fn)
+            if not raw:
+                continue
+        return base64.b64encode(raw).decode()
     return None
 
 
