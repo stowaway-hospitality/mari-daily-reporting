@@ -1,6 +1,6 @@
 {
   "date": "2026-08-08",
-  "generated_at": "2026-08-08T19:30:47.986496Z",
+  "generated_at": "2026-08-08T20:14:28.786754Z",
   "venue": "marilynas",
   "venue_display": "Marilyna's Pizza",
   "lane_config": [
@@ -10,25 +10,33 @@
     "delivery"
   ],
   "data_status": {
-    "lightspeed": "missing",
+    "lightspeed": "ok",
     "deputy": "ok",
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": null,
-    "revenue_ex_gst": null,
-    "cogs_dollars": null,
-    "cogs_pct": null,
-    "gp_dollars": null,
-    "gp_pct": null,
-    "cogs_source": null,
-    "cogs_lightspeed_dollars": null,
-    "recipe_coverage_pct": null,
+    "revenue_inc_gst": 3063.51,
+    "revenue_ex_gst": 2781.54,
+    "cogs_dollars": 674.54,
+    "cogs_pct": 24.3,
+    "gp_dollars": 2107.0,
+    "gp_pct": 75.7,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 594.18,
+    "recipe_coverage_pct": 88.5,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0,
+    "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 2781.54,
+    "bev_ex_gst": 0.0,
+    "food_cogs": 674.54,
+    "bev_cogs": 0.0,
+    "food_cogs_pct": 24.3,
+    "bev_cogs_pct": null,
+    "food_gp_pct": 75.7,
+    "bev_gp_pct": null
   },
   "wages": {
     "kitchen_dollars": 917.01,
@@ -36,12 +44,12 @@
     "driver_dollars": 168.94,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": null,
-    "wages_pct": null,
+    "total_dollars": 1085.95,
+    "wages_pct": 39.0,
     "net_wage_pct": null,
     "kitchen_hours": 22.2,
     "foh_hours": 0,
-    "wages_kitchen_pct": null,
+    "wages_kitchen_pct": 33.0,
     "wages_foh_pct": null,
     "includes_super": true,
     "salaried_synthesized": true
@@ -50,15 +58,15 @@
     "uber_eats_commission_dollars": 0,
     "own_driver_dollars": 168.94,
     "uber_direct_dollars": 0.0,
-    "total_dollars": null,
-    "delivery_pct": null,
+    "total_dollars": 168.94,
+    "delivery_pct": 6.1,
     "fees_are_estimate": true
   },
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "unknown",
-    "wages": "unknown",
-    "delivery": "unknown",
+    "cogs": "red",
+    "wages": "red",
+    "delivery": "yellow",
     "gp": "unknown",
     "cogs_food": "unknown",
     "cogs_bev": "unknown",
@@ -91,5 +99,165 @@
       "note": "Rent + utils + admin + insurance + real marketing (excludes delivery + Uber commission)"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Large Super House Special",
+      "qty": 7.0,
+      "rev": 200.7,
+      "cost": 53.1363,
+      "cost_source": "recipe",
+      "cost_lightspeed": 54.04
+    },
+    {
+      "name": "Regular Cosmopolitan",
+      "qty": 6.0,
+      "rev": 136.6,
+      "cost": 26.7972,
+      "cost_source": "recipe",
+      "cost_lightspeed": 28.4
+    },
+    {
+      "name": "Regular Super House Special",
+      "qty": 5.0,
+      "rev": 121.9,
+      "cost": 23.085,
+      "cost_source": "recipe",
+      "cost_lightspeed": 27.64
+    },
+    {
+      "name": "Large Pepperoni",
+      "qty": 5.0,
+      "rev": 115.7,
+      "cost": 21.671,
+      "cost_source": "recipe",
+      "cost_lightspeed": 22.82
+    },
+    {
+      "name": "Large Bubba Gump",
+      "qty": 5.0,
+      "rev": 112.7,
+      "cost": 27.369,
+      "cost_source": "recipe",
+      "cost_lightspeed": 27.67
+    },
+    {
+      "name": "Large Jimmy Jury",
+      "qty": 4.0,
+      "rev": 110.7,
+      "cost": 24.66,
+      "cost_source": "recipe",
+      "cost_lightspeed": 24.75
+    },
+    {
+      "name": "Regular Meatlovers",
+      "qty": 4.0,
+      "rev": 90.7,
+      "cost": 17.5084,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.92
+    },
+    {
+      "name": "$45 FEAST",
+      "qty": 2.0,
+      "rev": 90.0,
+      "cost": 27.9424,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Large Meatlovers",
+      "qty": 5.0,
+      "rev": 88.9,
+      "cost": 33.7795,
+      "cost_source": "recipe",
+      "cost_lightspeed": 34.78
+    },
+    {
+      "name": "Garlic Bread",
+      "qty": 19.0,
+      "rev": 81.5,
+      "cost": 28.2663,
+      "cost_source": "recipe",
+      "cost_lightspeed": 26.98
+    },
+    {
+      "name": "Regular Bubba Gump",
+      "qty": 3.0,
+      "rev": 77.9,
+      "cost": 10.9092,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.89
+    },
+    {
+      "name": "Regular Hawaiian",
+      "qty": 4.0,
+      "rev": 73.8,
+      "cost": 13.1264,
+      "cost_source": "recipe",
+      "cost_lightspeed": 4.99
+    },
+    {
+      "name": "WINGS DEAL",
+      "qty": 2.0,
+      "rev": 60.0,
+      "cost": 19.7888,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "$60 BANQUET",
+      "qty": 1.0,
+      "rev": 60.0,
+      "cost": 20.9778,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Family Meatlovers",
+      "qty": 2.0,
+      "rev": 59.8,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Large Sanchez",
+      "qty": 2.0,
+      "rev": 53.8,
+      "cost": 11.7066,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.98
+    },
+    {
+      "name": "Regular El Patron [Dine-in]",
+      "qty": 2.0,
+      "rev": 53.72,
+      "cost": 7.4564,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.28
+    },
+    {
+      "name": "Regular No Chorizo, No Cry [Dine-in]",
+      "qty": 2.0,
+      "rev": 53.7,
+      "cost": 5.2822,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.01
+    },
+    {
+      "name": "Regular Little Italy [Dine-in]",
+      "qty": 2.0,
+      "rev": 53.7,
+      "cost": 8.3002,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.61
+    },
+    {
+      "name": "Under the Bridge Pizza",
+      "qty": 2.0,
+      "rev": 53.7,
+      "cost": 7.7852,
+      "cost_source": "recipe",
+      "cost_lightspeed": 8.16
+    }
+  ]
 }
