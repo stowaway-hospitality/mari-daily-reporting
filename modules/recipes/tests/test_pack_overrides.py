@@ -10,6 +10,8 @@ from __future__ import annotations
 import csv
 from decimal import Decimal
 
+import pytest
+
 from core.domain import purchasable_id
 from core.pack_overrides import load_pack_overrides
 from modules.recipes.pipeline import build_costs as bc
@@ -58,3 +60,39 @@ def test_override_makes_an_unreadable_pack_costable(tmp_path, monkeypatch):
     assert rows[0]["pack"] == "chef-confirmed"
     assert rows[0]["unit"] == "g"
     assert Decimal(rows[0]["cost_per_unit"]) == (Decimal("2.50") / Decimal("2000")).quantize(Decimal("0.000001"))
+
+
+def test_a_confirmation_survives_a_non_ascii_note(tmp_path):
+    """The log carries UTF-8 — em-dashes and inch-marks in the chef's notes.
+
+    data/pack_overrides.yaml has 12 such lines today. The loader used to call
+    read_text() with no encoding, so on any machine whose locale was not UTF-8
+    the read raised UnicodeDecodeError, a bare `except Exception` caught it, and
+    the function returned {} — every confirmation gone, no error, no log line.
+    Measured 2026-08-07: costs.csv came back 3,268 observations instead of 3,590,
+    322 silently missing, all of them chef-confirmed packs. Silence is the bug;
+    the crash in build_costs.py's write at least announced itself.
+    """
+    p = tmp_path / "po.yaml"
+    p.write_text('- id: "x:1"          # Large Pizza Box 13" \u2014 carton of 50\n'
+                 '  pack_qty: 500\n  pack_unit: g\n', encoding="utf-8")
+    assert load_pack_overrides(p) == {"x:1": (Decimal("500"), "g")}
+
+
+def test_an_undecodable_log_is_loud_not_empty(tmp_path):
+    """A log we cannot read is not the same fact as a log with nothing in it.
+
+    Returning {} for an unreadable file is how 322 cost observations disappeared
+    without anyone noticing. Malformed YAML still yields {} — that is a real,
+    readable answer — but bytes we cannot decode must reach someone.
+    """
+    p = tmp_path / "po.yaml"
+    p.write_bytes(b'- id: "x:1"\n  pack_qty: 500\n  pack_unit: g\n# caf\xe9\n')  # latin-1
+    with pytest.raises(UnicodeDecodeError):
+        load_pack_overrides(p)
+
+
+def test_malformed_yaml_is_still_tolerated(tmp_path):
+    p = tmp_path / "po.yaml"
+    p.write_text("- id: [unclosed\n", encoding="utf-8")
+    assert load_pack_overrides(p) == {}

@@ -63,6 +63,55 @@ def week_ending(d):                                # Sunday of d's Mon-Sun week
     return d + timedelta(days=(6 - d.weekday()))
 
 
+# THE EXPORT HAS CHANGED SHAPE ONCE AND WILL AGAIN.
+#
+# This used to read `row.get("Product Name") or row.get("ProductName")` and
+# `row.get("$ Sales") or row.get("Sales")`. Lightspeed renamed those columns on
+# 2026-07-13. Every row of an OLDER file therefore returned name="" and was
+# skipped by the `if not name: continue` guard meant for footer rows — so 11
+# files went in and nothing came out, with no error and no log line. Week ending
+# 2026-07-12 published $9,183 for Stowaway against $42,006 in the daily history.
+# $54,236 ex-GST in total was missing from the Products view.
+#
+# A per-key `or` chain cannot tell "this column is absent because the schema is
+# older" from "this row is a footer". So name the schemas, match on the HEADER,
+# and refuse anything that matches none — an unreadable export must be a loud
+# failure, never a quiet empty week.
+PRODUCT_SCHEMAS = (
+    {"label": "2026-07 onwards", "name": "Product Name", "qty": "Product Quantity",
+     "inc": "$ Sales", "tax": "Total Tax", "cost": "Cost"},
+    {"label": "pre 2026-07-13", "name": "Product", "qty": "Quantity",
+     "inc": "Sale Amount", "tax": None, "cost": "Cost"},
+)
+# HG also emails a REPORTING-GROUP level export under the same filename pattern.
+# It is a different report, not an older product one: folding it in would invent
+# products named after groups and double-count HG revenue. Recognise and skip.
+RG_LEVEL_KEY = "Reporting Group Name"
+
+
+def product_schema(header, path):
+    """-> a PRODUCT_SCHEMAS entry, or None for the reporting-group export.
+
+    Raises on anything else rather than returning a shape the caller will
+    silently read nothing out of.
+    """
+    cols = {(c or "").strip() for c in header}
+    if RG_LEVEL_KEY in cols:
+        return None
+    for s in PRODUCT_SCHEMAS:
+        if s["name"] in cols and s["inc"] in cols:
+            return s
+    raise SystemExit(
+        f"\nUNRECOGNISED INSIGHTS EXPORT SCHEMA\n  file: {path}\n"
+        f"  header: {', '.join(header)}\n\n"
+        f"  Known product schemas:\n"
+        + "".join(f"    - {s['label']}: needs {s['name']!r} + {s['inc']!r}\n"
+                  for s in PRODUCT_SCHEMAS)
+        + f"    - reporting-group export: has {RG_LEVEL_KEY!r} (skipped by design)\n\n"
+        "  Lightspeed has renamed these columns before. Add the new shape to\n"
+        "  PRODUCT_SCHEMAS rather than letting the week publish empty.\n")
+
+
 def load_dept_map():
     with open(DEPT_MAP_FILE) as f:
         return json.load(f)
@@ -151,6 +200,8 @@ def main():
     dmap = load_dept_map()
     rgnames = load_rg_names()
     agg = defaultdict(lambda: [0.0, 0.0, 0.0])   # (we, venue, rg, product) -> [ex_gst, qty, cost]
+    n_rg_skipped = 0
+    n_legacy = defaultdict(int)
 
     # Stow + HG till files only. Mari's revenue rides in on the Stow 'm' slice.
     for path in sorted(glob.glob(os.path.join(DATA, "insights_*.csv"))):
@@ -160,14 +211,23 @@ def main():
         prefix, dstr = m.group(1), m.group(2)
         we = week_ending(date.fromisoformat(dstr)).isoformat()
         with open(path, encoding="utf-8-sig") as f:
-            for row in csv.DictReader(f):
-                name = (row.get("Product Name") or row.get("ProductName") or "").strip()
+            rd = csv.DictReader(f)
+            schema = product_schema(rd.fieldnames or [], path)
+            if schema is None:
+                n_rg_skipped += 1
+                continue                             # reporting-group export, not products
+            if schema is not PRODUCT_SCHEMAS[0]:
+                n_legacy[schema["label"]] += 1
+            for row in rd:
+                name = (row.get(schema["name"]) or "").strip()
                 if not name:
                     continue                         # footer / subtotal row
-                inc = parse_num(row.get("$ Sales") or row.get("Sales"))
-                tax = parse_num(row.get("Total Tax"))
+                inc = parse_num(row.get(schema["inc"]))
+                # No tax column on the older export, so gross up out of inc-GST —
+                # the same fallback the daily aggregator uses for a hand-pulled file.
+                tax = parse_num(row.get(schema["tax"])) if schema["tax"] else 0.0
                 ex = (inc - tax) if tax else inc / 1.1
-                qty = parse_num(row.get("Product Quantity") or row.get("Qty") or row.get("Quantity"))
+                qty = parse_num(row.get(schema["qty"]))
                 if not ex:
                     continue
                 code = dept_for(name, prefix, dmap)
@@ -176,10 +236,15 @@ def main():
                 k = (we, venue, rg, normalize_product(name))
                 agg[k][0] += ex
                 agg[k][1] += qty
-                agg[k][2] += parse_num(row.get("Cost"))     # for GP% (daily feed carries cost)
+                agg[k][2] += parse_num(row.get(schema["cost"]))  # for GP% (daily feed carries cost)
 
     # Historical backfill (Lightspeed Insights export) for every week the daily
     # feed doesn't already cover — extends product trends back ~13 months.
+    for label, n in sorted(n_legacy.items()):
+        print(f"schema: read {n} file(s) on the {label} export shape")
+    if n_rg_skipped:
+        print(f"schema: skipped {n_rg_skipped} reporting-group export(s) (not product-level)")
+
     insights_weeks = {we for (we, _v, _rg, _p) in agg}
     n_back = ingest_looker_backfill(agg, insights_weeks)
     if n_back:

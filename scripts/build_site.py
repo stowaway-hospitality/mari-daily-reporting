@@ -70,6 +70,12 @@ def build() -> int:
     for gen in ("modules/recipes/pipeline/build_ingredients.py",
                 "scripts/convert_lightspeed_recipes.py",     # costed feed BEFORE recipe_feeds
                 "modules/recipes/pipeline/build_recipe_feeds.py",  # reads it for sub-recipes
+                # ...and the /recipes-book/ flags panel, which reads the costed
+                # feed plus a 13-week and a 52-week sales window. Two moving
+                # windows means a committed copy would go stale on a Tuesday with
+                # no commit behind it — the ingredients.json trap — so it is
+                # generated here and not committed.
+                "scripts/build_cost_book_flags.py",
                 "modules/invoices/build_price_compare.py"):  # /pricing/compare.json from cogs
         r = subprocess.run([sys.executable, str(ROOT / gen)], capture_output=True, text=True, cwd=ROOT)
         if r.returncode:
@@ -101,7 +107,12 @@ def build() -> int:
 
 _REF = re.compile(
     r"""(?:href|src)=["']([^"'#?]+)["']"""      # <link> <script> <img> <a>
-    r"""|from\s+["'](\./[^"']+|\.\./[^"']+)["']"""   # es module imports
+    # ES module imports. ABSOLUTE ones ('/_shared/x.js') count too: the recipe
+    # module is four tabs' worth of modules importing each other that way, and
+    # a typo in one of them is a blank page with a console error nobody sees.
+    # Only relative forms were checked before, which is precisely the gap that
+    # let '../data/ingredients.json' ship in the first place.
+    r"""|from\s+["'](\./[^"']+|\.\./[^"']+|/[^"']+)["']"""
     r"""|Feed\.load\(\s*["']([^"'?]+)["']"""    # our shared feed loader
     r"""|fetch\(\s*["']([^"'?]+)["']"""         # hand-rolled fetches
 )
@@ -175,7 +186,11 @@ def check() -> int:
     if not (SITE / "index.html").exists():
         problems.append("no index.html at the site root — / would 404")
 
-    for page in sorted(SITE.rglob("*.html")):
+    # Every page AND every module they pull in. A merged module is mostly
+    # module-to-module imports, so checking only .html would have validated the
+    # one import in index.html and none of the twenty behind it.
+    scanned = sorted(SITE.rglob("*.html")) + sorted(SITE.rglob("*.js"))
+    for page in scanned:
         text = page.read_text(errors="ignore")
         rel = page.relative_to(SITE)
         for m in _REF.finditer(text):
@@ -185,6 +200,12 @@ def check() -> int:
             # A JS template expression (href="${t.href}") is resolved at runtime,
             # not a static path — nothing on disk to check, so skip it.
             if "${" in ref:
+                continue
+            # Inside a .js module, a RELATIVE href is a string this module writes
+            # into some other page's HTML — render.js emits <a href="rg.html">
+            # into /sales/ — so it resolves against that page, not against the
+            # module. Only absolute refs and module imports can be checked here.
+            if page.suffix == ".js" and not ref.startswith("/"):
                 continue
             # '/x' is site-root-relative and valid — we serve at a domain root
             # (dashboard/CNAME -> app.stowawaybar.com), not a /repo/ subpath.

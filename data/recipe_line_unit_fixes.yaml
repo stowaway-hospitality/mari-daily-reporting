@@ -1,0 +1,103 @@
+# Lines where Produce's UNIT is a typo, corrected with arithmetic proof.
+#
+# "The unit in Produce is not trustworthy — only the magnitude is" (HANDOFF
+# 2026-08-05). Usually we refuse to reinterpret a unit, because reading "0.35 ml"
+# as 0.35 KG took Rosemary Salted Fries from $1.86 to $0.0019. So this file needs
+# more than a hunch: the entry must state the proof, and the proof must be
+# arithmetic, not judgement.
+#
+# Keep this file SMALL. If a line needs a paragraph of reasoning rather than a
+# sum, it does not belong here — flag it in the audit instead.
+
+- recipe: "Peking Sauce [6.75L]"
+  ingredient: "Soy Sauce Tamari Spiral [10L]"
+  from_unit: "L"
+  to_unit: "mL"
+  cost_factor: 0.001   # Produce derived its $10,500 from the SAME typo: $14/L x 750 L
+  # PROOF: read every quantity in this recipe as g/mL and they sum to
+  #   1500 + 750 + 750 + 1500 + 750 + 375 + 375 + 750 = 6750
+  # which is EXACTLY the 6.75L the recipe name declares. A batch cannot yield more
+  # than it contains, so all eight are base units and the "L" labels are typos.
+  #
+  # CORROBORATION: Produce's own line costs already price four of the five "L"
+  # lines as mL — tomato $4.13, sake $1.39, sriracha $4.47, vinegar $3.75, all
+  # sane. Only the soy line did Produce ALSO read as litres, at $10,500.00, and
+  # that is the one number our book inherited. $14/L x 750 L = $10,500;
+  # 750 mL of the same soy is $10.50.
+  #
+  # EFFECT: the batch drops $10,530.95 -> $41.45 for 6.75L ($0.0061/mL). No dish
+  # was over-costed by it — the three spring rolls that draw on it were already
+  # costing 15mL at $0.09 via the Lightspeed ratio path — but the batch record
+  # itself was nonsense and it masked everything else in the audit.
+  why: "quantities sum to exactly the declared 6.75L yield; 4 of 5 sibling L-lines already cost as mL"
+
+# The same proof covers the other four "L" lines in this recipe. These need NO
+# cost_factor: Produce already priced them as mL (tomato $4.13, sake $1.39,
+# sriracha $4.47, vinegar $3.75 — all sane), so only the label was wrong. Fixing
+# them makes the inputs sum to 6750 and the batch stop reading as 500x its yield.
+- recipe: "Peking Sauce [6.75L]"
+  ingredient: "Tomato Sauce Heinz [4L]"
+  from_unit: "L"
+  to_unit: "mL"
+  why: "see the Soy Tamari entry: all eight quantities sum to the declared 6.75L"
+- recipe: "Peking Sauce [6.75L]"
+  ingredient: "Cooking Sake Jun [18L]"
+  from_unit: "L"
+  to_unit: "mL"
+  why: "as above"
+- recipe: "Peking Sauce [6.75L]"
+  ingredient: "Sriracha [730mL]"
+  from_unit: "L"
+  to_unit: "mL"
+  why: "as above"
+- recipe: "Peking Sauce [6.75L]"
+  ingredient: "Rice Wine Vinegar [500mL]"
+  from_unit: "L"
+  to_unit: "mL"
+  why: "as above"
+
+# Harry Gatos. The same bulk-label defect as Peking Sauce, but at 20 the quantity
+# sits under the >25 L/kg bound that convert_lightspeed_recipes.py uses to read a
+# bulk label as base units — so it needs naming here, with its own proof.
+- recipe: "Corpse Reviver No. 2 [HG]"
+  ingredient: "Massenez Triple Sec [5L]"
+  from_unit: "L"
+  to_unit: "mL"
+  cost_factor: 0.001   # Produce derived its $1,080.32 from the SAME label: $54/L x 20 L
+  # PROOF: the recipe's other three lines are 20 mL gin, 20 mL Lillet Blanc and
+  # 2 mL absinthe. A Corpse Reviver No. 2 is equal parts gin, triple sec, Lillet
+  # and lemon with an absinthe rinse, and three of those four parts are written
+  # here as 20 mL. The fourth is 20 of the same thing.
+  #
+  # EFFECT: the cocktail drops $1,438.40 -> ~$2.75 against a $21.00 sell price.
+  # Before the unit normalisation this line was silently rejected and cost $0,
+  # which is why a 1000x error in a live cocktail had never surfaced.
+  why: "three sibling lines in the same drink are 20 mL; the spec is equal parts"
+
+# Stowaway. The bird is 0.5 of an EACH, not 0.5 of a millilitre. Not a magnitude
+# defect like the two above — the dollar figure was already right — but a unit
+# that means nothing cannot be reconciled against an invoice, so the line could
+# never track the supplier.
+- recipe: "Chicken Roast"
+  ingredient: "Chicken Whole Bird [No.8]"
+  from_unit: "ml"
+  to_unit: "ea"
+  # NO cost_factor, deliberately. Produce's $3.05 did not come from the wrong
+  # label — it is exactly half of $6.10, which is what a No.8 bird costs.
+  #
+  # PROOF: our cost book prices lightspeed:22992669 at $6.1000 per EACH
+  # (bo-ingredient-seed-stowaway; the row's unit word is "can", which _BASE
+  # renames to "ea"), and data/product_map.csv bridges that ProductID to B&E code
+  # 10677, which has billed "CHICKEN - WHOLE BIRD NO.8" at $6.1000 per unit on
+  # more than twenty invoices since April. 0.5 x $6.10 = $3.05 — the figure
+  # Produce itself states for the line, to the cent, from a source that never saw
+  # it. Half a bird per roast is also the physical reading of "No.8".
+  #
+  # EFFECT ON THE COST: none, today. The line already contributed $3.05, reached
+  # by the dimensionless seed-ratio fallback — a "ml" quantity can never be
+  # multiplied by a per-each price, so `our_cost` was left null and the SCRAPED
+  # dollar figure carried the line. What changes is the provenance: with the unit
+  # right the line is priced as our_book_rate x qty, so a B&E price rise moves the
+  # roast. Under the old label it never could — the plate would have kept costing
+  # $3.05 for a bird that had gone to $7.
+  why: "our book prices the bird per each at $6.10 and B&E 10677 bills it per unit; 0.5 x $6.10 is Produce's own $3.05 to the cent"

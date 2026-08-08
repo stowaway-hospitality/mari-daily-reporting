@@ -37,6 +37,7 @@ from __future__ import annotations
 import argparse
 import base64
 import json
+import re
 import sys
 from dataclasses import asdict
 from decimal import Decimal
@@ -59,6 +60,25 @@ CONFIG = Path(__file__).parent / "suppliers.yaml"
 OUT_PASS = ROOT / "data" / "invoices"
 OUT_REVIEW = ROOT / "data" / "invoices_review"
 
+# An ageing bucket: "7 Days", "14 DAYS", "21 +Days", "28 Days+". Statement-only.
+_AGEING = re.compile(r"\d{1,3}\s*\+?\s*days\+?")
+
+
+def _letters(t: str) -> str:
+    """Lowercase a-z0-9 only — spacing and punctuation dropped."""
+    return re.sub(r"[^a-z0-9]+", "", t.lower())
+
+
+def _deshift(t: str) -> str:
+    """
+    Undo the broken font map some PDFs render with, where every glyph extracts 29
+    codepoints low, so "DIRECT DEBIT REQUEST" comes out "',5(&7'(%,75(48(67".
+    Paramount's and Foodlink's direct-debit authority forms do this. Shifting the
+    letters back is only ever used to RECOGNISE a title we want to throw away —
+    never to read a number off a document we intend to keep.
+    """
+    return _letters("".join(chr(ord(c) + 29) if c.isprintable() else c for c in t))
+
 
 def looks_like_statement(text: str) -> bool:
     """
@@ -71,8 +91,19 @@ def looks_like_statement(text: str) -> bool:
     were line items. Catch it by content instead. Conservative: a real Tax Invoice
     is never treated as a statement, and we require both a masthead hit AND a
     balance-style column, so a mere mention of the word can't trip it.
+
+    EVERY phrase test below runs on WHITESPACE-COLLAPSED text, and it has to.
+    PDF extraction puts whatever spacing the layout used between words, so Select
+    Fresh's masthead comes out "tax  invoice" with two spaces. That slipped past
+    the `"tax invoice"` escape hatch, and their footer line "please email
+    remittance advice to ..." then matched the remittance rule below — so the
+    guard classified EVERY Select Fresh invoice as a statement and run.py threw
+    all 60 of the last four months away (exit 3, email filed to Processed,
+    nothing written to data/invoices, nothing in COGS). Their produce, herbs and
+    citrus quietly stopped costing. Collapsing runs of whitespace first is what
+    makes the "a real tax invoice is never a statement" promise actually hold.
     """
-    t = (text or "").lower()
+    t = re.sub(r"\s+", " ", (text or "").lower())
     if "tax invoice" in t:
         return False
     # Payment notices — a direct-debit / remittance advice that references an
@@ -81,6 +112,18 @@ def looks_like_statement(text: str) -> bool:
     # invoice says "tax invoice" (returned above), so these titles are safe.
     if ("direct debit advice" in t or "remittance advice" in t
             or "payment advice" in t):
+        return True
+    # A DIRECT DEBIT REQUEST / authority form is an onboarding form, not a bill:
+    # no line items, no total to reconcile. Paramount and Foodlink both mail
+    # these; they were reaching the LLM. (Some render with a broken font map, so
+    # match the de-shifted spelling too — see _deshift below.)
+    if "directdebitrequest" in _letters(t) or "directdebitrequest" in _deshift(t):
+        return True
+    # A PAYMENT RECEIPT that lists other invoices is a remittance, not an
+    # invoice. Gulli mails these; "statement" never appears near the top so the
+    # titled+strong test below can't see it. Require the invoice-listing header
+    # so a genuine one-off receipt can't trip it.
+    if "payment receipt" in t and "invoice number" in t and "payment amount" in t:
         return True
     titled = "statement" in t[:600] or "statement of account" in t  # word up top
     strong = ("running total" in t or "remaining amount" in t
@@ -93,7 +136,15 @@ def looks_like_statement(text: str) -> bool:
               # real tax invoice never says "payment advice", and "tax invoice"
               # already returned False above, so these are safe statement markers.
               or "payment advice" in t
-              or ("balance due" in t and "amount enclosed" in t))
+              or ("balance due" in t and "amount enclosed" in t)
+              # AGEING BUCKETS. Andrews Meat and Farmer Joes head their monthly
+              # statements "STATEMENT" but print none of the phrases above — they
+              # age the balance across columns instead ("Current | 7 Days |
+              # 14 Days | 21 Days+ | 28 Days+"). That row is a statement-only
+              # construct; an invoice states one set of terms, never a spread of
+              # buckets. Requiring the word "current" AND two DISTINCT day
+              # buckets keeps a plain "7 DAYS NET" terms line from matching.
+              or ("current" in t and len(set(_AGEING.findall(t))) >= 2))
     return titled and strong
 
 

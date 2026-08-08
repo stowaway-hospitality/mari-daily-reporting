@@ -492,3 +492,82 @@
       qty: 3000
       unit: "g"
       unit_cost_incl: 0.003137
+
+# ---------------------------------------------------------------------------
+# Davy's Old Fashioned — spec from Zak, 2026-08-06. Back Office sells it
+# ($24, Cocktails - Signature) and Produce has no recipe for it at all, so it
+# was one of the products reporting 100% GP.
+#
+#   Snifter, no ice. 75 ml of batch. Garnish: mini bottle with a message.
+#
+# The batch is stirred and not strained onto anything, so the yield is the sum
+# of what goes in. Water is 150 ml of it and costs nothing, which is why the
+# priced lines sum to less than the declared yield.
+#
+# A drop is 1/20 ml — the metric drop, 0.05 ml. Sanity check on the one drop
+# line that carries a price: 30 drops of Xocolatl is 1.5 ml at $0.19/ml = 29c
+# in a 594 ml batch. Reading them as dasher DASHES instead would put 24 ml of
+# bitters in the batch, which is not a thing anyone does.
+# ---------------------------------------------------------------------------
+- product: Davy's Old Fashioned Batch
+  yield_qty: 594
+  yield_unit: ml
+  ingredients:
+    - id: lightspeed:20488005
+      desc: Zacapa Centenario 23yr [Bottle]
+      qty: 150
+      unit: ml
+      unit_cost_incl: 0.153690
+    - id: lightspeed:20487949
+      desc: Appleton Rum [Bottle]
+      qty: 150
+      unit: ml
+      unit_cost_incl: 0.073271
+    - id: lightspeed:20710023
+      desc: Frangelico [Bottle]        # Stowaway's, not HG's $0.00 twin
+      qty: 80
+      unit: ml
+      unit_cost_incl: 0.048100
+    - id: lightspeed:20487459
+      desc: Harveys Bristol Cream Sherry [Bottle]
+      qty: 30
+      unit: ml
+      unit_cost_incl: 0.020000
+    - subrecipe: Demerara Syrup
+      qty: 30
+      unit: ml
+    - id: lightspeed:23253690
+      desc: Xocolatl Mole Bitters [Bottle] — 30 drops at 0.05 ml
+      qty: 1.5
+      unit: ml
+      unit_cost_incl: 0.190000
+    # 50 drops. There is no tincture recipe and no product to price it against,
+    # so it is carried as a visible zero rather than left out — the audit keeps
+    # reporting it until the tincture spec arrives. Worth cents either way.
+    - manual: true
+      desc: Wattleseed Tincture (50 drops) — PRICE PENDING, needs the tincture spec
+      qty: 1
+      unit: ea
+      unit_cost_incl: 0.0
+
+# Mirrors Produce's own Demerara Syrup exactly (750 g demerara -> 1.16 L, from
+# data/prep_yields.yaml) so the batch above can reference it. Copied, not
+# invented. Note our rate is HALF Produce's: Produce carries a $22.93/kg seed,
+# the Foodlink invoice SI4341079 says $4.30 for the 375 g pack = $11.47/kg, and
+# the invoice wins. That is the difference between $17.20 and $8.60 a batch.
+- product: Demerara Syrup
+  yield_qty: 1160
+  yield_unit: ml
+  ingredients:
+    - id: lightspeed:22888856
+      desc: Sugar Demerera 375Gm CSR
+      qty: 750
+      unit: g
+      unit_cost_incl: 0.011467
+
+- product: Davy's Old Fashioned
+  sell_incl_gst: 24.0
+  ingredients:
+    - subrecipe: Davy's Old Fashioned Batch
+      qty: 75
+      unit: ml

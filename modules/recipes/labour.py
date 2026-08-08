@@ -53,7 +53,7 @@ SUPER_RATE = Decimal("0.115")
 def _oncost_rate() -> Decimal:
     if not ONCOSTS.exists():
         return Decimal("0")
-    return Decimal(str(json.loads(ONCOSTS.read_text()).get("oncost_rate", 0)))
+    return Decimal(str(json.loads(ONCOSTS.read_text(encoding="utf-8-sig")).get("oncost_rate", 0)))
 
 
 def _effective_multiplier() -> Decimal:
@@ -61,7 +61,7 @@ def _effective_multiplier() -> Decimal:
 
 
 def _calib() -> dict:
-    return json.loads(CALIB.read_text()) if CALIB.exists() else {}
+    return json.loads(CALIB.read_text(encoding="utf-8-sig")) if CALIB.exists() else {}
 
 
 def _resolve_id(ref: str) -> Optional[str]:
@@ -70,7 +70,7 @@ def _resolve_id(ref: str) -> Optional[str]:
     calib = _calib()
     if ref in calib:                       # already an id
         return ref
-    names = json.loads(EMP_MAP.read_text()) if EMP_MAP.exists() else {}
+    names = json.loads(EMP_MAP.read_text(encoding="utf-8-sig")) if EMP_MAP.exists() else {}
     low = ref.lower()
     # id->name in EMP_MAP, and name lives in calib too; match either
     for eid, name in names.items():
@@ -145,7 +145,7 @@ def load_prep_sessions(directory: Path) -> list[PrepSession]:
     for f in sorted(directory.glob("*.yaml")):
         venue = f.stem
         try:
-            docs = yaml.safe_load(f.read_text()) or []
+            docs = yaml.safe_load(f.read_text(encoding="utf-8-sig")) or []
         except Exception:
             continue
         for d in docs if isinstance(docs, list) else []:

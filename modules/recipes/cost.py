@@ -107,7 +107,7 @@ def load_recipes(venue: str, path: Optional[Path] = None) -> list[Recipe]:
     p = path or (RECIPES_DIR / f"{venue}.yaml")
     if not p.exists():
         return []
-    docs = yaml.safe_load(p.read_text()) or []
+    docs = yaml.safe_load(p.read_text(encoding="utf-8-sig")) or []
     out = []
     for d in docs:
         out.append(Recipe(

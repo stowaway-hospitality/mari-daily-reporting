@@ -71,19 +71,46 @@ def main() -> int:
     today = date.today()
     VENUES = ("stowaway", "harry_gatos", "marilynas")
 
-    # cost keys + units
-    cost_unit: dict[str, str] = {}
+    # cost keys + the unit IN FORCE.
+    #
+    # setdefault took the FIRST row in the file, which is the OLDEST observation.
+    # Every consumer — load_our_costs, CostSeries, the recipe engine — takes the
+    # LATEST. So the seam test was reading the opposite end of the history from
+    # the code it exists to protect, and it failed on four products whose unit
+    # legitimately improved: Barrel One Coffee Concentrate was seeded from the BO
+    # export as one $15.26 "can" on 1 Jan and re-seeded per millilitre on 2 Jan.
+    # Nothing reads that superseded can row. The mismatch was in the test.
+    #
+    # (A ProductID whose cost history changes DIMENSION is still worth knowing
+    # about — costing a past day could hit the old unit. audit_book reports it;
+    # it is a history question, not a seam that breaks today's numbers.)
+    _latest: dict[str, tuple[str, str, str]] = {}
     for r in csv.DictReader((ROOT / "data" / "costs.csv").open(encoding="utf-8-sig")):
-        cost_unit.setdefault(r["ingredient"], r["unit"])
+        k, d = r["ingredient"], r["observed_on"]
+        if k not in _latest or d >= _latest[k][0]:
+            _latest[k] = (d, r["unit"], r["cost_per_unit"])
+    cost_unit: dict[str, str] = {k: v[1] for k, v in _latest.items()}
+    cost_rate: dict[str, str] = {k: v[2] for k, v in _latest.items()}
 
     # ---- SEAM 1: every recipe line id resolves to a cost key -----------------
+    #
+    # RESOLVES TO, not equals. A unit word the PDF parse bled onto a supplier code
+    # is no longer part of identity (core.domain.normalize_code), so four lines
+    # saved before that fix hold "fresh-fruit-team:ONBRKG KILOGRAM" while the cost
+    # book now writes "fresh-fruit-team:ONBRKG". CostSeries canonicalises both
+    # sides precisely so a recipe is never snapped by a rename, and this seam has
+    # to ask the same question the engine asks or it reports a break that is not
+    # one. An id that canonicalises to nothing still fails, which is the check.
+    from core.domain import canonical_purchasable
+    cost_unit = {canonical_purchasable(k): v for k, v in cost_unit.items()}
+    cost_rate = {canonical_purchasable(k): v for k, v in cost_rate.items()}
     orphan = []
     for v in VENUES:
         for rec in load_recipes(v):
             for ln in rec.lines:
                 if ln.subrecipe:
                     continue
-                if ln.ingredient and ln.ingredient not in cost_unit:
+                if ln.ingredient and canonical_purchasable(ln.ingredient) not in cost_unit:
                     orphan.append(f"{v}/{rec.product} -> {ln.ingredient!r}")
     check("every recipe ingredient id is a real cost key", not orphan,
           f"{len(orphan)} orphan(s): {orphan[:3]}")
@@ -91,10 +118,40 @@ def main() -> int:
     # ---- SEAM 2: costs.csv unit == ingredients.json unit --------------------
     ing = json.loads((ROOT / "data" / "ingredients.json").read_text())
     items = ing["ingredients"] if isinstance(ing, dict) else ing
-    unit_split = [f"{i['id']} costs={cost_unit[i['id']]} ingredients={i.get('pack_unit')}"
-                  for i in items
-                  if i.get("pack_unit") and i["id"] in cost_unit
-                  and cost_unit[i["id"]] != i["pack_unit"]]
+    # Compare in BASE units and compare the RATE, not the unit string.
+    #
+    # A kg and a g are the same dimension at a different scale, and every consumer
+    # normalises them at read time (_to_base) — so "costs=kg ingredients=g" was
+    # only ever a spelling difference, and pack_overrides.yaml pins the Berry Man
+    # passionfruit in kg deliberately (the bridge re-expresses the invoice in the
+    # seed's own unit; forcing g there brought back a 12x undercost).
+    #
+    # What DOES matter is whether the two files agree on the price, and a string
+    # compare could never see that. So: convert both sides to g/ml, then require
+    # the same base unit AND the same rate. Strictly stronger than what it
+    # replaces — a real 12x disagreement would now fail, where before it passed
+    # as long as both files happened to say "kg".
+    def _base(rate, unit):
+        u = (unit or "").lower()
+        try:
+            v = float(rate)
+        except (TypeError, ValueError):
+            return None, u
+        if u in ("kg", "l", "lt", "litre"):
+            return v / 1000.0, ("g" if u == "kg" else "ml")
+        return v, u
+
+    unit_split = []
+    for i in items:
+        iid = i["id"]
+        if not i.get("pack_unit") or iid not in cost_unit:
+            continue
+        cr, cu = _base(cost_rate[iid], cost_unit[iid])
+        ir, iu = _base(i.get("cost_per_base_unit"), i.get("pack_unit"))
+        if cu != iu:
+            unit_split.append(f"{iid} costs={cost_unit[iid]} ingredients={i.get('pack_unit')}")
+        elif cr and ir and abs(cr - ir) > max(1e-9, 0.005 * max(cr, ir)):
+            unit_split.append(f"{iid} costs=${cr:.6f}/{cu} ingredients=${ir:.6f}/{iu}")
     check("costs.csv and ingredients.json agree on unit", not unit_split,
           f"{len(unit_split)} split(s): {unit_split[:3]}")
 

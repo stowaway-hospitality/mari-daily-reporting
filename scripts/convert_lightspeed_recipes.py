@@ -24,6 +24,7 @@ Output: data/lightspeed_recipes_costed.json
 
 from __future__ import annotations
 
+import sys
 import csv
 import json
 import re
@@ -54,6 +55,285 @@ _AGREE_LO, _AGREE_HI = 0.2, 5.0
 _LS_LINE_CAP = 40.0
 
 
+# ProductIDs whose Lightspeed cost is PROVEN wrong: the BO export states one cost
+# and Lightspeed's own recipe-derived seed contradicts it by >3x (see
+# build_costs.ls_seed_is_misread). For these, and ONLY these, an LS line cost may
+# not veto our price — it is computed from the same misread number.
+_LS_MISREAD_REFS: set[str] = set()
+
+# (recipe name, normalised ingredient name) -> the cost Produce itself states for
+# that line, straight from the scrape and untouched by any later scaling. The
+# whole-vs-fraction decision below needs the ORIGINAL figure; ln["ls_cost"] has by
+# then been rescaled for deal lines and would answer the wrong question.
+_RAW_LINE_COST: dict = {}
+
+
+
+def apply_unit_fixes(rec: dict) -> int:
+    """Rewrite units Produce typed wrong. Refuses silently if the file is absent.
+
+    Deliberately narrow: it only touches the exact (recipe, ingredient) pairs
+    named in data/recipe_line_unit_fixes.yaml, and only when the line still shows
+    the `from_unit` stated there — so a fix that Produce later corrects at source
+    becomes a no-op instead of double-applying.
+    """
+    path = ROOT / "data" / "recipe_line_unit_fixes.yaml"
+    if not path.exists():
+        return 0
+    import yaml
+    n = 0
+    for spec in (yaml.safe_load(path.read_text(encoding="utf-8-sig")) or []):
+        body = (rec or {}).get(spec.get("recipe"))
+        if not body:
+            continue
+        for ing in (body.get("ingredients") or []):
+            if (ing.get("name") == spec.get("ingredient")
+                    and str(ing.get("unit") or "").lower() == str(spec.get("from_unit")).lower()):
+                ing["unit"] = spec["to_unit"]
+                # Produce derived this line's COST from the same wrong unit, so the
+                # cost carries the identical error and must be scaled with it.
+                f = spec.get("cost_factor")
+                if f:
+                    try:
+                        ing["cost"] = str(float(ing.get("cost") or 0) * float(f))
+                    except (TypeError, ValueError):
+                        pass
+                n += 1
+    return n
+
+
+def apply_ingredient_swaps(rec: dict) -> int:
+    """Repoint a line at the bottle the venue actually pours.
+
+    Distinct from INGREDIENT_ALIAS, which asserts two NAMES are one stock. This
+    asserts the opposite: Produce records one product and the bar pours another.
+    Scoped to the exact (recipe, ingredient) pair named in
+    data/recipe_ingredient_swaps.yaml — see that file for why it is not an alias.
+
+    Produce's stated line cost goes with the old name. It was computed for a
+    product this recipe no longer contains, so carrying it forward would let a
+    price for the wrong bottle survive the swap; the line is re-costed from the
+    book like any other. A no-op if the line already names the replacement, so a
+    correction made at source later does not double-apply.
+    """
+    path = ROOT / "data" / "recipe_ingredient_swaps.yaml"
+    if not path.exists():
+        return 0
+    import yaml
+    n = 0
+    for spec in (yaml.safe_load(path.read_text(encoding="utf-8-sig")) or []):
+        body = (rec or {}).get(spec.get("recipe"))
+        if not body:
+            continue
+        for ing in (body.get("ingredients") or []):
+            if ing.get("name") == spec.get("from"):
+                ing["name"] = spec["to"]
+                ing["cost"] = ""
+                n += 1
+    return n
+
+
+# How a recipe line's unit LABEL maps onto the base unit our cost book prices in,
+# and by what factor its quantity must be multiplied to get there.
+_LINE_UNIT = {
+    "ml": ("ml", 1.0), "millilitre": ("ml", 1.0), "milliliter": ("ml", 1.0),
+    "l": ("ml", 1000.0), "lt": ("ml", 1000.0), "ltr": ("ml", 1000.0),
+    "litre": ("ml", 1000.0), "liter": ("ml", 1000.0),
+    "g": ("g", 1.0), "gm": ("g", 1.0), "gr": ("g", 1.0), "gram": ("g", 1.0),
+    "kg": ("g", 1000.0), "kilo": ("g", 1000.0), "kilogram": ("g", 1000.0),
+    "ea": ("ea", 1.0), "each": ("ea", 1.0), "unit": ("ea", 1.0),
+    "units": ("ea", 1.0), "pc": ("ea", 1.0), "pcs": ("ea", 1.0), "piece": ("ea", 1.0),
+}
+
+# The largest single ingredient line this kitchen can physically hold, in litres
+# or kilograms. Not a guess about any one recipe — a statement about the business:
+# the biggest legitimate line anywhere in the 829-recipe book is Achiote Chicken's
+# 15 kg, and it says so in its own name. See _bulk_label_is_typo below.
+_MAX_REAL_BULK_LINE = 25.0
+
+
+def _bulk_label_is_typo(qty: float, unit_l: str) -> bool:
+    """Is a line labelled "L"/"kg" really a base-unit quantity that kept the
+    product's bulk label?
+
+    THE DEFECT
+    ----------
+    Harry Gatos' Produce entries carry lines like "Soy Sauce Tamari Spiral [10L]
+    — 1600 L" inside Shiitake Tare, and "Mirin [1.8L] — 4000 L" inside Gochujang
+    Honey Soy. 2,800 litres of tare and 11,000 litres of gochujang. The cook typed
+    the millilitre figure and left the bulk label sitting next to it.
+
+    This is the defect data/recipe_line_unit_fixes.yaml was opened for — Peking
+    Sauce's "750 L" of soy, proved by the quantities summing to the 6.75 L the
+    recipe name declares. That proof needed a declared yield. None of these 13
+    Harry Gatos batches has one, so the yield proof cannot be run on them, and
+    naming each line in the yaml would need 25 hand-written proofs of a fact that
+    is one fact.
+
+    THE PROOF THAT DOES RUN
+    -----------------------
+    The book contains the same recipe typed BOTH ways. "HG's Soy Chilli Sauce"
+    reads 2.5 L soy + 0.25 kg chilli. "HG Soy Chilli Sauce" — same sauce, same
+    kitchen — reads 2500 L soy + 250 kg chilli. Identical recipe, identical
+    ratios, exactly 1000x apart. The correctly-typed twin states what the
+    magnitudes mean, and it means the big one is a label, not a quantity.
+
+    WHICH WAY THIS MOVES THE MONEY
+    ------------------------------
+    Both ways, which is why it is not the flattering kind of fix. Wattleseed
+    Honey Soy falls $7,093 -> $9 and Corpse Reviver No. 2 falls $1,438 -> $2.75;
+    but the same normalisation lifts Garlic Oil off $0 and gives 162 Harry Gatos
+    lines an invoice-fed cost they never had. What it removes is not cost, it is
+    nonsense, and nonsense in a batch is what hides the real numbers behind it.
+
+    DELIBERATELY CONSERVATIVE
+    -------------------------
+    Only "L" and "kg" labels, never "ml"/"g" — reading a base-unit label as bulk
+    is the mistake that took Rosemary Salted Fries from $1.86 to $0.0019, and
+    this function cannot make it. And only above 25 L/kg, which leaves every real
+    line in the book (5 kg pork belly, 4.3 L vodka, 15 kg achiote chicken)
+    untouched with a wide margin. The nearest thing it does catch is 90 L.
+    """
+    return unit_l in ("l", "lt", "ltr", "litre", "liter", "kg", "kilo", "kilogram") \
+        and qty > _MAX_REAL_BULK_LINE
+
+
+def normalise_line_units(rec: dict) -> int:
+    """Express every recipe line's (qty, unit) in BASE units — the same units
+    `_to_base` puts the cost book in.
+
+    WHY THIS IS NOT COSMETIC
+    ------------------------
+    Our book's price is only used when its unit matches how the recipe uses the
+    line (`if ou == ing["unit"]`), and that comparison is a raw string compare.
+    The Stowaway scrape writes "ml"; the Harry Gatos scrape writes "mL", "L",
+    "kg" and "Units". So 299 lines — every one of them at Harry Gatos — could
+    never match, no matter how good our invoice data was. 162 of those lines have
+    a real invoice-fed cost sitting in data/costs.csv that was never consulted.
+
+    They did not fail loudly. They fell through to Lightspeed's scraped figure,
+    and where Lightspeed's figure is 0.00 the line cost $0 and the drink read as
+    100% GP. That is the flattering direction, which is the dangerous one.
+
+    NO JUDGEMENT IS APPLIED HERE. This is arithmetic on a label: 0.27 L is 270 ml
+    and 0.25 kg is 250 g, always. The line's COST is untouched — it is a dollar
+    figure and carries no unit. A label this function does not recognise is left
+    exactly as it is, so an unknown unit stays visible rather than being guessed
+    into a base unit it may not belong to.
+
+    Runs AFTER apply_unit_fixes(), so a line whose label is a typo is corrected to
+    the unit it should have had before it is scaled — otherwise Peking Sauce's
+    "750 L" of soy would be normalised to 750,000 ml on the way past.
+    """
+    n = 0
+    typos: list[str] = []
+    for rname, body in (rec or {}).items():
+        for ing in (body.get("ingredients") or []):
+            raw = str(ing.get("unit") or "").strip()
+            m = _LINE_UNIT.get(raw.lower())
+            if not m:
+                continue
+            base, mult = m
+            try:
+                q = float(ing.get("qty") or 0)
+            except (TypeError, ValueError):
+                continue              # non-numeric qty: leave the label alone too
+            if mult != 1.0 and _bulk_label_is_typo(q, raw.lower()):
+                # The quantity is already in base units; only the label is bulk.
+                #
+                # Produce sometimes derived this line's COST from the same wrong
+                # label and sometimes did not — inside ONE recipe, Gochujang Honey
+                # Soy, it priced "4000 L" of mirin at $26,666.67 (bulk) and "4000
+                # L" of sake at $7.39 (base). Which way it went depends on the
+                # product's own stock unit, so the cost has to be judged per line
+                # rather than scaled blindly.
+                #
+                # The test is the one _UNIT_CEIL already states: no real product
+                # costs more than 60c a millilitre or 20c a gram. An implied rate
+                # above that is a bulk rate wearing a base-unit label, and only
+                # then is the cost divided down with the quantity.
+                #
+                # It is checkable: "HG Soy Chilli Sauce" resolves to $35.00 of soy
+                # and $4.38 of chilli — the exact figures its correctly-typed twin
+                # "HG's Soy Chilli Sauce" states at 2.5 L and 0.25 kg.
+                note = ""
+                try:
+                    c = float(ing.get("cost") or 0)
+                except (TypeError, ValueError):
+                    c = 0.0
+                ceil = _UNIT_CEIL.get(base)
+                if c > 0 and q > 0 and ceil is not None and (c / q) > ceil:
+                    ing["cost"] = str(c / mult)
+                    note = f", cost ${c:,.2f} -> ${c / mult:,.2f}"
+                typos.append(f"{rname} / {ing.get('name')}: "
+                             f"{q:g} {raw} -> {q:g} {base}{note}")
+                mult = 1.0
+            if base == raw and mult == 1.0:
+                continue
+            if mult != 1.0:
+                ing["qty"] = q * mult
+            ing["unit"] = base
+            n += 1
+    if typos:
+        print(f"  {len(typos)} bulk-label typo(s) read as base units "
+              f"(a line cannot be >{_MAX_REAL_BULK_LINE:g} L/kg):")
+        for t in typos:
+            print(f"      {t}")
+    return n
+
+
+def load_raw_line_costs(rec: dict) -> dict:
+    out = {}
+    for rname, body in (rec or {}).items():
+        for ing in (body.get("ingredients") or []):
+            try:
+                out[(rname, norm(ing.get("name") or ""))] = float(ing.get("cost") or 0)
+            except (TypeError, ValueError):
+                continue
+    return out
+
+
+def load_ls_misread_refs(cogs_path=None) -> set[str]:
+    """Which ProductIDs does Lightspeed itself price wrong?
+
+    Elderflower is the case: BO export $253/5L ($0.0506/ml, matching every Massenez
+    sibling) vs Lightspeed $24.17/5L. The bad number reached BOTH the seed and the
+    per-line cost, so Hugo Spritz's 60ml line reads $0.29 instead of $3.04 and the
+    drink reports 92.9% GP. Agreement-with-LS is normally good evidence that a
+    recipe quantity is sane -- but not when LS's own price for that product is the
+    thing we can prove wrong.
+    """
+    import csv as _csv
+    from decimal import Decimal as _D
+    path = cogs_path or COGS
+    bo, ls = {}, {}
+    try:
+        rows = list(_csv.DictReader(open(path, encoding="utf-8-sig")))
+    except OSError:
+        return set()
+    for r in rows:
+        pid = (r.get("supplier_code") or "").strip()
+        src = r.get("source_invoice") or ""
+        try:
+            if src.startswith("bo-seed"):
+                q = _D(r["pack_qty"])
+                if (r.get("pack_unit") or "").strip().lower() in ("ml", "g") and q > 0:
+                    bo[pid] = _D(r["cost_per_unit_incl_gst"]) / q
+            elif src.startswith("ls-recipe-seed"):
+                v = _D(r.get("cost_per_base_unit") or 0)
+                if v > 0:
+                    ls[pid] = v
+        except Exception:
+            continue
+    out = set()
+    for pid in set(bo) & set(ls):
+        if bo[pid] > 0:
+            ratio = float(ls[pid] / bo[pid])
+            if ratio > 3.0 or ratio < 1 / 3.0:
+                out.add(f"lightspeed:{pid}")
+    return out
+
+
 def _trust_direct(ln, ls, is_prep):
     """May we cost this line as our_price x recipe_qty?
 
@@ -79,6 +359,13 @@ def _trust_direct(ln, ls, is_prep):
     if ls <= 0 or qty <= 0:
         return True
     if ls > _LS_LINE_CAP and not is_prep:      # LS line is the untrustworthy one
+        return True
+    # Lightspeed's price for THIS product is provably a misread (its own two seeds
+    # contradict each other >3x), so its line cost carries the same error and may
+    # not veto our stated, invoice/BO-backed rate. Narrow by construction: only
+    # products with that contradiction qualify, so Truffle Oil's "4 ml" quantity
+    # is still condemned by a credible LS line exactly as before.
+    if ln.get("ref") in _LS_MISREAD_REFS:
         return True
     direct = float(ln["our_cost"]) * qty
     return _AGREE_LO * ls <= direct <= _AGREE_HI * ls
@@ -108,6 +395,32 @@ def load_bo_ids():
                 by_name.setdefault(n, r["ProductID"])
                 prefixes.append((n, r["ProductID"]))
     return by_name, prefixes
+
+
+def load_bo_groups():
+    """normalised ProductName -> ReportingGroup, for products that have one.
+
+    A blank ReportingGroup means Back Office does not sell the thing: every one
+    of the 64 real preps in the book is blank. So a non-blank group is Lightspeed
+    stating that a customer can order this, which is the fact that separates a
+    house blend we make from a wine called "Red Blend".
+
+    Keyed on the EXACT ProductName, deliberately. norm() strips the bracket, so
+    "Stow Vermouth Blend [Bottle]" and "Stow Vermouth Blend [30ml]" collapse to
+    one key — and they are precisely the pair that must NOT: the 30 ml pour is
+    sold at $12 and the bottle is a $44.65 batch. Letting the pour's category
+    reach the bottle turned the bottle into a menu item reporting -309% GP. An
+    exact match can only ever fail closed, back to the name rule."""
+    out = {}
+    for _v, path in EXPORTS:
+        if not path.exists():
+            continue
+        for r in csv.DictReader(path.open(encoding="utf-8-sig")):
+            g = (r.get("ReportingGroup") or "").strip()
+            n = (r.get("ProductName") or "").strip()
+            if n and g:
+                out.setdefault(n, g)
+    return out
 
 
 def _tok(s):
@@ -142,7 +455,80 @@ INGREDIENT_ALIAS = {
     # 49 recipes use one, 6 the other. Consolidated onto the one with four
     # recent Fresh Fruit Team invoices behind it.
     "Onion Spanish [10kg]": "Spanish Onion [10Kg]",
-
+    # Harry Gatos' name for Stowaway's house blend. data/recipe_venue_mirrors.yaml
+    # already records the decision — "'Stow Vermouth Blend' vs 'Vermouth Blend'.
+    # Same liquid, same pour. One spec, maintained once." — and mirrors Americano,
+    # Boulevardier, Manhattan and Sbagliato Negroni to Stowaway's recipes. But the
+    # mirror is at RECIPE level, and these four drinks reach the blend through an
+    # INGREDIENT line, so the decision never got applied: four cocktails costed
+    # 20-45 ml of vermouth at $0.00. Harry Gatos' Produce carries both names with
+    # no cost on either; Stowaway's carries the price ($41.34 / 990 ml) and the
+    # blend recipe (Carpano + Antica + Regal Rogue, 330 ml each).
+    "Vermouth Blend [Bottle]": "Stow Vermouth Blend [Bottle]",
+    # Harry Gatos' own SKUs for two wines it does not buy.
+    #
+    # Both carry a 750 ml size and CostPriceIncTax 0.0000 in Harry Gatos' Back
+    # Office, so a $26 glass of rosé and a $32 glass of Veuve reported 100% GP.
+    # Stowaway's records for the same two wines are invoice-fed — Whispering
+    # Angel at $0.0457/ml off four ILG deliveries, Veuve at $0.1077/ml — and
+    # there is exactly one product of each name in the group.
+    #
+    # The reason to read them as the same stock is not the name, it is the
+    # purchasing: of 449 non-seed supplier rows filed to harry_gatos, every one
+    # is food except two lines of White Light Vodka. Harry Gatos has no wine
+    # supplier. The bottles it pours were bought on a Stowaway invoice, because
+    # there is no other invoice they could have come from.
+    #
+    # Milagro Reposado was listed here as deliberately absent — no costed twin in
+    # the group, nothing to point at. Zak, 2026-08-06: "milagro definitely has a
+    # price somewhere too." It does, and not as a twin: ILG's own MAR 2026 price
+    # book carries 360-126-7 Milagro Reposado Tequila 700ml at $66.66 a bottle.
+    # That is a seed, not an alias — data/cogs_list.csv, source bo-seed-ilgpb.
+    #
+    # Velho Berreiro Cachaça was listed alongside it until 2026-08-06, on the same
+    # reasoning. That reasoning was answered rather than met: Zak says the drink is
+    # made with Germana, so the right fix is not to declare the two bottles one
+    # stock — they are two brands — but to record that Harry Gatos pours a
+    # different bottle than Produce says. That lives in
+    # data/recipe_ingredient_swaps.yaml, scoped to the one recipe.
+    "Whispering Angel - Bottle [HG]": "Whispering Angel Rosé - Bottle",
+    "Veuve Clicquot - Bottle [HG]": "Veuve Clicquot Yellow Label - Bottle",
+    # Zak: "havana club definitely has a price somewhere". It does — under a
+    # name one word shorter. Pika Pika draws "Havana Club 3yr [700ml]"; the
+    # priced Stowaway product is "Havana 3yr [700ml]" at $0.041556/ml. Both Back
+    # Office entries read $0.00, and there is one Havana in the group.
+    #
+    # It IS bridged to the ILG invoice, as of 2026-08-06. It was not, and the
+    # reasoning that kept it out was wrong — recorded here because the shape of
+    # the mistake is worth keeping.
+    #
+    # ILG bills "HAVANA CLUB 700ML 3YO." at $58.01 on a "6x700ML" uom. Reading
+    # that as one bottle gives $82.87/L, exactly twice the seed, and the case
+    # reading gives $9.67 a bottle, which is absurd. From those two the earlier
+    # call was: the line must be TWO bottles at $29.01, because $29.09 is what
+    # the seed says, and a figure that agrees with the seed to eight cents is not
+    # a coincidence. So the invoice was judged wrong and the seed right.
+    #
+    # It was a coincidence. ILG's own MAR 2026 price book lists 355-055-2 Havana
+    # Club 700ml 3yo. at $49.20 a bottle. $29.09 is 41% under the supplier's own
+    # book price for a bottle they sell us — not a discount, an impossibility.
+    # The seed was never an observation: "Lightspeed recipe cost (median of 4)",
+    # i.e. Produce's own derived figure, which is exactly the input this project
+    # exists because it cannot trust. The $58.01 line is one bottle, 18% over
+    # book, which is what a single bottle costs when you don't buy the case.
+    #
+    # THE LESSON: two candidate readings were tested against ONE reference, and
+    # the reference was the number under suspicion. A third, independent source
+    # was sitting in data/invoice_corpus/ilg_pricebook.pdf the whole time. When
+    # the tie-breaker is the thing being adjudicated, there is no tie-breaker.
+    #
+    # Bridging doubles the cost of every Havana pour. That is the point.
+    "Havana Club 3yr [700ml]": "Havana 3yr [700ml]",
+    # Produce holds dried shiitake twice: "Shiitake Mushrooms Dried" (DefaultSize
+    # 1 g, $25.00 — i.e. $25 a GRAM) and "Mushroom Shiitake Dried [1kg]" at
+    # $31.25/kg. Jun Pacific invoice NB10486744 settles it: "Dried Shiitake
+    # Mushroom 1kg", $31.25. Shiitake Tare draws 50 g of the broken one.
+    "Shiitake Mushrooms Dried": "Mushroom Shiitake Dried [1kg]",
 }
 
 # Redundant lines Zak has asked to drop. NOT deleted from any source file — the
@@ -183,15 +569,48 @@ RENAMED_TO = {
     "Btl Disco Volante D": "Trutta Streamside Shiraz [Chilled] - Bottle",  # $68 bottle
 }
 
+# A recipe whose Produce NAME is not the name Back Office sells it under. The
+# book is renamed on the way out, after every transform has run against the name
+# the scrape uses, so nothing upstream has to know.
+#
+# Get this wrong and a recipe stops matching its product, so entries need the
+# same standard as any other: the Back Office export must carry the new name and
+# NOT the old one.
+RECIPE_RENAMED_TO = {
+    # Every other dine-in pizza is "Regular X [Dine-in]" — twenty of them. This
+    # one lost its size prefix in Produce, and _mirror_dine_in already had to
+    # special-case it ("a legacy name whose takeaway twin is Regular Pepperoni").
+    #
+    # The name cost real money twice over. Back Office sells "Regular Pepperoni
+    # [Dine-in]" at $21 and has no product called "Pepperoni [Dine-in]" at all,
+    # so the P&L could not match the recipe to the SKU — $253 a quarter, 114
+    # serves since launch, costed off Lightspeed. And the sell-price lookup
+    # normalises the bracket away, landing on the $2.00 "Pepperoni" add-on, which
+    # is where the SEVERE "real recipe priced below cost, sells $2.00 costs
+    # $2.11" came from. That was never a POS pricing error. It was this.
+    "Pepperoni [Dine-in]": "Regular Pepperoni [Dine-in]",
+}
+
 
 def load_sell_prices():
     """normalised ProductName -> sell price incl GST (what the menu charges).
 
-    Returns (by_norm, by_tok). by_norm is the exact match. by_tok is a
-    word-order-tolerant fallback that ONLY carries a token key when every priced
-    product sharing that key agrees on ONE price — so 'Coke 1.25L' ($6) rescues
-    the recipe named '1.25L Coke', but an ambiguous key like the three-size
-    'Trutta Streamside Shiraz' ($18/$27/$68) is dropped rather than guessed."""
+    Returns (by_exact, by_norm, by_tok), tried in that order.
+
+    by_exact IS THE ONE THAT MATTERS AND IT WAS MISSING. norm() strips the
+    bracket, so "Regular Margherita [Dine-in]" and "Regular Margherita" collapse
+    to one key and whichever the export listed first won. It was always the
+    takeaway, so every dine-in pizza carried its takeaway price — $14 against a
+    real $21, six to eight dollars low, on all 77 of them. The cost was right and
+    the GP was not, in the direction that makes a dish look worse than it is.
+    Matching the product's own name first cannot be ambiguous, so it goes first.
+
+    by_norm is the bracket-insensitive match. by_tok is a word-order-tolerant
+    fallback that ONLY carries a token key when every priced product sharing that
+    key agrees on ONE price — so 'Coke 1.25L' ($6) rescues the recipe named
+    '1.25L Coke', but an ambiguous key like the three-size 'Trutta Streamside
+    Shiraz' ($18/$27/$68) is dropped rather than guessed."""
+    exact_prices = {}
     by_norm = {}
     tok_prices = {}
     for _v, path in EXPORTS:
@@ -205,17 +624,23 @@ def load_sell_prices():
             nm = r["ProductName"]
             n = norm(nm)
             if n and p > 0:
+                exact_prices.setdefault(nm.strip(), set()).add(round(p, 2))
                 by_norm.setdefault(n, p)
                 tok_prices.setdefault(_tok(nm), set()).add(round(p, 2))
+    # Same discipline as by_tok: a name that two venues price differently is
+    # dropped rather than resolved to whichever export was read first.
+    by_exact = {k: next(iter(ps)) for k, ps in exact_prices.items() if len(ps) == 1}
     by_tok = {t: next(iter(ps)) for t, ps in tok_prices.items() if len(ps) == 1}
-    return by_norm, by_tok
+    return by_exact, by_norm, by_tok
 
 
-def sell_of(name, by_norm, by_tok):
-    """current-product override (renamed items) first, then exact normalised name,
-    then the unambiguous word-order fallback."""
+def sell_of(name, by_exact, by_norm, by_tok):
+    """current-product override (renamed items) first, then the product's OWN
+    name, then the bracket-insensitive match, then the word-order fallback."""
     lookup = RENAMED_TO.get(name, name)
-    return by_norm.get(norm(lookup)) or by_tok.get(_tok(lookup))
+    return (by_exact.get(lookup.strip())
+            or by_norm.get(norm(lookup))
+            or by_tok.get(_tok(lookup)))
 
 
 _YB = re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre)\]", re.I)
@@ -227,12 +652,23 @@ def load_yields():
     y = ROOT / "data" / "prep_yields.yaml"
     if y.exists():
         import yaml
-        for k, v in (yaml.safe_load(y.read_text()) or {}).items():
+        for k, v in (yaml.safe_load(y.read_text(encoding="utf-8-sig")) or {}).items():
             out[k] = (float(v["yield_qty"]), v["yield_unit"])
     return out
 
 
-_BASE = {"kg": ("g", 1000.0), "l": ("ml", 1000.0), "lt": ("ml", 1000.0), "litre": ("ml", 1000.0)}
+_BASE = {"kg": ("g", 1000.0), "l": ("ml", 1000.0), "lt": ("ml", 1000.0), "litre": ("ml", 1000.0),
+         # A COUNTABLE IS A COUNTABLE. resolve_pack answers "one whole pack" as
+         # "can" (its basis word) while every recipe line says "ea", so a cost we
+         # hold per-unit could never be multiplied by a per-unit quantity: 105
+         # cost rows in "can" against 274 recipe lines in "ea", and each mismatch
+         # silently fell through to Lightspeed's number or to $0.
+         #
+         # They are the same dimension and the same magnitude — one of the thing
+         # you bought — so this is a rename, not a conversion, and the factor is
+         # 1.0. Nothing here means "a 375 ml can": that is a pack SIZE, which
+         # lives in the pack columns, not the unit.
+         "can": ("ea", 1.0)}
 
 
 def _to_base(cost, unit):
@@ -279,7 +715,7 @@ def load_our_preps(our_costs):
 
     specs = {}
     for f in sorted((ROOT / "data" / "recipes").glob("*.yaml")):
-        for r in (yaml.safe_load(f.read_text()) or []):
+        for r in (yaml.safe_load(f.read_text(encoding="utf-8-sig")) or []):
             if isinstance(r, dict) and r.get("product"):
                 specs[r["product"]] = r
 
@@ -369,14 +805,389 @@ def load_seed_baseline():
     return base
 
 
+# What each deal contains, from the Marilyna's menu Zak sent on 2026-08-06:
+#   WINGS DEAL     1 large pizza, BBQ wings, garlic bread                  $30
+#   FEAST DEAL     2 large pizzas, garlic bread, choc brownie              $45
+#   BANQUET DEAL   3 large pizzas, garlic bread, 1.25L soft drink          $60
+#   PIZZA PARTY    4 large pizzas, 2 garlic breads, 2 brownies, 2 x 1.25L  $90
+#
+# Keyed by the POS SKU. Marilyna's has sold these under two generations of name —
+# the per-pizza SKUs ("Large Meatlovers Wings Deal") and the generic headers — and
+# both are listed because both still ring.
+_DEALS = {
+    "WINGS DEAL":          [("Large Pizza [menu average]", 1), ("BBQ Wings", 1), ("Garlic Bread", 1)],
+    "$45 FEAST":           [("Large Pizza [menu average]", 2), ("Garlic Bread", 1), ("Choc Brownie", 1)],
+    "Feast Deal Pizzas":   [("Large Pizza [menu average]", 2), ("Garlic Bread", 1), ("Choc Brownie", 1)],
+    "$60 BANQUET":         [("Large Pizza [menu average]", 3), ("Garlic Bread", 1), ("1.25L Coke", 1)],
+    "Banquet Deal Pizzas": [("Large Pizza [menu average]", 3), ("Garlic Bread", 1), ("1.25L Coke", 1)],
+    "$90 PIZZA PARTY":     [("Large Pizza [menu average]", 4), ("Garlic Bread", 2), ("Choc Brownie", 2),
+                            ("1.25L Coke", 2)],
+}
+
+
+def apply_product_aliases(out: dict) -> int:
+    """Publish a costed recipe under the name the TILL sells it as.
+
+    The till and Produce are two naming systems nobody keeps in step. "Outback
+    Prawn Toast" on the menu is "Devon's Prawn Toast" in the book — same dish,
+    already costed — and no normaliser connects those words because there is
+    nothing to connect. It is a rename.
+
+    That costs real money, not just a bad audit line: cogs_blend._load_book_costs
+    keys on the POS product name, so a renamed dish never reaches the P&L and the
+    day falls through to Lightspeed's stale cost while a perfectly good recipe
+    sits unused three feet away.
+
+    The alias PUBLISHES the recipe under the POS name rather than renaming it, so
+    the Produce name keeps working for anything that still references it, and
+    both names cost identically.
+
+    "NEVER OVERWRITES AN EXISTING ENTRY" WAS TOO STRONG
+    ---------------------------------------------------
+    `if pos_name in out: continue` treats "there is a key" as "there is a
+    recipe", and those are different things. Produce carries name-only stubs —
+    a product exists, nobody ever built it — and "Beef Burger D" was one of
+    them. Zak confirmed on 2026-08-06 that it IS the American Standard Burger,
+    the confirmation went into the yaml, and the alias then declined to apply
+    because the empty stub was already sitting on the key. A $24.00 burger kept
+    costing nothing while its nine-line, $5.84 build sat in the book, and the
+    entry that blocked it contained no information at all.
+
+    So the test is not "is the key taken" but "is there a BUILD under it":
+
+      * an entry with at least one RESOLVED ingredient line is a genuine Produce
+        recipe and is never overwritten, confirmation or no confirmation. A
+        confirmed alias is one person's statement that two names mean the same
+        dish; a built recipe is the kitchen's statement of what goes in it, and
+        the second one wins. That is also the safe direction — replacing a real
+        build with a copy of another dish is unrecoverable from here.
+      * an entry with no resolved line prices nothing, so there is nothing to
+        lose and a confirmed pairing is strictly better than a stub. It is
+        replaced, and said out loud.
+
+    Deliberately structural, not a cost comparison: it needs no costing pass, so
+    it cannot memoise a cost that a later pass would have changed.
+    """
+    path = ROOT / "data" / "product_recipe_aliases.yaml"
+    if not path.exists():
+        return 0
+    import copy
+    import yaml
+    n = 0
+    for pos_name, book_name in (yaml.safe_load(path.read_text(encoding="utf-8-sig")) or {}).items():
+        if book_name not in out:
+            continue
+        existing = out.get(pos_name)
+        if existing is not None:
+            if any(l.get("kind") for l in (existing.get("ingredients") or [])):
+                print(f"  alias NOT applied: {pos_name!r} already has a built "
+                      f"Produce recipe ({len(existing['ingredients'])} lines) — a "
+                      f"build beats a rename. Confirm which one is right.")
+                continue
+            print(f"  alias replaces an unbuilt entry: {pos_name!r} "
+                  f"-> {book_name!r} (it priced nothing)")
+        out[pos_name] = copy.deepcopy(out[book_name])
+        out[pos_name]["alias_of"] = book_name
+        n += 1
+    return n
+
+
+def add_deal_recipes(out: dict, cost_of) -> int:
+    """Cost a deal header from what the deal contains.
+
+    THE DEFECT
+    ----------
+    Marilyna's deals used to ring as per-pizza SKUs — "Large Meatlovers Wings
+    Deal", $99 of revenue against $20.88 of cost, correct. They now ring as
+    generic headers: "$45 FEAST", "$60 BANQUET", "$90 PIZZA PARTY", "WINGS
+    DEAL". The header carries the whole deal price at zero cost, and NO pizza
+    rings anywhere to carry it — across every daily Insights export only $316 of
+    component cost rings at zero revenue, and all of it is garlic bread,
+    brownies and 1.25 L Cokes. Not one pizza.
+
+    So $9,447 of revenue books at 100% GP. It is the single largest remaining
+    under-cost in the book and it is entirely an artefact of a SKU rename.
+
+    (I told Zak earlier that the deals were already costed and that giving the
+    headers recipes would double-count. That was true of the Wings Deal, whose
+    components genuinely do ring separately, and I generalised it to the rest
+    without checking. This is the correction.)
+
+    WHY AN AVERAGE, AND WHY IT IS NOT A GUESS
+    -----------------------------------------
+    The header does not record WHICH pizza was chosen — that information is not
+    in the till, so no amount of care recovers it. What the till does record is
+    every large pizza actually sold, with a costed recipe each. The
+    sales-weighted mean of those is the best available statement of what a large
+    pizza off this menu costs, and it is computed from real sales mix at build
+    time rather than typed in, so it tracks the menu instead of going stale.
+
+    It lands at ~$5.25 over ~1,800 pizzas across 32 SKUs. Under-costing is the
+    flattering direction, so the mean is deliberately taken over pizzas SOLD
+    (which weights toward the cheap high-volume Margherita and Hawaiian) rather
+    than over the menu (which would weight toward the dear ones and flatter the
+    deal's cost upward). If that is wrong it is wrong toward reporting a WORSE
+    GP than reality, which is the safe side.
+
+    A deal is skipped entirely if any component is missing from the book — a
+    partial deal cost is worse than a visible zero, because it looks finished.
+    """
+    avg = _mean_large_pizza_cost(out, cost_of)
+    if not avg:
+        return 0
+    # A real book entry, not a hidden constant: one line carrying the computed
+    # mean, so the deal's cost is inspectable in the same place as every other
+    # recipe and the number is visible rather than buried in code. ref is empty
+    # because there is no ProductID for "the average large pizza" — kind stays
+    # "id" so the auditor does not read it as a line that resolves to nothing.
+    out.setdefault("Large Pizza [menu average]", {"ingredients": [{
+        "name": "large pizza, sales-weighted mean of every large sold",
+        "kind": "id", "ref": "", "qty": 1, "unit": "ea",
+        "ls_cost": None, "our_cost": f"{avg:.4f}"}], "menu_average": True})
+    added = 0
+    for sku, parts in _DEALS.items():
+        if sku in out:
+            continue
+        if any(nm != "Large Pizza [menu average]" and nm not in out for nm, _ in parts):
+            continue
+        # Resolved at BUILD time rather than left as sub-recipe references.
+        # A sub-recipe line costed cleanly for BBQ Wings and Garlic Bread and
+        # came back $0.00 for Choc Brownie and the menu average — so two of the
+        # four components in a $45 deal silently contributed nothing while the
+        # recipe still looked complete. Whatever the resolver is doing there, a
+        # deal is not the place to find out: cost each component here, where a
+        # zero is visible immediately and the deal is skipped rather than shipped
+        # half-priced.
+        lines, ok = [], True
+        for nm, q in parts:
+            try:
+                c = avg if nm == "Large Pizza [menu average]" else float(cost_of(nm)[0] or 0)
+            except (TypeError, ValueError, KeyError):
+                c = 0.0
+            if not c or c <= 0:
+                ok = False
+                break
+            lines.append({"name": nm, "kind": "id", "ref": "", "qty": q, "unit": "ea",
+                          "ls_cost": None, "our_cost": f"{c:.4f}"})
+        if not ok:
+            continue
+        out[sku] = {"ingredients": lines, "deal_header": True}
+        added += 1
+    return added
+
+
+def _mean_large_pizza_cost(out: dict, cost_of):
+    """Sales-weighted mean cost of a large pizza, from the daily Insights exports.
+
+    Weighted by units actually sold, not a flat average across the menu: a deal
+    pizza is drawn from the same distribution customers order from, and the flat
+    average would sit higher (more dear SKUs than cheap ones) and flatter the
+    deal. Falls back to None — and the deals stay uncosted — if there is no sales
+    data to weight with, because an unweighted number here would be a guess
+    wearing a computed number's clothes.
+    """
+    import csv as _csv
+    import glob as _glob
+    sold = {}
+    for f in sorted(_glob.glob(str(ROOT / "data" / "insights_*.csv"))):
+        try:
+            rows = list(_csv.DictReader(open(f, encoding="utf-8-sig")))
+        except UnicodeDecodeError:
+            rows = list(_csv.DictReader(open(f, encoding="latin-1")))
+        except OSError:
+            continue
+        for r in rows:
+            nm = (r.get("Product Name") or "").strip()
+            if not nm.lower().startswith("large "):
+                continue
+            try:
+                q = float(str(r.get("Product Quantity") or 0).replace(",", "") or 0)
+            except ValueError:
+                continue
+            if q > 0:
+                sold[nm] = sold.get(nm, 0.0) + q
+    # cost_of, not rec["our_cost"]: this runs BEFORE the pass that writes
+    # our_cost onto every entry, so reading the field would see nothing and the
+    # mean would silently come out None with the deals left uncosted — which is
+    # exactly what happened on the first attempt.
+    tq = tc = 0.0
+    for nm, q in sold.items():
+        if nm not in out:
+            continue
+        try:
+            c = float(cost_of(nm)[0] or 0)
+        except (TypeError, ValueError, KeyError):
+            c = 0.0
+        if c > 0:
+            tq += q
+            tc += c * q
+    return round(tc / tq, 4) if tq else None
+
+
+def add_passthrough_products(out: dict) -> int:
+    """Cost the things we sell exactly as we bought them.
+
+    THE HOLE
+    --------
+    The costed book contains what Lightspeed PRODUCE has a recipe for, and nobody
+    writes a recipe for a can of Corona. So every packaged drink at every venue —
+    beer, cider, seltzer, soft drink in a bottle, a glass of Pepsi — was absent
+    from the book entirely, fell through to Lightspeed's stale Average-Cost
+    figure, and counted against recipe coverage. 47 products, $80,118 of lifetime
+    revenue, at Stowaway as much as Harry Gatos: Heaps Normal $17,195, Corona
+    $13,981, Monteith's $5,921.
+
+    They were never going to arrive by the recipe route. A recipe answers "what
+    goes into this"; for a can the answer is the can, and Produce has no way to
+    say that.
+
+    WHY THIS NEEDS NO JUDGEMENT
+    ---------------------------
+    The cost is already in the system, on the same product, typed by Zak: Back
+    Office's CostPriceIncTax. This does not derive it, infer it, or reconcile it
+    — it reads the number off the product being sold. Spot-checked against ILG's
+    own price book, which is independent of both: Corona $2.57 vs $2.44 a bottle
+    (1.05x), Asahi 3.5% $2.18 vs $2.12 (1.03x), Peroni 0% $1.85 vs $1.59 (1.16x).
+    The resulting GPs land at 70-80%, which is what packaged beer is.
+
+    SCOPE, deliberately tight:
+      * unit-priced only. A per-ml or per-g product is a bottle you POUR from —
+        that is an ingredient, and pricing it as a serve would cost a 30 ml nip
+        at a whole bottle. This is the countable you hand over intact.
+      * sold and costed. Both a Back Office price and a Back Office cost, both
+        above zero. No price means it is not a menu item; no cost means there is
+        nothing to read and it stays visibly at $0 for the audit to shout about.
+      * never overrides Produce. If the book already has the name, Produce's
+        recipe wins — this only fills absences.
+      * never a prep or a stock pack. _PREP_NAME (Batch/Prep/[2Kg]) and
+        _PACK_BRACKET ([Bottle]/[750ml]/[Can]) names are excluded: a
+        batch's unit price is not its batch cost, which is the trap that made
+        Dragon Soda book $37.20 against a $9.00 drink.
+
+    Each entry carries one line — itself — so it costs through the ordinary
+    machinery and reads honestly in the book: 1 x the thing, at what we paid.
+    """
+    import csv as _csv
+
+    def _stock_key(nm):
+        """A packaged drink's identity, with the venue tag and the container word
+        removed. Harry Gatos files the same beer as "Grifter Big Sur IPA Can [HG]"
+        that Stowaway files as "Grifter Big Sur IPA Tin", and "Monteith's Apple
+        Cider [HG]" against "Monteith's Apple Cider Bottle". Can, tin and bottle
+        are how it arrives, not what it is."""
+        nm = re.sub(r"\[.*?\]", "", nm or "")
+        nm = re.sub(r"\b(can|tin|bottle|btl|stubby|longneck|glass)\b", "", nm, flags=re.I)
+        return re.sub(r"[^a-z0-9]", "", nm.lower())
+
+    # Stowaway's costed packaged drinks, by stock identity. Used ONLY as a
+    # fallback for a Harry Gatos product Back Office leaves at $0.00.
+    #
+    # The reason is purchasing, not naming — the same reason Whispering Angel and
+    # Veuve are aliased across the two venues: of 449 non-seed supplier rows filed
+    # to harry_gatos, every one is food except two lines of White Light Vodka. Harry
+    # Gatos has no drinks supplier. The cans it sells were bought on a Stowaway
+    # invoice, because there is no other invoice they could have come from.
+    #
+    # Requires exactly one Stowaway match. Two would mean the identity is ambiguous
+    # and the honest answer is to leave the zero visible.
+    _stow_cost, _stow_dupe = {}, set()
+    _sp = ROOT / "data" / "bo_exports" / "stowaway_products.csv"
+    if _sp.exists():
+        for row in _csv.reader(_sp.open(encoding="utf-8-sig")):
+            if len(row) < 12 or not row[0].isdigit() or row[6] != "unit":
+                continue
+            try:
+                if float(row[10] or 0) <= 0:
+                    continue
+            except ValueError:
+                continue
+            k = _stock_key(row[2])
+            if k in _stow_cost:
+                _stow_dupe.add(k)
+            _stow_cost[k] = (row[2].strip(), float(row[10]))
+    for k in _stow_dupe:
+        _stow_cost.pop(k, None)
+
+    added = borrowed = 0
+    for venue, fname in (("stowaway", "stowaway_products.csv"),
+                         ("harry_gatos", "harry_gatos_products.csv")):
+        path = ROOT / "data" / "bo_exports" / fname
+        if not path.exists():
+            continue
+        for row in _csv.reader(path.open(encoding="utf-8-sig")):
+            if len(row) < 12 or not row[0].isdigit():
+                continue
+            pid, name, unit, sell, cost = row[0], row[2].strip(), row[6], row[8], row[10]
+            if unit != "unit" or not name or name in out:
+                continue
+            twin = ""
+            try:
+                if float(sell or 0) <= 0:
+                    continue
+                if float(cost or 0) <= 0:
+                    if venue != "harry_gatos":
+                        continue
+                    got = _stow_cost.get(_stock_key(name))
+                    if not got:
+                        continue
+                    twin, cost = got[0], f"{got[1]:.4f}"
+                    borrowed += 1
+            except ValueError:
+                continue
+            if _PREP_NAME.search(name) or _PACK_BRACKET.search(name):
+                continue
+            out[name] = {"ingredients": [{
+                "name": name, "kind": "id", "ref": f"lightspeed:{pid}",
+                "qty": "1", "unit": "ea", "ls_cost": None,
+                "our_cost": f"{float(cost):.4f}", "passthrough": True,
+                **({"stock_twin": twin} if twin else {})}],
+                "passthrough": venue}
+            added += 1
+    if borrowed:
+        print(f"  {borrowed} Harry Gatos product(s) costed from Stowaway's price "
+              f"for the same stock")
+    return added
+
+
 def main() -> int:
-    rec = json.loads(RECIPES.read_text())
+    # stdout is output too — see build_costs.py. An em-dash in a progress line
+    # under an ASCII locale kills a run whose files are already correct.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    rec = json.loads(RECIPES.read_text(encoding="utf-8-sig"))
+    global _LS_MISREAD_REFS, _RAW_LINE_COST
+    _LS_MISREAD_REFS = load_ls_misread_refs()
+    # Correct any unit typo BEFORE anything reads the line — see
+    # data/recipe_line_unit_fixes.yaml, where each entry carries arithmetic proof.
+    _fixed = apply_unit_fixes(rec)
+    if _fixed:
+        print(f"  corrected {_fixed} mislabelled unit(s) (recipe_line_unit_fixes.yaml)")
+    # ...repoint any line Produce files against a bottle the venue no longer pours,
+    # BEFORE the raw line costs are captured — the old bottle's cost must not
+    # survive the swap. See data/recipe_ingredient_swaps.yaml.
+    _swapped = apply_ingredient_swaps(rec)
+    if _swapped:
+        print(f"  swapped {_swapped} ingredient(s) (recipe_ingredient_swaps.yaml)")
+    # ...then put every line in the base units our cost book is priced in, so the
+    # Harry Gatos scrape's "mL"/"L"/"kg"/"Units" can reach it at all.
+    _normalised = normalise_line_units(rec)
+    if _normalised:
+        print(f"  normalised {_normalised} line unit(s) to base units")
+    _RAW_LINE_COST = load_raw_line_costs(rec)
+    if _LS_MISREAD_REFS:
+        print(f"  {len(_LS_MISREAD_REFS)} ProductIDs Lightspeed prices wrong "
+              f"(BO export contradicts its own seed >3x) — our rate wins on those")
     bo_by_name, bo_prefixes = load_bo_ids()
+    bo_groups = load_bo_groups()
+
+    def bo_group(nm):
+        """The menu category Back Office files this product under, or ""."""
+        return bo_groups.get((nm or "").strip()) or ""
     our_costs = load_our_costs()
     our_preps = load_our_preps(our_costs)
     packs = load_packs()
     seed_base = load_seed_baseline()
-    sell_by_norm, sell_by_tok = load_sell_prices()
+    sell_by_exact, sell_by_norm, sell_by_tok = load_sell_prices()
     yields = load_yields()
     # 47 recipe names collide once normalised (a base recipe and its "[Dine-in]"
     # twin). Keep the SHORTEST — the base recipe — so a normalised lookup lands on
@@ -552,7 +1363,7 @@ def main() -> int:
                             q = float(ln.get("qty") or 0)
                         except (TypeError, ValueError):
                             q = 0.0
-                        if 0 < q <= 2 and (sell_of(ref, sell_by_norm, sell_by_tok) or 0) >= 3:
+                        if 0 < q <= 2 and (sell_of(ref, sell_by_exact, sell_by_norm, sell_by_tok) or 0) >= 3:
                             for sub in out[ref]["ingredients"]:
                                 c = dict(sub)
                                 for k in ("qty", "ls_cost"):   # the LS reference must scale too
@@ -668,7 +1479,7 @@ def main() -> int:
         spec_path = ROOT / "data" / "pizza_regular_grams.yaml"
         if not spec_path.exists():
             return 0, 0
-        spec = [s for s in (yaml.safe_load(spec_path.read_text()) or []) if s.get("match")]
+        spec = [s for s in (yaml.safe_load(spec_path.read_text(encoding="utf-8-sig")) or []) if s.get("match")]
         for s in spec:
             s["_re"] = re.compile(s["match"], re.I)
 
@@ -730,19 +1541,59 @@ def main() -> int:
         if not path.exists():
             return 0
         added = 0
-        for spec in (yaml.safe_load(path.read_text()) or []):
+        for spec in (yaml.safe_load(path.read_text(encoding="utf-8-sig")) or []):
             for rname in spec.get("recipes") or []:
                 r = out.get(rname)
+                if r is None and spec.get("create"):
+                    # Produce has no recipe for this product AT ALL — not an
+                    # incomplete one, an absent one. A house soda, a mixer glass,
+                    # a drink one venue serves from another's build. Creating the
+                    # entry here is the only way it can ever be costed, and it
+                    # must happen BEFORE add_passthrough_products so a real recipe
+                    # always beats a Back Office unit price.
+                    r = out.setdefault(rname, {"ingredients": []})
                 if not r:
                     continue
                 if any((l.get("ref") == spec["ref"]) or
                        norm(l.get("name") or "") == norm(spec["name"])
                        for l in r["ingredients"]):
                     continue                      # already there — never duplicate
+                # A SUB-RECIPE line carries its own quantity (a Wings Deal is one
+                # portion of BBQ Wings), unlike an ingredient line whose grams come
+                # from Zak's weighed sheet in the pass below.
+                #
+                # `ls_cost` IS OPTIONAL AND IT IS NOT A COST — it is the Lightspeed
+                # REFERENCE for the line, the divisor cost_of() scales the batch by
+                # (our_batch x ls_line / ls_batch). Without one, a restored
+                # sub-recipe line can only be costed when the batch declares a yield
+                # in the line's own unit, and two of the preps in this file do not:
+                # "Yorkshire Pudding Prep [110 units]" has no yield anywhere (the
+                # bracket says units, which load_yields does not read) and Gravy Prep
+                # yields in ml while every roast draws it in g. Both then fell to the
+                # final `eff = ls` branch and contributed $0.00 — a restored line
+                # that silently prices nothing is worse than no line at all, because
+                # the recipe then LOOKS complete.
+                #
+                # It may only ever be copied from a sibling recipe that already
+                # carries the identical line, which is the same standard of evidence
+                # the rest of this file is held to. It is never a number anyone made
+                # up, and it is never used where the batch can be costed properly.
+                if spec.get("subrecipe"):
+                    r["ingredients"].append({
+                        "name": spec["name"], "kind": "subrecipe", "ref": spec["ref"],
+                        "qty": spec.get("qty", 1), "unit": spec.get("unit") or "ea",
+                        "ls_cost": spec.get("ls_cost"), "our_cost": None,
+                    })
+                    added += 1
+                    continue
                 oc = our_costs.get(spec["ref"])
+                # qty 0 = "the grams come from Zak's weighed sheet in the pass
+                # below" (pizza toppings). A cocktail line states its own ml here,
+                # because a branded Margarita is the Classic's spec with the base
+                # spirit swapped — there is no weighed sheet for a pour.
                 r["ingredients"].append({
                     "name": spec["name"], "kind": "id", "ref": spec["ref"],
-                    "qty": 0, "unit": spec.get("unit") or "g",
+                    "qty": spec.get("qty", 0), "unit": spec.get("unit") or "g",
                     "ls_cost": None,
                     "our_cost": float(oc[0]) if oc and oc[1] == (spec.get("unit") or "g") else None,
                 })
@@ -931,7 +1782,7 @@ def main() -> int:
                 except (TypeError, ValueError):
                     _q2 = 0.0
                 if (so > 0 and not _y and 0 < _q2 <= 2
-                        and (sell_of(ln["ref"], sell_by_norm, sell_by_tok) or 0) >= 3):
+                        and (sell_of(ln["ref"], sell_by_exact, sell_by_norm, sell_by_tok) or 0) >= 3):
                     # A whole SERVE used inside another product: a Regular pizza is
                     # "0.716 of the Large", a Wings Deal is "1 x the Large", so the
                     # quantity IS the multiplier. Scaling by Lightspeed's price ratio
@@ -1014,8 +1865,56 @@ def main() -> int:
                 # 100% GP on a $12.90 dish. The unit in Produce is not reliable
                 # enough to reinterpret, and under-costing is the direction that
                 # flatters. Three garnishes at 2c stay visible in the audit instead.
+                # ...but "less than one" means two different things, and Produce's
+                # own stated line cost tells them apart. Form BOTH readings and keep
+                # whichever matches it:
+                #
+                #   Garlic Bread [Deal]  0.025 of "Garlic Bread [9" x40]"; Produce
+                #     says $1.32. Whole = $1.50 (matches), fraction = $0.04 (does
+                #     not) -> the 0.025 means ONE bread out of the 40-carton.
+                #   American Standard Burger  0.083 of "Lettuce Cos Baby Twin Pack";
+                #     Produce says $0.23. Fraction = $0.228 (matches), whole = $2.75
+                #     (12x out) -> Fresh Fruit Team's "each" IS the pack, so 0.083 is
+                #     a real twelfth of it, and promoting it made lettuce the dearest
+                #     thing in the burger — above the wagyu patty.
+                #
+                # Compare against the RAW scrape figure, never ln["ls_cost"]: that has
+                # already been scaled for deal lines ($0.0355 on the garlic bread), so
+                # comparing against it picks the wrong reading every time.
                 if cur and cur[1] == "ea" and 0 < _qf < 1:
-                    eff = float(cur[0])
+                    _whole = float(cur[0])
+                    _raw = _RAW_LINE_COST.get((name, norm(ln.get("name") or "")))
+                    if _raw is None:
+                        # NO SCRAPE LINE OF ITS OWN -> ASK THE RECIPE IT IS A COPY
+                        # OF. Without a raw figure this falls through to WHOLE, the
+                        # expensive reading, and the copy costs more than the dish
+                        # it copies. Bang Bang Cauli D took "0.01" of a $9.90 bunch
+                        # of chives as a whole bunch and cost $12.57 on a $16 dish
+                        # while the identical Bang Bang Cauli read it as 10c.
+                        #
+                        # An ALIAS is asked first, because it is not a heuristic: a
+                        # confirmed pairing in product_recipe_aliases.yaml says these
+                        # two names are the same dish, so the source recipe's own
+                        # scrape line is the right authority. "Beef Burger D" is a
+                        # deep copy of the American Standard Burger, whose lettuce
+                        # line Produce prices at $0.23 — 0.083 of a $2.75 twin-pack
+                        # is $0.228 and a whole pack is $2.75, so the fraction is
+                        # the reading that matches. Without this it took the whole
+                        # twin-pack and OVER-costed the burger by $2.52 (our_cost
+                        # $8.362 against the $5.8403 of the dish it is a copy of),
+                        # making lettuce dearer than the wagyu patty.
+                        #
+                        # The " D" suffix stays as the fallback for the delivery
+                        # twins that have no confirmed alias.
+                        _src = (out.get(name) or {}).get("alias_of")
+                        if _src:
+                            _raw = _RAW_LINE_COST.get((_src, norm(ln.get("name") or "")))
+                        if _raw is None and name.endswith(" D"):
+                            _raw = _RAW_LINE_COST.get((name[:-2], norm(ln.get("name") or "")))
+                    if _raw and _raw > 0 and abs(_whole * _qf - _raw) < abs(_whole - _raw):
+                        eff = _whole * _qf        # a real fraction of a real pack
+                    else:
+                        eff = _whole              # "one of them" out of the carton
                     our_tot += eff
                     ls_tot += ls
                     ln["eff_cost"] = round(eff, 6)
@@ -1030,6 +1929,19 @@ def main() -> int:
                     ls_tot += ls
                     full_ours = False
             ln["eff_cost"] = round(eff, 6)      # the number the builder shows for this line
+            # A LINE WORTH NOTHING IS NOT A LINE ON OUR BOOK.
+            #
+            # `fully_our_book` is the flag the P&L and the pricing page trust to
+            # mean "every ingredient here is priced off a real invoice". A line
+            # that resolved to $0 is the opposite of that: it is uncosted, and
+            # the dish still totals without it. Three recipes claimed the flag
+            # while carrying one (Frozen Marg's dehydrated lime, Regular Little
+            # Italy's rubbed oregano) — small in dollars, but it is exactly the
+            # shape that let Choc Brownie contribute $0 to a $45 deal while the
+            # recipe read as complete. Cheap to state, and it makes the audit
+            # able to see the class at all.
+            if not eff:
+                full_ours = False
         res = (round(our_tot, 4), round(ls_tot, 4), full_ours)
         memo[name] = res
         return res
@@ -1055,6 +1967,11 @@ def main() -> int:
         n = 0
         for rname, r in out.items():
             for ln in r["ingredients"]:
+                # A pass-through's "1 ea" is not a pack count Produce mistyped —
+                # it is the whole statement: one of the thing, sold as bought.
+                # Restating it would turn "1 ea of Dom Pérignon" into "643 ml".
+                if ln.get("passthrough"):
+                    continue
                 cur = our_costs.get(ln.get("ref") or "")
                 if not cur:
                     continue
@@ -1076,6 +1993,38 @@ def main() -> int:
                 n += 1
         return n
 
+    # RENAME BEFORE COSTING, not after. Every transform above works on the name
+    # the scrape uses; everything below — the sell price, the GP, the key the P&L
+    # looks up — must use the name Back Office sells. Renaming at the end left the
+    # recipe carrying the $2.00 price of the "Pepperoni" add-on it had matched on
+    # the way past. Verified first: nothing references the old name as a
+    # sub-recipe (_flatten_pointer_pizzas has already lifted Regular Pepperoni's
+    # lines up), so the rename cannot orphan a reference.
+    _renamed = 0
+    for _old, _new in RECIPE_RENAMED_TO.items():
+        if _old in out and _new not in out:
+            _still_used = any(l.get("ref") == _old
+                              for r in out.values() for l in r["ingredients"])
+            if _still_used:
+                print(f"  NOT renaming {_old!r}: still referenced as a sub-recipe")
+                continue
+            out[_new] = out.pop(_old)
+            _renamed += 1
+    if _renamed:
+        print(f"  renamed {_renamed} recipe(s) to the name Back Office sells them under")
+
+    _al = apply_product_aliases(out)
+    if _al:
+        print(f"  {_al} POS name(s) pointed at the recipe that is that product")
+
+    _dl = add_deal_recipes(out, cost_of)
+    if _dl:
+        print(f"  {_dl} deal header(s) costed from their stated contents")
+
+    _pt = add_passthrough_products(out)
+    if _pt:
+        print(f"  {_pt} sold-as-bought product(s) costed from their own Back Office price")
+
     fully_ours = 0
     for name in out:
         o, l, fo = cost_of(name)
@@ -1091,9 +2040,22 @@ def main() -> int:
         #    "Vermouth Blend [Bottle]" sells $12 but the batch costs $32).
         #  * an item merely USED as a base keeps its GP if it has a real menu price
         #    ("Large Meatlovers" is sold AND used by the gluten-free version).
-        sell = sell_of(name, sell_by_norm, sell_by_tok)
+        #  * ...but the NAME is only a hint, and Back Office knows better. A
+        #    product it files under a menu category at a menu price is something
+        #    a customer orders, whatever word is in its name. "Sigurd GSM Red
+        #    Blend" is a wine, not a blend we make: it matched on "Blend", was
+        #    filed as a batch, and was therefore excluded from the P&L's cost
+        #    book — $2,417 of wine revenue costed off Lightspeed instead of our
+        #    own $4.62/glass. "Yuzushu [60ml]" and "Kunizakari Umeshu [60ml]"
+        #    matched the same way on their SERVE size.
+        #    The real batches are unmistakable on the same test: all 64 of them
+        #    carry a blank ReportingGroup and a $0 Back Office price, and the two
+        #    that do have a group — Mint Yoghurt [Batch] $1, Tandoori Chicken
+        #    [2Kg] $2 — are placeholder prices on things used as sub-recipes,
+        #    which the used_as_sub clause below keeps as preps regardless.
+        sell = sell_of(name, sell_by_exact, sell_by_norm, sell_by_tok)
         menu_priced = bool(sell and sell >= 3)
-        name_prep = bool(PREP_RE.search(name))
+        name_prep = bool(PREP_RE.search(name)) and not (menu_priced and bo_group(name))
         is_prep = name_prep or (name in used_as_sub and not menu_priced)
         out[name]["is_prep"] = is_prep
         out[name]["sell_incl"] = sell
@@ -1120,7 +2082,7 @@ def main() -> int:
         },
         "recipes": out,
     }
-    OUT.write_text(json.dumps(payload, indent=1))
+    OUT.write_text(json.dumps(payload, indent=1), encoding="utf-8")
     tot = sum(ing_res.values())
     print(f"{len(out)} recipes -> {OUT.relative_to(ROOT)}")
     print(f"  ingredient refs: {dict(ing_res)}  ({100*(tot-ing_res['unmatched'])//tot}% resolved)")

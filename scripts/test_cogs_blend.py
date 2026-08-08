@@ -34,5 +34,41 @@ full = [{"rev": 80, "cost": 20, "cost_source": "recipe"}]
 _, _, cov = blend_reported_cogs(full, 20, 80)
 check("full coverage reports 100%", approx(cov, 100.0))
 
+# 5. THE LABEL MUST TELL THE TRUTH ABOUT WHERE THE NUMBER CAME FROM.
+#
+# Eight committed day files say `cogs_source: recipe_blend` beside
+# `recipe_coverage_pct: 0.0`. Summing per-product LIGHTSPEED costs is not a
+# recipe blend; calling it one claims a provenance the number does not have,
+# which is a trust problem rather than a dollar one. The number is unchanged —
+# only the label stops overstating.
+none_on_recipe = [
+    {"rev": 100, "cost": 30, "cost_source": "lightspeed"},
+    {"rev": 60,  "cost": 20, "cost_source": "lightspeed"},
+]
+cogs, src, cov = blend_reported_cogs(none_on_recipe, cogs_lightspeed=50, revenue_net=160)
+check("zero coverage is not called a recipe blend", src == "lightspeed")
+check("...and the published number does not move", approx(cogs, 50))
+check("...and coverage stays 0", approx(cov, 0.0))
+
+# 6. A REJECTED blend must not publish its coverage.
+# The blend was refused and none of it reaches the screen, so its coverage is
+# not a fact about the number shown. This used to report the recipe share of a
+# figure that had been thrown away.
+rejected = [{"rev": 100, "cost": 5000, "cost_source": "recipe"}]
+cogs, src, cov = blend_reported_cogs(rejected, cogs_lightspeed=22, revenue_net=100)
+check("a rejected blend reports no coverage", src == "lightspeed" and approx(cov, 0.0))
+
+# 7. Coverage cannot exceed 100%, whatever the rows do.
+# A discount/void row carries NEGATIVE rev and never has a recipe, so it came
+# off the denominator only — a share of a shrinking base. Marilyna's published
+# 102.3% on exactly this shape.
+discounted = [
+    {"rev": 100, "cost": 25, "cost_source": "recipe"},
+    {"rev": -8,  "cost": 0,  "cost_source": "lightspeed"},   # discount row
+]
+_, _, cov = blend_reported_cogs(discounted, cogs_lightspeed=25, revenue_net=92)
+check("a discount row cannot push coverage over 100%", 0.0 <= cov <= 100.0)
+check("...and it reads as full coverage, not 108%", approx(cov, 100.0))
+
 print("ALL PASS" if not fails else f"{len(fails)} FAILED")
 sys.exit(1 if fails else 0)

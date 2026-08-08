@@ -23,9 +23,13 @@ def load_pack_overrides(path: Path) -> dict[str, tuple[Decimal, str]]:
     if not path.exists():
         return {}
     try:
-        docs = yaml.safe_load(path.read_text()) or []
-    except Exception:
-        return {}
+        # encoding pinned, not inherited: this file carries UTF-8 (em-dashes and
+        # quotes in the chef's notes), and under an ASCII locale read_text() raised
+        # a UnicodeDecodeError that the old bare `except Exception` swallowed —
+        # every confirmation vanished silently and ~700 cost observations with it.
+        docs = yaml.safe_load(path.read_text(encoding="utf-8-sig")) or []
+    except yaml.YAMLError:
+        return {}          # malformed log: no confirmations, but say so by having none
     out: dict[str, tuple[Decimal, str]] = {}
     for d in docs:
         if not isinstance(d, dict):

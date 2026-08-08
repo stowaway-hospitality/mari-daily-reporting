@@ -53,7 +53,12 @@ def test_no_absurd_costs_or_garbage_gp():
     """No non-prep recipe should cost like a mis-unit blow-up, and no menu GP
     should be garbage (the $419 pizza / -1085% batch bugs)."""
     R = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
-    absurd = [(n, R[n]["our_cost"]) for n in R if R[n]["our_cost"] > 120 and not R[n]["is_prep"]]
+    # Pass-throughs excluded for the same reason audit_book excludes them: this
+    # rule catches a unit/pack blow-up, and a product costed as one unit of
+    # itself straight from Back Office cannot have one. Dom Pérignon really does
+    # cost $332 a bottle and really is sold by the bottle.
+    absurd = [(n, R[n]["our_cost"]) for n in R
+              if R[n]["our_cost"] > 120 and not R[n]["is_prep"] and not R[n].get("passthrough")]
     assert absurd == [], f"absurd non-prep costs: {absurd}"
     garbage = [(n, R[n]["gp_pct"]) for n in R
                if R[n]["gp_pct"] is not None and (R[n]["gp_pct"] < -60 or R[n]["gp_pct"] > 99.5)]

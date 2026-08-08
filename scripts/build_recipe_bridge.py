@@ -47,7 +47,7 @@ def toks(s):
 
 
 def matches():
-    R = json.loads(COSTED.read_text())["recipes"]
+    R = json.loads(COSTED.read_text(encoding="utf-8-sig"))["recipes"]
     # exclude our OWN bridge rows so a re-run still sees the original uncosted set
     # (otherwise the second run finds them "priced" and drops them).
     priced = {r["ingredient"] for r in csv.DictReader(COSTS.open(encoding="utf-8-sig"))
@@ -122,7 +122,7 @@ def main() -> int:
             kept.append({k: row.get(k, "") for k in cf})
         kept.sort(key=lambda r: (r.get("invoice_date", ""), r.get("supplier", ""),
                                  r.get("supplier_code", ""), r.get("invoice_description", "")))
-        with COGS.open("w", newline="") as f:
+        with COGS.open("w", newline="", encoding="utf-8") as f:
             w = csv.DictWriter(f, fieldnames=cf); w.writeheader(); w.writerows(kept)
         pm = list(csv.DictReader(PRODUCT_MAP.open(encoding="utf-8-sig")))
         pf = list(pm[0].keys())
@@ -136,7 +136,7 @@ def main() -> int:
             row.update(supplier=sup, supplier_code=code, product_id=pid, product_name=nm,
                        confidence="recipe-bridge")
             pm.append({k: row.get(k, "") for k in pf}); added += 1
-        with PRODUCT_MAP.open("w", newline="") as f:
+        with PRODUCT_MAP.open("w", newline="", encoding="utf-8") as f:
             w = csv.DictWriter(f, fieldnames=pf); w.writeheader(); w.writerows(pm)
         print(f"applied: {len(m)} baselines -> cogs_list, {added} rows -> product_map")
     return 0

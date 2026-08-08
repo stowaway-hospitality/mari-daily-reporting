@@ -1,0 +1,154 @@
+# What the cost book still needs from a human — the DECLARED half.
+#
+# scripts/build_cost_book_flags.py writes data/cost_book_flags.json, which the
+# recipe book renders on the Flags tab of /recipes/. Almost everything on that panel is
+# DERIVED from data/ at build time — the dishes with no costed recipe, the stock
+# items held twice at two prices, the seed rows an invoice has since contradicted,
+# the invoice lines no sanity bound admits. Those are not listed here and must
+# never be: a hand-kept list of findings goes stale the day someone fixes one,
+# and a stale work queue is worse than none because it teaches people to skim.
+#
+# THIS FILE HOLDS ONLY WHAT DATA CANNOT KNOW:
+#
+#   * a QUESTION for a human (what does a kilo of raw lamb plate at?). The
+#     dollars attached to it are still derived — see cook_loss below.
+#   * a DECISION that has no right answer until someone makes it.
+#   * a PERMANENT EXEMPTION: a product that can never be costed, so it must stop
+#     appearing as work.
+#
+# If you find yourself adding a finding here, the finding belongs in the builder.
+# ---------------------------------------------------------------------------
+
+# COOK LOSS IS NOT MODELLED ANYWHERE IN THIS SYSTEM.
+#
+# COGS_ARCHITECTURE.md named it in the "hard parts" on day one — "a 5kg brisket
+# does not yield 5kg of portions. Recipes need a yield factor or every food cost
+# reads low" — and it is still true. Every recipe below prices a PLATED or PORTIONED
+# weight at the RAW purchase rate, so every one of them under-costs, and
+# under-costing is the direction that flatters GP.
+#
+# 0.65 IS NOT A MEASUREMENT AND IS NEVER APPLIED TO A COST. It is here to SIZE
+# the question — to say whether the answer is worth a chef's afternoon or not.
+# 65% is the middle of the ordinary published range for roasted whole muscle
+# (bone-in and rolled joints run roughly 60-75% after cooking and resting). The
+# moment Zak weighs one, the real number goes into the recipe and this whole
+# block should be deleted rather than corrected.
+cook_loss:
+  assumed_yield: 0.65
+  subjects:
+    # --- roasts: the recipe's 220 g is what lands on the plate ----------------
+    # Zak has confirmed the lamb figure is PLATED. The other three roasts are the
+    # same dish with the protein swapped — identical carrot / broccolini / potato
+    # / Yorkshire / gravy lines, identical $30.00 price — so they carry the same
+    # question, and it has to be asked once per protein because they do not
+    # shrink at the same rate.
+    - id: yield-lamb-roast
+      ref: "lightspeed:22888695"
+      in_recipe: "Lamb Roast"
+      subject: "Lamb Roast — lamb leg, boned, rolled & netted"
+      question: "What does 1 kg of raw lamb leg plate at, cooked and rested?"
+      evidence: "Zak confirmed the 220 g in the recipe is PLATED weight, not raw"
+      owner: "Kitchen — weigh one joint in, one joint out"
+    - id: yield-pork-roast
+      ref: "lightspeed:22992677"
+      in_recipe: "Pork Roast"
+      subject: "Pork Roast — pork leg"
+      question: "What does 1 kg of raw pork leg plate at?"
+      evidence: "same plate as Lamb Roast with the protein swapped; 220 g plated"
+      owner: "Kitchen — weigh one joint in, one joint out"
+    - id: yield-beef-roast
+      ref: "lightspeed:23007639"
+      in_recipe: "Beef Roast"
+      subject: "Beef Roast — brisket, YG point end"
+      question: "What does 1 kg of raw point-end brisket plate at?"
+      evidence: "same plate as Lamb Roast with the protein swapped; 220 g plated"
+      owner: "Kitchen — weigh one joint in, one joint out"
+    - id: yield-chicken-roast
+      ref: "lightspeed:22992669"
+      in_recipe: "Chicken Roast"
+      subject: "Chicken Roast — half a No.8 whole bird"
+      question: "What does half a No.8 bird plate at, roasted?"
+      evidence: "half a raw bird is charged; the plate carries far less than that"
+      owner: "Kitchen — weigh one bird in, one bird out"
+
+    # --- batches costed across their RAW input weight -------------------------
+    # Worse than the roasts, because the loss is smeared over every dish drawing
+    # on the batch instead of sitting in one recipe. The batch cost is divided by
+    # the weight that went IN, so every gram taken out is priced as though nothing
+    # evaporated.
+    - id: yield-cooked-beef-brisket
+      prep: "Cooked Beef Brisket [1Kg]"
+      subject: "Cooked Beef Brisket [1Kg] — 10 kg raw brisket plus aromatics"
+      question: "What does the 10 kg raw brisket batch weigh once cooked and rested?"
+      evidence: "the batch cost is spread over the RAW 10 kg; nothing records the cooked weight"
+      owner: "Kitchen — weigh the tray after the cook"
+    - id: yield-achiote-chicken
+      prep: "Achiote Chicken [15Kg]"
+      subject: "Achiote Chicken [15Kg] — 15 kg raw thigh plus marinade"
+      question: "What does the 15 kg raw thigh batch weigh once cooked?"
+      evidence: "the batch cost is spread over the RAW 15 kg; nothing records the cooked weight"
+      owner: "Kitchen — weigh the tray after the cook"
+
+# PRODUCTS THAT CAN NEVER BE COSTED, so they must stop reading as work.
+#
+# The coverage rule is right to notice them — they are revenue with no recipe —
+# but no recipe will ever exist, because there is no dish behind the SKU. Left in
+# the queue they sit near the top by revenue and make the list look unfinishable.
+#
+# A pattern here is a PERMANENT statement, not a "not yet". Anything that could
+# one day have a recipe does not belong.
+exempt:
+  - match: "^open (price|food)$"
+    reason: "an open-price key rings whatever the operator types — there is no
+      product behind it, so there is nothing to cost. It is a payment method
+      wearing a SKU."
+  - match: "^(delivery fee|surcharge|booking fee|service charge|tip|gift ?card|voucher|deposit|donation)"
+    reason: "a fee has no food cost by nature. audit_book already labels these
+      separately in its 100%-GP split; they are not a recipe gap."
+
+# DECISIONS AND QUESTIONS NO DATA IN THIS REPO CAN SETTLE.
+#
+# Each one states what would settle it. The numbers inside them are still looked
+# up at build time where they exist in data/ (see `verify` below), so a flag can
+# never quote a price that has since moved.
+declared:
+  - id: decision-hg-bottle-prices
+    category: back_office
+    severity: medium
+    subject: "Harry Gatos: Rooster Rojo Blanco and Alehouse Premium Lager"
+    what_is_wrong: "Harry Gatos' own copies of two products carry a price no
+      invoice in this repo can confirm, and one of them looks like the wrong beer."
+    why_it_matters: "Alehouse Premium Lager (lightspeed:20744549) is seeded at
+      $185.00 a keg. ILG bill ALEHOUSE PREMIUM KEG (122-2858) at $212.44 and
+      ALEHOUSE CRISP KEG (122-2867) at $184.94 — so the Premium product is
+      carrying the CRISP price, within three cents, and would be 12.9% low. Five
+      Harry Gatos products pour off it, including Harry's Lager."
+    action: "Zak to say which is true: is the HG product actually the Crisp keg
+      (rename it), or is it Premium at the wrong price (reprice it)?"
+    owner: "Zak"
+    evidence_note: "no ILG invoice in data/invoices/ is billed to Harry Gatos, so
+      nothing here can decide between the name and the price. No name normaliser
+      pairs 'Premium Lager' with 'Draught Lager' either."
+    verify:
+      - "lightspeed:20744549"
+      - "ilg:122-2858"
+      - "ilg:122-2867"
+
+  - id: decision-ilg-reparse
+    category: decision
+    severity: high
+    subject: "Historical ILG invoices — re-parse is blocked on a unit question"
+    what_is_wrong: "Re-parsing the historical ILG invoices would move 195 line
+      prices, but it cannot be done safely until raw_uom and qty are reconciled."
+    why_it_matters: "The old parse read a case line as one unit — Veuve Clicquot
+      sits at $484.58 where the re-parse says $80.76. That half is a clear
+      improvement. The other half is not: raw_uom still describes the CASE
+      ('6x700ML') while qty would now count BOTTLES, so cost_per_base_unit would
+      come out 6x LOW. Six times low is the flattering direction, and it would
+      land on 195 lines at once."
+    action: "Decide and encode what raw_uom means after the re-parse — the case
+      or the bottle — then re-run the ILG parse. Not before."
+    owner: "Dev (with Zak on the ILG invoice format)"
+    evidence_note: "audit_book already reports the same defect from the other
+      end: ten /pricing 'price rises' that are a bottle priced one week and a
+      case the next (Pellegrino 24.0x, Coca Cola 12.0x)."

@@ -15,6 +15,19 @@ sweep that have no invoice JSON behind them. This ADDS validated invoice lines
 that aren't already present (keyed by invoice_ref + supplier_code/description)
 and leaves everything else untouched. Idempotent: run twice, same result.
 
+IDEMPOTENT AGAINST ITSELF, NOT AGAINST EVERYONE. That claim only ever covered
+rows this script adds. Three rows reached the file another way — Paramount
+invoice 5441124: Carpano 10015926, De Bortoli 44583, Sprite 98541, each present
+twice at an identical price, date, code and basis and differing only in the
+diagnostic `note`. A duplicate is invisible to the as-of lookup and NOT invisible
+to CostSeries.rolling, which counts it twice in the trailing-30-day mean.
+
+So the row identity now lives in core.domain.cogs_row_key and the CONSUMER
+applies it too (build_costs._read_cogs_rows). A check on the way in can be
+bypassed; a check on the way out cannot. The three rows stay in the file —
+cogs_list.csv is an append-only fact table and both notes are evidence — and
+this script reports them so a bypass is never silent again.
+
 Only STOCK lines become cost rows. Freight, fuel levies, WET adjustments and
 'waiting on stock' lines are excluded — they are not ingredients.
 
@@ -28,7 +41,12 @@ from __future__ import annotations
 
 import csv
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from core.domain import cogs_row_key   # noqa: E402  the ONE definition of a row's identity
 
 ROOT = Path(__file__).resolve().parents[2]
 INVOICES = ROOT / "data" / "invoices"          # PASS invoices from run.py
@@ -55,16 +73,35 @@ SUPPLIER_ALIAS = {
 
 
 def _key(source_invoice: str, code: str, desc: str) -> tuple[str, str]:
-    """Identity of a cost row: one line per (invoice, product)."""
-    return (source_invoice.strip(), (code or desc).strip().upper())
+    """Identity of a cost row: one line per (invoice, product).
+
+    Delegates to core.domain so the writer and every reader share ONE definition;
+    when they were two, a duplicate could satisfy one and not the other."""
+    return cogs_row_key(source_invoice, code, desc)
 
 
 def _load_existing() -> tuple[list[dict], set[tuple[str, str]]]:
+    """Existing rows, untouched, plus the set of identities already present.
+
+    Rows are returned AS-IS: this script rewrites the whole file, and dropping a
+    duplicate here would delete a fact. Duplicates are reported instead — the
+    consumer (build_costs) is where they must not survive, because that is the
+    file a rolling average is computed from."""
     if not COGS.exists():
         return [], set()
     rows = list(csv.DictReader(COGS.open(encoding="utf-8-sig")))
-    seen = {_key(r["source_invoice"], r.get("supplier_code", ""), r["invoice_description"])
-            for r in rows}
+    seen: set[tuple[str, str]] = set()
+    dupes = []
+    for r in rows:
+        k = _key(r["source_invoice"], r.get("supplier_code", ""), r["invoice_description"])
+        (dupes.append(r) if k in seen else None)
+        seen.add(k)
+    if dupes:
+        print(f"  ⚠ {len(dupes)} duplicate row(s) already in {COGS.name} — one "
+              f"(invoice, product) is one row, so something wrote past this script:")
+        for r in dupes:
+            print(f"      {r.get('source_invoice')} {r.get('supplier_code')} "
+                  f"{(r.get('invoice_description') or '')[:34]}  note={r.get('note')!r}")
     return rows, seen
 
 
@@ -119,11 +156,16 @@ def _rows_from_invoice(payload: dict) -> list[dict]:
 
 
 def main() -> int:
+    # stdout is output too: under an ASCII locale a single em-dash in a progress
+    # line kills the run *after* the fact table is written, so the file is right
+    # and the exit code says otherwise. Pin it for the same reason we pin the file.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     rows, seen = _load_existing()
     added, invoices = 0, 0
     for p in sorted(INVOICES.glob("*.json")) if INVOICES.exists() else []:
         try:
-            payload = json.loads(p.read_text())
+            payload = json.loads(p.read_text(encoding="utf-8-sig"))
         except Exception as e:
             print(f"  skip {p.name}: {e}")
             continue
@@ -137,7 +179,7 @@ def main() -> int:
             added += 1
 
     rows.sort(key=lambda r: (r["invoice_date"], r["supplier"], r["supplier_code"], r["invoice_description"]))
-    with COGS.open("w", newline="") as f:
+    with COGS.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS)
         w.writeheader()
         w.writerows(rows)

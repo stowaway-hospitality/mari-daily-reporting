@@ -43,8 +43,8 @@ B&E,13812,22975185,Corn Kernels [Tin],,,,,recipe-bridge,,
 ILG,345-0955,21150832,Diplomatico Mantuano [Bottle],,,,,recipe-bridge,,
 Select Fresh,EDMVI,21020204,Edible Flower [Punnet],,,,,recipe-bridge,,
 Fresh Fruit Team,EFR700DOZ,22995335,Eggs 700 Grams [12x],,,,,recipe-bridge,,
-ILG,285-0409P,20445814,Four Pillars Olive Leaf,,,,,recipe-bridge,,
-ILG,285-0409P,20445815,Four Pillars Rare Dry,,,,,recipe-bridge,,
+ILG,285-1480,20445814,Four Pillars Olive Leaf,,,,,recipe-bridge; corrected from 285-0409P (that code is Bloody Shiraz); seed $0.117971/ml matches 285-1480 invoice $0.117957/ml,,
+ILG,285-0132P,20445815,Four Pillars Rare Dry,,,,,recipe-bridge; corrected from 285-0409P (that code is Bloody Shiraz); seed $0.098343/ml matches 285-0132P invoice $0.098343/ml,,
 Gulli,AGBGARBRE-B,20467596,Garlic Bread,,,,,recipe-bridge,,
 Foodlink,100164,22989447,Heinz BBQ Sauce [4L],,,,,recipe-bridge,,
 Fresh Fruit Team,HCBCH,22995343,Herb Chives [Market],,,,,recipe-bridge,,
@@ -143,3 +143,49 @@ b-e,10876,23007639,Beef Brisket YG Point End [1kg],stowaway,,,+3.7%,name-prefix;
 fresh-fruit-team,KITCELD5MM,23035273,Celery Diced [1kg],stowaway,,,+0.0%,name-prefix; seed $0.005900 -> invoice $0.005900/g (+0.0%),INB00111714,2026-07-18
 Gulli,PBLTB11-U,22873831,"Regular Pizza Box 11""",stowaway,,,,"verified: Gulli 'B Flute Lock Top 11"" Pizza Boxes x 50' is the regular-pizza box; $24.10/50 = $0.482 ea. Regular pizzas were costing 0.716 of a 13"" box instead.",,
 Foodlink,100175,22796313,Black Beans [7.8kg],stowaway,,,,"verified: Foodlink 'BEANS BLACK WHOLE TIN A10' $8.70/tin is the only black bean actually invoiced. 3 tins x $8.70 = $26.10, exactly the Black Beans Prep line, so the recipe agrees. Was costing off a January BO seed ($3.87/kg) with no invoice behind it.",,
+ILG,285-3870,20445811,Bombay Dry [House],stowaway,0.070633,0.070179,,name+seed-agreed; seed $0.0706 -> invoice $0.0702/ml,03739297,2026-07-31
+ILG,235-1323,20645881,Veuve Clicquot Yellow Label - Bottle,stowaway,0.107673,0.107684,,name+seed-agreed; seed $0.1077 -> invoice $0.1077/ml,03741446,2026-08-04
+ILG,285-3870P,20445811,Bombay Dry [House],stowaway,0.070633,0.070621,,name+seed-agreed; seed $0.0706 -> invoice $0.0706/ml,03714643,2026-06-16
+ILG,215-3314P,21749602,Whispering Angel Rosé - Bottle,stowaway,0.046127,0.045727,,name+seed-agreed; seed $0.0461 -> invoice $0.0457/ml,03739297,2026-07-31
+Paramount,10017813,20483413,Massenez Triple Sec [5L],stowaway,0.067500,0.071800,,name+seed-agreed; seed $0.0675 -> invoice $0.0718/ml,5198837,2026-03-31
+ILG,215-3314,21749602,Whispering Angel Rosé - Bottle,stowaway,0.046127,0.048036,,name+seed-agreed; seed $0.0461 -> invoice $0.0480/ml,03698717,2026-05-19
+ILG,285-1480,20487289,Four Pillars Olive Leaf 700ML,stowaway,0.117971,0.117957,,name+seed-agreed; seed $0.1180 -> invoice $0.1180/ml,03698716,2026-05-19
+ILG,360-1230,20445832,Don Julio 1942 Añejo,stowaway,0.349750,0.326373,,name+seed-agreed; seed $0.3498 -> invoice $0.3264/ml,03707417,2026-06-02
+ILG,460-2255P,20484784,Fever-Tree Naturally Light Tonic [Bottle],stowaway,0.008222,0.008220,,name+seed-agreed; seed $0.0082 -> invoice $0.0082/ml,03721574,2026-06-30
+ILG,295-0603,20484688,Balvenie 14yr Caribbean Cask [Bottle],stowaway,0.197500,0.197514,,name+seed-agreed; seed $0.1975 -> invoice $0.1975/ml,03733161,2026-07-21
+ILG,300-1726,20487567,Macallan Sherry Oak 12yr 700ML,stowaway,0.196200,0.196200,,name+seed-agreed; seed $0.1962 -> invoice $0.1962/ml,03690691,2026-05-05
+ILG,285-0132P,20487294,Four Pillars Rare Dry 700ML,stowaway,0.098343,0.098343,,name+seed-agreed; seed $0.0983 -> invoice $0.0983/ml,03703843,2026-05-26
+ILG,285-3763,20484292,Archie Rose Signature Gin 750ML,stowaway,0.085227,0.091300,,name+seed-agreed; seed $0.0852 -> invoice $0.0913/ml,03698716,2026-05-19
+ILG,285-3889P,20445810,Bombay Sapphire,stowaway,0.077417,0.077414,,name+seed-agreed; seed $0.0774 -> invoice $0.0774/ml,03733161,2026-07-21
+ILG,300-0219P,20487836,Monkey Shoulder Scotch 700ML,stowaway,0.079029,0.077743,,name+seed-agreed; seed $0.0790 -> invoice $0.0777/ml,03698716,2026-05-19
+ILG,360-2514,20487484,Herradura Plata 700ML,stowaway,0.113157,0.124914,,name+seed-agreed; seed $0.1132 -> invoice $0.1249/ml,03698716,2026-05-19
+ILG,177-0328,20487319,Noilly Prat Dry Vermouth [Bottle],stowaway,0.048000,0.038627,,name+seed-agreed; seed $0.0480 -> invoice $0.0386/ml,03717768,2026-06-23
+ILG,360-3283,22442211,Patron XO Cafe [750ml],stowaway,0.090347,0.106053,,name+seed-agreed; seed $0.0903 -> invoice $0.1061/ml,03680512,2026-04-21
+ILG,410-3552,20492689,Domaine de Canton Ginger Liqueur 700ML,stowaway,0.069914,0.095013,,name+seed-agreed; seed $0.0699 -> invoice $0.0950/ml,03707417,2026-06-02
+ILG,360-1524P,20484243,1800 Coconut 700ML,stowaway,0.096171,0.096171,,name+seed-agreed; seed $0.0962 -> invoice $0.0962/ml,03703843,2026-05-26
+ILG,285-3683,20484781,Brookie's Byron Dry 700ML,stowaway,0.094600,0.094600,,name+seed-agreed; seed $0.0946 -> invoice $0.0946/ml,03688355,2026-04-30
+ILG,176-0026,20445887,Dolin Blanc Vermouth,stowaway,0.033333,0.038814,,name+seed-agreed; seed $0.0333 -> invoice $0.0388/ml,03741446,2026-08-04
+ILG,315-0066P,20445850,Jameson Irish Whiskey [700ml],stowaway,0.067357,0.075157,,name+seed-agreed; seed $0.0674 -> invoice $0.0752/ml,03741446,2026-08-04
+ILG,310-0101P,20710102,Canadian Club 700ML,stowaway,0.058043,0.062843,,name+seed-agreed; seed $0.0580 -> invoice $0.0628/ml,03707417,2026-06-02
+ILG,390-0023,20487805,Fee Bros Black Walnut Bitters [150ml],stowaway,0.150000,0.150067,,name+seed-agreed; seed $0.1500 -> invoice $0.1501/ml,03726400,2026-07-07
+ILG,455-1078,20727770,Bickfords Raspberry Cordial [Bottle],stowaway,0.006833,0.007253,,name+seed-agreed; seed $0.0068 -> invoice $0.0073/ml,03688355,2026-04-30
+ILG,235-1369,20445737,Dom Pérignon Champagne 750ML,stowaway,0.443400,0.517080,,name+seed-agreed; seed $0.4434 -> invoice $0.5171/ml,03733161,2026-07-21
+ILG,295-3922,20492751,Yamazaki 12yr 700ML,stowaway,0.406914,0.414414,,name+seed-agreed; seed $0.4069 -> invoice $0.4144/ml,03733161,2026-07-21
+ILG,300-6507P,20487534,Lagavulin 16yr 700ML,stowaway,0.209800,0.250029,,name+seed-agreed; seed $0.2098 -> invoice $0.2500/ml,03674032,2026-04-09
+Paramount,67882,20512408,Germano Caetano Cachaça [Bottle],stowaway,0.074083,0.098571,,"name+seed-agreed; seed $0.0741 -> invoice $0.0986/ml. Single bottle, not the 6-pack the '6/700 ml' uom describes: the same invoice bills Casamigos Reposado at $88.43 and Lost Explorer Mezcal at $65.09 on identical uoms, and carries a $15.07 minimum-delivery top-up, which is a three-bottle order and not eighteen. The case reading is $11.50 a bottle.",5311910,2026-05-19
+ILG,355-0552,21999746,Havana 3yr [700ml],stowaway,0.041556,0.082871,,"pricebook-adjudicated; seed $0.0416 -> invoice $0.0829/ml. ILG book price MAR 2026 for 355-055-2 Havana Club 700ml 3yo. is $49.20 a bottle, so the $58.01 line is ONE bottle. The seed said $29.09 — below ILG's own book price, impossible.",03698716,2026-05-19
+Paramount,68140,20487949,Appleton Rum [Bottle],stowaway,0.073271,0.086600,,"name+book-agreed; seed $0.0733 -> invoice $0.0866/ml. Appleton Estate Signature Blend IS the standard Appleton, and Stowaway holds exactly one Appleton bottle product. ILG book 345-040-1 says $46.63; the Back Office seed of $51.29 is 1.10x that and the Paramount single-bottle price of $60.62 is 1.30x, the same premium Paramount charge on every broken carton.",5387635,2026-06-19
+ILG,345-0401,20487949,Appleton Rum [Bottle],stowaway,0.073271,,,"same bottle from the other supplier — $105 of ILG Appleton could not reach the book with no bridge to find a seed against. seed_matched_liquor_cost adjudicates the case-vs-single reading against the seed and drops the line if neither lands, so a wrong bridge here fails closed.",03733161,2026-07-21
+Paramount,68140,20445860,Appleton Rum [House],stowaway,0.073271,0.086600,,"the identity the RECIPES actually use. Every Appleton recipe line resolves to 20445860, not to 20487949 — the [House] pour product carries the bottle rate (its seed is even described as 'Appleton Rum [Bottle] 700ml'), so bridging only the [Bottle] ProductID left every Mai Tai and Bombardino still on the January seed. Same bottle, two Back Office identities, both bridged.",5387635,2026-06-19
+ILG,345-0401,20445860,Appleton Rum [House],stowaway,0.073271,,,"as above — the recipe-facing identity for the same bottle.",03733161,2026-07-21
+ILG,360-1310,20445833,Rooster Rojo Blanco Tequil,,,,,recipe-bridge; sibling of an inert bridge (0.942x); 19 recipes,,
+ILG,360-1524P,20445824,1800 Coconut [Bottle] 700m,,,,,recipe-bridge; sibling of an inert bridge (1.000x); 1 recipes,,
+ILG,395-6785P,20445895,Aperol,,,,,recipe-bridge; sibling of an inert bridge (1.000x); 5 recipes,,
+ILG,410-4472,20445871,Grand Marnier [Bottle] 700,,,,,recipe-bridge; sibling of an inert bridge (1.000x); 2 recipes,,
+ILG,360-2514,20445826,Herradura Plata [Bottle] 7,,,,,recipe-bridge; sibling of an inert bridge (1.000x); 2 recipes,,
+ILG,300-6507P,20445846,Lagavulin 16yr [Bottle] 70,,,,,recipe-bridge; sibling of an inert bridge (1.000x); 1 recipes,,
+ILG,300-1726,20445841,Macallan Sherry Oak 12yr [,,,,,recipe-bridge; sibling of an inert bridge (1.000x); 2 recipes,,
+ILG,300-0219P,20445855,Monkey Shoulder Scotch [Bo,,,,,recipe-bridge; sibling of an inert bridge (0.985x); 2 recipes,,
+ILG,295-3922,20445839,Yamazaki 12yr [Bottle] 700,,,,,recipe-bridge; sibling of an inert bridge (1.000x); 2 recipes,,
+ILG,300-0219,20445855,Monkey Shoulder Scotch [Bo,,,,,recipe-bridge; sibling of an inert bridge (1.000x); 2 recipes,,
+ILG,175-0420,20445890,Antica Formula Rosso Vermo,,,,,recipe-bridge; sibling of an inert bridge (0.995x); 2 recipes,,

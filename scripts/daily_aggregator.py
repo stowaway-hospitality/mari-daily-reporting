@@ -72,49 +72,12 @@ from datetime import date, timedelta, datetime
 
 sys.path.insert(0, str(Path(__file__).parent.parent))   # repo root -> core/, modules/
 
-
-def _load_our_costs(venue_key, target):
-    """
-    product name -> our cost per serve on `target`, from our own recipes.
-
-    Returns {} and carries on if there are no recipes yet, or if anything in
-    the recipe module is unhappy. This runs unattended at 6am and its job is
-    the daily numbers -- a recipe problem must not take the whole pull down.
-    Falling back to Lightspeed's cost is a known, visible state
-    (cost_source='lightspeed'), not a silent one.
-
-    AS-OF, not current: costing 16 July uses 16 July's prices, whenever it runs.
-    See ARCHITECTURE.md decision 2.
-    """
-    try:
-        from core.domain import CostSeries, load_cost_observations
-        from modules.recipes.cost import MissingCost, cost_on, load_recipes, recipe_as_of
-
-        venue_file = {"stowaway": "stowaway", "harry": "harry_gatos",
-                      "marilynas": "marilynas"}.get(venue_key, venue_key)
-        recipes = load_recipes(venue_file)
-        if not recipes:
-            return {}
-        costs = CostSeries(load_cost_observations())
-        out = {}
-        for product in {r.product for r in recipes}:
-            r = recipe_as_of(recipes, product, target)
-            if not r:
-                continue
-            try:
-                out[product] = float(cost_on(r, costs, target))
-            except MissingCost as e:
-                # Refusing to cost one dish is correct; it must not stop the pull.
-                print(f"  recipe cost skipped: {e}")
-        if out:
-            print(f"  our recipes cost {len(out)} product(s) on {target}")
-        return out
-    except Exception as e:                                  # noqa: BLE001
-        print(f"  recipe costing unavailable ({e}) — using Lightspeed's cost")
-        return {}
 from core import venues as V
 from wage_model import super_lookup
-from cogs_blend import blend_reported_cogs
+# The two cost sources and the blend all live in cogs_blend, so they can be
+# imported without running this script. See that module's docstring.
+from cogs_blend import (COSTED_BOOK, _load_book_costs,   # noqa: F401
+                        _load_our_costs, blend_reported_cogs, book_cost)
 
 REPO_ROOT = Path(os.environ.get("REPO_ROOT", "."))
 DATA_DIR = REPO_ROOT / "data"
@@ -611,7 +574,12 @@ else:
     # So: use our own cost where we have a recipe, keep LS's where we don't,
     # and ALWAYS emit both so they can be compared rather than trusted.
     # See COGS_ARCHITECTURE.md.
-    our_costs = _load_our_costs(venue_key, target)
+    # The 648-recipe costed book fills the gap the 35 builder recipes never
+    # covered (coverage was 0.0% of revenue on every published day). Builder
+    # recipes are layered ON TOP because they are properly effective-dated, so a
+    # dated source always beats the book's current snapshot.
+    our_costs = _load_book_costs(venue_key)
+    our_costs.update(_load_our_costs(venue_key, target))
 
     product_breakdown = []
     for r in rows:
@@ -627,7 +595,7 @@ else:
             "cost": ls_cost,
             "cost_source": "lightspeed",
         }
-        ours = our_costs.get(name)
+        ours = book_cost(our_costs, name)
         if ours is not None:
             entry["cost"] = round(ours * qty, 4)      # per-serve x units sold
             entry["cost_source"] = "recipe"

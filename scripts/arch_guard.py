@@ -14,7 +14,10 @@ Enforced invariants:
   R6  no logic function is defined twice across the modules.
   R7  the UI/behaviour markers exist in the bundle (day scrubber, leave toggle,
       Mari delivery KPI, global STATE, all module <script> tags).
-  R8  the P&L model conservation test passes.
+  R8  every JS test suite passes — the P&L model, the render layer, the pure
+      helpers, the recipe builder's line guard, and the five suites that hold
+      the merged recipe module (tab routing, book view, page shell, flags
+      panel, flag families).
 
 Exit 0 = ok, 1 = architecture regression. This is what stops a future edit
 (mine or anyone's) from bolting logic onto the HTML again.
@@ -95,10 +98,37 @@ for label, needle in MARKERS.items():
     if needle not in bundle:
         problems.append(f"R7: missing marker '{label}' ('{needle}')")
 
-# R8 — the three JS test suites: P&L conservation, render layer, pure-helper units
+# R8 — the JS test suites: P&L conservation, render layer, pure-helper units,
+#      and the recipe builder's line guard
 SUITES = [("model conservation", "scripts/test_pnl_model.mjs"),
           ("render layer", "scripts/test_dashboard_render.mjs"),
-          ("helper units", "scripts/test_dashboard_units.mjs")]
+          ("helper units", "scripts/test_dashboard_units.mjs"),
+          # The recipe BUILDER's plausibility guard. Its rules are calibrated
+          # against the real book INSIDE the suite, so a rule that starts
+          # flagging recipes we already believe goes red here rather than
+          # teaching chefs to click past a warning.
+          ("recipe line guard", "scripts/test_recipe_line_guard.mjs"),
+          # /recipes/ is now ONE module with four tabs (book, build, prep,
+          # flags). Everything below is display, so nothing else in this repo
+          # can see it fail: a bookmarked URL landing on the wrong tab, a row
+          # that is mouse-only, a deleted summary card creeping back, a whole
+          # family of open questions missing from the work queue, an element id
+          # that one of four modules asks for and the merged shell no longer
+          # has. All of them ship green and all of them are wrong on a screen.
+          ("recipe tab routing", "scripts/test_recipe_tabs.mjs"),
+          ("recipe book view", "scripts/test_recipe_book_view.mjs"),
+          ("recipe page shell", "scripts/test_recipes_page_shell.mjs"),
+          # Drives the REAL builder over the REAL feeds with a stub document and
+          # reads what it drew. It exists for one number: the American Standard
+          # Burger's lettuce line must load as 0.083 of a twin pack at $0.23,
+          # not as 1 whole pack at $2.75. A load path that rounded a fractional
+          # countable would make a correct recipe look wrong on a screen and
+          # fail nothing else in this repo.
+          ("recipe builder load", "scripts/test_recipe_builder_load.mjs"),
+          # The flags panel: that it words a number honestly, and that every
+          # family of question is actually on it. Zak has asked twice.
+          ("cost book flags panel", "scripts/test_recipe_book_flags.mjs"),
+          ("cost book flag families", "scripts/test_recipe_flags_families.mjs")]
 for label, rel in SUITES:
     t = ROOT / rel
     if not t.exists():
@@ -115,4 +145,4 @@ if problems:
     print("\nLogic belongs in dashboard/_shared/{pnl,util,data,render}.js — never in index.html.")
     sys.exit(1)
 print(f"architecture guard: ok — index.html is a {sz//1024}KB shell, 0 logic fns; "
-      f"{len(defined)} module fns, pnl.js pure, all 3 test suites pass.")
+      f"{len(defined)} module fns, pnl.js pure, all {len(SUITES)} test suites pass.")

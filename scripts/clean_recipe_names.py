@@ -109,7 +109,7 @@ def main() -> int:
     authoritative = load_authoritative()
     clean = build_cleaner(authoritative)
 
-    primary = json.loads(FILES[0].read_text())
+    primary = json.loads(FILES[0].read_text(encoding="utf-8-sig"))
     mapping = {k: clean(k) for k in primary}
     changed = {k: v for k, v in mapping.items() if k != v}
 
@@ -139,7 +139,7 @@ def main() -> int:
         for fp in FILES:
             if not fp.exists():
                 continue
-            data = json.loads(fp.read_text())
+            data = json.loads(fp.read_text(encoding="utf-8-sig"))
             out: dict = {}
             for k, body in data.items():
                 nk = clean(k)
@@ -148,7 +148,7 @@ def main() -> int:
                         out[nk] = body
                 else:
                     out[nk] = body
-            fp.write_text(json.dumps(out, ensure_ascii=False, indent=1))
+            fp.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
             print(f"  wrote {fp.relative_to(ROOT)}: {len(data)} -> {len(out)} keys")
     return 0
 

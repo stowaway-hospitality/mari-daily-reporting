@@ -52,6 +52,45 @@ ROOT = Path(__file__).resolve().parent.parent
 
 # ---------------------------------------------------------------- identity ---
 
+# Fresh Fruit Team (and occasionally others) leak the UNIT word out of its own
+# column and onto the end of the supplier CODE during the PDF parse: "AH20T Tray",
+# "ONBRKG Kilogram", "HCMB Market". The bleed is a property of the PARSE, not of
+# the product, and it comes and goes between parser generations — so the same
+# avocado arrives as "AH20T" one week and "AH20T Tray" the next.
+_CODE_UNIT_SUFFIX = re.compile(
+    r"\s+(tray|kilogram|kilo|kgs?|litres?|market|each|ea|punnet|box(?:es)?|"
+    r"bunch|bch|bags?|dozen|doz|ctn|carton)$", re.I)
+
+
+def normalize_code(code: str) -> str:
+    """Strip a trailing unit word bled into the code. Idempotent, multi-pass
+    ('X Kg Each' -> 'X'). Never returns empty — falls back to the original.
+
+    THIS LIVES IN core BECAUSE IT IS PART OF IDENTITY. It used to live in
+    build_ingredients and be applied only when collapsing the chef-facing picker,
+    never to the cost key — so one product became two priced series:
+
+        fresh-fruit-team:AH20T        2026-07-25  $30.80/tray  (n=7)
+        fresh-fruit-team:AH20T TRAY   2026-08-04  $26.40/tray  (n=14)
+
+    53 split identities in the cost book, 36 of them holding a DIFFERENT latest
+    price on each half and 5 holding a different UNIT (EGL7BX $0.266667/ea vs
+    $56.00/box; MSHB2 $0.008250/g vs $33.00/box; POTCOBX $0.002475/g vs
+    $49.50/box). Half of every affected product's price history was invisible to
+    the as-of lookup on whichever id a recipe happened to hold, and a chef-
+    confirmed pack override keyed to one half did not reach the other.
+
+    THE PACK PARSER MUST STILL SEE THE RAW CODE. resolve_pack reads that same
+    trailing word to learn the sold unit ("KITOSPKG Kilogram" -> per kg), so the
+    identity is normalised and the parse input is not.
+    """
+    c = (code or "").strip()
+    prev = None
+    while c != prev:
+        prev, c = c, _CODE_UNIT_SUFFIX.sub("", c).strip()
+    return c or (code or "").strip()
+
+
 def purchasable_id(supplier: str, supplier_code: str) -> str:
     """
     The natural key of a thing you buy. Given by the invoice; never invented.
@@ -59,6 +98,10 @@ def purchasable_id(supplier: str, supplier_code: str) -> str:
     This is what Back Office's SKU field was for ("Supplier item code. Enables
     future matching without name guesswork") and why its being 3.9% populated --
     0/144 for HG liquor -- is the whole problem.
+
+    A unit word the PDF parse bled onto the end of the code is NOT part of the
+    key -- see normalize_code. Two spellings of one supplier code are one
+    purchasable, or the cost series splits in half.
     """
     code = (supplier_code or "").strip()
     if not code:
@@ -67,7 +110,57 @@ def purchasable_id(supplier: str, supplier_code: str) -> str:
             f"there is no identity. Do NOT fall back to the description -- that is "
             f"how ALEHOUSE CRISP KEG becomes the wrong $27.50 keg."
         )
-    return f"{_slug(supplier)}:{code.strip().upper()}"
+    return f"{_slug(supplier)}:{normalize_code(code).upper()}"
+
+
+def canonical_purchasable(pid: str) -> str:
+    """Re-key an ALREADY FORMED `supplier:CODE` id through normalize_code.
+
+    Two callers need it and neither has the (supplier, code) pair to hand:
+
+      * pack_overrides.yaml is keyed by purchasable_id and was written before the
+        bleed was part of identity, so it carries both spellings
+        ("fresh-fruit-team:TGL10BX BOX", "fresh-fruit-team:HCMB MARKET"). Those
+        confirmations must keep landing on the product they were made for.
+      * recipes SAVED BEFORE the split was fixed hold the bled id verbatim
+        ("fresh-fruit-team:ONBRKG KILOGRAM" is in two live Stowaway recipes).
+        CostSeries canonicalises on both sides so those keep costing instead of
+        raising MissingCost.
+
+    Anything without a colon, and any lightspeed:<ProductID>, is returned
+    unchanged -- a numeric ProductID has no trailing unit word to strip.
+    """
+    s = (pid or "").strip()
+    if ":" not in s:
+        return s
+    sup, code = s.split(":", 1)
+    return f"{sup}:{normalize_code(code).upper()}"
+
+
+def cogs_row_key(source_invoice: str, supplier_code: str,
+                 invoice_description: str) -> tuple[str, str]:
+    """Identity of ONE cost row in data/cogs_list.csv: one line per (invoice, product).
+
+    modules/invoices/build_cogs_list.py has always used this shape to decide
+    whether a validated invoice line is already present. It only ever guarded the
+    WRITE, and a writer that appends without asking bypasses it. Three rows got
+    in that way -- Paramount invoice 5441124, identical price, date, code and
+    basis, differing only in the diagnostic `note`:
+
+        10015926 CARPANO CLASSICO VERMOUTH  $23.1700  "...WET" / "...WET 4.74"
+        44583    DE BORTOLI GOLD SEAL       $55.8950  "cask; WET" / "cask; WET 22.85"
+        98541    SPRITE PET                 $ 4.2654  "LUC would be 10.9x high" /
+                                                      "LUC per-CASE = 10.9x high"
+
+    as_of is indifferent (same day, same price), but CostSeries.rolling counts the
+    duplicated observation TWICE in the trailing-30-day mean -- the live
+    menu-costing path -- so a duplicate silently reweights a real average.
+
+    The definition lives here so READERS can apply it too. A check on the way in
+    can be bypassed; a check on the way out cannot.
+    """
+    return ((source_invoice or "").strip(),
+            ((supplier_code or "") or (invoice_description or "")).strip().upper())
 
 
 def ingredient_id(name: str) -> str:
@@ -121,12 +214,17 @@ class CostSeries:
     same venue and falls back to any. Stowaway and HG buy on separate accounts
     and can be quoted differently, but one venue's observation is far better
     evidence than none.
+
+    Keys are canonicalised on BOTH sides (see canonical_purchasable), so a recipe
+    saved before the bled-code split was fixed -- "fresh-fruit-team:ONBRKG
+    KILOGRAM", live in two Stowaway recipes -- still finds the series that is now
+    written as "fresh-fruit-team:ONBRKG". A rename must never snap a recipe.
     """
 
     def __init__(self, observations: Iterable[CostObservation]):
         self._by: dict[tuple[str, Optional[str]], list[CostObservation]] = {}
         for o in observations:
-            self._by.setdefault((o.ingredient, o.venue), []).append(o)
+            self._by.setdefault((canonical_purchasable(o.ingredient), o.venue), []).append(o)
         for lst in self._by.values():
             lst.sort(key=lambda o: o.observed_on)
 
@@ -138,6 +236,7 @@ class CostSeries:
         day being costed has no knowable cost -- inventing one (today's price,
         zero, an average) is how history starts lying. Fail toward review.
         """
+        ingredient = canonical_purchasable(ingredient)
         for key in ((ingredient, venue), *( ((ingredient, v) for v in self._venues(ingredient)) if venue else () )):
             hit = self._latest(key, on)
             if hit:
@@ -176,6 +275,7 @@ class CostSeries:
           * none in the window (but older exists) -> most recent (as_of)
           * mixed units in the window -> most recent, not a meaningless average
         """
+        ingredient = canonical_purchasable(ingredient)
         key = self._pick_key(ingredient, on, venue)
         if key is None:
             # Reuse as_of purely to raise the same, well-explained LookupError.

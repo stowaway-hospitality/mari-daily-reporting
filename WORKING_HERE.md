@@ -112,6 +112,27 @@ shg-auth/index.ts`; deployed on the Supabase project fyqhvyvwbedoowjkrxyj). URL:
   (NO LONGER USED). Login/signup/reset and invoice approvals already talk to
   Supabase directly and never used this worker.
 
+## Running the tests locally
+
+`/opt/homebrew/bin/python3.12` has pyyaml but not pytest; the Homebrew `python3`
+has pytest but not pyyaml. Neither can run the suite alone, which is why it was
+only ever green in CI. Use the repo venv:
+
+    python3.12 -m venv .venv                     # once
+    .venv/bin/python -m pip install -r requirements.txt
+    .venv/bin/python -m pytest -q                # 371 passed, 3 skipped
+
+Then the same gate CI runs, before you push:
+
+    .venv/bin/python -m pytest -q
+    .venv/bin/python modules/recipes/pipeline/build_costs.py   # costs.csv must not change
+    .venv/bin/python scripts/convert_lightspeed_recipes.py     # nor the costed book
+    .venv/bin/python scripts/arch_guard.py
+    .venv/bin/python scripts/build_site.py
+
+`.venv/` is gitignored; CI installs requirements.txt directly and is unaffected.
+Do NOT `pip install --break-system-packages` into 3.12 — the 6am cron runs on it.
+
 ## Deploying the dashboard (modularised 2026-07-23 — see dashboard/_shared/README.md)
 
 The site is built by `scripts/build_site.py` and served at app.stowawaybar.com:

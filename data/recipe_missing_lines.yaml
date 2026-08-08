@@ -20,3 +20,256 @@
   # be on the pizza. A Hawaiian without ham is a Produce omission, not a recipe.
   # Zak, 2026-08-05: "fix the ham line".
   why: "on the Large and both GF Hawaiians; Zak's sheet weighs it at 85g"
+
+# --- Wings Deals: the wings were never added ------------------------------------
+# Every "Large X Wings Deal" was byte-for-byte identical to the plain "Large X":
+# same ingredients, same $3-7 cost, sold at $30. They reported ~88% GP because the
+# wings half of the deal simply did not exist in Produce.
+#
+# Evidence: the deal NAME states it, and "BBQ Wings" is an existing costed product
+# ($3.14). Zak, 2026-08-06: "wings deal has 1 portion of normal bbq wings."
+# So: one portion of BBQ Wings, as a sub-recipe line, on each of the 23 deals.
+- recipes:
+    - "Large BBQ Chicken Wings Deal"
+    - "Large Bubba Gump Wings Deal"
+    - "Large Cosmopolitan Wings Deal"
+    - "Large El Patron Wings Deal"
+    - "Large Hail Africa Wings Deal"
+    - "Large Hawaiian Wings Deal"
+    - "Large Jimmy Jury Wings Deal"
+    - "Large Little Italy Wings Deal"
+    - "Large Margherita Wings Deal"
+    - "Large Meatlovers Wings Deal"
+    - "Large New Yorker Wings Deal"
+    - "Large No Chorizo No Cry Wings Deal"
+    - "Large Paddock Wings Deal"
+    - "Large Pepperoni Wings Deal"
+    - "Large Roma Special Wings Deal"
+    - "Large Sanchez Wings Deal"
+    - "Large Sanchez [Vegan] Wings Deal"
+    - "Large Sorrento Wings Deal"
+    - "Large Super House Special Wings Deal"
+    - "Large Tandoori Chicken Wings Deal"
+    - "Large Truffalo Soldier Wings Deal"
+    - "Large Uber Margherita Wings Deal"
+    - "Large Vegetarian Wings Deal"
+  name: "BBQ Wings"
+  ref: "BBQ Wings"
+  subrecipe: true
+  qty: 1
+  unit: "ea"
+  why: "the deal is a pizza AND wings; BBQ Wings is a costed product at $3.14 (Zak, 2026-08-06)"
+
+# --- Branded Margaritas: the Classic's spec with the tequila swapped -------------
+# Zak, 2026-08-06: "the branded margaritas are all the same as the classic marg,
+# just substituting the tequila". Each carried only its own tequila + triple sec,
+# so the whole sour side was missing and they reported ~85% GP.
+# Quantities are the Classic Margarita's, which is the spec being substituted into.
+- recipes: &branded_margs
+    - "400 Conejos Margarita"
+    - "Casamigos Reposado Margarita"
+    - "Don Julio 1942 Anejo Margarita"
+    - "Herradura Silver Margarita"
+    - "Patron Reposodo Margarita"
+    - "Patron Silver Margarita"
+    - "Quiquiquiri Mezcal Margarita"
+  name: "Super Lime Juice [1L]"
+  ref: "Super Lime Juice [1L]"
+  subrecipe: true
+  qty: 30
+  unit: "ml"
+  why: "Classic Margarita carries 30ml; branded margs are the same spec (Zak, 2026-08-06)"
+- recipes: *branded_margs
+  name: "Sugar Syrup"
+  ref: "Sugar Syrup"
+  subrecipe: true
+  qty: 10
+  unit: "ml"
+  why: "Classic Margarita carries 10ml"
+- recipes: *branded_margs
+  name: "Flake Salt [6kg Box]"
+  ref: "lightspeed:21020008"
+  qty: 0.65
+  unit: "g"
+  why: "Classic Margarita carries 0.65g (the rim)"
+- recipes: *branded_margs
+  name: "Dehydrated Lime Garnish"
+  ref: "lightspeed:21019999"
+  qty: 1.95
+  unit: "g"
+  why: "Classic Margarita carries 1.95g"
+
+# Cadillac keeps Grand Marnier in place of triple sec — that IS the Cadillac — and
+# already carries the lime and garnish. Only the rim salt and syrup were missing.
+- recipes: ["Cadillac Margarita"]
+  name: "Flake Salt [6kg Box]"
+  ref: "lightspeed:21020008"
+  qty: 0.65
+  unit: "g"
+  why: "carries lime + garnish already; only the rim salt and syrup were missing"
+- recipes: ["Cadillac Margarita"]
+  name: "Sugar Syrup"
+  ref: "Sugar Syrup"
+  subrecipe: true
+  qty: 10
+  unit: "ml"
+  why: "as above"
+
+# --- Branded Old Fashioneds: the Old Fashioned with the spirit swapped ----------
+# Zak, 2026-08-06: "same with old fash". Each carried only its 60ml spirit, so
+# every one of them was an Old Fashioned without bitters.
+# Davy's Old Fashioned is NOT here: it is a different build (Zacapa + Appleton +
+# Frangelico + sherry), not a substitution, so it needs its own spec from Zak.
+- recipes:
+    - "Angel's Envy Old Fash"
+    - "Balvenie 14yr Old Fash"
+    - "Hakushu Old Fash"
+    - "Laphraoig 10yr Old Fash"
+    - "Macallan Sherry Oak 12yr Old Fash"
+    - "Ron Zacapa Old Fash"
+    - "Yamazaki Old Fash"
+  name: "Angostura Bitters [200ml]"
+  ref: "lightspeed:20487270"
+  qty: 2
+  unit: "ml"
+  why: "Old Fashioned carries 2ml; branded ones are the same spec (Zak, 2026-08-06)"
+
+# --- Postmix: the mixer was never on the drink -----------------------------------
+# Zak, 2026-08-06: "lemon lime bitters is the same as lemonade, plus the bitters"
+# and "pink lemonade should be the same qty of postmix as the rest".
+#
+# Lemon, Lime & Bitters carried 2 ml of Angostura and nothing else — a $5.00 drink
+# costing 20c, 95.6% GP. Pink Lemonade Glass carried only the raspberry cordial.
+#
+# The postmix cost was in Back Office the whole time. Stowaway holds four mixer
+# products — Lemonade, Pepsi, Pepsi Max, Pink Lemonade — and every one is
+# $0.8032 for one serve, to four decimal places. Four flavours at an identical
+# figure is one postmix cost applied to all of them, which is also why Zak's
+# "creaming soda postmix from CUB" for the pink lemonade changes the flavour and
+# not the number.
+- recipes:
+    - "Lemon, Lime & Bitters"
+  name: "Lemonade [mixer]"
+  ref: "lightspeed:20681676"
+  qty: 1
+  unit: "ea"
+  why: "Zak: LLB is lemonade plus the bitters; BO prices one Lemonade [mixer] at $0.8032"
+- recipes:
+    - "Pink Lemonade Glass"
+  name: "Pink Lemonade [mixer]"
+  ref: "lightspeed:20681681"
+  qty: 1
+  unit: "ea"
+  why: "Zak: same qty of postmix as the rest; BO prices one Pink Lemonade [mixer] at $0.8032"
+
+# --- Drinks Produce has no recipe for AT ALL -------------------------------------
+# `create: true` makes the entry rather than adding to one. Everything below is a
+# drink Harry Gatos sells that Lightspeed Produce simply never had a build for, so
+# it could not be costed by any route — it was not an incomplete recipe, it was an
+# absent one. Zak, 2026-08-06: "go and do it all. i've absolutely put costs for
+# these into lightspeed, or there's invoices for them." He was right; every number
+# below already existed somewhere in the system.
+
+# Soda & lime. Zak, 2026-08-06: "soda + lime's cost is only 1/12 of a lime unit."
+# "Lime [ea]" is an existing costed product — 0.0167 of a $30 Lime [Tray], i.e.
+# $0.50 a lime — so a twelfth of one is 0.0833 of that recipe. The soda itself is
+# postmix off the gun and is not a line.
+- recipes: ["Soda & Lime Glass"]
+  create: true
+  name: "Lime [ea]"
+  ref: "Lime [ea]"
+  subrecipe: true
+  qty: 0.0833
+  unit: "ea"
+  why: "Zak 2026-08-06: a twelfth of a lime unit; soda is off the gun"
+
+# Lemonade by the glass. The postmix already carries a cost in Back Office —
+# "Lemonade [mixer]" at $0.8032, the same product and the same price at both
+# venues — and the glass simply never referenced it. Same shape as the Lemon,
+# Lime & Bitters and Pink Lemonade Glass entries above.
+- recipes: ["Lemonade Glass"]
+  create: true
+  name: "Lemonade [mixer]"
+  ref: "lightspeed:20681676"
+  qty: 1
+  unit: "ea"
+  why: "the postmix is costed at $0.8032; the glass never pointed at it"
+
+# Harry Gatos' mulled wine is Stowaway's mulled wine. Stowaway holds the full
+# build (Sailor Jerry, Kahlua, black cacao, walnut bitters, De Bortoli red, sugar
+# syrup); HG's entry is a bare $15 product with no lines. The name carries the
+# venue tag so the name-keyed book cannot resolve it on its own — hence one
+# sub-recipe line rather than a mirror.
+- recipes: ["Mulled Wine [HG]"]
+  create: true
+  name: "Mulled Wine"
+  ref: "Mulled Wine"
+  subrecipe: true
+  qty: 1
+  unit: "ea"
+  why: "same drink, same spec; Stowaway holds the build"
+
+# Dragon Soda. Zak, 2026-08-06: "i've also given you a dragon soda recipe, no?" —
+# he had: "Dragon Soda [1L]" is a costed 1 L build (dragonfruit puree, sugar
+# syrup, East Coast grapefruit). What was missing was the SERVE drawing on it.
+#
+# 30 ml of the litre, at 0.03 of the batch. That is the house-soda pour this bar
+# already uses: "Stow Soda - Grapefruit" is 30 ml of Grapefruit Sherbert, sells at
+# $9.00, and Zak confirmed it on 2026-08-06 as sherbet-only. Dragon Soda is the
+# same category at the same $9.00. It is the one assumption in this batch —
+# correct the 0.03 here if the pour is different.
+- recipes: ["Dragon Soda"]
+  create: true
+  name: "Dragon Soda [1L]"
+  ref: "Dragon Soda [1L]"
+  subrecipe: true
+  qty: 0.03
+  unit: "ea"
+  why: "30 ml of the 1 L build, matching Stow Soda - Grapefruit's 30 ml at the same $9"
+
+# Kraken by the nip. The bottle is costed — "Kraken Black Spiced Rum [700ml]" at
+# $52.42 from ILG's own MAR 2026 price book — and Harry Gatos' $14.00 pour simply
+# had no build. 30 ml is HG's own spirit measure, not a guess: Disaronno, 400
+# Conejos Mezcal and Aether Vodka are each a single 30 ml line in the same book.
+- recipes: ["Kraken Black Rum"]
+  create: true
+  name: "Kraken Black Spiced Rum [700ml]"
+  ref: "lightspeed:20445865"
+  qty: 30
+  unit: "ml"
+  why: "HG pours 30 ml on every other spirit in the book; the bottle is price-book costed"
+
+# --- Chicken Roast: the two lines every other roast carries ----------------------
+# Pork, Lamb, Beef and Nut Roast are the same plate with a different protein, and
+# all four carry an identical trailing pair:
+#
+#     Yorkshire Pudding Prep [110 units]   qty 1     ml   $0.21
+#     Gravy Prep                           qty 145   g    $0.98
+#
+# Chicken Roast carries neither. It is not a different dish — same $30.00 menu
+# price, same carrot / broccolini / potato lines to the gram (45 g, 0.22, 125 g)
+# — Produce simply never had the two rows typed onto it. A roast plated without
+# gravy or a Yorkshire is not a thing this kitchen serves; this is a data-entry
+# gap, and it under-costs the plate, which is the flattering direction.
+#
+# Zak has confirmed it. Quantities and the Lightspeed reference are COPIED from
+# the four siblings, not invented: one unit off the 110-unit pudding tray, and
+# 145 g of gravy, at the per-serve figures Produce states on every one of them.
+# That is the same standard as the Hawaiian ham entry above — the identical line
+# already exists on sibling recipes and only this one was missing it.
+- recipes: ["Chicken Roast"]
+  name: "Yorkshire Pudding Prep [110 units]"
+  ref: "Yorkshire Pudding Prep [110 units]"
+  subrecipe: true
+  qty: 1
+  unit: "ml"
+  ls_cost: 0.21
+  why: "byte-identical line on Pork, Lamb, Beef and Nut Roast (1 ml, $0.21)"
+- recipes: ["Chicken Roast"]
+  name: "Gravy Prep"
+  ref: "Gravy Prep"
+  subrecipe: true
+  qty: 145
+  unit: "g"
+  ls_cost: 0.98
+  why: "byte-identical line on Pork, Lamb, Beef and Nut Roast (145 g, $0.98)"
