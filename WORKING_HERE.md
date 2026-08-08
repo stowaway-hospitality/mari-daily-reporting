@@ -158,6 +158,49 @@ edit + commit + push there, so automation can't stomp you. A push to `dashboard/
 The old patch_index_v*.py / push_*.py scripts are archived in
 `_archive/patch-scripts-2026-07/` — do not use them.
 
+## Git on the Cowork mount — it cannot delete files (2026-08-08)
+
+`/Users/Shared/ClaudeShared/...` allows CREATE and RENAME but **never `unlink`**.
+Everything below follows from that one fact:
+
+| operation | on the mount |
+|---|---|
+| `add` / `commit` / `push` / `fetch` | **work** (write + rename only) |
+| `checkout` / `reset` / `merge` / `stash` | **impossible** — they must remove files |
+| clearing git's own `*.lock` | **impossible** — git leaves one behind every run |
+
+The lock is the one that bites. Every command touching the index or a ref leaves
+a `.lock` git cannot delete, so the *next* command dies with *"File exists.
+Another git process seems to be running."* **It is not another process. It is the
+mount.**
+
+    . ops/git_on_the_mount.sh     # then:
+    unlock                        # quarantine stale locks
+    g <git args>                  # git, locks cleared before and after
+    gpush [branch]                # push (supplies the PAT explicitly, see below)
+    sandbox_merge <from> <into>   # clone to /tmp, merge, gate, push — the escape hatch
+
+**Do NOT rename locks in place.** `mv refs/…/branch.lock refs/…/branch.stale-N`
+leaves the junk *inside* `.git/refs/`, where git reads it as a ref and every later
+fetch dies with `fatal: bad object refs/remotes/origin/….stale-N`. 43 of those
+accumulated on 2026-08-08 before anyone noticed and it broke fetching entirely.
+`unlock` quarantines to `.git/_lockjunk/`, outside `refs/`. Safe to empty that
+directory from a real terminal.
+
+**Anything that removes files must happen off the mount.** Clone to `/tmp`, do the
+merge/checkout there, run the gate, push, then `git checkout` on the Mac itself
+from Terminal. `sandbox_merge` does exactly this; it is how the COGS audit reached
+`main`.
+
+**Push auth from a sandbox:** the credential helper in `.git/config` reads a
+*host* path (`/Users/Shared/...`) that does not exist inside the sandbox, so a
+push there fails with "Invalid username or token" even though the PAT is fine.
+Pass it explicitly — `gpush` does.
+
+**Keep the Mac tree on `main`.** If it sits on a feature branch, the invoice
+poller, daily pull and wage rebuild all commit *there*, and their data never
+reaches the dashboard. The home page's system-status card shouts about this.
+
 ## Auth
 
 `git push` authenticates via a credential helper configured in `.git/config`
