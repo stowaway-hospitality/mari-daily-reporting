@@ -1,180 +1,108 @@
 {
-  "generated": "2026-08-07T17:51:18+00:00",
+  "generated": "2026-08-08T17:32:50+00:00",
   "mode": "live-approve",
   "counts": {
-    "would_approve": 19,
-    "park_for_human": 16,
+    "would_approve": 11,
+    "park_for_human": 23,
     "skip": 0
   },
   "would_approve": [
     {
-      "timesheet_id": 35725,
-      "employee": "Marssheel Marssheel",
+      "timesheet_id": 35731,
+      "employee": "Min",
       "area": "Harry's Kitchen",
-      "start": 1785981600,
-      "end": 1786019400,
-      "reason": "salaried (Marssheel) \u2014 overstay auto-approve rule",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35726,
-      "employee": "Nicola Bisato",
-      "area": "Stow Bar",
-      "start": 1785981600,
-      "end": 1786013100,
-      "reason": "salaried (Nicola) \u2014 overstay auto-approve rule",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35729,
-      "employee": "Devon Lukiana",
-      "area": "Stow Kitchen",
-      "start": 1785988800,
-      "end": 1786016700,
-      "reason": "salaried (Devon) \u2014 overstay auto-approve rule",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35732,
-      "employee": "Olly",
-      "area": "Stow Kitchen",
-      "start": 1785992400,
-      "end": 1786015800,
-      "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35733,
-      "employee": "Annarita Dagostino",
-      "area": "Stow Floor",
-      "start": 1785992400,
-      "end": 1786020300,
-      "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35735,
-      "employee": "Pujan Tamang",
-      "area": "Stow Kitchen",
-      "start": 1785996000,
+      "start": 1785989340,
       "end": 1786017600,
-      "reason": "salaried (Pujan) \u2014 overstay auto-approve rule",
-      "result": "approved"
+      "reason": "salaried (Min) \u2014 overstay auto-approve rule",
+      "result": "approved + round FAILED HTTP 400 {\"error\":{\"code\":400,\"message\":\"The length of the timesheet is less than the minimum of 15 minutes. The timesheet will not be submitted.\"}}"
     },
     {
-      "timesheet_id": 35736,
+      "timesheet_id": 35746,
+      "employee": "Min",
+      "area": "Harry's Kitchen",
+      "start": 1786075140,
+      "end": 1786103940,
+      "reason": "salaried (Min) \u2014 overstay auto-approve rule",
+      "result": "approved + rounded"
+    },
+    {
+      "timesheet_id": 35770,
       "employee": "Renan Borba Bagesteiro",
       "area": "Pizza Shop",
-      "start": 1785996000,
-      "end": 1786018500,
+      "start": 1786154400,
+      "end": 1786194900,
       "reason": "salaried (Renan) \u2014 overstay auto-approve rule",
       "result": "approved"
     },
     {
-      "timesheet_id": 35737,
-      "employee": "Sushant Acharya",
-      "area": "Pizza Shop",
-      "start": 1785999600,
-      "end": 1786015800,
-      "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35738,
-      "employee": "Kris Hegarty",
-      "area": "Stow Floor",
-      "start": 1786000500,
-      "end": 1786014900,
-      "reason": "salaried (Kris) \u2014 overstay auto-approve rule",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35739,
-      "employee": "James Regan",
-      "area": "Pizza Shop",
-      "start": 1786001400,
-      "end": 1786011300,
-      "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35741,
-      "employee": "Emily",
+      "timesheet_id": 35771,
+      "employee": "Jack Colbran",
       "area": "Stow Bar",
-      "start": 1786003200,
-      "end": 1786020300,
+      "start": 1786159800,
+      "end": 1786192200,
       "reason": "clean \u2014 within rostered finish, break normal",
       "result": "approved"
     },
     {
-      "timesheet_id": 35744,
+      "timesheet_id": 35772,
       "employee": "Marssheel Marssheel",
       "area": "Harry's Kitchen",
-      "start": 1786071600,
-      "end": 1786106700,
+      "start": 1786160700,
+      "end": 1786193100,
       "reason": "salaried (Marssheel) \u2014 overstay auto-approve rule",
       "result": "approved"
     },
     {
-      "timesheet_id": 35745,
-      "employee": "Renan Borba Bagesteiro",
-      "area": "Pizza Shop",
-      "start": 1786075200,
-      "end": 1786108500,
-      "reason": "salaried (Renan) \u2014 overstay auto-approve rule",
+      "timesheet_id": 35773,
+      "employee": "Min",
+      "area": "Harry's Kitchen",
+      "start": 1786161600,
+      "end": 1786192200,
+      "reason": "salaried (Min) \u2014 overstay auto-approve rule",
       "result": "approved"
     },
     {
-      "timesheet_id": 35747,
-      "employee": "Devon Lukiana",
-      "area": "Stow Kitchen",
-      "start": 1786075200,
-      "end": 1786105800,
-      "reason": "salaried (Devon) \u2014 overstay auto-approve rule",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35749,
-      "employee": "Pujan Tamang",
-      "area": "Stow Kitchen",
-      "start": 1786076100,
-      "end": 1786107600,
-      "reason": "salaried (Pujan) \u2014 overstay auto-approve rule",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35750,
+      "timesheet_id": 35774,
       "employee": "Kiana Dettmann",
       "area": "Stow Floor",
-      "start": 1786076100,
-      "end": 1786101300,
-      "reason": "clean \u2014 within rostered finish, break normal",
+      "start": 1786163400,
+      "end": 1786196700,
+      "reason": "casual FOH overstay 0.25h \u2264 1.5h, break normal",
       "result": "approved"
     },
     {
-      "timesheet_id": 35753,
+      "timesheet_id": 35777,
       "employee": "Sushant Acharya",
       "area": "Pizza Shop",
-      "start": 1786080600,
-      "end": 1786104000,
+      "start": 1786170600,
+      "end": 1786190400,
       "reason": "clean \u2014 within rostered finish, break normal",
       "result": "approved"
     },
     {
-      "timesheet_id": 35761,
-      "employee": "Reef Poole",
+      "timesheet_id": 35780,
+      "employee": "pedro f",
       "area": "Pizza Shop",
-      "start": 1786087800,
-      "end": 1786096800,
+      "start": 1786174200,
+      "end": 1786185000,
       "reason": "clean \u2014 within rostered finish, break normal",
       "result": "approved"
     },
     {
-      "timesheet_id": 35765,
-      "employee": "Emily",
-      "area": "Harry's Floor",
-      "start": 1786089600,
-      "end": 1786104000,
+      "timesheet_id": 35782,
+      "employee": "John Campbell",
+      "area": "Driver",
+      "start": 1786175100,
+      "end": 1786181400,
+      "reason": "clean \u2014 within rostered finish, break normal",
+      "result": "approved"
+    },
+    {
+      "timesheet_id": 35783,
+      "employee": "Sophie Campbell",
+      "area": "Stow Bar",
+      "start": 1786176000,
+      "end": 1786186800,
       "reason": "clean \u2014 within rostered finish, break normal",
       "result": "approved"
     }
@@ -293,6 +221,14 @@
       "reason": "Olly \u2014 overstays always left for Kris per policy"
     },
     {
+      "timesheet_id": 35756,
+      "employee": "Rhys Taylor",
+      "area": "Stow Bar",
+      "start": 1786083300,
+      "end": 1786151520,
+      "reason": "runaway/overnight (19.0h) \u2014 forgotten clock-off \u2192 close to rostered 11:30pm (Kris)"
+    },
+    {
       "timesheet_id": 35748,
       "employee": "Zak",
       "area": "Stow Bar",
@@ -307,6 +243,54 @@
       "start": 1786087800,
       "end": 1786103100,
       "reason": "clock/area correction \u2014 finish 9 \u2014 verify & set (Kris)"
+    },
+    {
+      "timesheet_id": 35769,
+      "employee": "Rhys Taylor",
+      "area": "Stow Bar",
+      "start": 1786151700,
+      "end": 1786186800,
+      "reason": "clock/area correction \u2014 start 11 \u2014 verify & set (Kris)"
+    },
+    {
+      "timesheet_id": 35775,
+      "employee": "Olly",
+      "area": "Stow Kitchen",
+      "start": 1786168800,
+      "end": 1786192200,
+      "reason": "Olly \u2014 overstays always left for Kris per policy"
+    },
+    {
+      "timesheet_id": 35776,
+      "employee": "David Armour",
+      "area": "Harry's Floor",
+      "start": 1786170600,
+      "end": 1786190400,
+      "reason": "UNDERPAY RISK: comment says no break but 30m deducted \u2014 pay in FULL (Kris/Zak)"
+    },
+    {
+      "timesheet_id": 35778,
+      "employee": "Annarita Dagostino",
+      "area": "Stow Floor",
+      "start": 1786172400,
+      "end": 1786197600,
+      "reason": "runaway/overnight (7.0h) \u2014 forgotten clock-off \u2192 close to rostered 11:30pm (Kris)"
+    },
+    {
+      "timesheet_id": 35779,
+      "employee": "denis",
+      "area": "Pizza Shop",
+      "start": 1786174200,
+      "end": 1786185000,
+      "reason": "casual overstay 0.25h in non-FOH area (ou7) \u2014 Kris"
+    },
+    {
+      "timesheet_id": 35781,
+      "employee": "Reef Houston",
+      "area": "Driver",
+      "start": 1786174200,
+      "end": 1786184100,
+      "reason": "casual overstay 0.25h in non-FOH area (ou12) \u2014 Kris"
     }
   ],
   "skipped": []
