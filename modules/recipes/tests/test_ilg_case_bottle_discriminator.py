@@ -348,12 +348,20 @@ def test_paramount_lines_now_carry_a_price_and_a_basis_if_the_corpus_is_here():
     """§10 end to end: where units_on_line proved the count, the line must state a
     per-unit price and a real cost_basis, so the validator's per-line checks have
     something to bite on. Where it did not prove, both stay unset — an unproved
-    basis is not a basis — and LINE_UNPRICED now says so out loud."""
+    basis is not a basis — and LINE_UNPRICED now says so out loud.
+
+    "A real basis" is PER_UNIT for a retail unit and PER_BULK for a single-unit
+    container of 4 L or more (a 20 L drum, a 15 L cask). Both are real; what is
+    banned is UNKNOWN on a line whose count proved. The distinction is not
+    cosmetic — PER_BULK is what keeps a genuine $1,013 drum from being failed by
+    per_unit's $500 ceiling, so this asserts each line got the RIGHT one rather
+    than merely a non-UNKNOWN one."""
     corpus = ROOT / "data" / "invoice_corpus" / "paramount"
     if not corpus.is_dir():
         return
     from modules.invoices.parsers import paramount
     seen = 0
+    bulk = 0
     for pdf in sorted(corpus.glob("*.pdf")):
         try:
             inv = paramount.parse(pdf.read_bytes())
@@ -364,6 +372,14 @@ def test_paramount_lines_now_carry_a_price_and_a_basis_if_the_corpus_is_here():
                 continue
             seen += 1
             assert ln.unit_price_incl is not None, f"{pdf.name}: {ln.description}"
-            assert ln.cost_basis == CostBasis.PER_UNIT
+            want = (CostBasis.PER_BULK if paramount.bulk_litres(ln.raw_uom or "")
+                    else CostBasis.PER_UNIT)
+            assert ln.cost_basis == want, f"{pdf.name}: {ln.description} ({ln.raw_uom})"
+            if want == CostBasis.PER_BULK:
+                bulk += 1
             assert (ln.qty * ln.unit_price_incl - ln.line_total_incl).copy_abs() <= D("0.02")
     assert seen == 0 or seen >= 40             # 47 stock lines when the corpus is whole
+    # 6 x WHITE LIGHT VODKA 20 L + 1 x DE BORTOLI 15 L cask. If this drops to
+    # zero the bulk branch has stopped firing and the drums are back to
+    # tripping SANITY_BOUNDS on six otherwise-free invoices.
+    assert seen == 0 or bulk >= 7

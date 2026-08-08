@@ -66,6 +66,18 @@ class CostBasis(str, Enum):
     PER_CAN = "per_can"
     PER_UNIT = "per_unit"
     PER_KG = "per_kg"
+    # One BULK liquid container bought whole — a 20 L spirit drum, a 15 L wine
+    # cask — as distinct from one retail unit. It gets its own basis because it
+    # needs its own net: a 20 L drum of vodka lands at ~$1,013 (excise on 7.5
+    # LAL is most of that). That price is real and correct, and it blows
+    # straight through per_unit's $500 ceiling.
+    #
+    # The cheap alternative was to raise that ceiling. That would have bought
+    # one drum at the cost of the whole per_unit net in the TOO-EXPENSIVE
+    # direction — which is precisely the direction that hides a case total in a
+    # per-unit field, the one silent error these bounds exist to catch. So the
+    # drum gets its own basis and per_unit keeps its $500.
+    PER_BULK = "per_bulk"
     UNKNOWN = "unknown"
 
 

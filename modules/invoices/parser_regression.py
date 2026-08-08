@@ -45,6 +45,19 @@ The corpus is at 407/415 (98%), and the 8 shortfalls are:
                             in data/invoices, corpus copies date from 2020-2024,
                             and neither domain is in domains.py. Not worth one.
 
+TRIAGE LOG — 2026-08-09: paramount was found at 13/20 (65%), six invoices below
+the reading above. Not drift, and not a new supplier layout: all six parsed and
+reconciled TO THE CENT, then failed SANITY_BOUNDS on a single line — WHITE LIGHT
+VODKA ORIGINAL "1/20000 ml" at $1,012.78. That is one 20 L drum, and the price
+is right; it was being bound-checked against per_unit's $500 ceiling because the
+parser called every proved line PER_UNIT. Fixed by giving a single-unit pack of
+>= 4 L its own basis (CostBasis.PER_BULK) and its own bounds, so per_unit keeps
+its $500 for the other ~40 stock lines. paramount 13/20 -> 19/20, TOTAL
+401/415 -> 407/415, and paramount's only remaining shortfall is the price list
+above. Note the platform had already diagnosed this itself: the cost-book
+"config" flag named the exact product and price and said it "goes to review on
+every delivery". Closing the gap emptied that flag.
+
 The three zero-total documents can never PASS by construction: validator's
 _check_required_fields treats total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
 So no parser can promote them — the only way to stop them costing an LLM call on

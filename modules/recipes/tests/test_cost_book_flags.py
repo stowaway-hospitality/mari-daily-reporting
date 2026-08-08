@@ -269,16 +269,28 @@ def test_the_bad_seeds_are_the_two_pack_misreads(feed):
     assert "pack of 100" in seeds["Pizza Box Inserts"]["what_is_wrong"]
 
 
-def test_the_config_gap_is_a_recurring_line_no_bound_admits(feed):
-    """Both halves are needed. "Unclassified" alone is 33 line groups at
-    Paramount, most of them ordinary bottles. "Above the bounds" alone catches a
-    one-off case line. Together: a standing purchase whose pack suppliers.yaml
-    has no way to express, so it goes to review on every delivery."""
+def test_the_config_gap_is_closed(feed):
+    """This flag did its job and is now expected to be EMPTY.
+
+    It used to name exactly one subject: WHITE LIGHT VODKA ORIGINAL 20000ml, at
+    $1,012.78 - $1,013.84, described as "a standing purchase whose pack
+    suppliers.yaml has no way to express, so it goes to review on every
+    delivery". That was literally true — six of the twenty Paramount invoices in
+    the corpus carried the line, reconciled to the cent, and were then failed by
+    SANITY_BOUNDS because a 20 L drum was being bound-checked as a retail unit
+    against per_unit's $500 ceiling. Paramount sat at 13/20 (65%) for that one
+    reason.
+
+    Closed 2026-08-09 by giving a bulk container its own basis
+    (CostBasis.PER_BULK) and its own bounds, rather than by widening per_unit —
+    see models.py and sanity_bounds in suppliers.yaml. Paramount went to 19/20.
+
+    Asserting EMPTY rather than deleting the test is the point: the category is
+    still computed, so if a new pack shape appears that suppliers.yaml cannot
+    express, this fails and names it instead of quietly sending that supplier's
+    deliveries to the LLM forever."""
     cfg = _by_cat(feed, "config")
-    assert len(cfg) == 1, [f["subject"] for f in cfg]
-    assert "WHITE LIGHT VODKA" in cfg[0]["subject"]
-    assert len(cfg[0]["evidence"]) >= flags.VALIDATOR_MIN_SEEN
-    assert "1,012.78" in cfg[0]["what_is_wrong"] or "1,013.84" in cfg[0]["what_is_wrong"]
+    assert cfg == [], [f["subject"] for f in cfg]
 
 
 def test_a_stock_item_held_twice_is_flagged_only_past_a_keying_error(feed):

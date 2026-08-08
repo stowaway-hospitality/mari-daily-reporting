@@ -115,6 +115,17 @@ sanity_bounds:
   per_can:    { min: 0.80,   max: 8.00 }     # $2-3 typical
   per_unit:   { min: 0.10,   max: 500.00 }
   per_kg:     { min: 1.00,   max: 200.00 }
+  # ONE bulk liquid container bought whole (>= 4 L in a single-unit pack).
+  # Measured over the 20 Paramount invoices in data/invoice_corpus, which hold
+  # exactly two bulk families:
+  #   WHITE LIGHT VODKA ORIGINAL, "1/20000 ml"  -> $1,012.78 - $1,013.84  (x6)
+  #   DE BORTOLI GOLD SEAL DRY RED, "1/15000 ml" ->    $55.90             (x1)
+  # So the range has to span a $56 wine cask and a $1,014 spirit drum. Wide, but
+  # still a net: the error it exists to catch is a MULTIPLE (a 2-pack or case
+  # total landing on the line), and 2x the drum is $2,028 — caught. A decimal
+  # slip to $10,138 — caught. Keeping this separate is what lets per_unit stay
+  # at $500 for the other 40-odd stock lines.
+  per_bulk:   { min: 15.00,  max: 2000.00 }
 
 # ---------------------------------------------------------------------------
 # VENUE RESOLUTION — signals are PER-SUPPLIER. They do NOT transfer.

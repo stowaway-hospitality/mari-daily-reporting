@@ -8,11 +8,16 @@ pure, PDF-free part and the thing most likely to silently drift.
 """
 
 import sys
+from decimal import Decimal
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+import yaml
+
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT))
 
 from modules.invoices import pdf_text  # noqa: E402
+from modules.invoices.parsers import paramount  # noqa: E402
 
 # Select Fresh column starts.
 COLS = [("code", 0), ("desc", 78), ("order", 290), ("supply", 348),
@@ -84,6 +89,70 @@ def test_paramount_bucket_reads_a_misc_charge_line():
     assert c["size"] == "MISC"
     assert c["desc"] == "Carton Freight"
     assert c["incgst"] == "$7.15"
+
+
+# ---------------------------------------------------------------------------
+# BULK containers. A "1/20000 ml" Size cell is ONE 20 L drum, not one bottle,
+# and at ~$1,013 it is both correct and far over per_unit's $500 ceiling. Six
+# of the twenty Paramount invoices in the corpus carry that line, and before
+# bulk_litres() existed all six reconciled perfectly and were then failed by
+# SANITY_BOUNDS — a 65% pass rate for one product. These pin the boundary so a
+# later tidy-up of PACK_RE cannot quietly widen or narrow it.
+# ---------------------------------------------------------------------------
+
+def test_a_single_unit_twenty_litre_pack_is_bulk():
+    # WHITE LIGHT VODKA ORIGINAL : 20000ml, code 32051, invoice 5408825.
+    assert paramount.bulk_litres("1/20000 ml") == Decimal("20")
+
+
+def test_a_fifteen_litre_wine_cask_is_bulk():
+    # DE BORTOLI GOLD SEAL SPECIAL DRY RED — the other bulk family, at $55.90.
+    # It sits at the bottom of per_bulk's range, which is why that range is not
+    # allowed to start above $15.
+    assert paramount.bulk_litres("1/15000 ml") == Decimal("15")
+
+
+def test_a_carton_of_bottles_is_not_bulk_however_large_the_carton():
+    # 6 x 700 ml is 4.2 L of liquid, but the UNIT is a 700 ml bottle. Reading
+    # total volume instead of unit volume here would push ordinary spirits into
+    # the bulk net and lose them per_unit's $500 ceiling.
+    assert paramount.bulk_litres("6/700 ml") is None
+    assert paramount.bulk_litres("12/1000 ml") is None
+    assert paramount.bulk_litres("2/5000 ml") is None      # MASSENEZ BIB 2PACK
+
+
+def test_an_ordinary_single_bottle_is_not_bulk():
+    assert paramount.bulk_litres("1/700 ml") is None
+    assert paramount.bulk_litres("1/3000 ml") is None      # 3 L jeroboam
+    assert paramount.bulk_litres("1/4000 ml") == Decimal("4")   # threshold is >=
+
+
+def test_bulk_ignores_weight_packs_and_junk():
+    assert paramount.bulk_litres("1/20000 g") is None
+    assert paramount.bulk_litres("MISC") is None
+    assert paramount.bulk_litres("") is None
+    assert paramount.bulk_litres(None) is None
+
+
+def test_the_twenty_litre_drum_price_sits_inside_per_bulk_and_outside_per_unit():
+    # The measured number, straight off invoice 5408825: $920.71 ex + $92.07
+    # GST. If a future edit moves per_bulk's ceiling under this, or per_unit's
+    # over it, the change that made six invoices free is silently undone.
+    cfg = yaml.safe_load((ROOT / "modules/invoices/suppliers.yaml").read_text())
+    b = cfg["sanity_bounds"]
+    drum = Decimal("1012.78")
+    assert Decimal(str(b["per_bulk"]["min"])) <= drum <= Decimal(str(b["per_bulk"]["max"]))
+    assert drum > Decimal(str(b["per_unit"]["max"]))
+    # And the $55.90 cask has to fit the same range.
+    assert Decimal(str(b["per_bulk"]["min"])) <= Decimal("55.90")
+
+
+def test_per_unit_ceiling_was_not_raised_to_buy_the_drum():
+    # The whole point of a separate basis. per_unit is the net that catches a
+    # case total in a per-unit field; it stays where it was.
+    cfg = yaml.safe_load((ROOT / "modules/invoices/suppliers.yaml").read_text())
+    assert Decimal(str(cfg["sanity_bounds"]["per_unit"]["max"])) == Decimal("500.00")
+    assert Decimal(str(cfg["sanity_bounds"]["per_keg"]["max"])) == Decimal("600.00")
 
 
 # Andrews Meat column starts (Code | Description | Qty | Unit | Unit Price |

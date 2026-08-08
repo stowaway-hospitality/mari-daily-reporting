@@ -54,6 +54,36 @@ QTY_SPLIT = re.compile(r"^(\d+)\s*/\s*(\d+)$")
 PACK_RE = re.compile(r"^(\d+)\s*/\s*([\d.]+)\s*(ml|l|g|kg)\b", re.I)
 CENT = Decimal("0.02")
 
+# A single-unit pack of at least this many litres is ONE BULK CONTAINER — a
+# drum or a cask — not a retail unit, and is priced as such. See CostBasis.
+# PER_BULK. 4 L clears the largest thing sold as a bottle (a 3 L jeroboam) and
+# sits under the smallest thing sold as a cask, so nothing straddles it.
+BULK_LITRES = Decimal("4")
+_TO_LITRES = {"ml": Decimal("0.001"), "l": Decimal("1")}
+
+
+def bulk_litres(size: str):
+    """Litres in ONE unit of this Size cell, if it is a bulk container.
+
+    Returns Decimal(litres) for a single-unit pack >= BULK_LITRES, else None.
+    Only volume counts: "1/20000 ml" is a 20 L drum, "6/700 ml" is a carton of
+    six bottles (per != 1), and "1/700 ml" is one ordinary bottle (under the
+    threshold). All three keep the basis they had before this existed.
+    """
+    pm = PACK_RE.match((size or "").strip())
+    if not pm:
+        return None
+    if int(pm.group(1)) != 1:            # a carton of N -> the unit is retail
+        return None
+    factor = _TO_LITRES.get(pm.group(3).lower())
+    if factor is None:                   # g / kg — not a liquid volume
+        return None
+    try:
+        litres = Decimal(pm.group(2)) * factor
+    except InvalidOperation:
+        return None
+    return litres if litres >= BULK_LITRES else None
+
 
 def _m(s):
     s = (s or "").replace(",", "").strip()
@@ -157,12 +187,21 @@ def parse(pdf_bytes: bytes) -> Invoice:
         # say nothing: an unproved basis is not a basis, and validator's
         # LINE_UNPRICED now flags the gap instead of swallowing it.
         unit_price = ((inc / units).quantize(Decimal("0.0001")) if units else None)
+        # A proved count on a single-unit bulk pack is one DRUM or CASK, not one
+        # retail unit, so it is bound-checked as one. Without this the six
+        # WHITE LIGHT VODKA "1/20000 ml" lines in the corpus each carried a
+        # correct $1,012.78 into per_unit's $500 ceiling and sent an otherwise
+        # perfectly-reconciled invoice to the LLM.
+        basis = CostBasis.UNKNOWN
+        if units:
+            basis = (CostBasis.PER_BULK if bulk_litres(c["size"])
+                     else CostBasis.PER_UNIT)
         items.append(InvoiceLine(
             description=desc, qty=units or Decimal("1"), line_total_incl=inc,
             unit_price_incl=unit_price, pack_size=1,
             line_class=LineClass.EXTRA if is_extra else LineClass.STOCK,
             tax_treatment=(TaxTreatment.WET if (wet and wet > 0) else TaxTreatment.GST),
-            cost_basis=(CostBasis.PER_UNIT if units else CostBasis.UNKNOWN),
+            cost_basis=basis,
             supplier_code=code, raw_qty=c["qty"].strip() or None,
             raw_uom=c["size"] or None))
     if not items:
