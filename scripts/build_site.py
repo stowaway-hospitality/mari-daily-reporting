@@ -100,6 +100,7 @@ def build() -> int:
                 shutil.copy2(item, target)
         print(f"  {src_rel:<24} -> /{dst_rel}")
 
+    inject_app_icons()
     stamp_versions()
     return check()
 
@@ -147,6 +148,24 @@ def stamp_versions() -> None:
             html.write_text(new)
     print(f"  cache-bust: stamped {stamped} local asset refs")
 
+
+
+_APPICON_BLOCK = '<!--shg-appicons-->\n<link rel="icon" href="/favicon.ico" sizes="any">\n<link rel="icon" type="image/png" sizes="32x32" href="/logo_32.png">\n<link rel="icon" type="image/png" sizes="128x128" href="/logo_128.png">\n<link rel="apple-touch-icon" sizes="180x180" href="/appicon-180.png">\n<link rel="manifest" href="/manifest.webmanifest">\n<meta name="apple-mobile-web-app-capable" content="yes">\n<meta name="mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">\n<meta name="apple-mobile-web-app-title" content="Stowaway">\n<meta name="theme-color" content="#161512">\n'
+
+
+def inject_app_icons() -> None:
+    """Give every built page the home-screen icon and web manifest so Add to
+    Home Screen from any page installs a clean Stowaway app with the logo, not
+    a screenshot. Runs on the built copy, idempotent via a marker; every ref it
+    adds ships from dashboard/root so the link-checker still resolves."""
+    n = 0
+    for html in SITE.rglob("*.html"):
+        txt = html.read_text()
+        if "shg-appicons" in txt or "</head>" not in txt:
+            continue
+        html.write_text(txt.replace("</head>", _APPICON_BLOCK + "</head>", 1))
+        n += 1
+    print(f"  app icons: injected into {n} pages")
 
 def check() -> int:
     """

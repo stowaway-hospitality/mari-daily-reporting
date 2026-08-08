@@ -1,13 +1,13 @@
 {
-  "generated": "2026-08-06T21:43:34+00:00",
-  "overall": "down",
+  "generated": "2026-08-08T05:07:03+00:00",
+  "overall": "warn",
   "checks": [
     {
       "name": "Invoice poller",
       "detail": "reads the accounts@ inbox every 30 min",
-      "age": 1053.2,
+      "age": 19.5,
       "unit": "min",
-      "status": "down",
+      "status": "ok",
       "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
       "action": "Check the office Mac is on and awake - it resumes on its own and no bills are lost. Still red an hour after it is awake? Tell Zak.",
       "selfheal": "Recovers by itself once the Mac is awake."
@@ -15,9 +15,9 @@
     {
       "name": "Xero approvals poller",
       "detail": "posts approved bills every 2 min",
-      "age": null,
+      "age": 0.3,
       "unit": "min",
-      "status": "unknown",
+      "status": "ok",
       "meaning": "Posts approved supplier bills into Xero every couple of minutes (office Mac).",
       "action": "Same office-Mac job - check it is awake. Approvals just wait until it runs; nothing is lost.",
       "selfheal": "Recovers once the Mac is awake."
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 0.3,
+      "age": 0.8,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -35,7 +35,7 @@
     {
       "name": "Weekly Xero pull",
       "detail": "runs once a week",
-      "age": 3.9,
+      "age": 5.2,
       "unit": "day",
       "status": "ok",
       "meaning": "Pulls payroll and overheads from Xero once a week.",
@@ -45,9 +45,9 @@
     {
       "name": "Daily sales pull",
       "detail": "aggregates yesterday's Lightspeed exports",
-      "age": 3,
+      "age": 1,
       "unit": "day",
-      "status": "down",
+      "status": "ok",
       "meaning": "Yesterday's Lightspeed sales landing in the dashboard.",
       "action": "Usually the Stowaway sales email has not arrived yet. It retries every 20 min until ~10am. Still missing after 10am? Ask Claude to check the Stow export landed and re-run the ingest, or tell Zak. Numbers fill in once it arrives.",
       "selfheal": "Retries through the morning; often fixes itself before 10am."
@@ -55,7 +55,7 @@
     {
       "name": "Xero COGS feed",
       "detail": "weekly actual COGS from Xero",
-      "age": 5,
+      "age": 6,
       "unit": "day",
       "status": "ok",
       "meaning": "Weekly actual cost-of-goods from Xero (drives the margin figures).",
@@ -74,10 +74,20 @@
     },
     {
       "name": "Pull integrity",
-      "detail": "Mari filter holding, HG reallocation intact (2026-08-04)",
+      "detail": "Mari filter holding, HG reallocation intact (2026-08-07)",
       "age": null,
       "unit": "",
       "status": "ok"
+    },
+    {
+      "name": "Working tree",
+      "detail": "Mac working copy is on 'recipes/liquor-pack-discriminator', not main",
+      "age": null,
+      "unit": "",
+      "status": "warn",
+      "meaning": "The office Mac's shared repo is checked out on a feature branch, so Mac-side jobs (invoice poller etc.) commit there, not to main.",
+      "action": "Mac-written data is landing on 'recipes/liquor-pack-discriminator', not main - it reaches the dashboard when that branch merges. Merge/return the tree to main to realign now.",
+      "selfheal": "Resolves when the branch is merged to main."
     }
   ]
 }

@@ -7,15 +7,12 @@
 <link rel="icon" href="/favicon.ico">
 <link rel="stylesheet" href="/_shared/tokens.css?v=20260719b">
 <!--
-  Bookings admin — a tool page behind the shared Supabase gate, same as
-  /sales/ and /recipes/. The page is a shell: ALL logic lives in bookings.js
-  (arch_guard discipline). It talks live to the booking engine service
-  (seating-solver-backed), which holds its own real auth: a bearer token,
-  entered once per device and kept in localStorage. The Supabase gate decides
-  who may see this page; the token decides what the service will accept.
+  Bookings admin — shell only; ALL logic lives in bookings.js (arch_guard).
+  Bump the ?v= on bookings.js whenever it changes.
 
-  Bump the ?v= on bookings.js whenever it changes — same convention as
-  tokens.css. A stale cached module against fresh HTML is a blank page.
+  Signed-in staff never paste a token: bookings.js calls Auth.bookingToken(),
+  which reads it from Supabase app_config (RLS-protected). #tokenbox below is
+  only a fallback for when that lookup fails.
 -->
 <style>
   .wrap{max-width:1100px;margin:0 auto;padding:24px}
@@ -81,20 +78,25 @@
   h2{font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:8px}
   #tokenbox{background:var(--paper);border:1px solid var(--line);border-radius:12px;
         padding:18px;max-width:520px;box-shadow:var(--shadow)}
-  /* Event picker: compact date tiles — DOW + date lead, so a long row of
-     events scans like a calendar strip. */
+  /* Card feed: compact date tiles. Public events get a coloured top edge;
+     staff-only "house" days stay grey. */
   .events{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
   .event-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;
         padding:10px 14px 11px;cursor:pointer;box-shadow:var(--shadow);width:122px;
         border-top:4px solid var(--grey);transition:transform .12s}
   .event-card:hover{transform:translateY(-2px)}
-  .event-card.sel{border-top-color:var(--stow);outline:2px solid var(--ink)}
+  .event-card.pub{border-top-color:var(--amber,#c9973b)}
+  .event-card.sel{outline:2px solid var(--ink);border-top-color:var(--stow)}
   .ec-dow{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
         color:var(--ink-soft)}
   .ec-date{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;
         margin:1px 0 3px;white-space:nowrap}
   .ec-name{font-size:11px;color:var(--ink-soft);line-height:1.3;overflow:hidden;
         display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .ec-count{display:inline-block;margin-top:5px;font-size:10.5px;font-weight:700;
+        padding:1px 7px;border-radius:8px;background:var(--line);color:var(--ink)}
+  .ec-datepick{width:100%;padding:4px;font-size:12px;margin:2px 0 3px}
+  .anyday{border-style:dashed}
   #guestlink{font-size:12.5px;color:var(--ink-soft);margin:0 0 16px}
   #guestlink a{color:var(--ink)}
   .glrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
@@ -110,12 +112,14 @@
 
   <div class="wrap">
     <h1>Bookings</h1>
-    <div class="sub" id="eventline">Loading the live event…</div>
+    <div class="sub" id="eventline">Loading…</div>
 
     <div id="tokenbox" style="display:none">
-      <h2>Connect to the booking engine</h2>
+      <h2>Couldn't reach the booking engine key</h2>
       <p style="font-size:13px;color:var(--ink-soft);margin:6px 0 12px">
-        One-time on this device: paste the booking service token
+        You shouldn't normally see this — signed-in staff are connected
+        automatically. If the automatic lookup failed, an admin can paste the
+        service token here as a one-off for this device
         (Render → stowaway-bookings → Environment → STOWAWAY_ADMIN_TOKEN).</p>
       <div class="bar">
         <div style="flex:1"><label>Service token</label>
@@ -136,12 +140,14 @@
       <div class="section" id="addbox" style="display:none;margin:0 0 18px">
         <h2>New booking <span style="font-weight:normal;color:var(--ink-soft)">— phone / staff entry</span></h2>
         <div class="bar">
-          <div><label>Sitting</label><select id="nb_time"></select></div>
+          <div id="nb_timewrap"><label>Sitting</label><select id="nb_time"></select></div>
+          <div id="nb_startwrap" style="display:none"><label>Start</label><input id="nb_start" type="time" value="18:00"></div>
+          <div id="nb_endwrap" style="display:none"><label>End (optional)</label><input id="nb_end" type="time"></div>
           <div><label>Name</label><input id="nb_name"></div>
           <div><label>Phone</label><input id="nb_phone" type="tel"></div>
-          <div><label>Email (optional)</label><input id="nb_email" type="email"></div>
-          <div><label>Adults</label><input id="nb_adults" type="number" min="1" max="12" value="2" style="width:70px"></div>
-          <div><label>Kids</label><input id="nb_kids" type="number" min="0" max="8" value="0" style="width:70px"></div>
+          <div><label>Email</label><input id="nb_email" type="email"></div>
+          <div><label>Adults</label><input id="nb_adults" type="number" min="1" max="200" value="2" style="width:70px"></div>
+          <div><label>Kids</label><input id="nb_kids" type="number" min="0" max="20" value="0" style="width:70px"></div>
           <div><label>Babies</label><input id="nb_babies" type="number" min="0" max="4" value="0" style="width:70px"></div>
           <div><label>Dogs</label><input id="nb_dogs" type="number" min="0" max="3" value="0" style="width:70px"></div>
           <div style="flex:1;min-width:180px"><label>Notes</label><input id="nb_notes" style="width:100%"></div>
@@ -155,9 +161,9 @@
       <div class="section" id="editbox" style="display:none">
         <h2>Edit booking <span id="edit_name" style="font-weight:normal"></span></h2>
         <div class="bar">
-          <div><label>Sitting</label><select id="ed_time"></select></div>
-          <div><label>Adults</label><input id="ed_adults" type="number" min="1" max="12" style="width:70px"></div>
-          <div><label>Kids</label><input id="ed_kids" type="number" min="0" max="8" style="width:70px"></div>
+          <div><label>Time</label><select id="ed_time"></select><input id="ed_time2" type="time" style="display:none"></div>
+          <div><label>Adults</label><input id="ed_adults" type="number" min="1" max="200" style="width:70px"></div>
+          <div><label>Kids</label><input id="ed_kids" type="number" min="0" max="20" style="width:70px"></div>
           <div><label>Babies</label><input id="ed_babies" type="number" min="0" max="4" style="width:70px"></div>
           <div><label>Dogs</label><input id="ed_dogs" type="number" min="0" max="3" style="width:70px"></div>
           <div><label>Phone</label><input id="ed_phone"></div>
@@ -170,6 +176,6 @@
   </div>
 </div>
 
-<script type="module" src="./bookings.js?v=20260729b"></script>
+<script type="module" src="./bookings.js?v=20260806a"></script>
 </body>
 </html>

@@ -3,15 +3,18 @@
 <plist version="1.0">
 <dict>
   <key>Label</key><string>com.stowaway.healthpublish</string>
+  <!-- Runs the STANDALONE branch-proof publisher (installed at
+       ~/.stowaway-ops/publish_health.py, canonical source ops/publish_health.py)
+       so a branch switch of the shared working tree can't change what it runs.
+       Install: cp ops/publish_health.py ~/.stowaway-ops/ ; launchctl load -w this. -->
   <key>ProgramArguments</key>
   <array>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>cd "$HOME/Documents/STOW/Sales Reports/Daily Reporting"; /usr/bin/python3 -u scripts/publish_health.py</string>
+    <string>/usr/bin/python3 -u "$HOME/.stowaway-ops/publish_health.py"</string>
   </array>
-  <key>WorkingDirectory</key><string>/Users/stowaway/Documents/STOW/Sales Reports/Daily Reporting</string>
   <key>StartInterval</key><integer>3600</integer>
-  <key>StandardOutPath</key><string>/Users/stowaway/Documents/STOW/Sales Reports/Daily Reporting/health_publish.log</string>
-  <key>StandardErrorPath</key><string>/Users/stowaway/Documents/STOW/Sales Reports/Daily Reporting/health_publish.log</string>
+  <key>StandardOutPath</key><string>/Users/stowaway/.stowaway-ops/health_publish.log</string>
+  <key>StandardErrorPath</key><string>/Users/stowaway/.stowaway-ops/health_publish.log</string>
 </dict>
 </plist>
