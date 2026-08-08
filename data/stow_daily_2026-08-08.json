@@ -1,6 +1,6 @@
 {
   "date": "2026-08-08",
-  "generated_at": "2026-08-08T19:30:49.815714Z",
+  "generated_at": "2026-08-08T19:47:14.014505Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -10,25 +10,36 @@
     "gp"
   ],
   "data_status": {
-    "lightspeed": "missing",
+    "lightspeed": "ok",
     "deputy": "ok",
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": null,
-    "revenue_ex_gst": null,
-    "cogs_dollars": null,
-    "cogs_pct": null,
-    "gp_dollars": null,
-    "gp_pct": null,
-    "cogs_source": null,
-    "cogs_lightspeed_dollars": null,
-    "recipe_coverage_pct": null,
+    "revenue_inc_gst": 16800.31,
+    "revenue_ex_gst": 15273.09,
+    "cogs_dollars": 2551.42,
+    "cogs_pct": 16.7,
+    "gp_dollars": 12721.67,
+    "gp_pct": 83.3,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 2456.02,
+    "recipe_coverage_pct": 63.0,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0,
+    "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 3401.81,
+    "bev_ex_gst": 11871.2,
+    "food_cogs": 514.45,
+    "bev_cogs": 1941.57,
+    "food_cogs_pct": 15.1,
+    "bev_cogs_pct": 16.4,
+    "food_gp_pct": 84.9,
+    "bev_gp_pct": 83.6,
+    "mari_rideon_ex_gst": 2785.01,
+    "hg_food_out_ex_gst": 8.36,
+    "stow_food_out_ex_gst": 0.0
   },
   "wages": {
     "kitchen_dollars": 346.04,
@@ -36,27 +47,27 @@
     "driver_dollars": 0,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": null,
-    "wages_pct": null,
+    "total_dollars": 2045.93,
+    "wages_pct": 13.4,
     "net_wage_pct": null,
     "kitchen_hours": 6.0,
     "foh_hours": 36.0,
-    "wages_kitchen_pct": null,
-    "wages_foh_pct": null,
+    "wages_kitchen_pct": 10.2,
+    "wages_foh_pct": 14.3,
     "includes_super": true,
     "salaried_synthesized": true
   },
   "delivery": null,
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "unknown",
-    "wages": "unknown",
+    "cogs": "green",
+    "wages": "green",
     "delivery": "n/a",
-    "gp": "unknown",
-    "cogs_food": "unknown",
-    "cogs_bev": "unknown",
-    "wages_kitchen": "unknown",
-    "wages_foh": "unknown"
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "green",
+    "wages_kitchen": "green",
+    "wages_foh": "green"
   },
   "targets": {
     "cogs": {
@@ -100,5 +111,162 @@
       "target_direction": "high_is_good"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "$80 Razzle Dazzle",
+      "qty": 44.0,
+      "rev": 3520.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Guinness Draught - Pint",
+      "qty": 27.0,
+      "rev": 448.54,
+      "cost": 129.708,
+      "cost_source": "recipe",
+      "cost_lightspeed": 128.22
+    },
+    {
+      "name": "White Light Pure Vodka [House]",
+      "qty": 42.0,
+      "rev": 427.44,
+      "cost": 63.8736,
+      "cost_source": "recipe",
+      "cost_lightspeed": 63.81
+    },
+    {
+      "name": "Fresh is Best Lager - Pint",
+      "qty": 44.0,
+      "rev": 406.96,
+      "cost": 106.5636,
+      "cost_source": "recipe",
+      "cost_lightspeed": 107.64
+    },
+    {
+      "name": "Aperol Spritz",
+      "qty": 18.0,
+      "rev": 338.15,
+      "cost": 63.9522,
+      "cost_source": "recipe",
+      "cost_lightspeed": 63.95
+    },
+    {
+      "name": "Jalape\u00f1o Marg",
+      "qty": 15.0,
+      "rev": 330.57,
+      "cost": 57.6945,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.15
+    },
+    {
+      "name": "Stone & Wood - Pint",
+      "qty": 19.0,
+      "rev": 321.74,
+      "cost": 83.9762,
+      "cost_source": "recipe",
+      "cost_lightspeed": 83.08
+    },
+    {
+      "name": "Fresh is Best Lager - Schooner",
+      "qty": 38.7,
+      "rev": 310.55,
+      "cost": 69.8845,
+      "cost_source": "recipe",
+      "cost_lightspeed": 70.59
+    },
+    {
+      "name": "American Standard Burger",
+      "qty": 16.0,
+      "rev": 289.86,
+      "cost": 93.4448,
+      "cost_source": "recipe",
+      "cost_lightspeed": 93.5
+    },
+    {
+      "name": "Stone & Wood - Schooner",
+      "qty": 21.0,
+      "rev": 272.05,
+      "cost": 69.2034,
+      "cost_source": "recipe",
+      "cost_lightspeed": 68.46
+    },
+    {
+      "name": "Arancini Balls [5pc]",
+      "qty": 11.0,
+      "rev": 246.7,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Sensei Calamari",
+      "qty": 13.0,
+      "rev": 241.12,
+      "cost": 30.03,
+      "cost_source": "recipe",
+      "cost_lightspeed": 29.97
+    },
+    {
+      "name": "Rooster Rojo Blanco Tequila [House]",
+      "qty": 23.0,
+      "rev": 227.0,
+      "cost": 50.92,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Classic Margarita",
+      "qty": 12.0,
+      "rev": 224.64,
+      "cost": 50.1024,
+      "cost_source": "recipe",
+      "cost_lightspeed": 46.68
+    },
+    {
+      "name": "Grey Goose",
+      "qty": 15.0,
+      "rev": 216.87,
+      "cost": 38.61,
+      "cost_source": "recipe",
+      "cost_lightspeed": 40.19
+    },
+    {
+      "name": "Beef Cheek",
+      "qty": 5.0,
+      "rev": 203.44,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Espresso Martini",
+      "qty": 12.0,
+      "rev": 193.31,
+      "cost": 38.598,
+      "cost_source": "recipe",
+      "cost_lightspeed": 38.79
+    },
+    {
+      "name": "Lychee Martini",
+      "qty": 10.0,
+      "rev": 193.24,
+      "cost": 39.075,
+      "cost_source": "recipe",
+      "cost_lightspeed": 34.03
+    },
+    {
+      "name": "Version Two Sparkling - Regular",
+      "qty": 23.0,
+      "rev": 191.0,
+      "cost": 40.6341,
+      "cost_source": "recipe",
+      "cost_lightspeed": 40.63
+    },
+    {
+      "name": "Negroni",
+      "qty": 9.0,
+      "rev": 183.9,
+      "cost": 34.9632,
+      "cost_source": "recipe",
+      "cost_lightspeed": 35.16
+    }
+  ]
 }
