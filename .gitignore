@@ -39,3 +39,6 @@ data/invoice_corpus/nicholas_seafood/
 
 # local dev venv (see WORKING_HERE.md). CI installs requirements.txt directly.
 .venv/
+
+# generated at build time (two moving sales windows) — see scripts/build_cost_book_flags.py
+data/cost_book_flags.json

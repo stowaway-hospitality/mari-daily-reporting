@@ -118,6 +118,56 @@ jobs:
           node scripts/test_dashboard_render.mjs
           node scripts/test_dashboard_units.mjs
 
+      - name: Recipe-book flags panel (node)
+        # The /recipes/ Flags tab — the cost book's work queue. Its failure modes
+        # are display-only — showing an unknown impact as $0, drawing a flag
+        # family the builder emits but the panel has no section for, or leaving
+        # a whole family out of the feed — so none fails a pytest and all would
+        # ship as a wrong number on a chef's screen. The panel's deciding half is
+        # pure (dashboard/_shared/flags_view.js) precisely so this can run it.
+        # Needs the feed, which is built, not committed.
+        run: |
+          set -e
+          python3 modules/recipes/pipeline/build_ingredients.py >/dev/null
+          python3 scripts/convert_lightspeed_recipes.py >/dev/null
+          python3 scripts/build_cost_book_flags.py
+          node scripts/test_recipe_book_flags.mjs
+          node scripts/test_recipe_flags_families.mjs
+
+      - name: Merged recipe module — tabs, rows, shell (node)
+        # /recipes-book/ and /recipes/ are ONE module with four tabs now. What
+        # can break in a merge is invisible to everything else in this repo: a
+        # bookmarked URL landing on the wrong tab (nothing 404s), a row that is
+        # mouse-only, a deleted summary card creeping back, an element id one of
+        # four modules asks for that the merged shell no longer has.
+        run: |
+          set -e
+          node scripts/test_recipe_tabs.mjs
+          node scripts/test_recipes_page_shell.mjs
+          node scripts/test_recipe_book_view.mjs
+
+      - name: Recipe builder line guard (node)
+        # The "BUILD A RECIPE" panel at /recipes/. Every other check this repo
+        # owns runs on the OUTPUT (costs.csv, the costed book, the P&L); this one
+        # runs on the INPUT, where the mistake is actually made — a whole twin
+        # pack of baby cos on one burger ($2.75 instead of $0.228), a bun whose
+        # rate draws as $980.00/L. The rules are re-calibrated against the real
+        # book inside the suite, so a rule that starts flagging recipes we
+        # already believe fails here instead of teaching chefs to click past it.
+        # Needs the two feeds it calibrates on, which are built, not committed.
+        run: |
+          set -e
+          python3 modules/recipes/pipeline/build_ingredients.py >/dev/null
+          python3 scripts/convert_lightspeed_recipes.py >/dev/null
+          python3 modules/recipes/pipeline/build_recipe_feeds.py >/dev/null
+          node scripts/test_recipe_line_guard.mjs
+          # ...and what the builder actually DRAWS when it loads a recipe. The
+          # American Standard Burger's lettuce must come back as 0.083 of a twin
+          # pack at $0.23, not as 1 whole pack at $2.75. A load path that rounded
+          # a fractional countable would make a correct recipe look wrong on a
+          # screen, and would fail nothing else here.
+          node scripts/test_recipe_builder_load.mjs
+
       - name: Deterministic feeds must rebuild identically
         # data/costs.csv is derived from data/cogs_list.csv with no clock in the
         # loop, so it must reproduce exactly. A derived file that has stopped
