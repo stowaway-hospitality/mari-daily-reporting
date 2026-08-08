@@ -81,6 +81,27 @@ both measured on real data 2026-07-17:
 Failing toward "unresolved" is correct: an unresolved line goes to human
 review and costs five minutes. A line resolved to the WRONG product writes a
 wrong cost against a real SKU and poisons Average Cost Price for ~30 days.
+
+WHO ACTUALLY CALLS THIS -- stated, because for a long time nobody did
+--------------------------------------------------------------------
+All of the above was true and none of it RAN. The only importers of this module
+were its own tests, while the live path -- build_costs.load_bridge() -- read
+product_map.csv itself and applied no cost guard at all. A guard with no caller
+is a comment.
+
+`is_suspect` now has one: build_costs.load_bridge imports it and refuses to
+bridge a map row whose recorded Back Office and invoice costs are material apart
+in both dollars and percent. It is imported rather than copied so the band can
+only ever have one definition.
+
+`Resolver` still has no production caller, and that is correct rather than
+pending. It resolves ONE INVOICE LINE for one venue's ledger, which is why it
+filters on venue. load_bridge builds an IDENTITY map, and identity is venue-free
+here: all three venues ring through one Lightspeed till, so the same ProductID
+is the same physical product whichever door the delivery came in. Applying this
+class's venue filter there was measured and rejected -- it would delete 82
+evidenced cost observations across ten real Harry Gatos / Marilyna's products.
+The filter belongs to per-line resolution and stays here with it.
 """
 
 from __future__ import annotations

@@ -840,7 +840,33 @@ def apply_product_aliases(out: dict) -> int:
 
     The alias PUBLISHES the recipe under the POS name rather than renaming it, so
     the Produce name keeps working for anything that still references it, and
-    both names cost identically. Never overwrites an existing entry.
+    both names cost identically.
+
+    "NEVER OVERWRITES AN EXISTING ENTRY" WAS TOO STRONG
+    ---------------------------------------------------
+    `if pos_name in out: continue` treats "there is a key" as "there is a
+    recipe", and those are different things. Produce carries name-only stubs —
+    a product exists, nobody ever built it — and "Beef Burger D" was one of
+    them. Zak confirmed on 2026-08-06 that it IS the American Standard Burger,
+    the confirmation went into the yaml, and the alias then declined to apply
+    because the empty stub was already sitting on the key. A $24.00 burger kept
+    costing nothing while its nine-line, $5.84 build sat in the book, and the
+    entry that blocked it contained no information at all.
+
+    So the test is not "is the key taken" but "is there a BUILD under it":
+
+      * an entry with at least one RESOLVED ingredient line is a genuine Produce
+        recipe and is never overwritten, confirmation or no confirmation. A
+        confirmed alias is one person's statement that two names mean the same
+        dish; a built recipe is the kitchen's statement of what goes in it, and
+        the second one wins. That is also the safe direction — replacing a real
+        build with a copy of another dish is unrecoverable from here.
+      * an entry with no resolved line prices nothing, so there is nothing to
+        lose and a confirmed pairing is strictly better than a stub. It is
+        replaced, and said out loud.
+
+    Deliberately structural, not a cost comparison: it needs no costing pass, so
+    it cannot memoise a cost that a later pass would have changed.
     """
     path = ROOT / "data" / "product_recipe_aliases.yaml"
     if not path.exists():
@@ -849,8 +875,17 @@ def apply_product_aliases(out: dict) -> int:
     import yaml
     n = 0
     for pos_name, book_name in (yaml.safe_load(path.read_text(encoding="utf-8-sig")) or {}).items():
-        if pos_name in out or book_name not in out:
+        if book_name not in out:
             continue
+        existing = out.get(pos_name)
+        if existing is not None:
+            if any(l.get("kind") for l in (existing.get("ingredients") or [])):
+                print(f"  alias NOT applied: {pos_name!r} already has a built "
+                      f"Produce recipe ({len(existing['ingredients'])} lines) — a "
+                      f"build beats a rename. Confirm which one is right.")
+                continue
+            print(f"  alias replaces an unbuilt entry: {pos_name!r} "
+                  f"-> {book_name!r} (it priced nothing)")
         out[pos_name] = copy.deepcopy(out[book_name])
         out[pos_name]["alias_of"] = book_name
         n += 1
@@ -1832,15 +1867,33 @@ def main() -> int:
                 if cur and cur[1] == "ea" and 0 < _qf < 1:
                     _whole = float(cur[0])
                     _raw = _RAW_LINE_COST.get((name, norm(ln.get("name") or "")))
-                    if _raw is None and name.endswith(" D"):
-                        # A delivery twin is a copy of the dine-in recipe and has
-                        # no scrape line of its own, so there is no raw cost to
-                        # judge whole-vs-fraction with — and the default is WHOLE,
-                        # the expensive reading. Bang Bang Cauli D took "0.01" of
-                        # a $9.90 bunch of chives as a whole bunch and cost $12.57
-                        # on a $16 dish, while the identical Bang Bang Cauli read
-                        # the same line as 10c. Ask the twin.
-                        _raw = _RAW_LINE_COST.get((name[:-2], norm(ln.get("name") or "")))
+                    if _raw is None:
+                        # NO SCRAPE LINE OF ITS OWN -> ASK THE RECIPE IT IS A COPY
+                        # OF. Without a raw figure this falls through to WHOLE, the
+                        # expensive reading, and the copy costs more than the dish
+                        # it copies. Bang Bang Cauli D took "0.01" of a $9.90 bunch
+                        # of chives as a whole bunch and cost $12.57 on a $16 dish
+                        # while the identical Bang Bang Cauli read it as 10c.
+                        #
+                        # An ALIAS is asked first, because it is not a heuristic: a
+                        # confirmed pairing in product_recipe_aliases.yaml says these
+                        # two names are the same dish, so the source recipe's own
+                        # scrape line is the right authority. "Beef Burger D" is a
+                        # deep copy of the American Standard Burger, whose lettuce
+                        # line Produce prices at $0.23 — 0.083 of a $2.75 twin-pack
+                        # is $0.228 and a whole pack is $2.75, so the fraction is
+                        # the reading that matches. Without this it took the whole
+                        # twin-pack and OVER-costed the burger by $2.52 (our_cost
+                        # $8.362 against the $5.8403 of the dish it is a copy of),
+                        # making lettuce dearer than the wagyu patty.
+                        #
+                        # The " D" suffix stays as the fallback for the delivery
+                        # twins that have no confirmed alias.
+                        _src = (out.get(name) or {}).get("alias_of")
+                        if _src:
+                            _raw = _RAW_LINE_COST.get((_src, norm(ln.get("name") or "")))
+                        if _raw is None and name.endswith(" D"):
+                            _raw = _RAW_LINE_COST.get((name[:-2], norm(ln.get("name") or "")))
                     if _raw and _raw > 0 and abs(_whole * _qf - _raw) < abs(_whole - _raw):
                         eff = _whole * _qf        # a real fraction of a real pack
                     else:

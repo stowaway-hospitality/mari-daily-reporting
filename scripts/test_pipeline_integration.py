@@ -93,13 +93,24 @@ def main() -> int:
     cost_rate: dict[str, str] = {k: v[2] for k, v in _latest.items()}
 
     # ---- SEAM 1: every recipe line id resolves to a cost key -----------------
+    #
+    # RESOLVES TO, not equals. A unit word the PDF parse bled onto a supplier code
+    # is no longer part of identity (core.domain.normalize_code), so four lines
+    # saved before that fix hold "fresh-fruit-team:ONBRKG KILOGRAM" while the cost
+    # book now writes "fresh-fruit-team:ONBRKG". CostSeries canonicalises both
+    # sides precisely so a recipe is never snapped by a rename, and this seam has
+    # to ask the same question the engine asks or it reports a break that is not
+    # one. An id that canonicalises to nothing still fails, which is the check.
+    from core.domain import canonical_purchasable
+    cost_unit = {canonical_purchasable(k): v for k, v in cost_unit.items()}
+    cost_rate = {canonical_purchasable(k): v for k, v in cost_rate.items()}
     orphan = []
     for v in VENUES:
         for rec in load_recipes(v):
             for ln in rec.lines:
                 if ln.subrecipe:
                     continue
-                if ln.ingredient and ln.ingredient not in cost_unit:
+                if ln.ingredient and canonical_purchasable(ln.ingredient) not in cost_unit:
                     orphan.append(f"{v}/{rec.product} -> {ln.ingredient!r}")
     check("every recipe ingredient id is a real cost key", not orphan,
           f"{len(orphan)} orphan(s): {orphan[:3]}")

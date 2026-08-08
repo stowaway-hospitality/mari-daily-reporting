@@ -47,6 +47,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 from core.domain import (canonical_purchasable, cogs_row_key,            # noqa: E402
                          purchasable_id)
 from core.pack_overrides import load_pack_overrides                      # noqa: E402
+# The Alehouse Crisp/Premium guard. Imported, never restated: one definition of
+# "material in BOTH dollars and percent" or the band drifts apart. See §8 in
+# load_bridge for why this file is the caller resolve.py never had.
+from modules.invoices.resolve import is_suspect                          # noqa: E402
 from modules.recipes.pipeline.build_ingredients import (                 # noqa: E402
     out_of_bounds, resolve_pack)
 
@@ -55,6 +59,7 @@ COGS = ROOT / "data" / "cogs_list.csv"
 OUT = ROOT / "data" / "costs.csv"
 PACK_OVERRIDES = ROOT / "data" / "pack_overrides.yaml"
 PRODUCT_MAP = ROOT / "data" / "product_map.csv"
+ILG_PRICEBOOK = ROOT / "data" / "ilg_pricebook.csv"
 
 
 def load_bridge() -> dict:
@@ -90,17 +95,73 @@ def load_bridge() -> dict:
     Last-row-wins landed it on Rare Dry. Those two rows are now corrected to
     285-1480 and 285-0132P, whose invoice rates match each product's own seed to
     four decimal places.)
+
+    THE BACK-OFFICE COST GUARD, now actually running
+    ------------------------------------------------
+    modules/invoices/resolve.py has held this guard since the module was written
+    and NOTHING in the invoice->cost path called it: its only importers were its
+    own tests. So the story it exists for was never checked here.
+
+        ILG 122-2867  "ALEHOUSE CRISP KEG"    -> 20487313 Summer Mid [Keg]   $184.94
+        ILG 122-2858  "ALEHOUSE PREMIUM KEG"  -> 20487298 Draught Lager [Keg] $212.44
+
+    Both match /ALEHOUSE .* KEG/, the sensible guess is backwards, and they are
+    $27.50 apart. `is_suspect` is imported from resolve.py rather than restated,
+    so the band that separates Sprite's real 22.2% drift from Alehouse's real
+    14.9% error can only ever have one definition. A row whose own recorded Back
+    Office and invoice costs are material apart in BOTH dollars and percent does
+    not bridge: an unbridged bottle keeps its seed and shows up in audit_book; a
+    WRONG bridge writes a wrong cost against a real SKU.
+
+    Measured on this tree: 0 of 189 rows are suspect (70 carry both costs; the
+    other 119 have no bo_cost recorded and cannot be checked at all). It changes
+    nothing today. That is the point — it is armed before the next map row, not
+    after it.
+
+    VENUE IS DELIBERATELY NOT A FILTER HERE, and that is a decision, not an
+    oversight. `Resolver.__init__` filters by venue because it resolves ONE
+    INVOICE LINE for one venue's ledger. This function builds an IDENTITY map,
+    and identity is venue-free: all three venues ring through one Lightspeed
+    till, so a ProductID is the same bottle or the same box of cauliflower
+    whichever door it came in. The venue column records where a delivery landed.
+
+    Filtering on it was measured before being rejected: the 11 rows tagged
+    harry_gatos/marilynas carry 82 of the 3,877 rows in costs.csv, across ten
+    real products — Carrot Large (30 observations), Cauliflower Florets (28),
+    Broccolini (6), Capsicum (5), Bocconcini (4), Dry Slaw (4), Kewpie mayo (2),
+    Pumpkin, Lettuce Mesculin, Corn Flour. Dropping them would freeze all ten on
+    a January seed while their invoices sat unread. That is the flattering
+    direction on stale seeds and it deletes evidence to enforce a distinction
+    the data model does not make.
     """
     if not PRODUCT_MAP.exists():
         return {}
     out: dict[str, list[str]] = {}
+    refused: list[str] = []
     for r in csv.DictReader(PRODUCT_MAP.open(encoding="utf-8-sig")):
         sup, code, pid = r.get("supplier"), r.get("supplier_code"), r.get("product_id")
-        if sup and code and pid:
-            targets = out.setdefault(purchasable_id(sup, code), [])
-            target = f"lightspeed:{pid.strip()}"
-            if target not in targets:
-                targets.append(target)
+        if not (sup and code and pid):
+            continue
+        bo, inv = (r.get("bo_cost") or "").strip(), (r.get("invoice_cost") or "").strip()
+        if bo and inv:
+            try:
+                if is_suspect(Decimal(bo), Decimal(inv)):
+                    refused.append(
+                        f"{sup} {code} -> {pid} {(r.get('product_name') or '')[:30]}: "
+                        f"Back Office ${bo} vs invoice ${inv} — material in BOTH "
+                        f"dollars and percent, so this is likely the WRONG PRODUCT "
+                        f"(cf. Alehouse Crisp/Premium, $27.50 apart). Not bridging.")
+                    continue
+            except (ArithmeticError, ValueError):
+                pass          # an unreadable cost is no evidence either way
+        targets = out.setdefault(purchasable_id(sup, code), [])
+        target = f"lightspeed:{pid.strip()}"
+        if target not in targets:
+            targets.append(target)
+    if refused:
+        print(f"  bridge: {len(refused)} row(s) REFUSED by the Back Office cost guard")
+        for m in refused:
+            print(f"    {m}")
     multi = {k: v for k, v in out.items() if len(v) > 1}
     if multi:
         print(f"  bridge: {len(multi)} supplier code(s) feed more than one ProductID "
@@ -313,6 +374,151 @@ def bo_stated_rates(cogs_rows):
     return out
 
 
+def _ilg_key(code: str) -> str:
+    """ILG writes one code two ways — "175-042-0" in the price book, "175-0420"
+    on an invoice, and "395-6785P" for the same product as "395-6785". The digits
+    are the part both agree on."""
+    return re.sub(r"[^0-9]", "", code or "")
+
+
+def pricebook_selling_unit_ml(path: Path = None) -> dict:
+    """ILG code digits -> the size of ONE SELLING UNIT, in ml. -> {key: Decimal}
+
+    `size_ml` is the size of one ITEM and `units_per_selling_unit` says how many
+    items the U.C. price buys, so the selling unit is the product of the two (see
+    scripts/build_ilg_pricebook.py). A row whose denominator could not be PROVED
+    carries a blank there and is skipped: an unproved size is exactly the kind of
+    number this whole finding is about.
+    """
+    path = path or ILG_PRICEBOOK
+    out: dict = {}
+    if not path.exists():
+        return out
+    rows = list(csv.DictReader(path.open(encoding="utf-8-sig")))
+    if rows and "units_per_selling_unit" not in rows[0]:
+        print("  ILG price book has no units_per_selling_unit column — re-run "
+              "scripts/build_ilg_pricebook.py where the corpus lives; the seed "
+              "cross-check below cannot run without it")
+        return out
+    for r in rows:
+        try:
+            n = int(r["units_per_selling_unit"])
+            ml = Decimal(r["size_ml"]) * n
+        except (KeyError, TypeError, ValueError, ArithmeticError):
+            continue
+        if ml > 0:
+            out[_ilg_key(r.get("code"))] = ml
+    return out
+
+
+def invoice_stated_bottle_ml(cogs_rows) -> dict:
+    """ILG code digits -> the bottle size(s) ILG's own delivery notes state.
+
+    Every ILG stock line carries a case note in its own hand — "6x700ML",
+    "12x750ML", "6x1LT". It is the same statement `seed_matched_liquor_cost`
+    already treats as the authority for one bottle's size. Collected as a SET so
+    a code whose deliveries disagree with each other can be refused rather than
+    averaged.
+    """
+    out: dict = {}
+    for r in cogs_rows:
+        if (r.get("supplier") or "").strip().upper() != "ILG":
+            continue
+        m = _CASE_NOTE.search(r.get("note") or "")
+        if not m:
+            continue
+        base = _liq_base(m.group(3))
+        if not base or base[1] != "ml":
+            continue
+        out.setdefault(_ilg_key(r.get("supplier_code")), set()).add(
+            Decimal(m.group(2)) * base[0])
+    return out
+
+
+def corroborated_bottle_ml(cogs_rows, bridge) -> tuple:
+    """lightspeed:<ProductID> -> (size, "ml"), where two ILG sources agree.
+
+    THE DEFECT
+    ----------
+    `seed_conv[pid]` is the divisor that turns a whole-bottle invoice price into
+    the per-ml cost a recipe reads, and for a bridged bottle it comes from the
+    Lightspeed side only — a size typed into a Back Office product name, or a
+    `per_L` basis that names the unit and claims nothing about the bottle at all.
+    Neither is a statement by the people who packed the bottle.
+
+    `lightspeed:20484285` is named "Antica Formula Rosso Vermouth **700ML**" in
+    the BO export, so seed_conv = (700, "ml"). ILG's price book says code
+    175-042-0 is 1000 ml and every ILG delivery note for it reads "6x1LT". ILG
+    invoice 03729959 arrived per_bottle at $64.27 and the bridge published
+    64.27/700 = **$0.091814/ml — 43% OVER** a true $0.064270.
+
+    Ten bridged ProductIDs carry a seed the book contradicts (measured on this
+    tree; the audit's fifteen was taken before better_seed_pack landed and
+    settled De Bortoli 15 L and Fee Bros 150 ml, which now agree exactly):
+
+        20484285 Antica Formula          seed  700  book 1000  note 6x1LT
+        20445895 Aperol                  seed 1000  book  700  note 6x700ML
+        20445833 Rooster Rojo Blanco     seed 1000  book  700  note 6x700ML
+        21999746 Havana 3yr              seed 1000  book  700  note 6x700ML
+        20445887 Dolin Blanc Vermouth    seed 1000  book  700  note 6x700ML
+        20445832 Don Julio 1942          seed 1000  book  750  note 6x750ML
+        20484784 Fever-Tree Light Tonic  seed 1000  book  500  note 8x500ML
+        20487286 Four Pillars Bloody Sh. seed  750  book  700  note 6x700ML
+        20492689 Domaine de Canton       seed  700  book  750  note 6x750ML
+        20727770 Bickfords Raspberry     seed  700  book  750  note 12x750ML
+
+    THE RULE — two sources, or nothing
+    ----------------------------------
+    A size is corroborated only where ILG's PUBLISHED PRICE BOOK and ILG's OWN
+    DELIVERY NOTES for the same code state the same thing. They are two separate
+    artefacts — a catalogue and a docket — and neither is derived from the seed
+    under suspicion, which is precisely what the Havana Club $29.09 seed lacked
+    for months. On all ten above they agree, and they contradict the seed.
+
+    Where they disagree with each other, or where either is missing, this returns
+    NOTHING for that product and the seed stands. Refusing is cheap; a guessed
+    divisor writes a wrong cost against a real bottle.
+
+    -> (pack: dict, refused: list[(pid, why)])
+    """
+    book = pricebook_selling_unit_ml()
+    notes = invoice_stated_bottle_ml(cogs_rows)
+    if not book:
+        return {}, []
+
+    per_code: dict = {}
+    refused: list = []
+    for iid in bridge:
+        if not iid.startswith("ilg:"):
+            continue
+        key = _ilg_key(iid.split(":", 1)[1])
+        bml, nml = book.get(key), notes.get(key)
+        if bml is None or not nml:
+            continue
+        if len(nml) > 1:
+            refused.append((iid, f"ILG's own delivery notes disagree "
+                                 f"({'/'.join(str(x) for x in sorted(nml))} ml)"))
+            continue
+        n = next(iter(nml))
+        if n != bml:
+            refused.append((iid, f"price book says {bml} ml, delivery notes say "
+                                 f"{n} ml — no second source, refusing to guess"))
+            continue
+        per_code[iid] = bml
+
+    pack: dict = {}
+    clash: set = set()
+    for iid, ml in per_code.items():
+        for pid in bridge.get(iid) or ():
+            if pid in pack and pack[pid][0] != ml:
+                clash.add(pid)
+            pack[pid] = (ml, "ml")
+    for pid in clash:                    # two codes, two sizes, same product
+        pack.pop(pid, None)
+        refused.append((pid, "two ILG codes corroborate different sizes"))
+    return pack, refused
+
+
 def bridge_seed_is_misread(row, bo_rate):
     """Is this recipe-bridge-seed contradicted by the Back Office's own figure?
 
@@ -346,7 +552,7 @@ def bridge_seed_is_misread(row, bo_rate):
     return ls_seed_is_misread(rate, bo_rate.get(pid))
 
 
-def build_seed_conv(cogs_rows, overrides, bo_rate=None):
+def build_seed_conv(cogs_rows, overrides, bo_rate=None, book_pack=None):
     """
     -> (seed_conv, seed_price), keyed by `lightspeed:<ProductID>`.
 
@@ -363,6 +569,16 @@ def build_seed_conv(cogs_rows, overrides, bo_rate=None):
     quotes $23.40 PER LITRE, so its rate is 23.40/1000 even on a 750 ml bottle.
     Dividing it by the retained 750 would inflate the reference 33% and start
     refusing correct invoices.
+
+    `book_pack` (see corroborated_bottle_ml) is the supplier's own answer to the
+    same question, and where it exists it PINS the pack — the price book and the
+    delivery notes both describe the bottle ILG shipped, which neither the BO
+    product name nor a `per_L` basis does.
+
+    It changes `seed_price` only where the row's size was a claim about ONE
+    SELLING UNIT (PACK_STATED). A basis-derived row is a RATE — $41.55 per litre
+    is $0.04155/ml whatever the bottle turns out to hold — so its reference is
+    left alone, exactly as the paragraph above requires.
     """
     seed_conv: dict[str, tuple[Decimal, str]] = {}
     seed_price: dict[str, Decimal] = {}
@@ -386,11 +602,24 @@ def build_seed_conv(cogs_rows, overrides, bo_rate=None):
                 # bridged invoice comes back per-carton ($32.13), and the newer
                 # carton price wins — reintroducing the very per-unit error the
                 # override was added to fix.
+                # THE SUPPLIER'S OWN SIZE, where two of its documents agree. Above
+                # a chef confirmation (which is more specific still) and below
+                # nothing else: a BO product name and a per_L basis are both
+                # Lightspeed-side readings of a bottle neither of them packed.
+                bp = (book_pack or {}).get(pid)
                 if pid in overrides:
                     oq, ou = overrides[pid]
                     evidence[pid] = (oq, ou, "chef-confirmed")
                     seed_conv[pid] = (oq, ou)
                     own = oq
+                elif bp and (not u or bp[1] == u):
+                    evidence[pid] = (bp[0], bp[1], "ilg-book+notes")
+                    seed_conv[pid] = bp
+                    # A STATED size was a claim about this row's own selling unit
+                    # and the claim was wrong, so the row's price divides by the
+                    # real bottle. A basis-derived row states a RATE and keeps it.
+                    own = (q if (q and u and pack_evidence(how) == PACK_FROM_BASIS)
+                           else bp[0])
                 elif q and u:
                     evidence[pid] = better_seed_pack(evidence.get(pid), (q, u, how))
                     seed_conv[pid] = (evidence[pid][0], evidence[pid][1])
@@ -620,7 +849,17 @@ def main() -> int:
     # build_seed_conv needs it to refuse a bridge seed the export contradicts.
     bo_rate = bo_stated_rates(cogs_rows)
 
-    seed_conv, seed_price = build_seed_conv(cogs_rows, overrides, bo_rate)
+    # The SUPPLIER's own bottle size, where its price book and its delivery notes
+    # agree. Antica Formula was published at $0.091814/ml — 43% over — because a
+    # 1 L bottle was divided by the 700 in a Back Office product name.
+    book_pack, book_refused = corroborated_bottle_ml(cogs_rows, bridge)
+    if book_pack:
+        print(f"  {len(book_pack)} bridged ProductID(s) take ILG's own stated "
+              f"bottle size (price book + delivery note agree)")
+    for what, why in book_refused:
+        print(f"    NOT pinned: {what} — {why}")
+
+    seed_conv, seed_price = build_seed_conv(cogs_rows, overrides, bo_rate, book_pack)
 
     rows, skipped, bridged = [], [], 0
     for r in cogs_rows:
