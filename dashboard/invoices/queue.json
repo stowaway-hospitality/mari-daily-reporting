@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-08",
+  "generated": "2026-08-09",
   "count": 304,
   "skipped_already_in_xero": 224,
   "invoices": [
@@ -559,133 +559,6 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "known supplier 'paramount'"
-        }
-      ]
-    },
-    {
-      "ref": "7064443",
-      "supplier": "B&E Foods Pty Ltd",
-      "supplier_key": "be_foods",
-      "date": "2026-08-05",
-      "due_date": "2026-08-12",
-      "total": "745.77",
-      "venue": "stowaway",
-      "pdf_path": "738e39a19a7ccf8d8e8e76e37fd30535da57f27f2cd958a6a61693883c3103bb.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Kitchen",
-      "tracking_confidence": "high",
-      "is_credit_note": false,
-      "status": "pass",
-      "lines": [
-        {
-          "description": "SESAME - WHITE ROASTED",
-          "supplier_code": "13983",
-          "qty": "1.00",
-          "amount": "12.54",
-          "unit_cost": "$12.54/ea",
-          "tax": "gst",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "FZ PORK - BELLY B/L R/L",
-          "supplier_code": "16579",
-          "qty": "1.00",
-          "amount": "153.00",
-          "unit_cost": "$153.00/ea",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "FZ PORK - BELLY R/ON",
-          "supplier_code": "10906",
-          "qty": "12.86",
-          "amount": "165.89",
-          "unit_cost": "$12.90/ea",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "FZ COOKED MINI KOREAN",
-          "supplier_code": "10300",
-          "qty": "1.00",
-          "amount": "92.40",
-          "unit_cost": "$92.40/ea",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "CHICKEN 1/2 BREAST (F)",
-          "supplier_code": "10228",
-          "qty": "5.00",
-          "amount": "58.00",
-          "unit_cost": "$11.60/ea",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "CHICKEN BONE 12KG",
-          "supplier_code": "10536",
-          "qty": "12.00",
-          "amount": "26.40",
-          "unit_cost": "$0.18/kg",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "FZ WAGYU - BRISKET SLICED",
-          "supplier_code": "16535",
-          "qty": "1.00",
-          "amount": "143.00",
-          "unit_cost": "$143.00/ea",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "SAUCE - SWEET SOY SAUCE",
-          "supplier_code": "18598",
-          "qty": "1.00",
-          "amount": "22.60",
-          "unit_cost": "$22.60/ea",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "NAPKINS - DINNER BROWN",
-          "supplier_code": "27719",
-          "qty": "2.00",
-          "amount": "68.64",
-          "unit_cost": "$34.32/ea",
-          "tax": "gst",
-          "account_code": "117",
-          "account_name": "Purchases - Packaging",
-          "reason": "line keyword -> Purchases - Packaging"
-        },
-        {
-          "description": "FUEL LEVY",
-          "supplier_code": null,
-          "qty": "1.00",
-          "amount": "3.30",
-          "unit_cost": "$3.30/ea",
-          "tax": "gst",
-          "account_code": "342",
-          "account_name": "Freight & Courier",
-          "reason": "line keyword -> Freight & Courier"
         }
       ]
     },
@@ -1502,6 +1375,144 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "INB00107054",
+      "supplier": "The Fresh Fruit Team Pty Ltd",
+      "supplier_key": "fresh_fruit_team",
+      "date": "2026-06-10",
+      "due_date": "2026-06-24",
+      "total": "176.29",
+      "venue": "stowaway",
+      "pdf_path": "715ffc1ab11ec398255819fbf43c0dbfd8ad0abd55ce5c60cd17a8d97628bcf4.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Cos Baby Twin Pack",
+          "supplier_code": "LCBTPEA Each",
+          "qty": "10",
+          "amount": "27.50",
+          "unit_cost": "$2.75/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Cocktail",
+          "supplier_code": "POTCOKG Kilogram",
+          "qty": "10",
+          "amount": "29.70",
+          "unit_cost": "$2.97/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Large",
+          "supplier_code": "CLKG Kilogram",
+          "qty": "8",
+          "amount": "11.44",
+          "unit_cost": "$1.43/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "700 Grams",
+          "supplier_code": "EGL7BX Box",
+          "qty": "1",
+          "amount": "48.00",
+          "unit_cost": "$68.57/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Chives",
+          "supplier_code": "HCMB Market",
+          "qty": "1",
+          "amount": "9.90",
+          "unit_cost": "$9.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Rosemary",
+          "supplier_code": "HRBCH Bunch",
+          "qty": "2",
+          "amount": "3.30",
+          "unit_cost": "$1.65/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Thyme",
+          "supplier_code": "HTBCH Bunch",
+          "qty": "1",
+          "amount": "1.65",
+          "unit_cost": "$1.65/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Ruby Red",
+          "supplier_code": "GRREA Each",
+          "qty": "10",
+          "amount": "9.90",
+          "unit_cost": "$0.99/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Parsley Continental",
+          "supplier_code": "HPCONB Bunch",
+          "qty": "2",
+          "amount": "3.30",
+          "unit_cost": "$1.65/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Florets",
+          "supplier_code": "KITCFKG Kilogram",
+          "qty": "2",
+          "amount": "15.80",
+          "unit_cost": "$7.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Red And Green",
+          "supplier_code": "KITCRAGKG Kilogram",
+          "qty": "2",
+          "amount": "15.80",
+          "unit_cost": "$7.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
