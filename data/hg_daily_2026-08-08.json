@@ -1,0 +1,266 @@
+{
+  "date": "2026-08-08",
+  "generated_at": "2026-08-08T19:19:52.208317Z",
+  "venue": "harry",
+  "venue_display": "Harry Gatos",
+  "lane_config": [
+    "revenue",
+    "cogs",
+    "wages",
+    "gp"
+  ],
+  "data_status": {
+    "lightspeed": "ok",
+    "deputy": "ok",
+    "payments": "missing"
+  },
+  "sales": {
+    "revenue_inc_gst": 2754.5,
+    "revenue_ex_gst": 2504.21,
+    "cogs_dollars": 407.56,
+    "cogs_pct": 16.3,
+    "gp_dollars": 2096.65,
+    "gp_pct": 83.7,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 388.79,
+    "recipe_coverage_pct": 59.4,
+    "uber_eats_revenue": 0,
+    "net_takings_ex_gst": null,
+    "eatclub_giveaway_ex_gst": 0.0,
+    "eatclub_covers": 0,
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 1571.82,
+    "bev_ex_gst": 932.27,
+    "food_cogs": 170.07,
+    "bev_cogs": 218.72,
+    "food_cogs_pct": 10.8,
+    "bev_cogs_pct": 23.5,
+    "food_gp_pct": 89.2,
+    "bev_gp_pct": 76.5,
+    "mari_rideon_ex_gst": 0.0,
+    "hg_food_out_ex_gst": 0.0,
+    "stow_food_out_ex_gst": 11.82
+  },
+  "wages": {
+    "kitchen_dollars": 926.47,
+    "foh_dollars": 216.03,
+    "driver_dollars": 0,
+    "admin_dollars": 0,
+    "leave_dollars": 0,
+    "total_dollars": 1142.5,
+    "wages_pct": 45.6,
+    "net_wage_pct": null,
+    "kitchen_hours": 17.0,
+    "foh_hours": 5.0,
+    "wages_kitchen_pct": 58.9,
+    "wages_foh_pct": 23.2,
+    "includes_super": true,
+    "salaried_synthesized": true
+  },
+  "delivery": null,
+  "payments_breakdown": null,
+  "alerts": {
+    "cogs": "green",
+    "wages": "red",
+    "delivery": "n/a",
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "yellow",
+    "wages_kitchen": "red",
+    "wages_foh": "amber"
+  },
+  "targets": {
+    "cogs": {
+      "target": 32.0,
+      "amber": 35.0,
+      "red": 38.0,
+      "note": "HG food-heavy mix (dumplings, shared plates) runs ~32-35% blended \u2014 heavier than Stow"
+    },
+    "wages": {
+      "target": 30.0,
+      "amber": 33.0,
+      "red": 36.0,
+      "note": "Zak-set 30% target \u2014 hospitality benchmark; splits kitchen + FOH"
+    },
+    "cogs_food": {
+      "target": 32.0,
+      "amber": 36.0,
+      "red": 40.0,
+      "note": "DRAFT \u2014 Zak to confirm. Food COGS vs food revenue (ex-GST). Olly's BEP work put HG food COGS ~35%."
+    },
+    "cogs_bev": {
+      "target": 22.0,
+      "amber": 25.0,
+      "red": 28.0,
+      "note": "DRAFT \u2014 Zak to confirm. Bev COGS vs bev revenue (ex-GST)."
+    },
+    "wages_kitchen": {
+      "target": 14.0,
+      "amber": 17.0,
+      "red": 20.0,
+      "note": "DRAFT \u2014 Zak to confirm. Kitchen wages as % of FOOD revenue (ex-GST), not total. HG kitchen is heavier than Stow's."
+    },
+    "wages_foh": {
+      "target": 16.0,
+      "amber": 20.0,
+      "red": 24.0,
+      "note": "DRAFT \u2014 Zak to confirm. FOH wages as % of BEV revenue (ex-GST), not total."
+    },
+    "gp": {
+      "note": "Higher is better \u2014 68% target; status inversion not yet implemented so alerts left empty",
+      "target_direction": "high_is_good"
+    }
+  },
+  "top_products": [
+    {
+      "name": "Chicken Katsu Curry",
+      "qty": 6.0,
+      "rev": 163.0,
+      "cost": 18.1932,
+      "cost_source": "recipe",
+      "cost_lightspeed": 17.14
+    },
+    {
+      "name": "Fried Rice",
+      "qty": 7.0,
+      "rev": 162.0,
+      "cost": 22.4553,
+      "cost_source": "recipe",
+      "cost_lightspeed": 18.76
+    },
+    {
+      "name": "Shredded Beef",
+      "qty": 6.0,
+      "rev": 156.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Dumplings - Prawn Har Gow [GF]",
+      "qty": 7.0,
+      "rev": 133.0,
+      "cost": 30.8084,
+      "cost_source": "recipe",
+      "cost_lightspeed": 30.9
+    },
+    {
+      "name": "BBQ Meat Platter",
+      "qty": 3.0,
+      "rev": 120.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Tonkotsu",
+      "qty": 4.0,
+      "rev": 116.0,
+      "cost": 16.6972,
+      "cost_source": "recipe",
+      "cost_lightspeed": 16.66
+    },
+    {
+      "name": "River Retreat Pinot Grigio - Bottle",
+      "qty": 2.0,
+      "rev": 98.0,
+      "cost": 20.1,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "L'esprit Ros\u00e9 - Regular",
+      "qty": 6.0,
+      "rev": 96.0,
+      "cost": 21.6,
+      "cost_source": "recipe",
+      "cost_lightspeed": 30.27
+    },
+    {
+      "name": "Duck Spring Roll",
+      "qty": 6.0,
+      "rev": 96.0,
+      "cost": 21.42,
+      "cost_source": "recipe",
+      "cost_lightspeed": 21.43
+    },
+    {
+      "name": "Devon's Prawn Toast",
+      "qty": 6.0,
+      "rev": 96.0,
+      "cost": 23.3244,
+      "cost_source": "recipe",
+      "cost_lightspeed": 23.33
+    },
+    {
+      "name": "Mie Goreng",
+      "qty": 4.0,
+      "rev": 92.0,
+      "cost": 22.682,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.73
+    },
+    {
+      "name": "Chicken Karaage",
+      "qty": 5.0,
+      "rev": 85.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Meat Platter",
+      "qty": 2.0,
+      "rev": 80.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "River Retreat Pinot Grigio - Regular",
+      "qty": 11.0,
+      "rev": 77.0,
+      "cost": 22.11,
+      "cost_source": "recipe",
+      "cost_lightspeed": 22.11
+    },
+    {
+      "name": "Popcorn Cauliflower",
+      "qty": 5.0,
+      "rev": 74.0,
+      "cost": 4.781,
+      "cost_source": "recipe",
+      "cost_lightspeed": 4.89
+    },
+    {
+      "name": "Two Tonne Riesling - Bottle [HG]",
+      "qty": 1.0,
+      "rev": 74.0,
+      "cost": 21.36,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Geppetto Chardonnay - Bottle",
+      "qty": 1.0,
+      "rev": 61.0,
+      "cost": 18.15,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Zagara Orange [HG] - Bottle",
+      "qty": 1.0,
+      "rev": 61.0,
+      "cost": 13.43,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Zagara Orange [HG] - Regular",
+      "qty": 4.0,
+      "rev": 60.0,
+      "cost": 10.74,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Shoyu",
+      "qty": 2.0,
+      "rev": 58.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    }
+  ]
+}
