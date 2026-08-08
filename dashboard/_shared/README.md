@@ -15,6 +15,12 @@ that way.
 | `data.js`   | Async loaders that fetch feeds into `STATE` | fetch only | via render test |
 | `render.js` | All DOM rendering + UI event handlers | Yes | `scripts/test_dashboard_render.mjs` (drives `render()` over venue × timeframe) |
 
+One more module lives here but belongs to a different page:
+
+| File | Responsibility | Touches DOM? | Tested by |
+|------|----------------|--------------|-----------|
+| `recipe_line_guard.js` | Pure plausibility rules for one line of the recipe **builder** (`/recipes/`) — a whole twin-pack of cos on a burger, a bun priced per litre. Returns warnings; the page draws them. Never blocks a save. | No | `scripts/test_recipe_line_guard.mjs` (named cases + re-calibration against the real book on every run) |
+
 `index.html` holds only: the markup shell, the config objects (`VENUE_CONFIG`,
 `ROLE_CONFIG`, `CARD_DEFS`, targets), the shared `STATE`, and the single
 `bootstrap()` call. **No business logic lives in `index.html`.**
@@ -34,7 +40,9 @@ is the one shared object the model reads; the model never writes the page.
 4. a DOM token in `pnl.js` (the model touching the page)
 5. a function defined in two modules
 6. a missing behaviour marker (day scrubber, leave toggle, delivery KPI, …)
-7. any of the three JS test suites failing
+7. any of the JS test suites failing (P&L conservation, render layer, pure
+   helpers, and `recipe_line_guard.js` — the recipe builder's plausibility
+   guard, whose rules are re-calibrated against the real cost book on every run)
 
 Drift doesn't get a warning — it goes red and never ships. To add a feature: maths
 in `pnl.js`/`util.js`, fetch in `data.js`, DOM in `render.js`, and add/extend a

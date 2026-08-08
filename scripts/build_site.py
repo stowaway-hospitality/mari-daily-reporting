@@ -70,6 +70,12 @@ def build() -> int:
     for gen in ("modules/recipes/pipeline/build_ingredients.py",
                 "scripts/convert_lightspeed_recipes.py",     # costed feed BEFORE recipe_feeds
                 "modules/recipes/pipeline/build_recipe_feeds.py",  # reads it for sub-recipes
+                # ...and the /recipes-book/ flags panel, which reads the costed
+                # feed plus a 13-week and a 52-week sales window. Two moving
+                # windows means a committed copy would go stale on a Tuesday with
+                # no commit behind it — the ingredients.json trap — so it is
+                # generated here and not committed.
+                "scripts/build_cost_book_flags.py",
                 "modules/invoices/build_price_compare.py"):  # /pricing/compare.json from cogs
         r = subprocess.run([sys.executable, str(ROOT / gen)], capture_output=True, text=True, cwd=ROOT)
         if r.returncode:

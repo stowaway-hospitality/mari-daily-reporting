@@ -67,6 +67,15 @@
   .line .nm small{display:block;color:var(--ink-soft);font-size:11px;margin-top:2px;font-variant-numeric:tabular-nums}
   .line input{padding:10px;text-align:right}
   .line .x{background:transparent;color:var(--red);border:0;font-size:22px;cursor:pointer;line-height:1}
+  /* plausibility warnings for THIS line — a caution, never a block. Spans the
+     whole grid row so the sentence is readable on a phone; empty = invisible. */
+  .line .lw{grid-column:1/-1}
+  .line .lw:empty{display:none}
+  .lwarn{font-size:11.5px;line-height:1.4;color:var(--ink);margin-top:6px;padding:7px 9px;
+    border-left:3px solid var(--amber);border-radius:0 8px 8px 0;
+    background:color-mix(in srgb,var(--amber) 13%,var(--bg))}
+  .lwarn b{display:block;color:var(--amber);font-size:11px;text-transform:uppercase;
+    letter-spacing:.04em;margin-bottom:2px}
 
   .tot{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;font-size:14px}
   .tot.big{font-size:17px;font-weight:600;border-top:2px solid var(--ink);margin-top:6px;padding-top:11px}
@@ -215,8 +224,13 @@
 import { Auth } from '/_shared/auth.js';
 import { Feed } from '/_shared/feed.js';
 import { WORKER_URL } from '/_shared/config.js';
+// Deciding whether a line is implausible is business logic, so it is NOT in
+// this file: it is pure, calibrated against the real book, and unit-tested by
+// scripts/test_recipe_line_guard.mjs. This page only draws what it returns.
+import { builderLineWarnings, warningsHtml, peerIndex } from '/_shared/recipe_line_guard.js';
 
 let ING = [], SUBS = [], RECIPES = [], EDITABLE = [], LINES = [], USER = null, RATE = 0;
+let PEERS = new Map();   // ingredient id -> every qty the saved book uses for it
 let prepRecipe = null, prepMin = 0;
 let timing = false, tStart = 0, tPrev = 0, tick = null;
 
@@ -253,6 +267,7 @@ async function boot() {
   RECIPES = (idx && idx.recipes) || [];
   EDITABLE = (full && full.recipes) || [];
   SUBS = RECIPES.filter(r => r.usable_as_subrecipe);
+  PEERS = peerIndex(EDITABLE);
   const v = venueOf(USER);
   RATE = +((lab && (lab.venues?.[v]?.rate_per_minute || lab.default_rate_per_minute)) || 0);
 
@@ -440,21 +455,34 @@ function renderLines() {
       <div class="nm">${esc(name)}<small id="ct-${k}">${lineCostLabel(l)}</small></div>
       <input type="number" inputmode="decimal" step="any" value="${l.qty || ''}" placeholder="0 ${esc(unit)}" oninput="setQty(${k},this.value)">
       <div class="lc" id="lc-${k}">${money(lineCost(l))}</div>
-      <button class="x" onclick="del(${k})" aria-label="remove">×</button></div>`;
+      <button class="x" onclick="del(${k})" aria-label="remove">×</button>
+      <div class="lw" id="lw-${k}"></div></div>`;
   }).join('') : '<div class="empty">Nothing added yet — tap an ingredient above.</div>';
 }
 
 function calc() { renderLines(); recompute(); }
 function recompute() {
+  const sell = +document.getElementById('sell').value || 0;
+  const nm = (document.getElementById('dish')?.value || '');
+  const yq = +(document.getElementById('yq')?.value || 0);
+  const isPrep = yq > 0
+    || /\[(batch|prep|recipe|\d+\s*(kg|g|l|ml))\]|\b(prep|batch|blend|mix)\b/i.test(nm)
+    || (sell > 0 && sell < 3);
   LINES.forEach((l, k) => {
     const cell = document.getElementById('ct-' + k);
     if (cell) cell.textContent = lineCostLabel(l);
     const lc = document.getElementById('lc-' + k);
     if (lc) lc.textContent = money(lineCost(l));
+    // The caution next to the offending line. It never blocks the save — a chef
+    // must still be able to enter a genuinely unusual recipe — and an empty
+    // string CLEARS the slot, so a warning cannot outlive the qty that caused it.
+    const lw = document.getElementById('lw-' + k);
+    if (lw) lw.innerHTML = warningsHtml(builderLineWarnings(
+      l, l.kind === 'ing' ? ING.find(x => x.id === l.id) : null,
+      { isBatch: isPrep, peerQuantities: (l.kind === 'ing' && PEERS.get(l.id)) || [] }));
   });
   const food = LINES.reduce((a, l) => a + lineCost(l), 0);
   document.getElementById('c-food').textContent = money(food);
-  const sell = +document.getElementById('sell').value || 0;
   const ex = sell / 1.1;
   const gpEl = document.getElementById('gp-food'), mgEl = document.getElementById('gp-marg');
   // A BATCH IS NOT A MENU ITEM. "Tandoori Chicken [2Kg]" carries a $2 placeholder
@@ -465,11 +493,6 @@ function recompute() {
   // or a prep/batch name, or a price too low to be a menu line, shows its cost and
   // no GP. Showing a frightening number that means nothing trains people to ignore
   // the number that does.
-  const nm = (document.getElementById('dish')?.value || '');
-  const yq = +(document.getElementById('yq')?.value || 0);
-  const isPrep = yq > 0
-    || /\[(batch|prep|recipe|\d+\s*(kg|g|l|ml))\]|\b(prep|batch|blend|mix)\b/i.test(nm)
-    || (sell > 0 && sell < 3);
   if (isPrep && food > 0) {
     gpEl.textContent = '—'; gpEl.className = 'gp';
     mgEl.textContent = '—'; mgEl.className = 'gp';

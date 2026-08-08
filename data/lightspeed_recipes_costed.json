@@ -11222,9 +11222,9 @@
      "kind": "id",
      "ref": "lightspeed:22992669",
      "qty": "0.5",
-     "unit": "ml",
+     "unit": "ea",
      "ls_cost": "3.05",
-     "our_cost": null,
+     "our_cost": "6.1",
      "eff_cost": 3.05
     },
     {
@@ -11256,15 +11256,35 @@
      "ls_cost": "0.45",
      "our_cost": "0.003960",
      "eff_cost": 0.495
+    },
+    {
+     "name": "Yorkshire Pudding Prep [110 units]",
+     "kind": "subrecipe",
+     "ref": "Yorkshire Pudding Prep [110 units]",
+     "qty": 1,
+     "unit": "ml",
+     "ls_cost": 0.21,
+     "our_cost": null,
+     "eff_cost": 0.210014
+    },
+    {
+     "name": "Gravy Prep",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
+     "qty": 145,
+     "unit": "g",
+     "ls_cost": 0.98,
+     "our_cost": null,
+     "eff_cost": 0.85309
     }
    ],
-   "our_cost": 4.3931,
-   "ls_cost": 4.58,
+   "our_cost": 5.4562,
+   "ls_cost": 5.77,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 83.9
+   "gp_pct": 80.0
   },
   "Extra Taco": {
    "ingredients": [

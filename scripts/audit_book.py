@@ -408,6 +408,90 @@ def weigh(sales, product, sev, detail):
     return max(0.0, rev), sev, f"{detail}   [{qty:,.0f} sold, ${rev:,.0f} {scope}]"
 
 
+def costed_keys(recipes) -> set:
+    """Every name-form under which the book prices something, ready to match a
+    POS product name against.
+
+    WHAT COUNTS AS COVERED MUST BE WHAT THE P&L ACTUALLY MATCHES.
+
+    An auditor with its own, stricter idea of a match reports work that is
+    already done: cogs_blend resolves "Bombay Dry [House]" to "Bombay Dry Gin
+    [House]", so listing it under "sells well, has no costed recipe" would send
+    someone to write a recipe that exists. _stripped_key is imported from there
+    rather than reimplemented, so the two can only ever agree.
+
+    On top of it, products_weekly collapses size variants, so the recipe side is
+    collapsed the same way — otherwise every tap beer reads as uncovered when in
+    fact all its sizes are costed.
+
+    A SIZE/COUNT SUFFIX AND A PLURAL ARE NOT A DIFFERENT DISH.
+
+    Zak, 2026-08-06: "duck spring rolls are done too!!!!!" They were. The book
+    holds "Duck Spring Roll" at $3.57 and "Duck Spring Rolls [2pc]" at $3.20;
+    the POS sells "Duck Spring Rolls". Exact-name matching met none of them, so
+    a costed dish was reported as uncosted — and it was the third time in one
+    session that this auditor sent someone to write a recipe that already
+    existed.
+
+    That is the worst failure mode a work queue has. A missed defect costs you
+    the defect; a FALSE defect costs you the reader, and after two or three the
+    whole list stops being believed.
+
+    So: strip the bracketed suffix as well as the venue tag, and match singular
+    against plural. Both are lossy in the safe direction — they can only ever
+    mark something as covered that is covered by a near-identical name, and the
+    cost figure itself is untouched.
+
+    Module-level, and it must stay that way: scripts/build_cost_book_flags.py
+    publishes the same gaps to the recipe book's flags panel, and a panel that
+    disagreed with the audit about what is costed would be worse than no panel.
+    One definition, two readers.
+    """
+    costed = set()
+    for n, r in recipes.items():
+        if r.get("is_prep") or money(r.get("our_cost")) <= 0:
+            continue
+        bare = _VENUE_TAG.sub("", n)
+        unsized = re.sub(r"\s*\[.*?\]\s*$", "", bare).strip()
+        for form in (n, bare, unsized, normalize_product(bare), normalize_product(unsized)):
+            k = _nrm_name(form)
+            if k:
+                costed.add(k)
+                costed.add(k.rstrip("s"))       # roll / rolls, wing / wings
+            sk = _stripped_key(form)
+            if sk:
+                costed.add(sk)
+    return costed
+
+
+def coverage(recipes, weeks=13):
+    """-> (revenue_by_venue, covered_by_venue, {(venue, product, group): revenue})
+
+    The last `weeks` of products_weekly, split into what the cost book reaches
+    and what falls through to Lightspeed. The third value is the work queue.
+    """
+    costed = costed_keys(recipes)
+    tot = defaultdict(float)
+    cov = defaultdict(float)
+    gaps = defaultdict(float)
+    pw2 = list(csv.DictReader(PRODUCTS_WEEKLY.open(encoding="utf-8-sig")))
+    wks2 = sorted({r["week_ending"] for r in pw2})
+    cut2 = wks2[max(0, len(wks2) - weeks)] if wks2 else ""
+    for r in pw2:
+        if r["week_ending"] < cut2:
+            continue
+        rev = money(r.get("sales_ex_gst"))
+        if rev <= 0:
+            continue
+        tot[r["venue"]] += rev
+        if (_nrm_name(r["product_name"]) in costed
+                or (_stripped_key(r["product_name"]) or "\x00") in costed):
+            cov[r["venue"]] += rev
+        else:
+            gaps[(r["venue"], r["product_name"], r.get("reporting_group") or "")] += rev
+    return tot, cov, gaps
+
+
 def audit():
     recipes = json.loads(COSTED.read_text(encoding="utf-8-sig"))["recipes"]
     # data/ingredients.json is DELIBERATELY not committed — it is a 90-day window
@@ -892,67 +976,7 @@ def audit():
     # cost it agrees with our book to 0.96x, measured on the daily exports. The
     # damage is not a wrong number, it is an ABSENT one — see the block above.
     if sales:
-        # WHAT COUNTS AS COVERED MUST BE WHAT THE P&L ACTUALLY MATCHES.
-        #
-        # An auditor with its own, stricter idea of a match reports work that is
-        # already done: cogs_blend resolves "Bombay Dry [House]" to "Bombay Dry
-        # Gin [House]", so listing it under "sells well, has no costed recipe"
-        # would send someone to write a recipe that exists. _stripped_key is
-        # imported from there rather than reimplemented, so the two can only
-        # ever agree.
-        #
-        # On top of it, products_weekly collapses size variants, so the recipe
-        # side is collapsed the same way — otherwise every tap beer reads as
-        # uncovered when in fact all its sizes are costed.
-        costed = set()
-        for n, r in recipes.items():
-            if r.get("is_prep") or money(r.get("our_cost")) <= 0:
-                continue
-            # A SIZE/COUNT SUFFIX AND A PLURAL ARE NOT A DIFFERENT DISH.
-            #
-            # Zak, 2026-08-06: "duck spring rolls are done too!!!!!" They were.
-            # The book holds "Duck Spring Roll" at $3.57 and "Duck Spring Rolls
-            # [2pc]" at $3.20; the POS sells "Duck Spring Rolls". Exact-name
-            # matching met none of them, so a costed dish was reported as
-            # uncosted — and it was the third time in one session that this
-            # auditor sent someone to write a recipe that already existed.
-            #
-            # That is the worst failure mode a work queue has. A missed defect
-            # costs you the defect; a FALSE defect costs you the reader, and
-            # after two or three the whole list stops being believed.
-            #
-            # So: strip the bracketed suffix as well as the venue tag, and match
-            # singular against plural. Both are lossy in the safe direction —
-            # they can only ever mark something as covered that is covered by a
-            # near-identical name, and the cost figure itself is untouched.
-            bare = _VENUE_TAG.sub("", n)
-            unsized = re.sub(r"\s*\[.*?\]\s*$", "", bare).strip()
-            for form in (n, bare, unsized, normalize_product(bare), normalize_product(unsized)):
-                k = _nrm_name(form)
-                if k:
-                    costed.add(k)
-                    costed.add(k.rstrip("s"))       # roll / rolls, wing / wings
-                sk = _stripped_key(form)
-                if sk:
-                    costed.add(sk)
-        tot = defaultdict(float)
-        cov = defaultdict(float)
-        pw2 = list(csv.DictReader(PRODUCTS_WEEKLY.open(encoding="utf-8-sig")))
-        wks2 = sorted({r["week_ending"] for r in pw2})
-        cut2 = wks2[max(0, len(wks2) - 13)] if wks2 else ""
-        gaps = defaultdict(float)
-        for r in pw2:
-            if r["week_ending"] < cut2:
-                continue
-            rev = money(r.get("sales_ex_gst"))
-            if rev <= 0:
-                continue
-            tot[r["venue"]] += rev
-            if (_nrm_name(r["product_name"]) in costed
-                    or (_stripped_key(r["product_name"]) or "\x00") in costed):
-                cov[r["venue"]] += rev
-            else:
-                gaps[(r["venue"], r["product_name"], r.get("reporting_group") or "")] += rev
+        tot, cov, gaps = coverage(recipes)
         for ven in sorted(tot):
             pct = 100 * cov[ven] / tot[ven] if tot[ven] else 0.0
             add("INFO" if pct >= 85 else "WARN",

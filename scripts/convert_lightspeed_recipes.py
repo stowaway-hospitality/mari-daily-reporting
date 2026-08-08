@@ -1561,11 +1561,28 @@ def main() -> int:
                 # A SUB-RECIPE line carries its own quantity (a Wings Deal is one
                 # portion of BBQ Wings), unlike an ingredient line whose grams come
                 # from Zak's weighed sheet in the pass below.
+                #
+                # `ls_cost` IS OPTIONAL AND IT IS NOT A COST — it is the Lightspeed
+                # REFERENCE for the line, the divisor cost_of() scales the batch by
+                # (our_batch x ls_line / ls_batch). Without one, a restored
+                # sub-recipe line can only be costed when the batch declares a yield
+                # in the line's own unit, and two of the preps in this file do not:
+                # "Yorkshire Pudding Prep [110 units]" has no yield anywhere (the
+                # bracket says units, which load_yields does not read) and Gravy Prep
+                # yields in ml while every roast draws it in g. Both then fell to the
+                # final `eff = ls` branch and contributed $0.00 — a restored line
+                # that silently prices nothing is worse than no line at all, because
+                # the recipe then LOOKS complete.
+                #
+                # It may only ever be copied from a sibling recipe that already
+                # carries the identical line, which is the same standard of evidence
+                # the rest of this file is held to. It is never a number anyone made
+                # up, and it is never used where the batch can be costed properly.
                 if spec.get("subrecipe"):
                     r["ingredients"].append({
                         "name": spec["name"], "kind": "subrecipe", "ref": spec["ref"],
                         "qty": spec.get("qty", 1), "unit": spec.get("unit") or "ea",
-                        "ls_cost": None, "our_cost": None,
+                        "ls_cost": spec.get("ls_cost"), "our_cost": None,
                     })
                     added += 1
                     continue

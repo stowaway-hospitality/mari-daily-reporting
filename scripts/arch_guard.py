@@ -95,10 +95,16 @@ for label, needle in MARKERS.items():
     if needle not in bundle:
         problems.append(f"R7: missing marker '{label}' ('{needle}')")
 
-# R8 — the three JS test suites: P&L conservation, render layer, pure-helper units
+# R8 — the JS test suites: P&L conservation, render layer, pure-helper units,
+#      and the recipe builder's line guard
 SUITES = [("model conservation", "scripts/test_pnl_model.mjs"),
           ("render layer", "scripts/test_dashboard_render.mjs"),
-          ("helper units", "scripts/test_dashboard_units.mjs")]
+          ("helper units", "scripts/test_dashboard_units.mjs"),
+          # The recipe BUILDER's plausibility guard. Its rules are calibrated
+          # against the real book INSIDE the suite, so a rule that starts
+          # flagging recipes we already believe goes red here rather than
+          # teaching chefs to click past a warning.
+          ("recipe line guard", "scripts/test_recipe_line_guard.mjs")]
 for label, rel in SUITES:
     t = ROOT / rel
     if not t.exists():
@@ -115,4 +121,4 @@ if problems:
     print("\nLogic belongs in dashboard/_shared/{pnl,util,data,render}.js — never in index.html.")
     sys.exit(1)
 print(f"architecture guard: ok — index.html is a {sz//1024}KB shell, 0 logic fns; "
-      f"{len(defined)} module fns, pnl.js pure, all 3 test suites pass.")
+      f"{len(defined)} module fns, pnl.js pure, all {len(SUITES)} test suites pass.")

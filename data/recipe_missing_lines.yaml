@@ -238,3 +238,38 @@
   qty: 30
   unit: "ml"
   why: "HG pours 30 ml on every other spirit in the book; the bottle is price-book costed"
+
+# --- Chicken Roast: the two lines every other roast carries ----------------------
+# Pork, Lamb, Beef and Nut Roast are the same plate with a different protein, and
+# all four carry an identical trailing pair:
+#
+#     Yorkshire Pudding Prep [110 units]   qty 1     ml   $0.21
+#     Gravy Prep                           qty 145   g    $0.98
+#
+# Chicken Roast carries neither. It is not a different dish — same $30.00 menu
+# price, same carrot / broccolini / potato lines to the gram (45 g, 0.22, 125 g)
+# — Produce simply never had the two rows typed onto it. A roast plated without
+# gravy or a Yorkshire is not a thing this kitchen serves; this is a data-entry
+# gap, and it under-costs the plate, which is the flattering direction.
+#
+# Zak has confirmed it. Quantities and the Lightspeed reference are COPIED from
+# the four siblings, not invented: one unit off the 110-unit pudding tray, and
+# 145 g of gravy, at the per-serve figures Produce states on every one of them.
+# That is the same standard as the Hawaiian ham entry above — the identical line
+# already exists on sibling recipes and only this one was missing it.
+- recipes: ["Chicken Roast"]
+  name: "Yorkshire Pudding Prep [110 units]"
+  ref: "Yorkshire Pudding Prep [110 units]"
+  subrecipe: true
+  qty: 1
+  unit: "ml"
+  ls_cost: 0.21
+  why: "byte-identical line on Pork, Lamb, Beef and Nut Roast (1 ml, $0.21)"
+- recipes: ["Chicken Roast"]
+  name: "Gravy Prep"
+  ref: "Gravy Prep"
+  subrecipe: true
+  qty: 145
+  unit: "g"
+  ls_cost: 0.98
+  why: "byte-identical line on Pork, Lamb, Beef and Nut Roast (145 g, $0.98)"
