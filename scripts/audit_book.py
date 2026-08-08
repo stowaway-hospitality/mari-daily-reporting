@@ -31,7 +31,13 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
+# Identity is core's, not rebuilt by hand here — see the "never reached the cost
+# book" rule, which spelled a purchasable id out locally and so read five
+# well-priced Fresh Fruit Team lines as unpriced the moment a bled unit word
+# stopped being part of the key.
+from core.domain import canonical_purchasable, purchasable_id  # noqa: E402
 # The size-variant collapse is DEFINED there; importing it keeps one whitelist
 # rather than a second, looser copy drifting in the auditor. See sold().
 from build_products_weekly import normalize_product  # noqa: E402
@@ -139,6 +145,22 @@ MENU_PRICED = 3.0         # a 95%+ GP on a food/drink item means a missing cost
 # runs 0.85 to 1.12 with a median of 1.02. Real buying moves a bottle by 15%;
 # a pack misread or a Produce-derived seed moves it by 40% or more.
 PRICEBOOK_FLOOR = 0.80
+# TWO IDENTITIES FOR ONE STOCK ITEM. Back Office files the same bottle, keg or
+# mixer once per venue, so nearly every liquor line exists twice — and nothing
+# has ever compared the two copies to each other. Where they disagree, one of
+# them is what a cocktail is costed on.
+#
+# Measured on the seeded book: of the 17 name-matched pairs, 13 sit between
+# 1.10x and 1.25x and that band is real — Stowaway and Harry Gatos buy on
+# separate ILG accounts and the two exports were taken on different days. 1.35x
+# is outside anything buying explains and inside every failure it catches:
+#
+#     Angostura Bitters   HG $1.34/200 ml vs stow $0.10/ml         14.93x
+#     Plantation 3 Stars  HG $60.83/4500 ml vs stow $60.83/700 ml   6.43x
+#
+# Both cheap copies read LOW, which is the flattering direction, and the
+# Angostura one feeds four live Harry Gatos cocktails.
+TWIN_IDENTITY_X = 1.35
 
 # Above this many grams or millilitres of ingredients, a "serve" is a batch.
 #
@@ -149,6 +171,98 @@ PRICEBOOK_FLOOR = 0.80
 # has no portion size on it, which is a different defect from "this dish loses
 # money", and reporting it as the latter sends someone to fix the price.
 SERVE_MAX_BASE_UNITS = 1200.0
+
+
+_SIZE_TOKEN = re.compile(r"\b(\d+(?:\.\d+)?)\s*(ml|l|ltr|litre|g|gm|kg)\b", re.I)
+# Back Office tags the container two ways and the tag is not the product:
+# "Angostura Bitters [200ml]" (Stowaway) and "Angostura Bitters - Bottle 200ml"
+# (Harry Gatos) are one 200 ml bottle. _nrm_bottle already drops the bracketed
+# form; the dashed form is the same tag with different punctuation.
+_CONTAINER_TAIL = re.compile(
+    r"\s*[-–]\s*(bottle|keg|can|house|tap|glass|jug|schooner|pint|pot)\s*$", re.I)
+
+
+def stock_item(name: str) -> tuple[str, str]:
+    """A Back Office product name -> (the stock item it names, its size token).
+
+    The size comes OUT of the name and is KEPT, not thrown away. Back Office
+    files one product as "Angostura Bitters [200ml]" and the other as "Angostura
+    Bitters - Bottle 200ml", which is the same 200 ml bottle written twice — but
+    it also files "Salt Cooking 10kg Olssons" and "Salt Cooking 1kg Olssons",
+    which are two real pack sizes whose $/g differ 7x for the ordinary reason
+    that bulk is cheaper. Dropping the size silently merged those and reported
+    buying salt in bulk as a defect. So a group is only compared when the sizes
+    agree or are not stated — a STATED difference is the answer, not the finding.
+    """
+    m = _SIZE_TOKEN.search(name or "")
+    size = f"{float(m.group(1)):g}{m.group(2).lower()}" if m else ""
+    bare = _SIZE_TOKEN.sub(" ", name or "").strip()
+    prev = None
+    while bare != prev:
+        prev, bare = bare, _CONTAINER_TAIL.sub("", bare).strip()
+    return _nrm_bottle(bare), size
+
+
+def bo_product_names() -> dict[str, str]:
+    """ProductID -> the name Back Office gives it, both venues."""
+    out: dict[str, str] = {}
+    for p in (ROOT / "data" / "bo_exports" / "stowaway_products.csv",
+              ROOT / "data" / "bo_exports" / "harry_gatos_products.csv"):
+        if p.exists():
+            for r in csv.DictReader(p.open(encoding="utf-8-sig")):
+                out.setdefault(r["ProductID"], r["ProductName"])
+    return out
+
+
+def cost_book_latest() -> dict[str, tuple[str, float, str]]:
+    """lightspeed:<ProductID> -> (observed_on, cost_per_unit, unit), latest only."""
+    out: dict[str, tuple[str, float, str]] = {}
+    if not COSTS.exists():
+        return out
+    for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
+        iid = r["ingredient"]
+        if not iid.startswith("lightspeed:"):
+            continue
+        d, c = r["observed_on"], money(r.get("cost_per_unit"))
+        if c <= 0:
+            continue
+        if iid not in out or d >= out[iid][0]:
+            out[iid] = (d, c, r.get("unit") or "")
+    return out
+
+
+def twin_identity_conflicts(latest: dict, names: dict, band: float = None) -> list:
+    """Stock items the cost book holds twice at materially different prices.
+
+    -> [(ratio, [(cost, id, name, date, unit), ...]), ...], dearest gap first.
+
+    Grouped by (stock item, base unit): a per-ml copy is never compared with a
+    per-each one, because that is a unit question and other rules own it. Only
+    Lightspeed identities take part — both sides are then Back Office's OWN
+    naming of its own product, which is why a name join is safe here and was not
+    for the ILG price book (see that rule: matching two companies' names for one
+    bottle found almost nothing).
+    """
+    band = TWIN_IDENTITY_X if band is None else band
+    groups: dict[tuple[str, str], list] = defaultdict(list)
+    for iid, (d, c, u) in latest.items():
+        nm = names.get(iid.split(":", 1)[1])
+        item, size = stock_item(nm or "")
+        if not nm or len(item) < 4:
+            continue                      # no name to join on: say nothing
+        groups[(item, u)].append((c, iid, nm, d, u, size))
+    out = []
+    for members in groups.values():
+        if len(members) < 2:
+            continue
+        if len({m[5] for m in members if m[5]}) > 1:
+            continue                      # two STATED pack sizes: not one stock item
+        members.sort()
+        lo, hi = members[0][0], members[-1][0]
+        if lo <= 0 or hi / lo < band:
+            continue
+        out.append((hi / lo, [m[:5] for m in members]))
+    return sorted(out, key=lambda x: -x[0])
 
 
 def _pack_count_hint(observed, median):
@@ -618,7 +732,13 @@ def audit():
     # costs off whatever stale seed it had. $1,583 of Bombay Dry gin was invoiced
     # since June and never reached the book; 13 cocktails priced off a January seed.
     # Ranked by spend, because that is the order worth fixing them in.
-    priced = {r["ingredient"] for r in csv.DictReader(COSTS.open(encoding="utf-8-sig"))}
+    # Ids are compared through core.domain (imported at the top), not rebuilt by
+    # hand here. A unit word the PDF parse bled onto a supplier code is not part
+    # of identity, so "fresh-fruit-team:AH20T TRAY" and "fresh-fruit-team:AH20T"
+    # are one code — spelling them out locally made five well-priced FFT lines
+    # (avocado, chives, broccolini, eggs, rocket) read as "never reached the book".
+    priced = {canonical_purchasable(r["ingredient"])
+              for r in csv.DictReader(COSTS.open(encoding="utf-8-sig"))}
     # A supplier code is "reached" if it is priced directly OR it bridges to a
     # ProductID that is priced. A seed-matched liquor line (Rooster, De Bortoli)
     # feeds the bridge only — the bottle invoice supersedes the seed on the
@@ -631,14 +751,14 @@ def audit():
         for r in csv.DictReader(pmap.open(encoding="utf-8-sig")):
             sup, code, pdi = r.get("supplier"), r.get("supplier_code"), r.get("product_id")
             if sup and code and pdi:
-                bridged[f"{re.sub(r'[^a-z0-9]+', '-', sup.lower()).strip('-')}:{code.strip().upper()}"] = f"lightspeed:{pdi.strip()}"
+                bridged[purchasable_id(sup, code)] = f"lightspeed:{pdi.strip()}"
     spend, seen = defaultdict(float), {}
     if COGS.exists():
         for r in csv.DictReader(COGS.open(encoding="utf-8-sig")):
             sup, code = (r.get("supplier") or ""), (r.get("supplier_code") or "").strip()
             if not code or sup == "Lightspeed" or (r.get("invoice_date") or "") < "2026-06-01":
                 continue
-            iid = f"{re.sub(r'[^a-z0-9]+', '-', sup.lower()).strip('-')}:{code.upper()}"
+            iid = purchasable_id(sup, code)
             if iid in priced or bridged.get(iid) in priced:
                 continue
             spend[iid] += money(r.get("cost_per_unit_incl_gst"))
@@ -987,6 +1107,52 @@ def audit():
                 f"{str(m.get('name'))[:28]:30} {str(m.get('supplier'))[:14]:16} "
                 f"${prev:>9,.4f} -> ${cost:>9,.2f} = {cost / prev:>5.1f}x "
                 f"(shown as +{money(m.get('pct')):,.0f}%)")
+
+    # ---------- TWO IDENTITIES FOR ONE STOCK ITEM ----------
+    # Every rule above checks a number against something OUTSIDE the book — a
+    # supplier's price list, an invoice, the same code's own history. None of them
+    # notices that the book holds the same bottle twice at two prices, because
+    # each copy is internally consistent and neither is an outlier on its own.
+    #
+    # It holds most of them twice by design: Back Office is filed per venue, so
+    # Stowaway and Harry Gatos each have their own ProductID for one physical
+    # stock item, and a recipe picks whichever its venue's menu was built from.
+    # When the two disagree the cheaper one is a discount nobody negotiated:
+    #
+    #   Angostura Bitters   lightspeed:20747514 (HG)   $1.34 a 200 ml bottle
+    #                       lightspeed:20487270 (stow) $20.89 a 200 ml bottle
+    #     ILG's own price book lists 390-021-0 at $15.10 a bottle, so the HG copy
+    #     is 8.9% of what the supplier charges for it. $1.34 is not a price for
+    #     Angostura; it is a keying error, and four HG cocktails cost off it
+    #     (Manhattan - Perfect, Manhattan - Dry, Mai Tai, Dark & Stormy).
+    #
+    #   Plantation 3 Stars  both copies $60.83, but HG states 4500 ml and
+    #                       Stowaway 700 ml — one bottle read as a case, 6.4x low.
+    #
+    # THE JOIN IS THE NAME, and here that is safe where it was not for the price
+    # book: both sides are Back Office's OWN naming of its own product, not two
+    # companies' names for one bottle. Brackets and the size token come off; the
+    # base unit must match, so a per-ml copy is never compared with a per-each one.
+    #
+    # Not everything this class contains is name-matchable, and the rule says so
+    # rather than pretending otherwise. Harry Gatos' "Alehouse Premium Lager"
+    # (lightspeed:20744549, 5 products incl. Harry's Lager) is seeded at $185.00 —
+    # ILG bill 122-2858 ALEHOUSE PREMIUM KEG at $212.44 and 122-2867 ALEHOUSE
+    # CRISP KEG at $184.94, so the Premium product carries the Crisp price, 12.9%
+    # low. No name normaliser pairs "Premium Lager" with "Draught Lager", and no
+    # ILG invoice in the data was billed to Harry Gatos, so nothing here can say
+    # WHICH of the two is wrong — the name or the price. That one needs Zak.
+    uses: dict[str, int] = defaultdict(int)
+    for _n, _r in recipes.items():
+        for _l in (_r.get("ingredients") or []):
+            if (_l.get("kind") == "id") and (_l.get("ref") or "").startswith("lightspeed:"):
+                uses[_l["ref"]] += 1
+    for ratio, members in twin_identity_conflicts(cost_book_latest(), bo_product_names()):
+        detail = f"{ratio:>6.2f}x   " + " | ".join(
+            f"{nm[:26]} {iid.split(':')[1]} ${c:,.6f}/{u} ({uses.get(iid, 0)} recipes, {d})"
+            for c, iid, nm, d, u in members)
+        add("WARN", "two identities for one stock item at materially different "
+                    "prices (a recipe costs off whichever its venue holds)", detail)
 
     # ---------- COST BOOK ----------
     rows = list(csv.DictReader(COSTS.open(encoding="utf-8-sig")))

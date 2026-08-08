@@ -52,7 +52,8 @@ from pathlib import Path
 import sys  # noqa: E402
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
-from core.domain import purchasable_id   # noqa: E402  the SAME natural key the cost engine uses
+from core.domain import (canonical_purchasable, normalize_code,   # noqa: E402
+                         purchasable_id)   # the SAME natural key the cost engine uses
 from core.pack_overrides import load_pack_overrides   # noqa: E402
 COGS = ROOT / "data" / "cogs_list.csv"
 OUT = ROOT / "data" / "ingredients.json"
@@ -101,21 +102,14 @@ def is_countable(desc: str) -> bool:
 # CODE — "AH20T Tray", "ONBRKG Kilogram", "HCMB Market" — a column bleed in the
 # PDF parse. That mints a SECOND id for a product that already has a clean-code
 # row, so the picker shows it twice, and the leaked row also carried a truncated
-# description ("Hass" instead of "Avocado Hass"). Stripping the trailing unit
-# collapses the two to one identity; the fuller description then wins on merge.
-_CODE_UNIT_SUFFIX = re.compile(
-    r"\s+(tray|kilogram|kilo|kgs?|litres?|market|each|ea|punnet|box(?:es)?|"
-    r"bunch|bch|bags?|dozen|doz|ctn|carton)$", re.I)
-
-
-def normalize_code(code: str) -> str:
-    """Strip a trailing unit word bled into the code. Idempotent, multi-pass
-    ('X Kg Each' -> 'X'). Never returns empty — falls back to the original."""
-    c = (code or "").strip()
-    prev = None
-    while c != prev:
-        prev, c = c, _CODE_UNIT_SUFFIX.sub("", c).strip()
-    return c or (code or "").strip()
+# description ("Hass" instead of "Avocado Hass").
+#
+# normalize_code NOW LIVES IN core/domain.py, because the bleed is an identity
+# problem and identity is core's job: purchasable_id applies it, so the COST KEY
+# and the picker id collapse to one product instead of two. Re-exported here
+# because this is where it was born and where the pack parser still needs it —
+# resolve_pack reads that same trailing word to learn the sold unit, so the raw
+# code goes to the parser and the normalised one to the identity.
 
 
 # A few FFT codes never appear with a full description anywhere in the data (no
@@ -433,7 +427,14 @@ def main() -> int:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     rows = list(csv.DictReader(COGS.open(encoding="utf-8-sig")))
     cutoff = date.today() - timedelta(days=RECENT_DAYS)
-    overrides = load_pack_overrides(PACK_OVERRIDES)   # chef-confirmed pack sizes
+    # Chef-confirmed pack sizes, re-keyed through the SAME canonicalisation the
+    # identity uses. The log was written when a bled code was its own product, so
+    # four confirmations are filed under the bled spelling ("...:TGL10BX BOX",
+    # "...:LRW15BG BOX", "...:HCMB MARKET", "...:HCDRMB MARKET"). Left raw they
+    # would stop matching the moment the identity collapsed, and the four
+    # ingredients they cover would fall back to an uncostable "1 box".
+    overrides = {canonical_purchasable(k): v
+                 for k, v in load_pack_overrides(PACK_OVERRIDES).items()}
 
     # THE LATEST INVOICE FOR EACH THING, NOT THE FIRST ONE IN THE FILE.
     #
@@ -454,6 +455,21 @@ def main() -> int:
     rows.sort(key=lambda r: r.get("invoice_date") or "")
     out, review = [], 0
     seen: set[str] = set()
+    # THE FULLEST NAME ACROSS EVERY SPELLING OF ONE IDENTITY. The bled-code row
+    # carries a truncated description — the parser generation that moved the unit
+    # word into the code also moved the first word of the name into the note, so
+    # "AH20T Tray" is described as "Hass" while "AH20T" is "Avocado Hass". Now
+    # that both are one identity only ONE row survives the loop (the latest, as
+    # the cost book keys), and on 2026-08-04 that row happens to be the truncated
+    # one — so the merge that used to happen in the collapse pass below has to
+    # happen here instead, or the picker loses the real name.
+    #
+    # Keyed by (identity, RAW code) and holding that code's LATEST name, then
+    # merged across codes. Not "the best name in the whole history": a supplier
+    # renaming its own product must still show the current name, and pooling
+    # every row would have quietly reverted 20 unrelated descriptions to older
+    # spellings. Only the parser artefact is being undone.
+    names: dict[tuple[str, str], str] = {}
     for r in reversed(rows):
         if r["supplier"] not in KITCHEN_SUPPLIERS:
             continue
@@ -476,7 +492,13 @@ def main() -> int:
         code = (r["supplier_code"] or "").strip()
         if not code:
             continue
+        # purchasable_id normalises a unit word the PDF parse bled onto the code,
+        # so "AH20T" and "AH20T Tray" are ONE ingredient here exactly as they are
+        # one series in costs.csv. resolve_pack below still gets the RAW code,
+        # because that trailing word is how some Fresh Fruit Team lines state
+        # their sold unit.
         key = purchasable_id(r["supplier"], code)
+        names.setdefault((key, code.upper()), clean_name(desc))   # rows are newest-first
         if key in seen:
             continue
         seen.add(key)
@@ -488,10 +510,20 @@ def main() -> int:
         # a resolved pack, because it also corrects a WRONG resolution: a box of
         # loose produce parses to "1 box" (uncostable in a recipe — you can't use
         # half a box) and the override replaces it with the real weight/count.
+        #
+        # AUTHORITATIVE ABOUT THE PACK — NOT ABOUT THE RATE. `bad` used to be
+        # cleared to "" here, which turned a chef confirmation into a blanket
+        # silencer for the plausibility guard. A per-carton line divided by a
+        # per-piece override then published an absurd rate that nothing looked at:
+        # Foodlink 100487 camembert billed $45.60 for a carton (note "UOM CTN-12")
+        # against a 125 g pin read $364.80/kg, twelve times the $30.40/kg the same
+        # code's own "EA" lines charge. The override still decides the pack; the
+        # bounds still judge what falls out of it. See build_costs.py.
         if key in overrides:
             oq, ou = overrides[key]
-            qty, unit, bad, how = oq, ou, "", "chef-confirmed"
+            qty, unit, how = oq, ou, "chef-confirmed"
             per = pack_cost / oq
+            bad = out_of_bounds(per, ou)
 
         item = {
             "id": key,
@@ -519,6 +551,13 @@ def main() -> int:
             item["review_reason"] = bad or how
             review += 1
         out.append(item)
+
+    # the fullest description across the spellings of this identity (see `names`)
+    best: dict[str, str] = {}
+    for (key, _code), nm in names.items():
+        best[key] = _better_name(best[key], nm) if key in best else nm
+    for it in out:
+        it["description"] = best.get(it["id"], it["description"])
 
     # Also expose the Lightspeed cost-book items (beverages, seeded + bridged foods)
     # as first-class ingredients, keyed lightspeed:<ProductID> — the SAME id the

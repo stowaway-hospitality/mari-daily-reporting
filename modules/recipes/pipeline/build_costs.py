@@ -44,7 +44,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from core.domain import purchasable_id                                   # noqa: E402
+from core.domain import (canonical_purchasable, cogs_row_key,            # noqa: E402
+                         purchasable_id)
 from core.pack_overrides import load_pack_overrides                      # noqa: E402
 from modules.recipes.pipeline.build_ingredients import (                 # noqa: E402
     out_of_bounds, resolve_pack)
@@ -561,15 +562,58 @@ def seed_matched_liquor_cost(pack_cost, pack_qty, pack_unit, note, seed_per_unit
     return None
 
 
+def _read_cogs_rows():
+    """data/cogs_list.csv, ONE ROW PER (invoice, product). -> list[dict]
+
+    THE DEDUPE HAS TO BE ON THE READ. build_cogs_list only ever applied its
+    identity check to lines it was about to add, so a second writer that appended
+    straight to the file bypassed it — and three rows got in that way (Paramount
+    5441124: Carpano 10015926, De Bortoli 44583, Sprite 98541, identical price,
+    date, code and basis, differing only in the diagnostic `note`).
+
+    as_of never noticed: same day, same price. CostSeries.rolling did — it counts
+    the duplicated observation TWICE in the trailing-30-day mean, which is the
+    live menu-costing path, so one stray row silently reweights a real average.
+
+    Deduping HERE rather than rewriting the file is deliberate. cogs_list.csv is
+    an append-only fact table; both notes are evidence and nothing in this repo
+    permanently deletes a fact. The derived table is where the duplicate must not
+    survive, and a check a writer cannot reach is a check that cannot be bypassed.
+    First occurrence wins — the file is in the order the writer produced it.
+    """
+    seen: set[tuple[str, str]] = set()
+    rows, dropped = [], []
+    for r in csv.DictReader(COGS.open(encoding="utf-8-sig")):
+        k = cogs_row_key(r.get("source_invoice", ""), r.get("supplier_code", ""),
+                         r.get("invoice_description", ""))
+        if k in seen:
+            dropped.append(r)
+            continue
+        seen.add(k)
+        rows.append(r)
+    if dropped:
+        print(f"  {len(dropped)} duplicate cogs_list row(s) ignored "
+              f"(same invoice + product; would double-weight the rolling average)")
+        for r in dropped:
+            print(f"    {r.get('source_invoice')} {r.get('supplier_code')} "
+                  f"{(r.get('invoice_description') or '')[:34]}")
+    return rows
+
+
 def main() -> int:
     # stdout is output too: under an ASCII locale a single em-dash in a progress
     # line kills the run *after* the fact table is written, so the file is right
     # and the exit code says otherwise. Pin it for the same reason we pin the file.
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    overrides = load_pack_overrides(PACK_OVERRIDES)   # chef-confirmed pack sizes
+    # Chef-confirmed pack sizes, re-keyed through the same canonicalisation the
+    # identity uses — four confirmations were filed under a bled code spelling
+    # and must keep landing on the product they were made for. See
+    # core.domain.canonical_purchasable.
+    overrides = {canonical_purchasable(k): v
+                 for k, v in load_pack_overrides(PACK_OVERRIDES).items()}
     bridge = load_bridge()                            # supplier:code -> lightspeed:ProductID
-    cogs_rows = list(csv.DictReader(COGS.open(encoding="utf-8-sig")))
+    cogs_rows = _read_cogs_rows()
 
     # BO-export rate per ProductID, in the recipe's own base unit. The second
     # opinion every seed guard below is checked against. Built FIRST, because
@@ -667,10 +711,21 @@ def main() -> int:
         # A confirmed pack (chef or catalogue) is AUTHORITATIVE — it wins even over
         # a resolved pack, so it can CORRECT a wrong one (a box of loose produce
         # that parsed to "1 box" becomes the real weight). Must match build_ingredients.
+        #
+        # AUTHORITATIVE ABOUT THE PACK, NOT ABOUT THE RATE. This block used to set
+        # `bad = ""`, so confirming a pack ALSO switched the plausibility guard off
+        # for every line under that code — including lines the supplier billed on a
+        # different basis. Foodlink bills 100487 camembert both ways: $3.80 for one
+        # 125 g piece (note "EA") and $45.60 for a carton (note "UOM CTN-12"). The
+        # 125 g pin is right for the piece and 12x wrong for the carton, and the
+        # carton row published $364.80/kg against the same code's own $30.40/kg for
+        # 16-22 Jul with nothing to stop it. An override pins the pack; out_of_bounds
+        # still judges what comes out of it, and a rate no food has skips the book.
         if iid in overrides:
             oq, ou = overrides[iid]
-            qty, unit, bad, how = oq, ou, "", "chef-confirmed"
+            qty, unit, how = oq, ou, "chef-confirmed"
             per = (pack_cost / oq).quantize(Decimal("0.000001"))
+            bad = out_of_bounds(per, ou)
 
         # LIQUOR RESCUE. resolve_pack refuses a sizeless liquor description
         # ("BOMBAY DRY GIN") and the line is dropped — but if this code bridges to a
