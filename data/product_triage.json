@@ -1,147 +1,154 @@
 {
-  "generated": "2026-08-07",
-  "reviewed": 151,
-  "clean": 120,
+  "generated": "2026-08-09",
+  "reviewed": 48,
+  "clean": 27,
   "flags": [
     {
       "supplier": "Fresh Fruit Team",
-      "name": "Red Long",
-      "code": "SBCH",
-      "issue": "NAME \u2014 truncated/mis-derived. Every FFT invoice line for code SBCH reads 'Shallot', sold per Bunch at $1.65-$3.41 (17 invoices, INB00099947 to INB00113602). 'Red Long' looks lifted from a neighbouring 'Chilli Red Long' line.",
-      "suggested_fix": "CONFIRMED from supplier invoices: map SBCH -> 'Shallot' (per bunch). Matches the existing Lightspeed 'Shallot [Bunch]' at $1.93/bunch."
+      "name": "Paw Shredded",
+      "code": "KITPPSKG",
+      "issue": "NAME truncated — leading category word dropped. 'Paw Paw Shredded' appears on other FFT invoices for KITPPSKG. CONFIRMED: Fresh Fruit Team printed the full name itself on other invoices for this same code.",
+      "suggested_fix": "Rename to 'Paw Paw Shredded'."
     },
     {
       "supplier": "Fresh Fruit Team",
-      "name": "Tomatoes Roma half box please",
-      "code": "TR10BX",
-      "issue": "NAME \u2014 leaked order words. 'half box please' is an ordering note, not part of the product. The junk is in FFT's own invoice text (INB00105997: 'Tomatoes Roma half box please', 0.5 Box @ $37.40).",
-      "suggested_fix": "CONFIRMED: name -> 'Tomatoes Roma', pack 1 box @ $37.40. Strip trailing order phrases (please / half box / thanks) from FFT descriptions."
-    },
-    {
-      "supplier": "B&E",
-      "name": "(Sub 18120) Instant",
-      "code": "15379",
-      "issue": "NAME \u2014 substitution placeholder, not a product. Six of seven B&E invoices for code 15379 read 'INSTANT NOODLE - 10 PCS/PK' (1 CTN @ $14.90); only the newest (6889760, 2026-07-01) says '(SUB 18120) INSTANT', and the newest is what got picked up. This is also why pack_qty/pack_unit/cost_per_base_unit are all null.",
-      "suggested_fix": "CONFIRMED from the earlier invoices: name -> 'Instant Noodle - 10 pcs/pk', pack 1 ctn (10 pcs) @ $14.90. Prefer the modal description across invoices over the newest when the newest carries a '(Sub NNNNN)' prefix."
-    },
-    {
-      "supplier": "Foodlink",
-      "name": "Floor Cleaner 20ltr",
-      "code": "101084",
-      "issue": "CATEGORY \u2014 a cleaning chemical in the recipe ingredient database. $38.50 per 20L (SI4408342, SI4357077 'FLOOR CLEANER 20LTR Reliance'). Not something a chef cooks with; it should not be costable into a dish.",
-      "suggested_fix": "Exclude from the chef's ingredient picker (cleaning / chemical / packaging class). Keep the purchase for COGS and Xero, just not as a food ingredient."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Beans Edamame Soy Frozen [350g]",
-      "code": "22898623",
-      "issue": "COST \u2014 2.4x the supplier's own price. Cost book has $0.025714/g = $25.71/kg = $9.00 per 350g pack. Foodlink invoices the same 350g frozen edamame (code 100180) at $3.80 = $10.86/kg.",
-      "suggested_fix": "Re-cost from the Foodlink invoice: $3.80 per 350g pack ($0.010857/g). Confirm which pack the cost book was priced against before overwriting."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Choi Sum [bunch]",
-      "code": "22898085",
-      "issue": "COST \u2014 $9.00 per bunch is implausible for choi sum. Every other bunch line sits at $1.10-$2.65 (Shallot $1.93, chives $1.70, FFT Herb Mint $1.10). Smells like a carton/box price sitting in a per-bunch field.",
-      "suggested_fix": "COULD NOT CONFIRM \u2014 no invoice line for this item (cost book only, last_seen 2026-01-02). Needs Zak or the chef to state whether $9.00 is a bunch or a box."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Sweet Chilli Jam Knorr [920g]",
-      "code": "22918967",
-      "issue": "COST \u2014 $0.057609/g = $57.61/kg = $53.00 for a 920g jar. Knorr sweet chilli jam trades well below that; looks like a 6-jar case cost divided by one jar's weight.",
-      "suggested_fix": "COULD NOT CONFIRM \u2014 cost book only, no invoice. Check the case configuration; if it is 6x920g the per-jar cost is about $8.83 and per-kg about $9.60."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Onion Brown [kg]",
-      "code": "22995352",
-      "issue": "PACK \u2014 the name says [kg] but pack_unit came through as 'can' (1 can @ $1.54). The $1.54 is a per-kilo price wearing the wrong unit, so anything costing a weight of brown onion reads it wrong.",
-      "suggested_fix": "pack_unit -> kg, cost_per_base_unit -> $0.00154/g ($1.54/kg). Part of the cost-book 'can' defaulting below."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Potato Peeled [kg]",
-      "code": "22995357",
-      "issue": "PACK \u2014 same as Onion Brown: name says [kg], pack_unit is 'can' (1 can @ $3.60).",
-      "suggested_fix": "pack_unit -> kg, cost_per_base_unit -> $0.0036/g ($3.60/kg)."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Ponzu Dashi Vinegar Uchibori [360mL]",
-      "code": "22918966",
-      "issue": "PACK \u2014 name says [360mL], pack_unit is 'can'. The value $0.0153 is clearly per mL ($5.51 for 360mL), so the number is right and the unit is wrong.",
-      "suggested_fix": "pack_unit -> ml, pack_qty -> 360."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Archie Rose Signature Gin",
-      "code": "20445809",
-      "issue": "PACK \u2014 a spirit priced as '1 can @ $62.08' while every other spirit in this batch is per mL. $62.08 is a bottle cost, so any cocktail recipe pouring 30mL of it cannot cost correctly.",
-      "suggested_fix": "pack_unit -> ml, pack_qty -> 700, cost_per_base_unit -> about $0.0887/ml. Confirm the bottle size (700mL assumed)."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "BBQ Pork Buns Canton [ea]; Barebones Clear Ice Block; Cauliflower [ea]; Egg Fresh [ea]; Lemonade [mixer]; Pink Lemonade [mixer]; Peking Duck Spring Rolls Canton [ea]; Spring Roll Veg Hakka [ea]; Turkish Bread [ea]",
-      "code": "22898083, 20873385, 22931826, 22918951, 20681676, 20681681, 22898084, 22898080, 22931830",
-      "issue": "PACK (systemic) \u2014 pack_unit defaults to 'can' whenever the cost book's pack string cannot be parsed. 17 of the 123 cost-book products came through as 'can', including six clearly marked [ea] and the [kg]/[mL]/spirit cases flagged separately above. 'can' is not a neutral fallback: it silently asserts a pack the product does not have.",
-      "suggested_fix": "Do not default to 'can'. Parse the unit out of the trailing [ea] / [kg] / [bunch] / [NNNg] / [NNNmL] tag in the name, and where nothing parses set needs_pack_review=true so the chef is asked instead of being given a wrong unit."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Shiitake Mushrooms Dried",
-      "code": "22947358",
-      "issue": "DUPLICATE \u2014 same product as 'Mushroom Shiitake Dried [1kg]' (22918987, $0.03125/g = $31.25/kg), but carries no pack and a '1 can @ $25.00' cost. Two records for one ingredient means two different dish costs depending on which the chef picks.",
-      "suggested_fix": "Merge into 'Mushroom Shiitake Dried [1kg]' and retire this one from the picker."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Jasmine Rice",
-      "code": "22562653",
-      "issue": "DUPLICATE \u2014 same $0.0021/g as 'Rice Jasmine Fragrant [20kg]' (22893550). Two names, one rice.",
-      "suggested_fix": "Merge into 'Rice Jasmine Fragrant [20kg]'; keep the naming convention (noun first)."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Chicken Thigh Flt S/Off [Kg]",
-      "code": "22975375",
-      "issue": "DUPLICATE \u2014 identical cost ($0.0163/g) to 'Chicken Thigh Flt S/Off RSPCA [kg]' (22893557). Likely the same purchase with and without the RSPCA label.",
-      "suggested_fix": "Confirm with the chef whether these are genuinely two products; if not, merge and keep the RSPCA name."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Davidson Plum Puree",
-      "code": "22947356",
-      "issue": "COST/PACK \u2014 '1 can @ $0.0510'. Five cents cannot be a can of Davidson plum puree; the figure looks like a per-gram or per-mL cost with no pack size attached.",
-      "suggested_fix": "COULD NOT CONFIRM \u2014 cost book only. Needs the pack size; if $0.051/g then a 1kg tub is $51, which is plausible for native plum puree."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Potato Starch",
-      "code": "22947363",
-      "issue": "PACK \u2014 no pack size in the name and pack_unit 'can' @ $5.00. Cannot cost a recipe that uses grams of it.",
-      "suggested_fix": "COULD NOT CONFIRM \u2014 add the pack weight (commonly 500g or 1kg) and set the unit to g."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "chives",
-      "code": "22493903",
-      "issue": "NAME \u2014 lowercase and with no unit tag, against the convention every other item follows ('Shallot [Bunch]', 'Carrot [kg]'). Priced per bunch at $1.70, which is plausible.",
-      "suggested_fix": "Rename to 'Chives [bunch]'. Cosmetic \u2014 cost is fine."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Fz Barramundi - Fillets",
-      "code": "27513",
-      "issue": "PACK (already surfaced, needs_pack_review=true) \u2014 invoiced 1 CTN @ $88.40 (6718182) with no carton weight, so no cost per kg can be derived. Name and price are both fine.",
-      "suggested_fix": "Chef to state the carton weight. Mentioned for completeness, not a defect."
+      "name": "Rocket Wild",
+      "code": "LRW15BG",
+      "issue": "NAME truncated — leading category word dropped. 'Lettuce Rocket Wild' appears on other FFT invoices for LRW15BG. CONFIRMED: Fresh Fruit Team printed the full name itself on other invoices for this same code.",
+      "suggested_fix": "Rename to 'Lettuce Rocket Wild'."
     },
     {
       "supplier": "Fresh Fruit Team",
-      "name": "Carrot Large; Coleslaw; Grapefruit Pink Peeled; Tomatoes Roma",
-      "code": "CLKG Kilogram, KITCSKG Kilogram, KITGPINPEA Each, TR10BX Box",
-      "issue": "SUPPLIER_CODE \u2014 the unit word is being appended to the code, so 'CLKG' is stored as 'CLKG Kilogram' and 'TR10BX' as 'TR10BX Box'. Costs and names are correct; the codes will not match FFT's catalogue on the next lookup.",
-      "suggested_fix": "Strip a trailing unit word (Kilogram / Each / Box / Bunch / Punnet) from the FFT supplier_code field."
+      "name": "Slaw",
+      "code": "KITDSKG",
+      "issue": "NAME truncated — leading category word dropped. 'Dry Slaw' appears on other FFT invoices for KITDSKG. CONFIRMED: Fresh Fruit Team printed the full name itself on other invoices for this same code.",
+      "suggested_fix": "Rename to 'Dry Slaw'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Jalapino Green",
+      "code": "CJGKG",
+      "issue": "NAME truncated — leading category word dropped. 'Chillies Jalapino Green' appears on other FFT invoices for CJGKG. CONFIRMED: Fresh Fruit Team printed the full name itself on other invoices for this same code.",
+      "suggested_fix": "Rename to 'Chillies Jalapino Green'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Rosemary",
+      "code": "HRBCH",
+      "issue": "NAME — FFT prints 'Herb Rosemary' for HRBCH on other invoices; the feed has 'Rosemary'. CONFIRMED: Fresh Fruit Team printed the full name itself on other invoices for this same code. LOW severity: 'Rosemary' is complete and unambiguous for a chef, so this is cosmetic only.",
+      "suggested_fix": "Leave as 'Rosemary', or align to 'Herb Rosemary' for consistency with other HxBCH herbs. No cost impact."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Cocktail",
+      "code": "POTCOKG",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Cocktail' with nothing to say what it is. code reads POT-CO-KG (potato, cocktail, per kg); $2.97/kg fits potatoes. UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Potato Cocktail' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Gourmet",
+      "code": "TG10BX",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Gourmet' with nothing to say what it is. sibling code TGKG is already named 'Tomatoes Gourmet'; TGL10BX is 'Tomatoes Gourmet Large'. UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Tomatoes Gourmet (10 kg box)' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Roma",
+      "code": "TRKG",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Roma' with nothing to say what it is. code reads T-R-KG (tomato, roma, per kg); $3.85/kg matches the other tomatoes. UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Tomatoes Roma' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Pencil",
+      "code": "LPBCH",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Pencil' with nothing to say what it is. code reads L-P-BCH; a separate 'Leek' (LKKG) already exists. NOTE ALSO a cost outlier: $14.40/bunch against $1.65-$5.28 for every other bunch item in this batch. UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Leek Pencil' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Peeled",
+      "code": "KITLEPKG",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Peeled' with nothing to say what it is. code KIT-LE-P-KG; 'LE' could be leek or lemon. Genuinely ambiguous, not guessed. UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'unknown — a prepped 'KIT' line' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Seedless",
+      "code": "LSKG",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Seedless' with nothing to say what it is. code L-S-KG; 'L' could be lemon or lime. $3.30/kg fits either. Not guessed. UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'unknown' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Telegraph",
+      "code": "CTBG",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Telegraph' with nothing to say what it is. code reads C-T-BG (cucumber, telegraph, bag). Also carries needs_pack_review=true with a null pack. UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Cucumber Telegraph' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Julienne",
+      "code": "KITCARJKG",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Julienne' with nothing to say what it is. code reads KIT-CAR-J-KG (carrot, julienne); $4.00/kg against $1.32/kg whole carrot is a sensible prep premium. UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Carrot Julienne' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Pink Lady",
+      "code": "APLKG",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Pink Lady' with nothing to say what it is. code reads A-PL-KG (apple, pink lady). UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Apples Pink Lady' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Royal Gala",
+      "code": "ARGKG",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Royal Gala' with nothing to say what it is. code reads A-RG-KG (apple, royal gala). UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Apples Royal Gala' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Ruby Red",
+      "code": "GRR12BX",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Ruby Red' with nothing to say what it is. sibling code GFRE is 'Grapefruit Ruby'. UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Grapefruit Ruby Red (12 box)' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Topless (Bethonga)",
+      "code": "PTEA",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Topless (Bethonga)' with nothing to say what it is. code reads P-T-EA; Bethonga is a Queensland pineapple growing district. UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Pineapple Topless (Bethonga)' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Cos Victorian",
+      "code": "LCVEA",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Cos Victorian' with nothing to say what it is. code reads L-CV-EA (lettuce, cos victorian). UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Lettuce Cos Victorian' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Baby Gem",
+      "code": "LBG20B",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Baby Gem' with nothing to say what it is. code reads L-BG-20B (lettuce, baby gem). UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Lettuce Baby Gem' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Chat Washed",
+      "code": "PCWKG",
+      "issue": "NAME is a fragment, not a complete product name — the leading category word is missing, so the picker shows 'Chat Washed' with nothing to say what it is. code reads P-CW-KG (potato, chat, washed). UNCONFIRMED: the Fresh Fruit Team catalogue needs a login, so this reading is inferred from the supplier code and not verified. Do not apply without checking.",
+      "suggested_fix": "Likely 'Potato Chat Washed' — CONFIRM against the FFT catalogue before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Broccolini",
+      "code": "BRL",
+      "issue": "IDENTITY — one supplier code, two different vegetables. Across the 52 FFT invoices in the corpus, code 'BRL'/'BRL Box' is printed as 'Broccolini' (3 invoices, $31.20-$36.00/box), as 'Radiccio' (INB00109847, $28.80/box), and as the bare code 'BRL Box' with no product name at all (9 invoices). The feed resolves the whole code to Broccolini at $33.60/box, so the Radiccio delivery is costed as broccolini and any bare 'BRL Box' line inherits whichever won.",
+      "suggested_fix": "Ask FFT what BRL actually is. If it is genuinely two products they need two codes; if Radiccio was a keying error on INB00109847, correct that invoice. Until then treat BRL costs as approximate. Do not merge silently."
     }
   ]
 }
