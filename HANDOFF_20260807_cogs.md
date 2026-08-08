@@ -113,7 +113,61 @@ Guards added that no file in `data/` is an archive or carries a NUL.
 
 ---
 
-## STILL OPEN — in the order I would do them
+## ALL FIFTEEN CLOSED — 2026-08-08
+
+Commits on `recipes/liquor-pack-discriminator`: `23ea176`, `054db49`, `5c8a845`
+(plus `2f32605` / `49d043d` for §0). Gate at the end: **586 passed, 3 skipped**,
+every guard green, `costs.csv` / `ilg_pricebook.csv` / `lightspeed_recipes_costed.json`
+all reproduce byte-identically, `audit_book` SEVERE 3 throughout.
+costs.csv 3,585 → 3,880 rows.
+
+Three things the audit did not know, found on the way:
+
+1. **148 of 344 ILG lines** carried a unit price overstated by exactly the carton
+   count — $21,950 inc-GST. One invoice booked Heaps Normal at **$64.08 a tin**
+   (true $2.67), the exact number `validator.py`'s docstring names as the silent
+   error it exists to catch.
+2. **Aperol and Rooster Rojo were 30% UNDER** — the flattering direction, not in
+   the audit at all. Aperol proved itself: the same day, a second invoice priced
+   the same bottle 48% higher through a different path.
+3. **`recipe_coverage_pct: 0.0` was stale, not broken.** The wiring landed in
+   `527392f`; all 8 zero files predate it. Re-measured today: 93–95%.
+
+Two judgement calls made deliberately and recorded in the code so they are not
+re-litigated: the §8 **venue filter was measured and rejected** (it would delete
+82 observations across 10 HG/Mari products and freeze each on a January seed —
+one till, one catalogue), and §4 **refuses rather than guesses** where ILG's book
+and its delivery note disagree (Corona, Heaps Normal).
+
+---
+
+## WHAT IS LEFT — none of it is code
+
+1. **Decide on re-parsing the historical ILG invoices.** The §5 fix is
+   forward-only; `cogs_list.csv` merges from stored JSON. Re-parsing would move
+   **195 line prices** (Veuve $484.58 → $80.76). **Blocker first:** `raw_uom`
+   describes the CASE while `qty` now counts BOTTLES, so `cost_per_base_unit`
+   would read 6x low. Reconcile that before re-parsing anything.
+2. **Back Office edits** (`audit_book` now reports these): Angostura HG
+   `20747514` at 8.9% of ILG's book, feeding 4 HG cocktails; Plantation 3 Stars
+   6.43x. Rooster Rojo HG and Alehouse Premium-carrying-Crisp cannot be settled
+   from here — no HG-billed ILG invoice exists.
+3. **A `suppliers.yaml` bounds entry** for White Light Vodka 20 L ($1,012.78) —
+   6 Paramount invoices now flip PASS → REVIEW because the validator is finally
+   running on them.
+4. **Two bad seeds**, harmless today but wrong: `20467596` Garlic Bread seeded
+   $59.81/ea against a Gulli case of 40 (~$1.43); `22873876` Pizza Box Inserts
+   $11.055/ea against a case of 100.
+5. **Lightspeed Produce data entry:** `Chicken Roast`'s protein line is
+   `0.5` **ml** of a whole bird — 0.5 × a bird is the right intent, the unit is
+   meaningless, and because our book prices that item per EACH the units never
+   reconcile, so the line cannot track the B&E invoice. It is also missing the
+   Yorkshire pudding and gravy the other three roasts carry.
+6. **The kitchen questions below.**
+
+---
+
+## (superseded) original open list
 
 1. **§13 sub-recipe $0 fallback.** 24 lines survive only on that gate, incl. BBQ
    Wings on all 23 Wings Deal recipes, while `resolved_pct` reads 100.
