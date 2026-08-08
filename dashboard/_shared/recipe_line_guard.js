@@ -46,7 +46,7 @@
  *
  * PURE. No document, no fetch, no imports — scripts/test_recipe_line_guard.mjs
  * runs it under node against the real feeds. Same split as
- * dashboard/recipes-book/flags_view.js (decides) vs flags.js (draws), and as
+ * dashboard/_shared/flags_view.js (decides) vs flags.js (draws), and as
  * pnl.js vs render.js, which scripts/arch_guard.py enforces.
  */
 

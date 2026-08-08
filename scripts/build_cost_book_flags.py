@@ -15,13 +15,13 @@ sat at exactly the same level of visibility: none.
 
 audit_book.py answers "what in the book is WRONG". This answers a different
 question — "what is BLOCKED, and on whom" — and it renders where the book is
-read, at /recipes-book/. The two are deliberately separate: the auditor's job is
+read, on the Flags tab of /recipes/. The two are deliberately separate: the auditor's job is
 to fail CI while a SEVERE stands; this one's job is to be a work queue that a
-human can finish.
+human can finish, on the Flags tab of /recipes/.
 
 DERIVED FIRST, DECLARED ONLY WHERE DATA CANNOT KNOW
 ---------------------------------------------------
-Five of the six flag families are computed from data/ on every build:
+Eight of the nine flag families are computed from data/ on every build:
 
   no_recipe   revenue whose product has no costed recipe. Straight from
               audit_book.coverage() — the SAME function the auditor uses, so the
@@ -36,6 +36,17 @@ Five of the six flag families are computed from data/ on every build:
   cook_loss   the dollars behind a yield question: the protein line's own cost,
               times what the dish actually sells, times the loss the assumed
               yield implies.
+  structure   a line that disagrees with the other 891 recipes rather than with
+              arithmetic — a component every sibling carries at the same
+              quantity, absent from one; a pack the book takes a twelfth of,
+              taken whole. modules/recipes/book_reconcile.py, which holds the
+              calibration and the two rules that were measured and dropped.
+  batch_yield a batch whose stated inputs come to several times what its own name
+              says it makes. One direction only: a batch can hold less than it
+              makes (water) and can never hold more.
+  price_conflict  our invoice-fed rate and Lightspeed's own rate for the same
+              product, where they are 2x-50x apart and nobody has adjudicated it
+              in data/product_map.csv.
 
 Only the QUESTIONS and the DECISIONS are declared, in data/cost_book_flags.yaml,
 plus the permanent exemptions (an "Open Price" key has no product behind it and
@@ -81,6 +92,13 @@ from audit_book import (                                            # noqa: E402
     bo_product_names, cost_book_latest, coverage, money,
     twin_identity_conflicts,
 )
+# The internal-consistency rules. They are PURE and live under modules/ because
+# they are the model, not the I/O: this file reads the book off disk, hands it
+# over, and does nothing but word the answers and price them.
+from modules.recipes import book_reconcile                          # noqa: E402
+# The unit rules. Same shape and same reason: pure, under modules/, calibrated
+# in its own docstring against the real feeds.
+from modules.recipes import feed_defects                            # noqa: E402
 
 DATA = ROOT / "data"
 BOOK = DATA / "lightspeed_recipes_costed.json"
@@ -102,6 +120,18 @@ TWIN_FLAG_X = 3.0
 # contradicted. Both live examples land on a whole pack count (100.0x and 40.0x),
 # which is the signature of a case priced as one unit.
 SEED_FLAG_X = 3.0
+# The long tail of uncosted products. 299 of the 334 gaps sit under the $500
+# single-product threshold and together they are $20,113 of 13-week revenue —
+# every kitchen add-on, every 'Add Prawns', Sticky Chicken Wings at $41. One
+# flag each would bury the panel; dropping them silently is how "the add-ons are
+# uncosted" stayed true for a year. So the tail is ROLLED UP by reporting group,
+# which is also the unit of work: one Produce recipe per add-on group, not 299.
+TAIL_GROUP_MIN_REV = 500.0
+TAIL_GROUP_MIN_N = 3
+# A unit defect is ranked by the recipe cost that rides on the answer. It is NOT
+# an under-cost — see feed_defect_flags — so it never enters known_impact.
+FEED_DEFECT_HIGH_AT_STAKE = 250.0
+
 # How many times an unclassifiable supplier line must recur before it is a
 # CONFIG gap rather than a one-off oddity. Three deliveries is a standing order.
 VALIDATOR_MIN_SEEN = 3
@@ -257,22 +287,31 @@ def no_recipe_flags(recipes, exempt, min_rev=500.0) -> tuple[list, list]:
     # arrived here twice — two flags, one id, one of them silently overwriting
     # the other in any map keyed by id. Merge on (venue, product) and keep the
     # groups as evidence, which is what they are.
-    merged: dict = defaultdict(lambda: [0.0, set()])
+    # Revenue is kept PER GROUP as well as summed, because the rollup below has
+    # to file a product under ONE group and a re-filed product carries two. Its
+    # biggest group is the one that owns it; splitting the revenue across both
+    # would double-count it, and joining the names ("Harry Gatos Food / Kids")
+    # invents a group that is nobody's queue.
+    merged: dict = defaultdict(lambda: [0.0, defaultdict(float)])
     for (ven, nm, group), rev in gaps.items():
         e = merged[(ven, nm)]
         e[0] += rev
         if group:
-            e[1].add(group)
+            e[1][group] += rev
     pats = [(re.compile(e["match"], re.I), e["reason"]) for e in exempt]
-    flags, skipped = [], []
+    flags, skipped, tail = [], [], []
     for (ven, nm), (rev, groups) in sorted(merged.items(), key=lambda x: -x[1][0]):
         group = " / ".join(sorted(groups))
+        primary = max(groups, key=lambda g: (groups[g], g)) if groups else ""
         hit = next((reason for rx, reason in pats if rx.search(nm)), None)
         if hit:
             skipped.append({"subject": nm, "venue": ven,
                             "revenue_13wk": round(rev, 2), "reason": hit})
             continue
         if rev < min_rev:
+            # Not dropped — held for the rollup below. A product too small to
+            # earn its own flag is not too small to be uncosted.
+            tail.append((ven, primary, nm, rev))
             continue
         annual = rev * 4      # 13 weeks -> a year, stated as such below
         flags.append({
@@ -305,10 +344,71 @@ def no_recipe_flags(recipes, exempt, min_rev=500.0) -> tuple[list, list]:
             "derived": True,
             "source": "audit_book.coverage() over data/products_weekly.csv",
         })
+    flags += _no_recipe_tail_flags(tail, min_rev)
     # The dollar figure is the revenue at stake, NOT an under-cost: how much of
     # that revenue's cost is missing is exactly what having no recipe means we
     # cannot say. Stating it as an impact would be the guess this file refuses.
     return flags, sorted(skipped, key=lambda x: -x["revenue_13wk"])
+
+
+def _no_recipe_tail_flags(tail, min_rev) -> list:
+    """The uncosted long tail, ROLLED UP by (venue, reporting group).
+
+    299 of the 334 coverage gaps are under $500 of 13-week revenue each and
+    $20,113 together: the kitchen add-ons, the pizza add-ons, Sticky Chicken
+    Wings at $41.36. Emitting 299 flags would drown the eight that carry a
+    measured dollar figure; emitting none is what left "the add-ons have no
+    recipes" true and invisible.
+
+    Rolling up by reporting GROUP is not a display convenience, it is the unit
+    of work: 'Add-ons - Kitchen' at Harry Gatos is one sitting with the kitchen
+    and one batch of Produce entries, not 47 separate decisions. Every member is
+    listed in the evidence, so nothing is hidden behind the total — and it is
+    DERIVED, so a group empties itself as the recipes land.
+    """
+    groups: dict = defaultdict(list)
+    for ven, group, nm, rev in tail:
+        groups[(ven, group or "no reporting group")].append((nm, rev))
+    out = []
+    for (ven, group), members in groups.items():
+        rev = sum(r for _n, r in members)
+        if rev < TAIL_GROUP_MIN_REV or len(members) < TAIL_GROUP_MIN_N:
+            continue
+        members.sort(key=lambda m: -m[1])
+        out.append({
+            "id": "no-recipe-tail-" + re.sub(r"[^a-z0-9]+", "-",
+                                             f"{ven} {group}".lower()).strip("-"),
+            "category": "no_recipe",
+            "severity": "high" if rev >= 2000 else "medium",
+            "subject": f"{group} — {len(members)} uncosted lines ({_VENUE_LABEL.get(ven, ven)})",
+            "subject_kind": "product_group",
+            "venue": ven,
+            "what_is_wrong": f"{len(members)} products in this reporting group have "
+                             f"no costed recipe. Each is under the ${min_rev:,.0f} "
+                             f"a product needs to be flagged on its own; together "
+                             f"they are ${rev:,.0f} of 13-week revenue.",
+            "why_it_matters": "These are the lines nobody costs because each one "
+                              "looks too small to matter — extra patty, side "
+                              "aioli, add prawns. They are pure add-on revenue "
+                              "booking at 100% GP, and they are ordered on top "
+                              "of a dish that already carries its own margin.",
+            "impact_per_year": None,
+            "impact_basis": None,
+            "revenue_13wk": round(rev, 2),
+            "revenue_annualised": round(rev * 4, 2),
+            "reporting_group": group,
+            "action": "Cost the group in one pass — most of these are a single "
+                      "ingredient at a stated portion. Anything that genuinely "
+                      "has no food cost belongs in the exempt list in "
+                      "data/cost_book_flags.yaml, not in silence.",
+            "owner": "Kitchen (portions) then Dev (Produce entries)",
+            "evidence": [f"{nm} — ${r:,.0f} in 13wk" for nm, r in members],
+            "derived": True,
+            "source": "audit_book.coverage() over data/products_weekly.csv,"
+                      " rolled up by reporting group",
+        })
+    out.sort(key=lambda f: -f["revenue_13wk"])
+    return out
 
 
 # --------------------------------------------------------------------------
@@ -520,7 +620,435 @@ def validator_config_flags() -> list:
 
 
 # --------------------------------------------------------------------------
-# 6. declared decisions — the numbers inside them still get looked up
+# 6. the book disagreeing with itself — modules/recipes/book_reconcile.py
+# --------------------------------------------------------------------------
+
+def _slug(s: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", (s or "").lower()).strip("-")
+
+
+def _adjudicated_ids() -> set:
+    """Every ProductID somebody has already reconciled against a real invoice,
+    with the reasoning written down in data/product_map.csv. Havana Club is the
+    live example: it sits at exactly 2.0000x and the file says why our figure is
+    the right one. A queue that re-raises settled questions stops being read."""
+    p = DATA / "product_map.csv"
+    if not p.exists():
+        return set()
+    return {"lightspeed:" + (r.get("product_id") or "").strip()
+            for r in csv.DictReader(p.open(encoding="utf-8-sig"))
+            if (r.get("product_id") or "").strip()}
+
+
+def structure_flags(recipes, sold, window="") -> list:
+    """Missing standard components and whole-pack quantities.
+
+    THE DOLLAR IS THE LINE'S OWN COST TIMES WHAT THE DISH SELLS, and nothing
+    else. For a missing component that is exactly the under-cost: the siblings
+    all carry it at one quantity, so the absent line is worth what theirs are
+    worth. No assumption enters, which is why these carry a figure where
+    `batch_yield` below carries none.
+    """
+    out = []
+    for f in book_reconcile.missing_standard_component(recipes):
+        per = f["per_serve_cost"]
+        serves = sold.get(_nrm(f["recipe"]), 0.0)
+        impact = round(per * serves, 2) if per > 0 and serves > 0 else None
+        others = ", ".join(f["carriers"])
+        out.append({
+            "id": f"structure-missing-{_slug(f['recipe'])}-{_slug(f['ingredient'])}",
+            "category": "structure",
+            "severity": "high" if (impact or 0) >= 1000 else "medium",
+            "subject": f"{f['recipe']} — no {f['ingredient']}",
+            "subject_kind": "recipe",
+            "what_is_wrong": (
+                f"{f['carrier_count']} of the {f['family_size']} {f['family']}s carry "
+                f"{f['ingredient']} at exactly {f['qty']} {f['unit']}. This one has no "
+                f"such line at all."),
+            "why_it_matters": "A recipe missing an ingredient under-costs the dish "
+                              "and flatters its GP, which is the dangerous "
+                              "direction — nobody investigates a margin that "
+                              "looks good. The siblings agreeing on the quantity "
+                              "to the decimal is what makes this an omission "
+                              "rather than a different dish.",
+            "question": f"Does {f['recipe']} get {f['ingredient']}? If it does, the "
+                        f"quantity its siblings use is {f['qty']} {f['unit']}.",
+            "impact_per_year": impact,
+            "impact_basis": (
+                f"${per:,.4f} — what this line costs on each of {others} — "
+                f"x {serves:,.0f} serves of {f['recipe']} in the 52 weeks {window}. "
+                f"No yield, waste or portion assumption enters it."
+            ) if impact is not None else None,
+            "action": "Confirm with the kitchen, then add the line in "
+                      "data/recipe_missing_lines.yaml citing the siblings — or "
+                      "say it does not belong on this dish and it stops being "
+                      "asked.",
+            "owner": "Kitchen (does the dish get it?) then Dev (one yaml line)",
+            "evidence": [f"{c}: {f['qty']} {f['unit']} of {f['ingredient']}"
+                         for c in f["carriers"]]
+                        + [f"family '{f['family']}' agrees on "
+                           f"{f['coherence']:.0%} of its ingredients"],
+            "derived": True,
+            "source": "modules/recipes/book_reconcile.missing_standard_component()"
+                      " over data/lightspeed_recipes_costed.json",
+        })
+    for f in book_reconcile.whole_pack_outliers(recipes):
+        serves = sold.get(_nrm(f["recipe"]), 0.0)
+        extra = f["extra_per_serve"]
+        impact = round(extra * serves, 2) if extra > 0 and serves > 0 else None
+        out.append({
+            "id": f"structure-wholepack-{_slug(f['recipe'])}-{_slug(f['ingredient'])}",
+            "category": "structure",
+            "severity": "high" if (impact or 0) >= 1000 else "medium",
+            "subject": f"{f['recipe']} — a whole {f['ingredient']}",
+            "subject_kind": "recipe",
+            "what_is_wrong": (
+                f"This takes {f['qty']:g} of {f['ingredient']}, {f['multiple']:g}x the "
+                f"{f['peer_qty']:g} every other recipe takes. A quantity below 1 can "
+                f"only be a share of a pack, so this line claims the whole pack."),
+            "why_it_matters": "One pack on one plate is the defect that put $2.75 "
+                              "of baby cos on an $8.20 burger and made lettuce "
+                              "dearer than the wagyu. It over-costs the dish, "
+                              "which sends the wrong signal to menu pricing.",
+            "impact_per_year": impact,
+            "impact_basis": (
+                f"${f['line_cost']:,.4f} on this line against ${f['peer_cost']:,.4f} "
+                f"on the same ingredient elsewhere = ${extra:,.4f} a serve, "
+                f"x {serves:,.0f} serves in the 52 weeks {window}."
+            ) if impact is not None else None,
+            "action": "Weigh or count one serve and enter that fraction. The "
+                      "builder at /recipes/ warns on this as it is typed.",
+            "owner": "Kitchen",
+            "evidence": [f"{p}: {f['peer_qty']:g}" for p in f["peers"]],
+            "derived": True,
+            "source": "modules/recipes/book_reconcile.whole_pack_outliers()"
+                      " over data/lightspeed_recipes_costed.json",
+        })
+    return out
+
+
+def batch_yield_flags(recipes) -> list:
+    """A batch that states more than it makes.
+
+    NO DOLLAR FIGURE, deliberately. Either the name is wrong or the quantity is,
+    and the two readings have opposite consequences — if "Cooked Beef Brisket
+    [1Kg]" really is 10 kg then its per-kilo rate is ten times too high, and if
+    it really is 1 kg then the brisket line is. Picking one to size the flag
+    would be the guess this whole feed refuses.
+    """
+    out = []
+    for f in book_reconcile.batch_overflow(recipes):
+        consumers = sorted({n for n, r in recipes.items()
+                            for ln in (r.get("ingredients") or [])
+                            if ln.get("kind") == "subrecipe" and ln.get("ref") == f["recipe"]})
+        big = f["biggest_line"]
+        out.append({
+            "id": "batch-yield-" + _slug(f["recipe"]),
+            "category": "batch_yield",
+            "severity": "high" if f["multiple"] >= 5 else "medium",
+            "subject": f["recipe"],
+            "subject_kind": "prep",
+            "what_is_wrong": (
+                f"The name says it makes {f['declared']:,.0f} {f['declared_unit']}. "
+                f"Its lines add up to {f['inputs']:,.0f} — {f['multiple']:g}x that. "
+                f"A batch cannot hold more than it makes."),
+            "why_it_matters": "Everything downstream divides by the declared "
+                              "yield, so the per-unit rate this batch publishes "
+                              "is out by the same multiple — and the book page "
+                              "shows it as fact. Which of the two numbers is "
+                              "wrong changes which way.",
+            "question": f"Is {f['recipe']} a {f['declared']:,.0f} {f['declared_unit']} "
+                        f"batch, or is the {big[2]} {big[3]} of {big[0]} wrong?",
+            "impact_per_year": None,
+            "impact_basis": None,
+            "action": "Say which number is the kitchen's. If the yield is wrong, "
+                      "rename the recipe in Produce; if a quantity is, fix it "
+                      "there — or, where the unit is provably a typo, in "
+                      "data/recipe_line_unit_fixes.yaml with the arithmetic.",
+            "owner": "Kitchen",
+            "evidence": [f"largest line: {big[2]} {big[3]} of {big[0]}",
+                         f"batch costs ${f['batch_cost']:,.2f} as it stands"]
+                        + ([f"drawn on by {', '.join(consumers)}"] if consumers else
+                           ["nothing draws on it as a sub-recipe"]),
+            "derived": True,
+            "source": "modules/recipes/book_reconcile.batch_overflow()"
+                      " over data/lightspeed_recipes_costed.json",
+        })
+    return out
+
+
+def price_conflict_flags(recipes, sold, window="") -> list:
+    """Our rate and Lightspeed's rate for one product, 2x-50x apart.
+
+    `impact_per_year` IS NULL ON EVERY ONE OF THESE, on purpose, and the spread
+    goes in the evidence instead. A spread is not an under-cost: we do not know
+    which of the two prices is wrong, only that the recipes cost off ours, so
+    the figure says how much recipe cost rides on the answer. The panel's
+    headline reads "$X a year of under-cost that has actually been measured";
+    adding a number that might move either way would make that sentence false.
+    It still sorts by money, because the spread sets the severity.
+    """
+    twins = {m[1] for _ratio, members in
+             twin_identity_conflicts(cost_book_latest(), bo_product_names())
+             for m in members}
+    out = []
+    for f in book_reconcile.price_conflicts(recipes, _adjudicated_ids(), twins):
+        per_year, parts = 0.0, []
+        for name, r in recipes.items():
+            for ln in (r.get("ingredients") or []):
+                if ln.get("ref") != f["ref"] or ln.get("kind") != "id":
+                    continue
+                try:
+                    gap = abs(float(ln.get("eff_cost") or 0) - float(ln.get("ls_cost") or 0))
+                except (TypeError, ValueError):
+                    continue
+                q = sold.get(_nrm(name), 0.0)
+                if gap > 0 and q > 0:
+                    per_year += gap * q
+                    parts.append(f"{name} ${gap:,.4f}/serve x {q:,.0f}")
+        spread = round(per_year, 2) if per_year > 0 else None
+        dearer = "above" if f["ours_is_dearer"] else "below"
+        out.append({
+            "id": "price-conflict-" + _slug(f["ingredient"]),
+            "category": "price_conflict",
+            "severity": "high" if (spread or 0) >= 500 else "medium",
+            "subject": f["ingredient"],
+            "subject_kind": "ingredient",
+            "what_is_wrong": (
+                f"Our book holds this at ${f['our_rate']:,.6f}/{f['unit']}, "
+                f"{f['ratio']:g}x {dearer} the ${f['ls_rate']:,.6f} Lightspeed's own "
+                f"recipe cost implies. Both cannot be this product's price."),
+            "why_it_matters": "Every recipe costs off ours, so if ours is the "
+                              "wrong one the error is already in the P&L. The "
+                              "median ingredient in this book agrees with "
+                              "Lightspeed to 0.1% and 380 of 461 agree within "
+                              "10%, so a 2x gap is not a price that moved.",
+            "question": "Which of the two prices is this product's real price?",
+            "impact_per_year": None,
+            "impact_basis": None,
+            "action": "Check one invoice for this product. Then correct whichever"
+                      "side is wrong — Back Office if Lightspeed's, "
+                      "data/pack_overrides.yaml if ours read the pack wrong — and "
+                      "record the answer in data/product_map.csv so it is never "
+                      "asked again.",
+            "owner": "Zak (which price is real) then Dev",
+            "evidence": ([f"${spread:,.0f} a year of recipe cost rides on the "
+                          f"answer — a SPREAD, not a loss, which is why this flag "
+                          f"states no impact: {'; '.join(parts)}, over the 52 "
+                          f"weeks {window}"] if spread else [])
+                        + [f"used by {', '.join(f['recipes'])}",
+                           f"those lines cost ${f['our_line_total']:,.2f} on our book "
+                           f"and ${f['ls_line_total']:,.2f} on Lightspeed's"],
+            "derived": True,
+            "source": "modules/recipes/book_reconcile.price_conflicts() over"
+                      " data/lightspeed_recipes_costed.json, minus every"
+                      " ProductID already adjudicated in data/product_map.csv",
+        })
+    return out
+
+
+# --------------------------------------------------------------------------
+# 7. units the feed cannot mean — modules/recipes/feed_defects.py
+# --------------------------------------------------------------------------
+
+def _ingredients() -> list:
+    """data/ingredients.json, or [] if this build has not generated it yet.
+
+    build_site.py runs build_ingredients.py BEFORE this script for exactly that
+    reason. Missing is not an error: the family simply does not appear, the same
+    way a missing rollup means no annual window. Half a feed is worse than an
+    absent one.
+    """
+    f = DATA / "ingredients.json"
+    if not f.exists():
+        return []
+    return json.loads(f.read_text(encoding="utf-8-sig")).get("ingredients") or []
+
+
+def _cost_riding_on(recipes, ref, sold) -> tuple:
+    """-> (dollars of recipe cost a year that flow through this ingredient, how).
+
+    NOT an under-cost and never reported as one: it is what the recipes charge
+    today through a record whose unit nobody can read. It sizes the question —
+    which is the whole reason the panel can rank these — without asserting that
+    a dollar of it is lost. Same discipline as price_conflict.
+    """
+    total, parts = 0.0, []
+    for name, r in recipes.items():
+        if r.get("is_prep"):
+            continue          # a prep is not sold; whatever draws on it is
+        for ln in (r.get("ingredients") or []):
+            if ln.get("kind") != "id" or ln.get("ref") != ref:
+                continue
+            eff = money(ln.get("eff_cost"))
+            q = sold.get(_nrm(name), 0.0)
+            if eff > 0 and q > 0:
+                total += eff * q
+                parts.append(f"{name} ${eff:,.4f}/serve x {q:,.0f}")
+    return round(total, 2), parts
+
+
+def feed_defect_flags(recipes, sold, window="") -> list:
+    """One flag per record (or per line group) whose UNIT cannot be that
+    product's unit.
+
+    `impact_per_year` IS NULL ON EVERY ONE, and that is not timidity: we do not
+    know which side of the contradiction is wrong, so we cannot say what it
+    costs. What we can say exactly is how much recipe cost is drawn through the
+    bad record each year, and that goes in `cost_at_stake_per_year` — a
+    separate field with a separate word on the panel, so it can never be added
+    to the headline "under-cost that has actually been measured".
+    """
+    ings = _ingredients()
+    if not ings:
+        return []
+    out = []
+
+    for f in feed_defects.pack_unit_contradicts_name(ings):
+        stake, parts = _cost_riding_on(recipes, f["id"], sold)
+        container = f["kind"] == "container"
+        out.append({
+            "id": "feed-unit-" + _slug(f["description"]),
+            "category": "feed_defect",
+            "severity": "high" if stake >= FEED_DEFECT_HIGH_AT_STAKE else "medium",
+            "subject": f["description"],
+            "subject_kind": "ingredient",
+            "what_is_wrong": (
+                f"The name says this is sold by the {f['name_unit']} and the cost "
+                f"book prices it per {f['pack_unit']}, at ${f['rate']:,.4f} per "
+                f"{f['pack_unit']}."
+                + (" A cauliflower, a loaf of bread and an egg do not come in a "
+                   "can — this is Lightspeed's default pack unit sitting on a "
+                   "produce line." if container else
+                   " Those are not the same kind of measurement, so the rate is "
+                   "in a unit the product does not have.")),
+            "why_it_matters": "Every recipe line and every builder rate drawn off "
+                              "this record inherits the unit. It is the same "
+                              "family as the whole chicken logged as '0.5 ml' and "
+                              "the $10,530 Peking Sauce batch — the dollar figure "
+                              "can look right for years while the unit makes it "
+                              "impossible to check.",
+            "question": f"Is one {f['pack_unit']} of \u201c{f['description']}\u201d one "
+                        f"{f['name_unit']}, or does the pack hold several?",
+            "impact_per_year": None,
+            "impact_basis": None,
+            "cost_at_stake_per_year": stake or None,
+            "cost_at_stake_basis": (
+                f"${stake:,.2f} of recipe cost a year is drawn through this record "
+                f"over the 52 weeks {window}. It is what rides on the answer, NOT "
+                f"a loss — the quantity may well be right. Lines: "
+                f"{'; '.join(parts)}." if stake else None),
+            "action": f"Set the pack unit on {f['id']} in Lightspeed Back Office to "
+                      f"the unit the invoice states, then re-run the invoice "
+                      f"bridge. If the pack really does hold several, record the "
+                      f"count in data/pack_overrides.yaml instead.",
+            "owner": "Back office (Lightspeed) then Dev",
+            "evidence": [f"{f['id']} ({f['supplier']}): ${f['rate']:,.4f} per "
+                         f"{f['pack_unit']}, name declares [{f['name_unit']}]"]
+                        + ([f"used by {len(parts)} sold recipe(s)"] if parts else
+                           ["no sold recipe draws on it today"]),
+            "derived": True,
+            "source": "modules/recipes/feed_defects.pack_unit_contradicts_name()"
+                      " over data/ingredients.json",
+        })
+
+    for f in feed_defects.product_priced_in_two_worlds(ings):
+        stake = 0.0
+        parts: list = []
+        for m in f["members"]:
+            st, pt = _cost_riding_on(recipes, m["id"], sold)
+            stake += st
+            parts += pt
+        hi, lo = f["members"][0], f["members"][-1]
+        two_dims = f["kind"] == "two_dimensions"
+        out.append({
+            "id": "feed-two-worlds-" + _slug(f["stem"]),
+            "category": "feed_defect",
+            "severity": "high" if (two_dims or stake >= FEED_DEFECT_HIGH_AT_STAKE)
+                        else "medium",
+            "subject": hi["description"],
+            "subject_kind": "ingredient",
+            "what_is_wrong": (
+                f"The cost book holds this product at ${hi['rate']:,.4f} per "
+                f"{hi['pack_unit']} and at ${lo['rate']:,.4f} per {lo['pack_unit']} "
+                f"— {f['ratio']:,.1f}x apart."
+                + (" One is a weight and the other a volume, and it cannot be both."
+                   if two_dims else
+                   " One prices the container and the other prices the piece, so "
+                   "anything reaching the first charges a whole pack for one of "
+                   "them.")),
+            "why_it_matters": "Both records are internally consistent, so no rule "
+                              "that checks a price against its own history can see "
+                              "it. Which one a recipe reaches is decided by which "
+                              "ProductID somebody happened to pick.",
+            "question": "Which of these two records is this product, and what "
+                        "happens to the other one?",
+            "impact_per_year": None,
+            "impact_basis": None,
+            "cost_at_stake_per_year": round(stake, 2) or None,
+            "cost_at_stake_basis": (
+                f"${stake:,.2f} of recipe cost a year flows through these records "
+                f"over the 52 weeks {window} — what rides on the answer, not a "
+                f"loss. Lines: {'; '.join(parts)}." if stake else None),
+            "action": "Check one invoice. Retire or correct the wrong record, and "
+                      "record the answer in data/product_map.csv so it is never "
+                      "asked again.",
+            "owner": "Zak (which record is real) then Dev",
+            "evidence": [f"{m['id']} ({m['supplier']}): ${m['rate']:,.4f} per "
+                         f"{m['pack_unit']} \u2014 \u201c{m['description']}\u201d"
+                         for m in f["members"]],
+            "derived": True,
+            "source": "modules/recipes/feed_defects.product_priced_in_two_worlds()"
+                      " over data/ingredients.json",
+        })
+
+    for f in feed_defects.line_unit_contradicts_pack(recipes, ings):
+        stake, parts = _cost_riding_on(recipes, f["id"], sold)
+        worst = f["lines"][0]
+        out.append({
+            "id": "feed-line-unit-" + _slug(f["description"]),
+            "category": "feed_defect",
+            "severity": "high" if stake >= FEED_DEFECT_HIGH_AT_STAKE else "medium",
+            "subject": f"{f['description']} \u2014 {f['line_count']} line(s) in the wrong unit",
+            "subject_kind": "ingredient",
+            "what_is_wrong": (
+                f"This is bought by the {f['pack_unit']} at ${f['rate']:,.4f}, and "
+                f"{f['line_count']} recipe line(s) measure it in g or mL — "
+                f"{worst['recipe']} takes \u201c{worst['qty']} {worst['unit']}\u201d of it."),
+            "why_it_matters": "The QUANTITY is usually right and the unit is "
+                              "meaningless, which is the worst combination: the "
+                              "cost is correct, so nothing fails, and the line "
+                              "reads as an error to every human who sees it and "
+                              "gets raised again. American Standard Burger's "
+                              "lettuce is 0.083 of a twin pack ($0.23, exactly "
+                              "what the book charges) labelled 'ml'.",
+            "question": f"In {worst['recipe']}, is \u201c{worst['qty']} {worst['unit']}\u201d "
+                        f"meant to be {worst['qty']} {f['pack_unit']}?",
+            "impact_per_year": None,
+            "impact_basis": None,
+            "cost_at_stake_per_year": stake or None,
+            "cost_at_stake_basis": (
+                f"${stake:,.2f} of recipe cost a year runs through these lines over "
+                f"the 52 weeks {window}. The cost is not disputed — the unit is. "
+                f"Lines: {'; '.join(parts)}." if stake else None),
+            "action": "Correct the unit on these lines in Lightspeed Produce (the "
+                      "quantity stays as it is), or, where the arithmetic proves "
+                      "the unit is a typo, add the entry to "
+                      "data/recipe_line_unit_fixes.yaml with the proof.",
+            "owner": "Kitchen (Produce) \u2014 no cost changes",
+            "evidence": [f"{l['recipe']}: {l['qty']} {l['unit']} = ${l['eff_cost']:,.4f}"
+                         + (" (batch)" if l["is_prep"] else "")
+                         for l in f["lines"]],
+            "derived": True,
+            "source": "modules/recipes/feed_defects.line_unit_contradicts_pack()"
+                      " over data/lightspeed_recipes_costed.json"
+                      " + data/ingredients.json",
+        })
+    return out
+
+
+# --------------------------------------------------------------------------
+# 8. declared decisions — the numbers inside them still get looked up
 # --------------------------------------------------------------------------
 
 def _latest_any() -> dict:
@@ -607,6 +1135,23 @@ CATEGORIES = [
     {"key": "cook_loss", "title": "Yields we have never measured",
      "why": "Every one of these prices a cooked portion at the raw rate, so the "
             "dish under-costs. A kitchen scale closes them."},
+    {"key": "structure", "title": "Lines that disagree with the rest of the book",
+     "why": "Not arithmetic — internal consistency. A component every sibling "
+            "carries at the same quantity, missing from one; a pack the book "
+            "takes a twelfth of, taken whole. This is the class Zak has twice "
+            "caught by eye and no other check sees."},
+    {"key": "batch_yield", "title": "Batches that hold more than they make",
+     "why": "The name declares a yield and the lines add up to several times it. "
+            "Everything downstream divides by that yield."},
+    {"key": "price_conflict", "title": "One product, two prices",
+     "why": "Our invoice-fed rate and Lightspeed's own rate for the same stock "
+            "item, 2x-50x apart, with nothing in data/product_map.csv settling "
+            "it. The recipes cost off ours."},
+    {"key": "feed_defect", "title": "Units the feed cannot mean",
+     "why": "A lemon priced per millilitre, a cauliflower priced per can, a "
+            "burger line that takes '0.083 ml' of a twin pack. The dollar figure "
+            "can be right while the unit is nonsense — which is why these get "
+            "re-raised by eye every few weeks and never close."},
     {"key": "no_recipe", "title": "Sold, but no costed recipe",
      "why": "The P&L falls through to Lightspeed for these, and where Lightspeed "
             "has no cost either the revenue books at 100% GP."},
@@ -637,11 +1182,16 @@ def build() -> dict:
     flags += twin_flags(recipes)
     flags += bad_seed_flags()
     flags += validator_config_flags()
+    flags += structure_flags(recipes, sold, window)
+    flags += batch_yield_flags(recipes)
+    flags += price_conflict_flags(recipes, sold, window)
+    flags += feed_defect_flags(recipes, sold, window)
     flags += declared_flags(spec.get("declared") or [])
 
     flags.sort(key=lambda f: (SEVERITY_RANK.get(f["severity"], 9),
                               -(f.get("impact_per_year") or 0),
                               -(f.get("revenue_13wk") or 0),
+                              -(f.get("cost_at_stake_per_year") or 0),
                               f["id"]))
 
     known = [f["impact_per_year"] for f in flags if f.get("impact_per_year")]

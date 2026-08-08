@@ -1,7 +1,7 @@
 # What the cost book still needs from a human — the DECLARED half.
 #
 # scripts/build_cost_book_flags.py writes data/cost_book_flags.json, which the
-# recipe book renders at /recipes-book/. Almost everything on that panel is
+# recipe book renders on the Flags tab of /recipes/. Almost everything on that panel is
 # DERIVED from data/ at build time — the dishes with no costed recipe, the stock
 # items held twice at two prices, the seed rows an invoice has since contradicted,
 # the invoice lines no sanity bound admits. Those are not listed here and must

@@ -5,7 +5,7 @@ WHAT IT IS
 ----------
 scripts/build_cost_book_flags.py writes data/cost_book_flags.json — one place
 for everything the cost book still needs from a human, rendered at
-/recipes-book/. It replaces a set of HANDOFF_*.md files that nobody opened, in
+the Flags tab of /recipes/. It replaces a set of HANDOFF_*.md files that nobody opened, in
 which a $2,726-a-year lamb-yield question and a seed row an invoice had already
 superseded were equally visible: not at all.
 
@@ -30,6 +30,11 @@ THE TWO WAYS A WORK QUEUE DIES, AND WHAT GUARDS THEM HERE
 
 THE NUMBERS THIS FILE HOLDS, MEASURED 2026-08-08
 ------------------------------------------------
+    54 flags — 17 high, 35 medium, 2 low. Ten of them come from
+    modules/recipes/book_reconcile.py, which checks the book against itself
+    rather than against arithmetic (2 structure, 4 batch_yield, 4 price_conflict)
+    and is tested in modules/recipes/tests/test_book_reconcile.py.
+
     44 flags — 12 high, 30 medium, 2 low
     $9,202/yr of measurable under-cost across 6 of them, all cook loss:
         Achiote Chicken [15Kg]      $2,991     Beef Roast     $501
@@ -88,17 +93,64 @@ def test_the_no_recipe_list_is_the_auditors_own_coverage_call():
 
 def test_every_uncosted_dish_over_the_threshold_becomes_a_flag(feed):
     """Recompute the gaps independently and demand the same set. If someone
-    ever hardcodes this list, the next recipe to land will not remove itself."""
+    ever hardcodes this list, the next recipe to land will not remove itself.
+
+    The rolled-up long tail (subject_kind "product_group") is a different claim
+    about the same coverage call and has its own test below — one product one
+    flag still has to hold for everything above the threshold."""
     recipes = json.loads(flags.BOOK.read_text(encoding="utf-8-sig"))["recipes"]
     _tot, _cov, gaps = audit_book.coverage(recipes)
     merged: dict = {}
     for (ven, nm, _g), rev in gaps.items():
         merged[(ven, nm)] = merged.get((ven, nm), 0.0) + rev
     expected = {nm for (ven, nm), rev in merged.items() if rev >= 500.0}
-    got = {f["subject"] for f in _by_cat(feed, "no_recipe")}
+    got = {f["subject"] for f in _by_cat(feed, "no_recipe")
+           if f.get("subject_kind") != "product_group"}
     exempted = {e["subject"] for e in feed["exempt"]}
     assert got == expected - exempted, sorted(got ^ (expected - exempted))
     assert got, "coverage() found no gaps at all — that is a broken join, not a clean book"
+
+
+def test_the_uncosted_long_tail_is_rolled_up_and_not_dropped(feed):
+    """299 of the 334 coverage gaps are under $500 each and $20,113 together —
+    every kitchen add-on, every 'Add Prawns', Sticky Chicken Wings at $41.36.
+    They were not on the panel at all. They are now one flag per reporting
+    group, which is also the unit of work, with every member named in the
+    evidence so nothing hides behind a total."""
+    recipes = json.loads(flags.BOOK.read_text(encoding="utf-8-sig"))["recipes"]
+    _tot, _cov, gaps = audit_book.coverage(recipes)
+    merged: dict = {}
+    for (ven, nm, _g), rev in gaps.items():
+        merged[(ven, nm)] = merged.get((ven, nm), 0.0) + rev
+    tail_products = {nm for (_v, nm), rev in merged.items() if rev < 500.0}
+    assert len(tail_products) > 200, len(tail_products)
+
+    rollups = [f for f in _by_cat(feed, "no_recipe")
+               if f.get("subject_kind") == "product_group"]
+    assert rollups, "the entire uncosted long tail is missing from the panel"
+    named = {e.split(" — $")[0] for f in rollups for e in f["evidence"]}
+
+    # The add-on groups Zak names, and the $41 dish that was invisible.
+    assert any("Add-ons - Kitchen" in f["subject"] for f in rollups), \
+        [f["subject"] for f in rollups]
+    assert "Sticky Chicken Wings" in named
+
+    for f in rollups:
+        # No rollup may be a bare total. If it cannot name at least three
+        # products it is not a group, it is three flags pretending to be one.
+        assert len(f["evidence"]) >= 3, f["id"]
+        assert f["revenue_13wk"] >= 500.0, f["id"]
+        # A rollup states revenue at stake, never an under-cost — how much of
+        # an uncosted dish's cost is missing is what having no recipe means we
+        # cannot say.
+        assert f["impact_per_year"] is None, f["id"]
+        assert f["derived"] is True
+
+    # Every product in a rollup is genuinely below the individual threshold, so
+    # nothing appears both as its own flag and inside a group.
+    solo = {f["subject"] for f in _by_cat(feed, "no_recipe")
+            if f.get("subject_kind") != "product_group"}
+    assert not (named & solo), sorted(named & solo)
 
 
 def test_the_list_is_long_enough_to_be_the_real_queue(feed):
@@ -247,6 +299,55 @@ def test_a_declared_flag_re_reads_its_prices_from_disk(feed):
     assert any("ilg:122-2867" in e and "184.94" in e for e in hg["evidence"]), hg["evidence"]
 
 
+# --- the book disagreeing with itself --------------------------------------
+
+def test_a_missing_component_is_priced_off_its_own_siblings(feed):
+    """The one family here whose dollar figure needs NO assumption at all. Three
+    burritos carry 55 g of Mexican cheese; the fourth carries none. What the
+    missing line would cost is exactly what theirs cost — no yield, no waste, no
+    portion guess — times what the dish sells."""
+    f = next(x for x in _by_cat(feed, "structure") if "Cauliflower Burrito" in x["subject"])
+    assert 100 < f["impact_per_year"] < 250, f["impact_per_year"]
+    assert "0.8250" in f["impact_basis"]
+    assert "No yield, waste or portion assumption enters it." in f["impact_basis"]
+    assert len(f["evidence"]) == 4          # three carriers plus the coherence
+
+
+def test_a_batch_that_holds_more_than_it_makes_states_no_dollar(feed):
+    """Either "Cooked Beef Brisket [1Kg]" is a 10 kg batch or its brisket line is
+    wrong, and the two readings move the per-kilo rate in opposite directions.
+    Sizing it would mean picking one — the guess this feed refuses."""
+    got = {f["subject"]: f for f in _by_cat(feed, "batch_yield")}
+    assert set(got) == {"Cooked Beef Brisket [1Kg]", "Mango-Chilli Puree [1L]",
+                        "Jalapeño Tequila [1L]", "Coconut-washed Rooster Blanco [1L]"}
+    for f in got.values():
+        assert f["impact_per_year"] is None
+        assert f["question"]
+    assert "11.45x" in got["Cooked Beef Brisket [1Kg]"]["what_is_wrong"]
+
+
+def test_a_price_conflict_reports_a_spread_and_calls_it_one(feed):
+    """A spread is not an under-cost: nobody knows yet which of the two prices is
+    wrong. It goes in the evidence, in words, and impact_per_year stays null so
+    the panel's headline — "$X a year of under-cost that has actually been
+    measured" — stays a true sentence. The spread still sets the severity, so it
+    sorts by money anyway."""
+    pcs = {f["subject"]: f for f in _by_cat(feed, "price_conflict")}
+    assert "Massenez Elderflower [5L]" in pcs, sorted(pcs)
+    m = pcs["Massenez Elderflower [5L]"]
+    assert m["impact_per_year"] is None
+    assert m["severity"] == "high"
+    assert "SPREAD, not a loss" in m["evidence"][0]
+    assert "10.47x above" in m["what_is_wrong"]
+
+
+def test_the_headline_still_counts_only_measured_under_cost(feed):
+    """The regression that keeps the sentence honest: everything with a dollar
+    figure is a cost the book is actually missing, not a spread or a revenue."""
+    assert {f["category"] for f in feed["flags"] if f["impact_per_year"]} <= {
+        "cook_loss", "structure"}
+
+
 # --- the contract the panel reads ------------------------------------------
 
 def test_every_flag_carries_the_whole_contract(feed):
@@ -270,7 +371,7 @@ def test_ids_are_unique_and_reproducible(feed):
 
 
 def test_every_category_the_flags_use_is_one_the_panel_draws(feed):
-    """dashboard/recipes-book/flags_view.js draws sections from `categories`.
+    """dashboard/_shared/flags_view.js draws sections from `categories`.
     A family missing from that list exists in the feed and reaches no screen."""
     known = {c["key"] for c in feed["categories"]}
     assert {f["category"] for f in feed["flags"]} <= known

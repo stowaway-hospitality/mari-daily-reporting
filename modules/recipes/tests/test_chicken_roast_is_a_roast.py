@@ -53,7 +53,7 @@ Authoring a fresh serve recipe in data/recipes/stowaway.yaml would NOT have
 worked, and the reason is structural rather than stylistic: a yaml recipe with no
 `yield_qty` is invisible to convert_lightspeed_recipes.load_our_preps (it returns
 None without a yield), so it never reaches data/lightspeed_recipes_costed.json —
-which is what dashboard/recipes-book, scripts/audit_book.py, recipes_full.json
+which is what the /recipes/ book tab, scripts/audit_book.py, recipes_full.json
 and the flags feed all read. Only cogs_blend._load_our_costs would have seen it.
 The book would have gone on publishing $4.3931 and a 0.5 ml bird while the P&L
 quietly used a different figure. That split already exists for four products

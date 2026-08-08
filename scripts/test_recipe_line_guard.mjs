@@ -280,15 +280,23 @@ if (full) {
    behaviour markers. And the DECIDING must not migrate back into the HTML —
    the rule words below belong to the module and nowhere else. */
 {
-  const page = fs.readFileSync(path.join(ROOT, 'modules/recipes/app/index.html'), 'utf8');
+  // The builder's script left index.html when the book and the builder became
+  // one module with tabs; it is dashboard/_shared/recipe_builder.js now, moved
+  // verbatim. The wiring is asserted where the code is, and the "no logic in
+  // the HTML" half is asserted against the shell — which is now a stronger
+  // claim than it was, because the shell holds no builder code at all.
+  const page = fs.readFileSync(path.join(ROOT, 'dashboard/_shared/recipe_builder.js'), 'utf8');
+  const shell = fs.readFileSync(path.join(ROOT, 'modules/recipes/app/index.html'), 'utf8');
   ok('the builder imports the guard', page.includes("from '/_shared/recipe_line_guard.js'"));
   ok('every line has a warning slot', page.includes('id="lw-${k}"'));
   ok('the slot is painted on every recompute', page.includes('warningsHtml(builderLineWarnings('));
   ok('a batch is passed through, so batch rules can switch off', page.includes('isBatch: isPrep'));
   ok('the peer history is passed through', page.includes('peerQuantities:'));
   for (const token of ['twin\\s*pack', 'PEER_MAX_MULTIPLE', 'COUNT_PACK_QTY_CEILING', 'punnet']) {
-    ok(`no rule logic in index.html — "${token}" stays in the module`, !page.includes(token));
+    ok(`no rule logic in index.html — "${token}" stays in the module`, !shell.includes(token));
   }
+  ok('...and the shell holds no builder logic either, after the merge',
+     !shell.includes('function lineCost') && !shell.includes('buildYaml'));
   ok('the module is the only place the thresholds live',
      fs.readFileSync(path.join(ROOT, 'dashboard/_shared/recipe_line_guard.js'), 'utf8')
        .includes('PEER_MAX_MULTIPLE = 10'));

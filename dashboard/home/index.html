@@ -77,8 +77,14 @@ const TOOLS = [
   { href: '/pricing/', cls: 'hg', title: 'Price Comparison',
     desc: 'What each ingredient costs per kg/L across suppliers — cheapest flagged, creeping costs caught.',
     roles: ['admin','bigchef','stowfood','hgfood','pizza'] },
-  { href: '/recipes-book/', cls: 'stow', title: 'Recipe Book',
-    desc: 'Every dish and drink costed off our own invoice-fed book, with menu price and gross profit — thin GPs flagged.',
+  // The book is now the first TAB of /recipes/, not a page of its own. The old
+  // href still resolves (dashboard/recipes-book/ is a redirect stub) but the
+  // home tile should not send anybody through a redirect.
+  { href: '/recipes/#book', cls: 'stow', title: 'Recipe Book',
+    desc: 'Every dish and drink costed off our own invoice-fed book, with menu price and gross profit — thin GPs flagged. Tap a row to open it in the builder.',
+    roles: ['admin','bigchef','stowfood','hgfood','pizza'] },
+  { href: '/recipes/#flags', cls: 'hg', title: 'Cost book flags',
+    desc: 'What the cost book still needs from a human — missing yields, uncosted dishes, units that cannot be read — ranked by the dollars riding on the answer.',
     roles: ['admin','bigchef','stowfood','hgfood','pizza'] },
   { href: '/admin/',   cls: 'mari', title: 'Team',
     desc: 'Invite people and set what they can do.',

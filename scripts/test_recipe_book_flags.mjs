@@ -2,7 +2,7 @@
 
    WHAT THIS IS FOR
    ----------------
-   The panel at /recipes-book/ is a work queue. Its whole value is that a human
+   The Flags tab of /recipes/ is a work queue. Its whole value is that a human
    reads it and believes it, and the two ways a work queue loses that are:
 
      * it shows an unknown as a zero, so the reader deprioritises a real problem
@@ -12,7 +12,7 @@
 
    Both are display bugs. Neither fails a pytest, neither fails a deploy, and
    both would ship as a wrong number on a chef's screen. So the deciding half of
-   the panel is a pure function (dashboard/recipes-book/flags_view.js — the same
+   the panel is a pure function (dashboard/_shared/flags_view.js — the same
    split arch_guard enforces between pnl.js and render.js) and this runs it.
 
    It runs against the REAL data/cost_book_flags.json when one has been built,
@@ -26,7 +26,7 @@ import { fileURLToPath } from 'url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const view = await import(
-  'file://' + path.join(ROOT, 'dashboard/recipes-book/flags_view.js'));
+  'file://' + path.join(ROOT, 'dashboard/_shared/flags_view.js'));
 
 let fails = 0, n = 0;
 const ok = (label, cond, extra = '') => {

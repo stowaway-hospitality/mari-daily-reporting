@@ -15,11 +15,29 @@ that way.
 | `data.js`   | Async loaders that fetch feeds into `STATE` | fetch only | via render test |
 | `render.js` | All DOM rendering + UI event handlers | Yes | `scripts/test_dashboard_render.mjs` (drives `render()` over venue × timeframe) |
 
-One more module lives here but belongs to a different page:
+### The recipe module (`/recipes/`) also lives here
+
+`/recipes-book/` (the costed book) and `/recipes/` (the builder) used to be two
+pages. They are **one page with four tabs** — Book, Build, Prep timer, Flags —
+and `dashboard/recipes-book/index.html` is now a redirect stub, because a URL is
+a contract. Same layering, same reason:
 
 | File | Responsibility | Touches DOM? | Tested by |
 |------|----------------|--------------|-----------|
-| `recipe_line_guard.js` | Pure plausibility rules for one line of the recipe **builder** (`/recipes/`) — a whole twin-pack of cos on a burger, a bun priced per litre. Returns warnings; the page draws them. Never blocks a save. | No | `scripts/test_recipe_line_guard.mjs` (named cases + re-calibration against the real book on every run) |
+| `recipe_tabs.js` | Pure routing: which tab a URL opens, and where `/recipes-book/` redirects to. Every historical URL form is a case. | No | `scripts/test_recipe_tabs.mjs` |
+| `recipe_book_view.js` | Pure: the book's filtering, sorting and row HTML. Every row is a control (`role="button"`, `tabindex="0"`) because clicking one opens it in Build. | No | `scripts/test_recipe_book_view.mjs` |
+| `recipe_book.js` | The Book tab's DOM: fetch the feeds, draw, one delegated click/keydown listener for 913 rows. | Yes | via the view test + the shell test |
+| `recipe_builder.js` | Build + Prep timer, moved verbatim out of the old `index.html`. Owns the save path. | Yes | `scripts/test_recipe_builder_load.mjs` (drives it over the real feeds) |
+| `recipe_line_guard.js` | Pure plausibility rules for one line of the **builder** — a whole twin-pack of cos on a burger, a bun priced per litre. Returns warnings; the page draws them. Never blocks a save. | No | `scripts/test_recipe_line_guard.mjs` (named cases + re-calibration against the real book on every run) |
+| `flags_view.js` | Pure: the cost-book work queue as HTML. Computes no money — every figure is read verbatim from `data/cost_book_flags.json`. | No | `scripts/test_recipe_book_flags.mjs`, `scripts/test_recipe_flags_families.mjs` |
+| `flags.js` | The Flags tab's DOM: fetch the feed, draw it, wire the one filter. | Yes | via the two flag suites |
+| `recipes_page.js` | The page: one auth gate, four tabs, the deep links. `modules/recipes/app/index.html` calls `start()` and nothing else. | Yes | `scripts/test_recipes_page_shell.mjs` |
+
+The shell test is the one that makes the merge safe: it reads every
+`getElementById` out of all four DOM modules and proves the merged
+`index.html` still has each id, and proves both old pages' controls are still
+there by id. A merge breaks by returning `null` from `getElementById`, which
+throws nothing and 404s nothing.
 
 `index.html` holds only: the markup shell, the config objects (`VENUE_CONFIG`,
 `ROLE_CONFIG`, `CARD_DEFS`, targets), the shared `STATE`, and the single
@@ -40,9 +58,11 @@ is the one shared object the model reads; the model never writes the page.
 4. a DOM token in `pnl.js` (the model touching the page)
 5. a function defined in two modules
 6. a missing behaviour marker (day scrubber, leave toggle, delivery KPI, …)
-7. any of the JS test suites failing (P&L conservation, render layer, pure
-   helpers, and `recipe_line_guard.js` — the recipe builder's plausibility
-   guard, whose rules are re-calibrated against the real cost book on every run)
+7. any of the **ten** JS test suites failing — P&L conservation, render layer,
+   pure helpers, the recipe builder's plausibility guard (re-calibrated against
+   the real cost book on every run), and the six that hold the merged recipe
+   module: tab routing, book view, page shell, builder load, the flags panel's
+   wording, and whether every family of open question is actually on the panel
 
 Drift doesn't get a warning — it goes red and never ships. To add a feature: maths
 in `pnl.js`/`util.js`, fetch in `data.js`, DOM in `render.js`, and add/extend a

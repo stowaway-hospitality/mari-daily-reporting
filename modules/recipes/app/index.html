@@ -6,23 +6,62 @@
 <title>Recipes · Stowaway Hospitality Group</title>
 <link rel="icon" href="/favicon.ico">
 <!--
-  Chef recipes — rebuilt mobile-first, two tabs:
+  ONE recipe module, four tabs. Formerly two pages: /recipes-book/ (the costed
+  book + the open-questions panel) and /recipes/ (build a dish, time a prep).
 
-    BUILD       cost a dish from what you actually bought. Pick ingredients,
-                set quantities, see food cost + GP. Save.
-    PREP TIMER  a dedicated, dead-simple screen: pick a recipe, time it (or type
-                the minutes), log it. The recipe's prep-labour cost is the mean
-                of the LAST 4 logged preps, each at that person's real rate
-                (server-side, labour.py) — it flows straight into the dish's cost.
+    BOOK        every recipe from Lightspeed, costed off OUR cost book (the
+                invoice-updated feed, not Lightspeed's stale hand-typed numbers).
+                Read-only. CLICK A ROW to open that recipe in Build.
+                  our_cost  costed from data/costs.csv where the ingredient is
+                            priced; falls back to the scraped per-pour cost.
+                  GP%       (sell ex-GST - our_cost) / sell ex-GST, priced items.
+    BUILD       cost a dish from what you actually bought. Pick ingredients, set
+                quantities, see food cost + GP. Save.
+    PREP TIMER  pick a batch, time it (or type the minutes), log it. A recipe's
+                prep-labour cost is the mean of the LAST 4 logged preps, each at
+                that person's real rate (server-side, labour.py).
+    FLAGS       data/cost_book_flags.json — everything the cost book still needs
+                from a human, ranked by the dollars riding on it.
 
-  Feeds (generated from real invoices, last 90 days):
-    /data/ingredients.json    what you bought (supplier, pack, cost/unit)
-    /data/recipes_index.json  saved recipes (for the prep picker + sub-recipes)
-    /data/labour_rate.json    team-average $/min for the live estimate only
+  Feeds (all generated at build time from real invoices and the last 90 days):
+    /data/ingredients.json              what you bought (supplier, pack, cost/unit)
+    /data/recipes_index.json            saved recipes (prep picker + sub-recipes)
+    /data/recipes_full.json             every recipe with its lines, for editing
+    /data/lightspeed_recipes_costed.json the costed book the Book tab draws
+    /data/cost_book_flags.json          the work queue the Flags tab draws
+    /data/labour_rate.json              team-average $/min, live estimate only
   Writes go through the worker, which verifies the Supabase token server-side.
+
+  THERE IS NO LOGIC IN THIS FILE. Markup, styles, and one call to
+  /_shared/recipes_page.js. Every decision lives in a module under
+  dashboard/_shared/, half of them pure and run under node by
+  scripts/test_recipe_*.mjs, which scripts/arch_guard.py gates on every deploy.
 -->
 <link rel="stylesheet" href="/_shared/tokens.css?v=20260719b">
 <style>
+  /* The page is mobile-first for Build and Prep (a phone in a kitchen) and
+     wide for Book and Flags (913 rows, seven columns). One wrap, two widths. */
+  .wrap{max-width:620px;margin:0 auto;padding:0 14px 90px}
+  body.wide .wrap{max-width:1080px}
+  .narrow{max-width:620px;margin:0 auto}
+  h1{font-size:22px;margin:14px 0 2px}
+  .sub{color:var(--ink-soft);font-size:12.5px;margin:0 0 12px;line-height:1.45}
+  .hidden{display:none}
+  .soft{color:var(--ink-soft)}
+
+  /* big top tabs */
+  .maintabs{position:sticky;top:0;z-index:9;display:flex;gap:8px;padding:10px 0;
+    background:var(--bg);margin-bottom:6px;flex-wrap:wrap}
+  .maintabs button{flex:1;min-width:104px;font-family:'Space Grotesk',sans-serif;font-size:14px;
+    font-weight:600;padding:13px 10px;border-radius:12px;border:1px solid var(--line);
+    background:var(--paper);color:var(--ink-soft);cursor:pointer}
+  .maintabs button.on{background:var(--group);color:var(--paper);border-color:var(--group)}
+  /* the flag count rides on the tab, because the panel used to sit below 913
+     rows of table and was therefore reported, twice, as not being there */
+  .maintabs .n{display:inline-block;min-width:18px;margin-left:6px;padding:0 5px;
+    border-radius:99px;background:var(--amber);color:#fff;font-size:11px;line-height:17px}
+  .maintabs .n:empty{display:none}
+
   .wrap{max-width:620px;margin:0 auto;padding:0 14px 90px}
   h1{font-size:22px;margin:14px 0 2px}
   .sub{color:var(--ink-soft);font-size:12.5px;margin:0 0 12px;line-height:1.45}
@@ -107,6 +146,80 @@
   details summary{cursor:pointer;color:var(--ink-soft);font-size:12px}
   .empty{text-align:center;color:var(--ink-soft);padding:30px 14px;font-size:13px}
   .hidden{display:none}
+
+  .sub{color:var(--ink-soft);font-size:13px;margin:-4px 0 16px;line-height:1.5}
+  .bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .bar input{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:14px}
+  .bar select{padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:13px}
+  .stat{font-size:12px;color:var(--ink-soft);white-space:nowrap}.stat b{color:var(--ink)}
+  h2.sec{font-family:'Space Grotesk',sans-serif;font-size:15px;margin:24px 0 4px}
+  .sec-note{font-size:12px;color:var(--ink-soft);margin:0 0 12px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th.sortable{cursor:pointer;user-select:none}
+  th.sortable:hover{color:var(--ink)}
+  th.on{color:var(--ink)}
+  th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);text-align:left;padding:8px 10px;font-weight:600}
+  th.r{text-align:right}
+  td{padding:7px 10px;border-top:1px solid var(--line);vertical-align:middle}
+  td.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  tbody tr:hover{background:color-mix(in srgb,var(--paper) 90%,var(--ink) 4%)}
+  .pl{border:1px solid var(--line);border-radius:12px;background:var(--paper);overflow:hidden}
+  .gp{font-weight:700;font-variant-numeric:tabular-nums}
+  .gp.bad{color:var(--red)} .gp.warn{color:var(--amber)} .gp.good{color:var(--green)}
+  .tag{font-size:10px;padding:1px 7px;border-radius:99px;background:color-mix(in srgb,var(--green) 14%,var(--paper));color:var(--green);margin-left:6px}
+  .empty{text-align:center;color:var(--ink-soft);padding:50px 20px}
+
+  /* ---- flags panel (rendered by ./flags.js — no logic lives in this file) ---- */
+  #flags{margin:34px 0 8px}
+  .fl-top{display:flex;gap:20px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;
+    border:1px solid var(--line);border-top:4px solid var(--amber);border-radius:14px;
+    background:var(--paper);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:16px}
+  .fl-top h2{font-family:'Space Grotesk',sans-serif;font-size:16px;margin:0 0 6px}
+  .fl-lede{font-size:13px;margin:0 0 6px;line-height:1.55}
+  .fl-note{font-size:11.5px;color:var(--ink-soft);margin:0;line-height:1.5;max-width:70ch}
+  .fl-filters{font-size:12px;color:var(--ink-soft);white-space:nowrap}
+  .fl-filters input{width:auto;margin-right:5px;vertical-align:-1px}
+  .fl-loading{color:var(--ink-soft);font-size:13px;padding:18px 0}
+  .fl-sec{margin:22px 0}
+  .fl-sec h3{font-family:'Space Grotesk',sans-serif;font-size:14px;margin:0 0 3px;
+    display:flex;align-items:baseline;gap:8px}
+  .fl-n{font-size:11px;color:var(--ink-soft);font-weight:400}
+  .fl-sum{font-size:11px;color:var(--amber);font-weight:600;font-variant-numeric:tabular-nums}
+  .fl-why-sec{font-size:11.5px;color:var(--ink-soft);margin:0 0 10px;max-width:78ch;line-height:1.5}
+  .fl{border:1px solid var(--line);border-left:3px solid var(--line);border-radius:10px;
+    background:var(--paper);padding:12px 14px;margin-bottom:8px}
+  .fl[data-sev="high"]{border-left-color:var(--red)}
+  .fl[data-sev="medium"]{border-left-color:var(--amber)}
+  .fl-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:5px}
+  .fl-pill{font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
+    padding:1.5px 7px;border-radius:99px;color:var(--pill);
+    background:color-mix(in srgb,var(--pill) 13%,var(--paper))}
+  .fl-subj{font-weight:650;font-size:13.5px}
+  .fl-w{margin-left:auto;font-size:12px;font-variant-numeric:tabular-nums;font-weight:650}
+  .fl-w.impact{color:var(--red)} .fl-w.revenue{color:var(--ink-soft)}
+  .fl-w.none{color:var(--grey);font-weight:400;font-style:italic}
+  .fl-wrong{font-size:12.5px;line-height:1.55;max-width:82ch}
+  .fl-q{font-size:12.5px;line-height:1.55;margin-top:4px;font-weight:600;color:var(--ink)}
+  .fl-why{font-size:11.5px;color:var(--ink-soft);line-height:1.5;margin-top:4px;max-width:82ch}
+  .fl-act{font-size:12px;margin-top:8px;line-height:1.5;max-width:82ch}
+  .fl-own{display:inline-block;margin-left:7px;font-size:10.5px;color:var(--ink-soft);
+    border:1px solid var(--line);border-radius:99px;padding:1px 8px;white-space:nowrap}
+  .fl-more{margin-top:7px;font-size:11.5px;color:var(--ink-soft)}
+  .fl-more summary{cursor:pointer;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+  .fl-more ul{margin:6px 0 0;padding-left:18px;line-height:1.6}
+  .fl-basis{margin-top:6px;line-height:1.55;max-width:88ch}
+  .fl-src{margin-top:6px;font-size:10.5px;color:var(--grey)}
+  .fl-exempt{margin:0;padding-left:18px;font-size:12px;line-height:1.65}
+  .fl-exempt .fl-why{display:block;margin-top:1px}
+
+  /* ---- the Book table: every row is a control ---- */
+  tbody tr.main{cursor:pointer}
+  tbody tr.main:focus{outline:2px solid var(--group);outline-offset:-2px}
+  tbody tr.main:focus:not(:focus-visible){outline:none}
+  th.sortable:focus{outline:2px solid var(--group);outline-offset:-2px}
+  .tag.prep{background:color-mix(in srgb,var(--ink) 8%,var(--paper));color:var(--ink-soft)}
+  .fl-w.stake{color:var(--amber)}
+  .fl-sum.stake{color:var(--ink-soft)}
 </style>
 </head>
 <body>
@@ -118,13 +231,42 @@
   </div></header>
 
   <div class="wrap">
-    <div class="maintabs">
-      <button id="mt-build" class="on" onclick="mainTab('build')">Build a recipe</button>
-      <button id="mt-prep" onclick="mainTab('prep')">Prep timer</button>
+    <div class="maintabs" role="tablist">
+      <button id="mt-book"  role="tab" aria-controls="view-book"  aria-selected="false">Book</button>
+      <button id="mt-build" role="tab" aria-controls="view-build" aria-selected="true">Build a recipe</button>
+      <button id="mt-prep"  role="tab" aria-controls="view-prep"  aria-selected="false">Prep timer</button>
+      <button id="mt-flags" role="tab" aria-controls="view-flags" aria-selected="false">Flags<span class="n" id="mt-flags-n"></span></button>
     </div>
 
+    <!-- ================= BOOK ================= -->
+    <!-- Drawn entirely by /_shared/recipe_book.js off /_shared/recipe_book_view.js.
+         This file supplies the controls and two containers. There are NO summary
+         cards here and there is no "our book" chip on a row: both were removed,
+         and scripts/test_recipe_book_view.mjs fails if either comes back. -->
+    <section id="view-book" class="hidden">
+      <h1>Recipe book</h1>
+      <p class="sub">Every recipe from Lightspeed, costed off <b>our own book</b> — the invoice-updated
+        cost feed, not Lightspeed's stale numbers. Each dish and drink shows its cost, menu price and
+        gross profit; the food-GP alerts flag anything selling too thin. Costs refresh as invoices land.
+        <b>Tap a row to open it in Build.</b></p>
+      <div class="bar">
+        <input id="q" type="search" placeholder="Search a recipe — negroni, meatlovers, gravy…" autocomplete="off">
+        <select id="filter">
+          <option value="all">All recipes</option>
+          <option value="menu">Menu items (has price)</option>
+          <option value="alert">GP alerts — selling too thin</option>
+          <option value="under">Under-costed (GP 95%+)</option>
+          <option value="batch">Batches / preps</option>
+        </select>
+        <select id="size"><option value="all">All sizes</option></select>
+        <select id="cat"><option value="all">All categories</option></select>
+        <span class="stat" id="stat"></span>
+      </div>
+      <div id="body"><div class="empty">Loading…</div></div>
+    </section>
+
     <!-- ================= BUILD ================= -->
-    <section id="view-build">
+    <section id="view-build" class="narrow">
       <div class="card">
         <label for="editq">Edit an existing recipe</label>
         <input id="editq" placeholder="Search your saved recipes…" oninput="renderEdit()" autocomplete="off">
@@ -178,7 +320,7 @@
     </section>
 
     <!-- ================= PREP TIMER ================= -->
-    <section id="view-prep" class="hidden">
+    <section id="view-prep" class="narrow hidden">
       <div class="card">
         <label for="prep-q">Which batch are you prepping?</label>
         <div class="note" style="margin:0 0 8px">Batches only — the sauces, doughs and preps made ahead. Give a batch a yield in Build and it shows up here.</div>
@@ -202,6 +344,13 @@
           cost is the average of the last 4 preps — it flows into the dish's total cost.</div>
       </div>
     </section>
+
+    <!-- ================= FLAGS ================= -->
+    <!-- Everything the book is still waiting on a human for. Drawn entirely by
+         /_shared/flags.js from data/cost_book_flags.json. -->
+    <section id="view-flags" class="hidden">
+      <div id="flags"></div>
+    </section>
   </div>
 
   <!-- sticky action bar (changes per tab) -->
@@ -221,444 +370,8 @@
 </div>
 
 <script type="module">
-import { Auth } from '/_shared/auth.js';
-import { Feed } from '/_shared/feed.js';
-import { WORKER_URL } from '/_shared/config.js';
-// Deciding whether a line is implausible is business logic, so it is NOT in
-// this file: it is pure, calibrated against the real book, and unit-tested by
-// scripts/test_recipe_line_guard.mjs. This page only draws what it returns.
-import { builderLineWarnings, warningsHtml, peerIndex } from '/_shared/recipe_line_guard.js';
-
-let ING = [], SUBS = [], RECIPES = [], EDITABLE = [], LINES = [], USER = null, RATE = 0;
-let PEERS = new Map();   // ingredient id -> every qty the saved book uses for it
-let prepRecipe = null, prepMin = 0;
-let timing = false, tStart = 0, tPrev = 0, tick = null;
-
-const money = n => '$' + (Math.round(n * 100) / 100).toFixed(2);
-const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const venueOf = u => u.venue || (u.role === 'hgfood' ? 'harry_gatos' : u.role === 'pizza' ? 'marilynas' : 'stowaway');
-// price per sensible unit: g→kg, ml→L, else as-is; strip any stray "per "
-const perUnit = u => u === 'g' ? 'kg' : u === 'ml' ? 'L' : String(u || 'ea').replace(/^per\s+/i, '');
-const perMult = u => (u === 'g' || u === 'ml') ? 1000 : 1;
-
-Auth.gate(document.getElementById('gate'), {
-  roles: null,
-  onOk: (user) => {
-    USER = user;
-    document.getElementById('app').style.display = '';
-    document.getElementById('who').textContent = user.name;
-    document.getElementById('whoprep').textContent = user.name;
-    const canWrite = Auth.canWrite();
-    const sb = document.getElementById('save-btn');
-    sb.disabled = !canWrite;
-    if (!canWrite) sb.textContent = 'No kitchen role';
-    boot();
-  }
-});
-
-async function boot() {
-  const [ing, idx, lab, full] = await Promise.all([
-    Feed.load('/data/ingredients.json'),
-    Feed.load('/data/recipes_index.json').catch(() => null),
-    Feed.load('/data/labour_rate.json').catch(() => null),
-    Feed.load('/data/recipes_full.json').catch(() => null),
-  ]);
-  ING = (ing && ing.ingredients) || [];
-  RECIPES = (idx && idx.recipes) || [];
-  EDITABLE = (full && full.recipes) || [];
-  SUBS = RECIPES.filter(r => r.usable_as_subrecipe);
-  PEERS = peerIndex(EDITABLE);
-  const v = venueOf(USER);
-  RATE = +((lab && (lab.venues?.[v]?.rate_per_minute || lab.default_rate_per_minute)) || 0);
-
-  const bySup = {};
-  ING.forEach(i => { bySup[i.supplier] = (bySup[i.supplier] || 0) + 1; });
-  document.getElementById('sup').insertAdjacentHTML('beforeend',
-    Object.keys(bySup).sort().map(s => `<option value="${esc(s)}">${esc(s)} (${bySup[s]})</option>`).join(''));
-
-  renderPick(); renderSubs(); renderPrepList();
-}
-
-// ---------------- main tabs ----------------
-window.mainTab = (t) => {
-  document.getElementById('mt-build').className = t === 'build' ? 'on' : '';
-  document.getElementById('mt-prep').className = t === 'prep' ? 'on' : '';
-  document.getElementById('view-build').classList.toggle('hidden', t !== 'build');
-  document.getElementById('view-prep').classList.toggle('hidden', t !== 'prep');
-  document.getElementById('bar-build').classList.toggle('hidden', t !== 'build');
-  document.getElementById('bar-prep').classList.toggle('hidden', t !== 'prep');
-  window.scrollTo(0, 0);
-};
-
-// ---------------- BUILD: ingredient picker ----------------
-function renderPick() {
-  const sup = document.getElementById('sup').value;
-  const q = document.getElementById('q').value.toLowerCase().trim();
-  let hits = ING;
-  if (q) hits = hits.filter(i => i.description.toLowerCase().includes(q) || (i.supplier || '').toLowerCase().includes(q));
-  else if (sup) hits = hits.filter(i => i.supplier === sup);
-  else hits = hits.slice(0, 0);   // avoid dumping everything; pick a supplier or search
-  // sub-recipes are searchable here too, so "achio" surfaces Achiote Chicken — not
-  // only in the Batch/sub-recipe section. They render first, tagged "recipe".
-  const subHits = q ? SUBS.filter(s => s.product.toLowerCase().includes(q)) : [];
-  const subHtml = subHits.map(s => {
-    const c = subCpu(s);
-    const cost = c ? `${money(c)} <span class="m">/${esc(s.yield_unit)}</span>` : '<span class="m">cost pending</span>';
-    return `<div class="ing" onclick="addSub('${encodeURIComponent(s.product)}')">
-      <div><div class="n">${esc(s.product)}<span class="pill sub">recipe</span></div>
-      <div class="m">makes ${esc(s.yield_qty)} ${esc(s.yield_unit)}</div></div>
-      <div class="c">${cost}</div></div>`;
-  }).join('');
-  const ingHtml = hits.map(i => {
-    const ok = !i.needs_pack_review;
-    const cost = ok ? `${money(i.cost_per_base_unit * perMult(i.pack_unit))} <span class="m">/${esc(perUnit(i.pack_unit))}</span>`
-                    : `<span class="m">pack?</span>`;
-    return `<div class="ing" onclick="add('${i.id}')">
-      <div><div class="n">${esc(i.description)}${ok ? '' : '<span class="pill">confirm pack</span>'}</div>
-      <div class="m">${esc(i.supplier)}</div></div>
-      <div class="c">${cost}</div></div>`;
-  }).join('');
-  document.getElementById('picklist').innerHTML = (subHtml + ingHtml) ||
-    `<div class="empty">${sup || q ? 'No match.' : 'Choose a supplier or search to add ingredients.'}</div>`;
-}
-
-// a batch's per-unit cost INCLUDING its prep labour, when we have it — so a dish
-// built from it carries the batch's prep too. Falls back to food-only.
-const subCpu = s => +(s.cost_per_yield_unit_with_prep ?? s.cost_per_yield_unit) || 0;
-
-function renderSubs() {
-  document.getElementById('sublist').innerHTML = SUBS.length ? SUBS.map(s => {
-    const c = subCpu(s);
-    const cpu = c ? `${money(c)} <span class="m">/${esc(s.yield_unit)}${s.cost_per_yield_unit_with_prep ? ' (incl prep)' : ''}</span>` : '<span class="m">cost pending</span>';
-    return `<div class="ing" onclick="addSub('${encodeURIComponent(s.product)}')">
-      <div><div class="n">${esc(s.product)}<span class="pill sub">recipe</span></div>
-      <div class="m">makes ${esc(s.yield_qty)} ${esc(s.yield_unit)}</div></div><div class="c">${cpu}</div></div>`;
-  }).join('') : '<div class="empty">No sub-recipes yet.</div>';
-}
-
-window.add = (id) => {
-  const i = ING.find(x => x.id === id);
-  if (!i) return;
-  if (i.needs_pack_review) {
-    const g = prompt(`Pack size needs confirming.\n\n${i.description}\n${money(i.pack_cost_incl)} per pack\n\nHow much is in ONE pack, in grams (or mL)?`, '');
-    if (!g || isNaN(+g) || +g <= 0) return;
-    i.pack_qty = +g; i.pack_unit = i.pack_unit === 'ml' ? 'ml' : 'g';
-    i.cost_per_base_unit = +i.pack_cost_incl / +g;
-    i.needs_pack_review = false; i.confirmed_by_chef = true;
-    savePack(i);   // persist so it's costed for everyone from the next build on
-  }
-  if (LINES.some(l => l.kind === 'ing' && l.id === id)) return;
-  LINES.push({ kind: 'ing', id, qty: 0 });
-  calc();
-};
-
-// Persist a chef's pack confirmation to data/pack_overrides.yaml via the worker,
-// so this ingredient becomes costable for everyone (build reads it). Best-effort:
-// if you're not signed in as a kitchen writer it just stays a session confirm.
-async function savePack(i) {
-  try {
-    const token = Auth.requireToken();
-    await fetch(`${WORKER_URL}/pack`, {
-      method: 'POST', headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
-      body: JSON.stringify({ venue: venueOf(USER), id: i.id, pack_qty: i.pack_qty, pack_unit: i.pack_unit }),
-    });
-  } catch (e) { /* not a writer — session-only confirm, no persistence */ }
-}
-window.addSub = (enc) => {
-  const product = decodeURIComponent(enc);
-  const s = SUBS.find(x => x.product === product);
-  if (!s || LINES.some(l => l.kind === 'sub' && l.product === product)) return;
-  LINES.push({ kind: 'sub', product, unit: s.yield_unit, cpu: subCpu(s), qty: 0 });
-  calc();
-};
-window.setQty = (k, v) => { const l = LINES[k]; if (l) l.qty = +v || 0; recompute(); };
-window.del = (k) => { LINES.splice(k, 1); calc(); };
-
-// ---------------- BUILD: load an existing recipe for editing ----------------
-window.renderEdit = () => {
-  const q = document.getElementById('editq').value.toLowerCase().trim();
-  const el = document.getElementById('editlist');
-  if (!q) { el.innerHTML = ''; return; }
-  const hits = EDITABLE.filter(r => r.product.toLowerCase().includes(q)).slice(0, 8);
-  el.innerHTML = hits.length ? hits.map(r =>
-    `<div class="ing" onclick="loadRecipe('${encodeURIComponent(r.product)}')">
-       <div><div class="n">${esc(r.product)}</div><div class="m">${r.lines.length} ingredient(s)</div></div>
-       <div class="c m">edit →</div></div>`).join('')
-    : `<div class="empty">No saved recipe matches "${esc(q)}".</div>`;
-};
-
-window.loadRecipe = (enc) => {
-  const product = decodeURIComponent(enc);
-  const r = EDITABLE.find(x => x.product === product);
-  if (!r) return;
-  document.getElementById('dish').value = r.product;
-  document.getElementById('sell').value = r.sell_incl_gst ?? '';
-  document.getElementById('yq').value = r.yield_qty ?? '';
-  document.getElementById('yu').value = r.yield_unit ?? '';
-  LINES = [];
-  for (const ln of r.lines) {
-    if (ln.manual) {
-      LINES.push({ kind: 'manual', name: ln.name, unit: ln.unit || 'ea', cpu: +ln.unit_cost_incl || 0, qty: +ln.qty || 0 });
-    } else if (ln.subrecipe) {
-      const s = SUBS.find(x => x.product === ln.subrecipe);
-      LINES.push({ kind: 'sub', product: ln.subrecipe, unit: (s && s.yield_unit) || ln.unit, cpu: s ? subCpu(s) : 0, qty: +ln.qty || 0 });
-    } else if (ln.id) {
-      LINES.push({ kind: 'ing', id: ln.id, qty: +ln.qty || 0 });
-    }
-  }
-  document.getElementById('editq').value = '';
-  document.getElementById('editlist').innerHTML = '';
-  document.getElementById('editing').style.display = '';
-  document.getElementById('editing-name').textContent = r.product;
-  calc();
-  window.scrollTo(0, 0);
-};
-
-function lineCost(l) {
-  if (l.kind === 'sub') return l.cpu * l.qty;
-  if (l.kind === 'manual') return (+l.cpu || 0) * l.qty;
-  const i = ING.find(x => x.id === l.id);
-  return (i && !i.needs_pack_review) ? (+i.cost_per_base_unit) * l.qty : 0;
-}
-// the per-line RATE, in a sensible unit (g→kg, ml→L), so the cost never reads as
-// "$X per ml". Returns e.g. { rate: 2.32, unit: 'L' } = $2.32 per litre.
-function lineRate(l) {
-  let per, u;
-  if (l.kind === 'sub') { per = +l.cpu || 0; u = l.unit; }
-  else if (l.kind === 'manual') { per = +l.cpu || 0; u = l.unit || 'ea'; }
-  else { const i = ING.find(x => x.id === l.id); per = i ? +i.cost_per_base_unit : 0; u = i ? i.pack_unit : (l.unit || 'ea'); }
-  return { rate: per * perMult(u), unit: perUnit(u) };
-}
-function lineCostLabel(l) {           // the RATE only; the line's own cost has a column
-  const r = lineRate(l);
-  return `${money(r.rate)}/${esc(r.unit)}`;
-}
-function lineMeta(l) {
-  // "(recipe)" marks a line as a sub-recipe rather than a bought ingredient. Six
-  // of them are NAMED "[Recipe]"/"[Batch]"/"[Prep]" already, which read as
-  // "Pizza Dough [Recipe] (recipe)". Only add the tag when the name doesn't say it.
-  if (l.kind === 'sub') {
-    const s = /\[(recipe|batch|prep)\]/i.test(l.product) ? '' : ' (recipe)';
-    return { name: l.product + s, unit: l.unit };
-  }
-  if (l.kind === 'manual') return { name: l.name + ' (imported)', unit: l.unit || 'ea' };
-  const i = ING.find(x => x.id === l.id);
-  if (!i) return { name: (l.name || l.id) + ' (no live cost)', unit: l.unit || 'ea' };
-  return { name: i.description, unit: i.pack_unit === 'g' ? 'g' : i.pack_unit === 'ml' ? 'mL' : i.pack_unit };
-}
-
-function renderLines() {
-  const box = document.getElementById('lines');
-  box.innerHTML = LINES.length ? LINES.map((l, k) => {
-    const { name, unit } = lineMeta(l);
-    return `<div class="line">
-      <div class="nm">${esc(name)}<small id="ct-${k}">${lineCostLabel(l)}</small></div>
-      <input type="number" inputmode="decimal" step="any" value="${l.qty || ''}" placeholder="0 ${esc(unit)}" oninput="setQty(${k},this.value)">
-      <div class="lc" id="lc-${k}">${money(lineCost(l))}</div>
-      <button class="x" onclick="del(${k})" aria-label="remove">×</button>
-      <div class="lw" id="lw-${k}"></div></div>`;
-  }).join('') : '<div class="empty">Nothing added yet — tap an ingredient above.</div>';
-}
-
-function calc() { renderLines(); recompute(); }
-function recompute() {
-  const sell = +document.getElementById('sell').value || 0;
-  const nm = (document.getElementById('dish')?.value || '');
-  const yq = +(document.getElementById('yq')?.value || 0);
-  const isPrep = yq > 0
-    || /\[(batch|prep|recipe|\d+\s*(kg|g|l|ml))\]|\b(prep|batch|blend|mix)\b/i.test(nm)
-    || (sell > 0 && sell < 3);
-  LINES.forEach((l, k) => {
-    const cell = document.getElementById('ct-' + k);
-    if (cell) cell.textContent = lineCostLabel(l);
-    const lc = document.getElementById('lc-' + k);
-    if (lc) lc.textContent = money(lineCost(l));
-    // The caution next to the offending line. It never blocks the save — a chef
-    // must still be able to enter a genuinely unusual recipe — and an empty
-    // string CLEARS the slot, so a warning cannot outlive the qty that caused it.
-    const lw = document.getElementById('lw-' + k);
-    if (lw) lw.innerHTML = warningsHtml(builderLineWarnings(
-      l, l.kind === 'ing' ? ING.find(x => x.id === l.id) : null,
-      { isBatch: isPrep, peerQuantities: (l.kind === 'ing' && PEERS.get(l.id)) || [] }));
-  });
-  const food = LINES.reduce((a, l) => a + lineCost(l), 0);
-  document.getElementById('c-food').textContent = money(food);
-  const ex = sell / 1.1;
-  const gpEl = document.getElementById('gp-food'), mgEl = document.getElementById('gp-marg');
-  // A BATCH IS NOT A MENU ITEM. "Tandoori Chicken [2Kg]" carries a $2 placeholder
-  // POS price against a $19 tray, and the builder was reporting that as -574% GP
-  // with a -$10.44 margin, in red. Nothing is wrong with the recipe's cost; the
-  // sell price just isn't a sell price. The cost book already refuses to compute a
-  // GP for these (is_prep), and the builder now agrees: a recipe with a batch YIELD,
-  // or a prep/batch name, or a price too low to be a menu line, shows its cost and
-  // no GP. Showing a frightening number that means nothing trains people to ignore
-  // the number that does.
-  if (isPrep && food > 0) {
-    gpEl.textContent = '—'; gpEl.className = 'gp';
-    mgEl.textContent = '—'; mgEl.className = 'gp';
-    document.getElementById('gp-note').textContent =
-      `${money(food)} to make this batch. No GP shown — a batch's POS price is a `
-      + `placeholder, not what it sells for, so any GP off it is meaningless.`;
-  } else if (sell > 0 && food > 0) {
-    const gp = 100 * (ex - food) / ex;
-    gpEl.textContent = gp.toFixed(0) + '%';
-    gpEl.className = 'gp ' + (gp > 85 ? 'warn' : gp < 55 ? 'bad' : gp < 65 ? 'warn' : 'good');
-    mgEl.textContent = money(ex - food); mgEl.className = 'gp';
-    document.getElementById('gp-note').textContent = gp > 85
-      ? `Food GP ${gp.toFixed(0)}% looks too good — what's missing? Oil, batter, sauce, garnish, lemon?`
-      : `${money(ex)} ex-GST · prep labour is added from the Prep timer (last-4 average).`;
-  } else {
-    gpEl.textContent = '—'; gpEl.className = 'gp'; mgEl.textContent = '—'; mgEl.className = 'gp';
-    document.getElementById('gp-note').textContent = '';
-  }
-}
-
-// YAML-safe scalar: JSON string syntax is valid YAML, and escapes the quotes,
-// colons and other characters that would otherwise produce a broken doc — one
-// bad name (e.g. an ingredient literally called '"S&B" Curry') would corrupt the
-// whole venue's recipe file and make every dish there fail to cost.
-const ys = v => JSON.stringify(String(v ?? ''));
-
-function buildYaml() {
-  const dish = document.getElementById('dish').value.trim();
-  const sell = +document.getElementById('sell').value || 0;
-  const yq = +document.getElementById('yq').value || 0, yu = document.getElementById('yu').value;
-  let s = `# generated by the recipe builder — review before committing\n- product: ${ys(dish)}\n`;
-  if (sell) s += `  sell_incl_gst: ${sell.toFixed(2)}\n`;
-  if (yq && yu) s += `  yield_qty: ${yq}\n  yield_unit: ${ys(yu)}\n`;
-  s += `  ingredients:\n`;
-  for (const l of LINES) {
-    if (l.kind === 'sub') s += `    - subrecipe: ${ys(l.product)}\n      qty: ${l.qty}\n      unit: ${ys(l.unit)}\n`;
-    else if (l.kind === 'manual') s += `    - manual: true\n      desc: ${ys(l.name)}\n      qty: ${l.qty}\n      unit: ${ys(l.unit || 'ea')}\n      unit_cost_incl: ${(+l.cpu || 0).toFixed(6)}\n`;
-    else {
-      const i = ING.find(x => x.id === l.id);
-      s += `    - id: ${ys(i.id)}\n      desc: ${ys(i.description)}\n      qty: ${l.qty}\n      unit: ${ys(i.pack_unit)}\n      unit_cost_incl: ${(+i.cost_per_base_unit).toFixed(6)}\n`;
-    }
-  }
-  return s;
-}
-
-window.resetBuild = () => {
-  LINES = [];
-  ['dish', 'sell', 'yq', 'editq'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('yu').value = '';
-  document.getElementById('save-result').textContent = '';
-  document.getElementById('editlist').innerHTML = '';
-  document.getElementById('editing').style.display = 'none';
-  calc();
-};
-
-async function save() {
-  const dish = document.getElementById('dish').value.trim();
-  const out = document.getElementById('save-result'), btn = document.getElementById('save-btn');
-  if (!dish || !LINES.length) { out.textContent = 'Add a name + an ingredient.'; return; }
-  let token; try { token = Auth.requireToken(); } catch (e) { out.textContent = e.message; return; }
-  btn.disabled = true; btn.textContent = 'Saving…';
-  try {
-    const r = await fetch(`${WORKER_URL}/recipes`, {
-      method: 'POST', headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
-      body: JSON.stringify({ venue: venueOf(USER), product: dish, yaml: buildYaml() }),
-    });
-    const j = await r.json();
-    if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
-    out.innerHTML = `<span style="color:var(--pos)">Saved ✓</span>`;
-    // INSTANT AVAILABILITY. The authoritative sub-recipe list (recipes_index.json)
-    // only rebuilds on the next deploy, so without this a batch you just saved
-    // wouldn't appear as a sub-recipe until then. If it has a yield, upsert it into
-    // SUBS now — with a cost computed from the very lines just entered — so it's
-    // immediately selectable in a parent recipe (and in the prep timer). The deploy
-    // later replaces this with the fully-costed feed entry (incl. prep labour).
-    const yq = +document.getElementById('yq').value || 0, yu = document.getElementById('yu').value;
-    if (yq > 0 && yu) {
-      const food = LINES.reduce((a, l) => a + lineCost(l), 0);
-      const entry = {
-        product: dish, venue: venueOf(USER), yield_qty: yq, yield_unit: yu,
-        usable_as_subrecipe: true,
-        cost_per_yield_unit: food > 0 ? +(food / yq).toFixed(6) : null,
-        cost_per_yield_unit_with_prep: null, prep_minutes_avg: null, prep_count: 0,
-      };
-      const ex = SUBS.find(s => s.product === dish);
-      if (ex) Object.assign(ex, entry); else SUBS.push(entry);
-      const exR = RECIPES.find(s => s.product === dish);
-      if (exR) Object.assign(exR, entry); else RECIPES.push(entry);
-      renderSubs();
-      if (window.renderPrepList) window.renderPrepList();
-    }
-  } catch (e) { out.innerHTML = `<span style="color:var(--red)">${esc(e.message)}</span>`; }
-  finally { btn.disabled = false; btn.textContent = 'Save recipe'; }
-}
-Object.assign(window, { renderPick, add, addSub, setQty, del, save, calc });
-
-// ---------------- PREP TIMER ----------------
-// Prep timing is for SUB-RECIPES only — the batches/sauces/doughs you prep ahead
-// (a dish is plated to order, not "prepped"). So the picker lists sub-recipes.
-window.renderPrepList = () => {
-  const q = (document.getElementById('prep-q').value || '').toLowerCase().trim();
-  const hits = SUBS.filter(r => !q || r.product.toLowerCase().includes(q));
-  document.getElementById('prep-list').innerHTML = hits.length ? hits.map(r =>
-    `<div class="ing" onclick="pickPrep('${encodeURIComponent(r.product)}')">
-      <div><div class="n">${esc(r.product)}</div><div class="m">makes ${esc(r.yield_qty)} ${esc(r.yield_unit)}${
-        r.prep_count ? ` · avg ${esc(r.prep_minutes_avg)} min` : ` · not timed yet`}</div></div>
-      <div class="c">›</div></div>`).join('')
-    : `<div class="empty">${SUBS.length ? 'No match.' : 'No batch recipes yet — give a batch a yield in Build, then time it here.'}</div>`;
-};
-
-window.pickPrep = (enc) => {
-  prepRecipe = decodeURIComponent(enc);
-  document.getElementById('prep-name').textContent = prepRecipe;
-  const b = SUBS.find(s => s.product === prepRecipe) || {};
-  document.getElementById('prep-avg').textContent = b.prep_count
-    ? `Currently averaging ${b.prep_minutes_avg} min over the last ${Math.min(b.prep_count, 4)} of ${b.prep_count} prep${b.prep_count > 1 ? 's' : ''}.`
-    : `No preps logged yet — this will be the first.`;
-  document.getElementById('prep-panel').style.display = '';
-  resetTimer();
-  document.getElementById('log-result').textContent = '';
-  document.getElementById('prep-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
-};
-
-window.toggleTimer = () => {
-  const btn = document.getElementById('timerbtn');
-  if (!timing) {
-    timing = true; tStart = Date.now(); btn.textContent = 'Stop'; btn.className = 'bigbtn stop';
-    tick = setInterval(showClock, 250);
-  } else {
-    timing = false; clearInterval(tick);
-    tPrev += (Date.now() - tStart) / 1000;
-    prepMin = +(tPrev / 60).toFixed(2);
-    document.getElementById('mins').value = prepMin;
-    btn.textContent = 'Resume'; btn.className = 'bigbtn start'; showClock(); armLog();
-  }
-};
-function showClock() {
-  const secs = tPrev + (timing ? (Date.now() - tStart) / 1000 : 0);
-  const m = Math.floor(secs / 60), s = Math.floor(secs % 60);
-  document.getElementById('clock').innerHTML = `${m}<small>:${String(s).padStart(2, '0')}</small>`;
-}
-window.setMins = (v) => { prepMin = +v || 0; tPrev = prepMin * 60; timing = false; if (tick) clearInterval(tick);
-  document.getElementById('timerbtn').textContent = 'Start prepping'; document.getElementById('timerbtn').className = 'bigbtn start';
-  showClock(); armLog(); };
-function armLog() { document.getElementById('log-btn').disabled = !(prepRecipe && prepMin > 0); }
-function resetTimer() { timing = false; if (tick) clearInterval(tick); tPrev = 0; prepMin = 0;
-  document.getElementById('mins').value = ''; document.getElementById('clock').innerHTML = '0<small>:00</small>';
-  document.getElementById('timerbtn').textContent = 'Start prepping'; document.getElementById('timerbtn').className = 'bigbtn start';
-  armLog(); }
-
-window.logPrep = async () => {
-  const out = document.getElementById('log-result'), btn = document.getElementById('log-btn');
-  if (!prepRecipe || !(prepMin > 0)) return;
-  let token; try { token = Auth.requireToken(); } catch (e) { out.textContent = e.message; return; }
-  btn.disabled = true; btn.textContent = 'Logging…';
-  try {
-    const r = await fetch(`${WORKER_URL}/prep`, {
-      method: 'POST', headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
-      body: JSON.stringify({ venue: venueOf(USER), product: prepRecipe, minutes: prepMin }),
-    });
-    if (!r.ok) { const j = await r.json().catch(() => ({})); throw new Error(j.error || `HTTP ${r.status}`); }
-    out.innerHTML = `<span style="color:var(--pos)">${prepMin} min logged ✓</span>`;
-    resetTimer();
-  } catch (e) { out.innerHTML = `<span style="color:var(--red)">${esc(e.message)}</span>`; btn.disabled = false; }
-  finally { btn.textContent = 'Log this prep'; }
-};
+import { start } from '/_shared/recipes_page.js';
+start();
 </script>
 </body>
 </html>

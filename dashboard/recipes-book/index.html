@@ -2,251 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Recipe book · Stowaway Hospitality Group</title>
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="/_shared/tokens.css?v=20260719b">
+<link rel="canonical" href="/recipes/">
 <!--
-  The full Lightspeed recipe book, scraped into our repo and costed off OUR cost
-  book (invoice-updated), not Lightspeed's stale hand-typed numbers. Read-only.
-  our_cost   = costed from our cost feed (data/costs.csv) where the ingredient is
-               priced; falls back to the scraped Lightspeed per-pour cost per line.
-  ls_cost    = Lightspeed's own recipe cost at scrape time — a provenance baseline.
-  GP%        = (sell ex-GST - our_cost) / sell ex-GST, for items with a menu price.
--->
-<style>
-  .wrap{max-width:1000px}
-  .sub{color:var(--ink-soft);font-size:13px;margin:-4px 0 16px;line-height:1.5}
-  .bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
-  .bar input{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:14px}
-  .bar select{padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:13px}
-  .stat{font-size:12px;color:var(--ink-soft);white-space:nowrap}.stat b{color:var(--ink)}
-  h2.sec{font-family:'Space Grotesk',sans-serif;font-size:15px;margin:24px 0 4px}
-  .sec-note{font-size:12px;color:var(--ink-soft);margin:0 0 12px}
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  th.sortable{cursor:pointer;user-select:none}
-  th.sortable:hover{color:var(--ink)}
-  th.on{color:var(--ink)}
-  th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);text-align:left;padding:8px 10px;font-weight:600}
-  th.r{text-align:right}
-  td{padding:7px 10px;border-top:1px solid var(--line);vertical-align:middle}
-  td.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-  tbody tr:hover{background:color-mix(in srgb,var(--paper) 90%,var(--ink) 4%)}
-  .pl{border:1px solid var(--line);border-radius:12px;background:var(--paper);overflow:hidden}
-  .gp{font-weight:700;font-variant-numeric:tabular-nums}
-  .gp.bad{color:var(--red)} .gp.warn{color:var(--amber)} .gp.good{color:var(--green)}
-  .tag{font-size:10px;padding:1px 7px;border-radius:99px;background:color-mix(in srgb,var(--green) 14%,var(--paper));color:var(--green);margin-left:6px}
-  .tag.ls{background:color-mix(in srgb,var(--amber) 14%,var(--paper));color:var(--amber)}
-  .ings{font-size:11.5px;color:var(--ink-soft)}
-  .empty{text-align:center;color:var(--ink-soft);padding:50px 20px}
-  tr.det td{background:color-mix(in srgb,var(--paper) 94%,var(--ink) 3%);font-size:12px;color:var(--ink-soft)}
+  THE BOOK MOVED. It is the first tab of /recipes/, which is now one module:
+  Book, Build, Prep timer, Flags.
 
-  /* ---- flags panel (rendered by ./flags.js — no logic lives in this file) ---- */
-  #flags{margin:34px 0 8px}
-  .fl-top{display:flex;gap:20px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;
-    border:1px solid var(--line);border-top:4px solid var(--amber);border-radius:14px;
-    background:var(--paper);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:16px}
-  .fl-top h2{font-family:'Space Grotesk',sans-serif;font-size:16px;margin:0 0 6px}
-  .fl-lede{font-size:13px;margin:0 0 6px;line-height:1.55}
-  .fl-note{font-size:11.5px;color:var(--ink-soft);margin:0;line-height:1.5;max-width:70ch}
-  .fl-filters{font-size:12px;color:var(--ink-soft);white-space:nowrap}
-  .fl-filters input{width:auto;margin-right:5px;vertical-align:-1px}
-  .fl-loading{color:var(--ink-soft);font-size:13px;padding:18px 0}
-  .fl-sec{margin:22px 0}
-  .fl-sec h3{font-family:'Space Grotesk',sans-serif;font-size:14px;margin:0 0 3px;
-    display:flex;align-items:baseline;gap:8px}
-  .fl-n{font-size:11px;color:var(--ink-soft);font-weight:400}
-  .fl-sum{font-size:11px;color:var(--amber);font-weight:600;font-variant-numeric:tabular-nums}
-  .fl-why-sec{font-size:11.5px;color:var(--ink-soft);margin:0 0 10px;max-width:78ch;line-height:1.5}
-  .fl{border:1px solid var(--line);border-left:3px solid var(--line);border-radius:10px;
-    background:var(--paper);padding:12px 14px;margin-bottom:8px}
-  .fl[data-sev="high"]{border-left-color:var(--red)}
-  .fl[data-sev="medium"]{border-left-color:var(--amber)}
-  .fl-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:5px}
-  .fl-pill{font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;
-    padding:1.5px 7px;border-radius:99px;color:var(--pill);
-    background:color-mix(in srgb,var(--pill) 13%,var(--paper))}
-  .fl-subj{font-weight:650;font-size:13.5px}
-  .fl-w{margin-left:auto;font-size:12px;font-variant-numeric:tabular-nums;font-weight:650}
-  .fl-w.impact{color:var(--red)} .fl-w.revenue{color:var(--ink-soft)}
-  .fl-w.none{color:var(--grey);font-weight:400;font-style:italic}
-  .fl-wrong{font-size:12.5px;line-height:1.55;max-width:82ch}
-  .fl-q{font-size:12.5px;line-height:1.55;margin-top:4px;font-weight:600;color:var(--ink)}
-  .fl-why{font-size:11.5px;color:var(--ink-soft);line-height:1.5;margin-top:4px;max-width:82ch}
-  .fl-act{font-size:12px;margin-top:8px;line-height:1.5;max-width:82ch}
-  .fl-own{display:inline-block;margin-left:7px;font-size:10.5px;color:var(--ink-soft);
-    border:1px solid var(--line);border-radius:99px;padding:1px 8px;white-space:nowrap}
-  .fl-more{margin-top:7px;font-size:11.5px;color:var(--ink-soft)}
-  .fl-more summary{cursor:pointer;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
-  .fl-more ul{margin:6px 0 0;padding-left:18px;line-height:1.6}
-  .fl-basis{margin-top:6px;line-height:1.55;max-width:88ch}
-  .fl-src{margin-top:6px;font-size:10.5px;color:var(--grey)}
-  .fl-exempt{margin:0;padding-left:18px;font-size:12px;line-height:1.65}
-  .fl-exempt .fl-why{display:block;margin-top:1px}
-</style>
+  This stub exists because a URL is a contract. /recipes-book/ is bookmarked, it
+  is pasted into chats, and data/cost_book_flags.json's own action text points
+  people at these pages. Deleting the directory would have turned all of that
+  into a 404 with no clue attached.
+
+  The redirect is computed by /_shared/recipe_tabs.js (pure, and every
+  historical URL form is driven through it by scripts/test_recipe_tabs.mjs), so
+  '#recipe=Negroni' arriving here still opens the Negroni, and a bare visit
+  still lands on the book rather than on the builder.
+
+  The <meta refresh> is the no-JavaScript floor: slower, but it never leaves
+  somebody on a blank page.
+-->
+<meta http-equiv="refresh" content="1;url=/recipes/#book">
+<link rel="stylesheet" href="/_shared/tokens.css?v=20260719b">
 </head>
 <body>
-<div id="gate"></div>
-<div id="app" style="display:none">
-  <header class="app-header"><div class="app-header-inner">
-    <a class="brand-row" href="/"><img src="/logo_512.png" alt=""><span class="group-brand">Stowaway Hospitality Group</span></a>
-    <div class="who"><span id="who"></span><a href="/">home</a></div>
-  </div></header>
-  <div class="wrap">
-    <h1>Recipe book</h1>
-    <p class="sub">Every recipe from Lightspeed, costed off <b>our own book</b> — the invoice-updated cost
-      feed, not Lightspeed's stale numbers. Each dish and drink shows its cost, menu price and gross profit;
-      the food-GP alerts flag anything selling too thin. Costs refresh as invoices land.</p>
-    <div class="bar">
-      <input id="q" type="search" placeholder="Search a recipe — negroni, meatlovers, gravy…" autocomplete="off">
-      <select id="filter">
-        <option value="all">All recipes</option>
-        <option value="menu">Menu items (has price)</option>
-        <option value="alert">GP alerts — selling too thin</option>
-        <option value="under">Under-costed (GP 95%+)</option>
-        <option value="batch">Batches / preps</option>
-      </select>
-      <select id="size"><option value="all">All sizes</option></select>
-      <select id="cat"><option value="all">All categories</option></select>
-      <span class="stat" id="stat"></span>
-    </div>
-    <div id="body"><div class="empty">Loading…</div></div>
-    <!-- Everything the book is still waiting on a human for. Drawn entirely by
-         ./flags.js from data/cost_book_flags.json — this file only supplies the
-         container, exactly as the sales dashboard only supplies its shell. -->
-    <div id="flags"></div>
-  </div>
-</div>
+<p style="font:14px/1.6 system-ui;padding:40px 20px;color:var(--ink-soft)">
+  The recipe book is now the first tab of <a href="/recipes/#book">/recipes/</a> — taking you there…
+</p>
 <script type="module">
-import { Auth } from '/_shared/auth.js';
-import { renderFlags } from './flags.js';
-let DATA = { recipes:{} };
-const esc = s => String(s ?? '').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const money = n => '$' + Number(n||0).toFixed(2);
-
-Auth.gate(document.getElementById('gate'), {
-  roles:['admin','bigchef','stowfood','hgfood','pizza'],
-  onOk: async (user) => {
-    document.getElementById('app').style.display='';
-    document.getElementById('who').textContent=user.name;
-    DATA = await fetch('/data/lightspeed_recipes_costed.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>({recipes:{}}));
-    // Category + how it actually SELLS, straight from the Sales Product API that
-    // already lives in this repo (built by scripts/build_products_api.py).
-    const cut=new Date(Date.now()-91*864e5).toISOString().slice(0,10);
-    for(const v of ['stow','hg','mari']){
-      const d=await fetch(`/sales/products/rollup_${v}.json`,{cache:'no-store'}).then(r=>r.json()).catch(()=>null);
-      if(!d) continue;
-      for(const p of (d.products||[])){
-        let q=0,rev=0;
-        for(const w of (p.weekly||[])) if(w.we>=cut){ q+=(+w.qty||0); rev+=(+w.sales_ex||0); }
-        const k=nrm(p.name), cur=SALES[k]||{qty:0,rev:0,group:p.reporting_group||''};
-        SALES[k]={qty:cur.qty+q, rev:cur.rev+rev, group:cur.group||p.reporting_group||''};
-      }
-    }
-    const cats=[...new Set(Object.values(SALES).map(x=>x.group).filter(Boolean))].sort();
-    document.getElementById('cat').innerHTML='<option value="all">All categories</option>'+cats.map(c=>`<option>${esc(c)}</option>`).join('');
-    // Filter by size so a GP ranking compares like with like — a Regular and a
-    // Large are different dishes, and mixing them makes the order meaningless.
-    const szs=[...new Set(Object.keys(DATA.recipes||{}).map(n=>sizeOf(n).lab).filter(Boolean))]
-      .sort((a,b)=>(SIZES.find(x=>x[1]===a)?.[2]||0)-(SIZES.find(x=>x[1]===b)?.[2]||0));
-    document.getElementById('size').innerHTML='<option value="all">All sizes</option>'+szs.map(x=>`<option>${esc(x)}</option>`).join('');
-    document.getElementById('size').addEventListener('change',render);
-    document.getElementById('cat').addEventListener('change',render);
-    document.getElementById('q').addEventListener('input',render);
-    document.getElementById('filter').addEventListener('change',render);
-    render();
-    renderFlags(document.getElementById('flags'));
-  },
-});
-
-const SALES={};
-// Click a column heading to sort by it; click again to flip. Default is the
-// question most often asked of this page: what sells most.
-let SORT={key:'qty', dir:-1};
-const COLS=[
-  {k:'name',  label:'Recipe',    cls:'',      val:(n,r)=>n.toLowerCase()},
-  {k:'sell',  label:'Sell',      cls:'r',     val:(n,r)=>r.sell_incl},
-  {k:'cost',  label:'Our cost',  cls:'r',     val:(n,r)=>r.our_cost},
-  {k:'gp',    label:'Food GP',   cls:'r',     val:(n,r)=>r.gp_pct},
-  {k:'qty',   label:'Sold 13wk', cls:'r',     val:(n,r)=>sale(n).qty||null},
-  {k:'size',  label:'Size',      cls:'',      val:(n,r)=>sizeOf(n).rank||null},
-  {k:'cat',   label:'Category',  cls:'',      val:(n,r)=>(sale(n).group||'').toLowerCase()},
-];
-window.sortBy = k => { SORT = (SORT.key===k) ? {key:k,dir:-SORT.dir}
-                                            : {key:k, dir:(k==='name'||k==='cat')?1:-1};
-                       render(); };
-// Match the POS product EXACTLY (bar case/punctuation). The bracket is not
-// decoration: 'Regular Margherita' is the takeaway/delivery product and
-// 'Regular Margherita [Dine-in]' is a different one that sells separately.
-// Stripping it merged three real products into one and reported the same
-// 209 units against each.
-const nrm = s => (s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-// Size lives in the product NAME, so read it there and rank it physically
-// (Kids < Regular < Large < Family) rather than alphabetically, which would put
-// Family before Kids and make the column useless for comparing like with like.
-const SIZES=[[/\bkids?\b/i,'Kids',1],[/\bgluten[- ]free\b/i,'Gluten-free',2],
-             [/\bregular\b/i,'Regular',3],[/\blarge\b/i,'Large',4],[/\bfamily\b/i,'Family',5]];
-const sizeOf = n => { for(const [rx,lab,rank] of SIZES) if(rx.test(n)) return {lab,rank}; return {lab:'',rank:0}; };
-const sale = n => SALES[nrm(n)] || {qty:0,rev:0,group:''};
-const gpClass = g => g==null?'':(g<0?'gp bad':g<55?'gp bad':g<65?'gp warn':'gp good');
-const isBatch = r => r.is_prep === true;
-
-function row(name,r){
-  const gp = r.gp_pct;
-  // No "our book" / "part LS" tag: coverage is 648/648, so it labelled every row
-  // identically and told nobody anything. If coverage ever regresses, audit_book.py
-  // is the thing that says so — not a badge on every line.
-  const tag = (r.is_prep ? '<span class="tag" style="background:color-mix(in srgb,var(--ink) 8%,var(--paper));color:var(--ink-soft)">prep</span>' : '');
-  return `<tr class="main">
-      <td>${esc(name)}${tag}</td>
-      <td class="r">${r.sell_incl?money(r.sell_incl):'—'}</td>
-      <td class="r">${money(r.our_cost)}</td>
-      <td class="r"><span class="${gpClass(gp)}">${gp==null?'—':gp+'%'}</span></td>
-      <td class="r" style="color:var(--ink-soft)">${sale(name).qty?Math.round(sale(name).qty).toLocaleString():'—'}</td>
-      <td style="color:var(--ink-soft)">${esc(sizeOf(name).lab||'—')}</td>
-      <td style="color:var(--ink-soft)">${esc(sale(name).group||'—')}</td>
-    </tr>`;
-}
-
-function render(){
-  const q=(document.getElementById('q').value||'').trim().toLowerCase();
-  const f=document.getElementById('filter').value;
-  const all=Object.entries(DATA.recipes||{});
-  const menu=all.filter(([n,r])=>r.sell_incl!=null && !r.is_prep);
-  const alerts=menu.filter(([n,r])=>r.gp_pct!=null && r.gp_pct<55);
-  // A menu GP at or above 95% is not a win, it is a missing ingredient or a bad
-  // quantity — Garlic Bread [Deal] charges 0.025 of a garlic bread where the
-  // normal one charges 1. Under-costing flatters GP, which is the direction that
-  // hurts, so it gets its own alert rather than sitting quietly at the top.
-  const under=menu.filter(([n,r])=>r.gp_pct!=null && r.gp_pct>=95);
-
-  let rows=all;
-  if(f==='menu') rows=menu;
-  else if(f==='alert') rows=alerts;
-  else if(f==='under') rows=under;
-  else if(f==='batch') rows=all.filter(([n,r])=>isBatch(r));
-  rows=rows.filter(([n])=>!q||n.toLowerCase().includes(q));
-  const c=document.getElementById('cat').value;
-  if(c!=='all') rows=rows.filter(([n])=>sale(n).group===c);
-  const sz=document.getElementById('size').value;
-  if(sz!=='all') rows=rows.filter(([n])=>sizeOf(n).lab===sz);
-  const col=COLS.find(c=>c.k===SORT.key)||COLS[4];
-  rows.sort((a,b)=>{
-    const x=col.val(a[0],a[1]), y=col.val(b[0],b[1]);
-    // A missing value is not "zero" — an unpriced recipe has no GP and an
-    // unmatched one no sales. Park them LAST whichever way the column is sorted,
-    // so flipping direction never fills the top with blanks.
-    const bx=(x===null||x===undefined||x===''), by=(y===null||y===undefined||y==='');
-    if(bx||by) return bx&&by ? a[0].localeCompare(b[0]) : (bx?1:-1);
-    if(typeof x==='string') return SORT.dir*x.localeCompare(y) || a[0].localeCompare(b[0]);
-    return SORT.dir*(x-y) || a[0].localeCompare(b[0]);
-  });
-  document.getElementById('stat').innerHTML=`<b>${rows.length}</b> shown`;
-  document.getElementById('body').innerHTML = rows.length
-    ? `<div class="pl"><table><thead><tr>${COLS.map(c=>
-        `<th class="${c.cls} sortable${SORT.key===c.k?' on':''}" onclick="sortBy('${c.k}')">${c.label}${SORT.key===c.k?(SORT.dir<0?' ▼':' ▲'):''}</th>`).join('')}</tr></thead><tbody>${rows.map(([n,r])=>row(n,r)).join('')}</tbody></table></div>`
-    : '<div class="empty">No recipes match.</div>';
-}
+import { redirectTarget } from '/_shared/recipe_tabs.js';
+window.location.replace(redirectTarget(window.location));
 </script>
 </body>
 </html>
