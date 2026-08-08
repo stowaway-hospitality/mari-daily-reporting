@@ -1,6 +1,6 @@
 {
   "date": "2026-08-06",
-  "generated_at": "2026-08-07T04:31:46.146678Z",
+  "generated_at": "2026-08-08T12:13:54.165185Z",
   "venue": "harry",
   "venue_display": "Harry Gatos",
   "lane_config": [
@@ -10,25 +10,36 @@
     "gp"
   ],
   "data_status": {
-    "lightspeed": "missing",
+    "lightspeed": "ok",
     "deputy": "ok",
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": null,
-    "revenue_ex_gst": null,
-    "cogs_dollars": null,
-    "cogs_pct": null,
-    "gp_dollars": null,
-    "gp_pct": null,
-    "cogs_source": null,
-    "cogs_lightspeed_dollars": null,
-    "recipe_coverage_pct": null,
+    "revenue_inc_gst": 2358.29,
+    "revenue_ex_gst": 2143.98,
+    "cogs_dollars": 381.65,
+    "cogs_pct": 17.8,
+    "gp_dollars": 1762.34,
+    "gp_pct": 82.2,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 369.01,
+    "recipe_coverage_pct": 60.1,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0,
-    "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null
+    "eatclub_giveaway_ex_gst": 27.74,
+    "eatclub_covers": 2,
+    "revenue_ex_gst_before_eatclub": 2171.72,
+    "food_ex_gst": 1564.09,
+    "bev_ex_gst": 607.55,
+    "food_cogs": 236.94,
+    "bev_cogs": 132.07,
+    "food_cogs_pct": 15.1,
+    "bev_cogs_pct": 21.7,
+    "food_gp_pct": 84.9,
+    "bev_gp_pct": 78.3,
+    "mari_rideon_ex_gst": 0.0,
+    "hg_food_out_ex_gst": 0.0,
+    "stow_food_out_ex_gst": 0.0
   },
   "wages": {
     "kitchen_dollars": 502.93,
@@ -36,27 +47,27 @@
     "driver_dollars": 0,
     "admin_dollars": 49.19,
     "leave_dollars": 0,
-    "total_dollars": null,
-    "wages_pct": null,
+    "total_dollars": 832.96,
+    "wages_pct": 38.9,
     "net_wage_pct": null,
     "kitchen_hours": 10.5,
     "foh_hours": 6.5,
-    "wages_kitchen_pct": null,
-    "wages_foh_pct": null,
+    "wages_kitchen_pct": 32.2,
+    "wages_foh_pct": 46.2,
     "includes_super": true,
     "salaried_synthesized": true
   },
   "delivery": null,
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "unknown",
-    "wages": "unknown",
+    "cogs": "green",
+    "wages": "red",
     "delivery": "n/a",
-    "gp": "unknown",
-    "cogs_food": "unknown",
-    "cogs_bev": "unknown",
-    "wages_kitchen": "unknown",
-    "wages_foh": "unknown"
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "green",
+    "wages_kitchen": "red",
+    "wages_foh": "red"
   },
   "targets": {
     "cogs": {
@@ -100,5 +111,160 @@
       "target_direction": "high_is_good"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Unlimited BBQ",
+      "qty": 11.0,
+      "rev": 495.0,
+      "cost": 94.42,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Harry's Lager - Pint",
+      "qty": 17.0,
+      "rev": 217.5,
+      "cost": 35.853,
+      "cost_source": "recipe",
+      "cost_lightspeed": 38.51
+    },
+    {
+      "name": "Chicken Katsu Curry",
+      "qty": 5.0,
+      "rev": 135.0,
+      "cost": 15.161,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.29
+    },
+    {
+      "name": "Mie Goreng",
+      "qty": 6.0,
+      "rev": 118.0,
+      "cost": 34.023,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.09
+    },
+    {
+      "name": "Miso",
+      "qty": 4.0,
+      "rev": 116.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Shredded Beef",
+      "qty": 4.0,
+      "rev": 104.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Duck Spring Roll",
+      "qty": 6.0,
+      "rev": 96.0,
+      "cost": 21.42,
+      "cost_source": "recipe",
+      "cost_lightspeed": 21.43
+    },
+    {
+      "name": "Dumplings - Prawn Har Gow [GF]",
+      "qty": 5.0,
+      "rev": 93.0,
+      "cost": 22.006,
+      "cost_source": "recipe",
+      "cost_lightspeed": 22.07
+    },
+    {
+      "name": "BBQ Pork Buns",
+      "qty": 6.0,
+      "rev": 90.0,
+      "cost": 21.0,
+      "cost_source": "recipe",
+      "cost_lightspeed": 21.0
+    },
+    {
+      "name": "Shoyu",
+      "qty": 3.0,
+      "rev": 87.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Tonkotsu",
+      "qty": 3.0,
+      "rev": 87.0,
+      "cost": 12.5229,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.49
+    },
+    {
+      "name": "Devon's Prawn Toast",
+      "qty": 5.0,
+      "rev": 80.0,
+      "cost": 19.437,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.44
+    },
+    {
+      "name": "Sapporo - 500ml",
+      "qty": 6.0,
+      "rev": 76.5,
+      "cost": 22.26,
+      "cost_source": "recipe",
+      "cost_lightspeed": 22.44
+    },
+    {
+      "name": "Chicken Karaage",
+      "qty": 3.0,
+      "rev": 51.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fried Rice",
+      "qty": 2.0,
+      "rev": 46.0,
+      "cost": 6.4158,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.36
+    },
+    {
+      "name": "Harry's Lager - Schooner",
+      "qty": 4.0,
+      "rev": 38.0,
+      "cost": 6.29,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.76
+    },
+    {
+      "name": "Aperol Spritz",
+      "qty": 2.0,
+      "rev": 38.0,
+      "cost": 7.1058,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.41
+    },
+    {
+      "name": "Edamame",
+      "qty": 3.0,
+      "rev": 33.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "L'esprit Ros\u00e9 - Regular",
+      "qty": 2.0,
+      "rev": 32.0,
+      "cost": 7.2,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.09
+    },
+    {
+      "name": "Esoterico Orange - Regular",
+      "qty": 2.0,
+      "rev": 30.0,
+      "cost": 5.372,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.37
+    }
+  ]
 }
