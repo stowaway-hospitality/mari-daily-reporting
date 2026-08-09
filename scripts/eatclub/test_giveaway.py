@@ -89,6 +89,59 @@ def test_unredeemed_still_excluded_for_takeaway():
     assert g["giveaway_inc"] == 0.0
 
 
+def test_unknown_status_raises_instead_of_being_dropped():
+    """The bug class. A status we have not classified must stop the run."""
+    rows = [{"party_size": "2", "offer_pct": "25", "bill_full": "88.00",
+             "net_revenue": "58.08", "status": "SETTLED"}]
+    try:
+        giveaway.day_giveaway(rows, "2026-08-09", "Marilynas Famous Pizza")
+    except giveaway.UnknownEatClubStatus as e:
+        assert "SETTLED" in str(e)
+    else:
+        raise AssertionError("unknown status was silently swallowed")
+
+
+def test_known_statuses_do_not_raise():
+    for s in ("PAID", "COMPLETED", "UNREDEEMED", "PENDING", "", "  paid  "):
+        giveaway.day_giveaway(
+            [{"party_size": "1", "offer_pct": "25", "bill_full": "10.00",
+              "net_revenue": "7.00", "status": s}], "2026-08-09", "Stowaway Bar")
+
+
+def test_reconcile_passes_on_consistent_facts():
+    facts = [giveaway.day_giveaway(MARI_AUG07, "2026-08-07", "Marilynas Famous Pizza")]
+    got = giveaway.reconcile(facts, MARI_AUG07)
+    assert got["tables"] == 4
+    assert got["giveaway_inc"] == 148.94
+
+
+def test_reconcile_catches_a_dropped_table():
+    """Simulate the COMPLETED bug: facts built from PAID only, source has four."""
+    only_paid = [r for r in MARI_AUG07 if r["status"] == "PAID"]
+    facts = [giveaway.day_giveaway(only_paid, "2026-08-07", "Marilynas Famous Pizza")]
+    try:
+        giveaway.reconcile(facts, MARI_AUG07)
+    except giveaway.GiveawayReconcileError as e:
+        assert "1 tables" in str(e) and "4 redeemed" in str(e)
+    else:
+        raise AssertionError("reconcile missed a dropped table")
+
+
+def test_reconcile_catches_a_redeemed_row_with_no_bill():
+    """A redemption whose money never lands is the same silent drop."""
+    rows = MARI_AUG07 + [
+        {"date": "2026-08-07", "venue": "Marilynas Famous Pizza", "party_size": "2",
+         "offer_pct": "30", "bill_full": "70.00", "net_revenue": "41.30", "status": "PAID"},
+    ]
+    facts = [giveaway.day_giveaway(MARI_AUG07, "2026-08-07", "Marilynas Famous Pizza")]
+    try:
+        giveaway.reconcile(facts, rows)
+    except giveaway.GiveawayReconcileError:
+        pass
+    else:
+        raise AssertionError("reconcile missed an unaccounted redeemed row")
+
+
 def test_dollar_and_comma_cleaning():
     rows = [{"party_size": "2", "offer_pct": "30", "bill_full": "$1,090.00",
              "net_revenue": "$643.10", "status": "PAID"}]

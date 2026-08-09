@@ -28,8 +28,29 @@ import os
 VENUE_PREFIX = {"stowaway": "stow", "harry": "hg", "marilynas": "mari"}
 
 # A redemption the diner actually paid for. Dine-in settles as PAID; Marilyna's
-# takeaway settles as COMPLETED. UNREDEEMED offers cost nothing and are excluded.
+# takeaway settles as COMPLETED.
 REDEEMED_STATUSES = frozenset({"PAID", "COMPLETED"})
+
+# Rows that correctly contribute nothing: the offer was never taken up, or the
+# money has not settled yet. Blank is what the portal renders for an unclaimed
+# offer, so a blank cell is a real value here, not missing data.
+UNSETTLED_STATUSES = frozenset({"UNREDEEMED", "PENDING", ""})
+
+KNOWN_STATUSES = REDEEMED_STATUSES | UNSETTLED_STATUSES
+
+
+class UnknownEatClubStatus(ValueError):
+    """A status EatClub has never sent us before.
+
+    This exists because of the COMPLETED bug (fixed 2026-08-09): the filter was
+    `status != "PAID" -> skip`, so when Marilyna's takeaway flow started settling
+    as COMPLETED, every Mari redemption was silently treated as unredeemed and
+    $327.83 of give-away went unrecorded for the whole program. An unrecognised
+    status is a fact about the portal we do not yet understand, and guessing
+    which side of the line it falls on is how that money went missing quietly.
+    So: stop, and make a human classify it into REDEEMED_STATUSES or
+    UNSETTLED_STATUSES. Loud and rare beats silent and wrong.
+    """
 
 
 def _f(x):
@@ -44,12 +65,23 @@ def day_giveaway(rows, date, venue):
     Only redeemed rows with a bill count — PAID (dine-in) or COMPLETED
     (Marilyna's takeaway). UNREDEEMED offers cost nothing. Returns the dict
     written to data/eatclub_{prefix}_{date}.json.
+
+    Raises UnknownEatClubStatus if the portal sends a status we have never
+    classified, rather than defaulting it to "not redeemed".
     """
     covers = 0
     menu_inc = net_inc = discount_inc = 0.0
     paid = 0
     for r in rows:
-        if (r.get("status") or "").upper() not in REDEEMED_STATUSES:
+        status = (r.get("status") or "").strip().upper()
+        if status not in KNOWN_STATUSES:
+            raise UnknownEatClubStatus(
+                f"{venue} {date}: unrecognised EatClub status {status!r} "
+                f"(bill {r.get('bill_full')!r}). Classify it in giveaway.py as "
+                f"REDEEMED_STATUSES or UNSETTLED_STATUSES before this day can be "
+                f"costed - refusing to guess and under-report the give-away."
+            )
+        if status not in REDEEMED_STATUSES:
             continue
         bill = _f(r.get("bill_full"))
         if bill <= 0:
@@ -76,9 +108,53 @@ def day_giveaway(rows, date, venue):
     }
 
 
+class GiveawayReconcileError(AssertionError):
+    """The facts written do not add up to the source CSV.
+
+    The COMPLETED bug was invisible precisely because nothing ever checked the
+    total. Every redeemed row in the transactions master must land in exactly
+    one dated fact, so the sum of what we wrote has to equal the sum of what we
+    read. If it does not, rows are being dropped somewhere and the margin
+    correction is understated — the same failure, wearing a different hat.
+    """
+
+
+def reconcile(day_facts, rows):
+    """Check the written facts account for every redeemed row in the source.
+
+    day_facts: the fact dicts produced for this CSV. rows: the raw CSV rows.
+    Compares both table counts and give-away dollars. Rounding is per-day, so
+    the dollar tolerance scales with the number of days. Raises
+    GiveawayReconcileError on a mismatch; returns the totals otherwise.
+    """
+    redeemed = [r for r in rows
+                if (r.get("status") or "").strip().upper() in REDEEMED_STATUSES
+                and _f(r.get("bill_full")) > 0]
+    src_tables = len(redeemed)
+    src_giveaway = sum(_f(r.get("bill_full")) - _f(r.get("net_revenue")) for r in redeemed)
+
+    got_tables = sum(f["tables"] for f in day_facts)
+    got_giveaway = sum(f["giveaway_inc"] for f in day_facts)
+
+    tol = 0.01 * max(1, len(day_facts))
+    if got_tables != src_tables or abs(got_giveaway - src_giveaway) > tol:
+        raise GiveawayReconcileError(
+            f"give-away facts do not reconcile to source: "
+            f"wrote {got_tables} tables / ${got_giveaway:.2f}, "
+            f"source has {src_tables} redeemed rows / ${src_giveaway:.2f} "
+            f"(diff ${got_giveaway - src_giveaway:+.2f}). "
+            f"Rows are being dropped - check for an unhandled status or a "
+            f"redeemed row with no bill."
+        )
+    return {"tables": src_tables, "giveaway_inc": round(src_giveaway, 2)}
+
+
 def write_from_transactions(transactions_csv, data_dir):
     """Group a per-venue EatClub transactions CSV by date and write one
     data/eatclub_{prefix}_{date}.json per trading day. Returns the paths written.
+
+    Reconciles the facts against the source before returning, so a silent drop
+    fails the run instead of quietly understating the margin correction.
     """
     with open(transactions_csv, newline="") as f:
         rows = list(csv.DictReader(f))
@@ -89,14 +165,18 @@ def write_from_transactions(transactions_csv, data_dir):
         by_key.setdefault((prefix, venue, r["date"]), []).append(r)
 
     written = []
+    facts = []
     for (prefix, venue, date), day_rows in sorted(by_key.items()):
         fact = day_giveaway(day_rows, date, venue)
+        facts.append(fact)
         if fact["giveaway_inc"] <= 0:
             continue
         out = os.path.join(data_dir, f"eatclub_{prefix}_{date}.json")
         with open(out, "w") as fh:
             json.dump(fact, fh, indent=2)
         written.append(out)
+
+    reconcile(facts, rows)
     return written
 
 
