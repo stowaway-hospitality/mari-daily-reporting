@@ -16,6 +16,7 @@ from datetime import datetime
 from decimal import Decimal, InvalidOperation
 
 from modules.invoices import pdf_text
+from modules.invoices.pack_size import names_a_unit
 from modules.invoices.models import (CostBasis, Invoice, InvoiceLine, LineClass,
                                      TaxTreatment, Venue)
 from modules.invoices.parsers import register
@@ -89,7 +90,28 @@ def parse(pdf_bytes: bytes) -> Invoice:
                 parts.append(pdf_text.bucket(body[idx + 1], COLS)["desc"].strip())
             desc = " ".join(p for p in parts if p).strip()
         g = _m(c["gst"]) or Decimal("0")
-        unit = c["unit"]
+        # THE UNIT COLUMN WRAPS TOO. FFT prints "200g punnet" across two rows and
+        # the money row lands between them, so the money row's own unit cell is
+        # empty and the line went to the cost book with NO stated unit at all —
+        # leaving pack_size.parse_pack to scavenge a size out of the description.
+        # On MKB500PUNN the description had wrapped to "Punnet) 8 x 100g packs
+        # supplied for", the scavenge read 8 x 100 g, and a 200 g punnet was
+        # booked as 800 g: King Brown mushrooms at $7.56/kg against the $30.25/kg
+        # every other delivery of the same code states. Same stitch as the
+        # description, for the same reason, from the same neighbouring rows.
+        unit = c["unit"].strip()
+        if not unit:
+            uparts = []
+            if idx - 1 >= 0 and not is_money(body[idx - 1]):
+                uparts.append(pdf_text.bucket(body[idx - 1], COLS)["unit"].strip())
+            if idx + 1 < len(body) and not is_money(body[idx + 1]):
+                uparts.append(pdf_text.bucket(body[idx + 1], COLS)["unit"].strip())
+            stitched = " ".join(p for p in uparts if p).strip()
+            # Only if it actually NAMES a unit. On INB00109089 the layout shifts
+            # (the SKU cell absorbs "Kilogram") and the neighbours' unit cells
+            # hold description text — stitching that gave "Cabbage 500g" and made
+            # a per-kilogram line a 500 g pack. A measure alone is not enough.
+            unit = stitched if names_a_unit(stitched) else ""
         cb = CostBasis.PER_KG if re.search(r"kilo|kg", unit, re.I) else CostBasis.PER_UNIT
         items.append(InvoiceLine(
             description=desc or c["sku"], qty=qty, line_total_incl=amt + g,

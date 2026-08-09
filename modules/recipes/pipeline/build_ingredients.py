@@ -55,6 +55,7 @@ sys.path.insert(0, str(ROOT))
 from core.domain import (canonical_purchasable, normalize_code,   # noqa: E402
                          purchasable_id)   # the SAME natural key the cost engine uses
 from core.pack_overrides import load_pack_overrides   # noqa: E402
+from modules.invoices.pack_size import single_unit_content   # noqa: E402
 COGS = ROOT / "data" / "cogs_list.csv"
 OUT = ROOT / "data" / "ingredients.json"
 PACK_OVERRIDES = ROOT / "data" / "pack_overrides.yaml"
@@ -381,6 +382,26 @@ def resolve_pack(desc: str, cost, basis: str = "", note: str = "", code: str = "
         return Decimal(1000), "g", (cost / 1000).quantize(Decimal("0.000001")), "per kg (invoice)", None
     if b in ("lt", "l", "litre"):
         return Decimal(1000), "ml", (cost / 1000).quantize(Decimal("0.000001")), "per L (invoice)", None
+
+    # THE SUPPLIER'S OWN UOM OUTRANKS A SCAVENGED DESCRIPTION, where the UOM
+    # names one sellable thing and states its size ("200g punnet"). A description
+    # is free text: it wraps, it truncates, and it carries substitution notes.
+    # MKB500PUNN arrived as "Punnet) 8 x 100g packs supplied for" — a fragment
+    # whose "8 x 100g" is the TOTAL of a four-punnet line — and reading it as one
+    # punnet booked King Brown mushrooms at $7.56/kg against the $30.25/kg every
+    # other delivery of the same code states.
+    #
+    # single_unit_content refuses a multi ("6x700ML") and a bulk label ("CTN-6")
+    # precisely so this cannot become the case/bottle error in a new place: those
+    # need a second source to tell a case price from a bottle price, which is
+    # seed_matched_liquor_cost's job, not this one's.
+    suc = single_unit_content(note)
+    if suc:
+        _q, _u = suc
+        _base = (_q * 1000).quantize(Decimal("0.000001"))
+        _bu = "g" if _u == "kg" else "ml"
+        _per = (cost / _base).quantize(Decimal("0.000001"))
+        return _base, _bu, _per, f"{note.strip()} (invoice UOM)", out_of_bounds(_per, _bu)
 
     qty, unit, how = parse_pack(desc)
     if qty and unit and unit in ("g", "ml"):

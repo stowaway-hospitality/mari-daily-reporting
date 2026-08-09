@@ -96,6 +96,24 @@ SUPPLIER_ALIAS = {
 DERIVED = ("cost_per_unit_incl_gst", "pack_qty", "pack_unit", "cost_per_base_unit")
 # A human's judgement, recorded against the row. Never re-derived.
 JUDGED = ("lightspeed_product", "basis", "pack_size")
+# A PRICE AND ITS BASIS ARE ONE STATEMENT, so a row may never take half of each.
+# "$12.20" means nothing until you know it is per kg and not per bag, and B&E
+# 12776 is what taking halves looks like:
+#
+#   stored   $61.00  basis per_unit   desc "...5MM PREMIUM 5KG BAG"
+#            -> the description's 5 kg divides it: $0.0122/g. Correct.
+#   parser   $12.20  basis per_kg
+#            -> per kg (invoice) divides by 1 kg: $0.0122/g. Also correct.
+#   mixed    $12.20  basis per_unit   (price re-derived, basis pinned)
+#            -> the description's 5 kg divides a PER-KG price: $0.00244/g.
+#               $2.44/kg for chicken breast, five times under, from two readings
+#               that are each individually right.
+#
+# basis stays JUDGED — re-deriving it moved 19 unrelated rows off a per-keg /
+# per-bottle / per-can basis a human had chosen — so _cheaper refuses any
+# re-derive that would change the basis AND the price together. Neither source
+# is wrong; the mixture is, and the mixture is what is forbidden.
+
 # How much cheaper a re-derive may come out before it is held for review. Not a
 # judgement about money — it separates two populations that do not overlap.
 # Re-deriving through a different division path moves the LAST STORED DIGIT of a
@@ -132,6 +150,17 @@ def _cheaper(old: dict, new: dict) -> str:
     comparable — $/ea and $/L are different questions — so it is allowed through
     and reported.
     """
+    # A price and its basis are ONE statement, and `basis` is JUDGED (not
+    # re-derived), so a re-derive that moves the price under a DIFFERENT basis
+    # would leave the row holding half of each reading — see the note above
+    # DERIVED. Refuse the whole row rather than assemble a false one.
+    ob, nb = (old.get("basis") or "").strip(), (new.get("basis") or "").strip()
+    op = (old.get("cost_per_unit_incl_gst") or "").strip()
+    np_ = (new.get("cost_per_unit_incl_gst") or "").strip()
+    if ob and nb and ob != nb and op != np_:
+        return (f"basis {ob} -> {nb} while the price moves {op} -> {np_}; the row "
+                f"keeps its basis, so it would hold half of each reading")
+
     ou, nu = (old.get("pack_unit") or "").strip(), (new.get("pack_unit") or "").strip()
     cbu_was, cbu_now = ((old.get("cost_per_base_unit") or "").strip(),
                         (new.get("cost_per_base_unit") or "").strip())
