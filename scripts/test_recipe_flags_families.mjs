@@ -86,7 +86,10 @@ if (!fs.existsSync(p)) {
     || (f.what_is_wrong || '').includes(s));
 
   // Every family, by category key.
-  for (const c of ['cook_loss', 'structure', 'batch_yield', 'price_conflict',
+  // batch_yield is NOT in this list: every one of its findings has been settled
+  // (real Lightspeed yields + the chilli rate), and a family that is fully
+  // resolved should read as empty, not as a broken build.
+  for (const c of ['cook_loss', 'structure', 'price_conflict',
                    'no_recipe', 'back_office', 'bad_seed', 'decision',
                    'feed_defect']) {
     ok(`family present: ${c}`, cats.has(c), [...cats].join(','));
@@ -133,7 +136,7 @@ if (!fs.existsSync(p)) {
   //    total: the count legitimately falls as findings get settled (Cauliflower
   //    Burrito's cheese was resolved on 2026-08-09 — it carries vegan cheese at
   //    the same 55 g), and a pinned number turns every real fix into a red build.
-  for (const c of ['structure', 'batch_yield', 'price_conflict']) {
+  for (const c of ['structure', 'price_conflict']) {
     ok(`reconcile family carried: ${c}`, d.flags.some(f => f.category === c));
   }
   // No total pinned here on purpose. The per-family checks above are the real

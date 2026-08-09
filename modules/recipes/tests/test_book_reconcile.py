@@ -250,7 +250,7 @@ def test_a_batch_may_hold_less_than_it_makes_and_never_more(book):
     assert not (low & {f["recipe"] for f in br.batch_overflow(book)})
 
 
-def test_only_mango_chilli_still_states_more_than_it_makes(book):
+def test_no_batch_states_more_than_it_makes_any_more(book):
     """The measured output, against the REAL yields.
 
     RESOLVED 2026-08-09 by reading the REAL yields out of Lightspeed Produce
@@ -261,10 +261,7 @@ def test_only_mango_chilli_still_states_more_than_it_makes(book):
     Only Mango-Chilli survives, and now against its true 1,050 mL.
     """
     got = {f["recipe"]: f["multiple"] for f in br.batch_overflow(book)}
-    assert set(got) == {"Mango-Chilli Puree [1L]"}, sorted(got)
-    for gone in ("Cooked Beef Brisket [1Kg]", "Jalapeño Tequila [1L]",
-                 "Coconut-washed Rooster Blanco [1L]"):
-        assert gone not in got, gone
+    assert got == {}, sorted(got)
 
 
 def test_a_batch_finding_names_both_readings_not_one(book):
@@ -273,12 +270,19 @@ def test_a_batch_finding_names_both_readings_not_one(book):
     opposite consequences for the per-kilo rate everything downstream divides
     by. The finding carries the declared yield, the input total and the biggest
     line, so a human can answer it without opening Produce."""
-    # Brisket is no longer a finding (its real yield is 10.5 kg, so 10 kg of raw
-    # brisket fits), so the contract is checked on the one that remains.
-    f = next(x for x in br.batch_overflow(book) if x["recipe"] == "Mango-Chilli Puree [1L]")
-    assert f["declared"] == 1050.0 and f["declared_unit"] == "ml"   # from Lightspeed
-    assert f["inputs"] > f["declared"]
-    assert f["biggest_line"][0]
+    # The family is EMPTY now, and that is the finding. Three were the label being
+    # wrong (real yields from Lightspeed); the fourth, Mango-Chilli, was a 10x-low
+    # chilli rate — $10.00 of chilli read as 8,569 g because the book priced it at
+    # $1.1667/kg. At the invoiced $16.00/kg the same $10.00 is 625 g and the batch
+    # fits its 1,050 mL. So the contract is checked on the shape of a finding, not
+    # on a live one, and the emptiness is asserted where the fix can regress it.
+    assert br.batch_overflow(book) == []
+    made_up = {"Fake [1L]": {"ingredients": [
+        {"name": "x", "qty": "9000", "unit": "ml", "eff_cost": 1.0}]}}
+    f = br.batch_overflow(made_up)[0]
+    assert f["declared"] == 1000.0 and f["declared_unit"] == "ml"
+    assert f["inputs"] == 9000.0
+    assert f["biggest_line"][0] == "x"
 
 
 def test_the_declared_yield_convention_is_real(book):
@@ -369,8 +373,12 @@ def test_the_four_price_conflicts_that_are_left(book):
     assert "Angostura Bitters - Bottle 200ml" not in {
         f["ingredient"] for f in br.price_conflicts(book, adjud)}
     got = {f["ingredient"]: f for f in br.price_conflicts(book, adjud, twins)}
+    # Red Chilli joined 2026-08-09 and it is a REAL finding: the book now carries the
+    # invoiced $16.00/kg (Select Fresh 2026-08-08) where Lightspeed still holds the
+    # $1.1667/kg it derived from its own recipe lines. Our side is the evidenced one.
     assert set(got) == {"Massenez Elderflower [5L]", "Bittermen's Tiki Bitters [Bottle]",
-                        "Beans Edamame Soy Frozen [350g]", "Noodles Instant Ayam [700g]"}, sorted(got)
+                        "Beans Edamame Soy Frozen [350g]", "Noodles Instant Ayam [700g]",
+                        "Red Chilli [10/Kg]"}, sorted(got)
     assert got["Massenez Elderflower [5L]"]["ratio"] == 10.47
     assert got["Massenez Elderflower [5L]"]["ours_is_dearer"] is True
     assert got["Bittermen's Tiki Bitters [Bottle]"]["ours_is_dearer"] is False
