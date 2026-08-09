@@ -43,9 +43,10 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from check_pack_agreement import findings  # noqa: E402
+from check_pack_agreement import book_findings, findings  # noqa: E402
 
 COGS = ROOT / "data" / "cogs_list.csv"
+COSTS = ROOT / "data" / "costs.csv"
 
 # Invoices that cannot be re-read from data/invoice_corpus. Empty, and meant to
 # stay that way — an entry here is a cost the book knows is wrong.
@@ -105,6 +106,44 @@ def test_the_six_recovered_ilg_invoices_stay_fixed():
         assert abs(float(pq) - one) < 1e-6, (
             f"{r['source_invoice']} {r['supplier_code']}: pack {pq} is not one "
             f"unit ({one}) of {note}")
+
+
+def test_the_book_itself_has_no_pack_factor_outlier():
+    """PASS 2, against data/costs.csv — the rate a recipe actually costs off.
+
+    Pass 1 reads the invoice; this reads the book, and they are not the same
+    test. Foodlink BEANS BLACK WHOLE TIN A10 sat at $0.0174/g on one delivery
+    between two at $0.0029/g — a CTN-6 carton divided by one tin — and pass 1
+    could not see it, because the misread had moved the pack_unit too and filed
+    the outlier apart from its own siblings.
+
+    Only an outlier IN TIME counts: the median must be observed both before and
+    after it, so a genuine price change (coriander $15.40 -> $7.70 at the end of
+    May, and never back) is not reported as a 2x misread."""
+    if not COSTS.exists():
+        pytest.skip("costs.csv not built")
+    found = book_findings(list(csv.DictReader(COSTS.open(encoding="utf-8-sig"))))
+    assert not found, "\n".join(
+        f"{f['code']} {f['description']} — {f['date']} reads {f['rate']} against "
+        f"a median {f['median']} per {f['unit']}, exactly {f['factor']}x "
+        f"{f['direction']} (invoice {f['invoice']})" for f in found)
+
+
+def test_the_book_pass_can_actually_fire():
+    """Same discipline as pass 1: plant a 6x outlier BETWEEN two good
+    observations and it must be named. Plant it at the END and it must not — that
+    is a price change, not a misread."""
+    def row(ing, when, rate):
+        return {"ingredient": ing, "observed_on": when, "cost_per_unit": rate,
+                "unit": "g", "source_invoice": f"i{when}", "description": "thing"}
+    sandwiched = [row("t:1", "2026-01-01", "0.0029"), row("t:1", "2026-02-01", "0.0174"),
+                  row("t:1", "2026-03-01", "0.0029")]
+    got = book_findings(sandwiched)
+    assert len(got) == 1 and got[0]["factor"] == 6 and got[0]["direction"] == "OVER"
+
+    regime = [row("t:2", "2026-01-01", "0.0029"), row("t:2", "2026-02-01", "0.0029"),
+              row("t:2", "2026-03-01", "0.0174")]
+    assert not book_findings(regime), "a price change was reported as a misread"
 
 
 def test_the_detector_can_actually_fire():

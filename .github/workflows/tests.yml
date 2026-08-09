@@ -50,6 +50,15 @@ jobs:
       - name: Schema guard (history CSVs must not regress)
         run: python3 scripts/schema_guard.py
 
+      - name: Pack agreement (a price and its pack must describe the same unit)
+        # The ILG case/bottle class: a line whose PRICE counts one thing while
+        # its PACK describes another. It hid for months because the wrong number
+        # was self-consistent. A misread moves a cost by a WHOLE PACK FACTOR
+        # (6x, 12x, 24x) and real price movement never lands on 6.000, so each
+        # supplier code is its own control via the median of its deliveries.
+        # --strict so a finding fails the build instead of scrolling past.
+        run: python3 scripts/check_pack_agreement.py --strict
+
       - name: Tests (pytest)
         run: python3 -m pytest
 
