@@ -10,7 +10,27 @@ runners (portal pull, hourly ingest, dashboard render) sit on top of this.
 | `config.py` | per-venue EatClub config + the RG split that separates Stowaway from Marilyna's on the shared Stow till. Mirrors `daily_aggregator.classify_product` exactly. |
 | `metrics.py` | `contribution_*` (net of discount/commission/COGS, ex-GST, Decimal) and the verdict functions: `assess_dinein` (HG, Stowaway) and `assess_takeaway` (Marilyna's). |
 | `baseline.py` | pre-launch day-of-week baselines. Dine-in = window revenue; Marilyna's = `delivery_dollars` from `mari_daily_history.csv`. |
-| `test_*.py` | seeded with the real HG nights pulled 2026-07-18. |
+| `giveaway.py` | the fee give-away fact the daily aggregator subtracts. Guards: unknown status raises, facts reconcile to source, one venue per file. |
+| `daily_run.py` | **the morning read.** `--date YYYY-MM-DD`. Wires the immutable inputs into `assess_dinein` / `assess_takeaway` so no figure is ever typed by hand. |
+| `portal_capture.js` | canonical browser extractor. Refuses to return rows unless the store matches and the table is not truncated. |
+| `test_*.py` | seeded with the real HG nights pulled 2026-07-18 and 2026-08-08. |
+
+## Run the morning read
+
+```
+python3 scripts/eatclub/daily_run.py --date 2026-08-08
+```
+
+Before it, `hg_hourly.csv` in the EatClub folder must be refreshed from
+Lightspeed `salesummarybyhour` (HG site 151095 — switch BOTH `purchase.kounta`
+and `my.kounta`, they are separate contexts). The runner drops zero-revenue days
+from the series: a closed night is not a weak night, and averaging closed days
+into a day-of-week baseline silently deflates it.
+
+Superseded: the per-night `_beh_*.py` / `_cannib*.py` scripts in the Daily Sales
+EatClub folder. They re-typed the window total, the EatClub bills and the eight
+baseline values as literals every run, and `_cannib.py` read a snapshot that had
+stopped a month earlier while still printing confident verdicts.
 
 Run: `python3 -m pytest scripts/eatclub`
 

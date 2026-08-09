@@ -72,7 +72,9 @@ def day_giveaway(rows, date, venue):
     covers = 0
     menu_inc = net_inc = discount_inc = 0.0
     paid = 0
+    offers = unredeemed = 0
     for r in rows:
+        offers += 1
         status = (r.get("status") or "").strip().upper()
         if status not in KNOWN_STATUSES:
             raise UnknownEatClubStatus(
@@ -82,6 +84,7 @@ def day_giveaway(rows, date, venue):
                 f"costed - refusing to guess and under-report the give-away."
             )
         if status not in REDEEMED_STATUSES:
+            unredeemed += 1
             continue
         bill = _f(r.get("bill_full"))
         if bill <= 0:
@@ -100,6 +103,11 @@ def day_giveaway(rows, date, venue):
         "venue": venue,
         "tables": paid,
         "covers": covers,
+        # Offer take-up. Unredeemed costs nothing, but the RATE is a signal: a
+        # spike means offers sat live on a night nobody claimed them (e.g. a
+        # Monday offer left on at HG, which should never happen).
+        "offers": offers,
+        "unredeemed": unredeemed,
         "menu_inc": round(menu_inc, 2),
         "net_inc": round(net_inc, 2),
         "giveaway_inc": round(giveaway_inc, 2),        # the aggregator reads this
@@ -149,6 +157,39 @@ def reconcile(day_facts, rows):
     return {"tables": src_tables, "giveaway_inc": round(src_giveaway, 2)}
 
 
+class VenueContaminationError(AssertionError):
+    """A per-venue transactions file holds rows from more than one venue.
+
+    The EatClub partner portal serves three stores behind one login and ALWAYS
+    opens on Stowaway Bar; the store name appears only in the sidebar and page
+    title. On 22-23 Jul 2026 a pull read rows without switching store first and
+    wrote Stowaway tables into the Harry Gatos master. Until now the only defence
+    was a warning in the runbook telling the operator to check the page title.
+
+    This is the structural version of that check: a venue file may contain
+    exactly one venue, so contamination fails the run at the first write instead
+    of quietly poisoning a venue's history.
+    """
+
+
+def assert_single_venue(transactions_csv, rows):
+    """Every row in a per-venue file must name the same venue."""
+    venues = sorted({(r.get("venue") or "").strip() for r in rows if r.get("venue")})
+    if len(venues) > 1:
+        counts = {}
+        for r in rows:
+            v = (r.get("venue") or "").strip()
+            counts[v] = counts.get(v, 0) + 1
+        raise VenueContaminationError(
+            f"{os.path.basename(transactions_csv)} contains {len(venues)} venues "
+            f"({counts}) - it must hold exactly one. This is the wrong-store "
+            f"signature: the EatClub portal opens on Stowaway Bar, so a pull that "
+            f"skipped the store switch writes another venue's tables here. Confirm "
+            f"the store in the page title, then repair the file before re-running."
+        )
+    return venues[0] if venues else None
+
+
 def write_from_transactions(transactions_csv, data_dir):
     """Group a per-venue EatClub transactions CSV by date and write one
     data/eatclub_{prefix}_{date}.json per trading day. Returns the paths written.
@@ -158,6 +199,9 @@ def write_from_transactions(transactions_csv, data_dir):
     """
     with open(transactions_csv, newline="") as f:
         rows = list(csv.DictReader(f))
+
+    assert_single_venue(transactions_csv, rows)
+
     by_key = {}
     for r in rows:
         venue = (r.get("venue") or "").strip()

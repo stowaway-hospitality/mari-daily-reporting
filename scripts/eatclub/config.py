@@ -59,8 +59,14 @@ def is_stowaway_proper_row(reporting_group: str, product_name: str = "") -> bool
 #
 # window_hours: the offer window for dine-in venues, POS hour buckets.
 # launch_date : EatClub go-live. Baseline is the 8 weeks BEFORE this. None = not
-#               live yet (Stowaway is still behind the EatClub onboarding tour;
-#               Marilyna's date TBC). Cannibalisation must refuse to run until set.
+#               live yet. Cannibalisation must refuse to run until set.
+#
+# Stowaway and Marilyna's launch dates were DERIVED FROM THE FIRST REDEMPTION in
+# their transactions files (2026-08-09), because both had been trading through
+# EatClub for weeks while this file still said "not live" — so neither venue was
+# being assessed at all. First-redemption is a lower bound on go-live: if offers
+# ran for a few days before anyone claimed one, the true date is slightly earlier
+# and the baseline window should shift with it. Correct these if you know better.
 
 VENUE_EATCLUB = {
     "harry": {
@@ -77,8 +83,8 @@ VENUE_EATCLUB = {
         "channel": "dine-in",
         "site_id": 150764,                 # shared with Marilyna's
         "window_hours": (17, 18, 19, 20),
-        "launch_date": None,               # not live — behind onboarding tour
-        "baseline_window": None,           # set 8 weeks pre-launch once dated
+        "launch_date": "2026-07-13",       # first redemption; 58 rows to 2026-08-08
+        "baseline_window": ("2026-05-18", "2026-07-12"),   # 8 weeks pre-launch
         "eatclub_login": "kris@stowawaybar.com",
         # Shared till: salesummarybyhour can't separate Mari. Hourly must come
         # from the Custom Insights 'Stow Hourly RG Auto' feed, split by RG.
@@ -89,8 +95,8 @@ VENUE_EATCLUB = {
         "channel": "takeaway",
         "site_id": 150764,                 # rides the Stow till
         "window_hours": None,              # no dine-in window — substitution model
-        "launch_date": None,               # TBC
-        "baseline_window": None,
+        "launch_date": "2026-07-29",       # first redemption; 18 rows to 2026-08-08
+        "baseline_window": ("2026-06-03", "2026-07-28"),   # 8 weeks pre-launch
         "eatclub_login": "kris@stowawaybar.com",
         # Baseline is delivery, not a window: mari_daily_history.csv delivery_dollars.
         "baseline_metric": "delivery_dollars",

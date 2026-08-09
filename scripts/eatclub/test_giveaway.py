@@ -142,6 +142,35 @@ def test_reconcile_catches_a_redeemed_row_with_no_bill():
         raise AssertionError("reconcile missed an unaccounted redeemed row")
 
 
+def test_single_venue_guard_catches_the_wrong_store_pull():
+    """The 22-23 Jul contamination: Stowaway rows written into the HG master."""
+    contaminated = MARI_AUG07 + [
+        {"date": "2026-08-07", "venue": "Stowaway Bar", "party_size": "2",
+         "offer_pct": "25", "bill_full": "90.00", "net_revenue": "58.50", "status": "PAID"},
+    ]
+    try:
+        giveaway.assert_single_venue("mari_eatclub_transactions.csv", contaminated)
+    except giveaway.VenueContaminationError as e:
+        assert "Stowaway Bar" in str(e) and "Marilynas Famous Pizza" in str(e)
+    else:
+        raise AssertionError("venue contamination went undetected")
+
+
+def test_single_venue_guard_passes_a_clean_file():
+    assert giveaway.assert_single_venue("x.csv", MARI_AUG07) == "Marilynas Famous Pizza"
+
+
+def test_offer_take_up_is_recorded():
+    rows = MARI_AUG07 + [
+        {"date": "2026-08-07", "venue": "Marilynas Famous Pizza", "party_size": "3",
+         "offer_pct": "30", "bill_full": "", "net_revenue": "", "status": "UNREDEEMED"},
+    ]
+    g = giveaway.day_giveaway(rows, "2026-08-07", "Marilynas Famous Pizza")
+    assert g["offers"] == 5
+    assert g["unredeemed"] == 1
+    assert g["tables"] == 4          # unredeemed still costs nothing
+
+
 def test_dollar_and_comma_cleaning():
     rows = [{"party_size": "2", "offer_pct": "30", "bill_full": "$1,090.00",
              "net_revenue": "$643.10", "status": "PAID"}]
