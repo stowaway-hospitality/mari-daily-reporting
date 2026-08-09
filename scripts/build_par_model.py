@@ -17,6 +17,16 @@ COVERAGE GATE: if any Classic/Signature cocktail with recent sales does not
 resolve to a recipe (open-price '$NN Custom Cocktail' excepted) the build exits
 NONZERO and prints the offenders — fail toward review.
 
+UNATTRIBUTED-VOLUME GATE: the same idea, one level down. A POS line in a
+stock-bearing drink group whose volume reaches NO par SKU is invisible demand:
+the par collapses and nothing says so. $54,794 of Stowaway drink sales over 13
+weeks were landing nowhere when this gate was written — 231.7 schooners a week
+of the house lager among them. If more than $2,000 of 13-week ex-GST revenue
+reaches no par SKU, the build exits NONZERO. Post-mix and made-to-order lines
+are excused BY NAME in data/par_aliases.json `_intentionally_unattributed`, so
+the gate stays quiet about the things that can never attribute and loud about
+the things that just stopped.
+
 Run:  /opt/homebrew/bin/python3.12 scripts/build_par_model.py   (Actions: python 3.11)
 """
 import json
@@ -32,6 +42,10 @@ from modules.par import shrinkage as shrinkage_mod  # noqa: E402
 DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 OUT = {"stow": "par_recommendations_stowaway.json", "hg": "par_recommendations_harry_gatos.json"}
 SHRINK_OUT = "par_shrinkage.json"
+# Same venue-name convention as par_recommendations_* / par_flags_*.
+UNATTR_OUT = {"stow": "par_unattributed_stowaway.json",
+              "hg": "par_unattributed_harry_gatos.json"}
+VENUE_LABEL = {"stow": "Stowaway", "hg": "Harry Gatos"}
 
 
 def _summary(recs):
@@ -113,9 +127,76 @@ def build_venue(venue, rows):
     return recs, meta, (inc, dec, same, changes)
 
 
+def write_unattributed(venue, meta, generated_at):
+    """Write data/par_unattributed_<venue>.json and print the warning block.
+
+    Returns (total_revenue, n_offenders, alias_errors) so main() can decide
+    whether to fail the build.
+    """
+    offenders = meta["unattributed"]
+    intentional = meta["unattributed_intentional"]
+    alias_errors = meta["aliases"]["unknown_targets"]
+    total = meta["unattributed_revenue"]
+    payload = {
+        "schema_version": 1,
+        "generated_at": generated_at,
+        "venue": venue,
+        "window_weeks": meta["unattributed_weeks"],
+        "week_range": meta["week_range"],
+        "threshold_revenue_ex_gst": model.UNATTRIBUTED_FAIL_REVENUE,
+        "what_this_is": (
+            "POS lines in a stock-bearing drink group whose sales volume reached "
+            "NO par SKU. Each one is demand the par model cannot see, so the "
+            "affected par collapses silently. Fix by adding an entry to "
+            "data/par_aliases.json (if the stock item exists under another name) "
+            "or by creating the stock item in the Lightspeed Purchase module."),
+        "aliases_in_force": meta["aliases"]["n"],
+        "alias_targets_not_found": alias_errors,
+        "summary": {
+            "unattributed_lines": len(offenders),
+            "unattributed_revenue_ex_gst": total,
+            "intentionally_unattributed_lines": len(intentional),
+            "intentionally_unattributed_revenue_ex_gst": round(
+                sum(r["revenue_ex_gst_window"] for r in intentional), 2),
+        },
+        "unattributed": offenders,
+        "intentionally_unattributed": intentional,
+    }
+    with open(os.path.join(DATA, UNATTR_OUT[venue]), "w") as fh:
+        json.dump(payload, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+
+    print(f"\n  --- UNATTRIBUTED DRINK VOLUME ({meta['unattributed_weeks']} wk) ---")
+    print(f"  aliases in force: {meta['aliases']['n']}   "
+          f"intentionally unattributed (post-mix / made to order): "
+          f"{len(intentional)} lines, "
+          f"${sum(r['revenue_ex_gst_window'] for r in intentional):,.0f}")
+    if alias_errors:
+        print("  !! ALIAS TARGETS THAT ARE NOT PAR SKUs (these attribute NOTHING):")
+        for pos, sku in sorted(alias_errors.items()):
+            print(f"       {pos!r} -> {sku!r}")
+    if not offenders:
+        print("  Unattributed gate: PASS — every stock-bearing drink line "
+              "reaches a par SKU.")
+        return total, 0, alias_errors
+    verdict = ("FAIL" if total > model.UNATTRIBUTED_FAIL_REVENUE else "warn")
+    print(f"  !! {len(offenders)} stock-bearing POS line(s) reach NO par SKU — "
+          f"${total:,.0f} ex-GST over {meta['unattributed_weeks']} weeks "
+          f"[{verdict}, threshold ${model.UNATTRIBUTED_FAIL_REVENUE:,.0f}]")
+    print(f"     {'$ 13wk':>9} {'qty/wk':>8}  {'reporting group':22s} POS line")
+    for r in offenders[:20]:
+        known = "  (known, _unmapped_investigate)" if r.get("known_unmapped") else ""
+        print(f"     {r['revenue_ex_gst_window']:>9,.0f} {r['qty_per_week']:>8.1f}  "
+              f"{str(r['reporting_group'])[:22]:22s} {r['product'][:40]}{known}")
+    if len(offenders) > 20:
+        print(f"     ... and {len(offenders) - 20} more — see data/{UNATTR_OUT[venue]}")
+    return total, len(offenders), alias_errors
+
+
 def main():
     rows = model.load_weekly(DATA)
     gate_failed = False
+    unattr_failed = False
     all_meta = {}
     for venue in ("stow", "hg"):
         recs, meta, (inc, dec, same, changes) = build_venue(venue, rows)
@@ -151,12 +232,30 @@ def main():
         else:
             print("  Coverage gate: PASS (every recent Classic/Signature cocktail resolves)")
 
+        total, n_off, alias_errors = write_unattributed(
+            venue, meta, datetime.now(timezone.utc).astimezone().isoformat())
+        if alias_errors:
+            unattr_failed = True
+        if total > model.UNATTRIBUTED_FAIL_REVENUE:
+            unattr_failed = True
+
     _sanity(all_meta)
 
     if gate_failed:
         print("\nBUILD FAILED: coverage gate not satisfied.", file=sys.stderr)
         sys.exit(1)
+    if unattr_failed:
+        print(f"\nBUILD FAILED: more than "
+              f"${model.UNATTRIBUTED_FAIL_REVENUE:,.0f} of stock-bearing drink "
+              f"revenue reaches no par SKU (or an alias points at a par SKU that "
+              f"does not exist).\n"
+              f"Fix: map the offending POS lines in data/par_aliases.json, or "
+              f"create the missing stock item in the Purchase module. See "
+              f"data/{UNATTR_OUT['stow']} and data/{UNATTR_OUT['hg']}.",
+              file=sys.stderr)
+        sys.exit(1)
     print("\nPar recommendations written:", ", ".join(OUT.values()))
+    print("Unattributed-volume reports written:", ", ".join(UNATTR_OUT.values()))
 
 
 def _sanity(all_meta):

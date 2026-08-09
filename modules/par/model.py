@@ -104,9 +104,27 @@ WINE_REGULAR_ML = 150.0
 WINE_LARGE_ML = 250.0
 KEG_ML = 50000.0
 
+# Tap beer. products_weekly.csv collapses the '- Schooner' / '- Pint' variants
+# into one bare line, so the exact serve is not recoverable from the model's own
+# input. Measured from the per-variant daily insights exports committed under
+# data/insights_*.csv: Stowaway 47.1% schooner / 52.9% pint = 501.7ml blended,
+# Harry Gatos 59.8% / 40.2% = 483.3ml. 500ml is the honest single constant; the
+# residual error per line is ~<12% against the 100% of volume that was being
+# dropped before. A '- NNNml' suffix on the POS line (e.g. 'Sapporo - 500ml')
+# overrides it, because that one IS recoverable.
+TAP_SERVE_ML = 500.0
+SCHOONER_ML = 425.0
+PINT_ML = 570.0
+
 SPIRIT_RGS = {
     "Gin", "Vodka", "Tequila", "Whisky", "Rum", "Liqueurs",
     "Amaro / Aperitif / Fortified Wine",
+    # Harry Gatos pluralises its spirit reporting groups and Stowaway carries a
+    # Mezcal group. Neither was in this set, so EVERY HG spirit pour and every
+    # Stowaway mezcal pour fell through all four branches below and reached no
+    # par SKU at all. Found by the unattributed-volume guard.
+    "Gins", "Vodkas", "Tequilas", "Whiskies", "Whisky / Whiskey", "Rums",
+    "Liqueur", "Mezcal", "Mezcals",
 }
 WINE_RGS = {
     "Red Wine", "White Wine", "Rose Wine", "Sparkling Wine",
@@ -118,6 +136,15 @@ RECIPE_RGS = {
     "Tap Beer", "Delivery Cocktails",
 }
 COCKTAIL_RGS = {"Cocktails - Classic", "Cocktails - Signature"}
+# Tap beer is nominally a RECIPE_RG, and the recipe book DOES carry a keg line
+# for most taps — but the recipes are named per variant ('Stone & Wood -
+# Schooner') while products_weekly collapses the line to 'Stone & Wood', so the
+# recipe matcher (which requires the POS name to START WITH the recipe name)
+# never fired for a single tap beer. Result: 100% of tap volume reached no par
+# SKU and every keg sat on `held_no_recent_demand`. A tap line therefore gets a
+# direct schooner/pint->keg pour path here, which runs ONLY when the recipe
+# matcher did not already claim the line, so nothing is counted twice.
+TAP_BEER_RGS = {"Tap Beer"}
 # Everything else beverage-ish (cans, bottles, soft drink, non-alc) = direct 1:1.
 DIRECT_RGS = {
     "Bottles / Cans Alcoholic", "Non-alcoholic", "Non-Alcoholic",
@@ -128,6 +155,8 @@ VERMOUTH_KW = (
     "champagne", "prosecco", "framboise", "wild strawberry", "punt e mes",
     "oscar.697", "sherry", " port", "sparkling", "pet nat",
 )
+
+ALIAS_FILE = "par_aliases.json"
 
 VENUE_RECIPE_FILE = {"stow": "stowaway", "hg": "harry_gatos"}
 VENUE_SCRAPE_FILE = {"stow": "_scrape_stow_20260809.json", "hg": "_scrape_hg_20260809.json"}
@@ -295,6 +324,109 @@ def load_recipes(data_dir: str, venue: str):
     return leaves_by_norm, recipe_norms
 
 
+# ── POS-name -> par-SKU aliases ─────────────────────────────────────────────
+class AliasBook:
+    """The bridge across POS<->Purchase-module naming drift.
+
+    The par model attributes POS volume to par SKUs BY NAME. When the till name
+    and the stock name disagree ('Petits Detours Rosé' vs 'Petits Detours Rosé
+    Mediterranee - Bottle', 'Fresh is Best Lager' vs 'Alehouse Draught Lager
+    [Keg]', 'Baileys' vs "Bailey's ... 1L") the volume was silently dropped and
+    the par collapsed. data/par_aliases.json is the curated, reviewed map; this
+    class is the only thing that reads it.
+
+    It also carries `_intentionally_unattributed` — post-mix and made-to-order
+    drinks that consume no discrete stock unit and therefore CANNOT attribute —
+    so the coverage guard can tell "we know about this" from "this is a bug".
+    """
+
+    def __init__(self, doc, venue):
+        self.venue = venue
+        self.doc = doc or {}
+        raw = {k: v for k, v in (self.doc.get(venue) or {}).items()
+               if not k.startswith("_")}
+        # An alias value is normally just the par SKU name. It may instead be
+        # {"sku": ..., "serve_ml": N} when the POS line is a pour whose size the
+        # model cannot infer from the reporting group — e.g. Vinada, a
+        # Non-alcoholic line that is 150ml poured out of a 750ml bottle, where
+        # every other Non-alcoholic line is a 1:1 whole-unit sale.
+        self.map, self.serve = {}, {}
+        for pos_name, val in raw.items():
+            if isinstance(val, dict):
+                self.map[pos_name] = val.get("sku")
+                if val.get("serve_ml"):
+                    self.serve[_norm(pos_name)] = float(val["serve_ml"])
+            else:
+                self.map[pos_name] = val
+        self._by_norm = {}
+        for pos_name, sku in self.map.items():
+            self._by_norm[_norm(pos_name)] = sku
+        self.intentional = {}
+        for e in ((self.doc.get("_intentionally_unattributed") or {}).get(venue) or []):
+            nm = e.get("product") if isinstance(e, dict) else e
+            if nm:
+                self.intentional[_norm(nm)] = (
+                    e.get("reason", "") if isinstance(e, dict) else "")
+        self.investigate = {}
+        for e in ((self.doc.get("_unmapped_investigate") or {}).get(venue) or []):
+            nm = e.get("product") if isinstance(e, dict) else e
+            if nm:
+                self.investigate[_norm(nm)] = (
+                    e.get("note", "") if isinstance(e, dict) else "")
+
+    def target(self, pos_name):
+        """The par SKU this POS line belongs to, or None."""
+        return self._by_norm.get(_norm(pos_name))
+
+    def serve_ml(self, pos_name):
+        """Explicit per-alias serve size in ml, or None to use the group rule."""
+        return self.serve.get(_norm(pos_name))
+
+    def is_intentional(self, pos_name):
+        return _norm(pos_name) in self.intentional
+
+    def intentional_reason(self, pos_name):
+        return self.intentional.get(_norm(pos_name), "")
+
+    def is_flagged_for_investigation(self, pos_name):
+        return _norm(pos_name) in self.investigate
+
+    def unknown_targets(self, par_names):
+        """Alias entries whose TARGET is not a real par SKU. An alias pointing at
+        a name that does not exist is worse than no alias: it looks mapped and
+        attributes nothing. The build validates this."""
+        known = {_norm(n) for n in par_names}
+        return {pos: sku for pos, sku in self.map.items() if _norm(sku) not in known}
+
+
+def load_aliases(data_dir: str, venue: str) -> AliasBook:
+    path = os.path.join(data_dir, ALIAS_FILE)
+    if not os.path.exists(path):
+        return AliasBook({}, venue)
+    with open(path) as fh:
+        return AliasBook(json.load(fh), venue)
+
+
+def tap_serve_ml(pos_name: str) -> float:
+    """Serve size for a tap-beer POS line.
+
+    products_weekly collapses '- Schooner'/'- Pint' into one bare line, so the
+    blended TAP_SERVE_ML constant is used — UNLESS the line names its own size
+    ('Sapporo - 500ml') or survived with an explicit variant suffix.
+    """
+    low = pos_name.lower()
+    m = re.search(r"-\s*(\d+(?:\.\d+)?)\s*ml\s*$", low)
+    if m:
+        return float(m.group(1))
+    if low.rstrip().endswith("schooner"):
+        return SCHOONER_ML
+    if low.rstrip().endswith("pint"):
+        return PINT_ML
+    if low.rstrip().endswith("jug"):
+        return 1140.0
+    return TAP_SERVE_ML
+
+
 # ── par-SKU name resolution ─────────────────────────────────────────────────
 class ParIndex:
     """Resolves a POS product name or a recipe ingredient BO-name to a par SKU.
@@ -309,12 +441,21 @@ class ParIndex:
         self.names = names
         self.exact = {}
         self.bulk_base = {}
-        for nm in names:
+        # DETERMINISM: `names` is a set, so iterating it directly made the
+        # winner for a colliding base depend on Python's per-process string
+        # hash seed. Six bases collide across the two venues today ('Stow
+        # Vermouth Blend' [30ml] vs [Bottle], HG 'Kunizakari Umeshu' [60ml] vs
+        # [Bottle], a double-spaced duplicate 'Chambord  [Bottle]', ...) and the
+        # par for each of them flapped from build to build with no input
+        # change. Sort first, then pick the LARGEST container — a keg beats a
+        # bottle beats a single-serve pour line, which is the same preference
+        # the old comment described but could not actually enforce.
+        for nm in sorted(names):
             self.exact.setdefault(_norm(nm), nm)
             if _is_bulk_par(nm):
                 base = _strip_variant(nm)
-                # prefer keg, then bottle, then sized casks; keep first strong hit
-                if base not in self.bulk_base or "[keg]" in nm.lower():
+                cur = self.bulk_base.get(base)
+                if cur is None or bottle_ml(nm) > bottle_ml(cur):
                     self.bulk_base[base] = nm
 
     def resolve_exact(self, name):
@@ -517,8 +658,57 @@ def apply_override(rec_par, ov):
 
 
 # ── consumption + assembly ──────────────────────────────────────────────────
+def _wine_serve_ml(pos_name, bottle_size_ml):
+    """ml drawn from the bottle par by one sale of this wine line."""
+    low = pos_name.lower()
+    if low.endswith("- large glass") or low.endswith("- large"):
+        return WINE_LARGE_ML
+    if low.endswith("- glass") or low.endswith("- regular"):
+        return WINE_REGULAR_ML
+    if low.endswith("- bottle") or low.rstrip().endswith(" d"):
+        return bottle_size_ml
+    # BARE — products_weekly collapses the wine variants into a single line that
+    # is overwhelmingly by-the-glass. Same assumption the un-aliased path makes.
+    return WINE_REGULAR_ML
+
+
+def _alias_units(pos_name, rg, qty, sku, serve_ml=None):
+    """Physical units of par SKU `sku` consumed by `qty` of an aliased POS line.
+
+    The alias file says only WHICH par SKU a POS line belongs to. The unit
+    conversion is the model's existing one (nip->bottle, glass->bottle,
+    schooner/pint->keg), applied to the aliased target. Units are computed ONCE,
+    here, straight from qty — there is no second conversion downstream, so an
+    aliased line can never be double-converted.
+    """
+    if not _is_bulk_par(sku):
+        return qty                      # sale unit == stock unit (cans, tins)
+    bml = bottle_ml(sku)
+    if bml <= 0:
+        return qty
+    low = pos_name.lower()
+    if serve_ml:                        # explicit per-alias override
+        return qty * float(serve_ml) / bml
+    if rg in TAP_BEER_RGS or "[keg]" in sku.lower():
+        return qty * tap_serve_ml(pos_name) / bml
+    if rg in SPIRIT_RGS:
+        if "[mixer]" in low:
+            return 0.0
+        pml = bml if low.rstrip().endswith(" d") else SPIRIT_NIP_ML
+        return qty * pml / bml
+    if rg in WINE_RGS:
+        return qty * _wine_serve_ml(pos_name, bml) / bml
+    # Everything else (Non-alcoholic, Bottles/Cans) is a whole-unit sale: one
+    # ring = one physical item off the shelf, which is what the un-aliased
+    # DIRECT_RGS path already assumes. A line that is really a POUR out of a
+    # bulk container must say so with an explicit `serve_ml` in the alias file —
+    # guessing 'glass' here would have quietly divided Bundaberg Ginger Beer
+    # (a $3.30 bottle sold whole for $5) by five.
+    return qty
+
+
 def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks,
-                       revenue_out=None):
+                       revenue_out=None, aliases=None, unattributed_out=None):
     """(pour, recipe) weekly series per par SKU.
 
     `revenue_out`, if given, is filled with {sku: ex-GST revenue attributed to
@@ -539,6 +729,20 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
         except (TypeError, ValueError):
             return 0.0
 
+    def _miss(name, rg, wk, qty, rev):
+        """Record a POS line whose volume reached NO par SKU. This is the raw
+        material of the unattributed-volume coverage guard: the bug class this
+        whole change exists to make impossible to reintroduce is 'volume was
+        silently dropped', and silence is exactly what this ends."""
+        if unattributed_out is None:
+            return
+        a = unattributed_out.setdefault(name, {
+            "product": name, "reporting_group": rg, "weekly": {}})
+        a["reporting_group"] = rg or a["reporting_group"]
+        w = a["weekly"].setdefault(wk, {"qty": 0.0, "revenue_ex_gst": 0.0})
+        w["qty"] += qty
+        w["revenue_ex_gst"] += rev
+
     for r in rows:
         if r["venue"] != venue:
             continue
@@ -549,6 +753,20 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
         name, rg, qty = r["product_name"], r["reporting_group"], r["qty"]
         if qty == 0:
             continue
+
+        # ── ALIAS FIRST. An alias is a human saying "this till line IS that
+        # stock item". It short-circuits BOTH the recipe matcher and the
+        # fallback name matcher, so an aliased line contributes to exactly one
+        # par SKU and can never be counted twice.
+        alias_sku = aliases.target(name) if aliases is not None else None
+        if alias_sku is not None:
+            units = _alias_units(name, rg, qty, alias_sku,
+                                 serve_ml=aliases.serve_ml(name))
+            if units > 0:
+                pour[alias_sku][i] += units
+                rev[alias_sku] = rev.get(alias_sku, 0.0) + _rev(r)
+            continue
+
         rm = matcher(name)
         if rm is not None and rm in leaves_by_norm:
             drawn = {}
@@ -569,6 +787,10 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
                 line_rev = _rev(r)
                 for sku, u in drawn.items():
                     rev[sku] = rev.get(sku, 0.0) + line_rev * (u / tot)
+            else:
+                # The recipe exists but every one of its leaves failed to
+                # resolve to a par SKU — the volume still reached nothing.
+                _miss(name, rg, wk, qty, _rev(r))
             continue
         low = name.lower()
         hit = None
@@ -577,6 +799,7 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
                 continue
             sku = idx.resolve_bulk(name)
             if not sku:
+                _miss(name, rg, wk, qty, _rev(r))
                 continue
             bml = bottle_ml(sku)
             pml = bml if low.rstrip().endswith(" d") else SPIRIT_NIP_ML
@@ -614,6 +837,17 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
                     if ex:
                         pour[ex][i] += qty
                         hit = ex
+        elif rg in TAP_BEER_RGS:
+            # Tap beer's recipe rows are named per variant ('Stone & Wood -
+            # Schooner') and products_weekly collapses the sale line to 'Stone &
+            # Wood', so the recipe matcher above never claims a tap line and the
+            # keg received nothing. Pour it straight into the keg par at the
+            # measured blended serve. Only reachable when the recipe path did NOT
+            # claim the line, so there is no double count.
+            sku = idx.resolve_bulk(name)
+            if sku:
+                pour[sku][i] += qty * tap_serve_ml(name) / bottle_ml(sku)
+                hit = sku
         elif rg in DIRECT_RGS:
             sku = idx.resolve_exact(name)
             if sku:
@@ -621,6 +855,8 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
                 hit = sku
         if hit is not None:
             rev[hit] = rev.get(hit, 0.0) + _rev(r)
+        else:
+            _miss(name, rg, wk, qty, _rev(r))
     return pour, recipe
 
 
@@ -641,6 +877,67 @@ def coverage_gap(rows, venue, matcher, leaves_by_norm, recent_weeks):
         if rm is None or rm not in leaves_by_norm:
             gaps.append((name, q))
     return sorted(gaps, key=lambda x: -x[1])
+
+
+# Reporting groups that carry discrete, orderable stock — the groups a par SKU
+# can exist for at all. Cocktails/Mocktails/Delivery Cocktails are deliberately
+# ABSENT: they are the recipe system's job and already have their own coverage
+# gate above. Food, Modifiers and 'Bar / FOH' are absent because they are not
+# drinks. 'Non-alcoholic' IS here — it holds Vinada and the non-alc cans, which
+# are real stock — and the post-mix lines inside it are excused by name via
+# par_aliases.json `_intentionally_unattributed`, not by excusing the group.
+STOCK_BEARING_RG = re.compile(
+    r"wine|beer|spirit|tequila|gin|vodka|rum|whisk|liqueur|cider|rtd|"
+    r"sparkling|champagne|aperitif|amaro|fortified|bottles\s*/\s*cans|"
+    r"non.?alcoholic|soft drink",
+    re.I,
+)
+UNATTRIBUTED_WEEKS = 13
+# Above this much 13-week ex-GST revenue reaching NO par SKU, the build FAILS.
+# $54,794 was reaching nothing when this guard was written.
+UNATTRIBUTED_FAIL_REVENUE = 2000.0
+
+
+def unattributed_report(raw, weeks, aliases=None, window=UNATTRIBUTED_WEEKS):
+    """POS lines whose volume reached NO par SKU.
+
+    Returns (offenders, intentional). `offenders` are lines in a stock-bearing
+    drink group that should have landed somewhere and didn't — the work queue,
+    and the thing the build gate is measured on. `intentional` are the post-mix
+    and made-to-order lines declared in par_aliases.json, returned so a reader
+    can see they were considered rather than missed.
+    """
+    window_weeks = set(weeks[-window:]) if window else set(weeks)
+    n_weeks = max(len(window_weeks), 1)
+    offenders, intentional = [], []
+    for name, a in (raw or {}).items():
+        rg = a.get("reporting_group") or ""
+        qty = sum(w["qty"] for k, w in a["weekly"].items() if k in window_weeks)
+        revenue = sum(w["revenue_ex_gst"] for k, w in a["weekly"].items()
+                      if k in window_weeks)
+        if qty <= 0 and revenue <= 0:
+            continue
+        row = {
+            "product": name,
+            "reporting_group": rg,
+            "qty_window": round(qty, 2),
+            "qty_per_week": round(qty / n_weeks, 2),
+            "revenue_ex_gst_window": round(revenue, 2),
+            "stock_bearing": bool(STOCK_BEARING_RG.search(rg)),
+        }
+        if aliases is not None and aliases.is_intentional(name):
+            row["reason"] = aliases.intentional_reason(name)
+            intentional.append(row)
+            continue
+        if not row["stock_bearing"]:
+            continue
+        if aliases is not None and aliases.is_flagged_for_investigation(name):
+            row["investigate_note"] = aliases.investigate.get(_norm(name), "")
+            row["known_unmapped"] = True
+        offenders.append(row)
+    offenders.sort(key=lambda r: -r["revenue_ex_gst_window"])
+    intentional.sort(key=lambda r: -r["revenue_ex_gst_window"])
+    return offenders, intentional
 
 
 def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
@@ -666,12 +963,16 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
     leaves_by_norm, recipe_norms = load_recipes(data_dir, venue)
     idx = ParIndex(scrape, overrides, bo_meta)
     matcher = build_recipe_matcher(recipe_norms)
+    aliases = load_aliases(data_dir, venue)
 
     weeks = sorted({r["week_ending"] for r in rows})
     recent_weeks = weeks[-RECENT_WEEKS:]
     revenue = {}
+    unattributed_raw = {}
     pour, recipe = _build_consumption(rows, venue, idx, leaves_by_norm, matcher,
-                                      id2name, weeks, revenue_out=revenue)
+                                      id2name, weeks, revenue_out=revenue,
+                                      aliases=aliases,
+                                      unattributed_out=unattributed_raw)
 
     universe = set(pour) | set(recipe) | set(scrape) | set(overrides)
     n = len(weeks)
@@ -862,9 +1163,20 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
         }
 
     gaps = coverage_gap(rows, venue, matcher, leaves_by_norm, recent_weeks)
+    unattr, unattr_intentional = unattributed_report(unattributed_raw, weeks, aliases)
     meta = {
         "venue": venue,
         "engine": engine,
+        "aliases": {
+            "n": len(aliases.map),
+            "map": dict(aliases.map),
+            "unknown_targets": aliases.unknown_targets(idx.names),
+        },
+        "unattributed": unattr,
+        "unattributed_intentional": unattr_intentional,
+        "unattributed_revenue": round(
+            sum(r["revenue_ex_gst_window"] for r in unattr), 2),
+        "unattributed_weeks": UNATTRIBUTED_WEEKS,
         "weeks": n,
         "week_range": [weeks[0], weeks[-1]] if weeks else [],
         "recent_weeks": recent_weeks,

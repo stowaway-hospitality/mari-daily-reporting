@@ -12,7 +12,14 @@ The guarantees that must never regress:
   6. v3 calendar — a holiday Monday stretches the exposure, a holiday Friday
      removes a delivery, and the Christmas 2026 chain is 14 days / ~2x normal;
   7. v3 seasonality — a summer-peaking SKU indexes higher in Dec than in Jun and
-     a thin SKU falls back to its reporting-group index.
+     a thin SKU falls back to its reporting-group index;
+  8. POS<->par NAME DRIFT — an aliased till line reaches its par SKU, reaches it
+     exactly once, and the unattributed-volume gate fails the build when
+     stock-bearing drink volume reaches no par SKU at all. This is the bug class
+     that cost $54,794 of Stowaway drink sales over 13 weeks: the till called it
+     'Petits Detours Rosé' and 'Fresh is Best Lager', the Purchase module called
+     it 'Petits Detours Rosé Mediterranee - Bottle' and 'Alehouse Draught Lager
+     [Keg]', and every drop of that volume was thrown away in silence.
 """
 import math
 import os
@@ -556,3 +563,299 @@ def test_hyoketsu_can_serve_a_round_in_full_build():
     if h is None:
         return  # SKU delisted; nothing to assert
     assert h["rec_par"] >= 6.0, f"Hyoketsu par {h['rec_par']} cannot serve a round"
+
+
+# ── 10. POS <-> par name drift: the alias map and the unattributed gate ─────
+WEEK = "2026-08-09"
+
+
+def _stow_parts():
+    id2name, bo_meta = model.load_bo(DATA, "stow")
+    scrape = model.load_scrape(DATA, "stow")
+    overrides = model.load_overrides(DATA, "stow")
+    leaves, recipe_norms = model.load_recipes(DATA, "stow")
+    idx = model.ParIndex(scrape, overrides, bo_meta)
+    matcher = model.build_recipe_matcher(recipe_norms)
+    return id2name, idx, leaves, matcher
+
+
+def test_alias_book_reads_both_the_short_and_the_long_form():
+    doc = {
+        "stow": {"Till Name": "Par SKU [Bottle]",
+                 "Poured Thing": {"sku": "Bulk Thing [Bottle]", "serve_ml": 150}},
+        "_intentionally_unattributed": {
+            "stow": [{"product": "Pepsi Glass", "reason": "post-mix gun"}]},
+        "_unmapped_investigate": {
+            "stow": [{"product": "Mystery Beer", "note": "no par SKU exists"}]},
+    }
+    ab = model.AliasBook(doc, "stow")
+    assert ab.target("Till Name") == "Par SKU [Bottle]"
+    assert ab.target("till   name") == "Par SKU [Bottle]"      # normalised lookup
+    assert ab.serve_ml("Till Name") is None
+    assert ab.target("Poured Thing") == "Bulk Thing [Bottle]"
+    assert ab.serve_ml("Poured Thing") == 150.0
+    assert ab.is_intentional("Pepsi Glass") and not ab.is_intentional("Till Name")
+    assert ab.is_flagged_for_investigation("Mystery Beer")
+    assert ab.target("Nothing At All") is None
+
+
+def test_aliased_pos_line_contributes_to_its_par_sku():
+    """THE bug. 'Petits Detours Rosé' is 34.2 glasses a week and the par SKU is
+    called 'Petits Detours Rosé Mediterranee - Bottle'. Without the alias the
+    volume reaches nothing at all."""
+    id2name, idx, leaves, matcher = _stow_parts()
+    sku = "Petits Detours Rosé Mediterranee - Bottle"
+    rows = [{"venue": "stow", "reporting_group": "Rose Wine",
+             "product_name": "Petits Detours Rosé", "week_ending": WEEK,
+             "qty": 35.0, "sales_ex_gst": "560"}]
+
+    without = {}
+    pour, _ = model._build_consumption(rows, "stow", idx, leaves, matcher,
+                                       id2name, [WEEK], unattributed_out=without)
+    assert sku not in pour, "precondition: the raw name must NOT resolve"
+    assert "Petits Detours Rosé" in without, "...and must be reported as a miss"
+
+    ab = model.load_aliases(DATA, "stow")
+    assert ab.target("Petits Detours Rosé") == sku
+    missed = {}
+    pour, _ = model._build_consumption(rows, "stow", idx, leaves, matcher,
+                                       id2name, [WEEK], aliases=ab,
+                                       unattributed_out=missed)
+    # 35 glasses * 150ml / 700ml bottle = 7.5 bottles
+    assert pour[sku][0] == pytest.approx(35 * 150 / 700, rel=1e-6)
+    assert missed == {}, "an aliased line is not unattributed"
+
+
+def test_aliased_tap_beer_reaches_its_keg():
+    """'Fresh is Best Lager' is the house tap; the keg is stocked as 'Alehouse
+    Draught Lager [Keg]'. Recipe-proven mapping, schooner/pint -> keg."""
+    id2name, idx, leaves, matcher = _stow_parts()
+    ab = model.load_aliases(DATA, "stow")
+    sku = "Alehouse Draught Lager [Keg]"
+    assert ab.target("Fresh is Best Lager") == sku
+    rows = [{"venue": "stow", "reporting_group": "Tap Beer",
+             "product_name": "Fresh is Best Lager", "week_ending": WEEK,
+             "qty": 200.0, "sales_ex_gst": "2000"}]
+    pour, _ = model._build_consumption(rows, "stow", idx, leaves, matcher,
+                                       id2name, [WEEK], aliases=ab)
+    assert pour[sku][0] == pytest.approx(200 * model.TAP_SERVE_ML / model.KEG_ML)
+    assert pour[sku][0] > 1.0, "200 schooners/pints is more than one keg"
+
+
+def test_alias_wins_and_the_line_is_counted_exactly_once():
+    """No double count: an aliased line must not ALSO be picked up by the
+    fallback name matcher or the recipe matcher. 'Guinness Draught' resolves to
+    nothing on its own, but 'Stone & Wood' DOES resolve via resolve_bulk — so
+    alias it somewhere else and prove only the alias target is credited."""
+    id2name, idx, leaves, matcher = _stow_parts()
+    assert idx.resolve_bulk("Stone & Wood") == "Stone & Wood [Keg]", "precondition"
+    ab = model.AliasBook({"stow": {"Stone & Wood": "Kirin [Keg]"}}, "stow")
+    rows = [{"venue": "stow", "reporting_group": "Tap Beer",
+             "product_name": "Stone & Wood", "week_ending": WEEK,
+             "qty": 100.0, "sales_ex_gst": "1500"}]
+    pour, recipe = model._build_consumption(rows, "stow", idx, leaves, matcher,
+                                            id2name, [WEEK], aliases=ab)
+    credited = {s: v[0] for s, v in pour.items() if v[0] > 0}
+    credited.update({s: v[0] for s, v in recipe.items() if v[0] > 0})
+    assert list(credited) == ["Kirin [Keg]"], credited
+    assert "Stone & Wood [Keg]" not in credited
+    assert credited["Kirin [Keg]"] == pytest.approx(
+        100 * model.TAP_SERVE_ML / model.KEG_ML)
+
+
+def test_alias_revenue_is_credited_once_not_twice():
+    id2name, idx, leaves, matcher = _stow_parts()
+    ab = model.load_aliases(DATA, "stow")
+    rev = {}
+    rows = [{"venue": "stow", "reporting_group": "Rose Wine",
+             "product_name": "Petits Detours Rosé", "week_ending": WEEK,
+             "qty": 10.0, "sales_ex_gst": "160"}]
+    model._build_consumption(rows, "stow", idx, leaves, matcher, id2name, [WEEK],
+                             revenue_out=rev, aliases=ab)
+    assert sum(rev.values()) == pytest.approx(160.0)
+
+
+def test_alias_serve_ml_override_is_applied_and_not_double_converted():
+    """Vinada is a Non-alcoholic line, where the model's default is a 1:1
+    whole-unit sale — but it is really 150ml poured out of a 750ml bottle (the
+    bottle costs $12.56 and the glass sells for $12, so it cannot be 1:1)."""
+    sku = "Vinada Sparking Rosé [Bottle]"
+    ab = model.load_aliases(DATA, "stow")
+    assert ab.serve_ml("Vinada Sparkling Rose") == 150.0
+    units = model._alias_units("Vinada Sparkling Rose", "Non-alcoholic", 10.0, sku,
+                               serve_ml=ab.serve_ml("Vinada Sparkling Rose"))
+    assert units == pytest.approx(10 * 150 / 750)
+
+
+def test_a_whole_unit_alias_is_never_silently_divided():
+    """Bundaberg Ginger Beer is a $3.30 bottle sold whole for $5. A Non-alcoholic
+    line with no explicit serve_ml must stay 1:1, not be guessed as a glass."""
+    units = model._alias_units("Bundaberg Ginger Beer", "Non-alcoholic", 10.0,
+                               "Bundaberg Ginger Beer [750ml]")
+    assert units == 10.0
+
+
+def test_spirit_alias_keeps_the_nip_conversion():
+    units = model._alias_units("White Light Pure Vodka [House]", "Vodka", 60.0,
+                               "White Light Vodka [20L]")
+    assert units == pytest.approx(60 * model.SPIRIT_NIP_ML / 20000.0)
+
+
+def test_tap_serve_ml_prefers_an_explicit_size_in_the_name():
+    assert model.tap_serve_ml("Sapporo - 500ml") == 500.0
+    assert model.tap_serve_ml("Stone & Wood - Schooner") == model.SCHOONER_ML
+    assert model.tap_serve_ml("Stone & Wood - Pint") == model.PINT_ML
+    assert model.tap_serve_ml("Fresh is Best Lager") == model.TAP_SERVE_ML
+
+
+def test_every_alias_target_is_a_real_par_sku():
+    """An alias pointing at a name that does not exist is worse than no alias:
+    it looks mapped and attributes nothing. The build fails on this."""
+    for venue in ("stow", "hg"):
+        id2name, bo_meta = model.load_bo(DATA, venue)
+        scrape = model.load_scrape(DATA, venue)
+        overrides = model.load_overrides(DATA, venue)
+        idx = model.ParIndex(scrape, overrides, bo_meta)
+        ab = model.load_aliases(DATA, venue)
+        assert ab.map, f"{venue} must have aliases"
+        assert ab.unknown_targets(idx.names) == {}, venue
+
+
+def test_no_pos_line_is_aliased_to_two_different_par_skus():
+    for venue in ("stow", "hg"):
+        ab = model.load_aliases(DATA, venue)
+        norms = [model._norm(k) for k in ab.map]
+        assert len(norms) == len(set(norms)), f"{venue}: duplicate alias key"
+
+
+# ── the unattributed-volume gate ────────────────────────────────────────────
+def _raw(name, rg, qty, revenue, week=WEEK):
+    return {name: {"product": name, "reporting_group": rg,
+                   "weekly": {week: {"qty": qty, "revenue_ex_gst": revenue}}}}
+
+
+def test_unattributed_gate_fires_on_a_high_revenue_stock_bearing_line():
+    raw = _raw("Fresh is Best Lager", "Tap Beer", 3012.0, 26276.0)
+    offenders, intentional = model.unattributed_report(raw, [WEEK], None)
+    assert [r["product"] for r in offenders] == ["Fresh is Best Lager"]
+    assert offenders[0]["stock_bearing"] is True
+    assert offenders[0]["revenue_ex_gst_window"] == 26276.0
+    assert intentional == []
+    total = sum(r["revenue_ex_gst_window"] for r in offenders)
+    assert total > model.UNATTRIBUTED_FAIL_REVENUE, "this must FAIL the build"
+
+
+def test_intentionally_unattributed_lines_do_not_trip_the_gate():
+    """Post-mix drinks consume no discrete stock unit. They can never attribute,
+    so they must never be able to fail a build."""
+    doc = {"stow": {},
+           "_intentionally_unattributed": {
+               "stow": [{"product": "Pepsi Max Glass", "reason": "post-mix gun"}]}}
+    ab = model.AliasBook(doc, "stow")
+    raw = _raw("Pepsi Max Glass", "Non-alcoholic", 538.0, 2290.0)
+    offenders, intentional = model.unattributed_report(raw, [WEEK], ab)
+    assert offenders == []
+    assert [r["product"] for r in intentional] == ["Pepsi Max Glass"]
+    assert intentional[0]["reason"] == "post-mix gun"
+    assert sum(r["revenue_ex_gst_window"] for r in offenders) == 0
+
+
+def test_non_stock_bearing_groups_are_not_the_gates_business():
+    """Cocktails have their own coverage gate (the recipe book); food is not a
+    drink. Neither may leak into this one."""
+    raw = {}
+    raw.update(_raw("Some Cocktail", "Cocktails - Classic", 50.0, 900.0))
+    raw.update(_raw("Rosemary Salted Fries", "Small Plates", 500.0, 6089.0))
+    raw.update(_raw("Real Beer", "Tap Beer", 10.0, 150.0))
+    offenders, _ = model.unattributed_report(raw, [WEEK], None)
+    assert [r["product"] for r in offenders] == ["Real Beer"]
+
+
+def test_unattributed_window_is_the_last_thirteen_weeks_only():
+    weeks = [f"2026-0{m}-0{d}" for m, d in
+             ((1, 4), (2, 1), (3, 1), (4, 5), (5, 3), (6, 7), (7, 5))]
+    raw = {"Old Beer": {"product": "Old Beer", "reporting_group": "Tap Beer",
+                        "weekly": {weeks[0]: {"qty": 99.0, "revenue_ex_gst": 9999.0},
+                                   weeks[-1]: {"qty": 1.0, "revenue_ex_gst": 10.0}}}}
+    offenders, _ = model.unattributed_report(raw, weeks, None, window=2)
+    assert offenders[0]["revenue_ex_gst_window"] == 10.0   # the old week is out
+
+
+def test_known_unmapped_lines_are_labelled_but_still_counted():
+    """`_unmapped_investigate` documents a line we could not confidently map. It
+    is NOT an excuse — the revenue still counts toward the gate, so a genuinely
+    missing par SKU cannot be parked forever."""
+    doc = {"stow": {}, "_unmapped_investigate": {
+        "stow": [{"product": "Philter Pale", "note": "no Philter Pale keg at stow"}]}}
+    ab = model.AliasBook(doc, "stow")
+    raw = _raw("Philter Pale", "Tap Beer", 24.0, 244.0)
+    offenders, _ = model.unattributed_report(raw, [WEEK], ab)
+    assert len(offenders) == 1
+    assert offenders[0]["known_unmapped"] is True
+    assert offenders[0]["revenue_ex_gst_window"] == 244.0
+
+
+# ── the live build must stay under the gate ─────────────────────────────────
+def test_live_unattributed_volume_is_under_the_build_threshold():
+    for venue in ("stow", "hg"):
+        _, meta = model.compute_venue(venue, DATA)
+        total = meta["unattributed_revenue"]
+        assert total <= model.UNATTRIBUTED_FAIL_REVENUE, (
+            f"{venue}: ${total:,.0f} of stock-bearing drink revenue reaches no "
+            f"par SKU — {[r['product'] for r in meta['unattributed']]}")
+
+
+def test_live_tap_beer_volume_actually_reaches_the_kegs(stow_build):
+    """Before this change EVERY keg sat on `held_no_recent_demand` with a zero
+    demand driver, because the recipe rows are named per variant ('Stone & Wood
+    - Schooner') and products_weekly collapses the sale line to 'Stone & Wood'."""
+    recs, _ = stow_build
+    for keg in ("Alehouse Draught Lager [Keg]", "Stone & Wood [Keg]",
+                "Grifter Pale [Keg]", "Philter XPA [Keg]", "Guinness [Keg]",
+                "Kirin [Keg]"):
+        r = recs[keg]
+        drivers = r["drivers"]
+        assert drivers["pour_wk"] + drivers["recipe_wk"] > 0, f"{keg} sees no demand"
+        assert "held_no_recent_demand" not in r["flags"], keg
+
+
+def test_petits_detours_par_regression(stow_build):
+    """The proven case. The model recommended 3.0 for a wine with a live par of
+    22.9 because 90% of its volume was landing on a name it did not know."""
+    recs, _ = stow_build
+    r = recs["Petits Detours Rosé Mediterranee - Bottle"]
+    assert r["rec_par"] >= 10.0, r
+    assert r["drivers"]["pour_wk"] > 5.0, r["drivers"]
+
+
+def test_house_vodka_and_the_typo_sku_are_no_longer_orphans(stow_build):
+    recs, _ = stow_build
+    # 48.2 nips/wk of the house vodka off a 20L cask
+    assert recs["White Light Vodka [20L]"]["drivers"]["pour_wk"] > 0
+    # par SKU is spelled 'Sparking', the till says 'Sparkling'
+    assert recs["Vinada Sparking Rosé [Bottle]"]["drivers"]["pour_wk"] > 0
+    assert recs["Bailey's Irish Cream 1L [Bottle]"]["drivers"]["pour_wk"] > 0
+    assert recs["Balvenie 14yr Caribbean Cask [Bottle]"]["drivers"]["pour_wk"] > 0
+
+
+def test_par_index_bulk_resolution_is_deterministic():
+    """`ParIndex` iterated a set, so which of two colliding bulk names won a base
+    depended on the per-process string hash seed and pars flapped between builds
+    with no input change. Largest container wins, deterministically."""
+    bo = {"Widget [30ml]": {"rg": ""}, "Widget [Bottle]": {"rg": ""},
+          "Widget [Keg]": {"rg": ""}}
+    for _ in range(5):
+        idx = model.ParIndex({}, {}, dict(bo))
+        assert idx.resolve_bulk("Widget") == "Widget [Keg]"
+    bo.pop("Widget [Keg]")
+    assert model.ParIndex({}, {}, bo).resolve_bulk("Widget") == "Widget [Bottle]"
+
+
+def test_live_par_index_has_no_ambiguous_bulk_winner_left_to_chance():
+    for venue in ("stow", "hg"):
+        id2name, bo_meta = model.load_bo(DATA, venue)
+        idx = model.ParIndex(model.load_scrape(DATA, venue),
+                             model.load_overrides(DATA, venue), bo_meta)
+        again = model.ParIndex(model.load_scrape(DATA, venue),
+                               model.load_overrides(DATA, venue), bo_meta)
+        assert idx.bulk_base == again.bulk_base, venue
