@@ -503,3 +503,56 @@ def test_v2_engine_still_runs_for_the_impact_comparison():
     assert recs
     for r in recs.values():
         assert r["drivers"]["variance_wk"] == 0.0     # v2 had no variance channel
+
+
+# ── clumped demand: negative binomial + burst floor ─────────────────────────
+def test_negbinom_exceeds_poisson_when_overdispersed():
+    """Drinks arrive in rounds, not independently. Measured variance/mean at this
+    venue runs 2.1-4.3; Poisson assumes 1.0 and under-stocks every session
+    product. Hyoketsu: mean 1.73/wk, var/mean 4.29 -> Poisson 95th = 4,
+    negative binomial = 7, observed burst = 9."""
+    from modules.par import service as sv
+    mean = 1.73
+    var = 4.29 * mean
+    pois = sv.poisson_quantile(mean, 0.95)
+    nb = sv.negbinom_quantile(mean, var, 0.95)
+    assert nb > pois, f"negbinom {nb} should exceed poisson {pois} on clumped demand"
+    assert nb >= 6
+
+
+def test_negbinom_falls_back_to_poisson_when_not_overdispersed():
+    from modules.par import service as sv
+    mean = 3.0
+    assert sv.negbinom_quantile(mean, mean, 0.95) == sv.poisson_quantile(mean, 0.95)
+    assert sv.negbinom_quantile(mean, mean * 0.5, 0.95) == sv.poisson_quantile(mean, 0.95)
+
+
+def test_burst_floor_lifts_a_par_that_cannot_serve_a_round():
+    """You cannot have 2 cans in the fridge for a product people drink 4 of."""
+    from modules.par import service as sv
+    par_no_floor, _ = sv.order_up_to(forecast_wk=1.7, cv=0.5, exposure_units=10,
+                                     normal_units=10, service_class="tail")
+    par_floor, det = sv.order_up_to(forecast_wk=1.7, cv=0.5, exposure_units=10,
+                                    normal_units=10, service_class="tail",
+                                    burst_floor=9.0)
+    assert par_no_floor < 9.0
+    assert par_floor == 9.0
+    assert det["burst_floored"] is True
+
+
+def test_burst_floor_never_lowers_a_par():
+    from modules.par import service as sv
+    par, det = sv.order_up_to(forecast_wk=40.0, cv=0.3, exposure_units=10,
+                              normal_units=10, service_class="core",
+                              burst_floor=5.0)
+    assert par > 5.0
+    assert det["burst_floored"] is False
+
+
+def test_hyoketsu_can_serve_a_round_in_full_build():
+    """Regression for the real finding: v3 initially put Hyoketsu at 2.0 cans."""
+    recs, _ = model.compute_venue("stow", DATA)
+    h = next((v for k, v in recs.items() if "hyoketsu" in k.lower()), None)
+    if h is None:
+        return  # SKU delisted; nothing to assert
+    assert h["rec_par"] >= 6.0, f"Hyoketsu par {h['rec_par']} cannot serve a round"

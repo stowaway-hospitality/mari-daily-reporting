@@ -156,10 +156,38 @@ def poisson_quantile(lam: float, p: float = POISSON_SERVICE, kmax: int = 400) ->
     return k
 
 
+def negbinom_quantile(mean: float, var: float, p: float = POISSON_SERVICE,
+                      kmax: int = 2000) -> int:
+    """Smallest k with P(X<=k) >= p for X~NegBinom with this mean and variance.
+
+    Drinks do not arrive independently. A guest who orders a chu-hi orders three
+    more; a table orders a round. That makes weekly demand OVER-DISPERSED —
+    measured variance/mean runs 2.1–4.3 across this venue's range, where Poisson
+    assumes exactly 1.0. Using Poisson on clumped demand under-states the par of
+    every session product (Hyoketsu: Poisson 95th = 4, negative binomial = 7,
+    observed burst = 9). Falls back to Poisson when the data is not
+    over-dispersed (var <= mean).
+    """
+    if mean <= 0:
+        return 0
+    if var <= mean:
+        return poisson_quantile(mean, p)
+    r = mean * mean / (var - mean)      # dispersion
+    q = r / (r + mean)                  # success probability
+    term = q ** r                       # P(X=0)
+    cum = term
+    k = 0
+    while cum < p and k < kmax:
+        term *= (r + k) / (k + 1) * (1.0 - q)
+        k += 1
+        cum += term
+    return k
+
+
 # ── the order-up-to level ───────────────────────────────────────────────────
 def order_up_to(forecast_wk, cv, exposure_units, normal_units, service_class,
                 shrink_fraction=0.0, bookings_uplift=0.0,
-                poisson_threshold=POISSON_THRESHOLD_WK):
+                poisson_threshold=POISSON_THRESHOLD_WK, burst_floor=0.0):
     """Return (par, detail dict). Pure maths — no I/O, no rounding policy."""
     ratio = (exposure_units / normal_units) if normal_units else 1.0
     demand = forecast_wk * ratio
@@ -168,9 +196,11 @@ def order_up_to(forecast_wk, cv, exposure_units, normal_units, service_class,
 
     if forecast_wk > 0 and forecast_wk < poisson_threshold:
         lam = demand * shrink_mult
-        par = float(poisson_quantile(lam, POISSON_SERVICE))
-        path = "poisson"
-        sigma_exp = math.sqrt(lam)
+        # cv here is the volatility estimate for this SKU; var = (cv*mean)^2.
+        var = (cv * lam) ** 2 if cv else lam
+        par = float(negbinom_quantile(lam, var, POISSON_SERVICE))
+        path = "negbinom" if var > lam else "poisson"
+        sigma_exp = math.sqrt(var)
         safety = max(0.0, par - lam)
     else:
         sigma_wk = cv * forecast_wk
@@ -180,8 +210,22 @@ def order_up_to(forecast_wk, cv, exposure_units, normal_units, service_class,
         path = "normal"
 
     par += max(0.0, bookings_uplift)
+
+    # BURST / PRESENCE FLOOR — "you can't have 2 cans in the fridge."
+    # A statistically-fine par can still be operationally useless: if a guest who
+    # orders this product typically takes 3–4 back to back, holding 2 fails the
+    # sale no matter what the weekly mean says. burst_floor is the 90th-percentile
+    # of a week IN WHICH THE PRODUCT ACTUALLY SOLD, scaled to the exposure window,
+    # so par is always enough to serve a realistic round.
+    burst_applied = False
+    if burst_floor and par < burst_floor:
+        par = float(burst_floor)
+        burst_applied = True
+
     return par, {
         "path": path,
+        "burst_floor": round(burst_floor, 2) if burst_floor else 0.0,
+        "burst_floored": burst_applied,
         "service_class": service_class,
         "service_level": SERVICE_LEVEL[service_class] if path == "normal" else POISSON_SERVICE,
         "z": round(z, 3) if path == "normal" else None,

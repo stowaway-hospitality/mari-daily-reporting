@@ -433,6 +433,27 @@ def forecast_sku(series):
     return forecast, method, growth, cv, window_peak, buf
 
 
+def _burst_floor(series, exp):
+    """The 'you can't have 2 cans in the fridge' floor.
+
+    Weekly demand for session products is clumped: the product sells in only some
+    weeks, but when it sells a guest takes several back to back. The weekly MEAN
+    is therefore a bad guide to how many you must physically hold. Take the 90th
+    percentile of the weeks in which the product actually sold, scaled to the
+    exposure window — enough to serve a realistic round without stocking to the
+    all-time max.
+
+    Returns 0.0 for products with too little signal to judge.
+    """
+    nz = sorted(v for v in series[-26:] if v > 0)
+    if len(nz) < 3:
+        return 0.0
+    idx = min(len(nz) - 1, int(0.9 * len(nz)))
+    burst = nz[idx]
+    ratio = (exp["day_units"] / exp["normal_day_units"]) if exp.get("normal_day_units") else 1.0
+    return round(burst * max(1.0, ratio), 1)
+
+
 def _spike_floor(window_peak, growth):
     """v2's spike floor. Retained for the v2-vs-v3 impact comparison only."""
     if window_peak <= 0:
@@ -736,6 +757,7 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
                 service_class=classes.get(sku, "standard"),
                 shrink_fraction=sk["loss_fraction"],
                 bookings_uplift=(up if BOOKINGS_LIVE else 0.0),
+                burst_floor=_burst_floor(series, exp),
             )
             detail["cv_source"] = cv_src
             detail["seasonal_index"] = round(season_idx, 3)
