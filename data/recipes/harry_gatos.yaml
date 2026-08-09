@@ -887,3 +887,29 @@
       desc: "Soda (top)"
       qty: 90
       unit: "ml"
+
+# --- Subrecipes mirrored from stowaway.yaml so HG recipes referencing them resolve (Claude 2026-08-09, review) ---
+- product: "Sugar Syrup"
+  yield_qty: 1540
+  yield_unit: "ml"
+  ingredients:
+    - id: "foodlink:100464"
+      desc: "Sugar Caster 1kg Csr"
+      qty: 1000
+      unit: "g"
+      unit_cost_incl: 0.003500
+
+- product: "Honey + Ginger Syrup"
+  yield_qty: 500
+  yield_unit: "ml"
+  ingredients:
+    - id: "foodlink:101313"
+      desc: "HONEY PURE 3KG Wild Flower"
+      qty: 400
+      unit: "g"
+      unit_cost_incl: 0.007000
+    - id: "fresh-fruit-team:GINKG"
+      desc: "Ginger"
+      qty: 7
+      unit: "g"
+      unit_cost_incl: 0.013200

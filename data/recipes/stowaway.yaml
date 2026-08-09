@@ -672,10 +672,9 @@
 
 - product: "Jalapeno Margarita"
   effective_from: "2026-08-09"
-  entered_by: "Claude (staged RECIPE_BOOK, BO-reresolved) — review"
+  entered_by: "Claude (from Apple Notes) — review"
   ingredients:
-    - id: "lightspeed:20445833"
-      desc: "Rooster Rojo Blanco Tequila [Bottle]"
+    - subrecipe: "Jalapeño Tequila"
       qty: 37.3
       unit: "ml"
     - id: "lightspeed:20483413"
@@ -689,10 +688,9 @@
 
 - product: "Jalapeno Marg"
   effective_from: "2026-08-09"
-  entered_by: "Claude (staged RECIPE_BOOK, BO-reresolved) — review"
+  entered_by: "Claude (from Apple Notes) — review"
   ingredients:
-    - id: "lightspeed:20445833"
-      desc: "Rooster Rojo Blanco Tequila [Bottle]"
+    - subrecipe: "Jalapeño Tequila"
       qty: 37.3
       unit: "ml"
     - id: "lightspeed:20483413"
@@ -2775,8 +2773,8 @@
   effective_from: "2026-08-09"
   entered_by: "Claude (from Apple Notes) — review"
   ingredients:
-    - id: "lightspeed:20691739"
-      desc: "Four Pillars Olive Leaf Gin"
+    - id: "lightspeed:20487289"
+      desc: "Four Pillars Olive Leaf [Bottle]"
       qty: 50
       unit: "ml"
     - id: "lightspeed:20487319"
@@ -2797,3 +2795,18 @@
       desc: "Noilly Prat Dry Vermouth"
       qty: 10
       unit: "ml"
+
+- product: "Jalapeño Tequila"
+  effective_from: "2026-08-09"
+  entered_by: "Claude (house infusion) — review"
+  yield_qty: 700
+  yield_unit: "ml"
+  ingredients:
+    - id: "lightspeed:20483410"
+      desc: "Rooster Rojo Blanco Tequila [Bottle]"
+      qty: 700
+      unit: "ml"
+    - id: "lightspeed:20445538"
+      desc: "Jalapeños"
+      qty: 150
+      unit: "g"
