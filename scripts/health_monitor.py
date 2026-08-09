@@ -235,6 +235,43 @@ def _pull_integrity(rel="data/pull_integrity.json"):
         return {"status": "unknown", "detail": f"integrity record unreadable: {e}"}
 
 
+def _missing_sales_days(lookback=6):
+    """Backstop for the sales auto-heal: flag any recent day where a venue has no
+    sales but that weekday normally trades (so it is a real gap, not a closed day).
+    Auto-recovery refills it within hours; a day that persists here means the
+    export never arrived and needs a manual re-send from Lightspeed Insights."""
+    import datetime as _dt
+    PREF = {"stow": "Stowaway", "hg": "Harry Gatos", "mari": "Marilyna's"}
+    today = _dt.date.today()
+
+    def has_sales(prefix, d):
+        try:
+            j = json.load(open(f"data/{prefix}_daily_{d}.json"))
+            return (j.get("data_status", {}).get("lightspeed") == "ok"
+                    and bool(j.get("sales", {}).get("revenue_ex_gst")))
+        except Exception:
+            return False
+
+    gaps = []
+    for prefix in ("stow", "hg", "mari"):
+        for back in range(2, lookback + 1):
+            d = (today - _dt.timedelta(days=back)).isoformat()
+            if has_sales(prefix, d):
+                continue
+            wk1 = has_sales(prefix, (today - _dt.timedelta(days=back + 7)).isoformat())
+            wk2 = has_sales(prefix, (today - _dt.timedelta(days=back + 14)).isoformat())
+            if wk1 or wk2:
+                gaps.append(f"{PREF[prefix]} {d}")
+    if not gaps:
+        return {"status": "ok", "detail": "every venue's recent trading days have sales"}
+    return {"status": "warn",
+            "detail": "sales missing: " + ", ".join(gaps),
+            "meaning": "A venue has no sales on a day it normally trades - usually a Lightspeed export that did not ingest.",
+            "action": ("Auto-recovery re-pulls these from the mailbox within a few hours. If a day stays listed, "
+                       "the export never arrived - re-send that day from Lightspeed Insights."),
+            "selfheal": "The sales ingest retries missing days automatically on its next run."}
+
+
 def build() -> dict:
     checks = []
 
@@ -277,6 +314,14 @@ def build() -> dict:
         if ig.get(_k):
             _ig_check[_k] = ig[_k]
     checks.append(_ig_check)
+
+    ms = _missing_sales_days()
+    _ms_check = {"name": "Sales completeness", "detail": ms.get("detail"),
+                 "age": None, "unit": "", "status": ms.get("status", "unknown")}
+    for _k in ("meaning", "action", "selfheal"):
+        if ms.get(_k):
+            _ms_check[_k] = ms[_k]
+    checks.append(_ms_check)
 
     # overall reflects AUTOMATION health — the jobs that must keep running. An
     # advisory (workload) check can raise a warn but never a down on its own.

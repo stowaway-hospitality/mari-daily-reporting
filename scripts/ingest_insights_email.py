@@ -145,6 +145,26 @@ def _graph_tdate(received_iso):
     return (dt.astimezone(SYD) - timedelta(days=1)).strftime("%Y-%m-%d")   # report = "Yesterday"
 
 
+DAILY_EVENTS = {"stow-csv-arrived", "hg-csv-arrived", "insights-csv-arrived"}
+_PREFIX = {"stowaway": "stow", "harry": "hg", "marilynas": "mari"}
+
+
+def _output_complete(venue, tdate):
+    """True once the day's sales actually landed — the self-heal's stop signal."""
+    try:
+        d = json.load(open(os.path.join("data", f"{_PREFIX.get(venue, venue)}_daily_{tdate}.json")))
+        return d.get("data_status", {}).get("lightspeed") == "ok"
+    except Exception:
+        return False
+
+
+def _recent(iso, hours):
+    try:
+        return (datetime.now(timezone.utc) - datetime.fromisoformat(iso)) < timedelta(hours=hours)
+    except Exception:
+        return False
+
+
 def main():
     state = load_state()
     fired = scanned = 0
@@ -152,13 +172,13 @@ def main():
 
     if SALES_MAILBOX:
         import graph_mailbox   # scripts/ is on sys.path when run directly
-        records = [("graph", m) for m in graph_mailbox.messages(SALES_MAILBOX, since_days=2)]
+        records = [("graph", m) for m in graph_mailbox.messages(SALES_MAILBOX, since_days=8)]
         print(f"source: M365 mailbox {SALES_MAILBOX} (app-only)")
     else:
         imap_conn = imaplib.IMAP4_SSL("imap.gmail.com", 993)
         imap_conn.login(GMAIL, APP_PW)
         imap_conn.select("INBOX")
-        since = (datetime.now(timezone.utc) - timedelta(days=2)).strftime("%d-%b-%Y")
+        since = (datetime.now(timezone.utc) - timedelta(days=8)).strftime("%d-%b-%Y")
         typ, data = imap_conn.search(None, "SINCE", since)
         ids = data[0].split() if data and data[0] else []
         records = []
@@ -175,23 +195,33 @@ def main():
             subject, mid = msg.subject, msg.message_id
         else:
             subject, mid = msg.get("Subject", ""), (msg.get("Message-ID") or f"uid-{scanned}")
-        if mid in state:
-            continue
         cl = classify(subject)
         if not cl:
             continue
         event, venue = cl
-        if kind == "graph":
-            b64, tdate = msg.attachment_b64(), _graph_tdate(msg.received)
-        else:
-            b64, tdate = attachment_b64(msg), target_date(msg)
+        tdate = _graph_tdate(msg.received) if kind == "graph" else target_date(msg)
+        seen = mid in state
+        if seen:
+            # Hourly / non-daily: ledger dedup only. Daily sales: SELF-HEAL — if the
+            # day's data never landed (dropped ingest / transient failure) retry it
+            # rather than trust the ledger, so a gap can't become permanent. Once
+            # the pull writes the day, output is complete and we leave it alone; a
+            # 2h backoff caps churn while it is still missing.
+            if event not in DAILY_EVENTS or _output_complete(venue, tdate):
+                continue
+            if _recent(state.get(f"heal:{venue}:{tdate}", ""), 2):
+                continue
+        b64 = msg.attachment_b64() if kind == "graph" else attachment_b64(msg)
         if not b64:
             print(f"  skip '{subject}' - no csv/zip attachment")
             continue
         dispatch(event, venue, b64, tdate)
-        state[mid] = datetime.now(timezone.utc).isoformat()
+        now_iso = datetime.now(timezone.utc).isoformat()
+        state[mid] = now_iso
+        if seen:
+            state[f"heal:{venue}:{tdate}"] = now_iso
         fired += 1
-        print(f"  dispatched {event} ({venue}) for {tdate} from '{subject}'")
+        print(f"  {'re-dispatched (self-heal)' if seen else 'dispatched'} {event} ({venue}) for {tdate} from '{subject}'")
 
     save_state(state)
     if imap_conn is not None:
