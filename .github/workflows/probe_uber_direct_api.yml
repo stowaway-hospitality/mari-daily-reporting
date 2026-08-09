@@ -1,0 +1,30 @@
+name: Probe Uber Direct API
+
+# ONE-OFF, MANUAL ONLY. Answers a single question: does the Uber Direct API
+# expose the fee actually charged per completed delivery, so the Direct half of
+# the daily Uber pull can leave the browser and become a scheduled Action?
+#
+# Runs nowhere near the data: no writes, no commits, no schedule. Prints field
+# shapes and money values only — never the client secret, never the token.
+# Inert until UBER_DIRECT_CLIENT_ID / _CLIENT_SECRET / _CUSTOMER_ID exist.
+# Delete this workflow and scripts/probe_uber_direct_api.py once answered.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Probe
+        env:
+          UBER_DIRECT_CLIENT_ID: ${{ secrets.UBER_DIRECT_CLIENT_ID }}
+          UBER_DIRECT_CLIENT_SECRET: ${{ secrets.UBER_DIRECT_CLIENT_SECRET }}
+          UBER_DIRECT_CUSTOMER_ID: ${{ secrets.UBER_DIRECT_CUSTOMER_ID }}
+        run: python3 scripts/probe_uber_direct_api.py
