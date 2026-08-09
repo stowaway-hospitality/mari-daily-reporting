@@ -49,6 +49,27 @@ def test_redeemed_on_filters_status_and_date():
     assert len(got) == 1 and got[0]["bill_full"] == "213.53"
 
 
+def test_profile_append_is_idempotent():
+    """Re-running a night must not duplicate its rows in the profile."""
+    import tempfile
+    p = os.path.join(tempfile.mkdtemp(), "profile.csv")
+    rows = [("2026-08-08", "eatclub_covers", 9, "", 2, "note"),
+            ("2026-08-08", "eatclub_share_of_window_pct", 27.1, "", "", "note")]
+    assert dr.append_profile(p, rows) == 2
+    assert dr.append_profile(p, rows) == 0          # rerun adds nothing
+    with open(p) as f:
+        assert len(f.read().strip().splitlines()) == 3   # header + 2
+
+
+def test_profile_rows_cover_all_three_venues():
+    hg = {"skip": "closed"}
+    mari = {"skip": "no baseline"}
+    stow = {"skip": "needs RG feed", "tables": 6, "covers": 16}
+    from datetime import date
+    rows = dr.profile_rows(date(2026, 8, 8), hg, mari, stow)
+    assert [r[1] for r in rows] == ["stow_eatclub_covers"]   # skips emit nothing
+
+
 _HOURLY = """date,h17,h18,h19,h20,h21,h22
 2026-08-02,0,0,0,0,0,0
 2026-08-07,268.74,1071.69,1107.2,1554.5,226,0

@@ -195,12 +195,74 @@ def stowaway_read(day, tx_rows):
             "covers": sum(int(gv._f(r.get("party_size")) or 0) for r in red)}
 
 
+PROFILE_COLS = ["date", "metric", "eatclub_value", "regular_value", "sample_n", "notes"]
+
+
+def profile_rows(day, hg, mari, stow):
+    """The behaviour-profile rows for one night.
+
+    The old per-night scripts appended these by hand; the figures are now the
+    same objects the verdict was computed from, so the record and the read can
+    no longer disagree.
+    """
+    d = day.isoformat()
+    rows = []
+    if "read" in hg:
+        r = hg["read"]
+        rows.append((d, "eatclub_covers", hg["covers"], "", hg["tables"],
+                     f"HG {hg['tables']} redeemed tables, tiers {hg['tiers']} "
+                     f"({'standard' if hg['tier_standard'] else 'ESCALATED'})"))
+        rows.append((d, "fullprice_window_rev_vs_baseline",
+                     float(r.full_price_window), float(r.baseline_incgst), "",
+                     f"{hg['dow']} window ${r.window_incgst} less EatClub bills "
+                     f"${r.eatclub_bills_incgst} = ${r.full_price_window} full-price; "
+                     f"vs pre-launch {hg['dow']} baseline ${r.baseline_incgst} "
+                     f"(n={hg['baseline_n']}) = ${r.delta} / {r.delta_pct}pct. "
+                     f"early 17-18h ${hg['early']:.2f} vs ${hg['early_baseline']} "
+                     f"({'weak' if hg['early_weak'] else 'normal'} before arrivals). "
+                     f"VERDICT {r.verdict}."))
+        if float(r.window_incgst):
+            rows.append((d, "eatclub_share_of_window_pct",
+                         round(float(r.eatclub_bills_incgst) / float(r.window_incgst) * 100, 1),
+                         "", "", "EatClub menu value as a share of the offer window."))
+    if "read" in mari:
+        r = mari["read"]
+        rows.append((d, "mari_offpremise_vs_delivery_baseline",
+                     float(r.total_offpremise), float(r.delivery_baseline), mari["tables"],
+                     f"EatClub ${r.eatclub_incgst} + delivery ${r.delivery_incgst} "
+                     f"= ${r.total_offpremise} off-premise ex-GST vs {mari['dow']} "
+                     f"pre-launch delivery baseline ${r.delivery_baseline} "
+                     f"= ${r.delta} / {r.delta_pct}pct. VERDICT {r.verdict}."))
+    rows.append((d, "stow_eatclub_covers", stow["covers"], "", stow["tables"],
+                 "captured only — " + stow["skip"]))
+    return rows
+
+
+def append_profile(path, rows):
+    """Append, skipping (date, metric) pairs already recorded — reruns are safe."""
+    seen = set()
+    if os.path.exists(path):
+        with open(path, newline="") as f:
+            seen = {(r["date"], r["metric"]) for r in csv.DictReader(f)}
+    new = [r for r in rows if (r[0], r[1]) not in seen]
+    if new:
+        write_header = not os.path.exists(path)
+        with open(path, "a", newline="") as f:
+            w = csv.writer(f)
+            if write_header:
+                w.writerow(PROFILE_COLS)
+            w.writerows(new)
+    return len(new)
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description="EatClub daily read")
     p.add_argument("--date", required=True, help="night to assess, YYYY-MM-DD")
     p.add_argument("--ec-dir", default=DEFAULT_EC_DIR)
     p.add_argument("--hourly", default=None, help="HG hourly csv (date,h17..h22)")
     p.add_argument("--history", default=None, help="mari_daily_history.csv")
+    p.add_argument("--write-profile", action="store_true",
+                   help="append the read to eatclub_behaviour_profile.csv")
     a = p.parse_args(argv)
 
     day = _d(a.date)
@@ -253,6 +315,11 @@ def main(argv=None):
     print("\nSTOWAWAY BAR (dine-in)")
     print(f"  {stow['tables']} tables / {stow['covers']} covers captured")
     print(f"  SKIPPED: {stow['skip']}")
+
+    if a.write_profile:
+        prof = os.path.join(ec_dir, "eatclub_behaviour_profile.csv")
+        n = append_profile(prof, profile_rows(day, hg, mari, stow))
+        print(f"\nbehaviour profile: {n} row(s) appended to {os.path.basename(prof)}")
 
     return {"harry": hg, "marilynas": mari, "stowaway": stow}
 
