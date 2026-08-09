@@ -47,7 +47,7 @@ BUFFER_LO = 1.12
 BUFFER_HI = 1.30
 GROWTH_CAP_LO = 0.60
 GROWTH_CAP_HI = 1.80
-SPIKE_FLOOR_MULT = 1.10     # worst-window-week * this = never-below floor
+SPIKE_FLOOR_MULT = 1.20     # worst-window-week * this = never-below floor (raised 1.10->1.20 to harden against stockouts on spiky low-volume SKUs, 2026-08-09)
 DECLINE_FLOOR = 0.75        # declining items still keep 75% of the peak in the floor
 RECENT_WEEKS = 8            # recent weighted-mean window
 WINDOW_WEEKS = 13           # ~3-month spike-floor / volatility window
