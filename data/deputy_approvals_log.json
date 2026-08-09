@@ -534,5 +534,70 @@
         "result": "approved"
       }
     ]
+  },
+  {
+    "run": "2026-08-09T17:33:48+00:00",
+    "approved": [
+      {
+        "id": 35743,
+        "employee": "Kris Hegarty",
+        "reason": "salaried (Kris) \u2014 overstay auto-approve rule",
+        "result": "approved + round FAILED HTTP 400 {\"error\":{\"code\":400,\"message\":\"The length of the timesheet is less than the minimum of 15 minutes. The timesheet will not be submitted.\"}}"
+      },
+      {
+        "id": 35767,
+        "employee": "Pujan Tamang",
+        "reason": "salaried (Pujan) \u2014 overstay auto-approve rule",
+        "result": "approved + round FAILED HTTP 400 {\"error\":{\"code\":400,\"message\":\"The length of the timesheet is less than the minimum of 15 minutes. The timesheet will not be submitted.\"}}"
+      },
+      {
+        "id": 35788,
+        "employee": "Pujan Tamang",
+        "reason": "salaried (Pujan) \u2014 overstay auto-approve rule",
+        "result": "approved"
+      },
+      {
+        "id": 35789,
+        "employee": "Jack Colbran",
+        "reason": "clean \u2014 within rostered finish, break normal",
+        "result": "approved"
+      },
+      {
+        "id": 35791,
+        "employee": "David Armour",
+        "reason": "clean \u2014 within rostered finish, break normal",
+        "result": "approved"
+      },
+      {
+        "id": 35792,
+        "employee": "Sophie Campbell",
+        "reason": "clean \u2014 within rostered finish, break normal",
+        "result": "approved"
+      },
+      {
+        "id": 35793,
+        "employee": "Annarita Dagostino",
+        "reason": "clean \u2014 within rostered finish, break normal",
+        "result": "approved"
+      },
+      {
+        "id": 35794,
+        "employee": "Sushant Acharya",
+        "reason": "clean \u2014 within rostered finish, break normal",
+        "result": "approved"
+      },
+      {
+        "id": 35798,
+        "employee": "pedro f",
+        "reason": "clean \u2014 within rostered finish, break normal",
+        "result": "approved"
+      },
+      {
+        "id": 35800,
+        "employee": "denis",
+        "reason": "clean \u2014 within rostered finish, break normal",
+        "result": "approved"
+      }
+    ]
   }
 ]
