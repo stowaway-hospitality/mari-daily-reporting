@@ -262,7 +262,25 @@ function uberActual(venue, sIso, eIso) {
     const w = uberWeeklyFees(venue, sIso, wEnd < eIso ? wEnd : eIso);
     if (w) { comm += w.commission; mkt += w.marketing; have = true; }
   }
-  return have ? { commission: comm, marketing: mkt } : null;
+  if (!have) return null;
+  // How far the feed actually REACHES, so a caller can tell a complete window
+  // from one whose tail has not landed. uberDirectActual and uberSvcWindow both
+  // refuse partial coverage; this one is summed per-day, so instead it reports
+  // the boundary and lets venueDeliveryEst estimate the remainder.
+  const end = uberDailyEnd(venue);
+  return { commission: comm, marketing: mkt,
+           coveredEnd: end, covered: !!end && end >= eIso };
+}
+
+function uberDailyEnd(venue) {
+  // Last date the DAILY feed reaches for a venue. Today is normally uncovered —
+  // the pull runs next morning — so most live windows have a one-day tail.
+  let max = null;
+  for (const r of (STATE.uberDaily || [])) {
+    if (r.shop !== venue || !r.date) continue;
+    if (max === null || r.date > max) max = r.date;
+  }
+  return max;
 }
 
 function uberEatsShareOfDelivery(venue, endIso) {
@@ -314,8 +332,20 @@ function venueDeliveryEst(venue, sIso, eIso, endIso) {
   const dir = uberDirectActual(venue, sIso, eIso);
   const directActual = dir && dir.covered;
   const nonUber = directActual ? dir.fee : dfEst * (1 - uberEatsShareOfDelivery(venue, endIso));
-  return { df: _u.commission + _u.marketing + nonUber, commission: _u.commission,
-           marketing: _u.marketing, direct: directActual ? dir.fee : null, actual: true };
+  // The feed's TAIL: days in the window the Uber pull has not reached yet. Their
+  // revenue is already in the P&L, so leaving their fees out understates delivery
+  // cost on every window ending today — and by a lot more if the pull is stuck.
+  // Estimate just those days at the venue's own blended rate over the covered
+  // part. An incomplete feed must never read as a complete one. (2026-08-09)
+  let tail = 0;
+  if (_u.coveredEnd && !_u.covered) {
+    const covRev = venueRevWindow(venue, sIso, _u.coveredEnd);
+    const tailRev = venueRevWindow(venue, isoDate(addDays(new Date(_u.coveredEnd), 1)), eIso);
+    if (covRev > 0 && tailRev > 0) tail = (_u.commission + _u.marketing) / covRev * tailRev;
+  }
+  return { df: _u.commission + _u.marketing + tail + nonUber, commission: _u.commission,
+           marketing: _u.marketing, direct: directActual ? dir.fee : null,
+           actual: true, feedCovered: !!_u.covered, tailEst: tail };
 }
 
 function pnlWindow(day, venue = STATE.currentVenue) {

@@ -51,11 +51,14 @@ ctx.STATE.uberFees=[
   {week_ending:'2026-07-12',venue:'mari',service_fees_inc_gst:'700.00',marketing_inc_gst:'70.00'}];
 ctx.STATE.uberAds=[];
 // window entirely inside the daily era -> daily only
-eq("JSON.stringify(uberActual('mari','2026-07-13','2026-07-14'))",'{"commission":300,"marketing":30}');
+eq("uberActual('mari','2026-07-13','2026-07-14').commission","300");
+eq("uberActual('mari','2026-07-13','2026-07-14').marketing","30");
 // window straddling the boundary -> daily PLUS the whole prior week (7/7 days)
-eq("JSON.stringify(uberActual('mari','2026-07-06','2026-07-14'))",'{"commission":1000,"marketing":100}');
+eq("uberActual('mari','2026-07-06','2026-07-14').commission","1000");
+eq("uberActual('mari','2026-07-06','2026-07-14').marketing","100");
 // window entirely before the daily feed -> weekly only
-eq("JSON.stringify(uberActual('mari','2026-07-06','2026-07-12'))",'{"commission":700,"marketing":70}');
+eq("uberActual('mari','2026-07-06','2026-07-12').commission","700");
+eq("uberActual('mari','2026-07-06','2026-07-12').marketing","70");
 // the daily feed must not be double-counted by the weekly branch
 eq("uberActual('mari','2026-07-06','2026-07-14').commission === 300 + 700","true");
 // no feed reaches the window -> null, caller estimates
@@ -63,6 +66,23 @@ eq("uberActual('mari','2026-05-01','2026-05-07')","null");
 // marketing must NOT pick up uber_marketing_weekly ads on top (double-count)
 ctx.STATE.uberAds=[{week_ending:'2026-07-19',shop:'mari',ads_inc_gst:'999.00'}];
 eq("uberActual('mari','2026-07-13','2026-07-14').marketing","30");
+
+// COVERAGE — the feed must say how far it reaches, so a window whose tail has
+// not landed cannot read as complete. (The daily pull runs next morning, so any
+// window ending today is uncovered; if the pull is stuck it is uncovered by more.)
+eq("uberActual('mari','2026-07-13','2026-07-14').covered","true");
+eq("uberActual('mari','2026-07-13','2026-07-20').covered","false");
+eq("uberActual('mari','2026-07-13','2026-07-20').coveredEnd","2026-07-14");
+// the covered sum itself must not change when the window runs past the feed
+eq("uberActual('mari','2026-07-13','2026-07-20').commission","300");
+// venueDeliveryEst tops the uncovered tail up from revenue rather than dropping it
+ctx.STATE.histories={mari:[
+  {date:'2026-07-13',revenue_ex_gst:'1000'},{date:'2026-07-14',revenue_ex_gst:'1000'},
+  {date:'2026-07-15',revenue_ex_gst:'1000'}]};
+ctx.STATE.uberDirect=[]; ctx.STATE.xeroOH=[]; ctx.STATE.baselines={};
+// covered $2000 rev carried $330 of fees -> the uncovered $1000 day adds $165
+eq("Math.round(venueDeliveryEst('mari','2026-07-13','2026-07-15','2026-07-15').tailEst)","165");
+eq("venueDeliveryEst('mari','2026-07-13','2026-07-14','2026-07-14').tailEst","0");
 
 console.log(`\n${n} unit assertions, ${fails} failures`);
 process.exit(fails?1:0);

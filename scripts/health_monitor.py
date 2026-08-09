@@ -298,6 +298,38 @@ def _uber_feed(rel="data/uber_daily.csv"):
         return {"status": "unknown", "detail": f"Uber feed unreadable: {e}"}
 
 
+def _uber_direct(rel="data/uber_direct_daily.csv"):
+    """Uber DIRECT ingest — Mari's own online orders delivered by Uber's fleet,
+    billed daily by email and dispatched into the repo by Pipedream.
+
+    WHY it needs watching: unlike the marketplace feed this one has no schedule
+    of its own. It only moves when an invoice email arrives and fires the
+    uber_direct_dispatch workflow, so if the email or the Pipedream hook stops,
+    nothing errors — the file just quietly stops growing. pnl.js degrades safely
+    (uberDirectActual reports covered=false and the caller estimates), so the
+    P&L is not wrong; the actual cost is simply never captured, and nobody finds
+    out. Found dead 22 days on 2026-08-09 with zero workflow runs.
+    """
+    age = _csv_last_date_age_days(rel, "date")
+    if age is None:
+        return {"status": "unknown", "detail": "no Uber Direct feed yet"}
+    meaning = "Uber Direct is Mari's own online delivery, billed daily by email — separate from Uber Eats."
+    if age >= 21:
+        return {"status": "down", "detail": f"Uber Direct ingest silent {age}d",
+                "meaning": meaning,
+                "action": ("The Uber Direct daily invoice emails have stopped reaching the repo, so those "
+                           "delivery fees are being estimated instead of counted. Check the invoice email is "
+                           "still arriving and that the Pipedream 'Mari Insights to GitHub' hook is on."),
+                "selfheal": "No - the email or the Pipedream hook needs looking at."}
+        # (fees still estimate cleanly, so this is a data-capture outage, not a wrong number)
+    if age >= 7:
+        return {"status": "warn", "detail": f"no Uber Direct fee for {age}d",
+                "meaning": meaning,
+                "action": f"No Uber Direct invoice has landed for {age} days - fine if Mari genuinely had no Direct orders, worth a look if she did.",
+                "selfheal": "Clears when the next invoice email arrives."}
+    return {"status": "ok", "detail": f"last Direct fee {age}d ago"}
+
+
 def _missing_sales_days(lookback=6):
     """Backstop for the sales auto-heal: flag any recent day where a venue has no
     sales but that weekday normally trades (so it is a real gap, not a closed day).
@@ -393,6 +425,14 @@ def build() -> dict:
         if uf.get(_k):
             _uf_check[_k] = uf[_k]
     checks.append(_uf_check)
+
+    ud = _uber_direct()
+    _ud_check = {"name": "Uber Direct ingest", "detail": ud.get("detail"),
+                 "age": None, "unit": "", "status": ud.get("status", "unknown")}
+    for _k in ("meaning", "action", "selfheal"):
+        if ud.get(_k):
+            _ud_check[_k] = ud[_k]
+    checks.append(_ud_check)
 
     # overall reflects AUTOMATION health — the jobs that must keep running. An
     # advisory (workload) check can raise a warn but never a down on its own.

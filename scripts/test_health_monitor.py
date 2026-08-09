@@ -45,6 +45,7 @@ def _build_with(monkey_ages, queue_days):
     hm._overheads_months_behind = lambda *a, **k: monkey_ages.get("overheads", 0)
     hm._pull_integrity = lambda *a, **k: monkey_ages.get("integrity", {"status": "ok", "detail": "clean"})
     hm._uber_feed = lambda *a, **k: monkey_ages.get("uber", {"status": "ok", "detail": "clean"})
+    hm._uber_direct = lambda *a, **k: monkey_ages.get("uberdirect", {"status": "ok", "detail": "clean"})
     return hm.build()
 
 
@@ -76,6 +77,12 @@ check("stale uber feed -> overall warn", out["overall"] == "warn")
 
 out = _build_with(dict(allfresh), 0)
 check("healthy uber feed is reported", any(c.get("name") == "Uber fee feed" for c in out["checks"]))
+
+# Uber Direct has no schedule of its own — it only moves when an invoice email
+# fires the dispatch hook, so a dead hook is silent. Found dead 22d on 2026-08-09.
+out = _build_with(dict(allfresh, uberdirect={"status": "down", "detail": "silent 22d"}), 0)
+check("dead uber direct ingest -> overall down", out["overall"] == "down")
+check("uber direct check is reported", any(c.get("name") == "Uber Direct ingest" for c in out["checks"]))
 
 # ---- folded-in watchdog checks -------------------------------------------
 # Stow export narrowed is the six-figure-silent-loss case -> must go down
