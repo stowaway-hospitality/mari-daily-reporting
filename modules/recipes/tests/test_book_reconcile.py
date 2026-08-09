@@ -250,13 +250,21 @@ def test_a_batch_may_hold_less_than_it_makes_and_never_more(book):
     assert not (low & {f["recipe"] for f in br.batch_overflow(book)})
 
 
-def test_the_four_batches_that_state_more_than_they_make(book):
-    """The measured output. Each states between 5 and 11 times its own name."""
+def test_only_mango_chilli_still_states_more_than_it_makes(book):
+    """The measured output, against the REAL yields.
+
+    RESOLVED 2026-08-09 by reading the REAL yields out of Lightspeed Produce
+    (data/recipe_yields.yaml). The rule used to read the number in the NAME,
+    which is a naming convention, not a yield: Jalapeno Tequila [1L] actually
+    makes 7,500 mL, Coconut-washed 3,929 mL and Cooked Beef Brisket [1Kg]
+    10.5 kg — so their "overflow" was the label being wrong, not the recipe.
+    Only Mango-Chilli survives, and now against its true 1,050 mL.
+    """
     got = {f["recipe"]: f["multiple"] for f in br.batch_overflow(book)}
-    assert set(got) == {"Cooked Beef Brisket [1Kg]", "Mango-Chilli Puree [1L]",
-                        "Jalapeño Tequila [1L]", "Coconut-washed Rooster Blanco [1L]"}, sorted(got)
-    assert got["Cooked Beef Brisket [1Kg]"] == 11.45
-    assert got["Jalapeño Tequila [1L]"] == 7.95
+    assert set(got) == {"Mango-Chilli Puree [1L]"}, sorted(got)
+    for gone in ("Cooked Beef Brisket [1Kg]", "Jalapeño Tequila [1L]",
+                 "Coconut-washed Rooster Blanco [1L]"):
+        assert gone not in got, gone
 
 
 def test_a_batch_finding_names_both_readings_not_one(book):
@@ -265,10 +273,12 @@ def test_a_batch_finding_names_both_readings_not_one(book):
     opposite consequences for the per-kilo rate everything downstream divides
     by. The finding carries the declared yield, the input total and the biggest
     line, so a human can answer it without opening Produce."""
-    f = next(x for x in br.batch_overflow(book) if x["recipe"] == "Cooked Beef Brisket [1Kg]")
-    assert f["declared"] == 1000.0 and f["declared_unit"] == "g"
-    assert f["inputs"] == 11454.0
-    assert f["biggest_line"][0] == "Beef Brisket YG Point End [1kg]"
+    # Brisket is no longer a finding (its real yield is 10.5 kg, so 10 kg of raw
+    # brisket fits), so the contract is checked on the one that remains.
+    f = next(x for x in br.batch_overflow(book) if x["recipe"] == "Mango-Chilli Puree [1L]")
+    assert f["declared"] == 1050.0 and f["declared_unit"] == "ml"   # from Lightspeed
+    assert f["inputs"] > f["declared"]
+    assert f["biggest_line"][0]
 
 
 def test_the_declared_yield_convention_is_real(book):

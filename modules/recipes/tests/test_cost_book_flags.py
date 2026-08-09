@@ -334,13 +334,14 @@ def test_a_batch_that_holds_more_than_it_makes_states_no_dollar(feed):
     """Either "Cooked Beef Brisket [1Kg]" is a 10 kg batch or its brisket line is
     wrong, and the two readings move the per-kilo rate in opposite directions.
     Sizing it would mean picking one — the guess this feed refuses."""
+    # Three of the four were the LABEL being wrong, not the recipe — resolved by
+    # reading the real yields from Lightspeed (data/recipe_yields.yaml).
     got = {f["subject"]: f for f in _by_cat(feed, "batch_yield")}
-    assert set(got) == {"Cooked Beef Brisket [1Kg]", "Mango-Chilli Puree [1L]",
-                        "Jalapeño Tequila [1L]", "Coconut-washed Rooster Blanco [1L]"}
+    assert set(got) == {"Mango-Chilli Puree [1L]"}, sorted(got)
     for f in got.values():
         assert f["impact_per_year"] is None
         assert f["question"]
-    assert "11.45x" in got["Cooked Beef Brisket [1Kg]"]["what_is_wrong"]
+    assert "1,050 ml" in got["Mango-Chilli Puree [1L]"]["question"]
 
 
 def test_a_price_conflict_reports_a_spread_and_calls_it_one(feed):

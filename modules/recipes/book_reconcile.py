@@ -345,6 +345,9 @@ def whole_pack_outliers(recipes) -> list:
 
 _DECLARED_YIELD = re.compile(
     r"\[\s*([0-9]*\.?[0-9]+)\s*(kg|kgs|g|gm|l|lt|ltr|litre|ml|mls)\s*\]\s*$", re.I)
+from pathlib import Path as _Path
+ROOT = _Path(__file__).resolve().parents[2]   # repo root, for data/ lookups
+
 _TO_BASE = {"kg": 1000.0, "kgs": 1000.0, "g": 1.0, "gm": 1.0,
             "l": 1000.0, "lt": 1000.0, "ltr": 1000.0, "litre": 1000.0,
             "ml": 1.0, "mls": 1.0}
@@ -362,13 +365,47 @@ _TO_BASE = {"kg": 1000.0, "kgs": 1000.0, "g": 1.0, "gm": 1.0,
 YIELD_OVERFLOW_X = 3.0
 
 
-def declared_yield(name: str):
-    """-> (base quantity, base unit) a recipe's NAME claims it makes, or None.
+_REAL_YIELDS = None
 
-    The convention is real and tight: of the 24 recipes that declare one, seven
-    state inputs that sum to the declared figure to the millilitre, and three
-    more land within 9%.
+
+def _real_yields() -> dict:
+    """The Expected yield each batch states in Lightspeed Produce, harvested into
+    data/recipe_yields.yaml on 2026-08-09.
+
+    Zak: "the [1L] labels are LABELS not yields. the yields are on lightspeed."
+    He is right — the name is a naming convention, and reading it as the yield was
+    wrong by 7.5x on Jalapeno Tequila (a [1L] batch that makes 7,500 mL) and 10.5x
+    on Cooked Beef Brisket. The scrape never captured the field, so the name was
+    all there was. Now it is not: the real figure wins and the name is the fallback
+    for anything not yet harvested.
     """
+    global _REAL_YIELDS
+    if _REAL_YIELDS is None:
+        _REAL_YIELDS = {}
+        try:
+            import yaml
+            f = ROOT / "data" / "recipe_yields.yaml"
+            d = yaml.safe_load(f.read_text(encoding="utf-8-sig")) if f.exists() else None
+            for nm, spec in ((d or {}).get("yields") or {}).items():
+                q, u = spec.get("yield"), str(spec.get("unit") or "").lower()
+                fct = _TO_BASE.get(u)
+                if q and fct:
+                    _REAL_YIELDS[nm] = (float(q) * fct,
+                                        "g" if u in ("kg", "kgs", "g", "gm") else "ml")
+        except Exception:                                        # noqa: BLE001
+            _REAL_YIELDS = {}
+    return _REAL_YIELDS
+
+
+def declared_yield(name: str):
+    """-> (base quantity, base unit) the recipe actually makes, or None.
+
+    Lightspeed's Expected yield first (the source of truth — see _real_yields);
+    the number in the NAME only when we have not harvested one.
+    """
+    real = _real_yields().get(str(name or ""))
+    if real:
+        return real
     m = _DECLARED_YIELD.search(str(name or ""))
     if not m:
         return None

@@ -136,9 +136,10 @@ if (!fs.existsSync(p)) {
   for (const c of ['structure', 'batch_yield', 'price_conflict']) {
     ok(`reconcile family carried: ${c}`, d.flags.some(f => f.category === c));
   }
-  ok('the reconcile findings are still a real list',
-     d.flags.filter(f => ['structure', 'batch_yield', 'price_conflict'].includes(f.category)).length >= 8,
-     String(d.flags.filter(f => ['structure', 'batch_yield', 'price_conflict'].includes(f.category)).length));
+  // No total pinned here on purpose. The per-family checks above are the real
+  // contract; a count would go red every time a finding is SETTLED, which is the
+  // trap this file just fell into twice (Cauliflower's cheese, then three of the
+  // four batch yields). Settling work should never break the build.
 
   // 4. Back Office duplicates.
   // CLOSED 2026-08-09: HG's Back-Office copy seeded Angostura at $1.34 a 200 mL

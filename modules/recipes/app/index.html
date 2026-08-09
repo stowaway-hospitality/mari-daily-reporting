@@ -164,6 +164,11 @@
   td.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   tbody tr:hover{background:color-mix(in srgb,var(--paper) 90%,var(--ink) 4%)}
   .pl{border:1px solid var(--line);border-radius:12px;background:var(--paper);overflow:hidden}
+  /* The book's GP is a TABLE CELL. It shares the class name with the builder's
+     .gpbox summary tile above, which is deliberately 26px — and without a
+     font-size here that 26px leaked into every row, so the column shouted at
+     a size nothing else on the page uses. Reset it to the table's own size. */
+  table .gp{font-size:inherit}
   .gp{font-weight:700;font-variant-numeric:tabular-nums}
   .gp.bad{color:var(--red)} .gp.warn{color:var(--amber)} .gp.good{color:var(--green)}
   .tag{font-size:10px;padding:1px 7px;border-radius:99px;background:color-mix(in srgb,var(--green) 14%,var(--paper));color:var(--green);margin-left:6px}
