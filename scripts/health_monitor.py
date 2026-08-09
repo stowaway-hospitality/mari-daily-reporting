@@ -388,14 +388,14 @@ def _uber_feed(rel="data/uber_daily.csv"):
                                "expired. Ask Claude to run the Uber pull; if it reports a login screen, Zak needs "
                                "to sign in to merchants.ubereats.com once."),
                     "selfheal": "Resumes on its own if the session is still valid."}
-        return {"status": "ok", "detail": f"exact split, balances on all {len(rows)} days ({age}d old)"}
+        return {"status": "ok", "detail": f"exact split, balances on all {len(rows)} rows ({age}d old)"}
     except Exception as e:
         return {"status": "unknown", "detail": f"Uber feed unreadable: {e}"}
 
 
 def _uber_direct(rel="data/uber_direct_daily.csv"):
     """Uber DIRECT ingest — Mari's own online orders delivered by Uber's fleet,
-    billed daily by email and dispatched into the repo by Pipedream.
+    read daily from direct.uber.com by the uber-eats-daily-fees task.
 
     WHY it needs watching: it used to have no schedule of its own — it moved only
     when an invoice email fired the uber_direct_dispatch workflow via Pipedream.
@@ -412,7 +412,7 @@ def _uber_direct(rel="data/uber_direct_daily.csv"):
     age = _csv_last_date_age_days(rel, "date")
     if age is None:
         return {"status": "unknown", "detail": "no Uber Direct feed yet"}
-    meaning = "Uber Direct is Mari's own online delivery, billed daily by email — separate from Uber Eats."
+    meaning = "Uber Direct is Mari's own online delivery, read daily from direct.uber.com — separate from Uber Eats."
     if age >= 21:
         return {"status": "down", "detail": f"Uber Direct ingest silent {age}d",
                 "meaning": meaning,
@@ -426,8 +426,62 @@ def _uber_direct(rel="data/uber_direct_daily.csv"):
         return {"status": "warn", "detail": f"no Uber Direct fee for {age}d",
                 "meaning": meaning,
                 "action": f"No Uber Direct invoice has landed for {age} days - fine if Mari genuinely had no Direct orders, worth a look if she did.",
-                "selfheal": "Clears when the next invoice email arrives."}
+                "selfheal": "Clears when the next Direct delivery is recorded."}
     return {"status": "ok", "detail": f"last Direct fee {age}d ago"}
+
+
+def _uber_direct_reconciled(feed_rel="data/uber_direct_daily.csv",
+                            stmt_rel="data/uber_direct_statements.csv"):
+    """Does the Direct feed still agree with Uber's own invoices?
+
+    WHY on the panel and not only in CI: the deliveries list at direct.uber.com
+    paginates at 50 rows, and a truncated read returns FEWER deliveries — rows
+    that are correctly formatted, correctly dated, sorted, Mari-only, and too
+    small. Every structural guard passes. Only Uber's invoice disagrees.
+
+    That is not hypothetical: the first June-July read on 2026-08-10 came back
+    capped at 50 rows and had 2026-06-05 at 27.94 against an invoice of 40.60.
+    Re-read in weekly windows it was 40.60. The same read also recovered 16 days
+    (A$607.67) that the feed had never held at all.
+
+    Compared on TOTALS over the settled window, never day by day: Uber's invoice
+    date is not the delivery date, and the feed is deliberately delivery-dated so
+    it lines up with the sales it belongs to.
+    """
+    import csv as _csv
+    from datetime import date as _date, timedelta as _td
+    from decimal import Decimal as _D
+    fp, sp = ROOT / feed_rel, ROOT / stmt_rel
+    if not fp.exists() or not sp.exists():
+        return {"status": "unknown", "detail": "no Uber Direct statements to reconcile against"}
+    try:
+        with fp.open() as fh:
+            feed = {r["date"]: _D(r["fee_inc_gst"]) for r in _csv.DictReader(fh)}
+        with sp.open() as fh:
+            stmt = {r["statement_date"]: _D(r["amount_inc_gst"]) for r in _csv.DictReader(fh)}
+        if not feed or not stmt:
+            return {"status": "unknown", "detail": "Uber Direct reconciliation inputs empty"}
+        SETTLE, ACK = 3, _D("-50.00")
+        cutoff = (_date.fromisoformat(max(stmt)) - _td(days=SETTLE)).isoformat()
+        floor = min(min(stmt), min(feed))
+        f_tot = sum((v for d, v in feed.items() if floor <= d <= cutoff), _D("0"))
+        s_tot = sum((v for d, v in stmt.items() if floor <= d <= cutoff), _D("0"))
+        resid = s_tot - f_tot
+        drift = resid - ACK
+        if drift != 0:
+            return {"status": "warn",
+                    "detail": f"Direct feed vs Uber invoices out by A${drift} ({floor}..{cutoff})",
+                    "meaning": ("Uber Direct fees are read from the deliveries list; Uber's invoices are "
+                                "an independent record of the same money."),
+                    "action": ("The two no longer agree. A feed SHORT of the invoices is almost always a "
+                               "truncated deliveries page - the list caps at 50 rows per page. Ask Claude "
+                               "to re-read the affected range in weekly windows, checking each window "
+                               "returns fewer than 50 rows."),
+                    "selfheal": "No - the affected days need re-reading from the portal."}
+        return {"status": "ok",
+                "detail": f"matches Uber invoices to the cent through {cutoff}"}
+    except Exception as e:
+        return {"status": "unknown", "detail": f"Uber Direct reconciliation unreadable: {e}"}
 
 
 def _missing_sales_days(lookback=6):
@@ -533,6 +587,14 @@ def build() -> dict:
         if ud.get(_k):
             _ud_check[_k] = ud[_k]
     checks.append(_ud_check)
+
+    udr = _uber_direct_reconciled()
+    _udr_check = {"name": "Uber Direct reconciled", "detail": udr.get("detail"),
+                  "age": None, "unit": "", "status": udr.get("status", "unknown")}
+    for _k in ("meaning", "action", "selfheal"):
+        if udr.get(_k):
+            _udr_check[_k] = udr[_k]
+    checks.append(_udr_check)
 
     pd = _pages_drift(computed=checks)
     _pd_check = {"name": SELF, "detail": pd.get("detail"),

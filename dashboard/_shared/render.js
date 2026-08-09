@@ -1240,8 +1240,11 @@ async function bootstrap() {
       if (r.ok) STATE.uberAds = parseCsv(await r.text());
     } catch (e) {}
     try {
-      // Actual daily Uber Direct fees (Mari's own online orders). Emailed daily
-      // invoice -> Pipedream -> this CSV (see pipedream/uber_direct_ingest.js).
+      // Actual daily Uber Direct fees (Mari's own online orders), keyed by
+      // DELIVERY date. Read from direct.uber.com by the uber-eats-daily-fees
+      // task. The old email -> Pipedream path is retired (died 2026-07-24,
+      // unnoticed for 22 days). Cross-checked against Uber's own invoices in
+      // data/uber_direct_statements.csv by health_monitor.
       const r = await fetch('/data/uber_direct_daily.csv?t=' + Date.now());
       if (r.ok) STATE.uberDirect = parseCsv(await r.text());
     } catch (e) {}

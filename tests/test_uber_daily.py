@@ -36,7 +36,13 @@ FEED = ROOT / "data" / "uber_daily.csv"
 WEEKLY = ROOT / "data" / "uber_fees_weekly.csv"
 
 FIELDS = ["date", "shop", "sales_inc_gst", "payout_inc_gst",
-          "commission_inc_gst", "offers_inc_gst", "refund_inc_gst", "source"]
+          "commission_inc_gst", "offers_inc_gst", "refund_inc_gst", "source",
+          # Added 2026-08-10, additive-only. The portal's order count for the day.
+          # It is the ONLY field that carries independent evidence of WHICH SHOP
+          # was read: every other guard here is an internal-consistency test that
+          # passes just as happily on the wrong shop's numbers. Blank on rows
+          # captured before it existed.
+          "orders"]
 MONEY = FIELDS[2:7]
 
 # Uber's published rates, inc GST: delivery-by-Uber 30%+GST = 33% is the ceiling;
@@ -166,3 +172,50 @@ def test_daily_and_weekly_feeds_do_not_overlap():
                  if w.get("venue") == shop and w["week_ending"] >= first_daily]
         assert not clash, (f"{shop}: weekly weeks {clash[:3]} land on/after the daily feed's "
                            f"first day {first_daily} — those days would be double-counted")
+
+
+def test_money_is_written_canonically():
+    """No "-0.00", and nothing that is 2dp only by accident.
+
+    WHY this exists: for four weeks the pull formatted money with float, and a
+    float round of a small negative emits "-0.00". That string walks straight
+    past both of the guards you would expect to stop it —
+    test_money_is_two_decimal_places counts digits and sees a perfectly good
+    2dp number, and test_no_negative_fees asks `< 0`, which is False for
+    Decimal("-0.00"). Seven rows carried it for four weeks.
+
+    Worse, the runbook already CLAIMED a test named
+    test_money_is_written_canonically rejected it. No such test existed — the
+    claim was the only thing standing between the bug and production, and a
+    claim is not a guard. This is that test, written for real (2026-08-10).
+    """
+    bad = []
+    for r in rows():
+        for f in MONEY:
+            v = r[f]
+            if v.startswith("-0.00") or not re.fullmatch(r"-?\d+\.\d{2}", v):
+                bad.append(f"{r['date']} {r['shop']} {f}={v!r}")
+    assert not bad, ("money must be Decimal-formatted, 2dp, and never negative zero "
+                     f"(a float path is back): {bad[:5]}")
+
+
+def test_orders_is_a_whole_count_consistent_with_sales():
+    """orders is the row's only independent handle on reality.
+
+    A day with sales but no orders, or orders but no sales, means the row was
+    assembled from two different reads — most likely two different SHOPS, which
+    is the one failure mode no arithmetic guard in this file can see.
+    """
+    bad = []
+    for r in rows():
+        o = (r.get("orders") or "").strip()
+        if o == "":
+            continue                      # pre-2026-08-10 rows: not captured
+        if not o.isdigit():
+            bad.append(f"{r['date']} {r['shop']} orders={o!r} not a whole count"); continue
+        n, sales = int(o), Decimal(r["sales_inc_gst"])
+        if n == 0 and sales > 0:
+            bad.append(f"{r['date']} {r['shop']} {sales} of sales on 0 orders")
+        if n > 0 and sales <= 0:
+            bad.append(f"{r['date']} {r['shop']} {n} orders but no sales")
+    assert not bad, f"orders disagrees with sales: {bad[:5]}"
