@@ -1,8 +1,235 @@
 {
   "generated": "2026-08-10",
-  "count": 304,
+  "count": 307,
   "skipped_already_in_xero": 224,
   "invoices": [
+    {
+      "ref": "7088605",
+      "supplier": "B&E Foods Pty Ltd",
+      "supplier_key": "be_foods",
+      "date": "2026-08-10",
+      "due_date": "2026-08-17",
+      "total": "215.00",
+      "venue": "stowaway",
+      "pdf_path": "c94aacb6bf50cc15367a60ec9de149fc56732b4defbd8593535ab75d0962cfc2.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "FZ CHICKEN THIGH",
+          "supplier_code": "19334",
+          "qty": "1.00",
+          "amount": "75.00",
+          "unit_cost": "$75.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MSG (MONOSODIUM L-",
+          "supplier_code": "18321",
+          "qty": "2.00",
+          "amount": "14.40",
+          "unit_cost": "$7.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "RICE - JASMINE RICE 10KG",
+          "supplier_code": "16223",
+          "qty": "1.00",
+          "amount": "21.00",
+          "unit_cost": "$2.10/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHICKEN 1/2 BREAST (F)",
+          "supplier_code": "10228",
+          "qty": "5.00",
+          "amount": "58.00",
+          "unit_cost": "$11.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MAYONNAISE 1KG(12)",
+          "supplier_code": "17530",
+          "qty": "2.00",
+          "amount": "19.80",
+          "unit_cost": "$9.90/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "NOODLES - PLAIN INSTANT",
+          "supplier_code": "18120",
+          "qty": "1.00",
+          "amount": "23.50",
+          "unit_cost": "$23.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FUEL LEVY",
+          "supplier_code": null,
+          "qty": "1.00",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "7090722",
+      "supplier": "B&E Foods Pty Ltd",
+      "supplier_key": "be_foods",
+      "date": "2026-08-10",
+      "due_date": "2026-08-17",
+      "total": "409.17",
+      "venue": "stowaway",
+      "pdf_path": "722ae4b425d94ca1ba1ca8d9a135f85b41dea0cf7a4ec2321cbaca600388e0cd.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "FZ CHIPS - CRISPY COATED",
+          "supplier_code": "15555",
+          "qty": "3.00",
+          "amount": "120.00",
+          "unit_cost": "$40.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ CHIPS - ULTRA SWEET",
+          "supplier_code": "19957",
+          "qty": "1.00",
+          "amount": "73.00",
+          "unit_cost": "$73.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MAIZE CORN FLOUR GLUTEN",
+          "supplier_code": "19101",
+          "qty": "2.00",
+          "amount": "28.80",
+          "unit_cost": "$14.40/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SEASONING - GARLIC",
+          "supplier_code": "27924",
+          "qty": "1.00",
+          "amount": "12.20",
+          "unit_cost": "$12.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SEASONING - ONION",
+          "supplier_code": "31009",
+          "qty": "1.00",
+          "amount": "11.10",
+          "unit_cost": "$11.10/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FRESH PORK - LEG ROAST",
+          "supplier_code": "17670",
+          "qty": "17.54",
+          "amount": "138.57",
+          "unit_cost": "$7.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "NUTS - WALNUTS HALVES &",
+          "supplier_code": "31037",
+          "qty": "1.00",
+          "amount": "22.20",
+          "unit_cost": "$22.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FUEL LEVY",
+          "supplier_code": null,
+          "qty": "1.00",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "7091752",
+      "supplier": "B&E Foods Pty Ltd",
+      "supplier_key": "be_foods",
+      "date": "2026-08-10",
+      "due_date": "2026-08-17",
+      "total": "174.00",
+      "venue": "stowaway",
+      "pdf_path": "c10395bd7b3d73959e0dc6cbe6a774a01f8d586f253433f229d1e402228b58bf.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "FZ CHICKEN BREAST",
+          "supplier_code": "16952",
+          "qty": "2.00",
+          "amount": "174.00",
+          "unit_cost": "$87.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
     {
       "ref": "INV3436351",
       "supplier": "Andrews Meat Industries Pty Ltd",
