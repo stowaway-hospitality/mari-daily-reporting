@@ -33,6 +33,17 @@ MONEY = re.compile(r"^-?[\d,]+\.?\d*$")
 QTY_SPLIT = re.compile(r"^(\d+)\s*/\s*(\d+)$")
 # The Pack cell: "6x700ML", "24x330ML", "1xKEG50", "1x15LT" -> units per carton.
 PACK_RE = re.compile(r"^(\d+)\s*[xX]")
+# The same cell read for the size of ONE inner unit: "6x700ML" -> 700 ML. The
+# trailing "." is real ("1xKEG49."). A cell whose inner size is not a measure
+# ("1xKEG50") does not match, and the line keeps the generic pack reader.
+INNER_RE = re.compile(
+    r"^\s*(\d+)\s*[xX]\s*(\d+(?:\.\d+)?)\s*(ML|LTR|LITRES?|LT|L|KG|GMS?|G)\s*\.?\s*$", re.I)
+# inner unit -> (multiplier into the base unit, base unit)
+INNER_BASE = {"ml": (Decimal("0.001"), "L"), "l": (Decimal(1), "L"),
+              "lt": (Decimal(1), "L"), "ltr": (Decimal(1), "L"),
+              "litre": (Decimal(1), "L"), "litres": (Decimal(1), "L"),
+              "kg": (Decimal(1), "kg"), "g": (Decimal("0.001"), "kg"),
+              "gm": (Decimal("0.001"), "kg"), "gms": (Decimal("0.001"), "kg")}
 CENT = Decimal("0.02")
 # A broken carton costs MORE per bottle than a whole one: ILG adds a repack
 # surcharge, measured at 2.43%-2.61% on all 141 repack lines in the corpus.
@@ -140,6 +151,46 @@ def units_on_line(pack: str, qty_cell: str, cost, total):
     return Decimal(units)
 
 
+def one_unit_pack(pack: str):
+    """The size of ONE unit of what `units_on_line` counts. -> (qty, base_unit)|None
+
+    WHY THIS EXISTS — the second half of the case/bottle defect
+    -----------------------------------------------------------
+    `units_on_line` fixed the COUNT: a bare "1" against a Pack of "6x700ML" is
+    one CARTON, so the line bought 6 bottles and the unit price is the carton
+    total / 6. It said nothing about the PACK, and the pack is the other half of
+    the same division. `cost_per_base_unit` is price / pack (build_cogs_list),
+    so the two have to describe the same thing or the quotient is nonsense:
+
+        qty  6 bottles  ·  price $80.76 (per BOTTLE)  ·  pack 4.5 L (the CASE)
+        -> $80.76 / 4.5 L = $17.95/L, where the truth is $80.76 / 0.75 = $107.68/L
+
+    Six times LOW — a cost that UNDER-states, which FLATTERS GP, the direction
+    this repo treats as dangerous. Nothing catches it: every downstream guard
+    still passes, because the number is self-consistent, just self-consistently
+    wrong. Before the count was fixed the two errors cancelled ($484.58 / 4.5 L
+    is also $107.68/L), which is exactly why re-parsing without this is worse
+    than not re-parsing at all.
+
+    So: whenever qty counts UNITS, the pack describes ONE unit. The Pack cell
+    states it — "6x700ML" is six 700 mL bottles — and it is the same statement
+    `corroborated_bottle_ml` already treats as ILG's own word on bottle size, so
+    this introduces no new authority, it just applies the existing one here too.
+
+    Returns None where the inner size is not a measure ("1xKEG50"): a keg has no
+    stated volume in the cell, so the generic pack reader keeps the line.
+    """
+    m = INNER_RE.match(pack or "")
+    if not m:
+        return None
+    per, size, unit = int(m.group(1)), Decimal(m.group(2)), m.group(3).lower()
+    base = INNER_BASE.get(unit)
+    if per <= 0 or size <= 0 or base is None:
+        return None
+    mult, base_unit = base
+    return size * mult, base_unit
+
+
 def _venue(rows) -> Venue:
     # "Bill To" is the left block (x < 300); "Deliver To" is on the right.
     start = None
@@ -202,6 +253,16 @@ def parse(pdf_bytes: bytes) -> Invoice:
         qty = units_on_line(c["pack"], qraw, _first_money(c["cost"]),
                             _first_money(c["total"]))
         notes = []
+        # The pack must describe ONE of whatever qty counts — see one_unit_pack.
+        # Set only where the count PROVED: an unprovable line is priced as one
+        # unit at the WHOLE line total, so one unit is the whole line, and the
+        # generic reader's carton size is the right-or-high reading for it. Left
+        # None here, run.py's parse_pack fills it (it only fills a None).
+        pack_qty = pack_unit = None
+        if qty is not None:
+            oup = one_unit_pack(c["pack"])
+            if oup:
+                pack_qty, pack_unit = oup
         if qty is None:
             # The count is not provable from the supplier's own columns, so we
             # do not assert one. One unit at the whole line total is the only
@@ -217,6 +278,7 @@ def parse(pdf_bytes: bytes) -> Invoice:
             line_class=LineClass.STOCK, tax_treatment=TaxTreatment.GST,
             cost_basis=CostBasis.PER_UNIT, supplier_code=code or None,
             raw_qty=qraw or None, raw_uom=(c["pack"].strip() or None),
+            pack_qty=pack_qty, pack_unit=pack_unit,
             notes=notes))
     if not items:
         raise ValueError("ILG: no line items parsed")

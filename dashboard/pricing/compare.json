@@ -35,6 +35,24 @@
   ],
   "movers": [
     {
+      "name": "Fellr Alc Soda Watermelon",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 3.4096,
+      "cost": 82.05,
+      "pct": 2306.4,
+      "date": "2026-08-04"
+    },
+    {
+      "name": "Coca Cola Zero Sugar Cube",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 1.8896,
+      "cost": 45.355,
+      "pct": 2300.2,
+      "date": "2026-08-04"
+    },
+    {
       "name": "Pellegrino Sparkling Water",
       "supplier": "ILG",
       "unit": "ea",
@@ -44,12 +62,66 @@
       "date": "2026-08-04"
     },
     {
+      "name": "Corona Mexican 6pk Brw Bx",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 2.5879,
+      "cost": 61.71,
+      "pct": 2284.6,
+      "date": "2026-08-04"
+    },
+    {
+      "name": "Peroni Nastro Stub",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 1.8629,
+      "cost": 44.24,
+      "pct": 2274.8,
+      "date": "2026-07-31"
+    },
+    {
+      "name": "Monteith Crushed Cider",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 3.1112,
+      "cost": 72.8,
+      "pct": 2239.9,
+      "date": "2026-07-31"
+    },
+    {
+      "name": "Corona China",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 2.6417,
+      "cost": 61.55,
+      "pct": 2229.9,
+      "date": "2026-07-31"
+    },
+    {
       "name": "Coca Cola",
       "supplier": "ILG",
       "unit": "ea",
       "prev": 3.6933,
       "cost": 44.32,
       "pct": 1100.0,
+      "date": "2026-08-04"
+    },
+    {
+      "name": "Bundaberg Ginger Beer",
+      "supplier": "ILG",
+      "unit": "L",
+      "prev": 5.168,
+      "cost": 59.533,
+      "pct": 1052.0,
+      "date": "2026-07-31"
+    },
+    {
+      "name": "Solo",
+      "supplier": "ILG",
+      "unit": "L",
+      "prev": 2.869,
+      "cost": 29.52,
+      "pct": 928.9,
       "date": "2026-08-04"
     },
     {
@@ -62,6 +134,15 @@
       "date": "2026-08-01"
     },
     {
+      "name": "Aperol",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 29.0833,
+      "cost": 174.5,
+      "pct": 500.0,
+      "date": "2026-08-04"
+    },
+    {
       "name": "Bean Black Whole A10",
       "supplier": "Foodlink",
       "unit": "ea",
@@ -71,6 +152,24 @@
       "date": "2026-05-08"
     },
     {
+      "name": "Veuve Clicquot Lab Nv",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 80.7633,
+      "cost": 484.58,
+      "pct": 500.0,
+      "date": "2026-08-04"
+    },
+    {
+      "name": "Desclan Whispering Angel Rose",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 34.6033,
+      "cost": 205.77,
+      "pct": 494.7,
+      "date": "2026-07-31"
+    },
+    {
       "name": "Sailor Jerry Spiced Rum",
       "supplier": "ILG",
       "unit": "ea",
@@ -78,15 +177,6 @@
       "cost": 259.09,
       "pct": 480.9,
       "date": "2026-07-31"
-    },
-    {
-      "name": "Aperol",
-      "supplier": "ILG",
-      "unit": "ea",
-      "prev": 30.11,
-      "cost": 174.5,
-      "pct": 479.5,
-      "date": "2026-08-04"
     },
     {
       "name": "Bombay Dry Gin",
@@ -1960,9 +2050,9 @@
           "cost": 174.5,
           "date": "2026-08-04",
           "desc": "APEROL",
-          "change_pct": 479.5,
+          "change_pct": 500.0,
           "n": 9,
-          "prev_cost": 30.11,
+          "prev_cost": 29.0833,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -1973,8 +2063,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 29.465,
-      "low_date": "2026-05-26",
+      "low": 29.0817,
+      "low_date": "2026-05-05",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -2131,23 +2221,23 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 61.13,
+          "cost": 2.5471,
           "date": "2026-07-21",
           "desc": "ASAHI SUPER DRY 3.5%",
           "change_pct": 3.3,
           "n": 5,
-          "prev_cost": 59.18,
+          "prev_cost": 2.4658,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 61.13,
-      "max": 61.13,
+      "min": 2.5471,
+      "max": 2.5471,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 59.18,
+      "low": 2.4658,
       "low_date": "2026-04-01",
       "est_saving": 0.0,
       "main": null,
@@ -3320,7 +3410,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 60.03,
+          "cost": 2.5012,
           "date": "2026-06-16",
           "desc": "BETTER BEER ZERO CARB CAN",
           "change_pct": null,
@@ -3331,12 +3421,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 60.03,
-      "max": 60.03,
+      "min": 2.5012,
+      "max": 2.5012,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 60.03,
+      "low": 2.5012,
       "low_date": "2026-06-16",
       "est_saving": 0.0,
       "main": null,
@@ -3523,7 +3613,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 64.8,
+          "cost": 2.7,
           "date": "2026-06-23",
           "desc": "BINTANG PILSNER",
           "change_pct": null,
@@ -3534,12 +3624,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 64.8,
-      "max": 64.8,
+      "min": 2.7,
+      "max": 2.7,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 64.8,
+      "low": 2.7,
       "low_date": "2026-06-23",
       "est_saving": 0.0,
       "main": null,
@@ -3626,8 +3716,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 50.85,
-      "low_date": "2026-06-11",
+      "low": 49.4333,
+      "low_date": "2026-04-01",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -4019,9 +4109,9 @@
           "cost": 59.533,
           "date": "2026-07-31",
           "desc": "BUNDABERG GINGER BEER 750ML",
-          "change_pct": -4.0,
+          "change_pct": 1052.0,
           "n": 6,
-          "prev_cost": 62.013,
+          "prev_cost": 5.168,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -4032,7 +4122,7 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 55.093,
+      "low": 4.591,
       "low_date": "2026-05-12",
       "est_saving": 0.0,
       "main": null,
@@ -7339,7 +7429,7 @@
       "multi": false,
       "suspect": false,
       "low": 3.6933,
-      "low_date": "2026-07-14",
+      "low_date": "2026-04-09",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -7351,23 +7441,23 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 45.355,
+          "cost": 1.8898,
           "date": "2026-07-21",
           "desc": "COCA COLA CAN CUBES",
           "change_pct": 0.0,
           "n": 7,
-          "prev_cost": 45.35,
+          "prev_cost": 1.8896,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 45.355,
-      "max": 45.355,
+      "min": 1.8898,
+      "max": 1.8898,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 45.35,
+      "low": 1.8896,
       "low_date": "2026-04-01",
       "est_saving": 0.0,
       "main": null,
@@ -7409,7 +7499,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 45.55,
+          "cost": 1.8979,
           "date": "2026-04-14",
           "desc": "COCA COLA NO SUGAR CAN CUBES",
           "change_pct": null,
@@ -7420,12 +7510,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 45.55,
-      "max": 45.55,
+      "min": 1.8979,
+      "max": 1.8979,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 45.55,
+      "low": 1.8979,
       "low_date": "2026-04-14",
       "est_saving": 0.0,
       "main": null,
@@ -7470,9 +7560,9 @@
           "cost": 45.355,
           "date": "2026-08-04",
           "desc": "COCA COLA ZERO SUGAR CAN CUBE",
-          "change_pct": 0.0,
+          "change_pct": 2300.2,
           "n": 6,
-          "prev_cost": 45.35,
+          "prev_cost": 1.8896,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -7483,7 +7573,7 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 45.35,
+      "low": 1.8896,
       "low_date": "2026-05-26",
       "est_saving": 0.0,
       "main": null,
@@ -7832,7 +7922,7 @@
       "multi": false,
       "suspect": false,
       "low": 2.955,
-      "low_date": "2026-07-14",
+      "low_date": "2026-04-09",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -8398,9 +8488,9 @@
           "cost": 61.55,
           "date": "2026-07-31",
           "desc": "CORONA CHINA BTLS R",
-          "change_pct": -2.9,
+          "change_pct": 2229.9,
           "n": 4,
-          "prev_cost": 63.4,
+          "prev_cost": 2.6417,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -8411,8 +8501,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 61.55,
-      "low_date": "2026-07-31",
+      "low": 2.6417,
+      "low_date": "2026-04-21",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -8424,7 +8514,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 75.66,
+          "cost": 3.1525,
           "date": "2026-04-30",
           "desc": "CORONA EXTRA STUBB 6P",
           "change_pct": null,
@@ -8435,12 +8525,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 75.66,
-      "max": 75.66,
+      "min": 3.1525,
+      "max": 3.1525,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 75.66,
+      "low": 3.1525,
       "low_date": "2026-04-30",
       "est_saving": 0.0,
       "main": null,
@@ -8456,9 +8546,9 @@
           "cost": 61.71,
           "date": "2026-08-04",
           "desc": "CORONA MEXICAN 6PK BRW BX R",
-          "change_pct": -0.6,
+          "change_pct": 2284.6,
           "n": 7,
-          "prev_cost": 62.11,
+          "prev_cost": 2.5879,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -8469,7 +8559,7 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 61.71,
+      "low": 2.5712,
       "low_date": "2026-05-12",
       "est_saving": 0.0,
       "main": null,
@@ -9123,9 +9213,9 @@
           "cost": 205.77,
           "date": "2026-07-31",
           "desc": "DESCLANS WHISPERING ANGEL ROSE",
-          "change_pct": -0.9,
+          "change_pct": 494.7,
           "n": 5,
-          "prev_cost": 207.62,
+          "prev_cost": 34.6033,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -9136,8 +9226,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 37.12,
-      "low_date": "2026-05-19",
+      "low": 34.6033,
+      "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -10457,9 +10547,9 @@
           "cost": 82.05,
           "date": "2026-08-04",
           "desc": "FELLR ALC SODA WATERMELON",
-          "change_pct": 0.3,
+          "change_pct": 2306.4,
           "n": 2,
-          "prev_cost": 81.83,
+          "prev_cost": 3.4096,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -10470,7 +10560,7 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 81.83,
+      "low": 3.4096,
       "low_date": "2026-06-02",
       "est_saving": 0.0,
       "main": null,
@@ -10483,7 +10573,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 32.88,
+          "cost": 4.11,
           "date": "2026-06-30",
           "desc": "FEVER TREE LIGHT TONIC",
           "change_pct": null,
@@ -10494,12 +10584,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 32.88,
-      "max": 32.88,
+      "min": 4.11,
+      "max": 4.11,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 32.88,
+      "low": 4.11,
       "low_date": "2026-04-01",
       "est_saving": 0.0,
       "main": null,
@@ -10512,7 +10602,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 32.88,
+          "cost": 4.11,
           "date": "2026-05-05",
           "desc": "FEVER TREE MEDITERREAN TONIC",
           "change_pct": null,
@@ -10523,12 +10613,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 32.88,
-      "max": 32.88,
+      "min": 4.11,
+      "max": 4.11,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 32.88,
+      "low": 4.11,
       "low_date": "2026-05-05",
       "est_saving": 0.0,
       "main": null,
@@ -10952,7 +11042,7 @@
           "desc": "B Flute Lock Top 13\" Pizza Boxes x 50",
           "change_pct": 0.0,
           "n": 25,
-          "prev_cost": 0.6426,
+          "prev_cost": 0.6424,
           "spend": 1831.32,
           "volume": 2850.0
         }
@@ -13296,7 +13386,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 65.02,
+          "cost": 2.7092,
           "date": "2026-07-21",
           "desc": "HAHN SUPER DRY GLUTEN FREE BOT",
           "change_pct": null,
@@ -13307,12 +13397,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 65.02,
-      "max": 65.02,
+      "min": 2.7092,
+      "max": 2.7092,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 65.02,
+      "low": 2.7092,
       "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
@@ -13602,8 +13692,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 62.21,
-      "low_date": "2026-07-31",
+      "low": 2.6696,
+      "low_date": "2026-04-09",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -16718,7 +16808,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 69.73,
+          "cost": 11.6217,
           "date": "2026-05-19",
           "desc": "MISCELLANEOUS BEVERAGES",
           "change_pct": null,
@@ -16729,12 +16819,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 69.73,
-      "max": 69.73,
+      "min": 11.6217,
+      "max": 11.6217,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 69.73,
+      "low": 11.6217,
       "low_date": "2026-05-19",
       "est_saving": 0.0,
       "main": null,
@@ -17040,9 +17130,9 @@
           "cost": 72.8,
           "date": "2026-07-31",
           "desc": "MONTEITHS CRUSHED A.CIDER 4.5%",
-          "change_pct": -2.5,
+          "change_pct": 2239.9,
           "n": 5,
-          "prev_cost": 74.67,
+          "prev_cost": 3.1112,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -17053,8 +17143,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 72.8,
-      "low_date": "2026-07-31",
+      "low": 3.1112,
+      "low_date": "2026-04-01",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -19402,8 +19492,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 2.3558,
-      "low_date": "2026-07-14",
+      "low": 2.3175,
+      "low_date": "2026-06-16",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -19560,23 +19650,23 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 60.52,
+          "cost": 2.5217,
           "date": "2026-06-02",
           "desc": "PERONI NASTRO 6PK BTLS R",
           "change_pct": 1.6,
           "n": 4,
-          "prev_cost": 59.57,
+          "prev_cost": 2.4821,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 60.52,
-      "max": 60.52,
+      "min": 2.5217,
+      "max": 2.5217,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 59.26,
+      "low": 2.4692,
       "low_date": "2026-04-09",
       "est_saving": 0.0,
       "main": null,
@@ -19589,7 +19679,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 62.33,
+          "cost": 2.5971,
           "date": "2026-06-16",
           "desc": "PERONI NASTRO AZZURRO 4X6PK R",
           "change_pct": null,
@@ -19600,12 +19690,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 62.33,
-      "max": 62.33,
+      "min": 2.5971,
+      "max": 2.5971,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 62.33,
+      "low": 2.5971,
       "low_date": "2026-06-16",
       "est_saving": 0.0,
       "main": null,
@@ -19621,9 +19711,9 @@
           "cost": 44.24,
           "date": "2026-07-31",
           "desc": "PERONI NASTRO 0.0% STUBS",
-          "change_pct": -1.1,
+          "change_pct": 2274.8,
           "n": 7,
-          "prev_cost": 44.71,
+          "prev_cost": 1.8629,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -19634,8 +19724,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 44.24,
-      "low_date": "2026-07-31",
+      "low": 1.8462,
+      "low_date": "2026-04-09",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -21519,7 +21609,7 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 52.84,
+      "low": 51.3517,
       "low_date": "2026-05-19",
       "est_saving": 0.0,
       "main": null,
@@ -22315,7 +22405,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 36.208,
+          "cost": 3.017,
           "date": "2026-05-05",
           "desc": "SCHWEPPES SUNKIST 1.25LT",
           "change_pct": null,
@@ -22326,12 +22416,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 36.208,
-      "max": 36.208,
+      "min": 3.017,
+      "max": 3.017,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 36.208,
+      "low": 3.017,
       "low_date": "2026-05-05",
       "est_saving": 0.0,
       "main": null,
@@ -22927,9 +23017,9 @@
           "cost": 29.52,
           "date": "2026-08-04",
           "desc": "SOLO 1.25LT",
-          "change_pct": -14.2,
+          "change_pct": 928.9,
           "n": 4,
-          "prev_cost": 34.424,
+          "prev_cost": 2.869,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -22940,8 +23030,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 29.52,
-      "low_date": "2026-08-04",
+      "low": 2.842,
+      "low_date": "2026-04-09",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -23388,23 +23478,23 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 120.96,
+          "cost": 5.04,
           "date": "2026-07-21",
           "desc": "SPRITE 375ML 24 CUBE",
-          "change_pct": -0.9,
+          "change_pct": -0.8,
           "n": 3,
-          "prev_cost": 122.0,
+          "prev_cost": 5.083,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 120.96,
-      "max": 120.96,
+      "min": 5.04,
+      "max": 5.04,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 120.96,
+      "low": 5.04,
       "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
@@ -24780,7 +24870,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 85.938,
+          "cost": 7.161,
           "date": "2026-04-21",
           "desc": "TSINGTAO PREMIUM BEER 640ML",
           "change_pct": null,
@@ -24791,12 +24881,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 85.938,
-      "max": 85.938,
+      "min": 7.161,
+      "max": 7.161,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 85.938,
+      "low": 7.161,
       "low_date": "2026-04-21",
       "est_saving": 0.0,
       "main": null,
@@ -24838,7 +24928,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 86.62,
+          "cost": 5.4138,
           "date": "2026-05-12",
           "desc": "TWO BAYS GLUTEN FREE PALE ALE",
           "change_pct": null,
@@ -24849,12 +24939,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 86.62,
-      "max": 86.62,
+      "min": 5.4138,
+      "max": 5.4138,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 86.62,
+      "low": 5.4138,
       "low_date": "2026-05-12",
       "est_saving": 0.0,
       "main": null,
@@ -25044,9 +25134,9 @@
           "cost": 484.58,
           "date": "2026-08-04",
           "desc": "VEUVE CLICQUOT Y/LAB NV R",
-          "change_pct": 0.0,
+          "change_pct": 500.0,
           "n": 4,
-          "prev_cost": 484.57,
+          "prev_cost": 80.7633,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -25057,7 +25147,7 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 484.57,
+      "low": 80.7617,
       "low_date": "2026-04-01",
       "est_saving": 0.0,
       "main": null,
@@ -25070,7 +25160,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 80.13,
+          "cost": 2.671,
           "date": "2026-05-21",
           "desc": "VICTORIA BITTER CANS 30PK",
           "change_pct": null,
@@ -25081,12 +25171,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 80.13,
-      "max": 80.13,
+      "min": 2.671,
+      "max": 2.671,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 80.13,
+      "low": 2.671,
       "low_date": "2026-05-21",
       "est_saving": 0.0,
       "main": null,
@@ -25099,7 +25189,7 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 70.09,
+          "cost": 2.3363,
           "date": "2026-07-07",
           "desc": "VICTORIA BITTER CANS BLOCK R",
           "change_pct": null,
@@ -25110,12 +25200,12 @@
         }
       ],
       "cheapest": "ILG",
-      "min": 70.09,
-      "max": 70.09,
+      "min": 2.3363,
+      "max": 2.3363,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 70.09,
+      "low": 2.3363,
       "low_date": "2026-07-07",
       "est_saving": 0.0,
       "main": null,
@@ -25708,23 +25798,23 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 67.72,
+          "cost": 2.8217,
           "date": "2026-07-07",
           "desc": "YOUNG HENRYS CLOUDY CIDER",
           "change_pct": 0.6,
           "n": 4,
-          "prev_cost": 67.32,
+          "prev_cost": 2.805,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 67.72,
-      "max": 67.72,
+      "min": 2.8217,
+      "max": 2.8217,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 67.32,
+      "low": 2.805,
       "low_date": "2026-04-01",
       "est_saving": 0.0,
       "main": null,
