@@ -888,6 +888,49 @@ def _cost_riding_on(recipes, ref, sold) -> tuple:
     return round(total, 2), parts
 
 
+# A g/mL recipe line against a by-the-piece purchase has two readings, and only
+# one of them is ever sane. "0.083 ml" of a twin pack IS a fraction of a pack, so
+# "did you mean 0.083 packs?" is a fair question. "900 g" of shallots is not 900
+# bunches — nobody puts 900 bunches in a broth — and asking it that way makes the
+# panel look like it cannot count, while the real gap (how much IS a bunch?) goes
+# unasked. So offer the swap only when the number survives being read as a count;
+# otherwise ask for the conversion, which is the thing actually missing.
+COUNT_SWAP_MAX = 12
+
+
+def _short_desc(desc: str) -> str:
+    return re.sub(r"\s*\[[^\]]*\]\s*$", "", str(desc or "")).strip() or str(desc or "")
+
+
+def _swap_is_sane(worst) -> bool:
+    try:
+        q = float(str(worst.get("qty")))
+    except (TypeError, ValueError):
+        return False
+    return 0 < q <= COUNT_SWAP_MAX
+
+
+def _unit_question(f, worst) -> str:
+    if _swap_is_sane(worst):
+        return (f"In {worst['recipe']}, is \u201c{worst['qty']} {worst['unit']}\u201d "
+                f"meant to be {worst['qty']} {f['pack_unit']}?")
+    return (f"One {f['pack_unit']} of {_short_desc(f['description'])} is how many "
+            f"{worst['unit']}? ({worst['recipe']} takes {worst['qty']} "
+            f"{worst['unit']}, bought at ${f['rate']:,.2f} a {f['pack_unit']}.)")
+
+
+def _unit_action(f, worst) -> str:
+    if _swap_is_sane(worst):
+        return ("Correct the unit on these lines in Lightspeed Produce (the "
+                "quantity stays as it is), or, where the arithmetic proves the "
+                "unit is a typo, add the entry to "
+                "data/recipe_line_unit_fixes.yaml with the proof.")
+    return (f"Weigh one {f['pack_unit']} and record it as the pack size, so the "
+            f"g/mL lines cost off a real conversion instead of an assumed one. "
+            f"Correcting the unit in Produce is NOT the fix here — the lines "
+            f"genuinely are in {worst['unit']}.")
+
+
 def feed_defect_flags(recipes, sold, window="") -> list:
     """One flag per record (or per line group) whose UNIT cannot be that
     product's unit.
@@ -1022,8 +1065,7 @@ def feed_defect_flags(recipes, sold, window="") -> list:
                               "gets raised again. American Standard Burger's "
                               "lettuce is 0.083 of a twin pack ($0.23, exactly "
                               "what the book charges) labelled 'ml'.",
-            "question": f"In {worst['recipe']}, is \u201c{worst['qty']} {worst['unit']}\u201d "
-                        f"meant to be {worst['qty']} {f['pack_unit']}?",
+            "question": _unit_question(f, worst),
             "impact_per_year": None,
             "impact_basis": None,
             "cost_at_stake_per_year": stake or None,
@@ -1031,10 +1073,7 @@ def feed_defect_flags(recipes, sold, window="") -> list:
                 f"${stake:,.2f} of recipe cost a year runs through these lines over "
                 f"the 52 weeks {window}. The cost is not disputed — the unit is. "
                 f"Lines: {'; '.join(parts)}." if stake else None),
-            "action": "Correct the unit on these lines in Lightspeed Produce (the "
-                      "quantity stays as it is), or, where the arithmetic proves "
-                      "the unit is a typo, add the entry to "
-                      "data/recipe_line_unit_fixes.yaml with the proof.",
+            "action": _unit_action(f, worst),
             "owner": "Kitchen (Produce) \u2014 no cost changes",
             "evidence": [f"{l['recipe']}: {l['qty']} {l['unit']} = ${l['eff_cost']:,.4f}"
                          + (" (batch)" if l["is_prep"] else "")
