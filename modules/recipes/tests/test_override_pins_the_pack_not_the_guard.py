@@ -146,12 +146,31 @@ def test_the_confirmed_pack_still_prices_the_line_it_was_confirmed_for(tmp_path,
     assert good[0]["pack"] == "chef-confirmed"
 
 
-def test_the_carton_line_is_skipped_instead_of_published_at_12x(tmp_path, monkeypatch):
-    """The finding. Before the fix this row reached costs.csv at $0.364800/g and
-    won the as-of lookup for 16-22 July."""
+def test_the_carton_line_is_never_published_at_12x(tmp_path, monkeypatch):
+    """The finding. Before any of this the row reached costs.csv at $0.364800/g
+    and won the as-of lookup for 16-22 July.
+
+    THEN it was SKIPPED, which was right at the time: an override pins the size
+    of one piece, the line had bought a carton, and nothing could tell how many
+    were in it — so out_of_bounds refused the rate and the row stayed out. Fail
+    toward review.
+
+    NOW it is READ, because the CTN-12 in its own note says how many, and the
+    override path multiplies by it exactly as the description path always did.
+    So the assertion is no longer "absent" but the stronger thing absence was
+    standing in for: **it must cost the same per gram as the piece**. $45.60 over
+    12 x 125 g is $0.030400/g, which is what the $3.80 piece costs. Re-break the
+    multiplication and this row goes to $0.364800/g and reds."""
     rows = _run_costs(tmp_path, monkeypatch)
-    assert not [r for r in rows if r["source_invoice"] == "SI4467596"], (
-        "the CTN-12 carton line was published at 12x the piece price")
+    carton = [r for r in rows if r["source_invoice"] == "SI4467596"]
+    assert len(carton) == 1, "the CTN-12 carton line is missing from the book"
+    assert carton[0]["cost_per_unit"] == "0.030400", (
+        f"the carton reads {carton[0]['cost_per_unit']}/g against the piece's "
+        f"0.030400/g — the CTN-12 multiplication is wrong")
+    assert "CTN-12" in carton[0]["pack"], carton[0]["pack"]
+    # and the two readings of the same code must agree, which is the whole point
+    piece = [r for r in rows if r["source_invoice"] == "SI4396136"]
+    assert piece[0]["cost_per_unit"] == carton[0]["cost_per_unit"]
 
 
 # --- build_ingredients (the chef-facing half, which must agree) ------------

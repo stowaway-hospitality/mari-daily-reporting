@@ -962,7 +962,30 @@ def main() -> int:
         # still judges what comes out of it, and a rate no food has skips the book.
         if iid in overrides:
             oq, ou = overrides[iid]
-            qty, unit, how = oq, ou, "chef-confirmed"
+            # A CONFIRMED PACK IS THE SIZE OF ONE PIECE, AND A CARTON HOLDS N OF
+            # THEM. The description path a few lines up already multiplies a
+            # single piece by its CTN-N note; this path did not, so a line that
+            # bought a CARTON was divided by ONE piece. Foodlink 100175:
+            #
+            #   BEANS BLACK WHOLE TIN A10   $8.70 "EA" -> $0.0029/g
+            #                              $52.20 "CTN-6" -> $0.0174/g   6x OVER
+            #
+            # and 6 x $8.70 is exactly $52.20, so the carton reading is not a
+            # judgement call. `pack_size` is the discriminator the invoice
+            # already carries: the parser sets it to N when it has ALREADY
+            # divided the carton into pieces (camembert SI4480678, $3.80 with
+            # pack_size 12), and leaves it 1 when the price is the whole line
+            # (SI4467596, $45.60 with pack_size 1). Multiply only in the second
+            # case. Both camembert rows then land on the same $0.0304/g, which is
+            # the check that this is right rather than merely consistent.
+            _ctn = re.search(r"CTN[-\s]?(\d+)", r.get("note", "") or "", re.I)
+            _ps = (r.get("pack_size") or "").strip()
+            if _ctn and _ps in ("", "1"):
+                oq = oq * Decimal(_ctn.group(1))
+                how = f"chef-confirmed x CTN-{_ctn.group(1)} (invoice)"
+            else:
+                how = "chef-confirmed"
+            qty, unit = oq, ou
             per = (pack_cost / oq).quantize(Decimal("0.000001"))
             bad = out_of_bounds(per, ou)
 
