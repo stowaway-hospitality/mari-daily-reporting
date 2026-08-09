@@ -931,6 +931,31 @@ def _unit_action(f, worst) -> str:
             f"genuinely are in {worst['unit']}.")
 
 
+def _named_rate_plausible(f) -> bool:
+    """Is the rate sane for the unit the NAME declares?
+
+    "can" is Lightspeed's default pack unit, not a fact about the product: a
+    cauliflower at $3.20, a Turkish bread at $1.50, potato at $3.60/kg are
+    obviously priced per each / per kg and the word "can" is just a label nobody
+    changed. Asking a human "is one can of Cauliflower one ea?" is noise — the
+    number already answers it.
+
+    So judge the number against the bounds suppliers.yaml already declares (not a
+    threshold invented here). Inside the band -> the label is cosmetic, fix it in
+    Back Office, do not ask. Outside it -> the rate is NOT the unit the name
+    claims (Pears at $0.65/kg is under any real kg price; Ponzu at $0.0153 is a
+    per-mL rate on a 360 mL bottle) and that is worth a human's judgement.
+    """
+    b = _bounds()
+    u = (f.get("name_unit") or "").strip().lower()
+    band = b.get("per_kg" if u in ("kg", "g") else "per_unit") or {}
+    lo, hi = money(band.get("min")), money(band.get("max"))
+    r = float(f.get("rate") or 0)
+    if not (lo or hi):
+        return False
+    return (not lo or r >= lo) and (not hi or r <= hi)
+
+
 def feed_defect_flags(recipes, sold, window="") -> list:
     """One flag per record (or per line group) whose UNIT cannot be that
     product's unit.
@@ -949,19 +974,26 @@ def feed_defect_flags(recipes, sold, window="") -> list:
 
     for f in feed_defects.pack_unit_contradicts_name(ings):
         stake, parts = _cost_riding_on(recipes, f["id"], sold)
+        plausible = _named_rate_plausible(f)
         container = f["kind"] == "container"
         out.append({
             "id": "feed-unit-" + _slug(f["description"]),
             "category": "feed_defect",
-            "severity": "high" if stake >= FEED_DEFECT_HIGH_AT_STAKE else "medium",
+            "severity": "low" if plausible else
+                        ("high" if stake >= FEED_DEFECT_HIGH_AT_STAKE else "medium"),
             "subject": f["description"],
             "subject_kind": "ingredient",
             "what_is_wrong": (
+                f"Label only: the pack unit reads \u201c{f['pack_unit']}\u201d because "
+                f"that is Lightspeed's default, not because it comes in one. "
+                f"${f['rate']:,.4f} is a sane price for one {f['name_unit']}, so the "
+                f"cost is right and only the word is wrong."
+                if plausible else
                 f"The name says this is sold by the {f['name_unit']} and the cost "
                 f"book prices it per {f['pack_unit']}, at ${f['rate']:,.4f} per "
                 f"{f['pack_unit']}."
                 + (" A cauliflower, a loaf of bread and an egg do not come in a "
-                   "can — this is Lightspeed's default pack unit sitting on a "
+                   "can \u2014 this is Lightspeed's default pack unit sitting on a "
                    "produce line." if container else
                    " Those are not the same kind of measurement, so the rate is "
                    "in a unit the product does not have.")),
@@ -971,21 +1003,25 @@ def feed_defect_flags(recipes, sold, window="") -> list:
                               "the $10,530 Peking Sauce batch — the dollar figure "
                               "can look right for years while the unit makes it "
                               "impossible to check.",
-            "question": f"Is one {f['pack_unit']} of \u201c{f['description']}\u201d one "
-                        f"{f['name_unit']}, or does the pack hold several?",
+            "question": None if plausible else (
+                f"${f['rate']:,.4f} is not a real price for one {f['name_unit']} of "
+                f"\u201c{f['description']}\u201d. Is this rate per "
+                f"{f['name_unit']}, or for a whole box?"),
             "impact_per_year": None,
             "impact_basis": None,
-            "cost_at_stake_per_year": stake or None,
+            "cost_at_stake_per_year": None if plausible else (stake or None),
             "cost_at_stake_basis": (
-                f"${stake:,.2f} of recipe cost a year is drawn through this record "
-                f"over the 52 weeks {window}. It is what rides on the answer, NOT "
-                f"a loss — the quantity may well be right. Lines: "
-                f"{'; '.join(parts)}." if stake else None),
+                None if plausible else
+                (f"${stake:,.2f} of recipe cost a year is drawn through this record "
+                 f"over the 52 weeks {window}. It is what rides on the answer, NOT "
+                 f"a loss — the quantity may well be right. Lines: "
+                 f"{'; '.join(parts)}." if stake else None)),
             "action": f"Set the pack unit on {f['id']} in Lightspeed Back Office to "
                       f"the unit the invoice states, then re-run the invoice "
                       f"bridge. If the pack really does hold several, record the "
                       f"count in data/pack_overrides.yaml instead.",
-            "owner": "Back office (Lightspeed) then Dev",
+            "owner": ("Dev / Back office tidy \u2014 no decision needed" if plausible
+                      else "Zak (is this per unit or per box?) then Back office"),
             "evidence": [f"{f['id']} ({f['supplier']}): ${f['rate']:,.4f} per "
                          f"{f['pack_unit']}, name declares [{f['name_unit']}]"]
                         + ([f"used by {len(parts)} sold recipe(s)"] if parts else
