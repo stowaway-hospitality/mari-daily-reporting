@@ -68,11 +68,21 @@ def test_hard_hold_pins_exactly():
     assert model.apply_override(7.3, {"type": "hold", "value": 1.0}) == 1.0
 
 
-def test_rooster_override_enforced_in_full_build():
+def test_reserve_is_additive():
+    # reserve = physical drum float ADDED on top of modelled cover, not a floor
+    assert model.apply_override(12.0, {"type": "reserve", "value": 21.0}) == 33.0
+    assert model.apply_override(0.0, {"type": "reserve", "value": 21.0}) == 21.0
+
+
+def test_rooster_reserve_is_additive_in_full_build():
     recs, _ = model.compute_venue("stow", DATA)
     rooster = recs["Rooster Rojo Blanco Tequila [Bottle]"]
-    # override is min 40; model must never resolve below it
-    assert rooster["rec_par"] >= 40.0
+    ov = rooster["override"]
+    assert ov and ov["type"] == "reserve" and ov["value"] == 21.0
+    # par = 21-bottle physical drum reserve + modelled weekly cover; never below
+    # the reserve, and strictly above it because margaritas draw Rooster.
+    assert rooster["rec_par"] >= 21.0
+    assert rooster["rec_par"] > 21.0
 
 
 # ── 3. sanity: margarita consumption reaches Rooster ─────────────────────────

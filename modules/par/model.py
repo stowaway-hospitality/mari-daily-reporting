@@ -388,6 +388,11 @@ def apply_override(rec_par, ov):
         return max(rec_par, float(v))
     if t == "max" and v is not None:
         return min(rec_par, float(v))
+    if t == "reserve" and v is not None:
+        # Physical drum/infusion float the model can't see (batched stock), ADDED
+        # on top of the modelled weekly throughput — not a floor. par = reserve +
+        # cover. Keeps the drums full AND covers a week's service.
+        return round(rec_par + float(v), 1)
     return rec_par
 
 
