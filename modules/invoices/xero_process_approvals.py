@@ -31,6 +31,14 @@ import urllib.request
 from datetime import date, datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
+import socket
+# No Xero/GitHub call may hang the poller forever. A bad network state on
+# 2026-08-09 left a urlopen hung with no timeout and wedged this one-shot for
+# ~9h (launchd's 120s StartInterval will not start a new run while the old one
+# is still alive, so one hang stalls everything). A default socket timeout
+# makes any stuck call fail fast, the run exits, and the next interval retries
+# cleanly — the genuine self-heal the panel already promises.
+socket.setdefaulttimeout(60)
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
