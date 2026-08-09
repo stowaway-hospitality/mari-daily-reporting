@@ -1,6 +1,6 @@
 {
   "date": "2026-08-09",
-  "generated_at": "2026-08-09T19:34:15.005588Z",
+  "generated_at": "2026-08-09T20:00:43.188443Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -15,30 +15,30 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 14224.31,
-    "revenue_ex_gst": 12931.43,
-    "cogs_dollars": 2850.38,
-    "cogs_pct": 22.0,
-    "gp_dollars": 10081.05,
-    "gp_pct": 78.0,
+    "revenue_inc_gst": 12309.53,
+    "revenue_ex_gst": 11190.43,
+    "cogs_dollars": 2156.65,
+    "cogs_pct": 19.3,
+    "gp_dollars": 9033.78,
+    "gp_pct": 80.7,
     "cogs_source": "recipe_blend",
-    "cogs_lightspeed_dollars": 2749.93,
-    "recipe_coverage_pct": 87.1,
+    "cogs_lightspeed_dollars": 2098.39,
+    "recipe_coverage_pct": 87.2,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
     "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
     "revenue_ex_gst_before_eatclub": null,
-    "food_ex_gst": 2853.38,
-    "bev_ex_gst": 10077.81,
-    "food_cogs": 476.09,
-    "bev_cogs": 2273.84,
-    "food_cogs_pct": 16.7,
-    "bev_cogs_pct": 22.6,
-    "food_gp_pct": 83.3,
-    "bev_gp_pct": 77.4,
-    "mari_rideon_ex_gst": 2347.15,
-    "hg_food_out_ex_gst": 34.68,
+    "food_ex_gst": 4447.11,
+    "bev_ex_gst": 6743.37,
+    "food_cogs": 763.02,
+    "bev_cogs": 1335.37,
+    "food_cogs_pct": 17.2,
+    "bev_cogs_pct": 19.8,
+    "food_gp_pct": 82.8,
+    "bev_gp_pct": 80.2,
+    "mari_rideon_ex_gst": 1598.24,
+    "hg_food_out_ex_gst": 0.0,
     "stow_food_out_ex_gst": 0.0
   },
   "wages": {
@@ -48,12 +48,12 @@
     "admin_dollars": 0,
     "leave_dollars": 0,
     "total_dollars": 2012.54,
-    "wages_pct": 15.6,
+    "wages_pct": 18.0,
     "net_wage_pct": null,
     "kitchen_hours": 15.5,
     "foh_hours": 26.8,
-    "wages_kitchen_pct": 25.3,
-    "wages_foh_pct": 12.8,
+    "wages_kitchen_pct": 16.3,
+    "wages_foh_pct": 19.1,
     "includes_super": true,
     "salaried_synthesized": true
   },
@@ -65,9 +65,9 @@
     "delivery": "n/a",
     "gp": "green",
     "cogs_food": "green",
-    "cogs_bev": "yellow",
-    "wages_kitchen": "red",
-    "wages_foh": "green"
+    "cogs_bev": "green",
+    "wages_kitchen": "amber",
+    "wages_foh": "yellow"
   },
   "targets": {
     "cogs": {
@@ -113,162 +113,161 @@
   },
   "top_products": [
     {
-      "name": "Stone & Wood - Schooner",
-      "qty": 54.0,
-      "rev": 712.58,
-      "cost": 177.9516,
+      "name": "Lamb Roast",
+      "qty": 47.0,
+      "rev": 1508.82,
+      "cost": 314.7214,
       "cost_source": "recipe",
-      "cost_lightspeed": 176.3
+      "cost_lightspeed": 329.79
     },
     {
       "name": "Guinness Draught - Pint",
       "qty": 41.0,
-      "rev": 687.05,
+      "rev": 793.68,
       "cost": 196.964,
       "cost_source": "recipe",
-      "cost_lightspeed": 195.34
-    },
-    {
-      "name": "Classic Margarita",
-      "qty": 24.0,
-      "rev": 484.0,
-      "cost": 100.2048,
-      "cost_source": "recipe",
-      "cost_lightspeed": 97.77
+      "cost_lightspeed": 194.71
     },
     {
       "name": "Mulled Wine",
-      "qty": 31.0,
-      "rev": 468.42,
-      "cost": 62.7533,
+      "qty": 35.0,
+      "rev": 575.16,
+      "cost": 70.8505,
       "cost_source": "recipe",
-      "cost_lightspeed": 63.17
+      "cost_lightspeed": 71.22
     },
     {
-      "name": "American Standard Burger",
-      "qty": 20.0,
-      "rev": 442.91,
-      "cost": 116.806,
+      "name": "Chicken Roast",
+      "qty": 15.0,
+      "rev": 504.74,
+      "cost": 81.843,
       "cost_source": "recipe",
-      "cost_lightspeed": 116.88
+      "cost_lightspeed": 68.83
     },
     {
-      "name": "Jalape\u00f1o Marg",
-      "qty": 17.0,
-      "rev": 387.76,
-      "cost": 65.3871,
+      "name": "Nut Roast",
+      "qty": 14.0,
+      "rev": 465.18,
+      "cost": 70.0784,
       "cost_source": "recipe",
-      "cost_lightspeed": 13.77
+      "cost_lightspeed": 74.71
     },
     {
-      "name": "Aperol Spritz",
-      "qty": 17.0,
-      "rev": 347.89,
-      "cost": 60.3993,
+      "name": "Fancy Pants Parmy - Classic",
+      "qty": 10.0,
+      "rev": 305.09,
+      "cost": 75.602,
       "cost_source": "recipe",
-      "cost_lightspeed": 60.39
-    },
-    {
-      "name": "Version Two Pinot Grigio - Regular",
-      "qty": 28.0,
-      "rev": 302.19,
-      "cost": 49.4676,
-      "cost_source": "recipe",
-      "cost_lightspeed": 49.47
+      "cost_lightspeed": 81.06
     },
     {
       "name": "Fresh is Best Lager - Pint",
-      "qty": 23.0,
-      "rev": 292.42,
-      "cost": 55.7037,
+      "qty": 20.0,
+      "rev": 279.03,
+      "cost": 48.438,
       "cost_source": "recipe",
-      "cost_lightspeed": 56.38
+      "cost_lightspeed": 48.93
     },
     {
-      "name": "Stone & Wood - Pint",
-      "qty": 16.0,
-      "rev": 274.24,
-      "cost": 70.7168,
+      "name": "American Standard Burger",
+      "qty": 9.0,
+      "rev": 271.18,
+      "cost": 52.5627,
       "cost_source": "recipe",
-      "cost_lightspeed": 70.06
+      "cost_lightspeed": 52.6
     },
     {
-      "name": "Arancini Balls [5pc]",
-      "qty": 12.0,
-      "rev": 270.67,
+      "name": "Geppetto Pinot Noir - Regular",
+      "qty": 15.0,
+      "rev": 252.36,
+      "cost": 52.68,
+      "cost_source": "recipe",
+      "cost_lightspeed": 52.68
+    },
+    {
+      "name": "Stone & Wood - Schooner",
+      "qty": 15.4,
+      "rev": 221.63,
+      "cost": 50.7492,
+      "cost_source": "recipe",
+      "cost_lightspeed": 50.21
+    },
+    {
+      "name": "Classic Margarita",
+      "qty": 9.0,
+      "rev": 200.88,
+      "cost": 37.5768,
+      "cost_source": "recipe",
+      "cost_lightspeed": 35.01
+    },
+    {
+      "name": "Pie",
+      "qty": 5.0,
+      "rev": 184.51,
       "cost": 0.0,
       "cost_source": "lightspeed"
     },
     {
-      "name": "Petits Detours Ros\u00e9 Mediterranee - Bottle",
-      "qty": 4.0,
-      "rev": 260.29,
-      "cost": 69.36,
+      "name": "Villa Fresco Sangiovese - Regular",
+      "qty": 14.0,
+      "rev": 183.45,
+      "cost": 33.7722,
       "cost_source": "recipe",
-      "cost_lightspeed": 64.71
+      "cost_lightspeed": 33.77
     },
     {
-      "name": "Fresh is Best Lager - Schooner",
-      "qty": 27.0,
-      "rev": 245.84,
-      "cost": 48.7566,
-      "cost_source": "recipe",
-      "cost_lightspeed": 49.35
-    },
-    {
-      "name": "Petits Detours Ros\u00e9 - Regular",
-      "qty": 15.0,
-      "rev": 244.2,
-      "cost": 52.02,
-      "cost_source": "recipe",
-      "cost_lightspeed": 52.0
-    },
-    {
-      "name": "Kirin - Pint",
-      "qty": 13.0,
-      "rev": 242.32,
-      "cost": 66.1856,
-      "cost_source": "recipe",
-      "cost_lightspeed": 65.44
-    },
-    {
-      "name": "Beetle Juice",
-      "qty": 11.0,
-      "rev": 226.16,
-      "cost": 40.7649,
-      "cost_source": "recipe",
-      "cost_lightspeed": 40.37
-    },
-    {
-      "name": "Whispering Angel Ros\u00e9 - Bottle",
-      "qty": 2.0,
-      "rev": 223.06,
-      "cost": 69.21,
+      "name": "Arancini Balls [5pc]",
+      "qty": 7.0,
+      "rev": 172.58,
+      "cost": 0.0,
       "cost_source": "lightspeed"
     },
     {
-      "name": "Negroni",
+      "name": "Kuku Sauvignon Blanc - Regular",
+      "qty": 11.0,
+      "rev": 170.93,
+      "cost": 32.0551,
+      "cost_source": "recipe",
+      "cost_lightspeed": 32.06
+    },
+    {
+      "name": "Baked Camembert",
+      "qty": 6.0,
+      "rev": 167.95,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Stow Schnitty",
+      "qty": 6.0,
+      "rev": 164.64,
+      "cost": 32.9838,
+      "cost_source": "recipe",
+      "cost_lightspeed": 31.96
+    },
+    {
+      "name": "Philter XPA - Schooner",
+      "qty": 14.0,
+      "rev": 162.34,
+      "cost": 31.339,
+      "cost_source": "recipe",
+      "cost_lightspeed": 31.31
+    },
+    {
+      "name": "Philter XPA - Pint",
+      "qty": 9.0,
+      "rev": 148.5,
+      "cost": 27.0198,
+      "cost_source": "recipe",
+      "cost_lightspeed": 27.0
+    },
+    {
+      "name": "Rosemary Salted Fries",
       "qty": 10.0,
-      "rev": 218.52,
-      "cost": 38.848,
+      "rev": 142.33,
+      "cost": 18.6,
       "cost_source": "recipe",
-      "cost_lightspeed": 38.69
-    },
-    {
-      "name": "Grifter Pale - Schooner",
-      "qty": 18.7,
-      "rev": 211.69,
-      "cost": 46.4209,
-      "cost_source": "recipe",
-      "cost_lightspeed": 46.42
-    },
-    {
-      "name": "Kirin - Schooner",
-      "qty": 15.0,
-      "rev": 211.4,
-      "cost": 56.9415,
-      "cost_source": "recipe",
-      "cost_lightspeed": 56.3
+      "cost_lightspeed": 18.55
     }
   ]
 }
