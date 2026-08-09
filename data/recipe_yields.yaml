@@ -1,0 +1,105 @@
+# Batch yields, read from Lightspeed Produce on 2026-08-09.
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# Zak: "the [1L] labels are LABELS not yields. the yields are on lightspeed."
+# He is right, and the scrape never captured them: 0 of 852 recipes in
+# data/lightspeed_recipes.json carry a yield, so anything needing one fell back to
+# the number in the NAME. That is wrong for most batches and wildly wrong for
+# some — every drink or dish drawing on the batch inherits the error:
+#
+#   Jalapeno Tequila [1L]              label 1000 mL  ->  REAL 7500 mL   (7.5x)
+#   Coconut-washed Rooster Blanco [1L] label 1000 mL  ->  REAL 3929 mL   (3.9x)
+#   Cooked Beef Brisket [1Kg]          label 1000 g   ->  REAL 10.5 kg   (10.5x)
+#   Mango-Chilli Puree [1L]            label 1000 mL  ->  REAL 1050 mL
+#   Demerara Syrup                     label     —    ->  REAL  560 mL
+#   Super Lemon / Super Lime [1L]      label 1000 mL  ->  REAL 1142 mL
+#
+# A batch cost spread over 1 L when the batch is really 7.5 L makes every serve
+# read 7.5x dearer than it is. That direction UNDER-states GP, so it does not
+# flatter and nothing alarms — it just quietly makes good drinks look bad.
+#
+# HOW IT WAS READ: produce.kounta.com -> each recipe -> the "Expected yield"
+# field, harvested per recipe. Source of truth is Lightspeed; if a yield changes
+# there, re-harvest rather than editing a number here by hand.
+
+source: "Lightspeed Produce (produce.kounta.com), Expected yield field"
+read_on: "2026-08-09"
+venue_context: stowaway
+
+yields:
+  "Chipotle Mayo [1.1kg]": {yield: 1100, unit: g}
+  "Pizza Dough [Recipe]": {yield: 7000, unit: g}
+  "Pizza Sauce [Recipe]": {yield: 10150, unit: g}
+  "Truffle Oil Prep": {yield: 1500, unit: g}
+  "Brownie Prep [24 pcs]": {yield: 24, unit: Units}
+  "Queso Dip Prep": {yield: 5100, unit: g}
+  "Cauliflower Cheese Prep": {yield: 13, unit: Units}
+  "Gravy Prep": {yield: 2200, unit: g}
+  "Nut Roast Prep": {yield: 24, unit: Units}
+  "Yorkshire Pudding Prep [110 units]": {yield: 110, unit: Units}
+  "Balsamic Dressing House [4.9L]": {yield: 4900, unit: mL}
+  "Mexican Fish Prep": {yield: 5, unit: kg}
+  "Fish Cajun Marination": {yield: 0.082, unit: kg}
+  "Achiote Chicken [15Kg]": {yield: 15, unit: kg}
+  "Black Beans Prep": {yield: 7750, unit: g}
+  "Cooked Beef Brisket [1Kg]": {yield: 10.5, unit: kg}
+  "Pico de Gallo [2.5kg]": {yield: 2500, unit: g}
+  "Burrito Rice [3kg]": {yield: 3000, unit: g}
+  "Blue Cheese Dip [5.5kg]": {yield: 5500, unit: g}
+  "Guacamole [4kg]": {yield: 4000, unit: g}
+  "Pulled Mushroom [1Kg]": {yield: 1, unit: kg}
+  "Mango-Chilli Puree [1L]": {yield: 1050, unit: mL}
+  "Salsa Rosa Prep": {yield: 2500, unit: mL}
+  "Salted Caramel Sauce": {yield: 1500, unit: mL}
+  "Kewpie Lemon": {yield: 1.25, unit: kg}
+  "Demerara Syrup": {yield: 560, unit: mL}
+  "Passionfruit Syrup": {yield: 1600, unit: mL}
+  "Super Lemon Juice [1L]": {yield: 1142, unit: mL}
+  "Super Lime Juice [1L]": {yield: 1142, unit: mL}
+  "Grapefruit Sherbert": {yield: 2880, unit: mL}
+  "Jalapeño Tequila [1L]": {yield: 7500, unit: mL}
+  "Coconut-washed Rooster Blanco [1L]": {yield: 3929, unit: mL}
+  "Sugar Syrup": {yield: 1600, unit: mL}
+  "Stow Vermouth Blend [Bottle]": {yield: 990, unit: mL}
+
+# Blank in Lightspeed — the field exists and nobody has filled it. These cannot be
+# costed per serve honestly until someone sets the yield in Produce. This is a
+# real ask, unlike guessing from the name.
+no_yield_set_in_produce:
+  - "Burrito Rice Sauce"
+  - "Buffalo Aioli [1L]"
+  - "House BBQ Sauce [11L]"
+  - "Carnaval Fruit Mix"
+  - "Dragon Soda [1L]"
+  - "Lime [ea]"
+  - "Tandoori Chicken [2Kg]"
+  - "Tandoori Sauce [Batch]"
+  - "Mint Yoghurt [Batch]"
+  - "J.J. Aioli [Batch]"
+  - "Garlic Oil [Batch]"
+  - "Chimichurri"
+
+# Not visible from the Stowaway Produce context. Produce has no venue switcher —
+# you switch venue in Back Office and click Launch (see scripts/merge_venue_scrape.py).
+# Re-harvest these from the Harry Gatos context.
+harry_gatos_not_harvested_yet:
+  - "Chashu Pork Belly Prep"
+  - "Quandong Sambal"
+  - "Fried Rice Mix"
+  - "Peking Sauce [6.75L]"
+  - "Davidson Plum Hoisin"
+  - "Ginger Ponzu"
+  - "HG's Soy Chilli Sauce"
+  - "Toasted Rice Syrup [1L]"
+  - "Tofu Marination"
+  - "Chicken Marination"
+  - "Beef Marination"
+  - "Noodle Mix"
+  - "Pickle Cabbage"
+  - "Gochujang Honey Soy"
+  - "Katsu Curry Sauce"
+  - "Prawn Mix"
+  - "Wattleseed Honey Soy"
+  - "Tonkotsu Broth"
+  - "Massenez Lychee [5L]"
