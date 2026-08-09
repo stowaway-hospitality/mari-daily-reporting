@@ -1,3 +1,7 @@
+> **DONE — 2026-08-10.** The job below landed in `063d9b7` and `a38ec33`.
+> See `HANDOFF_20260810_pack_agreement.md` for what is left (six ILG invoices
+> whose PDFs are not in the corpus, and three items that need a human).
+
 # Start here — ILG historical re-parse
 
 Written 2026-08-09. One job, stated fully. Paste-and-go.
