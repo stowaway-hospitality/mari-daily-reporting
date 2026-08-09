@@ -111,20 +111,36 @@ const ok = (label, cond, extra = '') => {
        .includes('builderLineWarnings'));
 }
 
-// --- the four tabs ----------------------------------------------------------
+// --- the tabs ---------------------------------------------------------------
+// The strip is no longer static markup in this file: it is rendered by
+// _shared/recipe_tabs.js::navHtml so that /pricing/ and /invoices/ draw the SAME
+// strip and the five screens read as one module. So the shell must carry the
+// host and the four PANELS, and the strip's own contract is checked against the
+// function that now produces it.
 {
+  ok('the shell hosts the shared tab strip', html.includes('id="maintabs"'));
   for (const t of ['book', 'build', 'prep', 'flags']) {
-    ok(`tab button exists: ${t}`, html.includes(`id="mt-${t}"`));
     ok(`tab panel exists: ${t}`, html.includes(`id="view-${t}"`));
   }
-  ok('the tab strip is a tablist', html.includes('role="tablist"'));
-  ok('every tab button is a tab', (html.match(/role="tab"/g) || []).length === 4);
-  ok('the flags tab carries a count badge', html.includes('id="mt-flags-n"'));
-  ok('Build is the tab that opens by default, as /recipes/ always has',
-     /id="mt-build"[^>]*aria-selected="true"/.test(html));
   ok('the builder\'s old two-tab strip is gone',
      !html.includes("onclick=\"mainTab("),
      'mainTab still wired');
+
+  const { navHtml } = await import('../dashboard/_shared/recipe_tabs.js');
+  const strip = navHtml('build', { isAdmin: true });
+  for (const t of ['book', 'build', 'prep', 'flags']) {
+    ok(`tab button exists: ${t}`, strip.includes(`id="mt-${t}"`));
+  }
+  ok('the tab strip is a tablist', strip.includes('role="tablist"'));
+  ok('every entry is a tab', (strip.match(/role="tab"/g) || []).length === 6);
+  ok('the flags tab carries a count badge', strip.includes('id="mt-flags-n"'));
+  ok('the active tab is the one asked for',
+     /id="mt-build"[^>]*aria-selected="true"/.test(strip));
+  // Price compare and Invoices are the two that live on their own pages.
+  ok('price compare is on the strip', strip.includes('href="/pricing/"'));
+  ok('invoices is on the strip for an admin', strip.includes('href="/invoices/"'));
+  ok('invoices is NOT on the strip for a chef',
+     !navHtml('book', { isAdmin: false }).includes('/invoices/'));
 }
 
 // --- the deletions, in the shell itself -------------------------------------

@@ -225,6 +225,14 @@
   .tag.prep{background:color-mix(in srgb,var(--ink) 8%,var(--paper));color:var(--ink-soft)}
   .fl-w.stake{color:var(--amber)}
   .fl-sum.stake{color:var(--ink-soft)}
+  .maintabs{position:sticky;top:0;z-index:9;display:flex;gap:8px;padding:10px 0;flex-wrap:wrap}
+  .maintabs button,.maintabs .mt-link{flex:1;min-width:104px;text-align:center;text-decoration:none;
+    font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;padding:11px 10px;
+    border:1px solid var(--line);border-radius:12px;background:var(--paper);color:var(--ink-soft);cursor:pointer}
+  .maintabs button.on,.maintabs .mt-link.on{background:var(--group);color:var(--paper);border-color:var(--group)}
+  .maintabs .n{display:inline-block;min-width:18px;margin-left:6px;padding:0 5px;border-radius:99px;
+    background:var(--amber);color:#1a1a1a;font-size:11px}
+  .maintabs .n:empty{display:none}
 </style>
 </head>
 <body>
@@ -236,12 +244,11 @@
   </div></header>
 
   <div class="wrap">
-    <div class="maintabs" role="tablist">
-      <button id="mt-book"  role="tab" aria-controls="view-book"  aria-selected="false">Book</button>
-      <button id="mt-build" role="tab" aria-controls="view-build" aria-selected="true">Build a recipe</button>
-      <button id="mt-prep"  role="tab" aria-controls="view-prep"  aria-selected="false">Prep timer</button>
-      <button id="mt-flags" role="tab" aria-controls="view-flags" aria-selected="false">Flags<span class="n" id="mt-flags-n"></span></button>
-    </div>
+    <!-- Drawn by /_shared/recipe_tabs.js::navHtml so this page, /pricing/ and
+         /invoices/ all show the SAME strip and read as one module. The four
+         in-page tabs keep their mt-* button ids, so the wiring below is
+         unchanged; Invoices only appears for admin. -->
+    <div id="maintabs"></div>
 
     <!-- ================= BOOK ================= -->
     <!-- Drawn entirely by /_shared/recipe_book.js off /_shared/recipe_book_view.js.

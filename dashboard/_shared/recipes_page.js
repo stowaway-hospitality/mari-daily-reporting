@@ -31,7 +31,7 @@
  */
 
 import { Auth } from '/_shared/auth.js';
-import { hashForTab, recipeFromHash, tabFor, TABS } from '/_shared/recipe_tabs.js';
+import { hashForTab, navFor, navHtml, recipeFromHash, tabFor, TABS } from '/_shared/recipe_tabs.js';
 import { mountBook } from '/_shared/recipe_book.js';
 import { mountBuilder, openRecipe } from '/_shared/recipe_builder.js';
 import { renderFlags } from '/_shared/flags.js';
@@ -115,6 +115,16 @@ export function start() {
       ready = mountBuilder(user);
 
       if (canBook) {
+        // The strip is shared with /pricing/ and /invoices/ so all five screens read
+        // as one module rather than five tools. Painted BEFORE the in-page tabs are
+        // wired, because that wiring looks the mt-* buttons up by id. Invoices is
+        // admin-only here AND gated on its own page — a hidden button is
+        // decoration, not a permission.
+        const _tabHost = el('maintabs');
+        if (_tabHost) {
+          _tabHost.innerHTML = navHtml(navFor(window.location),
+                                       { isAdmin: !!(user && user.role === 'admin') });
+        }
         mountBook({ onOpen: open });
         // The count goes ON the tab. The whole reason this panel kept being
         // reported as missing is that it drew below a 913-row table, so nobody

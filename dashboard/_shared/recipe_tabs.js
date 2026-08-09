@@ -88,3 +88,59 @@ export function redirectTarget(loc) {
   const keep = tabFromHash(hash) ? hash : hashForTab('book');
   return '/recipes/' + search + keep;
 }
+
+/* ---------------------------------------------------------------------------
+ * THE MODULE STRIP
+ *
+ * Book, Build, Prep and Flags are tabs INSIDE this page. Price compare and
+ * Invoices are their own pages. To a person that distinction is meaningless —
+ * it is one job (what a dish costs and what we paid for it) split across five
+ * screens — so all five render the SAME strip and read as one module. The two
+ * outside tabs navigate; the four inside ones switch in place.
+ *
+ * Invoices is admin-only and MUST stay that way: a chef with a kitchen role can
+ * open this module, and supplier bills are not theirs to see. The strip omits
+ * the tab entirely rather than showing one that errors on click — but the real
+ * enforcement is still Auth.gate on /invoices/ itself, because a hidden button
+ * is decoration, not a permission.
+ * ------------------------------------------------------------------------- */
+
+export const NAV = [
+  { key: 'book',     label: 'Book',           href: '/recipes/#book',  inPage: true },
+  { key: 'build',    label: 'Build a recipe', href: '/recipes/#build', inPage: true },
+  { key: 'prep',     label: 'Prep timer',     href: '/recipes/#prep',  inPage: true },
+  { key: 'flags',    label: 'Flags',          href: '/recipes/#flags', inPage: true, count: true },
+  { key: 'pricing',  label: 'Price compare',  href: '/pricing/' },
+  { key: 'invoices', label: 'Invoices',       href: '/invoices/', adminOnly: true },
+];
+
+/** The strip entry a location is on. Pages first, then the in-page tab. */
+export function navFor(loc) {
+  const path = String((loc || {}).pathname ?? '').toLowerCase();
+  if (path.includes('/pricing')) return 'pricing';
+  if (path.includes('/invoices')) return 'invoices';
+  return tabFor(loc);
+}
+
+/** Which entries a role may see. Unknown/!admin never gets invoices. */
+export const navFordRole = (isAdmin) => NAV.filter(n => !n.adminOnly || !!isAdmin);
+
+/**
+ * The strip's markup. Pure: same input, same string, so it is testable under
+ * node. `active` is a NAV key; in-page tabs keep their historical button ids
+ * (mt-book etc.) so the page's own wiring is untouched.
+ */
+export function navHtml(active, opts) {
+  const o = opts || {};
+  const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const n = o.flagCount;
+  return '<div class="maintabs" role="tablist">'
+    + navFordRole(o.isAdmin).map((t) => {
+        const on = t.key === active;
+        const count = (t.count && n != null && n !== '') ? `<span class="n" id="mt-flags-n">${esc(n)}</span>` : (t.count ? '<span class="n" id="mt-flags-n"></span>' : '');
+        return t.inPage
+          ? `<button id="mt-${t.key}" role="tab" aria-controls="view-${t.key}" aria-selected="${on}"${on ? ' class="on"' : ''}>${esc(t.label)}${count}</button>`
+          : `<a class="mt-link${on ? ' on' : ''}" role="tab" aria-selected="${on}" href="${esc(t.href)}">${esc(t.label)}</a>`;
+      }).join('')
+    + '</div>';
+}
