@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-09T08:02:41+00:00",
-  "overall": "down",
+  "generated": "2026-08-09T08:36:50+00:00",
+  "overall": "warn",
   "checks": [
     {
       "name": "Invoice poller",
@@ -98,13 +98,10 @@
     },
     {
       "name": "Uber Direct ingest",
-      "detail": "Uber Direct ingest silent 22d",
+      "detail": "last Direct fee 1d ago",
       "age": null,
       "unit": "",
-      "status": "down",
-      "meaning": "Uber Direct is Mari's own online delivery, billed daily by email \u2014 separate from Uber Eats.",
-      "action": "The Uber Direct daily invoice emails have stopped reaching the repo, so those delivery fees are being estimated instead of counted. Check the invoice email is still arriving and that the Pipedream 'Mari Insights to GitHub' hook is on.",
-      "selfheal": "No - the email or the Pipedream hook needs looking at."
+      "status": "ok"
     }
   ]
 }

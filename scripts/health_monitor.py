@@ -302,13 +302,17 @@ def _uber_direct(rel="data/uber_direct_daily.csv"):
     """Uber DIRECT ingest — Mari's own online orders delivered by Uber's fleet,
     billed daily by email and dispatched into the repo by Pipedream.
 
-    WHY it needs watching: unlike the marketplace feed this one has no schedule
-    of its own. It only moves when an invoice email arrives and fires the
-    uber_direct_dispatch workflow, so if the email or the Pipedream hook stops,
-    nothing errors — the file just quietly stops growing. pnl.js degrades safely
-    (uberDirectActual reports covered=false and the caller estimates), so the
-    P&L is not wrong; the actual cost is simply never captured, and nobody finds
-    out. Found dead 22 days on 2026-08-09 with zero workflow runs.
+    WHY it needs watching: it used to have no schedule of its own — it moved only
+    when an invoice email fired the uber_direct_dispatch workflow via Pipedream.
+    Pipedream's free tier ran out 2026-07-24; sales ingestion and the auth worker
+    were moved off it and this feed was missed, so it sat dead for 22 days with
+    ZERO workflow runs and nothing went red anywhere. pnl.js degrades safely
+    (uberDirectActual reports covered=false and the caller estimates), so no
+    number was wrong — the cost was simply never captured.
+
+    Since 2026-08-09 the daily uber-eats-daily-fees task reads the fees straight
+    from direct.uber.com instead, so this check now watches that task. The portal
+    figures reconciled to the cent against all six email-sourced days.
     """
     age = _csv_last_date_age_days(rel, "date")
     if age is None:
@@ -317,10 +321,11 @@ def _uber_direct(rel="data/uber_direct_daily.csv"):
     if age >= 21:
         return {"status": "down", "detail": f"Uber Direct ingest silent {age}d",
                 "meaning": meaning,
-                "action": ("The Uber Direct daily invoice emails have stopped reaching the repo, so those "
-                           "delivery fees are being estimated instead of counted. Check the invoice email is "
-                           "still arriving and that the Pipedream 'Mari Insights to GitHub' hook is on."),
-                "selfheal": "No - the email or the Pipedream hook needs looking at."}
+                "action": ("No Uber Direct fee has been recorded for three weeks, so those delivery costs "
+                           "are being estimated instead of counted. The daily Uber pull reads them from "
+                           "direct.uber.com - ask Claude to run it, and if it reports a login screen, Zak "
+                           "needs to sign in to direct.uber.com once."),
+                "selfheal": "Resumes on its own once the daily Uber pull can reach the portal."}
         # (fees still estimate cleanly, so this is a data-capture outage, not a wrong number)
     if age >= 7:
         return {"status": "warn", "detail": f"no Uber Direct fee for {age}d",

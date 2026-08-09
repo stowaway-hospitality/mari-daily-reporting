@@ -88,6 +88,31 @@ token rotation, no ledger. $0, always-on, no admin. Note: M365 IMAP is NOT an
 option here (basic-auth/app-passwords disabled by the tenant) — Gmail is.
 
 
+### Uber Direct fees — FREE, no Pipedream (2026-08-09)
+
+The LAST integration still on Pipedream, and it died with it. Uber Direct
+(Mari's own online orders, delivered by Uber's fleet) was billed by a daily
+invoice email parsed by `pipedream/uber_direct_ingest.js`, which fired
+`uber_direct_dispatch.yml`. When Pipedream's credits ran out on 2026-07-24 the
+sales ingest and the auth worker were migrated off; this one was missed. It then
+sat dead for **22 days with zero workflow runs and no alert**, because pnl.js
+degrades safely — `uberDirectActual` reports `covered:false` and the caller
+estimates that slice, so no number was ever wrong. The cost was just never
+recorded, and nothing said so.
+
+Replacement: the daily `uber-eats-daily-fees` task now reads the fees from
+**direct.uber.com** (Deliveries list, per-order `A$` totals summed by local
+date; cancelled orders are A$0.00 and carry no fee). No email, no Pipedream, no
+secrets. The portal figures reconciled **to the cent** against all six days the
+email path had captured, which is what makes it a safe substitute. $327.44 of
+missed fees were recovered on changeover.
+
+`pipedream/uber_direct_ingest.js` and `.github/workflows/uber_direct_dispatch.yml`
+are RETIRED but left in place — the workflow still accepts a manual
+`workflow_dispatch` if you ever want to key a fee in by hand. Staleness is now
+watched by health_monitor's "Uber Direct ingest" check (warn 7d, down 21d),
+which is what would have caught this on day seven.
+
 ## Auth / admin worker — Supabase Edge Function (2026-07-24, off Pipedream)
 
 The privileged auth worker (list/invite/set-role users, and commit recipes/prep)
