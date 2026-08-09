@@ -7,8 +7,14 @@ which overstates reported margin.
 
 This turns a day's EatClub redemptions into the single scalar the daily
 aggregator needs to correct that: `giveaway_inc = sum(bill_full - net_revenue)`
-over PAID tables. Written as `data/eatclub_{prefix}_{date}.json`; the aggregator
+over REDEEMED tables. Written as `data/eatclub_{prefix}_{date}.json`; the aggregator
 subtracts it from revenue (see daily_aggregator.py, "EatClub give-away").
+
+A redemption is `PAID` on the dine-in stores (Stowaway, Harry Gatos) but
+`COMPLETED` on Marilyna's, because the takeaway flow settles differently in the
+EatClub portal. Both mean the diner paid and EatClub kept its cut, so both count.
+Filtering on `PAID` alone silently dropped every Marilyna's takeaway redemption
+and left Mari's reported margin overstated (found 2026-08-09).
 
 Money is float here to match daily_aggregator.py (that file has no Decimal).
 """
@@ -21,6 +27,10 @@ import os
 
 VENUE_PREFIX = {"stowaway": "stow", "harry": "hg", "marilynas": "mari"}
 
+# A redemption the diner actually paid for. Dine-in settles as PAID; Marilyna's
+# takeaway settles as COMPLETED. UNREDEEMED offers cost nothing and are excluded.
+REDEEMED_STATUSES = frozenset({"PAID", "COMPLETED"})
+
 
 def _f(x):
     s = str(x if x is not None else "").replace("$", "").replace(",", "").strip()
@@ -31,14 +41,15 @@ def day_giveaway(rows, date, venue):
     """Reduce one day's EatClub rows to the give-away fact.
 
     rows: dicts with bill_full, net_revenue, party_size, offer_pct, status.
-    Only PAID rows with a bill count (UNREDEEMED offers cost nothing). Returns the
-    dict written to data/eatclub_{prefix}_{date}.json.
+    Only redeemed rows with a bill count — PAID (dine-in) or COMPLETED
+    (Marilyna's takeaway). UNREDEEMED offers cost nothing. Returns the dict
+    written to data/eatclub_{prefix}_{date}.json.
     """
     covers = 0
     menu_inc = net_inc = discount_inc = 0.0
     paid = 0
     for r in rows:
-        if (r.get("status") or "").upper() != "PAID":
+        if (r.get("status") or "").upper() not in REDEEMED_STATUSES:
             continue
         bill = _f(r.get("bill_full"))
         if bill <= 0:

@@ -48,6 +48,47 @@ def test_unredeemed_and_offerless():
     assert g["commission_inc"] == 4.98
 
 
+# Marilyna's real 2026-08-07 takeaway night. Three of the four settled as
+# COMPLETED rather than PAID; a PAID-only filter counted just Dominique's table
+# and understated the day's give-away by $115.31. Regression guard for that.
+MARI_AUG07 = [
+    {"date": "2026-08-07", "venue": "Marilynas Famous Pizza", "party_size": "1",
+     "offer_pct": "30", "bill_full": "45.00", "net_revenue": "26.55", "status": "COMPLETED"},
+    {"date": "2026-08-07", "venue": "Marilynas Famous Pizza", "party_size": "2",
+     "offer_pct": "30", "bill_full": "80.25", "net_revenue": "47.34", "status": "PAID"},
+    {"date": "2026-08-07", "venue": "Marilynas Famous Pizza", "party_size": "4",
+     "offer_pct": "30", "bill_full": "96.00", "net_revenue": "56.64", "status": "COMPLETED"},
+    {"date": "2026-08-07", "venue": "Marilynas Famous Pizza", "party_size": "2",
+     "offer_pct": "30", "bill_full": "142.00", "net_revenue": "83.78", "status": "COMPLETED"},
+]
+
+
+def test_mari_completed_counts_as_redeemed():
+    g = giveaway.day_giveaway(MARI_AUG07, "2026-08-07", "Marilynas Famous Pizza")
+    assert g["tables"] == 4
+    assert g["covers"] == 9
+    assert g["menu_inc"] == 363.25
+    assert g["net_inc"] == 214.31
+    assert g["giveaway_inc"] == 148.94
+    # the two components still reconcile to the whole
+    assert round(g["discount_inc"] + g["commission_inc"], 2) == g["giveaway_inc"]
+
+
+def test_paid_only_would_have_dropped_three_tables():
+    """The exact bug: COMPLETED must not be treated as unredeemed."""
+    only_paid = [r for r in MARI_AUG07 if r["status"] == "PAID"]
+    assert giveaway.day_giveaway(only_paid, "2026-08-07", "Marilynas Famous Pizza")["tables"] == 1
+    assert giveaway.day_giveaway(MARI_AUG07, "2026-08-07", "Marilynas Famous Pizza")["tables"] == 4
+
+
+def test_unredeemed_still_excluded_for_takeaway():
+    rows = [{"party_size": "2", "offer_pct": "25", "bill_full": "",
+             "net_revenue": "", "status": "UNREDEEMED"}]
+    g = giveaway.day_giveaway(rows, "2026-08-08", "Marilynas Famous Pizza")
+    assert g["tables"] == 0
+    assert g["giveaway_inc"] == 0.0
+
+
 def test_dollar_and_comma_cleaning():
     rows = [{"party_size": "2", "offer_pct": "30", "bill_full": "$1,090.00",
              "net_revenue": "$643.10", "status": "PAID"}]
