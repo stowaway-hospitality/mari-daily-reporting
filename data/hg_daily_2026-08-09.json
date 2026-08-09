@@ -1,6 +1,6 @@
 {
   "date": "2026-08-09",
-  "generated_at": "2026-08-09T20:32:11.085675Z",
+  "generated_at": "2026-08-09T21:19:23.928183Z",
   "venue": "harry",
   "venue_display": "Harry Gatos",
   "lane_config": [
@@ -15,14 +15,14 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 0,
-    "revenue_ex_gst": null,
-    "cogs_dollars": 0,
-    "cogs_pct": 0,
-    "gp_dollars": 0.0,
-    "gp_pct": 0,
+    "revenue_inc_gst": 2400.0,
+    "revenue_ex_gst": 2181.82,
+    "cogs_dollars": 250.48,
+    "cogs_pct": 11.5,
+    "gp_dollars": 1931.34,
+    "gp_pct": 88.5,
     "cogs_source": "lightspeed",
-    "cogs_lightspeed_dollars": 0,
+    "cogs_lightspeed_dollars": 244.24,
     "recipe_coverage_pct": 0.0,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
@@ -30,13 +30,13 @@
     "eatclub_covers": 0,
     "revenue_ex_gst_before_eatclub": null,
     "food_ex_gst": 0.0,
-    "bev_ex_gst": 0.0,
+    "bev_ex_gst": 2181.82,
     "food_cogs": 0.0,
-    "bev_cogs": 0.0,
+    "bev_cogs": 244.24,
     "food_cogs_pct": null,
-    "bev_cogs_pct": null,
+    "bev_cogs_pct": 11.2,
     "food_gp_pct": null,
-    "bev_gp_pct": null,
+    "bev_gp_pct": 88.8,
     "mari_rideon_ex_gst": 0.0,
     "hg_food_out_ex_gst": 0.0,
     "stow_food_out_ex_gst": 0.0
@@ -48,12 +48,12 @@
     "admin_dollars": 0,
     "leave_dollars": 0,
     "total_dollars": 0,
-    "wages_pct": 0,
+    "wages_pct": 0.0,
     "net_wage_pct": null,
     "kitchen_hours": 0,
     "foh_hours": 0,
     "wages_kitchen_pct": null,
-    "wages_foh_pct": null,
+    "wages_foh_pct": 0.0,
     "includes_super": true,
     "salaried_synthesized": true
   },
@@ -65,9 +65,9 @@
     "delivery": "n/a",
     "gp": "green",
     "cogs_food": "unknown",
-    "cogs_bev": "unknown",
+    "cogs_bev": "green",
     "wages_kitchen": "unknown",
-    "wages_foh": "unknown"
+    "wages_foh": "green"
   },
   "targets": {
     "cogs": {
@@ -111,5 +111,143 @@
       "target_direction": "high_is_good"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Open Price",
+      "qty": 3.0,
+      "rev": 2400.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Sapporo - Schooner",
+      "qty": 19.0,
+      "rev": 0.0,
+      "cost": 59.9165,
+      "cost_source": "recipe",
+      "cost_lightspeed": 61.36
+    },
+    {
+      "name": "Harry's Lager - Schooner",
+      "qty": 13.0,
+      "rev": 0.0,
+      "cost": 20.4425,
+      "cost_source": "recipe",
+      "cost_lightspeed": 21.71
+    },
+    {
+      "name": "Classic Margarita",
+      "qty": 13.0,
+      "rev": 0.0,
+      "cost": 54.2776,
+      "cost_source": "recipe",
+      "cost_lightspeed": 43.23
+    },
+    {
+      "name": "Lemon Chu-hi",
+      "qty": 10.0,
+      "rev": 0.0,
+      "cost": 15.041,
+      "cost_source": "recipe",
+      "cost_lightspeed": 15.19
+    },
+    {
+      "name": "Sapporo - 500ml",
+      "qty": 9.0,
+      "rev": 0.0,
+      "cost": 33.39,
+      "cost_source": "recipe",
+      "cost_lightspeed": 34.19
+    },
+    {
+      "name": "Palloncino Prosecco - Regular",
+      "qty": 8.0,
+      "rev": 0.0,
+      "cost": 18.3992,
+      "cost_source": "recipe",
+      "cost_lightspeed": 18.4
+    },
+    {
+      "name": "Birdseye Chilli Marg",
+      "qty": 6.0,
+      "rev": 0.0,
+      "cost": 20.0208,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.95
+    },
+    {
+      "name": "Harry's Lager - Pint",
+      "qty": 5.0,
+      "rev": 0.0,
+      "cost": 10.545,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.2
+    },
+    {
+      "name": "Soda",
+      "qty": 4.0,
+      "rev": 0.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Lime",
+      "qty": 4.0,
+      "rev": 0.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Asahi Zero",
+      "qty": 3.0,
+      "rev": 0.0,
+      "cost": 6.29,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Rooster Blanco Tequila [House]",
+      "qty": 3.0,
+      "rev": 0.0,
+      "cost": 5.8923,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.27
+    },
+    {
+      "name": "Diplomatico Mantuana",
+      "qty": 2.0,
+      "rev": 0.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Pepsi",
+      "qty": 1.0,
+      "rev": 0.0,
+      "cost": 0.8,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Margato",
+      "qty": 1.0,
+      "rev": 0.0,
+      "cost": 3.7125,
+      "cost_source": "recipe",
+      "cost_lightspeed": 3.9
+    },
+    {
+      "name": "No Garnish",
+      "qty": 1.0,
+      "rev": 0.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Angas & Bremer Grenache - Regular",
+      "qty": 1.0,
+      "rev": 0.0,
+      "cost": 1.754,
+      "cost_source": "recipe",
+      "cost_lightspeed": 1.75
+    }
+  ]
 }
