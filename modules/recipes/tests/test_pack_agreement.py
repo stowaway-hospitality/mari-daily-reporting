@@ -22,9 +22,13 @@ was wrong together and a mean would have been dragged along with it.
 This test asserts the SHAPE — "nothing sits on a pack factor" — and never a
 count, because a count goes red the moment a finding is legitimately settled.
 
-KNOWN EXCEPTIONS carry the invoices that cannot be re-read (their PDFs live only
-in Supabase Storage, not in data/invoice_corpus). They are listed by name so the
-list shrinks as they are fixed and so a NEW one cannot hide behind them.
+THE EXCEPTION LIST IS EMPTY, AND KEEPING IT IS THE POINT. It briefly held six
+ILG invoices whose PDFs were not in data/invoice_corpus, so run.py could not
+re-read them and they kept a per-bottle price against a case pack. They were
+recovered from the accounts@ mailbox — every PDF's sha256 matching the
+source_pdf its own invoice JSON already recorded — re-parsed, and the list
+emptied. It stays here, empty, because the next unreadable invoice should have
+to be written down by name rather than quietly widening a tolerance.
 """
 
 from __future__ import annotations
@@ -43,10 +47,9 @@ from check_pack_agreement import findings  # noqa: E402
 
 COGS = ROOT / "data" / "cogs_list.csv"
 
-# ILG invoices with no PDF in data/invoice_corpus/ilg — run.py cannot re-read
-# them, so they still carry a per-bottle price against a case pack. Pre-existing
-# and documented; fetch the PDFs and re-run run.py to empty this set.
-UNREACHABLE = {"03739295", "03739296", "03739297", "03741446", "03741447", "03741448"}
+# Invoices that cannot be re-read from data/invoice_corpus. Empty, and meant to
+# stay that way — an entry here is a cost the book knows is wrong.
+UNREACHABLE: set[str] = set()
 
 pytestmark = pytest.mark.skipif(not COGS.exists(), reason="cogs_list.csv not built")
 
@@ -71,12 +74,37 @@ def test_the_king_brown_punnet_stays_fixed():
 
 
 def test_every_remaining_finding_is_a_known_unreachable_invoice():
-    """The exception list is exact, not a blanket. A finding on any OTHER ILG
-    invoice means the re-parse missed one."""
+    """The exception list is exact, not a blanket. A finding on any OTHER
+    invoice means a re-parse missed one."""
     for f in _found():
         assert f["invoice"] in UNREACHABLE, (
             f"{f['supplier']} {f['code']} on {f['invoice']} is not a known "
             f"unreachable invoice — {f['factor']}x {f['direction']}")
+
+
+def test_the_six_recovered_ilg_invoices_stay_fixed():
+    """They carried a per-bottle price against a case pack and read ~6x under —
+    Buffalo Trace at $12.65/L against a $76 median. Recovered from accounts@ and
+    re-parsed. Re-break one_unit_pack and these red."""
+
+    rows = list(csv.DictReader(COGS.open(encoding="utf-8-sig")))
+    recovered = {"03739295", "03739296", "03739297", "03741446", "03741447", "03741448"}
+    seen = [r for r in rows if r.get("source_invoice") in recovered]
+    assert seen, "the recovered invoices are not in the cost book at all"
+    for r in seen:
+        note = (r.get("note") or "")
+        pq = (r.get("pack_qty") or "").strip()
+        # a "Nx<size>" note means the pack must be ONE inner unit, not the case
+        import re as _re
+        m = _re.match(r"^\s*(\d+)\s*[xX]\s*(\d+(?:\.\d+)?)\s*(ML|LTR|LT|L)\s*\.?\s*$",
+                      note, _re.I)
+        if not m or int(m.group(1)) <= 1 or not pq:
+            continue
+        per, size, u = int(m.group(1)), float(m.group(2)), m.group(3).lower()
+        one = size / 1000 if u == "ml" else size
+        assert abs(float(pq) - one) < 1e-6, (
+            f"{r['source_invoice']} {r['supplier_code']}: pack {pq} is not one "
+            f"unit ({one}) of {note}")
 
 
 def test_the_detector_can_actually_fire():

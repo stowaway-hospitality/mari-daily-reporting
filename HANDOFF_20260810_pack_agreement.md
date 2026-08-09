@@ -55,43 +55,39 @@ ILG invoices below and the seventh was new:
   everywhere else. **The price ($6.05) had been identical to its neighbours the
   whole time** — only the pack was wrong, which is exactly why nothing caught it.
 
-## THE ONE THING STILL OPEN FROM THAT JOB
+## The six unreadable invoices — CLOSED
 
-**Six ILG invoices cannot be re-read: `03739295`, `03739296`, `03739297`,
-`03741446`, `03741447`, `03741448`** (31 Jul + 4 Aug).
+`03739295`, `03739296`, `03739297`, `03741446`, `03741447`, `03741448` (31 Jul +
+4 Aug) were the last ILG invoices still carrying a per-BOTTLE price against a
+CASE pack, reading ~6x UNDER (Buffalo Trace $12.65/L against a $76.36 median;
+Bacardi 12x). Their PDFs were not in `data/invoice_corpus/ilg`.
 
-Their PDFs are not in `data/invoice_corpus/ilg` — `source_pdf` is a Supabase
-Storage key and nothing else. They still carry a per-BOTTLE price against a CASE
-pack, so their repack lines read ~6x UNDER:
+They were in the **accounts@stowawaybar.com mailbox** the whole time.
+`modules/invoices/graph_auth.py` authenticates app-only from
+`~/Documents/STOW/.graph_app_secret.json` and reaches any mailbox as
+`/users/{address}` — no delegation needed, and nothing has to read the secret
+itself. A read-only search of `/messages?$search=<ref>` found all six as
+`Fw: Invoice <ref> (member NNNN)` with the PDF attached.
 
-    Buffalo Trace  $12.65/L   against a $76.36 median
-    Campari         $9.84/L   against a $59.61 median
-    Bacardi         $5.96/L   against a $71.28 median   (12x)
-    Kahlua          $8.02/L   against a $48.11 median
+**Every recovered PDF's sha256 matched the `source_pdf` its own invoice JSON had
+recorded months earlier** — the same bytes the pipeline first ingested, not a
+lookalike. All six re-parsed PASS with 0 findings; 38 rows re-derived, every one
+RAISING a cost (Buffalo Trace $12.87 -> $77.24/L, Mr Black $13.47 -> $80.83/L).
 
-This is **pre-existing, not introduced** — their `cost_per_base_unit` is
-byte-identical before and after — but they are the MOST RECENT deliveries, so
-they win the as-of lookup. `audit_book` is **SEVERE 5, not 3**, entirely because
-of them: with the other 49 corrected there is finally a reliable median, and
-Bundaberg (03739297, 11.5x) and Solo (03741446, 7.8x) now stand out. **Both are
-true positives — the audit working, not a regression.**
+Result: `check_pack_agreement.py` reports **ok**, `audit_book` is back to
+**SEVERE 3**, WARN 136 -> 118, and `UNREACHABLE` in
+`modules/recipes/tests/test_pack_agreement.py` is now empty.
 
-**To close it:** get those six PDFs into `data/invoice_corpus/ilg/` and
+Four `costs.csv` rows fell, all the soft drinks those invoices had been
+OVER-costing 8-12x (Coke Zero now $3.69/1.25L, Bundaberg $3.72/750ml, Solo
+$3.08/1.25L — all in line with every other delivery). Those two were the extra
+SEVEREs.
 
-    for f in data/invoice_corpus/ilg/*.pdf; do
-      python3 modules/invoices/run.py --pdf "$f" --sender ilg.com.au --no-llm
-    done
-    python3 modules/invoices/build_cogs_list.py     # then the rebuild order below
-
-then `scripts/check_pack_agreement.py` empties and `UNREACHABLE` in
-`modules/recipes/tests/test_pack_agreement.py` should be emptied with it.
-
-Routes tried and closed: the `accounts@stowawaybar.com` mailbox (the connected
-Graph identity is `functions@`, which has no delegated access); local disk (the
-hashes are nowhere on the Mac); `my.ilg.com.au` (a login nobody should be typing
-on your behalf). Supabase Storage would work with the service key — that is
-`~/Documents/STOW/.secrets/supabase_service_key` and an agent should not be
-handling it. Easiest is to drop the six PDFs in the corpus folder.
+**If an invoice is ever unreadable again:** it is almost certainly in accounts@.
+Search the mailbox by invoice ref, check the attachment's sha256 against the
+`source_pdf` in `data/invoices/*.json`, drop it in `data/invoice_corpus/ilg/`
+and re-run `run.py`. Do NOT run `pull_mailbox.main()` for this — it moves
+messages to Processed and commits.
 
 ## Still open besides that
 
@@ -112,7 +108,7 @@ handling it. Easiest is to drop the six PDFs in the corpus folder.
 
 ## The gate (all of it, every time)
 
-    python3 -m pytest -q                      # 797 passed, 3 skipped
+    python3 -m pytest -q                      # 798 passed, 3 skipped
     node scripts/test_recipe_book_flags.mjs
     node scripts/test_recipe_flags_families.mjs
     python3 scripts/arch_guard.py
