@@ -975,7 +975,7 @@ def feed_defect_flags(recipes, sold, window="") -> list:
                         f"{f['name_unit']}, or does the pack hold several?",
             "impact_per_year": None,
             "impact_basis": None,
-            "cost_at_stake_per_year": None if cosmetic else (stake or None),
+            "cost_at_stake_per_year": stake or None,
             "cost_at_stake_basis": (
                 f"${stake:,.2f} of recipe cost a year is drawn through this record "
                 f"over the 52 weeks {window}. It is what rides on the answer, NOT "
@@ -1084,7 +1084,7 @@ def feed_defect_flags(recipes, sold, window="") -> list:
             "question": None if cosmetic else _unit_question(f, worst),
             "impact_per_year": None,
             "impact_basis": None,
-            "cost_at_stake_per_year": stake or None,
+            "cost_at_stake_per_year": None if cosmetic else (stake or None),
             "cost_at_stake_basis": (
                 None if cosmetic else
                 (f"${stake:,.2f} of recipe cost a year runs through these lines over "
