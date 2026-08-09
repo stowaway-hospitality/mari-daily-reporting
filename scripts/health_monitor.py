@@ -235,6 +235,69 @@ def _pull_integrity(rel="data/pull_integrity.json"):
         return {"status": "unknown", "detail": f"integrity record unreadable: {e}"}
 
 
+def _uber_feed(rel="data/uber_daily.csv"):
+    """Uber Eats fee feed — freshness AND correctness.
+
+    WHY this is a health check and not just a CI test: for four weeks the feed
+    modelled commission as a flat 33% of sales, which overstated Mari's
+    commission by ~$1,310 and understated her discretionary marketing by
+    ~$1,172. The drift WAS detected — eleven consecutive runs wrote it to
+    data/uber_pull.log — but a log nobody opens is not an alert, so the numbers
+    stayed wrong until a human happened to ask. Now it surfaces here.
+
+    The feed is exact (portal Service fees + Marketing lines), so every day's
+    arithmetic closes: sales - commission - offers - refund == payout. If that
+    stops holding, the feed has gone back to estimating.
+    """
+    pth = ROOT / rel
+    if not pth.exists():
+        return {"status": "unknown", "detail": "no Uber fee feed yet"}
+    try:
+        import csv as _csv
+        from decimal import Decimal as _D
+        with pth.open() as fh:
+            rows = list(_csv.DictReader(fh))
+        if not rows:
+            return {"status": "unknown", "detail": "Uber fee feed empty"}
+        broken, hot = [], []
+        for r in rows:
+            resid = (_D(r["sales_inc_gst"]) - _D(r["commission_inc_gst"])
+                     - _D(r["offers_inc_gst"]) - _D(r.get("refund_inc_gst", "0"))
+                     - _D(r["payout_inc_gst"]))
+            if resid != 0:
+                broken.append(f"{r['date']} {r['shop']}")
+            sales = _D(r["sales_inc_gst"])
+            if sales > 0 and _D(r["commission_inc_gst"]) / sales > _D("0.3301"):
+                hot.append(f"{r['date']} {r['shop']}")
+        if broken:
+            return {"status": "down",
+                    "detail": f"Uber fee split does not balance ({len(broken)} days, e.g. {broken[0]})",
+                    "meaning": "Uber Eats fees are split into commission (unavoidable) and marketing (Zak's discretionary spend).",
+                    "action": ("The Uber feed has gone back to ESTIMATING instead of reading the portal's actual "
+                               "Service fees and Marketing lines. Delivery cost and marketing spend are both wrong "
+                               "until it is fixed. Ask Claude to re-run the Uber pull for the affected days."),
+                    "selfheal": "No - the pull method needs fixing, then the days re-pulled."}
+        if hot:
+            return {"status": "warn",
+                    "detail": f"Uber commission above the 33% ceiling ({hot[0]})",
+                    "meaning": "Uber's highest published rate is 30% + GST = 33% of sales.",
+                    "action": f"A day is billing above Uber's own ceiling ({hot[0]}) - marketing has probably leaked into the commission column.",
+                    "selfheal": "No - re-pull the affected day."}
+        age = _csv_last_date_age_days(rel, "date")
+        if age is None:
+            return {"status": "unknown", "detail": "Uber feed dates unreadable"}
+        if age > 3:
+            return {"status": "warn", "detail": f"Uber fee feed {age}d behind",
+                    "meaning": "The daily Uber pull records delivery volume and fees that never touch the till.",
+                    "action": (f"The Uber pull has not landed for {age} days - usually the merchant-portal login "
+                               "expired. Ask Claude to run the Uber pull; if it reports a login screen, Zak needs "
+                               "to sign in to merchants.ubereats.com once."),
+                    "selfheal": "Resumes on its own if the session is still valid."}
+        return {"status": "ok", "detail": f"exact split, balances on all {len(rows)} days ({age}d old)"}
+    except Exception as e:
+        return {"status": "unknown", "detail": f"Uber feed unreadable: {e}"}
+
+
 def _missing_sales_days(lookback=6):
     """Backstop for the sales auto-heal: flag any recent day where a venue has no
     sales but that weekday normally trades (so it is a real gap, not a closed day).
@@ -322,6 +385,14 @@ def build() -> dict:
         if ms.get(_k):
             _ms_check[_k] = ms[_k]
     checks.append(_ms_check)
+
+    uf = _uber_feed()
+    _uf_check = {"name": "Uber fee feed", "detail": uf.get("detail"),
+                 "age": None, "unit": "", "status": uf.get("status", "unknown")}
+    for _k in ("meaning", "action", "selfheal"):
+        if uf.get(_k):
+            _uf_check[_k] = uf[_k]
+    checks.append(_uf_check)
 
     # overall reflects AUTOMATION health — the jobs that must keep running. An
     # advisory (workload) check can raise a warn but never a down on its own.

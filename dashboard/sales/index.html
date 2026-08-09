@@ -694,10 +694,16 @@ var STATE = { histories: {}, currentVenue: null, currentTimeframe: 'day', curren
 // include days before wage data exists (late Nov 2025) — costs and profit
 // are computed only over days with full cost data, and labelled as such.
 // Actual Uber Eats fees for a venue over a date window, split COMMISSION
-// (delivery, unavoidable ~33%) vs MARKETING (funded offers + ads, discretionary).
-// From data/uber_daily.csv + uber_marketing_weekly.csv (merchant-portal pull).
-// Returns null when we have no actual for this window (older days fall back to
-// the trailing estimate). Applied for mari/hg only; stow isn't on Uber Eats.
+// (the channel cost) vs MARKETING (funded offers + ads, Zak's discretionary
+// spend). Both are the portal's OWN per-day lines — Service fees and Marketing
+// — not a modelled rate: the flat 33% estimate was retired 2026-08-09 after it
+// overstated Mari's commission by ~$1,310 and hid ~$1,172 of marketing in a
+// month. Mari's real blended rate is ~25% because staff-delivery orders bill at
+// 16% and pickup at 6%; HG sits near 33% because it is nearly all Uber delivery.
+// Stitched across two feeds by pnl.js::uberActual — data/uber_daily.csv from
+// 2026-07-13, data/uber_fees_weekly.csv (prorated) for the weeks before it.
+// Returns null only when neither feed reaches the window, in which case the
+// caller falls back to the Xero trailing rate. mari/hg only; stow isn't on Uber.
 
 // What fraction of a venue's blended delivery-fee estimate is Uber Eats — so we
 // can swap just that slice for the actual and keep the rest (Mari: DoorDash +

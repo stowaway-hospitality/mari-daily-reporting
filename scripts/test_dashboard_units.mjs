@@ -39,5 +39,30 @@ eq("vsTarget(20,22)",'<span class="vs-t">target 22.0%</span><span class="vs-ok">
 // pill (needs IS_DARK)
 eq("typeof pill('closed','green')","string");
 
+// ---- Uber feed stitching (regression, 2026-08-09) -------------------------
+// uberActual must ADD the weekly feed (pre-2026-07-13) to the daily feed rather
+// than let the daily branch win outright. The old `uberSplit(..) || uberWeekly(..)`
+// dropped every pre-boundary week whenever the window touched even one daily
+// row, making delivery cost too LOW on any multi-month window.
+ctx.STATE.uberDaily=[
+  {date:'2026-07-13',shop:'mari',commission_inc_gst:'100.00',offers_inc_gst:'10.00'},
+  {date:'2026-07-14',shop:'mari',commission_inc_gst:'200.00',offers_inc_gst:'20.00'}];
+ctx.STATE.uberFees=[
+  {week_ending:'2026-07-12',venue:'mari',service_fees_inc_gst:'700.00',marketing_inc_gst:'70.00'}];
+ctx.STATE.uberAds=[];
+// window entirely inside the daily era -> daily only
+eq("JSON.stringify(uberActual('mari','2026-07-13','2026-07-14'))",'{"commission":300,"marketing":30}');
+// window straddling the boundary -> daily PLUS the whole prior week (7/7 days)
+eq("JSON.stringify(uberActual('mari','2026-07-06','2026-07-14'))",'{"commission":1000,"marketing":100}');
+// window entirely before the daily feed -> weekly only
+eq("JSON.stringify(uberActual('mari','2026-07-06','2026-07-12'))",'{"commission":700,"marketing":70}');
+// the daily feed must not be double-counted by the weekly branch
+eq("uberActual('mari','2026-07-06','2026-07-14').commission === 300 + 700","true");
+// no feed reaches the window -> null, caller estimates
+eq("uberActual('mari','2026-05-01','2026-05-07')","null");
+// marketing must NOT pick up uber_marketing_weekly ads on top (double-count)
+ctx.STATE.uberAds=[{week_ending:'2026-07-19',shop:'mari',ads_inc_gst:'999.00'}];
+eq("uberActual('mari','2026-07-13','2026-07-14').marketing","30");
+
 console.log(`\n${n} unit assertions, ${fails} failures`);
 process.exit(fails?1:0);

@@ -220,18 +220,49 @@ function uberSplit(venue, sIso, eIso) {
     }
   }
   if (!have) return null;
-  // Ads are billed weekly — amortise each week's spend over its 7 days, counting
-  // only the portion overlapping the window.
-  let ads = 0;
-  for (const r of STATE.uberAds) {
-    if (r.shop !== venue || !r.week_ending) continue;
-    const wkStart = isoDate(addDays(new Date(r.week_ending), -6));
-    const ovStart = wkStart > sIso ? wkStart : sIso;
-    const ovEnd = r.week_ending < eIso ? r.week_ending : eIso;
-    const days = (new Date(ovEnd) - new Date(ovStart)) / 86400000 + 1;
-    if (days > 0) ads += toNum(r.ads_inc_gst) * days / 7;
+  // offers_inc_gst is the portal's own "Marketing" line, which ALREADY contains
+  // Uber Ads click spend as well as funded offers — Uber deducts both from the
+  // payout. Adding uber_marketing_weekly (uberAds) on top double-counted ads.
+  // That feed is deprecated and empty, so this was latent rather than live;
+  // removed so it cannot fire if anyone ever repopulates it. (2026-08-09)
+  return { commission: comm, marketing: offers };
+}
+
+function uberDailyStart(venue) {
+  // First date the DAILY portal feed covers for a venue. Days before it belong
+  // to the WEEKLY feed; the two are contiguous (weekly ends 2026-07-12, daily
+  // starts 2026-07-13) and must never both be counted for the same day.
+  let min = null;
+  for (const r of (STATE.uberDaily || [])) {
+    if (r.shop !== venue || !r.date) continue;
+    if (min === null || r.date < min) min = r.date;
   }
-  return { commission: comm, marketing: offers + ads };
+  return min;
+}
+
+function uberActual(venue, sIso, eIso) {
+  // Uber Eats actuals for a window, STITCHED across the two portal feeds: exact
+  // per-day (uber_daily) from its first covered date onward, prorated weekly
+  // (uber_fees_weekly) for the days before it.
+  //
+  // WHY this is not `uberSplit(...) || uberWeeklyFees(...)`: that fell through to
+  // weekly only when the daily feed had NOTHING in the window. Any window that
+  // straddled the boundary — "last 3 months", a quarter, June-to-August — matched
+  // one daily row, took the daily branch, and silently dropped every pre-boundary
+  // week. It made delivery cost too LOW, which flatters the P&L: the failure
+  // direction CLAUDE.md warns about. (2026-08-09)
+  const ds = uberDailyStart(venue);
+  let comm = 0, mkt = 0, have = false;
+  if (ds && ds <= eIso) {
+    const d = uberSplit(venue, ds > sIso ? ds : sIso, eIso);
+    if (d) { comm += d.commission; mkt += d.marketing; have = true; }
+  }
+  const wEnd = ds ? isoDate(addDays(new Date(ds), -1)) : eIso;
+  if (wEnd >= sIso) {
+    const w = uberWeeklyFees(venue, sIso, wEnd < eIso ? wEnd : eIso);
+    if (w) { comm += w.commission; mkt += w.marketing; have = true; }
+  }
+  return have ? { commission: comm, marketing: mkt } : null;
 }
 
 function uberEatsShareOfDelivery(venue, endIso) {
@@ -274,7 +305,7 @@ function venueDeliveryEst(venue, sIso, eIso, endIso) {
   const rev = venueRevWindow(venue, sIso, eIso);
   const dfr = deliveryFeesPct(venue, endIso);
   const dfEst = dfr ? rev * dfr.pct / 100 : 0;
-  const _u = uberSplit(venue, sIso, eIso) || uberWeeklyFees(venue, sIso, eIso);
+  const _u = uberActual(venue, sIso, eIso);
   if (!_u) {
     let est = dfEst;
     if (venue === 'mari' && !est) { const rt = uberRateFallback('mari'); if (rt) est = rt * rev; }
