@@ -1,11 +1,11 @@
 {
-  "generated": "2026-08-09T12:22:27+00:00",
+  "generated": "2026-08-09T23:59:05+00:00",
   "overall": "ok",
   "checks": [
     {
       "name": "Invoice poller",
       "detail": "reads the accounts@ inbox every 30 min",
-      "age": 1.1,
+      "age": 29.4,
       "unit": "min",
       "status": "ok",
       "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
@@ -15,7 +15,7 @@
     {
       "name": "Xero approvals poller",
       "detail": "posts approved bills every 2 min",
-      "age": 1.9,
+      "age": 0.4,
       "unit": "min",
       "status": "ok",
       "meaning": "Posts approved supplier bills into Xero every couple of minutes (office Mac).",
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 5.3,
+      "age": 0.5,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -35,7 +35,7 @@
     {
       "name": "Weekly Xero pull",
       "detail": "runs once a week",
-      "age": 6.5,
+      "age": 7.0,
       "unit": "day",
       "status": "ok",
       "meaning": "Pulls payroll and overheads from Xero once a week.",
@@ -55,7 +55,7 @@
     {
       "name": "Xero COGS feed",
       "detail": "weekly actual COGS from Xero",
-      "age": 7,
+      "age": 8,
       "unit": "day",
       "status": "ok",
       "meaning": "Weekly actual cost-of-goods from Xero (drives the margin figures).",
@@ -74,7 +74,7 @@
     },
     {
       "name": "Pull integrity",
-      "detail": "Mari filter holding, HG reallocation intact (2026-08-08)",
+      "detail": "Mari filter holding, HG reallocation intact (2026-08-09)",
       "age": null,
       "unit": "",
       "status": "ok"
@@ -88,7 +88,7 @@
     },
     {
       "name": "Uber fee feed",
-      "detail": "exact split, balances on all 48 days (1d old)",
+      "detail": "exact split, balances on all 49 rows (1d old)",
       "age": null,
       "unit": "",
       "status": "ok"
@@ -96,6 +96,13 @@
     {
       "name": "Uber Direct ingest",
       "detail": "last Direct fee 1d ago",
+      "age": null,
+      "unit": "",
+      "status": "ok"
+    },
+    {
+      "name": "Uber Direct reconciled",
+      "detail": "matches Uber invoices to the cent through 2026-08-06",
       "age": null,
       "unit": "",
       "status": "ok"
