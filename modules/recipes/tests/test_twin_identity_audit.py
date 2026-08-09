@@ -134,17 +134,18 @@ def test_a_copy_at_a_fraction_of_the_other_is():
 
 # --- the invariant on the real book ---------------------------------------
 
-def test_the_angostura_pair_is_reported_on_the_real_book():
-    """The regression. Before this rule existed nothing in the repo said that a
-    200 ml bottle of Angostura is costed at $1.34 at one venue and $20.89 at the
-    other, and no other rule can: each copy is self-consistent."""
+def test_the_angostura_pair_is_no_longer_reported_on_the_real_book():
+    """CLOSED 2026-08-09. This rule found what nothing else could: a 200 ml bottle
+    of Angostura costed at $1.34 at one venue and $20.89 at the other, each copy
+    self-consistent. The cheap side was Harry Gatos' Back-Office seed; it now
+    carries the invoiced $17.305 a bottle, so the pair agrees and the rule is
+    silent on it. This guards the FIX — re-break the seed and the pair returns."""
     latest = cost_book_latest()
     if not latest:
         return                     # clean checkout: nothing generated yet
     hits = [m for _r, m in twin_identity_conflicts(latest, bo_product_names())
             if any(i == ANGOSTURA_HG for _c, i, _n, _d, _u in m)]
-    assert hits, "the Angostura twin identity is no longer reported"
-    assert any(i == ANGOSTURA_STOW for _c, i, _n, _d, _u in hits[0])
+    assert not hits, "the Angostura twin is back — the HG seed has regressed"
 
 
 def test_the_rule_stays_a_short_list_a_human_will_actually_read():

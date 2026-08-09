@@ -298,7 +298,9 @@ def test_a_stock_item_held_twice_is_flagged_only_past_a_keying_error(feed):
     lists are two venues buying on separate ILG accounts a fortnight apart —
     real buying, not work. A flag needs a gap buying cannot explain."""
     twins = _by_cat(feed, "back_office")
-    assert any("Angostura" in f["subject"] for f in twins)
+    # CLOSED 2026-08-09: the HG seed was 13x low; corrected from the ILG invoice,
+    # so the pair no longer reads as a twin. Guards the fix, not the defect.
+    assert not any("Angostura" in f["subject"] for f in twins)
     assert not any("Mancino" in f["subject"] or "Oscar" in f["subject"] for f in twins)
 
 

@@ -348,7 +348,12 @@ def test_the_four_price_conflicts_that_are_left(book):
     from audit_book import bo_product_names, cost_book_latest, twin_identity_conflicts
     twins = {m[1] for _r, members in
              twin_identity_conflicts(cost_book_latest(), bo_product_names()) for m in members}
-    assert "Angostura Bitters - Bottle 200ml" in {
+    # CLOSED 2026-08-09: HG's Back-Office seed held Angostura at $1.34 a 200 mL
+    # bottle against an ILG invoice of $17.305 (13x low). With the seed corrected
+    # the two copies agree to ~1.16x, under every threshold, so it is no longer a
+    # twin OR a conflict. These assertions now guard the fix: re-break the seed
+    # and they go red.
+    assert "Angostura Bitters - Bottle 200ml" not in {
         f["ingredient"] for f in br.price_conflicts(book, adjud)}
     got = {f["ingredient"]: f for f in br.price_conflicts(book, adjud, twins)}
     assert set(got) == {"Massenez Elderflower [5L]", "Bittermen's Tiki Bitters [Bottle]",
