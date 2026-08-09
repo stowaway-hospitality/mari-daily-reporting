@@ -44,6 +44,7 @@ def _build_with(monkey_ages, queue_days):
     hm._csv_last_date_age_days = lambda rel, col: monkey_ages.get("xero_cogs", 4)
     hm._overheads_months_behind = lambda *a, **k: monkey_ages.get("overheads", 0)
     hm._pull_integrity = lambda *a, **k: monkey_ages.get("integrity", {"status": "ok", "detail": "clean"})
+    hm._uber_feed = lambda *a, **k: monkey_ages.get("uber", {"status": "ok", "detail": "clean"})
     return hm.build()
 
 
@@ -62,6 +63,19 @@ check("dead invoice poller -> overall down", out["overall"] == "down")
 # everything healthy -> ok
 out = _build_with(dict(allfresh), 0)
 check("all healthy -> overall ok", out["overall"] == "ok")
+
+# ---- Uber fee feed ---------------------------------------------------------
+# The reason this check exists: the fee split was wrong for four weeks, the drift
+# WAS detected on 11 consecutive runs, and every one of them wrote it to a log
+# file instead of raising here. A guard that only logs is not a guard.
+out = _build_with(dict(allfresh, uber={"status": "down", "detail": "split does not balance"}), 0)
+check("uber split not balancing -> overall down", out["overall"] == "down")
+
+out = _build_with(dict(allfresh, uber={"status": "warn", "detail": "feed 5d behind"}), 0)
+check("stale uber feed -> overall warn", out["overall"] == "warn")
+
+out = _build_with(dict(allfresh), 0)
+check("healthy uber feed is reported", any(c.get("name") == "Uber fee feed" for c in out["checks"]))
 
 # ---- folded-in watchdog checks -------------------------------------------
 # Stow export narrowed is the six-figure-silent-loss case -> must go down
