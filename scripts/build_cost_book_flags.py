@@ -975,7 +975,7 @@ def feed_defect_flags(recipes, sold, window="") -> list:
                         f"{f['name_unit']}, or does the pack hold several?",
             "impact_per_year": None,
             "impact_basis": None,
-            "cost_at_stake_per_year": stake or None,
+            "cost_at_stake_per_year": None if cosmetic else (stake or None),
             "cost_at_stake_basis": (
                 f"${stake:,.2f} of recipe cost a year is drawn through this record "
                 f"over the 52 weeks {window}. It is what rides on the answer, NOT "
@@ -1048,13 +1048,29 @@ def feed_defect_flags(recipes, sold, window="") -> list:
     for f in feed_defects.line_unit_contradicts_pack(recipes, ings):
         stake, parts = _cost_riding_on(recipes, f["id"], sold)
         worst = f["lines"][0]
+        # A LABEL problem is not a decision. When the quantity reads as a sane
+        # fraction of a pack (0.083 of a twin pack, 0.22 of a bunch) the cost is
+        # already right and the only thing wrong is the unit word — there is
+        # nothing for Zak to judge, and dressing it with "$767/yr at stake" makes
+        # a tidy-up look like a loss. Those drop to low, lose the dollar figure
+        # (nothing is at stake — the cost is not in dispute) and say so plainly.
+        # What STAYS prominent is the genuinely unanswerable half: nobody has
+        # said what a bunch weighs, so a g/mL line cannot be costed honestly.
+        cosmetic = _swap_is_sane(worst)
         out.append({
             "id": "feed-line-unit-" + _slug(f["description"]),
             "category": "feed_defect",
-            "severity": "high" if stake >= FEED_DEFECT_HIGH_AT_STAKE else "medium",
+            "severity": "low" if cosmetic
+                        else ("high" if stake >= FEED_DEFECT_HIGH_AT_STAKE else "medium"),
             "subject": f"{f['description']} \u2014 {f['line_count']} line(s) in the wrong unit",
             "subject_kind": "ingredient",
             "what_is_wrong": (
+                f"Label only, nothing at stake: {f['line_count']} line(s) measure "
+                f"this in {worst['unit']} when it is bought by the {f['pack_unit']}. "
+                f"The quantity and the cost are already right ({worst['recipe']} "
+                f"takes {worst['qty']} of a {f['pack_unit']}) — the unit word is "
+                f"the only thing wrong."
+                if cosmetic else
                 f"This is bought by the {f['pack_unit']} at ${f['rate']:,.4f}, and "
                 f"{f['line_count']} recipe line(s) measure it in g or mL — "
                 f"{worst['recipe']} takes \u201c{worst['qty']} {worst['unit']}\u201d of it."),
@@ -1065,16 +1081,18 @@ def feed_defect_flags(recipes, sold, window="") -> list:
                               "gets raised again. American Standard Burger's "
                               "lettuce is 0.083 of a twin pack ($0.23, exactly "
                               "what the book charges) labelled 'ml'.",
-            "question": _unit_question(f, worst),
+            "question": None if cosmetic else _unit_question(f, worst),
             "impact_per_year": None,
             "impact_basis": None,
             "cost_at_stake_per_year": stake or None,
             "cost_at_stake_basis": (
-                f"${stake:,.2f} of recipe cost a year runs through these lines over "
-                f"the 52 weeks {window}. The cost is not disputed — the unit is. "
-                f"Lines: {'; '.join(parts)}." if stake else None),
+                None if cosmetic else
+                (f"${stake:,.2f} of recipe cost a year runs through these lines over "
+                 f"the 52 weeks {window}. The cost is not disputed — the unit is. "
+                 f"Lines: {'; '.join(parts)}." if stake else None)),
             "action": _unit_action(f, worst),
-            "owner": "Kitchen (Produce) \u2014 no cost changes",
+            "owner": ("Dev / Produce tidy \u2014 no decision needed" if cosmetic
+                      else "Kitchen \u2014 weigh one and record the pack size"),
             "evidence": [f"{l['recipe']}: {l['qty']} {l['unit']} = ${l['eff_cost']:,.4f}"
                          + (" (batch)" if l["is_prep"] else "")
                          for l in f["lines"]],
