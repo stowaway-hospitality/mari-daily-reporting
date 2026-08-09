@@ -1,6 +1,6 @@
 {
   "date": "2026-08-09",
-  "generated_at": "2026-08-09T19:23:03.644542Z",
+  "generated_at": "2026-08-09T19:34:12.654739Z",
   "venue": "marilynas",
   "venue_display": "Marilyna's Pizza",
   "lane_config": [
@@ -10,55 +10,63 @@
     "delivery"
   ],
   "data_status": {
-    "lightspeed": "missing",
+    "lightspeed": "ok",
     "deputy": "ok",
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": null,
-    "revenue_ex_gst": null,
-    "cogs_dollars": null,
-    "cogs_pct": null,
-    "gp_dollars": null,
-    "gp_pct": null,
-    "cogs_source": null,
-    "cogs_lightspeed_dollars": null,
-    "recipe_coverage_pct": null,
+    "revenue_inc_gst": 2581.86,
+    "revenue_ex_gst": 2337.23,
+    "cogs_dollars": 587.67,
+    "cogs_pct": 25.1,
+    "gp_dollars": 1749.56,
+    "gp_pct": 74.9,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 508.67,
+    "recipe_coverage_pct": 93.3,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0,
+    "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 2337.23,
+    "bev_ex_gst": 0.0,
+    "food_cogs": 587.67,
+    "bev_cogs": 0.0,
+    "food_cogs_pct": 25.1,
+    "bev_cogs_pct": null,
+    "food_gp_pct": 74.9,
+    "bev_gp_pct": null
   },
   "wages": {
-    "kitchen_dollars": 583.51,
+    "kitchen_dollars": 583.61,
     "foh_dollars": 0,
-    "driver_dollars": 73.46,
+    "driver_dollars": 74.16,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": null,
-    "wages_pct": null,
+    "total_dollars": 657.76,
+    "wages_pct": 28.1,
     "net_wage_pct": null,
     "kitchen_hours": 14.8,
     "foh_hours": 0,
-    "wages_kitchen_pct": null,
+    "wages_kitchen_pct": 25.0,
     "wages_foh_pct": null,
     "includes_super": true,
     "salaried_synthesized": true
   },
   "delivery": {
     "uber_eats_commission_dollars": 0,
-    "own_driver_dollars": 73.46,
+    "own_driver_dollars": 74.16,
     "uber_direct_dollars": 0.0,
-    "total_dollars": null,
-    "delivery_pct": null,
+    "total_dollars": 74.16,
+    "delivery_pct": 3.2,
     "fees_are_estimate": true
   },
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "unknown",
-    "wages": "unknown",
-    "delivery": "unknown",
+    "cogs": "red",
+    "wages": "green",
+    "delivery": "green",
     "gp": "unknown",
     "cogs_food": "unknown",
     "cogs_bev": "unknown",
@@ -91,5 +99,165 @@
       "note": "Rent + utils + admin + insurance + real marketing (excludes delivery + Uber commission)"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Large Super House Special",
+      "qty": 4.0,
+      "rev": 120.0,
+      "cost": 30.3636,
+      "cost_source": "recipe",
+      "cost_lightspeed": 30.88
+    },
+    {
+      "name": "Large Bubba Gump",
+      "qty": 4.0,
+      "rev": 107.0,
+      "cost": 21.8952,
+      "cost_source": "recipe",
+      "cost_lightspeed": 22.13
+    },
+    {
+      "name": "Large BBQ Chicken Pizza",
+      "qty": 4.0,
+      "rev": 105.5,
+      "cost": 16.3312,
+      "cost_source": "recipe",
+      "cost_lightspeed": 16.68
+    },
+    {
+      "name": "Large Cosmopolitan",
+      "qty": 4.0,
+      "rev": 100.0,
+      "cost": 28.164,
+      "cost_source": "recipe",
+      "cost_lightspeed": 26.44
+    },
+    {
+      "name": "Regular Little Italy",
+      "qty": 4.0,
+      "rev": 94.5,
+      "cost": 18.9704,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.22
+    },
+    {
+      "name": "$45 FEAST",
+      "qty": 2.0,
+      "rev": 90.0,
+      "cost": 28.0676,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Large Margherita",
+      "qty": 5.0,
+      "rev": 89.0,
+      "cost": 11.501,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.48
+    },
+    {
+      "name": "Large Meatlovers",
+      "qty": 5.0,
+      "rev": 87.0,
+      "cost": 33.7795,
+      "cost_source": "recipe",
+      "cost_lightspeed": 34.78
+    },
+    {
+      "name": "Large Paddock",
+      "qty": 3.0,
+      "rev": 85.0,
+      "cost": 15.225,
+      "cost_source": "recipe",
+      "cost_lightspeed": 15.32
+    },
+    {
+      "name": "Large New Yorker",
+      "qty": 3.0,
+      "rev": 84.0,
+      "cost": 14.8386,
+      "cost_source": "recipe",
+      "cost_lightspeed": 15.03
+    },
+    {
+      "name": "Regular Hail Africa [Dine-in]",
+      "qty": 4.0,
+      "rev": 81.89,
+      "cost": 11.288,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.65
+    },
+    {
+      "name": "Regular No Chorizo, No Cry [Dine-in]",
+      "qty": 3.0,
+      "rev": 80.56,
+      "cost": 7.9233,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.51
+    },
+    {
+      "name": "Regular Sanchez [Dine-in]",
+      "qty": 3.0,
+      "rev": 79.72,
+      "cost": 11.9535,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.18
+    },
+    {
+      "name": "Regular Meatlovers",
+      "qty": 3.0,
+      "rev": 75.0,
+      "cost": 13.1313,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.94
+    },
+    {
+      "name": "Regular Hawaiian",
+      "qty": 3.0,
+      "rev": 59.0,
+      "cost": 9.8448,
+      "cost_source": "recipe",
+      "cost_lightspeed": 3.74
+    },
+    {
+      "name": "Large No Chorizo, No Cry",
+      "qty": 3.0,
+      "rev": 54.0,
+      "cost": 16.3203,
+      "cost_source": "recipe",
+      "cost_lightspeed": 16.79
+    },
+    {
+      "name": "Regular Little Italy [Dine-in]",
+      "qty": 2.0,
+      "rev": 53.72,
+      "cost": 8.3002,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.61
+    },
+    {
+      "name": "Axl Rose Pizza",
+      "qty": 2.0,
+      "rev": 53.7,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular El Patron [Dine-in]",
+      "qty": 2.0,
+      "rev": 52.86,
+      "cost": 7.4564,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.28
+    },
+    {
+      "name": "Regular Meatlovers [Dine-in]",
+      "qty": 2.0,
+      "rev": 52.0,
+      "cost": 7.569,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.96
+    }
+  ]
 }
