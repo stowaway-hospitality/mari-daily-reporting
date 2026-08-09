@@ -71,22 +71,30 @@ export function flagRow(f) {
   const basisText = f.impact_basis || f.cost_at_stake_basis;
   const basis = basisText
     ? `<div class="fl-basis"><b>How that number is arrived at.</b> ${esc(basisText)}</div>` : '';
-  const question = f.question ? `<div class="fl-q">${esc(f.question)}</div>` : '';
+  // ONE line earns its place on the row: the question if there is one (that IS
+  // the ask), else what is wrong. Everything else folds away. This is a work
+  // queue — it is read by someone deciding what to pick up, not read end to end,
+  // and four paragraphs per flag is how a queue stops being read at all.
+  const lead = f.question || f.what_is_wrong;
+  const folded = [
+    (f.question && f.what_is_wrong) ? `<div class="fl-wrong">${esc(f.what_is_wrong)}</div>` : '',
+    f.why_it_matters ? `<div class="fl-why">${esc(f.why_it_matters)}</div>` : '',
+    f.action ? `<div class="fl-act"><b>To close it:</b> ${esc(f.action)}
+      <span class="fl-own" title="who has to do it">${esc(f.owner)}</span></div>` : '',
+    basis,
+    evidence ? `<ul>${evidence}</ul>` : '',
+    `<div class="fl-src">${esc(f.derived ? 'derived from' : 'declared in')} ${esc(f.source)}</div>`,
+  ].filter(Boolean).join('');
   return `<div class="fl" data-sev="${esc(f.severity)}" data-cat="${esc(f.category)}" id="${esc(f.id)}">
     <div class="fl-head">
       <span class="fl-pill" style="--pill:${sev.colour}">${esc(sev.label)}</span>
       <span class="fl-subj">${esc(f.subject)}</span>
       <span class="fl-w ${w.kind}">${esc(w.text)}</span>
     </div>
-    <div class="fl-wrong">${esc(f.what_is_wrong)}</div>
-    ${question}
-    <div class="fl-why">${esc(f.why_it_matters)}</div>
-    <div class="fl-act"><b>To close it:</b> ${esc(f.action)}
-      <span class="fl-own" title="who has to do it">${esc(f.owner)}</span></div>
-    ${(evidence || basis) ? `<details class="fl-more"><summary>evidence</summary>
-       ${basis}${evidence ? `<ul>${evidence}</ul>` : ''}
-       <div class="fl-src">${esc(f.derived ? 'derived from' : 'declared in')} ${esc(f.source)}</div>
-     </details>` : ''}
+    <div class="${f.question ? 'fl-q' : 'fl-wrong'}">${esc(lead)}</div>
+    <details class="fl-more"><summary>why, how to close it, evidence</summary>
+      ${folded}
+    </details>
   </div>`;
 }
 

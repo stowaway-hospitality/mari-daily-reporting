@@ -63,13 +63,13 @@ cook_loss:
       question: "What does 1 kg of raw point-end brisket plate at?"
       evidence: "same plate as Lamb Roast with the protein swapped; 220 g plated"
       owner: "Kitchen — weigh one joint in, one joint out"
-    - id: yield-chicken-roast
-      ref: "lightspeed:22992669"
-      in_recipe: "Chicken Roast"
-      subject: "Chicken Roast — half a No.8 whole bird"
-      question: "What does half a No.8 bird plate at, roasted?"
-      evidence: "half a raw bird is charged; the plate carries far less than that"
-      owner: "Kitchen — weigh one bird in, one bird out"
+    # CLOSED 2026-08-09 — Zak: "the chicken is definitely half a chicken on a
+    # plate". The whole purchased half-bird is served, so nothing is lost between
+    # buying and plating and there is no yield to apply: the raw half-bird IS the
+    # portion. (It still shrinks in the oven; that costs nothing, because we do
+    # not buy the water.) This differs from the roasts above, where a joint is
+    # cooked and then CARVED into 220 g plates — there the loss is real and the
+    # question stands. Do not re-add without a new reason.
 
     # --- batches costed across their RAW input weight -------------------------
     # Worse than the roasts, because the loss is smeared over every dish drawing
