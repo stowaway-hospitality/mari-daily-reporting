@@ -135,7 +135,12 @@ if (!fs.existsSync(p)) {
      String(d.flags.filter(f => ['structure', 'batch_yield', 'price_conflict'].includes(f.category)).length));
 
   // 4. Back Office duplicates.
-  ok('Angostura is flagged as a Back Office duplicate', inFeed('Angostura'));
+  // CLOSED 2026-08-09: HG's Back-Office copy seeded Angostura at $1.34 a 200 mL
+  // bottle against an ILG invoice of $17.305 (13x low) and four cocktails costed
+  // off it. The seed now carries the invoiced figure, so the duplicate is gone.
+  // Guard the fix rather than demand the flag: re-break the seed and this reds.
+  ok('the Angostura Back Office duplicate stays closed',
+     !d.flags.some(f => f.category === 'back_office' && /Angostura/i.test(f.subject || '')));
   ok('Plantation is flagged as a Back Office duplicate', inFeed('Plantation'));
 
   // 5. the two case-price-as-each seeds.
