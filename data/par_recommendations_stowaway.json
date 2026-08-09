@@ -1,0 +1,4496 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-09T17:55:32.885565+10:00",
+  "venue": "stow",
+  "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json",
+  "weeks": 95,
+  "week_range": [
+    "2024-10-06",
+    "2026-08-09"
+  ],
+  "summary": {
+    "n_skus": 217,
+    "increase": 62,
+    "decrease": 52,
+    "unchanged": 80,
+    "coverage_gaps": []
+  },
+  "skus": [
+    {
+      "product": "1800 Coconut [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.6,
+      "current_par": 0.4,
+      "drivers": {
+        "pour_wk": 0.07,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "4 Pines Kolsch Bottle D",
+      "venue": "stow",
+      "reporting_group": "Delivery Alcohol",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
+      "product": "400 Conejos Mezcal [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.6,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.1,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "A. Rodda Chardonnay",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 2.8,
+      "current_par": 2.8,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "A. Rodda Chardonnay - Bottle",
+      "venue": "stow",
+      "reporting_group": "White Wine",
+      "rec_par": 1.8,
+      "current_par": 3.7,
+      "drivers": {
+        "pour_wk": 1.15,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.8,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.242,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "A. Rodda Tempranillo - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 2.6,
+      "current_par": 3.2,
+      "drivers": {
+        "pour_wk": 1.34,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.109,
+      "buffer": 1.242,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Aether Vodka [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.05,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Alehouse Draught Lager [Keg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 4.6,
+      "current_par": 4.6,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Alehouse Summer Mid [Keg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.2,
+      "current_par": 1.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Amaro Montenegro [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Ancho Reyes Chilli Liqueur [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.02,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Angel's Envy Bourbon [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Angostura Bitters [200ml]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.04,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Antica Formula Rosso Vermouth [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.5,
+      "current_par": 1.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.26,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.5,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.839,
+      "buffer": 1.144,
+      "override": {
+        "type": "min",
+        "value": 1.5
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Aperol [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 4.6,
+      "current_par": 6.6,
+      "drivers": {
+        "pour_wk": 0.03,
+        "recipe_wk": 3.15,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 4.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.776,
+      "buffer": 1.255,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Appleton Rum [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.6,
+      "current_par": 1.3,
+      "drivers": {
+        "pour_wk": 0.09,
+        "recipe_wk": 0.22,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.292,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Archie Rose Signature Gin [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.6,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.15,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.879,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Asahi 3.5%",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 7.2,
+      "current_par": 9.3,
+      "drivers": {
+        "pour_wk": 2.97,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 7.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Bacardi Blanca [700ml]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.2,
+      "current_par": 1.9,
+      "drivers": {
+        "pour_wk": 0.09,
+        "recipe_wk": 0.58,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.978,
+      "buffer": 1.257,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Bailey's Irish Cream 1L [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Balvenie 14yr Caribbean Cask [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "min",
+        "value": 0.5
+      },
+      "flags": [
+        "override:min",
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Barrel One Coffee Concentrate [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 6.0,
+      "current_par": 6,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 1.31,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 3.4,
+      "forecast_method": "Recent 8wk (surge)",
+      "growth": 0.871,
+      "buffer": 1.193,
+      "override": {
+        "type": "min",
+        "value": 6.0
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Barsol Pisco [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Belvedere Vodka [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.4,
+      "current_par": 0.4,
+      "drivers": {
+        "pour_wk": 0.05,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.273,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Better Beer Tin",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 6.3,
+      "current_par": 8.9,
+      "drivers": {
+        "pour_wk": 1.03,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 6.3,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Bombay Dry [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 9.4,
+      "current_par": 9.4,
+      "drivers": {
+        "pour_wk": 1.03,
+        "recipe_wk": 2.04,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 5.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.021,
+      "buffer": 1.178,
+      "override": {
+        "type": "min",
+        "value": 9.4
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Bombay Sapphire [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.11,
+        "recipe_wk": 0.02,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Braulio [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Brix White Rum [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
+      "product": "Brookie's Byron Dry [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Brookie's Mac. Liqueur [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Buffalo Trace Bourbon [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.7,
+      "current_par": 3,
+      "drivers": {
+        "pour_wk": 0.28,
+        "recipe_wk": 0.78,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.7,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.739,
+      "buffer": 1.283,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Bundaberg Ginger Beer [750ml]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 3.6,
+      "current_par": 19,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.76,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 3.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.655,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Bunnahabhain 12yr [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": 1.0,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Caf\u00e9 Patron [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Campari [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 5.4,
+      "current_par": 5.4,
+      "drivers": {
+        "pour_wk": 0.07,
+        "recipe_wk": 0.92,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.8,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.976,
+      "buffer": 1.161,
+      "override": {
+        "type": "min",
+        "value": 5.4
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Canadian Club [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.02,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.0,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Carpano Classico [750ml]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.4,
+      "current_par": 1.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.26,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.5,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.839,
+      "buffer": 1.144,
+      "override": {
+        "type": "min",
+        "value": 1.4
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Casa Gheller Prosecco - Bottle",
+      "venue": "stow",
+      "reporting_group": "Sparkling Wine",
+      "rec_par": 11.8,
+      "current_par": 21.5,
+      "drivers": {
+        "pour_wk": 5.34,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 11.8,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.097,
+      "buffer": 1.283,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Casamigos Reposado Tequila [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.167,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Cazcabel Reposado Tequila [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "no_recent_sales"
+      ]
+    },
+    {
+      "product": "Chambord [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.04,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.851,
+      "buffer": 1.3,
+      "override": null,
+      "flags": []
+    },
+    {
+      "product": "Clairin Vaval [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "no_recent_sales"
+      ]
+    },
+    {
+      "product": "Cointreau [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Coke 1.25L",
+      "venue": "stow",
+      "reporting_group": "Marilyna's Soft Drinks",
+      "rec_par": 9.9,
+      "current_par": 9.9,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Coke Can",
+      "venue": "stow",
+      "reporting_group": "Marilyna's Soft Drinks",
+      "rec_par": 32.5,
+      "current_par": 32.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Coke Zero 1.25L",
+      "venue": "stow",
+      "reporting_group": "Marilyna's Soft Drinks",
+      "rec_par": 12.2,
+      "current_par": 12.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Coke Zero Can",
+      "venue": "stow",
+      "reporting_group": "Marilyna's Soft Drinks",
+      "rec_par": 40.7,
+      "current_par": 40.7,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Corona",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 31.2,
+      "current_par": 43.4,
+      "drivers": {
+        "pour_wk": 10.36,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 31.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.042,
+      "buffer": 1.296,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Crankshaft IPA [Keg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.4,
+      "current_par": 0.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Cri De Couer Pinot Noir - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 2.0,
+      "current_par": 3.5,
+      "drivers": {
+        "pour_wk": 0.65,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.0,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.667,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Cynar [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Das Juice Pink Pet Nat - Bottle",
+      "venue": "stow",
+      "reporting_group": "Pet Nat Wine",
+      "rec_par": 2.4,
+      "current_par": 1.1,
+      "drivers": {
+        "pour_wk": 0.83,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.08,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Dazma Vermentino - Bottle",
+      "venue": "stow",
+      "reporting_group": "White Wine",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "no_recent_sales"
+      ]
+    },
+    {
+      "product": "De Bortoli Gold Seal Dry Red [15L]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.4,
+      "current_par": 1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 1.02,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.769,
+      "buffer": 1.225,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "De Kuyper Butterscotch Schnapps [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "De Kuyper Peach Schnapps [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "no_recent_sales"
+      ]
+    },
+    {
+      "product": "De La Grosse Beaujolais - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Diplomatico Mantuano [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 1.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Disaronno [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.1,
+      "current_par": 0.7,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.16,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.9,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.333,
+      "buffer": 1.3,
+      "override": null,
+      "flags": []
+    },
+    {
+      "product": "Disco Volante Pinot Noir [Chilled] - Bottle",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
+      "product": "Dolin Blanc Vermouth [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.4,
+      "current_par": 0.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.14,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.809,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Dolin Rouge Vermouth [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Dom Perignon Champagne - Bottle",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "hold",
+        "value": 1.0
+      },
+      "flags": [
+        "override:hold",
+        "new_par",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Dom P\u00e9rignon Champagne - Bottle",
+      "venue": "stow",
+      "reporting_group": "Sparkling Wine",
+      "rec_par": 1.0,
+      "current_par": 1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Domaine Gueguen Chablis",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 2.8,
+      "current_par": 2.8,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Domaine Gueguen Chablis - Bottle",
+      "venue": "stow",
+      "reporting_group": "White Wine",
+      "rec_par": 0.9,
+      "current_par": 0.9,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.1,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Don Julio 1942 A\u00f1ejo [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "no_recent_sales",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Don Julio Blanco [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "no_recent_sales",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Dormilona Chenin Blanc - Bottle",
+      "venue": "stow",
+      "reporting_group": "White Wine",
+      "rec_par": 1.8,
+      "current_par": 2.9,
+      "drivers": {
+        "pour_wk": 0.22,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.8,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Dragonfly Grenache - Bottle",
+      "venue": "stow",
+      "reporting_group": "Orange / Skins Wine",
+      "rec_par": 2.7,
+      "current_par": 2.7,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Dutschke Bourbon Barrel Tawny Port [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "no_recent_sales"
+      ]
+    },
+    {
+      "product": "Dutshcke Pedro Ximenez 12yr Port [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "no_recent_sales"
+      ]
+    },
+    {
+      "product": "East Coast Grapefruit [2L]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.02,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Fee Bros Black Walnut Bitters [150ml]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.9,
+      "current_par": 0.7,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.65,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.9,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.769,
+      "buffer": 1.225,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Fellr Watermelon Seltzer Tin",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 13.2,
+      "current_par": 3.7,
+      "drivers": {
+        "pour_wk": 2.44,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 13.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.842,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Fernet Branca [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Fever-Tree Mediterannean Tonic [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.8,
+      "current_par": 0.8,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Fever-Tree Naturally Light Tonic [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 2.8,
+      "current_par": 2.8,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Fireball [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.6,
+      "current_par": 0.9,
+      "drivers": {
+        "pour_wk": 0.18,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.735,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Fortaleza A\u00f1ejo [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.02,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Fortaleza Reposado [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.4,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.01,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Four Pillars Bloody Shiraz [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.8,
+      "current_par": 0.8,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Four Pillars Olive Leaf [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.4,
+      "current_par": 0.8,
+      "drivers": {
+        "pour_wk": 0.02,
+        "recipe_wk": 0.05,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Four Pillars Rare Dry [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.4,
+      "current_par": 0.4,
+      "drivers": {
+        "pour_wk": 0.02,
+        "recipe_wk": 0.05,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Frangelico [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.05,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Geppetto Pinot Noir - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 14.2,
+      "current_par": 24.8,
+      "drivers": {
+        "pour_wk": 8.6,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 14.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.014,
+      "buffer": 1.165,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Germano Caetano Cacha\u00e7a [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "no_recent_sales",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Glaetzer Anaperenna Shiraz Cab - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 1.7,
+      "current_par": 4,
+      "drivers": {
+        "pour_wk": 0.56,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.7,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.808,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Glendronach 12yr [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Glenmorangie Signet [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Gosling's Black Rum [700ml]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.01,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Grand Marnier [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Grey Goose [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.8,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.28,
+        "recipe_wk": 0.01,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.8,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.506,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Grifter Big Sur IPA Tin",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 3.6,
+      "current_par": 3.8,
+      "drivers": {
+        "pour_wk": 1.08,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 3.6,
+      "forecast_method": "Recent 8wk",
+      "growth": 1.8,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Grifter Omen Stout Tin",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 8.4,
+      "current_par": 9.6,
+      "drivers": {
+        "pour_wk": 2.31,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 8.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.154,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Grifter Pale Ale Cans D",
+      "venue": "stow",
+      "reporting_group": "Delivery Alcohol",
+      "rec_par": 4.9,
+      "current_par": 4.9,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Grifter Pale [Keg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 2.0,
+      "current_par": 2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Grifter Pink Galah Tin",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.4,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Grifter Serpents Kiss Can",
+      "venue": "stow",
+      "reporting_group": "Delivery Alcohol",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
+      "product": "Guinness [Keg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 2.5,
+      "current_par": 2.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Hahn Super Dry GF",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 7.2,
+      "current_par": 2.8,
+      "drivers": {
+        "pour_wk": 2.28,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 7.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Hakushu 12yr [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Halal Pepperoni Slice Fettayleh [1kg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 22.0,
+      "current_par": 22,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Hartshorn Sheep Whey Vodka [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": 1.0,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Harveys Bristol Cream Sherry [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.02,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Havana 3yr [700ml]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Heaps Normal Tin",
+      "venue": "stow",
+      "reporting_group": "Non-alcoholic",
+      "rec_par": 36.4,
+      "current_par": 33.2,
+      "drivers": {
+        "pour_wk": 18.97,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 36.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.918,
+      "buffer": 1.192,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Hendrick's Gin [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.1,
+      "current_par": 1,
+      "drivers": {
+        "pour_wk": 0.44,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.1,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.905,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Herradura Plata [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Hills Cider [Keg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
+      "product": "Hine Rare VSOP Cognac [700ml]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Hyoketsu Lemon Can",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 10.8,
+      "current_par": 3.9,
+      "drivers": {
+        "pour_wk": 0.56,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 10.8,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Illegal Reposado Mezcal [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Italicus Bergamot Liqueur [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "no_recent_sales"
+      ]
+    },
+    {
+      "product": "Jack Daniels [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.7,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.18,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.7,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "James Boags Light",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 1.03,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.7,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Jameson Irish Whiskey [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.4,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.11,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "John D. Taylor's Velvet Falernum [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.04,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.643,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Johnnie Walker Black [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.03,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.875,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Kahlua [1L]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 2.8,
+      "current_par": 2.8,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 1.17,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.5,
+      "forecast_method": "Recent 8wk (surge)",
+      "growth": 0.852,
+      "buffer": 1.173,
+      "override": {
+        "type": "min",
+        "value": 2.8
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Kirin [Keg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.3,
+      "current_par": 1.3,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Kraken Rum [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.6,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.07,
+        "recipe_wk": 0.03,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "Recent 8wk",
+      "growth": 1.8,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Kuku Sauvignon Blanc - Bottle",
+      "venue": "stow",
+      "reporting_group": "White Wine",
+      "rec_par": 15.0,
+      "current_par": 30.5,
+      "drivers": {
+        "pour_wk": 10.32,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 15.0,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.172,
+      "buffer": 1.182,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "La Petite Mort Albarino 2025",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 2.8,
+      "current_par": 2.8,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "La Petite Mort Albarino 2025 - Bottle",
+      "venue": "stow",
+      "reporting_group": "White Wine",
+      "rec_par": 2.4,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.46,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.4,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "La Petite Mort Rosso 2025",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 3.4,
+      "current_par": 3.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "La Petite Mort Rosso 2025 - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 2.4,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.23,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.4,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Lagavulin 16yr [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": 1.0,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Laphroaig 10yr [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Little Dragon Can",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 19.7,
+      "current_par": 49,
+      "drivers": {
+        "pour_wk": 8.86,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 18.0,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.262,
+      "override": null,
+      "flags": []
+    },
+    {
+      "product": "Little Dragon Ginger Beer [Keg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
+      "product": "Lost Explorer Espadin Mezcal [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.5,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.05,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": {
+        "type": "min",
+        "value": 1.5
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "new_par",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Luxardo Maraschino [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Lyre's Italian Spritz [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.08,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Macallan Sherry Oak 12yr [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.05,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "Recent 8wk",
+      "growth": 1.667,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Massenez Black Cacao [5L]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.15,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.769,
+      "buffer": 1.225,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Massenez Cacao Blanc [750ml]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Massenez Elderflower [5L]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.12,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.227,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Massenez Lychee [5L]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.7,
+      "current_par": 1.7,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.12,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.751,
+      "buffer": 1.243,
+      "override": {
+        "type": "min",
+        "value": 1.7
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Massenez Mango Liqueur [5L Cask]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.04,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": []
+    },
+    {
+      "product": "Massenez Triple Sec [5L]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.0,
+      "current_par": 1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.33,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.5,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.821,
+      "buffer": 1.139,
+      "override": {
+        "type": "min",
+        "value": 1.0
+      },
+      "flags": [
+        "override:min",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Michter's Bourbon [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "no_recent_sales"
+      ]
+    },
+    {
+      "product": "Monkey Shoulder Scotch [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.7,
+      "current_par": 0.8,
+      "drivers": {
+        "pour_wk": 0.17,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.7,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Monteith's Apple Cider Bottle",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 9.0,
+      "current_par": 21.2,
+      "drivers": {
+        "pour_wk": 5.19,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 9.0,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.712,
+      "buffer": 1.273,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Mother's Milk Shiraz - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 9.5,
+      "current_par": 12.9,
+      "drivers": {
+        "pour_wk": 8.1,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 9.3,
+      "forecast_method": "Recent 8wk (surge)",
+      "growth": 0.721,
+      "buffer": 1.175,
+      "override": null,
+      "flags": []
+    },
+    {
+      "product": "Mr Black Coffee Liqueur [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.4,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Mt Franklin Water [600ml ]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
+      "product": "Myer's Jamaican Rum [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.09,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Never Never Oyster Shell Gin [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.778,
+      "buffer": 1.3,
+      "override": null,
+      "flags": []
+    },
+    {
+      "product": "Noilly Prat Dry Vermouth [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.4,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.11,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.283,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Old Panther [Keg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
+      "product": "Oscar.697 Rosso Vermouth [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "no_recent_sales"
+      ]
+    },
+    {
+      "product": "Ottelia Cab Sav - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 4.9,
+      "current_par": 8.8,
+      "drivers": {
+        "pour_wk": 2.82,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 4.9,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.027,
+      "buffer": 1.208,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Ottelia Chardonnay - Bottle",
+      "venue": "stow",
+      "reporting_group": "White Wine",
+      "rec_par": 11.9,
+      "current_par": 13,
+      "drivers": {
+        "pour_wk": 6.43,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 11.9,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.078,
+      "buffer": 1.271,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Padrillos Malbec - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 4.4,
+      "current_par": 3.9,
+      "drivers": {
+        "pour_wk": 2.36,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 4.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.889,
+      "buffer": 1.238,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Patron Reposado [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.6,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.09,
+        "recipe_wk": 0.02,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Patron Silver [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.08,
+        "recipe_wk": 0.05,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.5,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Peroni",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 8.7,
+      "current_par": 22,
+      "drivers": {
+        "pour_wk": 2.78,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 8.1,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.286,
+      "override": null,
+      "flags": []
+    },
+    {
+      "product": "Peroni 0%",
+      "venue": "stow",
+      "reporting_group": "Non-alcoholic",
+      "rec_par": 18.0,
+      "current_par": 13.9,
+      "drivers": {
+        "pour_wk": 9.53,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 18.0,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.26,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Petits Detours Ros\u00e9 Mediterranee - Bottle",
+      "venue": "stow",
+      "reporting_group": "Rose Wine",
+      "rec_par": 1.5,
+      "current_par": 22.9,
+      "drivers": {
+        "pour_wk": 0.72,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.5,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.811,
+      "buffer": 1.295,
+      "override": null,
+      "flags": []
+    },
+    {
+      "product": "Philter XPA [Keg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 1.1,
+      "current_par": 1.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Pierre Ferrand Dry Curacao [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Pimm's Aperitif [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "no_recent_sales"
+      ]
+    },
+    {
+      "product": "Plantation 3 Stars White Rum [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Plantation Original Dark [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "no_recent_sales",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Poachers Riesling - Bottle",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
+      "product": "Poor Tom's Strawberry Gin [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.04,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Quiquiriqui Mezcal [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "R de Ruinart Brut Champagne",
+      "venue": "stow",
+      "reporting_group": "Sparkling Wine",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Ravensworth Skins Gris - Bottle",
+      "venue": "stow",
+      "reporting_group": "Orange / Skins Wine",
+      "rec_par": 0.6,
+      "current_par": 1.3,
+      "drivers": {
+        "pour_wk": 0.23,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Redbreast 12yr [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.01,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Regal Rogue Bold Red Vermouth [5L]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.04,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.839,
+      "buffer": 1.144,
+      "override": {
+        "type": "min",
+        "value": 0.3
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Rooster Rojo Blanco Tequila [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 40.0,
+      "current_par": 40,
+      "drivers": {
+        "pour_wk": 0.52,
+        "recipe_wk": 8.12,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 11.9,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.857,
+      "buffer": 1.13,
+      "override": {
+        "type": "min",
+        "value": 40.0
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Sailor Jerry [700ml]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 4.2,
+      "current_par": 5.2,
+      "drivers": {
+        "pour_wk": 0.08,
+        "recipe_wk": 1.62,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.2,
+      "forecast_method": "Recent 8wk (surge)",
+      "growth": 0.685,
+      "buffer": 1.193,
+      "override": {
+        "type": "min",
+        "value": 4.2
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 0.8,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.31,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.8,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "San Pellegrino 500ml",
+      "venue": "stow",
+      "reporting_group": "Non-alcoholic",
+      "rec_par": 16.8,
+      "current_par": 24.4,
+      "drivers": {
+        "pour_wk": 7.97,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 14.9,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.772,
+      "buffer": 1.249,
+      "override": {
+        "type": "min",
+        "value": 16.8
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Scout Pinot Gris",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 11.0,
+      "current_par": 11,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Scout Pinot Gris - Bottle",
+      "venue": "stow",
+      "reporting_group": "White Wine",
+      "rec_par": 5.7,
+      "current_par": 5.7,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.8,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Seadrift Coast [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.12,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.875,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Select Aperitivo [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Sibiliana Nero D'Avola - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 2.6,
+      "current_par": 6.9,
+      "drivers": {
+        "pour_wk": 0.95,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Sigurd GSM Red Blend - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 3.9,
+      "current_par": 6.6,
+      "drivers": {
+        "pour_wk": 1.35,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 3.9,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.617,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Sigurd White Blend - Bottle",
+      "venue": "stow",
+      "reporting_group": "Orange / Skins Wine",
+      "rec_par": 0.6,
+      "current_par": 2.1,
+      "drivers": {
+        "pour_wk": 0.14,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Solo 1.25L",
+      "venue": "stow",
+      "reporting_group": "Marilyna's Soft Drinks",
+      "rec_par": 2.7,
+      "current_par": 2.7,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Sprite 1.25L",
+      "venue": "stow",
+      "reporting_group": "Marilyna's Soft Drinks",
+      "rec_par": 2.8,
+      "current_par": 2.8,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Sprite Can",
+      "venue": "stow",
+      "reporting_group": "Marilyna's Soft Drinks",
+      "rec_par": 17.7,
+      "current_par": 17.7,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "St. Germain Elderflower Liqueur [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "no_recent_sales"
+      ]
+    },
+    {
+      "product": "Status Quo [Keg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.7,
+      "current_par": 0.7,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Stone & Wood [Keg]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 2.4,
+      "current_par": 2.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Stow Vermouth Blend [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.02,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Sunkist 1.25L",
+      "venue": "stow",
+      "reporting_group": "Marilyna's Soft Drinks",
+      "rec_par": 1.4,
+      "current_par": 1.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Tanqueray 10 [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Tempus Fugit Violette [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.05,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.24,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Tilde Raw Vodka [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Tiziano Grasso Barolo Briccolina 2019 - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 0.3,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.03,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Travelling While Standing Still Gin [700ml]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Trentham Estate Ros\u00e9 - Bottle",
+      "venue": "stow",
+      "reporting_group": "Rose Wine",
+      "rec_par": 10.1,
+      "current_par": 12,
+      "drivers": {
+        "pour_wk": 7.12,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 10.1,
+      "forecast_method": "Recent 8wk (surge)",
+      "growth": 0.892,
+      "buffer": 1.144,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Trutta Streamside Shiraz [Chilled] - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 5.1,
+      "current_par": 2.5,
+      "drivers": {
+        "pour_wk": 1.69,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 5.1,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.931,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Two Tonne Riesling",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 4.6,
+      "current_par": 4.6,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Two Tonne Riesling - Bottle",
+      "venue": "stow",
+      "reporting_group": "White Wine",
+      "rec_par": 1.9,
+      "current_par": 2.2,
+      "drivers": {
+        "pour_wk": 0.88,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.9,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.907,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Unico Zelo Terra Cotta - Bottle",
+      "venue": "stow",
+      "reporting_group": "Orange / Skins Wine",
+      "rec_par": 2.6,
+      "current_par": 2.4,
+      "drivers": {
+        "pour_wk": 1.13,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.6,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.565,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "VB Tinnie",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 4.5,
+      "current_par": 13.3,
+      "drivers": {
+        "pour_wk": 0.22,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 4.5,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Version Two Pinot Grigio - Bottle",
+      "venue": "stow",
+      "reporting_group": "White Wine",
+      "rec_par": 32.0,
+      "current_par": 29.8,
+      "drivers": {
+        "pour_wk": 20.94,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 32.0,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.627,
+      "buffer": 1.181,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Version Two Sparkling - Bottle",
+      "venue": "stow",
+      "reporting_group": "Sparkling Wine",
+      "rec_par": 18.1,
+      "current_par": 21.4,
+      "drivers": {
+        "pour_wk": 7.26,
+        "recipe_wk": 5.4,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 18.1,
+      "forecast_method": "Recent 8wk (surge)",
+      "growth": 1.059,
+      "buffer": 1.165,
+      "override": {
+        "type": "min",
+        "value": 16.0
+      },
+      "flags": [
+        "override:min",
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Veuve Clicquot Yellow Label - Bottle",
+      "venue": "stow",
+      "reporting_group": "Sparkling Wine",
+      "rec_par": 1.3,
+      "current_par": 4.2,
+      "drivers": {
+        "pour_wk": 0.65,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.3,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.0,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Villa Fresco Sangiovese - Bottle",
+      "venue": "stow",
+      "reporting_group": "Red Wine",
+      "rec_par": 26.7,
+      "current_par": 30.3,
+      "drivers": {
+        "pour_wk": 14.74,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 26.7,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.077,
+      "buffer": 1.184,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Vinada Sparking Ros\u00e9 [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.6,
+      "current_par": 0.6,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Whispering Angel Ros\u00e9 - Bottle",
+      "venue": "stow",
+      "reporting_group": "Rose Wine",
+      "rec_par": 3.1,
+      "current_par": 7.9,
+      "drivers": {
+        "pour_wk": 1.33,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 3.1,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.483,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "White Light Vodka [20L]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.8,
+      "current_par": 0.8,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.1,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.868,
+      "buffer": 1.17,
+      "override": {
+        "type": "min",
+        "value": 0.8
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Wolf Lane Navy Gin [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.05,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "YoY seasonal",
+      "growth": 1.8,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Xocolatl Mole Bitters [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.01,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.235,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Yamazaki 12yr [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Year Wines 'Zagara' Orange - Bottle",
+      "venue": "stow",
+      "reporting_group": "Orange / Skins Wine",
+      "rec_par": 2.4,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.27,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.4,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Year Wines Fiano - Bottle",
+      "venue": "stow",
+      "reporting_group": "White Wine",
+      "rec_par": 3.9,
+      "current_par": 1.2,
+      "drivers": {
+        "pour_wk": 1.26,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 3.9,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Young Henrys Cloudy Cider Can",
+      "venue": "stow",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "rec_par": 6.3,
+      "current_par": 9.6,
+      "drivers": {
+        "pour_wk": 2.78,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 6.3,
+      "forecast_method": "YoY seasonal",
+      "growth": 0.6,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Zacapa Centenario 23yr [Bottle]",
+      "venue": "stow",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.09,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    }
+  ]
+}

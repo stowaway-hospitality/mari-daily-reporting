@@ -29,6 +29,6 @@
 # it covers. It can still import from scripts/. Only genuinely script-shaped
 # tests (the ones that sys.exit at module level) go in scripts/, and each of
 # those needs its own CI line.
-testpaths = ["modules"]
+testpaths = ["modules", "tests"]
 pythonpath = ["."]   # repo root: core/ and modules/ are packages
 addopts = "-q --strict-markers"

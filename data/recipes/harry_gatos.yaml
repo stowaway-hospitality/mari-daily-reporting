@@ -75,3 +75,37 @@
       qty: 60
       unit: "ml"
       unit_cost_incl: 0.031750
+
+# ============================================================================
+# COCKTAIL RECIPE BOOK — populated 2026-08-09 by Claude.
+# Source: staged RECIPE_BOOK (ids re-resolved vs BO export) + Apple Notes
+# 'COCKTAIL RECIPES' for gaps + special rules (spec_notes.md).
+# Costs omitted — COGS pipeline fills unit_cost from ingredient ids.
+# All entries flagged 'review'.
+# ============================================================================
+
+
+- product: "Sugar Syrup"
+  yield_qty: 1540
+  yield_unit: "ml"
+  ingredients:
+    - id: "foodlink:100464"
+      desc: "Sugar Caster 1kg Csr"
+      qty: 1000
+      unit: "g"
+      unit_cost_incl: 0.003500
+
+- product: "Honey + Ginger Syrup"
+  yield_qty: 500
+  yield_unit: "ml"
+  ingredients:
+    - id: "foodlink:101313"
+      desc: "HONEY PURE 3KG Wild Flower"
+      qty: 400
+      unit: "g"
+      unit_cost_incl: 0.007000
+    - id: "fresh-fruit-team:GINKG"
+      desc: "Ginger"
+      qty: 7
+      unit: "g"
+      unit_cost_incl: 0.013200

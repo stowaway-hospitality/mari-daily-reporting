@@ -1,0 +1,55 @@
+name: Par Model
+
+# Weekly par recommendation rebuild for Stowaway + Harry Gatos.
+#
+# Runs Sunday 08:00 Australia/Sydney (Sat 22:00 UTC) — after the week's sales
+# have landed in data/products_weekly.csv but before the Sunday ordering cycle.
+#
+# It ONLY computes recommendations and commits the JSON feeds + the override
+# ledger back to the repo. It NEVER uploads pars to Lightspeed — pushing pars to
+# the Purchase module stays a deliberate, human, in-app action.
+#
+# The build FAILS (non-zero) if the coverage gate trips (a live Classic/Signature
+# cocktail with no recipe). Fail toward review.
+
+on:
+  schedule:
+    - cron: '0 22 * * 6'   # Sat 22:00 UTC = Sun 08:00 Australia/Sydney
+  workflow_dispatch:
+
+concurrency:
+  group: par-model
+  cancel-in-progress: false
+
+jobs:
+  par:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install (pinned)
+        run: pip install -r requirements.txt
+
+      - name: Build par recommendations (coverage gate enforced)
+        run: python3 scripts/build_par_model.py
+
+      - name: Flag / diff report + log manual raises
+        run: python3 scripts/par_flag_report.py
+
+      - name: Commit feeds
+        run: |
+          git config user.name "Par Model"
+          git config user.email "hello@stowawaybar.com"
+          git add data/par_recommendations_stowaway.json \
+                  data/par_recommendations_harry_gatos.json \
+                  data/par_flags_stowaway.json \
+                  data/par_flags_harry_gatos.json \
+                  data/par_overrides.json
+          git diff --quiet --staged || git commit -m "Par model: weekly recommendations + flags refresh"
+          for i in 1 2 3; do git pull --rebase origin main && git push && break || sleep $((i*5)); done
