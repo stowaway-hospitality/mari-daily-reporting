@@ -1,19 +1,47 @@
 {
-  "schema_version": 1,
-  "generated_at": "2026-08-09T17:55:32.942763+10:00",
+  "schema_version": 2,
+  "engine": "v3",
+  "generated_at": "2026-08-09T20:34:07.068681+10:00",
   "venue": "hg",
-  "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json",
+  "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 95,
   "week_range": [
     "2024-10-06",
     "2026-08-09"
   ],
+  "order_sunday": "2026-08-09",
+  "exposure": {
+    "order_sunday": "2026-08-09",
+    "delivery": "2026-08-12",
+    "next_delivery": "2026-08-19",
+    "note": "normal Wednesday run",
+    "days": 7,
+    "day_units": 10.0,
+    "normal_day_units": 10.0,
+    "exposure_ratio": 1.0,
+    "holidays_in_window": []
+  },
+  "target_week_of_year": 33,
+  "service_classes": {
+    "core": 25,
+    "standard": 31,
+    "tail": 24
+  },
+  "bookings": {
+    "live": false,
+    "status": "unavailable: no STOWAWAY_BOOKINGS_TOKEN in environment (admin endpoints return 401)",
+    "note": "SHADOW MODE \u2014 bookings_uplift_shadow is recorded per SKU but is NOT added to rec_par (modules/par/bookings.py BOOKINGS_LIVE=False)"
+  },
   "summary": {
     "n_skus": 80,
-    "increase": 12,
-    "decrease": 24,
-    "unchanged": 40,
-    "coverage_gaps": []
+    "increase": 16,
+    "decrease": 20,
+    "unchanged": 39,
+    "coverage_gaps": [],
+    "shrinkage_applied": 0,
+    "shrinkage_capped": 0,
+    "shrinkage_without_demand_mapping": 0,
+    "low_mover_poisson": 44
   },
   "skus": [
     {
@@ -21,12 +49,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.8,
+      "rec_par_pre_override": 0.8,
       "current_par": 0.8,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -40,113 +98,291 @@
       "product": "Angas & Bremer Grenache - Bottle",
       "venue": "hg",
       "reporting_group": "Red Wine [Harrys]",
-      "rec_par": 4.4,
+      "rec_par": 6.1,
+      "rec_par_pre_override": 6.1,
       "current_par": 3.7,
       "drivers": {
         "pour_wk": 2.04,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 2.04
       },
-      "spike_floor": 4.4,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": 1.645,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 2.042,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 2.45,
+        "safety_stock": 4.03,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 2.042,
+      "forecast_wk": 2.042,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 1.5,
+      "spike_floor": 1.5,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "spike_floored"
-      ]
+      "flags": []
     },
     {
       "product": "Angas & Bremer Ros\u00e9 - Bottle",
       "venue": "hg",
       "reporting_group": "Rose Wine [Harrys]",
-      "rec_par": 2.9,
+      "rec_par": 3.0,
+      "rec_par_pre_override": 3.0,
       "current_par": 4.3,
       "drivers": {
         "pour_wk": 0.88,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.88
       },
-      "spike_floor": 2.9,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.881,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.939,
+        "safety_stock": 2.119,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.881,
+      "forecast_wk": 0.881,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.7,
+      "spike_floor": 0.7,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Aperol [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
-      "rec_par": 1.0,
+      "reporting_group": "Amaro / Aperitif / Fortified Wine [Harrys]",
+      "rec_par": 2.0,
+      "rec_par_pre_override": 2.0,
       "current_par": 0.8,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.48,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.48
       },
-      "spike_floor": 1.0,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.481,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.694,
+        "safety_stock": 1.519,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.481,
+      "forecast_wk": 0.481,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.6,
+      "spike_floor": 0.6,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Asahi 3.5%",
       "venue": "hg",
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
-      "rec_par": 2.4,
+      "rec_par": 3.0,
+      "rec_par_pre_override": 3.0,
       "current_par": 11.4,
       "drivers": {
         "pour_wk": 1.28,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 1.28
       },
-      "spike_floor": 2.4,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 1.278,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 1.13,
+        "safety_stock": 1.722,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 1.278,
+      "forecast_wk": 1.278,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 2.0,
+      "spike_floor": 2.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Asahi Zero",
       "venue": "hg",
       "reporting_group": "Non-Alcoholic [Harrys]",
-      "rec_par": 3.6,
+      "rec_par": 4.0,
+      "rec_par_pre_override": 4.0,
       "current_par": 4.7,
       "drivers": {
         "pour_wk": 1.69,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 1.69
       },
-      "spike_floor": 3.6,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 1.694,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 1.302,
+        "safety_stock": 2.306,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 1.694,
+      "forecast_wk": 1.694,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 2.0,
+      "spike_floor": 2.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Azurescens Pinot Noir",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Red Wine [Harrys]",
       "rec_par": 4.6,
+      "rec_par_pre_override": 4.6,
       "current_par": 4.6,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -160,40 +396,100 @@
       "product": "Azurescens Pinot Noir - Bottle",
       "venue": "hg",
       "reporting_group": "Red Wine [Harrys]",
-      "rec_par": 3.4,
+      "rec_par": 3.0,
+      "rec_par_pre_override": 3.0,
       "current_par": 3.5,
       "drivers": {
         "pour_wk": 1.27,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 1.27
       },
-      "spike_floor": 3.4,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 1.268,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 1.126,
+        "safety_stock": 1.732,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 1.268,
+      "forecast_wk": 1.268,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.7,
+      "spike_floor": 0.7,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Bacardi Blanca [700ml]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 0.1,
+      "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "current_par": 0.3,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
-      "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.002,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.049,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.002,
+      "forecast_wk": 0.002,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
@@ -201,12 +497,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "standard",
+        "service_level": 0.9,
+        "z": 1.282,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -219,14 +545,44 @@
     {
       "product": "Belvedere Vodka [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Vodkas [Harrys]",
       "rec_par": 0.5,
+      "rec_par_pre_override": 0.5,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -240,35 +596,93 @@
       "product": "Bintang",
       "venue": "hg",
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
-      "rec_par": 8.4,
+      "rec_par": 6.4,
+      "rec_par_pre_override": 6.4,
       "current_par": 8.3,
       "drivers": {
         "pour_wk": 2.14,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 2.14
       },
-      "spike_floor": 8.4,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": 1.645,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 2.139,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 2.567,
+        "safety_stock": 4.222,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 2.139,
+      "forecast_wk": 2.139,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 1.0,
+      "spike_floor": 1.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "spike_floored"
-      ]
+      "flags": []
     },
     {
       "product": "Bombay Dry [Bottle]",
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 2.0,
+      "rec_par_pre_override": 1.0,
       "current_par": 2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.11,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.11
       },
-      "spike_floor": 0.3,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.107,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.326,
+        "safety_stock": 0.893,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.107,
+      "forecast_wk": 0.107,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
+      "spike_floor": 0.1,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": {
@@ -277,8 +691,8 @@
       },
       "flags": [
         "override:min",
-        "spike_floored",
-        "override_changed"
+        "override_changed",
+        "low_mover_poisson"
       ]
     },
     {
@@ -286,12 +700,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -305,33 +749,93 @@
       "product": "Buffalo Trace Bourbon [Bottle]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 0.5,
+      "rec_par": 1.0,
+      "rec_par_pre_override": 1.0,
       "current_par": 0.4,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.12,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.12
       },
-      "spike_floor": 0.5,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.119,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.346,
+        "safety_stock": 0.881,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.119,
+      "forecast_wk": 0.119,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.2,
+      "spike_floor": 0.2,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Calle 23 Blanco Tequila [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Tequila [Harrys]",
       "rec_par": 0.5,
+      "rec_par_pre_override": 0.5,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "standard",
+        "service_level": 0.9,
+        "z": 1.282,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -344,16 +848,46 @@
     {
       "product": "Campari [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Amaro / Aperitif / Fortified Wine [Harrys]",
       "rec_par": 2.0,
+      "rec_par_pre_override": 1.0,
       "current_par": 2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.1,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.1
       },
-      "spike_floor": 0.3,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.104,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.323,
+        "safety_stock": 0.896,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.104,
+      "forecast_wk": 0.104,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
+      "spike_floor": 0.1,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": {
@@ -362,8 +896,8 @@
       },
       "flags": [
         "override:min",
-        "spike_floored",
-        "override_changed"
+        "override_changed",
+        "low_mover_poisson"
       ]
     },
     {
@@ -371,12 +905,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.5,
+      "rec_par_pre_override": 0.5,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -390,40 +954,101 @@
       "product": "Corona",
       "venue": "hg",
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
-      "rec_par": 3.6,
+      "rec_par": 4.0,
+      "rec_par_pre_override": 4.0,
       "current_par": 8.2,
       "drivers": {
         "pour_wk": 1.44,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 1.44
       },
-      "spike_floor": 3.6,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 1.444,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 1.202,
+        "safety_stock": 2.556,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 1.444,
+      "forecast_wk": 1.444,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Diplomatico Mantuana [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Rums [Harrys]",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.01,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.01
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.013,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.116,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.013,
+      "forecast_wk": 0.013,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
       "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "sanity_floored",
+        "low_mover_poisson"
       ]
     },
     {
@@ -431,12 +1056,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -449,21 +1104,52 @@
     {
       "product": "Dolin Rouge Vermouth [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Amaro / Aperitif / Fortified Wine [Harrys]",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.03
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.032,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.18,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.032,
+      "forecast_wk": 0.032,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
       "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "sanity_floored",
+        "low_mover_poisson"
       ]
     },
     {
@@ -471,14 +1157,44 @@
       "venue": "hg",
       "reporting_group": "Orange / Skins Wine [Harrys]",
       "rec_par": 0.0,
+      "rec_par_pre_override": 1.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.12,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.12
       },
-      "spike_floor": 0.6,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.125,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.354,
+        "safety_stock": 0.875,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.125,
+      "forecast_wk": 0.125,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": {
@@ -487,21 +1203,51 @@
       },
       "flags": [
         "override:zero",
-        "spike_floored",
-        "override_changed"
+        "override_changed",
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Four Pillars Bloody Shiraz Gin [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Gins [Harrys]",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -516,12 +1262,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.5,
+      "rec_par_pre_override": 0.5,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "standard",
+        "service_level": 0.9,
+        "z": 1.282,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -535,40 +1311,100 @@
       "product": "From Sundays Shiraz - Bottle",
       "venue": "hg",
       "reporting_group": "Red Wine [Harrys]",
-      "rec_par": 2.6,
+      "rec_par": 3.0,
+      "rec_par_pre_override": 3.0,
       "current_par": 2.8,
       "drivers": {
         "pour_wk": 1.14,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 1.14
       },
-      "spike_floor": 2.6,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 1.143,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 1.069,
+        "safety_stock": 1.857,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 1.143,
+      "forecast_wk": 1.143,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 1.1,
+      "spike_floor": 1.1,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Geppetto Chardonnay - Bottle",
       "venue": "hg",
       "reporting_group": "White Wine [Harrys]",
-      "rec_par": 2.4,
+      "rec_par": 3.0,
+      "rec_par_pre_override": 3.0,
       "current_par": 2.8,
       "drivers": {
         "pour_wk": 0.97,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.97
       },
-      "spike_floor": 2.4,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.97,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.985,
+        "safety_stock": 2.03,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.97,
+      "forecast_wk": 0.97,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.9,
+      "spike_floor": 0.9,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
@@ -576,12 +1412,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -594,34 +1460,94 @@
     {
       "product": "Haku Vodka [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
-      "rec_par": 0.6,
+      "reporting_group": "Vodkas [Harrys]",
+      "rec_par": 1.0,
+      "rec_par_pre_override": 1.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.13,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.13
       },
-      "spike_floor": 0.6,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.134,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.366,
+        "safety_stock": 0.866,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.134,
+      "forecast_wk": 0.134,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Hendrick's Gin [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Gins [Harrys]",
       "rec_par": 0.3,
+      "rec_par_pre_override": 0.3,
       "current_par": 0.3,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "standard",
+        "service_level": 0.9,
+        "z": 1.282,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -636,12 +1562,42 @@
       "venue": "hg",
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
       "rec_par": 2.4,
+      "rec_par_pre_override": 2.4,
       "current_par": 2.4,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -655,65 +1611,155 @@
       "product": "Italicus Bergamot Liqueur [Bottle]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 2.5,
+      "rec_par": 3.1,
+      "rec_par_pre_override": 1.0,
       "current_par": 2.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.09,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.09
       },
-      "spike_floor": 0.3,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.088,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.296,
+        "safety_stock": 0.912,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.088,
+      "forecast_wk": 0.088,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
+      "spike_floor": 0.1,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": {
-        "type": "min",
-        "value": 2.5
+        "type": "reserve",
+        "value": 2.12
       },
       "flags": [
-        "override:min",
-        "spike_floored",
-        "override_changed"
+        "override:reserve",
+        "override_changed",
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Jinro Chamisul - 360ml",
       "venue": "hg",
       "reporting_group": "Sake & Soju [Harrys]",
-      "rec_par": 1.2,
+      "rec_par": 1.0,
+      "rec_par_pre_override": 1.0,
       "current_par": 3.7,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.2,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.2
       },
-      "spike_floor": 1.2,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.204,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.451,
+        "safety_stock": 0.796,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.204,
+      "forecast_wk": 0.204,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Jinro Strawberry - 360ml",
       "venue": "hg",
       "reporting_group": "Sake & Soju [Harrys]",
-      "rec_par": 0.2,
+      "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "current_par": 3.3,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.04,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.04
       },
-      "spike_floor": 0.2,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.037,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.192,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.037,
+      "forecast_wk": 0.037,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
@@ -721,34 +1767,95 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.02
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.016,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.128,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.016,
+      "forecast_wk": 0.016,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
       "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "sanity_floored",
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Kahlua Coffee Liqueur [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Liqueurs [Harrys]",
       "rec_par": 1.5,
+      "rec_par_pre_override": 0.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.03
       },
-      "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.027,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.164,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.027,
+      "forecast_wk": 0.027,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": {
@@ -757,22 +1864,52 @@
       },
       "flags": [
         "override:min",
-        "spike_floored",
         "new_par",
-        "override_changed"
+        "override_changed",
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Kahl\u00faa Coffee Liqueur [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Liqueurs [Harrys]",
       "rec_par": 1.5,
+      "rec_par_pre_override": 1.5,
       "current_par": 1.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "standard",
+        "service_level": 0.9,
+        "z": 1.282,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -787,12 +1924,42 @@
       "venue": "hg",
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
       "rec_par": 1.4,
+      "rec_par_pre_override": 1.4,
       "current_par": 1.4,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -807,32 +1974,93 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.01,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.01
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.013,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.116,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.013,
+      "forecast_wk": 0.013,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
       "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "sanity_floored",
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Kuku Sauv Blanc",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "White Wine [Harrys]",
       "rec_par": 4.0,
+      "rec_par_pre_override": 4.0,
       "current_par": 4,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -846,54 +2074,144 @@
       "product": "Kuku Sauv Blanc - Bottle",
       "venue": "hg",
       "reporting_group": "White Wine [Harrys]",
-      "rec_par": 2.1,
+      "rec_par": 2.0,
+      "rec_par_pre_override": 2.0,
       "current_par": 2.8,
       "drivers": {
         "pour_wk": 0.53,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.53
       },
-      "spike_floor": 2.1,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.53,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.728,
+        "safety_stock": 1.47,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.53,
+      "forecast_wk": 0.53,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.3,
+      "spike_floor": 0.3,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Kunizakari Umeshu [60ml]",
       "venue": "hg",
       "reporting_group": "Liqueurs [Harrys]",
-      "rec_par": 5.2,
+      "rec_par": 4.0,
+      "rec_par_pre_override": 4.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 1.88,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 1.88
       },
-      "spike_floor": 5.2,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 1.878,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 1.37,
+        "safety_stock": 2.122,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 1.878,
+      "forecast_wk": 1.878,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 1.5,
+      "spike_floor": 1.5,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored",
-        "new_par"
+        "new_par",
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Kunizakari Umeshu [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Liqueurs [Harrys]",
       "rec_par": 0.5,
+      "rec_par_pre_override": 0.5,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -908,12 +2226,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -930,40 +2278,100 @@
       "product": "L'esprit Ros\u00e9 - Bottle",
       "venue": "hg",
       "reporting_group": "Rose Wine [Harrys]",
-      "rec_par": 3.6,
+      "rec_par": 4.0,
+      "rec_par_pre_override": 4.0,
       "current_par": 6,
       "drivers": {
         "pour_wk": 1.47,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 1.47
       },
-      "spike_floor": 3.6,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 1.47,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 1.213,
+        "safety_stock": 2.53,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 1.47,
+      "forecast_wk": 1.47,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 2.0,
+      "spike_floor": 2.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Little Dragon Ginger Beer Can",
       "venue": "hg",
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
-      "rec_par": 2.4,
+      "rec_par": 3.0,
+      "rec_par_pre_override": 3.0,
       "current_par": 2.1,
       "drivers": {
         "pour_wk": 1.19,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 1.19
       },
-      "spike_floor": 2.4,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 1.194,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 1.093,
+        "safety_stock": 1.806,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 1.194,
+      "forecast_wk": 1.194,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 2.0,
+      "spike_floor": 2.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
@@ -971,19 +2379,50 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.02
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.017,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.128,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.017,
+      "forecast_wk": 0.017,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
       "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "sanity_floored",
+        "low_mover_poisson"
       ]
     },
     {
@@ -991,19 +2430,50 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.01,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.01
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.006,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.079,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.006,
+      "forecast_wk": 0.006,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
       "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "sanity_floored",
+        "low_mover_poisson"
       ]
     },
     {
@@ -1011,59 +2481,150 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.3,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.3,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.03
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.027,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.165,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.027,
+      "forecast_wk": 0.027,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
       "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": {
-        "type": "min",
-        "value": 0.3
+        "type": "reserve",
+        "value": 0.25
       },
       "flags": [
-        "override:min",
-        "spike_floored",
-        "override_changed"
+        "override:reserve",
+        "sanity_floored",
+        "override_changed",
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Monkey Shoulder Scotch [Bottle]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 0.2,
+      "rec_par": 1.0,
+      "rec_par_pre_override": 1.0,
       "current_par": 0.3,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.08,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.08
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.081,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.285,
+        "safety_stock": 0.919,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.081,
+      "forecast_wk": 0.081,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.2,
       "spike_floor": 0.2,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Mr Black Coffee Liqueur [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Liqueurs [Harrys]",
       "rec_par": 1.0,
+      "rec_par_pre_override": 0.1,
       "current_par": 1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.04,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.04
       },
-      "spike_floor": 0.2,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.04,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.2,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.04,
+      "forecast_wk": 0.04,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
+      "spike_floor": 0.1,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": {
@@ -1072,130 +2633,312 @@
       },
       "flags": [
         "override:min",
-        "spike_floored",
-        "override_changed"
+        "sanity_floored",
+        "override_changed",
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Nikka Black Whisky [700ml]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Whiskies [Harrys]",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.02
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.02,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.142,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.02,
+      "forecast_wk": 0.02,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
       "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored",
-        "new_par"
+        "sanity_floored",
+        "new_par",
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Noilly Prat Dry Vermouth [Bottle]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 0.1,
+      "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
-      "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.004,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.061,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.004,
+      "forecast_wk": 0.004,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored",
-        "new_par"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Oscar.697 Rosso Vermouth [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Amaro / Aperitif / Fortified Wine [Harrys]",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.03
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.032,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.18,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.032,
+      "forecast_wk": 0.032,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
       "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "sanity_floored",
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Ottelia Cab Sav - Bottle",
       "venue": "hg",
       "reporting_group": "Red Wine [Harrys]",
-      "rec_par": 0.8,
+      "rec_par": 1.0,
+      "rec_par_pre_override": 1.0,
       "current_par": 2,
       "drivers": {
         "pour_wk": 0.21,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.21
       },
-      "spike_floor": 0.8,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.208,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.456,
+        "safety_stock": 0.792,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.208,
+      "forecast_wk": 0.208,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Padrillos Malbec - Bottle",
       "venue": "hg",
       "reporting_group": "Red Wine [Harrys]",
-      "rec_par": 1.8,
+      "rec_par": 2.0,
+      "rec_par_pre_override": 2.0,
       "current_par": 2,
       "drivers": {
         "pour_wk": 0.58,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.58
       },
-      "spike_floor": 1.8,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.583,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.764,
+        "safety_stock": 1.417,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.583,
+      "forecast_wk": 0.583,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "Palloncino Prosecco - Bottle",
       "venue": "hg",
       "reporting_group": "Sparkling Wine [Harrys]",
-      "rec_par": 3.9,
+      "rec_par": 4.0,
+      "rec_par_pre_override": 4.0,
       "current_par": 6,
       "drivers": {
         "pour_wk": 1.16,
         "recipe_wk": 0.69,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 1.85
       },
-      "spike_floor": 3.9,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 1.842,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 1.357,
+        "safety_stock": 2.158,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 1.842,
+      "forecast_wk": 1.842,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 1.7,
+      "spike_floor": 1.7,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
@@ -1203,12 +2946,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.5,
+      "rec_par_pre_override": 0.5,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1223,12 +2996,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.5,
+      "rec_par_pre_override": 0.5,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1243,12 +3046,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "standard",
+        "service_level": 0.9,
+        "z": 1.282,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1264,14 +3097,44 @@
     {
       "product": "Poor Tom's Strawberry Gin [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Gins [Harrys]",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "standard",
+        "service_level": 0.9,
+        "z": 1.282,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1286,32 +3149,93 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.03
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.032,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.18,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.032,
+      "forecast_wk": 0.032,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
       "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "sanity_floored",
+        "low_mover_poisson"
       ]
     },
     {
       "product": "River Retreat Pinot Grigio",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "White Wine [Harrys]",
       "rec_par": 9.4,
+      "rec_par_pre_override": 9.4,
       "current_par": 9.4,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1325,33 +3249,91 @@
       "product": "River Retreat Pinot Grigio - Bottle",
       "venue": "hg",
       "reporting_group": "White Wine [Harrys]",
-      "rec_par": 5.4,
+      "rec_par": 8.8,
+      "rec_par_pre_override": 8.8,
       "current_par": 5.5,
       "drivers": {
         "pour_wk": 2.95,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 2.95
       },
-      "spike_floor": 5.4,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": 1.645,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 2.946,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 3.536,
+        "safety_stock": 5.816,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 2.946,
+      "forecast_wk": 2.946,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 3.3,
+      "spike_floor": 3.3,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "spike_floored"
-      ]
+      "flags": []
     },
     {
       "product": "Roku Gin [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Gins [Harrys]",
       "rec_par": 0.2,
+      "rec_par_pre_override": 0.2,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1364,26 +3346,56 @@
     {
       "product": "Rooster Blanco Tequila [Bottle]",
       "venue": "hg",
-      "reporting_group": "",
-      "rec_par": 16.0,
+      "reporting_group": "Tequila [Harrys]",
+      "rec_par": 18.6,
+      "rec_par_pre_override": 3.0,
       "current_par": 16,
       "drivers": {
         "pour_wk": 0.04,
         "recipe_wk": 1.13,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 1.17
       },
-      "spike_floor": 2.8,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 1.165,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 1.079,
+        "safety_stock": 1.835,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 1.165,
+      "forecast_wk": 1.165,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.8,
+      "spike_floor": 0.8,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": {
-        "type": "min",
-        "value": 16.0
+        "type": "reserve",
+        "value": 15.61
       },
       "flags": [
-        "override:min",
-        "spike_floored",
-        "override_changed"
+        "override:reserve",
+        "override_changed",
+        "low_mover_poisson"
       ]
     },
     {
@@ -1391,12 +3403,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.4,
+      "rec_par_pre_override": 0.4,
       "current_par": 0.4,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1411,19 +3453,50 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.03
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.035,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.186,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.035,
+      "forecast_wk": 0.035,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
       "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "sanity_floored",
+        "low_mover_poisson"
       ]
     },
     {
@@ -1431,12 +3504,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.2,
+      "rec_par_pre_override": 0.2,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1450,20 +3553,50 @@
       "product": "Sapporo [Keg]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 0.6,
+      "rec_par": 1.0,
+      "rec_par_pre_override": 1.0,
       "current_par": 0.7,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.3,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.3
       },
-      "spike_floor": 0.6,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.295,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.543,
+        "safety_stock": 0.705,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.295,
+      "forecast_wk": 0.295,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.3,
+      "spike_floor": 0.3,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
@@ -1471,12 +3604,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.5,
+      "rec_par_pre_override": 0.5,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1491,12 +3654,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.5,
+      "rec_par_pre_override": 0.5,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1510,20 +3703,50 @@
       "product": "Tengumai Umajan Junmai [1.8L]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 0.2,
+      "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.05,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.05
       },
-      "spike_floor": 0.2,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.047,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.217,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.047,
+      "forecast_wk": 0.047,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
@@ -1531,12 +3754,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1554,12 +3807,42 @@
       "venue": "hg",
       "reporting_group": "Red Wine [Harrys]",
       "rec_par": 1.9,
+      "rec_par_pre_override": 1.9,
       "current_par": 1.9,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1573,33 +3856,91 @@
       "product": "Tsingtao Longneck",
       "venue": "hg",
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
-      "rec_par": 6.0,
+      "rec_par": 6.3,
+      "rec_par_pre_override": 6.3,
       "current_par": 4.2,
       "drivers": {
         "pour_wk": 2.11,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 2.11
       },
-      "spike_floor": 6.0,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": 1.645,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 2.111,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 2.533,
+        "safety_stock": 4.167,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 2.111,
+      "forecast_wk": 2.111,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 1.0,
+      "spike_floor": 1.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "spike_floored"
-      ]
+      "flags": []
     },
     {
       "product": "Two Tonne Riesling - Bottle [HG]",
       "venue": "hg",
       "reporting_group": "White Wine [Harrys]",
       "rec_par": 0.8,
+      "rec_par_pre_override": 0.8,
       "current_par": 0.8,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1614,12 +3955,42 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 1.0,
+      "rec_par_pre_override": 1.0,
       "current_par": 1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.0
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "service_class": "standard",
+        "service_level": 0.9,
+        "z": 1.282,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
       "spike_floor": 0.0,
       "forecast_method": "No recent sales",
       "growth": null,
@@ -1633,35 +4004,95 @@
       "product": "Wa no Kokoro Yuzushu [Bottle]",
       "venue": "hg",
       "reporting_group": "Sake & Soju [Harrys]",
-      "rec_par": 0.3,
+      "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.03
       },
-      "spike_floor": 0.3,
-      "forecast_method": "Recent 8wk",
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.033,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.183,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.033,
+      "forecast_wk": 0.033,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "spike_floored"
+        "low_mover_poisson"
       ]
     },
     {
       "product": "White Light Pure Vodka [20L]",
       "venue": "hg",
-      "reporting_group": "",
+      "reporting_group": "Vodkas [Harrys]",
       "rec_par": 0.5,
+      "rec_par_pre_override": 0.1,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
-        "variance_wk": 0.0
+        "variance_wk": 0.0,
+        "true_wk": 0.02
       },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "poisson",
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.018,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.135,
+        "safety_stock": 0.0,
+        "cv_source": "sku+group",
+        "seasonal_index": 1.0,
+        "seasonal_source": "flat"
+      },
+      "seasonal_index": 1.0,
+      "seasonal_source": "flat",
+      "level_deseasonalised": 0.018,
+      "forecast_wk": 0.018,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.1,
       "spike_floor": 0.1,
-      "forecast_method": "Recent 8wk",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
       "override": {
@@ -1670,8 +4101,9 @@
       },
       "flags": [
         "override:min",
-        "spike_floored",
-        "override_changed"
+        "sanity_floored",
+        "override_changed",
+        "low_mover_poisson"
       ]
     }
   ]
