@@ -235,6 +235,101 @@ def _pull_integrity(rel="data/pull_integrity.json"):
         return {"status": "unknown", "detail": f"integrity record unreadable: {e}"}
 
 
+SELF = "Published app is current"
+
+
+def _pages_drift(feeds=(("data/stow_daily_history.csv", "Stowaway daily history"),
+                        ("data/hg_daily_history.csv", "Harry Gatos daily history"),
+                        ("data/mari_daily_history.csv", "Marilyna's daily history"),
+                        ("data/uber_daily.csv", "Uber fees"),
+                        ("data/uber_direct_daily.csv", "Uber Direct fees")),
+                 base="https://app.stowawaybar.com", computed=None):
+    """Is the APP showing the numbers the repo actually has?
+
+    The dashboard reads its feeds from GitHub Pages, not from main. Pages only
+    republishes when a deploy runs, and deploy_dashboard.yml is triggered by
+    PATHS. data/** was not among them, so for a long time a commit that touched
+    only data/ was correct in git and invisible on screen — no error, no red,
+    just yesterday's figures rendered with today's confidence.
+
+    That is the failure mode this whole file exists to catch, aimed at the file
+    itself: the health snapshot is ALSO a data/ file, so a check could flip to
+    'down', publish, and never reach the panel meant to display it.
+
+    The path fix means this should now read ok permanently. The check stays
+    because it tests the OUTCOME (are the app's numbers current) rather than the
+    mechanism (did a workflow fire), so it still holds if the paths are edited,
+    if Pages fails to build, or if a future writer bypasses the trigger again.
+
+    Two comparisons, because they fail differently:
+
+      1. The newest DATE in each feed. Dates, not bytes — a cosmetic reformat is
+         not an outage and an in-flight deploy must not cry wolf. Catches the
+         app rendering older figures than the repo holds.
+      2. The published snapshot's own verdict vs the one just computed. Feed
+         dates alone would NOT have caught the 2026-08-09 case, where the drift
+         was a health snapshot that had flipped status and never shipped. With
+         alerting deliberately kept on-screen rather than emailed, a stale panel
+         IS the outage: it reports "ok" with no way to know it is out of date.
+
+    Self-reference is avoided by excluding this check from comparison (2), so it
+    converges in one cycle instead of oscillating against its own output.
+    Unreachable network (the office Mac offline) is 'unknown', never 'down'.
+    """
+    import urllib.request
+
+    def _last_date(text):
+        best = None
+        for line in text.splitlines()[1:]:
+            cell = line.split(",", 1)[0].strip()
+            if len(cell) == 10 and cell[4] == "-" and cell[7] == "-":
+                if best is None or cell > best:
+                    best = cell
+        return best
+
+    behind = []
+    try:
+        for rel, label in feeds:
+            local = ROOT / rel
+            if not local.exists():
+                continue
+            mine = _last_date(local.read_text())
+            if mine is None:
+                continue
+            with urllib.request.urlopen(f"{base}/{rel}", timeout=15) as r:
+                theirs = _last_date(r.read().decode("utf-8", "replace"))
+            if theirs is None or theirs < mine:
+                behind.append(f"{label} (app {theirs or 'none'}, repo {mine})")
+
+        if computed is not None:
+            with urllib.request.urlopen(f"{base}/data/system_health.json", timeout=15) as r:
+                live = json.loads(r.read().decode("utf-8", "replace"))
+            def _flagged(rows):
+                return {c.get("name") for c in rows
+                        if c.get("status") in ("warn", "down")
+                        and c.get("name") != SELF}
+            was, now = _flagged(live.get("checks", [])), _flagged(computed)
+            if was != now:
+                missing = sorted(now - was) or sorted(was - now)
+                behind.append(f"health panel itself (showing {live.get('overall', '?')}, "
+                              f"differs on {missing[0]})")
+    except Exception as e:
+        return {"status": "unknown", "detail": f"could not reach the published app: {e}"}
+
+    meaning = ("The app reads its numbers from the published copy, which updates only when a "
+               "deploy runs — so the repo can be right while the screen is wrong.")
+    if behind:
+        return {"status": "warn",
+                "detail": f"app is behind the repo on {len(behind)} feed(s): {behind[0]}",
+                "meaning": meaning,
+                "action": ("The figures on screen are older than the ones already recorded. Nothing is "
+                           "lost and nothing is wrong in the data - it just has not been published. "
+                           "Ask Claude to check the Pages deploy; a re-run of the deploy workflow "
+                           "usually clears it."),
+                "selfheal": "Clears on its own the next time any deploy runs."}
+    return {"status": "ok", "detail": f"app matches the repo on all {len(feeds)} key feeds"}
+
+
 def _uber_feed(rel="data/uber_daily.csv"):
     """Uber Eats fee feed — freshness AND correctness.
 
@@ -438,6 +533,14 @@ def build() -> dict:
         if ud.get(_k):
             _ud_check[_k] = ud[_k]
     checks.append(_ud_check)
+
+    pd = _pages_drift(computed=checks)
+    _pd_check = {"name": SELF, "detail": pd.get("detail"),
+                 "age": None, "unit": "", "status": pd.get("status", "unknown")}
+    for _k in ("meaning", "action", "selfheal"):
+        if pd.get(_k):
+            _pd_check[_k] = pd[_k]
+    checks.append(_pd_check)
 
     # overall reflects AUTOMATION health — the jobs that must keep running. An
     # advisory (workload) check can raise a warn but never a down on its own.

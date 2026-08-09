@@ -25,6 +25,7 @@ says is the dangerous one.
 from __future__ import annotations
 
 import csv
+import re
 from decimal import Decimal
 from pathlib import Path
 
@@ -44,6 +45,10 @@ MONEY = FIELDS[2:7]
 RATE_MAX = Decimal("0.3301")
 RATE_MIN = Decimal("0.0500")
 
+# Money is written by a formatter, so it has exactly one legal shape. Anything
+# else means a value reached the file by a path the writer does not control.
+CANON = re.compile(r"-?\d+\.\d{2}")
+
 
 def rows():
     with FEED.open() as fh:
@@ -62,6 +67,25 @@ def test_money_is_two_decimal_places(field):
     bad = [(r["date"], r["shop"], r[field]) for r in rows()
            if not (r[field].count(".") == 1 and len(r[field].split(".")[1]) == 2)]
     assert not bad, f"{field} must be 2dp: {bad[:5]}"
+
+
+def test_money_is_written_canonically():
+    """One legal shape per amount — and negative zero is not one of them.
+
+    Seven rows carried refund_inc_gst = "-0.00", a negative zero left by the
+    original float formatting. It survived every guard in this file: the 2dp
+    test counts the digits after the dot, and the sign test asks `< 0`, which
+    negative zero is not. So the feed contained an amount in a form the writer
+    never intended and CI called it clean.
+
+    Nothing was mis-stated — -0.00 equals 0.00 to every consumer — but a value
+    nobody meant to write is a value nobody can reason about, and the next one
+    of these may not be cosmetic. Pin the shape, not just the magnitude.
+    """
+    bad = [(r["date"], r["shop"], f, repr(r[f]))
+           for r in rows() for f in MONEY
+           if not CANON.fullmatch(r[f]) or r[f].startswith("-0.00")]
+    assert not bad, f"non-canonical money (negative zero? padding? currency symbol?): {bad[:5]}"
 
 
 def test_the_days_arithmetic_closes():

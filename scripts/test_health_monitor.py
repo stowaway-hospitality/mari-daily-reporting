@@ -46,6 +46,7 @@ def _build_with(monkey_ages, queue_days):
     hm._pull_integrity = lambda *a, **k: monkey_ages.get("integrity", {"status": "ok", "detail": "clean"})
     hm._uber_feed = lambda *a, **k: monkey_ages.get("uber", {"status": "ok", "detail": "clean"})
     hm._uber_direct = lambda *a, **k: monkey_ages.get("uberdirect", {"status": "ok", "detail": "clean"})
+    hm._pages_drift = lambda *a, **k: monkey_ages.get("pagesdrift", {"status": "ok", "detail": "clean"})
     return hm.build()
 
 
@@ -83,6 +84,22 @@ check("healthy uber feed is reported", any(c.get("name") == "Uber fee feed" for 
 out = _build_with(dict(allfresh, uberdirect={"status": "down", "detail": "silent 22d"}), 0)
 check("dead uber direct ingest -> overall down", out["overall"] == "down")
 check("uber direct check is reported", any(c.get("name") == "Uber Direct ingest" for c in out["checks"]))
+
+# The app reads Pages, not main. deploy_dashboard.yml is path-triggered and
+# data/** was missing from it, so a data-only commit was correct in git and
+# never reached the screen. Confirmed live on 2026-08-09: Pages was published at
+# 62e704c2 while main had moved on twice, INCLUDING an 08:41 health snapshot
+# committed because a check had changed status. The panel that reports outages
+# was itself unpublishable. Warn, not down: the numbers are safe, just unseen.
+out = _build_with(dict(allfresh, pagesdrift={"status": "warn", "detail": "app behind on 2 feeds"}), 0)
+check("app behind the repo -> overall warn", out["overall"] == "warn")
+check("pages drift check is reported",
+      any(c.get("name") == "Published app is current" for c in out["checks"]))
+
+# Offline (office Mac with no network) must never masquerade as an outage.
+out = _build_with(dict(allfresh, pagesdrift={"status": "unknown", "detail": "unreachable"}), 0)
+check("unreachable app -> not down", out["overall"] != "down")
+
 
 # ---- folded-in watchdog checks -------------------------------------------
 # Stow export narrowed is the six-figure-silent-loss case -> must go down
