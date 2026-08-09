@@ -237,6 +237,20 @@ def _rg_dept(rg: str, venue_key: str) -> str | None:
 # regeneration; delete an entry once the source knows about it.
 PRODUCT_OVERRIDES = {
     "$60 BANQUET": "m",
+    # Family-size El Patron and Jimmy Jury, added to the register after the last
+    # product-export rebuild of product_dept_map.json. Every OTHER size of both
+    # pizzas maps to 'm' (Regular, Large, Gluten-free, Solo Combo, Wings Deal,
+    # [Dine-in]); only these two were missing, so they fell through
+    # classify_product() to the 'b' FOH catch-all and Marilyna's revenue was
+    # billed to Stowaway — $89.70 inc across 2026-08-06 and 2026-08-08.
+    # The HG-branded pizzas are named explicitly ("El Patron Pizza [HG]") and
+    # stay 'f', so there is no ambiguity about who owns an unsuffixed one.
+    # These live HERE and not in the JSON because build_dept_map.py REGENERATES
+    # that file wholesale from a Lightspeed product export — an edit there is
+    # erased by the next rebuild, while PRODUCT_OVERRIDES is consulted first and
+    # survives it. Remove them once a fresh export carries them. (2026-08-09)
+    "Family El Patron": "m",
+    "Family Jimmy Jury": "m",
 }
 
 
