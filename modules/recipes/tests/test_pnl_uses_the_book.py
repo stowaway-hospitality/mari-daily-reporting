@@ -85,24 +85,11 @@ def test_builder_recipes_resolve_their_sub_recipes():
     # _load_our_costs deliberately withholds batches now (a batch is not a serve
     # cost — see the next test), so going through it would stop testing the thing
     # this guards: that sub-recipes resolve at all.
-    import yaml
-    from modules.recipes.cost import RECIPES_DIR
-
     on = date(2026, 8, 4)
     costs = CostSeries(load_cost_observations())
     for venue_file in ("stowaway", "marilynas", "harry_gatos"):
         recipes = load_recipes(venue_file)
-        # Auto-parsed cocktail recipes (entered_by "… — review") are par-ready but
-        # not yet cost-finalised — some ingredients are house preps with no cost
-        # series. The live pipeline (cogs_blend._load_our_costs) already skips any
-        # recipe that raises MissingCost, so these never reach published COGS. This
-        # guard is for the finalised hand-authored recipes, so skip the review set.
-        raw = yaml.safe_load((RECIPES_DIR / f"{venue_file}.yaml").read_text()) or []
-        review = {d.get("product") for d in raw
-                  if isinstance(d, dict) and "review" in (d.get("entered_by") or "")}
         for r in recipes:
-            if r.product in review:
-                continue
             cost_on(r, costs, on, recipes=recipes)      # raises MissingCost if broken
 
 

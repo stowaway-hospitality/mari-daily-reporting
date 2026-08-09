@@ -203,6 +203,15 @@ def load_recipes(data_dir: str, venue: str):
     definitions of the same product win (recipes are effective-dated, appended)."""
     fn = os.path.join(data_dir, "recipes", f"{VENUE_RECIPE_FILE[venue]}.yaml")
     docs = yaml.safe_load(open(fn)) or []
+    # Merge in the par-only auto-parsed cocktail recipes. These live in a
+    # separate file so the COGS pipeline never reads them (they're not yet
+    # cost-finalised), but the par model still needs them for cocktail
+    # consumption and subrecipe resolution.
+    review_fn = os.path.join(
+        data_dir, "recipes", "par_review", f"{VENUE_RECIPE_FILE[venue]}.yaml"
+    )
+    if os.path.exists(review_fn):
+        docs = docs + (yaml.safe_load(open(review_fn)) or [])
     by_name = {}
     for d in docs:
         if isinstance(d, dict) and d.get("product"):
