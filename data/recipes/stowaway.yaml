@@ -2797,8 +2797,9 @@
       unit: "ml"
 
 - product: "Jalapeño Tequila"
-  effective_from: "2026-08-09"
   entered_by: "Claude (house infusion) — review"
+  # 1:1 Rooster infusion. Jalapeños steeped then strained — immaterial cost, no
+  # cost series, so omitted from costing (par consumption flows to Rooster).
   yield_qty: 700
   yield_unit: "ml"
   ingredients:
@@ -2806,7 +2807,3 @@
       desc: "Rooster Rojo Blanco Tequila [Bottle]"
       qty: 700
       unit: "ml"
-    - id: "lightspeed:20445538"
-      desc: "Jalapeños"
-      qty: 150
-      unit: "g"
