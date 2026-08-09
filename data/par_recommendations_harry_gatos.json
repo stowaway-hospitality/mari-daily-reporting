@@ -1,0 +1,1678 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-09T17:24:57.005307+10:00",
+  "venue": "hg",
+  "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json",
+  "weeks": 95,
+  "week_range": [
+    "2024-10-06",
+    "2026-08-09"
+  ],
+  "summary": {
+    "n_skus": 80,
+    "increase": 10,
+    "decrease": 25,
+    "unchanged": 41,
+    "coverage_gaps": []
+  },
+  "skus": [
+    {
+      "product": "Alehouse Premium Lager [Keg]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.8,
+      "current_par": 0.8,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Angas & Bremer Grenache - Bottle",
+      "venue": "hg",
+      "reporting_group": "Red Wine [Harrys]",
+      "rec_par": 4.1,
+      "current_par": 3.7,
+      "drivers": {
+        "pour_wk": 2.04,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 4.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Angas & Bremer Ros\u00e9 - Bottle",
+      "venue": "hg",
+      "reporting_group": "Rose Wine [Harrys]",
+      "rec_par": 2.6,
+      "current_par": 4.3,
+      "drivers": {
+        "pour_wk": 0.88,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.6,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Aperol [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.9,
+      "current_par": 0.8,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.48,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.9,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Asahi 3.5%",
+      "venue": "hg",
+      "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
+      "rec_par": 2.2,
+      "current_par": 11.4,
+      "drivers": {
+        "pour_wk": 1.28,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Asahi Zero",
+      "venue": "hg",
+      "reporting_group": "Non-Alcoholic [Harrys]",
+      "rec_par": 3.3,
+      "current_par": 4.7,
+      "drivers": {
+        "pour_wk": 1.69,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 3.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Azurescens Pinot Noir",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 4.6,
+      "current_par": 4.6,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Azurescens Pinot Noir - Bottle",
+      "venue": "hg",
+      "reporting_group": "Red Wine [Harrys]",
+      "rec_par": 3.1,
+      "current_par": 3.5,
+      "drivers": {
+        "pour_wk": 1.27,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 3.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Bacardi Blanca [700ml]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Barsol Pisco [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Belvedere Vodka [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Bintang",
+      "venue": "hg",
+      "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
+      "rec_par": 7.8,
+      "current_par": 8.3,
+      "drivers": {
+        "pour_wk": 2.14,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 7.8,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Bombay Dry [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 2.0,
+      "current_par": 2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.11,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": {
+        "type": "min",
+        "value": 2.0
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Brookie's Shirl the Pearl [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Buffalo Trace Bourbon [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.12,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.5,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Calle 23 Blanco Tequila [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Campari [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 2.0,
+      "current_par": 2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.1,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": {
+        "type": "min",
+        "value": 2.0
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Chambord [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Corona",
+      "venue": "hg",
+      "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
+      "rec_par": 3.3,
+      "current_par": 8.2,
+      "drivers": {
+        "pour_wk": 1.44,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 3.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Diplomatico Mantuana [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.01,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Disaronno [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Dolin Rouge Vermouth [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.03,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Esoterico Orange - Bottle",
+      "venue": "hg",
+      "reporting_group": "Orange / Skins Wine [Harrys]",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.12,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.5,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Four Pillars Bloody Shiraz Gin [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Four Pillars Rare Dry [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "From Sundays Shiraz - Bottle",
+      "venue": "hg",
+      "reporting_group": "Red Wine [Harrys]",
+      "rec_par": 2.4,
+      "current_par": 2.8,
+      "drivers": {
+        "pour_wk": 1.14,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.4,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Geppetto Chardonnay - Bottle",
+      "venue": "hg",
+      "reporting_group": "White Wine [Harrys]",
+      "rec_par": 2.2,
+      "current_par": 2.8,
+      "drivers": {
+        "pour_wk": 0.97,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Grey Goose [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Haku Vodka [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.6,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.13,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Hendrick's Gin [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Hyoketsu Lemon [HG]",
+      "venue": "hg",
+      "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
+      "rec_par": 2.4,
+      "current_par": 2.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Italicus Bergamot Liqueur [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 2.5,
+      "current_par": 2.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.09,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": {
+        "type": "min",
+        "value": 2.5
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Jinro Chamisul - 360ml",
+      "venue": "hg",
+      "reporting_group": "Sake & Soju [Harrys]",
+      "rec_par": 1.1,
+      "current_par": 3.7,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.2,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Jinro Strawberry - 360ml",
+      "venue": "hg",
+      "reporting_group": "Sake & Soju [Harrys]",
+      "rec_par": 0.2,
+      "current_par": 3.3,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.04,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Joseph Cartron Creme de Peche [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.02,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Kahlua Coffee Liqueur [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 1.5,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.03,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": {
+        "type": "min",
+        "value": 1.5
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "new_par",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Kahl\u00faa Coffee Liqueur [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 1.5,
+      "current_par": 1.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Kaiju Hazy Pale [HG]",
+      "venue": "hg",
+      "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
+      "rec_par": 1.4,
+      "current_par": 1.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Kraken Rum [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.01,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Kuku Sauv Blanc",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 4.0,
+      "current_par": 4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Kuku Sauv Blanc - Bottle",
+      "venue": "hg",
+      "reporting_group": "White Wine [Harrys]",
+      "rec_par": 1.9,
+      "current_par": 2.8,
+      "drivers": {
+        "pour_wk": 0.53,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.9,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Kunizakari Umeshu [60ml]",
+      "venue": "hg",
+      "reporting_group": "Liqueurs [Harrys]",
+      "rec_par": 4.8,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 1.88,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 4.8,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Kunizakari Umeshu [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Kuromatsu Honjozo [900ml]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
+      "product": "L'esprit Ros\u00e9 - Bottle",
+      "venue": "hg",
+      "reporting_group": "Rose Wine [Harrys]",
+      "rec_par": 3.3,
+      "current_par": 6,
+      "drivers": {
+        "pour_wk": 1.47,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 3.3,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Little Dragon Ginger Beer Can",
+      "venue": "hg",
+      "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
+      "rec_par": 2.2,
+      "current_par": 2.1,
+      "drivers": {
+        "pour_wk": 1.19,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Massenez Lychee [5L]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.02,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Massenez Raspberry Framboise [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.01,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Massenez Triple Sec [5L]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.3,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.03,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": {
+        "type": "min",
+        "value": 0.3
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Monkey Shoulder Scotch [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.3,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.08,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Mr Black Coffee Liqueur [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 1.0,
+      "current_par": 1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.04,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": {
+        "type": "min",
+        "value": 1.0
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Nikka Black Whisky [700ml]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.02,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Noilly Prat Dry Vermouth [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored",
+        "new_par"
+      ]
+    },
+    {
+      "product": "Oscar.697 Rosso Vermouth [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.03,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Ottelia Cab Sav - Bottle",
+      "venue": "hg",
+      "reporting_group": "Red Wine [Harrys]",
+      "rec_par": 0.8,
+      "current_par": 2,
+      "drivers": {
+        "pour_wk": 0.21,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.8,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Padrillos Malbec - Bottle",
+      "venue": "hg",
+      "reporting_group": "Red Wine [Harrys]",
+      "rec_par": 1.7,
+      "current_par": 2,
+      "drivers": {
+        "pour_wk": 0.58,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 1.7,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Palloncino Prosecco - Bottle",
+      "venue": "hg",
+      "reporting_group": "Sparkling Wine [Harrys]",
+      "rec_par": 3.6,
+      "current_par": 6,
+      "drivers": {
+        "pour_wk": 1.16,
+        "recipe_wk": 0.69,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 3.6,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Patron Reposado [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Patron Silver [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Philter Pale [Keg]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
+      "product": "Poor Tom's Strawberry Gin [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Punt e Mes Vermouth [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.03,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "River Retreat Pinot Grigio",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 9.4,
+      "current_par": 9.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "River Retreat Pinot Grigio - Bottle",
+      "venue": "hg",
+      "reporting_group": "White Wine [Harrys]",
+      "rec_par": 5.0,
+      "current_par": 5.5,
+      "drivers": {
+        "pour_wk": 2.95,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 5.0,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Roku Gin [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Rooster Blanco Tequila [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 16.0,
+      "current_par": 16,
+      "drivers": {
+        "pour_wk": 0.04,
+        "recipe_wk": 1.13,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 2.6,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": {
+        "type": "min",
+        "value": 16.0
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    },
+    {
+      "product": "Saika Junmai Daiginjo",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.4,
+      "current_par": 0.4,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Saika Junmai Daiginjo [720ml]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.1,
+      "current_par": 0.1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.03,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Sailor Jerry [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Sapporo [Keg]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.6,
+      "current_par": 0.7,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.3,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.6,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "St. Felix Bitter Aperitivo [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "St. Felix Yuzu Green Tea Spirit [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Tengumai Umajan Junmai [1.8L]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.2,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.05,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "The Pass Sauv Blanc - Bottle",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
+      "product": "Trutta Streamside Shiraz - Bottle [HG]",
+      "venue": "hg",
+      "reporting_group": "Red Wine [Harrys]",
+      "rec_par": 1.9,
+      "current_par": 1.9,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Tsingtao Longneck",
+      "venue": "hg",
+      "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
+      "rec_par": 5.5,
+      "current_par": 4.2,
+      "drivers": {
+        "pour_wk": 2.11,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 5.5,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "Two Tonne Riesling - Bottle [HG]",
+      "venue": "hg",
+      "reporting_group": "White Wine [Harrys]",
+      "rec_par": 0.8,
+      "current_par": 0.8,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Vinada Sparking Chardonnay [Bottle]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 1.0,
+      "current_par": 1,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": null,
+      "flags": [
+        "held_no_recent_demand"
+      ]
+    },
+    {
+      "product": "Wa no Kokoro Yuzushu [Bottle]",
+      "venue": "hg",
+      "reporting_group": "Sake & Soju [Harrys]",
+      "rec_par": 0.2,
+      "current_par": 0.2,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.03,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.2,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": null,
+      "flags": [
+        "spike_floored"
+      ]
+    },
+    {
+      "product": "White Light Pure Vodka [20L]",
+      "venue": "hg",
+      "reporting_group": "",
+      "rec_par": 0.5,
+      "current_par": 0.5,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.02,
+        "variance_wk": 0.0
+      },
+      "spike_floor": 0.1,
+      "forecast_method": "Recent 8wk",
+      "growth": null,
+      "buffer": 1.3,
+      "override": {
+        "type": "min",
+        "value": 0.5
+      },
+      "flags": [
+        "override:min",
+        "spike_floored",
+        "override_changed"
+      ]
+    }
+  ]
+}
