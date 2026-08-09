@@ -87,7 +87,7 @@ if (!fs.existsSync(p)) {
 
   // Every family, by category key.
   for (const c of ['cook_loss', 'structure', 'batch_yield', 'price_conflict',
-                   'no_recipe', 'back_office', 'bad_seed', 'config', 'decision',
+                   'no_recipe', 'back_office', 'bad_seed', 'decision',
                    'feed_defect']) {
     ok(`family present: ${c}`, cats.has(c), [...cats].join(','));
   }
@@ -145,8 +145,13 @@ if (!fs.existsSync(p)) {
      d.flags.filter(f => f.category === 'bad_seed')
             .every(f => /priced as one unit|x/.test(f.what_is_wrong)));
 
-  // 6. the config and decision families.
-  ok('the suppliers.yaml bounds gap is flagged', cats.has('config'));
+  // 6. the config and decision families. The 20 L vodka drum gap this used to
+  //    flag was CLOSED by adding the per_bulk bound to suppliers.yaml (a14a5818) —
+  //    exactly what the flag's own action asked for — so config is now an empty,
+  //    resolved family. Guard the fix stays in rather than demand the flag: remove
+  //    the bound and the drum re-appears here, and this goes red.
+  ok('the 20 L vodka drum bounds gap stays closed',
+     !d.flags.some(f => f.category === 'config' && /vodka|20000ml/i.test(f.subject || '')));
   ok('the pending ILG re-parse decision is flagged', inFeed('ILG'));
 
   // 7. the feed defects. Every one of these was found by eye.
