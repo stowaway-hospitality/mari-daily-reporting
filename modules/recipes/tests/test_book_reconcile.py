@@ -225,13 +225,16 @@ def test_carriers_that_disagree_about_the_quantity_are_not_a_standard(book):
     assert not [f for f in br.missing_standard_component(b) if f["ingredient"] == "Gravy Prep"]
 
 
-def test_the_current_book_yields_only_the_two_burrito_findings(book):
-    """The measured output, pinned. Both are plausible omissions and neither is
-    obviously wrong, which is the bar a rule has to clear to ship: two findings
-    on 892 recipes that a human can settle in a minute each."""
+def test_the_current_book_yields_only_the_fish_burrito_finding(book):
+    """The measured output, pinned. It was two findings; checking them in
+    Lightspeed on 2026-08-09 settled both. Fish Burrito really had no lime (added
+    at source that day). Cauliflower Burrito was a FALSE POSITIVE: it carries
+    "Vegan Shredded Cheese [500g]" at the same 55 g as its siblings' dairy cheese,
+    so the rule was asking the kitchen to put dairy in the vegan dish. The
+    substitution guard drops it, and this pins that it stays dropped."""
     got = [(f["recipe"], f["ingredient"]) for f in br.missing_standard_component(book)]
-    assert got == [("Cauliflower Burrito", "Cheese Mexican Blend Shredded [2kg]"),
-                   ("Fish Burrito", "Lime [ea]")], got
+    assert got == [("Fish Burrito", "Lime [ea]")], got
+    assert not [g for g in got if g[0] == "Cauliflower Burrito"], got
 
 
 # --- 4. batches -------------------------------------------------------------

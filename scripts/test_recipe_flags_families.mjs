@@ -129,9 +129,15 @@ if (!fs.existsSync(p)) {
      d.flags.filter(f => f.id.startsWith('no-recipe-tail'))
             .every(f => (f.evidence || []).length >= 3));
 
-  // 3. the reconcile findings.
-  ok('reconcile findings are all here',
-     d.flags.filter(f => ['structure', 'batch_yield', 'price_conflict'].includes(f.category)).length >= 10,
+  // 3. the reconcile findings. Assert the FAMILIES are carried, not a frozen
+  //    total: the count legitimately falls as findings get settled (Cauliflower
+  //    Burrito's cheese was resolved on 2026-08-09 — it carries vegan cheese at
+  //    the same 55 g), and a pinned number turns every real fix into a red build.
+  for (const c of ['structure', 'batch_yield', 'price_conflict']) {
+    ok(`reconcile family carried: ${c}`, d.flags.some(f => f.category === c));
+  }
+  ok('the reconcile findings are still a real list',
+     d.flags.filter(f => ['structure', 'batch_yield', 'price_conflict'].includes(f.category)).length >= 8,
      String(d.flags.filter(f => ['structure', 'batch_yield', 'price_conflict'].includes(f.category)).length));
 
   // 4. Back Office duplicates.

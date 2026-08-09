@@ -199,6 +199,8 @@ def missing_standard_component(recipes) -> list:
         carried: Counter = Counter()
         for m in members:
             carried.update(_ingredient_names(recipes[m]))
+        carried_by_all = (set.intersection(*[set(_ingredient_names(recipes[m])) for m in members])
+                          if members else set())
         for ing, n in carried.items():
             if n < COMPONENT_MIN_CARRIERS or n == len(members):
                 continue
@@ -207,7 +209,27 @@ def missing_standard_component(recipes) -> list:
             if len(stated) != 1:
                 continue                      # the carriers do not agree — not a standard
             qty, unit = next(iter(stated))
-            missing = [m for m in members if ing not in _ingredient_names(recipes[m])]
+            # A member carrying a DIFFERENT ingredient in the same slot — same
+            # quantity, same unit, and an ingredient its siblings lack — has
+            # SUBSTITUTED, not omitted. Verified in Lightspeed 2026-08-09:
+            # Cauliflower Burrito has no "Cheese Mexican Blend Shredded [2kg]"
+            # because it carries "Vegan Shredded Cheese [500g]" at the same 55 g,
+            # which is exactly what a vegan burrito should do — the flag was asking
+            # the kitchen to put dairy cheese in the vegan dish. Same reasoning the
+            # docstring already applies to the Cadillac (Grand Marnier) and Tommy's
+            # (agave) margaritas, now applied per MEMBER rather than per family.
+            def _substituted(m, _q=qty, _u=unit):
+                others = set(_ingredient_names(recipes[m])) - carried_by_all
+                for o in others:
+                    ln = _line(recipes[m], o) or {}
+                    if (str(ln.get("qty")), str(ln.get("unit"))) == (_q, _u):
+                        return True
+                return False
+
+            missing = [m for m in members
+                       if ing not in _ingredient_names(recipes[m]) and not _substituted(m)]
+            if not missing:
+                continue
             per_serve = median([float(ln.get("eff_cost") or 0) for ln in lines.values()])
             for m in missing:
                 out.append({
