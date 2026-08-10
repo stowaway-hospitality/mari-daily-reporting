@@ -509,6 +509,25 @@ def _workflow_failures(window_h=48):
     token = (_os.environ.get("GH_TOKEN") or _os.environ.get("GITHUB_TOKEN")
              or _os.environ.get("GH_DISPATCH_PAT"))
     if not token:
+        # Fall back to the PAT on disk. WHY this is not just handled by the
+        # caller: launchd runs a STANDALONE COPY at ~/.stowaway-ops/publish_health.py
+        # (see ops/com.stowaway.healthpublish.plist), not ops/publish_health.py in
+        # the repo. The snapshot's CHECKS come from a fresh main-pinned clone, so
+        # a new check here goes live immediately — but a change to publish_health
+        # does not land until someone copies the file across by hand. Relying on
+        # the caller to pass a token meant this check would sit at "unknown"
+        # indefinitely while looking installed. .secrets/ is gitignored, so it is
+        # absent from the clone; the mounted tree is where it actually lives.
+        for cand in (ROOT / ".secrets" / "github_pat_v2.txt",
+                     Path(_os.path.expanduser("~/Documents/STOW/Sales Reports/Daily Reporting"))
+                     / ".secrets" / "github_pat_v2.txt"):
+            try:
+                if cand.exists():
+                    token = cand.read_text().strip()
+                    break
+            except Exception:
+                pass
+    if not token:
         return {"status": "unknown",
                 "detail": "no GitHub token in this environment — cannot read job results"}
     repo = _os.environ.get("GITHUB_REPOSITORY", "zakstowaway/mari-daily-reporting")
