@@ -639,8 +639,18 @@ function renderChart() {
                          fn: (k, B = bins) => B[k].wageDays && B[k].rev ? (B[k].wages - (isMariGrp ? B[k].drv : 0)) / B[k].rev * 100 : null },
         cogs_merged:   { label: 'Estimated COGS % (recipe)', unit: '%', target: COGS_TARGET_PCT,
                          fn: (k, B = bins) => B[k].rev ? B[k].cogs / B[k].rev * 100 : null },
+        // Delivery % per BIN, from the same source the P&L table uses. It used to
+        // multiply every bin by one blended trailing rate, which made this lane a
+        // flat line by construction (rev x pct / rev == pct) — it looked like a
+        // measurement and was a constant. (2026-08-10)
         delivery_fees: { label: 'Delivery %', unit: '%', target: t.delivery && t.delivery.target,
-                         fn: (k, B = bins) => B[k].rev ? ((isMariGrp ? B[k].drv : 0) + (dfr ? B[k].rev * dfr.pct / 100 : 0)) / B[k].rev * 100 : null },
+                         fn: (k, B = bins) => {
+                           if (!B[k].rev) return null;
+                           const s0 = k, e0 = dailyBins ? k : isoDate(addDays(new Date(k), 6));
+                           const vs = STATE.currentVenue === 'group' ? ['stow', 'hg', 'mari'] : [STATE.currentVenue];
+                           const df = vs.reduce((t2, v) => t2 + venueDeliveryEst(v, s0, e0, endIso).df, 0);
+                           return ((isMariGrp ? B[k].drv : 0) + df) / B[k].rev * 100;
+                         } },
         overheads:     { label: 'Overheads %', unit: '%', target: null,
                          fn: (k, B = bins) => B[k].rev ? ohOf(k, B) / B[k].rev * 100 : null },
         profit:        { label: 'Expected profit $', unit: '$', target: null,

@@ -319,6 +319,73 @@ function venueRevWindow(venue, sIso, eIso) {
   return rev;
 }
 
+function bookedFeesWindow(venue, sIso, eIso) {
+  // Third-party platform fees straight from the BOOKS, month by month.
+  //
+  // WHY this replaced a trailing-rate estimate (2026-08-10): deliveryFeesPct
+  // blended the last THREE months of fees into a % of revenue and applied it to
+  // the window. That silently kept describing a business that had changed.
+  // Marilyna's moved off ME&U to Bite on 2026-07-01, so ME&U fell from $4,682.90
+  // (May) and $3,265.18 (June) to $218.00 (July) — but the blended rate still
+  // carried Mari's departed volume, and the whole ME&U account is split across
+  // Stowaway and Harry Gatos by revenue share. Stowaway is not on Uber Eats, so
+  // ME&U is its ENTIRE delivery line: it was showing ~$530-750/week against a
+  // real cost nearer $39, and would have kept doing so until the window rolled
+  // past June around October. Averaging across a change in the business is the
+  // same failure as the DoorDash drop — a number quietly describing last quarter.
+  //
+  // So: use each month's OWN figure. A finished month uses what Xero actually
+  // holds for it. The current month is not closed yet (Xero lags), so it borrows
+  // the most recent CLOSED month rather than a blend. Apportioned by revenue
+  // share of the month, because a week is not a flat seventh of a month's trade.
+  if (venue === 'group') return REAL_VENUES.reduce((t, v) => t + bookedFeesWindow(v, sIso, eIso), 0);
+  const oh = STATE.xeroOH || [];
+  if (!oh.length || !sIso || !eIso) return 0;
+  const byMonth = Object.fromEntries(oh.filter(r => r.month).map(r => [r.month, r]));
+  const curMonth = isoDate(sydneyToday()).slice(0, 7);
+  const closed = Object.keys(byMonth).filter(m => m < curMonth).sort();
+  const field = venue === 'mari' ? 'mari_uber_fees' : 'meu_fees';
+  const lastClosed = [...closed].reverse().find(m => hasVal(byMonth[m][field]));
+  const revIn = (v, a, b) => (STATE.histories[v] || [])
+    .reduce((t, r) => (r.date >= a && r.date <= b) ? t + toNum(r.revenue_ex_gst) : t, 0);
+  let out = 0;
+  for (let m = sIso.slice(0, 7); m <= eIso.slice(0, 7); ) {
+    const src = (m < curMonth && byMonth[m] && hasVal(byMonth[m][field])) ? m : lastClosed;
+    if (src) {
+      const fee = toNum(byMonth[src][field]);
+      const mStart = m + '-01';
+      const d = new Date(mStart); const mEnd = isoDate(new Date(d.getFullYear(), d.getMonth() + 1, 0));
+      const oStart = sIso > mStart ? sIso : mStart, oEnd = eIso < mEnd ? eIso : mEnd;
+      // ME&U covers dine-in at Stowaway + Harry Gatos and the books hold ONE
+      // account for both, so each venue takes its revenue share of the pair.
+      // Mari's Uber account is Mari's alone.
+      if (src === m) {
+        // A CLOSED month: we know its whole revenue, so revenue share is exact
+        // and the venues' slices add back to the month's booked fee to the cent.
+        const denomMonth = venue === 'mari' ? revIn('mari', mStart, mEnd)
+                                            : revIn('stow', mStart, mEnd) + revIn('hg', mStart, mEnd);
+        const mine = revIn(venue, oStart, oEnd);
+        if (denomMonth > 0) out += fee * (mine / denomMonth);
+      } else {
+        // The CURRENT month, borrowing the last closed month's fee. Its revenue
+        // is only month-TO-DATE, so a revenue share would compare a 7-day week
+        // against 9 days of trade and hand it most of a month's fee. Prorate by
+        // DAYS elapsed instead, then split between the venues by their revenue
+        // share of just those days.
+        const dim = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+        const days = Math.round((new Date(oEnd) - new Date(oStart)) / 864e5) + 1;
+        const denomWin = venue === 'mari' ? revIn('mari', oStart, oEnd)
+                                          : revIn('stow', oStart, oEnd) + revIn('hg', oStart, oEnd);
+        const mine = revIn(venue, oStart, oEnd);
+        if (denomWin > 0) out += fee * (days / dim) * (mine / denomWin);
+      }
+    }
+    const nd = new Date(m + '-01'); nd.setMonth(nd.getMonth() + 1);
+    m = isoDate(nd).slice(0, 7);
+  }
+  return out;
+}
+
 function doorDashFromBooks(venue, sIso, eIso) {
   // DoorDash, recovered from the accounts. It has no feed of its own.
   //
@@ -364,8 +431,8 @@ function doorDashFromBooks(venue, sIso, eIso) {
 
 function venueDeliveryEst(venue, sIso, eIso, endIso) {
   const rev = venueRevWindow(venue, sIso, eIso);
-  const dfr = deliveryFeesPct(venue, endIso);
-  const dfEst = dfr ? rev * dfr.pct / 100 : 0;
+  // The books, month by month — NOT a trailing blended rate. See bookedFeesWindow.
+  const dfEst = bookedFeesWindow(venue, sIso, eIso);
   const _u = uberActual(venue, sIso, eIso);
   if (!_u) {
     let est = dfEst;
@@ -377,6 +444,9 @@ function venueDeliveryEst(venue, sIso, eIso, endIso) {
   // Uber Direct we can read per-day; DoorDash only exists in the books. Taking
   // dir.fee alone here is what dropped DoorDash -- see doorDashFromBooks.
   const doorDash = directActual ? doorDashFromBooks(venue, sIso, eIso) : 0;
+  // Mari: Uber Direct we read per-day, DoorDash from the books. Stow/HG: dfEst is
+  // now the booked ME&U figure itself, not a rate, and uberEatsShareOfDelivery is
+  // 0 for them, so they take it whole.
   const nonUber = directActual ? dir.fee + doorDash
                                : dfEst * (1 - uberEatsShareOfDelivery(venue, endIso));
   // The feed's TAIL: days in the window the Uber pull has not reached yet. Their
@@ -423,7 +493,7 @@ function pnlWindow(day, venue = STATE.currentVenue) {
   } else if (venue === 'group') {
     const parts = REAL_VENUES.map(v => venueDeliveryEst(v, _win[0], _win[1], endIso));
     if (parts.some(p => p.actual)) df = parts.reduce((t, p) => t + p.df, 0);
-    else { const dfr = deliveryFeesPct(venue, endIso); df = dfr ? rev * dfr.pct / 100 : 0; }
+    else df = bookedFeesWindow('group', _win[0], _win[1]);
   } else {
     df = venueDeliveryEst(venue, _win[0], _win[1], endIso).df;
   }
@@ -537,10 +607,16 @@ function breakevenParts(venue, endIso) {
   const fixedDaily = (ohA ? ohA.rate : (OVERHEADS_WEEKLY[venue] || 0) / 7)
                      + corpPayrollDaily(venue, endIso) + wageOncostDaily(venue, endIso);
   const a = actualCogs(venue, endIso);
-  const dfr = deliveryFeesPct(venue, endIso);
+  // Delivery % for breakeven comes from the SAME booked figure the P&L uses, over
+  // the trailing 28 days. It used to come from deliveryFeesPct's 3-month blend,
+  // so breakeven and the delivery line could disagree with each other.
+  const _bs = isoDate(addDays(new Date(endIso), -27));
+  const _brev = venueRevWindow(venue, _bs, endIso);
+  const _bfee = venueDeliveryEst(venue, _bs, endIso, endIso).df;
+  const dfPct = _brev > 0 ? _bfee / _brev * 100 : null;
   const wm = wageMedian12wk(STATE.histories[venue] || []);
   if (!a && wm === null) return null;
-  const varPct = (a ? a.pct : 0) + (dfr ? dfr.pct : 0) + (wm || 0);
+  const varPct = (a ? a.pct : 0) + (dfPct || 0) + (wm || 0);
   if (varPct >= 95) return null;
   return { fixedDaily, varPct };
 }
@@ -740,7 +816,7 @@ function deliveryBreakdown(day, venue) {
   } else if (venue === 'group') {
     const parts = REAL_VENUES.map(v => venueDeliveryEst(v, _win[0], _win[1], end));
     platform = parts.some(p => p.actual) ? parts.reduce((t, p) => t + p.df, 0)
-      : (() => { const dfr = deliveryFeesPct(venue, end); return dfr ? rev * dfr.pct / 100 : 0; })();
+      : bookedFeesWindow('group', _win[0], _win[1]);
     const pm = venueDeliveryEst('mari', _win[0], _win[1], end);
     actual = pm.actual; marketing = pm.marketing;
     uberEats = pm.commission + pm.marketing;

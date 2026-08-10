@@ -108,5 +108,58 @@ for (const tf of TFS) {
   else console.log('  ok    DoorDash never exceeds what the books hold');
 }
 
+// ---- platform fees must equal what the books hold, month by month ------------
+// The failure this replaces: deliveryFeesPct blended the last THREE months of
+// ME&U fees into a % of revenue. Marilyna's left ME&U for Bite on 2026-07-01, so
+// the account fell from $4,682.90 (May) / $3,265.18 (June) to $218.00 (July) —
+// but the blend still carried Mari's departed volume, and the whole account is
+// split across Stowaway and Harry Gatos by revenue share. Stowaway is not on
+// Uber Eats, so ME&U is its ENTIRE delivery line: it reported ~$530-750/week
+// against a real cost near $39, and would have kept doing so until the window
+// rolled past June. Now each month uses its own booked figure, so a closed month
+// must reconcile to Xero exactly.
+{
+  const oh = S.xeroOH.filter(r => r.month && ctx.hasVal(r.meu_fees));
+  let checkedMonths = 0, worst = 0, worstM = '';
+  const today = ctx.isoDate(ctx.sydneyToday()).slice(0, 7);
+  for (const r of oh) {
+    if (r.month >= today) continue;                    // only CLOSED months
+    const mStart = r.month + '-01';
+    const d = new Date(mStart);
+    const mEnd = ctx.isoDate(new Date(d.getFullYear(), d.getMonth() + 1, 0));
+    // ME&U is Stow + HG only; strip HG's Uber Eats actuals to leave its ME&U slice
+    const st = ctx.venueDeliveryEst('stow', mStart, mEnd, mEnd);
+    const hg = ctx.venueDeliveryEst('hg', mStart, mEnd, mEnd);
+    const hgMeu = hg.df - (hg.commission || 0) - (hg.marketing || 0) - (hg.tailEst || 0);
+    const got = st.df + hgMeu, want = ctx.toNum(r.meu_fees);
+    if (!want) continue;
+    checkedMonths++;
+    const gap = Math.abs(got - want);
+    if (gap > worst) { worst = gap; worstM = r.month; }
+  }
+  checks++;
+  if (!checkedMonths) { console.log('  ok    (no closed month with ME&U fees to reconcile)'); }
+  else if (worst > 0.02) {
+    fails++;
+    console.log('  FAIL  ME&U does not reconcile to the books: ' + worstM + ' off by ' + worst.toFixed(2));
+  } else {
+    console.log('  ok    ME&U reconciles to the books on all ' + checkedMonths + ' closed month(s), to the cent');
+  }
+
+  // A week inside the CURRENT month must not be handed most of a month's fee:
+  // its revenue denominator is only month-to-date, so revenue-share would compare
+  // a 7-day week against ~9 days of trade. Day-prorated instead.
+  const wk = '2026-08-03', wkEnd = '2026-08-09';
+  const cur = ctx.venueDeliveryEst('stow', wk, wkEnd, wkEnd).df;
+  const lastClosedMeu = 218.00;
+  checks++;
+  if (cur > lastClosedMeu * (7 / 28)) {
+    fails++;
+    console.log('  FAIL  current-month week took ' + cur.toFixed(2) + ' of a ~' + lastClosedMeu + ' month fee');
+  } else {
+    console.log('  ok    current-month week is day-prorated (' + cur.toFixed(2) + '), not revenue-shared against a part month');
+  }
+}
+
 console.log(`\n${checks} checks, ${fails} failures`);
 process.exit(fails ? 1 : 0);
