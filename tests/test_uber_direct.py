@@ -40,13 +40,23 @@ STMT_FIELDS = ["statement_date", "shop", "amount_inc_gst", "source"]
 # day has had 3 days to settle.
 SETTLE_LAG_DAYS = 3
 
-# The one difference that does NOT close, found 2026-08-10 when the statements
-# were first pulled: deliveries on 2026-07-01 (48.53) and 2026-07-02 (15.14)
-# total 63.67, but the only invoice covering them is 13.67 — exactly A$50.00
-# less, a round number that looks like a credit or promo Uber applied rather
-# than a capture error. The feed keeps the DELIVERY-date figures because that is
-# what the P&L matches against sales; this constant records the unexplained gap
-# so a NEW one cannot hide inside it. If this number moves, something changed.
+# The one difference that does NOT close. Traced 2026-08-10:
+#   deliveries  2026-07-01  11.74 + 25.00 + 11.79 = 48.53   (no invoice at all)
+#   deliveries  2026-07-02  15.14                            (invoiced 13.67)
+#   ------------------------------------------------------------------
+#   incurred 63.67, charged 13.67  ->  exactly A$50.00 never billed
+# It drains like a credit balance: all of 07-01, then 1.47 of 07-02, stopping
+# dead on a round fifty. Every one of the other 31 invoice days matches the
+# deliveries to the cent, and all 32 invoices are "Fully paid" — no invoice was
+# hidden behind an unpaid status. So this is a A$50.00 credit Uber applied, not
+# a capture error.
+#
+# The feed deliberately keeps the GROSS delivery-date figures: they are the cost
+# of the service actually consumed on the day the sales happened, and carrying
+# them overstates delivery cost by A$50 rather than understating it — the safe
+# direction (CLAUDE.md: the errors that flatter you are the dangerous ones).
+# Recording the gap here means a NEW discrepancy cannot hide inside it. If this
+# number MOVES, something changed: investigate, do not retune the constant.
 ACKNOWLEDGED_RESIDUAL = Decimal("-50.00")
 
 

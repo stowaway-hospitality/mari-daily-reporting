@@ -461,6 +461,10 @@ def _uber_direct_reconciled(feed_rel="data/uber_direct_daily.csv",
             stmt = {r["statement_date"]: _D(r["amount_inc_gst"]) for r in _csv.DictReader(fh)}
         if not feed or not stmt:
             return {"status": "unknown", "detail": "Uber Direct reconciliation inputs empty"}
+        # ACK: a A$50.00 credit Uber applied across 2026-07-01/02 (63.67 of
+        # deliveries incurred, 13.67 invoiced). Traced 2026-08-10; the other 31
+        # invoice days match the deliveries to the cent. Recorded so a NEW gap
+        # cannot hide inside it — if this moves, it is not this credit.
         SETTLE, ACK = 3, _D("-50.00")
         cutoff = (_date.fromisoformat(max(stmt)) - _td(days=SETTLE)).isoformat()
         floor = min(min(stmt), min(feed))
