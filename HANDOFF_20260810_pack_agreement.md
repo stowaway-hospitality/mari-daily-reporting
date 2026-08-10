@@ -152,3 +152,83 @@ Rebuild order when anything upstream changes:
   Schema changes additive-only. No business logic in `dashboard/*/index.html`.
 * **Fail toward review.** Errors that flatter — low cost, high GP — are the
   dangerous ones. Where two sources disagree, refuse and say so.
+
+---
+
+# Later on 2026-08-10 — the cost book, hammered
+
+## Landed
+
+**Cook yields estimated, brisket consolidated** (`9fac4d2`). Produce's 'Expected
+yield' holds the RAW weight for both cooked proteins — 10,500 g against a 10,000 g
+brisket batch, which had meat leaving a braise heavier than it went in, and made
+COOKED brisket $13.93/kg against $14.00/kg for the RAW meat. Estimated at 60% and
+70% retention, marked as estimates, scraped figures kept as evidence.
+`Pizza Beef Brisket` now aliases onto the prep, so all 14 products move together
+when somebody weighs a batch. **Beef Burrito GP 74.0% -> 64.4%.**
+
+**A container's price is not its unit rate** (`1cc60a2`). Two `ls-recipe-seed`
+rows held the whole container price as the per-unit rate — Frank's $35 gallon as
+$35/L, honey's $21 tub as $21/kg. Both OVER-costs, which is why nothing alarmed.
+Fixed by pack override; both now land on their Foodlink invoices from a separate
+source. `scripts/check_pack_as_rate.py` in CI.
+
+**Mutation testing** (`03f210f`). 15 real past defects re-introduced one at a
+time: **15/15 caught, 0 survived**. `scripts/mutation_test.py`.
+
+**Tortilla bridge corrected.** The 6" Mission was priced off Foodlink 101113,
+which is the TWELVE-inch. The 6" is not bought from Foodlink at all — it is B&E
+30741 at $65.00/288 = $0.2257/ea.
+
+## The biggest thing left is NOT a code problem
+
+**~$53k of revenue has no cost behind it**, and it does not need an engineer:
+
+    stow  $31,736 of $283,547 = 11.2%
+    hg    $19,142 of  $62,173 = 30.8%
+    mari   $2,212 of  $46,832 =  4.7%
+
+    SPLIT: $39,488 dishes with no recipe
+           $ 7,467 deals whose contents are undeclared
+           $ 6,136 fees that have no food cost by nature   <- correctly 100% GP
+
+So roughly $39.5k of it is **recipes that have never been written**, by name and
+by 13-week revenue:
+
+    [stow] $5,242 Arancini Balls [5pc]   $3,906 $80 Razzle Dazzle
+           $3,385 Baked Camembert        $3,290 Roast Turkey
+           $2,519 Pie                    $2,182 $60 Soiree
+           $1,764 $40 Shindigg           $1,217 Amalfi Olives
+    [hg]   $4,419 Open Price (a POS key, not a dish — will never have one)
+           $2,537 Shredded Beef          $2,063 Miso
+           $1,595 Unlimited BBQ          $1,549 Shoyu
+           $1,469 Chicken Karaage        $1,254 BBQ Meat Platter
+
+This is what stops `data/cogs_variance.json` from being a waste number: Harry
+Gatos' 17.6% purchases-minus-consumption gap and its 30.8% uncosted revenue are
+the same fact seen twice.
+
+**One high-confidence alias I did NOT apply**: `Rocket Man D` ($1,217/13wk) has
+no recipe while `Rocket Man` does, and every other `D` suffix in the book is the
+delivery twin at an identical cost (Fish Tacos / Fish Tacos D both $2.181).
+`data/product_recipe_aliases.yaml` requires a named human confirmation, and a
+guess there records a lie in the one place the codebase treats as fact. Confirm
+it and it is a one-line entry.
+
+## Still needing a person, not code
+
+1. **Five kitchen weighings.** Brisket and achiote chicken are now ESTIMATES
+   (60%/70%) — the burrito and taco GPs above are the softest numbers in the
+   book until a batch goes on a scale. Lamb, pork and beef roast are still open.
+2. **Recipes for the dishes listed above.**
+3. **19 Harry Gatos batch yields** — blocked on the Back Office company switcher.
+4. **12 batches with no Expected yield in Produce at all.**
+5. **Produce holds raw weights in the 'Expected yield' field** for cooked
+   proteins. Fixing it there and re-harvesting retires `cook_yield_estimates`.
+
+## Known, pre-existing, not from this work
+
+`tests/test_automation_jobs_check.py::test_no_token_is_unknown_not_a_false_all_clear`
+fails on a PRISTINE clone of origin/main on this Mac — it expects "unknown" with
+no PAT and gets "ok". Verified by cloning main fresh and running that file alone.
+
