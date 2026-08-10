@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "generated_at": "2026-08-10T09:43:02.150455+10:00",
+  "schema_version": 2,
+  "generated_at": "2026-08-10T10:00:34.182033+10:00",
   "venue": "stow",
   "window_weeks": 13,
   "week_range": [
@@ -10,12 +10,16 @@
   "threshold_revenue_ex_gst": 2000.0,
   "what_this_is": "POS lines in a stock-bearing drink group whose sales volume reached NO par SKU. Each one is demand the par model cannot see, so the affected par collapses silently. Fix by adding an entry to data/par_aliases.json (if the stock item exists under another name) or by creating the stock item in the Lightspeed Purchase module.",
   "aliases_in_force": 24,
+  "cross_venue_aliases": {},
   "alias_targets_not_found": {},
+  "what_attributed_to_other_venue_is": "POS lines sold at this venue whose stock is held and ordered at the OTHER venue, against that venue's par SKU (data/par_aliases.json, a '<venue>:<sku>' target). They are ATTRIBUTED — the volume lands on the named par SKU there — and they contribute nothing here, so they are neither unattributed nor double-counted. Listed so a line leaving this venue's numbers is never silent.",
   "summary": {
     "unattributed_lines": 2,
     "unattributed_revenue_ex_gst": 492.19,
     "intentionally_unattributed_lines": 17,
-    "intentionally_unattributed_revenue_ex_gst": 9370.99
+    "intentionally_unattributed_revenue_ex_gst": 9370.99,
+    "attributed_to_other_venue_lines": 0,
+    "attributed_to_other_venue_revenue_ex_gst": 0
   },
   "unattributed": [
     {
@@ -110,7 +114,7 @@
       "qty_per_week": 5.08,
       "revenue_ex_gst_window": 313.79,
       "stock_bearing": true,
-      "reason": "poured from bulk juice - no discrete par SKU"
+      "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
     },
     {
       "product": "Stow Soda - Grapefruit",
@@ -137,7 +141,7 @@
       "qty_per_week": 1.62,
       "revenue_ex_gst_window": 98.72,
       "stock_bearing": true,
-      "reason": "poured from bulk juice - no discrete par SKU"
+      "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
     },
     {
       "product": "Pineapple Juice Glass",
@@ -146,7 +150,7 @@
       "qty_per_week": 1.38,
       "revenue_ex_gst_window": 84.66,
       "stock_bearing": true,
-      "reason": "poured from bulk juice - no discrete par SKU"
+      "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
     },
     {
       "product": "Hot Chocolate",
@@ -164,7 +168,7 @@
       "qty_per_week": 1.0,
       "revenue_ex_gst_window": 61.7,
       "stock_bearing": true,
-      "reason": "poured from bulk juice - see NOTE below"
+      "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10); see NOTE below"
     },
     {
       "product": "Tonic Glass",
@@ -193,5 +197,6 @@
       "stock_bearing": true,
       "reason": "house-made soda (promo price button); no discrete par SKU exists"
     }
-  ]
+  ],
+  "attributed_to_other_venue": []
 }

@@ -27,6 +27,14 @@ are excused BY NAME in data/par_aliases.json `_intentionally_unattributed`, so
 the gate stays quiet about the things that can never attribute and loud about
 the things that just stopped.
 
+SHARED STOCK ACROSS VENUES: some lines pour at Harry Gatos out of stock that is
+held and ordered centrally on STOWAWAY par SKUs (the shared taps, the Coke and
+Sprite cans). An alias target may name the venue — "stow:Kirin [Keg]" in the hg
+map — and that HG volume is then added to Stowaway's par SKU, contributes to no
+HG par SKU, and appears in HG's report under `attributed_to_other_venue` rather
+than as a miss. A cross-venue target is validated against the TARGET venue's par
+universe, so a typo there fails the build exactly like a same-venue one.
+
 Run:  /opt/homebrew/bin/python3.12 scripts/build_par_model.py   (Actions: python 3.11)
 """
 import json
@@ -136,9 +144,10 @@ def write_unattributed(venue, meta, generated_at):
     offenders = meta["unattributed"]
     intentional = meta["unattributed_intentional"]
     alias_errors = meta["aliases"]["unknown_targets"]
+    exported = meta["attributed_to_other_venue"]
     total = meta["unattributed_revenue"]
     payload = {
-        "schema_version": 1,
+        "schema_version": 2,
         "generated_at": generated_at,
         "venue": venue,
         "window_weeks": meta["unattributed_weeks"],
@@ -151,16 +160,28 @@ def write_unattributed(venue, meta, generated_at):
             "data/par_aliases.json (if the stock item exists under another name) "
             "or by creating the stock item in the Lightspeed Purchase module."),
         "aliases_in_force": meta["aliases"]["n"],
+        "cross_venue_aliases": meta["aliases"]["cross_venue_targets"],
         "alias_targets_not_found": alias_errors,
+        "what_attributed_to_other_venue_is": (
+            "POS lines sold at this venue whose stock is held and ordered at the "
+            "OTHER venue, against that venue's par SKU (data/par_aliases.json, a "
+            "'<venue>:<sku>' target). They are ATTRIBUTED — the volume lands on "
+            "the named par SKU there — and they contribute nothing here, so they "
+            "are neither unattributed nor double-counted. Listed so a line "
+            "leaving this venue's numbers is never silent."),
         "summary": {
             "unattributed_lines": len(offenders),
             "unattributed_revenue_ex_gst": total,
             "intentionally_unattributed_lines": len(intentional),
             "intentionally_unattributed_revenue_ex_gst": round(
                 sum(r["revenue_ex_gst_window"] for r in intentional), 2),
+            "attributed_to_other_venue_lines": len(exported),
+            "attributed_to_other_venue_revenue_ex_gst": round(
+                sum(r["revenue_ex_gst_window"] for r in exported), 2),
         },
         "unattributed": offenders,
         "intentionally_unattributed": intentional,
+        "attributed_to_other_venue": exported,
     }
     with open(os.path.join(DATA, UNATTR_OUT[venue]), "w") as fh:
         json.dump(payload, fh, indent=2, ensure_ascii=False)
@@ -175,6 +196,13 @@ def write_unattributed(venue, meta, generated_at):
         print("  !! ALIAS TARGETS THAT ARE NOT PAR SKUs (these attribute NOTHING):")
         for pos, sku in sorted(alias_errors.items()):
             print(f"       {pos!r} -> {sku!r}")
+    if exported:
+        rev_x = sum(r["revenue_ex_gst_window"] for r in exported)
+        print(f"  attributed to ANOTHER venue's par (shared central stock): "
+              f"{len(exported)} line(s), ${rev_x:,.0f}")
+        for r in exported:
+            print(f"     {r['revenue_ex_gst_window']:>9,.0f} {r['qty_per_week']:>8.2f}  "
+                  f"{r['product'][:30]:30s} -> {r['target_venue']}:{r['target_sku']}")
     if not offenders:
         print("  Unattributed gate: PASS — every stock-bearing drink line "
               "reaches a par SKU.")

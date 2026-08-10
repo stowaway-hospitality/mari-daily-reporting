@@ -161,6 +161,9 @@ ALIAS_FILE = "par_aliases.json"
 VENUE_RECIPE_FILE = {"stow": "stowaway", "hg": "harry_gatos"}
 VENUE_SCRAPE_FILE = {"stow": "_scrape_stow_20260809.json", "hg": "_scrape_hg_20260809.json"}
 VENUE_BO_FILE = {"stow": "stowaway", "hg": "harry_gatos"}
+# The venues the par model computes. Also the legal prefixes for a CROSS-VENUE
+# alias target ("stow:Kirin [Keg]") — see AliasBook.
+VENUE_CODES = ("stow", "hg")
 
 
 # ── text helpers ────────────────────────────────────────────────────────────
@@ -325,6 +328,28 @@ def load_recipes(data_dir: str, venue: str):
 
 
 # ── POS-name -> par-SKU aliases ─────────────────────────────────────────────
+_VENUE_PREFIX_RE = re.compile(r"^\s*([A-Za-z_]+)\s*:\s*(.+?)\s*$")
+
+
+def parse_alias_target(value, default_venue):
+    """('stow', 'Kirin [Keg]') from the alias value 'stow:Kirin [Keg]'.
+
+    A bare value means "a par SKU in THIS venue" and returns
+    (default_venue, value) — the behaviour every existing alias relies on. A
+    value prefixed with a known venue code means "this till line is poured from
+    THAT venue's stock", which is the shared-stock case: Harry Gatos pours the
+    tap beers and Coke/Sprite cans that are held and ordered centrally against
+    Stowaway's par SKUs. Only the venue codes in VENUE_CODES are treated as a
+    prefix, so a SKU name that merely contains a colon is left alone.
+    """
+    if not isinstance(value, str):
+        return default_venue, value
+    m = _VENUE_PREFIX_RE.match(value)
+    if m and m.group(1).lower() in VENUE_CODES:
+        return m.group(1).lower(), m.group(2)
+    return default_venue, value
+
+
 class AliasBook:
     """The bridge across POS<->Purchase-module naming drift.
 
@@ -338,6 +363,14 @@ class AliasBook:
     It also carries `_intentionally_unattributed` — post-mix and made-to-order
     drinks that consume no discrete stock unit and therefore CANNOT attribute —
     so the coverage guard can tell "we know about this" from "this is a bug".
+
+    CROSS-VENUE TARGETS. Some lines are poured at one venue out of stock that is
+    held and ordered at the other. An alias value may therefore name the venue:
+    "stow:Kirin [Keg]" inside the `hg` map means "this Harry Gatos till line
+    consumes STOWAWAY's Kirin keg par". Such a line contributes to the target
+    venue's par SKU and to NOTHING at the venue that sold it — it is attributed,
+    just somewhere else, and the unattributed report records it under
+    `attributed_to_other_venue` so it stays auditable.
     """
 
     def __init__(self, doc, venue):
@@ -350,7 +383,12 @@ class AliasBook:
         # model cannot infer from the reporting group — e.g. Vinada, a
         # Non-alcoholic line that is 150ml poured out of a 750ml bottle, where
         # every other Non-alcoholic line is a 1:1 whole-unit sale.
-        self.map, self.serve = {}, {}
+        # Either form's SKU may carry a "<venue>:" prefix (see parse_alias_target).
+        #
+        # self.map keeps the value exactly as written (prefix and all) so the
+        # build's error output and the meta block stay readable; self.targets
+        # holds the parsed (venue, sku) pair that the model actually uses.
+        self.map, self.serve, self.targets = {}, {}, {}
         for pos_name, val in raw.items():
             if isinstance(val, dict):
                 self.map[pos_name] = val.get("sku")
@@ -358,9 +396,10 @@ class AliasBook:
                     self.serve[_norm(pos_name)] = float(val["serve_ml"])
             else:
                 self.map[pos_name] = val
+            self.targets[pos_name] = parse_alias_target(self.map[pos_name], venue)
         self._by_norm = {}
-        for pos_name, sku in self.map.items():
-            self._by_norm[_norm(pos_name)] = sku
+        for pos_name, tgt in self.targets.items():
+            self._by_norm[_norm(pos_name)] = tgt
         self.intentional = {}
         for e in ((self.doc.get("_intentionally_unattributed") or {}).get(venue) or []):
             nm = e.get("product") if isinstance(e, dict) else e
@@ -374,9 +413,26 @@ class AliasBook:
                 self.investigate[_norm(nm)] = (
                     e.get("note", "") if isinstance(e, dict) else "")
 
+    def resolve(self, pos_name):
+        """(venue, par SKU) this POS line belongs to, or (None, None).
+
+        `venue` is this book's own venue for a plain target and the named venue
+        for a cross-venue "stow:..." target.
+        """
+        return self._by_norm.get(_norm(pos_name), (None, None))
+
     def target(self, pos_name):
-        """The par SKU this POS line belongs to, or None."""
-        return self._by_norm.get(_norm(pos_name))
+        """The par SKU this POS line belongs to, or None. Venue-agnostic —
+        callers that care which venue's stock it is must use resolve()."""
+        return self.resolve(pos_name)[1]
+
+    def target_venue(self, pos_name):
+        """The venue whose par SKU this POS line consumes, or None."""
+        return self.resolve(pos_name)[0]
+
+    def cross_venues(self):
+        """Venues OTHER than this book's own that its aliases point at."""
+        return {v for v, _ in self.targets.values() if v and v != self.venue}
 
     def serve_ml(self, pos_name):
         """Explicit per-alias serve size in ml, or None to use the group rule."""
@@ -391,12 +447,29 @@ class AliasBook:
     def is_flagged_for_investigation(self, pos_name):
         return _norm(pos_name) in self.investigate
 
-    def unknown_targets(self, par_names):
+    def unknown_targets(self, par_names, venue_par_names=None):
         """Alias entries whose TARGET is not a real par SKU. An alias pointing at
         a name that does not exist is worse than no alias: it looks mapped and
-        attributes nothing. The build validates this."""
-        known = {_norm(n) for n in par_names}
-        return {pos: sku for pos, sku in self.map.items() if _norm(sku) not in known}
+        attributes nothing. The build validates this.
+
+        `par_names` is this venue's par universe. `venue_par_names` is an
+        optional {venue: names} map used to validate CROSS-VENUE targets — a
+        "stow:" target must exist in Stowaway's par universe, and if that
+        universe was not supplied the entry is reported rather than assumed
+        good, so an unvalidatable target can never pass silently.
+
+        Returns {pos_name: value-as-written}, prefix included.
+        """
+        known = {self.venue: {_norm(n) for n in par_names}}
+        for v, names in (venue_par_names or {}).items():
+            known[v] = {_norm(n) for n in names}
+        out = {}
+        for pos, raw in self.map.items():
+            tv, sku = self.targets.get(pos, (None, None))
+            pool = known.get(tv)
+            if not sku or pool is None or _norm(sku) not in pool:
+                out[pos] = raw
+        return out
 
 
 def load_aliases(data_dir: str, venue: str) -> AliasBook:
@@ -405,6 +478,21 @@ def load_aliases(data_dir: str, venue: str) -> AliasBook:
         return AliasBook({}, venue)
     with open(path) as fh:
         return AliasBook(json.load(fh), venue)
+
+
+def par_universe(data_dir: str, venue: str):
+    """The set of par SKU names that exist for a venue.
+
+    Same construction as compute_venue's ParIndex (live pars + hard overrides +
+    bulk catalog names), exposed on its own so ONE venue's build can validate a
+    cross-venue alias target against ANOTHER venue's par universe without
+    computing that venue.
+    """
+    _, bo_meta = load_bo(data_dir, venue)
+    scrape = load_scrape(data_dir, venue)
+    ov = {p: o for p, o in load_overrides(data_dir, venue).items()
+          if o.get("protect") == "hard"}
+    return ParIndex(scrape, ov, bo_meta).names
 
 
 def tap_serve_ml(pos_name: str) -> float:
@@ -708,7 +796,9 @@ def _alias_units(pos_name, rg, qty, sku, serve_ml=None):
 
 
 def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks,
-                       revenue_out=None, aliases=None, unattributed_out=None):
+                       revenue_out=None, aliases=None, unattributed_out=None,
+                       cross_aliases=None, cross_units_out=None,
+                       exported_out=None):
     """(pour, recipe) weekly series per par SKU.
 
     `revenue_out`, if given, is filled with {sku: ex-GST revenue attributed to
@@ -716,6 +806,24 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
     consumed, in proportion to the bottle-fraction consumed. Used only to break
     ties when assigning service classes; it is never money arithmetic that
     reaches a P&L, so plain floats are correct here.
+
+    CROSS-VENUE STOCK. Stowaway and Harry Gatos share some lines: the stock is
+    held and ordered centrally against STOWAWAY par SKUs but it also pours
+    through the HG till, so HG's sales were consumption that reached no par SKU
+    anywhere and Stowaway's pars under-counted it. `cross_aliases` is
+    {other_venue: AliasBook}; a row from `other_venue` whose alias target is
+    "<this venue>:<sku>" is ingested here, converted by the SAME `_alias_units`
+    rules, and added to that SKU's pour series in the row's own week.
+
+      * `cross_units_out`, if given, is filled with {sku: weekly series} holding
+        ONLY the foreign contribution, so a reader (and the safety net in
+        compute_venue) can tell demand this venue's own till saw from demand it
+        did not.
+      * `exported_out`, if given, is filled with the rows of THIS venue that an
+        alias sends to ANOTHER venue's par SKU. They contribute nothing here —
+        that is the point, a POS line feeds exactly one par SKU in exactly one
+        venue — but they are attributed, not lost, so they are recorded rather
+        than reported as a miss.
     """
     widx = {w: i for i, w in enumerate(weeks)}
     n = len(weeks)
@@ -743,9 +851,20 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
         w["qty"] += qty
         w["revenue_ex_gst"] += rev
 
+    def _exported(name, rg, wk, qty, rev, tgt_venue, tgt_sku):
+        """Record a line of THIS venue whose stock is another venue's par SKU."""
+        if exported_out is None:
+            return
+        a = exported_out.setdefault(name, {
+            "product": name, "reporting_group": rg, "target_venue": tgt_venue,
+            "target_sku": tgt_sku, "weekly": {}})
+        a["reporting_group"] = rg or a["reporting_group"]
+        w = a["weekly"].setdefault(wk, {"qty": 0.0, "revenue_ex_gst": 0.0})
+        w["qty"] += qty
+        w["revenue_ex_gst"] += rev
+
     for r in rows:
-        if r["venue"] != venue:
-            continue
+        row_venue = r["venue"]
         wk = r["week_ending"]
         if wk not in widx:
             continue
@@ -754,12 +873,41 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
         if qty == 0:
             continue
 
+        if row_venue != venue:
+            # ── CROSS-VENUE. Another venue's till line, poured out of THIS
+            # venue's stock. Only an explicit "<venue>:<sku>" alias in that
+            # venue's book gets in here; everything else about another venue is
+            # none of this build's business. The conversion is the same one an
+            # own-venue alias gets, so a schooner is still 500/50000 of a keg
+            # and a can is still 1:1.
+            ab = (cross_aliases or {}).get(row_venue)
+            if ab is None:
+                continue
+            tgt_venue, tgt_sku = ab.resolve(name)
+            if tgt_venue != venue or not tgt_sku:
+                continue
+            units = _alias_units(name, rg, qty, tgt_sku,
+                                 serve_ml=ab.serve_ml(name))
+            if units > 0:
+                pour[tgt_sku][i] += units
+                rev[tgt_sku] = rev.get(tgt_sku, 0.0) + _rev(r)
+                if cross_units_out is not None:
+                    cross_units_out.setdefault(tgt_sku, [0.0] * n)[i] += units
+            continue
+
         # ── ALIAS FIRST. An alias is a human saying "this till line IS that
         # stock item". It short-circuits BOTH the recipe matcher and the
         # fallback name matcher, so an aliased line contributes to exactly one
         # par SKU and can never be counted twice.
-        alias_sku = aliases.target(name) if aliases is not None else None
+        alias_venue, alias_sku = (aliases.resolve(name) if aliases is not None
+                                  else (None, None))
         if alias_sku is not None:
+            if alias_venue != venue:
+                # The stock lives at the other venue and is counted there. It
+                # must add NOTHING here — not to a par SKU, and not to the
+                # unattributed report either, because it IS attributed.
+                _exported(name, rg, wk, qty, _rev(r), alias_venue, alias_sku)
+                continue
             units = _alias_units(name, rg, qty, alias_sku,
                                  serve_ml=aliases.serve_ml(name))
             if units > 0:
@@ -940,6 +1088,37 @@ def unattributed_report(raw, weeks, aliases=None, window=UNATTRIBUTED_WEEKS):
     return offenders, intentional
 
 
+def cross_venue_report(raw, weeks, window=UNATTRIBUTED_WEEKS):
+    """POS lines of this venue that are attributed to ANOTHER venue's par SKU.
+
+    These are NOT unattributed — the stock is held and ordered centrally at the
+    other venue and the volume lands on that venue's par — but a line vanishing
+    from this venue's own numbers with no explanation is exactly the silence the
+    unattributed gate exists to end. So they are reported, with their target, in
+    `attributed_to_other_venue`.
+    """
+    window_weeks = set(weeks[-window:]) if window else set(weeks)
+    n_weeks = max(len(window_weeks), 1)
+    out = []
+    for name, a in (raw or {}).items():
+        qty = sum(w["qty"] for k, w in a["weekly"].items() if k in window_weeks)
+        revenue = sum(w["revenue_ex_gst"] for k, w in a["weekly"].items()
+                      if k in window_weeks)
+        if qty <= 0 and revenue <= 0:
+            continue
+        out.append({
+            "product": name,
+            "reporting_group": a.get("reporting_group") or "",
+            "qty_window": round(qty, 2),
+            "qty_per_week": round(qty / n_weeks, 2),
+            "revenue_ex_gst_window": round(revenue, 2),
+            "target_venue": a.get("target_venue"),
+            "target_sku": a.get("target_sku"),
+        })
+    out.sort(key=lambda r: -r["revenue_ex_gst_window"])
+    return out
+
+
 def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
                   engine="v3"):
     """Compute par recommendations for a venue. Returns (recs, meta).
@@ -964,15 +1143,33 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
     idx = ParIndex(scrape, overrides, bo_meta)
     matcher = build_recipe_matcher(recipe_norms)
     aliases = load_aliases(data_dir, venue)
+    # Cross-venue stock: another venue's till lines that are poured out of THIS
+    # venue's par SKUs (HG's shared taps and Coke/Sprite cans -> Stowaway).
+    cross_aliases = {}
+    for other in VENUE_CODES:
+        if other == venue:
+            continue
+        ab = load_aliases(data_dir, other)
+        if venue in ab.cross_venues():
+            cross_aliases[other] = ab
+    # ...and the mirror: this venue's aliases that point AT another venue must be
+    # validated against THAT venue's par universe, or a typo'd target would look
+    # mapped and attribute nothing anywhere.
+    other_par_names = {v: par_universe(data_dir, v) for v in aliases.cross_venues()}
 
     weeks = sorted({r["week_ending"] for r in rows})
     recent_weeks = weeks[-RECENT_WEEKS:]
     revenue = {}
     unattributed_raw = {}
+    cross_units = {}
+    exported_raw = {}
     pour, recipe = _build_consumption(rows, venue, idx, leaves_by_norm, matcher,
                                       id2name, weeks, revenue_out=revenue,
                                       aliases=aliases,
-                                      unattributed_out=unattributed_raw)
+                                      unattributed_out=unattributed_raw,
+                                      cross_aliases=cross_aliases,
+                                      cross_units_out=cross_units,
+                                      exported_out=exported_raw)
 
     universe = set(pour) | set(recipe) | set(scrape) | set(overrides)
     n = len(weeks)
@@ -1021,11 +1218,18 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
         order_sunday = None
 
     recs = {}
+    n_recent = min(RECENT_WEEKS, n)
     for sku in sorted(universe):
         p = pour.get(sku, [0.0] * n)
         rc = recipe.get(sku, [0.0] * n)
+        xs = cross_units.get(sku, [0.0] * n)
         series = consumption[sku]
         rg = rg_of(sku)
+        # Did THIS venue's own till see any of this recently, or is every unit of
+        # recent demand the other venue's? See the safety net below.
+        recent_cross = sum(xs[n - n_recent:]) if n_recent else 0.0
+        recent_own = sum(series[n - n_recent:]) - recent_cross if n_recent else 0.0
+        cross_only = recent_cross > 1e-9 and recent_own <= 1e-9
 
         if engine == "v2":
             forecast, method, growth, cv, window_peak, buf = forecast_sku(series)
@@ -1083,11 +1287,24 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
         # measured stock loss is a naming/mapping problem, not a stock policy,
         # and letting true_wk>0 skip this branch is exactly how Coke Zero Can
         # went from a live par of 40.7 to 0 in the first v3 run.
+        #
+        # CROSS-VENUE COROLLARY: a trickle of demand imported from the OTHER
+        # venue is not evidence that this venue's own mapping is healthy. If the
+        # only recent demand a SKU has is foreign, releasing the hold would cut a
+        # live par on the strength of someone else's till — Stowaway's 'Coke Can'
+        # (live par 32.5, own till volume invisible because Marilyna's rings it
+        # under its own venue) would have gone to ~1 on 0.23 HG cans a week.
+        # Foreign demand may RAISE such a par; it may never lower it.
         held = False
-        if forecast <= 0 and cur is not None and (ov is None or ov.get("type") in ("min",)):
-            rec_par = float(cur)
-            spike_floored = False
-            held = True
+        if cur is not None and (ov is None or ov.get("type") in ("min",)):
+            if forecast <= 0:
+                rec_par = float(cur)
+                spike_floored = False
+                held = True
+            elif cross_only and rec_par < float(cur):
+                rec_par = float(cur)
+                spike_floored = False
+                held = "cross"
 
         pre_ov = rec_par
         rec_par = round(apply_override(rec_par, ov), 1)
@@ -1097,8 +1314,12 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
             flags.append(f"override:{ov.get('type')}")
         if spike_floored:
             flags.append("sanity_floored" if engine == "v3" else "spike_floored")
-        if held:
+        if held == "cross":
+            flags.append("held_cross_venue_demand_only")
+        elif held:
             flags.append("held_no_recent_demand")
+        if recent_cross > 1e-9:
+            flags.append("cross_venue_demand")
         if method == "No recent sales" and not ov and not held:
             flags.append("no_recent_sales")
         if cur is None and rec_par > 0:
@@ -1122,6 +1343,7 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
 
         pour_wk = round(_weighted_recent(p), 2)
         recipe_wk = round(_weighted_recent(rc), 2)
+        cross_wk = round(_weighted_recent(xs), 3)
         variance_wk = round(sk.get("loss_per_week", 0.0), 3)
         recs[sku] = {
             "product": sku,
@@ -1138,6 +1360,10 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
                 "recipe_wk": recipe_wk,
                 "variance_wk": variance_wk,
                 "true_wk": round(pour_wk + recipe_wk + variance_wk, 3),
+                # How much of pour_wk arrived from the OTHER venue's till on a
+                # shared-stock alias. A SUBSET of pour_wk, not another term —
+                # never add it to true_wk.
+                "cross_venue_wk": cross_wk,
             },
             "shrinkage": {
                 "loss_per_week": variance_wk,
@@ -1164,13 +1390,22 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
 
     gaps = coverage_gap(rows, venue, matcher, leaves_by_norm, recent_weeks)
     unattr, unattr_intentional = unattributed_report(unattributed_raw, weeks, aliases)
+    exported = cross_venue_report(exported_raw, weeks)
     meta = {
         "venue": venue,
         "engine": engine,
         "aliases": {
             "n": len(aliases.map),
             "map": dict(aliases.map),
-            "unknown_targets": aliases.unknown_targets(idx.names),
+            "cross_venue_targets": {
+                pos: f"{v}:{sku}" for pos, (v, sku) in sorted(aliases.targets.items())
+                if v and v != venue
+            },
+            "unknown_targets": aliases.unknown_targets(idx.names, other_par_names),
+        },
+        "attributed_to_other_venue": exported,
+        "cross_venue_imported": {
+            sku: round(sum(s), 3) for sku, s in sorted(cross_units.items())
         },
         "unattributed": unattr,
         "unattributed_intentional": unattr_intentional,

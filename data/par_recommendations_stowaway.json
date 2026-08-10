@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-10T09:43:01.525917+10:00",
+  "generated_at": "2026-08-10T10:00:33.542309+10:00",
   "venue": "stow",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 95,
@@ -38,10 +38,10 @@
     "decrease": 46,
     "unchanged": 52,
     "coverage_gaps": [],
-    "shrinkage_applied": 57,
-    "shrinkage_capped": 6,
-    "shrinkage_without_demand_mapping": 15,
-    "low_mover_poisson": 117
+    "shrinkage_applied": 56,
+    "shrinkage_capped": 7,
+    "shrinkage_without_demand_mapping": 13,
+    "low_mover_poisson": 119
   },
   "skus": [
     {
@@ -55,7 +55,8 @@
         "pour_wk": 0.07,
         "recipe_wk": 0.0,
         "variance_wk": 0.002,
-        "true_wk": 0.072
+        "true_wk": 0.072,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -107,7 +108,8 @@
         "pour_wk": 0.14,
         "recipe_wk": 0.0,
         "variance_wk": 0.052,
-        "true_wk": 0.192
+        "true_wk": 0.192,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.052,
@@ -165,7 +167,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.1,
         "variance_wk": 0.012,
-        "true_wk": 0.112
+        "true_wk": 0.112,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.012,
@@ -218,7 +221,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -270,7 +274,8 @@
         "pour_wk": 1.15,
         "recipe_wk": 0.0,
         "variance_wk": 0.099,
-        "true_wk": 1.249
+        "true_wk": 1.249,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.099,
@@ -323,7 +328,8 @@
         "pour_wk": 1.34,
         "recipe_wk": 0.0,
         "variance_wk": 0.057,
-        "true_wk": 1.397
+        "true_wk": 1.397,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.057,
@@ -376,7 +382,8 @@
         "pour_wk": 0.05,
         "recipe_wk": 0.0,
         "variance_wk": 0.003,
-        "true_wk": 0.053
+        "true_wk": 0.053,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.003,
@@ -428,7 +435,8 @@
         "pour_wk": 2.15,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 2.151
+        "true_wk": 2.151,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -478,7 +486,8 @@
         "pour_wk": 0.67,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.671
+        "true_wk": 0.671,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -530,7 +539,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.012,
-        "true_wk": 0.022
+        "true_wk": 0.022,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.012,
@@ -582,7 +592,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
         "variance_wk": 0.009,
-        "true_wk": 0.029
+        "true_wk": 0.029,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.009,
@@ -604,10 +615,10 @@
         "sigma_exposure": 0.035,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.02,
       "forecast_wk": 0.019,
@@ -635,7 +646,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.011
+        "true_wk": 0.011,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -687,7 +699,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.04,
         "variance_wk": 0.034,
-        "true_wk": 0.074
+        "true_wk": 0.074,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.034,
@@ -709,10 +722,10 @@
         "sigma_exposure": 0.039,
         "safety_stock": 0.943,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.039,
       "forecast_wk": 0.038,
@@ -740,7 +753,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.26,
         "variance_wk": 0.065,
-        "true_wk": 0.325
+        "true_wk": 0.325,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.065,
@@ -798,7 +812,8 @@
         "pour_wk": 0.03,
         "recipe_wk": 3.15,
         "variance_wk": 0.018,
-        "true_wk": 3.198
+        "true_wk": 3.198,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.018,
@@ -848,7 +863,8 @@
         "pour_wk": 0.09,
         "recipe_wk": 0.22,
         "variance_wk": 0.003,
-        "true_wk": 0.313
+        "true_wk": 0.313,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.003,
@@ -900,7 +916,8 @@
         "pour_wk": 0.15,
         "recipe_wk": 0.0,
         "variance_wk": 0.004,
-        "true_wk": 0.154
+        "true_wk": 0.154,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.004,
@@ -952,7 +969,8 @@
         "pour_wk": 2.97,
         "recipe_wk": 0.0,
         "variance_wk": 0.235,
-        "true_wk": 3.205
+        "true_wk": 3.205,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.235,
@@ -1004,7 +1022,8 @@
         "pour_wk": 0.09,
         "recipe_wk": 0.58,
         "variance_wk": 0.129,
-        "true_wk": 0.799
+        "true_wk": 0.799,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.129,
@@ -1057,7 +1076,8 @@
         "pour_wk": 0.16,
         "recipe_wk": 0.0,
         "variance_wk": 0.029,
-        "true_wk": 0.189
+        "true_wk": 0.189,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.029,
@@ -1076,15 +1096,15 @@
         "demand_over_exposure": 0.158,
         "shrink_multiplier": 1.3694,
         "cv": 1.2,
-        "sigma_exposure": 0.26,
-        "safety_stock": 0.783,
+        "sigma_exposure": 0.259,
+        "safety_stock": 0.784,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
-      "level_deseasonalised": 0.161,
+      "level_deseasonalised": 0.16,
       "forecast_wk": 0.158,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
@@ -1109,7 +1129,8 @@
         "pour_wk": 0.03,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.031
+        "true_wk": 0.031,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -1131,10 +1152,10 @@
         "sigma_exposure": 0.04,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.034,
       "forecast_wk": 0.033,
@@ -1166,7 +1187,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 1.31,
         "variance_wk": 0.871,
-        "true_wk": 2.181
+        "true_wk": 2.181,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.871,
@@ -1224,7 +1246,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.006,
-        "true_wk": 0.006
+        "true_wk": 0.006,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.006,
@@ -1246,10 +1269,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -1276,7 +1299,8 @@
         "pour_wk": 0.05,
         "recipe_wk": 0.0,
         "variance_wk": 0.024,
-        "true_wk": 0.074
+        "true_wk": 0.074,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.024,
@@ -1328,7 +1352,8 @@
         "pour_wk": 1.03,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 1.03
+        "true_wk": 1.03,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1378,7 +1403,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.004,
-        "true_wk": 0.004
+        "true_wk": 0.004,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.004,
@@ -1400,10 +1426,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku+group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -1432,7 +1458,8 @@
         "pour_wk": 1.03,
         "recipe_wk": 2.04,
         "variance_wk": 0.33,
-        "true_wk": 3.4
+        "true_wk": 3.4,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.33,
@@ -1489,7 +1516,8 @@
         "pour_wk": 0.11,
         "recipe_wk": 0.02,
         "variance_wk": 0.011,
-        "true_wk": 0.141
+        "true_wk": 0.141,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.011,
@@ -1541,7 +1569,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.011
+        "true_wk": 0.011,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -1593,7 +1622,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.02,
-        "true_wk": 0.02
+        "true_wk": 0.02,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.02,
@@ -1615,10 +1645,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -1648,7 +1678,8 @@
         "pour_wk": 0.04,
         "recipe_wk": 0.0,
         "variance_wk": 0.003,
-        "true_wk": 0.043
+        "true_wk": 0.043,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.003,
@@ -1670,10 +1701,10 @@
         "sigma_exposure": 0.042,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.041,
       "forecast_wk": 0.04,
@@ -1700,7 +1731,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.001
+        "true_wk": 0.001,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -1752,7 +1784,8 @@
         "pour_wk": 0.28,
         "recipe_wk": 0.78,
         "variance_wk": 0.062,
-        "true_wk": 1.122
+        "true_wk": 1.122,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.062,
@@ -1805,7 +1838,8 @@
         "pour_wk": 6.11,
         "recipe_wk": 0.76,
         "variance_wk": 0.146,
-        "true_wk": 7.016
+        "true_wk": 7.016,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.146,
@@ -1857,7 +1891,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.009,
-        "true_wk": 0.019
+        "true_wk": 0.019,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.009,
@@ -1909,7 +1944,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.031,
-        "true_wk": 0.041
+        "true_wk": 0.041,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.031,
@@ -1962,7 +1998,8 @@
         "pour_wk": 0.07,
         "recipe_wk": 0.92,
         "variance_wk": 0.218,
-        "true_wk": 1.208
+        "true_wk": 1.208,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.218,
@@ -2020,7 +2057,8 @@
         "pour_wk": 0.02,
         "recipe_wk": 0.0,
         "variance_wk": 0.003,
-        "true_wk": 0.023
+        "true_wk": 0.023,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.003,
@@ -2072,7 +2110,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.26,
         "variance_wk": 0.084,
-        "true_wk": 0.344
+        "true_wk": 0.344,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.084,
@@ -2092,12 +2131,12 @@
         "shrink_multiplier": 1.3146,
         "cv": 0.337,
         "sigma_exposure": 0.113,
-        "safety_stock": 0.664,
+        "safety_stock": 0.665,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.259,
       "forecast_wk": 0.255,
@@ -2130,7 +2169,8 @@
         "pour_wk": 5.34,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 5.34
+        "true_wk": 5.34,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2180,7 +2220,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.011
+        "true_wk": 0.011,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -2232,7 +2273,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.003,
-        "true_wk": 0.003
+        "true_wk": 0.003,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.003,
@@ -2284,7 +2326,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.04,
         "variance_wk": 0.026,
-        "true_wk": 0.066
+        "true_wk": 0.066,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.026,
@@ -2306,10 +2349,10 @@
         "sigma_exposure": 0.028,
         "safety_stock": 0.948,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.035,
       "forecast_wk": 0.035,
@@ -2337,7 +2380,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2389,7 +2433,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.001
+        "true_wk": 0.001,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -2441,7 +2486,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.1,
-        "true_wk": 0.1
+        "true_wk": 0.1,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.1,
@@ -2492,50 +2538,52 @@
       "rec_par_pre_override": 32.5,
       "current_par": 32.5,
       "drivers": {
-        "pour_wk": 0.0,
+        "pour_wk": 0.58,
         "recipe_wk": 0.0,
-        "variance_wk": 3.051,
-        "true_wk": 3.051
+        "variance_wk": 0.009,
+        "true_wk": 0.589,
+        "cross_venue_wk": 0.583
       },
       "shrinkage": {
-        "loss_per_week": 3.051,
+        "loss_per_week": 0.009,
         "loss_fraction": 0.0,
         "n_periods": 10,
-        "capped": false
+        "capped": true
       },
       "service": {
-        "path": "normal",
+        "path": "poisson",
         "burst_floor": 0.0,
         "burst_floored": false,
-        "service_class": "tail",
-        "service_level": 0.85,
-        "z": 1.036,
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 0.0,
+        "demand_over_exposure": 0.583,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
-        "sigma_exposure": 0.0,
-        "safety_stock": 0.0,
-        "cv_source": "group",
+        "sigma_exposure": 0.7,
+        "safety_stock": 1.417,
+        "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
       },
       "seasonal_index": 1.0,
       "seasonal_source": "flat",
-      "level_deseasonalised": 0.0,
-      "forecast_wk": 0.0,
+      "level_deseasonalised": 0.583,
+      "forecast_wk": 0.583,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 0.0,
       "spike_floor": 0.0,
-      "forecast_method": "No recent sales",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
-      "buffer": 1.2,
+      "buffer": 1.3,
       "override": null,
       "flags": [
-        "held_no_recent_demand",
-        "shrinkage_applied",
-        "shrinkage_without_demand_mapping"
+        "held_cross_venue_demand_only",
+        "cross_venue_demand",
+        "shrinkage_capped_investigate",
+        "low_mover_poisson"
       ]
     },
     {
@@ -2549,7 +2597,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.933,
-        "true_wk": 0.933
+        "true_wk": 0.933,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.933,
@@ -2603,7 +2652,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 1.905,
-        "true_wk": 1.905
+        "true_wk": 1.905,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 1.905,
@@ -2657,7 +2707,8 @@
         "pour_wk": 10.36,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 10.36
+        "true_wk": 10.36,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2704,10 +2755,11 @@
       "rec_par_pre_override": 1.0,
       "current_par": 0.4,
       "drivers": {
-        "pour_wk": 0.24,
+        "pour_wk": 0.25,
         "recipe_wk": 0.0,
         "variance_wk": 0.005,
-        "true_wk": 0.245
+        "true_wk": 0.255,
+        "cross_venue_wk": 0.004
       },
       "shrinkage": {
         "loss_per_week": 0.005,
@@ -2723,28 +2775,29 @@
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 0.235,
+        "demand_over_exposure": 0.238,
         "shrink_multiplier": 1.0075,
-        "cv": 0.565,
-        "sigma_exposure": 0.134,
-        "safety_stock": 0.763,
+        "cv": 0.566,
+        "sigma_exposure": 0.136,
+        "safety_stock": 0.76,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
-      "level_deseasonalised": 0.239,
-      "forecast_wk": 0.235,
+      "level_deseasonalised": 0.242,
+      "forecast_wk": 0.238,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 0.1,
       "spike_floor": 0.1,
       "forecast_method": "Deseasonalised level x seasonal index",
       "growth": 1.8,
-      "buffer": 1.274,
+      "buffer": 1.281,
       "override": null,
       "flags": [
+        "cross_venue_demand",
         "low_mover_poisson"
       ]
     },
@@ -2759,7 +2812,8 @@
         "pour_wk": 0.65,
         "recipe_wk": 0.0,
         "variance_wk": 0.073,
-        "true_wk": 0.723
+        "true_wk": 0.723,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.073,
@@ -2812,7 +2866,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.005,
-        "true_wk": 0.005
+        "true_wk": 0.005,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.005,
@@ -2864,7 +2919,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2886,10 +2942,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -2916,7 +2972,8 @@
         "pour_wk": 0.83,
         "recipe_wk": 0.0,
         "variance_wk": 0.064,
-        "true_wk": 0.894
+        "true_wk": 0.894,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.064,
@@ -2969,7 +3026,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3021,7 +3079,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 1.02,
         "variance_wk": 0.002,
-        "true_wk": 1.022
+        "true_wk": 1.022,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -3037,19 +3096,19 @@
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 0.996,
+        "demand_over_exposure": 0.994,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
-        "sigma_exposure": 1.195,
-        "safety_stock": 2.004,
+        "sigma_exposure": 1.193,
+        "safety_stock": 2.006,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 1.011,
-      "forecast_wk": 0.996,
+      "forecast_wk": 0.994,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 1.0,
@@ -3071,7 +3130,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.006,
-        "true_wk": 0.006
+        "true_wk": 0.006,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.006,
@@ -3123,7 +3183,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.001
+        "true_wk": 0.001,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -3175,7 +3236,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.032,
-        "true_wk": 0.032
+        "true_wk": 0.032,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.032,
@@ -3232,7 +3294,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.014,
-        "true_wk": 0.014
+        "true_wk": 0.014,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.014,
@@ -3284,7 +3347,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.16,
         "variance_wk": 0.01,
-        "true_wk": 0.18
+        "true_wk": 0.18,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.01,
@@ -3336,7 +3400,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3358,10 +3423,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -3391,7 +3456,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.14,
         "variance_wk": 0.017,
-        "true_wk": 0.157
+        "true_wk": 0.157,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.017,
@@ -3443,7 +3509,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.007,
-        "true_wk": 0.007
+        "true_wk": 0.007,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.007,
@@ -3465,10 +3532,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -3495,7 +3562,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3552,7 +3620,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3604,7 +3673,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3656,7 +3726,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.021,
-        "true_wk": 0.021
+        "true_wk": 0.021,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.021,
@@ -3708,7 +3779,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.001
+        "true_wk": 0.001,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -3760,7 +3832,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.002,
-        "true_wk": 0.002
+        "true_wk": 0.002,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -3812,7 +3885,8 @@
         "pour_wk": 0.22,
         "recipe_wk": 0.0,
         "variance_wk": 0.106,
-        "true_wk": 0.326
+        "true_wk": 0.326,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.106,
@@ -3865,7 +3939,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.191,
-        "true_wk": 0.191
+        "true_wk": 0.191,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.191,
@@ -3919,7 +3994,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3971,7 +4047,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -4023,7 +4100,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
         "variance_wk": 0.0,
-        "true_wk": 0.02
+        "true_wk": 0.02,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -4039,19 +4117,19 @@
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 0.017,
+        "demand_over_exposure": 0.016,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.02,
         "safety_stock": 0.0,
         "cv_source": "sku+group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.017,
-      "forecast_wk": 0.017,
+      "forecast_wk": 0.016,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 0.0,
@@ -4076,7 +4154,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.65,
         "variance_wk": 0.002,
-        "true_wk": 0.652
+        "true_wk": 0.652,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -4092,19 +4171,19 @@
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 0.634,
+        "demand_over_exposure": 0.633,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
-        "sigma_exposure": 0.761,
-        "safety_stock": 1.366,
+        "sigma_exposure": 0.76,
+        "safety_stock": 1.367,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.644,
-      "forecast_wk": 0.634,
+      "forecast_wk": 0.633,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 0.6,
@@ -4128,7 +4207,8 @@
         "pour_wk": 2.44,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 2.44
+        "true_wk": 2.44,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -4178,7 +4258,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.006,
-        "true_wk": 0.016
+        "true_wk": 0.016,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.006,
@@ -4190,7 +4271,7 @@
         "path": "poisson",
         "burst_floor": 0.2,
         "burst_floored": true,
-        "service_class": "standard",
+        "service_class": "tail",
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
@@ -4230,7 +4311,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.842,
-        "true_wk": 0.842
+        "true_wk": 0.842,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.842,
@@ -4252,10 +4334,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -4284,7 +4366,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 1.317,
-        "true_wk": 1.317
+        "true_wk": 1.317,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 1.317,
@@ -4306,10 +4389,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -4338,7 +4421,8 @@
         "pour_wk": 0.18,
         "recipe_wk": 0.0,
         "variance_wk": 0.005,
-        "true_wk": 0.185
+        "true_wk": 0.185,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.005,
@@ -4390,7 +4474,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.002,
-        "true_wk": 0.012
+        "true_wk": 0.012,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -4442,7 +4527,8 @@
         "pour_wk": 0.02,
         "recipe_wk": 0.0,
         "variance_wk": 0.004,
-        "true_wk": 0.024
+        "true_wk": 0.024,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.004,
@@ -4494,7 +4580,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.01,
         "variance_wk": 0.039,
-        "true_wk": 0.059
+        "true_wk": 0.059,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.039,
@@ -4546,7 +4633,8 @@
         "pour_wk": 0.13,
         "recipe_wk": 0.0,
         "variance_wk": 0.017,
-        "true_wk": 0.147
+        "true_wk": 0.147,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.017,
@@ -4565,13 +4653,13 @@
         "demand_over_exposure": 0.125,
         "shrink_multiplier": 1.0532,
         "cv": 1.028,
-        "sigma_exposure": 0.136,
+        "sigma_exposure": 0.135,
         "safety_stock": 0.868,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.127,
       "forecast_wk": 0.125,
@@ -4598,7 +4686,8 @@
         "pour_wk": 0.02,
         "recipe_wk": 0.05,
         "variance_wk": 0.021,
-        "true_wk": 0.091
+        "true_wk": 0.091,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.021,
@@ -4650,7 +4739,8 @@
         "pour_wk": 0.03,
         "recipe_wk": 0.05,
         "variance_wk": 0.015,
-        "true_wk": 0.095
+        "true_wk": 0.095,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.015,
@@ -4702,7 +4792,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.05,
         "variance_wk": 0.018,
-        "true_wk": 0.068
+        "true_wk": 0.068,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.018,
@@ -4754,7 +4845,8 @@
         "pour_wk": 8.6,
         "recipe_wk": 0.0,
         "variance_wk": 0.753,
-        "true_wk": 9.353
+        "true_wk": 9.353,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.753,
@@ -4806,7 +4898,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.001
+        "true_wk": 0.001,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -4828,10 +4921,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -4858,7 +4951,8 @@
         "pour_wk": 0.56,
         "recipe_wk": 0.0,
         "variance_wk": 0.029,
-        "true_wk": 0.589
+        "true_wk": 0.589,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.029,
@@ -4910,7 +5004,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.004,
-        "true_wk": 0.014
+        "true_wk": 0.014,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.004,
@@ -4962,7 +5057,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.002,
-        "true_wk": 0.002
+        "true_wk": 0.002,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -5014,7 +5110,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.01,
         "variance_wk": 0.015,
-        "true_wk": 0.025
+        "true_wk": 0.025,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.015,
@@ -5066,7 +5163,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.001
+        "true_wk": 0.001,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -5088,10 +5186,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku+group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -5118,7 +5216,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.006,
-        "true_wk": 0.006
+        "true_wk": 0.006,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.006,
@@ -5171,7 +5270,8 @@
         "pour_wk": 0.28,
         "recipe_wk": 0.01,
         "variance_wk": 0.033,
-        "true_wk": 0.323
+        "true_wk": 0.323,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.033,
@@ -5223,7 +5323,8 @@
         "pour_wk": 1.08,
         "recipe_wk": 0.0,
         "variance_wk": 0.582,
-        "true_wk": 1.662
+        "true_wk": 1.662,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.582,
@@ -5275,7 +5376,8 @@
         "pour_wk": 2.31,
         "recipe_wk": 0.0,
         "variance_wk": 0.347,
-        "true_wk": 2.657
+        "true_wk": 2.657,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.347,
@@ -5327,7 +5429,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.345,
-        "true_wk": 0.345
+        "true_wk": 0.345,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.345,
@@ -5378,10 +5481,11 @@
       "rec_par_pre_override": 3.0,
       "current_par": 2,
       "drivers": {
-        "pour_wk": 1.21,
+        "pour_wk": 1.23,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 1.211
+        "true_wk": 1.231,
+        "cross_venue_wk": 0.018
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -5397,28 +5501,29 @@
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 1.152,
+        "demand_over_exposure": 1.16,
         "shrink_multiplier": 1.0,
-        "cv": 0.272,
-        "sigma_exposure": 0.313,
-        "safety_stock": 1.848,
+        "cv": 0.271,
+        "sigma_exposure": 0.314,
+        "safety_stock": 1.84,
         "cv_source": "sku",
-        "seasonal_index": 0.931,
+        "seasonal_index": 0.926,
         "seasonal_source": "sku"
       },
-      "seasonal_index": 0.931,
+      "seasonal_index": 0.926,
       "seasonal_source": "sku",
-      "level_deseasonalised": 1.238,
-      "forecast_wk": 1.152,
+      "level_deseasonalised": 1.252,
+      "forecast_wk": 1.16,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 1.8,
       "spike_floor": 1.8,
       "forecast_method": "Deseasonalised level x seasonal index",
-      "growth": 0.843,
-      "buffer": 1.203,
+      "growth": 0.852,
+      "buffer": 1.201,
       "override": null,
       "flags": [
+        "cross_venue_demand",
         "low_mover_poisson"
       ]
     },
@@ -5433,7 +5538,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -5490,7 +5596,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.021,
-        "true_wk": 0.021
+        "true_wk": 0.021,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.021,
@@ -5545,7 +5652,8 @@
         "pour_wk": 1.2,
         "recipe_wk": 0.0,
         "variance_wk": 0.005,
-        "true_wk": 1.205
+        "true_wk": 1.205,
+        "cross_venue_wk": 0.002
       },
       "shrinkage": {
         "loss_per_week": 0.005,
@@ -5561,19 +5669,19 @@
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 1.17,
+        "demand_over_exposure": 1.169,
         "shrink_multiplier": 1.0034,
         "cv": 1.2,
-        "sigma_exposure": 1.409,
-        "safety_stock": 2.826,
+        "sigma_exposure": 1.408,
+        "safety_stock": 2.827,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
-      "level_deseasonalised": 1.188,
-      "forecast_wk": 1.17,
+      "level_deseasonalised": 1.189,
+      "forecast_wk": 1.169,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 0.0,
@@ -5582,7 +5690,9 @@
       "growth": null,
       "buffer": 1.202,
       "override": null,
-      "flags": []
+      "flags": [
+        "cross_venue_demand"
+      ]
     },
     {
       "product": "Hahn Super Dry GF",
@@ -5595,7 +5705,8 @@
         "pour_wk": 2.28,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 2.28
+        "true_wk": 2.28,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -5645,7 +5756,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.004,
-        "true_wk": 0.014
+        "true_wk": 0.014,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.004,
@@ -5697,7 +5809,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -5719,10 +5832,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -5749,7 +5862,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.002,
-        "true_wk": 0.012
+        "true_wk": 0.012,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -5801,7 +5915,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
         "variance_wk": 0.003,
-        "true_wk": 0.023
+        "true_wk": 0.023,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.003,
@@ -5823,10 +5938,10 @@
         "sigma_exposure": 0.03,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.017,
       "forecast_wk": 0.017,
@@ -5853,7 +5968,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.025,
-        "true_wk": 0.025
+        "true_wk": 0.025,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.025,
@@ -5875,10 +5991,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -5905,7 +6021,8 @@
         "pour_wk": 18.97,
         "recipe_wk": 0.0,
         "variance_wk": 0.221,
-        "true_wk": 19.191
+        "true_wk": 19.191,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.221,
@@ -5957,7 +6074,8 @@
         "pour_wk": 0.44,
         "recipe_wk": 0.0,
         "variance_wk": 0.016,
-        "true_wk": 0.456
+        "true_wk": 0.456,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.016,
@@ -6009,7 +6127,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.003,
-        "true_wk": 0.003
+        "true_wk": 0.003,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.003,
@@ -6061,7 +6180,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.003,
-        "true_wk": 0.003
+        "true_wk": 0.003,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.003,
@@ -6083,10 +6203,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku+group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -6115,7 +6235,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -6137,10 +6258,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -6170,7 +6291,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.002,
-        "true_wk": 0.002
+        "true_wk": 0.002,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -6222,7 +6344,8 @@
         "pour_wk": 0.56,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.56
+        "true_wk": 0.56,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -6274,7 +6397,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.005,
-        "true_wk": 0.005
+        "true_wk": 0.005,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.005,
@@ -6296,10 +6420,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -6326,7 +6450,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.001
+        "true_wk": 0.001,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -6378,7 +6503,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.001
+        "true_wk": 0.001,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -6400,10 +6526,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -6430,7 +6556,8 @@
         "pour_wk": 0.18,
         "recipe_wk": 0.0,
         "variance_wk": 0.01,
-        "true_wk": 0.19
+        "true_wk": 0.19,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.01,
@@ -6482,7 +6609,8 @@
         "pour_wk": 1.03,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 1.03
+        "true_wk": 1.03,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -6538,7 +6666,8 @@
         "pour_wk": 0.11,
         "recipe_wk": 0.0,
         "variance_wk": 0.008,
-        "true_wk": 0.118
+        "true_wk": 0.118,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.008,
@@ -6590,7 +6719,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.04,
         "variance_wk": 0.005,
-        "true_wk": 0.045
+        "true_wk": 0.045,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.005,
@@ -6612,10 +6742,10 @@
         "sigma_exposure": 0.029,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.044,
       "forecast_wk": 0.043,
@@ -6644,7 +6774,8 @@
         "pour_wk": 0.03,
         "recipe_wk": 0.0,
         "variance_wk": 0.002,
-        "true_wk": 0.032
+        "true_wk": 0.032,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -6696,7 +6827,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 1.17,
         "variance_wk": 0.023,
-        "true_wk": 1.203
+        "true_wk": 1.203,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.023,
@@ -6750,10 +6882,11 @@
       "rec_par_pre_override": 2.0,
       "current_par": 1.3,
       "drivers": {
-        "pour_wk": 0.61,
+        "pour_wk": 0.62,
         "recipe_wk": 0.0,
         "variance_wk": 0.03,
-        "true_wk": 0.64
+        "true_wk": 0.65,
+        "cross_venue_wk": 0.012
       },
       "shrinkage": {
         "loss_per_week": 0.03,
@@ -6769,28 +6902,29 @@
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 0.594,
+        "demand_over_exposure": 0.599,
         "shrink_multiplier": 1.036,
-        "cv": 0.423,
-        "sigma_exposure": 0.26,
-        "safety_stock": 1.384,
+        "cv": 0.421,
+        "sigma_exposure": 0.261,
+        "safety_stock": 1.38,
         "cv_source": "sku",
-        "seasonal_index": 0.973,
+        "seasonal_index": 0.965,
         "seasonal_source": "sku"
       },
-      "seasonal_index": 0.973,
+      "seasonal_index": 0.965,
       "seasonal_source": "sku",
-      "level_deseasonalised": 0.611,
-      "forecast_wk": 0.594,
+      "level_deseasonalised": 0.62,
+      "forecast_wk": 0.599,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 1.0,
       "spike_floor": 1.0,
       "forecast_method": "Deseasonalised level x seasonal index",
-      "growth": 0.811,
-      "buffer": 1.148,
+      "growth": 0.822,
+      "buffer": 1.156,
       "override": null,
       "flags": [
+        "cross_venue_demand",
         "low_mover_poisson"
       ]
     },
@@ -6805,7 +6939,8 @@
         "pour_wk": 0.07,
         "recipe_wk": 0.03,
         "variance_wk": 0.018,
-        "true_wk": 0.118
+        "true_wk": 0.118,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.018,
@@ -6857,7 +6992,8 @@
         "pour_wk": 10.32,
         "recipe_wk": 0.0,
         "variance_wk": 0.333,
-        "true_wk": 10.653
+        "true_wk": 10.653,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.333,
@@ -6909,7 +7045,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -6961,7 +7098,8 @@
         "pour_wk": 0.46,
         "recipe_wk": 0.0,
         "variance_wk": 0.052,
-        "true_wk": 0.512
+        "true_wk": 0.512,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.052,
@@ -7015,7 +7153,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -7067,7 +7206,8 @@
         "pour_wk": 0.23,
         "recipe_wk": 0.0,
         "variance_wk": 0.044,
-        "true_wk": 0.274
+        "true_wk": 0.274,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.044,
@@ -7120,7 +7260,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.011
+        "true_wk": 0.011,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -7132,7 +7273,7 @@
         "path": "poisson",
         "burst_floor": 0.2,
         "burst_floored": true,
-        "service_class": "standard",
+        "service_class": "tail",
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
@@ -7173,7 +7314,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.011
+        "true_wk": 0.011,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -7225,7 +7367,8 @@
         "pour_wk": 8.86,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 8.86
+        "true_wk": 8.86,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -7275,7 +7418,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.145,
-        "true_wk": 0.145
+        "true_wk": 0.145,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.145,
@@ -7297,10 +7441,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -7332,7 +7476,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.05,
         "variance_wk": 0.014,
-        "true_wk": 0.064
+        "true_wk": 0.064,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.014,
@@ -7391,7 +7536,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.042,
-        "true_wk": 0.042
+        "true_wk": 0.042,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.042,
@@ -7413,10 +7559,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -7443,7 +7589,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.08,
         "variance_wk": 0.004,
-        "true_wk": 0.084
+        "true_wk": 0.084,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.004,
@@ -7465,10 +7612,10 @@
         "sigma_exposure": 0.049,
         "safety_stock": 0.923,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.077,
       "forecast_wk": 0.076,
@@ -7495,7 +7642,8 @@
         "pour_wk": 0.05,
         "recipe_wk": 0.0,
         "variance_wk": 0.002,
-        "true_wk": 0.052
+        "true_wk": 0.052,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -7547,7 +7695,8 @@
         "pour_wk": 0.05,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.05
+        "true_wk": 0.05,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -7569,10 +7718,10 @@
         "sigma_exposure": 0.058,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.049,
       "forecast_wk": 0.048,
@@ -7600,7 +7749,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.15,
         "variance_wk": 0.001,
-        "true_wk": 0.151
+        "true_wk": 0.151,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -7616,19 +7766,19 @@
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 0.143,
+        "demand_over_exposure": 0.142,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.171,
-        "safety_stock": 0.857,
+        "safety_stock": 0.858,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.145,
-      "forecast_wk": 0.143,
+      "forecast_wk": 0.142,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 0.2,
@@ -7652,7 +7802,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.005,
-        "true_wk": 0.005
+        "true_wk": 0.005,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.005,
@@ -7674,10 +7825,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -7704,7 +7855,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.12,
         "variance_wk": 0.028,
-        "true_wk": 0.148
+        "true_wk": 0.148,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.028,
@@ -7726,10 +7878,10 @@
         "sigma_exposure": 0.126,
         "safety_stock": 0.85,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.115,
       "forecast_wk": 0.113,
@@ -7756,7 +7908,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.12,
         "variance_wk": 0.008,
-        "true_wk": 0.128
+        "true_wk": 0.128,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.008,
@@ -7776,12 +7929,12 @@
         "shrink_multiplier": 1.03,
         "cv": 0.453,
         "sigma_exposure": 0.055,
-        "safety_stock": 0.878,
+        "safety_stock": 0.879,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.12,
       "forecast_wk": 0.118,
@@ -7813,7 +7966,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.04,
         "variance_wk": 0.002,
-        "true_wk": 0.042
+        "true_wk": 0.042,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -7835,10 +7989,10 @@
         "sigma_exposure": 0.02,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.044,
       "forecast_wk": 0.044,
@@ -7865,7 +8019,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.33,
         "variance_wk": 0.048,
-        "true_wk": 0.378
+        "true_wk": 0.378,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.048,
@@ -7922,7 +8077,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.013,
-        "true_wk": 0.013
+        "true_wk": 0.013,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.013,
@@ -7974,7 +8130,8 @@
         "pour_wk": 0.17,
         "recipe_wk": 0.0,
         "variance_wk": 0.075,
-        "true_wk": 0.245
+        "true_wk": 0.245,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.075,
@@ -8027,7 +8184,8 @@
         "pour_wk": 5.19,
         "recipe_wk": 0.0,
         "variance_wk": 1.808,
-        "true_wk": 6.998
+        "true_wk": 6.998,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 1.808,
@@ -8079,7 +8237,8 @@
         "pour_wk": 8.1,
         "recipe_wk": 0.0,
         "variance_wk": 0.374,
-        "true_wk": 8.474
+        "true_wk": 8.474,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.374,
@@ -8131,7 +8290,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.002,
-        "true_wk": 0.002
+        "true_wk": 0.002,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -8183,7 +8343,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -8205,10 +8366,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -8238,7 +8399,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.09,
         "variance_wk": 0.009,
-        "true_wk": 0.099
+        "true_wk": 0.099,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.009,
@@ -8290,7 +8452,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.009,
-        "true_wk": 0.019
+        "true_wk": 0.019,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.009,
@@ -8343,7 +8506,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.11,
         "variance_wk": 0.001,
-        "true_wk": 0.111
+        "true_wk": 0.111,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -8365,10 +8529,10 @@
         "sigma_exposure": 0.064,
         "safety_stock": 0.897,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.105,
       "forecast_wk": 0.103,
@@ -8395,7 +8559,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -8417,10 +8582,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -8450,7 +8615,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -8472,10 +8638,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku+group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -8502,7 +8668,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -8554,7 +8721,8 @@
         "pour_wk": 2.82,
         "recipe_wk": 0.0,
         "variance_wk": 0.152,
-        "true_wk": 2.972
+        "true_wk": 2.972,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.152,
@@ -8606,7 +8774,8 @@
         "pour_wk": 6.43,
         "recipe_wk": 0.0,
         "variance_wk": 0.457,
-        "true_wk": 6.887
+        "true_wk": 6.887,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.457,
@@ -8658,7 +8827,8 @@
         "pour_wk": 2.36,
         "recipe_wk": 0.0,
         "variance_wk": 0.183,
-        "true_wk": 2.543
+        "true_wk": 2.543,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.183,
@@ -8711,7 +8881,8 @@
         "pour_wk": 0.09,
         "recipe_wk": 0.02,
         "variance_wk": 0.009,
-        "true_wk": 0.119
+        "true_wk": 0.119,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.009,
@@ -8763,7 +8934,8 @@
         "pour_wk": 0.08,
         "recipe_wk": 0.05,
         "variance_wk": 0.015,
-        "true_wk": 0.145
+        "true_wk": 0.145,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.015,
@@ -8815,7 +8987,8 @@
         "pour_wk": 2.78,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 2.78
+        "true_wk": 2.78,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -8865,7 +9038,8 @@
         "pour_wk": 9.53,
         "recipe_wk": 0.0,
         "variance_wk": 0.472,
-        "true_wk": 10.002
+        "true_wk": 10.002,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.472,
@@ -8917,7 +9091,8 @@
         "pour_wk": 8.05,
         "recipe_wk": 0.0,
         "variance_wk": 0.071,
-        "true_wk": 8.121
+        "true_wk": 8.121,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.071,
@@ -8969,7 +9144,8 @@
         "pour_wk": 0.08,
         "recipe_wk": 0.0,
         "variance_wk": 0.002,
-        "true_wk": 0.082
+        "true_wk": 0.082,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.002,
@@ -8991,10 +9167,10 @@
         "sigma_exposure": 0.095,
         "safety_stock": 0.921,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.08,
       "forecast_wk": 0.079,
@@ -9019,10 +9195,11 @@
       "rec_par_pre_override": 2.0,
       "current_par": 1.1,
       "drivers": {
-        "pour_wk": 0.76,
+        "pour_wk": 0.78,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.761
+        "true_wk": 0.781,
+        "cross_venue_wk": 0.02
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -9038,28 +9215,29 @@
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 0.78,
+        "demand_over_exposure": 0.787,
         "shrink_multiplier": 1.0,
-        "cv": 0.356,
-        "sigma_exposure": 0.278,
-        "safety_stock": 1.22,
+        "cv": 0.354,
+        "sigma_exposure": 0.279,
+        "safety_stock": 1.213,
         "cv_source": "sku",
-        "seasonal_index": 1.003,
+        "seasonal_index": 0.991,
         "seasonal_source": "sku"
       },
-      "seasonal_index": 1.003,
+      "seasonal_index": 0.991,
       "seasonal_source": "sku",
-      "level_deseasonalised": 0.777,
-      "forecast_wk": 0.78,
+      "level_deseasonalised": 0.794,
+      "forecast_wk": 0.787,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 1.2,
       "spike_floor": 1.2,
       "forecast_method": "Deseasonalised level x seasonal index",
-      "growth": 0.688,
-      "buffer": 1.204,
+      "growth": 0.703,
+      "buffer": 1.202,
       "override": null,
       "flags": [
+        "cross_venue_demand",
         "low_mover_poisson"
       ]
     },
@@ -9074,7 +9252,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -9096,10 +9275,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -9126,7 +9305,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.001
+        "true_wk": 0.001,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -9148,10 +9328,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku+group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -9178,7 +9358,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.035,
-        "true_wk": 0.035
+        "true_wk": 0.035,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.035,
@@ -9230,7 +9411,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.007,
-        "true_wk": 0.007
+        "true_wk": 0.007,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.007,
@@ -9282,7 +9464,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -9304,10 +9487,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -9337,7 +9520,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.04,
         "variance_wk": 0.024,
-        "true_wk": 0.064
+        "true_wk": 0.064,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.024,
@@ -9389,7 +9573,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.007,
-        "true_wk": 0.007
+        "true_wk": 0.007,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.007,
@@ -9441,7 +9626,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -9493,7 +9679,8 @@
         "pour_wk": 0.23,
         "recipe_wk": 0.0,
         "variance_wk": 0.024,
-        "true_wk": 0.254
+        "true_wk": 0.254,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.024,
@@ -9545,7 +9732,8 @@
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.011
+        "true_wk": 0.011,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -9598,7 +9786,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.04,
         "variance_wk": 0.011,
-        "true_wk": 0.051
+        "true_wk": 0.051,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.011,
@@ -9655,7 +9844,8 @@
         "pour_wk": 0.52,
         "recipe_wk": 8.12,
         "variance_wk": 1.07,
-        "true_wk": 9.71
+        "true_wk": 9.71,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 1.07,
@@ -9712,7 +9902,8 @@
         "pour_wk": 0.08,
         "recipe_wk": 1.62,
         "variance_wk": 0.003,
-        "true_wk": 1.703
+        "true_wk": 1.703,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.003,
@@ -9769,7 +9960,8 @@
         "pour_wk": 0.31,
         "recipe_wk": 0.0,
         "variance_wk": 0.05,
-        "true_wk": 0.36
+        "true_wk": 0.36,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.05,
@@ -9823,7 +10015,8 @@
         "pour_wk": 7.97,
         "recipe_wk": 0.0,
         "variance_wk": 2.027,
-        "true_wk": 9.997
+        "true_wk": 9.997,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 2.027,
@@ -9880,7 +10073,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -9932,7 +10126,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.118,
-        "true_wk": 0.118
+        "true_wk": 0.118,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.118,
@@ -9986,7 +10181,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.12,
         "variance_wk": 0.012,
-        "true_wk": 0.132
+        "true_wk": 0.132,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.012,
@@ -10008,10 +10204,10 @@
         "sigma_exposure": 0.097,
         "safety_stock": 0.87,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.119,
       "forecast_wk": 0.117,
@@ -10038,7 +10234,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.006,
-        "true_wk": 0.006
+        "true_wk": 0.006,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.006,
@@ -10060,10 +10257,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -10090,7 +10287,8 @@
         "pour_wk": 0.95,
         "recipe_wk": 0.0,
         "variance_wk": 0.075,
-        "true_wk": 1.025
+        "true_wk": 1.025,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.075,
@@ -10143,7 +10341,8 @@
         "pour_wk": 1.35,
         "recipe_wk": 0.0,
         "variance_wk": 0.191,
-        "true_wk": 1.541
+        "true_wk": 1.541,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.191,
@@ -10195,7 +10394,8 @@
         "pour_wk": 0.14,
         "recipe_wk": 0.0,
         "variance_wk": 0.031,
-        "true_wk": 0.171
+        "true_wk": 0.171,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.031,
@@ -10247,7 +10447,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.109,
-        "true_wk": 0.109
+        "true_wk": 0.109,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.109,
@@ -10301,7 +10502,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.207,
-        "true_wk": 0.207
+        "true_wk": 0.207,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.207,
@@ -10352,10 +10554,11 @@
       "rec_par_pre_override": 17.7,
       "current_par": 17.7,
       "drivers": {
-        "pour_wk": 0.0,
+        "pour_wk": 0.22,
         "recipe_wk": 0.0,
         "variance_wk": 1.263,
-        "true_wk": 1.263
+        "true_wk": 1.483,
+        "cross_venue_wk": 0.222
       },
       "shrinkage": {
         "loss_per_week": 1.263,
@@ -10364,38 +10567,39 @@
         "capped": false
       },
       "service": {
-        "path": "normal",
+        "path": "poisson",
         "burst_floor": 0.0,
         "burst_floored": false,
-        "service_class": "tail",
-        "service_level": 0.85,
-        "z": 1.036,
+        "service_class": "standard",
+        "service_level": 0.95,
+        "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 0.0,
+        "demand_over_exposure": 0.222,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
-        "sigma_exposure": 0.0,
-        "safety_stock": 0.0,
-        "cv_source": "group",
+        "sigma_exposure": 0.267,
+        "safety_stock": 0.778,
+        "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
       },
       "seasonal_index": 1.0,
       "seasonal_source": "flat",
-      "level_deseasonalised": 0.0,
-      "forecast_wk": 0.0,
+      "level_deseasonalised": 0.222,
+      "forecast_wk": 0.222,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 0.0,
       "spike_floor": 0.0,
-      "forecast_method": "No recent sales",
+      "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
-      "buffer": 1.2,
+      "buffer": 1.3,
       "override": null,
       "flags": [
-        "held_no_recent_demand",
+        "held_cross_venue_demand_only",
+        "cross_venue_demand",
         "shrinkage_applied",
-        "shrinkage_without_demand_mapping"
+        "low_mover_poisson"
       ]
     },
     {
@@ -10409,7 +10613,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.095,
-        "true_wk": 0.095
+        "true_wk": 0.095,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.095,
@@ -10463,7 +10668,8 @@
         "pour_wk": 0.41,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.411
+        "true_wk": 0.411,
+        "cross_venue_wk": 0.001
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -10479,28 +10685,29 @@
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 0.403,
+        "demand_over_exposure": 0.404,
         "shrink_multiplier": 1.0,
-        "cv": 0.348,
-        "sigma_exposure": 0.14,
-        "safety_stock": 1.597,
+        "cv": 0.349,
+        "sigma_exposure": 0.141,
+        "safety_stock": 1.596,
         "cv_source": "sku",
-        "seasonal_index": 0.973,
+        "seasonal_index": 0.971,
         "seasonal_source": "sku"
       },
-      "seasonal_index": 0.973,
+      "seasonal_index": 0.971,
       "seasonal_source": "sku",
-      "level_deseasonalised": 0.414,
-      "forecast_wk": 0.403,
+      "level_deseasonalised": 0.415,
+      "forecast_wk": 0.404,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 0.6,
       "spike_floor": 0.6,
       "forecast_method": "Deseasonalised level x seasonal index",
-      "growth": 0.754,
-      "buffer": 1.225,
+      "growth": 0.757,
+      "buffer": 1.228,
       "override": null,
       "flags": [
+        "cross_venue_demand",
         "low_mover_poisson"
       ]
     },
@@ -10515,7 +10722,8 @@
         "pour_wk": 1.36,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 1.361
+        "true_wk": 1.361,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -10567,7 +10775,8 @@
         "pour_wk": 0.02,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.02
+        "true_wk": 0.02,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -10619,7 +10828,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.264,
-        "true_wk": 0.264
+        "true_wk": 0.264,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.264,
@@ -10673,7 +10883,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.003,
-        "true_wk": 0.003
+        "true_wk": 0.003,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.003,
@@ -10695,10 +10906,10 @@
         "sigma_exposure": 0.005,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.004,
       "forecast_wk": 0.004,
@@ -10725,7 +10936,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.05,
         "variance_wk": 0.001,
-        "true_wk": 0.051
+        "true_wk": 0.051,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -10747,10 +10959,10 @@
         "sigma_exposure": 0.037,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.049,
       "forecast_wk": 0.048,
@@ -10778,7 +10990,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.001
+        "true_wk": 0.001,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -10800,10 +11013,10 @@
         "sigma_exposure": 0.0,
         "safety_stock": 0.0,
         "cv_source": "sku+group",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.0,
       "forecast_wk": 0.0,
@@ -10830,7 +11043,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.003,
-        "true_wk": 0.003
+        "true_wk": 0.003,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.003,
@@ -10882,7 +11096,8 @@
         "pour_wk": 0.03,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.031
+        "true_wk": 0.031,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -10901,13 +11116,13 @@
         "demand_over_exposure": 0.032,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
-        "sigma_exposure": 0.039,
+        "sigma_exposure": 0.038,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.033,
       "forecast_wk": 0.032,
@@ -10935,7 +11150,8 @@
         "pour_wk": 0.03,
         "recipe_wk": 0.0,
         "variance_wk": 0.05,
-        "true_wk": 0.08
+        "true_wk": 0.08,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.05,
@@ -10988,7 +11204,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.001,
-        "true_wk": 0.001
+        "true_wk": 0.001,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -11040,7 +11257,8 @@
         "pour_wk": 7.12,
         "recipe_wk": 0.0,
         "variance_wk": 0.326,
-        "true_wk": 7.446
+        "true_wk": 7.446,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.326,
@@ -11092,7 +11310,8 @@
         "pour_wk": 1.69,
         "recipe_wk": 0.0,
         "variance_wk": 0.102,
-        "true_wk": 1.792
+        "true_wk": 1.792,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.102,
@@ -11145,7 +11364,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 0.0
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -11197,7 +11417,8 @@
         "pour_wk": 0.88,
         "recipe_wk": 0.0,
         "variance_wk": 0.104,
-        "true_wk": 0.984
+        "true_wk": 0.984,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.104,
@@ -11250,7 +11471,8 @@
         "pour_wk": 1.13,
         "recipe_wk": 0.0,
         "variance_wk": 0.114,
-        "true_wk": 1.244
+        "true_wk": 1.244,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.114,
@@ -11303,7 +11525,8 @@
         "pour_wk": 0.22,
         "recipe_wk": 0.0,
         "variance_wk": 0.11,
-        "true_wk": 0.33
+        "true_wk": 0.33,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.11,
@@ -11356,7 +11579,8 @@
         "pour_wk": 20.94,
         "recipe_wk": 0.0,
         "variance_wk": 0.568,
-        "true_wk": 21.508
+        "true_wk": 21.508,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.568,
@@ -11408,7 +11632,8 @@
         "pour_wk": 7.26,
         "recipe_wk": 5.4,
         "variance_wk": 0.193,
-        "true_wk": 12.853
+        "true_wk": 12.853,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.193,
@@ -11464,7 +11689,8 @@
         "pour_wk": 0.65,
         "recipe_wk": 0.0,
         "variance_wk": 0.094,
-        "true_wk": 0.744
+        "true_wk": 0.744,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.094,
@@ -11517,7 +11743,8 @@
         "pour_wk": 14.74,
         "recipe_wk": 0.0,
         "variance_wk": 0.741,
-        "true_wk": 15.481
+        "true_wk": 15.481,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.741,
@@ -11569,7 +11796,8 @@
         "pour_wk": 0.83,
         "recipe_wk": 0.0,
         "variance_wk": 0.024,
-        "true_wk": 0.854
+        "true_wk": 0.854,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.024,
@@ -11585,19 +11813,19 @@
         "service_level": 0.95,
         "z": null,
         "exposure_ratio": 1.0,
-        "demand_over_exposure": 0.979,
+        "demand_over_exposure": 0.977,
         "shrink_multiplier": 1.0295,
         "cv": 0.767,
-        "sigma_exposure": 0.773,
-        "safety_stock": 1.992,
+        "sigma_exposure": 0.772,
+        "safety_stock": 1.994,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "sku"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "sku",
       "level_deseasonalised": 0.994,
-      "forecast_wk": 0.979,
+      "forecast_wk": 0.977,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,
       "sanity_floor": 1.0,
@@ -11621,7 +11849,8 @@
         "pour_wk": 1.33,
         "recipe_wk": 0.0,
         "variance_wk": 0.111,
-        "true_wk": 1.441
+        "true_wk": 1.441,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.111,
@@ -11674,7 +11903,8 @@
         "pour_wk": 0.07,
         "recipe_wk": 0.1,
         "variance_wk": 0.016,
-        "true_wk": 0.186
+        "true_wk": 0.186,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.016,
@@ -11694,12 +11924,12 @@
         "shrink_multiplier": 1.0773,
         "cv": 0.3,
         "sigma_exposure": 0.055,
-        "safety_stock": 0.816,
+        "safety_stock": 0.817,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.173,
       "forecast_wk": 0.17,
@@ -11731,7 +11961,8 @@
         "pour_wk": 0.05,
         "recipe_wk": 0.0,
         "variance_wk": 0.017,
-        "true_wk": 0.067
+        "true_wk": 0.067,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.017,
@@ -11783,7 +12014,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.01,
         "variance_wk": 0.001,
-        "true_wk": 0.011
+        "true_wk": 0.011,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.001,
@@ -11805,10 +12037,10 @@
         "sigma_exposure": 0.015,
         "safety_stock": 0.0,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
       "level_deseasonalised": 0.008,
       "forecast_wk": 0.008,
@@ -11835,7 +12067,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.003,
-        "true_wk": 0.003
+        "true_wk": 0.003,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.003,
@@ -11887,7 +12120,8 @@
         "pour_wk": 0.27,
         "recipe_wk": 0.0,
         "variance_wk": 0.085,
-        "true_wk": 0.355
+        "true_wk": 0.355,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.085,
@@ -11941,7 +12175,8 @@
         "pour_wk": 1.26,
         "recipe_wk": 0.0,
         "variance_wk": 0.022,
-        "true_wk": 1.282
+        "true_wk": 1.282,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.022,
@@ -11991,7 +12226,8 @@
         "pour_wk": 2.78,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
-        "true_wk": 2.78
+        "true_wk": 2.78,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -12041,7 +12277,8 @@
         "pour_wk": 0.0,
         "recipe_wk": 0.09,
         "variance_wk": 0.006,
-        "true_wk": 0.096
+        "true_wk": 0.096,
+        "cross_venue_wk": 0.0
       },
       "shrinkage": {
         "loss_per_week": 0.006,
@@ -12063,12 +12300,12 @@
         "sigma_exposure": 0.112,
         "safety_stock": 0.907,
         "cv_source": "sku",
-        "seasonal_index": 0.985,
+        "seasonal_index": 0.983,
         "seasonal_source": "group"
       },
-      "seasonal_index": 0.985,
+      "seasonal_index": 0.983,
       "seasonal_source": "group",
-      "level_deseasonalised": 0.092,
+      "level_deseasonalised": 0.091,
       "forecast_wk": 0.09,
       "bookings_uplift_shadow": 0.0,
       "bookings_applied": false,

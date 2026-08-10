@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "generated_at": "2026-08-10T09:43:02.256046+10:00",
+  "schema_version": 2,
+  "generated_at": "2026-08-10T10:00:34.322503+10:00",
   "venue": "hg",
   "window_weeks": 13,
   "week_range": [
@@ -9,25 +9,28 @@
   ],
   "threshold_revenue_ex_gst": 2000.0,
   "what_this_is": "POS lines in a stock-bearing drink group whose sales volume reached NO par SKU. Each one is demand the par model cannot see, so the affected par collapses silently. Fix by adding an entry to data/par_aliases.json (if the stock item exists under another name) or by creating the stock item in the Lightspeed Purchase module.",
-  "aliases_in_force": 11,
+  "aliases_in_force": 19,
+  "cross_venue_aliases": {
+    "Coke Can": "stow:Coke Can",
+    "Crankshaft IPA": "stow:Crankshaft IPA [Keg]",
+    "Grifter Pale": "stow:Grifter Pale [Keg]",
+    "Guinness Draught": "stow:Guinness [Keg]",
+    "Kirin": "stow:Kirin [Keg]",
+    "Philter XPA": "stow:Philter XPA [Keg]",
+    "Sprite Can": "stow:Sprite Can",
+    "Status Quo": "stow:Status Quo [Keg]"
+  },
   "alias_targets_not_found": {},
+  "what_attributed_to_other_venue_is": "POS lines sold at this venue whose stock is held and ordered at the OTHER venue, against that venue's par SKU (data/par_aliases.json, a '<venue>:<sku>' target). They are ATTRIBUTED — the volume lands on the named par SKU there — and they contribute nothing here, so they are neither unattributed nor double-counted. Listed so a line leaving this venue's numbers is never silent.",
   "summary": {
-    "unattributed_lines": 16,
-    "unattributed_revenue_ex_gst": 777.08,
+    "unattributed_lines": 8,
+    "unattributed_revenue_ex_gst": 351.41,
     "intentionally_unattributed_lines": 13,
-    "intentionally_unattributed_revenue_ex_gst": 1593.72
+    "intentionally_unattributed_revenue_ex_gst": 1593.72,
+    "attributed_to_other_venue_lines": 8,
+    "attributed_to_other_venue_revenue_ex_gst": 425.67
   },
   "unattributed": [
-    {
-      "product": "Philter XPA",
-      "reporting_group": "Tap Beer",
-      "qty_window": 13.0,
-      "qty_per_week": 1.0,
-      "revenue_ex_gst_window": 147.63,
-      "stock_bearing": true,
-      "investigate_note": "HG's keg SKUs are 'Grifter XPA [Keg]' and 'Philter Pale [Keg]' - the two brands look transposed somewhere in HG's data (HG's recipe 'Grifter Extra Pale - Pint' points at 'Philter Pale [Keg]'). Ambiguous; needs a human to say which keg was on that tap.",
-      "known_unmapped": true
-    },
     {
       "product": "Grifter Big Sur IPA Can [HG]",
       "reporting_group": "Bottles / Cans Alcoholic",
@@ -39,16 +42,6 @@
       "known_unmapped": true
     },
     {
-      "product": "Grifter Pale",
-      "reporting_group": "Tap Beer",
-      "qty_window": 11.0,
-      "qty_per_week": 0.85,
-      "revenue_ex_gst_window": 119.59,
-      "stock_bearing": true,
-      "investigate_note": "Same transposition problem as HG 'Philter XPA'. Could be 'Grifter XPA [Keg]' or 'Philter Pale [Keg]'.",
-      "known_unmapped": true
-    },
-    {
       "product": "Two Bays GF Rice Lager Can [HG]",
       "reporting_group": "Bottles / Cans Alcoholic",
       "qty_window": 7.0,
@@ -56,26 +49,6 @@
       "revenue_ex_gst_window": 89.11,
       "stock_bearing": true,
       "investigate_note": "No Two Bays par SKU at HG. Gluten-free range being sold with nothing to order against.",
-      "known_unmapped": true
-    },
-    {
-      "product": "Kirin",
-      "reporting_group": "Tap Beer",
-      "qty_window": 6.0,
-      "qty_per_week": 0.46,
-      "revenue_ex_gst_window": 81.84,
-      "stock_bearing": true,
-      "investigate_note": "No Kirin keg par SKU exists at HG (Stowaway has one). Guest tap or a mis-ring on the HG till.",
-      "known_unmapped": true
-    },
-    {
-      "product": "Crankshaft IPA",
-      "reporting_group": "Tap Beer",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 31.82,
-      "stock_bearing": true,
-      "investigate_note": "No Crankshaft keg par SKU at HG.",
       "known_unmapped": true
     },
     {
@@ -119,33 +92,13 @@
       "known_unmapped": true
     },
     {
-      "product": "Status Quo",
-      "reporting_group": "Tap Beer",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 15.91,
-      "stock_bearing": true,
-      "investigate_note": "No Status Quo keg par SKU at HG.",
-      "known_unmapped": true
-    },
-    {
       "product": "Diet Coke Can",
       "reporting_group": "Non-Alcoholic",
       "qty_window": 4.0,
       "qty_per_week": 0.31,
       "revenue_ex_gst_window": 14.56,
       "stock_bearing": true,
-      "investigate_note": "No Coke par SKUs at HG - Diet Coke / Coke / Sprite cans all sell with nothing to order against.",
-      "known_unmapped": true
-    },
-    {
-      "product": "Guinness Draught",
-      "reporting_group": "Tap Beer",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 14.32,
-      "stock_bearing": true,
-      "investigate_note": "No Guinness keg par SKU at HG.",
+      "investigate_note": "ZAK TO CONFIRM. HG's Coke and Sprite cans are now linked to Stowaway's 'Coke Can' / 'Sprite Can' pars (shared central stock). Diet Coke is NOT, because Stowaway does not stock Diet Coke: the Stowaway catalogue (data/bo_exports/stowaway_products.csv) carries Coke, Coke Zero and Sprite in can and 1.25L, and no Diet Coke SKU at all. Coke Zero and Diet Coke are different products, so mapping HG's Diet Coke onto 'Coke Zero Can' would inflate a Coke Zero par with demand for a drink that par can never satisfy. Question for Zak: is HG's 'Diet Coke' button actually served from Coke Zero stock? If yes, change this to an alias \"Diet Coke Can\": \"stow:Coke Zero Can\". If it is a genuine separate line, it needs its own stock item in the Purchase module.",
       "known_unmapped": true
     },
     {
@@ -156,26 +109,6 @@
       "revenue_ex_gst_window": 12.73,
       "stock_bearing": true,
       "investigate_note": "No Two Bays par SKU at HG.",
-      "known_unmapped": true
-    },
-    {
-      "product": "Coke Can",
-      "reporting_group": "Non-Alcoholic",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 10.92,
-      "stock_bearing": true,
-      "investigate_note": "No Coke par SKU at HG.",
-      "known_unmapped": true
-    },
-    {
-      "product": "Sprite Can",
-      "reporting_group": "Non-Alcoholic",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 3.64,
-      "stock_bearing": true,
-      "investigate_note": "No Sprite par SKU at HG.",
       "known_unmapped": true
     }
   ],
@@ -259,7 +192,7 @@
       "qty_per_week": 1.08,
       "revenue_ex_gst_window": 50.95,
       "stock_bearing": true,
-      "reason": "poured from bulk juice - no discrete par SKU"
+      "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
     },
     {
       "product": "Mulled Wine [HG]",
@@ -277,7 +210,7 @@
       "qty_per_week": 0.62,
       "revenue_ex_gst_window": 29.11,
       "stock_bearing": true,
-      "reason": "poured from bulk juice - no discrete par SKU"
+      "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
     },
     {
       "product": "Soda & Lime Glass",
@@ -296,6 +229,80 @@
       "revenue_ex_gst_window": 3.64,
       "stock_bearing": true,
       "reason": "post-mix gun - no discrete stock unit"
+    }
+  ],
+  "attributed_to_other_venue": [
+    {
+      "product": "Philter XPA",
+      "reporting_group": "Tap Beer",
+      "qty_window": 13.0,
+      "qty_per_week": 1.0,
+      "revenue_ex_gst_window": 147.63,
+      "target_venue": "stow",
+      "target_sku": "Philter XPA [Keg]"
+    },
+    {
+      "product": "Grifter Pale",
+      "reporting_group": "Tap Beer",
+      "qty_window": 11.0,
+      "qty_per_week": 0.85,
+      "revenue_ex_gst_window": 119.59,
+      "target_venue": "stow",
+      "target_sku": "Grifter Pale [Keg]"
+    },
+    {
+      "product": "Kirin",
+      "reporting_group": "Tap Beer",
+      "qty_window": 6.0,
+      "qty_per_week": 0.46,
+      "revenue_ex_gst_window": 81.84,
+      "target_venue": "stow",
+      "target_sku": "Kirin [Keg]"
+    },
+    {
+      "product": "Crankshaft IPA",
+      "reporting_group": "Tap Beer",
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 31.82,
+      "target_venue": "stow",
+      "target_sku": "Crankshaft IPA [Keg]"
+    },
+    {
+      "product": "Status Quo",
+      "reporting_group": "Tap Beer",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 15.91,
+      "target_venue": "stow",
+      "target_sku": "Status Quo [Keg]"
+    },
+    {
+      "product": "Guinness Draught",
+      "reporting_group": "Tap Beer",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 14.32,
+      "target_venue": "stow",
+      "target_sku": "Guinness [Keg]"
+    },
+    {
+      "product": "Coke Can",
+      "reporting_group": "Non-Alcoholic",
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 10.92,
+      "target_venue": "stow",
+      "target_sku": "Coke Can"
+    },
+    {
+      "product": "Sprite Can",
+      "reporting_group": "Non-Alcoholic",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 3.64,
+      "target_venue": "stow",
+      "target_sku": "Sprite Can"
     }
   ]
 }

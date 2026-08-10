@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T09:43:01.525917+10:00",
+  "generated_at": "2026-08-10T10:00:33.542309+10:00",
   "venue": "stow",
   "source": "data/stock_counts/*.csv (Lightspeed Back Office stock counts)",
   "method": {
@@ -16,10 +16,10 @@
     "n_periods": 10,
     "n_skus_estimated": 231,
     "material_loss_wk": 0.05,
-    "n_skus_with_material_loss": 62,
-    "n_capped": 39,
-    "n_investigate": 6,
-    "n_no_demand_baseline": 14,
+    "n_skus_with_material_loss": 61,
+    "n_capped": 40,
+    "n_investigate": 7,
+    "n_no_demand_baseline": 13,
     "median_loss_fraction": 0.0961
   },
   "counts": [
@@ -973,17 +973,17 @@
     {
       "product": "Coke Can",
       "reporting_group": "Marilyna's Soft Drinks",
-      "loss_per_week": 3.0512,
+      "loss_per_week": 0.009,
       "loss_fraction": 0.0,
       "raw_loss_per_week": 3.5417,
       "raw_loss_fraction": 0.0,
-      "modelled_demand_wk": 0.0,
+      "modelled_demand_wk": 0.018,
       "n_periods": 10,
       "shrink_weight_own": 0.833,
-      "method": "no demand baseline \u2014 rate only",
-      "no_demand_baseline": true,
-      "capped": false,
-      "investigate": false
+      "method": "median-of-periods",
+      "no_demand_baseline": false,
+      "capped": true,
+      "investigate": true
     },
     {
       "product": "Coke Zero 1.25L",
@@ -1727,7 +1727,7 @@
       "loss_fraction": 0.0,
       "raw_loss_per_week": 0.0,
       "raw_loss_fraction": 0.0,
-      "modelled_demand_wk": 1.445,
+      "modelled_demand_wk": 1.447,
       "n_periods": 10,
       "shrink_weight_own": 0.833,
       "method": "median-of-periods",
@@ -1786,7 +1786,7 @@
       "loss_per_week": 0.0053,
       "loss_fraction": 0.0034,
       "raw_loss_per_week": 0.0056,
-      "raw_loss_fraction": 0.0069,
+      "raw_loss_fraction": 0.0068,
       "modelled_demand_wk": 0.404,
       "n_periods": 2,
       "shrink_weight_own": 0.5,
@@ -2762,7 +2762,7 @@
       "loss_fraction": 0.0,
       "raw_loss_per_week": 0.0,
       "raw_loss_fraction": 0.0,
-      "modelled_demand_wk": 0.929,
+      "modelled_demand_wk": 0.93,
       "n_periods": 10,
       "shrink_weight_own": 0.833,
       "method": "median-of-periods",

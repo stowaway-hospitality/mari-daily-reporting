@@ -491,7 +491,13 @@ def test_drivers_expose_pour_recipe_and_shrinkage_separately(stow_build):
     recs, _ = stow_build
     for r in recs.values():
         d = r["drivers"]
-        assert set(d) == {"pour_wk", "recipe_wk", "variance_wk", "true_wk"}
+        # cross_venue_wk is a BREAKDOWN of pour_wk (how much of it came off the
+        # other venue's till on a shared-stock alias), never a fourth term.
+        assert set(d) == {"pour_wk", "recipe_wk", "variance_wk", "true_wk",
+                          "cross_venue_wk"}
+        # (pour_wk is published to 2dp and cross_venue_wk to 3dp, so allow half
+        # of pour's last place — the invariant is "subset", not "equal".)
+        assert d["cross_venue_wk"] <= d["pour_wk"] + 0.005
         assert d["true_wk"] == pytest.approx(
             d["pour_wk"] + d["recipe_wk"] + d["variance_wk"], abs=1e-6)
 
@@ -710,7 +716,10 @@ def test_tap_serve_ml_prefers_an_explicit_size_in_the_name():
 
 def test_every_alias_target_is_a_real_par_sku():
     """An alias pointing at a name that does not exist is worse than no alias:
-    it looks mapped and attributes nothing. The build fails on this."""
+    it looks mapped and attributes nothing. The build fails on this.
+
+    Cross-venue targets ('stow:Kirin [Keg]' in the hg map) are checked against
+    the TARGET venue's par universe, which is what the build does."""
     for venue in ("stow", "hg"):
         id2name, bo_meta = model.load_bo(DATA, venue)
         scrape = model.load_scrape(DATA, venue)
@@ -718,7 +727,8 @@ def test_every_alias_target_is_a_real_par_sku():
         idx = model.ParIndex(scrape, overrides, bo_meta)
         ab = model.load_aliases(DATA, venue)
         assert ab.map, f"{venue} must have aliases"
-        assert ab.unknown_targets(idx.names) == {}, venue
+        others = {v: model.par_universe(DATA, v) for v in ab.cross_venues()}
+        assert ab.unknown_targets(idx.names, others) == {}, venue
 
 
 def test_no_pos_line_is_aliased_to_two_different_par_skus():
@@ -859,3 +869,259 @@ def test_live_par_index_has_no_ambiguous_bulk_winner_left_to_chance():
         again = model.ParIndex(model.load_scrape(DATA, venue),
                                model.load_overrides(DATA, venue), bo_meta)
         assert idx.bulk_base == again.bulk_base, venue
+
+
+# ── 11. shared stock across venues: the "stow:" cross-venue alias target ────
+# Stowaway and Harry Gatos share some lines. The stock is held and ordered
+# centrally against STOWAWAY par SKUs (the taps Philter XPA / Grifter Pale /
+# Kirin / Crankshaft IPA / Status Quo / Guinness, and the Coke and Sprite cans)
+# but it also pours through the HG till. Those HG sales reached NO par SKU at
+# either venue, so Stowaway's pars under-counted real consumption and HG's
+# unattributed report nagged about stock items HG will never own.
+HG_WEEK = WEEK
+
+
+def _hg_parts():
+    id2name, bo_meta = model.load_bo(DATA, "hg")
+    scrape = model.load_scrape(DATA, "hg")
+    overrides = model.load_overrides(DATA, "hg")
+    leaves, recipe_norms = model.load_recipes(DATA, "hg")
+    idx = model.ParIndex(scrape, overrides, bo_meta)
+    matcher = model.build_recipe_matcher(recipe_norms)
+    return id2name, idx, leaves, matcher
+
+
+def _hg_tap_row(name="Kirin", qty=100.0, rev="1500"):
+    return {"venue": "hg", "reporting_group": "Tap Beer", "product_name": name,
+            "week_ending": HG_WEEK, "qty": qty, "sales_ex_gst": rev}
+
+
+def test_venue_prefix_is_parsed_only_for_real_venue_codes():
+    assert model.parse_alias_target("stow:Kirin [Keg]", "hg") == ("stow", "Kirin [Keg]")
+    assert model.parse_alias_target("hg:Sapporo [Keg]", "stow") == ("hg", "Sapporo [Keg]")
+    # a plain target still means "this venue" — every existing alias relies on it
+    assert model.parse_alias_target("Kirin [Keg]", "hg") == ("hg", "Kirin [Keg]")
+    # ...and a name that merely contains a colon is NOT a venue prefix
+    assert model.parse_alias_target("Grifter: Omen [Keg]", "stow") == (
+        "stow", "Grifter: Omen [Keg]")
+
+
+def test_alias_book_exposes_the_target_venue():
+    ab = model.AliasBook({"hg": {"Kirin": "stow:Kirin [Keg]",
+                                 "Harry's Lager": "Alehouse Premium Lager [Keg]"}}, "hg")
+    assert ab.resolve("Kirin") == ("stow", "Kirin [Keg]")
+    assert ab.target("Kirin") == "Kirin [Keg]"          # bare SKU, back-compat
+    assert ab.target_venue("Kirin") == "stow"
+    assert ab.resolve("Harry's Lager") == ("hg", "Alehouse Premium Lager [Keg]")
+    assert ab.cross_venues() == {"stow"}
+    # the value is preserved exactly as written, so the build's error output and
+    # the meta block stay readable
+    assert ab.map["Kirin"] == "stow:Kirin [Keg]"
+
+
+def test_cross_venue_line_adds_volume_to_the_other_venues_par_sku():
+    """THE change. An HG till line poured out of Stowaway's keg must reach
+    Stowaway's par SKU, converted by the same schooner/pint -> keg rule."""
+    id2name, idx, leaves, matcher = _stow_parts()
+    hg_ab = model.load_aliases(DATA, "hg")
+    assert hg_ab.resolve("Kirin") == ("stow", "Kirin [Keg]"), "precondition"
+
+    rows = [_hg_tap_row("Kirin", qty=100.0)]
+    cross_units = {}
+    pour, recipe = model._build_consumption(
+        rows, "stow", idx, leaves, matcher, id2name, [HG_WEEK],
+        aliases=model.load_aliases(DATA, "stow"),
+        cross_aliases={"hg": hg_ab}, cross_units_out=cross_units)
+    expected = 100 * model.TAP_SERVE_ML / model.KEG_ML
+    assert pour["Kirin [Keg]"][0] == pytest.approx(expected)
+    # ...and the foreign portion is tracked separately, so a reader can tell
+    # Stowaway's own till volume from Harry Gatos'.
+    assert cross_units["Kirin [Keg]"][0] == pytest.approx(expected)
+
+
+def test_cross_venue_cans_stay_one_to_one():
+    """A can is a whole unit at either venue — the cross-venue path must not
+    invent a pour conversion."""
+    id2name, idx, leaves, matcher = _stow_parts()
+    hg_ab = model.load_aliases(DATA, "hg")
+    assert hg_ab.resolve("Coke Can") == ("stow", "Coke Can")
+    rows = [{"venue": "hg", "reporting_group": "Non-Alcoholic",
+             "product_name": "Coke Can", "week_ending": HG_WEEK,
+             "qty": 9.0, "sales_ex_gst": "45"}]
+    pour, _ = model._build_consumption(
+        rows, "stow", idx, leaves, matcher, id2name, [HG_WEEK],
+        aliases=model.load_aliases(DATA, "stow"), cross_aliases={"hg": hg_ab})
+    assert pour["Coke Can"][0] == 9.0
+
+
+def test_cross_venue_line_adds_nothing_to_any_par_sku_of_the_venue_that_sold_it():
+    """No leakage. Building HG, the same row must credit NOTHING — not an HG par
+    SKU, not the Stowaway SKU (that is Stowaway's build's job), and it must not
+    be counted a second time by the fallback tap-beer matcher."""
+    id2name, idx, leaves, matcher = _hg_parts()
+    hg_ab = model.load_aliases(DATA, "hg")
+    exported = {}
+    missed = {}
+    pour, recipe = model._build_consumption(
+        [_hg_tap_row("Kirin", qty=100.0)], "hg", idx, leaves, matcher, id2name,
+        [HG_WEEK], aliases=hg_ab, unattributed_out=missed, exported_out=exported)
+    credited = {s: v[0] for s, v in pour.items() if v[0] > 0}
+    credited.update({s: v[0] for s, v in recipe.items() if v[0] > 0})
+    assert credited == {}, credited
+    assert missed == {}, "it is attributed, just at the other venue"
+    assert exported["Kirin"]["target_venue"] == "stow"
+    assert exported["Kirin"]["target_sku"] == "Kirin [Keg]"
+
+
+def test_a_cross_venue_line_is_counted_in_exactly_one_venue():
+    """Belt and braces on the double-count: run BOTH venues over the same row
+    set and prove the total units credited across both builds equal one keg's
+    worth of that row, not two."""
+    row = _hg_tap_row("Philter XPA", qty=200.0)
+    hg_ab = model.load_aliases(DATA, "hg")
+    stow_ab = model.load_aliases(DATA, "stow")
+
+    sid2, sidx, sleaves, smatch = _stow_parts()
+    spour, srec = model._build_consumption(
+        [row], "stow", sidx, sleaves, smatch, sid2, [HG_WEEK],
+        aliases=stow_ab, cross_aliases={"hg": hg_ab})
+    hid2, hidx, hleaves, hmatch = _hg_parts()
+    hpour, hrec = model._build_consumption(
+        [row], "hg", hidx, hleaves, hmatch, hid2, [HG_WEEK],
+        aliases=hg_ab, cross_aliases={"stow": stow_ab})
+
+    total = (sum(v[0] for v in spour.values()) + sum(v[0] for v in srec.values())
+             + sum(v[0] for v in hpour.values()) + sum(v[0] for v in hrec.values()))
+    assert total == pytest.approx(200 * model.TAP_SERVE_ML / model.KEG_ML)
+
+
+def test_cross_venue_line_is_not_unattributed_and_cannot_trip_the_gate():
+    """It IS attributed — to another venue's par. It must leave the offenders
+    list entirely, so it can never contribute a dollar to the $2,000 gate."""
+    id2name, idx, leaves, matcher = _hg_parts()
+    hg_ab = model.load_aliases(DATA, "hg")
+    rows = [_hg_tap_row("Kirin", qty=100.0, rev="99999")]
+    missed, exported = {}, {}
+    model._build_consumption(rows, "hg", idx, leaves, matcher, id2name, [HG_WEEK],
+                             aliases=hg_ab, unattributed_out=missed,
+                             exported_out=exported)
+    offenders, _ = model.unattributed_report(missed, [HG_WEEK], hg_ab)
+    assert offenders == []
+    assert sum(r["revenue_ex_gst_window"] for r in offenders) == 0
+    report = model.cross_venue_report(exported, [HG_WEEK])
+    assert [r["product"] for r in report] == ["Kirin"]
+    assert report[0]["revenue_ex_gst_window"] == 99999.0
+    assert report[0]["target_venue"] == "stow"
+
+
+def test_cross_venue_target_that_is_not_a_real_par_sku_is_reported():
+    """Requirement that keeps the whole scheme honest: a 'stow:' target that does
+    not exist in STOWAWAY's par universe must still be caught, and the build
+    still fails on it."""
+    stow_names = model.par_universe(DATA, "stow")
+    ab = model.AliasBook({"hg": {"Kirin": "stow:Kirin [Keg]",
+                                 "Ghost Beer": "stow:Not A Real Keg [Keg]"}}, "hg")
+    _, hg_bo = model.load_bo(DATA, "hg")
+    hg_names = model.ParIndex(model.load_scrape(DATA, "hg"), {}, hg_bo).names
+    bad = ab.unknown_targets(hg_names, {"stow": stow_names})
+    assert bad == {"Ghost Beer": "stow:Not A Real Keg [Keg]"}
+
+
+def test_a_cross_venue_target_is_never_assumed_good_when_unvalidatable():
+    """If the target venue's par universe was not supplied, the entry is
+    REPORTED rather than silently passed — an unchecked target is exactly the
+    'looks mapped, attributes nothing' failure this guard exists for."""
+    ab = model.AliasBook({"hg": {"Kirin": "stow:Kirin [Keg]"}}, "hg")
+    assert ab.unknown_targets(["Kirin [Keg]"]) == {"Kirin": "stow:Kirin [Keg]"}
+
+
+def test_juice_and_postmix_stay_intentionally_unattributed():
+    """Zak, 2026-08-10: 'ignore the juice as we will just order that visually,
+    too hard to track the stock on those.' The juice glasses are a POLICY
+    exclusion, not a mapping gap — they must stay out of the offenders list at
+    both venues and must not have been quietly aliased to a cask."""
+    for venue in ("stow", "hg"):
+        ab = model.load_aliases(DATA, venue)
+        for line in ("Apple Juice Glass", "Orange Juice Glass",
+                     "Pineapple Juice Glass"):
+            assert ab.is_intentional(line), f"{venue}: {line}"
+            assert ab.target(line) is None, f"{venue}: {line} must not be aliased"
+            assert "visual" in ab.intentional_reason(line).lower(), (
+                f"{venue}: {line} must record WHY it is excused")
+        raw = _raw("Orange Juice Glass", "Non-alcoholic", 5.0, 40.0)
+        offenders, intentional = model.unattributed_report(raw, [WEEK], ab)
+        assert offenders == []
+        assert [r["product"] for r in intentional] == ["Orange Juice Glass"]
+
+
+# ── the live build ─────────────────────────────────────────────────────────
+def test_live_hg_shared_lines_are_attributed_to_stowaway_not_missing():
+    _, meta = model.compute_venue("hg", DATA)
+    exported = {r["product"]: r for r in meta["attributed_to_other_venue"]}
+    for line, sku in (("Philter XPA", "Philter XPA [Keg]"),
+                      ("Grifter Pale", "Grifter Pale [Keg]"),
+                      ("Kirin", "Kirin [Keg]"),
+                      ("Crankshaft IPA", "Crankshaft IPA [Keg]"),
+                      ("Status Quo", "Status Quo [Keg]"),
+                      ("Guinness Draught", "Guinness [Keg]"),
+                      ("Coke Can", "Coke Can"),
+                      ("Sprite Can", "Sprite Can")):
+        assert line in exported, f"{line} should be attributed to Stowaway"
+        assert exported[line]["target_venue"] == "stow"
+        assert exported[line]["target_sku"] == sku
+    unattributed = {r["product"] for r in meta["unattributed"]}
+    assert unattributed.isdisjoint(exported), unattributed & set(exported)
+
+
+def test_live_diet_coke_is_still_flagged_not_folded_into_coke_zero():
+    """Stowaway stocks Coke Zero, not Diet Coke. Mapping one onto the other
+    would put real Diet Coke demand on a par that can never satisfy it."""
+    ab = model.load_aliases(DATA, "hg")
+    assert ab.target("Diet Coke Can") is None
+    assert ab.is_flagged_for_investigation("Diet Coke Can")
+    _, meta = model.compute_venue("hg", DATA)
+    offenders = {r["product"] for r in meta["unattributed"]}
+    assert "Diet Coke Can" in offenders, "must stay on the work queue"
+    stow_names = model.par_universe(DATA, "stow")
+    assert not any(model._norm(n) == model._norm("Diet Coke Can")
+                   for n in stow_names), "no Stowaway Diet Coke SKU exists"
+
+
+def test_live_stowaway_kegs_gain_the_harry_gatos_volume(stow_build):
+    recs, _ = stow_build
+    for keg in ("Philter XPA [Keg]", "Grifter Pale [Keg]", "Kirin [Keg]",
+                "Crankshaft IPA [Keg]", "Status Quo [Keg]", "Guinness [Keg]"):
+        d = recs[keg]["drivers"]
+        assert d["cross_venue_wk"] > 0, f"{keg} sees no HG volume"
+        # cross is a SUBSET of pour, never a separate term added to true_wk
+        assert d["cross_venue_wk"] <= d["pour_wk"] + 0.005, keg
+        assert recs[keg]["drivers"]["true_wk"] == pytest.approx(
+            d["pour_wk"] + d["recipe_wk"] + d["variance_wk"], abs=1e-3)
+
+
+def test_a_foreign_trickle_never_cuts_a_live_par(stow_build):
+    """Stowaway's 'Coke Can' sells through Marilyna's, which products_weekly
+    files under its own venue, so Stowaway's own till volume is invisible and
+    the par (32.5) is held by the safety net. 0.23 HG cans a week is not
+    evidence that mapping is healthy — releasing the hold on it would have cut
+    the par to ~1. Foreign demand may RAISE such a par; it may never lower it."""
+    recs, _ = stow_build
+    for sku in ("Coke Can", "Sprite Can"):
+        r = recs[sku]
+        assert r["drivers"]["cross_venue_wk"] > 0, sku
+        assert r["rec_par"] == r["current_par"], r
+        assert "held_cross_venue_demand_only" in r["flags"], r["flags"]
+
+
+def test_the_cross_venue_hold_is_targeted_not_blanket(stow_build):
+    """The hold only fires where the foreign trickle is the ONLY recent demand.
+    A SKU Stowaway's own till sells must keep being modelled from its demand —
+    otherwise this safety net would freeze every shared line at its live par."""
+    recs, _ = stow_build
+    for keg in ("Philter XPA [Keg]", "Grifter Pale [Keg]", "Kirin [Keg]",
+                "Guinness [Keg]"):
+        flags = recs[keg]["flags"]
+        assert "cross_venue_demand" in flags, keg
+        assert "held_cross_venue_demand_only" not in flags, keg
+        assert "held_no_recent_demand" not in flags, keg
+        assert recs[keg]["rec_par"] > 0, keg
