@@ -319,6 +319,49 @@ function venueRevWindow(venue, sIso, eIso) {
   return rev;
 }
 
+function doorDashFromBooks(venue, sIso, eIso) {
+  // DoorDash, recovered from the accounts. It has no feed of its own.
+  //
+  // WHY this function has to exist: xero_pull.py builds TWO Uber figures --
+  // mari_uber_fees (all third-party delivery) and mari_uber_only (the UberEats
+  // account alone) -- and its own comment says the difference is "DoorDash +
+  // Uber Direct". venueDeliveryEst used to replace that whole difference with
+  // dir.fee the moment the Uber Direct feed covered the window, which silently
+  // dropped DoorDash: A$545.95 in May 2026 and A$624.47 in June. It reads ~0
+  // from July, which is why nobody caught it -- DoorDash appears to have
+  // stopped, so the bug went quiet on its own instead of being found.
+  // Understating cost flatters the margin, the direction CLAUDE.md warns about.
+  //
+  // Basis: the books are ex-GST, the delivery line here is inc-GST (see
+  // uberRateFallback), so the recovered figure is grossed back up by 1.1.
+  // Apportioned by REVENUE, not by days: a week is not a flat seventh of a
+  // month's trading.
+  if (venue !== 'mari') return 0;
+  const oh = STATE.xeroOH || [];
+  if (!oh.length) return 0;
+  let out = 0;
+  for (const r of oh) {
+    const m = r.month;
+    if (!m || !hasVal(r.mari_uber_fees) || !hasVal(r.mari_uber_only)) continue;
+    if (m < sIso.slice(0, 7) || m > eIso.slice(0, 7)) continue;
+    // What the books say is NOT UberEats, less the Uber Direct we can see.
+    let direct = 0;
+    for (const d of (STATE.uberDirect || []))
+      if (d.shop === 'mari' && d.date.slice(0, 7) === m) direct += toNum(d.fee_inc_gst) / 1.1;
+    const dd = toNum(r.mari_uber_fees) - toNum(r.mari_uber_only) - direct;
+    if (!(dd > 0)) continue;            // nothing left over: DoorDash is done
+    let monthRev = 0, windowRev = 0;
+    for (const h of (STATE.histories.mari || [])) {
+      if (h.date.slice(0, 7) !== m) continue;
+      const v = toNum(h.revenue_ex_gst);
+      monthRev += v;
+      if (h.date >= sIso && h.date <= eIso) windowRev += v;
+    }
+    if (monthRev > 0) out += dd * (windowRev / monthRev) * 1.1;
+  }
+  return out;
+}
+
 function venueDeliveryEst(venue, sIso, eIso, endIso) {
   const rev = venueRevWindow(venue, sIso, eIso);
   const dfr = deliveryFeesPct(venue, endIso);
@@ -331,7 +374,11 @@ function venueDeliveryEst(venue, sIso, eIso, endIso) {
   }
   const dir = uberDirectActual(venue, sIso, eIso);
   const directActual = dir && dir.covered;
-  const nonUber = directActual ? dir.fee : dfEst * (1 - uberEatsShareOfDelivery(venue, endIso));
+  // Uber Direct we can read per-day; DoorDash only exists in the books. Taking
+  // dir.fee alone here is what dropped DoorDash -- see doorDashFromBooks.
+  const doorDash = directActual ? doorDashFromBooks(venue, sIso, eIso) : 0;
+  const nonUber = directActual ? dir.fee + doorDash
+                               : dfEst * (1 - uberEatsShareOfDelivery(venue, endIso));
   // The feed's TAIL: days in the window the Uber pull has not reached yet. Their
   // revenue is already in the P&L, so leaving their fees out understates delivery
   // cost on every window ending today — and by a lot more if the pull is stuck.
@@ -345,7 +392,7 @@ function venueDeliveryEst(venue, sIso, eIso, endIso) {
   }
   return { df: _u.commission + _u.marketing + tail + nonUber, commission: _u.commission,
            marketing: _u.marketing, direct: directActual ? dir.fee : null,
-           actual: true, feedCovered: !!_u.covered, tailEst: tail };
+           doorDash: doorDash, actual: true, feedCovered: !!_u.covered, tailEst: tail };
 }
 
 function pnlWindow(day, venue = STATE.currentVenue) {

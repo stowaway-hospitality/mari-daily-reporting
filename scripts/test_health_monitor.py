@@ -53,6 +53,7 @@ def _build_with(monkey_ages, queue_days):
     # which silently dragged `overall` off "ok" and failed two cases here.
     hm._uber_direct_reconciled = lambda *a, **k: monkey_ages.get("uberdirectrecon", {"status": "ok", "detail": "clean"})
     hm._workflow_failures = lambda *a, **k: monkey_ages.get("jobs", {"status": "ok", "detail": "clean"})
+    hm._uber_vs_books = lambda *a, **k: monkey_ages.get("books", {"status": "ok", "detail": "clean"})
     return hm.build()
 
 
@@ -71,6 +72,14 @@ check("dead invoice poller -> overall down", out["overall"] == "down")
 # everything healthy -> ok
 out = _build_with(dict(allfresh), 0)
 check("all healthy -> overall ok", out["overall"] == "ok")
+
+# ---- Uber vs the books -----------------------------------------------------
+# The only Uber check that looks OUTSIDE the portal. DoorDash was dropped from
+# Mari's delivery cost for two months and every internal guard stayed green,
+# because a missing channel leaves no trace in a feed - the feed is just smaller.
+out = _build_with(dict(allfresh, books={"status": "warn", "detail": "2026-06 feeds short A$624"}), 0)
+check("feeds short of the books -> overall warn", out["overall"] == "warn")
+check("books check is reported", any(c.get("name") == "Uber vs the books" for c in out["checks"]))
 
 # ---- Automation jobs (failed Actions runs) ---------------------------------
 # The one class of alert_check escalation with nowhere on screen to land until

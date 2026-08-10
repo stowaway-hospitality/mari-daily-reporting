@@ -560,6 +560,97 @@ def _workflow_failures(window_h=48):
         return {"status": "unknown", "detail": f"could not read job results: {e}"}
 
 
+def _uber_vs_books(feed_rel="data/uber_daily.csv", direct_rel="data/uber_direct_daily.csv",
+                   books_rel="data/xero_overheads_monthly.csv"):
+    """Do the Uber feeds add up to what the ACCOUNTS say we paid?
+
+    WHY: every other Uber guard is internal — the portal's own arithmetic, or the
+    portal against itself. None of them can see a whole CHANNEL going missing.
+    That is not hypothetical. xero_pull.py splits Mari's third-party delivery into
+    mari_uber_fees (all of it) and mari_uber_only (the UberEats account), and the
+    difference is "DoorDash + Uber Direct". pnl.js replaced that entire difference
+    with the Uber Direct feed the moment it covered a window, so DoorDash — A$546
+    in May 2026, A$624 in June — simply stopped being a cost. It reads ~0 from
+    July because DoorDash stopped, so the bug went quiet by itself rather than
+    being caught. Only the books disagreed, and nothing was reading the books.
+
+    Compared per CLOSED month, and only for months where the DAILY feeds cover
+    every trading day. The earlier era is weekly totals sliced across month
+    boundaries by straight sevenths, which is ±10% by construction — reconciling
+    that would produce a permanent warn, and a permanent warn is furniture.
+    """
+    import csv as _csv
+    import datetime as _dt
+    from decimal import Decimal as _D
+    fp, dp, bp = ROOT / feed_rel, ROOT / direct_rel, ROOT / books_rel
+    if not (fp.exists() and bp.exists()):
+        return {"status": "unknown", "detail": "no Uber feed or no Xero overheads to compare"}
+    try:
+        GST = _D("1.1")
+        eats, direct, days = {}, {}, set()
+        with fp.open() as fh:
+            for r in _csv.DictReader(fh):
+                if r["shop"] != "mari":
+                    continue
+                eats[r["date"]] = _D(r["commission_inc_gst"]) + _D(r["offers_inc_gst"])
+                days.add(r["date"])
+        if dp.exists():
+            with dp.open() as fh:
+                for r in _csv.DictReader(fh):
+                    if r["shop"] == "mari":
+                        direct[r["date"]] = _D(r["fee_inc_gst"])
+        if not eats:
+            return {"status": "unknown", "detail": "no Mari rows in the Uber feed"}
+        first_daily = min(eats)
+        today = _dt.date.today()
+        with bp.open() as fh:
+            books = {r["month"]: r for r in _csv.DictReader(fh) if r.get("mari_uber_fees")}
+
+        worst = None
+        checked = []
+        for m in sorted(books):
+            # closed months only, and only once the daily feed covers the whole month
+            mstart = _dt.date.fromisoformat(m + "-01")
+            nxt = (mstart.replace(day=28) + _dt.timedelta(days=7)).replace(day=1)
+            if nxt > today:                      # month not finished
+                continue
+            if mstart.isoformat() < first_daily:  # pre-daily era: not comparable
+                continue
+            feed = sum((v for k, v in eats.items() if k[:7] == m), _D("0"))
+            feed += sum((v for k, v in direct.items() if k[:7] == m), _D("0"))
+            feed_ex = (feed / GST).quantize(_D("0.01"))
+            books_ex = _D(books[m]["mari_uber_fees"])
+            gap = books_ex - feed_ex
+            checked.append(m)
+            tol = max(_D("100"), (books_ex * _D("0.03")).quantize(_D("0.01")))
+            if abs(gap) > tol and (worst is None or abs(gap) > abs(worst[1])):
+                worst = (m, gap, books_ex, feed_ex)
+        if not checked:
+            nxt_m = (_dt.date.fromisoformat(first_daily).replace(day=28)
+                     + _dt.timedelta(days=7)).replace(day=1).strftime("%Y-%m")
+            return {"status": "ok",
+                    "detail": f"no closed month is fully daily-covered yet (first will be {nxt_m})"}
+        if worst:
+            m, gap, b, f = worst
+            short = gap > 0
+            return {"status": "warn",
+                    "detail": f"{m}: books A${b}, feeds A${f} — {'short' if short else 'over'} A${abs(gap)}",
+                    "meaning": ("The Uber feeds are read from the merchant portals; Xero is what actually "
+                                "left the bank. They should agree for a finished month."),
+                    "action": ("The feeds are SHORT of the books, which understates delivery cost and "
+                               "flatters the margin — usually a whole channel with no feed of its own "
+                               "(DoorDash is the one that has done this before). Ask Claude to reconcile "
+                               f"{m} against the books."
+                               if short else
+                               "The feeds exceed the books, which usually means a cost is being counted "
+                               f"twice. Ask Claude to reconcile {m}."),
+                    "selfheal": "No — needs a human to say which channel is missing or doubled."}
+        return {"status": "ok",
+                "detail": f"feeds match the books on all {len(checked)} closed month(s) daily-covered"}
+    except Exception as e:
+        return {"status": "unknown", "detail": f"books reconciliation unreadable: {e}"}
+
+
 def _missing_sales_days(lookback=6):
     """Backstop for the sales auto-heal: flag any recent day where a venue has no
     sales but that weekday normally trades (so it is a real gap, not a closed day).
@@ -671,6 +762,14 @@ def build() -> dict:
         if udr.get(_k):
             _udr_check[_k] = udr[_k]
     checks.append(_udr_check)
+
+    uvb = _uber_vs_books()
+    _uvb_check = {"name": "Uber vs the books", "detail": uvb.get("detail"),
+                  "age": None, "unit": "", "status": uvb.get("status", "unknown")}
+    for _k in ("meaning", "action", "selfheal"):
+        if uvb.get(_k):
+            _uvb_check[_k] = uvb[_k]
+    checks.append(_uvb_check)
 
     wfx = _workflow_failures()
     _wfx_check = {"name": "Automation jobs", "detail": wfx.get("detail"),

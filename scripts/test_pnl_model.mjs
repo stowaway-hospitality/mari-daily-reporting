@@ -80,5 +80,33 @@ for (const tf of TFS) {
     else console.log(`✓ ${tf.padEnd(9)} group $${Math.round(revByVenue.group).toLocaleString()} == Σvenues; conservation holds`);
   } else console.log(`✓ ${tf.padEnd(9)} real-venue conservation holds`);
 }
+// ---- DoorDash must not fall out of the delivery line ------------------------
+// It has no feed of its own; it exists only as (mari_uber_fees - mari_uber_only)
+// in the books, less whatever Uber Direct we can see. venueDeliveryEst used to
+// replace that whole difference with dir.fee once the Direct feed covered a
+// window, which silently dropped A$545.95 (May 2026) and A$624.47 (June).
+// It reads ~0 from July because DoorDash stopped - so the bug went quiet on its
+// own instead of being caught. Understating cost flatters the margin.
+{
+  const wk = (w) => { const s = new Date(w + 'T00:00:00Z');
+    return ctx.venueDeliveryEst('mari', w, new Date(s.getTime() + 6*864e5).toISOString().slice(0,10),
+                                new Date(s.getTime() + 6*864e5).toISOString().slice(0,10)); };
+  let ddTotal = 0, negative = 0, exceeded = 0;
+  for (const w of ['2026-06-08','2026-06-15','2026-06-22','2026-06-29','2026-07-06','2026-07-13','2026-08-03']) {
+    const d = wk(w);
+    const dd = d.doorDash || 0;
+    ddTotal += dd;
+    if (dd < 0) negative++;
+    // never invent cost: DoorDash can only be what the books hold beyond Direct
+    if (dd > 0 && d.df < d.commission + d.marketing) exceeded++;
+  }
+  checks++; if (!(ddTotal > 0)) { fails++; console.log('  FAIL  DoorDash recovered from the books (got ' + ddTotal.toFixed(2) + ')'); }
+  else console.log('  ok    DoorDash recovered from the books: A$' + ddTotal.toFixed(2) + ' across the affected weeks');
+  checks++; if (negative) { fails++; console.log('  FAIL  DoorDash went negative on ' + negative + ' week(s)'); }
+  else console.log('  ok    DoorDash never negative');
+  checks++; if (exceeded) { fails++; console.log('  FAIL  DoorDash inflated the delivery line'); }
+  else console.log('  ok    DoorDash never exceeds what the books hold');
+}
+
 console.log(`\n${checks} checks, ${fails} failures`);
 process.exit(fails ? 1 : 0);
