@@ -1,6 +1,6 @@
 {
   "date": "2026-08-10",
-  "generated_at": "2026-08-10T20:42:12.829653Z",
+  "generated_at": "2026-08-10T21:22:37.576105Z",
   "venue": "harry",
   "venue_display": "Harry Gatos",
   "lane_config": [
@@ -15,28 +15,28 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 3740.0,
-    "revenue_ex_gst": 3400.27,
-    "cogs_dollars": 988.18,
-    "cogs_pct": 29.1,
-    "gp_dollars": 2412.09,
-    "gp_pct": 70.9,
+    "revenue_inc_gst": 4340.4,
+    "revenue_ex_gst": 3946.12,
+    "cogs_dollars": 1028.64,
+    "cogs_pct": 26.1,
+    "gp_dollars": 2917.48,
+    "gp_pct": 73.9,
     "cogs_source": "recipe_blend",
-    "cogs_lightspeed_dollars": 683.47,
-    "recipe_coverage_pct": 91.9,
+    "cogs_lightspeed_dollars": 342.29,
+    "recipe_coverage_pct": 91.2,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
     "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
     "revenue_ex_gst_before_eatclub": null,
-    "food_ex_gst": 2803.82,
-    "bev_ex_gst": 596.18,
-    "food_cogs": 483.69,
-    "bev_cogs": 199.78,
-    "food_cogs_pct": 17.3,
-    "bev_cogs_pct": 33.5,
-    "food_gp_pct": 82.7,
-    "bev_gp_pct": 66.5,
+    "food_ex_gst": 3520.27,
+    "bev_ex_gst": 425.55,
+    "food_cogs": 251.33,
+    "bev_cogs": 90.96,
+    "food_cogs_pct": 7.1,
+    "bev_cogs_pct": 21.4,
+    "food_gp_pct": 92.9,
+    "bev_gp_pct": 78.6,
     "mari_rideon_ex_gst": 0.0,
     "hg_food_out_ex_gst": 0.0,
     "stow_food_out_ex_gst": 0.0
@@ -48,12 +48,12 @@
     "admin_dollars": 49.11,
     "leave_dollars": 0,
     "total_dollars": 1417.97,
-    "wages_pct": 41.7,
+    "wages_pct": 35.9,
     "net_wage_pct": null,
     "kitchen_hours": 25.2,
     "foh_hours": 9.8,
-    "wages_kitchen_pct": 34.7,
-    "wages_foh_pct": 66.6,
+    "wages_kitchen_pct": 27.6,
+    "wages_foh_pct": 93.3,
     "includes_super": true,
     "salaried_synthesized": true
   },
@@ -61,11 +61,11 @@
   "payments_breakdown": null,
   "alerts": {
     "cogs": "green",
-    "wages": "red",
+    "wages": "amber",
     "delivery": "n/a",
     "gp": "green",
     "cogs_food": "green",
-    "cogs_bev": "red",
+    "cogs_bev": "green",
     "wages_kitchen": "red",
     "wages_foh": "red"
   },
@@ -114,121 +114,105 @@
   "top_products": [
     {
       "name": "Unlimited Dumplings",
-      "qty": 61.0,
-      "rev": 1459.2,
-      "cost": 426.8231,
-      "cost_source": "recipe",
-      "cost_lightspeed": 427.63
-    },
-    {
-      "name": "Unlimited Dumplings",
-      "qty": 36.0,
-      "rev": 864.0,
-      "cost": 251.8956,
+      "qty": 86.0,
+      "rev": 2068.8,
+      "cost": 601.7506,
       "cost_source": "recipe",
       "cost_lightspeed": 0.0
     },
     {
-      "name": "Harry's Lager - Pint",
-      "qty": 9.0,
-      "rev": 105.5,
-      "cost": 18.981,
+      "name": "Unlimited Dumplings",
+      "qty": 29.0,
+      "rev": 684.0,
+      "cost": 202.9159,
       "cost_source": "recipe",
-      "cost_lightspeed": 20.39
+      "cost_lightspeed": 203.3
     },
     {
-      "name": "Devon's Prawn Toast",
-      "qty": 5.0,
-      "rev": 80.0,
-      "cost": 19.437,
+      "name": "Fried Rice",
+      "qty": 3.0,
+      "rev": 71.3,
+      "cost": 9.6237,
       "cost_source": "recipe",
-      "cost_lightspeed": 19.44
+      "cost_lightspeed": 0.0
     },
     {
-      "name": "Harry's Lager - Schooner",
-      "qty": 18.0,
-      "rev": 78.0,
-      "cost": 28.305,
+      "name": "Mie Goreng",
+      "qty": 3.0,
+      "rev": 69.0,
+      "cost": 17.0115,
       "cost_source": "recipe",
-      "cost_lightspeed": 30.4
+      "cost_lightspeed": 0.0
     },
     {
-      "name": "Pepsi Max Glass",
-      "qty": 16.0,
-      "rev": 67.5,
-      "cost": 20.96,
-      "cost_source": "recipe",
-      "cost_lightspeed": 20.96
-    },
-    {
-      "name": "Sapporo - Schooner",
-      "qty": 19.0,
-      "rev": 65.0,
-      "cost": 59.9165,
-      "cost_source": "recipe",
-      "cost_lightspeed": 60.4
-    },
-    {
-      "name": "Duck Spring Roll",
+      "name": "BBQ Pork Buns",
       "qty": 4.0,
-      "rev": 64.0,
-      "cost": 14.28,
+      "rev": 61.95,
+      "cost": 14.0,
       "cost_source": "recipe",
-      "cost_lightspeed": 14.29
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Tonkotsu",
+      "qty": 2.0,
+      "rev": 60.9,
+      "cost": 8.3486,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Drunken Koi",
       "qty": 3.0,
-      "rev": 63.0,
+      "rev": 58.8,
       "cost": 7.3275,
       "cost_source": "recipe",
       "cost_lightspeed": 7.96
     },
     {
       "name": "Tonkotsu",
-      "qty": 2.0,
+      "qty": 3.0,
       "rev": 58.0,
-      "cost": 8.3486,
+      "cost": 12.5229,
       "cost_source": "recipe",
-      "cost_lightspeed": 8.33
+      "cost_lightspeed": 12.49
     },
     {
       "name": "Katsu Curry",
       "qty": 2.0,
-      "rev": 55.78,
+      "rev": 54.89,
       "cost": 6.0644,
       "cost_source": "recipe",
       "cost_lightspeed": 0.0
     },
     {
-      "name": "Dumplings - Prawn Har Gow [GF]",
-      "qty": 3.0,
-      "rev": 55.77,
-      "cost": 13.2036,
+      "name": "Sapporo - Schooner",
+      "qty": 4.0,
+      "rev": 52.0,
+      "cost": 12.614,
       "cost_source": "recipe",
-      "cost_lightspeed": 0.0
+      "cost_lightspeed": 12.77
+    },
+    {
+      "name": "Shredded Beef",
+      "qty": 2.0,
+      "rev": 52.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
     },
     {
       "name": "Duck Spring Rolls",
       "qty": 3.0,
-      "rev": 48.53,
+      "rev": 49.58,
       "cost": 0.0,
       "cost_source": "lightspeed"
     },
     {
-      "name": "Karaage Chicken",
-      "qty": 3.0,
-      "rev": 48.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
-    },
-    {
-      "name": "Fried Rice",
-      "qty": 2.0,
-      "rev": 47.0,
-      "cost": 6.4158,
+      "name": "Sapporo - 500ml",
+      "qty": 4.0,
+      "rev": 49.5,
+      "cost": 14.84,
       "cost_source": "recipe",
-      "cost_lightspeed": 5.36
+      "cost_lightspeed": 15.02
     },
     {
       "name": "Fried Rice",
@@ -236,37 +220,55 @@
       "rev": 46.0,
       "cost": 6.4158,
       "cost_source": "recipe",
+      "cost_lightspeed": 5.36
+    },
+    {
+      "name": "BBQ Pork Buns",
+      "qty": 3.0,
+      "rev": 45.0,
+      "cost": 10.5,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.5
+    },
+    {
+      "name": "Popcorn Cauliflower",
+      "qty": 3.0,
+      "rev": 44.0,
+      "cost": 2.8686,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.94
+    },
+    {
+      "name": "Popcorn Cauliflower",
+      "qty": 3.0,
+      "rev": 43.37,
+      "cost": 2.8686,
+      "cost_source": "recipe",
       "cost_lightspeed": 0.0
     },
     {
-      "name": "Sapporo - 500ml",
-      "qty": 7.0,
-      "rev": 42.0,
-      "cost": 25.97,
-      "cost_source": "recipe",
-      "cost_lightspeed": 26.18
-    },
-    {
-      "name": "Dragon Soda",
-      "qty": 4.0,
-      "rev": 36.0,
-      "cost": 0.2216,
+      "name": "Dumplings - Beef & Cabbage",
+      "qty": 3.0,
+      "rev": 40.29,
+      "cost": 4.3836,
       "cost_source": "recipe",
       "cost_lightspeed": 0.0
     },
     {
-      "name": "Chicken Karaage",
+      "name": "Angas & Bremer Ros\u00e9 - Large",
       "qty": 2.0,
-      "rev": 34.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "rev": 37.8,
+      "cost": 5.8464,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.43
     },
     {
-      "name": "Asahi Zero",
-      "qty": 4.0,
-      "rev": 31.5,
-      "cost": 8.39,
-      "cost_source": "lightspeed"
+      "name": "Outback Prawn Toast",
+      "qty": 2.0,
+      "rev": 32.52,
+      "cost": 7.7748,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     }
   ]
 }
