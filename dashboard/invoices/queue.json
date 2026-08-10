@@ -1,8 +1,91 @@
 {
   "generated": "2026-08-11",
-  "count": 307,
+  "count": 308,
   "skipped_already_in_xero": 224,
   "invoices": [
+    {
+      "ref": "3112741",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-08-11",
+      "due_date": "2026-08-25",
+      "total": "88.20",
+      "venue": "stowaway",
+      "pdf_path": "308336ef96ab2384c143bb2a521770a6cef86a0ff8505831eb76b6620a828b82.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CAPSICUM GREEN 2NDS KG",
+          "supplier_code": "CAPG2K",
+          "qty": "3.00",
+          "amount": "21.60",
+          "unit_cost": "$7.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "TOMATO CHERRY PUN",
+          "supplier_code": "TOMCP",
+          "qty": "3.00",
+          "amount": "9.60",
+          "unit_cost": "$3.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "TOMATO ROMA / EGG CTN",
+          "supplier_code": "TOMR",
+          "qty": "0.50",
+          "amount": "23.50",
+          "unit_cost": "$47.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "LETTUCE BABY SPINACH 1.5KG CTN",
+          "supplier_code": "LETS1",
+          "qty": "1.00",
+          "amount": "18.50",
+          "unit_cost": "$12.33/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HERB BASIL BCH",
+          "supplier_code": "HBAS",
+          "qty": "2.00",
+          "amount": "9.20",
+          "unit_cost": "$4.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SHALLOT BCH",
+          "supplier_code": "SHAL",
+          "qty": "2.00",
+          "amount": "5.80",
+          "unit_cost": "$2.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
     {
       "ref": "7088605",
       "supplier": "B&E Foods Pty Ltd",

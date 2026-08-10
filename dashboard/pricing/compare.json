@@ -95,7 +95,7 @@
       "prev": 1.9,
       "cost": 3.2,
       "pct": 68.4,
-      "date": "2026-08-08"
+      "date": "2026-08-11"
     },
     {
       "name": "Kobayashi Gluten Free Ramen Noodle",
@@ -266,7 +266,7 @@
       "prev": 6.0,
       "cost": 7.2,
       "pct": 20.0,
-      "date": "2026-08-08"
+      "date": "2026-08-11"
     },
     {
       "name": "Corn Sweet",
@@ -456,6 +456,15 @@
       "cost": 21.9,
       "pct": 12.3,
       "date": "2026-07-23"
+    },
+    {
+      "name": "Shallot",
+      "supplier": "Select Fresh",
+      "unit": "bunch",
+      "prev": 2.6,
+      "cost": 2.9,
+      "pct": 11.5,
+      "date": "2026-08-11"
     },
     {
       "name": "Tofu Press Silken",
@@ -1075,46 +1084,6 @@
       "switch": false
     },
     {
-      "key": "shallot",
-      "name": "Shallot",
-      "unit": "bunch",
-      "suppliers": [
-        {
-          "supplier": "Select Fresh",
-          "cost": 2.6,
-          "date": "2026-08-08",
-          "desc": "SHALLOT BCH",
-          "change_pct": -13.3,
-          "n": 18,
-          "prev_cost": 3.0,
-          "spend": 0.0,
-          "volume": 0.0
-        },
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 3.19,
-          "date": "2026-08-07",
-          "desc": "Shallot",
-          "change_pct": 20.4,
-          "n": 21,
-          "prev_cost": 2.65,
-          "spend": 0.0,
-          "volume": 0.0
-        }
-      ],
-      "cheapest": "Select Fresh",
-      "min": 2.6,
-      "max": 3.19,
-      "spread_pct": 22.7,
-      "multi": true,
-      "suspect": false,
-      "low": 1.65,
-      "low_date": "2026-04-29",
-      "est_saving": 0.0,
-      "main": null,
-      "switch": false
-    },
-    {
       "key": "5mm diced pumpkin",
       "name": "Pumpkin Diced 5mm",
       "unit": "kg",
@@ -1155,6 +1124,46 @@
       "switch": false
     },
     {
+      "key": "shallot",
+      "name": "Shallot",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 2.9,
+          "date": "2026-08-11",
+          "desc": "SHALLOT BCH",
+          "change_pct": 11.5,
+          "n": 19,
+          "prev_cost": 2.6,
+          "spend": 0.0,
+          "volume": 0.0
+        },
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.19,
+          "date": "2026-08-07",
+          "desc": "Shallot",
+          "change_pct": 20.4,
+          "n": 21,
+          "prev_cost": 2.65,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 2.9,
+      "max": 3.19,
+      "spread_pct": 10.0,
+      "multi": true,
+      "suspect": false,
+      "low": 1.65,
+      "low_date": "2026-04-29",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "basil",
       "name": "Basil",
       "unit": "bunch",
@@ -1162,10 +1171,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 4.6,
-          "date": "2026-08-08",
+          "date": "2026-08-11",
           "desc": "HERB BASIL BCH",
           "change_pct": -11.5,
-          "n": 11,
+          "n": 12,
           "prev_cost": 5.2,
           "spend": 0.0,
           "volume": 0.0
@@ -4581,10 +4590,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 7.2,
-          "date": "2026-08-08",
+          "date": "2026-08-11",
           "desc": "CAPSICUM GREEN 2NDS KG",
           "change_pct": 20.0,
-          "n": 4,
+          "n": 5,
           "prev_cost": 6.0,
           "spend": 0.0,
           "volume": 0.0
@@ -15427,10 +15436,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 12.333,
-          "date": "2026-08-08",
+          "date": "2026-08-11",
           "desc": "LETTUCE BABY SPINACH 1.5KG CTN",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -24504,10 +24513,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 3.2,
-          "date": "2026-08-08",
+          "date": "2026-08-11",
           "desc": "TOMATO CHERRY PUN",
           "change_pct": 68.4,
-          "n": 12,
+          "n": 13,
           "prev_cost": 1.9,
           "spend": 0.0,
           "volume": 0.0
@@ -24649,10 +24658,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 47.0,
-          "date": "2026-08-06",
+          "date": "2026-08-11",
           "desc": "TOMATO ROMA / EGG CTN",
           "change_pct": -9.6,
-          "n": 4,
+          "n": 5,
           "prev_cost": 52.0,
           "spend": 0.0,
           "volume": 0.0
