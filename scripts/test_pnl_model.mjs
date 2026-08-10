@@ -161,5 +161,44 @@ for (const tf of TFS) {
   }
 }
 
+// ---- each venue carries its OWN Uber Eats fees ------------------------------
+// xero_pull.py maps the whole "Service & Delivery Fees - UberEats" account to
+// Marilyna's, but Harry Gatos has its own Uber Eats shop and always has - 53
+// orders in May 2026, 48 in June. Read from each shop's own portal page, May was
+// HG 889.84 + Mari 10,889.46 = 10,708.45 ex against Xero's 10,667.08: a 0.4%
+// match, which is what proves one account holds BOTH shops. Group was right, the
+// split was not - the same shape as the till-split bug.
+{
+  // HG must have a non-zero Uber Eats cost in the weeks BEFORE its daily feed
+  // starts (2026-07-13). It used to be exactly zero there, with the money on Mari.
+  let zeroWeeks = 0, seen = 0;
+  for (const w of ['2026-05-18','2026-06-01','2026-06-08','2026-06-22','2026-07-06']) {
+    const e = ctx.isoDate(ctx.addDays(new Date(w), 6));
+    const d = ctx.venueDeliveryEst('hg', w, e, e);
+    const uber = (d.commission || 0) + (d.marketing || 0);
+    seen++;
+    if (!(uber > 0)) zeroWeeks++;
+  }
+  checks++;
+  if (zeroWeeks) { fails++; console.log('  FAIL  HG has no Uber Eats cost in ' + zeroWeeks + '/' + seen + ' pre-feed weeks'); }
+  else console.log('  ok    HG carries its own Uber Eats fees in all ' + seen + ' pre-feed weeks sampled');
+
+  // Splitting must not create or destroy money: on a whole closed month the three
+  // venues' booked fees have to add back to the group figure exactly.
+  let worst = 0, worstM = '';
+  for (const m of ['2026-06', '2026-07']) {
+    const d0 = new Date(m + '-01');
+    const day = { date: m + '-01 \u2014 ' + ctx.isoDate(new Date(d0.getFullYear(), d0.getMonth() + 1, 0)) };
+    const g = ctx.feesActualWindow(day, 'group');
+    if (!g) continue;
+    const parts = ['mari','hg','stow'].reduce((t, v) => t + ctx.feesActualWindow(day, v).fees, 0);
+    const gap = Math.abs(parts - g.fees);
+    if (gap > worst) { worst = gap; worstM = m; }
+  }
+  checks++;
+  if (worst > 0.02) { fails++; console.log('  FAIL  venue split does not conserve in ' + worstM + ': off by ' + worst.toFixed(2)); }
+  else console.log('  ok    venue split conserves - mari+hg+stow == group on every closed month');
+}
+
 console.log(`\n${checks} checks, ${fails} failures`);
 process.exit(fails ? 1 : 0);
