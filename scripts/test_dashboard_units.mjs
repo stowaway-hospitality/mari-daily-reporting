@@ -44,6 +44,11 @@ eq("typeof pill('closed','green')","string");
 // than let the daily branch win outright. The old `uberSplit(..) || uberWeekly(..)`
 // dropped every pre-boundary week whenever the window touched even one daily
 // row, making delivery cost too LOW on any multi-month window.
+// NOTE: the feeds store the portal's inc-GST figures, but the model returns
+// ex-GST — revenue, COGS, wages, overheads and Xero are all ex-GST and the GST
+// is reclaimed, so it is not a cost. Expectations below are therefore the
+// fixture value / 1.1. Changed 2026-08-10, when the two halves of the delivery
+// line were found to be on different bases (HG's July figure summed one of each).
 ctx.STATE.uberDaily=[
   {date:'2026-07-13',shop:'mari',commission_inc_gst:'100.00',offers_inc_gst:'10.00'},
   {date:'2026-07-14',shop:'mari',commission_inc_gst:'200.00',offers_inc_gst:'20.00'}];
@@ -51,21 +56,21 @@ ctx.STATE.uberFees=[
   {week_ending:'2026-07-12',venue:'mari',service_fees_inc_gst:'700.00',marketing_inc_gst:'70.00'}];
 ctx.STATE.uberAds=[];
 // window entirely inside the daily era -> daily only
-eq("uberActual('mari','2026-07-13','2026-07-14').commission","300");
-eq("uberActual('mari','2026-07-13','2026-07-14').marketing","30");
+eq("Math.abs(uberActual('mari','2026-07-13','2026-07-14').commission - 300/1.1) < 1e-9","true");
+eq("Math.abs(uberActual('mari','2026-07-13','2026-07-14').marketing - 30/1.1) < 1e-9","true");
 // window straddling the boundary -> daily PLUS the whole prior week (7/7 days)
-eq("uberActual('mari','2026-07-06','2026-07-14').commission","1000");
-eq("uberActual('mari','2026-07-06','2026-07-14').marketing","100");
+eq("Math.abs(uberActual('mari','2026-07-06','2026-07-14').commission - 1000/1.1) < 1e-9","true");
+eq("Math.abs(uberActual('mari','2026-07-06','2026-07-14').marketing - 100/1.1) < 1e-9","true");
 // window entirely before the daily feed -> weekly only
-eq("uberActual('mari','2026-07-06','2026-07-12').commission","700");
-eq("uberActual('mari','2026-07-06','2026-07-12').marketing","70");
+eq("Math.abs(uberActual('mari','2026-07-06','2026-07-12').commission - 700/1.1) < 1e-9","true");
+eq("Math.abs(uberActual('mari','2026-07-06','2026-07-12').marketing - 70/1.1) < 1e-9","true");
 // the daily feed must not be double-counted by the weekly branch
-eq("uberActual('mari','2026-07-06','2026-07-14').commission === 300 + 700","true");
+eq("Math.abs(uberActual('mari','2026-07-06','2026-07-14').commission - (300+700)/1.1) < 1e-9","true");
 // no feed reaches the window -> null, caller estimates
 eq("uberActual('mari','2026-05-01','2026-05-07')","null");
 // marketing must NOT pick up uber_marketing_weekly ads on top (double-count)
 ctx.STATE.uberAds=[{week_ending:'2026-07-19',shop:'mari',ads_inc_gst:'999.00'}];
-eq("uberActual('mari','2026-07-13','2026-07-14').marketing","30");
+eq("Math.abs(uberActual('mari','2026-07-13','2026-07-14').marketing - 30/1.1) < 1e-9","true");
 
 // COVERAGE — the feed must say how far it reaches, so a window whose tail has
 // not landed cannot read as complete. (The daily pull runs next morning, so any
@@ -74,14 +79,14 @@ eq("uberActual('mari','2026-07-13','2026-07-14').covered","true");
 eq("uberActual('mari','2026-07-13','2026-07-20').covered","false");
 eq("uberActual('mari','2026-07-13','2026-07-20').coveredEnd","2026-07-14");
 // the covered sum itself must not change when the window runs past the feed
-eq("uberActual('mari','2026-07-13','2026-07-20').commission","300");
+eq("Math.abs(uberActual('mari','2026-07-13','2026-07-20').commission - 300/1.1) < 1e-9","true");
 // venueDeliveryEst tops the uncovered tail up from revenue rather than dropping it
 ctx.STATE.histories={mari:[
   {date:'2026-07-13',revenue_ex_gst:'1000'},{date:'2026-07-14',revenue_ex_gst:'1000'},
   {date:'2026-07-15',revenue_ex_gst:'1000'}]};
 ctx.STATE.uberDirect=[]; ctx.STATE.xeroOH=[]; ctx.STATE.baselines={};
 // covered $2000 rev carried $330 of fees -> the uncovered $1000 day adds $165
-eq("Math.round(venueDeliveryEst('mari','2026-07-13','2026-07-15','2026-07-15').tailEst)","165");
+eq("Math.round(venueDeliveryEst('mari','2026-07-13','2026-07-15','2026-07-15').tailEst)",String(Math.round(165/1.1)));
 eq("venueDeliveryEst('mari','2026-07-13','2026-07-14','2026-07-14').tailEst","0");
 
 console.log(`\n${n} unit assertions, ${fails} failures`);

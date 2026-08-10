@@ -200,5 +200,37 @@ for (const tf of TFS) {
   else console.log('  ok    venue split conserves - mari+hg+stow == group on every closed month');
 }
 
+// ---- one month, one answer --------------------------------------------------
+// Delivery used to be computed on two different GST bases: the Uber feeds went in
+// inc-GST while the Xero-derived and whole-month paths were ex-GST. Harry Gatos'
+// July figure literally summed one of each. So the SAME venue reported a
+// different delivery cost depending on which date range you selected —
+// Marilyna's June was A$8,067 as a month and A$9,379 as the sum of its own weeks.
+// Everything else in this P&L is ex-GST, and so is Xero, so ex-GST won.
+{
+  let worst = 0, worstWhat = '';
+  for (const [a, b] of [['2026-06-01','2026-06-30'], ['2026-07-01','2026-07-31']]) {
+    const day = { date: a + ' \u2014 ' + b };
+    if (!ctx.feesActualWindow(day, 'group')) continue;
+    for (const v of ['mari', 'hg', 'stow']) {
+      const mo = ctx.feesActualWindow(day, v).fees;
+      let wkTot = 0;
+      for (let d = new Date(a); ctx.isoDate(d) <= b; d = ctx.addDays(d, 7)) {
+        const s0 = ctx.isoDate(d);
+        let e0 = ctx.isoDate(ctx.addDays(d, 6)); if (e0 > b) e0 = b;
+        wkTot += ctx.venueDeliveryEst(v, s0, e0, e0).df;
+      }
+      const rel = mo ? Math.abs(mo - wkTot) / mo : 0;
+      if (rel > worst) { worst = rel; worstWhat = v + ' ' + a.slice(0, 7) + ' (month ' + mo.toFixed(2) + ' vs weeks ' + wkTot.toFixed(2) + ')'; }
+    }
+  }
+  checks++;
+  // 2%: Uber Direct's coverage begins mid-week on 2026-06-05, so the first June
+  // week falls back to an estimate for its non-Eats slice. That is a real
+  // boundary, not a basis error, and it is worth ~1.3% on Mari in June alone.
+  if (worst > 0.02) { fails++; console.log('  FAIL  month and its own weeks disagree: ' + worstWhat); }
+  else console.log('  ok    monthly view agrees with the sum of its weeks (worst ' + (worst * 100).toFixed(2) + '%)');
+}
+
 console.log(`\n${checks} checks, ${fails} failures`);
 process.exit(fails ? 1 : 0);
