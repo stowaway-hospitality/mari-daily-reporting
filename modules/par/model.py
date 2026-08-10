@@ -79,6 +79,7 @@ import yaml
 
 from . import bookings as bookings_mod
 from . import calendar as par_calendar
+from . import deals as deals_mod
 from . import seasonal as seasonal_mod
 from . import service as service_mod
 from . import shrinkage as shrinkage_mod
@@ -1841,6 +1842,24 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
                                       cross_units_out=cross_units,
                                       cross_by_venue_out=cross_by_venue,
                                       exported_out=exported_raw)
+
+    # ── whole-unit drinks bundled inside Lightspeed deals ───────────────────
+    # A "$60 BANQUET" takes a 1.25L Coke off the shelf without that bottle ever
+    # ringing as a sale. See modules/par/deals.py — whole units ONLY; ml/g stay
+    # with the recipe path above or every spirit would be counted twice.
+    deal_weekly_qty = defaultdict(lambda: [0.0] * len(weeks))
+    _widx = {w: i for i, w in enumerate(weeks)}
+    for r in rows:
+        i = _widx.get(r["week_ending"])
+        if i is not None:
+            deal_weekly_qty[r["product_name"]][i] += float(r.get("qty") or 0)
+    deal_units, deal_resolved, deal_refused = deals_mod.deal_units(
+        data_dir, list(idx.names) if hasattr(idx, "names") else list(scrape),
+        deal_weekly_qty, weeks, aliases=aliases)
+    for sku, ser in deal_units.items():
+        tgt = pour.setdefault(sku, [0.0] * len(weeks))
+        for i, v in enumerate(ser):
+            tgt[i] += v
 
     universe = set(pour) | set(recipe) | set(scrape) | set(overrides)
     n = len(weeks)
