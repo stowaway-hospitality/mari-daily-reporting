@@ -1,13 +1,13 @@
 {
-  "generated": "2026-08-10T21:10:41+00:00",
-  "overall": "down",
+  "generated": "2026-08-10T22:10:50+00:00",
+  "overall": "warn",
   "checks": [
     {
       "name": "Invoice poller",
       "detail": "reads the accounts@ inbox every 30 min",
-      "age": 438.5,
+      "age": 26.7,
       "unit": "min",
-      "status": "down",
+      "status": "ok",
       "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
       "action": "Check the office Mac is on and awake - it resumes on its own and no bills are lost. Still red an hour after it is awake? Tell Zak.",
       "selfheal": "Recovers by itself once the Mac is awake."
@@ -15,7 +15,7 @@
     {
       "name": "Xero approvals poller",
       "detail": "posts approved bills every 2 min",
-      "age": 1.6,
+      "age": 1.0,
       "unit": "min",
       "status": "ok",
       "meaning": "Posts approved supplier bills into Xero every couple of minutes (office Mac).",
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 0.1,
+      "age": 0.9,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -123,7 +123,7 @@
     },
     {
       "name": "Published app is current",
-      "detail": "app is behind the repo on 1 feed(s): health panel itself (showing ok, differs on Invoice poller)",
+      "detail": "app is behind the repo on 1 feed(s): health panel itself (showing down, differs on Invoice poller)",
       "age": null,
       "unit": "",
       "status": "warn",
