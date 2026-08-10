@@ -89,8 +89,16 @@ if (!fs.existsSync(p)) {
   // batch_yield is NOT in this list: every one of its findings has been settled
   // (real Lightspeed yields + the chilli rate), and a family that is fully
   // resolved should read as empty, not as a broken build.
+  //
+  // `decision` left the list on 2026-08-10 for the same reason. Its only member
+  // was decision-ilg-reparse — "re-parsing the historical ILG invoices is blocked
+  // on a unit question" — and the question was answered and the re-parse ran
+  // (063d9b7, b2ef362). A decision flag exists to ask something; when it has an
+  // answer in the code there is nothing left to render. Asserting it is still
+  // there would demand the repo keep a settled question open forever, which is
+  // exactly the trap the batch_yield note above records.
   for (const c of ['cook_loss', 'structure', 'price_conflict',
-                   'no_recipe', 'back_office', 'bad_seed', 'decision',
+                   'no_recipe', 'back_office', 'bad_seed',
                    'feed_defect']) {
     ok(`family present: ${c}`, cats.has(c), [...cats].join(','));
   }
@@ -151,7 +159,17 @@ if (!fs.existsSync(p)) {
   // Guard the fix rather than demand the flag: re-break the seed and this reds.
   ok('the Angostura Back Office duplicate stays closed',
      !d.flags.some(f => f.category === 'back_office' && /Angostura/i.test(f.subject || '')));
-  ok('Plantation is flagged as a Back Office duplicate', inFeed('Plantation'));
+  // WAS: 'Plantation is flagged as a Back Office duplicate'. Back Office held the
+  // one bottle three times and Harry Gatos' copy said 4500 ML — not a size
+  // Plantation 3 Stars is sold in — against the SAME $60.83 its 700 ML twins
+  // carry, so it read $0.013518/ml where they read $0.0869. Same price, same
+  // product, a size that does not exist: the size was the typo. Pinned to 700 ml
+  // in data/pack_overrides.yaml on 2026-08-10, so the duplicate is resolved and
+  // the flag is correctly gone. This now guards the FIX — re-break the override
+  // and the duplicate comes back and this reds.
+  ok('Plantation duplicate is resolved, not merely reported',
+     !inFeed('Plantation'),
+     'Plantation is flagged again — the 4500ML pack override has been lost');
 
   // 5. the two case-price-as-each seeds.
   ok('the Garlic Bread seed is flagged', inFeed('Garlic Bread'));

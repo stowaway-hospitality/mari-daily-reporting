@@ -76,18 +76,35 @@ cook_loss:
     # on the batch instead of sitting in one recipe. The batch cost is divided by
     # the weight that went IN, so every gram taken out is priced as though nothing
     # evaporated.
+    #
+    # UPDATE 2026-08-10: brisket and achiote chicken now carry ESTIMATED cook
+    # yields (data/prep_yields.yaml, data/recipe_yields.yaml cook_yield_estimates)
+    # so neither is priced at the raw rate any more. They stay flagged because an
+    # estimate is not a measurement and these two are the largest — the burrito
+    # and taco GPs move when somebody weighs a batch. The three roasts below have
+    # no estimate at all.
     - id: yield-cooked-beef-brisket
       prep: "Cooked Beef Brisket [1Kg]"
       subject: "Cooked Beef Brisket [1Kg] — 10 kg raw brisket plus aromatics"
       question: "What does the 10 kg raw brisket batch weigh once cooked and rested?"
-      evidence: "the batch cost is spread over the RAW 10 kg; nothing records the cooked weight"
-      owner: "Kitchen — weigh the tray after the cook"
+      evidence: "ESTIMATED 2026-08-10 at 60% retention (6,000 g from 10,000 g raw)
+        pending a weighing — before that the batch was spread over Produce's
+        'Expected yield' of 10,500 g, which is the RAW weight and made COOKED
+        brisket $13.93/kg against $14.00/kg for the RAW meat on the B&E invoice.
+        60% is the conservative end of the 55-65% published band for braised
+        brisket and is corroborated by Lightspeed's own cost for the same cooked
+        meat implying 58.5%. Now $24.38/kg across all 14 products that use it."
+      owner: "Kitchen — weigh the tray after the cook, and replace the estimate"
     - id: yield-achiote-chicken
       prep: "Achiote Chicken [15Kg]"
       subject: "Achiote Chicken [15Kg] — 15 kg raw thigh plus marinade"
       question: "What does the 15 kg raw thigh batch weigh once cooked?"
-      evidence: "the batch cost is spread over the RAW 15 kg; nothing records the cooked weight"
-      owner: "Kitchen — weigh the tray after the cook"
+      evidence: "ESTIMATED 2026-08-10 at 70% retention (10,500 g from 15,000 g raw)
+        pending a weighing — Produce's 'Expected yield' held 15,000 g, which is
+        exactly the raw thigh weight and exactly the number in the recipe's own
+        name. 70% is the conservative end of the published 70-75% band for
+        boneless skinless thigh. Now $24.92/kg."
+      owner: "Kitchen — weigh the tray after the cook, and replace the estimate"
 
 # PRODUCTS THAT CAN NEVER BE COSTED, so they must stop reading as work.
 #
@@ -134,21 +151,19 @@ declared:
       - "ilg:122-2858"
       - "ilg:122-2867"
 
-  - id: decision-ilg-reparse
-    category: decision
-    severity: high
-    subject: "Historical ILG invoices — re-parse is blocked on a unit question"
-    what_is_wrong: "Re-parsing the historical ILG invoices would move 195 line
-      prices, but it cannot be done safely until raw_uom and qty are reconciled."
-    why_it_matters: "The old parse read a case line as one unit — Veuve Clicquot
-      sits at $484.58 where the re-parse says $80.76. That half is a clear
-      improvement. The other half is not: raw_uom still describes the CASE
-      ('6x700ML') while qty would now count BOTTLES, so cost_per_base_unit would
-      come out 6x LOW. Six times low is the flattering direction, and it would
-      land on 195 lines at once."
-    action: "Decide and encode what raw_uom means after the re-parse — the case
-      or the bottle — then re-run the ILG parse. Not before."
-    owner: "Dev (with Zak on the ILG invoice format)"
-    evidence_note: "audit_book already reports the same defect from the other
-      end: ten /pricing 'price rises' that are a bottle priced one week and a
-      case the next (Pellegrino 24.0x, Coca Cola 12.0x)."
+  # CLOSED 2026-08-10 (063d9b7, b2ef362). The unit question it was waiting on was
+  # answered and the re-parse ran: ilg.one_unit_pack() makes pack_qty describe ONE
+  # unit whenever qty counts units, so the price and the pack divide the same
+  # thing and cost_per_base_unit holds instead of dropping 6x. Veuve Clicquot
+  # lands at $80.76 a bottle / $107.68 per L.
+  #
+  # 49 of 55 invoices re-parsed from the corpus; the last six were recovered from
+  # the accounts@ mailbox, each PDF's sha256 matching the source_pdf its own
+  # invoice JSON had recorded months earlier. 331 rows re-derived, 138 repack
+  # lines RAISED (they were the 6x-low ones, live in the book), no ILG cost fell.
+  # The ten /pricing "price rises" this flag cited as corroboration are gone —
+  # test_the_pricing_pages_pack_read_movers_are_gone now guards their absence.
+  #
+  # Deleted rather than left as a closed entry because a decision flag exists to
+  # ask a question, and this one has an answer in the code
+  # (modules/invoices/tests/test_ilg_pack_matches_qty.py, 48 assertions).

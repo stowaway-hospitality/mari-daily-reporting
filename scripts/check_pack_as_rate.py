@@ -39,9 +39,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 COGS = ROOT / "data" / "cogs_list.csv"
 
-SEEDS = ("ls-recipe-seed", "bo-seed", "bo-ingredient-seed")
+# recipe-bridge-seed BELONGS HERE and was missing: both counted-pack defects
+# found on 2026-08-10 (Gulli's garlic bread carton of 40 and its box of 100 pizza
+# box inserts, seeded at the CARTON price per piece) were recipe-bridge-seed rows,
+# so the check walked past the very rows it exists for.
+SEEDS = ("ls-recipe-seed", "bo-seed", "bo-ingredient-seed", "recipe-bridge-seed")
 _PACK = re.compile(r"(\d+(?:\.\d+)?)\s*(KG|KGS|G|GM|GRAM|L|LT|LTR|LITRE|ML)\b", re.I)
 _GAL = re.compile(r"(\d+(?:\.\d+)?)\s*GALLN", re.I)
+# A pack stated as a COUNT in the name: "9\" x 40", "22.5cm x 100", "x 500".
+# Same defect, different notation — and the unit is `ea`, so the weight/volume
+# reader above walks straight past it. Gulli's garlic bread carton of 40 and its
+# box of 100 inserts were both seeded as the price of ONE piece.
+_COUNT = re.compile(r"\bx\s*(\d{2,4})\b", re.I)
 _TO = {"kg": 1000, "kgs": 1000, "g": 1, "gm": 1, "gram": 1,
        "l": 1000, "lt": 1000, "ltr": 1000, "litre": 1000, "ml": 1}
 TOL = 0.15          # the ratio must land within 15% of the stated pack size
@@ -53,19 +62,22 @@ def _norm(s: str) -> str:
 
 
 def _rate(row):
-    """cost per kg or per L, or None."""
+    """cost per kg / per L / per each, or None."""
     try:
         c = float(row.get("cost_per_base_unit") or 0)
     except (TypeError, ValueError):
         return None
     u = (row.get("pack_unit") or "").strip().lower()
-    if c <= 0 or u not in ("kg", "l", "g", "ml"):
+    if c <= 0 or u not in ("kg", "l", "g", "ml", "ea", "each"):
         return None
     return c * 1000 if u in ("g", "ml") else c
 
 
 def _stated_pack(desc: str):
-    """The pack size in the product's own name, expressed in kg or L."""
+    """The pack size in the product's own name — kg, L, or a plain count."""
+    m = _COUNT.search(desc or "")
+    if m:
+        return float(m.group(1))
     m = _GAL.search(desc or "")
     if m:
         return float(m.group(1)) * 3.78541
@@ -108,7 +120,7 @@ def findings(rows):
             continue
         if f"lightspeed:{r.get('supplier_code','')}" in fixed:
             continue                       # already pinned — see _resolved
-        if (r.get("pack_unit") or "").strip().lower() not in ("g", "ml"):
+        if (r.get("pack_unit") or "").strip().lower() not in ("g", "ml", "ea", "each"):
             continue
         if (r.get("pack_qty") or "").strip() not in ("1", "1.0", ""):
             continue

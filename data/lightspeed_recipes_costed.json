@@ -1,13 +1,13 @@
 {
  "generated": "2026-08-10",
  "source": "Lightspeed Produce (scraped)",
- "recipe_count": 892,
+ "recipe_count": 894,
  "coverage": {
   "ingredient_refs": {
    "id": 1541,
    "subrecipe": 384
   },
-  "recipes_fully_on_our_book": 864
+  "recipes_fully_on_our_book": 866
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -20452,16 +20452,16 @@
      "unit": "ml",
      "ls_cost": "1.42",
      "our_cost": null,
-     "eff_cost": 1.487733
+     "eff_cost": 1.42
     }
    ],
-   "our_cost": 1.4877,
+   "our_cost": 1.42,
    "ls_cost": 1.42,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 5.0,
-   "gp_pct": 67.3
+   "gp_pct": 68.8
   },
   "Cheesy Garlic Bread": {
    "ingredients": [
@@ -20484,16 +20484,16 @@
      "ls_cost": 1.42,
      "our_cost": null,
      "scaled_from": "Garlic Bread x1",
-     "eff_cost": 1.487733
+     "eff_cost": 1.42
     }
    ],
-   "our_cost": 1.8027,
+   "our_cost": 1.735,
    "ls_cost": 1.77,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 6.0,
-   "gp_pct": 67.0
+   "gp_pct": 68.2
   },
   "Large Vegetarian Wings Deal": {
    "ingredients": [
@@ -39947,6 +39947,160 @@
    "sell_incl": 27.0,
    "gp_pct": 87.6
   },
+  "Rocket Man D": {
+   "ingredients": [
+    {
+     "name": "Lettuce Rocket Wild [Box]",
+     "kind": "id",
+     "ref": "lightspeed:22995350",
+     "qty": "75",
+     "unit": "g",
+     "ls_cost": "1.05",
+     "our_cost": "0.014000",
+     "eff_cost": 1.05
+    },
+    {
+     "name": "Pears Green [kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995353",
+     "qty": "0.25",
+     "unit": "ml",
+     "ls_cost": "0.16",
+     "our_cost": null,
+     "eff_cost": 0.1625
+    },
+    {
+     "name": "Dairy Farmers Shaved Parmesan [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:23013739",
+     "qty": "45",
+     "unit": "g",
+     "ls_cost": "0.90",
+     "our_cost": "0.020000",
+     "eff_cost": 0.9
+    },
+    {
+     "name": "Balsamic Dressing House [4.9L]",
+     "kind": "subrecipe",
+     "ref": "Balsamic Dressing House [4.9L]",
+     "qty": "45",
+     "unit": "ml",
+     "ls_cost": "0.18",
+     "our_cost": null,
+     "eff_cost": 0.17719
+    },
+    {
+     "name": "Walnuts [1kg]",
+     "kind": "id",
+     "ref": "lightspeed:22514090",
+     "qty": "55",
+     "unit": "g",
+     "ls_cost": "0.91",
+     "our_cost": "0.016500",
+     "eff_cost": 0.9075
+    }
+   ],
+   "alias_of": "Rocket Man",
+   "our_cost": 3.1972,
+   "ls_cost": 3.2,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 74.9
+  },
+  "Eggplant Schnitty D": {
+   "ingredients": [
+    {
+     "name": "Tempeh 250g Nutrisoy",
+     "kind": "id",
+     "ref": "lightspeed:22888670",
+     "qty": 125.0,
+     "unit": "g",
+     "ls_cost": "2.00",
+     "our_cost": null,
+     "eff_cost": 2.0
+    },
+    {
+     "name": "Farm Frites Crispy Coated 10mm [2.5kg]",
+     "kind": "id",
+     "ref": "lightspeed:22888630",
+     "qty": "150",
+     "unit": "g",
+     "ls_cost": "0.80",
+     "our_cost": "0.005316",
+     "eff_cost": 0.7974
+    },
+    {
+     "name": "Gravy Prep",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
+     "qty": "45",
+     "unit": "g",
+     "ls_cost": "0.30",
+     "our_cost": null,
+     "eff_cost": 0.26115
+    },
+    {
+     "name": "Spanish Onion [10Kg]",
+     "kind": "id",
+     "ref": "lightspeed:20445597",
+     "qty": "15",
+     "unit": "g",
+     "ls_cost": "0.36",
+     "our_cost": "0.002420",
+     "eff_cost": 0.34848
+    },
+    {
+     "name": "Radish Red [Bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22995358",
+     "qty": "0.1",
+     "unit": "ml",
+     "ls_cost": "0.29",
+     "our_cost": null,
+     "eff_cost": 0.29
+    },
+    {
+     "name": "Lettuce Mesculin [1.5kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995349",
+     "qty": "35",
+     "unit": "g",
+     "ls_cost": "0.41",
+     "our_cost": "0.018000",
+     "eff_cost": 0.63
+    },
+    {
+     "name": "Balsamic Dressing House [4.9L]",
+     "kind": "subrecipe",
+     "ref": "Balsamic Dressing House [4.9L]",
+     "qty": "20",
+     "unit": "ml",
+     "ls_cost": "0.08",
+     "our_cost": null,
+     "eff_cost": 0.078751
+    },
+    {
+     "name": "Lemon [ea]",
+     "kind": "id",
+     "ref": "lightspeed:20564869",
+     "qty": "0.08",
+     "unit": "ml",
+     "ls_cost": "0.03",
+     "our_cost": "0.375000",
+     "eff_cost": 0.03
+    }
+   ],
+   "alias_of": "Eggplant Schnitty",
+   "our_cost": 4.4358,
+   "ls_cost": 4.27,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 23.0,
+   "gp_pct": 78.8
+  },
   "Large Pizza [menu average]": {
    "ingredients": [
     {
@@ -39998,18 +40152,18 @@
      "qty": 1,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "1.4877",
-     "eff_cost": 1.4877
+     "our_cost": "1.4200",
+     "eff_cost": 1.42
     }
    ],
    "deal_header": true,
-   "our_cost": 9.9289,
+   "our_cost": 9.8612,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 63.6
+   "gp_pct": 63.8
   },
   "$45 FEAST": {
    "ingredients": [
@@ -40030,8 +40184,8 @@
      "qty": 1,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "1.4877",
-     "eff_cost": 1.4877
+     "our_cost": "1.4200",
+     "eff_cost": 1.42
     },
     {
      "name": "Choc Brownie",
@@ -40045,13 +40199,13 @@
     }
    ],
    "deal_header": true,
-   "our_cost": 14.0402,
+   "our_cost": 13.9725,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 45.0,
-   "gp_pct": 65.7
+   "gp_pct": 65.8
   },
   "Feast Deal Pizzas": {
    "ingredients": [
@@ -40072,8 +40226,8 @@
      "qty": 1,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "1.4877",
-     "eff_cost": 1.4877
+     "our_cost": "1.4200",
+     "eff_cost": 1.42
     },
     {
      "name": "Choc Brownie",
@@ -40087,13 +40241,13 @@
     }
    ],
    "deal_header": true,
-   "our_cost": 14.0402,
+   "our_cost": 13.9725,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 45.0,
-   "gp_pct": 65.7
+   "gp_pct": 65.8
   },
   "$60 BANQUET": {
    "ingredients": [
@@ -40114,8 +40268,8 @@
      "qty": 1,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "1.4877",
-     "eff_cost": 1.4877
+     "our_cost": "1.4200",
+     "eff_cost": 1.42
     },
     {
      "name": "1.25L Coke",
@@ -40129,13 +40283,13 @@
     }
    ],
    "deal_header": true,
-   "our_cost": 21.0813,
+   "our_cost": 21.0136,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 60.0,
-   "gp_pct": 61.4
+   "gp_pct": 61.5
   },
   "Banquet Deal Pizzas": {
    "ingredients": [
@@ -40156,8 +40310,8 @@
      "qty": 1,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "1.4877",
-     "eff_cost": 1.4877
+     "our_cost": "1.4200",
+     "eff_cost": 1.42
     },
     {
      "name": "1.25L Coke",
@@ -40171,13 +40325,13 @@
     }
    ],
    "deal_header": true,
-   "our_cost": 21.0813,
+   "our_cost": 21.0136,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 60.0,
-   "gp_pct": 61.4
+   "gp_pct": 61.5
   },
   "$90 PIZZA PARTY": {
    "ingredients": [
@@ -40198,8 +40352,8 @@
      "qty": 2,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "1.4877",
-     "eff_cost": 2.9754
+     "our_cost": "1.4200",
+     "eff_cost": 2.84
     },
     {
      "name": "Choc Brownie",
@@ -40223,13 +40377,13 @@
     }
    ],
    "deal_header": true,
-   "our_cost": 35.4604,
+   "our_cost": 35.325,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 90.0,
-   "gp_pct": 56.7
+   "gp_pct": 56.8
   },
   "Better Beer Tin": {
    "ingredients": [

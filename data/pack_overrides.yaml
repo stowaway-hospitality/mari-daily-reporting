@@ -369,3 +369,44 @@
   by: "Claude (3kg tub price read as the per-kg rate; Foodlink SI4274123 says $21.00/3kg)"
   on: 2026-08-10
   by_email: "hello@stowawaybar.com"
+# Same defect as the two above, but the pack is a COUNT in the product's own name
+# rather than a weight — "x 40", "x 100" — and the unit is `ea`, so the earlier
+# pass (which looked for kg/L/g/ml) walked straight past them. A recipe-bridge-seed
+# recorded Gulli's CARTON price as the price of one piece.
+- id: "lightspeed:20467596"           # Garlic Bread
+  pack_qty: 40
+  pack_unit: ea
+  # Seeded at $59.81 EACH. Gulli invoices 'Australian Garlic Bread- 9" x 40' at
+  # $59.8100 the carton on 23 consecutive deliveries (CI-373394 through CI-437319),
+  # so one piece is $1.4952 — which is exactly what the live invoice-fed rate
+  # already says. 40x.
+  by: "Claude (carton of 40 priced as one; Gulli AGBGARBRE-B $59.81/40 = $1.4952)"
+  on: 2026-08-10
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22873876"           # Pizza Box Inserts
+  pack_qty: 100
+  pack_unit: ea
+  # Seeded at $11.0550 EACH against Gulli 'Pizza Box Inserts 22.5cm x 100' at
+  # $11.0550 the box of 100 (CI-422469, CI-426842, CI-429895, CI-433663) = $0.1105
+  # each, which is what every pizza recipe already pays. 100x.
+  by: "Claude (box of 100 priced as one; Gulli INSERTSMALL-U $11.055/100 = $0.1105)"
+  on: 2026-08-10
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:20744468"           # Plantation 3 Stars White Rum, Harry Gatos' copy
+  pack_qty: 700
+  pack_unit: ml
+  # Back Office holds this one bottle three times, and all three carry the SAME
+  # price — $60.33 (20445856, portal), $60.83 (20487946, Stowaway) and $60.83
+  # (20744468, Harry Gatos). Two of them say 700 ML. This one says 4500 ML, which
+  # is not a size Plantation 3 Stars is sold in, and an identical price against a
+  # 6.4x larger pack is what makes it read $0.013518/ml where its own twins read
+  # $0.0869. Same price + same product + a size that does not exist = the size is
+  # the typo, not the price.
+  #
+  # NOTHING COSTS OFF IT TODAY (0 recipes), so this moves no dish. It is pinned
+  # because it is a landmine: any Harry Gatos drink that binds to the HG copy —
+  # which is the copy HG recipes would naturally reach for — would take its rum at
+  # a seventh of cost, and that is the flattering direction.
+  by: "Claude (same bottle, same price, three copies; 4500ML is not a Plantation size)"
+  on: 2026-08-10
+  by_email: "hello@stowawaybar.com"
