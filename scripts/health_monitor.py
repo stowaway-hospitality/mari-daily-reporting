@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import json
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -488,6 +488,78 @@ def _uber_direct_reconciled(feed_rel="data/uber_direct_daily.csv",
         return {"status": "unknown", "detail": f"Uber Direct reconciliation unreadable: {e}"}
 
 
+def _workflow_failures(window_h=48):
+    """Is any GitHub Actions job currently failing?
+
+    WHY this belongs on the panel: scripts/alert_check.py already detects failed
+    workflow runs every 3 hours, retries the safe ones, and escalates the rest.
+    But EVERY OTHER thing it escalates has a home on this panel — sales behind is
+    "Sales completeness", a narrowed STOW export is "Pull integrity", and a stale
+    snapshot is caught client-side by the home page from the snapshot's own
+    timestamp. Failed workflow runs were the one class with nowhere on screen to
+    land, so they existed only in a workflow log. That is the gap this closes.
+
+    Judged on the LATEST completed run per workflow, not on any failure in the
+    window: a job that failed once and then succeeded on retry is healthy, and
+    saying otherwise trains people to ignore the panel.
+    """
+    import json as _json
+    import os as _os
+    import urllib.request as _url
+    token = (_os.environ.get("GH_TOKEN") or _os.environ.get("GITHUB_TOKEN")
+             or _os.environ.get("GH_DISPATCH_PAT"))
+    if not token:
+        return {"status": "unknown",
+                "detail": "no GitHub token in this environment — cannot read job results"}
+    repo = _os.environ.get("GITHUB_REPOSITORY", "zakstowaway/mari-daily-reporting")
+    # Jobs that move money or data onto the screen. Anything else failing is
+    # worth knowing about but is not an outage.
+    CRITICAL = {"daily_pull.yml", "ingest_insights_email.yml",
+                "deploy_dashboard.yml", "tests.yml"}
+    try:
+        req = _url.Request(
+            f"https://api.github.com/repos/{repo}/actions/runs"
+            f"?branch=main&status=completed&per_page=60",
+            headers={"Authorization": f"Bearer {token}",
+                     "Accept": "application/vnd.github+json",
+                     "User-Agent": "stowaway-health"})
+        with _url.urlopen(req, timeout=20) as r:
+            runs = _json.loads(r.read() or "{}").get("workflow_runs", [])
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=window_h)
+        latest = {}
+        for run in runs:
+            wf = _os.path.basename(run.get("path", "") or "")
+            if not wf:
+                continue
+            when = run.get("updated_at") or run.get("created_at")
+            try:
+                ts = datetime.fromisoformat(when.replace("Z", "+00:00"))
+            except Exception:
+                continue
+            if ts < cutoff:
+                continue
+            if wf not in latest or ts > latest[wf][0]:
+                latest[wf] = (ts, run)
+        bad = [(wf, run) for wf, (_, run) in latest.items()
+               if run.get("conclusion") == "failure"]
+        if not bad:
+            return {"status": "ok",
+                    "detail": f"all {len(latest)} jobs that ran in the last {window_h}h succeeded"}
+        crit = [b for b in bad if b[0] in CRITICAL]
+        worst = (crit or bad)[0]
+        names = ", ".join(sorted({b[1].get("name") or b[0] for b in bad}))
+        return {"status": "down" if crit else "warn",
+                "detail": f"{len(bad)} job(s) failing: {names}",
+                "meaning": ("These are the scheduled jobs that pull sales, wages, invoices and "
+                            "Uber fees and publish the site."),
+                "action": (f"'{worst[1].get('name') or worst[0]}' failed and has not succeeded since. "
+                           f"Open {worst[1].get('html_url', 'the Actions tab')} to see why, or ask "
+                           "Claude to look. Auto-retry has already had its go at the safe ones."),
+                "selfheal": "Only if it was transient - the 3-hourly monitor retries the safe jobs once."}
+    except Exception as e:
+        return {"status": "unknown", "detail": f"could not read job results: {e}"}
+
+
 def _missing_sales_days(lookback=6):
     """Backstop for the sales auto-heal: flag any recent day where a venue has no
     sales but that weekday normally trades (so it is a real gap, not a closed day).
@@ -599,6 +671,21 @@ def build() -> dict:
         if udr.get(_k):
             _udr_check[_k] = udr[_k]
     checks.append(_udr_check)
+
+    wfx = _workflow_failures()
+    _wfx_check = {"name": "Automation jobs", "detail": wfx.get("detail"),
+                  "age": None, "unit": "", "status": wfx.get("status", "unknown")}
+    # "I could not look" is not the same as "something is wrong". Without a token
+    # (any environment but the office Mac) this check cannot read Actions at all,
+    # and letting that unknown outrank ok would leave the headline permanently
+    # muddied — the fastest way to teach people to stop reading the panel. It
+    # stays visible in the JSON, but only a real warn/down moves the overall.
+    if _wfx_check["status"] == "unknown":
+        _wfx_check["advisory"] = True
+    for _k in ("meaning", "action", "selfheal"):
+        if wfx.get(_k):
+            _wfx_check[_k] = wfx[_k]
+    checks.append(_wfx_check)
 
     pd = _pages_drift(computed=checks)
     _pd_check = {"name": SELF, "detail": pd.get("detail"),

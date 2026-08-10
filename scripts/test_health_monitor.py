@@ -47,6 +47,12 @@ def _build_with(monkey_ages, queue_days):
     hm._uber_feed = lambda *a, **k: monkey_ages.get("uber", {"status": "ok", "detail": "clean"})
     hm._uber_direct = lambda *a, **k: monkey_ages.get("uberdirect", {"status": "ok", "detail": "clean"})
     hm._pages_drift = lambda *a, **k: monkey_ages.get("pagesdrift", {"status": "ok", "detail": "clean"})
+    # Added 2026-08-10. Both must be stubbed or this test stops being hermetic:
+    # _uber_direct_reconciled reads two CSVs off disk, and _workflow_failures
+    # calls the GitHub API and returns "unknown" wherever there is no token —
+    # which silently dragged `overall` off "ok" and failed two cases here.
+    hm._uber_direct_reconciled = lambda *a, **k: monkey_ages.get("uberdirectrecon", {"status": "ok", "detail": "clean"})
+    hm._workflow_failures = lambda *a, **k: monkey_ages.get("jobs", {"status": "ok", "detail": "clean"})
     return hm.build()
 
 
@@ -65,6 +71,22 @@ check("dead invoice poller -> overall down", out["overall"] == "down")
 # everything healthy -> ok
 out = _build_with(dict(allfresh), 0)
 check("all healthy -> overall ok", out["overall"] == "ok")
+
+# ---- Automation jobs (failed Actions runs) ---------------------------------
+# The one class of alert_check escalation with nowhere on screen to land until
+# 2026-08-10: everything else it raises maps to a check here, and snapshot
+# staleness is caught client-side from the snapshot's own timestamp.
+out = _build_with(dict(allfresh, jobs={"status": "down", "detail": "Daily Pull failing"}), 0)
+check("failing critical job -> overall down", out["overall"] == "down")
+
+out = _build_with(dict(allfresh, jobs={"status": "warn", "detail": "Alias suggest failing"}), 0)
+check("failing minor job -> overall warn", out["overall"] == "warn")
+
+# No token (CI, or anyone's laptop) must not muddy the headline — see the
+# advisory note in health_monitor.build().
+out = _build_with(dict(allfresh, jobs={"status": "unknown", "detail": "no GitHub token"}), 0)
+check("cannot read jobs -> stays ok, not unknown", out["overall"] == "ok")
+check("unreadable jobs check is still reported", any(c.get("name") == "Automation jobs" for c in out["checks"]))
 
 # ---- Uber fee feed ---------------------------------------------------------
 # The reason this check exists: the fee split was wrong for four weeks, the drift
