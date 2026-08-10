@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-08-10T10:00:34.322503+10:00",
+  "generated_at": "2026-08-10T10:22:40.333427+10:00",
   "venue": "hg",
   "window_weeks": 13,
   "week_range": [
@@ -22,25 +22,21 @@
   },
   "alias_targets_not_found": {},
   "what_attributed_to_other_venue_is": "POS lines sold at this venue whose stock is held and ordered at the OTHER venue, against that venue's par SKU (data/par_aliases.json, a '<venue>:<sku>' target). They are ATTRIBUTED — the volume lands on the named par SKU there — and they contribute nothing here, so they are neither unattributed nor double-counted. Listed so a line leaving this venue's numbers is never silent.",
+  "what_auto_hg_suffix_is": "Zak, 2026-08-10: 'pretty much any SKU labelled with [HG] is a harrys SKU that draws from stowaway stock'. That is a RULE, so the model applies it automatically: an HG till line carrying the '[HG]' suffix has the suffix stripped and the remainder matched against STOWAWAY's par universe, and its consumption is routed to that Stowaway par SKU. No file edit is needed for a new [HG] product. An explicit alias in data/par_aliases.json always overrides the rule. `auto_hg_suffix` lists every line the rule placed and why; `hg_suffix_unresolved` lists every [HG] line whose stripped name matched no Stowaway par SKU — the rule refuses to guess, so those fall through to the ordinary matchers and, if nothing places them, stay unattributed above. Give one an explicit alias to fix it.",
   "summary": {
-    "unattributed_lines": 8,
-    "unattributed_revenue_ex_gst": 351.41,
+    "unattributed_lines": 6,
+    "unattributed_revenue_ex_gst": 204.12,
+    "hg_suffix_rule_active": true,
+    "auto_hg_suffix_resolved_lines": 2,
+    "auto_hg_suffix_revenue_ex_gst": 147.29,
+    "hg_suffix_unresolved_lines": 9,
+    "hg_suffix_unresolved_still_unattributed": 5,
     "intentionally_unattributed_lines": 13,
     "intentionally_unattributed_revenue_ex_gst": 1593.72,
-    "attributed_to_other_venue_lines": 8,
-    "attributed_to_other_venue_revenue_ex_gst": 425.67
+    "attributed_to_other_venue_lines": 10,
+    "attributed_to_other_venue_revenue_ex_gst": 572.96
   },
   "unattributed": [
-    {
-      "product": "Grifter Big Sur IPA Can [HG]",
-      "reporting_group": "Bottles / Cans Alcoholic",
-      "qty_window": 10.0,
-      "qty_per_week": 0.77,
-      "revenue_ex_gst_window": 127.29,
-      "stock_bearing": true,
-      "investigate_note": "No Big Sur par SKU at HG (Stowaway has 'Grifter Big Sur IPA Tin'). HG's Purchase module needs the stock item created.",
-      "known_unmapped": true
-    },
     {
       "product": "Two Bays GF Rice Lager Can [HG]",
       "reporting_group": "Bottles / Cans Alcoholic",
@@ -48,7 +44,7 @@
       "qty_per_week": 0.54,
       "revenue_ex_gst_window": 89.11,
       "stock_bearing": true,
-      "investigate_note": "No Two Bays par SKU at HG. Gluten-free range being sold with nothing to order against.",
+      "investigate_note": "No Two Bays par SKU at EITHER venue - the [HG] suffix rule looked at Stowaway too and found nothing. Gluten-free range being sold with nothing to order against; the Purchase module needs the stock item created (at Stowaway, if the stock is Stowaway's like the rest of the [HG] range).",
       "known_unmapped": true
     },
     {
@@ -58,7 +54,7 @@
       "qty_per_week": 0.23,
       "revenue_ex_gst_window": 29.99,
       "stock_bearing": true,
-      "investigate_note": "No Philter Old Ale par SKU at HG. Deliberately NOT 'Philter Pale [Keg]' - a can and a keg of a different beer.",
+      "investigate_note": "No Philter Old Ale par SKU at either venue - the [HG] suffix rule found no Stowaway match either. Deliberately NOT 'Philter Pale [Keg]' - a can and a keg of a different beer.",
       "known_unmapped": true
     },
     {
@@ -82,16 +78,6 @@
       "known_unmapped": true
     },
     {
-      "product": "Monteith's Apple Cider [HG]",
-      "reporting_group": "Bottles / Cans Alcoholic",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 20.0,
-      "stock_bearing": true,
-      "investigate_note": "No Monteith's par SKU at HG.",
-      "known_unmapped": true
-    },
-    {
       "product": "Diet Coke Can",
       "reporting_group": "Non-Alcoholic",
       "qty_window": 4.0,
@@ -108,7 +94,7 @@
       "qty_per_week": 0.08,
       "revenue_ex_gst_window": 12.73,
       "stock_bearing": true,
-      "investigate_note": "No Two Bays par SKU at HG.",
+      "investigate_note": "No Two Bays par SKU at either venue. Same as above.",
       "known_unmapped": true
     }
   ],
@@ -239,7 +225,18 @@
       "qty_per_week": 1.0,
       "revenue_ex_gst_window": 147.63,
       "target_venue": "stow",
-      "target_sku": "Philter XPA [Keg]"
+      "target_sku": "Philter XPA [Keg]",
+      "via": "alias"
+    },
+    {
+      "product": "Grifter Big Sur IPA Can [HG]",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "qty_window": 10.0,
+      "qty_per_week": 0.77,
+      "revenue_ex_gst_window": 127.29,
+      "target_venue": "stow",
+      "target_sku": "Grifter Big Sur IPA Tin",
+      "via": "hg_suffix_rule"
     },
     {
       "product": "Grifter Pale",
@@ -248,7 +245,8 @@
       "qty_per_week": 0.85,
       "revenue_ex_gst_window": 119.59,
       "target_venue": "stow",
-      "target_sku": "Grifter Pale [Keg]"
+      "target_sku": "Grifter Pale [Keg]",
+      "via": "alias"
     },
     {
       "product": "Kirin",
@@ -257,7 +255,8 @@
       "qty_per_week": 0.46,
       "revenue_ex_gst_window": 81.84,
       "target_venue": "stow",
-      "target_sku": "Kirin [Keg]"
+      "target_sku": "Kirin [Keg]",
+      "via": "alias"
     },
     {
       "product": "Crankshaft IPA",
@@ -266,7 +265,18 @@
       "qty_per_week": 0.15,
       "revenue_ex_gst_window": 31.82,
       "target_venue": "stow",
-      "target_sku": "Crankshaft IPA [Keg]"
+      "target_sku": "Crankshaft IPA [Keg]",
+      "via": "alias"
+    },
+    {
+      "product": "Monteith's Apple Cider [HG]",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 20.0,
+      "target_venue": "stow",
+      "target_sku": "Monteith's Apple Cider Bottle",
+      "via": "hg_suffix_rule"
     },
     {
       "product": "Status Quo",
@@ -275,7 +285,8 @@
       "qty_per_week": 0.08,
       "revenue_ex_gst_window": 15.91,
       "target_venue": "stow",
-      "target_sku": "Status Quo [Keg]"
+      "target_sku": "Status Quo [Keg]",
+      "via": "alias"
     },
     {
       "product": "Guinness Draught",
@@ -284,7 +295,8 @@
       "qty_per_week": 0.08,
       "revenue_ex_gst_window": 14.32,
       "target_venue": "stow",
-      "target_sku": "Guinness [Keg]"
+      "target_sku": "Guinness [Keg]",
+      "via": "alias"
     },
     {
       "product": "Coke Can",
@@ -293,7 +305,8 @@
       "qty_per_week": 0.23,
       "revenue_ex_gst_window": 10.92,
       "target_venue": "stow",
-      "target_sku": "Coke Can"
+      "target_sku": "Coke Can",
+      "via": "alias"
     },
     {
       "product": "Sprite Can",
@@ -302,7 +315,113 @@
       "qty_per_week": 0.08,
       "revenue_ex_gst_window": 3.64,
       "target_venue": "stow",
-      "target_sku": "Sprite Can"
+      "target_sku": "Sprite Can",
+      "via": "alias"
+    }
+  ],
+  "auto_hg_suffix": [
+    {
+      "pos_line": "Grifter Big Sur IPA Can [HG]",
+      "stripped": "Grifter Big Sur IPA Can",
+      "target_venue": "stow",
+      "target_sku": "Grifter Big Sur IPA Tin",
+      "match": "variant/container",
+      "qty_window": 10.0,
+      "qty_per_week": 0.77,
+      "revenue_ex_gst_window": 127.29
+    },
+    {
+      "pos_line": "Monteith's Apple Cider [HG]",
+      "stripped": "Monteith's Apple Cider",
+      "target_venue": "stow",
+      "target_sku": "Monteith's Apple Cider Bottle",
+      "match": "variant/container",
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 20.0
+    }
+  ],
+  "hg_suffix_unresolved": [
+    {
+      "pos_line": "Zagara Orange [HG]",
+      "stripped": "Zagara Orange",
+      "reason": "no stow par SKU matches 'Zagara Orange'",
+      "still_unattributed": true,
+      "qty_window": 6.0,
+      "qty_per_week": 0.46,
+      "revenue_ex_gst_window": 123.65
+    },
+    {
+      "pos_line": "Two Bays GF Rice Lager Can [HG]",
+      "stripped": "Two Bays GF Rice Lager Can",
+      "reason": "no stow par SKU matches 'Two Bays GF Rice Lager Can'",
+      "still_unattributed": true,
+      "qty_window": 7.0,
+      "qty_per_week": 0.54,
+      "revenue_ex_gst_window": 89.11
+    },
+    {
+      "pos_line": "Fries [HG]",
+      "stripped": "Fries",
+      "reason": "no stow par SKU matches 'Fries'",
+      "still_unattributed": true,
+      "qty_window": 5.0,
+      "qty_per_week": 0.38,
+      "revenue_ex_gst_window": 54.55
+    },
+    {
+      "pos_line": "Philter Old Ale [HG]",
+      "stripped": "Philter Old Ale",
+      "reason": "no stow par SKU matches 'Philter Old Ale'",
+      "still_unattributed": true,
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 29.99
+    },
+    {
+      "pos_line": "Two Bays GF Pale Can [HG]",
+      "stripped": "Two Bays GF Pale Can",
+      "reason": "no stow par SKU matches 'Two Bays GF Pale Can'",
+      "still_unattributed": true,
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 12.73
+    },
+    {
+      "pos_line": "Cosmo [HG]",
+      "stripped": "Cosmo",
+      "reason": "no stow par SKU matches 'Cosmo'",
+      "still_unattributed": false,
+      "qty_window": 0.0,
+      "qty_per_week": 0.0,
+      "revenue_ex_gst_window": 0.0
+    },
+    {
+      "pos_line": "Long Island Iced Tea [HG]",
+      "stripped": "Long Island Iced Tea",
+      "reason": "no stow par SKU matches 'Long Island Iced Tea'",
+      "still_unattributed": false,
+      "qty_window": 0.0,
+      "qty_per_week": 0.0,
+      "revenue_ex_gst_window": 0.0
+    },
+    {
+      "pos_line": "Manhattan - Dry [HG]",
+      "stripped": "Manhattan - Dry",
+      "reason": "no stow par SKU matches 'Manhattan - Dry'",
+      "still_unattributed": false,
+      "qty_window": 0.0,
+      "qty_per_week": 0.0,
+      "revenue_ex_gst_window": 0.0
+    },
+    {
+      "pos_line": "Vodka Martini [HG]",
+      "stripped": "Vodka Martini",
+      "reason": "no stow par SKU matches 'Vodka Martini'",
+      "still_unattributed": false,
+      "qty_window": 0.0,
+      "qty_per_week": 0.0,
+      "revenue_ex_gst_window": 0.0
     }
   ]
 }

@@ -1125,3 +1125,267 @@ def test_the_cross_venue_hold_is_targeted_not_blanket(stow_build):
         assert "held_cross_venue_demand_only" not in flags, keg
         assert "held_no_recent_demand" not in flags, keg
         assert recs[keg]["rec_par"] > 0, keg
+
+
+# ── 12. the [HG] suffix RULE ────────────────────────────────────────────────
+# Zak, 2026-08-10, verbatim: "same as the wines. pretty much any SKU labelled
+# with [HG] is a harrys SKU that draws from stowaway stock".
+#
+# Section 11 solved the shared taps and the Coke/Sprite cans by NAMING each one
+# in data/par_aliases.json. That is a list, and a list rots: the next [HG]
+# product Harry Gatos puts on sells for months into an empty par before anyone
+# notices the line in the unattributed report. So the same fact is expressed as
+# a RULE — strip the '[HG]', match the remainder against STOWAWAY's par
+# universe, route the consumption there — and these are the guards on it.
+#
+# The three properties that matter, in order:
+#   * an explicit alias ALWAYS beats the rule (a human overrules a machine);
+#   * the rule never guesses (no Stowaway match => unattributed + reported);
+#   * no leakage (the volume lands at Stowaway, once, and nowhere else).
+def _rule(par_names=("Kirin [Keg]",), live=None):
+    return model.HGSuffixRule("stow", set(par_names), live or {})
+
+
+def _hg_row(name, rg="Bottles / Cans Alcoholic", qty=10.0, rev="200"):
+    return {"venue": "hg", "reporting_group": rg, "product_name": name,
+            "week_ending": HG_WEEK, "qty": qty, "sales_ex_gst": rev}
+
+
+def test_hg_suffix_is_stripped_and_the_whitespace_tidied():
+    assert model.strip_hg_suffix("Kaiju Hazy Pale [HG]") == "Kaiju Hazy Pale"
+    assert model.strip_hg_suffix("Two Tonne Riesling - Bottle [HG]") == (
+        "Two Tonne Riesling - Bottle")
+    # the suffix can leave a dangling separator or a double space behind
+    assert model.strip_hg_suffix("Cosmo - [HG]") == "Cosmo"
+    assert model.strip_hg_suffix("Fries  [HG]  ") == "Fries"
+    assert model.strip_hg_suffix("[hg] Odd One") == "Odd One"
+    assert model.has_hg_suffix("Fries [HG]") and not model.has_hg_suffix("Fries")
+
+
+def test_the_rule_tolerates_the_container_drift_between_the_two_catalogues():
+    """The two catalogues write the same physical item differently — that IS the
+    drift this whole area exists for. '- Bottle', '[Bottle]', '[Keg]', 'Can' and
+    'Tin' must all agree on identity."""
+    rule = _rule(("Trutta Streamside Shiraz [Chilled] - Bottle",
+                  "Grifter Big Sur IPA Tin", "Two Tonne Riesling - Bottle"))
+    assert rule.match("Trutta Streamside Shiraz - Bottle [HG]")[0] == (
+        "Trutta Streamside Shiraz [Chilled] - Bottle")
+    assert rule.match("Grifter Big Sur IPA Can [HG]")[0] == "Grifter Big Sur IPA Tin"
+    # exact wins outright, and reports itself as exact
+    sku, _, why = rule.match("Two Tonne Riesling - Bottle [HG]")
+    assert (sku, why) == ("Two Tonne Riesling - Bottle", "exact")
+
+
+def test_the_rule_is_case_and_diacritics_insensitive():
+    rule = _rule(("Petits Detours Rosé Mediterranee - Bottle",))
+    assert rule.match("PETITS DETOURS ROSE MEDITERRANEE - BOTTLE [hg]")[0] == (
+        "Petits Detours Rosé Mediterranee - Bottle")
+
+
+def test_an_ambiguous_base_is_broken_by_the_live_par_not_by_a_preference():
+    """Two Stowaway SKUs share the base 'Hyoketsu Lemon'. The tie is broken by a
+    FACT — which one is actually held and ordered — not by a guess about size."""
+    rule = _rule(("Hyoketsu Lemon Can", "Hyoketsu Lemon [Keg]"),
+                 live={"Hyoketsu Lemon Can": 3.9})
+    assert rule.match("Hyoketsu Lemon [HG]")[0] == "Hyoketsu Lemon Can"
+    # ...and with no fact to break it, it refuses rather than picks
+    blind = _rule(("Hyoketsu Lemon Can", "Hyoketsu Lemon [Keg]"))
+    sku, _, why = blind.match("Hyoketsu Lemon [HG]")
+    assert sku is None and "ambiguous" in why
+
+
+def test_an_hg_suffixed_line_auto_resolves_and_adds_volume_to_the_stowaway_par():
+    """THE requirement. Nobody edited a file; the line still reaches Stowaway's
+    par SKU, converted by the ordinary rules."""
+    stow_names = model.par_universe(DATA, "stow")
+    hg_ab = model.AliasBook({}, "hg").attach_auto_rule(
+        model.HGSuffixRule("stow", stow_names, model.load_scrape(DATA, "stow")))
+    assert hg_ab.resolve("Grifter Big Sur IPA Can [HG]") == (
+        "stow", "Grifter Big Sur IPA Tin")
+
+    sid2, sidx, sleaves, smatch = _stow_parts()
+    pour, recipe = model._build_consumption(
+        [_hg_row("Grifter Big Sur IPA Can [HG]", qty=7.0)], "stow", sidx,
+        sleaves, smatch, sid2, [HG_WEEK], cross_aliases={"hg": hg_ab})
+    # a can is a whole unit off the shelf: 7 rung up == 7 tins consumed
+    assert pour["Grifter Big Sur IPA Tin"][0] == pytest.approx(7.0)
+    assert sum(v[0] for v in recipe.values()) == 0
+
+
+def test_an_explicit_alias_overrides_the_automatic_rule():
+    """A human's decision beats the machine's, always. Without this the rule
+    could not be corrected for the one product where it is wrong except by
+    switching it off for every product."""
+    rule = _rule(("Kaiju Hazy Pale Tin", "Kirin [Keg]"))
+    ab = model.AliasBook(
+        {"hg": {"Kaiju Hazy Pale [HG]": "stow:Kirin [Keg]"}}, "hg")
+    ab.attach_auto_rule(rule)
+    # the rule ALONE would have said 'Kaiju Hazy Pale Tin'...
+    assert rule.match("Kaiju Hazy Pale [HG]")[0] == "Kaiju Hazy Pale Tin"
+    # ...but the explicit alias wins, and the rule is never even consulted
+    assert ab.resolve("Kaiju Hazy Pale [HG]") == ("stow", "Kirin [Keg]")
+    assert ab.is_explicit("Kaiju Hazy Pale [HG]")
+    assert "Kaiju Hazy Pale [HG]" not in rule.resolved
+
+
+def test_an_explicit_alias_can_send_an_hg_suffixed_line_to_an_hg_par():
+    """The override must be able to CONTRADICT the rule, not just redirect it
+    within Stowaway — otherwise 'pretty much any' would have become 'every'."""
+    ab = model.AliasBook(
+        {"hg": {"House Thing [HG]": "Local HG Bottle"}}, "hg")
+    ab.attach_auto_rule(_rule(("House Thing",)))
+    assert ab.resolve("House Thing [HG]") == ("hg", "Local HG Bottle")
+
+
+def test_an_hg_line_with_no_stowaway_match_is_never_guessed_at():
+    """No match means NO match. It stays unattributed for the existing gate to
+    surface, and it is listed with the stripped name so a human can write the
+    alias — the one thing it must never do is quietly become someone else's par."""
+    rule = _rule(("Kirin [Keg]", "Coke Can"))
+    ab = model.AliasBook({}, "hg").attach_auto_rule(rule)
+    assert ab.resolve("Zagara Orange [HG]") == (None, None)
+
+    hid2, hidx, hleaves, hmatch = _hg_parts()
+    missed, exported = {}, {}
+    row = _hg_row("Zagara Orange [HG]", rg="Orange / Skins Wine", qty=6.0,
+                  rev="124")
+    model._build_consumption([row], "hg", hidx, hleaves, hmatch, hid2, [HG_WEEK],
+                             aliases=ab, unattributed_out=missed,
+                             exported_out=exported)
+    assert exported == {}, "nothing was routed anywhere"
+    assert "Zagara Orange [HG]" in missed, "and it is NOT silently dropped"
+
+    _, unresolved = model.hg_suffix_report(rule, exported, missed, [HG_WEEK])
+    assert [r["pos_line"] for r in unresolved] == ["Zagara Orange [HG]"]
+    assert unresolved[0]["stripped"] == "Zagara Orange"
+    assert unresolved[0]["still_unattributed"] is True
+    assert unresolved[0]["revenue_ex_gst_window"] == 124.0
+    assert "no stow par SKU" in unresolved[0]["reason"]
+
+
+def test_an_intentionally_unattributed_line_is_never_offered_to_the_rule():
+    """'Ginger Beer Glass [HG]' is a post-mix gun. A human has already said it
+    consumes no discrete stock unit; a name-shaped guess must not overturn that."""
+    rule = _rule(("Ginger Beer Glass",))
+    ab = model.AliasBook(
+        {"_intentionally_unattributed":
+            {"hg": [{"product": "Ginger Beer Glass [HG]", "reason": "post-mix gun"}]}},
+        "hg").attach_auto_rule(rule)
+    assert ab.resolve("Ginger Beer Glass [HG]") == (None, None)
+    assert rule.resolved == {} and rule.unresolved == {}
+
+
+def test_the_auto_resolved_line_leaks_into_no_hg_par_and_is_not_double_counted():
+    """Same contract the explicit cross-venue aliases hold to: a POS line feeds
+    exactly ONE par SKU in exactly ONE venue. Run both builds over the same row
+    and prove the units credited across the pair equal one line's worth."""
+    row = _hg_row("Grifter Big Sur IPA Can [HG]", qty=9.0)
+    stow_ab = model.load_aliases(DATA, "stow")
+    hg_ab = model.load_aliases(DATA, "hg")          # rule attached by load_aliases
+    assert hg_ab.auto_rule is not None, "the rule must be live on the real book"
+
+    hid2, hidx, hleaves, hmatch = _hg_parts()
+    missed, exported = {}, {}
+    hpour, hrec = model._build_consumption(
+        [row], "hg", hidx, hleaves, hmatch, hid2, [HG_WEEK], aliases=hg_ab,
+        unattributed_out=missed, exported_out=exported,
+        cross_aliases={"stow": stow_ab})
+    assert {s: v[0] for s, v in hpour.items() if v[0]} == {}, "no HG par gains it"
+    assert {s: v[0] for s, v in hrec.items() if v[0]} == {}
+    assert missed == {}, "it is attributed, just at the other venue"
+    assert exported["Grifter Big Sur IPA Can [HG]"]["via"] == "hg_suffix_rule"
+    assert exported["Grifter Big Sur IPA Can [HG]"]["target_sku"] == (
+        "Grifter Big Sur IPA Tin")
+
+    sid2, sidx, sleaves, smatch = _stow_parts()
+    spour, srec = model._build_consumption(
+        [row], "stow", sidx, sleaves, smatch, sid2, [HG_WEEK],
+        aliases=stow_ab, cross_aliases={"hg": model.load_aliases(DATA, "hg")})
+    total = (sum(v[0] for v in spour.values()) + sum(v[0] for v in srec.values())
+             + sum(v[0] for v in hpour.values()) + sum(v[0] for v in hrec.values()))
+    assert total == pytest.approx(9.0), "counted once, at Stowaway, and only there"
+
+
+def test_the_rule_marks_its_own_work_so_it_can_be_audited():
+    """An automatic mapping that cannot be told apart from a reviewed one is a
+    mapping nobody can check."""
+    _, meta = model.compute_venue("hg", DATA)
+    by_line = {r["product"]: r for r in meta["attributed_to_other_venue"]}
+    assert by_line["Kirin"]["via"] == "alias"
+    auto = {r["pos_line"]: r for r in meta["auto_hg_suffix"]}
+    assert auto, "the live build must resolve at least one [HG] line"
+    for line, r in auto.items():
+        assert model.has_hg_suffix(line)
+        assert r["target_venue"] == "stow"
+        assert by_line[line]["via"] == "hg_suffix_rule"
+
+
+def test_a_new_hg_product_needs_no_file_edit():
+    """The point of a rule over a list. A product nobody has ever mapped, that
+    Stowaway already stocks, attributes the first week it sells."""
+    hg_ab = model.load_aliases(DATA, "hg")
+    for line in ("Coke Can [HG]", "Corona [HG]", "Little Dragon Can [HG]"):
+        assert not hg_ab.is_explicit(line), f"{line} must be unmapped by hand"
+        venue, sku = hg_ab.resolve(line)
+        assert venue == "stow" and sku, f"{line} did not auto-resolve"
+
+
+# ── the live build ─────────────────────────────────────────────────────────
+def test_live_hg_suffix_lines_reach_stowaway_and_leave_the_offenders_list():
+    _, meta = model.compute_venue("hg", DATA)
+    auto = {r["pos_line"]: r["target_sku"] for r in meta["auto_hg_suffix"]}
+    assert auto == {"Grifter Big Sur IPA Can [HG]": "Grifter Big Sur IPA Tin",
+                    "Monteith's Apple Cider [HG]": "Monteith's Apple Cider Bottle"}
+    offenders = {r["product"] for r in meta["unattributed"]}
+    assert offenders.isdisjoint(auto), offenders & set(auto)
+
+
+def test_live_unresolved_hg_lines_are_reported_with_the_name_a_human_needs():
+    """The work queue. Every [HG] line the rule refused must say what it looked
+    for, so writing the explicit alias is mechanical."""
+    _, meta = model.compute_venue("hg", DATA)
+    unresolved = {r["pos_line"]: r for r in meta["hg_suffix_unresolved"]}
+    assert "Zagara Orange [HG]" in unresolved
+    assert unresolved["Zagara Orange [HG]"]["stripped"] == "Zagara Orange"
+    for line, r in unresolved.items():
+        assert r["stripped"] and r["reason"], line
+    # a cocktail carrying the suffix resolves through the RECIPE book instead —
+    # the rule must not have stolen it, and must not report it as a work item
+    assert unresolved["Vodka Martini [HG]"]["still_unattributed"] is False
+
+
+def test_live_stowaway_pars_gained_the_hg_suffix_volume(stow_build):
+    recs, _ = stow_build
+    for sku in ("Grifter Big Sur IPA Tin", "Monteith's Apple Cider Bottle"):
+        d = recs[sku]["drivers"]
+        assert d["cross_venue_wk"] > 0, f"{sku} sees no [HG] volume"
+        assert d["cross_venue_wk"] <= d["pour_wk"] + 0.005, sku
+        assert "cross_venue_demand" in recs[sku]["flags"], sku
+
+
+def test_the_hg_suffix_rule_cannot_release_a_no_demand_hold(stow_build):
+    """The safety property from the cross-venue commit, restated for the rule:
+    foreign volume may RAISE a Stowaway par, never lower one that is only held
+    up by the no-recent-demand safety net. An automatic mapping makes this more
+    important, not less — nobody reviewed the line that supplied the demand."""
+    recs, _ = stow_build
+    for r in recs.values():
+        if "held_cross_venue_demand_only" in r["flags"]:
+            assert r["rec_par"] == r["current_par"], r["product"]
+        # a hold, however flagged, can never sit BELOW the live par
+        if r["current_par"] is not None and (
+                "held_cross_venue_demand_only" in r["flags"]
+                or "held_no_recent_demand" in r["flags"]):
+            assert r["rec_par"] >= float(r["current_par"]) - 1e-9, r["product"]
+
+
+def test_no_hg_par_sku_receives_cross_venue_volume_from_the_rule():
+    """Belt and braces on leakage at the whole-build level: HG imports nothing,
+    because the flow is one-way — HG's till, Stowaway's stock."""
+    _, meta = model.compute_venue("hg", DATA)
+    assert meta["cross_venue_imported"] == {}
+    assert meta["hg_suffix_rule_active"] is True
+    _, smeta = model.compute_venue("stow", DATA)
+    assert smeta["hg_suffix_rule_active"] is False, "the rule is HG's, not Stowaway's"
+    for sku in ("Grifter Big Sur IPA Tin", "Monteith's Apple Cider Bottle"):
+        assert smeta["cross_venue_imported"].get(sku, 0) > 0, sku

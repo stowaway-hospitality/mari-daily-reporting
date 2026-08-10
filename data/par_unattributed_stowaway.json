@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-08-10T10:00:34.182033+10:00",
+  "generated_at": "2026-08-10T10:22:40.200543+10:00",
   "venue": "stow",
   "window_weeks": 13,
   "week_range": [
@@ -13,9 +13,15 @@
   "cross_venue_aliases": {},
   "alias_targets_not_found": {},
   "what_attributed_to_other_venue_is": "POS lines sold at this venue whose stock is held and ordered at the OTHER venue, against that venue's par SKU (data/par_aliases.json, a '<venue>:<sku>' target). They are ATTRIBUTED — the volume lands on the named par SKU there — and they contribute nothing here, so they are neither unattributed nor double-counted. Listed so a line leaving this venue's numbers is never silent.",
+  "what_auto_hg_suffix_is": "Zak, 2026-08-10: 'pretty much any SKU labelled with [HG] is a harrys SKU that draws from stowaway stock'. That is a RULE, so the model applies it automatically: an HG till line carrying the '[HG]' suffix has the suffix stripped and the remainder matched against STOWAWAY's par universe, and its consumption is routed to that Stowaway par SKU. No file edit is needed for a new [HG] product. An explicit alias in data/par_aliases.json always overrides the rule. `auto_hg_suffix` lists every line the rule placed and why; `hg_suffix_unresolved` lists every [HG] line whose stripped name matched no Stowaway par SKU — the rule refuses to guess, so those fall through to the ordinary matchers and, if nothing places them, stay unattributed above. Give one an explicit alias to fix it.",
   "summary": {
     "unattributed_lines": 2,
     "unattributed_revenue_ex_gst": 492.19,
+    "hg_suffix_rule_active": false,
+    "auto_hg_suffix_resolved_lines": 0,
+    "auto_hg_suffix_revenue_ex_gst": 0,
+    "hg_suffix_unresolved_lines": 0,
+    "hg_suffix_unresolved_still_unattributed": 0,
     "intentionally_unattributed_lines": 17,
     "intentionally_unattributed_revenue_ex_gst": 9370.99,
     "attributed_to_other_venue_lines": 0,
@@ -198,5 +204,7 @@
       "reason": "house-made soda (promo price button); no discrete par SKU exists"
     }
   ],
-  "attributed_to_other_venue": []
+  "attributed_to_other_venue": [],
+  "auto_hg_suffix": [],
+  "hg_suffix_unresolved": []
 }

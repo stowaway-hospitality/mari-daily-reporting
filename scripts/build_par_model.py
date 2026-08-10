@@ -35,6 +35,18 @@ HG par SKU, and appears in HG's report under `attributed_to_other_venue` rather
 than as a miss. A cross-venue target is validated against the TARGET venue's par
 universe, so a typo there fails the build exactly like a same-venue one.
 
+THE [HG] SUFFIX RULE. Zak, 2026-08-10: "same as the wines. pretty much any SKU
+labelled with [HG] is a harrys SKU that draws from stowaway stock". That is a
+rule, not a list, so it is mechanised rather than transcribed: any HG till line
+carrying the '[HG]' suffix has the suffix stripped, the remainder matched
+against STOWAWAY's par universe (tolerating the '- Bottle' / '[Bottle]' /
+'[Keg]' / 'Can' / 'Tin' drift between the two catalogues), and its consumption
+routed to that Stowaway par SKU. A NEW [HG] product therefore attributes
+correctly the first week it sells, with no file edit. An explicit alias always
+overrides the rule, and where the stripped name matches no Stowaway par SKU the
+rule REFUSES to guess: the line stays unattributed for the gate above to catch,
+and is listed as `hg_suffix_unresolved` so a human can write the alias.
+
 Run:  /opt/homebrew/bin/python3.12 scripts/build_par_model.py   (Actions: python 3.11)
 """
 import json
@@ -145,6 +157,8 @@ def write_unattributed(venue, meta, generated_at):
     intentional = meta["unattributed_intentional"]
     alias_errors = meta["aliases"]["unknown_targets"]
     exported = meta["attributed_to_other_venue"]
+    auto_hg = meta.get("auto_hg_suffix") or []
+    hg_unresolved = meta.get("hg_suffix_unresolved") or []
     total = meta["unattributed_revenue"]
     payload = {
         "schema_version": 2,
@@ -169,9 +183,29 @@ def write_unattributed(venue, meta, generated_at):
             "the named par SKU there — and they contribute nothing here, so they "
             "are neither unattributed nor double-counted. Listed so a line "
             "leaving this venue's numbers is never silent."),
+        "what_auto_hg_suffix_is": (
+            "Zak, 2026-08-10: 'pretty much any SKU labelled with [HG] is a "
+            "harrys SKU that draws from stowaway stock'. That is a RULE, so the "
+            "model applies it automatically: an HG till line carrying the '[HG]' "
+            "suffix has the suffix stripped and the remainder matched against "
+            "STOWAWAY's par universe, and its consumption is routed to that "
+            "Stowaway par SKU. No file edit is needed for a new [HG] product. An "
+            "explicit alias in data/par_aliases.json always overrides the rule. "
+            "`auto_hg_suffix` lists every line the rule placed and why; "
+            "`hg_suffix_unresolved` lists every [HG] line whose stripped name "
+            "matched no Stowaway par SKU — the rule refuses to guess, so those "
+            "fall through to the ordinary matchers and, if nothing places them, "
+            "stay unattributed above. Give one an explicit alias to fix it."),
         "summary": {
             "unattributed_lines": len(offenders),
             "unattributed_revenue_ex_gst": total,
+            "hg_suffix_rule_active": bool(meta.get("hg_suffix_rule_active")),
+            "auto_hg_suffix_resolved_lines": len(auto_hg),
+            "auto_hg_suffix_revenue_ex_gst": round(
+                sum(r["revenue_ex_gst_window"] for r in auto_hg), 2),
+            "hg_suffix_unresolved_lines": len(hg_unresolved),
+            "hg_suffix_unresolved_still_unattributed": sum(
+                1 for r in hg_unresolved if r["still_unattributed"]),
             "intentionally_unattributed_lines": len(intentional),
             "intentionally_unattributed_revenue_ex_gst": round(
                 sum(r["revenue_ex_gst_window"] for r in intentional), 2),
@@ -182,6 +216,8 @@ def write_unattributed(venue, meta, generated_at):
         "unattributed": offenders,
         "intentionally_unattributed": intentional,
         "attributed_to_other_venue": exported,
+        "auto_hg_suffix": auto_hg,
+        "hg_suffix_unresolved": hg_unresolved,
     }
     with open(os.path.join(DATA, UNATTR_OUT[venue]), "w") as fh:
         json.dump(payload, fh, indent=2, ensure_ascii=False)
@@ -201,8 +237,27 @@ def write_unattributed(venue, meta, generated_at):
         print(f"  attributed to ANOTHER venue's par (shared central stock): "
               f"{len(exported)} line(s), ${rev_x:,.0f}")
         for r in exported:
+            mark = "  [auto [HG]]" if r.get("via") == "hg_suffix_rule" else ""
             print(f"     {r['revenue_ex_gst_window']:>9,.0f} {r['qty_per_week']:>8.2f}  "
-                  f"{r['product'][:30]:30s} -> {r['target_venue']}:{r['target_sku']}")
+                  f"{r['product'][:30]:30s} -> {r['target_venue']}:{r['target_sku']}{mark}")
+    if meta.get("hg_suffix_rule_active"):
+        # The one-line summary: how much of Zak's "[HG] draws from stowaway
+        # stock" rule the model could apply on its own, and how much it refused
+        # to guess at. A silent rule is a rule nobody can trust.
+        still = sum(1 for r in hg_unresolved if r["still_unattributed"])
+        print(f"  [HG] suffix rule: {len(auto_hg)} line(s) auto-resolved to "
+              f"{model.HG_SUFFIX_STOCK_VENUE} par SKUs "
+              f"(${sum(r['revenue_ex_gst_window'] for r in auto_hg):,.0f}), "
+              f"{len(hg_unresolved)} left unresolved ({still} still unattributed)")
+        for r in auto_hg:
+            print(f"       auto  {r['qty_per_week']:>6.2f}/wk  {r['pos_line'][:34]:34s}"
+                  f" -> {r['target_venue']}:{r['target_sku']}   [{r['match']}]")
+        for r in hg_unresolved:
+            if not r["still_unattributed"]:
+                continue
+            print(f"       ??    {r['qty_per_week']:>6.2f}/wk  {r['pos_line'][:34]:34s}"
+                  f" -> NO {model.HG_SUFFIX_STOCK_VENUE} par SKU for "
+                  f"{r['stripped']!r} (add an explicit alias)")
     if not offenders:
         print("  Unattributed gate: PASS — every stock-bearing drink line "
               "reaches a par SKU.")

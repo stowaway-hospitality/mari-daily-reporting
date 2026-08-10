@@ -165,6 +165,20 @@ VENUE_BO_FILE = {"stow": "stowaway", "hg": "harry_gatos"}
 # alias target ("stow:Kirin [Keg]") — see AliasBook.
 VENUE_CODES = ("stow", "hg")
 
+# ── the [HG] suffix rule ────────────────────────────────────────────────────
+# Zak, 2026-08-10, verbatim: "same as the wines. pretty much any SKU labelled
+# with [HG] is a harrys SKU that draws from stowaway stock".
+#
+# That is a RULE, not a list. A Harry Gatos till line carrying the '[HG]' suffix
+# is an HG-facing menu item whose PHYSICAL STOCK is Stowaway's — held, counted
+# and ordered against a STOWAWAY par SKU. Its consumption must therefore land on
+# Stowaway's par, exactly like the shared taps and the Coke/Sprite cans that got
+# explicit "stow:" aliases in the previous commit. Encoding it as a rule means a
+# new [HG] product needs NO file edit: it resolves the day it starts selling.
+HG_SUFFIX_VENUE = "hg"          # the venue whose till carries the suffix
+HG_SUFFIX_STOCK_VENUE = "stow"  # the venue whose stock it actually draws on
+_HG_SUFFIX_RE = re.compile(r"\[\s*hg\s*\]", re.I)
+
 
 # ── text helpers ────────────────────────────────────────────────────────────
 def _norm(s: str) -> str:
@@ -198,6 +212,50 @@ def _strip_variant(name: str) -> str:
     if s.endswith(" d") and len(s) > 3:
         s = s[:-2].strip()
     return _norm(s)
+
+
+def has_hg_suffix(name) -> bool:
+    """True for a till line / SKU that carries the '[HG]' marker."""
+    return bool(_HG_SUFFIX_RE.search(str(name or "")))
+
+
+def strip_hg_suffix(name) -> str:
+    """'Trutta Streamside Shiraz - Bottle [HG]' -> 'Trutta Streamside Shiraz - Bottle'.
+
+    Tidies the whitespace and the dangling separator the suffix leaves behind
+    ('Cosmo - [HG]' -> 'Cosmo'), so the remainder can be matched by name.
+    """
+    s = _HG_SUFFIX_RE.sub(" ", str(name or ""))
+    s = re.sub(r"\s{2,}", " ", s).strip()
+    return re.sub(r"[\s\-]+$", "", s).strip()
+
+
+# Container words that ride on the END of a name and say nothing about WHICH
+# product it is: 'Hyoketsu Lemon Can' / 'Hyoketsu Lemon [Keg]' / 'Hyoketsu
+# Lemon [HG]' are one drink written three ways by three different people.
+# _strip_variant already drops the BRACKETED forms ('[Keg]', '[Bottle]', '- Bottle');
+# these are the bare trailing words it deliberately does not touch, because
+# dropping them globally would collide sale lines with stock lines everywhere in
+# the model. The [HG] rule needs the looser form and NOTHING ELSE does, so it is
+# scoped to this function rather than bolted onto _strip_variant.
+_CONTAINER_WORDS = ("can", "cans", "tin", "tins", "bottle", "bottles", "keg",
+                    "kegs", "glass", "tinnie")
+
+
+def _hg_match_base(name: str) -> str:
+    """Identity of a product with BOTH the model's usual variant tokens and any
+    trailing bare container word removed. Case- and diacritics-insensitive via
+    _norm, so 'Monteith's Apple Cider [HG]' and "Monteith's Apple Cider Bottle"
+    agree, and so do 'Grifter Big Sur IPA Can [HG]' and 'Grifter Big Sur IPA Tin'."""
+    s = _strip_variant(strip_hg_suffix(name))
+    changed = True
+    while changed:
+        changed = False
+        for w in _CONTAINER_WORDS:
+            if s.endswith(" " + w):
+                s = s[: -(len(w) + 1)].strip()
+                changed = True
+    return s
 
 
 def bottle_ml(name: str) -> float:
@@ -388,6 +446,7 @@ class AliasBook:
         # self.map keeps the value exactly as written (prefix and all) so the
         # build's error output and the meta block stay readable; self.targets
         # holds the parsed (venue, sku) pair that the model actually uses.
+        self.auto_rule = None
         self.map, self.serve, self.targets = {}, {}, {}
         for pos_name, val in raw.items():
             if isinstance(val, dict):
@@ -413,13 +472,42 @@ class AliasBook:
                 self.investigate[_norm(nm)] = (
                     e.get("note", "") if isinstance(e, dict) else "")
 
+    def attach_auto_rule(self, rule):
+        """Install an automatic resolver consulted AFTER the explicit map.
+
+        The explicit map is a human decision and always wins — that ordering is
+        the whole contract of this method, and it is what lets a curated alias
+        correct the rule for the one product where the rule is wrong, without
+        anyone having to turn the rule off.
+        """
+        self.auto_rule = rule
+        return self
+
+    def is_explicit(self, pos_name):
+        """True when a human wrote this mapping into data/par_aliases.json (as
+        opposed to it being derived by an automatic rule)."""
+        return _norm(pos_name) in self._by_norm
+
     def resolve(self, pos_name):
         """(venue, par SKU) this POS line belongs to, or (None, None).
 
         `venue` is this book's own venue for a plain target and the named venue
         for a cross-venue "stow:..." target.
+
+        ORDER OF PRECEDENCE — and it matters:
+          1. an EXPLICIT entry in data/par_aliases.json,
+          2. an automatic rule, if one is attached (today: the [HG] suffix rule),
+          3. nothing, and the caller falls through to the recipe/name matchers.
+        A line declared `_intentionally_unattributed` is never offered to the
+        rule: a human has already said it consumes no discrete stock unit, and a
+        name-shaped guess must not overturn that.
         """
-        return self._by_norm.get(_norm(pos_name), (None, None))
+        hit = self._by_norm.get(_norm(pos_name))
+        if hit is not None:
+            return hit
+        if self.auto_rule is not None and not self.is_intentional(pos_name):
+            return self.auto_rule.resolve(pos_name)
+        return (None, None)
 
     def target(self, pos_name):
         """The par SKU this POS line belongs to, or None. Venue-agnostic —
@@ -431,8 +519,19 @@ class AliasBook:
         return self.resolve(pos_name)[0]
 
     def cross_venues(self):
-        """Venues OTHER than this book's own that its aliases point at."""
-        return {v for v, _ in self.targets.values() if v and v != self.venue}
+        """Venues OTHER than this book's own that this book can point at.
+
+        Includes the venue an attached automatic rule draws stock from, even if
+        no explicit alias names it — otherwise the target venue's build would
+        not know to ingest this venue's rows and the rule's volume would land
+        nowhere, which is the exact failure mode this whole area exists to end.
+        """
+        out = {v for v, _ in self.targets.values() if v and v != self.venue}
+        if self.auto_rule is not None:
+            sv = getattr(self.auto_rule, "stock_venue", None)
+            if sv and sv != self.venue:
+                out.add(sv)
+        return out
 
     def serve_ml(self, pos_name):
         """Explicit per-alias serve size in ml, or None to use the group rule."""
@@ -472,12 +571,115 @@ class AliasBook:
         return out
 
 
+class HGSuffixRule:
+    """Zak's rule, mechanised: an HG till line marked '[HG]' consumes STOWAWAY
+    stock.
+
+        "same as the wines. pretty much any SKU labelled with [HG] is a harrys
+         SKU that draws from stowaway stock"  — Zak, 2026-08-10
+
+    Strip the '[HG]', match what is left against the STOCK venue's par universe,
+    and route the line there. Because it is a rule and not a list, a new [HG]
+    product attributes correctly the first week it sells — nobody has to notice
+    it and edit data/par_aliases.json.
+
+    WHAT IT WILL NOT DO. It never guesses. Resolution is by NAME, in two tiers:
+
+      1. EXACT on the normalised stripped name ('Two Tonne Riesling - Bottle
+         [HG]' -> Stowaway 'Two Tonne Riesling - Bottle').
+      2. VARIANT/CONTAINER base, which is where the real drift lives — the two
+         venues write the same physical item as '- Bottle', '[Bottle]', '[Keg]',
+         'Can' or 'Tin' ('Grifter Big Sur IPA Can [HG]' -> Stowaway 'Grifter Big
+         Sur IPA Tin'; 'Trutta Streamside Shiraz - Bottle [HG]' -> Stowaway
+         'Trutta Streamside Shiraz [Chilled] - Bottle').
+
+    If tier 2 finds SEVERAL Stowaway SKUs sharing that base, the tie is broken
+    only by a fact, never by a preference: the one that carries a LIVE par is
+    the stock actually held and ordered ('Hyoketsu Lemon [HG]' -> 'Hyoketsu
+    Lemon Can', live par 3.9, not the catalogue-only 'Hyoketsu Lemon [Keg]').
+    If that still leaves more than one, or none at all, the rule REFUSES: the
+    line stays unattributed, the existing coverage guard sees it, and it is
+    listed as `hg_suffix_unresolved` so a human can write the explicit alias.
+    Silence is the bug class this whole area exists to prevent; a wrong par is
+    the other one. Refusing produces neither.
+
+    Every ask is recorded (`resolved` / `unresolved`) so the build can show its
+    working.
+    """
+
+    def __init__(self, stock_venue, par_names, live_pars=None):
+        self.stock_venue = stock_venue
+        self.live = dict(live_pars or {})
+        self.exact, self.base = {}, defaultdict(list)
+        # DETERMINISM: sort first. `par_names` is a set, and both indexes below
+        # can collide, so an unsorted walk would make the winner depend on the
+        # per-process string hash seed — the same trap ParIndex documents.
+        for nm in sorted(par_names):
+            self.exact.setdefault(_norm(nm), nm)
+            self.base[_hg_match_base(nm)].append(nm)
+        self.resolved = {}     # pos_name -> {"sku":..., "match":..., "stripped":...}
+        self.unresolved = {}   # pos_name -> {"reason":..., "stripped":...}
+
+    def match(self, pos_name):
+        """(sku or None, stripped name, why). Pure — records nothing."""
+        stripped = strip_hg_suffix(pos_name)
+        if not stripped:
+            return None, stripped, "name is nothing but the [HG] suffix"
+        hit = self.exact.get(_norm(stripped))
+        if hit:
+            return hit, stripped, "exact"
+        cands = sorted(set(self.base.get(_hg_match_base(stripped), [])))
+        if not cands:
+            return None, stripped, (
+                f"no {self.stock_venue} par SKU matches {stripped!r}")
+        if len(cands) == 1:
+            return cands[0], stripped, "variant/container"
+        live = [c for c in cands if self.live.get(c) is not None]
+        if len(live) == 1:
+            return live[0], stripped, "variant/container (only one with a live par)"
+        return None, stripped, (
+            f"ambiguous — {len(cands)} {self.stock_venue} par SKUs share this "
+            f"name: {cands}")
+
+    def resolve(self, pos_name):
+        """(stock venue, par SKU) or (None, None). Records the ask either way."""
+        if not has_hg_suffix(pos_name):
+            return (None, None)
+        sku, stripped, why = self.match(pos_name)
+        if sku is None:
+            self.unresolved[pos_name] = {"stripped": stripped, "reason": why}
+            return (None, None)
+        self.resolved[pos_name] = {"sku": sku, "match": why, "stripped": stripped}
+        return (self.stock_venue, sku)
+
+
 def load_aliases(data_dir: str, venue: str) -> AliasBook:
     path = os.path.join(data_dir, ALIAS_FILE)
     if not os.path.exists(path):
-        return AliasBook({}, venue)
-    with open(path) as fh:
-        return AliasBook(json.load(fh), venue)
+        book = AliasBook({}, venue)
+    else:
+        with open(path) as fh:
+            book = AliasBook(json.load(fh), venue)
+    return attach_auto_rules(book, data_dir)
+
+
+def attach_auto_rules(book: AliasBook, data_dir: str) -> AliasBook:
+    """Install the automatic resolvers that apply to this venue's book.
+
+    Today there is exactly one: the [HG] suffix rule on Harry Gatos' book, which
+    resolves against STOWAWAY's par universe. Kept separate from AliasBook's
+    constructor so a test can build a book with no filesystem behind it, and so
+    the load path has one obvious place to add the next rule.
+    """
+    if book.venue != HG_SUFFIX_VENUE:
+        return book
+    sv = HG_SUFFIX_STOCK_VENUE
+    # Deliberately NOT wrapped in a try/except. If Stowaway's feeds cannot be
+    # read, the rule cannot resolve anything and every [HG] line would silently
+    # revert to unattributed — the exact failure this area exists to end. Let it
+    # raise and fail the build loudly instead.
+    return book.attach_auto_rule(
+        HGSuffixRule(sv, par_universe(data_dir, sv), load_scrape(data_dir, sv)))
 
 
 def par_universe(data_dir: str, venue: str):
@@ -851,13 +1053,19 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
         w["qty"] += qty
         w["revenue_ex_gst"] += rev
 
-    def _exported(name, rg, wk, qty, rev, tgt_venue, tgt_sku):
-        """Record a line of THIS venue whose stock is another venue's par SKU."""
+    def _exported(name, rg, wk, qty, rev, tgt_venue, tgt_sku, via):
+        """Record a line of THIS venue whose stock is another venue's par SKU.
+
+        `via` says HOW it was routed — "alias" for a hand-written
+        "<venue>:<sku>" entry, "hg_suffix_rule" for one the [HG] rule derived —
+        so an automatic resolution is auditable and can be told apart from a
+        human's at a glance.
+        """
         if exported_out is None:
             return
         a = exported_out.setdefault(name, {
             "product": name, "reporting_group": rg, "target_venue": tgt_venue,
-            "target_sku": tgt_sku, "weekly": {}})
+            "target_sku": tgt_sku, "via": via, "weekly": {}})
         a["reporting_group"] = rg or a["reporting_group"]
         w = a["weekly"].setdefault(wk, {"qty": 0.0, "revenue_ex_gst": 0.0})
         w["qty"] += qty
@@ -875,9 +1083,11 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
 
         if row_venue != venue:
             # ── CROSS-VENUE. Another venue's till line, poured out of THIS
-            # venue's stock. Only an explicit "<venue>:<sku>" alias in that
-            # venue's book gets in here; everything else about another venue is
-            # none of this build's business. The conversion is the same one an
+            # venue's stock. Only a "<venue>:<sku>" resolution in that venue's
+            # book gets in here — a hand-written alias, or the [HG] suffix rule
+            # attached to it (an HG till line marked '[HG]' draws Stowaway
+            # stock). Everything else about another venue is none of this
+            # build's business. The conversion is the same one an
             # own-venue alias gets, so a schooner is still 500/50000 of a keg
             # and a can is still 1:1.
             ab = (cross_aliases or {}).get(row_venue)
@@ -906,7 +1116,9 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
                 # The stock lives at the other venue and is counted there. It
                 # must add NOTHING here — not to a par SKU, and not to the
                 # unattributed report either, because it IS attributed.
-                _exported(name, rg, wk, qty, _rev(r), alias_venue, alias_sku)
+                _exported(name, rg, wk, qty, _rev(r), alias_venue, alias_sku,
+                          "alias" if aliases.is_explicit(name)
+                          else "hg_suffix_rule")
                 continue
             units = _alias_units(name, rg, qty, alias_sku,
                                  serve_ml=aliases.serve_ml(name))
@@ -1114,9 +1326,75 @@ def cross_venue_report(raw, weeks, window=UNATTRIBUTED_WEEKS):
             "revenue_ex_gst_window": round(revenue, 2),
             "target_venue": a.get("target_venue"),
             "target_sku": a.get("target_sku"),
+            # "alias" (a human wrote it) or "hg_suffix_rule" (derived). Kept on
+            # every row so an automatic resolution is never indistinguishable
+            # from a reviewed one.
+            "via": a.get("via", "alias"),
         })
     out.sort(key=lambda r: -r["revenue_ex_gst_window"])
     return out
+
+
+def hg_suffix_report(rule, exported_raw, unattributed_raw, weeks,
+                     window=UNATTRIBUTED_WEEKS):
+    """(resolved, unresolved) for the [HG] suffix rule, with the volume behind each.
+
+    `resolved` is the audit trail demanded of any automatic mapping: POS line ->
+    the Stowaway par SKU it was routed to, and why the match was accepted.
+
+    `unresolved` is the more important half. A '[HG]' line whose stripped name
+    matches NO Stowaway par SKU is not guessed at — it falls through to the
+    ordinary matchers and, if they cannot place it either, ends up unattributed
+    where the coverage guard can see it. Listing it here (with the stripped name
+    a human would need) is what turns "the rule quietly did nothing" into a work
+    item.
+    """
+    if rule is None:
+        return [], []
+    window_weeks = set(weeks[-window:]) if window else set(weeks)
+    n_weeks = max(len(window_weeks), 1)
+
+    def _vol(bucket, name):
+        a = (bucket or {}).get(name)
+        if not a:
+            return 0.0, 0.0
+        q = sum(w["qty"] for k, w in a["weekly"].items() if k in window_weeks)
+        rv = sum(w["revenue_ex_gst"] for k, w in a["weekly"].items()
+                 if k in window_weeks)
+        return q, rv
+
+    resolved = []
+    for name, info in rule.resolved.items():
+        q, rv = _vol(exported_raw, name)
+        resolved.append({
+            "pos_line": name,
+            "stripped": info["stripped"],
+            "target_venue": rule.stock_venue,
+            "target_sku": info["sku"],
+            "match": info["match"],
+            "qty_window": round(q, 2),
+            "qty_per_week": round(q / n_weeks, 2),
+            "revenue_ex_gst_window": round(rv, 2),
+        })
+    resolved.sort(key=lambda r: -r["revenue_ex_gst_window"])
+
+    unresolved = []
+    for name, info in rule.unresolved.items():
+        q, rv = _vol(unattributed_raw, name)
+        unresolved.append({
+            "pos_line": name,
+            "stripped": info["stripped"],
+            "reason": info["reason"],
+            # False means the ordinary recipe/name matchers placed it anyway
+            # (a cocktail resolving through the recipe book, say) — so it needs
+            # no alias. True is the work item.
+            "still_unattributed": bool(name in (unattributed_raw or {})),
+            "qty_window": round(q, 2),
+            "qty_per_week": round(q / n_weeks, 2),
+            "revenue_ex_gst_window": round(rv, 2),
+        })
+    unresolved.sort(key=lambda r: (-r["revenue_ex_gst_window"], r["pos_line"]))
+    return resolved, unresolved
 
 
 def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
@@ -1391,6 +1669,8 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
     gaps = coverage_gap(rows, venue, matcher, leaves_by_norm, recent_weeks)
     unattr, unattr_intentional = unattributed_report(unattributed_raw, weeks, aliases)
     exported = cross_venue_report(exported_raw, weeks)
+    hg_resolved, hg_unresolved = hg_suffix_report(
+        aliases.auto_rule, exported_raw, unattributed_raw, weeks)
     meta = {
         "venue": venue,
         "engine": engine,
@@ -1404,6 +1684,13 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
             "unknown_targets": aliases.unknown_targets(idx.names, other_par_names),
         },
         "attributed_to_other_venue": exported,
+        # The [HG] suffix rule's working, shown. `auto_hg_suffix` is every line
+        # it routed to a Stowaway par SKU without anyone editing a file;
+        # `hg_suffix_unresolved` is every line it refused to guess at, with the
+        # stripped name a human needs to write the explicit alias.
+        "auto_hg_suffix": hg_resolved,
+        "hg_suffix_unresolved": hg_unresolved,
+        "hg_suffix_rule_active": aliases.auto_rule is not None,
         "cross_venue_imported": {
             sku: round(sum(s), 3) for sku, s in sorted(cross_units.items())
         },
