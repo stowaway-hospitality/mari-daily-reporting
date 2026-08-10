@@ -328,3 +328,44 @@
   by: "Claude ($3.80/125g = $30.40/kg; the CTN-12 reading gave $2.53/kg)"
   on: 2026-08-05
   by_email: "hello@stowawaybar.com"
+
+# ---------------------------------------------------------------------------
+# THE PACK PRICE RECORDED AS THE UNIT RATE
+#
+# An `ls-recipe-seed` row carries Lightspeed's own recipe cost for a ProductID.
+# On these two it is the price of the WHOLE CONTAINER, filed against pack_qty 1
+# with a per-ml / per-g unit — so the jug price became the per-LITRE rate and the
+# tub price became the per-KILO rate. Both then read 3-4x dearer than the same
+# goods on the Foodlink invoice sitting beside them in the cost book.
+#
+# It is the ILG case/bottle defect one level up: a price that counts a container
+# against a unit that counts its contents. It survived because it over-states
+# cost, and every guard in this repo is tuned to catch the flattering direction.
+#
+# Detected by ratio, not by eye: the seeded rate divided by the invoice-fed twin's
+# rate lands on the pack size stated in the product's own name. Four other
+# ingredients differ from their twins by 1.5-2.0x and are NOT this — those ratios
+# match no pack size, so they are ordinary price differences and are left alone.
+# See scripts/check_pack_as_rate.py.
+- id: "lightspeed:22888760"           # Frank's Hot Sauce 1Galln 3.8L Franks
+  pack_qty: 3785
+  pack_unit: ml
+  # Seeded at $35.07/L. Foodlink 102473 invoices the same 3.8 L jug at $32.50 =
+  # $8.55/L (SI4312724). One US gallon is 3,785 ml; pinning it puts the seed at
+  # $9.27/L, within 8% of the invoice — the residual is a real price difference
+  # between the $32.50 3.8L and the $35.00 Buffalo (Foodlink 108058), not a
+  # units error. Used by 4 recipes.
+  by: "Claude (pack price read as the per-litre rate; Foodlink SI4312724 says $32.50/3.8L)"
+  on: 2026-08-10
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22888642"           # Honey Pure 3kg Wild Flower
+  pack_qty: 3000
+  pack_unit: g
+  # Seeded at $20.98/kg, which is the price of the 3 kg tub. Foodlink 101313
+  # invoices it at $21.00 for 3 kg = $7.00/kg (SI4274123, SI4312726). Pinning the
+  # 3 kg pack gives $6.99/kg — the invoice figure to the cent, from a completely
+  # separate source, which is the check that this is a units error and not a
+  # price. Used by 1 recipe.
+  by: "Claude (3kg tub price read as the per-kg rate; Foodlink SI4274123 says $21.00/3kg)"
+  on: 2026-08-10
+  by_email: "hello@stowawaybar.com"

@@ -59,6 +59,13 @@ jobs:
         # --strict so a finding fails the build instead of scrolling past.
         run: python3 scripts/check_pack_agreement.py --strict
 
+      - name: Pack-as-rate (a container's price is not its unit rate)
+        # An ls-recipe-seed sometimes holds the price of the whole container
+        # filed against pack_qty 1 with a per-ml/per-g unit — a $35 gallon of hot
+        # sauce becoming $35 per LITRE. Detected by ratio against the invoice-fed
+        # twin: it lands on the pack size printed in the product's own name.
+        run: python3 scripts/check_pack_as_rate.py --strict
+
       - name: Estimated vs actual COGS (purchases minus consumption)
         # The number COGS_ARCHITECTURE.md has named since it was written: Xero
         # purchases (what we bought) minus recipe cost (what we used) = stock

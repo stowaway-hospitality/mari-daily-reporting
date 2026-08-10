@@ -376,9 +376,26 @@ def test_the_four_price_conflicts_that_are_left(book):
     # Red Chilli joined 2026-08-09 and it is a REAL finding: the book now carries the
     # invoiced $16.00/kg (Select Fresh 2026-08-08) where Lightspeed still holds the
     # $1.1667/kg it derived from its own recipe lines. Our side is the evidenced one.
+    #
+    # Frank's Hot Sauce and Honey Pure joined 2026-08-10 for the same reason and are
+    # NOT regressions — they are this list working. Lightspeed's ls-recipe-seed held
+    # each product's WHOLE CONTAINER price as its per-unit rate: a $35 gallon of hot
+    # sauce as $35 per LITRE, a $21 tub of honey as $21 per KILO. Pack overrides now
+    # divide by the real container (3,785 ml and 3,000 g), so our book reads $9.27/L
+    # and $6.99/kg against Foodlink's own invoices of $8.55/L (SI4312724) and
+    # $7.00/kg (SI4274123). The conflict is Lightspeed's to fix; our side is the
+    # evidenced one, and it should stay visible until it is fixed there.
+    #
+    # Both were OVER-costs, which is why they sat unnoticed — every other guard here
+    # is pointed at the flattering direction. See scripts/check_pack_as_rate.py.
     assert set(got) == {"Massenez Elderflower [5L]", "Bittermen's Tiki Bitters [Bottle]",
                         "Beans Edamame Soy Frozen [350g]", "Noodles Instant Ayam [700g]",
-                        "Red Chilli [10/Kg]"}, sorted(got)
+                        "Red Chilli [10/Kg]", "Frank's Hot Sauce 1Galln 3.8L Franks",
+                        "Honey Pure 3kg Wild Flower"}, sorted(got)
+    # ours is CHEAPER on both, because ours divides by the container and Lightspeed
+    # does not. If either ever flips to dearer, the override has been re-broken.
+    for _n in ("Frank's Hot Sauce 1Galln 3.8L Franks", "Honey Pure 3kg Wild Flower"):
+        assert got[_n]["ours_is_dearer"] is False, _n
     assert got["Massenez Elderflower [5L]"]["ratio"] == 10.47
     assert got["Massenez Elderflower [5L]"]["ours_is_dearer"] is True
     assert got["Bittermen's Tiki Bitters [Bottle]"]["ours_is_dearer"] is False
