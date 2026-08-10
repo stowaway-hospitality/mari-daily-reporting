@@ -564,6 +564,7 @@ tbody tr:hover { background: var(--group-tint); }
     <div class="grid" id="split-snapshot" style="margin-top: 10px;"></div>
     <div id="dollar-strip" style="margin-top: 14px;"></div>
     <div id="avg-spend" style="margin-top: 14px;"></div>
+    <div id="cogs-variance" style="margin-top: 14px;"></div>
     <div id="wow-section" style="margin-top: 14px;"></div>
 
     <!-- Hourly sales vs labour (single real venue + single day only). -->
@@ -644,7 +645,7 @@ var ROLE_CONFIG = {
     history_cols: ['date', 'food_ex_gst', 'food_cogs_pct', 'wages_kitchen_pct', 'food_gp_pct'] },
 };
 
-var STATE = { histories: {}, currentVenue: null, currentTimeframe: 'day', currentDay: null, rangeStart: null, rangeEnd: null, xeroCogs: [], xeroOH: [], baselines: {}, focusMetric: null, focusYears: [], roster: null, uberFees: [], includeAdmin: false, includeLeave: false, oncost: { rate: 0, ownerWeekly: 0 }, uberDaily: [], uberAds: [], uberDirect: [], sph: [] };
+var STATE = { histories: {}, currentVenue: null, currentTimeframe: 'day', currentDay: null, rangeStart: null, rangeEnd: null, xeroCogs: [], xeroOH: [], cogsVariance: null, baselines: {}, focusMetric: null, focusYears: [], roster: null, uberFees: [], includeAdmin: false, includeLeave: false, oncost: { rate: 0, ownerWeekly: 0 }, uberDaily: [], uberAds: [], uberDirect: [], sph: [] };
 
 // Plan-basis fixed overheads (non-wage), $/week — Olly's BEP workbooks
 // (FIXED_OH_WEEKLY): Stow 462,748/yr, HG 150,280/yr, Mari 92,508/yr.

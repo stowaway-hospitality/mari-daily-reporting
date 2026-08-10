@@ -268,6 +268,9 @@ def build() -> dict:
             cv = sum(x["consumption_ex_gst"] for x in win)
             rv = sum(x["revenue_ex_gst"] for x in win)
             w["rolling_weeks"] = len(win)
+            w["rolling_purchases_ex_gst"] = round(pv, 2)
+            w["rolling_consumption_ex_gst"] = round(cv, 2)
+            w["rolling_revenue_ex_gst"] = round(rv, 2)
             w["rolling_variance"] = round(pv - cv, 2)
             w["rolling_variance_pct_of_revenue"] = round((pv - cv) / rv * 100, 2) if rv else None
 

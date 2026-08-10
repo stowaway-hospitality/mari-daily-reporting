@@ -181,6 +181,7 @@ function renderSnapshot() {
     document.getElementById('dollar-strip').innerHTML = '';
     document.getElementById('split-snapshot').innerHTML = '';
     { const a = document.getElementById('avg-spend'); if (a) a.innerHTML = ''; }
+    { const c = document.getElementById('cogs-variance'); if (c) c.innerHTML = ''; }
     const waEl0 = document.getElementById('week-ahead'); if (waEl0) waEl0.innerHTML = '';
     const dhEl0 = document.getElementById('data-health'); if (dhEl0) dhEl0.innerHTML = '';
     const vbEl0 = document.getElementById('venue-breakdown'); if (vbEl0) vbEl0.innerHTML = '';
@@ -240,10 +241,12 @@ function renderExtras(day, cfg) {
   const vbEl = document.getElementById('venue-breakdown'); if (vbEl) vbEl.innerHTML = '';
   const pcEl = document.getElementById('profit-card'); if (pcEl) pcEl.innerHTML = '';
   { const asEl = document.getElementById('avg-spend'); if (asEl) asEl.innerHTML = ''; }
+  { const cvEl = document.getElementById('cogs-variance'); if (cvEl) cvEl.innerHTML = ''; }
   { const wsEl = document.getElementById('wow-section'); if (wsEl) wsEl.innerHTML = ''; }
   if (!day) return;
   renderProfitCard(day, cfg);
   renderAvgSpend(day);
+  renderCogsVariance(day);
   renderWoW(day);
   const srEl = document.getElementById('story-row');
   if (CURRENT_ROLE !== 'admin') { if (srEl) srEl.style.gridTemplateColumns = '1fr'; return; }
@@ -1043,6 +1046,82 @@ function renderAvgSpend(day) {
     `</div>`;
 }
 
+/* COGS — BOUGHT vs USED. The two feeds this app has always had, differenced.
+
+   Xero purchases (ex GST) minus our recipe cost = stock movement + waste + theft.
+   COGS_ARCHITECTURE.md named it as the number that "actually runs a venue" and it
+   sat unbuilt as step 6 of 6 while both halves were already on this page.
+
+   Reads data/cogs_variance.json (scripts/build_cogs_variance.py). No arithmetic
+   here beyond picking a week and summing venues for the group view — the GST
+   conversion, the week alignment and the coverage weighting are all done in the
+   builder, because that is where they can be tested.
+
+   ONE WEEK IS MOSTLY DELIVERY TIMING: you buy a case and pour it over three
+   weeks. So the headline is the 4-week rolling figure and the single week sits
+   underneath it. */
+function cogsVarianceWeek(v, day) {
+  const feed = STATE.cogsVariance;
+  if (!feed || !feed.venues) return null;
+  const names = (v === 'group') ? ['stow', 'hg', 'mari'] : [v];
+  // The most recent week at or before the selected day, per venue.
+  const rows = [];
+  for (const n of names) {
+    const weeks = (feed.venues[n] || {}).weeks || [];
+    const upTo = day ? weeks.filter(w => w.week_ending <= day) : weeks;
+    const pick = (upTo.length ? upTo : weeks)[Math.max(0, (upTo.length ? upTo : weeks).length - 1)];
+    if (pick) rows.push(pick);
+  }
+  if (!rows.length) return null;
+  const sum = k => rows.reduce((t, r) => t + (Number(r[k]) || 0), 0);
+  const covs = rows.map(r => r.recipe_coverage_pct).filter(c => c !== null && c !== undefined);
+  return {
+    week: rows.map(r => r.week_ending).sort().slice(-1)[0],
+    purchases: sum('purchases_ex_gst'), consumption: sum('consumption_ex_gst'),
+    variance: sum('variance'), revenue: sum('revenue_ex_gst'),
+    rolling: sum('rolling_variance'), rollRevenue: sum('rolling_revenue_ex_gst'),
+    rollPurchases: sum('rolling_purchases_ex_gst'), rollConsumption: sum('rolling_consumption_ex_gst'),
+    rollWeeks: Math.max(...rows.map(r => r.rolling_weeks || 1)),
+    coverage: covs.length === rows.length ? covs.reduce((a, b) => a + b, 0) / covs.length : null,
+    trustworthy: rows.every(r => r.trustworthy),
+  };
+}
+
+function renderCogsVariance(day) {
+  const el = document.getElementById('cogs-variance');
+  if (!el) return;
+  el.innerHTML = '';
+  if (CURRENT_ROLE !== 'admin') return;          // economic feed, admin-only
+  const a = cogsVarianceWeek(STATE.currentVenue, day);
+  if (!a) return;
+  const money = n => (n < 0 ? '−$' : '$') + Math.abs(Math.round(n)).toLocaleString();
+  const pctOf = (n, base) => base ? (n / base * 100) : null;
+  const rollPct = pctOf(a.rolling, a.rollRevenue);
+  const wkPct = pctOf(a.variance, a.revenue);
+
+  // A variance is only a waste number to the extent consumption is real. Say so
+  // where it isn't, rather than letting a confident figure be read as a loss.
+  const caveat = a.trustworthy
+    ? `Recipe coverage ${a.coverage.toFixed(0)}% of revenue.`
+    : (a.coverage === null
+      ? 'Recipe coverage for these weeks is unknown, so part of this gap is waste and part is revenue we cannot cost yet. Read it as a question, not a loss.'
+      : `Recipe coverage only ${a.coverage.toFixed(0)}% of revenue, so part of this gap is revenue we cannot cost yet rather than waste.`);
+
+  el.innerHTML =
+    `<div class="section"><h2>COGS — bought vs used</h2>` +
+    `<p style="font-size:12.5px;color:var(--ink-soft);margin:-6px 0 10px;line-height:1.5">` +
+    `Xero purchases minus our recipe cost, both ex GST — stock movement + waste + theft. ` +
+    `Week ending ${a.week}.</p>` +
+    `<p style="font-size:27px;font-weight:600;margin:0">${money(a.rolling)}` +
+    `<span style="font-size:14px;font-weight:400;color:var(--ink-soft)"> over ${a.rollWeeks} week${a.rollWeeks === 1 ? '' : 's'}` +
+    (rollPct !== null ? ` · ${rollPct.toFixed(1)}% of revenue` : '') + `</span></p>` +
+    `<p style="font-size:13.5px;color:var(--ink-soft);margin:6px 0 0">` +
+    `This week bought <b>${money(a.purchases)}</b> · used <b>${money(a.consumption)}</b> · ` +
+    `gap <b>${money(a.variance)}</b>${wkPct !== null ? ` (${wkPct.toFixed(1)}% of revenue)` : ''}</p>` +
+    `<p style="font-size:12.5px;color:var(--ink-soft);margin:8px 0 0;line-height:1.5">${caveat}</p>` +
+    `</div>`;
+}
+
 var WOW_CHART = null;
 /* Week-on-Week section: span toggle buttons + revenue/profit chart + KPI table.
    Day view compares the same weekday over the last N weeks; every other view uses
@@ -1219,6 +1298,12 @@ async function bootstrap() {
     try {
       const r = await fetch('/data/xero_overheads_monthly.csv?t=' + Date.now());
       if (r.ok) STATE.xeroOH = parseCsv(await r.text());
+    } catch (e) {}
+    try {
+      // Bought vs used: Xero purchases minus our recipe cost, per venue per week.
+      // Built by scripts/build_cogs_variance.py — see renderCogsVariance.
+      const r = await fetch('/data/cogs_variance.json?t=' + Date.now());
+      if (r.ok) STATE.cogsVariance = await r.json();
     } catch (e) {}
     try {
       // Wage on-costs: owner salary (-> corp payroll) + payroll-tax/WC rate

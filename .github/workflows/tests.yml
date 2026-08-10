@@ -151,6 +151,13 @@ jobs:
           node scripts/test_recipe_book_flags.mjs
           node scripts/test_recipe_flags_families.mjs
 
+      - name: COGS bought-vs-used panel (node)
+        # The panel renders a dollar gap that must NOT be read as a loss: it is
+        # only waste to the extent products have recipes, and HG has ~31% of
+        # revenue with no cost behind it. These assertions mostly hold the caveat
+        # in place, and keep the feed admin-only like every other economic feed.
+        run: node scripts/test_cogs_variance_panel.mjs
+
       - name: Merged recipe module — tabs, rows, shell (node)
         # /recipes-book/ and /recipes/ are ONE module with four tabs now. What
         # can break in a merge is invisible to everything else in this repo: a
