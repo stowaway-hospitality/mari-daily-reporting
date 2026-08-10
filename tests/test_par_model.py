@@ -1345,8 +1345,9 @@ def test_live_unresolved_hg_lines_are_reported_with_the_name_a_human_needs():
     for, so writing the explicit alias is mechanical."""
     _, meta = model.compute_venue("hg", DATA)
     unresolved = {r["pos_line"]: r for r in meta["hg_suffix_unresolved"]}
-    assert "Zagara Orange [HG]" in unresolved
-    assert unresolved["Zagara Orange [HG]"]["stripped"] == "Zagara Orange"
+    # Don't pin a specific SKU: the work queue is meant to DRAIN as aliases get
+    # written (Zagara Orange was the first one fixed this way). Assert the
+    # contract instead — every entry carries the name a human needs.
     for line, r in unresolved.items():
         assert r["stripped"] and r["reason"], line
     # a cocktail carrying the suffix resolves through the RECIPE book instead —

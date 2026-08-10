@@ -82,7 +82,6 @@
     "13-week stock-bearing drink revenue reaches no par SKU."
   ],
   "_version": 1,
-
   "stow": {
     "Fresh is Best Lager": "Alehouse Draught Lager [Keg]",
     "Fresh is Best Summer Lager": "Alehouse Summer Mid [Keg]",
@@ -93,9 +92,11 @@
     "Petits Detours Rosé": "Petits Detours Rosé Mediterranee - Bottle",
     "Baileys Irish Cream": "Bailey's Irish Cream 1L [Bottle]",
     "Balvenie 14 Year Caribbean Cask": "Balvenie 14yr Caribbean Cask [Bottle]",
-    "Vinada Sparkling Rose": {"sku": "Vinada Sparking Rosé [Bottle]", "serve_ml": 150},
+    "Vinada Sparkling Rose": {
+      "sku": "Vinada Sparking Rosé [Bottle]",
+      "serve_ml": 150
+    },
     "Limoncello": "Manly Spirits Limoncello [Bottle]",
-
     "Four Pillars Bloody Shiraz Gin": "Four Pillars Bloody Shiraz [Bottle]",
     "Four Pillars Bloody Shiraz Gin Tonica": "Four Pillars Bloody Shiraz [Bottle]",
     "Four Pillars Olive Leaf Gin Tonica": "Four Pillars Olive Leaf [Bottle]",
@@ -110,11 +111,9 @@
     "Bundaberg Ginger Beer": "Bundaberg Ginger Beer [750ml]",
     "4 Pines Kolsch Bottle": "4 Pines Kolsch Bottle D"
   },
-
   "hg": {
     "Harry's Lager": "Alehouse Premium Lager [Keg]",
     "S&W Pacific Ale": "Stone & Wood [Keg]",
-
     "White Light Pure Vodka [House]": "White Light Pure Vodka [20L]",
     "Bombay Dry Gin [House]": "Bombay Dry [Bottle]",
     "Monkey Shoulder Scotch Whisky [House]": "Monkey Shoulder Scotch [Bottle]",
@@ -123,8 +122,10 @@
     "Kraken Black Rum": "Kraken Rum [Bottle]",
     "Trutta Streamside Shiraz": "Trutta Streamside Shiraz - Bottle [HG]",
     "Two Tonne Riesling": "Two Tonne Riesling - Bottle [HG]",
-    "Vinada Sparkling Wine": {"sku": "Vinada Sparking Chardonnay [Bottle]", "serve_ml": 150},
-
+    "Vinada Sparkling Wine": {
+      "sku": "Vinada Sparking Chardonnay [Bottle]",
+      "serve_ml": 150
+    },
     "Philter XPA": "stow:Philter XPA [Keg]",
     "Grifter Pale": "stow:Grifter Pale [Keg]",
     "Kirin": "stow:Kirin [Keg]",
@@ -132,9 +133,9 @@
     "Status Quo": "stow:Status Quo [Keg]",
     "Guinness Draught": "stow:Guinness [Keg]",
     "Coke Can": "stow:Coke Can",
-    "Sprite Can": "stow:Sprite Can"
+    "Sprite Can": "stow:Sprite Can",
+    "Zagara Orange [HG]": "stow:Year Wines 'Zagara' Orange - Bottle"
   },
-
   "_notes": {
     "stow": {
       "Fresh is Best Lager": "House-brand tap lager. NOT a guess: data/recipes/stowaway.yaml defines 'Fresh is Best Lager - Schooner/- Pint' with the single ingredient 'Alehouse Draught Lager [Keg]'. Alehouse is the contract brewer; 'Fresh is Best' is the customer-facing name. The keg par SKU carried a live par of 4.6 with zero attributed volume, which is the drift signature.",
@@ -168,7 +169,6 @@
       "Trutta Streamside Shiraz": "By-the-glass line; the bottle par carries the '- Bottle [HG]' suffix.",
       "Two Tonne Riesling": "By-the-glass line; the bottle par carries the '- Bottle [HG]' suffix.",
       "Vinada Sparkling Wine": "'Vinada Sparking Chardonnay [Bottle]' is the only Vinada stock item at HG (and note the same 'Sparking' typo as Stowaway's rosé). Low confidence on the varietal, high confidence on the stock item; revisit if HG ever carries two Vinadas.",
-
       "_cross_venue_shared_stock": "The eight entries below are CROSS-VENUE ('stow:' prefix). Zak, 2026-08-10: 'link the hg tap beers to the stowaway pars, and the coke sprite cans to stowaway pars too.' The stock for these lines is held and ordered centrally against STOWAWAY par SKUs; it also pours through the HG till, and until now those HG sales reached no par SKU at any venue, so Stowaway's pars under-counted real consumption. Each target was verified to exist in Stowaway's par universe (data/_scrape_stow_20260809.json nonzero_pars + data/bo_exports/stowaway_products.csv). Note this SUPERSEDES the earlier _unmapped_investigate notes that read 'no Kirin keg par SKU exists at HG' etc. — correct, and the reason is that the keg is Stowaway's.",
       "Philter XPA": "stow:Philter XPA [Keg] (live Stowaway par 1.1). 1.0/wk at HG. Resolves the old transposition doubt: the beer is not on an HG keg par at all, it comes off Stowaway's. Deliberately NOT HG's own 'Grifter XPA [Keg]' or 'Philter Pale [Keg]', which stay as they are.",
       "Grifter Pale": "stow:Grifter Pale [Keg] (live Stowaway par 2.0). 0.85/wk at HG.",
@@ -181,75 +181,217 @@
       "_no_alias_Diet Coke Can": "NOT mapped, deliberately. HG sells 'Diet Coke Can' 0.31/wk. Stowaway stocks 'Coke Zero Can', not Diet Coke — there is no Diet Coke SKU anywhere in data/bo_exports/stowaway_products.csv (only Coke, Coke Zero, Sprite in can and 1.25L). Coke Zero and Diet Coke are different products with different formulations and different order codes, so mapping one to the other would put a real Diet Coke order on a Coke Zero par and silently mis-state both. Left in _unmapped_investigate until Zak confirms whether HG's Diet Coke button is actually poured from Coke Zero stock (in which case alias it to 'stow:Coke Zero Can') or whether Diet Coke is a genuine separate line that needs its own stock item."
     }
   },
-
   "_intentionally_unattributed": {
     "_comment": "Made-to-order / post-mix drinks. These are poured from a post-mix gun or built to order from syrups and fresh produce; they consume NO discrete stock unit that the Purchase module carries a par for. They will never attribute, and the coverage guard must not nag about them forever.",
     "stow": [
-      {"product": "Pepsi Max Glass", "reason": "post-mix gun - no discrete stock unit"},
-      {"product": "Pepsi Glass", "reason": "post-mix gun - no discrete stock unit"},
-      {"product": "Lemonade Glass", "reason": "post-mix gun - no discrete stock unit"},
-      {"product": "Pink Lemonade Glass", "reason": "post-mix gun + syrup - no discrete stock unit"},
-      {"product": "Lemon, Lime & Bitters", "reason": "made to order (post-mix + bitters) - no discrete stock unit"},
-      {"product": "Fresh Lime Soda", "reason": "made to order (fresh lime + soda gun) - no discrete stock unit"},
-      {"product": "Ginger Ale", "reason": "post-mix gun - no discrete stock unit"},
-      {"product": "Apple Juice Glass", "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"},
-      {"product": "Orange Juice Glass", "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"},
-      {"product": "Pineapple Juice Glass", "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"},
-      {"product": "Hot Chocolate", "reason": "made to order from powder/milk - no discrete par SKU"},
-      {"product": "Soda Water Glass", "reason": "post-mix gun - no discrete stock unit"},
-      {"product": "Tonic Water Glass", "reason": "post-mix gun - no discrete stock unit"},
-      {"product": "Tonic Glass", "reason": "post-mix gun - no discrete stock unit"},
-      {"product": "Cranberry Juice Glass", "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10); see NOTE below"},
-      {"product": "Stow Soda - Passionfruit", "reason": "house-made soda, built to order from syrup + soda gun; belongs to the recipe system, no discrete par SKU exists"},
-      {"product": "Stow Soda - Grapefruit", "reason": "house-made soda, built to order; no discrete par SKU exists"},
-      {"product": "$5 Stow Soda", "reason": "house-made soda (promo price button); no discrete par SKU exists"},
-      {"product": "Samba Ramba", "reason": "house-made non-alc drink built to order; belongs to the recipe system, no discrete par SKU exists"}
+      {
+        "product": "Pepsi Max Glass",
+        "reason": "post-mix gun - no discrete stock unit"
+      },
+      {
+        "product": "Pepsi Glass",
+        "reason": "post-mix gun - no discrete stock unit"
+      },
+      {
+        "product": "Lemonade Glass",
+        "reason": "post-mix gun - no discrete stock unit"
+      },
+      {
+        "product": "Pink Lemonade Glass",
+        "reason": "post-mix gun + syrup - no discrete stock unit"
+      },
+      {
+        "product": "Lemon, Lime & Bitters",
+        "reason": "made to order (post-mix + bitters) - no discrete stock unit"
+      },
+      {
+        "product": "Fresh Lime Soda",
+        "reason": "made to order (fresh lime + soda gun) - no discrete stock unit"
+      },
+      {
+        "product": "Ginger Ale",
+        "reason": "post-mix gun - no discrete stock unit"
+      },
+      {
+        "product": "Apple Juice Glass",
+        "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
+      },
+      {
+        "product": "Orange Juice Glass",
+        "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
+      },
+      {
+        "product": "Pineapple Juice Glass",
+        "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
+      },
+      {
+        "product": "Hot Chocolate",
+        "reason": "made to order from powder/milk - no discrete par SKU"
+      },
+      {
+        "product": "Soda Water Glass",
+        "reason": "post-mix gun - no discrete stock unit"
+      },
+      {
+        "product": "Tonic Water Glass",
+        "reason": "post-mix gun - no discrete stock unit"
+      },
+      {
+        "product": "Tonic Glass",
+        "reason": "post-mix gun - no discrete stock unit"
+      },
+      {
+        "product": "Cranberry Juice Glass",
+        "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10); see NOTE below"
+      },
+      {
+        "product": "Stow Soda - Passionfruit",
+        "reason": "house-made soda, built to order from syrup + soda gun; belongs to the recipe system, no discrete par SKU exists"
+      },
+      {
+        "product": "Stow Soda - Grapefruit",
+        "reason": "house-made soda, built to order; no discrete par SKU exists"
+      },
+      {
+        "product": "$5 Stow Soda",
+        "reason": "house-made soda (promo price button); no discrete par SKU exists"
+      },
+      {
+        "product": "Samba Ramba",
+        "reason": "house-made non-alc drink built to order; belongs to the recipe system, no discrete par SKU exists"
+      }
     ],
     "_note_juice_glasses": "The five 'X Juice Glass' lines and 'Cranberry Juice Glass' ARE poured from real stock - 'East Coast Apple/Orange/Pineapple/Cranberry Juice [2L]' and 'East Coast Grapefruit [2L]' all exist as par SKUs. They stay excused because ZAK HAS CONFIRMED THE REASON (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those.' That is a policy decision, not a mapping gap - juice is ordered by eye at both venues. (The volumes support it: ~1-5 glasses/week, a fraction of a 2L cask.) If that policy ever changes, delete these entries and add glass->cask aliases instead; the model will apply the standard 150ml glass conversion to the [2L] par.",
     "hg": [
-      {"product": "Pepsi Max Glass", "reason": "post-mix gun - no discrete stock unit"},
-      {"product": "Pepsi Glass", "reason": "post-mix gun - no discrete stock unit"},
-      {"product": "Lemonade Glass", "reason": "post-mix gun - no discrete stock unit"},
-      {"product": "Pink Lemonade Glass", "reason": "post-mix gun + syrup - no discrete stock unit"},
-      {"product": "Lemon, Lime & Bitters", "reason": "made to order - no discrete stock unit"},
-      {"product": "Fresh Lime Soda", "reason": "made to order - no discrete stock unit"},
-      {"product": "Ginger Ale", "reason": "post-mix gun - no discrete stock unit"},
-      {"product": "Apple Juice Glass", "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"},
-      {"product": "Orange Juice Glass", "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"},
-      {"product": "Pineapple Juice Glass", "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"},
-      {"product": "Hot Chocolate", "reason": "made to order from powder/milk - no discrete par SKU"},
-      {"product": "Yuzu Orange Soda", "reason": "house-made soda built to order; belongs to the recipe system, no discrete par SKU"},
-      {"product": "Dragon Soda", "reason": "house-made soda built to order; belongs to the recipe system, no discrete par SKU"},
-      {"product": "Carafe Sparkling Water", "reason": "carbonated in house - no discrete stock unit"},
-      {"product": "Soda & Lime Glass", "reason": "post-mix gun + fresh lime - no discrete stock unit"},
-      {"product": "Ginger Beer Glass [HG]", "reason": "post-mix gun - no discrete stock unit"},
-      {"product": "Mulled Wine [HG]", "reason": "batch-made seasonal drink; belongs to the recipe system, no discrete par SKU"}
+      {
+        "product": "Pepsi Max Glass",
+        "reason": "post-mix gun - no discrete stock unit"
+      },
+      {
+        "product": "Pepsi Glass",
+        "reason": "post-mix gun - no discrete stock unit"
+      },
+      {
+        "product": "Lemonade Glass",
+        "reason": "post-mix gun - no discrete stock unit"
+      },
+      {
+        "product": "Pink Lemonade Glass",
+        "reason": "post-mix gun + syrup - no discrete stock unit"
+      },
+      {
+        "product": "Lemon, Lime & Bitters",
+        "reason": "made to order - no discrete stock unit"
+      },
+      {
+        "product": "Fresh Lime Soda",
+        "reason": "made to order - no discrete stock unit"
+      },
+      {
+        "product": "Ginger Ale",
+        "reason": "post-mix gun - no discrete stock unit"
+      },
+      {
+        "product": "Apple Juice Glass",
+        "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
+      },
+      {
+        "product": "Orange Juice Glass",
+        "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
+      },
+      {
+        "product": "Pineapple Juice Glass",
+        "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
+      },
+      {
+        "product": "Hot Chocolate",
+        "reason": "made to order from powder/milk - no discrete par SKU"
+      },
+      {
+        "product": "Yuzu Orange Soda",
+        "reason": "house-made soda built to order; belongs to the recipe system, no discrete par SKU"
+      },
+      {
+        "product": "Dragon Soda",
+        "reason": "house-made soda built to order; belongs to the recipe system, no discrete par SKU"
+      },
+      {
+        "product": "Carafe Sparkling Water",
+        "reason": "carbonated in house - no discrete stock unit"
+      },
+      {
+        "product": "Soda & Lime Glass",
+        "reason": "post-mix gun + fresh lime - no discrete stock unit"
+      },
+      {
+        "product": "Ginger Beer Glass [HG]",
+        "reason": "post-mix gun - no discrete stock unit"
+      },
+      {
+        "product": "Mulled Wine [HG]",
+        "reason": "batch-made seasonal drink; belongs to the recipe system, no discrete par SKU"
+      }
     ]
   },
-
   "_unmapped_investigate": {
     "_comment": "Stock-bearing POS lines with real volume that reach no par SKU and that I was NOT confident enough to map. These SHOULD be resolved by a human - either by creating the missing par SKU in the Purchase module or by confirming the mapping here. They still count toward the coverage guard's unattributed total, deliberately.",
     "stow": [
-      {"product": "Philter Pale", "qty_per_week": 1.8, "revenue_13wk": 244,
-       "note": "No 'Philter Pale [Keg]' exists at Stowaway - only 'Philter XPA [Keg]', which has its own separate live POS line at 90/wk. So this is either a third tap, a legacy button, or a mis-ring. Harry Gatos DOES have a 'Philter Pale [Keg]'. Do not fold it into XPA without confirming which beer was actually on tap."},
-      {"product": "Two Bays Pale Ale Can", "qty_per_week": 1.3, "revenue_13wk": 248,
-       "note": "NO Two Bays par SKU exists at Stowaway at all. This is a real can being sold ~1.3/wk with nothing to order against - the Purchase module needs the stock item created. Deliberately NOT mapped to 'Grifter Pale Ale Cans D', which is what the fuzzy matcher suggests and is a different brewery."}
+      {
+        "product": "Philter Pale",
+        "qty_per_week": 1.8,
+        "revenue_13wk": 244,
+        "note": "No 'Philter Pale [Keg]' exists at Stowaway - only 'Philter XPA [Keg]', which has its own separate live POS line at 90/wk. So this is either a third tap, a legacy button, or a mis-ring. Harry Gatos DOES have a 'Philter Pale [Keg]'. Do not fold it into XPA without confirming which beer was actually on tap."
+      },
+      {
+        "product": "Two Bays Pale Ale Can",
+        "qty_per_week": 1.3,
+        "revenue_13wk": 248,
+        "note": "NO Two Bays par SKU exists at Stowaway at all. This is a real can being sold ~1.3/wk with nothing to order against - the Purchase module needs the stock item created. Deliberately NOT mapped to 'Grifter Pale Ale Cans D', which is what the fuzzy matcher suggests and is a different brewery."
+      }
     ],
     "hg": [
-      {"product": "Two Bays GF Rice Lager Can [HG]", "qty_per_week": 0.5, "revenue_13wk": 89,
-       "note": "No Two Bays par SKU at EITHER venue - the [HG] suffix rule looked at Stowaway too and found nothing. Gluten-free range being sold with nothing to order against; the Purchase module needs the stock item created (at Stowaway, if the stock is Stowaway's like the rest of the [HG] range)."},
-      {"product": "Two Bays GF Pale Can [HG]", "qty_per_week": 0.1, "revenue_13wk": 13,
-       "note": "No Two Bays par SKU at either venue. Same as above."},
-      {"product": "Philter Old Ale [HG]", "qty_per_week": 0.2, "revenue_13wk": 30,
-       "note": "No Philter Old Ale par SKU at either venue - the [HG] suffix rule found no Stowaway match either. Deliberately NOT 'Philter Pale [Keg]' - a can and a keg of a different beer."},
-      {"product": "Zagara Orange [HG]", "qty_per_week": 0.5, "revenue_13wk": 124,
-       "note": "SURFACED BY THE [HG] SUFFIX RULE, and the easiest of these to fix. Stowaway carries the same wine as \"Year Wines 'Zagara' Orange - Bottle\" (3.3/wk on its own till), but the HG till drops the producer, so the stripped name 'Zagara Orange' matches nothing and the rule correctly refuses to guess. Its reporting group is 'Bar / FOH (no reporting group)', so the unattributed GATE never saw it either - it was invisible until the rule started reporting it. Confirm it is the same wine and add \"Zagara Orange [HG]\": \"stow:Year Wines 'Zagara' Orange - Bottle\" to the hg map above."},
-      {"product": "Veuve Clicquot", "qty_per_week": 0.1, "revenue_13wk": 29,
-       "note": "No Veuve par SKU at HG. Sold ~1 bottle a fortnight with nothing to order against."},
-      {"product": "Heaps Normal Quiet XPA", "qty_per_week": 0.2, "revenue_13wk": 29,
-       "note": "No Heaps Normal par SKU at HG."},
-      {"product": "Diet Coke Can", "qty_per_week": 0.3, "revenue_13wk": 15,
-       "note": "ZAK TO CONFIRM. HG's Coke and Sprite cans are now linked to Stowaway's 'Coke Can' / 'Sprite Can' pars (shared central stock). Diet Coke is NOT, because Stowaway does not stock Diet Coke: the Stowaway catalogue (data/bo_exports/stowaway_products.csv) carries Coke, Coke Zero and Sprite in can and 1.25L, and no Diet Coke SKU at all. Coke Zero and Diet Coke are different products, so mapping HG's Diet Coke onto 'Coke Zero Can' would inflate a Coke Zero par with demand for a drink that par can never satisfy. Question for Zak: is HG's 'Diet Coke' button actually served from Coke Zero stock? If yes, change this to an alias \"Diet Coke Can\": \"stow:Coke Zero Can\". If it is a genuine separate line, it needs its own stock item in the Purchase module."}
+      {
+        "product": "Two Bays GF Rice Lager Can [HG]",
+        "qty_per_week": 0.5,
+        "revenue_13wk": 89,
+        "note": "No Two Bays par SKU at EITHER venue - the [HG] suffix rule looked at Stowaway too and found nothing. Gluten-free range being sold with nothing to order against; the Purchase module needs the stock item created (at Stowaway, if the stock is Stowaway's like the rest of the [HG] range)."
+      },
+      {
+        "product": "Two Bays GF Pale Can [HG]",
+        "qty_per_week": 0.1,
+        "revenue_13wk": 13,
+        "note": "No Two Bays par SKU at either venue. Same as above."
+      },
+      {
+        "product": "Philter Old Ale [HG]",
+        "qty_per_week": 0.2,
+        "revenue_13wk": 30,
+        "note": "No Philter Old Ale par SKU at either venue - the [HG] suffix rule found no Stowaway match either. Deliberately NOT 'Philter Pale [Keg]' - a can and a keg of a different beer."
+      },
+      {
+        "product": "Zagara Orange [HG]",
+        "qty_per_week": 0.5,
+        "revenue_13wk": 124,
+        "note": "SURFACED BY THE [HG] SUFFIX RULE, and the easiest of these to fix. Stowaway carries the same wine as \"Year Wines 'Zagara' Orange - Bottle\" (3.3/wk on its own till), but the HG till drops the producer, so the stripped name 'Zagara Orange' matches nothing and the rule correctly refuses to guess. Its reporting group is 'Bar / FOH (no reporting group)', so the unattributed GATE never saw it either - it was invisible until the rule started reporting it. Confirm it is the same wine and add \"Zagara Orange [HG]\": \"stow:Year Wines 'Zagara' Orange - Bottle\" to the hg map above."
+      },
+      {
+        "product": "Veuve Clicquot",
+        "qty_per_week": 0.1,
+        "revenue_13wk": 29,
+        "note": "No Veuve par SKU at HG. Sold ~1 bottle a fortnight with nothing to order against."
+      },
+      {
+        "product": "Heaps Normal Quiet XPA",
+        "qty_per_week": 0.2,
+        "revenue_13wk": 29,
+        "note": "No Heaps Normal par SKU at HG."
+      },
+      {
+        "product": "Diet Coke Can",
+        "qty_per_week": 0.3,
+        "revenue_13wk": 15,
+        "note": "ZAK TO CONFIRM. HG's Coke and Sprite cans are now linked to Stowaway's 'Coke Can' / 'Sprite Can' pars (shared central stock). Diet Coke is NOT, because Stowaway does not stock Diet Coke: the Stowaway catalogue (data/bo_exports/stowaway_products.csv) carries Coke, Coke Zero and Sprite in can and 1.25L, and no Diet Coke SKU at all. Coke Zero and Diet Coke are different products, so mapping HG's Diet Coke onto 'Coke Zero Can' would inflate a Coke Zero par with demand for a drink that par can never satisfy. Question for Zak: is HG's 'Diet Coke' button actually served from Coke Zero stock? If yes, change this to an alias \"Diet Coke Can\": \"stow:Coke Zero Can\". If it is a genuine separate line, it needs its own stock item in the Purchase module."
+      }
     ]
   }
 }
