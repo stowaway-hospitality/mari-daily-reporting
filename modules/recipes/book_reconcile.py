@@ -386,12 +386,19 @@ def _real_yields() -> dict:
             import yaml
             f = ROOT / "data" / "recipe_yields.yaml"
             d = yaml.safe_load(f.read_text(encoding="utf-8-sig")) if f.exists() else None
-            for nm, spec in ((d or {}).get("yields") or {}).items():
-                q, u = spec.get("yield"), str(spec.get("unit") or "").lower()
-                fct = _TO_BASE.get(u)
-                if q and fct:
-                    _REAL_YIELDS[nm] = (float(q) * fct,
-                                        "g" if u in ("kg", "kgs", "g", "gm") else "ml")
+            # The scraped block first, then the cook-yield estimates OVER it. For a
+            # COOKED protein Produce's 'Expected yield' holds the RAW weight —
+            # 10,500 g against a 10,000 g brisket batch, which would have meat
+            # leaving a braise heavier than it went in — so the scraped figure is
+            # kept as the record of what Produce says and the estimate is what we
+            # cost off. See the note in data/recipe_yields.yaml.
+            for block in ("yields", "cook_yield_estimates"):
+                for nm, spec in ((d or {}).get(block) or {}).items():
+                    q, u = spec.get("yield"), str(spec.get("unit") or "").lower()
+                    fct = _TO_BASE.get(u)
+                    if q and fct:
+                        _REAL_YIELDS[nm] = (float(q) * fct,
+                                            "g" if u in ("kg", "kgs", "g", "gm") else "ml")
         except Exception:                                        # noqa: BLE001
             _REAL_YIELDS = {}
     return _REAL_YIELDS

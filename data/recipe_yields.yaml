@@ -103,3 +103,41 @@ harry_gatos_not_harvested_yet:
   - "Wattleseed Honey Soy"
   - "Tonkotsu Broth"
   - "Massenez Lychee [5L]"
+
+# COOK YIELDS — ESTIMATED, because Produce's field holds the RAW weight
+# ---------------------------------------------------------------------
+# For a COOKED protein the 'Expected yield' above is not a yield. Somebody
+# entered the weight that went IN:
+#
+#   Cooked Beef Brisket [1Kg]   batch has 10,000 g raw brisket, field says 10,500 g
+#   Achiote Chicken [15Kg]      batch has 15,000 g raw thigh,   field says 15,000 g
+#
+# Meat does not leave a braise heavier than it went in, and the brisket read
+# literally made COOKED brisket $13.93/kg against $14.00/kg for the RAW meat on
+# the B&E invoice — nine hours of cooking for free. That under-states cost, which
+# flatters GP, so nothing alarmed.
+#
+# The scraped figures are LEFT ABOVE, untouched. They are the honest record of
+# what Produce says, and they are the evidence that Produce holds the wrong
+# number — fix it there and re-harvest, and these estimates can go.
+#
+# Until then the estimates below win, and data/prep_yields.yaml carries the same
+# figures with the full reasoning. Both are ESTIMATES. Weigh one batch of each
+# (raw in -> cooked out) and replace them.
+cook_yield_estimates:
+  "Cooked Beef Brisket [1Kg]":
+    yield: 6.0
+    unit: kg
+    basis: >-
+      10,000 g raw x 60%. 60% is the conservative end of the 55-65% published
+      retention band for braised brisket. Corroborated independently: Lightspeed's
+      own recipe cost for the same cooked brisket (seeded as 'Pizza Beef Brisket
+      [Kg]' at $25.00/kg) implies 58.5%.
+    replace_with: a kitchen weighing, raw in -> cooked out
+  "Achiote Chicken [15Kg]":
+    yield: 10.5
+    unit: kg
+    basis: >-
+      15,000 g raw x 70%. 70% is the conservative end of the published 70-75%
+      retention band for boneless skinless chicken thigh.
+    replace_with: a kitchen weighing, raw in -> cooked out

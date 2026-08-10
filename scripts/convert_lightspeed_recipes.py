@@ -455,6 +455,21 @@ INGREDIENT_ALIAS = {
     # 49 recipes use one, 6 the other. Consolidated onto the one with four
     # recent Fresh Fruit Team invoices behind it.
     "Onion Spanish [10kg]": "Spanish Onion [10Kg]",
+    # Same cooked brisket, reached two ways, priced 1.79x apart. Zak: "it's the
+    # same beef brisket that's in beef burrito."
+    #
+    #   Beef Burrito ->  subrecipe "Cooked Beef Brisket [1Kg]"   $13.93/kg
+    #   12 pizzas    ->  ProductID 22491831 "Pizza Beef Brisket" $25.00/kg
+    #
+    # Nobody puts raw brisket on a pizza, so both lines are the same braised
+    # meat out of the same batch, and one product cannot cost two things. The
+    # $25.00 was an ls-recipe-seed (Lightspeed's own recipe cost, median of 3);
+    # the $13.93 came from reading Produce's Expected yield of 10,500 g as a
+    # yield when it is the RAW weight of a 10,000 g batch — see
+    # data/prep_yields.yaml. Both are now the prep, costed off one estimated
+    # cook yield, so a single weighing fixes all 14 products at once instead of
+    # correcting one path and leaving the other.
+    "Pizza Beef Brisket [Kg]": "Cooked Beef Brisket [1Kg]",
     # Harry Gatos' name for Stowaway's house blend. data/recipe_venue_mirrors.yaml
     # already records the decision — "'Stow Vermouth Blend' vs 'Vermouth Blend'.
     # Same liquid, same pour. One spec, maintained once." — and mirrors Americano,
@@ -1773,7 +1788,8 @@ def main() -> int:
                 # our_batch ~= ls_batch the line stays ~= the reliable LS per-use cost.
                 so, sl, sfo = cost_of(ln["ref"], stack + (name,))
                 _yb = _YB.search(ln["ref"] or "")
-                _y = yields.get(ln["ref"])
+                _yf = yields.get(ln["ref"])     # RECORDED (prep_yields.yaml) only
+                _y = _yf
                 if not _y and _yb:
                     _q, _u = float(_yb.group(1)), _yb.group(2).lower()
                     _y = (_q * 1000, "g") if _u == "kg" else (_q * 1000, "ml") if _u in ("l", "lt", "litre") else (_q, _u)
@@ -1806,11 +1822,35 @@ def main() -> int:
                     # it uses OUR batch cost and needs no yield we haven't measured.
                     eff = so * _q2
                     full_ours = full_ours and sfo
+                elif (so > 0 and _yf and _yf[0] > 0
+                      and (ln.get("unit") or "").lower() == _yf[1]):
+                    # A RECORDED yield beats Lightspeed's line ratio. The ratio path
+                    # below assumes ls_line/ls_batch == qty/yield, so "the yield
+                    # cancels" — and where that holds the two agree and this changes
+                    # nothing. Where it does NOT hold, the ratio quietly gives one
+                    # product two prices for the same stock:
+                    #
+                    #   Cooked Beef Brisket, one batch, one braise
+                    #     Beef Burrito  225 g -> $13.95/kg
+                    #     12 pizzas      70 g -> $25.89/kg
+                    #
+                    # Same meat, 1.86x apart, because Lightspeed's own per-line
+                    # figures for the two are not on a common rate. qty/yield is,
+                    # by construction.
+                    #
+                    # ONLY a yield from data/prep_yields.yaml (`_yf`), never one
+                    # inferred from the name bracket. The bracket is a LABEL — that
+                    # is the whole finding behind data/recipe_yields.yaml, and
+                    # reading "[1Kg]" as the yield is exactly what once costed Beef
+                    # Burrito off a $141/kg batch at $35.70. A recorded yield is a
+                    # deliberate statement; a name is not.
+                    eff = so * (_q2 / _yf[0])
+                    full_ours = full_ours and sfo
                 elif sl > 0 and so > 0 and ls > 0:
                     # Lightspeed gives a reference for this line, so scale the
-                    # batch by it. Preferred over yield maths because it is
-                    # self-correcting: it cannot be thrown by a wrong batch cost
-                    # or a garbage quantity (costing Beef Burrito off the
+                    # batch by it. Still preferred over a NAME-derived yield because
+                    # it is self-correcting: it cannot be thrown by a wrong batch
+                    # cost or a garbage quantity (costing Beef Burrito off the
                     # $141/kg "Cooked Beef Brisket" batch made it $35.70).
                     eff = so * (ls / sl)
                     full_ours = full_ours and sfo

@@ -1,24 +1,39 @@
 Achiote Chicken [15Kg]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
-  yield_qty: 15000
+  basis: 'ESTIMATED, not measured — pending the kitchen weighing this batch (raw in -> cooked out).
+
+
+    Produce''s ''Expected yield'' field holds 15,000 g, which is exactly the raw chicken
+
+    weight and exactly the number in the recipe''s own name — the raw weight recorded as
+
+    if it were the yield, the same fault as Cooked Beef Brisket. Chicken thigh does not
+
+    come off the grill weighing what it did raw.
+
+
+    70% is the conservative end of the published 70-75% retention band for boneless
+
+    skinless thigh (25-30% loss).
+
+
+    15,000 g raw x 70% = 10,500 g cooked -> $24.92/kg. REPLACE THIS WITH A WEIGHING.'
+  yield_qty: 10500
   yield_unit: g
 Balsamic Dressing House [4.9L]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 4900
   yield_unit: ml
 Black Beans Prep:
-  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a "1" that
-    is really a 1kg tub)
+  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a "1" that is really
+    a 1kg tub)
   yield_qty: 7125
   yield_unit: ml
 Blue Cheese Dip [5.5kg]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 5500
   yield_unit: g
 Burrito Rice Sauce:
@@ -26,9 +41,9 @@ Burrito Rice Sauce:
   yield_qty: 491
   yield_unit: g
 Burrito Rice [3kg]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 3000
   yield_unit: g
 Carnaval Fruit Mix:
@@ -36,41 +51,66 @@ Carnaval Fruit Mix:
   yield_qty: 2660
   yield_unit: g
 Cauliflower Cheese Prep:
-  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a "1" that
-    is really a 1kg tub)
+  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a "1" that is really
+    a 1kg tub)
   yield_qty: 4376
   yield_unit: g
 Chipotle Mayo [1.1kg]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 1100
   yield_unit: g
 Coconut-washed Rooster Blanco [1L]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 3929
   yield_unit: ml
 Cooked Beef Brisket [1Kg]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
-  yield_qty: 10500
+  basis: 'ESTIMATED, not measured — pending the kitchen weighing this batch (raw in -> cooked out).
+
+
+    Produce''s ''Expected yield'' field holds 10,500 g, which is the RAW WEIGHT and not a
+
+    yield: the batch puts in 10,000 g of brisket, and meat cannot leave a braise heavier
+
+    than it went in. Read literally it made cooked brisket cost $13.93/kg, against
+
+    $14.00/kg for the RAW meat on the B&E invoice — i.e. cooking it for nine hours was
+
+    free. That under-states cost, which flatters GP, so it does not alarm.
+
+
+    60% is the conservative end of the 55-65% published retention band for braised
+
+    brisket (30-45% loss). It is independently corroborated: Lightspeed''s own recipe
+
+    cost for the same cooked brisket, seeded as ''Pizza Beef Brisket [Kg]'' at $25.00/kg
+
+    (cogs_list ls-recipe-seed, median of 3), implies a 58.5% yield. Two unrelated
+
+    routes landing within 1.5 points of each other is the reason to accept 60% until
+
+    somebody weighs it.
+
+
+    10,000 g raw x 60% = 6,000 g cooked -> $24.38/kg. REPLACE THIS WITH A WEIGHING.'
+  yield_qty: 6000
   yield_unit: g
 Demerara Syrup:
   basis: 750g demerara 1:1 -> ~1.16L
   yield_qty: 1160
   yield_unit: ml
 Fish Cajun Marination:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 82
   yield_unit: g
 Garlic Oil [Batch]:
-  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a "1" that
-    is really a 1kg tub)
+  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a "1" that is really
+    a 1kg tub)
   yield_qty: 1500
   yield_unit: ml
 Grapefruit Sherbert:
@@ -82,9 +122,9 @@ Gravy Prep:
   yield_qty: 1500
   yield_unit: ml
 Guacamole [4kg]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 4000
   yield_unit: g
 J.J. Aioli [Batch]:
@@ -92,37 +132,37 @@ J.J. Aioli [Batch]:
   yield_qty: 560
   yield_unit: g
 Jalapeño Tequila [1L]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 7500
   yield_unit: ml
 Kewpie Lemon:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 1250
   yield_unit: g
 Mango-Chilli Puree [1L]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 1050
   yield_unit: ml
 Mexican Fish Prep:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 5000
   yield_unit: g
 Mint Yoghurt [Batch]:
-  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a "1" that
-    is really a 1kg tub)
+  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a "1" that is really
+    a 1kg tub)
   yield_qty: 1102
   yield_unit: ml
 Nut Roast Prep:
-  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a "1" that
-    is really a 1kg tub)
+  basis: sum of ingredients x1, weights taken from the invoice-implied amounts (a "1" that is really
+    a 1kg tub)
   yield_qty: 7304
   yield_unit: g
 Passionfruit Syrup:
@@ -130,15 +170,15 @@ Passionfruit Syrup:
   yield_qty: 1600
   yield_unit: ml
 Pico de Gallo [2.5kg]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 2500
   yield_unit: g
 Pizza Dough [Recipe]:
-  basis: '4kg flour + 62% hydration water (2480g, uncosted but real weight) + 500ml oil +
-    125g yeast, less ~2% ferment loss. Cross-checks: 34 bases at 205g, and $6.41/6900g = $0.93/kg,
-    the rate Lightspeed''s own line already implies.'
+  basis: '4kg flour + 62% hydration water (2480g, uncosted but real weight) + 500ml oil + 125g yeast,
+    less ~2% ferment loss. Cross-checks: 34 bases at 205g, and $6.41/6900g = $0.93/kg, the rate Lightspeed''s
+    own line already implies.'
   yield_qty: 6900
   yield_unit: g
 Pizza Sauce [Recipe]:
@@ -146,21 +186,21 @@ Pizza Sauce [Recipe]:
   yield_qty: 9338
   yield_unit: g
 Pulled Mushroom [1Kg]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 1000
   yield_unit: g
 Queso Dip Prep:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 5100
   yield_unit: g
 Salsa Rosa Prep:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 2500
   yield_unit: ml
 Salted Caramel Sauce:
@@ -176,25 +216,25 @@ Sugar Syrup:
   yield_qty: 1540
   yield_unit: ml
 Super Lemon Juice [1L]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 1142
   yield_unit: ml
 Super Lime Juice [1L]:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 1142
   yield_unit: ml
 Tandoori Sauce [Batch]:
-  basis: sum of ingredients x0.9, weights taken from the invoice-implied amounts (a "1" that
-    is really a 1kg tub)
+  basis: sum of ingredients x0.9, weights taken from the invoice-implied amounts (a "1" that is really
+    a 1kg tub)
   yield_qty: 1116
   yield_unit: g
 Truffle Oil Prep:
-  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak:
-    "you should''ve scraped yields from lightspeed" — it was there all along; every derived
-    figure before this was guesswork against a number the source already stated.'
+  basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-06. Zak: "you should''ve
+    scraped yields from lightspeed" — it was there all along; every derived figure before this was
+    guesswork against a number the source already stated.'
   yield_qty: 1500
   yield_unit: g
