@@ -494,7 +494,7 @@ def test_drivers_expose_pour_recipe_and_shrinkage_separately(stow_build):
         # cross_venue_wk is a BREAKDOWN of pour_wk (how much of it came off the
         # other venue's till on a shared-stock alias), never a fourth term.
         assert set(d) == {"pour_wk", "recipe_wk", "variance_wk", "true_wk",
-                          "cross_venue_wk"}
+                          "cross_venue_wk", "cross_venue_by_venue_wk"}
         # (pour_wk is published to 2dp and cross_venue_wk to 3dp, so allow half
         # of pour's last place — the invariant is "subset", not "equal".)
         assert d["cross_venue_wk"] <= d["pour_wk"] + 0.005
@@ -1100,17 +1100,27 @@ def test_live_stowaway_kegs_gain_the_harry_gatos_volume(stow_build):
 
 
 def test_a_foreign_trickle_never_cuts_a_live_par(stow_build):
-    """Stowaway's 'Coke Can' sells through Marilyna's, which products_weekly
-    files under its own venue, so Stowaway's own till volume is invisible and
-    the par (32.5) is held by the safety net. 0.23 HG cans a week is not
-    evidence that mapping is healthy — releasing the hold on it would have cut
-    the par to ~1. Foreign demand may RAISE such a par; it may never lower it."""
+    """Stowaway's 'Coke Can' sells mostly through Marilyna's and Harry Gatos, so
+    its own till shows little or nothing and the par (32.5) is held by the safety
+    net. A foreign trickle is not evidence that mapping is healthy — releasing
+    the hold on 0.23 HG cans a week would have cut the par to ~1.
+
+    The invariant is directional: foreign demand may RAISE such a par, never
+    lower it. Once Marilyna's real volume arrived (Sprite Can 5.9/wk) a raise is
+    exactly what should happen — 17.7 -> 18.7 is the mechanism working, not a
+    regression. So assert the direction, not equality."""
     recs, _ = stow_build
     for sku in ("Coke Can", "Sprite Can"):
         r = recs[sku]
         assert r["drivers"]["cross_venue_wk"] > 0, sku
-        assert r["rec_par"] == r["current_par"], r
-        assert "held_cross_venue_demand_only" in r["flags"], r["flags"]
+        assert r["rec_par"] >= r["current_par"], (
+            f"{sku}: foreign volume cut a live par {r['current_par']} -> {r['rec_par']}")
+        assert "cross_venue_demand" in r["flags"], r["flags"]
+        # NB: `held_cross_venue_demand_only` is NOT asserted here. It fires only
+        # while a foreign trickle is the sole demand. Marilyna's supplies these
+        # SKUs' real volume, so they now model properly and no longer need the
+        # hold — which is the mechanism succeeding, not bypassing itself. The
+        # hold's own behaviour is covered by the next test.
 
 
 def test_the_cross_venue_hold_is_targeted_not_blanket(stow_build):
@@ -1390,3 +1400,59 @@ def test_no_hg_par_sku_receives_cross_venue_volume_from_the_rule():
     assert smeta["hg_suffix_rule_active"] is False, "the rule is HG's, not Stowaway's"
     for sku in ("Grifter Big Sur IPA Tin", "Monteith's Apple Cider Bottle"):
         assert smeta["cross_venue_imported"].get(sku, 0) > 0, sku
+
+
+# ── Marilyna's: no till, stock is Stowaway's ────────────────────────────────
+def test_mari_volume_reaches_the_stowaway_par(stow_build):
+    """Zak: "marilynas consumption ... all gets lumped into the stowaway
+    lightspeed pars". Mari has no till and no pars; its soft drinks draw on
+    Stowaway stock, so the volume must land on the Stowaway par SKU."""
+    recs, _ = stow_build
+    for sku in ("Coke 1.25L", "Sprite Can", "Coke Zero Can", "Coke Zero 1.25L"):
+        d = recs[sku]["drivers"]
+        assert d["pour_wk"] > 0.5, f"{sku} sees no Marilyna's volume: {d}"
+
+
+def test_mari_volume_does_not_leak_into_a_mari_par():
+    """Marilyna's has no Purchase module of its own. Nothing may be created."""
+    import os, json as _json
+    for fn in os.listdir(f"{DATA}"):
+        assert fn != "par_recommendations_marilynas.json", (
+            "a Marilyna's par feed was created; mari has no pars")
+
+
+def test_mari_pizza_lines_are_needs_recipe_not_alias_failures():
+    """A pizza is a finished good: it consumes flour/cheese/pepperoni through a
+    RECIPE. Classing it as an alias failure would send someone hunting for a par
+    SKU that should never exist, and would drown the real alias queue."""
+    import json as _json
+    rep = _json.load(open(f"{DATA}/par_unattributed_marilynas.json"))
+    needs = rep.get("needs_recipe") or []
+    assert len(needs) > 50, "the pizza recipe backlog should be reported, not hidden"
+    names = " ".join(str(r.get("product", "")) for r in needs).lower()
+    assert "pizza" in names or "pepperoni" in names or "margherita" in names
+
+
+def test_mari_recipe_backlog_does_not_hard_fail_the_build():
+    """It is a known, quantified backlog — reported loudly, but it must not
+    block the weekly run, or the run is red forever and nobody reads it."""
+    import json as _json
+    rep = _json.load(open(f"{DATA}/par_unattributed_marilynas.json"))
+    needs = rep.get("needs_recipe") or []
+    gated = {str(r.get("product", "")) for r in (rep.get("unattributed") or [])}
+    for r in needs:
+        assert str(r.get("product", "")) not in gated, (
+            "a needs_recipe line is also counted against the hard gate")
+
+
+def test_hg_shared_stock_skus_are_zeroed():
+    """Regression: Zak zeroed HG's pars for [HG] SKUs (Stowaway stock) and
+    discontinued Kaiju outright."""
+    recs, _ = model.compute_venue("hg", DATA)
+    for sku in ("Hyoketsu Lemon [HG]", "Trutta Streamside Shiraz - Bottle [HG]",
+                "Two Tonne Riesling - Bottle [HG]", "Kaiju Hazy Pale [HG]"):
+        r = recs.get(sku)
+        if r is None:
+            continue
+        assert r["rec_par"] == 0.0, f"{sku} should be zeroed, got {r['rec_par']}"
+        assert (r.get("override") or {}).get("type") == "zero", sku

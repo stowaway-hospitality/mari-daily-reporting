@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-10T13:24:39.893607+10:00",
+  "generated_at": "2026-08-10T14:11:58.113607+10:00",
   "venue": "hg",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 95,
@@ -50,13 +50,15 @@
       "reporting_group": "",
       "rec_par": 2.0,
       "rec_par_pre_override": 2.0,
+      "rec_par_modelled": 2.0,
       "current_par": 0.8,
       "drivers": {
         "pour_wk": 0.39,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.39,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -103,13 +105,15 @@
       "reporting_group": "Red Wine [Harrys]",
       "rec_par": 6.1,
       "rec_par_pre_override": 6.1,
+      "rec_par_modelled": 6.1,
       "current_par": 3.7,
       "drivers": {
         "pour_wk": 2.04,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 2.04,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -154,13 +158,15 @@
       "reporting_group": "Rose Wine [Harrys]",
       "rec_par": 3.0,
       "rec_par_pre_override": 3.0,
+      "rec_par_modelled": 3.0,
       "current_par": 4.3,
       "drivers": {
         "pour_wk": 0.88,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.88,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -205,13 +211,15 @@
       "reporting_group": "Amaro / Aperitif / Fortified Wine [Harrys]",
       "rec_par": 2.0,
       "rec_par_pre_override": 2.0,
+      "rec_par_modelled": 2.0,
       "current_par": 0.8,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.48,
         "variance_wk": 0.0,
         "true_wk": 0.48,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -258,13 +266,15 @@
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
       "rec_par": 4.0,
       "rec_par_pre_override": 4.0,
+      "rec_par_modelled": 4.0,
       "current_par": 11.4,
       "drivers": {
         "pour_wk": 1.28,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 1.28,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -309,13 +319,15 @@
       "reporting_group": "Non-Alcoholic [Harrys]",
       "rec_par": 6.0,
       "rec_par_pre_override": 6.0,
+      "rec_par_modelled": 6.0,
       "current_par": 4.7,
       "drivers": {
         "pour_wk": 1.69,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 1.69,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -360,13 +372,15 @@
       "reporting_group": "Red Wine [Harrys]",
       "rec_par": 4.6,
       "rec_par_pre_override": 4.6,
+      "rec_par_modelled": 0.0,
       "current_par": 4.6,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -413,13 +427,15 @@
       "reporting_group": "Red Wine [Harrys]",
       "rec_par": 4.0,
       "rec_par_pre_override": 4.0,
+      "rec_par_modelled": 4.0,
       "current_par": 3.5,
       "drivers": {
         "pour_wk": 1.27,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 1.27,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -464,13 +480,15 @@
       "reporting_group": "",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 0.3,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -517,13 +535,15 @@
       "reporting_group": "",
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.0,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -535,9 +555,9 @@
         "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
-        "service_class": "standard",
-        "service_level": 0.9,
-        "z": 1.282,
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.0,
         "shrink_multiplier": 1.0,
@@ -570,13 +590,15 @@
       "reporting_group": "Vodkas [Harrys]",
       "rec_par": 0.5,
       "rec_par_pre_override": 0.5,
+      "rec_par_modelled": 0.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -623,13 +645,15 @@
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
       "rec_par": 7.0,
       "rec_par_pre_override": 7.0,
+      "rec_par_modelled": 7.0,
       "current_par": 8.3,
       "drivers": {
         "pour_wk": 2.14,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 2.14,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -674,13 +698,15 @@
       "reporting_group": "",
       "rec_par": 2.0,
       "rec_par_pre_override": 1.0,
+      "rec_par_modelled": 1.0,
       "current_par": 2,
       "drivers": {
         "pour_wk": 0.09,
         "recipe_wk": 0.11,
         "variance_wk": 0.0,
         "true_wk": 0.2,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -732,13 +758,15 @@
       "reporting_group": "",
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.0,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -785,13 +813,15 @@
       "reporting_group": "",
       "rec_par": 1.0,
       "rec_par_pre_override": 1.0,
+      "rec_par_modelled": 1.0,
       "current_par": 0.4,
       "drivers": {
         "pour_wk": 0.02,
         "recipe_wk": 0.12,
         "variance_wk": 0.0,
         "true_wk": 0.14,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -838,13 +868,15 @@
       "reporting_group": "Tequila [Harrys]",
       "rec_par": 0.5,
       "rec_par_pre_override": 0.5,
+      "rec_par_modelled": 0.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -891,13 +923,15 @@
       "reporting_group": "Amaro / Aperitif / Fortified Wine [Harrys]",
       "rec_par": 2.0,
       "rec_par_pre_override": 1.0,
+      "rec_par_modelled": 1.0,
       "current_par": 2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.1,
         "variance_wk": 0.0,
         "true_wk": 0.1,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -949,13 +983,15 @@
       "reporting_group": "",
       "rec_par": 0.5,
       "rec_par_pre_override": 0.5,
+      "rec_par_modelled": 0.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1002,13 +1038,15 @@
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
       "rec_par": 5.0,
       "rec_par_pre_override": 5.0,
+      "rec_par_modelled": 5.0,
       "current_par": 8.2,
       "drivers": {
         "pour_wk": 1.44,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 1.44,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1053,13 +1091,15 @@
       "reporting_group": "Rums [Harrys]",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.01,
         "variance_wk": 0.0,
         "true_wk": 0.01,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1106,13 +1146,15 @@
       "reporting_group": "",
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.0,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1159,13 +1201,15 @@
       "reporting_group": "Amaro / Aperitif / Fortified Wine [Harrys]",
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.1,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
         "variance_wk": 0.0,
         "true_wk": 0.03,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1212,13 +1256,15 @@
       "reporting_group": "Orange / Skins Wine [Harrys]",
       "rec_par": 0.0,
       "rec_par_pre_override": 1.0,
+      "rec_par_modelled": 1.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.12,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.12,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1270,13 +1316,15 @@
       "reporting_group": "Gins [Harrys]",
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.0,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1323,13 +1371,15 @@
       "reporting_group": "",
       "rec_par": 0.5,
       "rec_par_pre_override": 0.5,
+      "rec_par_modelled": 0.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1376,13 +1426,15 @@
       "reporting_group": "Red Wine [Harrys]",
       "rec_par": 4.0,
       "rec_par_pre_override": 4.0,
+      "rec_par_modelled": 4.0,
       "current_par": 2.8,
       "drivers": {
         "pour_wk": 1.14,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 1.14,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1427,13 +1479,15 @@
       "reporting_group": "White Wine [Harrys]",
       "rec_par": 3.0,
       "rec_par_pre_override": 3.0,
+      "rec_par_modelled": 3.0,
       "current_par": 2.8,
       "drivers": {
         "pour_wk": 0.97,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.97,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1478,13 +1532,15 @@
       "reporting_group": "",
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.0,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1531,13 +1587,15 @@
       "reporting_group": "Vodkas [Harrys]",
       "rec_par": 1.0,
       "rec_par_pre_override": 1.0,
+      "rec_par_modelled": 1.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.13,
         "variance_wk": 0.0,
         "true_wk": 0.13,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1584,13 +1642,15 @@
       "reporting_group": "Gins [Harrys]",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 0.3,
       "drivers": {
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.01,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1637,13 +1697,15 @@
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 2.4,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1655,9 +1717,9 @@
         "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
-        "service_class": "tail",
-        "service_level": 0.85,
-        "z": 1.036,
+        "service_class": "standard",
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.0,
         "shrink_multiplier": 1.0,
@@ -1693,13 +1755,15 @@
       "reporting_group": "",
       "rec_par": 3.1,
       "rec_par_pre_override": 1.0,
+      "rec_par_modelled": 1.0,
       "current_par": 2.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.09,
         "variance_wk": 0.0,
         "true_wk": 0.09,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1751,13 +1815,15 @@
       "reporting_group": "Sake & Soju [Harrys]",
       "rec_par": 1.0,
       "rec_par_pre_override": 1.0,
+      "rec_par_modelled": 1.0,
       "current_par": 3.7,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.2,
         "variance_wk": 0.0,
         "true_wk": 0.2,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1804,13 +1870,15 @@
       "reporting_group": "Sake & Soju [Harrys]",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 3.3,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.04,
         "variance_wk": 0.0,
         "true_wk": 0.04,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1857,13 +1925,15 @@
       "reporting_group": "",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
         "variance_wk": 0.0,
         "true_wk": 0.02,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1910,13 +1980,15 @@
       "reporting_group": "Liqueurs [Harrys]",
       "rec_par": 1.5,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.1,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
         "variance_wk": 0.0,
         "true_wk": 0.03,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -1969,13 +2041,15 @@
       "reporting_group": "Liqueurs [Harrys]",
       "rec_par": 1.5,
       "rec_par_pre_override": 1.5,
+      "rec_par_modelled": 0.0,
       "current_par": 1.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2022,13 +2096,15 @@
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 1.4,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2078,13 +2154,15 @@
       "reporting_group": "",
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.1,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.02,
         "recipe_wk": 0.01,
         "variance_wk": 0.0,
         "true_wk": 0.03,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2131,13 +2209,15 @@
       "reporting_group": "White Wine [Harrys]",
       "rec_par": 4.0,
       "rec_par_pre_override": 4.0,
+      "rec_par_modelled": 0.0,
       "current_par": 4,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2149,9 +2229,9 @@
         "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
-        "service_class": "standard",
-        "service_level": 0.9,
-        "z": 1.282,
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.0,
         "shrink_multiplier": 1.0,
@@ -2184,13 +2264,15 @@
       "reporting_group": "White Wine [Harrys]",
       "rec_par": 2.0,
       "rec_par_pre_override": 2.0,
+      "rec_par_modelled": 2.0,
       "current_par": 2.8,
       "drivers": {
         "pour_wk": 0.53,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.53,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2237,13 +2319,15 @@
       "reporting_group": "Liqueurs [Harrys]",
       "rec_par": 6.0,
       "rec_par_pre_override": 6.0,
+      "rec_par_modelled": 6.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 1.88,
         "variance_wk": 0.0,
         "true_wk": 1.88,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2290,13 +2374,15 @@
       "reporting_group": "Liqueurs [Harrys]",
       "rec_par": 0.5,
       "rec_par_pre_override": 0.5,
+      "rec_par_modelled": 0.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2343,13 +2429,15 @@
       "reporting_group": "",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2399,13 +2487,15 @@
       "reporting_group": "Rose Wine [Harrys]",
       "rec_par": 5.0,
       "rec_par_pre_override": 5.0,
+      "rec_par_modelled": 5.0,
       "current_par": 6,
       "drivers": {
         "pour_wk": 1.47,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 1.47,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2450,13 +2540,15 @@
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
       "rec_par": 4.0,
       "rec_par_pre_override": 4.0,
+      "rec_par_modelled": 4.0,
       "current_par": 2.1,
       "drivers": {
         "pour_wk": 1.19,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 1.19,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2501,13 +2593,15 @@
       "reporting_group": "",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
         "variance_wk": 0.0,
         "true_wk": 0.02,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2554,13 +2648,15 @@
       "reporting_group": "",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.01,
         "variance_wk": 0.0,
         "true_wk": 0.01,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2607,13 +2703,15 @@
       "reporting_group": "",
       "rec_par": 0.3,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.1,
       "current_par": 0.3,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
         "variance_wk": 0.0,
         "true_wk": 0.03,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2665,13 +2763,15 @@
       "reporting_group": "",
       "rec_par": 1.0,
       "rec_par_pre_override": 1.0,
+      "rec_par_modelled": 1.0,
       "current_par": 0.3,
       "drivers": {
         "pour_wk": 0.04,
         "recipe_wk": 0.08,
         "variance_wk": 0.0,
         "true_wk": 0.12,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2718,13 +2818,15 @@
       "reporting_group": "Liqueurs [Harrys]",
       "rec_par": 1.0,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.1,
       "current_par": 1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.04,
         "variance_wk": 0.0,
         "true_wk": 0.04,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2776,13 +2878,15 @@
       "reporting_group": "Whiskies [Harrys]",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
         "variance_wk": 0.0,
         "true_wk": 0.02,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2829,13 +2933,15 @@
       "reporting_group": "",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2882,13 +2988,15 @@
       "reporting_group": "Amaro / Aperitif / Fortified Wine [Harrys]",
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.1,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
         "variance_wk": 0.0,
         "true_wk": 0.03,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2935,13 +3043,15 @@
       "reporting_group": "Red Wine [Harrys]",
       "rec_par": 1.0,
       "rec_par_pre_override": 1.0,
+      "rec_par_modelled": 1.0,
       "current_par": 2,
       "drivers": {
         "pour_wk": 0.21,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.21,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -2988,13 +3098,15 @@
       "reporting_group": "Red Wine [Harrys]",
       "rec_par": 2.0,
       "rec_par_pre_override": 2.0,
+      "rec_par_modelled": 2.0,
       "current_par": 2,
       "drivers": {
         "pour_wk": 0.58,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.58,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3041,13 +3153,15 @@
       "reporting_group": "Sparkling Wine [Harrys]",
       "rec_par": 6.0,
       "rec_par_pre_override": 6.0,
+      "rec_par_modelled": 6.0,
       "current_par": 6,
       "drivers": {
         "pour_wk": 1.16,
         "recipe_wk": 0.69,
         "variance_wk": 0.0,
         "true_wk": 1.85,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3092,13 +3206,15 @@
       "reporting_group": "",
       "rec_par": 0.5,
       "rec_par_pre_override": 0.5,
+      "rec_par_modelled": 0.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3145,13 +3261,15 @@
       "reporting_group": "",
       "rec_par": 0.5,
       "rec_par_pre_override": 0.5,
+      "rec_par_modelled": 0.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3198,13 +3316,15 @@
       "reporting_group": "",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3254,13 +3374,15 @@
       "reporting_group": "Gins [Harrys]",
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.0,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3307,13 +3429,15 @@
       "reporting_group": "",
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.1,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
         "variance_wk": 0.0,
         "true_wk": 0.03,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3360,13 +3484,15 @@
       "reporting_group": "White Wine [Harrys]",
       "rec_par": 9.4,
       "rec_par_pre_override": 9.4,
+      "rec_par_modelled": 0.0,
       "current_par": 9.4,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3378,9 +3504,9 @@
         "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
-        "service_class": "tail",
-        "service_level": 0.85,
-        "z": 1.036,
+        "service_class": "standard",
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.0,
         "shrink_multiplier": 1.0,
@@ -3413,13 +3539,15 @@
       "reporting_group": "White Wine [Harrys]",
       "rec_par": 8.8,
       "rec_par_pre_override": 8.8,
+      "rec_par_modelled": 8.8,
       "current_par": 5.5,
       "drivers": {
         "pour_wk": 2.95,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 2.95,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3464,13 +3592,15 @@
       "reporting_group": "Gins [Harrys]",
       "rec_par": 0.2,
       "rec_par_pre_override": 0.2,
+      "rec_par_modelled": 0.0,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3517,13 +3647,15 @@
       "reporting_group": "Tequila [Harrys]",
       "rec_par": 19.6,
       "rec_par_pre_override": 4.0,
+      "rec_par_modelled": 4.0,
       "current_par": 16,
       "drivers": {
         "pour_wk": 0.04,
         "recipe_wk": 1.13,
         "variance_wk": 0.0,
         "true_wk": 1.17,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3574,13 +3706,15 @@
       "reporting_group": "",
       "rec_par": 0.4,
       "rec_par_pre_override": 0.4,
+      "rec_par_modelled": 0.0,
       "current_par": 0.4,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3627,13 +3761,15 @@
       "reporting_group": "",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
         "variance_wk": 0.0,
         "true_wk": 0.03,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3680,13 +3816,15 @@
       "reporting_group": "",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3733,13 +3871,15 @@
       "reporting_group": "",
       "rec_par": 2.0,
       "rec_par_pre_override": 2.0,
+      "rec_par_modelled": 2.0,
       "current_par": 0.7,
       "drivers": {
         "pour_wk": 0.11,
         "recipe_wk": 0.3,
         "variance_wk": 0.0,
         "true_wk": 0.41,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3786,13 +3926,15 @@
       "reporting_group": "",
       "rec_par": 0.5,
       "rec_par_pre_override": 0.5,
+      "rec_par_modelled": 0.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3839,13 +3981,15 @@
       "reporting_group": "",
       "rec_par": 0.5,
       "rec_par_pre_override": 0.5,
+      "rec_par_modelled": 0.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3892,13 +4036,15 @@
       "reporting_group": "Tap Beer [Harrys]",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.01,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3945,13 +4091,15 @@
       "reporting_group": "",
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.1,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.05,
         "variance_wk": 0.0,
         "true_wk": 0.05,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -3998,13 +4146,15 @@
       "reporting_group": "",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.0,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -4054,13 +4204,15 @@
       "reporting_group": "Red Wine [Harrys]",
       "rec_par": 0.0,
       "rec_par_pre_override": 6.0,
+      "rec_par_modelled": 6.0,
       "current_par": 1.9,
       "drivers": {
         "pour_wk": 1.92,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 1.92,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -4111,13 +4263,15 @@
       "reporting_group": "Bottles / Cans Alcoholic [Harrys]",
       "rec_par": 6.3,
       "rec_par_pre_override": 6.3,
+      "rec_par_modelled": 6.3,
       "current_par": 4.2,
       "drivers": {
         "pour_wk": 2.11,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 2.11,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -4162,13 +4316,15 @@
       "reporting_group": "White Wine [Harrys]",
       "rec_par": 0.0,
       "rec_par_pre_override": 1.0,
+      "rec_par_modelled": 1.0,
       "current_par": 0.8,
       "drivers": {
         "pour_wk": 0.22,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.22,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -4220,13 +4376,15 @@
       "reporting_group": "",
       "rec_par": 1.0,
       "rec_par_pre_override": 1.0,
+      "rec_par_modelled": 1.0,
       "current_par": 1,
       "drivers": {
         "pour_wk": 0.07,
         "recipe_wk": 0.0,
         "variance_wk": 0.0,
         "true_wk": 0.07,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -4273,13 +4431,15 @@
       "reporting_group": "Sake & Soju [Harrys]",
       "rec_par": 0.0,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.03,
         "variance_wk": 0.0,
         "true_wk": 0.03,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,
@@ -4326,13 +4486,15 @@
       "reporting_group": "Vodkas [Harrys]",
       "rec_par": 0.5,
       "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
         "variance_wk": 0.0,
         "true_wk": 0.02,
-        "cross_venue_wk": 0.0
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
       },
       "shrinkage": {
         "loss_per_week": 0.0,

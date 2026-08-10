@@ -136,6 +136,7 @@
     "Sprite Can": "stow:Sprite Can",
     "Zagara Orange [HG]": "stow:Year Wines 'Zagara' Orange - Bottle"
   },
+  "mari": {},
   "_notes": {
     "stow": {
       "Fresh is Best Lager": "House-brand tap lager. NOT a guess: data/recipes/stowaway.yaml defines 'Fresh is Best Lager - Schooner/- Pint' with the single ingredient 'Alehouse Draught Lager [Keg]'. Alehouse is the contract brewer; 'Fresh is Best' is the customer-facing name. The keg par SKU carried a live par of 4.6 with zero attributed volume, which is the drift signature.",
@@ -179,6 +180,12 @@
       "Coke Can": "stow:Coke Can (live Stowaway par 32.5). 0.23/wk at HG.",
       "Sprite Can": "stow:Sprite Can (live Stowaway par 17.7). 0.08/wk at HG.",
       "_no_alias_Diet Coke Can": "NOT mapped, deliberately. HG sells 'Diet Coke Can' 0.31/wk. Stowaway stocks 'Coke Zero Can', not Diet Coke — there is no Diet Coke SKU anywhere in data/bo_exports/stowaway_products.csv (only Coke, Coke Zero, Sprite in can and 1.25L). Coke Zero and Diet Coke are different products with different formulations and different order codes, so mapping one to the other would put a real Diet Coke order on a Coke Zero par and silently mis-state both. Left in _unmapped_investigate until Zak confirms whether HG's Diet Coke button is actually poured from Coke Zero stock (in which case alias it to 'stow:Coke Zero Can') or whether Diet Coke is a genuine separate line that needs its own stock item."
+    },
+    "mari": {
+      "_why_this_map_exists": "Zak, 2026-08-10: 'and yes you need to figure out marilynas consumption as well! that all gets lumped into the stowaway lightspeed pars'. Marilyna's has NO till and NO Purchase module — its sales are an attributed slice of the Stowaway till and its stock is Stowaway's stock. It therefore owns no par SKU, and EVERY entry in this map must carry the 'stow:' prefix. A bare target is not 'a Marilyna's par SKU', it is an error, and the build fails on it: par_universe('mari') is the empty set by construction, so unknown_targets() reports any unprefixed value.",
+      "_why_it_is_empty_today": "It is empty because it does not need to be full. MariNameRule resolves a mari till line whose NORMALISED NAME IS a Stowaway par SKU, so the eleven lines that carry real Stowaway stock today — Coke Zero Can 6.85/wk, Coke 1.25L 5.38, Sprite Can 4.85, Coke Can 4.69, Coke Zero 1.25L 3.46, Solo 1.25L 1.54, Sprite 1.25L 1.00, Grifter Pale Ale Cans D 0.92, Grifter Serpents Kiss Can 0.38, Sunkist 1.25L 0.31, 4 Pines Kolsch Bottle D 0.08 — resolve with no file edit, and so will the next one. An entry here is only needed where the rule REFUSES, and every refusal is listed with the near-miss SKU in data/par_unattributed_marilynas.json `auto_unresolved`.",
+      "_the_work_queue": "Thirty-nine mari lines still reach no par SKU and are not pizza: 37 'Delivery Alcohol' lines ($1,843/13wk) and 2 soft drinks ($200/13wk). Most are one exact-name edit away — 'Kuku Sauvignon Blanc D' -> 'stow:Kuku Sauvignon Blanc - Bottle', 'Bundaberg Ginger Beer D' -> 'stow:Bundaberg Ginger Beer [750ml]', 'VB Can D' -> 'stow:VB Tinnie'. They are NOT written here yet on purpose: the loose container-base matcher that would place them automatically is switched OFF for Marilyna's (see MariNameRule), because run over a catalogue that is 80% pizza it also matches the add-on 'Sour Cream' to the 2-litre tub 'Sour Cream [2L]' and 'Status Quo Can D' to a 50-litre keg. Each alias below should be a human confirming the stock is the same, once — not a machine guessing it weekly. Nothing is silent in the meantime: all 39 are in the report with the SKU each would point at.",
+      "_pizza_is_not_an_alias_problem": "215 mari lines (659 units/wk, $136,281 ex-GST over 13 weeks) are pizzas, pizza add-ons and cocktail jars. They consume Stowaway stock through INGREDIENTS — flour, mozzarella, pepperoni, bases, boxes — so no alias can ever place them and none should be written here. They are classified `needs_recipe`, quantified in data/_par_review/marilynas_recipe_gap.md, and deliberately excluded from the $2,000 unattributed gate."
     }
   },
   "_intentionally_unattributed": {

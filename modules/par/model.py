@@ -27,6 +27,14 @@ WHAT CHANGED FROM v2 (and why)
    `BOOKINGS_LIVE = False`) — the uplift is recorded as `bookings_uplift_shadow`.
 6. The old spike floor is DEMOTED to a sanity floor: the 90th-percentile week of
    the seasonal window, floor only, never the primary driver.
+7. **Three venues sell; two hold stock.** Harry Gatos and Marilyna's both pour
+   out of STOWAWAY's par SKUs. HG does it for the shared taps and the '[HG]'
+   products; Marilyna's does it for everything, because it has no till and no
+   Purchase module at all — "that all gets lumped into the stowaway lightspeed
+   pars" (Zak, 2026-08-10). Both are handled by ONE mechanism: a
+   CrossVenueNameRule per source venue, an alias file that can override it, and
+   `source_venue_report()` for the venue that has no build of its own. See
+   PAR_VENUES / SOURCE_ONLY_VENUES.
 
 Original v2 notes follow.
 
@@ -161,9 +169,20 @@ ALIAS_FILE = "par_aliases.json"
 VENUE_RECIPE_FILE = {"stow": "stowaway", "hg": "harry_gatos"}
 VENUE_SCRAPE_FILE = {"stow": "_scrape_stow_20260809.json", "hg": "_scrape_hg_20260809.json"}
 VENUE_BO_FILE = {"stow": "stowaway", "hg": "harry_gatos"}
-# The venues the par model computes. Also the legal prefixes for a CROSS-VENUE
-# alias target ("stow:Kirin [Keg]") — see AliasBook.
-VENUE_CODES = ("stow", "hg")
+# The venues that HAVE pars of their own — the ones compute_venue() can be asked
+# for, and the only ones a par SKU can belong to.
+PAR_VENUES = ("stow", "hg")
+# Venues that sell but hold NO stock of their own. Marilyna's has no till and no
+# Purchase module: it is a trading name over Stowaway's single till, its stock is
+# Stowaway's stock, and it is ordered against STOWAWAY par SKUs. It is a SOURCE
+# of demand and never a destination for it. See MariNameRule.
+SOURCE_ONLY_VENUES = ("mari",)
+# Every venue code the model knows. Also the legal prefixes for a CROSS-VENUE
+# alias target ("stow:Kirin [Keg]") — see AliasBook. A source-only venue is a
+# legal PREFIX SOURCE (its book may point at "stow:...") but must never appear
+# as a target venue, because it owns no par SKU to be a target of; that is
+# asserted in assert_no_par_leakage() and covered by a test.
+VENUE_CODES = PAR_VENUES + SOURCE_ONLY_VENUES
 
 # ── the [HG] suffix rule ────────────────────────────────────────────────────
 # Zak, 2026-08-10, verbatim: "same as the wines. pretty much any SKU labelled
@@ -178,6 +197,28 @@ VENUE_CODES = ("stow", "hg")
 HG_SUFFIX_VENUE = "hg"          # the venue whose till carries the suffix
 HG_SUFFIX_STOCK_VENUE = "stow"  # the venue whose stock it actually draws on
 _HG_SUFFIX_RE = re.compile(r"\[\s*hg\s*\]", re.I)
+
+# ── Marilyna's ──────────────────────────────────────────────────────────────
+# Zak, 2026-08-10, verbatim: "and yes you need to figure out marilynas
+# consumption as well! that all gets lumped into the stowaway lightspeed pars".
+#
+# Marilyna's is the pizza business trading out of Stowaway. It has NO till of
+# its own — its sales are an attributed slice of the Stowaway till — and no
+# Purchase module, so it holds no par SKUs. Every physical thing it sells comes
+# off STOWAWAY's shelf and is reordered against a STOWAWAY par SKU.
+#
+# The par model ignored venue `mari` entirely, so ~29 units a week of soft drink
+# and canned beer were consumed against Stowaway pars with no demand signal
+# anywhere. Two of those pars — 'Coke Can' (live 32.5) and 'Sprite Can' (17.7) —
+# were sitting on `held_no_recent_demand` for exactly that reason: their real
+# demand IS Marilyna's, and the model could not see it.
+#
+# So `mari` becomes a third SOURCE venue for the cross-venue machinery that
+# already carries Harry Gatos' shared stock. Same alias file, same "<venue>:sku"
+# targets, same unit conversions, same no-double-count guarantee, same safety
+# property (foreign volume may RAISE a Stowaway par, never release a hold).
+MARI_VENUE = "mari"             # the venue whose till lines these are
+MARI_STOCK_VENUE = "stow"       # the venue whose stock they actually draw on
 
 
 # ── text helpers ────────────────────────────────────────────────────────────
@@ -488,6 +529,14 @@ class AliasBook:
         opposed to it being derived by an automatic rule)."""
         return _norm(pos_name) in self._by_norm
 
+    def auto_rule_via(self):
+        """The `via` label for a line this book's automatic rule placed.
+
+        Reports stamp every routed line with WHO decided it — "alias" for a
+        human, the rule's own name for a machine. With two rules live that can
+        no longer be a constant."""
+        return getattr(self.auto_rule, "VIA", "auto_rule")
+
     def resolve(self, pos_name):
         """(venue, par SKU) this POS line belongs to, or (None, None).
 
@@ -571,7 +620,157 @@ class AliasBook:
         return out
 
 
-class HGSuffixRule:
+class CrossVenueNameRule:
+    """Shared machinery for an AUTOMATIC cross-venue resolver.
+
+    A rule of this shape says: "a till line at venue X, matched BY NAME against
+    venue Y's par universe, consumes venue Y's stock". Two facts about this
+    business need saying that way rather than as a list — Harry Gatos' '[HG]'
+    products and every one of Marilyna's soft drinks — and a list rots: the next
+    product sells for months into an empty par before anyone reads the report.
+
+    A subclass supplies three things and inherits everything else:
+
+      * `applies(pos_name)`  — is this line the rule's business at all?
+      * `prepare(pos_name)`  — the name to match with (the [HG] rule strips its
+                               suffix here; Marilyna's uses the name as written).
+      * `CONTAINER_TIER`     — whether the loose container-base tier is allowed.
+
+    RESOLUTION IS BY NAME, IN TIERS, AND IT NEVER GUESSES:
+
+      1. EXACT on the normalised prepared name.
+      2. VARIANT/CONTAINER base (only when `CONTAINER_TIER` is on), which is
+         where the real catalogue drift lives — the same physical item written
+         '- Bottle', '[Bottle]', '[Keg]', 'Can' or 'Tin' by different people.
+         A tie between several SKUs sharing a base is broken only by a FACT,
+         never a preference: the one that carries a LIVE par is the stock
+         actually held and ordered. If that still leaves more than one, or none,
+         the rule REFUSES.
+
+    A refusal is not a failure — it is the point. The line stays unattributed,
+    the existing coverage guard sees it, and it is listed with the name a human
+    needs to write the explicit alias. Silence is the bug class this whole area
+    exists to prevent; a wrong par is the other one. Refusing produces neither.
+
+    Every ask is recorded (`resolved` / `unresolved`) so the build shows its
+    working and an automatic mapping is never indistinguishable from a reviewed
+    one.
+    """
+
+    # Tier 2. ON for [HG], where the suffix itself proves the line is a
+    # beverage/menu twin of a Stowaway stock item and the only open question is
+    # which container. OFF for Marilyna's — see MariNameRule for why.
+    CONTAINER_TIER = True
+    EMPTY_REASON = "name is empty once the rule's marker is removed"
+    # The `via` label stamped on every line this rule routes, so a derived
+    # mapping is never indistinguishable from a human's in the reports.
+    VIA = "auto_rule"
+
+    def __init__(self, stock_venue, par_names, live_pars=None):
+        self.stock_venue = stock_venue
+        self.live = dict(live_pars or {})
+        self.exact, self.base = {}, defaultdict(list)
+        # DETERMINISM: sort first. `par_names` is a set, and both indexes below
+        # can collide, so an unsorted walk would make the winner depend on the
+        # per-process string hash seed — the same trap ParIndex documents.
+        for nm in sorted(par_names):
+            self.exact.setdefault(_norm(nm), nm)
+            self.base[_hg_match_base(nm)].append(nm)
+        self.resolved = {}     # pos_name -> {"sku":..., "match":..., "stripped":...}
+        self.unresolved = {}   # pos_name -> {"reason":..., "stripped":...}
+
+    # ── the two hooks a subclass overrides ──────────────────────────────────
+    def applies(self, pos_name) -> bool:
+        """Is this POS line the rule's business at all?"""
+        return True
+
+    def prepare(self, pos_name) -> str:
+        """The name to match with."""
+        return str(pos_name or "").strip()
+
+    # ── the shared resolution ───────────────────────────────────────────────
+    def _container_candidates(self, stripped):
+        return sorted(set(self.base.get(_hg_match_base(stripped), [])))
+
+    def match(self, pos_name):
+        """(sku or None, prepared name, why). Pure — records nothing."""
+        stripped = self.prepare(pos_name)
+        if not stripped:
+            return None, stripped, self.EMPTY_REASON
+        hit = self.exact.get(_norm(stripped))
+        if hit:
+            return hit, stripped, "exact"
+        cands = self._container_candidates(stripped)
+        if not self.CONTAINER_TIER:
+            # Tier 2 is off, so this is a refusal — but the near-miss is the
+            # single most useful thing a human needs to write the alias, so it
+            # is named in the reason rather than discarded.
+            near = (f" (nearest {self.stock_venue} par SKU by container base: "
+                    f"{cands[0]!r} — write an explicit alias if that is the "
+                    f"same stock)" if len(cands) == 1 else "")
+            return None, stripped, (
+                f"no {self.stock_venue} par SKU matches {stripped!r} exactly{near}")
+        if not cands:
+            return None, stripped, (
+                f"no {self.stock_venue} par SKU matches {stripped!r}")
+        if len(cands) == 1:
+            return cands[0], stripped, "variant/container"
+        live = [c for c in cands if self.live.get(c) is not None]
+        if len(live) == 1:
+            return live[0], stripped, "variant/container (only one with a live par)"
+        return None, stripped, (
+            f"ambiguous — {len(cands)} {self.stock_venue} par SKUs share this "
+            f"name: {cands}")
+
+    def resolve(self, pos_name):
+        """(stock venue, par SKU) or (None, None). Records the ask either way."""
+        if not self.applies(pos_name):
+            return (None, None)
+        sku, stripped, why = self.match(pos_name)
+        if sku is None:
+            self.unresolved[pos_name] = {"stripped": stripped, "reason": why}
+            return (None, None)
+        self.resolved[pos_name] = {"sku": sku, "match": why, "stripped": stripped}
+        return (self.stock_venue, sku)
+
+
+class MariNameRule(CrossVenueNameRule):
+    """Marilyna's, mechanised: a mari till line whose name IS a Stowaway par SKU
+    consumes that Stowaway stock.
+
+        "and yes you need to figure out marilynas consumption as well! that all
+         gets lumped into the stowaway lightspeed pars"  — Zak, 2026-08-10
+
+    Structurally identical to the [HG] rule — automatic, overridable by an
+    explicit alias, records its working, refuses to guess — with ONE deliberate
+    difference: **tier 2 (the loose container base) is OFF**.
+
+    WHY. The [HG] suffix is itself evidence: a line carrying it is a Harry Gatos
+    menu twin of a Stowaway stock item, so the only open question is which
+    container, and guessing the container is what tier 2 is for. Marilyna's
+    catalogue carries no such marker and is not a beverage catalogue — it is
+    9,975 pizza lines, 2,801 pizza add-ons and 752 soft drinks in one namespace.
+    Run over it, tier 2 matches 'Sour Cream' (an add-on portion, 2.1/wk) to the
+    stock item 'Sour Cream [2L]' and would order 2.1 two-litre tubs a week, and
+    matches 'Status Quo Can D' to 'Status Quo [Keg]'. Both are wrong, and both
+    are wrong in the direction this module cares most about: a par built on a
+    unit conversion nobody chose.
+
+    So mari resolves on the EXACT normalised name and nothing else. That is what
+    Zak's own measurement described ("9 lines match a Stowaway par SKU exactly by
+    normalised name"), and it costs nothing real: the fifteen lines tier 2 would
+    have added are $860 of 13-week revenue at 0.08–1.15 units a week each. Every
+    one of them is named in `mari_unresolved` with the SKU it would have matched,
+    so writing the explicit alias is mechanical — a decision a human makes once,
+    rather than a guess the model makes every week.
+    """
+
+    CONTAINER_TIER = False
+    EMPTY_REASON = "empty product name"
+    VIA = "mari_name_rule"
+
+
+class HGSuffixRule(CrossVenueNameRule):
     """Zak's rule, mechanised: an HG till line marked '[HG]' consumes STOWAWAY
     stock.
 
@@ -607,50 +806,15 @@ class HGSuffixRule:
     working.
     """
 
-    def __init__(self, stock_venue, par_names, live_pars=None):
-        self.stock_venue = stock_venue
-        self.live = dict(live_pars or {})
-        self.exact, self.base = {}, defaultdict(list)
-        # DETERMINISM: sort first. `par_names` is a set, and both indexes below
-        # can collide, so an unsorted walk would make the winner depend on the
-        # per-process string hash seed — the same trap ParIndex documents.
-        for nm in sorted(par_names):
-            self.exact.setdefault(_norm(nm), nm)
-            self.base[_hg_match_base(nm)].append(nm)
-        self.resolved = {}     # pos_name -> {"sku":..., "match":..., "stripped":...}
-        self.unresolved = {}   # pos_name -> {"reason":..., "stripped":...}
+    CONTAINER_TIER = True
+    EMPTY_REASON = "name is nothing but the [HG] suffix"
+    VIA = "hg_suffix_rule"
 
-    def match(self, pos_name):
-        """(sku or None, stripped name, why). Pure — records nothing."""
-        stripped = strip_hg_suffix(pos_name)
-        if not stripped:
-            return None, stripped, "name is nothing but the [HG] suffix"
-        hit = self.exact.get(_norm(stripped))
-        if hit:
-            return hit, stripped, "exact"
-        cands = sorted(set(self.base.get(_hg_match_base(stripped), [])))
-        if not cands:
-            return None, stripped, (
-                f"no {self.stock_venue} par SKU matches {stripped!r}")
-        if len(cands) == 1:
-            return cands[0], stripped, "variant/container"
-        live = [c for c in cands if self.live.get(c) is not None]
-        if len(live) == 1:
-            return live[0], stripped, "variant/container (only one with a live par)"
-        return None, stripped, (
-            f"ambiguous — {len(cands)} {self.stock_venue} par SKUs share this "
-            f"name: {cands}")
+    def applies(self, pos_name) -> bool:
+        return has_hg_suffix(pos_name)
 
-    def resolve(self, pos_name):
-        """(stock venue, par SKU) or (None, None). Records the ask either way."""
-        if not has_hg_suffix(pos_name):
-            return (None, None)
-        sku, stripped, why = self.match(pos_name)
-        if sku is None:
-            self.unresolved[pos_name] = {"stripped": stripped, "reason": why}
-            return (None, None)
-        self.resolved[pos_name] = {"sku": sku, "match": why, "stripped": stripped}
-        return (self.stock_venue, sku)
+    def prepare(self, pos_name) -> str:
+        return strip_hg_suffix(pos_name)
 
 
 def load_aliases(data_dir: str, venue: str) -> AliasBook:
@@ -666,20 +830,28 @@ def load_aliases(data_dir: str, venue: str) -> AliasBook:
 def attach_auto_rules(book: AliasBook, data_dir: str) -> AliasBook:
     """Install the automatic resolvers that apply to this venue's book.
 
-    Today there is exactly one: the [HG] suffix rule on Harry Gatos' book, which
-    resolves against STOWAWAY's par universe. Kept separate from AliasBook's
-    constructor so a test can build a book with no filesystem behind it, and so
-    the load path has one obvious place to add the next rule.
+    Two today, one per venue that draws on someone else's stock:
+
+      * Harry Gatos  — the [HG] suffix rule (HGSuffixRule),
+      * Marilyna's   — the exact-name rule (MariNameRule),
+
+    both resolving against STOWAWAY's par universe. Kept separate from
+    AliasBook's constructor so a test can build a book with no filesystem behind
+    it, and so the load path has one obvious place to add the next rule.
+
+    Deliberately NOT wrapped in a try/except. If Stowaway's feeds cannot be
+    read, a rule cannot resolve anything and every line it owns would silently
+    revert to unattributed — the exact failure this area exists to end. Let it
+    raise and fail the build loudly instead.
     """
-    if book.venue != HG_SUFFIX_VENUE:
+    rule_for = {HG_SUFFIX_VENUE: (HGSuffixRule, HG_SUFFIX_STOCK_VENUE),
+                MARI_VENUE: (MariNameRule, MARI_STOCK_VENUE)}
+    made = rule_for.get(book.venue)
+    if made is None:
         return book
-    sv = HG_SUFFIX_STOCK_VENUE
-    # Deliberately NOT wrapped in a try/except. If Stowaway's feeds cannot be
-    # read, the rule cannot resolve anything and every [HG] line would silently
-    # revert to unattributed — the exact failure this area exists to end. Let it
-    # raise and fail the build loudly instead.
+    cls, sv = made
     return book.attach_auto_rule(
-        HGSuffixRule(sv, par_universe(data_dir, sv), load_scrape(data_dir, sv)))
+        cls(sv, par_universe(data_dir, sv), load_scrape(data_dir, sv)))
 
 
 def par_universe(data_dir: str, venue: str):
@@ -689,7 +861,16 @@ def par_universe(data_dir: str, venue: str):
     bulk catalog names), exposed on its own so ONE venue's build can validate a
     cross-venue alias target against ANOTHER venue's par universe without
     computing that venue.
+
+    A SOURCE-ONLY venue has none, and that is the whole point of it. Marilyna's
+    holds no stock and runs no Purchase module, so there is nothing for a
+    "mari:" alias target to name. Returning the empty set (rather than raising)
+    routes such a target through the established path: unknown_targets() reports
+    it, and the build fails on it with a readable message instead of a
+    traceback. Nothing can leak into a par that does not exist.
     """
+    if venue in SOURCE_ONLY_VENUES:
+        return set()
     _, bo_meta = load_bo(data_dir, venue)
     scrape = load_scrape(data_dir, venue)
     ov = {p: o for p, o in load_overrides(data_dir, venue).items()
@@ -1000,7 +1181,7 @@ def _alias_units(pos_name, rg, qty, sku, serve_ml=None):
 def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks,
                        revenue_out=None, aliases=None, unattributed_out=None,
                        cross_aliases=None, cross_units_out=None,
-                       exported_out=None):
+                       exported_out=None, cross_by_venue_out=None):
     """(pour, recipe) weekly series per par SKU.
 
     `revenue_out`, if given, is filled with {sku: ex-GST revenue attributed to
@@ -1017,10 +1198,21 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
     "<this venue>:<sku>" is ingested here, converted by the SAME `_alias_units`
     rules, and added to that SKU's pour series in the row's own week.
 
+    Marilyna's (`mari`) is the third source. It has no till and no Purchase
+    module of its own — it is a trading name over the Stowaway till whose stock
+    IS Stowaway's stock — so it is a source of demand here and never a
+    destination for it. Zak, 2026-08-10: "that all gets lumped into the stowaway
+    lightspeed pars".
+
       * `cross_units_out`, if given, is filled with {sku: weekly series} holding
         ONLY the foreign contribution, so a reader (and the safety net in
         compute_venue) can tell demand this venue's own till saw from demand it
         did not.
+      * `cross_by_venue_out`, if given, splits that same total by SOURCE venue
+        ({venue: {sku: series}}), so "Coke Can moved" can be read as "0.6 a week
+        from Harry Gatos, 4.7 from Marilyna's" rather than as one anonymous
+        number. With more than one source venue, an unsplit total is not
+        auditable.
       * `exported_out`, if given, is filled with the rows of THIS venue that an
         alias sends to ANOTHER venue's par SKU. They contribute nothing here —
         that is the point, a POS line feeds exactly one par SKU in exactly one
@@ -1103,6 +1295,9 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
                 rev[tgt_sku] = rev.get(tgt_sku, 0.0) + _rev(r)
                 if cross_units_out is not None:
                     cross_units_out.setdefault(tgt_sku, [0.0] * n)[i] += units
+                if cross_by_venue_out is not None:
+                    cross_by_venue_out.setdefault(row_venue, {}).setdefault(
+                        tgt_sku, [0.0] * n)[i] += units
             continue
 
         # ── ALIAS FIRST. An alias is a human saying "this till line IS that
@@ -1118,7 +1313,7 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
                 # unattributed report either, because it IS attributed.
                 _exported(name, rg, wk, qty, _rev(r), alias_venue, alias_sku,
                           "alias" if aliases.is_explicit(name)
-                          else "hg_suffix_rule")
+                          else aliases.auto_rule_via())
                 continue
             units = _alias_units(name, rg, qty, alias_sku,
                                  serve_ml=aliases.serve_ml(name))
@@ -1257,6 +1452,66 @@ UNATTRIBUTED_WEEKS = 13
 # $54,794 was reaching nothing when this guard was written.
 UNATTRIBUTED_FAIL_REVENUE = 2000.0
 
+# ── Marilyna's finished goods: a KNOWN backlog, not an alias failure ────────
+# A pizza is not a stock item and can never be one. 'Large Super House Special'
+# will never resolve to a par SKU by any name rule, because what it consumes is
+# flour, mozzarella, pepperoni, a base and a box — via a RECIPE. Lumping those
+# lines in with genuine alias failures would do two bad things at once: bury the
+# real work queue under 250 rows that no alias can ever fix, and hard-fail the
+# build on a backlog everybody already knows about.
+#
+# So they are classified separately, as `needs_recipe`: quantified, reported
+# loudly (data/_par_review/marilynas_recipe_gap.md), and NOT counted toward the
+# $2,000 gate. The gate keeps its original meaning — "a discrete stock item
+# stopped attributing" — which is the thing that is actually actionable today.
+MARI_FINISHED_GOODS_RGS = {
+    "Marilyna's Pizza",     # the menu itself
+    "Dine-in Pizza",        # same pizzas, dine-in price list
+    "Add-ons - Pizza",      # extra cheese, anchovies, sour cream — recipe lines
+    "Marilyna's",           # the family-size pizzas
+    "Delivery Cocktails",   # margarita jars: batch recipes, not a stock unit
+}
+# ...and the rule behind the list, so a NEW pizza reporting group is classified
+# correctly the day it appears rather than landing in the gate. Checked only
+# AFTER STOCK_BEARING_RG, so "Marilyna's Soft Drinks" is never caught by it.
+MARI_FINISHED_GOODS_RG = re.compile(r"pizza|cocktail", re.I)
+
+
+def is_finished_good_rg(rg):
+    """True for a reporting group whose lines are ASSEMBLED from ingredients.
+
+    The fix for such a line is a recipe, never an alias — which is precisely why
+    it must not be counted as an alias failure."""
+    rg = rg or ""
+    if STOCK_BEARING_RG.search(rg):
+        return False
+    return rg in MARI_FINISHED_GOODS_RGS or bool(MARI_FINISHED_GOODS_RG.search(rg))
+
+
+def _window_rows(raw, weeks, window=UNATTRIBUTED_WEEKS):
+    """Yield one summary row per POS line in `raw`, over the reporting window.
+
+    The shape every report in this module speaks. Extracted so the venue reports
+    and the Marilyna's classifier cannot drift apart on what "qty per week" or
+    "13-week revenue" mean.
+    """
+    window_weeks = set(weeks[-window:]) if window else set(weeks)
+    n_weeks = max(len(window_weeks), 1)
+    for name, a in (raw or {}).items():
+        qty = sum(w["qty"] for k, w in a["weekly"].items() if k in window_weeks)
+        revenue = sum(w["revenue_ex_gst"] for k, w in a["weekly"].items()
+                      if k in window_weeks)
+        if qty <= 0 and revenue <= 0:
+            continue
+        rg = a.get("reporting_group") or ""
+        yield a, {
+            "product": name,
+            "reporting_group": rg,
+            "qty_window": round(qty, 2),
+            "qty_per_week": round(qty / n_weeks, 2),
+            "revenue_ex_gst_window": round(revenue, 2),
+        }
+
 
 def unattributed_report(raw, weeks, aliases=None, window=UNATTRIBUTED_WEEKS):
     """POS lines whose volume reached NO par SKU.
@@ -1267,24 +1522,10 @@ def unattributed_report(raw, weeks, aliases=None, window=UNATTRIBUTED_WEEKS):
     and made-to-order lines declared in par_aliases.json, returned so a reader
     can see they were considered rather than missed.
     """
-    window_weeks = set(weeks[-window:]) if window else set(weeks)
-    n_weeks = max(len(window_weeks), 1)
     offenders, intentional = [], []
-    for name, a in (raw or {}).items():
-        rg = a.get("reporting_group") or ""
-        qty = sum(w["qty"] for k, w in a["weekly"].items() if k in window_weeks)
-        revenue = sum(w["revenue_ex_gst"] for k, w in a["weekly"].items()
-                      if k in window_weeks)
-        if qty <= 0 and revenue <= 0:
-            continue
-        row = {
-            "product": name,
-            "reporting_group": rg,
-            "qty_window": round(qty, 2),
-            "qty_per_week": round(qty / n_weeks, 2),
-            "revenue_ex_gst_window": round(revenue, 2),
-            "stock_bearing": bool(STOCK_BEARING_RG.search(rg)),
-        }
+    for _a, row in _window_rows(raw, weeks, window):
+        name, rg = row["product"], row["reporting_group"]
+        row["stock_bearing"] = bool(STOCK_BEARING_RG.search(rg))
         if aliases is not None and aliases.is_intentional(name):
             row["reason"] = aliases.intentional_reason(name)
             intentional.append(row)
@@ -1309,35 +1550,25 @@ def cross_venue_report(raw, weeks, window=UNATTRIBUTED_WEEKS):
     unattributed gate exists to end. So they are reported, with their target, in
     `attributed_to_other_venue`.
     """
-    window_weeks = set(weeks[-window:]) if window else set(weeks)
-    n_weeks = max(len(window_weeks), 1)
     out = []
-    for name, a in (raw or {}).items():
-        qty = sum(w["qty"] for k, w in a["weekly"].items() if k in window_weeks)
-        revenue = sum(w["revenue_ex_gst"] for k, w in a["weekly"].items()
-                      if k in window_weeks)
-        if qty <= 0 and revenue <= 0:
-            continue
-        out.append({
-            "product": name,
-            "reporting_group": a.get("reporting_group") or "",
-            "qty_window": round(qty, 2),
-            "qty_per_week": round(qty / n_weeks, 2),
-            "revenue_ex_gst_window": round(revenue, 2),
+    for a, row in _window_rows(raw, weeks, window):
+        row.update({
             "target_venue": a.get("target_venue"),
             "target_sku": a.get("target_sku"),
-            # "alias" (a human wrote it) or "hg_suffix_rule" (derived). Kept on
+            # "alias" (a human wrote it) or the rule's own name — today
+            # "hg_suffix_rule" / "mari_name_rule" — when it was derived. Kept on
             # every row so an automatic resolution is never indistinguishable
             # from a reviewed one.
             "via": a.get("via", "alias"),
         })
+        out.append(row)
     out.sort(key=lambda r: -r["revenue_ex_gst_window"])
     return out
 
 
-def hg_suffix_report(rule, exported_raw, unattributed_raw, weeks,
+def auto_rule_report(rule, exported_raw, unattributed_raw, weeks,
                      window=UNATTRIBUTED_WEEKS):
-    """(resolved, unresolved) for the [HG] suffix rule, with the volume behind each.
+    """(resolved, unresolved) for an automatic rule, with the volume behind each.
 
     `resolved` is the audit trail demanded of any automatic mapping: POS line ->
     the Stowaway par SKU it was routed to, and why the match was accepted.
@@ -1397,6 +1628,166 @@ def hg_suffix_report(rule, exported_raw, unattributed_raw, weeks,
     return resolved, unresolved
 
 
+# Legacy name. The rule that needed a report first was the [HG] one; there are
+# two now and the function never cared which. Kept so existing readers (and the
+# meta keys built on it) don't break.
+hg_suffix_report = auto_rule_report
+
+
+def assert_no_par_leakage(exported, venue):
+    """A source-only venue must never be the TARGET of an attribution.
+
+    Marilyna's owns no par SKU — that is the entire premise of routing its
+    consumption to Stowaway. If a line ever resolved to "mari:something" the
+    volume would land in a par nobody orders against and vanish from Stowaway's,
+    which is the same silent-loss bug this module keeps being about, only
+    harder to see. So it is asserted rather than assumed.
+
+    Raises AssertionError; the build has no handler, which is deliberate.
+    """
+    bad = [r for r in exported
+           if r.get("target_venue") in SOURCE_ONLY_VENUES
+           or r.get("target_venue") == venue]
+    assert not bad, (
+        f"{venue} attribution leaked into a par that cannot exist: "
+        f"{[(r['product'], r.get('target_venue'), r.get('target_sku')) for r in bad]}")
+    return True
+
+
+def source_venue_report(venue, data_dir="data", rows=None,
+                        window=UNATTRIBUTED_WEEKS):
+    """The audit pass for a venue that HAS NO PARS OF ITS OWN.
+
+    Marilyna's sells; it does not stock. Every line it rings is one of four
+    things, and this function's whole job is to say which — because the failure
+    mode here is not a wrong number, it is a line nobody ever looks at:
+
+      attributed_to_other_venue  the line resolved to a STOWAWAY par SKU, by an
+                                 explicit `mari` alias or by MariNameRule, and
+                                 its volume is counted in Stowaway's build. Not
+                                 a miss.
+      needs_recipe               a pizza, a pizza add-on, a cocktail jar. It
+                                 consumes Stowaway stock through INGREDIENTS and
+                                 can never resolve to one par SKU. The fix is a
+                                 recipe; no alias will ever do it. Quantified
+                                 and reported loudly, but it does NOT gate.
+      unattributed               a discrete, stock-bearing drink line that
+                                 reached nothing. This is a genuine alias
+                                 failure and keeps the ordinary $2,000 gate.
+      intentionally_unattributed declared in par_aliases.json as consuming no
+                                 discrete stock unit.
+
+    Anything left over (a non-stock-bearing group that is also not a finished
+    good — 'Delivery Alcohol' is the live example) is reported under
+    `other_unattributed` for visibility, exactly as it would be at Stowaway or
+    Harry Gatos: outside the gate's remit, but never silent.
+
+    IMPLEMENTATION NOTE — why this reuses _build_consumption instead of
+    re-deriving the resolution: there must be exactly ONE place that decides
+    where a POS line's volume goes. Running the real consumption builder with an
+    EMPTY par index, an empty recipe book and no cross-venue books means the
+    same alias/rule precedence applies, and it makes leakage structurally
+    impossible rather than merely tested — there is no par SKU here for anything
+    to land in. That emptiness is then asserted, not assumed.
+    """
+    if rows is None:
+        rows = load_weekly(data_dir)
+    weeks = sorted({r["week_ending"] for r in rows})
+    aliases = load_aliases(data_dir, venue)
+
+    empty_idx = ParIndex({}, {}, {})           # a venue with no par SKUs at all
+    assert not empty_idx.names, "a source-only venue must have an empty par universe"
+    revenue, raw_missed, raw_exported = {}, {}, {}
+    pour, recipe = _build_consumption(
+        rows, venue, empty_idx, {}, build_recipe_matcher([]), {}, weeks,
+        revenue_out=revenue, aliases=aliases, unattributed_out=raw_missed,
+        exported_out=raw_exported)
+    # Structural, not decorative: nothing may accrue to this venue.
+    assert not pour and not recipe, (
+        f"{venue} holds no pars, but consumption landed on "
+        f"{sorted(set(pour) | set(recipe))}")
+    assert not revenue, f"{venue} holds no pars, but revenue was attributed"
+
+    exported = cross_venue_report(raw_exported, weeks, window)
+    assert_no_par_leakage(exported, venue)
+    resolved, unresolved = auto_rule_report(
+        aliases.auto_rule, raw_exported, raw_missed, weeks, window)
+
+    offenders, intentional = [], []
+    needs_recipe, other = [], []
+    for _a, row in _window_rows(raw_missed, weeks, window):
+        name, rg = row["product"], row["reporting_group"]
+        row["stock_bearing"] = bool(STOCK_BEARING_RG.search(rg))
+        if aliases.is_intentional(name):
+            row["reason"] = aliases.intentional_reason(name)
+            intentional.append(row)
+        elif is_finished_good_rg(rg):
+            row["classification"] = "needs_recipe"
+            needs_recipe.append(row)
+        elif row["stock_bearing"]:
+            if aliases.is_flagged_for_investigation(name):
+                row["investigate_note"] = aliases.investigate.get(_norm(name), "")
+                row["known_unmapped"] = True
+            row["classification"] = "alias_failure"
+            offenders.append(row)
+        else:
+            row["classification"] = "not_stock_bearing"
+            other.append(row)
+    for bucket in (offenders, intentional, needs_recipe, other):
+        bucket.sort(key=lambda r: -r["revenue_ex_gst_window"])
+
+    # PRUNE THE WORK QUEUE. The [HG] rule is asked about a handful of suffixed
+    # lines, so listing everything it refused IS the work queue. MariNameRule is
+    # asked about every line Marilyna's has ever rung — 533 of them — and the
+    # answer for 215 is "a pizza is not a stock item", which is the recipe
+    # backlog, not an alias to write. A work queue nobody can finish is a work
+    # queue nobody reads, so `auto_unresolved` keeps only what a human could act
+    # on today: a line still unattributed, with volume in the window, that is
+    # not a finished good.
+    _recipe_names = {r["product"] for r in needs_recipe}
+    unresolved = [r for r in unresolved
+                  if r["still_unattributed"]
+                  and r["pos_line"] not in _recipe_names
+                  and (r["qty_window"] > 0 or r["revenue_ex_gst_window"] > 0)]
+
+    def _tot(bucket):
+        return (round(sum(r["revenue_ex_gst_window"] for r in bucket), 2),
+                round(sum(r["qty_per_week"] for r in bucket), 2))
+
+    gate_rev, _ = _tot(offenders)
+    recipe_rev, recipe_qty = _tot(needs_recipe)
+    return {
+        "venue": venue,
+        "stock_venue": getattr(aliases.auto_rule, "stock_venue", None),
+        "window_weeks": window,
+        "week_range": [weeks[0], weeks[-1]] if weeks else [],
+        "aliases": {
+            "n": len(aliases.map),
+            "map": dict(aliases.map),
+            "cross_venue_targets": {
+                pos: f"{v}:{sku}" for pos, (v, sku) in sorted(aliases.targets.items())
+                if v and v != venue},
+            # Validated against the STOCK venue's par universe. A source-only
+            # venue's own universe is empty by construction, so a target that
+            # forgot its "stow:" prefix is caught here rather than silently
+            # attributing nothing.
+            "unknown_targets": aliases.unknown_targets(
+                set(), {v: par_universe(data_dir, v)
+                        for v in aliases.cross_venues()}),
+        },
+        "attributed_to_other_venue": exported,
+        "auto_resolved": resolved,
+        "auto_unresolved": unresolved,
+        "unattributed": offenders,
+        "needs_recipe": needs_recipe,
+        "intentionally_unattributed": intentional,
+        "other_unattributed": other,
+        "unattributed_revenue": gate_rev,
+        "needs_recipe_revenue": recipe_rev,
+        "needs_recipe_qty_per_week": recipe_qty,
+    }
+
+
 def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
                   engine="v3"):
     """Compute par recommendations for a venue. Returns (recs, meta).
@@ -1440,6 +1831,7 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
     revenue = {}
     unattributed_raw = {}
     cross_units = {}
+    cross_by_venue = {}
     exported_raw = {}
     pour, recipe = _build_consumption(rows, venue, idx, leaves_by_norm, matcher,
                                       id2name, weeks, revenue_out=revenue,
@@ -1447,6 +1839,7 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
                                       unattributed_out=unattributed_raw,
                                       cross_aliases=cross_aliases,
                                       cross_units_out=cross_units,
+                                      cross_by_venue_out=cross_by_venue,
                                       exported_out=exported_raw)
 
     universe = set(pour) | set(recipe) | set(scrape) | set(overrides)
@@ -1574,6 +1967,13 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
         # under its own venue) would have gone to ~1 on 0.23 HG cans a week.
         # Foreign demand may RAISE such a par; it may never lower it.
         held = False
+        # What the maths said BEFORE the hold. Once Marilyna's volume started
+        # arriving, several long-held pars finally had a demand signal — and the
+        # signal is far below the live par ('Coke Can' 32.5 live against a
+        # modelled ~11). The hold still wins, because foreign volume may never
+        # cut a par. But a suppressed number that is never written down is a
+        # decision nobody can review, so it is written down.
+        rec_par_modelled = round(rec_par, 1)
         if cur is not None and (ov is None or ov.get("type") in ("min",)):
             if forecast <= 0:
                 rec_par = float(cur)
@@ -1629,6 +2029,10 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
             "reporting_group": rg,
             "rec_par": rec_par,
             "rec_par_pre_override": round(pre_ov, 1),
+            # What the model computed before the no-recent-demand / cross-venue
+            # hold and before any override. Equal to rec_par when nothing was
+            # suppressed; the whole point of it is the case where they differ.
+            "rec_par_modelled": rec_par_modelled,
             "current_par": cur,
             "drivers": {
                 # pour + recipe = what the till saw. variance = what the stock
@@ -1642,6 +2046,14 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
                 # shared-stock alias. A SUBSET of pour_wk, not another term —
                 # never add it to true_wk.
                 "cross_venue_wk": cross_wk,
+                # ...and which venue it came from. With Harry Gatos AND
+                # Marilyna's both drawing on Stowaway stock, one anonymous
+                # 'cross_venue_wk' can no longer be checked against anything.
+                "cross_venue_by_venue_wk": {
+                    v: round(_weighted_recent(s[sku]), 3)
+                    for v, s in sorted(cross_by_venue.items())
+                    if sku in s and _weighted_recent(s[sku]) > 0
+                },
             },
             "shrinkage": {
                 "loss_per_week": variance_wk,
@@ -1694,6 +2106,14 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
         "cross_venue_imported": {
             sku: round(sum(s), 3) for sku, s in sorted(cross_units.items())
         },
+        # The same total, split by the venue that sold it. Harry Gatos and
+        # Marilyna's both pour out of Stowaway's stock, so an unsplit import
+        # figure can no longer be reconciled against either till.
+        "cross_venue_imported_by_venue": {
+            v: {sku: round(sum(s), 3) for sku, s in sorted(by_sku.items())}
+            for v, by_sku in sorted(cross_by_venue.items())
+        },
+        "cross_venue_sources": sorted(cross_aliases),
         "unattributed": unattr,
         "unattributed_intentional": unattr_intentional,
         "unattributed_revenue": round(
