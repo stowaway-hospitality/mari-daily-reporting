@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-11",
-  "count": 308,
-  "skipped_already_in_xero": 224,
+  "count": 309,
+  "skipped_already_in_xero": 223,
   "invoices": [
     {
       "ref": "INV3436351",
@@ -945,6 +945,100 @@
           "qty": "1",
           "amount": "0.63",
           "unit_cost": "$0.63/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "SI4405841",
+      "supplier": "Foodlink Australia Pty Ltd",
+      "supplier_key": "foodlink",
+      "date": "2026-06-12",
+      "due_date": "2026-06-19",
+      "total": "232.10",
+      "venue": "stowaway",
+      "pdf_path": "640e08c8bf29ef254434e7f6f76e542120c7cf6b4ac3bbdb46d54741b8134937.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "FLOUR TORTILLAS 12X91GM",
+          "supplier_code": "101113",
+          "qty": "1",
+          "amount": "33.60",
+          "unit_cost": "$30.77/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BARRAMUNDI FILLETS IMP 200/300",
+          "supplier_code": "103272",
+          "qty": "1",
+          "amount": "83.00",
+          "unit_cost": "$83.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BURGER SAUCE PREMIUM 1LT",
+          "supplier_code": "106022",
+          "qty": "2",
+          "amount": "30.00",
+          "unit_cost": "$15.00/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "YOGHURT GREEK STYLE 2KG",
+          "supplier_code": "110315",
+          "qty": "1",
+          "amount": "14.70",
+          "unit_cost": "$7.35/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHIPOTLE CHILLIS A10 IN ADOBE",
+          "supplier_code": "100653",
+          "qty": "1",
+          "amount": "18.00",
+          "unit_cost": "$18.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "PAPER GINGHAM 1/4 CUT BLACK",
+          "supplier_code": "108800",
+          "qty": "1",
+          "amount": "49.50",
+          "unit_cost": "$49.50/ea",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Fuel Levy",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
           "tax": "gst",
           "account_code": "342",
           "account_name": "Freight & Courier",
