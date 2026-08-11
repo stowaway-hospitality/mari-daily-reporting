@@ -1,0 +1,62 @@
+{
+  "invoice": {
+    "supplier_key": "paramount",
+    "supplier_name_raw": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+    "invoice_ref": "5515242",
+    "invoice_date": "2026-08-16",
+    "total_incl": "91.41",
+    "lines": [
+      {
+        "description": "MP-VINADA ROSE : : 750ml",
+        "qty": "6",
+        "line_total_incl": "91.41",
+        "unit_price_incl": "15.2350",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "10025433",
+        "raw_qty": "1",
+        "raw_uom": "6/750 ml C",
+        "pack_qty": "0.75",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "80f2bad00cc185829bf2f324f13720eaa94e4e5eaf00851b5e8bf387b2a5bb48.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "91.41",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "MP-VINADA ROSE : : 750ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      }
+    ]
+  }
+}
