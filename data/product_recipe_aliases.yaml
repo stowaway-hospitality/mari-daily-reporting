@@ -62,3 +62,20 @@
 # Schnitty D, Beef Cheek D, Fries D, Chicken Parmy D) has no costed base either,
 # so those are genuinely unwritten recipes and NOT aliases.
 "Eggplant Schnitty D": "Eggplant Schnitty"
+
+# The house-pour convention, applied where it is checkable rather than guessed.
+# All ten [House] products already in the book are the SAME shape without
+# exception: 30 mL of their own bottle, selling at $11.00. "Rooster Blanco
+# Tequila [House]" is one of them, at $1.9641.
+#
+# The till sells the same pour as "Rooster Rojo Blanco Tequila [House]" — the
+# fuller brand name, which is how ILG itself invoices it ("ROOSTER ROJO TEQUILA
+# BLANCO", code 360-1310). One tequila, one 30 mL pour, one $11.00 price, two
+# spellings; $1,147 of 13-week revenue was falling through to Lightspeed's figure.
+#
+# This is the ONLY one of 17 name-variant candidates that survived checking. The
+# rest are a batch against a portion of it (Side Chipotle Mayo vs the 1.1 kg
+# batch), a kids serve against a full one, or an upcharge against the dish it
+# swaps to — and aliasing any of those would record a lie in the file this repo
+# treats as a statement of fact.
+"Rooster Rojo Blanco Tequila [House]": "Rooster Blanco Tequila [House]"
