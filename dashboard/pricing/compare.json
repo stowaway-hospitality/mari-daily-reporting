@@ -86,7 +86,7 @@
       "prev": 1.9,
       "cost": 3.2,
       "pct": 68.4,
-      "date": "2026-08-11"
+      "date": "2026-08-13"
     },
     {
       "name": "Kobayashi Gluten Free Ramen Noodle",
@@ -212,7 +212,7 @@
       "prev": 1.3,
       "cost": 1.6,
       "pct": 23.1,
-      "date": "2026-08-06"
+      "date": "2026-08-13"
     },
     {
       "name": "Pqea",
@@ -287,22 +287,13 @@
       "date": "2026-07-08"
     },
     {
-      "name": "Chive",
-      "supplier": "Select Fresh",
-      "unit": "bunch",
-      "prev": 2.3,
-      "cost": 2.7,
-      "pct": 17.4,
-      "date": "2026-07-22"
-    },
-    {
       "name": "Prosciutto Sliced",
       "supplier": "B&E",
       "unit": "kg",
       "prev": 24.0,
       "cost": 28.0,
       "pct": 16.7,
-      "date": "2026-08-06"
+      "date": "2026-08-13"
     },
     {
       "name": "Avocado Hass",
@@ -368,6 +359,15 @@
       "date": "2026-07-13"
     },
     {
+      "name": "Shallot",
+      "supplier": "Select Fresh",
+      "unit": "bunch",
+      "prev": 2.9,
+      "cost": 3.3,
+      "pct": 13.8,
+      "date": "2026-08-13"
+    },
+    {
       "name": "Lettuce Iceberg Victorian",
       "supplier": "Fresh Fruit Team",
       "unit": "ea",
@@ -410,16 +410,7 @@
       "prev": 19.5,
       "cost": 21.9,
       "pct": 12.3,
-      "date": "2026-07-23"
-    },
-    {
-      "name": "Shallot",
-      "supplier": "Select Fresh",
-      "unit": "bunch",
-      "prev": 2.6,
-      "cost": 2.9,
-      "pct": 11.5,
-      "date": "2026-08-11"
+      "date": "2026-08-13"
     },
     {
       "name": "Tofu Press Silken",
@@ -429,6 +420,15 @@
       "cost": 5.8,
       "pct": 11.5,
       "date": "2026-08-08"
+    },
+    {
+      "name": "Chive",
+      "supplier": "Select Fresh",
+      "unit": "bunch",
+      "prev": 2.7,
+      "cost": 3.0,
+      "pct": 11.1,
+      "date": "2026-08-13"
     },
     {
       "name": "Rooster Rojo Blanco",
@@ -474,15 +474,6 @@
       "cost": 1.54,
       "pct": 7.7,
       "date": "2026-08-12"
-    },
-    {
-      "name": "Lettuce Baby Gem",
-      "supplier": "Select Fresh",
-      "unit": "bag",
-      "prev": 4.0,
-      "cost": 4.3,
-      "pct": 7.5,
-      "date": "2026-07-23"
     },
     {
       "name": "Sbch",
@@ -599,7 +590,7 @@
       "prev": 9.5,
       "cost": 10.0,
       "pct": 5.3,
-      "date": "2026-08-01"
+      "date": "2026-08-13"
     }
   ],
   "aliases": {
@@ -895,13 +886,13 @@
         {
           "supplier": "B&E",
           "cost": 28.0,
-          "date": "2026-08-06",
+          "date": "2026-08-13",
           "desc": "PROSCIUTTO SLICED 500G",
           "change_pct": 16.7,
-          "n": 25,
+          "n": 26,
           "prev_cost": 24.0,
-          "spend": 1031.0,
-          "volume": 36.0
+          "spend": 1143.0,
+          "volume": 40.0
         },
         {
           "supplier": "Andrews Meat",
@@ -1008,6 +999,86 @@
       "switch": false
     },
     {
+      "key": "shallot",
+      "name": "Shallot",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 2.65,
+          "date": "2026-08-12",
+          "desc": "Shallot",
+          "change_pct": -16.9,
+          "n": 22,
+          "prev_cost": 3.19,
+          "spend": 0.0,
+          "volume": 0.0
+        },
+        {
+          "supplier": "Select Fresh",
+          "cost": 3.3,
+          "date": "2026-08-13",
+          "desc": "SHALLOT BCH",
+          "change_pct": 13.8,
+          "n": 21,
+          "prev_cost": 2.9,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 2.65,
+      "max": 3.3,
+      "spread_pct": 24.5,
+      "multi": true,
+      "suspect": false,
+      "low": 1.65,
+      "low_date": "2026-04-29",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "chive",
+      "name": "Chive",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 2.42,
+          "date": "2026-08-12",
+          "desc": "Herb Chives",
+          "change_pct": -12.0,
+          "n": 15,
+          "prev_cost": 2.75,
+          "spend": 0.0,
+          "volume": 0.0
+        },
+        {
+          "supplier": "Select Fresh",
+          "cost": 3.0,
+          "date": "2026-08-13",
+          "desc": "HERB CHIVES BCH",
+          "change_pct": 11.1,
+          "n": 5,
+          "prev_cost": 2.7,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 2.42,
+      "max": 3.0,
+      "spread_pct": 24.0,
+      "multi": true,
+      "suspect": false,
+      "low": 1.49,
+      "low_date": "2026-07-02",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "5mm diced pumpkin",
       "name": "Pumpkin Diced 5mm",
       "unit": "kg",
@@ -1048,86 +1119,6 @@
       "switch": false
     },
     {
-      "key": "chive",
-      "name": "Chive",
-      "unit": "bunch",
-      "suppliers": [
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 2.42,
-          "date": "2026-08-12",
-          "desc": "Herb Chives",
-          "change_pct": -12.0,
-          "n": 15,
-          "prev_cost": 2.75,
-          "spend": 0.0,
-          "volume": 0.0
-        },
-        {
-          "supplier": "Select Fresh",
-          "cost": 2.7,
-          "date": "2026-07-22",
-          "desc": "HERB CHIVES BCH",
-          "change_pct": 17.4,
-          "n": 4,
-          "prev_cost": 2.3,
-          "spend": 0.0,
-          "volume": 0.0
-        }
-      ],
-      "cheapest": "Fresh Fruit Team",
-      "min": 2.42,
-      "max": 2.7,
-      "spread_pct": 11.6,
-      "multi": true,
-      "suspect": false,
-      "low": 1.49,
-      "low_date": "2026-07-02",
-      "est_saving": 0.0,
-      "main": null,
-      "switch": false
-    },
-    {
-      "key": "shallot",
-      "name": "Shallot",
-      "unit": "bunch",
-      "suppliers": [
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 2.65,
-          "date": "2026-08-12",
-          "desc": "Shallot",
-          "change_pct": -16.9,
-          "n": 22,
-          "prev_cost": 3.19,
-          "spend": 0.0,
-          "volume": 0.0
-        },
-        {
-          "supplier": "Select Fresh",
-          "cost": 2.9,
-          "date": "2026-08-11",
-          "desc": "SHALLOT BCH",
-          "change_pct": 11.5,
-          "n": 19,
-          "prev_cost": 2.6,
-          "spend": 0.0,
-          "volume": 0.0
-        }
-      ],
-      "cheapest": "Fresh Fruit Team",
-      "min": 2.65,
-      "max": 2.9,
-      "spread_pct": 9.4,
-      "multi": true,
-      "suspect": false,
-      "low": 1.65,
-      "low_date": "2026-04-29",
-      "est_saving": 0.0,
-      "main": null,
-      "switch": false
-    },
-    {
       "key": "basil",
       "name": "Basil",
       "unit": "bunch",
@@ -1135,10 +1126,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 4.6,
-          "date": "2026-08-11",
+          "date": "2026-08-13",
           "desc": "HERB BASIL BCH",
           "change_pct": -11.5,
-          "n": 12,
+          "n": 13,
           "prev_cost": 5.2,
           "spend": 0.0,
           "volume": 0.0
@@ -1175,10 +1166,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 3.2,
-          "date": "2026-08-12",
+          "date": "2026-08-13",
           "desc": "LEMON KG",
           "change_pct": -22.0,
-          "n": 6,
+          "n": 8,
           "prev_cost": 4.1,
           "spend": 0.0,
           "volume": 0.0
@@ -1215,10 +1206,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 1.6,
-          "date": "2026-08-06",
+          "date": "2026-08-13",
           "desc": "HERB PARSLEY CONTINENTAL BCH",
           "change_pct": 23.1,
-          "n": 5,
+          "n": 7,
           "prev_cost": 1.3,
           "spend": 0.0,
           "volume": 0.0
@@ -1799,10 +1790,10 @@
         {
           "supplier": "B&E",
           "cost": 21.9,
-          "date": "2026-07-23",
+          "date": "2026-08-13",
           "desc": "ANTIPASTO - CHARGRILLED",
           "change_pct": 12.3,
-          "n": 6,
+          "n": 7,
           "prev_cost": 19.5,
           "spend": 0.0,
           "volume": 0.0
@@ -1857,10 +1848,10 @@
         {
           "supplier": "B&E",
           "cost": 25.6,
-          "date": "2026-08-06",
+          "date": "2026-08-13",
           "desc": "ANTIPASTO - SUNDRIED",
           "change_pct": null,
-          "n": 16,
+          "n": 17,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -6062,13 +6053,13 @@
         {
           "supplier": "B&E",
           "cost": 12.2,
-          "date": "2026-08-06",
+          "date": "2026-08-13",
           "desc": "CHICKEN BREAST (F) SLICE",
           "change_pct": 2.5,
-          "n": 20,
+          "n": 21,
           "prev_cost": 11.9,
-          "spend": 1037.0,
-          "volume": 85.0
+          "spend": 1098.0,
+          "volume": 90.0
         }
       ],
       "cheapest": "B&E",
@@ -6613,10 +6604,10 @@
         {
           "supplier": "B&E",
           "cost": 13.7,
-          "date": "2026-06-13",
+          "date": "2026-08-13",
           "desc": "CHILLI - FLAKE / CRUSHED",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -12123,10 +12114,10 @@
         {
           "supplier": "B&E",
           "cost": 15.9,
-          "date": "2026-08-08",
+          "date": "2026-08-13",
           "desc": "FZ PRAWN - RAW MEAT (I)",
           "change_pct": null,
-          "n": 7,
+          "n": 8,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -13341,13 +13332,13 @@
         {
           "supplier": "B&E",
           "cost": 12.5,
-          "date": "2026-08-12",
+          "date": "2026-08-13",
           "desc": "HAM - SLICE PRAGER 1KG (8)",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
-          "spend": 162.5,
-          "volume": 13.0
+          "spend": 287.5,
+          "volume": 23.0
         }
       ],
       "cheapest": "B&E",
@@ -15544,24 +15535,24 @@
       "suppliers": [
         {
           "supplier": "Select Fresh",
-          "cost": 4.3,
-          "date": "2026-07-23",
+          "cost": 3.8,
+          "date": "2026-08-13",
           "desc": "LETTUCE BABY GEM BAG",
-          "change_pct": 7.5,
-          "n": 2,
-          "prev_cost": 4.0,
+          "change_pct": -11.6,
+          "n": 3,
+          "prev_cost": 4.3,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
-      "min": 4.3,
-      "max": 4.3,
+      "min": 3.8,
+      "max": 3.8,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 4.0,
-      "low_date": "2026-06-24",
+      "low": 3.8,
+      "low_date": "2026-08-13",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -17894,10 +17885,10 @@
         {
           "supplier": "B&E",
           "cost": 5.3,
-          "date": "2026-08-06",
+          "date": "2026-08-13",
           "desc": "OIL - CANOLA OIL SPRAY",
           "change_pct": null,
-          "n": 10,
+          "n": 11,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -18155,10 +18146,10 @@
         {
           "supplier": "B&E",
           "cost": 55.0,
-          "date": "2026-08-06",
+          "date": "2026-08-13",
           "desc": "OIL - VEGETABLE W BUNG",
           "change_pct": null,
-          "n": 10,
+          "n": 11,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -18416,10 +18407,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 34.0,
-          "date": "2026-07-29",
+          "date": "2026-08-13",
           "desc": "ONION BROWN BAG",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -19663,10 +19654,10 @@
         {
           "supplier": "B&E",
           "cost": 10.0,
-          "date": "2026-08-01",
+          "date": "2026-08-13",
           "desc": "PEPPERS - JALAPENO",
           "change_pct": 5.3,
-          "n": 12,
+          "n": 13,
           "prev_cost": 9.5,
           "spend": 0.0,
           "volume": 0.0
@@ -19982,10 +19973,10 @@
         {
           "supplier": "B&E",
           "cost": 8.4,
-          "date": "2026-08-06",
+          "date": "2026-08-13",
           "desc": "CANNED - PINEAPPLE PIZZA",
           "change_pct": null,
-          "n": 14,
+          "n": 15,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -22244,10 +22235,10 @@
         {
           "supplier": "B&E",
           "cost": 4.7,
-          "date": "2026-07-17",
+          "date": "2026-08-13",
           "desc": "SAUCE - SRIRACHA STRONG",
           "change_pct": -33.8,
-          "n": 5,
+          "n": 6,
           "prev_cost": 7.1,
           "spend": 0.0,
           "volume": 0.0
@@ -22360,13 +22351,13 @@
         {
           "supplier": "B&E",
           "cost": 13.7,
-          "date": "2026-08-06",
+          "date": "2026-08-13",
           "desc": "SAUSAGE - MILD SPANISH",
           "change_pct": null,
-          "n": 12,
+          "n": 13,
           "prev_cost": null,
-          "spend": 287.7,
-          "volume": 21.0
+          "spend": 315.1,
+          "volume": 23.0
         }
       ],
       "cheapest": "B&E",
@@ -24680,10 +24671,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 3.2,
-          "date": "2026-08-11",
+          "date": "2026-08-13",
           "desc": "TOMATO CHERRY PUN",
           "change_pct": 68.4,
-          "n": 13,
+          "n": 14,
           "prev_cost": 1.9,
           "spend": 0.0,
           "volume": 0.0
@@ -24796,10 +24787,10 @@
         {
           "supplier": "B&E",
           "cost": 35.0,
-          "date": "2026-08-08",
+          "date": "2026-08-13",
           "desc": "TOMATO - PIZZA SAUCE",
           "change_pct": null,
-          "n": 23,
+          "n": 24,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -25811,13 +25802,13 @@
         {
           "supplier": "B&E",
           "cost": 7.25,
-          "date": "2026-08-06",
+          "date": "2026-08-13",
           "desc": "YOGHURT - GREEK 2KG",
           "change_pct": null,
-          "n": 11,
+          "n": 12,
           "prev_cost": null,
-          "spend": 87.0,
-          "volume": 12.0
+          "spend": 101.5,
+          "volume": 14.0
         }
       ],
       "cheapest": "B&E",
