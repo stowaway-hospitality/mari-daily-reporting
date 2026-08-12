@@ -1,27 +1,15 @@
 {
-  "generated": "2026-08-11",
-  "reviewed": 2,
-  "clean": 0,
-  "flags": [
-    {
-      "supplier": "B&E",
-      "name": "Msg (Monosodium",
-      "code": "18321",
-      "issue": "Truncated name. The invoice line itself reads 'MSG (MONOSODIUM L-' — the description cell wraps onto a second PDF row and the be_foods parser discards continuation rows (rows with no shipped-qty/total are skipped), so the tail of the name is lost before it ever reaches the ingredients feed. Not a costing error: qty, price and invoice total all reconcile.",
-      "suggested_fix": "Confirmed on befoodsonline.com.au (logged in as Stowaway Bar): # 18321 - Cj Foods, 'Msg (Monosodium L-Glutamate) 1kg(12) Cj Foods Krn', $7.20/UNIT — matches the invoiced unit price of $7.2000 exactly. Pack is a 1kg bag (carton of 12), so pack_qty=1000, pack_unit='g', cost_per_base_unit=$0.0072/g. Root-cause fix: teach modules/invoices/parsers/be_foods.py to append a row's desc cell to the previous line when the row has a description but no shipped/total, instead of `continue`. NOT applied — it does not raise the be_foods PASS rate (58/59 either way), so it falls outside this task's keep-rule and wants your call."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Nuts - Walnuts Halves &",
-      "code": "31037",
-      "issue": "Truncated name, same root cause as 18321 — the description wraps and the continuation row is dropped by the be_foods parser. Name ends on a dangling '&'. Cost and total reconcile.",
-      "suggested_fix": "Confirmed on befoodsonline.com.au: # 31037 - Trumps, 'Nuts - Walnuts Halves & Pieces 1kg (10) Trump', $22.20/PK — matches the invoiced pack cost of $22.2000 exactly. Pack is a 1kg bag (carton of 10), so pack_qty=1000, pack_unit='g', cost_per_base_unit=$0.0222/g ($22.20/kg, plausible for walnut halves & pieces). Same parser fix as above resolves it at source."
-    }
-  ],
+  "generated": "2026-08-13",
+  "reviewed": 3,
+  "clean": 3,
+  "flags": [],
   "notes": [
-    "Both products are genuine food ingredients — category is correct, neither is a chemical/packaging line that should be excluded from the picker.",
-    "Both carry needs_pack_review=true, which is surfaced to the chef by design and is not a defect. Both packs are now confirmed as 1kg from the supplier catalogue.",
-    "No values were guessed: each name, pack size and cost was confirmed against the B&E catalogue by supplier_code AND by exact price match.",
-    "No code, _NAME_FIX entry or pack_overrides.yaml entry was edited — this is a review only."
+    "3 new products reviewed, 0 flagged. All three have complete real names, correct food category, sensible pack parses and needs_pack_review=false.",
+    "B&E #18409 'Honey 3kg (4) Foodology' @ $7.30/kg (pack 3000 g, $21.90 incl) — corroborated against two independent incumbents already in the feed: Foodlink 'HONEY PURE 3KG Wild Flower' at $7.00/kg and the Lightspeed stock item at $6.99/kg. Within 4% of the incumbent, and the 3kg pack parse matches Foodlink's identical 3kg pack. The '(4)' is the carton multiple; pack_cost_incl $21.90 = 3 kg x $7.30 confirms the line was priced per 3 kg tub, not per 4-tub carton (which would have implied an implausible $1.83/kg).",
+    "Select Fresh JUOR 'Juice Orange 2ltr' @ $2.90/L (pack 2000 ml, $5.80 incl) — sits inside the existing Select Fresh 2 L juice band (Clear Apple $2.80/L, Ruby Grapefruit $2.90/L, Cranberry $3.90/L) and matches the Lightspeed 'East Coast Orange Juice [2L]' stock item at $2.82/L.",
+    "Select Fresh JUPIN 'Juice Pineapple 2ltr' @ $3.10/L (pack 2000 ml, $6.20 incl) — inside the same band and below the Lightspeed 'East Coast Pineapple Juice [2L]' stock item at $3.47/L.",
+    "No cleaning, chemical or packaging lines entered the feed this cycle — nothing to exclude from the picker.",
+    "No value was guessed and no code, _NAME_FIX entry or pack_overrides.yaml entry was edited — this is a review only.",
+    "STILL OPEN from the 2026-08-11 review: B&E #18321 'Msg (Monosodium' and #31037 'Nuts - Walnuts Halves &' remain truncated in the feed. Both were confirmed against the B&E catalogue on 08-11; the root-cause fix (be_foods.py should append a wrapped description continuation row instead of skipping it) has not been applied because it does not move the PASS rate. Awaiting Zak's call."
   ]
 }
