@@ -1,0 +1,62 @@
+{
+  "invoice": {
+    "supplier_key": "fresh_fruit_team",
+    "supplier_name_raw": "The Fresh Fruit Team Pty Ltd",
+    "invoice_ref": "INB00114663",
+    "invoice_date": "2026-08-12",
+    "total_incl": "17.60",
+    "lines": [
+      {
+        "description": "Rocket Wild",
+        "qty": "1",
+        "line_total_incl": "17.60",
+        "unit_price_incl": "17.60",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": "0",
+        "wet_amount": null,
+        "supplier_code": "LRW15BG Box",
+        "raw_qty": null,
+        "raw_uom": "Lettuce",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-08-26",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "d2e01e27c5a87a224c47245ac089ef017385ca67d0784f45898ae679c95b47ee.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "17.60",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "Rocket Wild",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
