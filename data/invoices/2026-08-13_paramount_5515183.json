@@ -1,0 +1,233 @@
+{
+  "invoice": {
+    "supplier_key": "paramount",
+    "supplier_name_raw": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+    "invoice_ref": "5515183",
+    "invoice_date": "2026-08-13",
+    "total_incl": "374.19",
+    "lines": [
+      {
+        "description": "CARPANO CLASSICO VERMOUTH : 750ml",
+        "qty": "1",
+        "line_total_incl": "23.20",
+        "unit_price_incl": "23.2000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "10015926",
+        "raw_qty": "0 / 1",
+        "raw_uom": "6/750 ml",
+        "pack_qty": "0.75",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Carton Freight",
+        "qty": "1",
+        "line_total_incl": "3.01",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "9000000",
+        "raw_qty": "2",
+        "raw_uom": "MISC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Minimum Delivery Top-Up Charge",
+        "qty": "1",
+        "line_total_incl": "16.79",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "10010294",
+        "raw_qty": "1,526",
+        "raw_uom": "MISC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "REGAL ROGUE BOLD RED : 5000 ml",
+        "qty": "1",
+        "line_total_incl": "204.58",
+        "unit_price_incl": "204.5800",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bulk",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "61599",
+        "raw_qty": "1",
+        "raw_uom": "1/5000 ml",
+        "pack_qty": "5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "SEADRIFT COAST : 700 ml",
+        "qty": "1",
+        "line_total_incl": "41.25",
+        "unit_price_incl": "41.2500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "90266",
+        "raw_qty": "0 / 1",
+        "raw_uom": "6/700 ml",
+        "pack_qty": "0.7",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Temporary Fuel Levy Charge",
+        "qty": "1",
+        "line_total_incl": "0.22",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "9000004",
+        "raw_qty": "20",
+        "raw_uom": "MISC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "WOLF LANE DISTILLERY NAVY STRENGTH GIN :",
+        "qty": "1",
+        "line_total_incl": "85.14",
+        "unit_price_incl": "85.1400",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "78607",
+        "raw_qty": "0 / 1",
+        "raw_uom": "6/500 ml",
+        "pack_qty": "0.5",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "d676cfbb14d924d5d1b0d6289e76d10a9773f62f49694695e06cd24ba0a1e191.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $20.02 under the invoice total \u2014 expected. Skipped: Carton Freight ($3.01), Minimum Delivery Top-Up Charge ($16.79), Temporary Fuel Levy Charge ($0.22). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "354.17",
+        "actual": "374.19"
+      }
+    ],
+    "expected_ls_receive_total": "354.17",
+    "extras_total": "20.02"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "CARPANO CLASSICO VERMOUTH : 750ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "Carton Freight",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      },
+      {
+        "description": "Minimum Delivery Top-Up Charge",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "REGAL ROGUE BOLD RED : 5000 ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "SEADRIFT COAST : 700 ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "Temporary Fuel Levy Charge",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      },
+      {
+        "description": "WOLF LANE DISTILLERY NAVY STRENGTH GIN :",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      }
+    ]
+  }
+}
