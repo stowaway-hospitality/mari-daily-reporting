@@ -114,6 +114,18 @@ def main() -> int:
         return 1
 
     tot_p = tot_n = tot_skip = tot_scan = 0
+    # IDENTITY AUDIT — the blind spot this harness had until 2026-08-14.
+    # The PASS rate only asks "did the money reconcile". supplier_code plays NO
+    # part in reconciling, so a parser can score 100% while quietly corrupting
+    # product IDENTITY. Fresh Fruit Team did exactly that: its SKU cell was
+    # swallowing the UNIT word, so "CLKG" and "CLKG Kilogram" became two
+    # products — split price history, duplicate picker entries, and the "fullest
+    # name across the spellings of this identity" consolidation broken, which is
+    # how "Large" reached the chef as a product name instead of "Carrot Large".
+    # 94 of FFT's 186 codes were affected and this table said 52/52 (100%) the
+    # entire time. A supplier code is an IDENTIFIER: it does not contain
+    # whitespace. Cheap to check, and it would have caught the whole thing.
+    codes: dict[str, set[str]] = {}
     print(f"{'supplier':<18} {'pass':>11}   review  parsefail   not-inv   scan   parser")
     for key in keys:
         if only and key not in only:
@@ -139,7 +151,11 @@ def main() -> int:
                 inv = None
             if inv is None:
                 f += 1
-            elif V.validate(inv).ok:
+                continue
+            for _l in inv.lines:
+                if _l.supplier_code:
+                    codes.setdefault(key, set()).add(_l.supplier_code)
+            if V.validate(inv).ok:
                 p += 1
             else:
                 r += 1
@@ -154,6 +170,28 @@ def main() -> int:
     tpct = f"{tot_p}/{tot_n} ({100 * tot_p // tot_n if tot_n else 0}%)"
     print(f"{'TOTAL':<18} {tpct:>11}   {'':>6}   {'':>8}   {tot_skip:>7}   {tot_scan:>4}")
     print(f"\n{tot_skip} not-invoice PDF(s) and {tot_scan} scan(s) excluded from the rate.")
+
+    # --- identity audit (see the note above the loop) -----------------------
+    # Allowlist mirrors modules/invoices/tests/test_parser_identity.py, which
+    # carries the evidence for each entry. nicholas_seafood's "ITEM NO." column
+    # genuinely holds multi-word codes ("Barra FSO", "Squid - LW"), so its
+    # whitespace is the supplier's own and collapsing it would MERGE distinct
+    # products — the opposite of the FFT bug.
+    WHITESPACE_OK = {"nicholas_seafood"}
+    dirty = {k: sorted(c for c in v if " " in c)
+             for k, v in codes.items() if k not in WHITESPACE_OK}
+    dirty = {k: v for k, v in dirty.items() if v}
+    if dirty:
+        print("\n!! IDENTITY WARNING — supplier codes containing whitespace.")
+        print("   A code is an identifier. Whitespace almost always means an")
+        print("   adjacent column (usually the UOM) bled into the code cell, which")
+        print("   SPLITS ONE PRODUCT INTO TWO in the cost book. The money above")
+        print("   still reconciles — that is exactly why this needs its own check.")
+        for k, v in sorted(dirty.items()):
+            total = len(codes[k])
+            print(f"   {k:<18} {len(v)}/{total} codes affected, e.g. {v[:3]}")
+    else:
+        print("\nidentity: no supplier code contains whitespace in any parsed invoice.")
     return 0
 
 
