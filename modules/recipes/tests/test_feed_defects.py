@@ -138,12 +138,30 @@ def test_the_lemon_is_priced_in_two_dimensions():
 
 
 def test_the_avocado_is_a_whole_tray_priced_as_one():
+    """THE PAIR IS THE FINDING; THE TRAY PRICE IS JUST TODAY'S PRICE.
+
+    This pinned the tray at $26.40 and the ratio at 26.40/3.10. Both are
+    supplier prices read through a rolling 90-day window, so they move on
+    their own: on 2026-08-14 the tray is $22.00 (lightspeed:22488995) and the
+    ratio 7.10. Nothing about the defect changed — a tray still sits beside a
+    single avocado at $3.10, which is the whole point — but the assertion
+    called that a regression.
+
+    Worse, it only ever said so on a developer's machine: data/ingredients.json
+    is gitignored and generated, so this test SKIPS in CI. A pinned number that
+    drifts, in a test nobody's pipeline runs, is a slow trap. So assert the
+    shape — the tray/piece pair, still flagged, still above the detection
+    threshold — and let the price be whatever it is."""
     by_stem = {f["stem"]: f for f in fd.product_priced_in_two_worlds(_ingredients())}
     avo = by_stem["avocado"]
     assert avo["kind"] == "container_vs_piece"
-    assert avo["ratio"] == pytest.approx(26.40 / 3.10, rel=1e-3)
     assert avo["members"][0]["pack_unit"] == "tray"
-    assert avo["members"][0]["rate"] == pytest.approx(26.40)
+    piece = next(m for m in avo["members"] if m["pack_unit"] == "ea")
+    assert piece["rate"] == pytest.approx(3.10, rel=0.5), (
+        f"a single avocado should still be a few dollars: {piece['rate']}")
+    assert avo["ratio"] >= fd.TWO_WORLDS_X, (
+        f"tray {avo['members'][0]['rate']} vs piece {piece['rate']} "
+        f"= {avo['ratio']:.2f}x, below the {fd.TWO_WORLDS_X}x threshold")
 
 
 def test_two_ways_of_buying_the_same_thing_is_not_a_defect():
