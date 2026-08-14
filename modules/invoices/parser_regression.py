@@ -75,6 +75,52 @@ that does not need Zak's decision first (see the two shared gates below).
   * the three $0.00 documents — unchanged, still need the run.py::looks_like_
     statement gate described below, which is cross-supplier and wants review.
 
+TRIAGE LOG — 2026-08-15: the first REAL parser defect this log has found, and it
+was invisible to this harness by construction. FOODLINK re-templated: the whole
+line table moved right by ~25pt (Qty. 251 -> 277.5, UOM 272.5 -> 306.4, Weight
+327 -> 345). parsers/foodlink.py bucketed on hard-coded x-starts, so the Qty.
+VALUE at x=290 landed past the uom boundary (270); c["qty"] came back empty, the
+`qty is None` guard skipped every row, and parse() raised "no line items parsed"
+on EVERY Foodlink invoice from 2026-07-29 onward. Ten invoices had been sitting
+in Review for 2.5 weeks and the last Foodlink invoice to reach data/invoices was
+2026-07-28 — a kitchen supplier's costs simply stopped arriving.
+
+  Why this table said 100% the whole time — worth fixing, still open:
+  build_corpus.py scans "/mailFolders/inbox/messages" ONLY. pull_mailbox has
+  already MOVED every failing invoice to the Invoices Review folder by the time
+  the corpus is built, so a document can only enter the corpus if it SUCCEEDED.
+  The corpus is therefore a survivor sample and the PASS rate is blind to exactly
+  the failures it exists to catch. Compounding it, --per caps a supplier's corpus
+  (foodlink was at the 60 cap since July), so `have >= per` skipped foodlink
+  entirely and no new layout could ever enter. Two cheap fixes for a future run,
+  both needing Zak's nod because they change what the corpus IS: (a) also page
+  the Invoices Review folder in build_corpus, (b) make --per keep the NEWEST N
+  rather than the first N found. Until then, a parser can rot silently.
+
+  Fix: boundaries are now DERIVED from the header row's own word x-positions
+  (foodlink.py::_cols_from_header); COLS remains only as a fallback. Verified on
+  all 10 stuck invoices — every one now parses AND reconciles to its printed
+  total (e.g. SI4525247: 124.00 + 158.00 + 3.00 Fuel Levy + 0.30 GST = $285.30,
+  the stated total, to the cent). The 10 PDFs were copied into the corpus by hand
+  (gitignored) so this cannot regress unseen: foodlink 59/59 -> 69/69, TOTAL
+  408/416 -> 418/426 (98%). No other supplier moved. Five fixture tests added in
+  tests/test_parsers.py, including one that asserts the OLD hard-coded COLS would
+  have mis-bucketed the new qty, so the diagnosis itself is pinned.
+
+  The 11th Foodlink document in Review is a Statement of Account. It is correctly
+  refused, but it scores as parse-fail rather than not-inv because
+  looks_like_statement misses it, so it was deliberately NOT added to the corpus.
+  Same shared-gate question as the $0.00 documents below — left for Zak.
+
+  The 8 pre-existing shortfalls were re-confirmed unchanged and are still the
+  same documents named in the 08-08 entry: be_foods d02385290774, ilg b46bfb0a542a
+  + e23ce69fe899, paramount 670685f29215, farmer_joes 4444676, reward_dist x2,
+  vanguard x1. No change made to any of them.
+
+  Also note: build_corpus.py WEDGED on the network for 1h45m this run (2 open
+  sockets, 1.75s CPU, zero files written) and had to be killed, exactly like the
+  stale pull_mailbox.py found at start-up. It has no timeout. Worth one.
+
 The three zero-total documents can never PASS by construction: validator's
 _check_required_fields treats total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
 So no parser can promote them — the only way to stop them costing an LLM call on

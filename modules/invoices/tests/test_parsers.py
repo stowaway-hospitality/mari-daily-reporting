@@ -354,3 +354,79 @@ def test_fft_a_swallowed_word_is_only_taken_as_the_unit_if_it_names_one():
     assert not names_a_unit("Herb")
     assert not names_a_unit("Lettuce")
     assert not names_a_unit("Cauliflower")
+
+
+# --- Foodlink: column boundaries derived from the header, not hard-coded ------
+# 2026-08-15. Foodlink re-templated and shifted its table right by ~25pt. The
+# parser's hard-coded COLS put the Qty. VALUE (x=290) past the uom boundary
+# (270), so c["qty"] came back empty, the `qty is None` guard skipped every row,
+# and the parser raised "no line items parsed" on EVERY invoice from 2026-07-29
+# on — 10 of them sat in Review for 2.5 weeks. The corpus could not catch it:
+# build_corpus.py only scans the INBOX, and these had already been moved to the
+# Invoices Review folder. So the regression harness said foodlink 59/59 (100%)
+# while production was failing 100% of new invoices.
+#
+# These two rows are the REAL header word positions from each layout.
+
+FL_HEADER_OLD = _row((32.6, "No."), (70.9, "Description"), (251.0, "Qty."),
+                     (272.5, "UOM"), (327.1, "Weight"), (429.5, "Disc"),
+                     (451.0, "%"), (462.9, "GST"))
+FL_HEADER_NEW = _row((34.0, "No."), (73.6, "Description"), (277.5, "Qty."),
+                     (306.4, "UOM"), (345.1, "Weight"), (432.5, "Disc"),
+                     (454.0, "%"), (468.1, "GST"))
+
+
+def test_foodlink_old_layout_row_buckets_correctly():
+    from modules.invoices.parsers.foodlink import _cols_from_header
+    cols = _cols_from_header(FL_HEADER_OLD)
+    # SOUR CREAM FULL 2LT Brancourts, 3 EA @ 19.00 = 57.00
+    row = _row((33, "102638"), (71, "SOUR"), (99, "CREAM"), (134, "FULL"),
+               (159, "2LT"), (177, "Brancourts"), (263, "3"), (276, "EA"),
+               (384, "19.00"), (529, "57.00"))
+    c = pdf_text.bucket(row, cols)
+    assert c["code"] == "102638"
+    assert c["qty"] == "3"
+    assert c["uom"] == "EA"
+    assert c["price"] == "19.00"
+    assert c["total"] == "57.00"
+
+
+def test_foodlink_new_layout_row_buckets_correctly():
+    from modules.invoices.parsers.foodlink import _cols_from_header
+    cols = _cols_from_header(FL_HEADER_NEW)
+    # ARANCINI TRUFFLED PORCINI, origin AU, 1 CTN @ 124.00 = 124.00
+    row = _row((34, "103742"), (74, "ARANCINI"), (119, "TRUFFLED"), (207, "AU"),
+               (290, "1"), (308, "CTN"), (399, "124.00"), (527, "124.00"))
+    c = pdf_text.bucket(row, cols)
+    assert c["code"] == "103742"
+    assert c["qty"] == "1", "the regression: qty fell into uom under hard-coded COLS"
+    assert c["uom"] == "CTN"
+    assert c["price"] == "124.00"
+    assert c["total"] == "124.00"
+    assert "AU" in c["desc"]        # origin folds into description, as before
+
+
+def test_foodlink_hardcoded_cols_would_have_missed_the_new_qty():
+    # Guards the diagnosis itself: if this ever stops being true, the bug
+    # described above was something else and the comment needs revisiting.
+    from modules.invoices.parsers.foodlink import COLS
+    row = _row((290, "1"), (308, "CTN"))
+    c = pdf_text.bucket(row, COLS)
+    assert c["qty"] == ""
+    assert c["uom"] == "1 CTN"
+
+
+def test_foodlink_gst_flag_column_survives_both_layouts():
+    from modules.invoices.parsers.foodlink import _cols_from_header
+    for hdr, gx, tx in ((FL_HEADER_OLD, 463, 529), (FL_HEADER_NEW, 468, 537)):
+        cols = _cols_from_header(hdr)
+        c = pdf_text.bucket(_row((71, "Fuel"), (91, "Levy"), (263, "1"),
+                                 (389, "3.00"), (gx, "GST"), (tx, "3.00")), cols)
+        assert c["gstflag"] == "GST"
+        assert c["total"] == "3.00"
+
+
+def test_foodlink_unreadable_header_falls_back_rather_than_inventing_columns():
+    from modules.invoices.parsers.foodlink import _cols_from_header
+    assert _cols_from_header(_row((10, "No."), (50, "Description"))) is None
+    assert _cols_from_header([]) is None

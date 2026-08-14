@@ -1,0 +1,233 @@
+{
+  "invoice": {
+    "supplier_key": "paramount",
+    "supplier_name_raw": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
+    "invoice_ref": "5502010",
+    "invoice_date": "2026-08-07",
+    "total_incl": "1211.12",
+    "lines": [
+      {
+        "description": "ANTICA FORMULA CARPANO : 1000 ml",
+        "qty": "1",
+        "line_total_incl": "59.97",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "66827",
+        "raw_qty": null,
+        "raw_uom": "6/1000 ml",
+        "pack_qty": "1",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "CARPANO CLASSICO VERMOUTH : 750ml",
+        "qty": "1",
+        "line_total_incl": "23.20",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "10015926",
+        "raw_qty": null,
+        "raw_uom": "6/750 ml",
+        "pack_qty": "0.75",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Carton Freight",
+        "qty": "1",
+        "line_total_incl": "3.01",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "9000000",
+        "raw_qty": null,
+        "raw_uom": "MISC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "NEVER NEVER OYSTER SHELL GIN : 700ml",
+        "qty": "1",
+        "line_total_incl": "69.63",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "10018402",
+        "raw_qty": null,
+        "raw_uom": "6/700 ml",
+        "pack_qty": "0.7",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "SEADRIFT COAST : 700 ml",
+        "qty": "1",
+        "line_total_incl": "41.25",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "90266",
+        "raw_qty": null,
+        "raw_uom": "6/700 ml",
+        "pack_qty": "0.7",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Temporary Fuel Levy Charge",
+        "qty": "1",
+        "line_total_incl": "0.22",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "9000004",
+        "raw_qty": null,
+        "raw_uom": "MISC",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "WHITE LIGHT VODKA ORIGINAL : 20000ml",
+        "qty": "1",
+        "line_total_incl": "1013.84",
+        "unit_price_incl": null,
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "32051",
+        "raw_qty": null,
+        "raw_uom": "1/20000 ml",
+        "pack_qty": "20",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": null,
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "3c848b1c6e017f27071264779108e9fcffc237458dd4d8197bea903c192a4291.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $3.23 under the invoice total \u2014 expected. Skipped: Carton Freight ($3.01), Temporary Fuel Levy Charge ($0.22). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "1207.89",
+        "actual": "1211.12"
+      }
+    ],
+    "expected_ls_receive_total": "1207.89",
+    "extras_total": "3.23"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "ANTICA FORMULA CARPANO : 1000 ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "CARPANO CLASSICO VERMOUTH : 750ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "Carton Freight",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      },
+      {
+        "description": "NEVER NEVER OYSTER SHELL GIN : 700ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "SEADRIFT COAST : 700 ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      },
+      {
+        "description": "Temporary Fuel Levy Charge",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      },
+      {
+        "description": "WHITE LIGHT VODKA ORIGINAL : 20000ml",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "known supplier 'paramount'"
+      }
+    ]
+  }
+}

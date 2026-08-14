@@ -1,50 +1,266 @@
 {
-  "generated": "2026-08-14",
-  "reviewed": 1,
-  "clean": 1,
-  "flags": [],
-  "resolved": [
+  "generated": "2026-08-15",
+  "reviewed": 103,
+  "clean": 66,
+  "flags": [
     {
-      "supplier": "B&E",
-      "name": "Chilli - Flake / Crushed",
-      "code": "28087",
-      "issue": "Costed $13.70 per 'bag' with no weight; needs_pack_review FALSE so nothing would surface it, and no gram-based recipe could cost against it.",
-      "resolution": "CONFIRMED B&E catalogue #28087 'Chilli - Flake / Crushed 1kg Csi', 1 BAG/PK -> 1000 g. Now $0.0137/g ($13.70/kg), consistent with the existing 'Chilli Flakes' at $0.020/g."
+      "supplier": "Fresh Fruit Team",
+      "name": "Large",
+      "code": "CLKG",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Large'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for CLKG ('Large' and 'Carrot Large'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map CLKG -> 'Carrot Large'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Spanish",
+      "code": "OSKG",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Spanish'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for OSKG ('Spanish' and 'Onion Spanish'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map OSKG -> 'Onion Spanish'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Pink Peeled",
+      "code": "KITGPINPEA",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Pink Peeled'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for KITGPINPEA ('Pink Peeled' and 'Grapefruit Pink Peeled'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map KITGPINPEA -> 'Grapefruit Pink Peeled'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Paw Shredded",
+      "code": "KITPPSKG",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Paw Shredded'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for KITPPSKG ('Paw Shredded' and 'Paw Paw Shredded'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map KITPPSKG -> 'Paw Paw Shredded'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Red And Green",
+      "code": "KITCRAGKG",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Red And Green'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for KITCRAGKG ('Red And Green' and 'Coleslaw Red And Green'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map KITCRAGKG -> 'Coleslaw Red And Green'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Slaw",
+      "code": "KITDSKG",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Slaw'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for KITDSKG ('Slaw' and 'Dry Slaw'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map KITDSKG -> 'Dry Slaw'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Sweet",
+      "code": "CSCB",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Sweet'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for CSCB ('Sweet' and 'Corn Sweet'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map CSCB -> 'Corn Sweet'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Jap",
+      "code": "PJEA",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Jap'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for PJEA ('Jap' and 'Pumpkin Jap'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map PJEA -> 'Pumpkin Jap'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Hass",
+      "code": "AH20T",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Hass'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for AH20T ('Hass' and 'Avocado Hass'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map AH20T -> 'Avocado Hass'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Radiccio",
+      "code": "LREA",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Radiccio'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for LREA ('Radiccio' and 'Lettuce Radiccio'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map LREA -> 'Lettuce Radiccio'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Jalapino Green",
+      "code": "CJGKG",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Jalapino Green'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for CJGKG ('Jalapino Green' and 'Chillies Jalapino Green'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map CJGKG -> 'Chillies Jalapino Green'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Button B Grade",
+      "code": "MSHB2",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Button B Grade'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for MSHB2 ('Button B Grade' and 'Mushroom Button B Grade'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map MSHB2 -> 'Mushroom Button B Grade'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "700 Grams",
+      "code": "EGL7BX",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment '700 Grams'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for EGL7BX ('700 Grams' and 'Eggs 700 Grams'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map EGL7BX -> 'Eggs 700 Grams'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Baby Spinach English",
+      "code": "LBSE15B",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Baby Spinach English'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for LBSE15B ('Baby Spinach English' and 'Lettuce Baby Spinach English'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map LBSE15B -> 'Lettuce Baby Spinach English'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Chives",
+      "code": "HCMB",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Chives'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for HCMB ('Chives' and 'Herb Chives'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map HCMB -> 'Herb Chives'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Coriander",
+      "code": "HCDRMB",
+      "issue": "Truncated name \u2014 the leading word was swallowed into the raw_uom cell, so this product is registered under the fragment 'Coriander'. CONFIRMED, not guessed: data/invoices holds BOTH spellings for HCDRMB ('Coriander' and 'Herb Coriander'), which is also why one product is splitting into two identities.",
+      "suggested_fix": "Map HCDRMB -> 'Herb Coriander'."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Seedless",
+      "code": "LSKG",
+      "issue": "Truncated name \u2014 registered as the fragment 'Seedless'. Only this spelling exists in data/invoices, but the missing leading word is sitting in raw_uom as 'Lemon', which is not a unit of measure. NOT guessed \u2014 read from the invoice line.",
+      "suggested_fix": "Map LSKG -> 'Lemon Seedless' (verify against the FFT catalogue before applying)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Peeled",
+      "code": "KITLEPKG",
+      "issue": "Truncated name \u2014 registered as the fragment 'Peeled'. Only this spelling exists in data/invoices, but the missing leading word is sitting in raw_uom as 'Lemon', which is not a unit of measure. NOT guessed \u2014 read from the invoice line.",
+      "suggested_fix": "Map KITLEPKG -> 'Lemon Peeled' (verify against the FFT catalogue before applying)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Julienne",
+      "code": "KITCARJKG",
+      "issue": "Truncated name \u2014 registered as the fragment 'Julienne'. Only this spelling exists in data/invoices, but the missing leading word is sitting in raw_uom as 'Carrot', which is not a unit of measure. NOT guessed \u2014 read from the invoice line.",
+      "suggested_fix": "Map KITCARJKG -> 'Carrot Julienne' (verify against the FFT catalogue before applying)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Pencil",
+      "code": "LPBCH",
+      "issue": "Truncated name \u2014 registered as the fragment 'Pencil'. Only this spelling exists in data/invoices, but the missing leading word is sitting in raw_uom as 'Leeks', which is not a unit of measure. NOT guessed \u2014 read from the invoice line.",
+      "suggested_fix": "Map LPBCH -> 'Leeks Pencil' (verify against the FFT catalogue before applying)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Pink Lady",
+      "code": "APLKG",
+      "issue": "Truncated name \u2014 registered as the fragment 'Pink Lady'. Only this spelling exists in data/invoices, but the missing leading word is sitting in raw_uom as 'Apple', which is not a unit of measure. NOT guessed \u2014 read from the invoice line.",
+      "suggested_fix": "Map APLKG -> 'Apple Pink Lady' (verify against the FFT catalogue before applying)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Roma",
+      "code": "TRKG",
+      "issue": "Truncated name \u2014 registered as the fragment 'Roma'. Only this spelling exists in data/invoices, but the missing leading word is sitting in raw_uom as 'Tomatoes', which is not a unit of measure. NOT guessed \u2014 read from the invoice line.",
+      "suggested_fix": "Map TRKG -> 'Tomatoes Roma' (verify against the FFT catalogue before applying)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Ruby Red",
+      "code": "GRR12BX",
+      "issue": "Truncated name \u2014 registered as the fragment 'Ruby Red'. Only this spelling exists in data/invoices, but the missing leading word is sitting in raw_uom as 'Grapefruit', which is not a unit of measure. NOT guessed \u2014 read from the invoice line.",
+      "suggested_fix": "Map GRR12BX -> 'Grapefruit Ruby Red' (verify against the FFT catalogue before applying)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Topless (Bethonga)",
+      "code": "PTEA",
+      "issue": "Truncated name \u2014 registered as the fragment 'Topless (Bethonga)'. Only this spelling exists in data/invoices, but the missing leading word is sitting in raw_uom as 'Pineapple', which is not a unit of measure. NOT guessed \u2014 read from the invoice line.",
+      "suggested_fix": "Map PTEA -> 'Pineapple Topless (Bethonga)' (verify against the FFT catalogue before applying)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Cos Victorian",
+      "code": "LCVEA",
+      "issue": "Truncated name \u2014 registered as the fragment 'Cos Victorian'. Only this spelling exists in data/invoices, but the missing leading word is sitting in raw_uom as 'Lettuce', which is not a unit of measure. NOT guessed \u2014 read from the invoice line.",
+      "suggested_fix": "Map LCVEA -> 'Lettuce Cos Victorian' (verify against the FFT catalogue before applying)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Baby Gem",
+      "code": "LBG20B",
+      "issue": "Truncated name \u2014 registered as the fragment 'Baby Gem'. Only this spelling exists in data/invoices, but the missing leading word is sitting in raw_uom as 'Lettuce', which is not a unit of measure. NOT guessed \u2014 read from the invoice line.",
+      "suggested_fix": "Map LBG20B -> 'Lettuce Baby Gem' (verify against the FFT catalogue before applying)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Cocktail",
+      "code": "POTCO20KG",
+      "issue": "Truncated name \u2014 registered as the fragment 'Cocktail'. Only this spelling exists in data/invoices, but the missing leading word is sitting in raw_uom as 'Potato', which is not a unit of measure. NOT guessed \u2014 read from the invoice line.",
+      "suggested_fix": "Map POTCO20KG -> 'Potato Cocktail' (verify against the FFT catalogue before applying)."
     },
     {
       "supplier": "B&E",
-      "name": "Pure Cooking Sea Salt",
-      "code": "28010",
-      "issue": "Same per-bag problem, no stated mass.",
-      "resolution": "CONFIRMED B&E catalogue #28010 'Pure Cooking Sea Salt 10kg' BAG -> 10000 g. Now $0.00115/g ($1.15/kg)."
+      "name": "Pizza Box Liner Brown 9\"",
+      "code": "15037",
+      "issue": "PACKAGING, not a food. needs_pack_review is FALSE, so nothing else will surface it and it is being costed as an ingredient at $21.56/box.",
+      "suggested_fix": "Exclude from the ingredient picker (non-food/packaging class)."
     },
     {
       "supplier": "B&E",
-      "name": "Fried Crispy Red Onion",
-      "code": "12161",
-      "issue": "Same per-bag problem, no stated mass.",
-      "resolution": "CONFIRMED B&E catalogue #12161 'Fried Crispy Red Onion 1kg (10) Traded' BAG -> 1000 g. Now $0.0088/g ($8.80/kg)."
+      "name": "Paper Bags - 2f 240x165mm",
+      "code": "16976",
+      "issue": "PACKAGING, not a food. Already flagged needs_pack_review, but it should be excluded outright rather than sent to the chef for a pack size.",
+      "suggested_fix": "Exclude from the ingredient picker (non-food/packaging class)."
     },
     {
-      "supplier": "B&E",
-      "name": "Maize Corn Flour Gluten",
-      "code": "19101",
-      "issue": "Same per-bag problem, no stated mass.",
-      "resolution": "CONFIRMED B&E catalogue #19101 'Maize Corn Flour Gluten Free 3kg (4) Trumps' BAG -> 3000 g. Now $0.0048/g ($4.80/kg)."
+      "supplier": "Foodlink",
+      "name": "Paper Gingham 1/4 Cut",
+      "code": "108800",
+      "issue": "PACKAGING (greaseproof service paper), not a food.",
+      "suggested_fix": "Exclude from the ingredient picker (non-food/packaging class)."
     },
     {
-      "supplier": "B&E",
-      "name": "Pepper White Ground Ss",
-      "code": "31254",
-      "issue": "Same per-bag problem, no stated mass.",
-      "resolution": "CONFIRMED B&E catalogue #31254 'Pepper White Ground Ss 1kg (10)' BAG -> 1000 g. Now $0.0324/g ($32.40/kg)."
+      "supplier": "Foodlink",
+      "name": "Bamboo Picks Black Ball",
+      "code": "107234",
+      "issue": "DISPOSABLE / packaging, not a food.",
+      "suggested_fix": "Exclude from the ingredient picker (non-food/packaging class)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Cocktail",
+      "code": "POTCO20KG",
+      "issue": "Pack is 'bag' with no weight and needs_pack_review is FALSE, so $38.50 is being read as the cost of one unit. The supplier_code itself says 20KG, i.e. ~$1.93/kg \u2014 a ~20x error for any recipe measuring potato by mass.",
+      "suggested_fix": "Set pack to 20000 g ($38.50/20kg). Confirm 20kg with FFT before applying."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Baby Spinach English",
+      "code": "LBSE15B",
+      "issue": "Pack is 'box' with no weight and needs_pack_review is FALSE. raw_uom on the invoice states '1.5kg box' \u2014 CONFIRMED from the invoice, not guessed.",
+      "suggested_fix": "Set pack to 1500 g ($16.50/1.5kg = $11.00/kg)."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Mushroom Button",
+      "code": "MSHB",
+      "issue": "Pack is 'box' with no weight (needs_pack_review FALSE) at $44.00/box, while the SAME product family MSHB2 (Button B Grade) is costed per gram over a 4000 g box. One of the two is wrong and they will not compare.",
+      "suggested_fix": "Set MSHB to the same basis as MSHB2 (per g over the real box weight). Confirm box kg with FFT."
+    },
+    {
+      "supplier": "Select Fresh",
+      "name": "Herb Chives 5-6 Mkt Bnch",
+      "code": "HCHIM",
+      "issue": "Priced $22.00 as ONE 'bunch' (needs_pack_review FALSE), but the product name says the market bunch contains 5-6 bunches \u2014 so a recipe calling for one bunch of chives is costed ~5x too high.",
+      "suggested_fix": "Set pack_qty to the real bunch count (5 or 6). NOT guessed \u2014 confirm with Select Fresh."
+    },
+    {
+      "supplier": "Lightspeed",
+      "name": "Pears Green [kg]",
+      "code": "22995353",
+      "issue": "Name says [kg] but pack_unit is 'ea' at $0.65. Its cost-book siblings 'Onion Brown [kg]' and 'Potato Peeled [kg]' both resolve to unit 'g'. If this is meant to be per kg then $0.65/kg is far too cheap for pears; if per each it is plausible. The unit and the name disagree and it was NOT guessed either way.",
+      "suggested_fix": "Confirm whether the cost-book entry is per kg or per each, then align pack_unit to the name."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "please make sure all product are",
+      "code": "AH20T",
+      "issue": "A delivery-instruction sentence from the invoice was captured as a product DESCRIPTION under code AH20T (Avocado Hass). It does not create a new product, but it is a third 'spelling' of that identity and pollutes the name consolidation.",
+      "suggested_fix": "Ignore free-text comment rows when building descriptions in the FFT parser."
     }
-  ],
-  "notes": [
-    "Container-unit ingredients went 30 -> 25. Every B&E per-bag dry good is now confirmed and costed per gram; none of the five weights was guessed.",
-    "Of the remaining 25: 4 are packaging (Carry Bag - Paper, Burger Box Hard/Soft, Snack Box - Hard) which Zak elected on 2026-08-14 to leave in the picker. Several more are legitimately countable units a chef can use as-is (punnets of blackberries, edible flowers, micro herbs). The genuinely broken ones are boxes of loose produce sold by weight - FFT Baby Gem, Broccolini, Baby Spinach English, 'Large' (Carrot Large) - which need the Fresh Fruit Team catalogue.",
-    "Fresh Fruit Team's portal (thefreshfruitteamptyltd.shop.bossqi.app) requires a login, so those could not be confirmed this run. If Zak signs in and leaves the tab open they can be done in one pass.",
-    "B&E's catalogue sits behind Cloudflare. It clears on its own if you WAIT (~15-20s) rather than retrying; retrying re-triggers the challenge. Noted for the next run.",
-    "pack_overrides.yaml is an append-only log where the LAST entry per id wins - repeated ids are the design, not a defect. select-fresh:MUSB currently resolves to 4000 g ($9.13/kg), from an entry attributed to the FFT catalogue rather than Select Fresh's own. The number is plausible but the provenance is cross-supplier inference; worth a confirm if mushroom cost ever looks off."
   ]
 }
