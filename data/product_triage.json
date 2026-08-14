@@ -1,15 +1,14 @@
 {
-  "generated": "2026-08-13",
-  "reviewed": 3,
-  "clean": 3,
-  "flags": [],
-  "notes": [
-    "3 new products reviewed, 0 flagged. All three have complete real names, correct food category, sensible pack parses and needs_pack_review=false.",
-    "B&E #18409 'Honey 3kg (4) Foodology' @ $7.30/kg (pack 3000 g, $21.90 incl) — corroborated against two independent incumbents already in the feed: Foodlink 'HONEY PURE 3KG Wild Flower' at $7.00/kg and the Lightspeed stock item at $6.99/kg. Within 4% of the incumbent, and the 3kg pack parse matches Foodlink's identical 3kg pack. The '(4)' is the carton multiple; pack_cost_incl $21.90 = 3 kg x $7.30 confirms the line was priced per 3 kg tub, not per 4-tub carton (which would have implied an implausible $1.83/kg).",
-    "Select Fresh JUOR 'Juice Orange 2ltr' @ $2.90/L (pack 2000 ml, $5.80 incl) — sits inside the existing Select Fresh 2 L juice band (Clear Apple $2.80/L, Ruby Grapefruit $2.90/L, Cranberry $3.90/L) and matches the Lightspeed 'East Coast Orange Juice [2L]' stock item at $2.82/L.",
-    "Select Fresh JUPIN 'Juice Pineapple 2ltr' @ $3.10/L (pack 2000 ml, $6.20 incl) — inside the same band and below the Lightspeed 'East Coast Pineapple Juice [2L]' stock item at $3.47/L.",
-    "No cleaning, chemical or packaging lines entered the feed this cycle — nothing to exclude from the picker.",
-    "No value was guessed and no code, _NAME_FIX entry or pack_overrides.yaml entry was edited — this is a review only.",
-    "STILL OPEN from the 2026-08-11 review: B&E #18321 'Msg (Monosodium' and #31037 'Nuts - Walnuts Halves &' remain truncated in the feed. Both were confirmed against the B&E catalogue on 08-11; the root-cause fix (be_foods.py should append a wrapped description continuation row instead of skipping it) has not been applied because it does not move the PASS rate. Awaiting Zak's call."
+  "generated": "2026-08-14",
+  "reviewed": 1,
+  "clean": 0,
+  "flags": [
+    {
+      "supplier": "B&E",
+      "name": "Chilli - Flake / Crushed",
+      "code": "28087",
+      "issue": "PACK/UNIT: costed at $13.70 per 'bag' with no bag weight captured (invoice 7111314 states raw_uom 'BAG', pack_qty 1, no mass). Every comparable dry spice in the DB is costed per gram - including an existing near-duplicate 'Chilli Flakes' at $0.020000/g - so any recipe calling chilli flakes in grams cannot cost against this record. needs_pack_review is FALSE, so this will NOT be surfaced to the chef on its own. Name, cost magnitude and food-category all check out: $13.70/bag implies $0.0274/g at 500g or $0.0137/g at 1kg, both in line with the existing $0.020/g entry, so this is a unit problem, not a price problem.",
+      "suggested_fix": "Confirm the bag weight from the B&E catalogue (befoodsonline.com.au, supplier_code 28087) - the portal would not load during this run and the invoice does not state a mass, so the weight was NOT guessed. Once confirmed, add a pack_overrides.yaml entry mapping 28087 to that weight in g so it costs per gram, and decide whether it should merge with the existing 'Chilli Flakes' ingredient rather than sit alongside it."
+    }
   ]
 }
