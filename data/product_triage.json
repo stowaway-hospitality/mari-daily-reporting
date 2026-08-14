@@ -8,13 +8,43 @@
       "supplier": "B&E",
       "name": "Chilli - Flake / Crushed",
       "code": "28087",
-      "issue": "PACK/UNIT: costed at $13.70 per 'bag' with no bag weight captured (invoice 7111314 states raw_uom 'BAG', pack_qty 1, no mass), while every comparable dry spice is costed per gram. needs_pack_review was FALSE, so nothing would have surfaced it to the chef.",
-      "resolution": "CONFIRMED from the B&E catalogue (befoodsonline.com.au, product #28087, Windsor Farm): 'Chilli - Flake / Crushed 1kg Csi', 1 BAG/PK. Bag is 1 kg. Added to data/pack_overrides.yaml as 1000 g, so it now costs $0.0137/g - consistent with the existing 'Chilli Flakes' entry at $0.020/g. Weight was confirmed, not guessed."
+      "issue": "Costed $13.70 per 'bag' with no weight; needs_pack_review FALSE so nothing would surface it, and no gram-based recipe could cost against it.",
+      "resolution": "CONFIRMED B&E catalogue #28087 'Chilli - Flake / Crushed 1kg Csi', 1 BAG/PK -> 1000 g. Now $0.0137/g ($13.70/kg), consistent with the existing 'Chilli Flakes' at $0.020/g."
+    },
+    {
+      "supplier": "B&E",
+      "name": "Pure Cooking Sea Salt",
+      "code": "28010",
+      "issue": "Same per-bag problem, no stated mass.",
+      "resolution": "CONFIRMED B&E catalogue #28010 'Pure Cooking Sea Salt 10kg' BAG -> 10000 g. Now $0.00115/g ($1.15/kg)."
+    },
+    {
+      "supplier": "B&E",
+      "name": "Fried Crispy Red Onion",
+      "code": "12161",
+      "issue": "Same per-bag problem, no stated mass.",
+      "resolution": "CONFIRMED B&E catalogue #12161 'Fried Crispy Red Onion 1kg (10) Traded' BAG -> 1000 g. Now $0.0088/g ($8.80/kg)."
+    },
+    {
+      "supplier": "B&E",
+      "name": "Maize Corn Flour Gluten",
+      "code": "19101",
+      "issue": "Same per-bag problem, no stated mass.",
+      "resolution": "CONFIRMED B&E catalogue #19101 'Maize Corn Flour Gluten Free 3kg (4) Trumps' BAG -> 3000 g. Now $0.0048/g ($4.80/kg)."
+    },
+    {
+      "supplier": "B&E",
+      "name": "Pepper White Ground Ss",
+      "code": "31254",
+      "issue": "Same per-bag problem, no stated mass.",
+      "resolution": "CONFIRMED B&E catalogue #31254 'Pepper White Ground Ss 1kg (10)' BAG -> 1000 g. Now $0.0324/g ($32.40/kg)."
     }
   ],
   "notes": [
-    "29 other ingredients remain costed per container (bag/box/punnet/tray) with no weight and needs_pack_review FALSE. The B&E portal sits behind Cloudflare and would not stay loaded long enough to confirm the rest this run; the Fresh Fruit Team portal requires a login. These still need a pass: B&E 12161 Fried Crispy Red Onion, 19101 Maize Corn Flour Gluten, 31254 Pepper White Ground Ss, 28010 Pure Cooking Sea Salt, plus the FFT boxes/punnets/trays.",
-    "Packaging (Carry Bag - Paper, Burger Box Hard/Soft, Snack Box - Hard) is costed as food in the picker. Zak's call on 2026-08-14: leave as is.",
-    "data/pack_overrides.yaml carries two PRE-EXISTING duplicate ids - lightspeed:22873876 and select-fresh:MUSB. The MUSB pair conflicts materially (1 box vs 4000 g), so one silently wins. Worth a look."
+    "Container-unit ingredients went 30 -> 25. Every B&E per-bag dry good is now confirmed and costed per gram; none of the five weights was guessed.",
+    "Of the remaining 25: 4 are packaging (Carry Bag - Paper, Burger Box Hard/Soft, Snack Box - Hard) which Zak elected on 2026-08-14 to leave in the picker. Several more are legitimately countable units a chef can use as-is (punnets of blackberries, edible flowers, micro herbs). The genuinely broken ones are boxes of loose produce sold by weight - FFT Baby Gem, Broccolini, Baby Spinach English, 'Large' (Carrot Large) - which need the Fresh Fruit Team catalogue.",
+    "Fresh Fruit Team's portal (thefreshfruitteamptyltd.shop.bossqi.app) requires a login, so those could not be confirmed this run. If Zak signs in and leaves the tab open they can be done in one pass.",
+    "B&E's catalogue sits behind Cloudflare. It clears on its own if you WAIT (~15-20s) rather than retrying; retrying re-triggers the challenge. Noted for the next run.",
+    "pack_overrides.yaml is an append-only log where the LAST entry per id wins - repeated ids are the design, not a defect. select-fresh:MUSB currently resolves to 4000 g ($9.13/kg), from an entry attributed to the FFT catalogue rather than Select Fresh's own. The number is plausible but the provenance is cross-supplier inference; worth a confirm if mushroom cost ever looks off."
   ]
 }

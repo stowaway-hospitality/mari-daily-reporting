@@ -580,3 +580,34 @@
   by: "Claude (same-day box/bunch pairs: $3.60 x 10 = $36.00 exactly; 9 would price the box above loose)"
   on: 2026-08-14
   by_email: "hello@stowawaybar.com"
+# The rest of the B&E per-BAG dry goods, all CONFIRMED from the B&E catalogue
+# (befoodsonline.com.au) on 2026-08-14, same problem as the chilli flake above:
+# the invoice states only "BAG" with no mass, so each was costed per bag with
+# needs_pack_review FALSE and no gram-based recipe could touch them. The bracketed
+# "(10)" / "(4)" on the catalogue name is the carton multiple, not the bag — the
+# invoice prices ONE bag, so the bag size is what is pinned here. Implied $/kg
+# given after each as the plausibility check.
+- id: "b-e:28010"
+  pack_qty: 10000
+  pack_unit: g
+  by: "Claude (B&E #28010 'Pure Cooking Sea Salt 10kg' BAG; $11.50/10kg = $1.15/kg)"
+  on: 2026-08-14
+  by_email: "hello@stowawaybar.com"
+- id: "b-e:12161"
+  pack_qty: 1000
+  pack_unit: g
+  by: "Claude (B&E #12161 'Fried Crispy Red Onion 1kg (10) Traded' BAG; $8.80/1kg = $8.80/kg)"
+  on: 2026-08-14
+  by_email: "hello@stowawaybar.com"
+- id: "b-e:19101"
+  pack_qty: 3000
+  pack_unit: g
+  by: "Claude (B&E #19101 'Maize Corn Flour Gluten Free 3kg (4) Trumps' BAG; $14.40/3kg = $4.80/kg)"
+  on: 2026-08-14
+  by_email: "hello@stowawaybar.com"
+- id: "b-e:31254"
+  pack_qty: 1000
+  pack_unit: g
+  by: "Claude (B&E #31254 'Pepper White Ground Ss 1kg (10)' BAG; $32.40/1kg = $32.40/kg)"
+  on: 2026-08-14
+  by_email: "hello@stowawaybar.com"
