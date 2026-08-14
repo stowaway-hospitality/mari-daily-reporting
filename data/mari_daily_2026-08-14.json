@@ -1,0 +1,261 @@
+{
+  "date": "2026-08-14",
+  "generated_at": "2026-08-14T19:49:34.142255Z",
+  "venue": "marilynas",
+  "venue_display": "Marilyna's Pizza",
+  "lane_config": [
+    "revenue",
+    "cogs",
+    "wages",
+    "delivery"
+  ],
+  "data_status": {
+    "lightspeed": "ok",
+    "deputy": "ok",
+    "payments": "missing"
+  },
+  "sales": {
+    "revenue_inc_gst": 3641.88,
+    "revenue_ex_gst": 3307.09,
+    "cogs_dollars": 763.89,
+    "cogs_pct": 23.1,
+    "gp_dollars": 2543.2,
+    "gp_pct": 76.9,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 662.96,
+    "recipe_coverage_pct": 85.6,
+    "uber_eats_revenue": 0,
+    "net_takings_ex_gst": null,
+    "eatclub_giveaway_ex_gst": 0.0,
+    "eatclub_covers": 0,
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 3307.09,
+    "bev_ex_gst": 0.0,
+    "food_cogs": 763.89,
+    "bev_cogs": 0.0,
+    "food_cogs_pct": 23.1,
+    "bev_cogs_pct": null,
+    "food_gp_pct": 76.9,
+    "bev_gp_pct": null
+  },
+  "wages": {
+    "kitchen_dollars": 986.39,
+    "foh_dollars": 0,
+    "driver_dollars": 218.84,
+    "admin_dollars": 0,
+    "leave_dollars": 0,
+    "total_dollars": 1205.23,
+    "wages_pct": 36.4,
+    "net_wage_pct": null,
+    "kitchen_hours": 26.0,
+    "foh_hours": 0,
+    "wages_kitchen_pct": 29.8,
+    "wages_foh_pct": null,
+    "includes_super": true,
+    "salaried_synthesized": true
+  },
+  "delivery": {
+    "uber_eats_commission_dollars": 0,
+    "own_driver_dollars": 218.84,
+    "uber_direct_dollars": 0.0,
+    "total_dollars": 218.84,
+    "delivery_pct": 6.6,
+    "fees_are_estimate": true
+  },
+  "payments_breakdown": null,
+  "alerts": {
+    "cogs": "red",
+    "wages": "red",
+    "delivery": "yellow",
+    "gp": "unknown",
+    "cogs_food": "unknown",
+    "cogs_bev": "unknown",
+    "wages_kitchen": "unknown",
+    "wages_foh": "unknown"
+  },
+  "targets": {
+    "cogs": {
+      "target": 17.6,
+      "amber": 20.6,
+      "red": 22.6,
+      "note": "Recent baseline - 3pt (aspirational, tighten quarterly)"
+    },
+    "wages": {
+      "target": 30.0,
+      "amber": 32.0,
+      "red": 34.0,
+      "note": "Zak-set: 30% target from cost-structure math"
+    },
+    "delivery": {
+      "target": 6.0,
+      "amber": 8.0,
+      "red": 10.0,
+      "note": "Uber Eats commission + Uber Direct + own driver combined, % of ex-GST rev"
+    },
+    "overheads": {
+      "target": 25.0,
+      "amber": 28.0,
+      "red": 30.0,
+      "note": "Rent + utils + admin + insurance + real marketing (excludes delivery + Uber commission)"
+    }
+  },
+  "top_products": [
+    {
+      "name": "$45 FEAST",
+      "qty": 5.0,
+      "rev": 225.0,
+      "cost": 70.0335,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Large Cosmopolitan",
+      "qty": 5.0,
+      "rev": 144.5,
+      "cost": 35.205,
+      "cost_source": "recipe",
+      "cost_lightspeed": 33.05
+    },
+    {
+      "name": "Regular Margherita",
+      "qty": 9.0,
+      "rev": 141.1,
+      "cost": 18.2979,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.61
+    },
+    {
+      "name": "Regular Pepperoni",
+      "qty": 7.0,
+      "rev": 136.4,
+      "cost": 18.8944,
+      "cost_source": "recipe",
+      "cost_lightspeed": 16.09
+    },
+    {
+      "name": "Regular Hawaiian",
+      "qty": 9.0,
+      "rev": 135.16,
+      "cost": 29.448,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.22
+    },
+    {
+      "name": "Regular Super House Special",
+      "qty": 6.0,
+      "rev": 131.4,
+      "cost": 27.7122,
+      "cost_source": "recipe",
+      "cost_lightspeed": 33.22
+    },
+    {
+      "name": "$60 BANQUET",
+      "qty": 2.0,
+      "rev": 120.0,
+      "cost": 42.1298,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Regular Uber Margherita [Dine-in]",
+      "qty": 6.0,
+      "rev": 118.8,
+      "cost": 16.272,
+      "cost_source": "recipe",
+      "cost_lightspeed": 20.36
+    },
+    {
+      "name": "Large Super House Special",
+      "qty": 4.0,
+      "rev": 112.6,
+      "cost": 30.4708,
+      "cost_source": "recipe",
+      "cost_lightspeed": 30.93
+    },
+    {
+      "name": "Regular Little Italy [Dine-in]",
+      "qty": 5.0,
+      "rev": 106.58,
+      "cost": 20.7525,
+      "cost_source": "recipe",
+      "cost_lightspeed": 24.88
+    },
+    {
+      "name": "Large Meatlovers",
+      "qty": 4.0,
+      "rev": 95.7,
+      "cost": 26.96,
+      "cost_source": "recipe",
+      "cost_lightspeed": 28.95
+    },
+    {
+      "name": "Family Tandoori Chicken",
+      "qty": 3.0,
+      "rev": 89.7,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Large Little Italy",
+      "qty": 5.0,
+      "rev": 80.7,
+      "cost": 36.952,
+      "cost_source": "recipe",
+      "cost_lightspeed": 45.59
+    },
+    {
+      "name": "Regular Tandoori Chicken",
+      "qty": 4.0,
+      "rev": 80.6,
+      "cost": 8.1468,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.0
+    },
+    {
+      "name": "Regular No Chorizo, No Cry [Dine-in]",
+      "qty": 3.0,
+      "rev": 80.55,
+      "cost": 7.9245,
+      "cost_source": "recipe",
+      "cost_lightspeed": 8.02
+    },
+    {
+      "name": "Family Margherita",
+      "qty": 3.0,
+      "rev": 71.7,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular Sanchez",
+      "qty": 3.0,
+      "rev": 70.8,
+      "cost": 13.6134,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.69
+    },
+    {
+      "name": "Regular Vegetarian",
+      "qty": 4.0,
+      "rev": 69.7,
+      "cost": 11.6068,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.48
+    },
+    {
+      "name": "Large Hawaiian",
+      "qty": 5.0,
+      "rev": 65.7,
+      "cost": 16.5785,
+      "cost_source": "recipe",
+      "cost_lightspeed": 16.38
+    },
+    {
+      "name": "Family Sorrento",
+      "qty": 2.0,
+      "rev": 59.8,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    }
+  ]
+}
