@@ -50,8 +50,8 @@ MUTANTS = [
   "if False:", "a MULTI (6x700ML) is read as ONE unit — the case/bottle bug reborn"),
  ("scripts/check_pack_agreement.py", 'TOL = Decimal("0.01")',
   'TOL = Decimal("0.00000001")', "pack-agreement tolerance too tight to ever match"),
- ("scripts/check_pack_agreement.py", "if not (before and after):",
-  "if False:", "regime changes reported as misreads"),
+ ("scripts/check_pack_agreement.py", "return bool(before and after)",
+  "return True", "regime changes reported as misreads"),
  ("scripts/check_pack_as_rate.py", "TOL = 0.15", "TOL = 0.0000001",
   "pack-as-rate can never match a pack size"),
  ("scripts/convert_lightspeed_recipes.py", '"Pizza Beef Brisket [Kg]": "Cooked Beef Brisket [1Kg]",',
@@ -119,7 +119,14 @@ for path, find, repl, what in MUTANTS:
     f = ROOT / path
     orig = f.read_text(encoding="utf-8")
     if find not in orig:
-        print(f"{what[:58]:<58} {'-- pattern not found --':<34} SKIP")
+        # A STALE MUTATION IS NOT A PASSING ONE. This printed SKIP and fell
+        # through, and because `survived` was never appended to, the summary
+        # counted it as CAUGHT — so refactoring the line a mutation targets
+        # silently retired the mutation and the score still read 15/15. Found
+        # 2026-08-14 after _outlier_in_time() absorbed the regime test and
+        # "if not (before and after):" stopped existing.
+        print(f"{what[:58]:<58} {'-- PATTERN GONE, repoint it --':<34} *** STALE ***")
+        survived.append(what + "  [stale: the code it mutates has moved]")
         continue
     f.write_text(orig.replace(find, repl, 1), encoding="utf-8")
     run(REBUILD)
