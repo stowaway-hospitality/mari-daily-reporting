@@ -135,3 +135,51 @@ def test_the_detector_can_actually_fire():
     ]
     got = findings(rows)
     assert len(got) == 1 and abs(got[0]["ratio"] - 3.0) < 0.01
+
+
+# --------------------------------------------------------------------------
+# The guard must stay testable after the book is clean
+# --------------------------------------------------------------------------
+
+def test_the_detector_still_bites_on_a_planted_carton_priced_as_one_piece():
+    """A FIXTURE, for the reason spelled out in test_pack_agreement.py: on
+    2026-08-14 the live scan reached "no seeded rate is its own container's price
+    (4201 rows)", so the mutation TOL -> "can never match a pack size" returned the
+    same empty list and SURVIVED. A guard with nothing left to catch cannot be
+    told apart from a dead one, so it gets a defect of its own.
+
+    This is Gulli's garlic bread, the real shape: a carton of 40 seeded at the
+    CARTON's price against invoices that bill one piece.
+    """
+    rows = [
+        {"supplier": "Lightspeed", "supplier_code": "99001",
+         "invoice_description": "Garlic Bread Portions x 40", "pack_unit": "ea",
+         "pack_qty": "1", "source_invoice": "bo-ingredient-seed",
+         "cost_per_base_unit": "59.81"},
+    ] + [
+        {"supplier": "Gulli", "supplier_code": "GB40",
+         "invoice_description": "Garlic Bread Portions x 40", "pack_unit": "ea",
+         "pack_qty": "1", "source_invoice": f"CI-{i}", "cost_per_base_unit": "1.4952"}
+        for i in range(3)
+    ]
+    got = findings(rows)
+    assert got, "a seed at 40x the invoiced piece price must be reported"
+    assert got[0]["pack"] == 40
+    assert 38 < got[0]["ratio"] < 42, got[0]
+
+
+def test_a_seed_that_is_merely_stale_is_not_called_a_pack_error():
+    """The other half: a seed 1.4x off is a PRICE gap, not a container priced as a
+    piece, and reporting it would send someone to fix a pack that is right."""
+    rows = [
+        {"supplier": "Lightspeed", "supplier_code": "99002",
+         "invoice_description": "Garlic Bread Portions x 40", "pack_unit": "ea",
+         "pack_qty": "1", "source_invoice": "bo-ingredient-seed",
+         "cost_per_base_unit": "2.10"},
+    ] + [
+        {"supplier": "Gulli", "supplier_code": "GB40",
+         "invoice_description": "Garlic Bread Portions x 40", "pack_unit": "ea",
+         "pack_qty": "1", "source_invoice": f"CI-{i}", "cost_per_base_unit": "1.4952"}
+        for i in range(3)
+    ]
+    assert not findings(rows), findings(rows)

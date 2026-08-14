@@ -155,3 +155,46 @@ def test_the_detector_can_actually_fire():
             for i, v in enumerate(["60.00", "60.00", "60.00", "10.00"])]
     got = findings(rows)
     assert len(got) == 1 and got[0]["factor"] == 6 and got[0]["direction"] == "UNDER"
+
+
+# --------------------------------------------------------------------------
+# The guard must stay testable after the book is clean
+# --------------------------------------------------------------------------
+
+def test_the_scan_still_bites_on_a_planted_case_priced_as_a_bottle():
+    """A FIXTURE, not the live book — and that is the whole point.
+
+    On 2026-08-14 the real data reached "no line sits on a whole pack factor of
+    its own code's median (4201 rows)", which is the goal. But it also meant the
+    mutation `PACK_FACTORS`/`TOL` -> "tolerance too tight to ever match" produced
+    the SAME empty result and survived: with nothing left to find, a working guard
+    and a dead one are indistinguishable from outside.
+
+    So the guard gets its own defect to catch, one that cannot be fixed away. Six
+    deliveries of one code at $0.0739/ml (a 700 mL bottle) and a seventh at
+    $0.0123/ml — exactly 6x low, which is the case/bottle error this file exists
+    for. Re-break the tolerance and this reds even when the book is spotless.
+    """
+    rows = [{"supplier": "ILG", "supplier_code": "285-0409", "pack_unit": "ml",
+             "cost_per_base_unit": "0.073900", "source_invoice": f"INV{i}",
+             "invoice_description": "VEUVE CLICQUOT NV 750ML"} for i in range(6)]
+    rows.append({"supplier": "ILG", "supplier_code": "285-0409", "pack_unit": "ml",
+                 "cost_per_base_unit": "0.012317",          # 0.0739 / 6
+                 "source_invoice": "INVBAD",
+                 "invoice_description": "VEUVE CLICQUOT NV 750ML"})
+    got = findings(rows)
+    assert got, "a 6x outlier against six agreeing siblings must be reported"
+    bad = [f for f in got if f["invoice"] == "INVBAD"]
+    assert bad, [f["invoice"] for f in got]
+    assert bad[0]["factor"] == 6
+    assert bad[0]["direction"] == "UNDER", "6x LOW is the flattering direction"
+
+
+def test_a_group_that_simply_moved_price_is_not_reported():
+    """The other half of the contract: ordinary drift must stay silent, or the
+    fixture above would pass with a guard that reports everything."""
+    rows = [{"supplier": "ILG", "supplier_code": "285-0409", "pack_unit": "ml",
+             "cost_per_base_unit": r, "source_invoice": f"INV{i}",
+             "invoice_description": "VEUVE CLICQUOT NV 750ML"}
+            for i, r in enumerate(("0.0739", "0.0742", "0.0751", "0.0768", "0.0777"))]
+    assert not findings(rows), findings(rows)
