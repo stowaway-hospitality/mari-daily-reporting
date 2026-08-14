@@ -1,6 +1,6 @@
 {
   "date": "2026-08-07",
-  "generated_at": "2026-08-08T03:41:55.694527Z",
+  "generated_at": "2026-08-14T08:03:06.200598Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -17,13 +17,13 @@
   "sales": {
     "revenue_inc_gst": 12191.63,
     "revenue_ex_gst": 11083.37,
-    "cogs_dollars": 2363.59,
-    "cogs_pct": 21.3,
-    "gp_dollars": 8719.78,
-    "gp_pct": 78.7,
+    "cogs_dollars": 2507.05,
+    "cogs_pct": 22.6,
+    "gp_dollars": 8576.31,
+    "gp_pct": 77.4,
     "cogs_source": "recipe_blend",
     "cogs_lightspeed_dollars": 2363.59,
-    "recipe_coverage_pct": 0.0,
+    "recipe_coverage_pct": 86.8,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
     "eatclub_giveaway_ex_gst": 2.95,
@@ -42,18 +42,18 @@
     "stow_food_out_ex_gst": 0.0
   },
   "wages": {
-    "kitchen_dollars": 982.72,
-    "foh_dollars": 1836.21,
+    "kitchen_dollars": 970.15,
+    "foh_dollars": 1203.31,
     "driver_dollars": 0,
-    "admin_dollars": 0,
+    "admin_dollars": 233.37,
     "leave_dollars": 0,
-    "total_dollars": 2818.93,
-    "wages_pct": 25.4,
+    "total_dollars": 2406.84,
+    "wages_pct": 21.7,
     "net_wage_pct": null,
     "kitchen_hours": 22.2,
-    "foh_hours": 42.2,
-    "wages_kitchen_pct": 38.8,
-    "wages_foh_pct": 21.5,
+    "foh_hours": 29.2,
+    "wages_kitchen_pct": 38.3,
+    "wages_foh_pct": 14.1,
     "includes_super": true,
     "salaried_synthesized": true
   },
@@ -67,7 +67,7 @@
     "cogs_food": "green",
     "cogs_bev": "yellow",
     "wages_kitchen": "red",
-    "wages_foh": "yellow"
+    "wages_foh": "green"
   },
   "targets": {
     "cogs": {
@@ -116,71 +116,81 @@
       "name": "Classic Margarita",
       "qty": 50.0,
       "rev": 908.77,
-      "cost": 194.52,
-      "cost_source": "lightspeed"
+      "cost": 208.62,
+      "cost_source": "recipe",
+      "cost_lightspeed": 194.52
     },
     {
       "name": "Guinness Draught - Pint",
       "qty": 37.0,
       "rev": 644.53,
-      "cost": 175.71,
-      "cost_source": "lightspeed"
+      "cost": 177.748,
+      "cost_source": "recipe",
+      "cost_lightspeed": 175.71
     },
     {
       "name": "Fresh is Best Lager - Pint",
       "qty": 50.0,
       "rev": 590.2,
-      "cost": 122.32,
-      "cost_source": "lightspeed"
+      "cost": 121.095,
+      "cost_source": "recipe",
+      "cost_lightspeed": 122.32
     },
     {
       "name": "Jalape\u00f1o Marg",
       "qty": 18.0,
       "rev": 352.5,
-      "cost": 14.58,
-      "cost_source": "lightspeed"
+      "cost": 69.2244,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.58
     },
     {
       "name": "American Standard Burger",
       "qty": 12.0,
       "rev": 333.38,
-      "cost": 70.13,
-      "cost_source": "lightspeed"
+      "cost": 70.0836,
+      "cost_source": "recipe",
+      "cost_lightspeed": 70.13
     },
     {
       "name": "Mulled Wine",
       "qty": 20.0,
       "rev": 306.42,
-      "cost": 40.7,
-      "cost_source": "lightspeed"
+      "cost": 40.536,
+      "cost_source": "recipe",
+      "cost_lightspeed": 40.7
     },
     {
       "name": "Petits Detours Ros\u00e9 Mediterranee - Bottle",
       "qty": 4.0,
       "rev": 264.42,
-      "cost": 64.71,
-      "cost_source": "lightspeed"
+      "cost": 69.36,
+      "cost_source": "recipe",
+      "cost_lightspeed": 64.71
     },
     {
       "name": "Fresh is Best Lager - Schooner",
       "qty": 28.0,
       "rev": 244.35,
-      "cost": 51.07,
-      "cost_source": "lightspeed"
+      "cost": 50.5624,
+      "cost_source": "recipe",
+      "cost_lightspeed": 51.07
     },
     {
       "name": "Coconut Margarita",
       "qty": 11.0,
       "rev": 229.21,
-      "cost": 43.52,
-      "cost_source": "lightspeed"
+      "cost": 46.6928,
+      "cost_source": "recipe",
+      "cost_lightspeed": 43.52
     },
     {
       "name": "Kirin - Pint",
       "qty": 12.0,
       "rev": 222.0,
-      "cost": 60.54,
-      "cost_source": "lightspeed"
+      "cost": 61.0944,
+      "cost_source": "recipe",
+      "cost_lightspeed": 60.54
     },
     {
       "name": "Baked Camembert",
@@ -193,22 +203,25 @@
       "name": "Version Two Pinot Grigio - Regular",
       "qty": 21.4,
       "rev": 198.04,
-      "cost": 37.81,
-      "cost_source": "lightspeed"
+      "cost": 37.8074,
+      "cost_source": "recipe",
+      "cost_lightspeed": 37.81
     },
     {
       "name": "Aperol Spritz",
       "qty": 12.0,
       "rev": 182.73,
-      "cost": 42.63,
-      "cost_source": "lightspeed"
+      "cost": 42.6348,
+      "cost_source": "recipe",
+      "cost_lightspeed": 42.63
     },
     {
       "name": "Grifter Pale - Pint",
       "qty": 16.0,
       "rev": 180.6,
-      "cost": 53.27,
-      "cost_source": "lightspeed"
+      "cost": 53.2704,
+      "cost_source": "recipe",
+      "cost_lightspeed": 53.27
     },
     {
       "name": "Arancini Balls [5pc]",
@@ -221,36 +234,41 @@
       "name": "Petits Detours Ros\u00e9 - Regular",
       "qty": 10.0,
       "rev": 161.58,
-      "cost": 34.67,
-      "cost_source": "lightspeed"
+      "cost": 34.68,
+      "cost_source": "recipe",
+      "cost_lightspeed": 34.67
     },
     {
       "name": "Bombay Dry [House]",
       "qty": 15.0,
       "rev": 146.8,
-      "cost": 32.53,
-      "cost_source": "lightspeed"
+      "cost": 31.581,
+      "cost_source": "recipe",
+      "cost_lightspeed": 32.53
     },
     {
       "name": "Negroni",
       "qty": 8.0,
       "rev": 145.37,
-      "cost": 31.26,
-      "cost_source": "lightspeed"
+      "cost": 31.0784,
+      "cost_source": "recipe",
+      "cost_lightspeed": 31.26
     },
     {
       "name": "Fish Tacos",
       "qty": 7.0,
       "rev": 143.27,
-      "cost": 15.29,
-      "cost_source": "lightspeed"
+      "cost": 12.9339,
+      "cost_source": "recipe",
+      "cost_lightspeed": 15.29
     },
     {
       "name": "Whispering Angel Ros\u00e9 - Regular",
       "qty": 5.0,
       "rev": 142.76,
-      "cost": 33.68,
-      "cost_source": "lightspeed"
+      "cost": 34.295,
+      "cost_source": "recipe",
+      "cost_lightspeed": 33.68
     }
   ]
 }
