@@ -302,3 +302,55 @@ def test_every_parser_domain_has_a_domain_key_entry():
     missing = sorted(d for d in DOMAIN_TO_PARSER
                      if d not in DOMAIN_KEY and not d.startswith("members."))
     assert not missing, f"parser domains absent from DOMAIN_KEY: {missing}"
+
+
+# --------------------------------------------------------------------------
+# Fresh Fruit Team — the SKU cell swallowing the UNIT word.
+#
+# FFT's UNIT column does not always start right of its x-boundary, so bucket()
+# files the unit under "sku" and the code arrives as "CLKG Kilogram". Money was
+# never affected (FFT scored 52/52 on the regression the whole time this was
+# happening) because supplier_code plays no part in reconciling to the printed
+# total. What it corrupts is IDENTITY: "CLKG" and "CLKG Kilogram" are the same
+# carrot, so the cost book carried the product twice, price history split across
+# the pair, and build_ingredients could no longer consolidate the fullest name
+# across them — which is how fragments like "Large" (Carrot Large) and "Ruby
+# Red" (Grapefruit Ruby Red) reached the chef's picker as product names.
+#
+# Before the fix: 169 distinct FFT codes, 84 carrying a swallowed word, 50
+# products split into two identities. After: 119 codes, 0 dirty, 0 split.
+
+
+def test_fft_split_sku_strips_a_swallowed_unit_word():
+    from modules.invoices.parsers.fresh_fruit_team import _split_sku
+    assert _split_sku("CLKG Kilogram") == ("CLKG", "Kilogram")
+    assert _split_sku("TR10BX Box") == ("TR10BX", "Box")
+    assert _split_sku("AH20T Tray") == ("AH20T", "Tray")
+    assert _split_sku("CL20KGBX 20kg") == ("CL20KGBX", "20kg")
+
+
+def test_fft_split_sku_leaves_a_clean_code_alone():
+    from modules.invoices.parsers.fresh_fruit_team import _split_sku
+    # The overwhelmingly common case: the unit landed in its own column.
+    assert _split_sku("CLKG") == ("CLKG", "")
+    assert _split_sku("GRR12BX") == ("GRR12BX", "")
+    assert _split_sku("") == ("", "")
+    assert _split_sku(None) == ("", "")
+
+
+def test_fft_the_two_spellings_of_one_carrot_collapse_to_one_identity():
+    # The whole point: these two must not be two products.
+    from modules.invoices.parsers.fresh_fruit_team import _split_sku
+    assert _split_sku("CLKG Kilogram")[0] == _split_sku("CLKG")[0]
+
+
+def test_fft_a_swallowed_word_is_only_taken_as_the_unit_if_it_names_one():
+    # The swallowed tail is used as the row's unit, but ONLY through the same
+    # names_a_unit guard the neighbour-stitch uses. A description word bleeding
+    # into the SKU cell must NOT become the unit — taking "Cabbage" or "Herb" as
+    # a UOM is what turns a per-kilogram line into a pack and misprices it.
+    from modules.invoices.pack_size import names_a_unit
+    assert names_a_unit("Kilogram") and names_a_unit("Box") and names_a_unit("Tray")
+    assert not names_a_unit("Herb")
+    assert not names_a_unit("Lettuce")
+    assert not names_a_unit("Cauliflower")

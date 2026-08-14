@@ -28,6 +28,39 @@ COLS = [("qty", 0), ("sku", 64), ("unit", 143), ("desc", 198),
 MONEY = re.compile(r"^\$?(-?[\d,]+\.?\d*)$")
 
 
+def _split_sku(cell: str) -> tuple[str, str]:
+    """
+    -> (code, swallowed_tail)
+
+    THE SKU CELL SOMETIMES SWALLOWS THE UNIT. FFT's UNIT column does not always
+    start right of the 143pt boundary, so bucket() files the unit word under
+    "sku" and the code comes out as "CLKG Kilogram" while the unit cell reads
+    empty. The unit-stitch below already knew about this ("the SKU cell absorbs
+    'Kilogram'") but only defended the UNIT — the CODE kept the extra word.
+
+    That is silent and expensive, because supplier_code is the product IDENTITY.
+    "CLKG" and "CLKG Kilogram" are the same carrot, but they become TWO cost-book
+    entries: the price history splits, the chef's picker shows the item twice,
+    and build_ingredients' "fullest description across the spellings of this
+    identity" consolidation can no longer see across them — which is why the
+    feed carries fragments like "Large" (Carrot Large), "Ruby Red" (Grapefruit
+    Ruby Red) and "Baby Gem" (Lettuce Baby Gem) as if they were product names.
+
+    94 of FFT's 186 distinct codes carried a swallowed word before this fix, and
+    the regression suite could not see ANY of it: every one of those invoices
+    reconciles to its printed total to the cent, so FFT scored 52/52 (100%) the
+    whole time. The harness checks money, not identity.
+
+    An FFT code is a single alphanumeric token (CLKG, TR10BX, AH20T), so the
+    first whitespace-delimited token is the code and anything after it is the
+    layout bleed — handed back so the caller can use it as the unit.
+    """
+    parts = (cell or "").split()
+    if not parts:
+        return "", ""
+    return parts[0], " ".join(parts[1:])
+
+
 def _m(s):
     s = (s or "").replace(",", "").strip()
     m = MONEY.match(s)
@@ -99,7 +132,14 @@ def parse(pdf_bytes: bytes) -> Invoice:
         # booked as 800 g: King Brown mushrooms at $7.56/kg against the $30.25/kg
         # every other delivery of the same code states. Same stitch as the
         # description, for the same reason, from the same neighbouring rows.
+        sku, sku_tail = _split_sku(c["sku"])
         unit = c["unit"].strip()
+        # The word the SKU cell swallowed IS this row's unit, and it is better
+        # evidence than the neighbour-stitch below because it came off this very
+        # line. Only trust it when it actually names a unit — same guard, same
+        # reason as the stitch.
+        if not unit and names_a_unit(sku_tail):
+            unit = sku_tail
         if not unit:
             uparts = []
             if idx - 1 >= 0 and not is_money(body[idx - 1]):
@@ -114,10 +154,10 @@ def parse(pdf_bytes: bytes) -> Invoice:
             unit = stitched if names_a_unit(stitched) else ""
         cb = CostBasis.PER_KG if re.search(r"kilo|kg", unit, re.I) else CostBasis.PER_UNIT
         items.append(InvoiceLine(
-            description=desc or c["sku"], qty=qty, line_total_incl=amt + g,
+            description=desc or sku, qty=qty, line_total_incl=amt + g,
             unit_price_incl=price, pack_size=1, line_class=LineClass.STOCK,
             tax_treatment=(TaxTreatment.GST if g > 0 else TaxTreatment.GST_FREE),
-            cost_basis=cb, supplier_code=c["sku"] or None, raw_uom=unit or None, gst_amount=g))
+            cost_basis=cb, supplier_code=sku or None, raw_uom=unit or None, gst_amount=g))
     if not items:
         raise ValueError("FFT: no line items parsed")
 
