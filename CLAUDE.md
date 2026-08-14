@@ -42,7 +42,15 @@ deletes HG's Monday revenue and blinds the Mari coverage guard (~6 figures/yr).
 - After any deploy, hard-refresh (Pages caches 10 min); `build_site.py` stamps `?v=` hashes.
 - `arch_guard.py` fails CI + deploy if logic leaks into `sales/index.html`.
 - Python: `/opt/homebrew/bin/python3.12` (system 3.9 lacks `str | None`); Actions uses 3.11.
-- Push auth: PAT at `.secrets/github_pat_v2.txt` via the git credential helper.
+- Push auth: git uses the **osxkeychain** helper, NOT a file. The live token is
+  `.secrets/github_pat.txt` (expires **2026-10-07**); `.secrets/github_pat_v2.txt`
+  is REVOKED despite the newer name — it 401s. If a push fails with "Invalid
+  username or token", the keychain is serving the dead one; re-store the live one:
+  `printf "protocol=https\nhost=github.com\n\n" | git credential-osxkeychain erase`
+  then `printf "protocol=https\nhost=github.com\nusername=x-access-token\npassword=%s\n\n" "$(tr -d ' \n\r' < .secrets/github_pat.txt)" | git credential-osxkeychain store`.
+  Diagnose which token is in play by comparing `shasum -a 256` of the keychain
+  password against each file — never print a token. (Fetch keeps working while
+  broken because the repo is public, so a dead token shows up ONLY as failed pushes.)
 
 ## Standing constraints (still in force)
 - Never handle `GRAPH_CLIENT_SECRET` or the Supabase `service_role` key — Zak pastes those.
@@ -52,4 +60,4 @@ deletes HG's Monday revenue and blinds the Mari coverage guard (~6 figures/yr).
   `app.stowawaybar.com/sales/products/{index,latest,rollup_stow,rollup_hg,rollup_mari}.json`
   (built by `scripts/build_products_api.py`). Use it, not a skill or Drive.
 
-_Maintained 2026-07-31._
+_Maintained 2026-08-14._
