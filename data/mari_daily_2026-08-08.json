@@ -1,6 +1,6 @@
 {
   "date": "2026-08-08",
-  "generated_at": "2026-08-09T10:14:24.909692Z",
+  "generated_at": "2026-08-14T08:03:06.515953Z",
   "venue": "marilynas",
   "venue_display": "Marilyna's Pizza",
   "lane_config": [
@@ -17,9 +17,9 @@
   "sales": {
     "revenue_inc_gst": 3106.21,
     "revenue_ex_gst": 2820.35,
-    "cogs_dollars": 674.91,
+    "cogs_dollars": 673.6,
     "cogs_pct": 23.9,
-    "gp_dollars": 2145.44,
+    "gp_dollars": 2146.75,
     "gp_pct": 76.1,
     "cogs_source": "recipe_blend",
     "cogs_lightspeed_dollars": 594.18,
@@ -31,7 +31,7 @@
     "revenue_ex_gst_before_eatclub": 2835.9,
     "food_ex_gst": 2820.35,
     "bev_ex_gst": 0.0,
-    "food_cogs": 674.91,
+    "food_cogs": 673.6,
     "bev_cogs": 0.0,
     "food_cogs_pct": 23.9,
     "bev_cogs_pct": null,
@@ -39,27 +39,27 @@
     "bev_gp_pct": null
   },
   "wages": {
-    "kitchen_dollars": 917.01,
+    "kitchen_dollars": 925.73,
     "foh_dollars": 0,
-    "driver_dollars": 168.94,
+    "driver_dollars": 129.27,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": 1085.95,
-    "wages_pct": 38.5,
+    "total_dollars": 1055.01,
+    "wages_pct": 37.4,
     "net_wage_pct": null,
     "kitchen_hours": 22.2,
     "foh_hours": 0,
-    "wages_kitchen_pct": 32.5,
+    "wages_kitchen_pct": 32.8,
     "wages_foh_pct": null,
     "includes_super": true,
     "salaried_synthesized": true
   },
   "delivery": {
     "uber_eats_commission_dollars": 0,
-    "own_driver_dollars": 168.94,
+    "own_driver_dollars": 129.27,
     "uber_direct_dollars": 0.0,
-    "total_dollars": 168.94,
-    "delivery_pct": 6.0,
+    "total_dollars": 129.27,
+    "delivery_pct": 4.6,
     "fees_are_estimate": true
   },
   "payments_breakdown": null,
@@ -104,7 +104,7 @@
       "name": "Large Super House Special",
       "qty": 7.0,
       "rev": 200.7,
-      "cost": 53.1363,
+      "cost": 53.3239,
       "cost_source": "recipe",
       "cost_lightspeed": 54.04
     },
@@ -120,7 +120,7 @@
       "name": "Regular Super House Special",
       "qty": 5.0,
       "rev": 121.9,
-      "cost": 23.085,
+      "cost": 23.0935,
       "cost_source": "recipe",
       "cost_lightspeed": 27.64
     },
@@ -128,7 +128,7 @@
       "name": "Large Pepperoni",
       "qty": 5.0,
       "rev": 115.7,
-      "cost": 21.671,
+      "cost": 21.805,
       "cost_source": "recipe",
       "cost_lightspeed": 22.82
     },
@@ -136,7 +136,7 @@
       "name": "Large Bubba Gump",
       "qty": 5.0,
       "rev": 112.7,
-      "cost": 27.369,
+      "cost": 27.503,
       "cost_source": "recipe",
       "cost_lightspeed": 27.67
     },
@@ -144,7 +144,7 @@
       "name": "Large Jimmy Jury",
       "qty": 4.0,
       "rev": 110.7,
-      "cost": 24.66,
+      "cost": 24.8044,
       "cost_source": "recipe",
       "cost_lightspeed": 24.75
     },
@@ -152,7 +152,7 @@
       "name": "Regular Meatlovers",
       "qty": 4.0,
       "rev": 90.7,
-      "cost": 17.5084,
+      "cost": 17.3544,
       "cost_source": "recipe",
       "cost_lightspeed": 19.92
     },
@@ -160,7 +160,7 @@
       "name": "$45 FEAST",
       "qty": 2.0,
       "rev": 90.0,
-      "cost": 28.0676,
+      "cost": 27.945,
       "cost_source": "recipe",
       "cost_lightspeed": 0.0
     },
@@ -168,7 +168,7 @@
       "name": "Large Meatlovers",
       "qty": 5.0,
       "rev": 88.9,
-      "cost": 33.7795,
+      "cost": 33.697,
       "cost_source": "recipe",
       "cost_lightspeed": 34.78
     },
@@ -176,7 +176,7 @@
       "name": "Garlic Bread",
       "qty": 19.0,
       "rev": 81.5,
-      "cost": 28.2663,
+      "cost": 26.98,
       "cost_source": "recipe",
       "cost_lightspeed": 26.98
     },
@@ -184,7 +184,7 @@
       "name": "Regular Bubba Gump",
       "qty": 3.0,
       "rev": 77.9,
-      "cost": 10.9092,
+      "cost": 10.9143,
       "cost_source": "recipe",
       "cost_lightspeed": 11.89
     },
@@ -192,7 +192,7 @@
       "name": "Regular Hawaiian",
       "qty": 4.0,
       "rev": 73.8,
-      "cost": 13.1264,
+      "cost": 13.088,
       "cost_source": "recipe",
       "cost_lightspeed": 4.99
     },
@@ -200,7 +200,7 @@
       "name": "WINGS DEAL",
       "qty": 2.0,
       "rev": 60.0,
-      "cost": 19.8514,
+      "cost": 19.7224,
       "cost_source": "recipe",
       "cost_lightspeed": 0.0
     },
@@ -208,7 +208,7 @@
       "name": "$60 BANQUET",
       "qty": 1.0,
       "rev": 60.0,
-      "cost": 21.0717,
+      "cost": 21.0136,
       "cost_source": "recipe",
       "cost_lightspeed": 0.0
     },
@@ -223,7 +223,7 @@
       "name": "Large Sanchez",
       "qty": 2.0,
       "rev": 53.8,
-      "cost": 11.7066,
+      "cost": 11.6736,
       "cost_source": "recipe",
       "cost_lightspeed": 10.98
     },
@@ -231,7 +231,7 @@
       "name": "Regular El Patron [Dine-in]",
       "qty": 2.0,
       "rev": 53.72,
-      "cost": 7.4564,
+      "cost": 7.4574,
       "cost_source": "recipe",
       "cost_lightspeed": 7.28
     },
@@ -239,7 +239,7 @@
       "name": "Regular No Chorizo, No Cry [Dine-in]",
       "qty": 2.0,
       "rev": 53.7,
-      "cost": 5.2822,
+      "cost": 5.283,
       "cost_source": "recipe",
       "cost_lightspeed": 5.01
     },
@@ -247,7 +247,7 @@
       "name": "Regular Little Italy [Dine-in]",
       "qty": 2.0,
       "rev": 53.7,
-      "cost": 8.3002,
+      "cost": 8.301,
       "cost_source": "recipe",
       "cost_lightspeed": 9.61
     },
@@ -255,7 +255,7 @@
       "name": "Under the Bridge Pizza",
       "qty": 2.0,
       "rev": 53.7,
-      "cost": 7.815,
+      "cost": 7.8686,
       "cost_source": "recipe",
       "cost_lightspeed": 8.16
     }
