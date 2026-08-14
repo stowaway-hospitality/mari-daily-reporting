@@ -1,14 +1,20 @@
 {
   "generated": "2026-08-14",
   "reviewed": 1,
-  "clean": 0,
-  "flags": [
+  "clean": 1,
+  "flags": [],
+  "resolved": [
     {
       "supplier": "B&E",
       "name": "Chilli - Flake / Crushed",
       "code": "28087",
-      "issue": "PACK/UNIT: costed at $13.70 per 'bag' with no bag weight captured (invoice 7111314 states raw_uom 'BAG', pack_qty 1, no mass). Every comparable dry spice in the DB is costed per gram - including an existing near-duplicate 'Chilli Flakes' at $0.020000/g - so any recipe calling chilli flakes in grams cannot cost against this record. needs_pack_review is FALSE, so this will NOT be surfaced to the chef on its own. Name, cost magnitude and food-category all check out: $13.70/bag implies $0.0274/g at 500g or $0.0137/g at 1kg, both in line with the existing $0.020/g entry, so this is a unit problem, not a price problem.",
-      "suggested_fix": "Confirm the bag weight from the B&E catalogue (befoodsonline.com.au, supplier_code 28087) - the portal would not load during this run and the invoice does not state a mass, so the weight was NOT guessed. Once confirmed, add a pack_overrides.yaml entry mapping 28087 to that weight in g so it costs per gram, and decide whether it should merge with the existing 'Chilli Flakes' ingredient rather than sit alongside it."
+      "issue": "PACK/UNIT: costed at $13.70 per 'bag' with no bag weight captured (invoice 7111314 states raw_uom 'BAG', pack_qty 1, no mass), while every comparable dry spice is costed per gram. needs_pack_review was FALSE, so nothing would have surfaced it to the chef.",
+      "resolution": "CONFIRMED from the B&E catalogue (befoodsonline.com.au, product #28087, Windsor Farm): 'Chilli - Flake / Crushed 1kg Csi', 1 BAG/PK. Bag is 1 kg. Added to data/pack_overrides.yaml as 1000 g, so it now costs $0.0137/g - consistent with the existing 'Chilli Flakes' entry at $0.020/g. Weight was confirmed, not guessed."
     }
+  ],
+  "notes": [
+    "29 other ingredients remain costed per container (bag/box/punnet/tray) with no weight and needs_pack_review FALSE. The B&E portal sits behind Cloudflare and would not stay loaded long enough to confirm the rest this run; the Fresh Fruit Team portal requires a login. These still need a pass: B&E 12161 Fried Crispy Red Onion, 19101 Maize Corn Flour Gluten, 31254 Pepper White Ground Ss, 28010 Pure Cooking Sea Salt, plus the FFT boxes/punnets/trays.",
+    "Packaging (Carry Bag - Paper, Burger Box Hard/Soft, Snack Box - Hard) is costed as food in the picker. Zak's call on 2026-08-14: leave as is.",
+    "data/pack_overrides.yaml carries two PRE-EXISTING duplicate ids - lightspeed:22873876 and select-fresh:MUSB. The MUSB pair conflicts materially (1 box vs 4000 g), so one silently wins. Worth a look."
   ]
 }

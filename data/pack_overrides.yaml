@@ -410,3 +410,16 @@
   by: "Claude (same bottle, same price, three copies; 4500ML is not a Plantation size)"
   on: 2026-08-10
   by_email: "hello@stowawaybar.com"
+# B&E chilli flake: the invoice states only "BAG" with no mass, so the feed had
+# it at $13.70 per *bag* with needs_pack_review FALSE — nothing would ever have
+# surfaced it, and no gram-based recipe could cost against it. CONFIRMED from the
+# B&E catalogue (befoodsonline.com.au, product #28087, Windsor Farm): "Chilli -
+# Flake / Crushed 1kg Csi", 1 BAG/PK. So the bag is 1 kg and $13.70/bag is
+# $0.0137/g — which sits right alongside the existing "Chilli Flakes" entry at
+# $0.020/g, the independent check that this is the right order of magnitude.
+- id: "b-e:28087"
+  pack_qty: 1000
+  pack_unit: g
+  by: "Claude (B&E catalogue #28087 'Chilli - Flake / Crushed 1kg Csi' = 1 BAG/PK; $13.70/1kg = $0.0137/g vs existing Chilli Flakes $0.020/g)"
+  on: 2026-08-14
+  by_email: "hello@stowawaybar.com"
