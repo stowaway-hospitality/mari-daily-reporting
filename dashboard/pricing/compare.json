@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-15",
-  "count": 930,
+  "count": 939,
   "compared": 18,
   "window_days": 90,
   "total_saving": 94.5,
@@ -528,6 +528,15 @@
       "cost": 3.0,
       "pct": 11.1,
       "date": "2026-08-13"
+    },
+    {
+      "name": "Frank Hot Sauce",
+      "supplier": "Foodlink",
+      "unit": "ea",
+      "prev": 35.0,
+      "cost": 38.9,
+      "pct": 11.1,
+      "date": "2026-08-14"
     },
     {
       "name": "Rooster Rojo Blanco",
@@ -2132,6 +2141,35 @@
       "switch": false
     },
     {
+      "key": "arancini au truffled",
+      "name": "Arancini Truffled Au",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 124.0,
+          "date": "2026-08-15",
+          "desc": "ARANCINI TRUFFLED AU",
+          "change_pct": null,
+          "n": 2,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 124.0,
+      "max": 124.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 124.0,
+      "low_date": "2026-08-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "5x1kg arancini herman porcini truffled",
       "name": "Arancini Truffled Porcini 5x1kg Herman",
       "unit": "kg",
@@ -2632,10 +2670,10 @@
         {
           "supplier": "Foodlink",
           "cost": 5.72,
-          "date": "2026-04-18",
-          "desc": "BAMBOO PICKS BLACK BALL 100'S",
+          "date": "2026-08-13",
+          "desc": "BAMBOO PICKS BLACK BALL",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -4304,6 +4342,35 @@
       "low_date": "2026-06-04",
       "est_saving": 0.0,
       "main": "B&E",
+      "switch": false
+    },
+    {
+      "key": "beef burger patty",
+      "name": "Burger Patty Beef",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 158.0,
+          "date": "2026-08-15",
+          "desc": "BURGER PATTIES BEEF",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 158.0,
+      "max": 158.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 158.0,
+      "low_date": "2026-08-15",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -8954,10 +9021,10 @@
         {
           "supplier": "Foodlink",
           "cost": 6.45,
-          "date": "2026-05-14",
+          "date": "2026-08-13",
           "desc": "CREAM BULB 10'S Mosa",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -11824,19 +11891,19 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 35.0,
-          "date": "2026-05-02",
-          "desc": "FRANK'S HOT SAUCE (BUFFALO)",
-          "change_pct": null,
-          "n": 2,
-          "prev_cost": null,
+          "cost": 38.9,
+          "date": "2026-08-14",
+          "desc": "FRANK'S HOT SAUCE",
+          "change_pct": 11.1,
+          "n": 3,
+          "prev_cost": 35.0,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "Foodlink",
-      "min": 35.0,
-      "max": 35.0,
+      "min": 38.9,
+      "max": 38.9,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -18175,26 +18242,26 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 24.2,
-          "date": "2026-05-14",
+          "cost": 23.222,
+          "date": "2026-08-13",
           "desc": "MOP HEAD 450GM SIZE 24",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
-          "spend": 0.0,
-          "volume": 0.0
+          "change_pct": -4.0,
+          "n": 2,
+          "prev_cost": 24.2,
+          "spend": 20.9,
+          "volume": 0.9
         }
       ],
       "cheapest": "Foodlink",
-      "min": 24.2,
-      "max": 24.2,
+      "min": 23.222,
+      "max": 23.222,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 24.2,
-      "low_date": "2026-05-14",
+      "low": 23.222,
+      "low_date": "2026-08-13",
       "est_saving": 0.0,
-      "main": null,
+      "main": "Foodlink",
       "switch": false
     },
     {
@@ -19300,6 +19367,35 @@
       "switch": false
     },
     {
+      "key": "es green olive pitted",
+      "name": "Olive Pitted Green Es",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 12.0,
+          "date": "2026-08-13",
+          "desc": "OLIVES PITTED GREEN 2KG ES",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 24.0,
+          "volume": 2.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 12.0,
+      "max": 12.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 12.0,
+      "low_date": "2026-08-13",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "green olive pitted riviana",
       "name": "Olive Pitted Green Riviana",
       "unit": "kg",
@@ -19382,6 +19478,35 @@
       "suspect": false,
       "low": 7.5,
       "low_date": "2026-04-28",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "lemon olive whole",
+      "name": "Olive Whole Lemon",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 83.5,
+          "date": "2026-08-14",
+          "desc": "OLIVES WHOLE LEMON &",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 83.5,
+      "max": 83.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 83.5,
+      "low_date": "2026-08-14",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -20892,6 +21017,35 @@
       "low_date": "2026-07-24",
       "est_saving": 0.0,
       "main": "Foodlink",
+      "switch": false
+    },
+    {
+      "key": "ground pepper white",
+      "name": "Pepper White Ground",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 19.0,
+          "date": "2026-08-14",
+          "desc": "PEPPER WHITE GROUND",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 19.0,
+      "max": 19.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 19.0,
+      "low_date": "2026-08-14",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -24636,6 +24790,35 @@
       "switch": false
     },
     {
+      "key": "bbq sauce smokey",
+      "name": "Smokey Bbq Sauce",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 4.167,
+          "date": "2026-08-13",
+          "desc": "SMOKEY BBQ SAUCE 3LT",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 12.5,
+          "volume": 3.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 4.167,
+      "max": 4.167,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 4.167,
+      "low_date": "2026-08-13",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "bbq sauce smokey sunshine",
       "name": "Smokey Bbq Sauce Sunshine",
       "unit": "L",
@@ -24836,6 +25019,35 @@
       "low_date": "2026-04-17",
       "est_saving": 0.0,
       "main": "B&E",
+      "switch": false
+    },
+    {
+      "key": "cream full sour",
+      "name": "Sour Cream Full",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 9.5,
+          "date": "2026-08-13",
+          "desc": "SOUR CREAM FULL 2LT",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 19.0,
+          "volume": 2.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 9.5,
+      "max": 9.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 9.5,
+      "low_date": "2026-08-13",
+      "est_saving": 0.0,
+      "main": "Foodlink",
       "switch": false
     },
     {
@@ -25651,6 +25863,35 @@
       "switch": false
     },
     {
+      "key": "caster sugar",
+      "name": "Sugar Caster",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 2.133,
+          "date": "2026-08-13",
+          "desc": "SUGAR CASTER 15KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 64.0,
+          "volume": 30.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 2.133,
+      "max": 2.133,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 2.133,
+      "low_date": "2026-08-13",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "bundaberg caster sugar",
       "name": "Sugar Caster Bundaberg",
       "unit": "kg",
@@ -25704,6 +25945,35 @@
       "suspect": false,
       "low": 3.5,
       "low_date": "2026-07-24",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
+      "key": "demerera sugar",
+      "name": "Sugar Demerera",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 12.0,
+          "date": "2026-08-13",
+          "desc": "SUGAR DEMERERA 375GM",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 9.0,
+          "volume": 0.75
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 12.0,
+      "max": 12.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 12.0,
+      "low_date": "2026-08-13",
       "est_saving": 0.0,
       "main": "Foodlink",
       "switch": false
@@ -27514,13 +27784,13 @@
         {
           "supplier": "Foodlink",
           "cost": 5.5,
-          "date": "2026-06-05",
+          "date": "2026-08-13",
           "desc": "YEAST FRESH 1KG",
           "change_pct": null,
-          "n": 8,
+          "n": 9,
           "prev_cost": null,
-          "spend": 11.0,
-          "volume": 2.0
+          "spend": 22.0,
+          "volume": 4.0
         }
       ],
       "cheapest": "Foodlink",
