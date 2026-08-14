@@ -58,6 +58,23 @@ above. Note the platform had already diagnosed this itself: the cost-book
 "config" flag named the exact product and price and said it "goes to review on
 every delivery". Closing the gap emptied that flag.
 
+TRIAGE LOG — 2026-08-14: corpus grew by one (ilg +1) to 416 readable invoices and
+the new one PASSED, so 407/415 -> 408/416 (98%). Every one of the 8 shortfalls was
+re-opened and is byte-for-byte the SAME document named in the 08-08 entry above —
+be_foods d02385290774, ilg b46bfb0a542a + e23ce69fe899, paramount 670685f29215,
+farmer_joes 4444676, reward_dist x2, vanguard x1. No drift, no new failure mode,
+no parser defect. NO parser change was made: there is nothing left to win here
+that does not need Zak's decision first (see the two shared gates below).
+
+  Still blocked on a decision, not on effort:
+  * sun_circle — 15 PDFs in the last 4 months, ALL of them image scans with a
+    zero-length text layer (verified: word_rows() returns 0 rows on every one).
+    No deterministic parser is possible; these need OCR. Worth Zak's attention
+    because only 1 Sun Circle invoice exists in data/invoices against those 15
+    arrivals, so a kitchen supplier's costs are largely not reaching the DB.
+  * the three $0.00 documents — unchanged, still need the run.py::looks_like_
+    statement gate described below, which is cross-supplier and wants review.
+
 The three zero-total documents can never PASS by construction: validator's
 _check_required_fields treats total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
 So no parser can promote them — the only way to stop them costing an LLM call on
