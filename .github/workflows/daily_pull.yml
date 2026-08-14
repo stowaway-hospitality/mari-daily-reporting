@@ -198,6 +198,9 @@ jobs:
           # Combines data/eatclub_hg_<date>.json into data/eatclub_nights.json,
           # which the EatClub dashboard fetches live (keeps the page current).
           python scripts/build_eatclub_nights.py || echo "::warning::eatclub rollup failed (non-fatal)"
+          # Record any reported figure that moved since the last run. Append-only,
+          # so a shallow checkout is fine — the ledger IS the history.
+          python scripts/build_restatements.py || echo "::warning::restatements failed (non-fatal)"
 
       - name: Schema guard (block column wipes / truncation before commit)
         run: |

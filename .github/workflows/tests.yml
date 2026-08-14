@@ -141,6 +141,7 @@ jobs:
           node scripts/test_pnl_model.mjs
           node scripts/test_dashboard_render.mjs
           node scripts/test_dashboard_units.mjs
+          node scripts/test_restatements.mjs
 
       - name: Recipe-book flags panel (node)
         # The /recipes/ Flags tab — the cost book's work queue. Its failure modes

@@ -779,7 +779,18 @@ function renderChart() {
   });
 }
 
+// What moved after publication, for the venue in view. The panel owns its own
+// failure — a restatement list must never take the dashboard down with it.
+function renderRestatements() {
+  try {
+    if (window.__mountRestatements) {
+      window.__mountRestatements('restatements', { venue: STATE.currentVenue, limit: 12 });
+    }
+  } catch (e) { /* advisory panel */ }
+}
+
 async function renderHourly(venue, date, showLabour) {
+  renderRestatements();
   const sec = document.getElementById('hourly-section');
   const noteEl = document.getElementById('hourly-note');
   if (HOURLY_CHART) { HOURLY_CHART.destroy(); HOURLY_CHART = null; }
