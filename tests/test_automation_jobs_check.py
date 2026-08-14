@@ -56,6 +56,10 @@ def _with(monkeypatch, runs, token="t"):
     else:
         for v in ("GH_TOKEN", "GITHUB_TOKEN", "GH_DISPATCH_PAT"):
             monkeypatch.delenv(v, raising=False)
+        # ...and the PAT on disk, or this asserts nothing on the office Mac, which
+        # is the only machine that has one. It failed there for days while passing
+        # in CI — a test that only holds where the thing it guards cannot happen.
+        monkeypatch.setattr(hm, "_pat_candidates", lambda: ())
     return hm._workflow_failures()
 
 

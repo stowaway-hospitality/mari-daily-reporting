@@ -488,6 +488,21 @@ def _uber_direct_reconciled(feed_rel="data/uber_direct_daily.csv",
         return {"status": "unknown", "detail": f"Uber Direct reconciliation unreadable: {e}"}
 
 
+def _pat_candidates():
+    """Where the PAT may sit on disk, as a FUNCTION so a test can replace it.
+
+    tests/test_automation_jobs_check.py asserts that no token means "unknown", not
+    a false all-clear. It deletes the env vars — but on the office Mac this
+    fallback still found the real PAT, so the test passed everywhere except the
+    one machine that has one, and quietly asserted nothing there. Same trap as the
+    disk-reading check in test_health_monitor.py.
+    """
+    import os as _os
+    return (ROOT / ".secrets" / "github_pat_v2.txt",
+            Path(_os.path.expanduser("~/Documents/STOW/Sales Reports/Daily Reporting"))
+            / ".secrets" / "github_pat_v2.txt")
+
+
 def _workflow_failures(window_h=48):
     """Is any GitHub Actions job currently failing?
 
@@ -518,9 +533,7 @@ def _workflow_failures(window_h=48):
         # the caller to pass a token meant this check would sit at "unknown"
         # indefinitely while looking installed. .secrets/ is gitignored, so it is
         # absent from the clone; the mounted tree is where it actually lives.
-        for cand in (ROOT / ".secrets" / "github_pat_v2.txt",
-                     Path(_os.path.expanduser("~/Documents/STOW/Sales Reports/Daily Reporting"))
-                     / ".secrets" / "github_pat_v2.txt"):
+        for cand in _pat_candidates():
             try:
                 if cand.exists():
                     token = cand.read_text().strip()

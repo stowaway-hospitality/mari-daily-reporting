@@ -54,6 +54,14 @@ def _build_with(monkey_ages, queue_days):
     hm._uber_direct_reconciled = lambda *a, **k: monkey_ages.get("uberdirectrecon", {"status": "ok", "detail": "clean"})
     hm._workflow_failures = lambda *a, **k: monkey_ages.get("jobs", {"status": "ok", "detail": "clean"})
     hm._uber_vs_books = lambda *a, **k: monkey_ages.get("books", {"status": "ok", "detail": "clean"})
+    # Added 2026-08-14, and it broke this file for four days before anyone noticed.
+    # _missing_sales_days READS data/*_daily_*.json off disk, so the moment a real
+    # sales gap appeared (the Aug 11-13 outage) it returned warn inside the
+    # synthetic "everything healthy" case and dragged `overall` off ok. The check
+    # was right — it caught a genuine outage — but a hermetic test cannot depend on
+    # today's data. Same trap as _workflow_failures above.
+    hm._missing_sales_days = lambda *a, **k: monkey_ages.get(
+        "sales", {"status": "ok", "detail": "clean"})
     return hm.build()
 
 
@@ -72,6 +80,17 @@ check("dead invoice poller -> overall down", out["overall"] == "down")
 # everything healthy -> ok
 out = _build_with(dict(allfresh), 0)
 check("all healthy -> overall ok", out["overall"] == "ok")
+
+# ---- Sales completeness ----------------------------------------------------
+# Stubbing a check out of the healthy case removes its coverage unless the
+# unhealthy case is asserted too. This is the one that caught the real thing: the
+# GH_DISPATCH_PAT expired on 2026-08-11, the ingest kept reading the mailbox but
+# could not hand anything to the pipeline, and Stowaway lost three days of sales
+# with every other check still green.
+out = _build_with(dict(allfresh, sales={"status": "warn", "detail": "sales missing: Stowaway 2026-08-12"}), 0)
+check("a missing sales day -> overall warn", out["overall"] == "warn")
+check("sales completeness is reported",
+      any(c.get("name") == "Sales completeness" for c in out["checks"]))
 
 # ---- Uber vs the books -----------------------------------------------------
 # The only Uber check that looks OUTSIDE the portal. DoorDash was dropped from

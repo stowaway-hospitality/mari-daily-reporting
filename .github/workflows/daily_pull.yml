@@ -6,7 +6,12 @@ name: Daily Pull
 # independently; cross-venue push collisions are absorbed by the
 # pull-rebase-retry loops in the commit steps.
 concurrency:
-  group: daily-pull-${{ github.event.client_payload.venue || inputs.venue || github.event.action || 'cron' }}
+  # ...and per DATE as well. Per-venue alone still collides when a backfill
+  # dispatches several days for one venue at once: GitHub holds only ONE
+  # pending run per group and CANCELS the rest, so recovering the 2026-08-11
+  # to 08-13 outage lost 11 and 12 and kept only the newest. Venue+date means
+  # each day queues on its own and a backfill lands whole.
+  group: daily-pull-${{ github.event.client_payload.venue || inputs.venue || github.event.action || 'cron' }}-${{ github.event.client_payload.target_date || inputs.target_date || 'latest' }}
   cancel-in-progress: false
 
 on:
