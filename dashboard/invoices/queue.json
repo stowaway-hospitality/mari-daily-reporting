@@ -1,7 +1,7 @@
 {
-  "generated": "2026-08-14",
-  "count": 322,
-  "skipped_already_in_xero": 229,
+  "generated": "2026-08-15",
+  "count": 323,
+  "skipped_already_in_xero": 240,
   "invoices": [
     {
       "ref": "5515242",
@@ -32,14 +32,14 @@
       ]
     },
     {
-      "ref": "7111159",
+      "ref": "7122989",
       "supplier": "B&E Foods Pty Ltd",
       "supplier_key": "be_foods",
-      "date": "2026-08-13",
-      "due_date": "2026-08-20",
-      "total": "58.30",
+      "date": "2026-08-15",
+      "due_date": "2026-08-22",
+      "total": "217.38",
       "venue": "stowaway",
-      "pdf_path": "4598a35769fd7172865daf29a5774c5bd723f28d7701c36ce6bdd75da1048917.pdf",
+      "pdf_path": "42b5628b81aefa051bf3a9ba88b44a1377a7d17eadd0f3cfc60f1869d1a5d8bc.pdf",
       "tracking_category": "Stowaway",
       "tracking_option": "Kitchen",
       "tracking_confidence": "high",
@@ -47,11 +47,55 @@
       "status": "pass",
       "lines": [
         {
-          "description": "OIL - VEGETABLE W BUNG",
-          "supplier_code": "28366",
+          "description": "FZ MASH POTATO - PLAIN",
+          "supplier_code": "28411",
           "qty": "1.00",
-          "amount": "55.00",
-          "unit_cost": "$55.00/ea",
+          "amount": "48.00",
+          "unit_cost": "$48.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BEEF MINCE - 75CL 5KG VAC",
+          "supplier_code": "14751",
+          "qty": "5.00",
+          "amount": "58.65",
+          "unit_cost": "$2.35/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SNACK BOX - HARD",
+          "supplier_code": "18240",
+          "qty": "1.00",
+          "amount": "33.11",
+          "unit_cost": "$33.11/ea",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BURGER BOX - HARD",
+          "supplier_code": "13126",
+          "qty": "1.00",
+          "amount": "34.32",
+          "unit_cost": "$34.32/ea",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ CHIPS - CRISPY COATED",
+          "supplier_code": "15555",
+          "qty": "1.00",
+          "amount": "40.00",
+          "unit_cost": "$40.00/ea",
           "tax": "gst_free",
           "account_code": "115",
           "account_name": "Purchases - Food",
@@ -71,51 +115,377 @@
       ]
     },
     {
-      "ref": "94806772",
-      "supplier": "Lion - Beer, Spirits & Wine Pty Ltd",
-      "supplier_key": "lion",
-      "date": "2026-08-13",
-      "due_date": "2026-08-24",
-      "total": "2044.68",
-      "venue": "stowaway",
-      "pdf_path": "00eb81d9394b6ea380aa751d740c543f24df2f724f4192e35cecc3745bdd44b5.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Bar",
+      "ref": "3118892",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-08-15",
+      "due_date": "2026-08-29",
+      "total": "119.20",
+      "venue": "harry_gatos",
+      "pdf_path": "aeb8e304c5634b467aa5353265933abc20c972f1078ea498aff41cf9a7a6977e.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
       "tracking_confidence": "high",
       "is_credit_note": false,
       "status": "pass",
       "lines": [
         {
-          "description": "Guinness 49.5L KEG",
-          "supplier_code": "1200769",
-          "qty": "2",
-          "amount": "834.57",
-          "unit_cost": "$8.43/L",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
+          "description": "CHOI SUM BCH",
+          "supplier_code": "CHOI",
+          "qty": "3.00",
+          "amount": "6.60",
+          "unit_cost": "$2.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
         },
         {
-          "description": "Kirin Ichb 5% 49.5L KEG",
-          "supplier_code": "1254690",
-          "qty": "1",
-          "amount": "442.24",
-          "unit_cost": "$8.93/L",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
+          "description": "LEMON KG",
+          "supplier_code": "LEMK",
+          "qty": "1.00",
+          "amount": "3.60",
+          "unit_cost": "$3.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
         },
         {
-          "description": "S & W Pacific Ale 49.5L KEG",
-          "supplier_code": "1256672",
-          "qty": "2",
-          "amount": "767.87",
-          "unit_cost": "$7.76/L",
+          "description": "HERB CHIVES 5-6 MKT BNCH",
+          "supplier_code": "HCHIM",
+          "qty": "2.00",
+          "amount": "44.00",
+          "unit_cost": "$22.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SHALLOT BCH",
+          "supplier_code": "SHAL",
+          "qty": "4.00",
+          "amount": "13.20",
+          "unit_cost": "$3.30/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CABBAGE GREEN SHREDDED",
+          "supplier_code": "XSHRCAB",
+          "qty": "1.00",
+          "amount": "4.20",
+          "unit_cost": "$4.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CARROT SHREDDED",
+          "supplier_code": "XSHRCAR",
+          "qty": "1.00",
+          "amount": "2.80",
+          "unit_cost": "$2.80/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CAULIFLOWER FLORETS",
+          "supplier_code": "XCAUFL",
+          "qty": "5.00",
+          "amount": "30.00",
+          "unit_cost": "$6.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "DRYSLAW DELUXE",
+          "supplier_code": "XDSLW",
+          "qty": "2.00",
+          "amount": "14.80",
+          "unit_cost": "$7.40/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3118906",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-08-15",
+      "due_date": "2026-08-29",
+      "total": "130.00",
+      "venue": "stowaway",
+      "pdf_path": "7b51e5c84c6f7e13e3eef26c1b7203b9b808797f5ff34531f3d078f1f3b4d6bf.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "LIMES TRAY",
+          "supplier_code": "LIM",
+          "qty": "2.00",
+          "amount": "130.00",
+          "unit_cost": "$65.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3118932",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-08-15",
+      "due_date": "2026-08-29",
+      "total": "144.00",
+      "venue": "stowaway",
+      "pdf_path": "f3c5efb4200e55af92743f244c58e20882272849613ef1bbd04646aa7f03ca9a.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CAPSICUM GREEN 2NDS KG",
+          "supplier_code": "CAPG2K",
+          "qty": "4.00",
+          "amount": "28.80",
+          "unit_cost": "$7.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "TOMATO CHERRY PUN",
+          "supplier_code": "TOMCP",
+          "qty": "4.00",
+          "amount": "12.80",
+          "unit_cost": "$3.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "TOMATO ROMA / EGG CTN",
+          "supplier_code": "TOMR",
+          "qty": "0.50",
+          "amount": "23.50",
+          "unit_cost": "$47.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MUSHROOM BUTTON CTN",
+          "supplier_code": "MUSB",
+          "qty": "1.00",
+          "amount": "52.00",
+          "unit_cost": "$52.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HERB BASIL BCH",
+          "supplier_code": "HBAS",
+          "qty": "2.00",
+          "amount": "9.20",
+          "unit_cost": "$4.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HERB PARSLEY CONTINENTAL BCH",
+          "supplier_code": "HCONT",
+          "qty": "2.00",
+          "amount": "3.20",
+          "unit_cost": "$1.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SHALLOT BCH",
+          "supplier_code": "SHAL",
+          "qty": "5.00",
+          "amount": "14.50",
+          "unit_cost": "$2.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "CI-441655",
+      "supplier": "Gulli Food Distributors Pty Ltd",
+      "supplier_key": "gulli",
+      "date": "2026-08-14",
+      "due_date": "2026-09-30",
+      "total": "1537.04",
+      "venue": "stowaway",
+      "pdf_path": "80c357f608039046a3557bd13ac977e9b9d8f487f7b05dfd6e3fd34675be51f8.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Marilyna's Pizza",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Julian's- Gluten Free Base 11\" x 15",
+          "supplier_code": "PIZZABASE-GF-11-B",
+          "qty": "3.000",
+          "amount": "192.45",
+          "unit_cost": "$64.15/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Australian Garlic Bread- 9\" x 40",
+          "supplier_code": "AGBGARBRE-B",
+          "qty": "3.000",
+          "amount": "179.43",
+          "unit_cost": "$59.81/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Paesanella- Bocconcini 1kg",
+          "supplier_code": "PAEBOC1-UC6",
+          "qty": "3.000",
+          "amount": "52.20",
+          "unit_cost": "$17.40/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "KRC- Sliced Calabrese Mild Salami 1kg",
+          "supplier_code": "CALABRESE/CASTLE-UC4",
+          "qty": "1.000",
+          "amount": "26.06",
+          "unit_cost": "$26.06/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Manildra- Gem West Pizza Flour 12.5kg",
+          "supplier_code": "MANFLOPIZ-U",
+          "qty": "6.000",
+          "amount": "82.80",
+          "unit_cost": "$1.10/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Zammit- Sliced Pepperoni Salami 3kg",
+          "supplier_code": "ZAMSALPEPSLI-UC5",
+          "qty": "5.000",
+          "amount": "245.00",
+          "unit_cost": "$16.33/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "B Flute Lock Top 13\" Pizza Boxes x 50",
+          "supplier_code": "PBLTB13-U",
+          "qty": "2.000",
+          "amount": "64.26",
+          "unit_cost": "$32.13/ea",
           "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
+          "account_code": "117",
+          "account_name": "Purchases - Packaging",
+          "reason": "line keyword -> Purchases - Packaging"
+        },
+        {
+          "description": "B Flute Lock Top 15\" Pizza Boxes x 50",
+          "supplier_code": "PBLTB15-U",
+          "qty": "1.000",
+          "amount": "39.64",
+          "unit_cost": "$39.64/ea",
+          "tax": "gst",
+          "account_code": "117",
+          "account_name": "Purchases - Packaging",
+          "reason": "line keyword -> Purchases - Packaging"
+        },
+        {
+          "description": "Big Cheese- Shredded Mozzarella 2kg",
+          "supplier_code": "MOZZARELLA2KG-UC4",
+          "qty": "28.000",
+          "amount": "588.00",
+          "unit_cost": "$10.50/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Dairy-Free (Vegan) Shredded Mozzarella 500g",
+          "supplier_code": "VEGD004-UC10",
+          "qty": "3.000",
+          "amount": "27.00",
+          "unit_cost": "$18.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Sapore- Roasted Red Peppers Strips A12",
+          "supplier_code": "SAPPEPSTRIPA12-UC3",
+          "qty": "1.000",
+          "amount": "14.00",
+          "unit_cost": "$14.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Sharwood- Tandoori Paste 1.25kg",
+          "supplier_code": "TANDOORI-UC4",
+          "qty": "1.000",
+          "amount": "26.20",
+          "unit_cost": "$20.96/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
         }
       ]
@@ -211,508 +581,6 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "known supplier 'paramount'"
-        }
-      ]
-    },
-    {
-      "ref": "7100343",
-      "supplier": "B&E Foods Pty Ltd",
-      "supplier_key": "be_foods",
-      "date": "2026-08-12",
-      "due_date": "2026-08-19",
-      "total": "239.08",
-      "venue": "stowaway",
-      "pdf_path": "72e9ffc1795f8433f75a68befe11c7ffa801fb4d5c5bbca6fa5552d2baf555db.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Kitchen",
-      "tracking_confidence": "high",
-      "is_credit_note": false,
-      "status": "pass",
-      "lines": [
-        {
-          "description": "BAKING PAPER 30CM*120M",
-          "supplier_code": "16245",
-          "qty": "1.00",
-          "amount": "30.58",
-          "unit_cost": "$30.58/ea",
-          "tax": "gst",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "FZ WHOLE EGG PULP 10KG",
-          "supplier_code": "28057",
-          "qty": "1.00",
-          "amount": "90.00",
-          "unit_cost": "$9.00/kg",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "MSG (MONOSODIUM L-",
-          "supplier_code": "18321",
-          "qty": "2.00",
-          "amount": "14.40",
-          "unit_cost": "$7.20/ea",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "HONEY 3KG (4) FOODOLOGY",
-          "supplier_code": "18409",
-          "qty": "2.00",
-          "amount": "43.80",
-          "unit_cost": "$7.30/kg",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "OIL - COTTON SEED 20L BIB",
-          "supplier_code": "14239",
-          "qty": "1.00",
-          "amount": "57.00",
-          "unit_cost": "$2.85/L",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "FUEL LEVY",
-          "supplier_code": null,
-          "qty": "1.00",
-          "amount": "3.30",
-          "unit_cost": "$3.30/ea",
-          "tax": "gst",
-          "account_code": "342",
-          "account_name": "Freight & Courier",
-          "reason": "line keyword -> Freight & Courier"
-        }
-      ]
-    },
-    {
-      "ref": "7103444",
-      "supplier": "B&E Foods Pty Ltd",
-      "supplier_key": "be_foods",
-      "date": "2026-08-12",
-      "due_date": "2026-08-19",
-      "total": "297.20",
-      "venue": "stowaway",
-      "pdf_path": "4a010b50d4aa527fecfa33ef55db795d942afa7232781bbf1ad827ebc7de25f1.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Kitchen",
-      "tracking_confidence": "high",
-      "is_credit_note": false,
-      "status": "pass",
-      "lines": [
-        {
-          "description": "HAM - SLICE PRAGER 1KG (8)",
-          "supplier_code": "19739",
-          "qty": "1.00",
-          "amount": "12.50",
-          "unit_cost": "$12.50/kg",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "CHICKEN WING 15KG MEGA",
-          "supplier_code": "10714X",
-          "qty": "45.00",
-          "amount": "67.50",
-          "unit_cost": "$0.10/kg",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "FZ FLOUR TORTILLAS - 6\"",
-          "supplier_code": "30741",
-          "qty": "1.00",
-          "amount": "65.00",
-          "unit_cost": "$65.00/ea",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "FZ FLOUR TORTILLAS - 12''",
-          "supplier_code": "13315",
-          "qty": "1.00",
-          "amount": "34.90",
-          "unit_cost": "$34.90/ea",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "OIL - COTTON SEED 20L BIB",
-          "supplier_code": "14239",
-          "qty": "2.00",
-          "amount": "114.00",
-          "unit_cost": "$2.85/L",
-          "tax": "gst_free",
-          "account_code": "115",
-          "account_name": "Purchases - Food",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "FUEL LEVY",
-          "supplier_code": null,
-          "qty": "1.00",
-          "amount": "3.30",
-          "unit_cost": "$3.30/ea",
-          "tax": "gst",
-          "account_code": "342",
-          "account_name": "Freight & Courier",
-          "reason": "line keyword -> Freight & Courier"
-        }
-      ]
-    },
-    {
-      "ref": "03744948",
-      "supplier": "Independent Liquor Group",
-      "supplier_key": "ilg",
-      "date": "2026-08-11",
-      "due_date": "2026-08-18",
-      "total": "3226.63",
-      "venue": "stowaway",
-      "pdf_path": "fa1cdee2087d02ecfe9d9334c89d5c6bfdfa29ee8f5d39def3ecd878b57fea8d.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Bar",
-      "tracking_confidence": "medium",
-      "is_credit_note": false,
-      "status": "pass",
-      "lines": [
-        {
-          "description": "ANTICA FORMULA",
-          "supplier_code": "175-0420",
-          "qty": "1",
-          "amount": "64.08",
-          "unit_cost": "$64.08/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "DE BORTOLI G/SEAL DRY RED",
-          "supplier_code": "220-1593",
-          "qty": "3",
-          "amount": "174.10",
-          "unit_cost": "$58.03/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "1800 COCONUT TEQUILA",
-          "supplier_code": "360-1524P",
-          "qty": "1",
-          "amount": "67.91",
-          "unit_cost": "$67.91/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "APEROL",
-          "supplier_code": "395-6785P",
-          "qty": "6",
-          "amount": "174.71",
-          "unit_cost": "$29.12/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "ARCHIE ROSE SIGNATURE DRY GIN",
-          "supplier_code": "285-3763",
-          "qty": "1",
-          "amount": "63.97",
-          "unit_cost": "$63.97/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "BACARDI CARTA BL (WHITE SUP)R",
-          "supplier_code": "355-0847",
-          "qty": "3",
-          "amount": "149.65",
-          "unit_cost": "$49.88/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "BOMBAY SAPPHIRE GIN",
-          "supplier_code": "285-3889P",
-          "qty": "1",
-          "amount": "54.97",
-          "unit_cost": "$54.97/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "CAMPARI APERITIF 25%",
-          "supplier_code": "395-1021",
-          "qty": "2",
-          "amount": "85.62",
-          "unit_cost": "$42.81/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "CHAMBORD",
-          "supplier_code": "410-9404",
-          "qty": "1",
-          "amount": "57.46",
-          "unit_cost": "$57.46/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "FOUR PILLARS BLOODY SHIRAZ GIN",
-          "supplier_code": "285-0409P",
-          "qty": "1",
-          "amount": "69.22",
-          "unit_cost": "$69.22/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "FOUR PILLARS RARE DRY GIN",
-          "supplier_code": "285-0132P",
-          "qty": "1",
-          "amount": "72.24",
-          "unit_cost": "$72.24/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "FRANGELICO LIQUEUR",
-          "supplier_code": "410-2660",
-          "qty": "1",
-          "amount": "44.01",
-          "unit_cost": "$44.01/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "GREY GOOSE VODKA R",
-          "supplier_code": "330-2296",
-          "qty": "1",
-          "amount": "65.09",
-          "unit_cost": "$65.09/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "HENDRICKS GIN",
-          "supplier_code": "285-5217P",
-          "qty": "1",
-          "amount": "65.75",
-          "unit_cost": "$65.75/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "KAHLUA 1 LTR 6PK",
-          "supplier_code": "410-3945",
-          "qty": "4",
-          "amount": "191.45",
-          "unit_cost": "$47.86/L",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "KRAKEN BLACK SPICED RUM",
-          "supplier_code": "345-0367P",
-          "qty": "1",
-          "amount": "56.19",
-          "unit_cost": "$56.19/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "NOILLY PRAT DRY VERMOUTH",
-          "supplier_code": "177-0328",
-          "qty": "1",
-          "amount": "29.55",
-          "unit_cost": "$29.55/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "PATRON REPOSADO 700ML",
-          "supplier_code": "360-3194P",
-          "qty": "1",
-          "amount": "86.63",
-          "unit_cost": "$123.76/L",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "PATRON SILVER TEQUILA R",
-          "supplier_code": "360-2694",
-          "qty": "1",
-          "amount": "76.61",
-          "unit_cost": "$76.61/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "ROOSTER ROJO TEQUILA BLANCO",
-          "supplier_code": "360-1310",
-          "qty": "6",
-          "amount": "334.74",
-          "unit_cost": "$55.79/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "SAILOR JERRY SPICED RUM",
-          "supplier_code": "345-5638P",
-          "qty": "6",
-          "amount": "277.76",
-          "unit_cost": "$46.29/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "SAILOR JERRY SPICED RUM",
-          "supplier_code": "345-5638P",
-          "qty": "1",
-          "amount": "47.35",
-          "unit_cost": "$47.35/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "ZACAPA SOLERA GRAN RESERVA",
-          "supplier_code": "345-2613P",
-          "qty": "1",
-          "amount": "102.08",
-          "unit_cost": "$102.08/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "ALEHOUSE CRISP KEG",
-          "supplier_code": "122-2867",
-          "qty": "1",
-          "amount": "184.94",
-          "unit_cost": "$184.94/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "ALEHOUSE PREMIUM KEG",
-          "supplier_code": "122-2858",
-          "qty": "2",
-          "amount": "424.88",
-          "unit_cost": "$212.44/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "HEAPS NORMAL QUIET XPA NON ALC",
-          "supplier_code": "117-4213",
-          "qty": "24",
-          "amount": "64.30",
-          "unit_cost": "$2.68/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "PERONI NASTRO 0.0% STUBS",
-          "supplier_code": "115-3129",
-          "qty": "24",
-          "amount": "46.32",
-          "unit_cost": "$1.93/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "COCA COLA",
-          "supplier_code": "460-1504",
-          "qty": "12",
-          "amount": "47.52",
-          "unit_cost": "$3.96/ea",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
-        },
-        {
-          "description": "COKE NO SUGAR 1.25 LITRE",
-          "supplier_code": "460-1639",
-          "qty": "12",
-          "amount": "47.52",
-          "unit_cost": "$3.17/L",
-          "tax": "gst",
-          "account_code": "113",
-          "account_name": "Purchases - Beverages",
-          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
@@ -1859,6 +1727,34 @@
       ]
     },
     {
+      "ref": "03714645",
+      "supplier": "Independent Liquor Group",
+      "supplier_key": "ilg",
+      "date": "2026-06-16",
+      "due_date": "2026-06-23",
+      "total": "212.44",
+      "venue": "stowaway",
+      "pdf_path": "d3749441f0358654b590807ab1df15566fa7ac032114e61be651689bd6e438a5.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "ALEHOUSE PREMIUM KEG",
+          "supplier_code": "122-2858",
+          "qty": "1",
+          "amount": "212.44",
+          "unit_cost": "$212.44/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
       "ref": "6818516",
       "supplier": "B&E Foods Pty Ltd",
       "supplier_key": "be_foods",
@@ -1969,7 +1865,7 @@
       "lines": [
         {
           "description": "Cos Baby Twin Pack",
-          "supplier_code": "LCBTPEA Each",
+          "supplier_code": "LCBTPEA",
           "qty": "10",
           "amount": "27.50",
           "unit_cost": "$2.75/ea",
@@ -1980,7 +1876,7 @@
         },
         {
           "description": "CELE Each",
-          "supplier_code": "CELE Each",
+          "supplier_code": "CELE",
           "qty": "2",
           "amount": "7.64",
           "unit_cost": "$3.82/ea",
@@ -1991,7 +1887,7 @@
         },
         {
           "description": "Large",
-          "supplier_code": "CLKG Kilogram",
+          "supplier_code": "CLKG",
           "qty": "5",
           "amount": "6.60",
           "unit_cost": "$1.32/ea",
@@ -2002,7 +1898,7 @@
         },
         {
           "description": "Hass",
-          "supplier_code": "AH20T Tray",
+          "supplier_code": "AH20T",
           "qty": "1",
           "amount": "28.60",
           "unit_cost": "$28.60/ea",
@@ -2013,7 +1909,7 @@
         },
         {
           "description": "Chives",
-          "supplier_code": "HCMB Market",
+          "supplier_code": "HCMB",
           "qty": "2",
           "amount": "19.80",
           "unit_cost": "$9.90/ea",
@@ -2024,7 +1920,7 @@
         },
         {
           "description": "Coriander",
-          "supplier_code": "HCDRMB Market",
+          "supplier_code": "HCDRMB",
           "qty": "1",
           "amount": "7.70",
           "unit_cost": "$7.70/ea",
@@ -2035,7 +1931,7 @@
         },
         {
           "description": "Ruby Red",
-          "supplier_code": "GRREA Each",
+          "supplier_code": "GRREA",
           "qty": "15",
           "amount": "14.85",
           "unit_cost": "$0.99/ea",
@@ -2046,7 +1942,7 @@
         },
         {
           "description": "Radiccio",
-          "supplier_code": "LREA Each",
+          "supplier_code": "LREA",
           "qty": "3",
           "amount": "18.15",
           "unit_cost": "$6.05/ea",
@@ -2057,7 +1953,7 @@
         },
         {
           "description": "Cocktail",
-          "supplier_code": "POTCOKG Kilogram",
+          "supplier_code": "POTCOKG",
           "qty": "8",
           "amount": "23.76",
           "unit_cost": "$2.97/ea",
@@ -2068,7 +1964,7 @@
         },
         {
           "description": "Red And Green",
-          "supplier_code": "KITCRAGKG Kilogram",
+          "supplier_code": "KITCRAGKG",
           "qty": "2",
           "amount": "15.80",
           "unit_cost": "$7.90/ea",
@@ -3472,7 +3368,7 @@
       "lines": [
         {
           "description": "Cos Baby Twin Pack",
-          "supplier_code": "LCBTPEA Each",
+          "supplier_code": "LCBTPEA",
           "qty": "10",
           "amount": "27.50",
           "unit_cost": "$2.75/ea",
@@ -3483,7 +3379,7 @@
         },
         {
           "description": "Cocktail",
-          "supplier_code": "POTCOKG Kilogram",
+          "supplier_code": "POTCOKG",
           "qty": "10",
           "amount": "29.70",
           "unit_cost": "$2.97/ea",
@@ -3494,7 +3390,7 @@
         },
         {
           "description": "Large",
-          "supplier_code": "CLKG Kilogram",
+          "supplier_code": "CLKG",
           "qty": "8",
           "amount": "11.44",
           "unit_cost": "$1.43/ea",
@@ -3505,7 +3401,7 @@
         },
         {
           "description": "700 Grams",
-          "supplier_code": "EGL7BX Box",
+          "supplier_code": "EGL7BX",
           "qty": "1",
           "amount": "48.00",
           "unit_cost": "$68.57/kg",
@@ -3516,7 +3412,7 @@
         },
         {
           "description": "Chives",
-          "supplier_code": "HCMB Market",
+          "supplier_code": "HCMB",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -3527,7 +3423,7 @@
         },
         {
           "description": "Rosemary",
-          "supplier_code": "HRBCH Bunch",
+          "supplier_code": "HRBCH",
           "qty": "2",
           "amount": "3.30",
           "unit_cost": "$1.65/ea",
@@ -3538,7 +3434,7 @@
         },
         {
           "description": "Thyme",
-          "supplier_code": "HTBCH Bunch",
+          "supplier_code": "HTBCH",
           "qty": "1",
           "amount": "1.65",
           "unit_cost": "$1.65/ea",
@@ -3549,7 +3445,7 @@
         },
         {
           "description": "Ruby Red",
-          "supplier_code": "GRREA Each",
+          "supplier_code": "GRREA",
           "qty": "10",
           "amount": "9.90",
           "unit_cost": "$0.99/ea",
@@ -3560,7 +3456,7 @@
         },
         {
           "description": "Parsley Continental",
-          "supplier_code": "HPCONB Bunch",
+          "supplier_code": "HPCONB",
           "qty": "2",
           "amount": "3.30",
           "unit_cost": "$1.65/ea",
@@ -3571,7 +3467,7 @@
         },
         {
           "description": "Florets",
-          "supplier_code": "KITCFKG Kilogram",
+          "supplier_code": "KITCFKG",
           "qty": "2",
           "amount": "15.80",
           "unit_cost": "$7.90/ea",
@@ -3582,7 +3478,7 @@
         },
         {
           "description": "Red And Green",
-          "supplier_code": "KITCRAGKG Kilogram",
+          "supplier_code": "KITCRAGKG",
           "qty": "2",
           "amount": "15.80",
           "unit_cost": "$7.90/ea",
@@ -4711,7 +4607,7 @@
       "lines": [
         {
           "description": "Cos Baby Twin Pack",
-          "supplier_code": "LCBTPEA Each",
+          "supplier_code": "LCBTPEA",
           "qty": "5",
           "amount": "13.75",
           "unit_cost": "$2.75/ea",
@@ -4722,7 +4618,7 @@
         },
         {
           "description": "Roma",
-          "supplier_code": "TRKG Kilogram",
+          "supplier_code": "TRKG",
           "qty": "3",
           "amount": "11.55",
           "unit_cost": "$3.85/ea",
@@ -4733,7 +4629,7 @@
         },
         {
           "description": "Gourmet",
-          "supplier_code": "TGKG Kilogram",
+          "supplier_code": "TGKG",
           "qty": "3",
           "amount": "8.25",
           "unit_cost": "$2.75/ea",
@@ -4744,7 +4640,7 @@
         },
         {
           "description": "Hass",
-          "supplier_code": "AH20T Tray",
+          "supplier_code": "AH20T",
           "qty": "2",
           "amount": "57.20",
           "unit_cost": "$28.60/ea",
@@ -4755,7 +4651,7 @@
         },
         {
           "description": "Florets",
-          "supplier_code": "KITCFKG Kilogram",
+          "supplier_code": "KITCFKG",
           "qty": "5",
           "amount": "39.50",
           "unit_cost": "$7.90/ea",
@@ -4766,7 +4662,7 @@
         },
         {
           "description": "CELE Each",
-          "supplier_code": "CELE Each",
+          "supplier_code": "CELE",
           "qty": "3",
           "amount": "11.46",
           "unit_cost": "$3.82/ea",
@@ -4777,7 +4673,7 @@
         },
         {
           "description": "Parsley Australian Curly",
-          "supplier_code": "HPACSB Bunch",
+          "supplier_code": "HPACSB",
           "qty": "3",
           "amount": "10.80",
           "unit_cost": "$3.60/ea",
@@ -4788,7 +4684,7 @@
         },
         {
           "description": "Coriander",
-          "supplier_code": "HCDRMB Market",
+          "supplier_code": "HCDRMB",
           "qty": "1",
           "amount": "7.70",
           "unit_cost": "$7.70/ea",
@@ -4799,7 +4695,7 @@
         },
         {
           "description": "Chives",
-          "supplier_code": "HCMB Market",
+          "supplier_code": "HCMB",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -4810,7 +4706,7 @@
         },
         {
           "description": "LKG Kilogram",
-          "supplier_code": "LKG Kilogram",
+          "supplier_code": "LKG",
           "qty": "1",
           "amount": "3.08",
           "unit_cost": "$3.08/ea",
@@ -4821,7 +4717,7 @@
         },
         {
           "description": "Green",
-          "supplier_code": "PGKG Kilogram",
+          "supplier_code": "PGKG",
           "qty": "2",
           "amount": "7.70",
           "unit_cost": "$3.85/ea",
@@ -4832,7 +4728,7 @@
         },
         {
           "description": "Pink Lady",
-          "supplier_code": "APLKG Kilogram",
+          "supplier_code": "APLKG",
           "qty": "1",
           "amount": "3.85",
           "unit_cost": "$3.85/ea",
@@ -4871,7 +4767,7 @@
       "lines": [
         {
           "description": "Roma",
-          "supplier_code": "TR10BX Box",
+          "supplier_code": "TR10BX",
           "qty": "1",
           "amount": "35.20",
           "unit_cost": "$35.20/ea",
@@ -4882,7 +4778,7 @@
         },
         {
           "description": "Button B Grade",
-          "supplier_code": "MSHB2 Box",
+          "supplier_code": "MSHB2",
           "qty": "1",
           "amount": "33.00",
           "unit_cost": "$33.00/ea",
@@ -4893,7 +4789,7 @@
         },
         {
           "description": "SBCH Bunch",
-          "supplier_code": "SBCH Bunch",
+          "supplier_code": "SBCH",
           "qty": "4",
           "amount": "7.08",
           "unit_cost": "$1.77/ea",
@@ -4904,7 +4800,7 @@
         },
         {
           "description": "Cherry",
-          "supplier_code": "TCPUN Punnet",
+          "supplier_code": "TCPUN",
           "qty": "6",
           "amount": "11.22",
           "unit_cost": "$1.87/ea",
@@ -6536,7 +6432,7 @@
       "lines": [
         {
           "description": "Cos Baby Twin Pack",
-          "supplier_code": "LCBTPEA Each",
+          "supplier_code": "LCBTPEA",
           "qty": "5",
           "amount": "13.75",
           "unit_cost": "$2.75/ea",
@@ -6547,7 +6443,7 @@
         },
         {
           "description": "Cos Victorian",
-          "supplier_code": "LCVEA Each",
+          "supplier_code": "LCVEA",
           "qty": "1",
           "amount": "3.30",
           "unit_cost": "$3.30/ea",
@@ -6558,7 +6454,7 @@
         },
         {
           "description": "Radiccio",
-          "supplier_code": "LREA Each",
+          "supplier_code": "LREA",
           "qty": "2",
           "amount": "12.10",
           "unit_cost": "$6.05/ea",
@@ -6569,7 +6465,7 @@
         },
         {
           "description": "Chives",
-          "supplier_code": "HCMB Market",
+          "supplier_code": "HCMB",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -6580,7 +6476,7 @@
         },
         {
           "description": "Jalapino Green",
-          "supplier_code": "CJGKG Kilogram",
+          "supplier_code": "CJGKG",
           "qty": "1",
           "amount": "12.96",
           "unit_cost": "$12.96/ea",
@@ -6591,7 +6487,7 @@
         },
         {
           "description": "Red Long",
-          "supplier_code": "CLRKG Kilogram",
+          "supplier_code": "CLRKG",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -6602,7 +6498,7 @@
         },
         {
           "description": "Pink Lady",
-          "supplier_code": "APLKG Kilogram",
+          "supplier_code": "APLKG",
           "qty": "1",
           "amount": "3.85",
           "unit_cost": "$3.85/ea",
@@ -6613,7 +6509,7 @@
         },
         {
           "description": "Ruby Red",
-          "supplier_code": "GRREA Each",
+          "supplier_code": "GRREA",
           "qty": "10",
           "amount": "9.90",
           "unit_cost": "$0.99/ea",
@@ -6624,7 +6520,7 @@
         },
         {
           "description": "BRL Box",
-          "supplier_code": "BRL Box",
+          "supplier_code": "BRL",
           "qty": "4",
           "amount": "115.20",
           "unit_cost": "$28.80/ea",
@@ -6635,7 +6531,7 @@
         },
         {
           "description": "Red And Green",
-          "supplier_code": "KITCRAGKG Kilogram",
+          "supplier_code": "KITCRAGKG",
           "qty": "2",
           "amount": "15.80",
           "unit_cost": "$7.90/ea",
@@ -6646,7 +6542,7 @@
         },
         {
           "description": "Florets",
-          "supplier_code": "KITCFKG Kilogram",
+          "supplier_code": "KITCFKG",
           "qty": "2",
           "amount": "15.80",
           "unit_cost": "$7.90/ea",
@@ -6657,7 +6553,7 @@
         },
         {
           "description": "EGPLBX Box",
-          "supplier_code": "EGPLBX Box",
+          "supplier_code": "EGPLBX",
           "qty": "1",
           "amount": "19.80",
           "unit_cost": "$19.80/ea",
@@ -6668,7 +6564,7 @@
         },
         {
           "description": "CELE Each",
-          "supplier_code": "CELE Each",
+          "supplier_code": "CELE",
           "qty": "2",
           "amount": "7.64",
           "unit_cost": "$3.82/ea",
@@ -6679,7 +6575,7 @@
         },
         {
           "description": "Large",
-          "supplier_code": "CLKG Kilogram",
+          "supplier_code": "CLKG",
           "qty": "9",
           "amount": "12.87",
           "unit_cost": "$1.43/ea",
@@ -6845,7 +6741,7 @@
       "lines": [
         {
           "description": "Jap",
-          "supplier_code": "PJEA Each",
+          "supplier_code": "PJEA",
           "qty": "11",
           "amount": "25.30",
           "unit_cost": "$2.30/ea",
@@ -6856,7 +6752,7 @@
         },
         {
           "description": "Rocket Wild",
-          "supplier_code": "LRW15BG Box",
+          "supplier_code": "LRW15BG",
           "qty": "1",
           "amount": "17.60",
           "unit_cost": "$17.60/ea",
@@ -6867,7 +6763,7 @@
         },
         {
           "description": "Cos Baby Twin Pack",
-          "supplier_code": "LCBTPEA Each",
+          "supplier_code": "LCBTPEA",
           "qty": "7",
           "amount": "19.25",
           "unit_cost": "$2.75/ea",
@@ -6878,7 +6774,7 @@
         },
         {
           "description": "Red And Green",
-          "supplier_code": "KITCRAGKG Kilogram",
+          "supplier_code": "KITCRAGKG",
           "qty": "3",
           "amount": "23.70",
           "unit_cost": "$7.90/ea",
@@ -6889,7 +6785,7 @@
         },
         {
           "description": "Chives",
-          "supplier_code": "HCMB Market",
+          "supplier_code": "HCMB",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -6900,7 +6796,7 @@
         },
         {
           "description": "Coriander",
-          "supplier_code": "HCDRMB Market",
+          "supplier_code": "HCDRMB",
           "qty": "1",
           "amount": "7.70",
           "unit_cost": "$7.70/ea",
@@ -6911,7 +6807,7 @@
         },
         {
           "description": "Topless (Bethonga)",
-          "supplier_code": "PTEA Each",
+          "supplier_code": "PTEA",
           "qty": "1",
           "amount": "3.85",
           "unit_cost": "$3.85/ea",
@@ -6922,7 +6818,7 @@
         },
         {
           "description": "Dill",
-          "supplier_code": "HDB Bunch",
+          "supplier_code": "HDB",
           "qty": "1",
           "amount": "1.65",
           "unit_cost": "$1.65/ea",
@@ -6950,7 +6846,7 @@
       "lines": [
         {
           "description": "Hass",
-          "supplier_code": "AH20T Tray",
+          "supplier_code": "AH20T",
           "qty": "2",
           "amount": "57.20",
           "unit_cost": "$28.60/ea",
@@ -6961,7 +6857,7 @@
         },
         {
           "description": "Paw Shredded",
-          "supplier_code": "KITPPSKG Kilogram",
+          "supplier_code": "KITPPSKG",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -6972,7 +6868,7 @@
         },
         {
           "description": "Julienne",
-          "supplier_code": "KITCARJKG Kilogram",
+          "supplier_code": "KITCARJKG",
           "qty": "1",
           "amount": "4.00",
           "unit_cost": "$4.00/ea",
@@ -6983,7 +6879,7 @@
         },
         {
           "description": "LKKG Kilogram",
-          "supplier_code": "LKKG Kilogram",
+          "supplier_code": "LKKG",
           "qty": "2.5",
           "amount": "25.20",
           "unit_cost": "$10.08/ea",
@@ -6994,7 +6890,7 @@
         },
         {
           "description": "Thyme",
-          "supplier_code": "HTBCH Bunch",
+          "supplier_code": "HTBCH",
           "qty": "3",
           "amount": "4.95",
           "unit_cost": "$1.65/ea",
@@ -7005,7 +6901,7 @@
         },
         {
           "description": "Rosemary",
-          "supplier_code": "HRBCH Bunch",
+          "supplier_code": "HRBCH",
           "qty": "2",
           "amount": "3.30",
           "unit_cost": "$1.65/ea",
@@ -7016,7 +6912,7 @@
         },
         {
           "description": "Radiccio",
-          "supplier_code": "LREA Each",
+          "supplier_code": "LREA",
           "qty": "3",
           "amount": "18.15",
           "unit_cost": "$6.05/ea",
@@ -7027,7 +6923,7 @@
         },
         {
           "description": "Cos Baby Twin Pack",
-          "supplier_code": "LCBTPEA Each",
+          "supplier_code": "LCBTPEA",
           "qty": "6",
           "amount": "16.50",
           "unit_cost": "$2.75/ea",
@@ -7038,7 +6934,7 @@
         },
         {
           "description": "Coriander",
-          "supplier_code": "HCB Bunch",
+          "supplier_code": "HCB",
           "qty": "3",
           "amount": "7.92",
           "unit_cost": "$2.64/ea",
@@ -7049,7 +6945,7 @@
         },
         {
           "description": "Ruby Red",
-          "supplier_code": "GRREA Each",
+          "supplier_code": "GRREA",
           "qty": "20",
           "amount": "19.80",
           "unit_cost": "$0.99/ea",
@@ -7088,7 +6984,7 @@
       "lines": [
         {
           "description": "Basil",
-          "supplier_code": "HBGQBCH Bunch",
+          "supplier_code": "HBGQBCH",
           "qty": "2",
           "amount": "7.70",
           "unit_cost": "$3.85/ea",
@@ -7099,7 +6995,7 @@
         },
         {
           "description": "Button B Grade",
-          "supplier_code": "MSHB2 Box",
+          "supplier_code": "MSHB2",
           "qty": "1",
           "amount": "33.00",
           "unit_cost": "$33.00/ea",
@@ -7110,7 +7006,7 @@
         },
         {
           "description": "Baby Spinach English",
-          "supplier_code": "LBSE15B 1.5kg",
+          "supplier_code": "LBSE15B",
           "qty": "1",
           "amount": "16.50",
           "unit_cost": "$16.50/ea",
@@ -7121,7 +7017,7 @@
         },
         {
           "description": "SBCH Bunch",
-          "supplier_code": "SBCH Bunch",
+          "supplier_code": "SBCH",
           "qty": "3",
           "amount": "4.95",
           "unit_cost": "$1.65/ea",
@@ -7132,7 +7028,7 @@
         },
         {
           "description": "Green",
-          "supplier_code": "ZGKG Kilogram",
+          "supplier_code": "ZGKG",
           "qty": "1",
           "amount": "3.85",
           "unit_cost": "$3.85/ea",
@@ -8162,7 +8058,7 @@
       "lines": [
         {
           "description": "Cos Baby Twin Pack",
-          "supplier_code": "LCBTPBX Box",
+          "supplier_code": "LCBTPBX",
           "qty": "1",
           "amount": "27.50",
           "unit_cost": "$27.50/ea",
@@ -8173,7 +8069,7 @@
         },
         {
           "description": "Radiccio",
-          "supplier_code": "LREA Each",
+          "supplier_code": "LREA",
           "qty": "4",
           "amount": "24.20",
           "unit_cost": "$6.05/ea",
@@ -8184,7 +8080,7 @@
         },
         {
           "description": "Cocktail",
-          "supplier_code": "POTCO20KG 20kg",
+          "supplier_code": "POTCO20KG",
           "qty": "1",
           "amount": "49.50",
           "unit_cost": "$49.50/ea",
@@ -8195,7 +8091,7 @@
         },
         {
           "description": "Ruby Red",
-          "supplier_code": "GRREA Each",
+          "supplier_code": "GRREA",
           "qty": "11",
           "amount": "10.89",
           "unit_cost": "$0.99/ea",
@@ -8206,7 +8102,7 @@
         },
         {
           "description": "BRL Box",
-          "supplier_code": "BRL Box",
+          "supplier_code": "BRL",
           "qty": "3",
           "amount": "93.60",
           "unit_cost": "$31.20/ea",
@@ -8217,7 +8113,7 @@
         },
         {
           "description": "Diced 5mm",
-          "supplier_code": "KITCD5MM Kilogram",
+          "supplier_code": "KITCD5MM",
           "qty": "3",
           "amount": "11.70",
           "unit_cost": "$3.90/ea",
@@ -8228,7 +8124,7 @@
         },
         {
           "description": "Large",
-          "supplier_code": "CLKG Kilogram",
+          "supplier_code": "CLKG",
           "qty": "5",
           "amount": "7.15",
           "unit_cost": "$1.43/ea",
@@ -8239,7 +8135,7 @@
         },
         {
           "description": "Gourmet Large",
-          "supplier_code": "TGL10BX Box",
+          "supplier_code": "TGL10BX",
           "qty": "1",
           "amount": "45.22",
           "unit_cost": "$45.22/ea",
@@ -8250,7 +8146,7 @@
         },
         {
           "description": "Sweet",
-          "supplier_code": "CSCB Each",
+          "supplier_code": "CSCB",
           "qty": "10",
           "amount": "13.20",
           "unit_cost": "$1.32/ea",
@@ -8261,7 +8157,7 @@
         },
         {
           "description": "Red And Green",
-          "supplier_code": "KITCRAGKG Kilogram",
+          "supplier_code": "KITCRAGKG",
           "qty": "2",
           "amount": "15.80",
           "unit_cost": "$7.90/ea",
@@ -8272,7 +8168,7 @@
         },
         {
           "description": "Hass",
-          "supplier_code": "AH20T Tray",
+          "supplier_code": "AH20T",
           "qty": "3",
           "amount": "85.80",
           "unit_cost": "$28.60/ea",
@@ -8472,7 +8368,7 @@
       "lines": [
         {
           "description": "Sweet",
-          "supplier_code": "CSCB Each",
+          "supplier_code": "CSCB",
           "qty": "10",
           "amount": "13.20",
           "unit_cost": "$1.32/ea",
@@ -8483,7 +8379,7 @@
         },
         {
           "description": "Slaw",
-          "supplier_code": "KITDSKG Kilogram",
+          "supplier_code": "KITDSKG",
           "qty": "2",
           "amount": "15.80",
           "unit_cost": "$7.90/ea",
@@ -8494,7 +8390,7 @@
         },
         {
           "description": "Green",
-          "supplier_code": "PGKG Kilogram",
+          "supplier_code": "PGKG",
           "qty": "2",
           "amount": "7.70",
           "unit_cost": "$3.85/ea",
@@ -8505,7 +8401,7 @@
         },
         {
           "description": "Basil",
-          "supplier_code": "HBGQBCH Bunch",
+          "supplier_code": "HBGQBCH",
           "qty": "1",
           "amount": "3.85",
           "unit_cost": "$3.85/ea",
@@ -8516,7 +8412,7 @@
         },
         {
           "description": "Mint Round",
-          "supplier_code": "HMRBCH Bunch",
+          "supplier_code": "HMRBCH",
           "qty": "1",
           "amount": "1.10",
           "unit_cost": "$1.10/ea",
@@ -8527,7 +8423,7 @@
         },
         {
           "description": "Ruby Red",
-          "supplier_code": "GRREA Each",
+          "supplier_code": "GRREA",
           "qty": "20",
           "amount": "19.80",
           "unit_cost": "$0.99/ea",
@@ -8538,7 +8434,7 @@
         },
         {
           "description": "Rosemary",
-          "supplier_code": "HRBCH Bunch",
+          "supplier_code": "HRBCH",
           "qty": "1",
           "amount": "1.65",
           "unit_cost": "$1.65/ea",
@@ -8549,7 +8445,7 @@
         },
         {
           "description": "Paw Shredded",
-          "supplier_code": "KITPPSKG Kilogram",
+          "supplier_code": "KITPPSKG",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -8560,7 +8456,7 @@
         },
         {
           "description": "Radiccio",
-          "supplier_code": "LREA Each",
+          "supplier_code": "LREA",
           "qty": "4",
           "amount": "24.20",
           "unit_cost": "$6.05/ea",
@@ -8571,7 +8467,7 @@
         },
         {
           "description": "Cos Baby Twin Pack",
-          "supplier_code": "LCBTPEA Each",
+          "supplier_code": "LCBTPEA",
           "qty": "8",
           "amount": "22.00",
           "unit_cost": "$2.75/ea",
@@ -8582,7 +8478,7 @@
         },
         {
           "description": "Coriander",
-          "supplier_code": "HCB Bunch",
+          "supplier_code": "HCB",
           "qty": "3",
           "amount": "7.92",
           "unit_cost": "$2.64/ea",
@@ -8593,7 +8489,7 @@
         },
         {
           "description": "Florets",
-          "supplier_code": "KITCFKG Kilogram",
+          "supplier_code": "KITCFKG",
           "qty": "4",
           "amount": "31.60",
           "unit_cost": "$7.90/ea",
@@ -10185,7 +10081,7 @@
       "lines": [
         {
           "description": "Green",
-          "supplier_code": "BGHPKG Kilogram",
+          "supplier_code": "BGHPKG",
           "qty": "3",
           "amount": "11.55",
           "unit_cost": "$3.85/ea",
@@ -10196,7 +10092,7 @@
         },
         {
           "description": "Red Long",
-          "supplier_code": "CLRKG Kilogram",
+          "supplier_code": "CLRKG",
           "qty": "1",
           "amount": "11.00",
           "unit_cost": "$11.00/ea",
@@ -10207,7 +10103,7 @@
         },
         {
           "description": "Free Range 700 Grams",
-          "supplier_code": "EFR700DOZ Dozen",
+          "supplier_code": "EFR700DOZ",
           "qty": "2",
           "amount": "16.00",
           "unit_cost": "$11.43/kg",
@@ -10218,7 +10114,7 @@
         },
         {
           "description": "Sum (Bunch)",
-          "supplier_code": "CSB Bunch",
+          "supplier_code": "CSB",
           "qty": "2",
           "amount": "4.40",
           "unit_cost": "$2.20/ea",
@@ -10229,7 +10125,7 @@
         },
         {
           "description": "Cos Baby Twin Pack",
-          "supplier_code": "LCBTPEA Each",
+          "supplier_code": "LCBTPEA",
           "qty": "2",
           "amount": "5.50",
           "unit_cost": "$2.75/ea",
@@ -10240,7 +10136,7 @@
         },
         {
           "description": "Peeled",
-          "supplier_code": "GPKG Kilogram",
+          "supplier_code": "GPKG",
           "qty": "1",
           "amount": "3.85",
           "unit_cost": "$3.85/ea",
@@ -10251,7 +10147,7 @@
         },
         {
           "description": "GINKG Kilogram",
-          "supplier_code": "GINKG Kilogram",
+          "supplier_code": "GINKG",
           "qty": "1",
           "amount": "13.20",
           "unit_cost": "$13.20/ea",
@@ -10262,7 +10158,7 @@
         },
         {
           "description": "Florets",
-          "supplier_code": "KITCFKG Kilogram",
+          "supplier_code": "KITCFKG",
           "qty": "6",
           "amount": "47.40",
           "unit_cost": "$7.90/ea",
@@ -10273,7 +10169,7 @@
         },
         {
           "description": "Peeled",
-          "supplier_code": "KITPPKG Kilogram",
+          "supplier_code": "KITPPKG",
           "qty": "3",
           "amount": "10.80",
           "unit_cost": "$3.60/ea",
@@ -10284,7 +10180,7 @@
         },
         {
           "description": "Large",
-          "supplier_code": "CLKG Kilogram",
+          "supplier_code": "CLKG",
           "qty": "1",
           "amount": "1.43",
           "unit_cost": "$1.43/ea",
@@ -10295,7 +10191,7 @@
         },
         {
           "description": "Brown",
-          "supplier_code": "ONBRKG Kilogram",
+          "supplier_code": "ONBRKG",
           "qty": "2",
           "amount": "3.08",
           "unit_cost": "$1.54/ea",
@@ -10306,7 +10202,7 @@
         },
         {
           "description": "SBCH Bunch",
-          "supplier_code": "SBCH Bunch",
+          "supplier_code": "SBCH",
           "qty": "2",
           "amount": "3.30",
           "unit_cost": "$1.65/ea",
@@ -11828,7 +11724,7 @@
       "lines": [
         {
           "description": "Basil",
-          "supplier_code": "HBGQBCH Bunch",
+          "supplier_code": "HBGQBCH",
           "qty": "2",
           "amount": "7.70",
           "unit_cost": "$3.85/ea",
@@ -11839,7 +11735,7 @@
         },
         {
           "description": "Cherry",
-          "supplier_code": "TCPUN Punnet",
+          "supplier_code": "TCPUN",
           "qty": "6",
           "amount": "11.88",
           "unit_cost": "$1.98/ea",
@@ -11850,7 +11746,7 @@
         },
         {
           "description": "Mint Round",
-          "supplier_code": "HMRBCH Bunch",
+          "supplier_code": "HMRBCH",
           "qty": "2",
           "amount": "2.20",
           "unit_cost": "$1.10/ea",
@@ -11889,7 +11785,7 @@
       "lines": [
         {
           "description": "Hass",
-          "supplier_code": "AH20T Tray",
+          "supplier_code": "AH20T",
           "qty": "2",
           "amount": "52.80",
           "unit_cost": "$26.40/ea",
@@ -11900,7 +11796,7 @@
         },
         {
           "description": "Chat Washed",
-          "supplier_code": "PCW20BG 20kg",
+          "supplier_code": "PCW20BG",
           "qty": "1",
           "amount": "44.00",
           "unit_cost": "$44.00/ea",
@@ -11911,7 +11807,7 @@
         },
         {
           "description": "Large",
-          "supplier_code": "CLKG Kilogram",
+          "supplier_code": "CLKG",
           "qty": "10",
           "amount": "14.30",
           "unit_cost": "$1.43/ea",
@@ -11922,7 +11818,7 @@
         },
         {
           "description": "BRL Box",
-          "supplier_code": "BRL Box",
+          "supplier_code": "BRL",
           "qty": "2",
           "amount": "62.40",
           "unit_cost": "$31.20/ea",
@@ -11933,7 +11829,7 @@
         },
         {
           "description": "Sweet",
-          "supplier_code": "CSCB Each",
+          "supplier_code": "CSCB",
           "qty": "5",
           "amount": "6.60",
           "unit_cost": "$1.32/ea",
@@ -11944,7 +11840,7 @@
         },
         {
           "description": "Gourmet",
-          "supplier_code": "TG10BX Box",
+          "supplier_code": "TG10BX",
           "qty": "1",
           "amount": "37.50",
           "unit_cost": "$37.50/ea",
@@ -11955,7 +11851,7 @@
         },
         {
           "description": "Paw Shredded",
-          "supplier_code": "KITPPSKG Kilogram",
+          "supplier_code": "KITPPSKG",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -11966,7 +11862,7 @@
         },
         {
           "description": "Royal Gala",
-          "supplier_code": "ARGKG Kilogram",
+          "supplier_code": "ARGKG",
           "qty": "1",
           "amount": "4.40",
           "unit_cost": "$4.40/ea",
@@ -11977,7 +11873,7 @@
         },
         {
           "description": "PKG Kilogram",
-          "supplier_code": "PKG Kilogram",
+          "supplier_code": "PKG",
           "qty": "1",
           "amount": "6.48",
           "unit_cost": "$6.48/ea",
@@ -12005,7 +11901,7 @@
       "lines": [
         {
           "description": "BRL Box",
-          "supplier_code": "BRL Box",
+          "supplier_code": "BRL",
           "qty": "3",
           "amount": "93.60",
           "unit_cost": "$31.20/ea",
@@ -12016,7 +11912,7 @@
         },
         {
           "description": "Large",
-          "supplier_code": "CLKG Kilogram",
+          "supplier_code": "CLKG",
           "qty": "7",
           "amount": "10.01",
           "unit_cost": "$1.43/ea",
@@ -12027,7 +11923,7 @@
         },
         {
           "description": "Chat Washed",
-          "supplier_code": "PCWKG Kilogram",
+          "supplier_code": "PCWKG",
           "qty": "10",
           "amount": "22.00",
           "unit_cost": "$2.20/ea",
@@ -12038,7 +11934,7 @@
         },
         {
           "description": "Hass",
-          "supplier_code": "AH20T Tray",
+          "supplier_code": "AH20T",
           "qty": "2",
           "amount": "52.80",
           "unit_cost": "$26.40/ea",
@@ -12049,7 +11945,7 @@
         },
         {
           "description": "Candy Melon",
-          "supplier_code": "MCME Each",
+          "supplier_code": "MCME",
           "qty": "1",
           "amount": "7.20",
           "unit_cost": "$7.20/ea",
@@ -12060,7 +11956,7 @@
         },
         {
           "description": "Paw Shredded",
-          "supplier_code": "KITPPSKG Kilogram",
+          "supplier_code": "KITPPSKG",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -12071,7 +11967,7 @@
         },
         {
           "description": "Gourmet Large",
-          "supplier_code": "TGL10BX Box",
+          "supplier_code": "TGL10BX",
           "qty": "1",
           "amount": "30.50",
           "unit_cost": "$30.50/ea",
@@ -21685,7 +21581,7 @@
       "lines": [
         {
           "description": "Hass",
-          "supplier_code": "AH20T Tray",
+          "supplier_code": "AH20T",
           "qty": "1",
           "amount": "26.40",
           "unit_cost": "$26.40/ea",
@@ -21696,7 +21592,7 @@
         },
         {
           "description": "BRL Box",
-          "supplier_code": "BRL Box",
+          "supplier_code": "BRL",
           "qty": "2",
           "amount": "86.40",
           "unit_cost": "$43.20/ea",
@@ -21707,7 +21603,7 @@
         },
         {
           "description": "Large",
-          "supplier_code": "CLKG Kilogram",
+          "supplier_code": "CLKG",
           "qty": "5",
           "amount": "8.25",
           "unit_cost": "$1.65/ea",
@@ -21718,7 +21614,7 @@
         },
         {
           "description": "Sweet",
-          "supplier_code": "CSCB Each",
+          "supplier_code": "CSCB",
           "qty": "3",
           "amount": "3.96",
           "unit_cost": "$1.32/ea",
@@ -21729,7 +21625,7 @@
         },
         {
           "description": "Florets",
-          "supplier_code": "KITCFKG Kilogram",
+          "supplier_code": "KITCFKG",
           "qty": "5",
           "amount": "39.50",
           "unit_cost": "$7.90/ea",
@@ -21740,7 +21636,7 @@
         },
         {
           "description": "Green",
-          "supplier_code": "PGKG Kilogram",
+          "supplier_code": "PGKG",
           "qty": "2",
           "amount": "8.80",
           "unit_cost": "$4.40/ea",
@@ -21751,7 +21647,7 @@
         },
         {
           "description": "Garlic Chives",
-          "supplier_code": "HGCMB Market",
+          "supplier_code": "HGCMB",
           "qty": "1",
           "amount": "8.64",
           "unit_cost": "$8.64/ea",
@@ -21762,7 +21658,7 @@
         },
         {
           "description": "Coriander",
-          "supplier_code": "HCDRMB Market",
+          "supplier_code": "HCDRMB",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -21773,7 +21669,7 @@
         },
         {
           "description": "Desiree (5Kg Bag)",
-          "supplier_code": "PDES5BG Bag",
+          "supplier_code": "PDES5BG",
           "qty": "2",
           "amount": "34.56",
           "unit_cost": "$3.46/kg",
@@ -21784,7 +21680,7 @@
         },
         {
           "description": "Paw Shredded",
-          "supplier_code": "KITPPSKG Kilogram",
+          "supplier_code": "KITPPSKG",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -21795,7 +21691,7 @@
         },
         {
           "description": "Rocket Wild",
-          "supplier_code": "LRW15BG Box",
+          "supplier_code": "LRW15BG",
           "qty": "1",
           "amount": "17.60",
           "unit_cost": "$17.60/ea",
@@ -22747,7 +22643,7 @@
       "lines": [
         {
           "description": "Cherry",
-          "supplier_code": "TCPUN Punnet",
+          "supplier_code": "TCPUN",
           "qty": "6",
           "amount": "18.48",
           "unit_cost": "$3.08/ea",
@@ -22758,7 +22654,7 @@
         },
         {
           "description": "SBCH Bunch",
-          "supplier_code": "SBCH Bunch",
+          "supplier_code": "SBCH",
           "qty": "3",
           "amount": "5.79",
           "unit_cost": "$1.93/ea",
@@ -22769,7 +22665,7 @@
         },
         {
           "description": "Basil",
-          "supplier_code": "HBGQBCH Bunch",
+          "supplier_code": "HBGQBCH",
           "qty": "2",
           "amount": "7.70",
           "unit_cost": "$3.85/ea",
@@ -22780,7 +22676,7 @@
         },
         {
           "description": "Button B Grade",
-          "supplier_code": "MSHB2 Box",
+          "supplier_code": "MSHB2",
           "qty": "1",
           "amount": "33.00",
           "unit_cost": "$33.00/ea",
@@ -22791,7 +22687,7 @@
         },
         {
           "description": "Spanish",
-          "supplier_code": "OS10BG 10kg",
+          "supplier_code": "OS10BG",
           "qty": "1",
           "amount": "24.20",
           "unit_cost": "$24.20/ea",
@@ -22802,7 +22698,7 @@
         },
         {
           "description": "BRL Box",
-          "supplier_code": "BRL Box",
+          "supplier_code": "BRL",
           "qty": "2",
           "amount": "86.40",
           "unit_cost": "$43.20/ea",
@@ -22813,7 +22709,7 @@
         },
         {
           "description": "Large",
-          "supplier_code": "CLKG Kilogram",
+          "supplier_code": "CLKG",
           "qty": "4",
           "amount": "6.60",
           "unit_cost": "$1.65/ea",
@@ -22824,7 +22720,7 @@
         },
         {
           "description": "Florets",
-          "supplier_code": "KITCFKG Kilogram",
+          "supplier_code": "KITCFKG",
           "qty": "5",
           "amount": "39.50",
           "unit_cost": "$7.90/ea",
@@ -22835,7 +22731,7 @@
         },
         {
           "description": "Slaw",
-          "supplier_code": "KITDSKG Kilogram",
+          "supplier_code": "KITDSKG",
           "qty": "2",
           "amount": "15.80",
           "unit_cost": "$7.90/ea",
@@ -22846,7 +22742,7 @@
         },
         {
           "description": "Chives",
-          "supplier_code": "HCMB Market",
+          "supplier_code": "HCMB",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -22857,7 +22753,7 @@
         },
         {
           "description": "Coriander",
-          "supplier_code": "HCB Bunch",
+          "supplier_code": "HCB",
           "qty": "4",
           "amount": "10.56",
           "unit_cost": "$2.64/ea",
@@ -22868,7 +22764,7 @@
         },
         {
           "description": "Rocket Wild",
-          "supplier_code": "LRW15BG Box",
+          "supplier_code": "LRW15BG",
           "qty": "1",
           "amount": "17.60",
           "unit_cost": "$17.60/ea",
@@ -24157,7 +24053,7 @@
       "lines": [
         {
           "description": "Rocket Wild",
-          "supplier_code": "LRW15BG Box",
+          "supplier_code": "LRW15BG",
           "qty": "1",
           "amount": "17.60",
           "unit_cost": "$17.60/ea",
@@ -24168,7 +24064,7 @@
         },
         {
           "description": "White (Stick)",
-          "supplier_code": "RWSTK Each",
+          "supplier_code": "RWSTK",
           "qty": "1",
           "amount": "7.20",
           "unit_cost": "$7.20/ea",
@@ -24179,7 +24075,7 @@
         },
         {
           "description": "Red",
-          "supplier_code": "RRBCH Bunch",
+          "supplier_code": "RRBCH",
           "qty": "2",
           "amount": "5.76",
           "unit_cost": "$2.88/ea",
@@ -24190,7 +24086,7 @@
         },
         {
           "description": "Green",
-          "supplier_code": "PGKG Kilogram",
+          "supplier_code": "PGKG",
           "qty": "1",
           "amount": "4.40",
           "unit_cost": "$4.40/ea",
@@ -24201,7 +24097,7 @@
         },
         {
           "description": "Chives",
-          "supplier_code": "HCMB Market",
+          "supplier_code": "HCMB",
           "qty": "1",
           "amount": "9.90",
           "unit_cost": "$9.90/ea",
@@ -24212,7 +24108,7 @@
         },
         {
           "description": "Coriander",
-          "supplier_code": "HCB Bunch",
+          "supplier_code": "HCB",
           "qty": "3",
           "amount": "7.92",
           "unit_cost": "$2.64/ea",
@@ -24223,7 +24119,7 @@
         },
         {
           "description": "Basil",
-          "supplier_code": "HBGQBCH Bunch",
+          "supplier_code": "HBGQBCH",
           "qty": "1",
           "amount": "3.85",
           "unit_cost": "$3.85/ea",
@@ -24234,7 +24130,7 @@
         },
         {
           "description": "Large",
-          "supplier_code": "CLKG Kilogram",
+          "supplier_code": "CLKG",
           "qty": "5",
           "amount": "8.25",
           "unit_cost": "$1.65/ea",
@@ -24245,7 +24141,7 @@
         },
         {
           "description": "Hass",
-          "supplier_code": "AH20T Tray",
+          "supplier_code": "AH20T",
           "qty": "1",
           "amount": "22.00",
           "unit_cost": "$22.00/ea",
@@ -24256,7 +24152,7 @@
         },
         {
           "description": "Roma",
-          "supplier_code": "TR10BX Box",
+          "supplier_code": "TR10BX",
           "qty": "1",
           "amount": "49.50",
           "unit_cost": "$49.50/ea",
@@ -24267,7 +24163,7 @@
         },
         {
           "description": "Thyme",
-          "supplier_code": "HTBCH Bunch",
+          "supplier_code": "HTBCH",
           "qty": "3",
           "amount": "4.95",
           "unit_cost": "$1.65/ea",
@@ -24278,7 +24174,7 @@
         },
         {
           "description": "Thai",
-          "supplier_code": "ETKG Kilogram",
+          "supplier_code": "ETKG",
           "qty": "1",
           "amount": "11.52",
           "unit_cost": "$11.52/ea",
@@ -24289,7 +24185,7 @@
         },
         {
           "description": "Sweet",
-          "supplier_code": "CSCB Each",
+          "supplier_code": "CSCB",
           "qty": "5",
           "amount": "6.60",
           "unit_cost": "$1.32/ea",
@@ -24300,7 +24196,7 @@
         },
         {
           "description": "700 Grams",
-          "supplier_code": "EGL7BX Box",
+          "supplier_code": "EGL7BX",
           "qty": "1",
           "amount": "48.00",
           "unit_cost": "$68.57/kg",
@@ -24311,7 +24207,7 @@
         },
         {
           "description": "Desiree",
-          "supplier_code": "PDES10BG 10kg",
+          "supplier_code": "PDES10BG",
           "qty": "1",
           "amount": "28.80",
           "unit_cost": "$28.80/ea",
@@ -24322,7 +24218,7 @@
         },
         {
           "description": "Mesculin",
-          "supplier_code": "LMM15BX 1.5kg",
+          "supplier_code": "LMM15BX",
           "qty": "1",
           "amount": "17.40",
           "unit_cost": "$17.40/ea",
