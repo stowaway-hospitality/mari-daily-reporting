@@ -57,6 +57,30 @@ def _median(xs):
     return xs[n // 2] if n % 2 else (xs[n // 2 - 1] + xs[n // 2]) / 2
 
 
+def _outlier_in_time(members, when, med) -> bool:
+    """Is this rate an OUTLIER, or just the price before it changed?
+
+    ONE definition, used by both passes. A pack misread is one delivery sitting
+    apart from the deliveries either side of it. A price change is not: it takes
+    effect on a date and everything after it is the new price. So a rate only
+    counts when the median rate is observed BOTH BEFORE AND AFTER it.
+
+    This lived only in pass 2 until 2026-08-14, and pass 1 went red on the very
+    case pass 2's docstring already named as real: Fresh Fruit Team coriander at
+    $15.40 on 1 and 4 May against a $7.70 median — exactly 2.00x, and exactly a
+    market line moving. $7.70 does not appear anywhere before those dates, so
+    there is nothing for the $15.40 to be an outlier FROM. Two passes disagreeing
+    about the same rule is worse than either answer.
+
+    members: (rate, when, ...) tuples. `when` is a date string; ordering is
+    lexicographic, which is correct for ISO dates and is what both callers hold.
+    """
+    near = lambda v: abs(v - med) <= med * TOL           # noqa: E731
+    before = any(near(m[0]) for m in members if m[1] and m[1] < when)
+    after = any(near(m[0]) for m in members if m[1] and m[1] > when)
+    return bool(before and after)
+
+
 def _scan(groups, field, label):
     out = []
     for key, members in sorted(groups.items()):
@@ -65,10 +89,12 @@ def _scan(groups, field, label):
         med = _median([m[0] for m in members])
         if med <= 0:
             continue
-        for rate, r in members:
+        for rate, when, r in members:
             ratio = rate / med if rate > med else med / rate
             for f in PACK_FACTORS:
                 if abs(ratio - f) <= f * TOL:
+                    if not _outlier_in_time(members, when, med):
+                        break            # a regime change, not an outlier
                     out.append({
                         "supplier": key[0], "code": key[1],
                         "unit": (r.get("pack_unit") or "").strip(),
@@ -101,7 +127,8 @@ def findings(rows):
         rate = _d(r.get("cost_per_base_unit"))
         if rate is not None:
             by_rate[(r.get("supplier", ""), r.get("supplier_code", ""),
-                     (r.get("pack_unit") or "").strip())].append((rate, r))
+                     (r.get("pack_unit") or "").strip())].append(
+                (rate, r.get("invoice_date", ""), r))
     return _scan(by_rate, "cost_per_base_unit", "rate")
 
 
@@ -150,10 +177,7 @@ def book_findings(rows):
             hit = next((f for f in PACK_FACTORS if abs(ratio - f) <= f * TOL), None)
             if hit is None:
                 continue
-            near = lambda v: abs(v - med) <= med * TOL           # noqa: E731
-            before = any(near(v) for v, w, _ in members if w < when)
-            after = any(near(v) for v, w, _ in members if w > when)
-            if not (before and after):
+            if not _outlier_in_time(members, when, med):
                 continue                 # a regime change, not an outlier
             out.append({
                 "supplier": ing.split(":")[0], "code": ing, "unit": unit,

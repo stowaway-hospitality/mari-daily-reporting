@@ -259,15 +259,28 @@ def test_the_assumed_yield_is_declared_in_the_feed(feed):
 
 # --- the derived families the audit already knows about --------------------
 
-def test_the_bad_seeds_are_the_two_pack_misreads(feed):
-    """Both harmless today — costs.csv carries the invoiced rate — and both a
-    wrong fallback for the next recipe that reaches the product before an
-    invoice does. Each lands on an exact whole pack count, which names the
-    defect rather than just flagging it."""
+def test_the_bad_seeds_are_gone(feed):
+    """CLOSED 2026-08-14. The family is empty and this guards that it stays so.
+
+    Both were recipe-bridge-seed rows that copied a Gulli PACK price into a
+    per-each field: garlic bread $59.81 (the carton of 40) and pizza box inserts
+    $11.055 (the box of 100), each landing on an exact whole pack count, which is
+    what named the defect rather than merely flagging it.
+
+    Neither was mispriced in the book — costs.csv already carried the invoiced
+    rate — but a seed is what a new ProductID falls back to before its first
+    invoice lands, so a $59.81 garlic bread was a loaded gun with the safety on.
+    Corrected in data/cogs_list.csv to $1.4952 and $0.11055, the per-each figures
+    the Gulli packs actually work out at.
+
+    NOT fixed by re-running build_recipe_bridge.py, which is the obvious move and
+    the wrong one: it now proposes bridging Herb Coriander to FFT's HCDRMB at
+    $15.40 — the MARKET bunch — against a retail bunch at $1.30, and re-points
+    the 6" tortilla at a different B&E code than the one already adjudicated.
+    A regenerator is only safe where nothing downstream has been decided by hand.
+    """
     seeds = {f["subject"]: f for f in _by_cat(feed, "bad_seed")}
-    assert set(seeds) == {"Garlic Bread", "Pizza Box Inserts"}, sorted(seeds)
-    assert "pack of 40" in seeds["Garlic Bread"]["what_is_wrong"]
-    assert "pack of 100" in seeds["Pizza Box Inserts"]["what_is_wrong"]
+    assert seeds == {}, sorted(seeds)
 
 
 def test_the_config_gap_is_closed(feed):

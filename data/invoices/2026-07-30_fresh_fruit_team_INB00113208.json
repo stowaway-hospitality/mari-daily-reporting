@@ -1,89 +1,89 @@
 {
-  "invoice": {
-    "supplier_key": "fresh_fruit_team",
-    "supplier_name_raw": "The Fresh Fruit Team Pty Ltd",
-    "invoice_ref": "INB00113208",
-    "invoice_date": "2026-07-30",
-    "total_incl": "55.92",
-    "lines": [
-      {
-        "description": "Diced",
-        "qty": "3",
-        "line_total_incl": "45.36",
-        "unit_price_incl": "15.12",
-        "unit_price_ex": null,
-        "pack_size": 1,
-        "line_class": "stock",
-        "tax_treatment": "gst_free",
-        "cost_basis": "per_unit",
-        "gst_amount": "0",
-        "wet_amount": null,
-        "supplier_code": "KITAPDKG",
-        "raw_qty": null,
-        "raw_uom": "Apple",
-        "pack_qty": "1",
-        "pack_unit": "ea",
-        "lightspeed_product_id": null,
-        "lightspeed_product_name": null,
-        "notes": []
-      },
-      {
-        "description": "RHBCH Bunch",
-        "qty": "2",
-        "line_total_incl": "10.56",
-        "unit_price_incl": "5.28",
-        "unit_price_ex": null,
-        "pack_size": 1,
-        "line_class": "stock",
-        "tax_treatment": "gst_free",
-        "cost_basis": "per_unit",
-        "gst_amount": "0",
-        "wet_amount": null,
-        "supplier_code": "RHBCH",
-        "raw_qty": null,
-        "raw_uom": "Rhubarb",
-        "pack_qty": "1",
-        "pack_unit": "ea",
-        "lightspeed_product_id": null,
-        "lightspeed_product_name": null,
-        "notes": []
-      }
-    ],
-    "due_date": "2026-08-13",
-    "is_credit_note": false,
-    "venue": "stowaway",
-    "po_refs": [],
-    "subtotal_ex": null,
-    "gst_total": null,
-    "wet_total": null,
-    "account_code": null,
-    "source_pdf": "8b1719483e32d8998a5055a5f943977654aa3af851ef028b3bec5c4b05f9d439.pdf",
-    "extractor_version": null
-  },
-  "validation": {
-    "status": "pass",
-    "findings": [],
-    "expected_ls_receive_total": "55.92",
-    "extras_total": "0"
-  },
-  "xero_coding": {
-    "tracking_category": "Stowaway",
-    "tracking_option": "Kitchen",
-    "tracking_confidence": "medium",
-    "primary_account": "115",
-    "lines": [
-      {
-        "description": "Diced",
-        "account_code": "115",
-        "account_name": "Purchases - Food",
-        "reason": "learned from Xero history for this supplier"
-      },
-      {
-        "description": "RHBCH Bunch",
-        "account_code": "115",
-        "account_name": "Purchases - Food",
-        "reason": "learned from Xero history for this supplier"
-      }
-    ]
-  }
+ "invoice": {
+  "supplier_key": "fresh_fruit_team",
+  "supplier_name_raw": "The Fresh Fruit Team Pty Ltd",
+  "invoice_ref": "INB00113208",
+  "invoice_date": "2026-07-30",
+  "total_incl": "55.92",
+  "lines": [
+   {
+    "description": "Diced",
+    "qty": "3",
+    "line_total_incl": "45.36",
+    "unit_price_incl": "15.12",
+    "unit_price_ex": null,
+    "pack_size": 1,
+    "line_class": "stock",
+    "tax_treatment": "gst_free",
+    "cost_basis": "per_unit",
+    "gst_amount": "0",
+    "wet_amount": null,
+    "supplier_code": "KITAPDKG",
+    "raw_qty": null,
+    "raw_uom": "Apple",
+    "pack_qty": "1",
+    "pack_unit": "ea",
+    "lightspeed_product_id": null,
+    "lightspeed_product_name": null,
+    "notes": []
+   },
+   {
+    "description": "Rhubarb",
+    "qty": "2",
+    "line_total_incl": "10.56",
+    "unit_price_incl": "5.28",
+    "unit_price_ex": null,
+    "pack_size": 1,
+    "line_class": "stock",
+    "tax_treatment": "gst_free",
+    "cost_basis": "per_unit",
+    "gst_amount": "0",
+    "wet_amount": null,
+    "supplier_code": "RHBCH",
+    "raw_qty": null,
+    "raw_uom": "Bunch",
+    "pack_qty": "1",
+    "pack_unit": "ea",
+    "lightspeed_product_id": null,
+    "lightspeed_product_name": null,
+    "notes": []
+   }
+  ],
+  "due_date": "2026-08-13",
+  "is_credit_note": false,
+  "venue": "stowaway",
+  "po_refs": [],
+  "subtotal_ex": null,
+  "gst_total": null,
+  "wet_total": null,
+  "account_code": null,
+  "source_pdf": "8b1719483e32d8998a5055a5f943977654aa3af851ef028b3bec5c4b05f9d439.pdf",
+  "extractor_version": null
+ },
+ "validation": {
+  "status": "pass",
+  "findings": [],
+  "expected_ls_receive_total": "55.92",
+  "extras_total": "0"
+ },
+ "xero_coding": {
+  "tracking_category": "Stowaway",
+  "tracking_option": "Kitchen",
+  "tracking_confidence": "medium",
+  "primary_account": "115",
+  "lines": [
+   {
+    "description": "Diced",
+    "account_code": "115",
+    "account_name": "Purchases - Food",
+    "reason": "learned from Xero history for this supplier"
+   },
+   {
+    "description": "RHBCH Bunch",
+    "account_code": "115",
+    "account_name": "Purchases - Food",
+    "reason": "learned from Xero history for this supplier"
+   }
+  ]
+ }
 }

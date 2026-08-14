@@ -97,8 +97,12 @@ if (!fs.existsSync(p)) {
   // answer in the code there is nothing left to render. Asserting it is still
   // there would demand the repo keep a settled question open forever, which is
   // exactly the trap the batch_yield note above records.
+  // bad_seed left this list on 2026-08-14 for the reason stated just above:
+  // both its members were fixed (the Gulli carton-as-each seeds, corrected in
+  // data/cogs_list.csv to $1.4952 and $0.11055), so demanding the family would
+  // demand the defect. The fix is guarded at section 5 instead.
   for (const c of ['cook_loss', 'structure', 'price_conflict',
-                   'no_recipe', 'back_office', 'bad_seed',
+                   'no_recipe', 'back_office',
                    'feed_defect']) {
     ok(`family present: ${c}`, cats.has(c), [...cats].join(','));
   }
@@ -171,12 +175,16 @@ if (!fs.existsSync(p)) {
      !inFeed('Plantation'),
      'Plantation is flagged again — the 4500ML pack override has been lost');
 
-  // 5. the two case-price-as-each seeds.
-  ok('the Garlic Bread seed is flagged', inFeed('Garlic Bread'));
-  ok('the Pizza Box Inserts seed is flagged', inFeed('Pizza Box Inserts'));
-  ok('...and both say a case was priced as one unit',
-     d.flags.filter(f => f.category === 'bad_seed')
-            .every(f => /priced as one unit|x/.test(f.what_is_wrong)));
+  // 5. the two case-price-as-each seeds — FIXED 2026-08-14, so this guards the
+  //    fix. Both were recipe-bridge-seed rows holding a Gulli PACK price in a
+  //    per-each field: garlic bread $59.81 (carton of 40) and pizza box inserts
+  //    $11.055 (box of 100). Neither mispriced a dish — costs.csv already had the
+  //    invoiced rate — but a seed is the fallback for any ProductID that reaches
+  //    a recipe before its first invoice, so a $59.81 garlic bread was a loaded
+  //    gun with the safety on. Re-break either row and the family comes back.
+  ok('the case-priced-as-each seeds stay fixed',
+     !d.flags.some(f => f.category === 'bad_seed'),
+     d.flags.filter(f => f.category === 'bad_seed').map(f => f.subject).join(' | '));
 
   // 6. the config and decision families. The 20 L vodka drum gap this used to
   //    flag was CLOSED by adding the per_bulk bound to suppliers.yaml (a14a5818) —
@@ -194,15 +202,22 @@ if (!fs.existsSync(p)) {
   ok('Cauliflower [ea] carrying pack unit "can" is flagged', inFeed('Cauliflower [ea]'));
   ok('Turkish Bread [ea] carrying pack unit "can" is flagged', inFeed('Turkish Bread [ea]'));
   ok('Avocado priced per tray is flagged', inFeed('Avocado'));
-  ok('the American Standard Burger lettuce line is flagged as a UNIT problem',
-     d.flags.some(f => f.category === 'feed_defect'
-                    && /Lettuce Cos Baby Twin Pack/.test(f.subject)
-                    && (f.evidence || []).some(e => /American Standard Burger/.test(e))),
+  // The burger lettuce was this rule's canonical example — 0.083 "ml" of a twin
+  // pack of baby cos, a twelfth of the pack at $0.228, the cost right and the
+  // unit meaningless. FIXED 2026-08-14 by a label-only entry in
+  // data/recipe_line_unit_fixes.yaml (ml -> ea, NO cost_factor), so it is gone
+  // from the family and the money did not move. Guard both halves.
+  ok('the American Standard Burger lettuce line stays fixed',
+     !d.flags.some(f => f.category === 'feed_defect'
+                     && /Lettuce Cos Baby Twin Pack/.test(f.subject || '')),
      d.flags.filter(f => f.category === 'feed_defect').map(f => f.subject).join(' | '));
-  ok('...and it says the COST is not in dispute, only the unit',
+  // ...and the rule is still alive: the ingredients it has NOT been told about
+  // are still reported, and still say the cost is not in dispute.
+  ok('the line-unit rule still fires on what is left',
      d.flags.some(f => f.category === 'feed_defect'
-                    && /Lettuce Cos/.test(f.subject)
-                    && /quantity/i.test(f.why_it_matters)));
+                    && /line\(s\) in the wrong unit/.test(f.subject || '')
+                    && /quantity/i.test(f.why_it_matters || '')),
+     d.flags.filter(f => f.category === 'feed_defect').map(f => f.subject).join(' | '));
 
   // 8. ranked by money, inside each severity band.
   {

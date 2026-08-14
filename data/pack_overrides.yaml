@@ -611,3 +611,91 @@
   by: "Claude (B&E #31254 'Pepper White Ground Ss 1kg (10)' BAG; $32.40/1kg = $32.40/kg)"
   on: 2026-08-14
   by_email: "hello@stowawaybar.com"
+
+# ==========================================================================
+# "can" is Lightspeed's DEFAULT, not a container. 2026-08-14.
+# ==========================================================================
+# Eight ingredients whose pack_unit reads "can" because nothing told Lightspeed
+# otherwise, and the feed then reports "$3.20 per can of cauliflower" to anyone
+# reading the picker. In every one of these the PRICE is already right for the
+# real unit — the flags say so in as many words ("$X is a sane price for one
+# ea/kg, so the cost is fine") — so these entries move NO money:
+#
+#   pack_qty 1  -> per = pack_cost / 1, unchanged. The unit word is all that moves.
+#   pack_qty 1000 + g -> the per-KG price divided into grams, which is the
+#                        conversion the recipes already need.
+#
+# Deliberately NOT included, because they are not label questions: Pears Green
+# ($0.65 "per kg", which is not a pear price) and Ponzu Dashi Vinegar ($0.0153
+# for a 360 mL bottle, which is not a price at all). Those two ask whether the
+# rate is per-unit or per-box and they stay flagged until an invoice answers it.
+
+- {id: "lightspeed:22898083", pack_qty: 1, pack_unit: ea,   by: "Claude (BBQ Pork Buns Canton — $1.75 is one bun; 'can' is the Lightspeed default)", on: 2026-08-14, by_email: "hello@stowawaybar.com"}
+- {id: "lightspeed:22898084", pack_qty: 1, pack_unit: ea,   by: "Claude (Peking Duck Spring Rolls Canton — $1.60 is one roll)", on: 2026-08-14, by_email: "hello@stowawaybar.com"}
+- {id: "lightspeed:22898080", pack_qty: 1, pack_unit: ea,   by: "Claude (Spring Roll Veg Hakka — $0.64 is one roll)", on: 2026-08-14, by_email: "hello@stowawaybar.com"}
+- {id: "lightspeed:22931826", pack_qty: 1, pack_unit: ea,   by: "Claude (Cauliflower — $3.20 is one head; Select Fresh bill cauliflower by the head)", on: 2026-08-14, by_email: "hello@stowawaybar.com"}
+- {id: "lightspeed:22931830", pack_qty: 1, pack_unit: ea,   by: "Claude (Turkish Bread — $1.50 is one loaf)", on: 2026-08-14, by_email: "hello@stowawaybar.com"}
+- {id: "lightspeed:22918951", pack_qty: 1, pack_unit: ea,   by: "Claude (Egg Fresh — $0.6333 is one egg, i.e. $7.60 a dozen)", on: 2026-08-14, by_email: "hello@stowawaybar.com"}
+# The two kg ones. $1.54/kg for brown onion is not a guess: fresh-fruit-team:ONBRKG
+# invoices it at $0.001320-$0.001540/g and select-fresh:ONIBK at $0.002400/g, so
+# the figure already sitting on this record IS the invoiced per-kg rate — it was
+# only ever labelled "can".
+- {id: "lightspeed:22995352", pack_qty: 1000, pack_unit: g, by: "Claude (Onion Brown — $1.54/kg = FFT ONBRKG's own invoiced rate to the cent)", on: 2026-08-14, by_email: "hello@stowawaybar.com"}
+- {id: "lightspeed:22995357", pack_qty: 1000, pack_unit: g, by: "Claude (Potato Peeled — $3.60/kg)", on: 2026-08-14, by_email: "hello@stowawaybar.com"}
+
+- id: "fresh-fruit-team:OBL20BG"      # Onion Brown, the 20 kg bag
+  pack_qty: 20000
+  pack_unit: g
+  # The invoice says it IN WORDS and the parser did not listen. raw_uom on every
+  # OBL20BG line reads "20kg bag"; pack_qty came through as 1 and pack_unit as
+  # "kg", so a $22.00 twenty-kilo bag was booked at $22.00 A KILO. 20x over.
+  #
+  #   INB00106002 2026-05-30   $24.20  raw_uom "20kg bag"
+  #   INB00113555 2026-08-01   $22.00  raw_uom "20kg bag"
+  #
+  # THE ARITHMETIC CONFIRMS ITSELF: $22.00 / 20 kg = $1.10/kg, against the same
+  # supplier's loose ONBRKG at $1.32/kg on the very same invoice run. A bag
+  # slightly cheaper per kilo than loose is exactly what a bag is for. At the
+  # unfixed reading the bag was $22/kg — seventeen times the loose price from the
+  # same van on the same day, which no kitchen has ever paid.
+  #
+  # This is the OVER-costing direction, which is why nothing caught it: every
+  # detector in this repo is pointed at the flattering direction, and
+  # check_pack_as_rate only examines SEEDS. This is an invoice-fed row.
+  by: "Claude (FFT raw_uom states '20kg bag'; $22/20kg = $1.10/kg vs their own loose $1.32/kg)"
+  on: 2026-08-14
+  by_email: "hello@stowawaybar.com"
+
+- id: "lightspeed:22918966"           # Ponzu Dashi Vinegar Uchibori [360mL]
+  pack_qty: 1
+  pack_unit: ml
+  # The figure was never wrong, only its label. $0.0153 read as "per can" is
+  # nonsense; read as PER MILLILITRE it is $5.51 for the 360 mL bottle the name
+  # declares, and Foodlink invoice SI4279378 puts MIZKAN SEASONING PONZU 1.8L at
+  # $0.016667/mL — the same condiment within 9%. Two independent readings of the
+  # same rate agree; the word "can" is Lightspeed's default leaking through.
+  # No sold recipe draws on it today, so this moves no dish.
+  by: "Claude (as $/mL it is $5.51 a 360mL bottle, against Foodlink Mizkan ponzu at $0.0167/mL)"
+  on: 2026-08-14
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22995353"           # Pears Green [kg]
+  pack_qty: 1
+  pack_unit: ea
+  # THE PRICE IS RIGHT AND THE NAME IS WRONG, which is the opposite of what the
+  # flag guesses at. $0.65 is not a kilo of pears — Fresh Fruit Team bill PGKG at
+  # $3.96-$4.40/kg — but it is a very ordinary price for ONE pear: Select Fresh
+  # bill PGRE "PEAR GREEN EA" at $0.40 each, and a ~180 g green pear off FFT's
+  # per-kilo rate works out at $0.71-$0.79. $0.65 sits between the two.
+  #
+  # The book already treats it that way and always has: Rocket Man takes "0.25"
+  # and is charged $0.1625, which is a quarter of $0.65 — a quarter of a PEAR,
+  # muddled into a cocktail. Reading it as kilograms would make that 0.25 g.
+  #
+  # THIS DOES NOT CLOSE ITS FLAG, deliberately. feed_defects compares the unit in
+  # the NAME with the pack unit, so "[kg]" against "ea" still disagrees — and it
+  # should, because the name is the thing that is wrong. The fix that closes it is
+  # renaming the product to "Pears Green [ea]" in Back Office. Until then this at
+  # least makes the book state something true instead of "per can".
+  by: "Claude (Select Fresh PGRE $0.40/ea and FFT $3.96/kg both say $0.65 is a pear, not a kilo)"
+  on: 2026-08-14
+  by_email: "hello@stowawaybar.com"

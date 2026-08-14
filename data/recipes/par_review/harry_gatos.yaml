@@ -803,3 +803,34 @@
       unit: "ml"
 
 # --- Subrecipes mirrored from stowaway.yaml so HG recipes referencing them resolve (Claude 2026-08-09, review) ---
+# Added 2026-08-14 to close the par coverage gate, which main was failing:
+# tests/test_par_model.py::test_live_coverage_gate_currently_passes reported
+# hg: [('Coconut Margarita [HG]', 1.0)] and compute_venue() would have exited
+# nonzero on the next par build.
+#
+# NOT a new recipe. Harry Gatos' Coconut Margarita is already built in Produce
+# and already costed on our book at $3.5005 against a $21.00 sell — it simply had
+# no entry in the par model's own recipe file, which is a separate source from
+# the COGS pipeline. These are its lines exactly as Produce states them, copied,
+# not derived.
+#
+# TWO THINGS A HUMAN SHOULD LOOK AT, neither of which I am guessing at:
+#   * there is no lime line. Stowaway's Coconut Margarita carries Lime Juice 30ml
+#     and this does not. Produce says two lines, so two lines is what is here.
+#   * it pours plain Rooster Blanco, not the "Coconut-washed Rooster Blanco [1L]"
+#     prep that exists in the book. If the coconut wash is what the bar actually
+#     pours, this should point at that prep instead — which would also move the
+#     cost.
+- product: Coconut Margarita [HG]
+  sell_incl_gst: 21
+  effective_from: '2026-08-14'
+  entered_by: "Claude (copied from the costed Produce recipe to close the par coverage gate) — review"
+  ingredients:
+  - id: lightspeed:20744471
+    desc: Rooster Blanco Tequila [Bottle]
+    qty: 42.5
+    unit: ml
+  - id: lightspeed:20483413
+    desc: Massenez Triple Sec [5L]
+    qty: 10
+    unit: ml

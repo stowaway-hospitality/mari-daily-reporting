@@ -1,143 +1,143 @@
 {
-  "invoice": {
-    "supplier_key": "fresh_fruit_team",
-    "supplier_name_raw": "The Fresh Fruit Team Pty Ltd",
-    "invoice_ref": "INB00106699",
-    "invoice_date": "2026-06-05",
-    "total_incl": "86.50",
-    "lines": [
-      {
-        "description": "Roma",
-        "qty": "1",
-        "line_total_incl": "35.20",
-        "unit_price_incl": "35.20",
-        "unit_price_ex": null,
-        "pack_size": 1,
-        "line_class": "stock",
-        "tax_treatment": "gst_free",
-        "cost_basis": "per_unit",
-        "gst_amount": "0",
-        "wet_amount": null,
-        "supplier_code": "TR10BX",
-        "raw_qty": null,
-        "raw_uom": "Tomatoes",
-        "pack_qty": "1",
-        "pack_unit": "ea",
-        "lightspeed_product_id": null,
-        "lightspeed_product_name": null,
-        "notes": []
-      },
-      {
-        "description": "Button B Grade",
-        "qty": "1",
-        "line_total_incl": "33.00",
-        "unit_price_incl": "33.00",
-        "unit_price_ex": null,
-        "pack_size": 1,
-        "line_class": "stock",
-        "tax_treatment": "gst_free",
-        "cost_basis": "per_unit",
-        "gst_amount": "0",
-        "wet_amount": null,
-        "supplier_code": "MSHB2",
-        "raw_qty": null,
-        "raw_uom": "Mushroom",
-        "pack_qty": "1",
-        "pack_unit": "ea",
-        "lightspeed_product_id": null,
-        "lightspeed_product_name": null,
-        "notes": []
-      },
-      {
-        "description": "SBCH Bunch",
-        "qty": "4",
-        "line_total_incl": "7.08",
-        "unit_price_incl": "1.77",
-        "unit_price_ex": null,
-        "pack_size": 1,
-        "line_class": "stock",
-        "tax_treatment": "gst_free",
-        "cost_basis": "per_unit",
-        "gst_amount": "0",
-        "wet_amount": null,
-        "supplier_code": "SBCH",
-        "raw_qty": null,
-        "raw_uom": "Shallot",
-        "pack_qty": "1",
-        "pack_unit": "ea",
-        "lightspeed_product_id": null,
-        "lightspeed_product_name": null,
-        "notes": []
-      },
-      {
-        "description": "Cherry",
-        "qty": "6",
-        "line_total_incl": "11.22",
-        "unit_price_incl": "1.87",
-        "unit_price_ex": null,
-        "pack_size": 1,
-        "line_class": "stock",
-        "tax_treatment": "gst_free",
-        "cost_basis": "per_unit",
-        "gst_amount": "0",
-        "wet_amount": null,
-        "supplier_code": "TCPUN",
-        "raw_qty": null,
-        "raw_uom": "Tomatoes",
-        "pack_qty": "1",
-        "pack_unit": "ea",
-        "lightspeed_product_id": null,
-        "lightspeed_product_name": null,
-        "notes": []
-      }
-    ],
-    "due_date": "2026-06-19",
-    "is_credit_note": false,
-    "venue": "marilynas",
-    "po_refs": [],
-    "subtotal_ex": null,
-    "gst_total": null,
-    "wet_total": null,
-    "account_code": null,
-    "source_pdf": "802a1263629cd48e90644768e5c7a383060272112ba5a36dabd42b0b18bb0387.pdf",
-    "extractor_version": null
-  },
-  "validation": {
-    "status": "pass",
-    "findings": [],
-    "expected_ls_receive_total": "86.50",
-    "extras_total": "0"
-  },
-  "xero_coding": {
-    "tracking_category": "Stowaway",
-    "tracking_option": "Marilyna's Pizza",
-    "tracking_confidence": "high",
-    "primary_account": "115",
-    "lines": [
-      {
-        "description": "Roma",
-        "account_code": "115",
-        "account_name": "Purchases - Food",
-        "reason": "learned from Xero history for this supplier"
-      },
-      {
-        "description": "Button B Grade",
-        "account_code": "115",
-        "account_name": "Purchases - Food",
-        "reason": "learned from Xero history for this supplier"
-      },
-      {
-        "description": "SBCH Bunch",
-        "account_code": "115",
-        "account_name": "Purchases - Food",
-        "reason": "learned from Xero history for this supplier"
-      },
-      {
-        "description": "Cherry",
-        "account_code": "115",
-        "account_name": "Purchases - Food",
-        "reason": "learned from Xero history for this supplier"
-      }
-    ]
-  }
+ "invoice": {
+  "supplier_key": "fresh_fruit_team",
+  "supplier_name_raw": "The Fresh Fruit Team Pty Ltd",
+  "invoice_ref": "INB00106699",
+  "invoice_date": "2026-06-05",
+  "total_incl": "86.50",
+  "lines": [
+   {
+    "description": "Roma",
+    "qty": "1",
+    "line_total_incl": "35.20",
+    "unit_price_incl": "35.20",
+    "unit_price_ex": null,
+    "pack_size": 1,
+    "line_class": "stock",
+    "tax_treatment": "gst_free",
+    "cost_basis": "per_unit",
+    "gst_amount": "0",
+    "wet_amount": null,
+    "supplier_code": "TR10BX",
+    "raw_qty": null,
+    "raw_uom": "Tomatoes",
+    "pack_qty": "1",
+    "pack_unit": "ea",
+    "lightspeed_product_id": null,
+    "lightspeed_product_name": null,
+    "notes": []
+   },
+   {
+    "description": "Button B Grade",
+    "qty": "1",
+    "line_total_incl": "33.00",
+    "unit_price_incl": "33.00",
+    "unit_price_ex": null,
+    "pack_size": 1,
+    "line_class": "stock",
+    "tax_treatment": "gst_free",
+    "cost_basis": "per_unit",
+    "gst_amount": "0",
+    "wet_amount": null,
+    "supplier_code": "MSHB2",
+    "raw_qty": null,
+    "raw_uom": "Mushroom",
+    "pack_qty": "1",
+    "pack_unit": "ea",
+    "lightspeed_product_id": null,
+    "lightspeed_product_name": null,
+    "notes": []
+   },
+   {
+    "description": "Shallot",
+    "qty": "4",
+    "line_total_incl": "7.08",
+    "unit_price_incl": "1.77",
+    "unit_price_ex": null,
+    "pack_size": 1,
+    "line_class": "stock",
+    "tax_treatment": "gst_free",
+    "cost_basis": "per_unit",
+    "gst_amount": "0",
+    "wet_amount": null,
+    "supplier_code": "SBCH",
+    "raw_qty": null,
+    "raw_uom": "Bunch",
+    "pack_qty": "1",
+    "pack_unit": "ea",
+    "lightspeed_product_id": null,
+    "lightspeed_product_name": null,
+    "notes": []
+   },
+   {
+    "description": "Cherry",
+    "qty": "6",
+    "line_total_incl": "11.22",
+    "unit_price_incl": "1.87",
+    "unit_price_ex": null,
+    "pack_size": 1,
+    "line_class": "stock",
+    "tax_treatment": "gst_free",
+    "cost_basis": "per_unit",
+    "gst_amount": "0",
+    "wet_amount": null,
+    "supplier_code": "TCPUN",
+    "raw_qty": null,
+    "raw_uom": "Tomatoes",
+    "pack_qty": "1",
+    "pack_unit": "ea",
+    "lightspeed_product_id": null,
+    "lightspeed_product_name": null,
+    "notes": []
+   }
+  ],
+  "due_date": "2026-06-19",
+  "is_credit_note": false,
+  "venue": "marilynas",
+  "po_refs": [],
+  "subtotal_ex": null,
+  "gst_total": null,
+  "wet_total": null,
+  "account_code": null,
+  "source_pdf": "802a1263629cd48e90644768e5c7a383060272112ba5a36dabd42b0b18bb0387.pdf",
+  "extractor_version": null
+ },
+ "validation": {
+  "status": "pass",
+  "findings": [],
+  "expected_ls_receive_total": "86.50",
+  "extras_total": "0"
+ },
+ "xero_coding": {
+  "tracking_category": "Stowaway",
+  "tracking_option": "Marilyna's Pizza",
+  "tracking_confidence": "high",
+  "primary_account": "115",
+  "lines": [
+   {
+    "description": "Roma",
+    "account_code": "115",
+    "account_name": "Purchases - Food",
+    "reason": "learned from Xero history for this supplier"
+   },
+   {
+    "description": "Button B Grade",
+    "account_code": "115",
+    "account_name": "Purchases - Food",
+    "reason": "learned from Xero history for this supplier"
+   },
+   {
+    "description": "SBCH Bunch",
+    "account_code": "115",
+    "account_name": "Purchases - Food",
+    "reason": "learned from Xero history for this supplier"
+   },
+   {
+    "description": "Cherry",
+    "account_code": "115",
+    "account_name": "Purchases - Food",
+    "reason": "learned from Xero history for this supplier"
+   }
+  ]
+ }
 }

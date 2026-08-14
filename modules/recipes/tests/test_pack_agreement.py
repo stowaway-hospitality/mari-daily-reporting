@@ -148,11 +148,20 @@ def test_the_book_pass_can_actually_fire():
 
 def test_the_detector_can_actually_fire():
     """A detector that cannot fire proves nothing. Feed it a planted 6x misread
-    against a steady code and it must name it."""
+    against a steady code and it must name it.
+
+    The dates used to be identical and the bad row last, which stopped meaning
+    anything on 2026-08-14 when pass 1 gained the regime test pass 2 already had:
+    a rate at the END of a series is a price that changed, not an outlier. Dated
+    so the misread sits BETWEEN good deliveries, which is the shape the detector
+    is actually for."""
     rows = [{"supplier": "T", "supplier_code": "C", "pack_unit": "L",
              "cost_per_base_unit": v, "source_invoice": f"i{i}",
-             "invoice_date": "2026-01-01", "invoice_description": "thing"}
-            for i, v in enumerate(["60.00", "60.00", "60.00", "10.00"])]
+             "invoice_date": d, "invoice_description": "thing"}
+            for i, (v, d) in enumerate([("60.00", "2026-01-01"),
+                                        ("60.00", "2026-01-02"),
+                                        ("10.00", "2026-01-03"),   # <- the misread
+                                        ("60.00", "2026-01-04")])]
     got = findings(rows)
     assert len(got) == 1 and got[0]["factor"] == 6 and got[0]["direction"] == "UNDER"
 
@@ -175,12 +184,16 @@ def test_the_scan_still_bites_on_a_planted_case_priced_as_a_bottle():
     $0.0123/ml — exactly 6x low, which is the case/bottle error this file exists
     for. Re-break the tolerance and this reds even when the book is spotless.
     """
+    # DATED, and the dates are load-bearing: the bad delivery sits in the MIDDLE
+    # of six good ones, because that is what makes it a misread rather than a
+    # price change. _outlier_in_time() requires the median either side of it.
     rows = [{"supplier": "ILG", "supplier_code": "285-0409", "pack_unit": "ml",
              "cost_per_base_unit": "0.073900", "source_invoice": f"INV{i}",
+             "invoice_date": f"2026-04-{i + 1:02d}",
              "invoice_description": "VEUVE CLICQUOT NV 750ML"} for i in range(6)]
     rows.append({"supplier": "ILG", "supplier_code": "285-0409", "pack_unit": "ml",
                  "cost_per_base_unit": "0.012317",          # 0.0739 / 6
-                 "source_invoice": "INVBAD",
+                 "source_invoice": "INVBAD", "invoice_date": "2026-04-04",
                  "invoice_description": "VEUVE CLICQUOT NV 750ML"})
     got = findings(rows)
     assert got, "a 6x outlier against six agreeing siblings must be reported"
@@ -195,6 +208,7 @@ def test_a_group_that_simply_moved_price_is_not_reported():
     fixture above would pass with a guard that reports everything."""
     rows = [{"supplier": "ILG", "supplier_code": "285-0409", "pack_unit": "ml",
              "cost_per_base_unit": r, "source_invoice": f"INV{i}",
+             "invoice_date": f"2026-04-{i + 1:02d}",
              "invoice_description": "VEUVE CLICQUOT NV 750ML"}
             for i, r in enumerate(("0.0739", "0.0742", "0.0751", "0.0768", "0.0777"))]
     assert not findings(rows), findings(rows)

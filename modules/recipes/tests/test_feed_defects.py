@@ -95,18 +95,35 @@ def test_the_stem_ignores_the_pack_bracket_and_nothing_else():
 # rule 1 — the pack unit contradicts the name
 # --------------------------------------------------------------------------
 
-def test_pack_unit_contradicts_name_finds_the_four_named_produce_lines():
+def test_the_four_named_produce_lines_are_fixed_and_the_rule_still_works():
+    """CLOSED 2026-08-14. All four were "$X per can" where nothing had ever told
+    Lightspeed otherwise, and all four are now pinned in data/pack_overrides.yaml
+    at the unit the flag itself said the price was already sane for:
+
+        Cauliflower     $3.20  -> 1 ea      Turkish Bread  $1.50  -> 1 ea
+        Onion Brown     $1.54  -> 1000 g    Potato Peeled  $3.60  -> 1000 g
+
+    None moved money — pack_qty 1 divides by one — except the two kg lines, where
+    dividing the per-kilo price into grams is the conversion the recipes needed.
+    Pull an override and its line comes back.
+    """
     found = {f["description"]: f for f in fd.pack_unit_contradicts_name(_ingredients())}
-    # A cauliflower and a loaf of Turkish bread do not come in a can. Same
-    # dimension on both sides, so no arithmetic check can see it.
-    assert found["Cauliflower [ea]"]["pack_unit"] == "can"
-    assert found["Cauliflower [ea]"]["kind"] == "container"
-    assert found["Cauliflower [ea]"]["rate"] == pytest.approx(3.20)
-    assert found["Turkish Bread [ea]"]["pack_unit"] == "can"
-    assert found["Turkish Bread [ea]"]["rate"] == pytest.approx(1.50)
-    # ...and the dimension half: a name that says kilograms, priced per can.
-    assert found["Onion Brown [kg]"]["kind"] == "dimension"
-    assert found["Potato Peeled [kg]"]["kind"] == "dimension"
+    for gone in ("Cauliflower [ea]", "Turkish Bread [ea]",
+                 "Onion Brown [kg]", "Potato Peeled [kg]"):
+        assert gone not in found, (gone, "pack override missing or overwritten")
+
+    # THE RULE ITSELF, on a fixture, so this cannot pass by going blind — the
+    # same lesson as the pack detectors on 2026-08-14. Both halves of
+    # "contradicts" must still fire: a container word against a piece name, and
+    # a genuine dimension clash.
+    planted = [{"id": "t:1", "description": "Cauliflower [ea]", "pack_unit": "can",
+                "cost_per_base_unit": "3.20"},
+               {"id": "t:2", "description": "Onion Brown [kg]", "pack_unit": "can",
+                "cost_per_base_unit": "1.54"}]
+    got = {f["description"]: f for f in fd.pack_unit_contradicts_name(planted)}
+    assert got["Cauliflower [ea]"]["kind"] == "container"
+    assert got["Cauliflower [ea]"]["rate"] == pytest.approx(3.20)
+    assert got["Onion Brown [kg]"]["kind"] == "dimension"
 
 
 def test_pack_unit_rule_does_not_flag_the_spirits():
@@ -177,25 +194,35 @@ def test_two_ways_of_buying_the_same_thing_is_not_a_defect():
 # rule 3 — the line-level twin, and the burger
 # --------------------------------------------------------------------------
 
-def test_the_american_standard_burger_lettuce_line_is_found():
-    """0.083 "ml" of a twin pack of baby cos. The QUANTITY is right — a twelfth
-    of the pack at $0.228, which is exactly what the book charges and exactly
-    what the other burger that carries it charges — and the UNIT is meaningless
-    against a countable pack. That combination is the worst one: nothing fails,
-    and it reads as an error to every human who sees it."""
+def test_the_american_standard_burger_lettuce_line_is_fixed():
+    """CLOSED 2026-08-14, and this now guards the FIX.
+
+    0.083 "ml" of a twin pack of baby cos was this rule's canonical example. The
+    quantity was right — a twelfth of the pack at $0.228, exactly what the book
+    charged and exactly what the other burger carrying it charged — and the unit
+    was meaningless against a countable pack. Nothing failed, and it read as an
+    error to every human who saw it.
+
+    data/recipe_line_unit_fixes.yaml now relabels it ml -> ea with NO cost_factor,
+    because the money was never wrong. So the assertions invert: the line must be
+    GONE from the rule, and the cost must NOT have moved. Delete the yaml entry
+    and the first assertion reds; add a cost_factor to it and the second does.
+    """
     hits = {f["id"]: f for f in
             fd.line_unit_contradicts_pack(_book(), _ingredients())}
-    lettuce = hits["lightspeed:22995348"]
-    assert lettuce["description"] == "Lettuce Cos Baby Twin Pack [Each]"
-    assert lettuce["pack_unit"] == "ea"
-    assert lettuce["rate"] == pytest.approx(2.75)
-    burger = next(l for l in lettuce["lines"]
-                  if l["recipe"] == "American Standard Burger")
-    assert str(burger["qty"]) == "0.083"
-    assert burger["unit"] == "ml"
-    # The cost is NOT in dispute: 0.083 x $2.75 = $0.22825, which is the
-    # eff_cost the audited book already carries for this line.
-    assert burger["eff_cost"] == pytest.approx(0.083 * 2.75, rel=1e-4)
+    assert "lightspeed:22995348" not in hits, (
+        "the lettuce line is being reported again — check that "
+        "data/recipe_line_unit_fixes.yaml still carries the American Standard "
+        "Burger entry and that apply_unit_fixes still runs before costing")
+
+    # and the money did not move: 0.083 x $2.75 = $0.22825, the same figure the
+    # book carried while the label was wrong.
+    book = _book()
+    line = next(l for l in (book.get("American Standard Burger") or {}).get("ingredients", [])
+                if l.get("ref") == "lightspeed:22995348")
+    assert str(line["qty"]) == "0.083", line
+    assert line["unit"] == "ea", ("the relabel did not reach the costed feed", line)
+    assert float(line["eff_cost"]) == pytest.approx(0.083 * 2.75, rel=1e-4)
 
 
 def test_the_line_rule_leaves_the_delivery_cans_alone():
