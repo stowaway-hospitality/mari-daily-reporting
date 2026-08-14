@@ -1,11 +1,11 @@
 {
-  "generated": "2026-08-14T11:45:20+00:00",
+  "generated": "2026-08-14T15:00:33+00:00",
   "overall": "down",
   "checks": [
     {
       "name": "Invoice poller",
       "detail": "reads the accounts@ inbox every 30 min",
-      "age": 672.4,
+      "age": 867.7,
       "unit": "min",
       "status": "down",
       "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
@@ -15,7 +15,7 @@
     {
       "name": "Xero approvals poller",
       "detail": "posts approved bills every 2 min",
-      "age": 1.7,
+      "age": 0.9,
       "unit": "min",
       "status": "ok",
       "meaning": "Posts approved supplier bills into Xero every couple of minutes (office Mac).",
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 13.2,
+      "age": 16.5,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -35,7 +35,7 @@
     {
       "name": "Weekly Xero pull",
       "detail": "runs once a week",
-      "age": 4.5,
+      "age": 4.6,
       "unit": "day",
       "status": "ok",
       "meaning": "Pulls payroll and overheads from Xero once a week.",
@@ -45,9 +45,9 @@
     {
       "name": "Daily sales pull",
       "detail": "aggregates yesterday's Lightspeed exports",
-      "age": 1,
+      "age": 2,
       "unit": "day",
-      "status": "ok",
+      "status": "warn",
       "meaning": "Yesterday's Lightspeed sales landing in the dashboard.",
       "action": "Usually the Stowaway sales email has not arrived yet. It retries every 20 min until ~10am. Still missing after 10am? Ask Claude to check the Stow export landed and re-run the ingest, or tell Zak. Numbers fill in once it arrives.",
       "selfheal": "Retries through the morning; often fixes itself before 10am."
@@ -55,7 +55,7 @@
     {
       "name": "Xero COGS feed",
       "detail": "weekly actual COGS from Xero",
-      "age": 5,
+      "age": 6,
       "unit": "day",
       "status": "ok",
       "meaning": "Weekly actual cost-of-goods from Xero (drives the margin figures).",
@@ -84,7 +84,7 @@
     },
     {
       "name": "Sales completeness",
-      "detail": "sales missing: Stowaway 2026-08-12, Stowaway 2026-08-11, Harry Gatos 2026-08-12, Marilyna's 2026-08-12, Marilyna's 2026-08-11",
+      "detail": "sales missing: Marilyna's 2026-08-12, Marilyna's 2026-08-11",
       "age": null,
       "unit": "",
       "status": "warn",
@@ -94,17 +94,14 @@
     },
     {
       "name": "Uber fee feed",
-      "detail": "Uber fee feed 4d behind",
+      "detail": "exact split, balances on all 56 rows (2d old)",
       "age": null,
       "unit": "",
-      "status": "warn",
-      "meaning": "The daily Uber pull records delivery volume and fees that never touch the till.",
-      "action": "The Uber pull has not landed for 4 days - usually the merchant-portal login expired. Ask Claude to run the Uber pull; if it reports a login screen, Zak needs to sign in to merchants.ubereats.com once.",
-      "selfheal": "Resumes on its own if the session is still valid."
+      "status": "ok"
     },
     {
       "name": "Uber Direct ingest",
-      "detail": "last Direct fee 1d ago",
+      "detail": "last Direct fee 2d ago",
       "age": null,
       "unit": "",
       "status": "ok"
@@ -125,14 +122,17 @@
     },
     {
       "name": "Automation jobs",
-      "detail": "all 5 jobs that ran in the last 48h succeeded",
+      "detail": "1 job(s) failing: Tests",
       "age": null,
       "unit": "",
-      "status": "ok"
+      "status": "down",
+      "meaning": "These are the scheduled jobs that pull sales, wages, invoices and Uber fees and publish the site.",
+      "action": "'Tests' failed and has not succeeded since. Open https://github.com/zakstowaway/mari-daily-reporting/actions/runs/31799945183 to see why, or ask Claude to look. Auto-retry has already had its go at the safe ones.",
+      "selfheal": "Only if it was transient - the 3-hourly monitor retries the safe jobs once."
     },
     {
       "name": "Published app is current",
-      "detail": "app is behind the repo on 1 feed(s): health panel itself (showing down, differs on Pull integrity)",
+      "detail": "app is behind the repo on 1 feed(s): health panel itself (showing down, differs on Automation jobs)",
       "age": null,
       "unit": "",
       "status": "warn",
