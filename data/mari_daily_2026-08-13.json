@@ -1,6 +1,6 @@
 {
   "date": "2026-08-13",
-  "generated_at": "2026-08-14T07:41:57.754440Z",
+  "generated_at": "2026-08-14T08:03:14.068418Z",
   "venue": "marilynas",
   "venue_display": "Marilyna's Pizza",
   "lane_config": [
@@ -10,25 +10,33 @@
     "delivery"
   ],
   "data_status": {
-    "lightspeed": "missing",
+    "lightspeed": "ok",
     "deputy": "ok",
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": null,
-    "revenue_ex_gst": null,
-    "cogs_dollars": null,
-    "cogs_pct": null,
-    "gp_dollars": null,
-    "gp_pct": null,
-    "cogs_source": null,
-    "cogs_lightspeed_dollars": null,
-    "recipe_coverage_pct": null,
+    "revenue_inc_gst": -52.48,
+    "revenue_ex_gst": -47.7,
+    "cogs_dollars": 0,
+    "cogs_pct": -0.0,
+    "gp_dollars": -47.7,
+    "gp_pct": 100.0,
+    "cogs_source": "lightspeed",
+    "cogs_lightspeed_dollars": 0.0,
+    "recipe_coverage_pct": 0.0,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0,
-    "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null
+    "eatclub_giveaway_ex_gst": 54.98,
+    "eatclub_covers": 6,
+    "revenue_ex_gst_before_eatclub": 7.28,
+    "food_ex_gst": -47.7,
+    "bev_ex_gst": 0.0,
+    "food_cogs": 0,
+    "bev_cogs": 0.0,
+    "food_cogs_pct": -0.0,
+    "bev_cogs_pct": null,
+    "food_gp_pct": 100.0,
+    "bev_gp_pct": null
   },
   "wages": {
     "kitchen_dollars": 448.61,
@@ -36,12 +44,12 @@
     "driver_dollars": 61.71,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": null,
-    "wages_pct": null,
+    "total_dollars": 510.31,
+    "wages_pct": -1069.8,
     "net_wage_pct": null,
     "kitchen_hours": 12.8,
     "foh_hours": 0,
-    "wages_kitchen_pct": null,
+    "wages_kitchen_pct": -940.5,
     "wages_foh_pct": null,
     "includes_super": true,
     "salaried_synthesized": true
@@ -50,15 +58,15 @@
     "uber_eats_commission_dollars": 0,
     "own_driver_dollars": 61.71,
     "uber_direct_dollars": 0.0,
-    "total_dollars": null,
-    "delivery_pct": null,
+    "total_dollars": 61.71,
+    "delivery_pct": -129.4,
     "fees_are_estimate": true
   },
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "unknown",
-    "wages": "unknown",
-    "delivery": "unknown",
+    "cogs": "green",
+    "wages": "green",
+    "delivery": "green",
     "gp": "unknown",
     "cogs_food": "unknown",
     "cogs_bev": "unknown",
@@ -91,5 +99,13 @@
       "note": "Rent + utils + admin + insurance + real marketing (excludes delivery + Uber commission)"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Chicken",
+      "qty": 3.0,
+      "rev": 8.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    }
+  ]
 }
