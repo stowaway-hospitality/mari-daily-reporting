@@ -692,13 +692,28 @@ def _missing_sales_days(lookback=6):
     PREF = {"stow": "Stowaway", "hg": "Harry Gatos", "mari": "Marilyna's"}
     today = _dt.date.today()
 
+    # ROOT-anchored, NOT relative. This was `open(f"data/...")` - the only
+    # relative data path in this file, every other check goes through ROOT -
+    # and it made this check structurally unable to report an outage in
+    # production. publish_health.py runs from launchd, where cwd is not the
+    # repo, so every open raised, the bare `except: return False` made the day
+    # AND its comparison weeks look sale-less, no gap was recorded, and the
+    # check published "every venue's recent trading days have sales" from zero
+    # files read. It said ok all the way through the 2026-08-11/12 outage; the
+    # same call in a checkout returns the five missing days correctly.
+    seen = {"any": False}
+
     def has_sales(prefix, d):
         try:
-            j = json.load(open(f"data/{prefix}_daily_{d}.json"))
-            return (j.get("data_status", {}).get("lightspeed") == "ok"
-                    and bool(j.get("sales", {}).get("revenue_ex_gst")))
+            with (ROOT / "data" / f"{prefix}_daily_{d}.json").open() as fh:
+                j = json.load(fh)
+        except FileNotFoundError:
+            return False
         except Exception:
             return False
+        seen["any"] = True
+        return (j.get("data_status", {}).get("lightspeed") == "ok"
+                and bool(j.get("sales", {}).get("revenue_ex_gst")))
 
     gaps = []
     for prefix in ("stow", "hg", "mari"):
@@ -710,6 +725,10 @@ def _missing_sales_days(lookback=6):
             wk2 = has_sales(prefix, (today - _dt.timedelta(days=back + 14)).isoformat())
             if wk1 or wk2:
                 gaps.append(f"{PREF[prefix]} {d}")
+    # An "ok" that read nothing is the failure mode above. Say so instead.
+    if not seen["any"]:
+        return {"status": "unknown",
+                "detail": "no daily sales files readable - cannot tell if a day is missing"}
     if not gaps:
         return {"status": "ok", "detail": "every venue's recent trading days have sales"}
     return {"status": "warn",
