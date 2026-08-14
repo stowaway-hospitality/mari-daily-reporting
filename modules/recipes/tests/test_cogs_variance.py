@@ -73,15 +73,51 @@ def test_the_gst_rate_is_measured_not_assumed():
 
 # --- trap 3: coverage -------------------------------------------------------
 
-def test_unknown_coverage_is_not_treated_as_zero():
+def test_unknown_coverage_is_not_treated_as_zero(tmp_path, monkeypatch):
     """cogs_blend returns source "lightspeed" whenever coverage <= 0, so a day
     file saying source "recipe_blend" BESIDE coverage 0.0 is impossible by that
     contract — it predates the guard. Averaging its false zero in drags a real
-    80% week to nothing, so it must be excluded as unmeasured rather than
-    counted."""
+    80% week to nothing, so it must be excluded as UNMEASURED.
+
+    A GENUINE zero is a different thing and must be KEPT: a day whose source is
+    "lightspeed" really did price every product off Lightspeed, and Marilyna's
+    week ending 2026-08-16 is one. An earlier version of this test asserted no
+    coverage reading is ever zero, which contradicted the very function it was
+    testing — it passed only until a real all-Lightspeed week turned up.
+
+    So this plants both shapes and checks they are told apart."""
+    import json
+    for name, cov, src, rev in [
+        ("stow_daily_2026-09-01.json", 80.0, "recipe_blend", 1000.0),   # real
+        ("stow_daily_2026-09-02.json", 0.0, "recipe_blend", 1000.0),    # the artefact
+        ("stow_daily_2026-09-03.json", 0.0, "lightspeed", 1000.0),      # a genuine 0
+    ]:
+        (tmp_path / name).write_text(json.dumps({"sales": {
+            "recipe_coverage_pct": cov, "cogs_source": src, "revenue_ex_gst": rev}}))
+    monkeypatch.setattr(V, "ROOT", tmp_path.parent)
+    monkeypatch.setattr(V, "VENUES", {"stow": ("stowaway", "Stowaway")})
+    (tmp_path.parent / "data").mkdir(exist_ok=True)
+    for p in tmp_path.iterdir():
+        (tmp_path.parent / "data" / p.name).write_text(p.read_text())
+    cov, share = V.coverage_by_week()
+    got = {k[1]: v for k, v in cov.items()}
+    # 09-01 and 09-03 are both counted (80% and a genuine 0); 09-02 is excluded,
+    # so the week's average is (80 + 0) / 2 rather than (80 + 0 + 0) / 3.
+    assert got, "no coverage computed at all"
+    for k, v in got.items():
+        assert 0.0 <= v <= 100.0, (k, v)
+    assert abs(next(iter(got.values())) - 40.0) < 0.01, (
+        f"expected the artefact excluded and the genuine zero kept -> 40.0, got {got}")
+    for k, s in share.items():
+        assert 0.0 <= s <= 100.0, f"{k} measured share out of range: {s}"
+
+
+def test_real_coverage_readings_are_in_range():
+    """The live feed, loosely: a percentage is a percentage. Deliberately does NOT
+    assert every reading is above zero — see the test above."""
     cov, share = V.coverage_by_week()
     for k, c in cov.items():
-        assert c > 0, f"{k} kept a zero coverage reading: {c}"
+        assert 0.0 <= c <= 100.0, f"{k} coverage out of range: {c}"
     for k, s in share.items():
         assert 0.0 <= s <= 100.0, f"{k} measured share out of range: {s}"
 
