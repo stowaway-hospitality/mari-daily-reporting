@@ -83,26 +83,23 @@ no_yield_set_in_produce:
 # Not visible from the Stowaway Produce context. Produce has no venue switcher —
 # you switch venue in Back Office and click Launch (see scripts/merge_venue_scrape.py).
 # Re-harvest these from the Harry Gatos context.
+# HARVESTED 2026-08-13 — 13 of the 19 are now in data/prep_yields.yaml.
+#
+# THE THING THAT UNBLOCKED IT, after this was called impossible six ways:
+# Produce must be LAUNCHED FROM BACK OFFICE once the company is switched.
+# Navigating to produce.kounta.com directly reuses a cached company and shows
+# Stowaway's book while Back Office is on Harry Gatos — silently, with no error
+# and no visible clue except the venue name in the bottom-left corner.
+#
+# Back Office -> switch company -> Home -> Launch Produce. Then the recipe list
+# is Harry Gatos'.
 harry_gatos_not_harvested_yet:
-  - "Chashu Pork Belly Prep"
-  - "Quandong Sambal"
-  - "Fried Rice Mix"
-  - "Peking Sauce [6.75L]"
-  - "Davidson Plum Hoisin"
-  - "Ginger Ponzu"
-  - "HG's Soy Chilli Sauce"
-  - "Toasted Rice Syrup [1L]"
-  - "Tofu Marination"
-  - "Chicken Marination"
-  - "Beef Marination"
-  - "Noodle Mix"
-  - "Pickle Cabbage"
-  - "Gochujang Honey Soy"
-  - "Katsu Curry Sauce"
-  - "Prawn Mix"
-  - "Wattleseed Honey Soy"
-  - "Tonkotsu Broth"
-  - "Massenez Lychee [5L]"
+  - Peking Sauce [6.75L]
+  - Davidson Plum Hoisin
+  - Ginger Ponzu
+  - HG's Soy Chilli Sauce
+  - Toasted Rice Syrup [1L]
+  - Massenez Lychee [5L]
 
 # COOK YIELDS — ESTIMATED, because Produce's field holds the RAW weight
 # ---------------------------------------------------------------------
