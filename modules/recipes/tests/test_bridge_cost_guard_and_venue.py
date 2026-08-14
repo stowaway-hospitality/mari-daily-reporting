@@ -136,9 +136,17 @@ def test_the_real_map_has_nothing_suspect_and_says_how_much_it_cannot_check():
                if is_suspect(Decimal(r["bo_cost"]), Decimal(r["invoice_cost"]))]
     assert not suspect, [(r["supplier_code"], r["product_name"]) for r in suspect]
     assert len(checkable) >= 70
-    assert len(rows) - len(checkable) <= 125, (
-        f"{len(rows) - len(checkable)} map rows carry no Back Office cost — the "
-        f"guard cannot see them at all")
+    # A SHARE, not a count. The absolute number was pinned at 125 and every bridge
+    # anyone adds pushes it up: bridge_stale_seeds writes bo_cost BLANK on purpose
+    # (its own comment says why — those columns are a PACK-cost contract and it
+    # holds per-unit rates), so 27 new bridges on 2026-08-14 took it from 133 to
+    # 160 without anything getting worse. The share is what has actually been
+    # stable: 133/190 and 160/230 are both 70%. That is the number that would move
+    # if the guard were really going blind.
+    unchecked = len(rows) - len(checkable)
+    assert unchecked / len(rows) <= 0.75, (
+        f"{unchecked} of {len(rows)} map rows carry no Back Office cost "
+        f"({unchecked / len(rows):.0%}) — the guard cannot see them at all")
 
 
 # --- the venue filter must NOT be there ------------------------------------

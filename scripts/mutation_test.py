@@ -88,6 +88,31 @@ if "--list" in sys.argv:
         print(f"  {_w}")
     raise SystemExit(0)
 
+# THIS SCRIPT EDITS THE WORKING TREE IN PLACE, one file at a time, and a file is
+# only correct again AFTER its mutation finishes. It takes ~25 minutes. On
+# 2026-08-14 a `git commit -A` was run against the tree while it was mid-flight
+# and committed a live mutation — build_cogs_list.py's DERIVED tuple shipped as
+# ("cost_per_unit_incl_gst",), which is precisely the defect the mutation exists
+# to prove we catch. It was found only because a later `git status` showed the
+# working tree DISAGREEING with HEAD in the direction of correctness.
+#
+# A guard, not a comment, because a comment cannot stop a concurrent shell:
+_LOCK = ROOT / ".mutation_test.lock"
+if _LOCK.exists():
+    print(f"REFUSING: {_LOCK} exists — a mutation run is already rewriting this "
+          f"tree.\nIf you are sure none is, delete the lock and retry.")
+    raise SystemExit(2)
+if run("git diff --quiet && git diff --cached --quiet") != 0:
+    print("REFUSING: the working tree is dirty. This script rewrites tracked "
+          "files and restores them from memory, so an unrelated edit in flight "
+          "can be lost or committed mid-mutation. Commit or stash first.")
+    raise SystemExit(2)
+_LOCK.write_text(f"pid {__import__('os').getpid()}\n", encoding="utf-8")
+import atexit as _atexit
+_atexit.register(lambda: _LOCK.exists() and _LOCK.unlink())
+
+print("!! mutation run started — DO NOT commit from this tree until it prints a "
+      "summary; tracked files are mutated in place for ~25 minutes.\n")
 print(f"{'mutation':<58} {'caught by':<34} verdict")
 survived = []
 for path, find, repl, what in MUTANTS:

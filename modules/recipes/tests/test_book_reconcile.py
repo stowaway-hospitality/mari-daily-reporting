@@ -359,9 +359,13 @@ def test_the_four_price_conflicts_that_are_left(book):
     Angostura is excluded by the OTHER list: Back Office holds it twice, 14.93x
     apart, and that already has a flag of its own in the back_office family. Two
     flags for one edit is how a queue starts arguing with itself."""
-    import csv
-    adjud = {"lightspeed:" + r["product_id"] for r in
-             csv.DictReader((ROOT / "data" / "product_map.csv").open(encoding="utf-8-sig"))}
+    # Use PRODUCTION's own definition rather than restating it. This test used to
+    # read every product_map row as adjudicated, which is broader than the builder
+    # now is, and a test that suppresses more than production does cannot notice
+    # production suppressing too much — which is the bug that was found here on
+    # 2026-08-14 (a mechanical bridge counting as a verdict).
+    from build_cost_book_flags import _adjudicated_ids
+    adjud = _adjudicated_ids()
     from audit_book import bo_product_names, cost_book_latest, twin_identity_conflicts
     twins = {m[1] for _r, members in
              twin_identity_conflicts(cost_book_latest(), bo_product_names()) for m in members}
@@ -388,17 +392,43 @@ def test_the_four_price_conflicts_that_are_left(book):
     #
     # Both were OVER-costs, which is why they sat unnoticed — every other guard here
     # is pointed at the flattering direction. See scripts/check_pack_as_rate.py.
-    assert set(got) == {"Massenez Elderflower [5L]", "Bittermen's Tiki Bitters [Bottle]",
-                        "Beans Edamame Soy Frozen [350g]", "Noodles Instant Ayam [700g]",
-                        "Red Chilli [10/Kg]", "Frank's Hot Sauce 1Galln 3.8L Franks",
-                        "Honey Pure 3kg Wild Flower"}, sorted(got)
-    # ours is CHEAPER on both, because ours divides by the container and Lightspeed
-    # does not. If either ever flips to dearer, the override has been re-broken.
+    # WORKED 2026-08-14, and this no longer pins a membership list. Five of the
+    # seven were answered and the rest are recorded in data/adjudicated_prices.yaml,
+    # so a list would go red every time one is settled — the count-pinning mistake
+    # this file has already made three times. What is asserted instead is the two
+    # properties that must survive:
+    #
+    #   1. the DETECTOR still fires (it is not passing because it went blind), and
+    #   2. nothing in it is settled — every survivor is a live question.
+    #
+    # Re-break any of the fixes and one of these reds, because the fix is what
+    # settled it.
+    #
+    # FIVE WERE ANSWERED. Massenez, Noodles Ayam and Red Chilli were OURS-RIGHT and
+    # are recorded in data/adjudicated_prices.yaml with the invoice that proves it.
+    # Bittermens and Beans Edamame were really FIXED: Bittermens' pack said 700 ml
+    # where Paramount's invoice says "146 ml" in words (at the real size our rate
+    # meets Lightspeed's to 1.35x, under every threshold), and Edamame's seed sat
+    # 2.4-3.6x ABOVE every Foodlink invoice until it was bridged to one.
+    for _gone in ("Massenez Elderflower [5L]", "Bittermen's Tiki Bitters [Bottle]",
+                  "Beans Edamame Soy Frozen [350g]", "Noodles Instant Ayam [700g]",
+                  "Red Chilli [10/Kg]"):
+        assert _gone not in got, (_gone, sorted(got))
+
+    # TWO MUST STAY. Frank's and Honey are OURS-CHEAPER on purpose: ours divides by
+    # the real container (3,785 ml, 3,000 g) and Lightspeed does not, so the repair
+    # is Lightspeed's and the flag is how anyone remembers. A bridge on OUR side
+    # must never be read as answering them — _adjudicated_ids() stopped counting
+    # mechanical bridges as verdicts on the day bridge_stale_seeds silently retired
+    # exactly these two. If this list ever empties, check that first.
     for _n in ("Frank's Hot Sauce 1Galln 3.8L Franks", "Honey Pure 3kg Wild Flower"):
+        assert _n in got, sorted(got)
         assert got[_n]["ours_is_dearer"] is False, _n
-    assert got["Massenez Elderflower [5L]"]["ratio"] == 10.47
-    assert got["Massenez Elderflower [5L]"]["ours_is_dearer"] is True
-    assert got["Bittermen's Tiki Bitters [Bottle]"]["ours_is_dearer"] is False
+
+    # and the detector has not gone blind: with nothing adjudicated it still fires
+    # on more than it does with the verdicts applied.
+    unsettled = {f["ingredient"] for f in br.price_conflicts(book, set(), twins)}
+    assert len(unsettled) > len(got), (sorted(unsettled), sorted(got))
 
 
 # --- 6. the rules are pure --------------------------------------------------

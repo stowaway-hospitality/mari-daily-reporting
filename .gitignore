@@ -48,3 +48,4 @@ data/cost_book_flags.json
 # FUSE mount would not allow deleting the file afterwards, only truncating it.
 # Read secrets straight from .secrets/ instead of copying them anywhere.
 .scratch/
+.mutation_test.lock

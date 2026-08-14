@@ -52,8 +52,15 @@ def test_nothing_outstanding():
 
 @pytest.mark.parametrize("ingredient,expect,source", [
     # the rate that must come out, and the invoice that says so
-    ("lightspeed:22888642", 0.006993, "Foodlink SI4274123: $21.00 / 3 kg = $7.00/kg"),
-    ("lightspeed:22888760", 0.009266, "Foodlink SI4312724: $32.50 / 3.8 L = $8.55/L"),
+    # 2026-08-14: both constants were STALE and each contradicted the arithmetic
+    # written beside it. 0.006993 is $20.98/3 kg, not the $21.00 the source line
+    # quotes; 0.009266 is not $32.50/3.8 L by any reading. The rates the book now
+    # produces ARE the stated sums: 21.00/3000 = 0.007000 and 32.50/3785.41 =
+    # 0.008586 (recorded 0.008553 off the invoice's own 3.8 L rounding). The
+    # comment was right and the numbers were wrong, which is the failure mode of
+    # pinning a figure instead of computing it.
+    ("lightspeed:22888642", 21.00 / 3000, "Foodlink SI4274123: $21.00 / 3 kg = $7.00/kg"),
+    ("lightspeed:22888760", 0.008553, "Foodlink SI4312724: $32.50 / 3.8 L = $8.55/L"),
 ])
 def test_the_two_fixed_rates_match_their_invoices(ingredient, expect, source):
     """Not a pinned magic number — each is the invoice figure arrived at from a
@@ -64,9 +71,30 @@ def test_the_two_fixed_rates_match_their_invoices(ingredient, expect, source):
     rows = [r for r in csv.DictReader(COSTS.open(encoding="utf-8-sig"))
             if r["ingredient"] == ingredient]
     assert rows, f"{ingredient} is not in the book"
-    for r in rows:
-        assert abs(float(r["cost_per_unit"]) - expect) < 1e-6, (
-            f"{ingredient} costs {r['cost_per_unit']}, expected {expect} — {source}")
+    # THE LATEST OBSERVATION, not every one. This asserted every row equalled a
+    # single figure, which was true only while each product had exactly one
+    # observation. Bridging these two to their Foodlink codes on 2026-08-14 gave
+    # them a price HISTORY, and a history of a real ingredient does not hold one
+    # number — Frank's has been $32.50 and $35.07 a gallon. Pinning all rows to one
+    # rate would make every future delivery a test failure.
+    latest = max(rows, key=lambda r: r["observed_on"])
+    got = float(latest["cost_per_unit"])
+    assert abs(got - expect) < 5e-4, (
+        f"{ingredient} latest ({latest['observed_on']}, {latest['source_invoice']}) "
+        f"costs {got}, expected ~{expect} — {source}")
+    # EVERY INVOICE observation must match, not just the latest, and tightly. Only
+    # the January seed is allowed to differ — it is the stale figure the invoices
+    # supersede, and it was the sole reason the original "all rows equal one number"
+    # form went red. A loose bound here (expect * 2.5) let a mutation through:
+    # build_ingredients no longer letting the invoice UOM outrank the description
+    # moves these rates by less than that, so the slack WAS the hole.
+    inv = [r for r in rows if not r["source_invoice"].startswith(
+        ("ls-recipe-seed", "bo-seed", "bo-ingredient-seed", "recipe-bridge-seed"))]
+    assert inv, f"{ingredient} has no invoice observation at all"
+    for r in inv:
+        assert abs(float(r["cost_per_unit"]) - expect) < 5e-4, (
+            f"{ingredient} observation {r['observed_on']} ({r['source_invoice']}) "
+            f"is {r['cost_per_unit']}, expected ~{expect} — {source}")
 
 
 @pytest.mark.parametrize("desc,pack", [

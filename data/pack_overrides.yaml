@@ -421,5 +421,162 @@
   pack_qty: 1000
   pack_unit: g
   by: "Claude (B&E catalogue #28087 'Chilli - Flake / Crushed 1kg Csi' = 1 BAG/PK; $13.70/1kg = $0.0137/g vs existing Chilli Flakes $0.020/g)"
+- id: "lightspeed:20727779"           # Bittermen's Tiki Bitters [Bottle]
+  pack_qty: 146
+  pack_unit: ml
+  # THREE sources disagree about this bottle and only one of them is a bottle
+  # anybody sells. The product NAME says "700ML". Back Office's own DefaultSize
+  # says 120. Paramount's invoice says, in words, "BITTERMENS XOCOLATL MOLE
+  # BITTERMENS : 146 ml", raw UOM "12/146 ml", $29.44 the bottle (5424761
+  # 2026-07-07 and 5457927 2026-07-21, code 67652). Bittermens ship one size.
+  #
+  # Our book read the pack off the NAME: $26.03 (Back Office CostPriceIncTax) /
+  # 700 mL = $0.037186/mL. Over the real 146 mL the same $26.03 is $0.1783/mL,
+  # which lands beside Paramount's own $29.44/146 = $0.2016/mL for the same
+  # brand. 700 is not a Bittermens size and the two independent sources both
+  # say "small bottle", so the NAME is the typo, not the price.
+  #
+  # 4.79x UNDER-cost — the flattering direction. Island Time is the only drink
+  # on it (32 serves/yr), so the money is $3/yr; the reason to fix it is that
+  # the same defect on a fast bottle would be invisible.
+  by: "Claude (Paramount 5424761/5457927 state 146 ml in words; 700ML is not a Bittermens size)"
+  on: 2026-08-14
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22684315"           # Massenez Elderflower [5L]
+  pack_qty: 5000
+  pack_unit: ml
+  # This is the whole explanation of the Elderflower price conflict, and it is
+  # mechanical: Back Office's DefaultSize carries an EXTRA ZERO. It reads 50000
+  # mL against a cask the name calls [5L] and the CostPriceIncTax calls $253.00.
+  #
+  #   $253 / 50000 mL = $0.00506/mL   <- what Lightspeed's own recipe costing used
+  #   $253 /  5000 mL = $0.05060/mL   <- what our book used, reading the name
+  #
+  # Lightspeed's recipe seed quotes $0.004833/mL. That is the 50000 reading, so
+  # the flag's "both cannot be this product's price" has a cause rather than a
+  # judgement: one side divided by 50 L of liqueur that does not exist.
+  #
+  # OURS IS THE RIGHT ONE, corroborated by every sibling in the same range and
+  # the same pack: Triple Sec $0.0675/mL, Mango $0.0642, Cacao Blanc $0.0660,
+  # Black Cacao $0.0600, Lychee $0.0580 — and Paramount invoice 5198837 puts
+  # Massenez Triple Sec BIB at $71.80/L = $0.0718/mL. A 5 L Massenez at
+  # $24.17 the cask (the 50000 reading) is not a price anyone has ever paid.
+  #
+  # Pinned rather than left alone because the next Back Office export will bring
+  # the same 50000 back. The real repair is DefaultSize -> 5000 in Back Office.
+  by: "Claude (BO DefaultSize 50000 is an extra zero on a [5L] cask; 5 siblings + Paramount BIB agree with 5000)"
+  on: 2026-08-14
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22893568"           # Gyoza Vegetable Marumatsu Jun [800g], Harry Gatos
+  pack_qty: 800
+  pack_unit: g
+  # Same extra-zero defect as the Elderflower, found by sweeping every Back
+  # Office row for a DefaultSize that is an exact power of ten off the size
+  # written in the product's own name. DefaultSize 8000 g against a name that
+  # says [800g], CostPriceIncTax $9.25.
+  #
+  #   $9.25 / 8000 g = $0.001156/g   <- 10x UNDER
+  #   $9.25 /  800 g = $0.011563/g   <- the pack the name and the price describe
+  #
+  # $9.25 for 8 kg of gyoza would be $1.16/kg. Frozen gyoza does not exist at
+  # that price; at 800 g it is $11.56/kg, which is ordinary. Under-costing is
+  # the flattering direction, which is why nothing else caught it.
+  by: "Claude (BO DefaultSize 8000 vs [800g] in the name; $1.16/kg is not a gyoza price)"
+  on: 2026-08-14
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22973178"           # Mango-Chilli Puree [1L]
+  pack_qty: 1000
+  pack_unit: ml
+  # Third and last of the extra-zero family, in the other direction: DefaultSize
+  # 1 mL against a name that says [1L].
+  #
+  # NOTHING COSTS OFF IT TODAY — CostPriceIncTax is $0.0000, so the bad divisor
+  # multiplies nothing and no dish is wrong. It is pinned because it is a
+  # LANDMINE: the first real price against a 1 mL pack would be recorded 1000x
+  # too dear. That direction does not flatter, so it would surface loudly rather
+  # than hide — but it would surface as a $4,000 puree, and someone would have
+  # to work out why.
+  by: "Claude (BO DefaultSize 1 vs [1L] in the name; inert today, pinned before it is not)"
+  on: 2026-08-14
+  by_email: "hello@stowawaybar.com"
+# NO OVERRIDE FOR lightspeed:22995343 (Herb Chives [Market]) — AND THIS IS THE ENTRY.
+#
+# I wrote one, shipped it, watched it break the number, and took it out. The
+# reasoning is recorded so the next person does not re-derive the same wrong fix,
+# because the evidence for it looks airtight right up until it isn't.
+#
+# THE APPARENT PROOF. Fresh Fruit Team bill chives under two codes and across 17
+# paired invoices the ratio has a median of EXACTLY 6.00x — eight consecutive
+# same-or-next-day pairs at 6.00x to the cent ($1.65 vs $9.90). Read that as a pack
+# count and "the Market pack is six bunches" is irresistible.
+#
+# WHY IT IS WRONG, TWICE OVER.
+#
+# 1. ZAK ALREADY ANSWERED THIS. Line 185 of this file: "Fresh Fruit Team market
+#    herbs — sold by the bunch (Zak confirmed 2026-07-26)", HCMB MARKET pack_qty 1
+#    pack_unit bunch. A market bunch is not a pack of six retail bunches, it is one
+#    bunch about six times the size — which is exactly why it costs 6x. The unit is
+#    right and the price is right; they are two different bunches. A ratio is not
+#    evidence of a pack count when a size difference explains it just as well, and
+#    the owner's confirmation about what arrives in the van outranks my arithmetic.
+#
+# 2. THE DIVISOR WOULD HAVE HIT THE WRONG OBSERVATION ANYWAY. I checked costs.csv
+#    first and saw only bo-ingredient-seed-stowaway at $9.9000/can, so dividing by
+#    6 looked safe. But 22995343 ALSO carries a recipe-bridge-seed observation at
+#    $1.65/ea, and after a rebuild THAT one wins the as-of lookup. So the override
+#    divided the BUNCH rate, not the pack: $1.65 / 6 = $0.275 chives, and a fresh
+#    feed-line-unit flag appeared quoting $0.0027 lines to prove it. An override
+#    cannot see which observation it will land on. Reading the file is not the same
+#    as knowing what wins.
+#
+# WHAT IS ACTUALLY LEFT TO DO: weigh one bunch. The g-denominated lines need a real
+# bunch weight, which is what feed-line-unit-chives has been asking for all along.
+# No arithmetic available here substitutes for the scales.
+#
+# (removed block follows, kept only as the record of what was tried)
+#   pack_qty: 6 / pack_unit: ea
+  # The chives "two worlds" is not a disagreement, it is two pack sizes, and
+  # Fresh Fruit Team's own invoices state the ratio as an exact identity.
+  # They bill chives under two codes:
+  #
+  #   HCBCH  "Herb Chives"  qty 6 @ $1.65 = $9.90   (INB00099947, INB00101527,
+  #                                                  INB00110184 — same $9.90
+  #                                                  every time)
+  #   HCMB   "Chives" Market qty 1 @ $9.90 = $9.90  (INB00099534, INB00099936,
+  #                                                  INB00101295)
+  #
+  # $1.65 x 6 = $9.90 to the cent, on three separate invoices. The MARKET pack
+  # is six bunches. Back Office holds this product as Unit "unit", DefaultSize
+  # 1, CostPriceIncTax $9.9000 — the pack price with no pack, which is why it
+  # surfaced as "$9.90 per can" against a $2.75 bunch.
+  #
+  # SAFE TO DIVIDE: the stored observation is the $9.90 PACK price (checked in
+  # costs.csv before writing this — bo-ingredient-seed-stowaway, 9.9000/can),
+  # not the $1.65 bunch rate that recipe-bridge-seed carries elsewhere. Dividing
+  # the bunch rate by 6 would have invented $0.275 chives — and it did.
+  # by: "Claude (FFT HCBCH 6 x $1.65 = $9.90 = HCMB x 1, three invoices)"
+  # on: 2026-08-14  /  by_email: "hello@stowawaybar.com"
+- id: "fresh-fruit-team:BRL"          # Broccolini, the BOX (BROCE is the bunch)
+  pack_qty: 10
+  pack_unit: ea
+  # Fresh Fruit Team sell broccolini by the bunch (BROCE) and by the box (BRL),
+  # and twice they have billed both on the same day:
+  #
+  #   2026-07-30   box $36.00   bunch $3.60   -> 10.00
+  #   2026-06-19   box $28.80   bunch $3.17   ->  9.09
+  #
+  # 10 is the only count that works. At 9 the box rate would be $4.00 against a
+  # $3.60 loose bunch — a box that costs MORE than buying singly, which no
+  # supplier prices. At 10 the 07-30 pair is an exact identity ($3.60 x 10 =
+  # $36.00) and 06-19 becomes $2.88 vs $3.17, a 9% bulk discount, which is
+  # ordinary. 10 is also the standard Sydney market broccolini box.
+  #
+  # ERRS SAFE: 10 is the LOWEST defensible count, so it yields the HIGHEST
+  # per-bunch cost. If the real box is 12 this over-costs by 20% rather than
+  # under-costing, and over-costing is the direction that gets noticed.
+  #
+  # The Lightspeed record (22995320 Broccolini [Bunch]) needed nothing — it is
+  # already per-bunch and already fed by BROCE invoices, latest $3.17.
+  by: "Claude (same-day box/bunch pairs: $3.60 x 10 = $36.00 exactly; 9 would price the box above loose)"
   on: 2026-08-14
   by_email: "hello@stowawaybar.com"

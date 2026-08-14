@@ -60,6 +60,7 @@ WHAT THIS GUARDS
 - the same feed built twice is the same feed (ids stable, order stable)
 """
 
+import re
 import json
 import sys
 from pathlib import Path
@@ -348,12 +349,24 @@ def test_a_price_conflict_reports_a_spread_and_calls_it_one(feed):
     measured" — stays a true sentence. The spread still sets the severity, so it
     sorts by money anyway."""
     pcs = {f["subject"]: f for f in _by_cat(feed, "price_conflict")}
-    assert "Massenez Elderflower [5L]" in pcs, sorted(pcs)
-    m = pcs["Massenez Elderflower [5L]"]
-    assert m["impact_per_year"] is None
-    assert m["severity"] == "high"
-    assert "SPREAD, not a loss" in m["evidence"][0]
-    assert "10.47x above" in m["what_is_wrong"]
+    # Massenez was ADJUDICATED 2026-08-14 (Back Office's DefaultSize carries an
+    # extra zero — 50000 ml on a [5L] cask — so Lightspeed's $0.004833 divided by
+    # 50 L of liqueur that does not exist, and our $0.0506 is right), so it is no
+    # longer here. The CONTRACT this test exists for is not about Massenez, so it
+    # is asserted against whatever is in the family rather than a named member.
+    assert pcs, "the family is empty — this contract is untested, not satisfied"
+    for name, m in pcs.items():
+        # a spread is not an under-cost: nobody knows yet which side is wrong
+        assert m["impact_per_year"] is None, name
+        assert m["impact_basis"] is None, name
+        # the ratio is stated in words, in the sentence a human reads
+        assert re.search(r"\d+(\.\d+)?x (above|below)", m["what_is_wrong"]), (
+            name, m["what_is_wrong"])
+    # and where a spread was measurable it is called one, in the evidence
+    spreads = [m for m in pcs.values()
+               if any("SPREAD, not a loss" in e for e in m["evidence"])]
+    assert spreads, sorted(pcs)
+    assert all(m["severity"] in ("high", "medium") for m in pcs.values())
 
 
 def test_the_headline_still_counts_only_measured_under_cost(feed):
