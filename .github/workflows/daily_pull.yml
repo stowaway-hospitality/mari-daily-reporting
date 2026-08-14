@@ -96,7 +96,16 @@ jobs:
       - name: Determine target date
         id: date
         run: |
-          if [[ -n "${{ inputs.target_date }}" ]]; then
+          # The DISPATCH's date wins. This step only ever read inputs.target_date
+          # (workflow_dispatch), so a repository_dispatch carrying an older day was
+          # silently aggregated as YESTERDAY — and its CSV written over yesterday's.
+          # Recovering the 2026-08-11..13 outage on 14 Aug wrote the 11th's export
+          # to data/insights_*_2026-08-13.csv and moved Stowaway's 13 Aug revenue
+          # from $2,198 to $5,364. A backfill that silently relabels the day it is
+          # fixing is worse than no backfill.
+          if [[ -n "${{ github.event.client_payload.target_date }}" ]]; then
+            echo "target=${{ github.event.client_payload.target_date }}" >> $GITHUB_OUTPUT
+          elif [[ -n "${{ inputs.target_date }}" ]]; then
             echo "target=${{ inputs.target_date }}" >> $GITHUB_OUTPUT
           else
             echo "target=$(TZ='Australia/Sydney' date -d 'yesterday' +%Y-%m-%d)" >> $GITHUB_OUTPUT
