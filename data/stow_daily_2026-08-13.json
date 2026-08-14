@@ -1,6 +1,6 @@
 {
   "date": "2026-08-13",
-  "generated_at": "2026-08-14T07:51:57.220288Z",
+  "generated_at": "2026-08-14T07:52:04.467161Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -15,29 +15,29 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 2418.81,
-    "revenue_ex_gst": 2198.92,
-    "cogs_dollars": 1500.91,
-    "cogs_pct": 68.3,
-    "gp_dollars": 698.01,
-    "gp_pct": 31.7,
+    "revenue_inc_gst": 5900.86,
+    "revenue_ex_gst": 5364.65,
+    "cogs_dollars": 1315.12,
+    "cogs_pct": 24.5,
+    "gp_dollars": 4049.52,
+    "gp_pct": 75.5,
     "cogs_source": "recipe_blend",
-    "cogs_lightspeed_dollars": 1462.95,
-    "recipe_coverage_pct": 97.0,
+    "cogs_lightspeed_dollars": 1282.17,
+    "recipe_coverage_pct": 81.2,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
     "eatclub_giveaway_ex_gst": 37.35,
     "eatclub_covers": 8,
-    "revenue_ex_gst_before_eatclub": 2236.27,
-    "food_ex_gst": 232.52,
-    "bev_ex_gst": 2003.75,
-    "food_cogs": 43.38,
-    "bev_cogs": 1419.57,
-    "food_cogs_pct": 18.7,
-    "bev_cogs_pct": 70.8,
-    "food_gp_pct": 81.3,
-    "bev_gp_pct": 29.2,
-    "mari_rideon_ex_gst": 1224.95,
+    "revenue_ex_gst_before_eatclub": 5402.0,
+    "food_ex_gst": 1305.27,
+    "bev_ex_gst": 4096.5,
+    "food_cogs": 191.73,
+    "bev_cogs": 1090.44,
+    "food_cogs_pct": 14.7,
+    "bev_cogs_pct": 26.6,
+    "food_gp_pct": 85.3,
+    "bev_gp_pct": 73.4,
+    "mari_rideon_ex_gst": 1367.57,
     "hg_food_out_ex_gst": 0.0,
     "stow_food_out_ex_gst": 0.0
   },
@@ -48,26 +48,26 @@
     "admin_dollars": 396.72,
     "leave_dollars": 0,
     "total_dollars": 1952.55,
-    "wages_pct": 88.8,
+    "wages_pct": 36.4,
     "net_wage_pct": null,
     "kitchen_hours": 21.5,
     "foh_hours": 16.0,
-    "wages_kitchen_pct": 404.0,
-    "wages_foh_pct": 30.8,
+    "wages_kitchen_pct": 72.0,
+    "wages_foh_pct": 15.0,
     "includes_super": true,
     "salaried_synthesized": true
   },
   "delivery": null,
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "red",
+    "cogs": "green",
     "wages": "red",
     "delivery": "n/a",
     "gp": "green",
     "cogs_food": "green",
-    "cogs_bev": "red",
+    "cogs_bev": "amber",
     "wages_kitchen": "red",
-    "wages_foh": "red"
+    "wages_foh": "green"
   },
   "targets": {
     "cogs": {
@@ -113,164 +113,159 @@
   },
   "top_products": [
     {
-      "name": "Fresh is Best Lager - Pint",
-      "qty": 33.0,
-      "rev": 161.75,
-      "cost": 79.9227,
+      "name": "Classic Margarita",
+      "qty": 19.0,
+      "rev": 287.41,
+      "cost": 79.2756,
       "cost_source": "recipe",
-      "cost_lightspeed": 80.73
+      "cost_lightspeed": 73.92
+    },
+    {
+      "name": "Veuve Clicquot Yellow Label - Bottle",
+      "qty": 2.0,
+      "rev": 284.0,
+      "cost": 157.36,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fresh is Best Lager - Schooner",
+      "qty": 34.0,
+      "rev": 245.7,
+      "cost": 61.3972,
+      "cost_source": "recipe",
+      "cost_lightspeed": 62.02
+    },
+    {
+      "name": "Version Two Pinot Grigio - Regular",
+      "qty": 24.0,
+      "rev": 242.01,
+      "cost": 42.4008,
+      "cost_source": "recipe",
+      "cost_lightspeed": 42.4
+    },
+    {
+      "name": "Fish Tacos",
+      "qty": 10.0,
+      "rev": 196.59,
+      "cost": 18.477,
+      "cost_source": "recipe",
+      "cost_lightspeed": 21.85
+    },
+    {
+      "name": "Kuku Sauvignon Blanc - Regular",
+      "qty": 15.0,
+      "rev": 196.46,
+      "cost": 43.7115,
+      "cost_source": "recipe",
+      "cost_lightspeed": 43.72
+    },
+    {
+      "name": "Geppetto Pinot Noir - Regular",
+      "qty": 10.0,
+      "rev": 154.96,
+      "cost": 35.12,
+      "cost_source": "recipe",
+      "cost_lightspeed": 35.12
+    },
+    {
+      "name": "Espresso Martini",
+      "qty": 10.0,
+      "rev": 154.91,
+      "cost": 32.165,
+      "cost_source": "recipe",
+      "cost_lightspeed": 32.33
+    },
+    {
+      "name": "Grifter Pale - Schooner",
+      "qty": 15.0,
+      "rev": 154.5,
+      "cost": 37.236,
+      "cost_source": "recipe",
+      "cost_lightspeed": 37.24
+    },
+    {
+      "name": "Mulled Wine",
+      "qty": 10.0,
+      "rev": 151.98,
+      "cost": 20.268,
+      "cost_source": "recipe",
+      "cost_lightspeed": 20.35
+    },
+    {
+      "name": "Fancy Pants Parmy - Classic",
+      "qty": 5.0,
+      "rev": 149.78,
+      "cost": 37.982,
+      "cost_source": "recipe",
+      "cost_lightspeed": 40.53
     },
     {
       "name": "Grifter Pale - Pint",
       "qty": 13.0,
-      "rev": 150.95,
+      "rev": 143.86,
       "cost": 43.2822,
       "cost_source": "recipe",
       "cost_lightspeed": 43.28
     },
     {
-      "name": "Guinness Draught - Pint",
-      "qty": 19.0,
-      "rev": 115.5,
-      "cost": 91.276,
-      "cost_source": "recipe",
-      "cost_lightspeed": 90.23
+      "name": "Kuku Sauvignon Blanc - Bottle",
+      "qty": 2.0,
+      "rev": 119.9,
+      "cost": 29.15,
+      "cost_source": "lightspeed"
     },
     {
-      "name": "Mojito",
-      "qty": 4.0,
-      "rev": 84.0,
-      "cost": 14.9604,
-      "cost_source": "recipe",
-      "cost_lightspeed": 7.48
+      "name": "A. Rodda Chardonnay - Bottle",
+      "qty": 1.0,
+      "rev": 115.77,
+      "cost": 37.7,
+      "cost_source": "lightspeed"
     },
     {
-      "name": "Rosemary Salted Fries",
+      "name": "Kirin - Pint",
       "qty": 6.0,
-      "rev": 78.66,
-      "cost": 11.16,
+      "rev": 112.22,
+      "cost": 30.5472,
       "cost_source": "recipe",
-      "cost_lightspeed": 11.13
+      "cost_lightspeed": 30.27
     },
     {
-      "name": "Fresh is Best Lager - Schooner",
-      "qty": 14.0,
-      "rev": 77.03,
-      "cost": 25.2812,
+      "name": "Stone & Wood - Pint",
+      "qty": 6.0,
+      "rev": 102.56,
+      "cost": 26.5188,
       "cost_source": "recipe",
-      "cost_lightspeed": 25.54
+      "cost_lightspeed": 26.23
     },
     {
-      "name": "Geppetto Pinot Noir - Regular",
-      "qty": 5.0,
-      "rev": 75.49,
-      "cost": 17.56,
-      "cost_source": "recipe",
-      "cost_lightspeed": 17.56
-    },
-    {
-      "name": "Mulled Wine",
-      "qty": 5.0,
-      "rev": 74.97,
-      "cost": 10.134,
-      "cost_source": "recipe",
-      "cost_lightspeed": 10.17
-    },
-    {
-      "name": "Philter XPA - Schooner",
-      "qty": 8.0,
-      "rev": 71.27,
-      "cost": 17.908,
-      "cost_source": "recipe",
-      "cost_lightspeed": 17.89
-    },
-    {
-      "name": "Padrillos Malbec - Regular",
-      "qty": 4.0,
-      "rev": 70.79,
-      "cost": 15.4664,
-      "cost_source": "recipe",
-      "cost_lightspeed": 15.47
-    },
-    {
-      "name": "Aperol Spritz",
-      "qty": 35.0,
-      "rev": 69.32,
-      "cost": 124.3515,
-      "cost_source": "recipe",
-      "cost_lightspeed": 124.34
-    },
-    {
-      "name": "Grifter Pale - Schooner",
+      "name": "Kirin - Schooner",
       "qty": 7.0,
-      "rev": 64.88,
-      "cost": 17.3768,
+      "rev": 98.0,
+      "cost": 26.5727,
       "cost_source": "recipe",
-      "cost_lightspeed": 17.38
-    },
-    {
-      "name": "Ottelia Chardonnay - Regular",
-      "qty": 4.0,
-      "rev": 64.0,
-      "cost": 13.8376,
-      "cost_source": "recipe",
-      "cost_lightspeed": 13.84
-    },
-    {
-      "name": "White Light Pure Vodka [House]",
-      "qty": 124.0,
-      "rev": 63.8,
-      "cost": 188.5792,
-      "cost_source": "recipe",
-      "cost_lightspeed": 188.38
+      "cost_lightspeed": 26.33
     },
     {
       "name": "Mother's Milk Shiraz - Regular",
+      "qty": 6.0,
+      "rev": 92.99,
+      "cost": 19.2978,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.3
+    },
+    {
+      "name": "BBQ Ribs",
+      "qty": 2.0,
+      "rev": 91.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Arancini Balls [5pc]",
       "qty": 4.0,
-      "rev": 60.99,
-      "cost": 12.8652,
-      "cost_source": "recipe",
-      "cost_lightspeed": 12.87
-    },
-    {
-      "name": "Beetle Juice",
-      "qty": 48.0,
-      "rev": 60.0,
-      "cost": 178.3584,
-      "cost_source": "recipe",
-      "cost_lightspeed": 175.54
-    },
-    {
-      "name": "Domaine Gueguen Chablis - Regular",
-      "qty": 2.0,
-      "rev": 56.0,
-      "cost": 17.892,
-      "cost_source": "recipe",
-      "cost_lightspeed": 17.89
-    },
-    {
-      "name": "Crankshaft IPA - Pint",
-      "qty": 3.0,
-      "rev": 52.5,
-      "cost": 12.9072,
-      "cost_source": "recipe",
-      "cost_lightspeed": 12.9
-    },
-    {
-      "name": "Bang Bang Cauli",
-      "qty": 3.0,
-      "rev": 52.12,
-      "cost": 8.2977,
-      "cost_source": "recipe",
-      "cost_lightspeed": 8.28
-    },
-    {
-      "name": "Geppetto Pinot Noir - Large Glass",
-      "qty": 2.0,
-      "rev": 49.57,
-      "cost": 11.7066,
-      "cost_source": "recipe",
-      "cost_lightspeed": 11.71
+      "rev": 90.46,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
     }
   ]
 }
