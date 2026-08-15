@@ -219,3 +219,30 @@
 - {recipe: "Frozen Marg", ingredient: "Dehydrated Lime Garnish",
    from_unit: "ml", to_unit: "g",
    why: "a dehydrated lime wheel is priced per gram ($0.092308/g) and weighs about the 1 the line asks for; as ml it costs $0"}
+
+# Salsa Rosa asks for "1.5 ml" of pizza sauce. A third of a teaspoon of sauce in
+# a 2.5 L batch is not a recipe; it means 1.5 KG. Unlike Peking, the MAGNITUDE is
+# wrong here too, not just the label — hence qty_factor, and no cost_factor.
+- recipe: "Salsa Rosa Prep"
+  ingredient: "Pizza Sauce [Recipe] kg"    # the raw Produce name, "kg" and all
+  from_unit: "ml"
+  to_unit: "g"
+  qty_factor: 1000        # 1.5 -> 1500 g
+  # PROOF, from Produce's own arithmetic. It billed this line $5.63 for qty 1.5,
+  # i.e. $3.7533 per unit. The pizza sauce batch it was costed against was
+  # $37.19 for 9338 g = $3.98/kg. So the per-unit price Produce used IS the price
+  # PER KILOGRAM, to within 6% — it multiplied kilos while printing "ml".
+  #   1.5 kg x $3.75/kg = $5.63   <- reconciles to the printed line cost
+  #   1.5 ml x $0.00398 = $0.006  <- out by a factor of 1000
+  # A line cost can only reconcile at one magnitude, and it reconciles at kg.
+  #
+  # CORROBORATION: the sibling line "Roasted Red Peppers [A12]" is written the
+  # same way — "1 ml" for one A12 tin at $15.91 — so this recipe writes pack and
+  # batch quantities with a junk "ml" label throughout. Pizza sauce is the only
+  # one of them that resolves to a costable sub-recipe, so it is the only one
+  # whose magnitude our book can act on.
+  #
+  # EFFECT: the line stops being frozen and wires LIVE to the current Pizza Sauce
+  # batch, so Salsa Rosa now re-costs when Kagome's price moves — and through it
+  # Black Beans Prep, Pulled Mushroom, Burrito Rice Sauce and every burrito.
+  why: "Produce's own $5.63 for qty 1.5 only reconciles at $3.75/KG; at ml it is out 1000x"

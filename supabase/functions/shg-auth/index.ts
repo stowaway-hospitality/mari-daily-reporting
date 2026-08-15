@@ -179,6 +179,24 @@ Deno.serve(async (req: Request) => {
       sha = j.sha;
       current = fromB64(j.content);
     }
+    // IDEMPOTENCE. This is an append-only log with at-least-once delivery: if
+    // GitHub accepts the PUT but the response never reaches us, the client shows
+    // an error and the operator saves again — and the log gets the same block
+    // twice. That is exactly how Romesco Sauce came to sit in stowaway.yaml
+    // byte-for-byte identical, saved twice on 2026-08-03 by the same person, and
+    // then quietly became "which of these two is live?".
+    //
+    // The block carries a timestamp in its comment header, so compare the BODY
+    // only: if what we are about to append is already the last thing in the file,
+    // the previous attempt landed. Report success rather than writing it again.
+    // Deliberately only the TAIL — an identical block further up is a genuine
+    // revert-to-an-earlier-spec, which is a real edit and must still append.
+    const bodyOf = (s: string) =>
+      s.split("\n").filter((l) => !l.trimStart().startsWith("#")).join("\n").trim();
+    const incoming = bodyOf(block);
+    if (incoming && bodyOf(current).endsWith(incoming)) {
+      return { ok: true, path: path_, deduped: true };
+    }
     const put = await gh("PUT", `contents/${path_}`, {
       message,
       content: toB64(current + block),

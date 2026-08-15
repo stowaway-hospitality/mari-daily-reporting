@@ -238,14 +238,17 @@ Pizza Dough [Recipe]:
   yield_qty: 6900
   yield_unit: g
 Pizza Sauce [Recipe]:
-  basis: 'Re-specced by Zak 2026-08-15: 6000 g Kagome pizza sauce + 18 g salt +
-    10 g parsley = 6028 g. A COLD MIX — tinned sauce, salt, parsley, nothing cooks
-    off — so the yield is the sum, not the sum x0.9. The old 9338 was x0.9 of the
-    superseded 10 kg recipe (tomato sauce + oregano + tomato paste), which is no
-    longer what the kitchen makes. Leaving 9338 against the new $14.31 batch would
-    have read $1.53/kg instead of $2.37/kg — understating every pizza. ESTIMATED,
-    not weighed: if a batch is ever put on scales, put the real number here.'
-  yield_qty: 6028
+  basis: 'sum of ingredients x0.9. THIS DESCRIBES THE LIGHTSPEED RECIPE, not the
+    one the kitchen makes now — 10 kg tomato sauce + oregano + tomato paste, which
+    Zak superseded on 2026-08-15 with 6000 g Kagome + salt + parsley. The current
+    recipe lives in data/recipes/stowaway.yaml and carries its OWN yield_qty
+    (6028 g), which is what the builder costs against; this number is only what
+    the scraped Produce copy is worth per gram until that copy is retired.
+    Briefly set to 6028 here and that was WRONG: it paired the new recipe''s yield
+    with the old recipe''s $37.19 batch and invented a $6.17/kg sauce that has
+    never existed. A yield only means anything next to the ingredients it came
+    from — do not update this one without updating the recipe above it.'
+  yield_qty: 9338
   yield_unit: g
 Prawn Mix:
   basis: 'SCRAPED from the ''Expected yield'' field in Lightspeed Produce, 2026-08-13, Harry Gatos

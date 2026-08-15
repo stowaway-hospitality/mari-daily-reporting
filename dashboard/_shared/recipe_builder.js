@@ -354,11 +354,20 @@ window.resetBuild = () => {
   calc();
 };
 
+// True while a save is in flight. `btn.disabled` is NOT this guard: disabling a
+// button stops the NEXT click, but every listener already queued on the current
+// event still runs, and save() is also reachable from the console and from any
+// future caller. The log it writes to is append-only, so a second entry is a
+// permanent duplicate, not a harmless retry — worth one boolean.
+let SAVING = false;
+
 async function save() {
+  if (SAVING) return;
   const dish = document.getElementById('dish').value.trim();
   const out = document.getElementById('save-result'), btn = document.getElementById('save-btn');
   if (!dish || !LINES.length) { out.textContent = 'Add a name + an ingredient.'; return; }
   let token; try { token = Auth.requireToken(); } catch (e) { out.textContent = e.message; return; }
+  SAVING = true;
   btn.disabled = true; btn.textContent = 'Saving…';
   try {
     const r = await fetch(`${WORKER_URL}/recipes`, {
@@ -391,7 +400,7 @@ async function save() {
       if (window.renderPrepList) window.renderPrepList();
     }
   } catch (e) { out.innerHTML = `<span style="color:var(--red)">${esc(e.message)}</span>`; }
-  finally { btn.disabled = false; btn.textContent = 'Save recipe'; }
+  finally { SAVING = false; btn.disabled = false; btn.textContent = 'Save recipe'; }
 }
 Object.assign(window, { renderPick, add, addSub, setQty, del, save, calc });
 

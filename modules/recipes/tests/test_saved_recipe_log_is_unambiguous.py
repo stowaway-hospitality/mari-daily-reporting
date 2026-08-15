@@ -28,12 +28,15 @@ import yaml
 ROOT = Path(__file__).resolve().parents[3]
 BOOKS = sorted((ROOT / "data" / "recipes").glob("*.yaml"))
 
-# Saved twice, not yet adjudicated by anyone who cooks them. Shrink this list.
-KNOWN_DUPLICATES = {
-    ("stowaway", "Southern Squid"),
-    ("stowaway", "Onion Jam"),
-    ("stowaway", "Romesco Sauce"),
-}
+# Empty, and it should stay that way. All four pile-ups were cleared 2026-08-15:
+#   Pizza Sauce    x4 — three superseded specs, removed
+#   Southern Squid x2 — a dated SEED shadowing the real entry, removed
+#   Onion Jam      x2 — a genuine re-spec (cider vinegar -> balsamic); older removed
+#   Romesco Sauce  x2 — byte-for-byte identical, saved twice on 2026-08-03. THE
+#                       ONLY TRUE DOUBLE-SAVE in 28 records: the append is now
+#                       idempotent server-side and save() has an in-flight guard.
+# Adding to this list means accepting an ambiguity. Prefer deleting a block.
+KNOWN_DUPLICATES: set = set()
 
 
 def _records(p):
@@ -91,3 +94,20 @@ def test_pizza_sauce_is_down_to_one_current_record():
     assert "Tomato Paste" not in ings, "the superseded spec is still in the book"
     salt = [i for i in recs[0]["ingredients"] if i["desc"] == "Pure Cooking Sea Salt"]
     assert salt and salt[0]["qty"] == 18, "the mid-edit save (salt 0) won instead"
+
+
+def test_pizza_sauce_states_its_own_yield():
+    """Without it the converter costs Salsa Rosa off Lightspeed's dead 10 kg spec.
+
+    prep_yields.yaml describes the SCRAPED recipe, so it cannot speak for this
+    one. When the yield lived only there, setting it to 6028 paired the new
+    recipe's yield with the old recipe's $37.19 batch and produced a $6.17/kg
+    sauce that has never existed. The record must carry its own.
+    """
+    recs = [r for p in BOOKS for r in _records(p)
+            if (r or {}).get("product") == "Pizza Sauce [Recipe]"]
+    assert recs and recs[0].get("yield_qty") == 6028
+    assert recs[0].get("yield_unit") == "g"
+    total = sum(i["qty"] for i in recs[0]["ingredients"])
+    assert total == recs[0]["yield_qty"], (
+        f"cold mix: yield must equal the sum of ingredients ({total} g)")

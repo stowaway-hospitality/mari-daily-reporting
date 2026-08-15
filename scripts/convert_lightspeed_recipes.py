@@ -98,7 +98,82 @@ def apply_unit_fixes(rec: dict) -> int:
                         ing["cost"] = str(float(ing.get("cost") or 0) * float(f))
                     except (TypeError, ValueError):
                         pass
+                # Sometimes the MAGNITUDE is wrong too, not just the label. Peking
+                # only mislabelled ("750 L" was already 750 of the right thing), but
+                # Salsa Rosa's "1.5 ml" of pizza sauce means 1.5 KG — relabelling
+                # alone would leave 1.5 g. qty_factor rescales to the base unit.
+                q = spec.get("qty_factor")
+                if q:
+                    try:
+                        ing["qty"] = str(float(ing.get("qty") or 0) * float(q))
+                    except (TypeError, ValueError):
+                        pass
                 n += 1
+    return n
+
+
+_UNIT_IN_NAME = re.compile(r"\s+(kg|kgs|l|lt|litre)\s*$", re.I)
+_UNIT_IN_NAME_FACTOR = {"kg": 1000.0, "kgs": 1000.0, "l": 1000.0, "lt": 1000.0, "litre": 1000.0}
+_UNIT_IN_NAME_BASE = {"kg": "g", "kgs": "g", "l": "ml", "lt": "ml", "litre": "ml"}
+
+
+def apply_unit_in_name(rec: dict, rate_of) -> int:
+    """The kitchen writes the unit into the NAME when Produce won't offer it.
+
+    Produce's quantity dropdown only offers mL and g. So a line that is really
+    15 KILOS of chicken thigh gets entered as qty 15, unit "ml", with the word
+    "kg" typed on the end of the ingredient name — "Chicken Thigh Flt S/Off [Kg]
+    kg". Twenty lines across the prep book are written this way. Read literally
+    they are 15 millilitres of chicken, and that is what our book believed.
+
+    This is NOT a judgement call, and it is not a typo file. Produce PRICED each
+    of these lines off the magnitude the kitchen meant, so its own printed cost
+    is an independent witness to which reading is right:
+
+        15 x $16.30/kg = $244.50  <- exactly what Produce printed
+        15 ml at the same rate    = $0.24
+
+    So the rule proves itself before it fires: rescale ONLY when the printed line
+    cost lands closer to the name's unit than to the recorded one. Where there is
+    no live rate to check against (a sub-recipe reference, an ingredient we can't
+    price yet), it does nothing and the line is left for the explicit, hand-proved
+    entries in data/recipe_line_unit_fixes.yaml. Fail toward review.
+
+    Measured 2026-08-15: 18 lines had a rate, 18 of 18 reconciled at the name's
+    unit, 0 at the recorded one, most of them to the cent.
+    """
+    n = 0
+    for rname, body in (rec or {}).items():
+        for ing in ((body or {}).get("ingredients") or []):
+            name = ing.get("name") or ""
+            m = _UNIT_IN_NAME.search(name)
+            if not m:
+                continue
+            suffix = m.group(1).lower()
+            unit = str(ing.get("unit") or "").lower()
+            if unit not in ("ml", "g"):
+                continue          # only a base-unit label can be the wrong one
+            # NB: no "already in base units" shortcut. For L the base unit IS ml,
+            # so a genuine "2 L entered as 2 ml" line looks converted already. The
+            # arithmetic below is the only honest test of whether it has been: if
+            # the line really is 2000 ml, rate x 2000 already matches the printed
+            # cost and scaling it again lands 1000x away, so it is refused there.
+            try:
+                qty = float(ing.get("qty") or 0)
+                printed = float(ing.get("cost") or 0)
+            except (TypeError, ValueError):
+                continue
+            if qty <= 0 or printed <= 0:
+                continue
+            rate = rate_of(ing)
+            if not rate:
+                continue          # can't prove it — leave it alone
+            factor = _UNIT_IN_NAME_FACTOR[suffix]
+            if abs(rate * qty * factor - printed) >= abs(rate * qty - printed):
+                continue          # the cost does NOT back the name; refuse
+            ing["qty"] = str(qty * factor)
+            ing["unit"] = _UNIT_IN_NAME_BASE[suffix]
+            n += 1
     return n
 
 
@@ -1382,6 +1457,48 @@ def main() -> int:
                 if na != nb and nb.startswith(na) and sig(ings[a]) == sig(ings[b]):
                     drop.add(a)          # a is the truncated prefix -> drop it
         return [i for k, i in enumerate(ings) if k not in drop]
+
+    # The kitchen writes "kg" on the end of an ingredient NAME when Produce's
+    # dropdown will only offer mL/g. Rescale those lines now — it needs `resolve`
+    # and `our_costs`, which only exist here, but it still runs BEFORE anything is
+    # costed. Self-proving: it only fires where Produce's own printed line cost
+    # backs the name's unit. See apply_unit_in_name.
+    def _rate_for(ing):
+        try:
+            kind, ref = resolve(_UNIT_IN_NAME.sub("", ing.get("name") or "").strip())
+        except Exception:
+            return None
+        if kind != "id" or ref not in our_costs:
+            return None            # a sub-recipe has no per-unit rate here
+        oc, ou = our_costs[ref]
+        # only a BASE-unit rate can be compared against a base-unit quantity
+        if str(ou or "").lower() not in ("g", "ml"):
+            return None
+        try:
+            return float(oc) or None
+        except (TypeError, ValueError):
+            return None
+
+    _named = apply_unit_in_name(rec, _rate_for)
+    if _named:
+        print(f"  rescaled {_named} line(s) whose unit was typed into the ingredient name")
+
+    # ...then take the suffix OFF the name, now that everything which needed to
+    # read it has. It was never part of the ingredient's name — it is a unit the
+    # kitchen had nowhere else to put — and leaving it on breaks every lookup
+    # keyed by name. "Pizza Sauce [Recipe] kg" did not match our own book's
+    # "Pizza Sauce [Recipe]", so Salsa Rosa was costed off Lightspeed's
+    # superseded 10 kg sauce ($6.17/kg) instead of the recipe Zak actually makes
+    # ($2.37/kg) — and every burrito underneath it inherited that.
+    _stripped = 0
+    for _b in (rec or {}).values():
+        for _i in ((_b or {}).get("ingredients") or []):
+            _n = _i.get("name") or ""
+            if _UNIT_IN_NAME.search(_n):
+                _i["name"] = _UNIT_IN_NAME.sub("", _n).strip()
+                _stripped += 1
+    if _stripped:
+        print(f"  stripped a trailing unit from {_stripped} ingredient name(s)")
 
     out = {}
     ing_res = Counter()

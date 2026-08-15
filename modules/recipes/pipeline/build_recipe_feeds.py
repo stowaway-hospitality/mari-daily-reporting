@@ -241,22 +241,26 @@ def recipes_index() -> dict:
     for v in VENUES:
         venue_sessions = [s for s in sessions if s.venue == v]
         recipes = load_recipes(v)
-        # LATEST VERSION PER PRODUCT. data/recipes/*.yaml is an append-only log —
-        # the save endpoint only ever appends a block (shg-auth: appendCommit), it
-        # never rewrites one — so POSITION IN FILE IS CHRONOLOGICAL and the last
-        # block for a product is the current recipe. Zak saved Pizza Sauce four
-        # times on 2026-08-15 (twice on the old spec, once mid-edit with the salt
-        # still at 0, then the real one) and none of them carried effective_from.
-        # Ranking on the date alone left "which one is live" to whatever order the
-        # dict happened to yield. Rank on (date, position) so an undated re-save
-        # always wins over the undated block above it, and a genuinely dated future
-        # version still outranks both.
+        # LATEST VERSION PER PRODUCT, effective-dated. data/recipes/*.yaml is an
+        # append-only log — the save endpoint only ever appends a block (shg-auth:
+        # appendCommit), it never rewrites one — so POSITION IN FILE IS
+        # CHRONOLOGICAL and the last eligible block is the current recipe.
+        #
+        # Two real cases this has to get right, and ranking on the DATE first got
+        # one of them backwards:
+        #   * Pizza Sauce was saved four times on 2026-08-15, none of them dated.
+        #     Date alone can't separate them; position can.
+        #   * Southern Squid has a dated SEED ("replace with the real recipe",
+        #     effective_from 2026-07-17) sitting ABOVE the real undated entry.
+        #     Ranked on date, the seed outranks the recipe that replaced it.
+        # So: drop anything not yet in effect, then take the LAST by position.
+        # A block dated in the future is not live yet and must not be picked up
+        # early — that is what effective_from is actually for.
         latest: dict[str, object] = {}
-        rank: dict[str, tuple] = {}
-        for pos, r in enumerate(recipes):
-            key = (r.effective_from or date.min, pos)
-            if r.product not in latest or key >= rank[r.product]:
-                latest[r.product], rank[r.product] = r, key
+        for r in recipes:
+            if r.effective_from and r.effective_from > today:
+                continue
+            latest[r.product] = r   # later position overwrites earlier
         for r in latest.values():
             # A saved recipe's OWN yield wins. Only when it has none do we fall
             # back to the same rule the scraped path uses, so saving a prep can
