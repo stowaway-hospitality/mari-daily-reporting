@@ -62,15 +62,21 @@ create index if not exists stock_events_session on public.stock_events (session_
 
 alter table public.stock_events enable row level security;
 
--- Staff may record what they see. The role lives in the JWT's app_metadata,
--- which only the service key can set, so it cannot be spoofed from a browser.
+-- Anyone who works a shift may record what they see. The role list is the one
+-- modules/auth/set_role.py already issues — admin, bigchef, stowfood, hgfood,
+-- bar, pizza. There is no 'staff' role in this system; inventing one here
+-- would have locked out every person who actually counts stock and left only
+-- Zak able to write. The role lives in the JWT's app_metadata, which only the
+-- service key can set, so it cannot be spoofed from a browser.
 create policy stock_events_staff_insert on public.stock_events
   for insert to authenticated
-  with check ((auth.jwt() -> 'app_metadata' ->> 'role') in ('admin', 'staff'));
+  with check ((auth.jwt() -> 'app_metadata' ->> 'role')
+              in ('admin', 'bigchef', 'stowfood', 'hgfood', 'bar', 'pizza'));
 
 create policy stock_events_staff_select on public.stock_events
   for select to authenticated
-  using ((auth.jwt() -> 'app_metadata' ->> 'role') in ('admin', 'staff'));
+  using ((auth.jwt() -> 'app_metadata' ->> 'role')
+         in ('admin', 'bigchef', 'stowfood', 'hgfood', 'bar', 'pizza'));
 
 -- Corrections are NEW ROWS, never edits — the same rule data/ runs on. Someone
 -- who miscounts records it again and the ledger takes the later one. Only the
