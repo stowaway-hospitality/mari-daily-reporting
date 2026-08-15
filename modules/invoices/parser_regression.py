@@ -235,6 +235,73 @@ CLOSED as a question, and the product-name flags are fixed at their source.
      recipe adding one liner books ~100x its true cost. Flagged, not guessed: the
      liner count is not stated on the invoice.
 
+TRIAGE LOG — 2026-08-15 (fourth pass). Zak, on Sun Circle: "what matters is if
+they update their pricing ... I just care about updating our cost prices." That
+reframing found a much bigger miss than Sun Circle, and a bug I nearly shipped.
+
+ 12. WHOLE SUPPLIERS WERE MISSING FROM THE CHEF'S PICKER, and nothing reported it
+     because an ingredient that never appears raises no flag. build_cogs_list's
+     SUPPLIER_ALIAS maps supplier_key -> the short name build_ingredients
+     recognises; a supplier with no entry falls back to the LEGAL name on the
+     invoice and then fails the KITCHEN_SUPPLIERS test. Missing entries were
+     sun_circle, jun_pacific, farmer_joes, the_berry_man, nicholas_seafood.
+     Effect: 128 Jun Pacific cost rows (23 SKUs of Asian pantry goods, invoices
+     headed "JFC AUSTRALIA CO PTY LTD"), every Sun Circle dumpling, the Berry Man
+     purees and JFC's ramen bases had NEVER reached a recipe. Feed 1088 -> 1208.
+     Aquarius Fisheries added to KITCHEN_SUPPLIERS as well (seafood).
+
+     Two further fixes so it cannot recur silently:
+       * is_kitchen_supplier() matches the normalised TRADING name (legal-suffix
+         and leading-"The" stripped, prefix match), so "Jun Pacific",
+         "Jun Pacific Corporation Pty Ltd" and "JUN PACIFIC CORP" are one
+         supplier. A test pins both the inclusions AND the liquor exclusions —
+         a prefix rule that swallowed ILG or Paramount would put bottles in a
+         food picker.
+       * `supplier` added to build_cogs_list.DERIVED. It is SUPPLIER_ALIAS applied
+         to supplier_key, not a fact off the page, so an alias fix must reach rows
+         already written — otherwise purchasable_id keeps slugging the legal name
+         and ONE product holds TWO identities. It did:
+         "jun-pacific-corporation-pty-ltd:HA8204612" carried 8 price observations
+         while "jun-pacific:..." carried the rest, so that curry's price history
+         was split in half. 150 rows re-derived; the row key is
+         (invoice, code, description), so relabelling cannot move a row.
+
+ 13. A 6x UNDERSTATEMENT I INTRODUCED AND CAUGHT BEFORE SHIPPING. Fresh Fruit Team
+     sells the same herb as a single bunch AND as a MARKET bunch and calls both
+     "Herb Chives" on the invoice — only the code and the price separate them
+     (HCBCH $2.42 vs HCMB $15.40; HCB $2.64 vs HCDRMB $7.70). They had survived
+     the (supplier, name) collapse ONLY because the old parser bug truncated one
+     of each pair to "Chives"/"Coriander". Repairing those names in item 10 made
+     the names match, and that collapse — whose tiebreak prefers the CHEAPER row —
+     silently deleted both market bunches. Zak had personally confirmed both packs
+     in pack_overrides.
+     Found by rebuilding the feed at the pre-change commit and diffing, which is
+     now the standard check for any change to this pipeline. Fixed: the collapse
+     merges only when the canonical $/unit agree within 10% AND the pack units
+     match; otherwise both rows are kept and the dearer is disambiguated with the
+     supplier's own code ("Herb Chives (HCMB)"). Legitimate merges still happen —
+     CLKG per-kg still folds into CL20KGBX, same carrots, same $/kg. As a bonus
+     BRL (Broccolini box, $3.36/ea) came back; it had been silently absent before
+     today for the same reason.
+
+ 14. One override was orphaned by the alias fix and it cost money for exactly as
+     long as it took to notice: pack_overrides "the-berry-man-nsw-pty-ltd:PJ1"
+     stopped matching once the id canonicalised to "the-berry-man:PJ1", and
+     Passionfruit Puree fell from $9.50/kg to $0.79/kg — the precise 12x-too-cheap
+     reading that override's own comment exists to prevent. Re-keyed. An audit of
+     all 72 override keys against the live feed now runs as part of this work; the
+     only remaining misses are four lightspeed ids with no ingredient at all
+     (out-of-window, pre-existing).
+
+  ON SUN CIRCLE'S PRICES SPECIFICALLY (Zak's actual question): there are NO
+  printed prices on that form to watch. The Unit Price column is blank in print
+  and filled in by hand on every one of the 15 scans. What CAN be watched is the
+  cost book: Sun Circle's four SKUs now appear (SC-BEEFCABBAGE-DUMP,
+  SC-CHICKENCORN-DUMP, SC-PORKPARSLEY-DUMP at $4.50 a 600g pack = $7.50/kg, and
+  SC-PRAWNHARGAO-LG at $32.00 = $32/kg), sourced from the one invoice that was
+  keyed. Any future keyed invoice moves those numbers and the existing price-move
+  reporting picks it up. Nothing else is possible without a digital invoice.
+
   STILL DELIBERATELY OPEN, with reasons:
   * The three $0.00 documents (be_foods d02385290774, ilg e23ce69fe899 +
     b46bfb0a542a). The 08-14 entry wanted a $0.00 gate because they "cost an LLM

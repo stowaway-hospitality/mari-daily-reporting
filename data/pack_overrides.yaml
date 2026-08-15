@@ -70,7 +70,12 @@
   by: "Claude ([12x]; $6.00/12 = $0.50 an egg)"
   on: 2026-08-02
   by_email: "hello@stowawaybar.com"
-- id: "the-berry-man-nsw-pty-ltd:PJ1"
+# Re-keyed 2026-08-15: the supplier slug was the LEGAL name because
+# build_cogs_list had no alias for the_berry_man, so this confirmation was keyed
+# "the-berry-man-nsw-pty-ltd:PJ1". Adding the alias canonicalised the id to
+# "the-berry-man:PJ1" and orphaned the override — which dropped this puree to
+# $0.79/kg, the exact 12x-too-cheap reading the note below exists to prevent.
+- id: "the-berry-man:PJ1"
   pack_qty: 1                        # MUST stay in kg: the bridge re-expresses this
   pack_unit: kg                      # invoice in the seed's own unit (kg), and a
                                      # per-g override makes the two irreconcilable,

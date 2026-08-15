@@ -139,3 +139,60 @@ def test_the_repair_collapsed_the_duplicate_picker_entries():
     for name in ("Carrot Large", "Onion Spanish"):
         hits = [i for i in fft if (i.get("description") or "").strip() == name]
         assert len(hits) == 1, f"{name!r} appears {len(hits)}x for FFT — the collapse regressed"
+
+
+# ── the collapse must never delete the dearer pack (2026-08-15) ────────────
+# The second collapse pass merges two codes that share a (supplier, name) and its
+# tiebreak prefers the CHEAPER row. That was safe only by accident: Fresh Fruit
+# Team sells the same herb as a single bunch AND as a MARKET bunch and calls both
+# "Herb Chives" on the invoice, and only the old parser bug — which truncated one
+# of each pair to "Chives" / "Coriander" — kept the names apart.
+#
+# Repairing those names made the names match, and this pass promptly dropped both
+# market bunches: HCMB $15.40 deleted in favour of HCBCH $2.42 (6x), HCDRMB $7.70
+# in favour of HCB $2.64 (3x). Both packs had been confirmed by Zak himself in
+# pack_overrides. Caught by diffing the rebuilt feed against the pre-change one.
+#
+# Merging is now conditional on the money agreeing.
+
+def _feed_by_code():
+    feed = _feed()
+    out = {}
+    for i in feed["ingredients"]:
+        c = (i.get("supplier_code") or "").upper()
+        if c:
+            out.setdefault(c, []).append(i)
+    return out
+
+
+def test_market_bunch_is_not_swallowed_by_the_single_bunch():
+    by = _feed_by_code()
+    for dear, cheap in (("HCMB", "HCBCH"), ("HCDRMB", "HCB")):
+        assert dear in by, (
+            f"{dear} vanished — the dearer pack was merged away into {cheap}, "
+            f"which understates every recipe that uses it")
+        assert cheap in by, f"{cheap} missing"
+        d = float(by[dear][0]["cost_per_base_unit"])
+        c = float(by[cheap][0]["cost_per_base_unit"])
+        assert d > c * 1.5, (
+            f"{dear} ({d}) and {cheap} ({c}) are supposed to be materially "
+            f"different packs; if they have converged this test is now vacuous")
+
+
+def test_names_stay_unique_even_when_two_packs_share_a_name():
+    # The no-duplicate contract still holds: the pass disambiguates with the
+    # supplier's own code rather than dropping a row.
+    feed = _feed()
+    counts = Counter((i["supplier"], i["description"]) for i in feed["ingredients"])
+    assert not {k: n for k, n in counts.items() if n > 1}
+    by = _feed_by_code()
+    if "HCMB" in by:
+        assert "HCMB" in by["HCMB"][0]["description"]
+
+
+def test_same_priced_packs_of_one_product_still_collapse():
+    # The pass must keep doing its original job: CLKG (per kg) and CL20KGBX (the
+    # 20 kg box) are the same carrots at the same $/kg and must remain ONE entry.
+    by = _feed_by_code()
+    assert "CL20KGBX" in by, "the carrot collapse regressed"
+    assert "CLKG" not in by, "CLKG should have merged into CL20KGBX — same $/kg"

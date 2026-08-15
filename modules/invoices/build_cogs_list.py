@@ -78,9 +78,19 @@ FIELDS = ["supplier", "supplier_code", "invoice_description", "lightspeed_produc
 
 # supplier_key (suppliers.yaml) -> the short name cogs_list / the recipe
 # pipeline uses. Kitchen names here MUST match build_ingredients.KITCHEN_SUPPLIERS.
+# MISSING ALIASES ARE INVISIBLE. A supplier with no entry here falls back to the
+# long legal name on the invoice, which then fails build_ingredients'
+# KITCHEN_SUPPLIERS test — so its costs never reach the chef's picker and NOTHING
+# reports it, because an ingredient that never appears raises no flag. Found
+# 2026-08-15: jun_pacific (invoices headed "JFC AUSTRALIA CO PTY LTD") had 128
+# cost rows / 23 SKUs of Asian pantry goods stranded this way, and every Sun
+# Circle dumpling likewise. The five added below are all kitchen food.
 SUPPLIER_ALIAS = {
     "fresh_fruit_team": "Fresh Fruit Team", "select_fresh": "Select Fresh",
     "be_foods": "B&E", "foodlink": "Foodlink", "gulli": "Gulli",
+    "sun_circle": "Sun Circle", "jun_pacific": "Jun Pacific",
+    "farmer_joes": "Farmer Joes", "the_berry_man": "The Berry Man",
+    "nicholas_seafood": "Nicholas Seafood",
     "andrews_meat": "Andrews Meat", "aquarius": "Aquarius", "mj_chickens": "M&J Chickens",
     "cookers": "Cookers", "torino": "Torino", "captains_of_trade": "Captains of Trade",
     "ilg": "ILG", "ilg_distribution_coop": "ILG", "paramount": "Paramount",
@@ -93,7 +103,16 @@ SUPPLIER_ALIAS = {
 
 # Computed from the invoice by _rows_from_invoice — a stale one is a wrong cost,
 # so these track their source. See the module docstring.
-DERIVED = ("cost_per_unit_incl_gst", "pack_qty", "pack_unit", "cost_per_base_unit")
+# `supplier` is DERIVED — it is SUPPLIER_ALIAS applied to the invoice's
+# supplier_key, not a fact off the page — so adding an alias must reach the rows
+# already written. It was omitted, which is why adding the sun_circle /
+# jun_pacific / jfc aliases on 2026-08-15 would otherwise have been forward-only:
+# purchasable_id slugs the supplier, so the same product carried two identities
+# ("jun-pacific-corporation-pty-ltd:HA8204612" with 8 price observations AND
+# "jun-pacific:...") and its price history was split in half. The row KEY is
+# (invoice, code, description), so re-deriving this label cannot move a row.
+DERIVED = ("supplier", "cost_per_unit_incl_gst", "pack_qty", "pack_unit",
+           "cost_per_base_unit")
 # A human's judgement, recorded against the row. Never re-derived.
 JUDGED = ("lightspeed_product", "basis", "pack_size")
 # A PRICE AND ITS BASIS ARE ONE STATEMENT, so a row may never take half of each.
