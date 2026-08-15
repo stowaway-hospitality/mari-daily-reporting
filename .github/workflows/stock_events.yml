@@ -1,0 +1,52 @@
+name: Ingest stock events
+
+# Counts and goods-received recorded on a phone land in Supabase. This books the
+# ones that can be booked into data/ledger/ and writes each event's outcome back,
+# so a refusal reaches the person who recorded it instead of dying in a log.
+#
+# Hourly, because a stocktake finishing at 11pm should be in the morning's
+# numbers, and a delivery checked in at 7am should be there before the reorder
+# runs. Nothing here is urgent enough for a webhook.
+
+on:
+  schedule:
+    - cron: "7 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: stock-events        # never two of these appending to the ledger at once
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Book pending stock events
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          # No secrets set yet = nothing to do, and that must not look like a
+          # failure every hour until they are.
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_KEY" ]; then
+            echo "::notice::SUPABASE_URL / SUPABASE_SERVICE_KEY not set — skipping"
+            exit 0
+          fi
+          python scripts/ingest_stock_events.py --write
+
+      - name: Refresh the catalogue the phone loads
+        run: python scripts/build_stock_catalogue.py
+
+      - name: Commit
+        run: |
+          git config user.name "Stock Events"
+          git config user.email "hello@stowawaybar.com"
+          git add data/ledger data/stock_catalogue.json
+          git diff --quiet --staged || git commit -m "stock: ingest events $(date -u +%Y-%m-%dT%H:%M)"
+          git pull --rebase -q origin main || true
+          git push || echo "::warning::push failed — will retry next hour"
