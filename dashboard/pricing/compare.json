@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-15",
-  "count": 972,
-  "compared": 21,
+  "count": 976,
+  "compared": 22,
   "window_days": 90,
   "total_saving": 94.5,
   "switches": [
@@ -51,6 +51,15 @@
       "cost": 22.0,
       "pct": 809.1,
       "date": "2026-08-01"
+    },
+    {
+      "name": "Bean Black Whole",
+      "supplier": "Foodlink",
+      "unit": "ea",
+      "prev": 8.7,
+      "cost": 52.2,
+      "pct": 500.0,
+      "date": "2026-08-06"
     },
     {
       "name": "Bean Black Whole A10",
@@ -1031,6 +1040,46 @@
       "switch": false
     },
     {
+      "key": "rosemary",
+      "name": "Rosemary",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 1.65,
+          "date": "2026-04-22",
+          "desc": "Herb Rosemary",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        },
+        {
+          "supplier": "Select Fresh",
+          "cost": 2.4,
+          "date": "2026-07-17",
+          "desc": "HERB ROSEMARY BCH",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 1.65,
+      "max": 2.4,
+      "spread_pct": 45.5,
+      "multi": true,
+      "suspect": false,
+      "low": 1.65,
+      "low_date": "2026-04-22",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "broccolini",
       "name": "Broccolini",
       "unit": "bunch",
@@ -1132,7 +1181,7 @@
           "date": "2026-08-11",
           "desc": "MAYONNAISE WHOLE EGG",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -1172,7 +1221,7 @@
           "date": "2026-08-13",
           "desc": "HERB CHIVES BCH",
           "change_pct": 11.1,
-          "n": 6,
+          "n": 7,
           "prev_cost": 2.7,
           "spend": 0.0,
           "volume": 0.0
@@ -1292,7 +1341,7 @@
           "date": "2026-08-15",
           "desc": "SHALLOT BCH",
           "change_pct": -12.1,
-          "n": 26,
+          "n": 27,
           "prev_cost": 3.3,
           "spend": 0.0,
           "volume": 0.0
@@ -1332,7 +1381,7 @@
           "date": "2026-08-15",
           "desc": "LEMON KG",
           "change_pct": 12.5,
-          "n": 10,
+          "n": 11,
           "prev_cost": 3.2,
           "spend": 0.0,
           "volume": 0.0
@@ -1361,7 +1410,7 @@
           "date": "2026-08-15",
           "desc": "HERB BASIL BCH",
           "change_pct": -11.5,
-          "n": 16,
+          "n": 17,
           "prev_cost": 5.2,
           "spend": 0.0,
           "volume": 0.0
@@ -3231,9 +3280,9 @@
           "cost": 52.2,
           "date": "2026-08-06",
           "desc": "BEANS BLACK WHOLE TIN",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
+          "change_pct": 500.0,
+          "n": 2,
+          "prev_cost": 8.7,
           "spend": 0.0,
           "volume": 0.0
         }
@@ -3244,8 +3293,8 @@
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 52.2,
-      "low_date": "2026-08-06",
+      "low": 8.7,
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -5146,7 +5195,7 @@
           "date": "2026-08-15",
           "desc": "CAPSICUM GREEN 2NDS KG",
           "change_pct": 20.0,
-          "n": 7,
+          "n": 8,
           "prev_cost": 6.0,
           "spend": 0.0,
           "volume": 0.0
@@ -7669,7 +7718,7 @@
           "date": "2026-08-06",
           "desc": "CHILLI SHISHITO KG",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -7828,6 +7877,35 @@
       "suspect": false,
       "low": 53.0,
       "low_date": "2026-04-11",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "a10in chilli chipotle",
+      "name": "Chipotle Chilli A10in",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 18.0,
+          "date": "2026-07-17",
+          "desc": "CHIPOTLE CHILLIS A10 IN",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 18.0,
+      "max": 18.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 18.0,
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -9235,7 +9313,7 @@
           "date": "2026-08-06",
           "desc": "CORN FLOUR MAIZE GLUTEN",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -9248,7 +9326,7 @@
       "multi": false,
       "suspect": false,
       "low": 23.0,
-      "low_date": "2026-07-20",
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -10105,10 +10183,10 @@
           "date": "2026-08-08",
           "desc": "CUMIN GROUND 450GM",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
-          "spend": 9.0,
-          "volume": 0.45
+          "spend": 18.0,
+          "volume": 0.9
         }
       ],
       "cheapest": "Foodlink",
@@ -10118,7 +10196,7 @@
       "multi": false,
       "suspect": false,
       "low": 20.0,
-      "low_date": "2026-08-08",
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": "Foodlink",
       "switch": false
@@ -14455,7 +14533,7 @@
           "date": "2026-08-08",
           "desc": "GRAPEFRUIT RUBY EA",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -14468,7 +14546,7 @@
       "multi": false,
       "suspect": false,
       "low": 1.2,
-      "low_date": "2026-08-08",
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -15296,10 +15374,10 @@
           "date": "2026-07-29",
           "desc": "HONEY PURE 3KG Wild",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
-          "spend": 21.0,
-          "volume": 3.0
+          "spend": 63.0,
+          "volume": 9.0
         }
       ],
       "cheapest": "Foodlink",
@@ -15309,7 +15387,7 @@
       "multi": false,
       "suspect": false,
       "low": 7.0,
-      "low_date": "2026-07-29",
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": "Foodlink",
       "switch": false
@@ -17152,7 +17230,7 @@
           "date": "2026-08-11",
           "desc": "LETTUCE BABY SPINACH 1.5KG CTN",
           "change_pct": null,
-          "n": 7,
+          "n": 8,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -19153,7 +19231,7 @@
           "date": "2026-07-18",
           "desc": "MUSHROOM BUTTON SLICED 3/5MM",
           "change_pct": 13.0,
-          "n": 2,
+          "n": 3,
           "prev_cost": 11.5,
           "spend": 0.0,
           "volume": 0.0
@@ -19820,10 +19898,10 @@
           "date": "2026-08-03",
           "desc": "OIL OLIVE POMACE 4L",
           "change_pct": -15.6,
-          "n": 2,
+          "n": 3,
           "prev_cost": 9.625,
-          "spend": 71.0,
-          "volume": 8.0
+          "spend": 103.5,
+          "volume": 12.0
         }
       ],
       "cheapest": "Foodlink",
@@ -19833,7 +19911,7 @@
       "multi": false,
       "suspect": false,
       "low": 8.125,
-      "low_date": "2026-08-03",
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": "Foodlink",
       "switch": false
@@ -19907,10 +19985,10 @@
           "date": "2026-07-29",
           "desc": "OIL SESAME 2LT Heaven",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
-          "spend": 38.0,
-          "volume": 4.0
+          "spend": 57.0,
+          "volume": 6.0
         }
       ],
       "cheapest": "Foodlink",
@@ -19920,7 +19998,7 @@
       "multi": false,
       "suspect": false,
       "low": 9.5,
-      "low_date": "2026-07-29",
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": "Foodlink",
       "switch": false
@@ -20129,6 +20207,35 @@
       "switch": false
     },
     {
+      "key": "green olive pitted",
+      "name": "Olive Pitted Green",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 12.0,
+          "date": "2026-07-17",
+          "desc": "OLIVES PITTED GREEN 2KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 48.0,
+          "volume": 4.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 12.0,
+      "max": 12.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 12.0,
+      "low_date": "2026-07-17",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "es green olive pitted",
       "name": "Olive Pitted Green Es",
       "unit": "kg",
@@ -20226,7 +20333,7 @@
           "date": "2026-08-08",
           "desc": "OLIVES PITTED KALAMATA",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -20239,7 +20346,7 @@
       "multi": false,
       "suspect": false,
       "low": 19.5,
-      "low_date": "2026-07-31",
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -21579,6 +21686,35 @@
       "switch": false
     },
     {
+      "key": "pear",
+      "name": "Pear",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 4.8,
+          "date": "2026-07-17",
+          "desc": "PEAR (GREEN) KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 4.8,
+      "max": 4.8,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 4.8,
+      "low_date": "2026-07-17",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "green pear",
       "name": "Pear Green",
       "unit": "kg",
@@ -22314,7 +22450,7 @@
           "date": "2026-08-03",
           "desc": "PIZZA DOUGH BALLS",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -22327,7 +22463,7 @@
       "multi": false,
       "suspect": false,
       "low": 70.0,
-      "low_date": "2026-08-03",
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -23068,7 +23204,7 @@
           "date": "2026-08-14",
           "desc": "PROCESS GARLIC PEELED KG",
           "change_pct": 16.0,
-          "n": 9,
+          "n": 10,
           "prev_cost": 5.0,
           "spend": 0.0,
           "volume": 0.0
@@ -23619,7 +23755,7 @@
           "date": "2026-08-07",
           "desc": "RICE JASMINE FRAGRANT",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -23632,7 +23768,7 @@
       "multi": false,
       "suspect": false,
       "low": 55.0,
-      "low_date": "2026-08-07",
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -23793,7 +23929,7 @@
           "date": "2026-08-08",
           "desc": "RICE VERMICILI NOODLES",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -23806,7 +23942,7 @@
       "multi": false,
       "suspect": false,
       "low": 2.5,
-      "low_date": "2026-07-29",
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -24068,35 +24204,6 @@
       "suspect": false,
       "low": 51.6611,
       "low_date": "2026-07-14",
-      "est_saving": 0.0,
-      "main": null,
-      "switch": false
-    },
-    {
-      "key": "rosemary",
-      "name": "Rosemary",
-      "unit": "bunch",
-      "suppliers": [
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 1.65,
-          "date": "2026-04-22",
-          "desc": "Herb Rosemary",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
-          "spend": 0.0,
-          "volume": 0.0
-        }
-      ],
-      "cheapest": "Fresh Fruit Team",
-      "min": 1.65,
-      "max": 1.65,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false,
-      "low": 1.65,
-      "low_date": "2026-04-22",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -25359,7 +25466,7 @@
           "date": "2026-07-21",
           "desc": "2023 Sigurd Red ($21 LUC)",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -25372,7 +25479,7 @@
       "multi": false,
       "suspect": false,
       "low": 17.9083,
-      "low_date": "2026-07-21",
+      "low_date": "2026-06-29",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -25446,10 +25553,10 @@
           "date": "2026-08-13",
           "desc": "SMOKEY BBQ SAUCE 3LT",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
-          "spend": 62.5,
-          "volume": 15.0
+          "spend": 75.0,
+          "volume": 18.0
         }
       ],
       "cheapest": "Foodlink",
@@ -25459,7 +25566,7 @@
       "multi": false,
       "suspect": false,
       "low": 4.167,
-      "low_date": "2026-08-01",
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": "Foodlink",
       "switch": false
@@ -25823,7 +25930,7 @@
           "date": "2026-08-06",
           "desc": "SOY SAUCE TAMARI",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -25836,7 +25943,7 @@
       "multi": false,
       "suspect": false,
       "low": 145.0,
-      "low_date": "2026-08-06",
+      "low_date": "2026-07-17",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -27640,6 +27747,35 @@
       "switch": false
     },
     {
+      "key": "salad tomato",
+      "name": "Tomato Salad",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 39.0,
+          "date": "2026-07-17",
+          "desc": "TOMATO SALAD CTN",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 39.0,
+      "max": 39.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 39.0,
+      "low_date": "2026-07-17",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "heinz sauce tomato",
       "name": "Tomato Sauce Heinz",
       "unit": "L",
@@ -27650,10 +27786,10 @@
           "date": "2026-08-11",
           "desc": "TOMATO SAUCE 4LT Heinz",
           "change_pct": 5.5,
-          "n": 3,
+          "n": 4,
           "prev_cost": 2.75,
-          "spend": 34.8,
-          "volume": 12.0
+          "spend": 46.4,
+          "volume": 16.0
         }
       ],
       "cheapest": "Foodlink",
@@ -28433,7 +28569,7 @@
           "date": "2026-07-21",
           "desc": "Wine Equalisation Tax",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -28446,7 +28582,7 @@
       "multi": false,
       "suspect": false,
       "low": 0.319,
-      "low_date": "2026-07-21",
+      "low_date": "2026-06-29",
       "est_saving": 0.0,
       "main": null,
       "switch": false
