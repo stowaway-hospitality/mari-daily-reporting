@@ -1,0 +1,73 @@
+{
+  "schema": "product_mix/1",
+  "venue": "stowaway",
+  "prefix": "stow",
+  "date": "2024-11-04",
+  "generated_at": "2026-08-15T15:37:04",
+  "source_file": "stow_2024-11-04.csv",
+  "source_kind": "history_pull",
+  "name_basis": "current_master",
+  "sibling_till_available": false,
+  "ex_gst_basis": "inc_div_1.1",
+  "truncated": false,
+  "row_count": 4,
+  "totals": {
+    "qty": 9.0,
+    "rev_inc": 0.0,
+    "rev_ex": 0.0
+  },
+  "reconciliation": {
+    "expected_rev_inc": 0.0,
+    "expected_rev_ex": 0.0,
+    "gap_inc": 0.0,
+    "gap_ex": 0.0,
+    "basis": "gross of EatClub give-away"
+  },
+  "reconciled": true,
+  "products": [
+    {
+      "name": "Espresso Martini",
+      "qty": 3.0,
+      "cost": 9.855,
+      "cost_source": "recipe",
+      "cost_lightspeed": 1.67,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "b",
+      "till": "stow"
+    },
+    {
+      "name": "White Light Pure Vodka [House]",
+      "qty": 3.0,
+      "cost": 4.5624,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.66,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "b",
+      "till": "stow"
+    },
+    {
+      "name": "Negroni",
+      "qty": 2.0,
+      "cost": 8.198,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "b",
+      "till": "stow"
+    },
+    {
+      "name": "Bombay Dry [House]",
+      "qty": 1.0,
+      "cost": 2.1644,
+      "cost_source": "recipe",
+      "cost_lightspeed": 1.81,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "b",
+      "till": "stow"
+    }
+  ]
+}

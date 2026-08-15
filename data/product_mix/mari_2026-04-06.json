@@ -1,0 +1,49 @@
+{
+  "schema": "product_mix/1",
+  "venue": "marilynas",
+  "prefix": "mari",
+  "date": "2026-04-06",
+  "generated_at": "2026-08-15T15:38:16",
+  "source_file": "stow_2026-04-06.csv",
+  "source_kind": "history_pull",
+  "name_basis": "current_master",
+  "sibling_till_available": true,
+  "ex_gst_basis": "inc_div_1.1",
+  "truncated": false,
+  "row_count": 2,
+  "totals": {
+    "qty": 2.0,
+    "rev_inc": 4.6,
+    "rev_ex": 4.18
+  },
+  "reconciliation": {
+    "expected_rev_inc": 4.6,
+    "expected_rev_ex": 4.18,
+    "gap_inc": 0.0,
+    "gap_ex": 0.0,
+    "basis": "gross of EatClub give-away"
+  },
+  "reconciled": true,
+  "products": [
+    {
+      "name": "Chicken",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 4.6,
+      "rev_ex": 4.1818,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Chicken.",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "mari"
+    }
+  ]
+}

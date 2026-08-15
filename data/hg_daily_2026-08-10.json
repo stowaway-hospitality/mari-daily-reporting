@@ -1,6 +1,6 @@
 {
   "date": "2026-08-10",
-  "generated_at": "2026-08-11T03:53:38.703784Z",
+  "generated_at": "2026-08-15T05:46:33.255547Z",
   "venue": "harry",
   "venue_display": "Harry Gatos",
   "lane_config": [
@@ -15,27 +15,27 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 4340.4,
-    "revenue_ex_gst": 3946.12,
-    "cogs_dollars": 1028.64,
-    "cogs_pct": 26.1,
-    "gp_dollars": 2917.48,
-    "gp_pct": 73.9,
+    "revenue_inc_gst": 2835.6,
+    "revenue_ex_gst": 2687.74,
+    "cogs_dollars": 651.53,
+    "cogs_pct": 24.2,
+    "gp_dollars": 2036.21,
+    "gp_pct": 75.8,
     "cogs_source": "recipe_blend",
     "cogs_lightspeed_dollars": 342.29,
-    "recipe_coverage_pct": 91.2,
+    "recipe_coverage_pct": 88.6,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
     "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
     "revenue_ex_gst_before_eatclub": null,
-    "food_ex_gst": 3520.27,
+    "food_ex_gst": 2152.27,
     "bev_ex_gst": 425.55,
     "food_cogs": 251.33,
     "bev_cogs": 90.96,
-    "food_cogs_pct": 7.1,
+    "food_cogs_pct": 11.7,
     "bev_cogs_pct": 21.4,
-    "food_gp_pct": 92.9,
+    "food_gp_pct": 88.3,
     "bev_gp_pct": 78.6,
     "mari_rideon_ex_gst": 0.0,
     "hg_food_out_ex_gst": 0.0,
@@ -48,11 +48,11 @@
     "admin_dollars": 0,
     "leave_dollars": 0,
     "total_dollars": 1896.73,
-    "wages_pct": 48.1,
+    "wages_pct": 70.6,
     "net_wage_pct": null,
     "kitchen_hours": 25.2,
     "foh_hours": 22.0,
-    "wages_kitchen_pct": 27.6,
+    "wages_kitchen_pct": 45.2,
     "wages_foh_pct": 217.3,
     "includes_super": true,
     "salaried_synthesized": true
@@ -114,9 +114,9 @@
   "top_products": [
     {
       "name": "Unlimited Dumplings",
-      "qty": 86.0,
-      "rev": 2068.8,
-      "cost": 601.7506,
+      "qty": 36.0,
+      "rev": 864.0,
+      "cost": 251.9316,
       "cost_source": "recipe",
       "cost_lightspeed": 0.0
     },
@@ -124,41 +124,9 @@
       "name": "Unlimited Dumplings",
       "qty": 29.0,
       "rev": 684.0,
-      "cost": 202.9159,
+      "cost": 202.9449,
       "cost_source": "recipe",
       "cost_lightspeed": 203.3
-    },
-    {
-      "name": "Fried Rice",
-      "qty": 3.0,
-      "rev": 71.3,
-      "cost": 9.6237,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0
-    },
-    {
-      "name": "Mie Goreng",
-      "qty": 3.0,
-      "rev": 69.0,
-      "cost": 17.0115,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0
-    },
-    {
-      "name": "BBQ Pork Buns",
-      "qty": 4.0,
-      "rev": 61.95,
-      "cost": 14.0,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0
-    },
-    {
-      "name": "Tonkotsu",
-      "qty": 2.0,
-      "rev": 60.9,
-      "cost": 8.3486,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0
     },
     {
       "name": "Drunken Koi",
@@ -172,15 +140,23 @@
       "name": "Tonkotsu",
       "qty": 3.0,
       "rev": 58.0,
-      "cost": 12.5229,
+      "cost": 12.7929,
       "cost_source": "recipe",
       "cost_lightspeed": 12.49
     },
     {
       "name": "Katsu Curry",
       "qty": 2.0,
-      "rev": 54.89,
-      "cost": 6.0644,
+      "rev": 55.78,
+      "cost": 6.1926,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Dumplings - Prawn Har Gow [GF]",
+      "qty": 3.0,
+      "rev": 55.77,
+      "cost": 13.2057,
       "cost_source": "recipe",
       "cost_lightspeed": 0.0
     },
@@ -200,13 +176,6 @@
       "cost_source": "lightspeed"
     },
     {
-      "name": "Duck Spring Rolls",
-      "qty": 3.0,
-      "rev": 49.58,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
-    },
-    {
       "name": "Sapporo - 500ml",
       "qty": 4.0,
       "rev": 49.5,
@@ -215,12 +184,34 @@
       "cost_lightspeed": 15.02
     },
     {
+      "name": "Duck Spring Rolls",
+      "qty": 3.0,
+      "rev": 48.53,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Karaage Chicken",
+      "qty": 3.0,
+      "rev": 48.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
       "name": "Fried Rice",
       "qty": 2.0,
       "rev": 46.0,
-      "cost": 6.4158,
+      "cost": 5.6484,
       "cost_source": "recipe",
       "cost_lightspeed": 5.36
+    },
+    {
+      "name": "Fried Rice",
+      "qty": 2.0,
+      "rev": 46.0,
+      "cost": 5.6484,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "BBQ Pork Buns",
@@ -234,25 +225,9 @@
       "name": "Popcorn Cauliflower",
       "qty": 3.0,
       "rev": 44.0,
-      "cost": 2.8686,
+      "cost": 2.8833,
       "cost_source": "recipe",
       "cost_lightspeed": 2.94
-    },
-    {
-      "name": "Popcorn Cauliflower",
-      "qty": 3.0,
-      "rev": 43.37,
-      "cost": 2.8686,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0
-    },
-    {
-      "name": "Dumplings - Beef & Cabbage",
-      "qty": 3.0,
-      "rev": 40.29,
-      "cost": 4.3836,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0
     },
     {
       "name": "Angas & Bremer Ros\u00e9 - Large",
@@ -263,12 +238,35 @@
       "cost_lightspeed": 6.43
     },
     {
-      "name": "Outback Prawn Toast",
+      "name": "Azurescens Pinot Noir - Regular",
       "qty": 2.0,
-      "rev": 32.52,
-      "cost": 7.7748,
+      "rev": 30.0,
+      "cost": 5.6002,
       "cost_source": "recipe",
-      "cost_lightspeed": 0.0
+      "cost_lightspeed": 5.6
+    },
+    {
+      "name": "Geppetto Chardonnay - Regular",
+      "qty": 2.0,
+      "rev": 30.0,
+      "cost": 6.2272,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.26
+    },
+    {
+      "name": "Miso",
+      "qty": 1.0,
+      "rev": 29.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Angas & Bremer Grenache - Regular",
+      "qty": 4.0,
+      "rev": 28.0,
+      "cost": 7.016,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.02
     }
   ]
 }

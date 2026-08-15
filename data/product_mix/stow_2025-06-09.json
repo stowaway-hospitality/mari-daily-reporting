@@ -1,0 +1,40 @@
+{
+  "schema": "product_mix/1",
+  "venue": "stowaway",
+  "prefix": "stow",
+  "date": "2025-06-09",
+  "generated_at": "2026-08-15T15:37:32",
+  "source_file": "stow_2025-06-09.csv",
+  "source_kind": "history_pull",
+  "name_basis": "current_master",
+  "sibling_till_available": false,
+  "ex_gst_basis": "inc_div_1.1",
+  "truncated": false,
+  "row_count": 1,
+  "totals": {
+    "qty": 1.0,
+    "rev_inc": 0.05,
+    "rev_ex": 0.05
+  },
+  "reconciliation": {
+    "expected_rev_inc": 0.05,
+    "expected_rev_ex": 0.05,
+    "gap_inc": 0.0,
+    "gap_ex": 0.0,
+    "basis": "gross of EatClub give-away"
+  },
+  "reconciled": true,
+  "products": [
+    {
+      "name": "Bry Ol San Pell",
+      "qty": 1.0,
+      "cost": 2.34,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 0.05,
+      "rev_ex": 0.0455,
+      "dept": "b",
+      "till": "stow"
+    }
+  ]
+}

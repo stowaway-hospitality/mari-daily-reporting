@@ -1,0 +1,61 @@
+{
+  "schema": "product_mix/1",
+  "venue": "marilynas",
+  "prefix": "mari",
+  "date": "2025-06-23",
+  "generated_at": "2026-08-15T15:37:34",
+  "source_file": "stow_2025-06-23.csv",
+  "source_kind": "history_pull",
+  "name_basis": "current_master",
+  "sibling_till_available": true,
+  "ex_gst_basis": "inc_div_1.1",
+  "truncated": false,
+  "row_count": 3,
+  "totals": {
+    "qty": 3.0,
+    "rev_inc": 40.74,
+    "rev_ex": 37.04
+  },
+  "reconciliation": {
+    "expected_rev_inc": 40.74,
+    "expected_rev_ex": 37.04,
+    "gap_inc": 0.0,
+    "gap_ex": 0.0,
+    "basis": "gross of EatClub give-away"
+  },
+  "reconciled": true,
+  "products": [
+    {
+      "name": "Regular Little Italy",
+      "qty": 1.0,
+      "cost": 4.7581,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 19.35,
+      "rev_ex": 17.5909,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Regular BBQ Chicken Pizza",
+      "qty": 1.0,
+      "cost": 3.0876,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 17.31,
+      "rev_ex": 15.7364,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Delivery Fee [Me&U]",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 4.08,
+      "rev_ex": 3.7091,
+      "dept": "f",
+      "till": "mari"
+    }
+  ]
+}

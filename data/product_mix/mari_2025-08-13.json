@@ -1,0 +1,523 @@
+{
+  "schema": "product_mix/1",
+  "venue": "marilynas",
+  "prefix": "mari",
+  "date": "2025-08-13",
+  "generated_at": "2026-08-15T15:37:41",
+  "source_file": "stow_2025-08-13.csv",
+  "source_kind": "history_pull",
+  "name_basis": "current_master",
+  "sibling_till_available": true,
+  "ex_gst_basis": "inc_div_1.1",
+  "truncated": false,
+  "row_count": 47,
+  "totals": {
+    "qty": 64.0,
+    "rev_inc": 889.89,
+    "rev_ex": 808.99
+  },
+  "reconciliation": {
+    "expected_rev_inc": 889.89,
+    "expected_rev_ex": 808.99,
+    "gap_inc": 0.0,
+    "gap_ex": 0.0,
+    "basis": "gross of EatClub give-away"
+  },
+  "reconciled": true,
+  "products": [
+    {
+      "name": "Regular Hail Africa [Dine-in]",
+      "qty": 3.0,
+      "cost": 8.4675,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 70.17,
+      "rev_ex": 63.7909,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Regular Uber Margherita [Dine-in]",
+      "qty": 3.0,
+      "cost": 8.136,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 56.68,
+      "rev_ex": 51.5273,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Large Little Italy",
+      "qty": 2.0,
+      "cost": 14.7808,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 49.39,
+      "rev_ex": 44.9,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Regular Little Italy [Dine-in]",
+      "qty": 2.0,
+      "cost": 8.331,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 44.75,
+      "rev_ex": 40.6818,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Large Hawaiian",
+      "qty": 2.0,
+      "cost": 6.6314,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 42.33,
+      "rev_ex": 38.4818,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Regular Super House Special",
+      "qty": 2.0,
+      "cost": 9.2374,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 38.0,
+      "rev_ex": 34.5455,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Regular Paddock",
+      "qty": 2.0,
+      "cost": 8.1676,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 36.0,
+      "rev_ex": 32.7273,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Family  Pepperoni",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 29.0,
+      "rev_ex": 26.3636,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Family Meatlovers",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 28.47,
+      "rev_ex": 25.8818,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Large Super House Special",
+      "qty": 1.0,
+      "cost": 7.6177,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 25.0,
+      "rev_ex": 22.7273,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Family Hawaiian",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 24.0,
+      "rev_ex": 21.8182,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Regular Sanchez [Dine-in]",
+      "qty": 1.0,
+      "cost": 3.9452,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 23.39,
+      "rev_ex": 21.2636,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Large Margherita",
+      "qty": 1.0,
+      "cost": 2.3272,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 22.0,
+      "rev_ex": 20.0,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Regular Truffalo Soldier [Dine-in]",
+      "qty": 1.0,
+      "cost": 3.068,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 22.0,
+      "rev_ex": 20.0,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Gluten-free New Yorker",
+      "qty": 1.0,
+      "cost": 7.9151,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 21.36,
+      "rev_ex": 19.4182,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Large House Special",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 21.0,
+      "rev_ex": 19.0909,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Gluten-free Uber Margherita [Dine-in]",
+      "qty": 1.0,
+      "cost": 6.9008,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 20.7,
+      "rev_ex": 18.8182,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Garlic Bread",
+      "qty": 4.0,
+      "cost": 5.9508,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 20.08,
+      "rev_ex": 18.2545,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Large  Hawaiian",
+      "qty": 1.0,
+      "cost": 3.3157,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 20.0,
+      "rev_ex": 18.1818,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Family  Prawn Hub",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 20.0,
+      "rev_ex": 18.1818,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Family  Bubba Gump",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 20.0,
+      "rev_ex": 18.1818,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Family  House Special",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 20.0,
+      "rev_ex": 18.1818,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Family   Paddock",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 20.0,
+      "rev_ex": 18.1818,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Family   Sanchez",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 20.0,
+      "rev_ex": 18.1818,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Family  Sanchez",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 20.0,
+      "rev_ex": 18.1818,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Regular Sanchez",
+      "qty": 1.0,
+      "cost": 4.5378,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 20.0,
+      "rev_ex": 18.1818,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Regular Vegetarian",
+      "qty": 1.0,
+      "cost": 2.9017,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 18.0,
+      "rev_ex": 16.3636,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Regular Pepperoni",
+      "qty": 1.0,
+      "cost": 2.6992,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 18.0,
+      "rev_ex": 16.3636,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Regular Hawaiian",
+      "qty": 1.0,
+      "cost": 3.272,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 17.0,
+      "rev_ex": 15.4545,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Bundaberg Ginger Beer D",
+      "qty": 2.0,
+      "cost": 7.4416,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.09,
+      "rev_inc": 16.0,
+      "rev_ex": 14.5455,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Beef Lasagne",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 12.5,
+      "rev_ex": 11.3636,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Deal - BBQ Wings",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 10.0,
+      "rev_ex": 9.0909,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Deal  - BBQ Wings",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 10.0,
+      "rev_ex": 9.0909,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Sprite Can",
+      "qty": 2.0,
+      "cost": 4.8846,
+      "cost_source": "recipe",
+      "cost_lightspeed": 3.25,
+      "rev_inc": 8.0,
+      "rev_ex": 7.2727,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Delivery Fee - Freshwater / Queenscliff",
+      "qty": 2.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 8.0,
+      "rev_ex": 7.2727,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Delivery Fee [Me&U]",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 4.07,
+      "rev_ex": 3.7,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Coke Can",
+      "qty": 1.0,
+      "cost": 1.89,
+      "cost_source": "recipe",
+      "cost_lightspeed": 1.57,
+      "rev_inc": 4.0,
+      "rev_ex": 3.6364,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Vegan Cheese [Pizza]",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 3.0,
+      "rev_ex": 2.7273,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Sour Cream",
+      "qty": 2.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 2.0,
+      "rev_ex": 1.8182,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Add Pepperoni",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 2.0,
+      "rev_ex": 1.8182,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Add BBQ Sauce",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 1.0,
+      "rev_ex": 0.9091,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Add Anchovies",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 1.0,
+      "rev_ex": 0.9091,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Add Olives",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 1.0,
+      "rev_ex": 0.9091,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Deal  - Garlic Bread",
+      "qty": 2.0,
+      "cost": 2.9904,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Less Cheese",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Wed - Garlic Bread",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Deal - Garlic Bread",
+      "qty": 1.0,
+      "cost": 1.4952,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "mari"
+    }
+  ]
+}

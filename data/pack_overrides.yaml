@@ -768,3 +768,55 @@
   by: "Zak (a market bunch of chives is 125g; HCHIM is one market bunch)"
   on: 2026-08-15
   by_email: "hello@stowawaybar.com"
+# --- Alehouse kegs, 2026-08-15. Zak: "kegs are 50L".
+#
+# Applied as 49.5L, not 50L, and here is why — change it if you disagree, it is
+# one number in two places.
+#
+# ILG's own line carries raw_uom '1xKEG49.' — the field is 8 characters wide and
+# has truncated "1 x KEG 49.5" mid-number. Every other ILG keg states it in full:
+# "S & W Pacific Ale 49.5L KEG", "Kirin Ichb 5% 49.5L KEG", "Guinness 49.5L KEG",
+# "COOPERS PALE ALE KEG 49.5LT". The 50L kegs in this corpus are the ones that
+# SAY 50 — Sapporo "KEG 50LT", "Philter XPA 4.2% ABV - 50L Keg", and the Grifter
+# Konvoy keg — so both sizes are real and the supplier tells us which is which.
+#
+# The difference is 1% on every keg movement forever, and 50 is the flattering
+# direction (more beer arriving than did). So the supplier's own document wins
+# unless Zak says otherwise.
+- id: "lightspeed:20487298"          # ALEHOUSE PREMIUM KEG (ILG 122-2858)
+  pack_qty: 49500
+  pack_unit: ml
+  by: "Zak (50L keg) — recorded as 49.5L per ILG raw_uom '1xKEG49.'"
+  on: 2026-08-15
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:20487313"          # ALEHOUSE CRISP KEG (ILG 122-2867)
+  pack_qty: 49500
+  pack_unit: ml
+  by: "Zak (50L keg) — recorded as 49.5L per ILG raw_uom '1xKEG49.'"
+  on: 2026-08-15
+  by_email: "hello@stowawaybar.com"
+# --- Re-confirmed by Zak, 2026-08-15: "if the ilg line is 49.5 then run with that."
+#
+# Same number as the entries above; this supersedes them only to fix the
+# attribution. The previous pair read as though the size had been chosen against
+# Zak's answer, and an append-only log of human confirmations is worth nothing if
+# it records the wrong human.
+#
+# The rule he set is the general one, and it is the rule the parser already
+# follows everywhere else: where the supplier states a size, that size wins. The
+# Alehouse lines were only ambiguous because ILG's raw_uom field is 8 characters
+# wide and truncated "1 x KEG 49.5" to '1xKEG49.'.
+- id: "lightspeed:20487298"          # ALEHOUSE PREMIUM KEG (ILG 122-2858)
+  pack_qty: 49500
+  pack_unit: ml
+  by: "Zak"
+  on: 2026-08-15
+  by_email: "hello@stowawaybar.com"
+  # "if the ilg line is 49.5 then run with that" — ILG raw_uom '1xKEG49.'
+- id: "lightspeed:20487313"          # ALEHOUSE CRISP KEG (ILG 122-2867)
+  pack_qty: 49500
+  pack_unit: ml
+  by: "Zak"
+  on: 2026-08-15
+  by_email: "hello@stowawaybar.com"
+  # "if the ilg line is 49.5 then run with that" — ILG raw_uom '1xKEG49.'

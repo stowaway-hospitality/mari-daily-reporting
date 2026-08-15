@@ -57,12 +57,21 @@ the scheduled Insights CSV ends with one and it doubles revenue otherwise.
 Output:
   - data/<prefix>_daily_<yyyy-mm-dd>.json   (per-day rollup with alerts)
   - data/<prefix>_daily_history.csv         (full history, backfilled)
+  - data/product_mix/<prefix>_<yyyy-mm-dd>.json
+        The FULL daily product mix — every till line, untruncated, with units,
+        both GST bases and the venue attribution already applied. The daily
+        rollup's `top_products` stays the top 20 because it is a dashboard
+        panel; the stock ledger reads the mix file. See write_product_mix()
+        and INVENTORY_ARCHITECTURE.md.
 
 CLI:
   python daily_aggregator.py                        # yesterday, Mari
   python daily_aggregator.py 2026-07-11             # specific date, Mari
   python daily_aggregator.py --venue stowaway 2026-07-11
   python daily_aggregator.py --venue harry 2026-07-11
+  python daily_aggregator.py --venue stowaway --mix-only 2026-07-11
+        Write ONLY the product-mix file and stop — no daily record, no history
+        CSV. This is how the backfill rebuilds history without touching the P&L.
 """
 
 from __future__ import annotations
@@ -78,6 +87,9 @@ from wage_model import super_lookup
 # imported without running this script. See that module's docstring.
 from cogs_blend import (COSTED_BOOK, _load_book_costs,   # noqa: F401
                         _load_our_costs, blend_reported_cogs, book_cost)
+# Product identity across renames + the emailed export's mangled non-ASCII.
+# Used for the stock-ledger mix only; the P&L path keeps the raw name.
+from product_identity import canonical_name
 
 REPO_ROOT = Path(os.environ.get("REPO_ROOT", "."))
 DATA_DIR = REPO_ROOT / "data"
@@ -281,6 +293,8 @@ def classify_product(row: dict, product_name: str, venue_key: str) -> str:
 # --------------------------------------------------------------
 venue_key = "marilynas"
 target = None
+mix_only = False
+insights_override = None
 args = sys.argv[1:]
 i = 0
 while i < len(args):
@@ -288,6 +302,23 @@ while i < len(args):
     if a == "--venue":
         venue_key = args[i + 1]
         i += 2
+        continue
+    if a == "--insights-file":
+        # Read the day's product export from an explicit path instead of
+        # resolving data/insights_<prefix>_<date>.csv. Used by the product-mix
+        # history backfill, whose per-day files live in data/insights_history/
+        # so that adding two years of them cannot silently restate
+        # products_weekly.csv (which prefers daily files over its Looker
+        # backfill wherever a daily file exists).
+        insights_override = Path(args[i + 1])
+        i += 2
+        continue
+    if a == "--mix-only":
+        # Write data/product_mix/<prefix>_<date>.json and stop. Used by the
+        # backfill so historical mixes can be rebuilt WITHOUT regenerating
+        # (and risking) the daily P&L records or the history CSV.
+        mix_only = True
+        i += 1
         continue
     try:
         target = date.fromisoformat(a)
@@ -340,6 +371,108 @@ def row_cogs(r):
     return c
 
 
+def row_rev_ex(r, basis: str) -> float:
+    """Per-row ex-GST revenue on the basis the DAY settled on, so the mix sums
+    to the day's ex-GST revenue by construction rather than by luck."""
+    if basis == "explicit_net_column":
+        return parse_num(col(r, "Revenue_net", "NetRevenue", "Net Sales"))
+    if basis == "inc_minus_tax":
+        return row_rev(r) - parse_num(col(r, "Total Tax", "GST", "Tax"))
+    return row_rev(r) / 1.1
+
+
+MIX_DIR = DATA_DIR / "product_mix"
+MIX_SCHEMA = "product_mix/1"
+MIX_TOLERANCE = 0.01          # cents; the mix IS the day, it must tie exactly
+
+
+def write_product_mix(entries, *, venue, prefix, day, source_file, ex_basis,
+                      source_kind, sibling_available, expected_inc, expected_ex):
+    """Persist the FULL daily product mix — every line off the till, untruncated.
+
+    WHY THIS FILE EXISTS (INVENTORY_ARCHITECTURE.md, prerequisite to the stock
+    ledger): the daily record's `top_products` is deliberately the top 20 by
+    revenue, because that is a dashboard panel. Deducting stock from a
+    truncated mix under-deducts SILENTLY AND FOREVER — on-hand drifts down
+    slower than reality and every variance is wrong in the flattering
+    direction, which is exactly the class of error this repo treats as
+    dangerous. So the untruncated mix gets its own file, and the daily record
+    keeps its 20.
+
+    Rows are written VERBATIM, one per till line, in the order the day was
+    ranked. Modifiers are their own lines in the Insights export and stay
+    their own lines here (deduct them; don't double-count the base dish).
+    Consumers that want a per-product total must sum by name themselves.
+
+    Attribution is INHERITED, never re-derived: `entries` comes off the same
+    venue-attributed `rows` the P&L is built from, so Mari's slice and the
+    cross-venue food reallocation are already resolved.
+
+    Reconciliation is written into the file rather than asserted, so a day that
+    does not tie is visible to CI and to any consumer instead of aborting the
+    P&L run. `reconciled: false` means DO NOT deduct stock from this day.
+    """
+    total_inc = round(sum(e["rev_inc"] for e in entries), 2)
+    total_ex = round(sum(e["rev_ex"] for e in entries), 2)
+    gap_inc = round(total_inc - round(expected_inc, 2), 2)
+    gap_ex = round(total_ex - round(expected_ex, 2), 2)
+    reconciled = abs(gap_inc) <= MIX_TOLERANCE and abs(gap_ex) <= MIX_TOLERANCE
+
+    doc = {
+        "schema": MIX_SCHEMA,
+        "venue": venue,
+        "prefix": prefix,
+        "date": day.isoformat(),
+        "generated_at": datetime.now().isoformat(timespec="seconds"),
+        "source_file": source_file,
+        "source_kind": source_kind,
+        # A history-pull day is re-fetched from the Lightspeed report endpoint
+        # long after the fact. The endpoint joins to the CURRENT product master,
+        # so a SKU renamed in place carries its NEW name on OLD sales (observed:
+        # "Bread & Butter Pud" -> "Apple Crumble", "Jala Marg Duo (2) - PartyJar
+        # [6 serves]" -> "Jala Marg PartyJar [6 serves]"). Deleted products keep
+        # their own names. Product name is the join key to the recipe book, so a
+        # deduction on a renamed SKU deducts TODAY's recipe for an OLD sale.
+        "name_basis": "current_master" if source_kind == "history_pull" else "as_at_sale",
+        "sibling_till_available": sibling_available,
+        "ex_gst_basis": ex_basis,
+        "truncated": False,
+        "row_count": len(entries),
+        "totals": {
+            "qty": round(sum(e["qty"] for e in entries), 4),
+            "rev_inc": total_inc,
+            "rev_ex": total_ex,
+        },
+        # Gross of the EatClub give-away: these are per-product till facts, and
+        # the give-away is a day-level settlement adjustment, not a line item.
+        "reconciliation": {
+            "expected_rev_inc": round(expected_inc, 2),
+            "expected_rev_ex": round(expected_ex, 2),
+            "gap_inc": gap_inc,
+            "gap_ex": gap_ex,
+            "basis": "gross of EatClub give-away",
+        },
+        "reconciled": reconciled,
+        "products": entries,
+    }
+
+    MIX_DIR.mkdir(parents=True, exist_ok=True)
+    out = MIX_DIR / f"{prefix}_{day.isoformat()}.json"
+    with out.open("w") as f:
+        json.dump(doc, f, indent=2)
+
+    if reconciled:
+        print(f"  Product mix: {len(entries)} lines -> {out.name} "
+              f"(${total_ex:,.2f} ex, ties to the day)")
+    else:
+        print(f"  *** PRODUCT MIX DOES NOT TIE: {out.name} sums to ${total_inc:,.2f} inc / "
+              f"${total_ex:,.2f} ex, the day says ${expected_inc:,.2f} / ${expected_ex:,.2f} "
+              f"(gap ${gap_inc:+,.2f} / ${gap_ex:+,.2f}).")
+        print(f"      Written with reconciled=false. DO NOT deduct stock from this day "
+              f"until the gap is explained.")
+    return out
+
+
 # --------------------------------------------------------------
 # Load Insights CSV
 # --------------------------------------------------------------
@@ -369,7 +502,11 @@ def row_cogs(r):
 # Her own export is still pulled — as a CROSS-CHECK, not a source. If it ever
 # disagrees with the till, that's the filter drifting and we want to hear about
 # it. It just can't move a number any more.
-if venue_key == "marilynas":
+if insights_override is not None:
+    insights_file = insights_override if insights_override.exists() else None
+    if insights_file is None:
+        print(f"  --insights-file {insights_override} does not exist.")
+elif venue_key == "marilynas":
     insights_file = resolve(DATA_DIR / f"insights_stow_{target.isoformat()}.csv")
     if insights_file is None:
         print(f"  Mari needs the STOW export (she has no till of her own) — not found.")
@@ -380,6 +517,9 @@ if insights_file is None:
     print(f"Insights CSV not found for {venue_key} {target.isoformat()}")
     print("Will emit alert-only record with 'data_missing' flag")
     lightspeed_data = None
+    if mix_only:
+        print("  No product mix written — there is no Insights CSV for this day.")
+        sys.exit(0)
 else:
     all_rows, fieldnames = load_product_rows(insights_file)
     print(f"  Parsed {len(all_rows)} rows; columns: {fieldnames}")
@@ -525,12 +665,19 @@ else:
     revenue_inc = sum(row_rev(r) for r in rows)
     total_tax = sum(parse_num(col(r, "Total Tax", "GST", "Tax")) for r in rows)
     revenue_net_explicit = sum(parse_num(col(r, "Revenue_net", "NetRevenue", "Net Sales")) for r in rows)
+    # Which ex-GST source the day settled on. The product mix has to use the
+    # SAME one per row or it cannot tie to the day it came from: a file where
+    # some rows carry an explicit net column and others fall back to /1.1 sums
+    # to a different number than either rule alone.
     if revenue_net_explicit > 0:
         revenue_net = revenue_net_explicit
+        ex_basis = "explicit_net_column"
     elif total_tax > 0:
         revenue_net = revenue_inc - total_tax
+        ex_basis = "inc_minus_tax"
     else:
         revenue_net = revenue_inc / 1.1
+        ex_basis = "inc_div_1.1"
 
     # ---- EatClub give-away (off-POS discount + commission) ----
     # EatClub tables ring the FULL bill on the POS at full price, so revenue_inc /
@@ -595,8 +742,14 @@ else:
     our_costs = _load_book_costs(venue_key)
     our_costs.update(_load_our_costs(venue_key, target))
 
+    # The tail of `rows` is the sibling till's reallocated food (see the
+    # cross-venue block above). Those lines were rung on the OTHER venue's till
+    # but are this venue's Kitchen, exactly as dept_sums treats them.
+    _cross_start = len(rows) - len(cross_rows)
+
     product_breakdown = []
-    for r in rows:
+    product_mix = []
+    for _i, r in enumerate(rows):
         name = (r.get("Product Name") or r.get("Product") or "").strip()
         if not name:
             continue
@@ -615,7 +768,66 @@ else:
             entry["cost_source"] = "recipe"
             entry["cost_lightspeed"] = ls_cost        # keep LS as a second opinion
         product_breakdown.append(entry)
+
+        # Same row, the shape the stock ledger needs: units, both GST bases,
+        # and where it was rung. `rev` above is inc-GST by history; the mix
+        # names its bases so nothing downstream has to guess.
+        _cross = _i >= _cross_start
+        mix_entry = dict(entry)
+        mix_entry.pop("rev", None)
+        # The ledger joins a till line to its recipe BY NAME, so the mix gets
+        # the canonical name: the emailed export's mangled non-ASCII repaired,
+        # and a reused SKU's old sales put back under the dish that was
+        # actually served. data/product_renames.yaml is the adjudicated
+        # register; canonical_name leaves anything it does not recognise alone.
+        # Only the mix is canonicalised — the P&L path keeps the raw name, so
+        # no published number moves.
+        _canon = canonical_name(
+            name, target,
+            source_kind="history_pull" if insights_override is not None else "committed_export")
+        if _canon != name:
+            mix_entry["name"] = _canon
+            mix_entry["name_as_reported"] = name
+        mix_entry["rev_inc"] = round(row_rev(r), 4)
+        mix_entry["rev_ex"] = round(row_rev_ex(r, ex_basis), 4)
+        mix_entry["dept"] = "f" if _cross else classify_product(r, name, venue_key)
+        mix_entry["till"] = (sib_prefix if _cross else prefix)
+        product_mix.append(mix_entry)
+
     product_breakdown.sort(key=lambda p: p["rev"], reverse=True)
+    product_mix.sort(key=lambda p: p["rev_inc"], reverse=True)
+
+    # ---- is this actually a PRODUCT export? (2026-08-15) ----
+    # Harry Gatos also emails a REPORTING-GROUP level report under the same
+    # insights_<prefix>_<date>.csv filename — same '$ Sales' column, no
+    # 'Product Name'. Revenue still sums correctly off it, so the day's P&L
+    # looks fine and nothing complains; there is simply no product detail in
+    # the file. Found on insights_hg_2026-07-12.csv, which has been sitting in
+    # data/ since July. build_products_weekly.py already refuses these by
+    # header (RG_LEVEL_KEY) for the same reason.
+    #
+    # Write NOTHING rather than an empty mix: a zero-line mix is
+    # indistinguishable from "nothing sold that day", and a stock ledger
+    # reading it would deduct nothing and call the variance clean.
+    if not any(c in fieldnames for c in ("Product Name", "Product")):
+        print(f"  *** NO PRODUCT MIX for {prefix} {target.isoformat()}: "
+              f"{insights_file.name} is not a product export.")
+        print(f"      Columns: {fieldnames}")
+        print(f"      This is the reporting-group report saved under the product "
+              f"report's filename. Revenue (${revenue_inc_gross:,.2f} inc) is still")
+        print(f"      right — there is just no product detail, so this day cannot "
+              f"feed a stock deduction. Re-export the Sales-by-Product report.")
+    else:
+        write_product_mix(product_mix, venue=venue_key, prefix=prefix, day=target,
+                          source_file=insights_file.name, ex_basis=ex_basis,
+                          source_kind=("history_pull" if insights_override is not None
+                                       else "committed_export"),
+                          sibling_available=(not split_venue) or bool(cross_rows),
+                          expected_inc=revenue_inc_gross,
+                          expected_ex=revenue_ex_gross)
+
+    if mix_only:
+        sys.exit(0)
 
     # ---- Kitchen / FOH split (Stow + HG only) ----
     # 'f' + inbound cross rows = Kitchen slice; 'b' = FOH slice (catch-all).
@@ -663,6 +875,11 @@ else:
         "revenue_inc_gross": revenue_inc_gross,
         "revenue_ex_gross": revenue_ex_gross,
         "category_breakdown": category_breakdown,
+        # Top 20 by revenue, ON PURPOSE — this is the dashboard's panel and it
+        # ships to every browser that opens a daily record. The UNTRUNCATED mix
+        # (all ~300 lines) is a separate fact file, data/product_mix/, written
+        # above; the stock ledger reads that one. Never widen this to feed a
+        # deduction — see write_product_mix().
         "product_breakdown": product_breakdown[:20],
         "dept_sums": dept_sums if split_venue else None,
     }
@@ -1110,7 +1327,11 @@ history_rows.sort(key=lambda r: r["date"])
 fieldnames = list(nr.keys())
 with history_file.open("w", newline="") as f:
     if history_rows:
-        w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+        # lineterminator="\n": csv defaults to CRLF, and the committed histories
+        # are LF. Without this a re-run rewrites all 609 rows as line-ending
+        # churn, burying the one row that actually changed.
+        w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore",
+                           lineterminator="\n")
         w.writeheader()
         for r in history_rows:
             w.writerow({k: r.get(k, "") for k in fieldnames})

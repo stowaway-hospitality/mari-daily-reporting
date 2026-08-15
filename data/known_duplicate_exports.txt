@@ -1,0 +1,27 @@
+# Duplicate Insights exports we KNOW about and cannot currently repair.
+#
+# scripts/duplicate_export_guard.py fails on any export that is another day's
+# data. These entries are acknowledged so the guard keeps failing on NEW ones
+# instead of being switched off — an allow-list with reasons, not a silence.
+#
+# Format: <prefix>:<date>   # why it cannot be repaired
+#
+# Remove an entry the moment its day is re-pulled. Nothing here is permanent.
+
+# On 2026-08-10 and 2026-08-13 the pipeline delivered an EARLIER day's export
+# for every venue at once — stow, hg and mari. One upstream cause, not three
+# coincidences: worth finding at the Lightspeed schedule or the ingest before it
+# happens again. The stow files were repaired from a fresh pull of the report
+# endpoint (see scripts/split_history_export.py); these two could not be.
+
+hg:2026-08-10    # Harry Gatos rings its own till on a SEPARATE Lightspeed
+                 # account, which the Stowaway login cannot see. Its 2026-08-10
+                 # file is a copy of 2026-08-03 and its published day is
+                 # therefore still wrong. Repair needs someone signed into the
+                 # HG account to re-pull that day.
+
+mari:2026-08-13  # Marilyna's own export is a CROSS-CHECK, never a source — her
+                 # revenue is the 'm' slice of the Stow till, which has been
+                 # repaired, so no published number depends on this file. It
+                 # only makes the aggregator's Mari drift warning compare the
+                 # wrong day. Repairing it means re-pulling her filtered report.

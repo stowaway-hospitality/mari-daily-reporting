@@ -1,0 +1,40 @@
+{
+  "schema": "product_mix/1",
+  "venue": "stowaway",
+  "prefix": "stow",
+  "date": "2025-08-25",
+  "generated_at": "2026-08-15T15:37:43",
+  "source_file": "stow_2025-08-25.csv",
+  "source_kind": "history_pull",
+  "name_basis": "current_master",
+  "sibling_till_available": false,
+  "ex_gst_basis": "inc_div_1.1",
+  "truncated": false,
+  "row_count": 1,
+  "totals": {
+    "qty": 8.0,
+    "rev_inc": 90.0,
+    "rev_ex": 81.82
+  },
+  "reconciliation": {
+    "expected_rev_inc": 90.0,
+    "expected_rev_ex": 81.82,
+    "gap_inc": 0.0,
+    "gap_ex": 0.0,
+    "basis": "gross of EatClub give-away"
+  },
+  "reconciled": true,
+  "products": [
+    {
+      "name": "Little Dragon Can",
+      "qty": 8.0,
+      "cost": 27.8888,
+      "cost_source": "recipe",
+      "cost_lightspeed": 28.17,
+      "rev_inc": 90.0,
+      "rev_ex": 81.8182,
+      "dept": "b",
+      "till": "stow"
+    }
+  ]
+}

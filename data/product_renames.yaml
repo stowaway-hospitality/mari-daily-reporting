@@ -1,0 +1,72 @@
+# Product identity across renames — the join key the stock ledger deducts on.
+#
+# WHY THIS FILE EXISTS. The Lightspeed report endpoint joins to the CURRENT
+# product master, so the daily history pull (data/insights_history/) carries
+# today's names on old sales. Two very different things look identical there:
+#
+#   Jala Marg Duo (2) - PartyJar [6 serves] -> Jala Marg PartyJar [6 serves]
+#       Same drink, tidier name. Nothing to do.
+#   Bread & Butter Pud -> Apple Crumble
+#       DIFFERENT dessert. The SKU was reused so nobody had to build a new
+#       product. Deducting apple, oats and flour for puddings that were
+#       actually served is exactly the silent, flattering error this repo
+#       treats as dangerous.
+#
+# Candidates are found by scripts/detect_product_renames.py, which diffs the
+# names in the history pull against products_weekly.csv (as-at-sale) week by
+# week and pairs them on identical quantity + revenue. Adjudication is by hand.
+#
+# identity:
+#   encoding_artifact   Not a rename at all. The EMAILED export mangles
+#                       non-ASCII to '|'; the pulled history has it right.
+#                       Both spellings are one product and must join as one,
+#                       or a recipe keyed on the correct spelling never
+#                       matches the mangled rows. `new_name` is canonical.
+#   same_product        A real re-label of the same item. History is correct
+#                       as it stands; recorded so it is not re-flagged.
+#   different_product   The SKU was REUSED. Sales strictly BEFORE `changed_on`
+#                       are the OLD product and are relabelled back to
+#                       old_name, so they never inherit the new recipe.
+#
+# Adjudicated 2026-08-15 against the 40 committed exports, which carry
+# as-at-sale names and settle every one of these.
+
+renames:
+
+  # Encoding artefacts are NOT listed here. The emailed export mangles every
+  # non-ASCII character to a literal '|', which is a spelling problem, not a
+  # rename — and an 8-entry hand list would have missed "No Jalape|os" while
+  # happily fixing "Jalape|os". product_identity.py repairs them by key against
+  # data/product_spellings.csv, which is generated from the pull, so a new
+  # accented product is covered without anyone remembering to add it.
+
+  # ---- a real re-label of the same drink ----
+  # Same jar, same six serves, shorter name.
+
+  - old_name: "Jala Marg Duo (2) - PartyJar [6 serves]"
+    new_name: "Jala Marg PartyJar [6 serves]"
+    identity: same_product
+    evidence: {weeks_matched: 1, qty: 1, revenue_ex_gst: 50.00,
+               first_week: 2026-07-12, last_week: 2026-07-12}
+
+  # ---- a reused SKU: two different desserts ----
+  # Bread & Butter Pudding was a short-lived special. The committed exports,
+  # which carry names as at the sale, place it on exactly three days —
+  # 2026-07-25, 2026-07-26 and 2026-08-01 — and Apple Crumble from 2026-07-30
+  # onward. The SKU was later renamed, so the history pull now reports those
+  # pudding sales as Apple Crumble.
+  #
+  # changed_on is 2026-07-30, the first day Apple Crumble was genuinely sold
+  # under its own name. Anything the history pull calls Apple Crumble before
+  # that date is a pudding.
+  #
+  # In practice this touches nothing today: both dishes sold only inside the
+  # committed-export window, where as-at-sale names already win. It is recorded
+  # so that a future rebuild from history cannot quietly reintroduce it.
+
+  - old_name: "Bread & Butter Pud"
+    new_name: "Apple Crumble"
+    identity: different_product
+    changed_on: 2026-07-30
+    evidence: {weeks_matched: 1, qty: 8, revenue_ex_gst: 109.00,
+               first_week: 2026-07-26, last_week: 2026-07-26}

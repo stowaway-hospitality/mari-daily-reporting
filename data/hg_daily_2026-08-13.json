@@ -1,6 +1,6 @@
 {
   "date": "2026-08-13",
-  "generated_at": "2026-08-14T10:04:39.920312Z",
+  "generated_at": "2026-08-15T05:46:33.494308Z",
   "venue": "harry",
   "venue_display": "Harry Gatos",
   "lane_config": [
@@ -15,31 +15,31 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": -134.79,
-    "revenue_ex_gst": -122.54,
-    "cogs_dollars": 0,
-    "cogs_pct": -0.0,
-    "gp_dollars": -122.54,
-    "gp_pct": 100.0,
-    "cogs_source": "lightspeed",
-    "cogs_lightspeed_dollars": 0,
-    "recipe_coverage_pct": 0.0,
+    "revenue_inc_gst": 1404.21,
+    "revenue_ex_gst": 1276.62,
+    "cogs_dollars": 244.26,
+    "cogs_pct": 19.1,
+    "gp_dollars": 1032.37,
+    "gp_pct": 80.9,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 237.13,
+    "recipe_coverage_pct": 46.9,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
     "eatclub_giveaway_ex_gst": 122.54,
     "eatclub_covers": 8,
-    "revenue_ex_gst_before_eatclub": 0.0,
-    "food_ex_gst": 0.0,
-    "bev_ex_gst": 0.0,
-    "food_cogs": 0.0,
-    "bev_cogs": 0.0,
-    "food_cogs_pct": null,
-    "bev_cogs_pct": null,
-    "food_gp_pct": null,
-    "bev_gp_pct": null,
+    "revenue_ex_gst_before_eatclub": 1399.16,
+    "food_ex_gst": 1110.0,
+    "bev_ex_gst": 289.09,
+    "food_cogs": 169.71,
+    "bev_cogs": 67.42,
+    "food_cogs_pct": 15.3,
+    "bev_cogs_pct": 23.3,
+    "food_gp_pct": 84.7,
+    "bev_gp_pct": 76.7,
     "mari_rideon_ex_gst": 0.0,
     "hg_food_out_ex_gst": 0.0,
-    "stow_food_out_ex_gst": 0.0
+    "stow_food_out_ex_gst": 23.64
   },
   "wages": {
     "kitchen_dollars": 946.91,
@@ -48,12 +48,12 @@
     "admin_dollars": 44.08,
     "leave_dollars": 0,
     "total_dollars": 1207.61,
-    "wages_pct": -985.5,
+    "wages_pct": 94.6,
     "net_wage_pct": null,
     "kitchen_hours": 17.5,
     "foh_hours": 5.0,
-    "wages_kitchen_pct": null,
-    "wages_foh_pct": null,
+    "wages_kitchen_pct": 85.3,
+    "wages_foh_pct": 74.9,
     "includes_super": true,
     "salaried_synthesized": true
   },
@@ -61,13 +61,13 @@
   "payments_breakdown": null,
   "alerts": {
     "cogs": "green",
-    "wages": "green",
+    "wages": "red",
     "delivery": "n/a",
     "gp": "green",
-    "cogs_food": "unknown",
-    "cogs_bev": "unknown",
-    "wages_kitchen": "unknown",
-    "wages_foh": "unknown"
+    "cogs_food": "green",
+    "cogs_bev": "yellow",
+    "wages_kitchen": "red",
+    "wages_foh": "red"
   },
   "targets": {
     "cogs": {
@@ -111,5 +111,159 @@
       "target_direction": "high_is_good"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Unlimited BBQ",
+      "qty": 11.0,
+      "rev": 495.0,
+      "cost": 94.42,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Tonkotsu",
+      "qty": 3.0,
+      "rev": 87.0,
+      "cost": 12.7929,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.49
+    },
+    {
+      "name": "Devon's Prawn Toast",
+      "qty": 5.0,
+      "rev": 80.0,
+      "cost": 19.448,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.44
+    },
+    {
+      "name": "Chicken Karaage",
+      "qty": 4.0,
+      "rev": 68.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Shoyu",
+      "qty": 2.0,
+      "rev": 58.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Dumplings - Prawn Har Gow [GF]",
+      "qty": 3.0,
+      "rev": 57.0,
+      "cost": 13.2057,
+      "cost_source": "recipe",
+      "cost_lightspeed": 13.24
+    },
+    {
+      "name": "Chicken Katsu Curry",
+      "qty": 2.0,
+      "rev": 54.0,
+      "cost": 6.1926,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.71
+    },
+    {
+      "name": "Sapporo - 500ml",
+      "qty": 5.0,
+      "rev": 45.0,
+      "cost": 18.55,
+      "cost_source": "recipe",
+      "cost_lightspeed": 18.7
+    },
+    {
+      "name": "Popcorn Cauliflower",
+      "qty": 3.0,
+      "rev": 45.0,
+      "cost": 2.8833,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.94
+    },
+    {
+      "name": "Kids Unlimited BBQ",
+      "qty": 2.0,
+      "rev": 40.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Saika Junmai Daiginjo - 180ml",
+      "qty": 1.0,
+      "rev": 34.0,
+      "cost": 10.9975,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.0
+    },
+    {
+      "name": "Duck Spring Roll",
+      "qty": 2.0,
+      "rev": 32.0,
+      "cost": 7.1384,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.14
+    },
+    {
+      "name": "Azurescens Pinot Noir - Regular",
+      "qty": 2.0,
+      "rev": 30.0,
+      "cost": 5.6002,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.6
+    },
+    {
+      "name": "BBQ Pork Buns",
+      "qty": 2.0,
+      "rev": 30.0,
+      "cost": 7.0,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.0
+    },
+    {
+      "name": "Miso",
+      "qty": 1.0,
+      "rev": 29.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Harry's Lager - Schooner",
+      "qty": 3.0,
+      "rev": 28.5,
+      "cost": 4.7175,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.07
+    },
+    {
+      "name": "Harry's Lager - Pint",
+      "qty": 3.0,
+      "rev": 27.0,
+      "cost": 6.327,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.8
+    },
+    {
+      "name": "Virgin Margy",
+      "qty": 2.0,
+      "rev": 26.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Shredded Beef",
+      "qty": 1.0,
+      "rev": 26.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fried Rice",
+      "qty": 1.0,
+      "rev": 23.0,
+      "cost": 2.8242,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.68
+    }
+  ]
 }
