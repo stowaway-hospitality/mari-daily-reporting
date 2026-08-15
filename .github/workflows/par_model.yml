@@ -22,7 +22,11 @@ name: Par Model
 
 on:
   schedule:
-    - cron: '0 22 * * 6'   # Sat 22:00 UTC = Sun 08:00 Australia/Sydney
+    # Sat 20:00 UTC = Sun 06:00 Australia/Sydney. Deliberately BEFORE the 7am
+    # Sunday review task: the daily data pipeline lands ~6am, this computes on
+    # it, and the review task at 7am reads freshly-committed recommendations
+    # rather than last week's.
+    - cron: '0 20 * * 6'
   workflow_dispatch:
 
 concurrency:
