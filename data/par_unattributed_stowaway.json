@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-08-15T16:15:39.359354+10:00",
+  "generated_at": "2026-08-15T21:30:07.741937+10:00",
   "venue": "stow",
   "window_weeks": 13,
   "week_range": [
@@ -15,40 +15,19 @@
   "what_attributed_to_other_venue_is": "POS lines sold at this venue whose stock is held and ordered at the OTHER venue, against that venue's par SKU (data/par_aliases.json, a '<venue>:<sku>' target). They are ATTRIBUTED — the volume lands on the named par SKU there — and they contribute nothing here, so they are neither unattributed nor double-counted. Listed so a line leaving this venue's numbers is never silent.",
   "what_auto_hg_suffix_is": "Zak, 2026-08-10: 'pretty much any SKU labelled with [HG] is a harrys SKU that draws from stowaway stock'. That is a RULE, so the model applies it automatically: an HG till line carrying the '[HG]' suffix has the suffix stripped and the remainder matched against STOWAWAY's par universe, and its consumption is routed to that Stowaway par SKU. No file edit is needed for a new [HG] product. An explicit alias in data/par_aliases.json always overrides the rule. `auto_hg_suffix` lists every line the rule placed and why; `hg_suffix_unresolved` lists every [HG] line whose stripped name matched no Stowaway par SKU — the rule refuses to guess, so those fall through to the ordinary matchers and, if nothing places them, stay unattributed above. Give one an explicit alias to fix it.",
   "summary": {
-    "unattributed_lines": 2,
-    "unattributed_revenue_ex_gst": 555.65,
+    "unattributed_lines": 0,
+    "unattributed_revenue_ex_gst": 0,
     "hg_suffix_rule_active": false,
     "auto_hg_suffix_resolved_lines": 0,
     "auto_hg_suffix_revenue_ex_gst": 0,
     "hg_suffix_unresolved_lines": 0,
     "hg_suffix_unresolved_still_unattributed": 0,
-    "intentionally_unattributed_lines": 17,
-    "intentionally_unattributed_revenue_ex_gst": 9610.51,
+    "intentionally_unattributed_lines": 19,
+    "intentionally_unattributed_revenue_ex_gst": 10166.16,
     "attributed_to_other_venue_lines": 0,
     "attributed_to_other_venue_revenue_ex_gst": 0
   },
-  "unattributed": [
-    {
-      "product": "Philter Pale",
-      "reporting_group": "Tap Beer",
-      "qty_window": 29.0,
-      "qty_per_week": 2.23,
-      "revenue_ex_gst_window": 307.33,
-      "stock_bearing": true,
-      "investigate_note": "No 'Philter Pale [Keg]' exists at Stowaway - only 'Philter XPA [Keg]', which has its own separate live POS line at 90/wk. So this is either a third tap, a legacy button, or a mis-ring. Harry Gatos DOES have a 'Philter Pale [Keg]'. Do not fold it into XPA without confirming which beer was actually on tap.",
-      "known_unmapped": true
-    },
-    {
-      "product": "Two Bays Pale Ale Can",
-      "reporting_group": "Bottles / Cans Alcoholic",
-      "qty_window": 17.0,
-      "qty_per_week": 1.31,
-      "revenue_ex_gst_window": 248.32,
-      "stock_bearing": true,
-      "investigate_note": "NO Two Bays par SKU exists at Stowaway at all. This is a real can being sold ~1.3/wk with nothing to order against - the Purchase module needs the stock item created. Deliberately NOT mapped to 'Grifter Pale Ale Cans D', which is what the fuzzy matcher suggests and is a different brewery.",
-      "known_unmapped": true
-    }
-  ],
+  "unattributed": [],
   "intentionally_unattributed": [
     {
       "product": "Pepsi Max Glass",
@@ -123,6 +102,15 @@
       "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
     },
     {
+      "product": "Philter Pale",
+      "reporting_group": "Tap Beer",
+      "qty_window": 29.0,
+      "qty_per_week": 2.23,
+      "revenue_ex_gst_window": 307.33,
+      "stock_bearing": true,
+      "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
+    },
+    {
       "product": "Stow Soda - Grapefruit",
       "reporting_group": "Non-alcoholic",
       "qty_window": 33.0,
@@ -130,6 +118,15 @@
       "revenue_ex_gst_window": 285.65,
       "stock_bearing": true,
       "reason": "house-made soda, built to order; no discrete par SKU exists"
+    },
+    {
+      "product": "Two Bays Pale Ale Can",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "qty_window": 17.0,
+      "qty_per_week": 1.31,
+      "revenue_ex_gst_window": 248.32,
+      "stock_bearing": true,
+      "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
     },
     {
       "product": "Ginger Ale",

@@ -252,7 +252,8 @@
    "_why_this_block_exists": "Marilyna's has no till and no Purchase module: every physical thing it sells comes off STOWAWAY's shelf and is reordered against a Stowaway par SKU. The mari_name_rule already resolves lines whose name matches a stow par SKU exactly; these are the ones where the delivery menu names the same product differently. Until now 39 lines reached no par at all.",
    "_evidence_singles": "Two independent checks per line, not a name guess. (1) The target is a LIVE stow par SKU - all 27 verified present in _scrape_stow_20260815.json. (2) The implied unit price says it is a single: these run $4.36-$7.27 for the cans and tonics and $19.64-$38.48 for the wine bottles, against Stowaway's own shelf prices for the same products.",
    "_evidence_packs": "The pack count is STATED IN THE TILL LINE'S OWN NAME ('6-pack', '4-pack'), so it is data, not inference - the same standard the invoice reader applies to a CTN-n note. Price corroborates: Corona single $5.45 vs 6-pack $19.20 = $3.20 a can, Asahi single $6.50 vs 6-pack $21.09 = $3.52 a can. A pack discount, which is what a 6-pack should look like. Booked via `units`, so one ring takes the whole pack off the shelf.",
-   "_deliberately_left_out": "Status Quo Can D - the only 'Status Quo' par SKU is a KEG. A can is not a keg and there is no can par to point at. Pink Galah Can D / Pink Galah 4-pack D, Two Bays GF Pale Can D - no stow par SKU exists for these at all; they need a par created before an alias means anything. Aliasing any of the four would have invented a number."
+   "_deliberately_left_out": "Status Quo Can D - the only 'Status Quo' par SKU is a KEG. A can is not a keg and there is no can par to point at. Pink Galah Can D / Pink Galah 4-pack D, Two Bays GF Pale Can D - no stow par SKU exists for these at all; they need a par created before an alias means anything. Aliasing any of the four would have invented a number.",
+   "_status_quo_can": "Status Quo Can D stays UNRESOLVED, deliberately: the only Status Quo par SKU is a KEG, and a canned variant was never confirmed as a real stocked product or as discontinued. 0.08/wk. Ask before touching."
   }
  },
  "_intentionally_unattributed": {
@@ -333,6 +334,14 @@
    {
     "product": "Samba Ramba",
     "reason": "house-made non-alc drink built to order; belongs to the recipe system, no discrete par SKU exists"
+   },
+   {
+    "product": "Philter Pale",
+    "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
+   },
+   {
+    "product": "Two Bays Pale Ale Can",
+    "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
    }
   ],
   "_note_juice_glasses": "The five 'X Juice Glass' lines and 'Cranberry Juice Glass' ARE poured from real stock - 'East Coast Apple/Orange/Pineapple/Cranberry Juice [2L]' and 'East Coast Grapefruit [2L]' all exist as par SKUs. They stay excused because ZAK HAS CONFIRMED THE REASON (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those.' That is a policy decision, not a mapping gap - juice is ordered by eye at both venues. (The volumes support it: ~1-5 glasses/week, a fraction of a 2L cask.) If that policy ever changes, delete these entries and add glass->cask aliases instead; the model will apply the standard 150ml glass conversion to the [2L] par.",
@@ -404,6 +413,32 @@
    {
     "product": "Mulled Wine [HG]",
     "reason": "batch-made seasonal drink; belongs to the recipe system, no discrete par SKU"
+   },
+   {
+    "product": "Two Bays GF Rice Lager Can [HG]",
+    "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
+   },
+   {
+    "product": "Two Bays GF Pale Can [HG]",
+    "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
+   },
+   {
+    "product": "Philter Old Ale [HG]",
+    "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
+   }
+  ],
+  "mari": [
+   {
+    "product": "Pink Galah Can D",
+    "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
+   },
+   {
+    "product": "Pink Galah 4-pack D",
+    "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
+   },
+   {
+    "product": "Two Bays GF Pale Can D",
+    "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
    }
   ]
  },

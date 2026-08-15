@@ -27,7 +27,7 @@ Say this:
 
 > Read SESSIONS.md and claim <area>. I want you to <the job>.
 
-Areas: `cost-book`, `inventory`, `sales-pipeline`, `ops`, `dashboard`, `bookings`.
+Areas: `cost-book`, `inventory`, `sales-pipeline`, `ops`, `dashboard`, `bookings`, `par`.
 
 ## Seeing what is running
 

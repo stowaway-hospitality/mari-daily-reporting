@@ -176,7 +176,23 @@ VERMOUTH_KW = (
 ALIAS_FILE = "par_aliases.json"
 
 VENUE_RECIPE_FILE = {"stow": "stowaway", "hg": "harry_gatos"}
-VENUE_SCRAPE_FILE = {"stow": "_scrape_stow_20260815.json", "hg": "_scrape_hg_20260815.json"}
+# The par-state baseline is the NEWEST _scrape_<venue>_YYYYMMDD.json, found at
+# load time — never a pinned filename. The pin was a standing failure mode: the
+# 2026-08-15 run started against a 6-day-old pin and computed deltas for 115
+# Stowaway SKUs against par levels that no longer existed, because the previous
+# run's upload had moved them and nobody re-pointed the constant.
+#
+# Zak, on being told the scrape should be automated: "if you're setting the
+# pars every week, why would you need to scrape?" — which is the correct
+# question. The model is the writer of these numbers. So the contract is DEAD
+# RECKONING: after every upload the run writes the post-upload state as a new
+# dated scrape file (see WORKING_HERE / the weekly review task), and the next
+# run picks it up here automatically. A browser scrape stops being weekly
+# maintenance and becomes an occasional AUDIT, for the one thing dead reckoning
+# cannot see: a human raising a par at the venue — which par_flag_report treats
+# as a signal worth keeping, not drift to overwrite.
+_SCRAPE_RE_TMPL = r"_scrape_%s_(\d{8})\.json$"
+SCRAPE_STALE_DAYS = 9   # one missed weekly cycle + slack; older = shout
 VENUE_BO_FILE = {"stow": "stowaway", "hg": "harry_gatos"}
 # The venues that HAVE pars of their own — the ones compute_venue() can be asked
 # for, and the only ones a par SKU can belong to.
@@ -399,8 +415,39 @@ def load_bo(data_dir: str, venue: str):
     return id2name, name2meta
 
 
-def load_scrape(data_dir: str, venue: str):
-    with open(os.path.join(data_dir, VENUE_SCRAPE_FILE[venue])) as fh:
+def find_scrape(data_dir: str, venue: str):
+    """(path, date) of the newest par-state file for `venue`, by the date in its
+    own filename. Raises with a plain instruction if there is none at all."""
+    pat = re.compile(_SCRAPE_RE_TMPL % re.escape(venue))
+    best = None
+    for fn in os.listdir(data_dir):
+        m = pat.search(fn)
+        if not m:
+            continue
+        d = date(int(m.group(1)[:4]), int(m.group(1)[4:6]), int(m.group(1)[6:8]))
+        if best is None or d > best[1]:
+            best = (os.path.join(data_dir, fn), d)
+    if best is None:
+        raise FileNotFoundError(
+            f"no _scrape_{venue}_YYYYMMDD.json in {data_dir} — there is no par "
+            f"baseline to diff against. Scrape purchase.kounta.com#parlevels "
+            f"once (or restore the last post-upload state file).")
+    return best
+
+
+def load_scrape(data_dir: str, venue: str, today=None):
+    path, d = find_scrape(data_dir, venue)
+    age = ((today or date.today()) - d).days
+    if age > SCRAPE_STALE_DAYS:
+        # A stale baseline does not stop the build — the model's own maths is
+        # fine — but every "current_par" and every delta printed against it is
+        # a comparison with the past. Say so where the run output is read.
+        print(f"  !! par baseline for {venue} is {age} days old "
+              f"({os.path.basename(path)}). current_par and all deltas are vs "
+              f"that day. If pars were uploaded since, write the post-upload "
+              f"state as a new dated _scrape file (dead reckoning); only "
+              f"re-scrape the portal to audit for manual edits.")
+    with open(path) as fh:
         return json.load(fh).get("nonzero_pars", {})
 
 

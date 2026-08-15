@@ -66,6 +66,25 @@ AREAS: dict[str, list[str]] = {
         "dashboard/_shared/pnl.js", "dashboard/_shared/restatements.js",
     ],
     "bookings": ["dashboard/bookings/"],
+    # The weekly par model. Added 2026-08-15 on Zak's instruction — the entire
+    # par v3 landing happened with no claimable area, which is how it collided
+    # with cost-book on build_ingredients.py the same afternoon.
+    #
+    # Boundaries are deliberate, because _overlap() is prefix-based:
+    #   * the par HELPER scripts live in ops/ (build_upload.py, stockout_audit
+    #     .py, make_par_xlsx.py...) and stay OPS-owned — listing any "ops/..."
+    #     path here would make par clash with every ops claim forever.
+    #   * data/stock_counts/ feeds the shrinkage engine but sits under
+    #     inventory's "data/stock_" prefix; committing a new count file needs
+    #     the inventory area (or its holder's nod).
+    #   * .github/workflows/par_model.yml is a workflow: ops, per rule 7.
+    "par": [
+        "modules/par/", "scripts/build_par_model.py",
+        "scripts/par_flag_report.py", "scripts/par_v3_impact.py",
+        "tests/test_par_model.py", "data/par_", "data/_par_review/",
+        "data/_scrape_", "data/_upload_", "data/_downgrade_",
+        "data/_correction_",
+    ],
 }
 
 # Touch these and you are in EVERY area at once. Claiming one of these means

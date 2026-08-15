@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-08-15T16:15:39.479676+10:00",
+  "generated_at": "2026-08-15T21:30:07.863502+10:00",
   "venue": "hg",
   "window_weeks": 13,
   "week_range": [
@@ -25,39 +25,19 @@
   "what_attributed_to_other_venue_is": "POS lines sold at this venue whose stock is held and ordered at the OTHER venue, against that venue's par SKU (data/par_aliases.json, a '<venue>:<sku>' target). They are ATTRIBUTED — the volume lands on the named par SKU there — and they contribute nothing here, so they are neither unattributed nor double-counted. Listed so a line leaving this venue's numbers is never silent.",
   "what_auto_hg_suffix_is": "Zak, 2026-08-10: 'pretty much any SKU labelled with [HG] is a harrys SKU that draws from stowaway stock'. That is a RULE, so the model applies it automatically: an HG till line carrying the '[HG]' suffix has the suffix stripped and the remainder matched against STOWAWAY's par universe, and its consumption is routed to that Stowaway par SKU. No file edit is needed for a new [HG] product. An explicit alias in data/par_aliases.json always overrides the rule. `auto_hg_suffix` lists every line the rule placed and why; `hg_suffix_unresolved` lists every [HG] line whose stripped name matched no Stowaway par SKU — the rule refuses to guess, so those fall through to the ordinary matchers and, if nothing places them, stay unattributed above. Give one an explicit alias to fix it.",
   "summary": {
-    "unattributed_lines": 6,
-    "unattributed_revenue_ex_gst": 204.12,
+    "unattributed_lines": 3,
+    "unattributed_revenue_ex_gst": 72.29,
     "hg_suffix_rule_active": true,
     "auto_hg_suffix_resolved_lines": 2,
     "auto_hg_suffix_revenue_ex_gst": 147.29,
-    "hg_suffix_unresolved_lines": 8,
-    "hg_suffix_unresolved_still_unattributed": 4,
-    "intentionally_unattributed_lines": 13,
-    "intentionally_unattributed_revenue_ex_gst": 1593.72,
+    "hg_suffix_unresolved_lines": 5,
+    "hg_suffix_unresolved_still_unattributed": 1,
+    "intentionally_unattributed_lines": 16,
+    "intentionally_unattributed_revenue_ex_gst": 1725.55,
     "attributed_to_other_venue_lines": 11,
     "attributed_to_other_venue_revenue_ex_gst": 696.61
   },
   "unattributed": [
-    {
-      "product": "Two Bays GF Rice Lager Can [HG]",
-      "reporting_group": "Bottles / Cans Alcoholic",
-      "qty_window": 7.0,
-      "qty_per_week": 0.54,
-      "revenue_ex_gst_window": 89.11,
-      "stock_bearing": true,
-      "investigate_note": "No Two Bays par SKU at EITHER venue - the [HG] suffix rule looked at Stowaway too and found nothing. Gluten-free range being sold with nothing to order against; the Purchase module needs the stock item created (at Stowaway, if the stock is Stowaway's like the rest of the [HG] range).",
-      "known_unmapped": true
-    },
-    {
-      "product": "Philter Old Ale [HG]",
-      "reporting_group": "Bottles / Cans Alcoholic",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 29.99,
-      "stock_bearing": true,
-      "investigate_note": "No Philter Old Ale par SKU at either venue - the [HG] suffix rule found no Stowaway match either. Deliberately NOT 'Philter Pale [Keg]' - a can and a keg of a different beer.",
-      "known_unmapped": true
-    },
     {
       "product": "Veuve Clicquot",
       "reporting_group": "Sparkling Wine",
@@ -86,16 +66,6 @@
       "revenue_ex_gst_window": 14.56,
       "stock_bearing": true,
       "investigate_note": "ZAK TO CONFIRM. HG's Coke and Sprite cans are now linked to Stowaway's 'Coke Can' / 'Sprite Can' pars (shared central stock). Diet Coke is NOT, because Stowaway does not stock Diet Coke: the Stowaway catalogue (data/bo_exports/stowaway_products.csv) carries Coke, Coke Zero and Sprite in can and 1.25L, and no Diet Coke SKU at all. Coke Zero and Diet Coke are different products, so mapping HG's Diet Coke onto 'Coke Zero Can' would inflate a Coke Zero par with demand for a drink that par can never satisfy. Question for Zak: is HG's 'Diet Coke' button actually served from Coke Zero stock? If yes, change this to an alias \"Diet Coke Can\": \"stow:Coke Zero Can\". If it is a genuine separate line, it needs its own stock item in the Purchase module.",
-      "known_unmapped": true
-    },
-    {
-      "product": "Two Bays GF Pale Can [HG]",
-      "reporting_group": "Bottles / Cans Alcoholic",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 12.73,
-      "stock_bearing": true,
-      "investigate_note": "No Two Bays par SKU at either venue. Same as above.",
       "known_unmapped": true
     }
   ],
@@ -155,6 +125,15 @@
       "reason": "made to order - no discrete stock unit"
     },
     {
+      "product": "Two Bays GF Rice Lager Can [HG]",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "qty_window": 7.0,
+      "qty_per_week": 0.54,
+      "revenue_ex_gst_window": 89.11,
+      "stock_bearing": true,
+      "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
+    },
+    {
       "product": "Carafe Sparkling Water",
       "reporting_group": "Non-Alcoholic",
       "qty_window": 13.0,
@@ -191,6 +170,15 @@
       "reason": "batch-made seasonal drink; belongs to the recipe system, no discrete par SKU"
     },
     {
+      "product": "Philter Old Ale [HG]",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 29.99,
+      "stock_bearing": true,
+      "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
+    },
+    {
       "product": "Orange Juice Glass",
       "reporting_group": "Non-Alcoholic",
       "qty_window": 8.0,
@@ -207,6 +195,15 @@
       "revenue_ex_gst_window": 16.38,
       "stock_bearing": true,
       "reason": "post-mix gun + fresh lime - no discrete stock unit"
+    },
+    {
+      "product": "Two Bays GF Pale Can [HG]",
+      "reporting_group": "Bottles / Cans Alcoholic",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 12.73,
+      "stock_bearing": true,
+      "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
     },
     {
       "product": "Ginger Beer Glass [HG]",
@@ -354,15 +351,6 @@
   ],
   "hg_suffix_unresolved": [
     {
-      "pos_line": "Two Bays GF Rice Lager Can [HG]",
-      "stripped": "Two Bays GF Rice Lager Can",
-      "reason": "no stow par SKU matches 'Two Bays GF Rice Lager Can'",
-      "still_unattributed": true,
-      "qty_window": 7.0,
-      "qty_per_week": 0.54,
-      "revenue_ex_gst_window": 89.11
-    },
-    {
       "pos_line": "Fries [HG]",
       "stripped": "Fries",
       "reason": "no stow par SKU matches 'Fries'",
@@ -370,24 +358,6 @@
       "qty_window": 5.0,
       "qty_per_week": 0.38,
       "revenue_ex_gst_window": 54.55
-    },
-    {
-      "pos_line": "Philter Old Ale [HG]",
-      "stripped": "Philter Old Ale",
-      "reason": "no stow par SKU matches 'Philter Old Ale'",
-      "still_unattributed": true,
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 29.99
-    },
-    {
-      "pos_line": "Two Bays GF Pale Can [HG]",
-      "stripped": "Two Bays GF Pale Can",
-      "reason": "no stow par SKU matches 'Two Bays GF Pale Can'",
-      "still_unattributed": true,
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 12.73
     },
     {
       "pos_line": "Cosmo [HG]",

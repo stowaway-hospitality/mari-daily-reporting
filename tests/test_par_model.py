@@ -1638,3 +1638,45 @@ def test_the_pack_multiplier_is_opt_in_and_composes_with_the_bulk_conversion():
     half = model._alias_units("Some Pour", "Non-Alcoholic", 1.0,
                               "Massenez Lychee [5L]", serve_ml=30, pack_units=2)
     assert half == pytest.approx(2 * 30 / 5000)
+
+
+# ── the par baseline is found, not pinned ───────────────────────────────────
+def test_the_newest_scrape_wins_and_a_stale_one_shouts(tmp_path, capsys):
+    """The baseline used to be a pinned filename, and the pin going stale is
+    not hypothetical: the 2026-08-15 run diffed 115 Stowaway SKUs against a
+    6-day-old pin — par levels the previous upload had already moved.
+
+    Zak's question, verbatim: "if you're setting the pars every week, why
+    would you need to scrape?" So: the newest dated state file wins
+    automatically (dead reckoning — each upload writes the next baseline), and
+    a baseline past SCRAPE_STALE_DAYS prints a warning that names the file,
+    because every current_par against it is a comparison with the past.
+    """
+    import json as _json
+    old = tmp_path / "_scrape_stow_20260701.json"
+    new = tmp_path / "_scrape_stow_20260810.json"
+    old.write_text(_json.dumps({"nonzero_pars": {"Corona": 99}}))
+    new.write_text(_json.dumps({"nonzero_pars": {"Corona": 34.4}}))
+    # decoys that must not match: other venue, no date in the name
+    (tmp_path / "_scrape_hg_20260814.json").write_text(_json.dumps(
+        {"nonzero_pars": {"Bintang": 7}}))
+    (tmp_path / "_scrape_stow_backup.json").write_text("{}")
+
+    path, d = model.find_scrape(str(tmp_path), "stow")
+    assert path.endswith("_scrape_stow_20260810.json")
+    assert d == date(2026, 8, 10)
+
+    # fresh enough -> silent
+    pars = model.load_scrape(str(tmp_path), "stow", today=date(2026, 8, 16))
+    assert pars == {"Corona": 34.4}, "the newest baseline did not win"
+    assert "!!" not in capsys.readouterr().out
+
+    # past the threshold -> named warning, but the data still loads
+    pars = model.load_scrape(str(tmp_path), "stow", today=date(2026, 9, 1))
+    out = capsys.readouterr().out
+    assert pars == {"Corona": 34.4}
+    assert "_scrape_stow_20260810.json" in out and "days old" in out
+
+    # no baseline at all -> a refusal that says what to do, not a KeyError
+    with pytest.raises(FileNotFoundError, match="no par baseline"):
+        model.find_scrape(str(tmp_path), "mari")
