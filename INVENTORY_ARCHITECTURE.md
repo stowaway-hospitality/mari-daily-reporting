@@ -106,7 +106,41 @@ goes live or HG's variance is measured on three weeks in four.
 
 ## THE THING THAT DECIDES IF THIS WORKS: recipe coverage
 
-Not the API. Measured 2026-08-09: recipe coverage of the TOP SELLERS was ~0% of
+### RE-MEASURED 2026-08-15 — this gate is mostly already passed
+
+The ~0% below was measured against the truncated top-20-BY-REVENUE mix, before
+the 648-recipe costed book landed. With the full mix now persisted, the real
+number, over 610 trading days and ranked properly by VOLUME
+(`scripts/recipe_coverage_worklist.py`):
+
+| scope | covered by our own costed recipes |
+|---|---|
+| top 25 by units | **92.3% of units, 100% of revenue** |
+| top 50 by units | **88.2% of units, 95.3% of revenue** |
+| all 1,670 products | 72.3% of units |
+
+Ranking by volume rather than revenue is the point: a $4 side of chips outsells
+a $95 bottle many times over and empties far more shelf. Revenue ranking is what
+made this look like a crisis.
+
+**Seven of the top 50 have no recipe, and only four are real work:**
+
+| units | rev ex | product | |
+|---:|---:|---|---|
+| 7,333 | $668 | Aioli Dipping Sauce | needs a recipe |
+| 3,050 | $25,933 | Bombay Dry [House] | needs a recipe |
+| 2,694 | $7,786 | Fresh Lime Soda | needs a recipe |
+| 2,675 | $182 | Tomato Dipping Sauce | needs a recipe |
+| 4,037 | $0 | On The Rocks | a modifier, not a dish |
+| 2,691 | $12,313 | Staff Dinner $5 | staff feed, not a recipe |
+| 3,176 | $67,819 | Fancy Pants Parmy | discontinued — last sold 2026-03-06 |
+
+So recipe coverage is NOT what is blocking this build. Stock IN is. See
+"Step 2" below.
+
+### The original measurement, kept for the record
+
+Measured 2026-08-09: recipe coverage of the TOP SELLERS was ~0% of
 revenue — the recipes that exist are the tiki/sake/cocktail program, not the
 beers, wines, burgers and classic cocktails that carry the volume.
 
@@ -197,35 +231,74 @@ informative:
 * `Lemon [Sliced]`, `Avocado [Tray]` and `Sunshine Smokey BBQ Sauce [3L]` are
   consumed in both g and ml.
 
-**THE GATE FOR STEP 2 IS ITEM IDENTITY, not units.** Of 3,501 invoice stock
-lines, **438 book (12.5%)**. The refusals:
+**RECEIVE: 2,572 of 3,501 invoice stock lines book — 73.5%, across 712 distinct
+items.**
+
+The first cut of this managed 12.5%, because it insisted every line resolve to a
+`lightspeed:<id>` through `product_map.csv`. That was a self-inflicted wound:
+this repo's identity model already treats a supplier code as a first-class key.
+`core.domain.purchasable_id()` builds it, and recipes already reference
+`foodlink:102689` and `fresh-fruit-team:AH20T` next to `lightspeed:` ids. So the
+rule is now: use the Lightspeed id where `product_map.csv` has it — that unifies
+one item bought from two suppliers — and otherwise let the supplier key stand.
+A line with NO supplier code still refuses, because falling back to the
+description is how ALEHOUSE CRISP KEG becomes the wrong $27.50 keg.
+
+Pack sizes are inherited too. `data/pack_overrides.yaml` is exactly the
+declared-conversion-with-evidence table trap 1 asks for — a human writes what a
+pack holds, with their name and the date — and 208 lines book today because
+somebody did that.
+
+**What still refuses, ranked by money** (`scripts/pack_confirmation_worklist.py`):
 
 | why | lines | $ incl |
 |---|---:|---:|
-| supplier code not in `product_map.csv` | 2,840 | $150,400 |
-| item has no canonical base unit | 83 | $5,400 |
-| unit dimension clash (recipes say ml, invoice delivers each) | 67 | $15,802 |
-| unit dimension clash (g vs each) | 38 | $1,487 |
-| unit dimension clash (each vs ml) | 18 | $1,484 |
-| unprovable pack unit `box` | 17 | $1,308 |
+| pack unit `box` — no confirmation yet | 404 | $34,412 |
+| item delivered in two dimensions — refused, not averaged | 281 | $3,980 |
+| unit clash: recipes use ml, line delivers each | 65 | $15,730 |
+| unit clash: recipes use g, line delivers each | 45 | $1,884 |
+| pack unit `bunch` | 38 | $429 |
+| no supplier code at all | 33 | $5,643 |
+| the rest | 63 | $3,503 |
 
-`product_map.csv` holds 230 rows / 212 products, so only **180 of the 579 stock
-items recipes consume (31%)** can currently be received into at all. The
-unmapped weight is the kitchen: be_foods 915 lines, fresh_fruit_team 711,
-foodlink 395, select_fresh 279.
+**$57,581 of deliveries sit behind 147 items, and the top 12 confirmations
+release $34,239 of it.** That is a short afternoon with a box cutter, and it is
+the single highest-leverage job left in this build:
 
-This is the same shape as the recipe-coverage gate for step 4, and it has the
-same answer: **it is a list, and the list is the work.** `resolve.py` already
-argues the durable fix — backfill the SKU field in Back Office with the supplier
-item code, which was populated on 84 of 2,170 products when last measured.
+    be-foods:15555   FZ CHIPS - CRISPY COATED    $4,070 blocked
+    be-foods:16952   FZ CHICKEN BREAST           $2,784
+    be-foods:19957   FZ CHIPS - ULTRA SWEET      $2,338
+
+Two of the top three blockers are the kegs — `ALEHOUSE PREMIUM KEG` ($12,201)
+and `ALEHOUSE CRISP KEG` ($3,073) — delivered as `each` while recipes pour them
+in `ml`. A keg's volume is a declared fact; confirm it once and both clear.
+
+The worklist prints ready-to-fill `pack_overrides.yaml` stubs (`--stubs`) and
+flags where the supplier PRINTED the size and the parser could not use it
+(`BARRAMUNDI FILLETS ... S/OFF 5KG` arrives on a UOM token of `box`). Those are
+shown as evidence for the person confirming, never applied — the description is
+free text that wraps, truncates and carries substitution notes.
 
 **`count` has no source in this repo yet.** The stocktake app is still outside
 it. The ledger accepts count rows and the supersede logic is tested against a
 worked example; nothing writes them.
 
-So step 2 does NOT yet give a trustworthy on-hand. It gives the plumbing, the
-refusals, and a measured list of what unblocks it — which is the honest state,
-and better than an on-hand number computed from an eighth of the deliveries.
+So step 2 does NOT yet give a trustworthy on-hand — nothing counts yet, so there
+is nothing to be right against. But the plumbing is real, three quarters of
+stock IN books, and what remains is a list with dollars against each line.
+
+### What actually blocks this build now
+
+Not the API, and — re-measured — not recipes either.
+
+1. **Counts.** No source in this repo. Everything else is a way of predicting a
+   number that only a count can confirm.
+2. **~12 pack confirmations**, worth $34k of currently-unbookable deliveries.
+   Someone opens a box and writes down what is in it.
+3. **Harry Gatos' own till** is on a separate Lightspeed account, so HG has no
+   daily-grain history and one still-wrong published day (2026-08-10).
+4. Four real recipes: Aioli, Bombay Dry [House], Fresh Lime Soda, Tomato
+   Dipping Sauce.
 
 ## Standing rules that apply here
 

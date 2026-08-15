@@ -5,15 +5,25 @@ Stock IN is the one side of inventory this business already owns outright: 604
 parsed invoices, cent-accurate, with pack sizes. This turns them into ledger
 rows — but only where BOTH questions have a provable answer:
 
-    WHICH ITEM?   supplier + supplier_code -> lightspeed:<id>, via
-                  data/product_map.csv, which resolve.py builds ONLY from real
-                  invoice lines matched to real export rows. Never a name
-                  guess: "ALEHOUSE CRISP KEG" and "ALEHOUSE PREMIUM KEG" are
-                  $27.50 apart and the sensible guess is backwards.
+    WHICH ITEM?   `core.domain.purchasable_id(supplier, code)` — the natural key
+                  of a thing you buy, given by the invoice, never invented. That
+                  IS the repo's identity model: recipes already reference
+                  ingredients as `foodlink:102689` and `fresh-fruit-team:AH20T`
+                  alongside `lightspeed:<id>`.
 
-    HOW MUCH?     qty x pack_qty, converted to the item's canonical base unit.
-                  kg->g, L->ml, ea->each. A 'box' or a 'tray' has no provable
-                  size and REFUSES.
+                  Where data/product_map.csv resolves the code to a Lightspeed
+                  product we prefer that id, because it unifies the same item
+                  bought from two suppliers. Otherwise the supplier key stands
+                  on its own. A line with NO supplier_code has no natural key
+                  and is refused — falling back to the description is how
+                  ALEHOUSE CRISP KEG becomes the wrong $27.50 keg.
+
+    HOW MUCH?     qty x pack size, converted to the item's base unit.
+                  kg->g, L->ml, ea->each. A 'box', 'tray' or 'case' has no
+                  provable size in the invoice — but data/pack_overrides.yaml
+                  is exactly the declared-conversion-with-evidence table this
+                  needs, so a human-confirmed pack (`by`, `on`, `by_email`)
+                  resolves it. Anything still unprovable REFUSES.
 
 Anything failing either test is NOT booked, and is counted in the refusal
 report. That is the point: a ledger that silently skips a third of deliveries
@@ -38,8 +48,14 @@ from decimal import Decimal, InvalidOperation
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from ledger import (Movement, UnprovableUnit, load_base_units,   # noqa: E402
                     rewrite_year, to_base)
+# Identity and declared pack sizes are INHERITED, never re-derived. purchasable_id
+# normalises the unit word the PDF parse bleeds onto a code, and pack_overrides is
+# the chef-confirmed table that resolves a 'box' into a real quantity.
+from core.domain import purchasable_id                            # noqa: E402
+from core.pack_overrides import load_pack_overrides               # noqa: E402
 
 ROOT = Path(os.environ.get("REPO_ROOT", Path(__file__).resolve().parent.parent))
 INVOICES = ROOT / "data" / "invoices"
@@ -68,95 +84,162 @@ def dec(x) -> Decimal | None:
         return None
 
 
-def main() -> int:
+def collect_lines() -> list[dict]:
+    """Every stock line, with identity resolved, before any unit decision."""
     pmap = load_map()
-    base_units = load_base_units()
+    out = []
+    for path in sorted(INVOICES.glob("*.json")):
+        doc = json.loads(path.read_text())
+        inv = doc.get("invoice", {})
+        supplier = (inv.get("supplier_key") or "").strip()
+        for L in inv.get("lines", []):
+            if L.get("line_class") != "stock":
+                continue
+            code = (L.get("supplier_code") or "").strip()
+            try:
+                pid = purchasable_id(supplier, code) if code else None
+            except ValueError:
+                pid = None
+            # Prefer the Lightspeed id where the evidence table has it: one item
+            # bought from two suppliers must not become two piles of stock.
+            item = pmap.get((supplier.lower(), code)) or pid
+            out.append({
+                "supplier": supplier, "code": code, "item": item,
+                "purchasable": pid, "line": L, "inv": inv,
+            })
+    return out
+
+
+def derive_base_units(rows: list[dict], recipe_units: dict[str, str]) -> tuple[dict[str, str], dict[str, set]]:
+    """item_id -> base unit, from recipes first and the invoice's own units second.
+
+    The recipe book is the better witness: it says how the item is CONSUMED, and
+    that is what a deduction will be denominated in. Where no recipe touches the
+    item, the supplier's own stated unit is still evidence — a thing delivered
+    only ever in kg is a gram item.
+
+    An item delivered in two DIMENSIONS (kg one week, each the next) is refused,
+    not averaged. That is the CTN-6-read-as-one-tin failure wearing a new hat.
+    """
+    seen: dict[str, set] = defaultdict(set)
+    for r in rows:
+        if not r["item"]:
+            continue
+        unit = (r["line"].get("pack_unit") or "").strip().lower()
+        if unit in ("g", "kg"):
+            seen[r["item"]].add("g")
+        elif unit in ("ml", "l"):
+            seen[r["item"]].add("ml")
+        elif unit in ("ea", "each"):
+            seen[r["item"]].add("each")
+
+    out = dict(recipe_units)
+    for item, dims in seen.items():
+        if item in out:
+            continue                      # a recipe already decided
+        if len(dims) == 1:
+            out[item] = next(iter(dims))
+    conflicts = {i: d for i, d in seen.items() if len(d) > 1 and i not in recipe_units}
+    return out, conflicts
+
+
+def main() -> int:
+    recipe_units = load_base_units()
+    overrides = load_pack_overrides(ROOT / "data" / "pack_overrides.yaml")
+    rows = collect_lines()
+    base_units, unit_conflicts = derive_base_units(rows, recipe_units)
 
     booked: list[Movement] = []
     refused: Counter = Counter()
     refused_value: dict[str, Decimal] = defaultdict(lambda: Decimal(0))
     by_supplier_unmapped: Counter = Counter()
-    lines = 0
+    override_used = 0
 
-    for path in sorted(INVOICES.glob("*.json")):
-        doc = json.loads(path.read_text())
-        inv = doc.get("invoice", {})
-        supplier = (inv.get("supplier_key") or "").strip().lower()
-        day = (inv.get("invoice_date") or "").strip()
-        venue = VENUE_KEY.get(inv.get("venue") or "", inv.get("venue") or "")
-        ref = f"invoice:{inv.get('supplier_key')}:{inv.get('invoice_ref')}"
-        credit = bool(inv.get("is_credit_note"))
+    def refuse(why: str, value: Decimal) -> None:
+        refused[why] += 1
+        refused_value[why] += value
 
-        for L in inv.get("lines", []):
-            if L.get("line_class") != "stock":
-                continue
-            lines += 1
-            value = dec(L.get("line_total_incl")) or Decimal(0)
+    for r in rows:
+        L, inv, item = r["line"], r["inv"], r["item"]
+        value = dec(L.get("line_total_incl")) or Decimal(0)
 
-            item = pmap.get((supplier, (L.get("supplier_code") or "").strip()))
-            if not item:
-                refused["no item identity (supplier code not in product_map.csv)"] += 1
-                refused_value["no item identity (supplier code not in product_map.csv)"] += value
-                by_supplier_unmapped[supplier] += 1
-                continue
+        if not item:
+            refuse("no supplier code — no natural key, and the description is not one", value)
+            by_supplier_unmapped[r["supplier"].lower()] += 1
+            continue
 
-            qty, pack_qty = dec(L.get("qty")), dec(L.get("pack_qty"))
-            if qty is None or pack_qty is None:
-                refused["missing qty or pack size"] += 1
-                refused_value["missing qty or pack size"] += value
-                continue
+        qty = dec(L.get("qty"))
+        if qty is None:
+            refuse("missing quantity", value)
+            continue
 
-            try:
-                per_pack, base = to_base(pack_qty, L.get("pack_unit") or "")
-            except UnprovableUnit:
-                key = f"unprovable pack unit {L.get('pack_unit')!r}"
-                refused[key] += 1
-                refused_value[key] += value
+        # Pack size: a human confirmation beats the parse, always. That is what
+        # pack_overrides.yaml is for, and it is keyed by purchasable id.
+        ov = overrides.get(r["purchasable"] or "") or overrides.get(item)
+        if ov:
+            pack_qty, pack_unit = ov
+            override_used += 1
+        else:
+            pack_qty, pack_unit = dec(L.get("pack_qty")), (L.get("pack_unit") or "")
+            if pack_qty is None:
+                refuse("missing pack size", value)
                 continue
 
-            want = base_units.get(item)
-            if want is None:
-                refused["item has no canonical base unit (unused by any recipe, or conflicted)"] += 1
-                refused_value["item has no canonical base unit (unused by any recipe, or conflicted)"] += value
-                continue
-            if want != base:
-                # The recipe book consumes this item in one dimension and the
-                # invoice delivers another — grams against millilitres, or a
-                # count against a weight. One of the two is wrong about what
-                # this item IS, and booking it would be wrong forever.
-                key = f"unit dimension clash (recipes use {want}, invoice delivers {base})"
-                refused[key] += 1
-                refused_value[key] += value
-                continue
+        try:
+            per_pack, base = to_base(pack_qty, pack_unit)
+        except UnprovableUnit:
+            refuse(f"unprovable pack unit {str(pack_unit).lower()!r} "
+                   f"(no confirmation in pack_overrides.yaml)", value)
+            continue
 
-            total = qty * per_pack
-            booked.append(Movement(
-                ts=day, venue=venue, item_id=item,
-                qty_base=str(total), base_unit=base,
-                direction="out" if credit else "in",
-                reason="receive", source_ref=ref, actor="invoice-pipeline",
-                note=(L.get("description") or "")[:60],
-            ))
+        want = base_units.get(item)
+        if want is None:
+            why = ("item delivered in two dimensions — refused, not averaged"
+                   if item in unit_conflicts
+                   else "no base unit derivable for this item")
+            refuse(why, value)
+            continue
+        if want != base:
+            refuse(f"unit dimension clash (item is {want}, this line delivers {base})", value)
+            continue
 
-    print(f"invoice stock lines: {lines:,}")
-    print(f"  booked as receive movements: {len(booked):,} "
-          f"({len(booked)/lines*100:.1f}%)")
+        booked.append(Movement(
+            ts=(inv.get("invoice_date") or "").strip(),
+            venue=VENUE_KEY.get(inv.get("venue") or "", inv.get("venue") or ""),
+            item_id=item, qty_base=str(qty * per_pack), base_unit=base,
+            direction="out" if inv.get("is_credit_note") else "in",
+            reason="receive",
+            source_ref=f"invoice:{inv.get('supplier_key')}:{inv.get('invoice_ref')}",
+            actor="invoice-pipeline",
+            note=(L.get("description") or "")[:60],
+        ))
+
+    n = len(rows)
+    print(f"invoice stock lines: {n:,}")
+    print(f"  booked as receive movements: {len(booked):,} ({len(booked)/n*100:.1f}%)")
+    print(f"  pack size taken from a human confirmation: {override_used:,}")
     print(f"  refused: {sum(refused.values()):,}\n")
-    print("  why refused                                                    lines      $ incl")
-    for why, n in refused.most_common():
-        print(f"    {why[:58]:58} {n:6,}  {refused_value[why]:10,.2f}")
-
+    if refused:
+        print("  why refused                                                    lines      $ incl")
+        for why, c in refused.most_common():
+            print(f"    {why[:58]:58} {c:6,}  {refused_value[why]:10,.2f}")
     if by_supplier_unmapped:
-        print("\n  unmapped supplier codes, by supplier:")
-        for s, n in by_supplier_unmapped.most_common(8):
-            print(f"    {s:22} {n:5,}")
+        print("\n  lines with no supplier code, by supplier:")
+        for s, c in by_supplier_unmapped.most_common(8):
+            print(f"    {s:24} {c:5,}")
+    if unit_conflicts:
+        print(f"\n  {len(unit_conflicts)} item(s) delivered in more than one dimension (refused):")
+        for i, d in list(unit_conflicts.items())[:6]:
+            print(f"    {i:38} {sorted(d)}")
+
+    items = {m.item_id for m in booked}
+    print(f"\n  distinct items receivable: {len(items):,}")
 
     if "--write" in sys.argv:
-        years = {m.ts[:4] for m in booked}
         total = 0
-        for y in sorted(years):
+        for y in sorted({m.ts[:4] for m in booked}):
             total += rewrite_year(y, [m for m in booked if m.ts[:4] == y])
-        print(f"\nwrote {total:,} receive movement(s) across {len(years)} year file(s)")
+        print(f"\nwrote {total:,} receive movement(s)")
     else:
         print("\n(dry run — pass --write to book these into data/ledger/)")
     return 0
