@@ -122,14 +122,61 @@ def convert(ev: dict, containers, base_units) -> tuple[Decimal, str] | str:
     return f"unit {unit!r} is not one this system knows how to convert"
 
 
+def fetch_supabase() -> list[dict]:
+    """Pending rows, read with the service key.
+
+    The key comes from the environment and is never written down here — same as
+    modules/auth/set_role.py and the invoice approvals poller. Zak sets
+    SUPABASE_URL and SUPABASE_SERVICE_KEY as Actions secrets; nothing in this
+    repo or in the browser ever holds it.
+    """
+    import urllib.parse
+    import urllib.request
+
+    url = os.environ.get("SUPABASE_URL")
+    key = os.environ.get("SUPABASE_SERVICE_KEY")
+    if not (url and key):
+        raise SystemExit(
+            "set SUPABASE_URL and SUPABASE_SERVICE_KEY (service_role, not anon), "
+            "or pass --file <events.json>")
+    q = urllib.parse.urlencode({"status": "eq.pending",
+                                "order": "occurred_at.asc", "limit": "5000"})
+    req = urllib.request.Request(
+        f"{url}/rest/v1/stock_events?{q}",
+        headers={"apikey": key, "authorization": f"Bearer {key}"})
+    with urllib.request.urlopen(req) as r:
+        return json.loads(r.read() or "[]")
+
+
+def mark(ids_status: list[tuple[str, str, str]]) -> None:
+    """Write each event's outcome back, so nothing is booked twice and a refusal
+    is visible to the person who recorded it rather than dying in a log."""
+    import urllib.request
+
+    url, key = os.environ.get("SUPABASE_URL"), os.environ.get("SUPABASE_SERVICE_KEY")
+    if not (url and key):
+        return
+    for ev_id, status, why in ids_status:
+        body = json.dumps({"status": status, "ledger_note": why or None,
+                           "booked_at": "now()" if status == "booked" else None}).encode()
+        req = urllib.request.Request(
+            f"{url}/rest/v1/stock_events?id=eq.{ev_id}", data=body, method="PATCH",
+            headers={"apikey": key, "authorization": f"Bearer {key}",
+                     "content-type": "application/json", "prefer": "return=minimal"})
+        try:
+            urllib.request.urlopen(req).read()
+        except Exception as e:                      # noqa: BLE001
+            print(f"  could not mark {ev_id}: {e}")
+
+
 def main() -> int:
-    if "--file" not in sys.argv:
-        raise SystemExit("no source. --file <events.json>, or set SUPABASE_URL "
-                         "+ SUPABASE_SERVICE_KEY for the production path.")
-    path = Path(sys.argv[sys.argv.index("--file") + 1])
-    events = json.loads(path.read_text())
-    if isinstance(events, dict):
-        events = events.get("events", [])
+    if "--file" in sys.argv:
+        path = Path(sys.argv[sys.argv.index("--file") + 1])
+        events = json.loads(path.read_text())
+        if isinstance(events, dict):
+            events = events.get("events", [])
+    else:
+        events = fetch_supabase()
 
     containers = load_containers()
     base_units = load_base_units()
@@ -212,6 +259,16 @@ def main() -> int:
     if "--write" in sys.argv and booked:
         wrote = append(booked)
         print(f"\nbooked {sum(wrote.values())} movement(s): {wrote}")
+        outcomes = [(e["id"], "booked", "") for e in events
+                    if e.get("id") and e not in [x[0] for x in unconvertible]
+                    and e not in [x[0] for x in not_truth]]
+        outcomes += [(e["id"], "needs_conversion", why)
+                     for e, why in unconvertible if e.get("id")]
+        outcomes += [(e["id"], "needs_conversion", why)
+                     for e, why in not_truth if e.get("id")]
+        if "--file" not in sys.argv:
+            mark(outcomes)
+            print(f"marked {len(outcomes)} event(s) back in Supabase")
     elif "--write" not in sys.argv:
         print("\n(dry run — pass --write to book these into data/ledger/)")
     return 0

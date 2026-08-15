@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stock · Stowaway Hospitality Group</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/_shared/tokens.css">
+<!--
+  Stocktake and goods-received. Built for a phone, in one hand, in a cool room.
+
+  A shell only — every decision lives in stock.js. Nothing on this page converts
+  a count into millilitres: the person's own words go to Supabase and the
+  conversion happens downstream where it can be corrected later. See
+  INVENTORY_ARCHITECTURE.md.
+-->
+<style>
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+       padding-bottom:env(safe-area-inset-bottom)}
+  header{position:sticky;top:0;z-index:5;background:var(--paper);
+         border-bottom:1px solid var(--line);padding:10px 14px}
+  .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  h1{margin:0;font-size:17px}
+  #who{font-size:12px;color:var(--ink-soft)}
+  .modes{display:flex;gap:8px;margin:10px 0 8px}
+  .modes button{flex:1;padding:11px;font-size:15px;border-radius:10px;
+                border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+  .modes button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .bars{display:flex;flex-wrap:wrap;gap:8px}
+  select,input{font-size:16px;padding:10px;border-radius:9px;
+               border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+  #search{width:100%;box-sizing:border-box;margin-top:8px}
+  #tally,#session{font-size:12px;color:var(--ink-soft)}
+  #session{font-family:ui-monospace,monospace}
+  .item{border-bottom:1px solid var(--line);padding:11px 14px}
+  .item.done{background:var(--group-tint)}
+  .nm{font-size:15px;margin-bottom:7px}
+  .ctl{display:flex;align-items:center;gap:8px}
+  .ctl input{width:84px}
+  .unit{font-size:13px;color:var(--ink-soft);min-width:56px}
+  .ctl button{margin-left:auto;padding:11px 15px;font-size:15px;border-radius:9px;
+              border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+  .ctl .save{background:var(--accent);color:#fff;border-color:var(--accent);margin-left:auto}
+  .ctl .none{margin-left:0}
+  .item.saving{opacity:.55}
+  .warn{font-size:11px;color:var(--amber);border:1px solid var(--amber);
+        border-radius:99px;padding:1px 7px;margin-left:7px;white-space:nowrap}
+  .flash{font-size:12px;color:var(--green);margin-left:8px}
+  .flash.bad{color:var(--red,#c0392b)}
+  .muted{color:var(--ink-soft);padding:16px 14px}
+  .bad{color:var(--red,#c0392b);padding:16px 14px}
+  .hint{font-size:12px;color:var(--ink-soft);padding:10px 14px;border-bottom:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><h1>Stock</h1><span id="who">…</span></div>
+
+  <div class="modes">
+    <button id="mode-count" class="on">Count</button>
+    <button id="mode-receive">Receive</button>
+  </div>
+
+  <div class="bars">
+    <select id="location" aria-label="Location"></select>
+    <select id="venue" aria-label="Venue">
+      <option value="stow">Stowaway</option>
+      <option value="hg">Harry Gatos</option>
+      <option value="mari">Marilyna's</option>
+    </select>
+  </div>
+
+  <div class="bars" id="receive-bar" hidden style="margin-top:8px">
+    <input id="po" placeholder="PO number" aria-label="PO number" style="flex:1">
+    <input id="expected" inputmode="decimal" placeholder="expected" aria-label="Expected quantity" style="width:110px">
+  </div>
+
+  <input id="search" placeholder="Search an item…" aria-label="Search items">
+  <div class="top" style="margin-top:7px">
+    <span id="tally">nothing recorded yet</span><span id="session"></span>
+  </div>
+</header>
+
+<p class="hint">
+  Each line saves the moment you tap <b>save</b> — there is no submit at the end,
+  so a dropped signal costs one line, not the session. Skipping an item records
+  nothing; use <b>none</b> only when you have looked and there are none.
+</p>
+
+<main id="items"><p class="muted">Loading…</p></main>
+
+<script type="module" src="./stock.js"></script>
+</body>
+</html>

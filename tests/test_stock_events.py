@@ -130,3 +130,49 @@ def test_the_sql_keeps_the_browser_out_of_the_secrets():
     assert "for delete" not in sql.lower(), (
         "nothing here is ever deleted — a wrong count is still a fact about what "
         "somebody saw")
+
+
+# ---- the catalogue the phone loads ----------------------------------------
+
+CATALOGUE = ROOT / "data" / "stock_catalogue.json"
+PAGE = ROOT / "dashboard" / "inventory" / "index.html"
+PAGE_JS = ROOT / "dashboard" / "inventory" / "stock.js"
+
+
+def test_catalogue_lists_unconvertible_items_too():
+    """Hiding them means the coriander silently never gets counted and its
+    variance stays blank forever — which reads as 'no problem here'."""
+    d = json.loads(CATALOGUE.read_text())
+    items = d["items"]
+    assert items and d["locations"]
+    assert any(not i["convertible"] for i in items), (
+        "every item is convertible, which means the unconvertible ones were "
+        "dropped from the list instead of flagged")
+    for i in items:
+        assert i["item_id"] and i["name"]
+        assert i["count_in"], f"{i['item_id']} has no unit to count in"
+        if i["convertible"]:
+            assert i["per_container"] and i["size_source"]
+
+
+def test_catalogue_names_are_readable_not_ids():
+    d = json.loads(CATALOGUE.read_text())
+    raw = [i for i in d["items"] if i["name"].startswith("lightspeed:")]
+    assert len(raw) <= 1, (
+        f"{len(raw)} items would show a bare id to somebody holding a bottle: "
+        f"{[i['item_id'] for i in raw[:3]]}")
+
+
+def test_the_phone_page_converts_nothing_and_holds_no_secret():
+    """Conversion in the browser bakes today's bottle size into history
+    permanently. And a page that shipped a service key would hand every reader
+    the ability to bypass RLS."""
+    html, js = PAGE.read_text(), PAGE_JS.read_text()
+    for bad in ("SERVICE_KEY", "service_role"):
+        assert bad not in html and bad not in js
+    assert "SUPABASE_ANON_KEY" in js, "must use the anon key, protected by RLS"
+    # the page posts what the person said, verbatim
+    assert "counted_qty" in js and "counted_unit" in js
+    assert "session_locations" in js, "a count must carry its scope"
+    for logic in ("* 1000", "/ 1000", "700", "750"):
+        assert logic not in js, f"{logic!r} looks like a unit conversion in the browser"
