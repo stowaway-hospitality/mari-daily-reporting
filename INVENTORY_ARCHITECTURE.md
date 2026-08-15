@@ -376,6 +376,37 @@ job ingests the decision into `data/`. Reuse it; do not invent a second route.
 (Note the standing rule: Claude never handles the service_role key. Zak pastes
 it.)
 
+### Built 2026-08-15 — the count and goods-received path
+
+    modules/inventory/stock_events.sql   the table, RLS'd like invoice_approvals
+    scripts/build_container_sizes.py     how big is one of the things you count
+    scripts/ingest_stock_events.py       events -> ledger movements
+    tests/test_stock_events.py           the refusals, held with real items
+
+`data/container_sizes.csv` converts **254 of 576** items from a counted
+container into base units — 25 from human confirmations, 197 from a size stated
+in the product name, 32 that are `each` and cannot be got wrong. Every row
+records WHICH source it came from, because a name is edited by hand and does not
+have to follow the bottle it describes; a variance traced back to a
+`product_name` size should be a suspect, not a mystery.
+
+**322 items refuse**, and that is the system working. `Coriander [bunch]` has no
+provable gram weight; the beer tins still cannot decide between `each` and `ml`.
+Each refusal is one line in `pack_overrides.yaml` away from being fixed, by
+somebody who can pick the thing up.
+
+It also found `BBQ Sauce [Bottle 946ml]` — sold by volume, consumed by weight in
+the recipes. One of those two is wrong about what the item is.
+
+The goods-received half already works end to end: an event saying three kegs
+were ordered and two turned up books two kegs and raises **a supplier claim for
+one**, with the PO, the supplier and the name of the person who checked it in.
+
+**Still to build: the phone screens themselves.** The table, the conversion, the
+refusals and the claims are done and tested; what is missing is the page a
+person taps. Two screens — walk a location and count, or check a delivery
+against its PO.
+
 ### What Lightspeed is for now
 
 A second opinion, and nothing more. Its on-hand is the thing being replaced —
