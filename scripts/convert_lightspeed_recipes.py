@@ -914,6 +914,85 @@ def load_our_preps(our_costs):
     return out
 
 
+def load_our_book_lines(our_costs):
+    """Recipes OUR book can fully cost, as scrape-shaped ingredient lines.
+
+    Produce is a mirror, not the source. When Zak re-specs a prep in the builder
+    the OLD version stays in Produce forever — nobody goes and edits it there —
+    so the scrape keeps handing us a recipe the kitchen stopped making. Pizza
+    Sauce was 10 kg of tinned tomato + oregano + tomato paste at $37.19 in the
+    scrape while the kitchen had moved to 6 kg of Kagome + salt + parsley at
+    $14.31. Every prep built on it (Salsa Rosa, and through it Black Beans,
+    Pulled Mushroom, Burrito Rice Sauce and every burrito) was costed off the
+    dead one.
+
+    So where we have our own recipe, ours IS the recipe. Not just its cost —
+    its ingredient list, so the book shows what the kitchen actually makes.
+
+    GATED ON BEING ABLE TO COST IT. Some of our records carry no unit_cost_incl
+    snapshot and lean entirely on live ids; if an id has no price yet, summing
+    them yields a confident $0.00 (Davy's Old Fashioned) and replacing a $4.61
+    scraped recipe with $0.00 would be a silent, flattering loss. So a recipe is
+    only returned when EVERY line prices — otherwise the scrape stands and the
+    difference stays visible. Fail toward review.
+
+    Returns {product: [{name, qty, unit, cost}, ...]}, name = the line's `desc`
+    so it round-trips through resolve() via OUR_LINE_IDS below.
+    """
+    import yaml
+
+    out, ids, yields = {}, {}, {}
+    for f in sorted((ROOT / "data" / "recipes").glob("*.yaml")):
+        for r in (yaml.safe_load(f.read_text(encoding="utf-8-sig")) or []):
+            if not (isinstance(r, dict) and r.get("product")):
+                continue
+            lines, ok = [], True
+            for ln in (r.get("ingredients") or []):
+                desc = (ln.get("desc") or "").strip()
+                iid = (ln.get("id") or "").strip()
+                try:
+                    q = float(ln.get("qty") or 0)
+                except (TypeError, ValueError):
+                    ok = False
+                    break
+                live = our_costs.get(iid)
+                unit = (ln.get("unit") or "").lower()
+                if live and str(live[1] or "").lower() == unit:
+                    per = float(live[0])
+                elif ln.get("unit_cost_incl") is not None:
+                    per = float(ln["unit_cost_incl"])
+                else:
+                    ok = False          # nothing prices this line — refuse
+                    break
+                if not desc or q <= 0:
+                    ok = False
+                    break
+                if iid:
+                    ids[desc] = iid
+                lines.append({"name": desc, "qty": str(q), "unit": ln.get("unit"),
+                              "cost": str(round(q * per, 6))})
+            if ok and lines:
+                out[r["product"]] = lines
+                # THE YIELD TRAVELS WITH THE RECIPE. If we swap in our ingredient
+                # list but leave prep_yields.yaml — which describes the SCRAPED
+                # recipe — speaking for the batch, the cost of one recipe gets
+                # divided by the yield of another. Both directions of that were
+                # tried on 2026-08-15 and both invented a sauce that has never
+                # existed: $6.17/kg (new yield, old $37.19) and $1.53/kg (new
+                # $14.31, old 9338 g). The real answer is $2.37/kg.
+                yq, yu = r.get("yield_qty"), (r.get("yield_unit") or "").lower()
+                if yq and yu:
+                    try:
+                        q = float(yq)
+                        if yu in _BASE:                 # kg -> g, L -> ml
+                            yu, q = _BASE[yu][0], q * _BASE[yu][1]
+                        if q > 0:
+                            yields[r["product"]] = (q, yu)
+                    except (TypeError, ValueError):
+                        pass
+    return out, ids, yields
+
+
 def load_packs():
     """ingredient id -> (pack_qty, unit) in BASE units, from the cost book's own
     pack contract. Used to price a whole pack — a "- Bottle" menu line is one
@@ -1345,10 +1424,29 @@ def main() -> int:
         return bo_groups.get((nm or "").strip()) or ""
     our_costs = load_our_costs()
     our_preps = load_our_preps(our_costs)
+    our_book, our_line_ids, our_yields = load_our_book_lines(our_costs)
+    # OUR BOOK REPLACES THE SCRAPE where we have the recipe and can cost it.
+    # Produce is a mirror nobody updates: re-spec a prep in the builder and the
+    # old version sits there forever, and every prep built on it keeps costing
+    # off a recipe the kitchen stopped making. Done BEFORE resolve/costing so
+    # the replacement is what gets costed, not a patch applied afterwards.
+    _ourn = 0
+    for _nm, _lines in our_book.items():
+        if _nm in rec and (rec[_nm] or {}).get("ingredients"):
+            rec[_nm] = dict(rec[_nm] or {}, ingredients=_lines, _from_our_book=True)
+            _ourn += 1
+    if _ourn:
+        print(f"  replaced {_ourn} scraped recipe(s) with our own book's version")
     packs = load_packs()
     seed_base = load_seed_baseline()
     sell_by_exact, sell_by_norm, sell_by_tok = load_sell_prices()
     yields = load_yields()
+    # Our own recipe's yield outranks prep_yields.yaml for anything we replaced —
+    # the yield has to describe the ingredients it sits next to. See the note in
+    # load_our_book_lines; getting this pairing wrong invents sauces.
+    for _nm in our_book:
+        if _nm in our_yields:
+            yields[_nm] = our_yields[_nm]
     # 47 recipe names collide once normalised (a base recipe and its "[Dine-in]"
     # twin). Keep the SHORTEST — the base recipe — so a normalised lookup lands on
     # the plain version rather than whichever happened to be inserted last.
@@ -1360,6 +1458,20 @@ def main() -> int:
 
     def resolve(name, parent=None):
         name = INGREDIENT_ALIAS.get(name, INGREDIENT_ALIAS.get((name or '').strip(), name))
+        # A line we injected from OUR OWN recipe book already knows its id — the
+        # chef picked the product by hand in the builder. That beats every name
+        # heuristic below it, and it is the only way a non-Lightspeed supplier
+        # code (b-e:14580, the Kagome sauce) can resolve at all.
+        #
+        # SCOPED TO THE REPLACED RECIPES, and it has to be. Unscoped, this map
+        # answers for every scraped line that merely shares a description — it
+        # silently repointed St. Germain across two cocktails onto the id our
+        # book happens to name, stranding the price bridge on the other one. Our
+        # id is authoritative for OUR lines, not for Produce's.
+        if parent in our_book:
+            _mine = our_line_ids.get((name or "").strip())
+            if _mine:
+                return ("id", _mine)
         # EXACT recipe name first. norm() strips a bracket suffix, so "Regular
         # Margherita" and "Regular Margherita [Dine-in]" collapse to one key; when
         # the [Dine-in] variant won that key, resolving its own "Regular Margherita"
