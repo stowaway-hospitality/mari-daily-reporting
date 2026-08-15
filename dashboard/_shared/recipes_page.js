@@ -99,14 +99,37 @@ export function start() {
       el('who').textContent = user.name;
 
       const canBook = BOOK_ROLES.includes(user.role);
+      if (!canBook) allowed = ['build', 'prep'];
+
+      // PAINT THE STRIP FIRST, THEN WIRE IT. index.html ships
+      // `<div id="maintabs"></div>` EMPTY — every tab button is created here by
+      // navHtml. So anything that looks an mt-* button up by id has to run after
+      // this line or it finds null and silently does nothing.
+      //
+      // It used to run before, and the effect was that NO tab was clickable on
+      // any of the five screens: el('mt-book') was null, addEventListener was
+      // never reached, and the buttons navHtml then painted had no handler.
+      // Deep links still worked, because 'hashchange' is bound to window and
+      // survives — which is exactly why this read as "the page is fine, the tabs
+      // are dead" rather than as a broken page. The comment on this block always
+      // said "painted BEFORE the in-page tabs are wired"; the code did the
+      // opposite.
+      //
+      // Painted for EVERY role, not just book-readers. It was inside
+      // `if (canBook)`, so a build/prep-only user got no strip at all and could
+      // not reach Prep Timer either. navHtml gates Invoices on isAdmin; the two
+      // book-only tabs come out below.
+      const _tabHost = el('maintabs');
+      if (_tabHost) {
+        _tabHost.innerHTML = navHtml(navFor(window.location),
+                                     { isAdmin: !!(user && user.role === 'admin') });
+      }
       if (!canBook) {
-        allowed = ['build', 'prep'];
         for (const x of ['book', 'flags']) {
           const b = el('mt-' + x);
           if (b) b.remove();
         }
       }
-
       for (const x of TABS) {
         const b = el('mt-' + x);
         if (b) b.addEventListener('click', () => go(x));
@@ -115,16 +138,6 @@ export function start() {
       ready = mountBuilder(user);
 
       if (canBook) {
-        // The strip is shared with /pricing/ and /invoices/ so all five screens read
-        // as one module rather than five tools. Painted BEFORE the in-page tabs are
-        // wired, because that wiring looks the mt-* buttons up by id. Invoices is
-        // admin-only here AND gated on its own page — a hidden button is
-        // decoration, not a permission.
-        const _tabHost = el('maintabs');
-        if (_tabHost) {
-          _tabHost.innerHTML = navHtml(navFor(window.location),
-                                       { isAdmin: !!(user && user.role === 'admin') });
-        }
         mountBook({ onOpen: open });
         // The count goes ON the tab. The whole reason this panel kept being
         // reported as missing is that it drew below a 913-row table, so nobody

@@ -168,6 +168,38 @@ const ok = (label, cond, extra = '') => {
      && !fs.existsSync(path.join(ROOT, 'dashboard/recipes-book/flags.js')));
 }
 
+// --- THE TAB STRIP IS PAINTED BEFORE IT IS WIRED -----------------------------
+// 2026-08-15: every tab on /recipes/ was unclickable. Not a 404, not an
+// exception — the shell ships `<div id="maintabs"></div>` EMPTY and navHtml
+// creates every button at runtime, but the wiring loop that calls
+// addEventListener on mt-* ran BEFORE that paint. el('mt-book') was null, the
+// listener was never attached, and the buttons painted a moment later had no
+// handler. Deep links kept working because 'hashchange' is bound to window, so
+// it presented as "the page is fine, the tabs are dead".
+//
+// The ids all existed, so the id-coverage checks above could not see it. This is
+// an ORDER check, which is the only thing that could have.
+{
+  const page = fs.readFileSync(path.join(ROOT, 'dashboard/_shared/recipes_page.js'), 'utf8');
+  const paint = page.indexOf('navHtml(');
+  const wire = page.indexOf("addEventListener('click'");
+  ok('recipes_page.js paints the tab strip (navHtml)', paint > -1);
+  ok('recipes_page.js wires the tab buttons by id', wire > -1);
+  ok('...and the paint comes BEFORE the wiring, or no tab is clickable',
+     paint > -1 && wire > -1 && paint < wire,
+     `navHtml at ${paint}, addEventListener at ${wire}`);
+
+  // The shell really does ship the host empty — which is WHY the order matters.
+  ok('the shell ships #maintabs empty, so the buttons are runtime-created',
+     /<div id="maintabs">\s*<\/div>/.test(html));
+
+  // Painting must not be gated on the book role, or a build/prep-only user gets
+  // no strip at all and cannot reach Prep Timer either.
+  const gate = page.indexOf('if (canBook) {');
+  ok('...and the strip is painted for every role, not only book-readers',
+     gate === -1 || paint < gate, `navHtml at ${paint}, if (canBook) at ${gate}`);
+}
+
 // --- MUTATION CHECK ----------------------------------------------------------
 {
   const broken = html.replace('id="prep-panel"', 'id="prep-panel-OOPS"');
