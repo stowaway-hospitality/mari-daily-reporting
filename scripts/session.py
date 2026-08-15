@@ -57,6 +57,9 @@ AREAS: dict[str, list[str]] = {
     "ops": [
         ".github/workflows/", "scripts/health_monitor.py", "ops/",
         "scripts/build_site.py", "scripts/alert_check.py",
+        # The claim machinery itself. Editing it unclaimed is how you break the
+        # thing that stops two sessions breaking each other.
+        "scripts/session.py", "SESSIONS.md",
     ],
     "dashboard": [
         "dashboard/sales/", "dashboard/home/", "dashboard/_shared/render.js",
@@ -70,6 +73,7 @@ AREAS: dict[str, list[str]] = {
 GLOBAL_PATHS = [
     ".github/workflows/", "scripts/health_monitor.py", "scripts/build_site.py",
     "CLAUDE.md", "data/costs.csv", "data/cogs_list.csv",
+    "scripts/session.py", "SESSIONS.md",
 ]
 
 
@@ -77,13 +81,77 @@ def _now() -> datetime:
     return datetime.now(timezone.utc)
 
 
-def _load() -> dict:
-    if CLAIMS.exists():
+CLAIMS_PATH = "ops/session_claims.json"
+
+
+def _token() -> str | None:
+    tok = (os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+           or os.environ.get("GH_DISPATCH_PAT"))
+    if tok:
+        return tok.strip()
+    for cand in (ROOT / ".secrets" / "github_pat_v2.txt",
+                 Path("/Users/Shared/ClaudeShared/STOW/Sales Reports/Daily Reporting")
+                 / ".secrets" / "github_pat_v2.txt"):
         try:
-            return json.loads(CLAIMS.read_text())
+            if cand.exists():
+                return cand.read_text().strip()
         except Exception:                                    # noqa: BLE001
             pass
-    return {"claims": []}
+    return None
+
+
+def _api(method: str, path: str, body: dict | None = None) -> tuple[int, dict]:
+    import urllib.error
+    import urllib.request
+    tok = _token()
+    if not tok:
+        return 0, {}
+    req = urllib.request.Request(
+        f"https://api.github.com{path}", method=method,
+        data=json.dumps(body).encode() if body else None,
+        headers={"Authorization": f"token {tok}",
+                 "Accept": "application/vnd.github+json",
+                 "Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=25) as r:
+            return r.status, json.loads(r.read() or b"{}")
+    except urllib.error.HTTPError as e:
+        try:
+            return e.code, json.loads(e.read() or b"{}")
+        except Exception:                                    # noqa: BLE001
+            return e.code, {}
+    except Exception:                                        # noqa: BLE001
+        return 0, {}
+
+
+def _load() -> dict:
+    """Read the claims that are ON MAIN — never the local working copy.
+
+    This used to read the file in your clone, which is the same silent-loss trap
+    the tool exists to close: your copy goes stale the moment another session
+    claims something, so status cheerfully reported "the repo is free" while two
+    areas were held. Measured on 2026-08-15, on this repo, by this tool.
+    """
+    st, js = _api("GET", f"/repos/{REPO}/contents/{CLAIMS_PATH}?ref=main")
+    if st == 200 and js.get("content"):
+        import base64
+        try:
+            d = json.loads(base64.b64decode(js["content"]))
+            d["_sha"] = js.get("sha")
+            return d
+        except Exception:                                    # noqa: BLE001
+            pass
+    # No token / no network: fall back to origin/main via git, and SAY SO.
+    _sh("git", "fetch", "-q", "origin", "main")
+    txt = _sh("git", "show", f"origin/main:{CLAIMS_PATH}")
+    if txt:
+        try:
+            d = json.loads(txt)
+            d["_readonly"] = "git (no API token — cannot claim or release)"
+            return d
+        except Exception:                                    # noqa: BLE001
+            pass
+    return {"claims": [], "_readonly": "nothing readable — treat as UNKNOWN, not free"}
 
 
 def _live(d: dict) -> list:
@@ -98,9 +166,34 @@ def _live(d: dict) -> list:
     return out
 
 
-def _save(d: dict) -> None:
-    CLAIMS.parent.mkdir(parents=True, exist_ok=True)
-    CLAIMS.write_text(json.dumps(d, indent=1, sort_keys=True) + "\n")
+def _save(d: dict, msg: str) -> int:
+    """Write the claim register straight to main, atomically.
+
+    Claims are worthless unless every session sees them at once, so this does NOT
+    wait for your next push. The old behaviour printed "commit it with your first
+    push" — and a release that was never committed left a dead claim blocking the
+    repo, which happened within an hour of shipping the tool. The `sha` makes this
+    compare-and-swap: if another session claimed something meanwhile, the write is
+    rejected rather than clobbering them.
+    """
+    if d.get("_readonly"):
+        print(f"CANNOT WRITE — {d['_readonly']}")
+        return 1
+    import base64
+    body = {k: v for k, v in d.items() if not k.startswith("_")}
+    payload = json.dumps(body, indent=1, sort_keys=True) + "\n"
+    st, js = _api("PUT", f"/repos/{REPO}/contents/{CLAIMS_PATH}", {
+        "message": msg,
+        "content": base64.b64encode(payload.encode()).decode(),
+        "sha": d.get("_sha"), "branch": "main"})
+    if st in (200, 201):
+        # Deliberately do NOT write the local copy. main is the register; a file
+        # in your clone that drifts from it is the bug this commit removes, and
+        # writing it also left the tree dirty enough to block `git pull --rebase`.
+        return 0
+    print(f"claim register write FAILED (HTTP {st}) — {js.get('message', '?')}")
+    print("Do NOT proceed as though you hold the area.")
+    return 1
 
 
 def _sh(*a) -> str:
@@ -118,19 +211,7 @@ def _overlap(a: str, b: str) -> list[str]:
 
 def _ci_status() -> str:
     """Latest Tests conclusion, or 'unknown' without a token. Never blocks."""
-    tok = (os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
-           or os.environ.get("GH_DISPATCH_PAT"))
-    if not tok:
-        for cand in (ROOT / ".secrets" / "github_pat_v2.txt",
-                     Path(os.path.expanduser(
-                         "~/Documents/STOW/Sales Reports/Daily Reporting"))
-                     / ".secrets" / "github_pat_v2.txt"):
-            try:
-                if cand.exists():
-                    tok = cand.read_text().strip()
-                    break
-            except Exception:                                # noqa: BLE001
-                pass
+    tok = _token()
     if not tok:
         return "unknown (no token)"
     try:
@@ -152,8 +233,12 @@ def cmd_status() -> int:
     print(f"clone: {ROOT}")
     if str(ROOT).startswith("/Users/Shared/ClaudeShared"):
         print("  !! THIS IS THE SHARED MOUNT. Work in a /tmp clone instead.")
+    src = d.get("_readonly")
+    if src:
+        print(f"  !! reading via {src}")
     if not live:
-        print("claims: none — the repo is free")
+        print("claims: none — the repo is free" if not src
+              else "claims: none VISIBLE — but the register is not readable; assume it is held")
         return 0
     print(f"claims ({len(live)} live, {EXPIRY_H}h expiry):")
     for c in live:
@@ -179,11 +264,13 @@ def cmd_start(area: str, who: str) -> int:
     if area in ("ops",) or any(p in GLOBAL_PATHS for p in AREAS[area]):
         print("\nNOTE: this area touches GLOBAL paths (workflows / guards / CLAUDE.md).")
         print("A change here affects every other session. Keep it short and tell Zak.")
-    d.setdefault("claims", [])
     d["claims"] = live + [{"area": area, "who": who, "at": _now().isoformat(timespec="seconds")}]
-    _save(d)
+    if _save(d, f"session: claim {area} — {who}"):
+        return 1
     print(f"\nclaimed '{area}' for: {who}")
-    print("Commit ops/session_claims.json with your first push so other sessions see it.")
+    print("Recorded on main — every other session can see it now. Do not commit")
+    print("ops/session_claims.json yourself; an older copy in your clone would")
+    print("silently un-claim whoever landed after you.")
     return 0
 
 
@@ -191,8 +278,10 @@ def cmd_end(area: str) -> int:
     d = _load()
     keep = [c for c in _live(d) if c["area"] != area]
     d["claims"] = keep
-    _save(d)
-    print(f"released '{area}'. {len(keep)} claim(s) still live.")
+    if _save(d, f"session: release {area}"):
+        print(f"'{area}' is STILL HELD on main. Tell Zak rather than leaving it.")
+        return 1
+    print(f"released '{area}' on main. {len(keep)} claim(s) still live.")
     return 0
 
 

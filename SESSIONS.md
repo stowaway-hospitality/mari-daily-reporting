@@ -61,8 +61,12 @@ it — the fix is to re-apply and push again.
 
 If it BLOCKS, do not proceed and do not "just be careful". Tell Zak who holds it.
 
-Commit `ops/session_claims.json` with your first push so other sessions can see
-you.
+`start` and `end` write the register straight to `main` themselves, so the claim
+is visible to every other session the moment you make it. **Do not commit
+`ops/session_claims.json` yourself** — an older copy from your clone would
+silently un-claim whoever claimed after you. (It used to say "commit it with your
+first push". That left a released claim sitting on `main` blocking the repo
+within an hour of the tool shipping, because the release never got committed.)
 
 ## 2. Work in a /tmp clone. Never the mount.
 
