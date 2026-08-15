@@ -69,6 +69,20 @@ CONVERSIONS: dict[str, tuple[Decimal, str]] = {
 }
 
 
+def qty_str(q: Decimal) -> str:
+    """Plain decimal text — never scientific notation.
+
+    Decimal division produces exponent form for round numbers: a 5kg box came
+    out as "5E+3" g. It is the right number and it round-trips through Decimal,
+    but data/ is read by other things (and by people), and "5E+3" in a stock
+    column is an invitation to a parse that returns 5.
+    """
+    q = q.normalize()
+    if q.as_tuple().exponent > 0:          # 5E+3 -> 5000
+        q = q.quantize(Decimal(1))
+    return format(q, "f")
+
+
 class UnprovableUnit(Exception):
     """Raised rather than guessing a conversion. See the module docstring."""
 

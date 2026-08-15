@@ -173,3 +173,21 @@ def test_alehouse_kegs_stay_at_the_size_ilg_states():
         assert (qty, unit) == (Decimal("49500"), "ml"), (
             f"{keg} is confirmed at 49.5L because that is what ILG's line says; "
             f"got {qty}{unit}")
+
+
+def test_quantities_are_written_as_plain_decimals():
+    """A 5kg box divided out came to "5E+3". Right number, wrong text: data/ is
+    read by other programs and by people, and "5E+3" in a stock column invites a
+    parse that returns 5."""
+    from ledger import qty_str
+    assert qty_str(Decimal("5000")) == "5000"
+    assert qty_str(Decimal(5000) / Decimal(1)) == "5000"
+    assert qty_str(Decimal("49500")) == "49500"
+    assert qty_str(Decimal("0.5")) == "0.5"
+
+    for path in sorted(LEDGER_DIR.glob("movements_*.csv")):
+        with path.open() as f:
+            for r in csv.DictReader(f):
+                assert "E" not in r["qty_base"].upper(), (
+                    f"{path.name}: {r['item_id']} qty {r['qty_base']!r} is in "
+                    f"exponent form")

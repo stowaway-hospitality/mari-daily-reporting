@@ -31,7 +31,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from build_receive_movements import (collect_lines, dec,          # noqa: E402
-                                     derive_base_units)
+                                     derive_base_units, load_cost_units)
 from ledger import UnprovableUnit, load_base_units, to_base       # noqa: E402
 from core.pack_overrides import load_pack_overrides               # noqa: E402
 
@@ -62,6 +62,11 @@ def main() -> int:
     overrides = load_pack_overrides(ROOT / "data" / "pack_overrides.yaml")
     rows = collect_lines()
     base_units, conflicts = derive_base_units(rows, load_base_units())
+    # Never ask for a confirmation the cost book already made. build_costs.py
+    # resolved these packs to a per-g/ml/ea price, refusing the ones it could
+    # not read — the same standard. Asking anyway wastes the one resource this
+    # list is spending: somebody's afternoon.
+    cost_units = load_cost_units()
 
     # item -> [$ blocked, lines, {descriptions}, {units}, reason]
     blocked: dict[str, list] = defaultdict(
@@ -74,6 +79,9 @@ def main() -> int:
         value = dec(L.get("line_total_incl")) or Decimal(0)
         if overrides.get(r["purchasable"] or "") or overrides.get(item):
             continue                       # already confirmed
+
+        if cost_units.get((item, str(r["inv"].get("invoice_ref") or "").strip())):
+            continue                       # the cost book resolved this delivery
 
         pack_qty, pack_unit = dec(L.get("pack_qty")), (L.get("pack_unit") or "")
         reason = ""

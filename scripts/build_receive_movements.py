@@ -18,6 +18,26 @@ rows — but only where BOTH questions have a provable answer:
                   and is refused — falling back to the description is how
                   ALEHOUSE CRISP KEG becomes the wrong $27.50 keg.
 
+    Pack size has THREE sources, in order, and the third one exists because Zak
+    asked "are you absolutely sure we haven't recorded packs for this in our
+    cogs book?" — and we had. data/costs.csv is built by
+    modules/recipes/pipeline/build_costs.py, which converts pack prices into the
+    unit a recipe uses and REFUSES rather than guessing when a pack can't be
+    read. So every row in it is a pack that was already resolved, by the same
+    standard this script applies, and 69 items were being refused here that the
+    cost book had solved months ago.
+
+        1. data/pack_overrides.yaml   a human wrote down what a pack holds
+        2. the invoice's own parse    pack_qty + pack_unit off the line
+        3. data/costs.csv             a per-g/ml/ea price DERIVED FROM THIS VERY
+                                      INVOICE (matched on source_invoice), so
+                                      line_total_ex / cost_per_unit is the base
+                                      quantity exactly, not an estimate
+
+    Matching on source_invoice is what makes (3) safe. A price from a different
+    delivery would silently turn a price change into a quantity change; the
+    observation and the line have to be the same event.
+
     HOW MUCH?     qty x pack size, converted to the item's base unit.
                   kg->g, L->ml, ea->each. A 'box', 'tray' or 'case' has no
                   provable size in the invoice — but data/pack_overrides.yaml
@@ -50,7 +70,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from ledger import (Movement, UnprovableUnit, load_base_units,   # noqa: E402
-                    rewrite_year, to_base)
+                    qty_str, rewrite_year, to_base)
 # Identity and declared pack sizes are INHERITED, never re-derived. purchasable_id
 # normalises the unit word the PDF parse bleeds onto a code, and pack_overrides is
 # the chef-confirmed table that resolves a 'box' into a real quantity.
@@ -82,6 +102,33 @@ def dec(x) -> Decimal | None:
         return Decimal(str(x).strip())
     except (InvalidOperation, AttributeError, TypeError, ValueError):
         return None
+
+
+COSTS = ROOT / "data" / "costs.csv"
+BASE_PRICED = {"g", "ml", "ea", "each"}
+
+
+def load_cost_units() -> dict[tuple[str, str], tuple[Decimal, str]]:
+    """(ingredient, source_invoice) -> (cost_per_unit, base unit).
+
+    The cost book already resolved these packs, refusing the ones it could not
+    read — the same standard applied here. Keyed by the invoice the observation
+    came FROM, so a price is only ever used against the delivery that produced
+    it; using a later price would turn a price rise into a phantom shortfall.
+    """
+    out: dict[tuple[str, str], tuple[Decimal, str]] = {}
+    if not COSTS.exists():
+        return out
+    with COSTS.open() as f:
+        for r in csv.DictReader(f):
+            unit = (r.get("unit") or "").strip().lower()
+            if unit not in BASE_PRICED:
+                continue                  # priced per box/tray/bottle — no help
+            cpu = dec(r.get("cost_per_unit"))
+            if not cpu or cpu <= 0:
+                continue
+            out[(r["ingredient"], (r.get("source_invoice") or "").strip())] = (cpu, unit)
+    return out
 
 
 def collect_lines() -> list[dict]:
@@ -154,6 +201,8 @@ def main() -> int:
     refused_value: dict[str, Decimal] = defaultdict(lambda: Decimal(0))
     by_supplier_unmapped: Counter = Counter()
     override_used = 0
+    from_cost = 0
+    cost_units = load_cost_units()
 
     def refuse(why: str, value: Decimal) -> None:
         refused[why] += 1
@@ -188,11 +237,44 @@ def main() -> int:
         try:
             per_pack, base = to_base(pack_qty, pack_unit)
         except UnprovableUnit:
-            refuse(f"unprovable pack unit {str(pack_unit).lower()!r} "
-                   f"(no confirmation in pack_overrides.yaml)", value)
-            continue
+            per_pack = base = None
 
         want = base_units.get(item)
+
+        # The cost book may already have resolved this exact delivery. Its price
+        # is per base unit, so the ex-GST line total divided by it IS the base
+        # quantity — no parsing, no guess.
+        if base is None or (want and base != want):
+            obs = cost_units.get((item, str(inv.get("invoice_ref") or "").strip()))
+            if obs:
+                cpu, cunit = obs
+                cbase = {"ea": "each"}.get(cunit, cunit)
+                line_ex = dec(L.get("line_total_ex"))
+                if line_ex is None:
+                    inc = dec(L.get("line_total_incl"))
+                    # GST-free lines exist (basic food); the invoice says which.
+                    line_ex = (inc / Decimal("1.1")
+                               if inc is not None and L.get("tax_treatment") == "gst"
+                               else inc)
+                if line_ex and line_ex > 0:
+                    from_cost += 1
+                    booked.append(Movement(
+                        ts=(inv.get("invoice_date") or "").strip(),
+                        venue=VENUE_KEY.get(inv.get("venue") or "", inv.get("venue") or ""),
+                        item_id=item, qty_base=qty_str(line_ex / cpu), base_unit=cbase,
+                        direction="out" if inv.get("is_credit_note") else "in",
+                        reason="receive",
+                        source_ref=f"invoice:{inv.get('supplier_key')}:{inv.get('invoice_ref')}",
+                        actor="invoice-pipeline",
+                        note=(L.get("description") or "")[:60],
+                    ))
+                    continue
+
+        if base is None:
+            refuse(f"unprovable pack unit {str(pack_unit).lower()!r} "
+                   f"(no confirmation, and the cost book has not priced it either)", value)
+            continue
+
         if want is None:
             why = ("item delivered in two dimensions — refused, not averaged"
                    if item in unit_conflicts
@@ -206,7 +288,7 @@ def main() -> int:
         booked.append(Movement(
             ts=(inv.get("invoice_date") or "").strip(),
             venue=VENUE_KEY.get(inv.get("venue") or "", inv.get("venue") or ""),
-            item_id=item, qty_base=str(qty * per_pack), base_unit=base,
+            item_id=item, qty_base=qty_str(qty * per_pack), base_unit=base,
             direction="out" if inv.get("is_credit_note") else "in",
             reason="receive",
             source_ref=f"invoice:{inv.get('supplier_key')}:{inv.get('invoice_ref')}",
@@ -218,6 +300,7 @@ def main() -> int:
     print(f"invoice stock lines: {n:,}")
     print(f"  booked as receive movements: {len(booked):,} ({len(booked)/n*100:.1f}%)")
     print(f"  pack size taken from a human confirmation: {override_used:,}")
+    print(f"  quantity taken from the cost book (same invoice): {from_cost:,}")
     print(f"  refused: {sum(refused.values()):,}\n")
     if refused:
         print("  why refused                                                    lines      $ incl")
