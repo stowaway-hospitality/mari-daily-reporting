@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-10T15:09:47.559872+10:00",
+  "generated_at": "2026-08-15T12:54:25.024162+10:00",
   "venue": "hg",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 95,
@@ -34,23 +34,23 @@
   },
   "summary": {
     "n_skus": 83,
-    "increase": 20,
-    "decrease": 26,
+    "increase": 18,
+    "decrease": 29,
     "unchanged": 30,
     "coverage_gaps": [],
     "shrinkage_applied": 0,
     "shrinkage_capped": 0,
     "shrinkage_without_demand_mapping": 0,
-    "low_mover_poisson": 39
+    "low_mover_poisson": 4
   },
   "skus": [
     {
       "product": "Alehouse Premium Lager [Keg]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 2.0,
-      "rec_par_pre_override": 2.0,
-      "rec_par_modelled": 2.0,
+      "rec_par": 1.2,
+      "rec_par_pre_override": 1.2,
+      "rec_par_modelled": 1.2,
       "current_par": 0.8,
       "drivers": {
         "pour_wk": 0.39,
@@ -67,18 +67,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.6,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.391,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.47,
-        "safety_stock": 1.609,
+        "safety_stock": 0.773,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -95,9 +95,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Angas & Bremer Grenache - Bottle",
@@ -156,9 +154,9 @@
       "product": "Angas & Bremer Ros\u00e9 - Bottle",
       "venue": "hg",
       "reporting_group": "Rose Wine [Harrys]",
-      "rec_par": 3.0,
-      "rec_par_pre_override": 3.0,
-      "rec_par_modelled": 3.0,
+      "rec_par": 2.6,
+      "rec_par_pre_override": 2.6,
+      "rec_par_modelled": 2.6,
       "current_par": 4.3,
       "drivers": {
         "pour_wk": 0.88,
@@ -175,18 +173,18 @@
         "capped": false
       },
       "service": {
-        "path": "negbinom",
+        "path": "normal",
         "burst_floor": 2.4,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.881,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 1.057,
-        "safety_stock": 2.119,
+        "safety_stock": 1.739,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -209,9 +207,9 @@
       "product": "Aperol [Bottle]",
       "venue": "hg",
       "reporting_group": "Amaro / Aperitif / Fortified Wine [Harrys]",
-      "rec_par": 2.0,
-      "rec_par_pre_override": 2.0,
-      "rec_par_modelled": 2.0,
+      "rec_par": 1.4,
+      "rec_par_pre_override": 1.4,
+      "rec_par_modelled": 1.4,
       "current_par": 0.8,
       "drivers": {
         "pour_wk": 0.0,
@@ -228,18 +226,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.8,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.481,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.577,
-        "safety_stock": 1.519,
+        "safety_stock": 0.949,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -256,9 +254,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Asahi 3.5%",
@@ -425,9 +421,9 @@
       "product": "Azurescens Pinot Noir - Bottle",
       "venue": "hg",
       "reporting_group": "Red Wine [Harrys]",
-      "rec_par": 4.0,
-      "rec_par_pre_override": 4.0,
-      "rec_par_modelled": 4.0,
+      "rec_par": 3.8,
+      "rec_par_pre_override": 3.8,
+      "rec_par_modelled": 3.8,
       "current_par": 3.5,
       "drivers": {
         "pour_wk": 1.27,
@@ -444,18 +440,18 @@
         "capped": false
       },
       "service": {
-        "path": "negbinom",
+        "path": "normal",
         "burst_floor": 2.8,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 1.268,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 1.521,
-        "safety_stock": 2.732,
+        "safety_stock": 2.503,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -497,18 +493,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.002,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.003,
-        "safety_stock": 0.0,
+        "safety_stock": 0.004,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -525,9 +521,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Barsol Pisco [Bottle]",
@@ -697,8 +691,8 @@
       "venue": "hg",
       "reporting_group": "",
       "rec_par": 2.0,
-      "rec_par_pre_override": 1.0,
-      "rec_par_modelled": 1.0,
+      "rec_par_pre_override": 0.6,
+      "rec_par_modelled": 0.6,
       "current_par": 2,
       "drivers": {
         "pour_wk": 0.09,
@@ -715,18 +709,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.4,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.193,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.232,
-        "safety_stock": 0.807,
+        "safety_stock": 0.382,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -748,8 +742,7 @@
       },
       "flags": [
         "override:min",
-        "override_changed",
-        "low_mover_poisson"
+        "override_changed"
       ]
     },
     {
@@ -811,9 +804,9 @@
       "product": "Buffalo Trace Bourbon [Bottle]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 1.0,
-      "rec_par_pre_override": 1.0,
-      "rec_par_modelled": 1.0,
+      "rec_par": 0.5,
+      "rec_par_pre_override": 0.5,
+      "rec_par_modelled": 0.5,
       "current_par": 0.4,
       "drivers": {
         "pour_wk": 0.02,
@@ -830,18 +823,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.5,
-        "burst_floored": false,
+        "burst_floored": true,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.141,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.169,
-        "safety_stock": 0.859,
+        "safety_stock": 0.217,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -858,9 +851,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Calle 23 Blanco Tequila [Bottle]",
@@ -922,8 +913,8 @@
       "venue": "hg",
       "reporting_group": "Amaro / Aperitif / Fortified Wine [Harrys]",
       "rec_par": 2.0,
-      "rec_par_pre_override": 1.0,
-      "rec_par_modelled": 1.0,
+      "rec_par_pre_override": 0.3,
+      "rec_par_modelled": 0.3,
       "current_par": 2,
       "drivers": {
         "pour_wk": 0.0,
@@ -940,18 +931,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.2,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.104,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.125,
-        "safety_stock": 0.896,
+        "safety_stock": 0.16,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -973,8 +964,7 @@
       },
       "flags": [
         "override:min",
-        "override_changed",
-        "low_mover_poisson"
+        "override_changed"
       ]
     },
     {
@@ -1108,18 +1098,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.013,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.016,
-        "safety_stock": 0.0,
+        "safety_stock": 0.021,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -1136,9 +1126,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Disaronno [Bottle]",
@@ -1218,18 +1206,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.1,
         "burst_floored": true,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.032,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.039,
-        "safety_stock": 0.0,
+        "safety_stock": 0.05,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -1246,17 +1234,15 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Esoterico Orange - Bottle",
       "venue": "hg",
       "reporting_group": "Orange / Skins Wine [Harrys]",
       "rec_par": 0.0,
-      "rec_par_pre_override": 1.0,
-      "rec_par_modelled": 1.0,
+      "rec_par_pre_override": 0.3,
+      "rec_par_modelled": 0.3,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.12,
@@ -1273,18 +1259,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.125,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.15,
-        "safety_stock": 0.875,
+        "safety_stock": 0.192,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -1306,8 +1292,7 @@
       },
       "flags": [
         "override:zero",
-        "override_changed",
-        "low_mover_poisson"
+        "override_changed"
       ]
     },
     {
@@ -1424,9 +1409,9 @@
       "product": "From Sundays Shiraz - Bottle",
       "venue": "hg",
       "reporting_group": "Red Wine [Harrys]",
-      "rec_par": 4.0,
-      "rec_par_pre_override": 4.0,
-      "rec_par_modelled": 4.0,
+      "rec_par": 3.4,
+      "rec_par_pre_override": 3.4,
+      "rec_par_modelled": 3.4,
       "current_par": 2.8,
       "drivers": {
         "pour_wk": 1.14,
@@ -1443,18 +1428,18 @@
         "capped": false
       },
       "service": {
-        "path": "negbinom",
+        "path": "normal",
         "burst_floor": 2.1,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 1.143,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 1.371,
-        "safety_stock": 2.857,
+        "safety_stock": 2.256,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -1477,9 +1462,9 @@
       "product": "Geppetto Chardonnay - Bottle",
       "venue": "hg",
       "reporting_group": "White Wine [Harrys]",
-      "rec_par": 3.0,
-      "rec_par_pre_override": 3.0,
-      "rec_par_modelled": 3.0,
+      "rec_par": 2.9,
+      "rec_par_pre_override": 2.9,
+      "rec_par_modelled": 2.9,
       "current_par": 2.8,
       "drivers": {
         "pour_wk": 0.97,
@@ -1496,18 +1481,18 @@
         "capped": false
       },
       "service": {
-        "path": "negbinom",
+        "path": "normal",
         "burst_floor": 1.9,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.97,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 1.164,
-        "safety_stock": 2.03,
+        "safety_stock": 1.915,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -1640,9 +1625,9 @@
       "product": "Haku Vodka [Bottle]",
       "venue": "hg",
       "reporting_group": "Vodkas [Harrys]",
-      "rec_par": 1.0,
-      "rec_par_pre_override": 1.0,
-      "rec_par_modelled": 1.0,
+      "rec_par": 0.5,
+      "rec_par_pre_override": 0.5,
+      "rec_par_modelled": 0.5,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
@@ -1659,18 +1644,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.5,
-        "burst_floored": false,
+        "burst_floored": true,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.134,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.161,
-        "safety_stock": 0.866,
+        "safety_stock": 0.206,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -1687,9 +1672,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Hendrick's Gin [Bottle]",
@@ -1714,18 +1697,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.01,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.011,
-        "safety_stock": 0.0,
+        "safety_stock": 0.015,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -1742,9 +1725,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Hyoketsu Lemon [HG]",
@@ -1808,9 +1789,9 @@
       "product": "Italicus Bergamot Liqueur [Bottle]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 3.1,
-      "rec_par_pre_override": 1.0,
-      "rec_par_modelled": 1.0,
+      "rec_par": 2.3,
+      "rec_par_pre_override": 0.2,
+      "rec_par_modelled": 0.2,
       "current_par": 2.5,
       "drivers": {
         "pour_wk": 0.0,
@@ -1827,18 +1808,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.2,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.088,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.105,
-        "safety_stock": 0.912,
+        "safety_stock": 0.135,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -1860,8 +1841,7 @@
       },
       "flags": [
         "override:reserve",
-        "override_changed",
-        "low_mover_poisson"
+        "override_changed"
       ]
     },
     {
@@ -1997,18 +1977,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.016,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.02,
-        "safety_stock": 0.0,
+        "safety_stock": 0.025,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -2025,9 +2005,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Kahlua Coffee Liqueur [Bottle]",
@@ -2052,18 +2030,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.1,
         "burst_floored": true,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.027,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.032,
-        "safety_stock": 0.0,
+        "safety_stock": 0.042,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -2086,8 +2064,7 @@
       "flags": [
         "override:min",
         "new_par",
-        "override_changed",
-        "low_mover_poisson"
+        "override_changed"
       ]
     },
     {
@@ -2226,18 +2203,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.1,
         "burst_floored": true,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.038,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.046,
-        "safety_stock": 0.0,
+        "safety_stock": 0.059,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -2254,9 +2231,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Kuku Sauv Blanc",
@@ -2317,9 +2292,9 @@
       "product": "Kuku Sauv Blanc - Bottle",
       "venue": "hg",
       "reporting_group": "White Wine [Harrys]",
-      "rec_par": 2.0,
-      "rec_par_pre_override": 2.0,
-      "rec_par_modelled": 2.0,
+      "rec_par": 1.7,
+      "rec_par_pre_override": 1.7,
+      "rec_par_modelled": 1.7,
       "current_par": 2.8,
       "drivers": {
         "pour_wk": 0.53,
@@ -2336,18 +2311,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 1.7,
-        "burst_floored": false,
+        "burst_floored": true,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.53,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.636,
-        "safety_stock": 1.47,
+        "safety_stock": 1.046,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -2364,17 +2339,15 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Kunizakari Umeshu [60ml]",
       "venue": "hg",
       "reporting_group": "Liqueurs [Harrys]",
-      "rec_par": 6.0,
-      "rec_par_pre_override": 6.0,
-      "rec_par_modelled": 6.0,
+      "rec_par": 5.6,
+      "rec_par_pre_override": 5.6,
+      "rec_par_modelled": 5.6,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
@@ -2391,18 +2364,18 @@
         "capped": false
       },
       "service": {
-        "path": "negbinom",
+        "path": "normal",
         "burst_floor": 4.3,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 1.878,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 2.254,
-        "safety_stock": 4.122,
+        "safety_stock": 3.708,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -2540,9 +2513,9 @@
       "product": "L'esprit Ros\u00e9 - Bottle",
       "venue": "hg",
       "reporting_group": "Rose Wine [Harrys]",
-      "rec_par": 5.0,
-      "rec_par_pre_override": 5.0,
-      "rec_par_modelled": 5.0,
+      "rec_par": 4.4,
+      "rec_par_pre_override": 4.4,
+      "rec_par_modelled": 4.4,
       "current_par": 6,
       "drivers": {
         "pour_wk": 1.47,
@@ -2559,18 +2532,18 @@
         "capped": false
       },
       "service": {
-        "path": "negbinom",
+        "path": "normal",
         "burst_floor": 3.0,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 1.47,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 1.764,
-        "safety_stock": 3.53,
+        "safety_stock": 2.902,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -2665,18 +2638,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.017,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.02,
-        "safety_stock": 0.0,
+        "safety_stock": 0.025,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -2693,9 +2666,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Massenez Raspberry Framboise [Bottle]",
@@ -2720,18 +2691,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.006,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.007,
-        "safety_stock": 0.0,
+        "safety_stock": 0.01,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -2748,9 +2719,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Massenez Triple Sec [5L]",
@@ -2775,18 +2744,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.1,
         "burst_floored": true,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.027,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.033,
-        "safety_stock": 0.0,
+        "safety_stock": 0.042,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -2808,17 +2777,16 @@
       },
       "flags": [
         "override:reserve",
-        "override_changed",
-        "low_mover_poisson"
+        "override_changed"
       ]
     },
     {
       "product": "Monkey Shoulder Scotch [Bottle]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 1.0,
-      "rec_par_pre_override": 1.0,
-      "rec_par_modelled": 1.0,
+      "rec_par": 0.3,
+      "rec_par_pre_override": 0.3,
+      "rec_par_modelled": 0.3,
       "current_par": 0.3,
       "drivers": {
         "pour_wk": 0.04,
@@ -2835,18 +2803,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.3,
-        "burst_floored": false,
+        "burst_floored": true,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.117,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.14,
-        "safety_stock": 0.883,
+        "safety_stock": 0.18,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -2863,9 +2831,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Monteith's Apple Cider Bottle",
@@ -2946,18 +2912,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.1,
-        "burst_floored": true,
+        "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.04,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.048,
-        "safety_stock": 0.0,
+        "safety_stock": 0.062,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -2979,17 +2945,16 @@
       },
       "flags": [
         "override:min",
-        "override_changed",
-        "low_mover_poisson"
+        "override_changed"
       ]
     },
     {
       "product": "Nikka Black Whisky [700ml]",
       "venue": "hg",
       "reporting_group": "Whiskies [Harrys]",
-      "rec_par": 0.0,
-      "rec_par_pre_override": 0.0,
-      "rec_par_modelled": 0.0,
+      "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.1,
       "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
@@ -3006,18 +2971,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.02,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.024,
-        "safety_stock": 0.0,
+        "safety_stock": 0.031,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -3035,7 +3000,7 @@
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "low_mover_poisson"
+        "new_par"
       ]
     },
     {
@@ -3061,18 +3026,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.004,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.004,
-        "safety_stock": 0.0,
+        "safety_stock": 0.006,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -3089,9 +3054,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Oscar.697 Rosso Vermouth [Bottle]",
@@ -3116,18 +3079,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.1,
         "burst_floored": true,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.032,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.039,
-        "safety_stock": 0.0,
+        "safety_stock": 0.05,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -3144,17 +3107,15 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Ottelia Cab Sav - Bottle",
       "venue": "hg",
       "reporting_group": "Red Wine [Harrys]",
-      "rec_par": 1.0,
-      "rec_par_pre_override": 1.0,
-      "rec_par_modelled": 1.0,
+      "rec_par": 0.6,
+      "rec_par_pre_override": 0.6,
+      "rec_par_modelled": 0.6,
       "current_par": 2,
       "drivers": {
         "pour_wk": 0.21,
@@ -3171,18 +3132,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.6,
-        "burst_floored": false,
+        "burst_floored": true,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.208,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.25,
-        "safety_stock": 0.792,
+        "safety_stock": 0.321,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -3199,17 +3160,15 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Padrillos Malbec - Bottle",
       "venue": "hg",
       "reporting_group": "Red Wine [Harrys]",
-      "rec_par": 2.0,
-      "rec_par_pre_override": 2.0,
-      "rec_par_modelled": 2.0,
+      "rec_par": 1.7,
+      "rec_par_pre_override": 1.7,
+      "rec_par_modelled": 1.7,
       "current_par": 2,
       "drivers": {
         "pour_wk": 0.58,
@@ -3226,18 +3185,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 1.5,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.583,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.7,
-        "safety_stock": 1.417,
+        "safety_stock": 1.152,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -3254,17 +3213,15 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Palloncino Prosecco - Bottle",
       "venue": "hg",
       "reporting_group": "Sparkling Wine [Harrys]",
-      "rec_par": 6.0,
-      "rec_par_pre_override": 6.0,
-      "rec_par_modelled": 6.0,
+      "rec_par": 5.5,
+      "rec_par_pre_override": 5.5,
+      "rec_par_modelled": 5.5,
       "current_par": 6,
       "drivers": {
         "pour_wk": 1.16,
@@ -3281,18 +3238,18 @@
         "capped": false
       },
       "service": {
-        "path": "negbinom",
+        "path": "normal",
         "burst_floor": 3.2,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 1.842,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 2.211,
-        "safety_stock": 4.158,
+        "safety_stock": 3.637,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -3337,9 +3294,9 @@
         "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
-        "service_class": "standard",
-        "service_level": 0.9,
-        "z": 1.282,
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.0,
         "shrink_multiplier": 1.0,
@@ -3557,18 +3514,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.1,
         "burst_floored": true,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.032,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.039,
-        "safety_stock": 0.0,
+        "safety_stock": 0.05,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -3585,9 +3542,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "River Retreat Pinot Grigio",
@@ -3756,9 +3711,9 @@
       "product": "Rooster Blanco Tequila [Bottle]",
       "venue": "hg",
       "reporting_group": "Tequila [Harrys]",
-      "rec_par": 19.6,
-      "rec_par_pre_override": 4.0,
-      "rec_par_modelled": 4.0,
+      "rec_par": 19.1,
+      "rec_par_pre_override": 3.5,
+      "rec_par_modelled": 3.5,
       "current_par": 16,
       "drivers": {
         "pour_wk": 0.04,
@@ -3775,18 +3730,18 @@
         "capped": false
       },
       "service": {
-        "path": "negbinom",
+        "path": "normal",
         "burst_floor": 2.3,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 1.165,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 1.398,
-        "safety_stock": 2.835,
+        "safety_stock": 2.299,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -3870,9 +3825,9 @@
       "product": "Saika Junmai Daiginjo [720ml]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 0.0,
-      "rec_par_pre_override": 0.0,
-      "rec_par_modelled": 0.0,
+      "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.1,
       "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
@@ -3889,18 +3844,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.035,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.042,
-        "safety_stock": 0.0,
+        "safety_stock": 0.053,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -3917,9 +3872,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Sailor Jerry [Bottle]",
@@ -3944,18 +3897,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.005,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.006,
-        "safety_stock": 0.0,
+        "safety_stock": 0.007,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -3972,17 +3925,15 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Sapporo [Keg]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 2.0,
-      "rec_par_pre_override": 2.0,
-      "rec_par_modelled": 2.0,
+      "rec_par": 1.2,
+      "rec_par_pre_override": 1.2,
+      "rec_par_modelled": 1.2,
       "current_par": 0.7,
       "drivers": {
         "pour_wk": 0.11,
@@ -3999,18 +3950,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.5,
         "burst_floored": false,
         "service_class": "core",
         "service_level": 0.95,
-        "z": null,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.406,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.487,
-        "safety_stock": 1.594,
+        "safety_stock": 0.801,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -4027,9 +3978,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "St. Felix Bitter Aperitivo [Bottle]",
@@ -4164,18 +4113,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.007,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.008,
-        "safety_stock": 0.0,
+        "safety_stock": 0.01,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -4192,9 +4141,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Tengumai Umajan Junmai [1.8L]",
@@ -4219,18 +4166,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.1,
-        "burst_floored": true,
+        "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.047,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.057,
-        "safety_stock": 0.0,
+        "safety_stock": 0.073,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -4247,9 +4194,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "The Pass Sauv Blanc - Bottle",
@@ -4277,9 +4222,9 @@
         "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
-        "service_class": "tail",
-        "service_level": 0.85,
-        "z": 1.036,
+        "service_class": "standard",
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.0,
         "shrink_multiplier": 1.0,
@@ -4485,9 +4430,9 @@
       "product": "Vinada Sparking Chardonnay [Bottle]",
       "venue": "hg",
       "reporting_group": "",
-      "rec_par": 1.0,
-      "rec_par_pre_override": 1.0,
-      "rec_par_modelled": 1.0,
+      "rec_par": 0.2,
+      "rec_par_pre_override": 0.2,
+      "rec_par_modelled": 0.2,
       "current_par": 1,
       "drivers": {
         "pour_wk": 0.07,
@@ -4504,18 +4449,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.067,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.08,
-        "safety_stock": 0.933,
+        "safety_stock": 0.103,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -4532,17 +4477,15 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "Wa no Kokoro Yuzushu [Bottle]",
       "venue": "hg",
       "reporting_group": "Sake & Soju [Harrys]",
-      "rec_par": 0.0,
-      "rec_par_pre_override": 0.0,
-      "rec_par_modelled": 0.0,
+      "rec_par": 0.1,
+      "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.1,
       "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
@@ -4559,18 +4502,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.033,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.04,
-        "safety_stock": 0.0,
+        "safety_stock": 0.051,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -4587,17 +4530,15 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "low_mover_poisson"
-      ]
+      "flags": []
     },
     {
       "product": "White Light Pure Vodka [20L]",
       "venue": "hg",
       "reporting_group": "Vodkas [Harrys]",
       "rec_par": 0.5,
-      "rec_par_pre_override": 0.0,
-      "rec_par_modelled": 0.0,
+      "rec_par_pre_override": 0.1,
+      "rec_par_modelled": 0.1,
       "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.0,
@@ -4614,18 +4555,18 @@
         "capped": false
       },
       "service": {
-        "path": "poisson",
+        "path": "normal",
         "burst_floor": 0.0,
         "burst_floored": false,
         "service_class": "standard",
-        "service_level": 0.95,
-        "z": null,
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.022,
         "shrink_multiplier": 1.0,
         "cv": 1.2,
         "sigma_exposure": 0.026,
-        "safety_stock": 0.0,
+        "safety_stock": 0.034,
         "cv_source": "sku+group",
         "seasonal_index": 1.0,
         "seasonal_source": "flat"
@@ -4647,8 +4588,7 @@
       },
       "flags": [
         "override:min",
-        "override_changed",
-        "low_mover_poisson"
+        "override_changed"
       ]
     }
   ]

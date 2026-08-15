@@ -187,14 +187,30 @@ def negbinom_quantile(mean: float, var: float, p: float = POISSON_SERVICE,
 # ── the order-up-to level ───────────────────────────────────────────────────
 def order_up_to(forecast_wk, cv, exposure_units, normal_units, service_class,
                 shrink_fraction=0.0, bookings_uplift=0.0,
-                poisson_threshold=POISSON_THRESHOLD_WK, burst_floor=0.0):
-    """Return (par, detail dict). Pure maths — no I/O, no rounding policy."""
+                poisson_threshold=POISSON_THRESHOLD_WK, burst_floor=0.0,
+                whole_unit=True):
+    """Return (par, detail dict). Pure maths — no I/O, no rounding policy.
+
+    `whole_unit` decides whether the low-mover path may be used at all.
+
+    Poisson and negative binomial model COUNTS of whole events. That is right
+    for a can: you sell 3 cans, never 3.4. It is wrong for a spirit bottle,
+    which is drunk 30ml at a time — 0.07 bottles a week is a continuous
+    quantity, and a Lightspeed par of 0.2 is a perfectly valid reorder trigger
+    ("when less than a fifth of a bottle is left, order"). Forcing a continuous
+    quantity through a discrete distribution rounds it up to 1 by construction,
+    which is how 36 slow-moving spirits were each handed a full spare bottle
+    (+$3,097 of stock) without any evidence they were running out.
+
+    So: whole-unit SKUs (cans, tins, packaged) may take the discrete path;
+    fractionally-consumed ones (bottles, kegs, casks) always stay continuous.
+    """
     ratio = (exposure_units / normal_units) if normal_units else 1.0
     demand = forecast_wk * ratio
     z = Z[service_class]
     shrink_mult = 1.0 + max(0.0, shrink_fraction)
 
-    if forecast_wk > 0 and forecast_wk < poisson_threshold:
+    if whole_unit and forecast_wk > 0 and forecast_wk < poisson_threshold:
         lam = demand * shrink_mult
         # cv here is the volatility estimate for this SKU; var = (cv*mean)^2.
         var = (cv * lam) ** 2 if cv else lam

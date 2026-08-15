@@ -1953,6 +1953,10 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
                 shrink_fraction=sk["loss_fraction"],
                 bookings_uplift=(up if BOOKINGS_LIVE else 0.0),
                 burst_floor=_burst_floor(series, exp),
+                # A bottle/keg/cask is drunk 30ml at a time — continuous, and a
+                # fractional par is a valid reorder trigger. Only genuinely
+                # counted stock (cans, tins) may use the discrete low-mover path.
+                whole_unit=not _is_bulk_par(sku),
             )
             detail["cv_source"] = cv_src
             detail["seasonal_index"] = round(season_idx, 3)
