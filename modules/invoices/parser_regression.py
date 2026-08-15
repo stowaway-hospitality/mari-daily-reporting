@@ -302,6 +302,44 @@ reframing found a much bigger miss than Sun Circle, and a bug I nearly shipped.
   keyed. Any future keyed invoice moves those numbers and the existing price-move
   reporting picks it up. Nothing else is possible without a digital invoice.
 
+ 15. THE REVIEW PILE, worked by category rather than by supplier. 22 documents in
+     it were never bills at all and no parser could ever have reconciled them:
+     13 CartonCloud "Proof Of Delivery" dockets (quantities, no prices, emailed
+     per consignment on behalf of the brewers) and 9 Xero statement ledgers that
+     slipped the guard because they print neither "amount enclosed" nor an ageing
+     spread. An "Invoice Amount" COLUMN beside a "Balance Due" is now sufficient:
+     an invoice states its own total, it does not tabulate other invoices against
+     a running balance. Verified the same way as the ageing rule — of the 418
+     PASSing invoices, ZERO are swallowed, and a real Xero TAX INVOICE from the
+     same sender still classifies as an invoice.
+
+ 16. A GENERIC XERO PARSER WAS INVESTIGATED AND DELIBERATELY NOT WRITTEN. It looks
+     like the obvious next win — 21 real invoices from post.xero.com, one shared
+     template, and it would keep catching new small suppliers. The table itself is
+     easy (Description | Quantity | Unit Price | [Discount|GST] | Amount AUD,
+     reconciling to "TOTAL AUD"). The blocker is SUPPLIER ATTRIBUTION, and it is
+     the same identity-corruption class as everything else in this log:
+
+       * post.xero.com is the SENDER for every one of them, so the domain -> parser
+         registry cannot name the supplier. The supplier differs per document
+         (Urbun Bakery, Canton Group, Grifter, Philter, Speed Gas, Sigurd Wines,
+         Cordless Filter, Beerline Cleaning, SYMSAFE, Twin Fin Studio, MODA).
+       * The obvious in-PDF key does NOT work. Reading the first ABN off the page
+         returns 17606243921 for Urbun Bakery, Canton Group, Twin Fin Studio, MODA
+         AND Philter — because that is STOWAWAY'S OWN ABN; the Xero template
+         prints the customer's ABN in the block above the supplier's. A parser
+         built on that would file five different suppliers under one identity and
+         merge their price histories. Exactly the failure items 12 and 13 were.
+
+     The reliable name is in the email SUBJECT, which Xero generates consistently
+     ("Invoice <ref> from <SUPPLIER> for <VENUE>") and which pull_mailbox already
+     passes to run.py as --source. Wiring that through to parse_pdf (which today
+     takes only bytes + sender domain) is the real piece of work, and it changes a
+     shared interface, so it wants a deliberate change rather than the tail of a
+     long session. Note also that the value is smaller than the count suggests:
+     of the 21, only Urbun Bakery and Canton Group are kitchen food — the rest are
+     liquor and services, which do not feed recipe costs.
+
   STILL DELIBERATELY OPEN, with reasons:
   * The three $0.00 documents (be_foods d02385290774, ilg e23ce69fe899 +
     b46bfb0a542a). The 08-14 entry wanted a $0.00 gate because they "cost an LLM
