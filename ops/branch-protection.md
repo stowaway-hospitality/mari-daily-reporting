@@ -1,23 +1,38 @@
 # Wall 1 — branch-protect `main` (Zak, one-time)
 
-> ## READ THIS FIRST — it will break your automation if you skip it
+> ## READ THIS FIRST — what is actually possible on THIS repo
 >
-> This repo's BOTS push straight to `main` dozens of times a day: the daily pull,
-> the ingest ledger, the Xero pull (Contents API), EatClub, Uber, and the health
-> snapshot. Turning on **Require a pull request before merging** without adding
-> the bot as a **bypass actor** stops every one of them — and a silent automation
-> outage is worse than the problem you are fixing. On 2026-08-11 an expired token
-> did exactly that and three days of sales went missing before anyone noticed.
+> Settled by experiment on 2026-08-15 against the live repo, not by reading docs.
 >
-> So, when you enable the ruleset:
-> 1. Add the PAT's identity under **"Allow specified actors to bypass required
->    pull requests"**.
-> 2. Turn it on when you can WATCH the next daily pull run (early morning AEST),
->    not last thing at night.
-> 3. Check the health panel afterwards: "Automation jobs" going amber is the
->    signal you got it wrong.
+> **Tier 1 is ON.** Ruleset `main - no force-push, no delete` (`non_fast_forward`
+> + `deletion`), enforcement active, NO bypass for anyone including Zak.
+> Confirmed safe: nothing in `.github/workflows/` force-pushes or deletes `main`,
+> so this cost nothing. `gh api repos/OWNER/REPO/rules/branches/main` lists it.
 >
-> Everything below still applies — this is a caveat, not a cancellation.
+> **Tier 2 (require a PR) CANNOT be made safe while this repo is personal.**
+> The bots push with `GITHUB_TOKEN`, i.e. as the GitHub Actions app - visible in
+> the commit authors (`par-review-bot`, `Rebuild Wages`, `Roster Pull`). Adding
+> that app as a bypass actor is REFUSED on a user-owned repo:
+>
+>     422  Actor GitHub Actions integration must be part of the ruleset
+>          source or owner organization
+>
+> Only `RepositoryRole` and `DeployKey` are accepted here (both probed and
+> confirmed). Neither covers `GITHUB_TOKEN`. So turning on a PR requirement today
+> blocks every data commit - the daily pull, ingest, Xero, EatClub, Uber, health -
+> which is the silent outage this file has always warned about.
+>
+> Three ways forward, in order of cost:
+> 1. **Stay at Tier 1.** Force-push and deletion are the unrecoverable mistakes;
+>    both are blocked. A bad-but-normal commit is revertable.
+> 2. **Move the repo to a (free) GitHub organisation.** App bypass becomes legal
+>    and Tier 2 works as designed. Note fine-grained PATs then need org approval.
+> 3. **Rewire the ~18 pushing workflows to an SSH deploy key** and bypass that.
+>    Most work, most risk, no org needed.
+>
+> One more thing that changes the maths: every Cowork session pushes with ZAK'S
+> PAT, so any `RepositoryRole: admin` bypass makes a PR requirement decorative -
+> the sessions it is meant to gate would bypass it too.
 
 
 This is the single highest-leverage guardrail. Once it's on, **no** session — not a
