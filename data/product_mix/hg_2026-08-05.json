@@ -1,0 +1,407 @@
+{
+  "schema": "product_mix/1",
+  "venue": "harry",
+  "prefix": "hg",
+  "date": "2026-08-05",
+  "generated_at": "2026-08-15T14:02:51",
+  "source_file": "insights_hg_2026-08-05.csv",
+  "ex_gst_basis": "inc_minus_tax",
+  "truncated": false,
+  "row_count": 36,
+  "totals": {
+    "qty": 99.0,
+    "rev_inc": 1478.5,
+    "rev_ex": 1344.2
+  },
+  "reconciliation": {
+    "expected_rev_inc": 1478.5,
+    "expected_rev_ex": 1344.2,
+    "gap_inc": 0.0,
+    "gap_ex": 0.0,
+    "basis": "gross of EatClub give-away"
+  },
+  "reconciled": true,
+  "products": [
+    {
+      "name": "Tonkotsu",
+      "qty": 12.0,
+      "cost": 51.1716,
+      "cost_source": "recipe",
+      "cost_lightspeed": 49.97,
+      "rev_inc": 264.0,
+      "rev_ex": 240.0,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Shoyu",
+      "qty": 4.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 95.0,
+      "rev_ex": 86.36,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Miso",
+      "qty": 4.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 88.0,
+      "rev_ex": 80.0,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Dumplings - Beef & Cabbage",
+      "qty": 6.0,
+      "cost": 8.7714,
+      "cost_source": "recipe",
+      "cost_lightspeed": 8.84,
+      "rev_inc": 84.0,
+      "rev_ex": 76.38,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Chicken Katsu Curry",
+      "qty": 3.0,
+      "cost": 9.2889,
+      "cost_source": "recipe",
+      "cost_lightspeed": 8.57,
+      "rev_inc": 81.0,
+      "rev_ex": 73.65,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Katsu Curry",
+      "qty": 3.0,
+      "cost": 9.2889,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 81.0,
+      "rev_ex": 73.65,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
+      "name": "Shredded Beef",
+      "qty": 3.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 78.0,
+      "rev_ex": 70.92,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Mie Goreng",
+      "qty": 3.0,
+      "cost": 17.0064,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.55,
+      "rev_inc": 70.0,
+      "rev_ex": 63.64,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "From Sundays Shiraz - Bottle",
+      "qty": 1.0,
+      "cost": 14.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 62.0,
+      "rev_ex": 56.36,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Chicken Karaage",
+      "qty": 3.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 51.0,
+      "rev_ex": 46.35,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Duck Spring Roll",
+      "qty": 3.0,
+      "cost": 10.7076,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.72,
+      "rev_inc": 48.0,
+      "rev_ex": 43.65,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Fried Rice",
+      "qty": 2.0,
+      "cost": 5.6484,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.36,
+      "rev_inc": 46.0,
+      "rev_ex": 41.82,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "BBQ Pork Buns",
+      "qty": 3.0,
+      "cost": 10.5,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.5,
+      "rev_inc": 45.0,
+      "rev_ex": 40.92,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Sapporo - 500ml",
+      "qty": 3.0,
+      "cost": 11.13,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.22,
+      "rev_inc": 42.0,
+      "rev_ex": 38.18,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Aperol Spritz",
+      "qty": 3.0,
+      "cost": 10.668,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.11,
+      "rev_inc": 42.0,
+      "rev_ex": 38.18,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Sapporo - Schooner",
+      "qty": 3.0,
+      "cost": 9.4605,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.54,
+      "rev_inc": 39.0,
+      "rev_ex": 35.46,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Dumplings - Prawn Har Gow [GF]",
+      "qty": 2.0,
+      "cost": 8.8038,
+      "cost_source": "recipe",
+      "cost_lightspeed": 8.83,
+      "rev_inc": 38.0,
+      "rev_ex": 34.54,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Margato",
+      "qty": 2.0,
+      "cost": 7.4668,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.81,
+      "rev_inc": 28.0,
+      "rev_ex": 25.47,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Dumplings - Veg Gyoza",
+      "qty": 2.0,
+      "cost": 3.9038,
+      "cost_source": "recipe",
+      "cost_lightspeed": 3.92,
+      "rev_inc": 28.0,
+      "rev_ex": 25.46,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Edamame",
+      "qty": 2.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 22.0,
+      "rev_ex": 20.0,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Harry's Lager - Schooner",
+      "qty": 2.0,
+      "cost": 3.145,
+      "cost_source": "recipe",
+      "cost_lightspeed": 3.38,
+      "rev_inc": 19.0,
+      "rev_ex": 17.28,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "1/2 Marinated Egg",
+      "qty": 9.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 18.0,
+      "rev_ex": 16.38,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Popcorn Cauliflower",
+      "qty": 1.0,
+      "cost": 0.9611,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.98,
+      "rev_inc": 15.0,
+      "rev_ex": 13.64,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Palloncino Prosecco - Regular",
+      "qty": 2.0,
+      "cost": 4.5998,
+      "cost_source": "recipe",
+      "cost_lightspeed": 4.6,
+      "rev_inc": 14.0,
+      "rev_ex": 12.72,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Pepsi Max Glass",
+      "qty": 3.0,
+      "cost": 3.93,
+      "cost_source": "recipe",
+      "cost_lightspeed": 3.93,
+      "rev_inc": 13.5,
+      "rev_ex": 12.27,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Harry's Lager - Pint",
+      "qty": 1.0,
+      "cost": 2.109,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.27,
+      "rev_inc": 12.5,
+      "rev_ex": 11.36,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Asahi Zero",
+      "qty": 1.0,
+      "cost": 2.1,
+      "cost_source": "lightspeed",
+      "rev_inc": 10.5,
+      "rev_ex": 9.55,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Rice Pudding",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 9.5,
+      "rev_ex": 8.64,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Pepsi Glass",
+      "qty": 2.0,
+      "cost": 2.62,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.62,
+      "rev_inc": 9.0,
+      "rev_ex": 8.18,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Angas & Bremer Grenache - Regular",
+      "qty": 1.0,
+      "cost": 1.754,
+      "cost_source": "recipe",
+      "cost_lightspeed": 1.75,
+      "rev_inc": 7.0,
+      "rev_ex": 6.36,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Black Garlic Oil",
+      "qty": 3.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 6.0,
+      "rev_ex": 5.46,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Jasmine Rice",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 5.0,
+      "rev_ex": 4.55,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "Extra Chicken.",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 4.0,
+      "rev_ex": 3.64,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Chicken",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 3.5,
+      "rev_ex": 3.18,
+      "dept": "b",
+      "till": "hg"
+    },
+    {
+      "name": "Swap for Tofu",
+      "qty": 2.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "hg"
+    },
+    {
+      "name": "2 Glasses",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "b",
+      "till": "hg"
+    }
+  ]
+}

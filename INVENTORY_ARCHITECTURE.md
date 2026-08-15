@@ -66,12 +66,43 @@ and its numbers are already fiction — `stowaway-stocktake` exists because coun
 are trued up by hand. We compute on-hand ourselves and treat LS as a second
 opinion at most.
 
-## PREREQUISITE: persist the full daily product mix
+## PREREQUISITE: persist the full daily product mix — DONE 2026-08-15
 
-`daily_aggregator.py` keeps `product_breakdown[:20]`. The Insights CSV has all
+`daily_aggregator.py` kept `product_breakdown[:20]`. The Insights CSV has all
 ~300 lines. Deducting from a truncated mix under-deducts silently and forever —
 the stock would drift down slower than reality and every variance would be wrong
 in the flattering direction. Fix this before writing a single ledger row.
+
+What was built:
+
+| Thing | Where |
+|---|---|
+| Per-day fact, untruncated | `data/product_mix/<prefix>_<date>.json` |
+| Rollup the ledger reads | `data/products_daily.csv` (`scripts/build_products_daily.py`) |
+| History rebuild | `scripts/backfill_product_mix.py` |
+| Guard | `tests/test_product_mix.py` |
+
+`top_products` in the daily record stays 20 on purpose — it is the dashboard
+panel and it ships to every open browser tab. The mix is a separate file, so
+widening one cannot bloat the other and pointing the ledger at the wrong one is
+a visible mistake rather than a silent 10x under-deduction.
+
+Every mix carries its own reconciliation: the lines must sum to that day's
+revenue, on the same ex-GST basis the day settled on, or the file is written
+`reconciled: false` and says so. 110 venue-days backfilled (2026-07-06 →
+2026-08-14, the full daily-grain history we hold — the Looker backfill behind
+`products_weekly.csv` is weekly-only, so it cannot feed a daily mix). All 110
+tie to the cent.
+
+**It found something on the way in.** Nine Harry Gatos days —
+07-12, 07-14, 07-19, 07-21, 07-26, 07-28, 08-04, 08-09, 08-11 — have the
+REPORTING-GROUP report committed under the product report's filename. Revenue
+sums correctly off those files, so the P&L never complained; there is simply no
+product detail in them, and `top_products` has been `[]` on those days all
+along. They are refused rather than written as an empty mix, because a zero-line
+mix reads as "nothing sold" and would deduct nothing while reporting a clean
+variance. Nine days is 23% of HG's history — fix the export before the ledger
+goes live or HG's variance is measured on three weeks in four.
 
 ## THE THING THAT DECIDES IF THIS WORKS: recipe coverage
 
@@ -127,7 +158,7 @@ Nothing else on this page matters more than that list.
 
 ## Build order
 
-1. Persist the FULL daily product mix (prerequisite above)
+1. ~~Persist the FULL daily product mix~~ — DONE 2026-08-15 (prerequisite above)
 2. Ledger schema + `receive` + `count` — this alone gives on-hand and a real
    variance against counts, with no recipe dependency at all
 3. Recipes for the top 50 sellers by volume (the gate)

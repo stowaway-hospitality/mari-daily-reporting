@@ -220,6 +220,16 @@ jobs:
           # exports, reattributes cross-till rows, joins the reporting-group name.
           python scripts/build_products_weekly.py || echo "::warning::products rollup failed (non-fatal)"
 
+      - name: Rebuild full daily product mix rollup
+        run: |
+          # data/products_daily.csv — every till line, every venue, every day,
+          # untruncated. The stock ledger deducts from THIS, never from the
+          # daily record's top_products (that is the 20-row dashboard panel;
+          # deducting from it under-counts silently forever).
+          # Facts come from data/product_mix/, written by daily_aggregator.py
+          # in the step above. See INVENTORY_ARCHITECTURE.md.
+          python scripts/build_products_daily.py || echo "::warning::daily product mix rollup failed (non-fatal)"
+
       - name: Rebuild product Sales API (dashboard/sales/products/*.json)
         run: |
           # Path B: JSON endpoints for cross-surface Claude access — served from
