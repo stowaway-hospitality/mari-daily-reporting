@@ -374,6 +374,42 @@ def bo_stated_rates(cogs_rows):
     return out
 
 
+def bo_declared_units():
+    """ProductID -> the base unit Back Office says the product is measured in.
+
+    THE ONLY THING A ZERO-COST PRODUCT STILL TELLS YOU. The bridge below turns an
+    invoice price into a ProductID's cost by converting it into that ProductID's
+    own unit, and it takes that unit from `seed_conv` — which is built from the
+    product's existing seed. A product with NO cost has no seed, so it has no
+    conversion, so the bridge emits nothing, so it keeps no cost. Nothing was
+    wrong with any single step and the loop never terminated:
+
+        22962978 White Pepper   4 recipes, 10 g and 7.5 g a batch, $0.00
+        22962975 bicarb         2 marinations, 50 g each, $0.00
+        22874517 Yuzu Juice     Shiba Highball, 10 ml, $0.00
+
+    Back Office states `Unit` for every one of them — g, g, ml — and only
+    `CostPriceIncTax` is missing. The basis was never unknown; it just was not
+    being read from the one file that had it.
+
+    ONLY BASE UNITS ARE RETURNED. "unit", "each" and Lightspeed's "UNIT" default
+    say nothing about how a recipe portions the thing, and a bridge that guessed
+    at those is how a keg price lands on a per-ml beer.
+    """
+    out: dict[str, str] = {}
+    for p in sorted((ROOT / "data" / "bo_exports").glob("*products*.csv")):
+        try:
+            rdr = csv.DictReader(p.open(encoding="utf-8-sig"))
+        except OSError:
+            continue
+        for r in rdr:
+            pid = (r.get("ProductID") or "").strip()
+            u = (r.get("Unit") or "").strip().lower()
+            if pid and u in ("g", "ml"):
+                out[f"lightspeed:{pid}"] = u
+    return out
+
+
 def _ilg_key(code: str) -> str:
     """ILG writes one code two ways — "175-042-0" in the price book, "175-0420"
     on an invoice, and "395-6785P" for the same product as "395-6785". The digits
@@ -860,6 +896,8 @@ def main() -> int:
         print(f"    NOT pinned: {what} — {why}")
 
     seed_conv, seed_price = build_seed_conv(cogs_rows, overrides, bo_rate, book_pack)
+    # The base unit Back Office declares, for products that have no seed at all.
+    bo_units = bo_declared_units()
 
     rows, skipped, bridged = [], [], 0
     for r in cogs_rows:
@@ -1044,6 +1082,22 @@ def main() -> int:
             if iid.startswith("lightspeed:"):
                 break
             sc = seed_conv.get(pid)
+            # LAST RESORT, and deliberately the narrowest one available: a product
+            # with NO seed has no conversion, so the block below never runs and the
+            # product keeps costing $0 forever no matter how many invoices arrive.
+            # Where Back Office DECLARES the base unit and the invoice is already
+            # in that same unit, there is nothing to convert — no divisor, no
+            # scale factor, no inference — so the rate can be taken as it stands.
+            #
+            # The magnitude guard further down cannot fire here (it compares
+            # against a seed price, and there is none), which is exactly why this
+            # refuses anything needing arithmetic. g->g and ml->ml only. A
+            # different unit, a pack/each basis, or no declared unit all fall
+            # through to the old behaviour: emit nothing.
+            if not (sc and sc[0] > 0):
+                _bu = bo_units.get(pid)
+                if _bu and _bu == unit:
+                    sc = (Decimal(1), _bu)
             if sc and sc[0] > 0:
                 sqty, sunit = sc
                 if sunit == unit:                       # already the seed's unit

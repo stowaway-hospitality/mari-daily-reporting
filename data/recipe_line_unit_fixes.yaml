@@ -203,3 +203,19 @@
 # pear, muddled. Rocket Man D is the same drink (Zak confirmed) and inherits it.
 - {recipe: "Rocket Man", ingredient: "Pears Green [kg]", from_unit: "ml", to_unit: "ea",
    why: "0.25 x $0.65/ea = $0.1625, exactly what the book charges"}
+
+# Dry goods measured in "ml", 2026-08-14. Both cost NOTHING today: the ingredient
+# is priced per GRAM and the line says ml, the dimensions disagree, so the book
+# refuses to cost it and the line contributes $0 on a real quantity — the
+# flattering direction. Relabelling ADDS cost, which is the safe direction, and
+# ml is not a unit either of these has ever been sold in.
+# NB the raw line is named just "Oregano" — INGREDIENT_ALIAS maps it to the
+# costed "Oregano Leaves Rubbed - Torino" LATER, and apply_unit_fixes runs first,
+# so this must match the name the scrape actually carries. "[Dine-in]" is a
+# derived twin and inherits the fix rather than needing its own entry.
+- {recipe: "Regular Little Italy", ingredient: "Oregano",
+   from_unit: "ml", to_unit: "g",
+   why: "rubbed oregano is bought by weight (Gulli WINORE-UC10, 500 g at $0.02/g) and 0.5 g is a pinch on a pizza; as ml it costs $0"}
+- {recipe: "Frozen Marg", ingredient: "Dehydrated Lime Garnish",
+   from_unit: "ml", to_unit: "g",
+   why: "a dehydrated lime wheel is priced per gram ($0.092308/g) and weighs about the 1 the line asks for; as ml it costs $0"}

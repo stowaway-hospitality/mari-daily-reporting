@@ -445,6 +445,12 @@ INGREDIENT_ALIAS = {
     "S.S.C [Small Bottle]": "Spiced Sour Cream [Batch]",   # S.S.C = spiced sour cream
     "S.S.C": "Spiced Sour Cream [Batch]",
     "Oregano": "Oregano Leaves Rubbed - Torino",   # same herb, one costed
+    # Potato Salad seasons with "Togarashi" against a ProductID that has never
+    # carried a cost, so 10 g of it was free. The book holds exactly ONE
+    # togarashi — Ichimi Togarashi Chilli Pepper 300Gm at $0.0372/g — and there
+    # is no shichimi anywhere in the corpus to confuse it with, so the generic
+    # name can only mean that one. Same shape as the Oregano line above.
+    "Togarashi": "Ichimi Togarashi Chilli Pepper 300Gm Best",
     # lowercase generics entered beside the real, costed product
     "shaved parmesan": "Dairy Farmers Shaved Parmesan [1kg]",
     "parmesan": "Dairy Farmers Shaved Parmesan [1kg]",

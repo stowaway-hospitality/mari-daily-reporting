@@ -67,6 +67,8 @@ MUTANTS = [
   "brisket cook yield back to the impossible 105%"),
  ("data/pack_overrides.yaml", "pack_qty: 3785", "pack_qty: 1",
   "Frank's gallon priced per litre again"),
+ ("modules/recipes/pipeline/build_costs.py", "if pid and u in (\"g\", \"ml\"):",
+  "if False:", "a zero-cost product can never be given one"),
 ]
 
 def run(cmd):
