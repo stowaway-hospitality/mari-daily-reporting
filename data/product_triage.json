@@ -26,30 +26,48 @@
       "was": "Lightspeed cost-book entry named [kg] but priced $0.65 with unit 'ea'",
       "now": "use the suppliers, not the cost book",
       "how": "Zak: don't use Lightspeed for pears. Our own invoices settle it and BOTH readings are real \u2014 Fresh Fruit Team PGKG sells Pears Green by the KILOGRAM (basis per_kg, uom 'Kilogram'): $4.40, $4.40, $3.96/kg across three deliveries. Select Fresh PGRE sells PEAR GREEN EACH at $0.40 x2. The Lightspeed $0.65 matches neither and is a stale BO export."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Mushroom Button",
+      "code": "MSHB",
+      "was": "$44.00 read as ONE box",
+      "now": "$11.00/kg (pack 4000 g)",
+      "how": "FFT portal, 2026-08-15: listed \"MUSHROOM BUTTON (4 KG BOX)\" AND carrying its own per-kilogram line at $11.00/kg. $44.00 over 4 kg is exactly $11.00/kg, so the box weight is confirmed twice. The B-grade sibling is listed \"MUSHROOM B GRADE (4KG BOX)\" at $33.00, matching its own chef-confirmed 4000 g \u2014 the two grades do share a box size, which is what was uncertain when this was flagged rather than applied."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Herb Chives (market bunch)",
+      "code": "HCMB",
+      "was": "$15.40 read as ONE bunch",
+      "now": "$123.20/kg (pack 125 g)",
+      "how": "Zak: a market bunch of chives is 125 g. The invoice's own raw_uom for this code is \"Market\"."
+    },
+    {
+      "supplier": "Select Fresh",
+      "name": "HERB CHIVES 5-6 MKT BNCH",
+      "code": "HCHIM",
+      "was": "$19-22 read as ONE bunch",
+      "now": "$152-176/kg (pack 125 g)",
+      "how": "Zak: a market bunch is 125 g, and this is ONE market bunch. The arithmetic is what settles the reading: at 125 g the whole chive/coriander family across both suppliers lands at $97-176/kg, the band a light labour-intensive herb belongs in. The other reading \u2014 5-6 market bunches, 687 g \u2014 gives $32/kg and sits nowhere near its siblings."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "POTCO20KG (independent confirmation)",
+      "code": "POTCO20KG",
+      "was": "applied earlier from a sibling + naming convention",
+      "now": "confirmed outright",
+      "how": "FFT portal lists \"POTATO COCKTAIL (20KG)\" at $44.00/20kg bag. The 20000 g pack applied earlier from POTCOBX and the PCW20BG/OBL20BG convention was right."
     }
   ],
   "flags": [
     {
       "supplier": "Fresh Fruit Team",
-      "name": "Mushroom Button",
-      "code": "MSHB",
-      "issue": "$44.00 read as ONE box, so unusable in a recipe. Its B-grade sibling MSHB2 is chef-confirmed at a 4000 g box from the same supplier with the same 'Box' uom; at 4000 g this is $11.00/kg against B-grade's $8.25/kg, which is the right relationship. NOT applied: the box size is inferred from the sibling, not stated anywhere, and A and B grade could ship different boxes.",
-      "suggested_fix": "Confirm the A-grade box weight on the next delivery \u2014 if 4 kg, pin 4000 g."
-    },
-    {
-      "supplier": "Select Fresh",
-      "name": "Herb Chives 5-6 Mkt Bnch",
-      "code": "HCHIM",
-      "issue": "$19.00-$22.00 priced as ONE bunch, but the name says the market bunch holds 5-6. At 5.5 that is ~$4/bunch, against FFT HCBCH at $2.42 and Select Fresh's own HCHI at $3.00 \u2014 so ~$4 is plausible but 5 vs 6 changes it by 20% and nothing on the invoice says which.",
-      "suggested_fix": "Ask Select Fresh whether the market bunch is 5 or 6. Not guessed."
-    },
-    {
-      "supplier": "Fresh Fruit Team",
       "name": "BRL / BROCE / SBCH",
       "code": "(three codes)",
-      "issue": "One supplier code carrying two unrelated product names (Broccolini vs Radiccio; Broccolini vs Cocktail (Box); Red Long vs Shallot). Not the dropped-word artefact fixed at source today \u2014 these are different products, so either FFT reuses the code or the parser stitched a description from the wrong neighbouring row. Cost history for these codes is mixing two products.",
-      "suggested_fix": "Confirm with FFT which product each code belongs to."
+      "issue": "DIAGNOSIS CHANGED \u2014 this is a PARSER defect, not code reuse, and no longer needs the supplier. The FFT catalogue shows each code is one product: BROCE is \"BROCCOLINI (BUNCH)\" at $3.17, matching our invoices to the cent; BRL is \"BROCCOLINI (BOX)\"; SBCH is \"Shallot\" at $2.86/bunch against our $2.65. FFT does not list radicchio at all. So the SECOND name on each code \u2014 'Radiccio' on BRL, 'Cocktail (Box)' on BROCE, 'Red Long' on SBCH \u2014 is a description stitched from the WRONG neighbouring row, the same class as MKB500PUNN. Cost is unaffected (pack comes from raw_uom); it is the names that are wrong.",
+      "suggested_fix": "Fix the FFT description stitch so it cannot take a neighbouring line's text. No supplier call needed."
     }
   ],
-  "note": "Three of the outstanding flags are closed. The B&E liner was confirmed off the supplier's own catalogue; the FFT potato off a chef-confirmed sibling of the same product; the pear off our own invoices rather than the Lightspeed cost book, which is stale. Both pack fixes made things CHEAPER \u2014 they were over-stating cost (a carton price read as one unit), so nothing downstream was ever flattered. What is left needs a supplier to answer, not code: an A-grade mushroom box weight, a chives bunch count, and three FFT codes that carry two products each."
+  "note": "Every outstanding pack question is now closed. Three were answered off the suppliers' own portals (B&E liner 200's, FFT mushroom 4 kg box, FFT potato 20 kg bag), one off Zak (a market bunch of chives is 125 g), and one off our own invoices rather than the Lightspeed cost book (pears). Every pack fix moved cost CHEAPER \u2014 they were all a carton or market-bunch price read as a single unit \u2014 so nothing downstream was ever flattered. What remains is one PARSER defect, not a supplier question: three FFT codes carry a second description stitched from the wrong neighbouring row."
 }

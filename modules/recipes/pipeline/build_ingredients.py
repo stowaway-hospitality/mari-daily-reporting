@@ -190,6 +190,37 @@ _NAME_FIX = {
 }
 
 
+# BRANDS THE INVOICE DROPS AND THE PICKER NEEDS. Zak: "i need brands in things
+# like this so it's certain when i pick it."
+#
+# Some suppliers print the brand in the description and some do not, and B&E is
+# the one that does not: its invoice line reads "TOMATO - PIZZA SAUCE" while its
+# own catalogue calls the same code 14580 "Tomato - Pizza Sauce 5x3kg Ctn
+# #Kau04-4 Kagome". So the sauce Marilyna's puts on every pizza WAS in the
+# picker, correctly costed at $2.33/kg over the 15 kg carton — it just could not
+# be found by the name anyone actually uses for it, and two different tomato
+# sauces sat next to each other with nothing to tell them apart.
+#
+# Keyed by (supplier, code) rather than code alone: B&E's codes are numeric and
+# a bare number is far too easy to collide with another supplier's. The brand is
+# APPENDED rather than replacing the name, so it composes with _NAME_FIX and with
+# the descriptions suppliers already get right, and it is skipped when the name
+# already contains it (Foodlink writes "PECAN NUT 1KG Natures" itself).
+#
+# Confirmed on befoodsonline 2026-08-15, by code and price.
+_BRAND = {
+    ("B&E", "14580"): "Kagome",      # Tomato - Pizza Sauce 5x3kg Ctn, $35.00/CTN
+}
+
+
+def with_brand(supplier: str, code: str, desc: str) -> str:
+    """Append the supplier's brand when the invoice description omits it."""
+    b = _BRAND.get((supplier, (code or "").strip()))
+    if not b or b.lower() in (desc or "").lower():
+        return desc
+    return f"{desc} {b}".strip()
+
+
 # A bare unit word tacked on the END of a name ("CARROT KG", "ONION BROWN BAG",
 # "HERB BASIL BCH") — Select Fresh writes these. It reads raw AND hides near-dupes
 # (the same onion as "... BAG" and "... KG" looks like two products). Strip it.
@@ -777,6 +808,13 @@ def main() -> int:
         fix = _NAME_FIX.get(normalize_code(it.get("supplier_code") or "").upper())
         if fix:
             it["description"] = fix
+        # Brand LAST, so it composes with the fix above rather than being
+        # overwritten by it — and before the name-collapse below, because two
+        # sauces that differ only by brand must stop colliding once the brand
+        # is on them.
+        it["description"] = with_brand(it.get("supplier") or "",
+                                       it.get("supplier_code") or "",
+                                       it["description"])
 
     # Second pass: two DIFFERENT codes can still be the same product once the
     # names match (Carrot Large 'CLKG' per-kg vs 'CL20KGBX' the 20kg box — same
