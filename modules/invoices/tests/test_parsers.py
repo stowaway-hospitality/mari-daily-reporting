@@ -660,3 +660,23 @@ def test_xero_unreadable_header_falls_back_rather_than_inventing_columns():
     from modules.invoices.parsers.xero import _cols_from_header
     assert _cols_from_header(_row((31, "Description"))) is None
     assert _cols_from_header([]) is None
+
+
+def test_a_service_suppliers_lines_are_not_stock():
+    # A STOCK line is bounds-checked as a purchasable AND offered to the chef as
+    # a recipe ingredient. Twin Fin's "Social Media Management" at $4,400 was
+    # held by SANITY_BOUNDS for being outside the plausible per_unit range —
+    # the guard working exactly as designed on a number that is not a unit price
+    # for a thing. These vendors sell services and nothing else, so it is a
+    # supplier-level fact and there is no per-line judgement to get wrong.
+    from modules.invoices.parsers.xero import SERVICE_SUPPLIERS, ABN_SUPPLIER
+    keys = {k for k, _n in ABN_SUPPLIER.values()}
+    assert SERVICE_SUPPLIERS <= keys, (
+        "a service supplier must also be a registered vendor, or it can never "
+        f"be reached: {SERVICE_SUPPLIERS - keys}")
+    # the food and beverage vendors must NOT be in it — their lines are goods
+    for goods in ("mallia_industries", "canton_group", "grifter", "philter",
+                  "moda_sparkling", "sigurd_wines", "speed_gas"):
+        assert goods not in SERVICE_SUPPLIERS, (
+            f"{goods} sells goods; marking it a service would take its lines out "
+            f"of the cost book entirely")

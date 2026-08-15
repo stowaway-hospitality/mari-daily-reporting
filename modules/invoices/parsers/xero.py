@@ -87,6 +87,31 @@ ABN_SUPPLIER: dict[str, tuple[str, str]] = {
     "50677241833": ("twin_fin_studio", "Twin Fin Studio Pty Ltd"),
 }
 
+# SUPPLIERS WHO SELL NO GOODS. Their lines are services — a monthly retainer, a
+# line clean, a callout — so they are emitted as EXTRA rather than STOCK.
+#
+# That is not cosmetic. A STOCK line is (a) bounds-checked as if it were a
+# purchasable and (b) offered to the chef as a recipe ingredient. Twin Fin's
+# "Stowaway and Harry Gatos - Social Media Management" at $4,400 was held by
+# SANITY_BOUNDS for being outside the plausible per_unit range $0.10-$500 —
+# which is the guard working exactly as designed on a number that is simply not
+# a unit price for a thing. Nobody will ever put social media management in a
+# recipe either.
+#
+# Deliberately a SUPPLIER-level fact, not a per-line guess: these vendors sell
+# services and nothing else, so there is no judgement to get wrong. Measured
+# before writing: of 441 parsed invoices in the corpus only TWO are held by
+# SANITY_BOUNDS, and the other is farmer_joes CHICKEN BONES at $0.80/kg — a real
+# price under a global floor, documented as a non-defect since 2026-08-08. So
+# this is one document today; it is fixed at the cause rather than by widening a
+# bound that is protecting everything else.
+SERVICE_SUPPLIERS = {
+    "twin_fin_studio",      # social media / design retainer
+    "symsafe",              # safety compliance
+    "beerline_cleaning",    # line cleaning
+    "cookers",              # oil filtration service
+}
+
 
 def _m(s):
     s = (s or "").replace(",", "").replace("$", "").strip()
@@ -237,7 +262,8 @@ def parse(pdf_bytes: bytes) -> Invoice:
     for qty, amt, desc, code, gst_free in raw:
         taxable = (not inclusive) and gst_total > 0 and not gst_free
         incl = (amt * Decimal("1.1")).quantize(Decimal("0.01")) if taxable else amt
-        is_extra = bool(re.search(r"freight|delivery|cartage|fuel\s*levy", desc, re.I))
+        is_extra = (supplier_key in SERVICE_SUPPLIERS
+                    or bool(re.search(r"freight|delivery|cartage|fuel\s*levy", desc, re.I)))
         items.append(InvoiceLine(
             description=desc or code or "", qty=qty, line_total_incl=incl,
             unit_price_incl=(incl / qty).quantize(Decimal("0.0001")),

@@ -215,6 +215,19 @@ treated as advice. It is not — it is the only safe way to hold a file here.
 Edit, run the tests, run `scripts/arch_guard.py`, commit — all in `/tmp/dr`,
 where nothing else is writing.
 
+**If you touched anything under `modules/recipes/pipeline/` or a parser, also run:**
+
+    python3 scripts/feed_diff.py          # what did this do to the ingredient feed?
+
+It rebuilds `data/ingredients.json` at HEAD and again from your working tree and
+reports every ingredient that appeared, VANISHED, or changed price. The tests
+assert the things a change is *about*; this catches what it did to everything
+else. On 2026-08-15 a cosmetic name repair passed all 1,900 tests and silently
+deleted two products from the picker, replacing a $15.40 pack with its $2.42
+sibling — `feed_diff` is that check made repeatable. Read VANISHED and CHEAPER
+first: a cost that comes out too high gets investigated, one that comes out too
+low flatters GP and nothing ever asks.
+
 **Stage files explicitly in the clone; do not `git add -A`.** The ignore rule is
 `data/invoice_corpus/` (a directory) and the thing you just made is a *symlink*
 of that name, so it does not match and `-A` will happily stage it — committing a
