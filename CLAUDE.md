@@ -43,14 +43,23 @@ deletes HG's Monday revenue and blinds the Mari coverage guard (~6 figures/yr).
 - `arch_guard.py` fails CI + deploy if logic leaks into `sales/index.html`.
 - Python: `/opt/homebrew/bin/python3.12` (system 3.9 lacks `str | None`); Actions uses 3.11.
 - Push auth: git uses the **osxkeychain** helper, NOT a file. The live token is
-  `.secrets/github_pat.txt` (expires **2026-10-07**); `.secrets/github_pat_v2.txt`
-  is REVOKED despite the newer name — it 401s. If a push fails with "Invalid
-  username or token", the keychain is serving the dead one; re-store the live one:
+  **`.secrets/github_pat_v2.txt`** — rotated **2026-08-14 17:23**, fine-grained,
+  admin+push on this repo, **no expiry**. `.secrets/github_pat.txt` is the OLD
+  July token (expires 2026-10-07); it still authenticates today, so it fails
+  *silently by working* until it lapses — prefer v2 everywhere.
+  **This paragraph said the exact opposite until 2026-08-15** (it called v2
+  REVOKED, from the window before the rotation) and the keychain was still
+  serving the old token, so re-read it rather than trusting memory. If a push
+  fails with "Invalid username or token", re-store the live one:
   `printf "protocol=https\nhost=github.com\n\n" | git credential-osxkeychain erase`
-  then `printf "protocol=https\nhost=github.com\nusername=x-access-token\npassword=%s\n\n" "$(tr -d ' \n\r' < .secrets/github_pat.txt)" | git credential-osxkeychain store`.
+  then `printf "protocol=https\nhost=github.com\nusername=x-access-token\npassword=%s\n\n" "$(tr -d ' \n\r' < .secrets/github_pat_v2.txt)" | git credential-osxkeychain store`.
   Diagnose which token is in play by comparing `shasum -a 256` of the keychain
   password against each file — never print a token. (Fetch keeps working while
   broken because the repo is public, so a dead token shows up ONLY as failed pushes.)
+- **A live PAT is hardcoded in `setup_github.sh`** (untracked, repo root, the old
+  July token). It is a real credential sitting in a plaintext script — rotate or
+  gut it. Token strings also leaked into old MCP session logs under
+  `~/Library/Caches/claude-cli-nodejs/**/mcp-logs-workspace/*.jsonl` (July dates).
 
 ## Standing constraints (still in force)
 - Never handle `GRAPH_CLIENT_SECRET` or the Supabase `service_role` key — Zak pastes those.
