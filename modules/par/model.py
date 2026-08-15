@@ -340,15 +340,46 @@ def _is_custom_cocktail(name: str) -> bool:
 
 
 # ── loaders ─────────────────────────────────────────────────────────────────
-def load_weekly(data_dir: str):
-    rows = []
+def load_weekly(data_dir: str, today=None):
+    """Weekly sales rows, WITHOUT the week that is still being traded.
+
+    products_weekly.csv is rebuilt daily, so on any day but the last one its
+    newest week is a PART week — three days of a seven-day week, presented in a
+    column the model reads as a whole one. Nothing downstream can tell the
+    difference: it lands in the recent-8-week weighted mean as a week where
+    everything sold less, drags the deseasonalised level down, and the pars come
+    out cut.
+
+    That is not hypothetical. The 2026-08-10 run modelled on a week 2026-08-09
+    that was still 29 rows short, and uploaded cuts sized on it — Villa Fresco
+    27.8, Monteith's 11.9, Heaps Normal 28.8. When the week completed, the very
+    next run wanted all of them back up again. A week of pars was set from a
+    number that was only ever going to get bigger.
+
+    A week is complete once its Sunday has passed, so keep `week_ending < today`.
+    Run at 6am Sunday, that is the week that closed the night before — which is
+    exactly the week the Sunday order should be sized on.
+    """
+    today = today or date.today()
+    rows, dropped = [], {}
     with open(os.path.join(data_dir, "products_weekly.csv"), newline="") as fh:
         for r in csv.DictReader(fh):
             try:
                 r["qty"] = float(r["qty"] or 0)
             except ValueError:
                 r["qty"] = 0.0
+            we = r.get("week_ending") or ""
+            try:
+                complete = date.fromisoformat(we) < today
+            except ValueError:
+                complete = False
+            if not complete:
+                dropped[we] = dropped.get(we, 0) + 1
+                continue
             rows.append(r)
+    for we in sorted(dropped):
+        print(f"  part week EXCLUDED: {we} ({dropped[we]} rows) — still trading, "
+              f"a partial week reads as a bad week and cuts pars")
     return rows
 
 

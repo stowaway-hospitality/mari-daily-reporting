@@ -1506,13 +1506,84 @@ def test_sold_as_bought_self_reference_is_refused():
     assert any("self-reference" in r["reason"] for r in refused)
 
 
-def test_deal_ingestion_left_the_ml_skus_untouched(stow_build):
-    """Belt and braces on the real build: if any ml/g-driven SKU moved when the
-    deal path landed, it is double-counting."""
-    recs, _ = stow_build
-    expected = {"Rooster Rojo Blanco Tequila [Bottle]": 0.52,
-                "Bombay Dry [Bottle]": 1.03,
-                "Stone & Wood [Keg]": 1.36,
-                "Guinness [Keg]": 1.20}
-    for sku, pour in expected.items():
-        assert recs[sku]["drivers"]["pour_wk"] == pytest.approx(pour, abs=0.005), sku
+def test_deal_ingestion_left_the_ml_skus_untouched():
+    """Belt and braces on the REAL data: if the deal path contributes anything
+    at all to an ml/g-driven SKU, it is double-counting — the recipe path has
+    already converted those.
+
+    This asserts the INVARIANT (deal contribution == 0), not a pinned pour_wk.
+    The previous version hard-coded four pour_wk values, which meant an ordinary
+    sales refresh failed the test: week 2026-08-09 completing moved Bombay Dry
+    from 1.03 to 1.05 and went red, with nothing wrong. A test that breaks when
+    the data is merely newer teaches people to ignore it.
+    """
+    from collections import defaultdict
+    from modules.par import deals as D
+
+    rows = model.load_weekly(DATA)
+    weeks = sorted({r["week_ending"] for r in rows})
+    widx = {w: i for i, w in enumerate(weeks)}
+    weekly_qty = defaultdict(lambda: [0.0] * len(weeks))
+    for r in rows:
+        i = widx.get(r["week_ending"])
+        if i is not None:
+            weekly_qty[r["product_name"]][i] += float(r.get("qty") or 0)
+
+    par_names = list(model.load_scrape(DATA, "stow"))
+    units, _resolved, _refused = D.deal_units(
+        DATA, par_names, weekly_qty, weeks,
+        aliases=model.load_aliases(DATA, "stow"))
+
+    # Guard against the assertion below going vacuous: if deal_units ever
+    # returns nothing at all, "no ml SKU was fed" is trivially true and this
+    # test would keep passing while the deal path was dead. The banquet Cokes
+    # are the whole reason the path exists, so they must still come through.
+    assert sum(units.get("Coke 1.25L", [])) > 0, (
+        "the deal path fed NOTHING into Coke 1.25L — the banquet/pizza-deal "
+        "ingestion is broken, and the ml assertions below are meaningless")
+
+    ml_driven = ["Rooster Rojo Blanco Tequila [Bottle]", "Bombay Dry [Bottle]",
+                 "Stone & Wood [Keg]", "Guinness [Keg]"]
+    for sku in ml_driven:
+        assert sum(units.get(sku, [])) == 0, (
+            f"deal path fed {sum(units.get(sku, []))} units into {sku}, which the "
+            f"recipe path already counts in ml — that is a double count")
+
+
+# ── the part week must never reach the model ────────────────────────────────
+def test_the_week_still_being_traded_is_excluded(tmp_path):
+    """products_weekly.csv is rebuilt daily, so its newest week is a PART week
+    on six days out of seven. Read as a whole week it is simply a week where
+    everything sold less — it lands in the recent-8-week mean, drags the level
+    down, and the pars come out cut.
+
+    This is the 2026-08-10 regression, written down: that run modelled on a
+    week 2026-08-09 that was still incomplete and uploaded cuts sized on it,
+    and once the week finished the next run wanted every one of them back up.
+    """
+    csv_path = tmp_path / "products_weekly.csv"
+    csv_path.write_text(
+        "week_ending,venue,reporting_group,product_name,sales_ex_gst,qty,cost\n"
+        "2026-08-02,stow,Tap Beer,Kirin,100.00,10,0\n"   # complete
+        "2026-08-09,stow,Tap Beer,Kirin,100.00,10,0\n"   # complete (Sunday passed)
+        "2026-08-16,stow,Tap Beer,Kirin,20.00,2,0\n",    # STILL TRADING
+        encoding="utf-8")
+
+    rows = model.load_weekly(str(tmp_path), today=date(2026, 8, 15))
+    weeks = sorted({r["week_ending"] for r in rows})
+    assert weeks == ["2026-08-02", "2026-08-09"], (
+        f"the part week reached the model: {weeks}")
+    assert sum(r["qty"] for r in rows) == 20, "part-week qty leaked into the totals"
+
+    # The boundary: the Sunday itself is not over until it is over. Run at 6am
+    # Sunday 16th, the newest COMPLETE week is still the 9th.
+    weeks_sun = sorted({r["week_ending"]
+                        for r in model.load_weekly(str(tmp_path),
+                                                   today=date(2026, 8, 16))})
+    assert weeks_sun == ["2026-08-02", "2026-08-09"], weeks_sun
+
+    # ...and on the Monday it counts, because now it is a whole week.
+    weeks_mon = sorted({r["week_ending"]
+                        for r in model.load_weekly(str(tmp_path),
+                                                   today=date(2026, 8, 17))})
+    assert weeks_mon == ["2026-08-02", "2026-08-09", "2026-08-16"], weeks_mon
