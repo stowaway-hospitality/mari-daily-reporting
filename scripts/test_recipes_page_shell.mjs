@@ -168,6 +168,44 @@ const ok = (label, cond, extra = '') => {
      && !fs.existsSync(path.join(ROOT, 'dashboard/recipes-book/flags.js')));
 }
 
+// --- NO ID APPEARS TWICE IN THE MERGED DOCUMENT ------------------------------
+// 2026-08-15: the ingredient search in Build returned nothing for ANY term. Not
+// a feed problem and not a missing product — `id="q"` existed TWICE, because the
+// recipe book and the builder were separate pages where each was unique, and
+// merging them put both in one document. getElementById returns the FIRST, so
+// the builder read the BOOK's empty search box and filtered on '' every time.
+//
+// The tell was the empty-state text: it printed "Choose a supplier or search to
+// add ingredients", which only renders when the query is EMPTY. A genuine
+// no-match says "No match."
+//
+// This is the exact failure this module's docstring predicts — "an element that
+// used to exist on page A being referenced by script B that now runs on the same
+// document" — so it gets the check the prediction deserved.
+// COMMENTS ARE STRIPPED FIRST. Both of these checks failed on their own fix the
+// moment it was written, because the comment EXPLAINING the bug quotes the very
+// strings being searched for. Scanning prose as if it were code is how a guard
+// cries wolf and then gets deleted.
+{
+  const noHtmlComments = html.replace(/<!--[\s\S]*?-->/g, '');
+  const stripJs = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+
+  const ids = [...noHtmlComments.matchAll(/\sid="([^"]+)"/g)].map(m => m[1]);
+  const dupes = [...new Set(ids.filter((x, i) => ids.indexOf(x) !== i))];
+  ok('no id is declared twice in the shell', dupes.length === 0, dupes.join(', '));
+
+  // And the two search boxes stay distinct by NAME, so a future merge cannot
+  // quietly re-collide them: recipe_book.js owns 'q', recipe_builder.js owns
+  // 'pickq'.
+  const book = stripJs(fs.readFileSync(path.join(ROOT, 'dashboard/_shared/recipe_book.js'), 'utf8'));
+  const build = stripJs(fs.readFileSync(path.join(ROOT, 'dashboard/_shared/recipe_builder.js'), 'utf8'));
+  ok('the recipe book still reads its own search box (q)', /el\('q'\)/.test(book));
+  ok('the builder reads pickq, not q',
+     build.includes("getElementById('pickq')") && !build.includes("getElementById('q')"));
+  ok('...and the shell declares both',
+     noHtmlComments.includes('id="q"') && noHtmlComments.includes('id="pickq"'));
+}
+
 // --- THE TAB STRIP IS PAINTED BEFORE IT IS WIRED -----------------------------
 // 2026-08-15: every tab on /recipes/ was unclickable. Not a 404, not an
 // exception — the shell ships `<div id="maintabs"></div>` EMPTY and navHtml

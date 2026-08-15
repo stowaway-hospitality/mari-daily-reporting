@@ -95,7 +95,11 @@ async function boot() {
 // ---------------- BUILD: ingredient picker ----------------
 function renderPick() {
   const sup = document.getElementById('sup').value;
-  const q = document.getElementById('q').value.toLowerCase().trim();
+  // pickq — the BUILDER's search box. NOT 'q': that id belongs to the recipe
+  // book's search, which sits earlier in the same document since the two pages
+  // merged, so getElementById('q') returned the book's box and this filter saw
+  // an empty string no matter what was typed here.
+  const q = document.getElementById('pickq').value.toLowerCase().trim();
   let hits = ING;
   if (q) hits = hits.filter(i => i.description.toLowerCase().includes(q) || (i.supplier || '').toLowerCase().includes(q));
   else if (sup) hits = hits.filter(i => i.supplier === sup);

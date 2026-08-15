@@ -299,7 +299,12 @@
         <label>Add ingredients — tap to add</label>
         <div class="pickbar">
           <select id="sup" onchange="renderPick()"><option value="">All suppliers</option></select>
-          <input id="q" placeholder="Search…" oninput="renderPick()" autocomplete="off" style="flex:1">
+          <!-- pickq, NOT q: the recipe BOOK's own search box above is also id="q"
+               (it was unique until the two pages merged into this one document).
+               getElementById returns the FIRST match, so this box typed into the
+               builder was read as the book's empty one and the ingredient search
+               never returned anything for ANY term. -->
+          <input id="pickq" placeholder="Search…" oninput="renderPick()" autocomplete="off" style="flex:1">
         </div>
         <div class="scroll" id="picklist"></div>
       </div>
