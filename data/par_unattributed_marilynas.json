@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-15T12:54:25.140687+10:00",
+  "generated_at": "2026-08-15T13:25:25.238552+10:00",
   "venue": "mari",
   "venue_label": "Marilyna's",
   "stock_venue": "stow",
@@ -23,15 +23,15 @@
   "alias_targets_not_found": {},
   "summary": {
     "attributed_lines": 11,
-    "attributed_qty_per_week": 29.46,
-    "attributed_revenue_ex_gst": 1617.01,
+    "attributed_qty_per_week": 29.69,
+    "attributed_revenue_ex_gst": 1635.82,
     "auto_resolved_lines": 11,
     "auto_unresolved_lines": 39,
-    "needs_recipe_lines": 215,
-    "needs_recipe_qty_per_week": 659.51,
-    "needs_recipe_revenue_ex_gst": 136281.45,
+    "needs_recipe_lines": 217,
+    "needs_recipe_qty_per_week": 668.55,
+    "needs_recipe_revenue_ex_gst": 137846.51,
     "unattributed_lines": 2,
-    "unattributed_revenue_ex_gst": 199.95,
+    "unattributed_revenue_ex_gst": 214.31,
     "other_unattributed_lines": 37,
     "other_unattributed_revenue_ex_gst": 1842.65,
     "intentionally_unattributed_lines": 0
@@ -60,9 +60,9 @@
     {
       "product": "Coke Zero 1.25L",
       "reporting_group": "Marilyna's Soft Drinks",
-      "qty_window": 45.0,
-      "qty_per_week": 3.46,
-      "revenue_ex_gst_window": 231.86,
+      "qty_window": 48.0,
+      "qty_per_week": 3.69,
+      "revenue_ex_gst_window": 250.67,
       "target_venue": "stow",
       "target_sku": "Coke Zero 1.25L",
       "via": "mari_name_rule"
@@ -175,9 +175,9 @@
       "target_venue": "stow",
       "target_sku": "Coke Zero 1.25L",
       "match": "exact",
-      "qty_window": 45.0,
-      "qty_per_week": 3.46,
-      "revenue_ex_gst_window": 231.86
+      "qty_window": 48.0,
+      "qty_per_week": 3.69,
+      "revenue_ex_gst_window": 250.67
     },
     {
       "pos_line": "Coke Can",
@@ -307,6 +307,15 @@
       "revenue_ex_gst_window": 130.9
     },
     {
+      "pos_line": "Bundaberg Ginger Beer D",
+      "stripped": "Bundaberg Ginger Beer D",
+      "reason": "no stow par SKU matches 'Bundaberg Ginger Beer D' exactly (nearest stow par SKU by container base: 'Bundaberg Ginger Beer [750ml]' — write an explicit alias if that is the same stock)",
+      "still_unattributed": true,
+      "qty_window": 16.0,
+      "qty_per_week": 1.23,
+      "revenue_ex_gst_window": 116.14
+    },
+    {
       "pos_line": "Big Sur IPA 4-pack D",
       "stripped": "Big Sur IPA 4-pack D",
       "reason": "no stow par SKU matches 'Big Sur IPA 4-pack D' exactly",
@@ -323,15 +332,6 @@
       "qty_window": 5.0,
       "qty_per_week": 0.38,
       "revenue_ex_gst_window": 102.78
-    },
-    {
-      "pos_line": "Bundaberg Ginger Beer D",
-      "stripped": "Bundaberg Ginger Beer D",
-      "reason": "no stow par SKU matches 'Bundaberg Ginger Beer D' exactly (nearest stow par SKU by container base: 'Bundaberg Ginger Beer [750ml]' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 14.0,
-      "qty_per_week": 1.08,
-      "revenue_ex_gst_window": 101.78
     },
     {
       "pos_line": "San Pellegrino 500ml D",
@@ -617,9 +617,9 @@
     {
       "product": "Large Super House Special",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 311.0,
-      "qty_per_week": 23.92,
-      "revenue_ex_gst_window": 7936.69,
+      "qty_window": 315.0,
+      "qty_per_week": 24.23,
+      "revenue_ex_gst_window": 8046.39,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -633,65 +633,65 @@
       "classification": "needs_recipe"
     },
     {
-      "product": "Large Meatlovers",
-      "reporting_group": "Marilyna's Pizza",
-      "qty_window": 200.0,
-      "qty_per_week": 15.38,
-      "revenue_ex_gst_window": 4886.7,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
       "product": "Large Pepperoni",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 233.0,
-      "qty_per_week": 17.92,
-      "revenue_ex_gst_window": 4864.79,
+      "qty_window": 241.0,
+      "qty_per_week": 18.54,
+      "revenue_ex_gst_window": 5005.93,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
-      "product": "Large Hawaiian",
+      "product": "Large Meatlovers",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 188.0,
-      "qty_per_week": 14.46,
-      "revenue_ex_gst_window": 3892.65,
+      "qty_window": 204.0,
+      "qty_per_week": 15.69,
+      "revenue_ex_gst_window": 4969.5,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Regular Super House Special",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 183.0,
-      "qty_per_week": 14.08,
-      "revenue_ex_gst_window": 3887.29,
+      "qty_window": 187.0,
+      "qty_per_week": 14.38,
+      "revenue_ex_gst_window": 3977.84,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
+      "product": "Large Hawaiian",
+      "reporting_group": "Marilyna's Pizza",
+      "qty_window": 190.0,
+      "qty_per_week": 14.62,
+      "revenue_ex_gst_window": 3932.45,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Large Margherita",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 192.0,
-      "qty_per_week": 14.77,
-      "revenue_ex_gst_window": 3505.02,
+      "qty_window": 194.0,
+      "qty_per_week": 14.92,
+      "revenue_ex_gst_window": 3543.01,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Regular Pepperoni",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 168.0,
-      "qty_per_week": 12.92,
-      "revenue_ex_gst_window": 3026.64,
+      "qty_window": 169.0,
+      "qty_per_week": 13.0,
+      "revenue_ex_gst_window": 3046.64,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Regular Hawaiian",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 160.0,
-      "qty_per_week": 12.31,
-      "revenue_ex_gst_window": 2842.0,
+      "qty_window": 161.0,
+      "qty_per_week": 12.38,
+      "revenue_ex_gst_window": 2860.09,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -714,6 +714,15 @@
       "classification": "needs_recipe"
     },
     {
+      "product": "Regular Margherita",
+      "reporting_group": "Marilyna's Pizza",
+      "qty_window": 218.0,
+      "qty_per_week": 16.77,
+      "revenue_ex_gst_window": 2726.97,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
       "product": "Regular Meatlovers",
       "reporting_group": "Marilyna's Pizza",
       "qty_window": 125.0,
@@ -723,47 +732,38 @@
       "classification": "needs_recipe"
     },
     {
-      "product": "Regular Margherita",
-      "reporting_group": "Marilyna's Pizza",
-      "qty_window": 214.0,
-      "qty_per_week": 16.46,
-      "revenue_ex_gst_window": 2695.25,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
       "product": "Large Cosmopolitan",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 109.0,
-      "qty_per_week": 8.38,
-      "revenue_ex_gst_window": 2650.22,
+      "qty_window": 111.0,
+      "qty_per_week": 8.54,
+      "revenue_ex_gst_window": 2677.12,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Regular Sanchez [Dine-in]",
       "reporting_group": "Dine-in Pizza",
-      "qty_window": 116.0,
-      "qty_per_week": 8.92,
-      "revenue_ex_gst_window": 2562.23,
+      "qty_window": 118.0,
+      "qty_per_week": 9.08,
+      "revenue_ex_gst_window": 2615.93,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Large Little Italy",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 111.0,
-      "qty_per_week": 8.54,
-      "revenue_ex_gst_window": 2556.64,
+      "qty_window": 112.0,
+      "qty_per_week": 8.62,
+      "revenue_ex_gst_window": 2584.82,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Feast Deal Pizzas",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 61.0,
-      "qty_per_week": 4.69,
-      "revenue_ex_gst_window": 2536.21,
+      "qty_window": 62.0,
+      "qty_per_week": 4.77,
+      "revenue_ex_gst_window": 2581.21,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -779,9 +779,9 @@
     {
       "product": "Regular No Chorizo, No Cry [Dine-in]",
       "reporting_group": "Dine-in Pizza",
-      "qty_window": 114.0,
-      "qty_per_week": 8.77,
-      "revenue_ex_gst_window": 2490.96,
+      "qty_window": 115.0,
+      "qty_per_week": 8.85,
+      "revenue_ex_gst_window": 2517.81,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -797,9 +797,9 @@
     {
       "product": "Garlic Bread",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 510.0,
-      "qty_per_week": 39.23,
-      "revenue_ex_gst_window": 2295.7,
+      "qty_window": 518.0,
+      "qty_per_week": 39.85,
+      "revenue_ex_gst_window": 2324.51,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -813,6 +813,15 @@
       "classification": "needs_recipe"
     },
     {
+      "product": "Regular Uber Margherita [Dine-in]",
+      "reporting_group": "Dine-in Pizza",
+      "qty_window": 113.0,
+      "qty_per_week": 8.69,
+      "revenue_ex_gst_window": 2247.42,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
       "product": "Regular Truffalo Soldier [Dine-in]",
       "reporting_group": "Dine-in Pizza",
       "qty_window": 101.0,
@@ -822,29 +831,20 @@
       "classification": "needs_recipe"
     },
     {
-      "product": "Regular Uber Margherita [Dine-in]",
-      "reporting_group": "Dine-in Pizza",
-      "qty_window": 111.0,
-      "qty_per_week": 8.54,
-      "revenue_ex_gst_window": 2199.92,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
       "product": "Regular Jimmy Jury [Dine-in]",
       "reporting_group": "Dine-in Pizza",
-      "qty_window": 96.0,
-      "qty_per_week": 7.38,
-      "revenue_ex_gst_window": 2066.53,
+      "qty_window": 97.0,
+      "qty_per_week": 7.46,
+      "revenue_ex_gst_window": 2093.53,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Large BBQ Chicken Pizza",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 89.0,
-      "qty_per_week": 6.85,
-      "revenue_ex_gst_window": 2033.1,
+      "qty_window": 91.0,
+      "qty_per_week": 7.0,
+      "revenue_ex_gst_window": 2060.28,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -858,20 +858,20 @@
       "classification": "needs_recipe"
     },
     {
-      "product": "Large Tandoori Chicken",
+      "product": "Regular Cosmopolitan",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 77.0,
-      "qty_per_week": 5.92,
-      "revenue_ex_gst_window": 1855.4,
+      "qty_window": 89.0,
+      "qty_per_week": 6.85,
+      "revenue_ex_gst_window": 1888.31,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
-      "product": "Regular Cosmopolitan",
+      "product": "Large Tandoori Chicken",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 87.0,
-      "qty_per_week": 6.69,
-      "revenue_ex_gst_window": 1848.51,
+      "qty_window": 79.0,
+      "qty_per_week": 6.08,
+      "revenue_ex_gst_window": 1882.8,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -905,9 +905,9 @@
     {
       "product": "Large Sorrento",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 62.0,
-      "qty_per_week": 4.77,
-      "revenue_ex_gst_window": 1596.67,
+      "qty_window": 65.0,
+      "qty_per_week": 5.0,
+      "revenue_ex_gst_window": 1681.57,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -921,20 +921,20 @@
       "classification": "needs_recipe"
     },
     {
+      "product": "$45 FEAST",
+      "reporting_group": "Marilyna's Pizza",
+      "qty_window": 36.0,
+      "qty_per_week": 2.77,
+      "revenue_ex_gst_window": 1501.39,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
       "product": "Large Jimmy Jury",
       "reporting_group": "Marilyna's Pizza",
       "qty_window": 56.0,
       "qty_per_week": 4.31,
       "revenue_ex_gst_window": 1404.77,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
-      "product": "$45 FEAST",
-      "reporting_group": "Marilyna's Pizza",
-      "qty_window": 33.0,
-      "qty_per_week": 2.54,
-      "revenue_ex_gst_window": 1366.39,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -968,27 +968,27 @@
     {
       "product": "Cheesy Garlic Bread",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 190.0,
-      "qty_per_week": 14.62,
-      "revenue_ex_gst_window": 1234.24,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
-      "product": "Regular Paddock",
-      "reporting_group": "Marilyna's Pizza",
-      "qty_window": 51.0,
-      "qty_per_week": 3.92,
-      "revenue_ex_gst_window": 1112.37,
+      "qty_window": 192.0,
+      "qty_per_week": 14.77,
+      "revenue_ex_gst_window": 1252.24,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Large Roma Special",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 44.0,
-      "qty_per_week": 3.38,
-      "revenue_ex_gst_window": 1110.57,
+      "qty_window": 46.0,
+      "qty_per_week": 3.54,
+      "revenue_ex_gst_window": 1137.97,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
+      "product": "Regular Paddock",
+      "reporting_group": "Marilyna's Pizza",
+      "qty_window": 52.0,
+      "qty_per_week": 4.0,
+      "revenue_ex_gst_window": 1135.1,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1022,18 +1022,18 @@
     {
       "product": "Regular Tandoori Chicken",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 48.0,
-      "qty_per_week": 3.69,
-      "revenue_ex_gst_window": 963.97,
+      "qty_window": 49.0,
+      "qty_per_week": 3.77,
+      "revenue_ex_gst_window": 982.87,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Regular Sorrento",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 43.0,
-      "qty_per_week": 3.31,
-      "revenue_ex_gst_window": 904.51,
+      "qty_window": 44.0,
+      "qty_per_week": 3.38,
+      "revenue_ex_gst_window": 928.06,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1067,9 +1067,9 @@
     {
       "product": "WINGS DEAL",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 30.0,
-      "qty_per_week": 2.31,
-      "revenue_ex_gst_window": 820.85,
+      "qty_window": 31.0,
+      "qty_per_week": 2.38,
+      "revenue_ex_gst_window": 850.85,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1130,9 +1130,9 @@
     {
       "product": "Delivery Fee - Freshwater / Queenscliff",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 116.0,
-      "qty_per_week": 8.92,
-      "revenue_ex_gst_window": 535.96,
+      "qty_window": 119.0,
+      "qty_per_week": 9.15,
+      "revenue_ex_gst_window": 550.51,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1155,6 +1155,15 @@
       "classification": "needs_recipe"
     },
     {
+      "product": "Regular Garlic Cheese Pizza",
+      "reporting_group": "Marilyna's Pizza",
+      "qty_window": 52.0,
+      "qty_per_week": 4.0,
+      "revenue_ex_gst_window": 491.47,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
       "product": "$60 BANQUET",
       "reporting_group": "Marilyna's Pizza",
       "qty_window": 9.0,
@@ -1164,29 +1173,20 @@
       "classification": "needs_recipe"
     },
     {
-      "product": "Regular Garlic Cheese Pizza",
-      "reporting_group": "Marilyna's Pizza",
-      "qty_window": 51.0,
-      "qty_per_week": 3.92,
-      "revenue_ex_gst_window": 478.07,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
       "product": "Gluten-free Meatlovers",
       "reporting_group": "Marilyna's Pizza",
-      "qty_window": 18.0,
-      "qty_per_week": 1.38,
-      "revenue_ex_gst_window": 447.23,
+      "qty_window": 19.0,
+      "qty_per_week": 1.46,
+      "revenue_ex_gst_window": 471.13,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Regular Bubba Gump [Dine-in]",
       "reporting_group": "Dine-in Pizza",
-      "qty_window": 24.0,
-      "qty_per_week": 1.85,
-      "revenue_ex_gst_window": 438.34,
+      "qty_window": 25.0,
+      "qty_per_week": 1.92,
+      "revenue_ex_gst_window": 464.34,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1263,6 +1263,15 @@
       "classification": "needs_recipe"
     },
     {
+      "product": "Gluten-free Margherita",
+      "reporting_group": "Marilyna's Pizza",
+      "qty_window": 20.0,
+      "qty_per_week": 1.54,
+      "revenue_ex_gst_window": 342.62,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
       "product": "Regular Hawaiian [Dine-in]",
       "reporting_group": "Dine-in Pizza",
       "qty_window": 19.0,
@@ -1290,29 +1299,20 @@
       "classification": "needs_recipe"
     },
     {
+      "product": "Online Surcharge",
+      "reporting_group": "Add-ons - Pizza",
+      "qty_window": 286.0,
+      "qty_per_week": 22.0,
+      "revenue_ex_gst_window": 323.64,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
       "product": "Gluten-free Sanchez",
       "reporting_group": "Marilyna's Pizza",
       "qty_window": 12.0,
       "qty_per_week": 0.92,
       "revenue_ex_gst_window": 316.28,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
-      "product": "Gluten-free Margherita",
-      "reporting_group": "Marilyna's Pizza",
-      "qty_window": 18.0,
-      "qty_per_week": 1.38,
-      "revenue_ex_gst_window": 315.44,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
-      "product": "Online Surcharge",
-      "reporting_group": "Add-ons - Pizza",
-      "qty_window": 277.0,
-      "qty_per_week": 21.31,
-      "revenue_ex_gst_window": 314.79,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1340,6 +1340,15 @@
       "qty_window": 17.0,
       "qty_per_week": 1.31,
       "revenue_ex_gst_window": 278.99,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
+      "product": "Delivery Fee - Curl Curl / Manly / Dee Why",
+      "reporting_group": "Marilyna's Pizza",
+      "qty_window": 45.0,
+      "qty_per_week": 3.46,
+      "revenue_ex_gst_window": 275.98,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1376,15 +1385,6 @@
       "qty_window": 12.0,
       "qty_per_week": 0.92,
       "revenue_ex_gst_window": 268.95,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
-      "product": "Delivery Fee - Curl Curl / Manly / Dee Why",
-      "reporting_group": "Marilyna's Pizza",
-      "qty_window": 43.0,
-      "qty_per_week": 3.31,
-      "revenue_ex_gst_window": 262.98,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1472,9 +1472,9 @@
     {
       "product": "Add Pepperoni",
       "reporting_group": "Add-ons - Pizza",
-      "qty_window": 68.0,
-      "qty_per_week": 5.23,
-      "revenue_ex_gst_window": 184.69,
+      "qty_window": 69.0,
+      "qty_per_week": 5.31,
+      "revenue_ex_gst_window": 187.69,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1515,6 +1515,15 @@
       "classification": "needs_recipe"
     },
     {
+      "product": "Add Bacon",
+      "reporting_group": "Add-ons - Pizza",
+      "qty_window": 54.0,
+      "qty_per_week": 4.15,
+      "revenue_ex_gst_window": 165.89,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
       "product": "Large Sanchez Wings Deal",
       "reporting_group": "Marilyna's Pizza",
       "qty_window": 6.0,
@@ -1529,15 +1538,6 @@
       "qty_window": 6.0,
       "qty_per_week": 0.46,
       "revenue_ex_gst_window": 164.52,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
-      "product": "Add Bacon",
-      "reporting_group": "Add-ons - Pizza",
-      "qty_window": 53.0,
-      "qty_per_week": 4.08,
-      "revenue_ex_gst_window": 161.89,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1578,20 +1578,20 @@
       "classification": "needs_recipe"
     },
     {
+      "product": "Add Calabrese",
+      "reporting_group": "Add-ons - Pizza",
+      "qty_window": 39.0,
+      "qty_per_week": 3.0,
+      "revenue_ex_gst_window": 142.35,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
       "product": "Large Meatlovers Wings Deal",
       "reporting_group": "Marilyna's Pizza",
       "qty_window": 5.0,
       "qty_per_week": 0.38,
       "revenue_ex_gst_window": 141.81,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
-      "product": "Add Calabrese",
-      "reporting_group": "Add-ons - Pizza",
-      "qty_window": 38.0,
-      "qty_per_week": 2.92,
-      "revenue_ex_gst_window": 138.35,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1632,6 +1632,15 @@
       "classification": "needs_recipe"
     },
     {
+      "product": "Add Mushrooms",
+      "reporting_group": "Add-ons - Pizza",
+      "qty_window": 99.0,
+      "qty_per_week": 7.62,
+      "revenue_ex_gst_window": 131.62,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
       "product": "Gluten-free Roma Special",
       "reporting_group": "Marilyna's Pizza",
       "qty_window": 5.0,
@@ -1646,15 +1655,6 @@
       "qty_window": 5.0,
       "qty_per_week": 0.38,
       "revenue_ex_gst_window": 128.17,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
-      "product": "Add Mushrooms",
-      "reporting_group": "Add-ons - Pizza",
-      "qty_window": 96.0,
-      "qty_per_week": 7.38,
-      "revenue_ex_gst_window": 127.12,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1682,6 +1682,15 @@
       "qty_window": 4.0,
       "qty_per_week": 0.31,
       "revenue_ex_gst_window": 109.98,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
+      "product": "Add Fetta",
+      "reporting_group": "Add-ons - Pizza",
+      "qty_window": 38.0,
+      "qty_per_week": 2.92,
+      "revenue_ex_gst_window": 109.16,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1722,15 +1731,6 @@
       "classification": "needs_recipe"
     },
     {
-      "product": "Add Fetta",
-      "reporting_group": "Add-ons - Pizza",
-      "qty_window": 37.0,
-      "qty_per_week": 2.85,
-      "revenue_ex_gst_window": 106.16,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
       "product": "Add Olives",
       "reporting_group": "Add-ons - Pizza",
       "qty_window": 78.0,
@@ -1742,9 +1742,18 @@
     {
       "product": "Add Chilli",
       "reporting_group": "Add-ons - Pizza",
-      "qty_window": 110.0,
-      "qty_per_week": 8.46,
-      "revenue_ex_gst_window": 99.53,
+      "qty_window": 114.0,
+      "qty_per_week": 8.77,
+      "revenue_ex_gst_window": 103.53,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
+      "product": "Add Pineapple",
+      "reporting_group": "Add-ons - Pizza",
+      "qty_window": 74.0,
+      "qty_per_week": 5.69,
+      "revenue_ex_gst_window": 98.73,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1767,15 +1776,6 @@
       "classification": "needs_recipe"
     },
     {
-      "product": "Add Pineapple",
-      "reporting_group": "Add-ons - Pizza",
-      "qty_window": 72.0,
-      "qty_per_week": 5.54,
-      "revenue_ex_gst_window": 95.73,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
       "product": "Regular Meatlovers Solo Combo",
       "reporting_group": "Marilyna's Pizza",
       "qty_window": 5.0,
@@ -1787,9 +1787,9 @@
     {
       "product": "Add Chicken",
       "reporting_group": "Add-ons - Pizza",
-      "qty_window": 25.0,
-      "qty_per_week": 1.92,
-      "revenue_ex_gst_window": 89.9,
+      "qty_window": 26.0,
+      "qty_per_week": 2.0,
+      "revenue_ex_gst_window": 93.9,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1826,6 +1826,15 @@
       "qty_window": 3.0,
       "qty_per_week": 0.23,
       "revenue_ex_gst_window": 82.73,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
+      "product": "Family Vegetarian",
+      "reporting_group": "Marilyna's",
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 81.44,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -1871,6 +1880,15 @@
       "qty_window": 4.0,
       "qty_per_week": 0.31,
       "revenue_ex_gst_window": 72.72,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
+      "product": "Family Pepperoni",
+      "reporting_group": "Marilyna's",
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 70.18,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -2001,15 +2019,6 @@
       "classification": "needs_recipe"
     },
     {
-      "product": "Family Vegetarian",
-      "reporting_group": "Marilyna's",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 52.54,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
       "product": "Gluten-free No Chorizo, No Cry",
       "reporting_group": "Marilyna's Pizza",
       "qty_window": 2.0,
@@ -2060,15 +2069,6 @@
       "qty_window": 34.0,
       "qty_per_week": 2.62,
       "revenue_ex_gst_window": 46.67,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
-      "product": "Family Pepperoni",
-      "reporting_group": "Marilyna's",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 45.28,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -2138,18 +2138,27 @@
     {
       "product": "Add Bocconcini",
       "reporting_group": "Add-ons - Pizza",
-      "qty_window": 12.0,
-      "qty_per_week": 0.92,
-      "revenue_ex_gst_window": 32.84,
+      "qty_window": 13.0,
+      "qty_per_week": 1.0,
+      "revenue_ex_gst_window": 35.84,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Add Onion",
       "reporting_group": "Add-ons - Pizza",
-      "qty_window": 22.0,
-      "qty_per_week": 1.69,
-      "revenue_ex_gst_window": 30.43,
+      "qty_window": 24.0,
+      "qty_per_week": 1.85,
+      "revenue_ex_gst_window": 31.93,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
+      "product": "Family Hail Africa",
+      "reporting_group": "Marilyna's",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 29.9,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -2158,6 +2167,15 @@
       "reporting_group": "Add-ons - Pizza",
       "qty_window": 31.0,
       "qty_per_week": 2.38,
+      "revenue_ex_gst_window": 28.9,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
+      "product": "Family Uber Margherita",
+      "reporting_group": "Marilyna's",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
       "revenue_ex_gst_window": 28.9,
       "stock_bearing": false,
       "classification": "needs_recipe"
@@ -2325,6 +2343,15 @@
       "classification": "needs_recipe"
     },
     {
+      "product": "Add Tandoori Chicken",
+      "reporting_group": "Add-ons - Pizza",
+      "qty_window": 5.0,
+      "qty_per_week": 0.38,
+      "revenue_ex_gst_window": 19.53,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
       "product": "Gluten-free Cosmopolitan [Dine-in]",
       "reporting_group": "Dine-in Pizza",
       "qty_window": 1.0,
@@ -2361,20 +2388,29 @@
       "classification": "needs_recipe"
     },
     {
+      "product": "Add BBQ Sauce",
+      "reporting_group": "Add-ons - Pizza",
+      "qty_window": 13.0,
+      "qty_per_week": 1.0,
+      "revenue_ex_gst_window": 18.12,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
+      "product": "Add Spanish Onion",
+      "reporting_group": "Add-ons - Pizza",
+      "qty_window": 13.0,
+      "qty_per_week": 1.0,
+      "revenue_ex_gst_window": 18.1,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
       "product": "Mulled Wine Jar",
       "reporting_group": "Delivery Cocktails",
       "qty_window": 1.0,
       "qty_per_week": 0.08,
       "revenue_ex_gst_window": 18.0,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
-      "product": "Add BBQ Sauce",
-      "reporting_group": "Add-ons - Pizza",
-      "qty_window": 12.0,
-      "qty_per_week": 0.92,
-      "revenue_ex_gst_window": 16.62,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -2388,29 +2424,11 @@
       "classification": "needs_recipe"
     },
     {
-      "product": "Add Spanish Onion",
-      "reporting_group": "Add-ons - Pizza",
-      "qty_window": 11.0,
-      "qty_per_week": 0.85,
-      "revenue_ex_gst_window": 15.1,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
       "product": "Add Sour Cream",
       "reporting_group": "Add-ons - Pizza",
       "qty_window": 10.0,
       "qty_per_week": 0.77,
       "revenue_ex_gst_window": 12.72,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
-      "product": "Add Tandoori Chicken",
-      "reporting_group": "Add-ons - Pizza",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 11.4,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
@@ -2487,6 +2505,15 @@
       "classification": "needs_recipe"
     },
     {
+      "product": "Add Garlic Base",
+      "reporting_group": "Add-ons - Pizza",
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 2.86,
+      "stock_bearing": false,
+      "classification": "needs_recipe"
+    },
+    {
       "product": "Add Sliced Tomatoes",
       "reporting_group": "Add-ons - Pizza",
       "qty_window": 2.0,
@@ -2514,15 +2541,6 @@
       "classification": "needs_recipe"
     },
     {
-      "product": "Add Garlic Base",
-      "reporting_group": "Add-ons - Pizza",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 1.36,
-      "stock_bearing": false,
-      "classification": "needs_recipe"
-    },
-    {
       "product": "Add Shallots",
       "reporting_group": "Add-ons - Pizza",
       "qty_window": 1.0,
@@ -2534,18 +2552,18 @@
     {
       "product": "Online Discount",
       "reporting_group": "Add-ons - Pizza",
-      "qty_window": 107.0,
-      "qty_per_week": 8.23,
-      "revenue_ex_gst_window": -1191.57,
+      "qty_window": 109.0,
+      "qty_per_week": 8.38,
+      "revenue_ex_gst_window": -1224.72,
       "stock_bearing": false,
       "classification": "needs_recipe"
     },
     {
       "product": "Online Rounding",
       "reporting_group": "Add-ons - Pizza",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": -1786.38,
+      "qty_window": 4.0,
+      "qty_per_week": 0.31,
+      "revenue_ex_gst_window": -1786.37,
       "stock_bearing": false,
       "classification": "needs_recipe"
     }
@@ -2554,9 +2572,9 @@
     {
       "product": "Bundaberg Ginger Beer D",
       "reporting_group": "Marilyna's Soft Drinks",
-      "qty_window": 14.0,
-      "qty_per_week": 1.08,
-      "revenue_ex_gst_window": 101.78,
+      "qty_window": 16.0,
+      "qty_per_week": 1.23,
+      "revenue_ex_gst_window": 116.14,
       "stock_bearing": true,
       "classification": "alias_failure"
     },

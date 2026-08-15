@@ -168,7 +168,7 @@ VERMOUTH_KW = (
 ALIAS_FILE = "par_aliases.json"
 
 VENUE_RECIPE_FILE = {"stow": "stowaway", "hg": "harry_gatos"}
-VENUE_SCRAPE_FILE = {"stow": "_scrape_stow_20260809.json", "hg": "_scrape_hg_20260809.json"}
+VENUE_SCRAPE_FILE = {"stow": "_scrape_stow_20260815.json", "hg": "_scrape_hg_20260815.json"}
 VENUE_BO_FILE = {"stow": "stowaway", "hg": "harry_gatos"}
 # The venues that HAVE pars of their own — the ones compute_venue() can be asked
 # for, and the only ones a par SKU can belong to.

@@ -31,7 +31,7 @@
       "api_name": null,
       "type": "reserve",
       "value": 21.0,
-      "reason": "RESERVE (additive): Classic marg 15L drum 10.7 + Jalapeño marg 15L drum 10.3. Frozen marg + coconut infusion DISCONTINUED at Stow 2026-08-09 (coconut now HG margato only).",
+      "reason": "RESERVE (additive): Classic marg 15L drum 10.7 + Jalape\u00f1o marg 15L drum 10.3. Frozen marg + coconut infusion DISCONTINUED at Stow 2026-08-09 (coconut now HG margato only).",
       "set_by": "seed:existing-model-config (build_par_model_*.py)",
       "set_on": "2026-08-09",
       "status": "active",
@@ -187,7 +187,7 @@
       "api_name": null,
       "type": "reserve",
       "value": 0.36,
-      "reason": "RESERVE (additive): Marg + Jalapeño marg drum floats (cask)",
+      "reason": "RESERVE (additive): Marg + Jalape\u00f1o marg drum floats (cask)",
       "set_by": "seed:existing-model-config (build_par_model_*.py)",
       "set_on": "2026-08-09",
       "status": "active",
@@ -820,7 +820,7 @@
     },
     {
       "venue": "stow",
-      "product": "Petits Detours Rosé Mediterranee - Bottle",
+      "product": "Petits Detours Ros\u00e9 Mediterranee - Bottle",
       "api_name": null,
       "type": "min",
       "value": 22.9,
@@ -872,7 +872,7 @@
     },
     {
       "venue": "stow",
-      "product": "Trentham Estate Rosé - Bottle",
+      "product": "Trentham Estate Ros\u00e9 - Bottle",
       "api_name": null,
       "type": "min",
       "value": 12,
@@ -924,7 +924,7 @@
     },
     {
       "venue": "stow",
-      "product": "Whispering Angel Rosé - Bottle",
+      "product": "Whispering Angel Ros\u00e9 - Bottle",
       "api_name": null,
       "type": "min",
       "value": 7.9,
@@ -950,7 +950,7 @@
     },
     {
       "venue": "hg",
-      "product": "Angas & Bremer Rosé - Bottle",
+      "product": "Angas & Bremer Ros\u00e9 - Bottle",
       "api_name": null,
       "type": "min",
       "value": 4.3,
@@ -1028,7 +1028,7 @@
     },
     {
       "venue": "hg",
-      "product": "L'esprit Rosé - Bottle",
+      "product": "L'esprit Ros\u00e9 - Bottle",
       "api_name": null,
       "type": "min",
       "value": 6,
@@ -1093,7 +1093,7 @@
     },
     {
       "venue": "hg",
-      "product": "Kahlúa Coffee Liqueur [Bottle]",
+      "product": "Kahl\u00faa Coffee Liqueur [Bottle]",
       "api_name": null,
       "type": "min",
       "value": 1.5,
@@ -1155,6 +1155,19 @@
       "status": "active",
       "source": "shared-stock policy / discontinued",
       "protect": "hard"
+    },
+    {
+      "venue": "hg",
+      "product": "Kuku Sauv Blanc - Bottle",
+      "api_name": null,
+      "type": "min",
+      "value": 2.8,
+      "reason": "detected manual raise",
+      "set_by": "par_flag_report.py",
+      "set_on": "2026-08-15",
+      "status": "active",
+      "source": "par_flag_report",
+      "protect": "flag"
     }
   ],
   "hard_protect_policy": "All seeded reserve-mins, holds and zeros are protect=hard (Zak, 2026-08-09). Future manual raises on non-reserve SKUs enter as protect=flag.",
