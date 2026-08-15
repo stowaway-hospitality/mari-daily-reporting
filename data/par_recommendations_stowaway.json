@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-15T21:45:01.076968+10:00",
+  "generated_at": "2026-08-15T21:50:51.249542+10:00",
   "venue": "stow",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 95,
@@ -34,9 +34,9 @@
   },
   "summary": {
     "n_skus": 228,
-    "increase": 69,
-    "decrease": 9,
-    "unchanged": 112,
+    "increase": 38,
+    "decrease": 14,
+    "unchanged": 138,
     "coverage_gaps": [],
     "shrinkage_applied": 57,
     "shrinkage_capped": 6,
@@ -275,7 +275,7 @@
       "rec_par": 2.3,
       "rec_par_pre_override": 2.3,
       "rec_par_modelled": 2.3,
-      "current_par": 2.0,
+      "current_par": 2.3,
       "drivers": {
         "pour_wk": 1.2,
         "recipe_wk": 0.0,
@@ -438,7 +438,7 @@
       "rec_par": 3.6,
       "rec_par_pre_override": 3.6,
       "rec_par_modelled": 3.6,
-      "current_par": 3.3,
+      "current_par": 3.6,
       "drivers": {
         "pour_wk": 2.23,
         "recipe_wk": 0.0,
@@ -874,7 +874,7 @@
       "rec_par": 0.8,
       "rec_par_pre_override": 0.8,
       "rec_par_modelled": 0.8,
-      "current_par": 0.7,
+      "current_par": 0.8,
       "drivers": {
         "pour_wk": 0.09,
         "recipe_wk": 0.22,
@@ -1038,7 +1038,7 @@
       "rec_par": 1.7,
       "rec_par_pre_override": 1.7,
       "rec_par_modelled": 1.7,
-      "current_par": 1.5,
+      "current_par": 1.7,
       "drivers": {
         "pour_wk": 0.09,
         "recipe_wk": 0.61,
@@ -1487,7 +1487,7 @@
       "rec_par": 9.3,
       "rec_par_pre_override": 5.9,
       "rec_par_modelled": 5.9,
-      "current_par": 8.8,
+      "current_par": 9.3,
       "drivers": {
         "pour_wk": 1.05,
         "recipe_wk": 2.1,
@@ -1547,7 +1547,7 @@
       "rec_par": 0.4,
       "rec_par_pre_override": 0.4,
       "rec_par_modelled": 0.4,
-      "current_par": 0.3,
+      "current_par": 0.4,
       "drivers": {
         "pour_wk": 0.11,
         "recipe_wk": 0.02,
@@ -1875,7 +1875,7 @@
       "rec_par": 18.0,
       "rec_par_pre_override": 18.0,
       "rec_par_modelled": 18.0,
-      "current_par": 13.6,
+      "current_par": 16.1,
       "drivers": {
         "pour_wk": 7.39,
         "recipe_wk": 0.76,
@@ -2154,7 +2154,7 @@
       "rec_par": 1.5,
       "rec_par_pre_override": 0.5,
       "rec_par_modelled": 0.5,
-      "current_par": 1.4,
+      "current_par": 1.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.26,
@@ -2214,7 +2214,7 @@
       "rec_par": 9.4,
       "rec_par_pre_override": 9.4,
       "rec_par_modelled": 9.4,
-      "current_par": 7.6,
+      "current_par": 8.5,
       "drivers": {
         "pour_wk": 6.06,
         "recipe_wk": 0.0,
@@ -2271,7 +2271,7 @@
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
       "rec_par_modelled": 0.1,
-      "current_par": 0.2,
+      "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
@@ -2662,7 +2662,7 @@
       "rec_par": 15.4,
       "rec_par_pre_override": 15.4,
       "rec_par_modelled": 15.4,
-      "current_par": 13.9,
+      "current_par": 15.4,
       "drivers": {
         "pour_wk": 5.36,
         "recipe_wk": 0.0,
@@ -2779,7 +2779,7 @@
       "rec_par": 36.8,
       "rec_par_pre_override": 36.8,
       "rec_par_modelled": 36.8,
-      "current_par": 31.2,
+      "current_par": 34.4,
       "drivers": {
         "pour_wk": 13.58,
         "recipe_wk": 0.0,
@@ -2836,7 +2836,7 @@
       "rec_par": 0.5,
       "rec_par_pre_override": 0.5,
       "rec_par_modelled": 0.5,
-      "current_par": 0.4,
+      "current_par": 0.5,
       "drivers": {
         "pour_wk": 0.26,
         "recipe_wk": 0.0,
@@ -3168,7 +3168,7 @@
       "rec_par": 2.9,
       "rec_par_pre_override": 2.9,
       "rec_par_modelled": 2.9,
-      "current_par": 2.5,
+      "current_par": 2.9,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 1.1,
@@ -4273,7 +4273,7 @@
       "rec_par": 1.8,
       "rec_par_pre_override": 1.8,
       "rec_par_modelled": 1.8,
-      "current_par": 1.6,
+      "current_par": 1.9,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.7,
@@ -4326,7 +4326,7 @@
       "rec_par": 11.9,
       "rec_par_pre_override": 11.9,
       "rec_par_modelled": 11.9,
-      "current_par": 9.0,
+      "current_par": 10.3,
       "drivers": {
         "pour_wk": 2.67,
         "recipe_wk": 0.0,
@@ -4714,7 +4714,7 @@
       "rec_par": 0.2,
       "rec_par_pre_override": 0.2,
       "rec_par_modelled": 0.2,
-      "current_par": 0.4,
+      "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.01,
         "recipe_wk": 0.01,
@@ -4979,7 +4979,7 @@
       "rec_par": 26.1,
       "rec_par_pre_override": 26.1,
       "rec_par_modelled": 26.1,
-      "current_par": 21.6,
+      "current_par": 26.3,
       "drivers": {
         "pour_wk": 9.52,
         "recipe_wk": 0.0,
@@ -5092,7 +5092,7 @@
       "rec_par": 1.5,
       "rec_par_pre_override": 1.5,
       "rec_par_modelled": 1.5,
-      "current_par": 1.3,
+      "current_par": 1.5,
       "drivers": {
         "pour_wk": 0.56,
         "recipe_wk": 0.0,
@@ -5469,7 +5469,7 @@
       "rec_par": 8.0,
       "rec_par_pre_override": 8.0,
       "rec_par_modelled": 8.0,
-      "current_par": 8.5,
+      "current_par": 9.7,
       "drivers": {
         "pour_wk": 3.22,
         "recipe_wk": 0.0,
@@ -5824,7 +5824,7 @@
       "rec_par": 3.4,
       "rec_par_pre_override": 3.4,
       "rec_par_modelled": 3.4,
-      "current_par": 3.0,
+      "current_par": 3.4,
       "drivers": {
         "pour_wk": 1.3,
         "recipe_wk": 0.0,
@@ -5881,7 +5881,7 @@
       "rec_par": 7.3,
       "rec_par_pre_override": 7.3,
       "rec_par_modelled": 7.3,
-      "current_par": 6.0,
+      "current_par": 6.7,
       "drivers": {
         "pour_wk": 2.28,
         "recipe_wk": 0.0,
@@ -6203,7 +6203,7 @@
       "rec_par": 36.6,
       "rec_par_pre_override": 36.6,
       "rec_par_modelled": 36.6,
-      "current_par": 28.8,
+      "current_par": 34.3,
       "drivers": {
         "pour_wk": 20.58,
         "recipe_wk": 0.0,
@@ -6755,7 +6755,7 @@
       "rec_par": 0.4,
       "rec_par_pre_override": 0.4,
       "rec_par_modelled": 0.4,
-      "current_par": 0.3,
+      "current_par": 0.4,
       "drivers": {
         "pour_wk": 0.18,
         "recipe_wk": 0.0,
@@ -7029,7 +7029,7 @@
       "rec_par": 4.1,
       "rec_par_pre_override": 2.1,
       "rec_par_modelled": 2.1,
-      "current_par": 3.8,
+      "current_par": 4.1,
       "drivers": {
         "pour_wk": 0.01,
         "recipe_wk": 1.23,
@@ -7198,7 +7198,7 @@
       "rec_par": 22.4,
       "rec_par_pre_override": 22.4,
       "rec_par_modelled": 22.4,
-      "current_par": 18.4,
+      "current_par": 21.2,
       "drivers": {
         "pour_wk": 11.55,
         "recipe_wk": 0.0,
@@ -7582,7 +7582,7 @@
       "rec_par": 29.8,
       "rec_par_pre_override": 29.8,
       "rec_par_modelled": 29.8,
-      "current_par": 23.6,
+      "current_par": 27.9,
       "drivers": {
         "pour_wk": 9.31,
         "recipe_wk": 0.0,
@@ -7866,7 +7866,7 @@
       "rec_par": 0.2,
       "rec_par_pre_override": 0.2,
       "rec_par_modelled": 0.2,
-      "current_par": 0.3,
+      "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.05,
         "recipe_wk": 0.0,
@@ -8417,7 +8417,7 @@
       "rec_par": 18.5,
       "rec_par_pre_override": 18.5,
       "rec_par_modelled": 18.5,
-      "current_par": 11.9,
+      "current_par": 18.6,
       "drivers": {
         "pour_wk": 6.42,
         "recipe_wk": 0.0,
@@ -8975,7 +8975,7 @@
       "rec_par": 6.9,
       "rec_par_pre_override": 6.9,
       "rec_par_modelled": 6.9,
-      "current_par": 5.0,
+      "current_par": 5.7,
       "drivers": {
         "pour_wk": 2.96,
         "recipe_wk": 0.0,
@@ -9030,7 +9030,7 @@
       "rec_par": 11.2,
       "rec_par_pre_override": 11.2,
       "rec_par_modelled": 11.2,
-      "current_par": 10.3,
+      "current_par": 11.2,
       "drivers": {
         "pour_wk": 6.67,
         "recipe_wk": 0.0,
@@ -9085,7 +9085,7 @@
       "rec_par": 5.8,
       "rec_par_pre_override": 5.8,
       "rec_par_modelled": 5.8,
-      "current_par": 4.3,
+      "current_par": 5.7,
       "drivers": {
         "pour_wk": 2.6,
         "recipe_wk": 0.0,
@@ -9246,7 +9246,7 @@
       "rec_par": 17.0,
       "rec_par_pre_override": 17.0,
       "rec_par_modelled": 17.0,
-      "current_par": 11.0,
+      "current_par": 11.2,
       "drivers": {
         "pour_wk": 4.06,
         "recipe_wk": 0.0,
@@ -9303,7 +9303,7 @@
       "rec_par": 22.3,
       "rec_par_pre_override": 22.3,
       "rec_par_modelled": 22.3,
-      "current_par": 17.0,
+      "current_par": 21.1,
       "drivers": {
         "pour_wk": 10.64,
         "recipe_wk": 0.0,
@@ -9358,7 +9358,7 @@
       "rec_par": 13.7,
       "rec_par_pre_override": 13.7,
       "rec_par_modelled": 13.7,
-      "current_par": 12.3,
+      "current_par": 13.5,
       "drivers": {
         "pour_wk": 8.56,
         "recipe_wk": 0.0,
@@ -9472,7 +9472,7 @@
       "rec_par": 1.5,
       "rec_par_pre_override": 1.5,
       "rec_par_modelled": 1.5,
-      "current_par": 1.2,
+      "current_par": 1.5,
       "drivers": {
         "pour_wk": 0.83,
         "recipe_wk": 0.0,
@@ -10137,7 +10137,7 @@
       "rec_par": 38.0,
       "rec_par_pre_override": 17.0,
       "rec_par_modelled": 17.0,
-      "current_par": 32.9,
+      "current_par": 38.0,
       "drivers": {
         "pour_wk": 0.52,
         "recipe_wk": 8.34,
@@ -10197,7 +10197,7 @@
       "rec_par": 5.8,
       "rec_par_pre_override": 3.0,
       "rec_par_modelled": 3.0,
-      "current_par": 5.4,
+      "current_par": 5.8,
       "drivers": {
         "pour_wk": 0.08,
         "recipe_wk": 1.71,
@@ -10593,7 +10593,7 @@
       "rec_par": 2.1,
       "rec_par_pre_override": 2.1,
       "rec_par_modelled": 2.1,
-      "current_par": 1.8,
+      "current_par": 2.1,
       "drivers": {
         "pour_wk": 1.05,
         "recipe_wk": 0.0,
@@ -10648,7 +10648,7 @@
       "rec_par": 3.7,
       "rec_par_pre_override": 3.7,
       "rec_par_modelled": 3.7,
-      "current_par": 3.5,
+      "current_par": 4.0,
       "drivers": {
         "pour_wk": 1.47,
         "recipe_wk": 0.0,
@@ -11048,7 +11048,7 @@
       "rec_par": 2.1,
       "rec_par_pre_override": 2.1,
       "rec_par_modelled": 2.1,
-      "current_par": 2.0,
+      "current_par": 2.1,
       "drivers": {
         "pour_wk": 1.4,
         "recipe_wk": 0.0,
@@ -11597,7 +11597,7 @@
       "rec_par": 13.1,
       "rec_par_pre_override": 13.1,
       "rec_par_modelled": 13.1,
-      "current_par": 12.6,
+      "current_par": 13.0,
       "drivers": {
         "pour_wk": 7.27,
         "recipe_wk": 0.0,
@@ -11765,7 +11765,7 @@
       "rec_par": 2.6,
       "rec_par_pre_override": 2.6,
       "rec_par_modelled": 2.6,
-      "current_par": 2.5,
+      "current_par": 2.6,
       "drivers": {
         "pour_wk": 0.92,
         "recipe_wk": 0.0,
@@ -11820,7 +11820,7 @@
       "rec_par": 4.5,
       "rec_par_pre_override": 4.5,
       "rec_par_modelled": 4.5,
-      "current_par": 3.1,
+      "current_par": 3.8,
       "drivers": {
         "pour_wk": 1.49,
         "recipe_wk": 0.0,
@@ -11936,7 +11936,7 @@
       "rec_par": 37.4,
       "rec_par_pre_override": 37.4,
       "rec_par_modelled": 37.4,
-      "current_par": 37.1,
+      "current_par": 37.6,
       "drivers": {
         "pour_wk": 21.48,
         "recipe_wk": 0.0,
@@ -12053,7 +12053,7 @@
       "rec_par": 1.5,
       "rec_par_pre_override": 1.5,
       "rec_par_modelled": 1.5,
-      "current_par": 1.4,
+      "current_par": 1.5,
       "drivers": {
         "pour_wk": 0.65,
         "recipe_wk": 0.0,
@@ -12108,7 +12108,7 @@
       "rec_par": 33.8,
       "rec_par_pre_override": 33.8,
       "rec_par_modelled": 33.8,
-      "current_par": 27.8,
+      "current_par": 34.6,
       "drivers": {
         "pour_wk": 15.66,
         "recipe_wk": 0.0,
@@ -12166,7 +12166,7 @@
       "rec_par": 2.5,
       "rec_par_pre_override": 2.5,
       "rec_par_modelled": 2.5,
-      "current_par": 2.2,
+      "current_par": 2.6,
       "drivers": {
         "pour_wk": 0.87,
         "recipe_wk": 0.0,
@@ -12219,7 +12219,7 @@
       "rec_par": 3.6,
       "rec_par_pre_override": 3.6,
       "rec_par_modelled": 3.6,
-      "current_par": 3.3,
+      "current_par": 3.7,
       "drivers": {
         "pour_wk": 1.43,
         "recipe_wk": 0.0,
@@ -12552,7 +12552,7 @@
       "rec_par": 3.1,
       "rec_par_pre_override": 3.1,
       "rec_par_modelled": 3.1,
-      "current_par": 3.0,
+      "current_par": 3.1,
       "drivers": {
         "pour_wk": 1.26,
         "recipe_wk": 0.0,
