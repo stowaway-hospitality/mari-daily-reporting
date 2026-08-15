@@ -300,6 +300,93 @@ Not the API, and — re-measured — not recipes either.
 4. Four real recipes: Aioli, Bombay Dry [House], Fresh Lime Soda, Tomato
    Dipping Sauce.
 
+## Step 2 designed out: the two places a human touches stock — 2026-08-15
+
+Decisions from Zak this session: **one global pool** that Stowaway and Harry
+Gatos both draw from, and **the phone is the device**. Everything below follows
+from those two, plus one rule the note already had: do NOT sync stock levels
+from Lightspeed.
+
+### One pool, and what `venue` is for now
+
+Stock is per ITEM, globally. A bottle is not in two places, and keying the
+balance by venue would invent a second one. `venue` stays on every row because
+"whose sales depleted this" is a real question — it just is not a question about
+what is on the shelf. `consumption_by_venue()` answers it.
+
+Two consequences. **`transfer` stops being a stock movement**: moving a case
+from Stow to HG changes no balance, so a transfer row is a record of a physical
+move, not an adjustment. And **the meaningful partition is LOCATION, not venue**
+— Bar & Kegroom, Storeroom - Bar, Pizza Shop, the HG line — because that is what
+somebody physically walks.
+
+### The trap that would have cost the most: partial counts
+
+A `count` supersedes everything before it for that item. So counting 4 bottles
+of Aperol in the bar, while 6 sit unopened in the storeroom, writes "there are
+4" and silently destroys the other 6. The next report shows six bottles of
+phantom waste, **and phantom waste is indistinguishable from theft.** That is
+the single worst failure available to this design, and it happens on the most
+ordinary night imaginable — someone counts the bar because they have twenty
+minutes.
+
+So: a count may only set truth if it covers every location that item is known to
+live in, where "known" means somewhere a previous count found it — evidence that
+grows with the count history, not a guess. A narrower count is still recorded,
+with its scope on it; it just does not supersede. `count_scope_warning()`.
+
+### Counts record what the human said, then the conversion
+
+Nobody counts in millilitres. They say "three quarters of a bottle", "0.8 of a
+keg", "0.035 of the 20L drum" — and `stowaway-stocktake` already works exactly
+that way. So a count row carries `counted_qty` + `counted_unit` verbatim
+ALONGSIDE `qty_base`. If a bottle size is later corrected, every historical
+count re-derives correctly instead of baking today's error into the past. Same
+reason a mix line keeps `name_as_reported`.
+
+Two rules that come with it: **an uncounted item is silence, not zero** (an
+absent line means nobody looked, and Lightspeed's own import agrees), and a
+zero must be explicit — "checked, none left" is a real and different fact.
+
+### Receiving: make the check the fact, and get supplier credits free
+
+The reorder skill drafts the PO; the invoice arrives via Dext. Today `receive`
+comes off the invoice — but the invoice is not what arrived. Short-shipped,
+substituted, damaged, never sent.
+
+So invert it: **the goods-received check is the fact, the invoice is the second
+opinion.** That completes a three-way match — PO vs received vs invoiced — of
+which this repo already owns two legs. The missing leg is the only one a human
+has to do anyway, and it turns every discrepancy into a **supplier credit claim
+with evidence attached**. Nobody in this business has that number today, and it
+is a by-product of receiving properly rather than a feature to build later.
+
+The receiving screen shows the PO's expected lines pre-filled; the human
+confirms or corrects; corrections are the interesting data, not an inconvenience.
+
+### How a phone writes to a repo with no server
+
+It already does. `modules/invoices/supabase_invoice_approvals.sql` is the
+pattern: an admin-only app writes a row to Supabase under row-level security, so
+**the browser holds no secret**, and a poller with the service key reads pending
+rows and acts on them. Invoice approvals do this today.
+
+Stocktake and goods-received are the same shape — a human decides on a phone, a
+job ingests the decision into `data/`. Reuse it; do not invent a second route.
+(Note the standing rule: Claude never handles the service_role key. Zak pastes
+it.)
+
+### What Lightspeed is for now
+
+A second opinion, and nothing more. Its on-hand is the thing being replaced —
+`stowaway-stocktake` exists BECAUSE those numbers are trued up by hand. Seeding
+opening balances from it would bake its error into the first period's variance,
+which is precisely the number the whole build exists to produce.
+
+**The first physical count is day zero.** Pull Lightspeed's figures to compare
+against it, and push counts back out to keep its ordering sane if that is still
+useful — one way, outbound, never a source.
+
 ## Standing rules that apply here
 
 Money is `Decimal`. `data/` is append-only. Schema changes additive-only. No

@@ -149,7 +149,7 @@ def test_on_hand_is_measured_forward_from_the_last_count(tmp_path, monkeypatch):
         mv(ts="2026-01-04", qty_base="100", reason="sale", direction="out"),
     ])
     bal = L.on_hand()
-    got = bal[("stow", "lightspeed:20445811")]
+    got = bal["lightspeed:20445811"]
     assert got == Decimal(400), (
         f"expected 500 counted - 100 sold = 400, got {got}. If this is 1200 the "
         f"count was added to the stock it was measuring instead of replacing it.")
@@ -191,3 +191,58 @@ def test_quantities_are_written_as_plain_decimals():
                 assert "E" not in r["qty_base"].upper(), (
                     f"{path.name}: {r['item_id']} qty {r['qty_base']!r} is in "
                     f"exponent form")
+
+
+# ---- one global pool -------------------------------------------------------
+
+def test_stock_is_one_pool_not_one_per_venue(tmp_path, monkeypatch):
+    """Stowaway and Harry Gatos draw from the same physical stock. A bottle is
+    not in two places, so the balance is per item — partitioning it by venue
+    would invent a second bottle."""
+    import ledger as L
+    monkeypatch.setattr(L, "LEDGER_DIR", tmp_path)
+    L.append([
+        mv(ts="2026-02-01", venue="stow", qty_base="1000", reason="receive", direction="in"),
+        mv(ts="2026-02-02", venue="hg", qty_base="300", reason="sale", direction="out"),
+        mv(ts="2026-02-03", venue="stow", qty_base="200", reason="sale", direction="out"),
+    ])
+    bal = L.on_hand()
+    assert list(bal) == ["lightspeed:20445811"], "balance must not be keyed by venue"
+    assert bal["lightspeed:20445811"] == Decimal(500), (
+        "HG drinking 300 off stock Stowaway bought must reduce the one pool")
+
+    used = L.consumption_by_venue()
+    assert used[("hg", "lightspeed:20445811")] == Decimal(300)
+    assert used[("stow", "lightspeed:20445811")] == Decimal(200)
+
+
+def test_a_partial_count_may_not_set_truth(tmp_path, monkeypatch):
+    """Counting the bar while stock sits in the storeroom must not be allowed to
+    supersede — that writes off the storeroom as phantom waste, and phantom
+    waste is indistinguishable from theft."""
+    import ledger as L
+    monkeypatch.setattr(L, "LEDGER_DIR", tmp_path)
+    L.append([
+        mv(ts="2026-02-01", qty_base="4", base_unit="each", reason="count",
+           direction="in", source_ref="stocktake:1", location="Bar & Kegroom",
+           counted_qty="4", counted_unit="bottle"),
+        mv(ts="2026-02-01", qty_base="6", base_unit="each", reason="count",
+           direction="in", source_ref="stocktake:1", location="Storeroom - Bar",
+           counted_qty="6", counted_unit="bottle"),
+    ])
+    assert L.count_scope_warning("lightspeed:20445811", {"Bar & Kegroom"}), (
+        "a bar-only count of an item also held in the storeroom must warn")
+    assert L.count_scope_warning(
+        "lightspeed:20445811", {"Bar & Kegroom", "Storeroom - Bar"}) is None
+    assert L.count_scope_warning("lightspeed:99999999", {"Bar & Kegroom"}) is None, (
+        "an item never counted anywhere is day zero, not a partial count")
+
+
+def test_counts_keep_what_the_human_actually_said():
+    """0.75 of a bottle is the observation; 525 ml is a conversion. Losing the
+    former means a corrected bottle size cannot re-derive the past."""
+    m = mv(qty_base="525", base_unit="ml", reason="count", direction="in",
+           source_ref="stocktake:1", counted_qty="0.75", counted_unit="bottle",
+           location="Bar & Kegroom")
+    m.validate()
+    assert m.counted_qty == "0.75" and m.counted_unit == "bottle"

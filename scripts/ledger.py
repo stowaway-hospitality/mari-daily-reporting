@@ -49,7 +49,10 @@ LEDGER_DIR = ROOT / "data" / "ledger"
 BASE_UNITS_FILE = ROOT / "data" / "item_base_units.csv"
 
 COLUMNS = ["ts", "venue", "item_id", "qty_base", "base_unit", "direction",
-           "reason", "source_ref", "actor", "note"]
+           "reason", "source_ref", "actor", "note",
+           # Added 2026-08-15 for counts and goods-received. Additive only —
+           # rows written before this simply carry blanks.
+           "location", "counted_qty", "counted_unit"]
 
 REASONS = {"receive", "sale", "production", "waste", "transfer", "count"}
 DIRECTIONS = {"in", "out"}
@@ -99,6 +102,15 @@ class Movement:
     source_ref: str
     actor: str
     note: str = ""
+    location: str = ""          # where it physically is/was. Not a balance key.
+    # WHAT THE HUMAN ACTUALLY SAID, kept verbatim beside the converted figure.
+    # Nobody counts in millilitres — they count "three quarters of a bottle",
+    # "0.8 of a keg", "0.035 of the 20L drum". qty_base is that times a declared
+    # conversion. Keeping the original means a later correction to a bottle size
+    # re-derives every historical count correctly, instead of silently baking
+    # today's error into the past. Same reason mix lines keep name_as_reported.
+    counted_qty: str = ""
+    counted_unit: str = ""
 
     def validate(self) -> None:
         if self.reason not in REASONS:
@@ -200,6 +212,47 @@ def rewrite_year(year: int | str, movements: list[Movement]) -> int:
     return len(rows)
 
 
+def count_scope_warning(item_id: str, locations_counted: set[str]) -> str | None:
+    """None if this count may set truth for the item; a reason if it may not.
+
+    THE TRAP THIS EXISTS FOR. Stock sits in several places — Bar & Kegroom,
+    Storeroom - Bar, Pizza Shop, the HG line. A count is done by walking ONE of
+    them. But a `count` row supersedes everything before it for that item, so
+    counting 4 bottles of Aperol in the bar, while 6 sit unopened in the
+    storeroom, writes "there are 4" and quietly destroys the other 6. The next
+    variance report then shows 6 bottles of phantom waste, and it is
+    indistinguishable from real theft.
+
+    So: truth requires the count to cover every location that item is known to
+    live in. Known, here, means "somewhere we have counted it before" — which is
+    evidence, not a guess, and it grows as the count history does.
+
+    A narrower count is not thrown away. It is still recorded, as evidence with
+    its scope on it; it just does not get to supersede.
+    """
+    seen = locations_ever_counted().get(item_id)
+    if not seen:
+        return None                        # never counted anywhere: this is day zero
+    missing = seen - locations_counted
+    if missing:
+        return (f"{item_id} has been counted in {sorted(seen)}; this count covers "
+                f"only {sorted(locations_counted)}. Missing {sorted(missing)} — "
+                f"recording it as truth would delete whatever is in there.")
+    return None
+
+
+def locations_ever_counted() -> dict[str, set[str]]:
+    """item_id -> every location a count has ever found it in."""
+    out: dict[str, set[str]] = {}
+    for r in read_all():
+        if r["reason"] != "count":
+            continue
+        loc = (r.get("location") or "").strip()
+        if loc:
+            out.setdefault(r["item_id"], set()).add(loc)
+    return out
+
+
 def read_all() -> list[dict]:
     rows: list[dict] = []
     if not LEDGER_DIR.exists():
@@ -210,28 +263,58 @@ def read_all() -> list[dict]:
     return rows
 
 
-def on_hand(as_at: str | None = None) -> dict[tuple[str, str], Decimal]:
-    """(venue, item_id) -> theoretical on-hand in base units.
+def on_hand(as_at: str | None = None) -> dict[str, Decimal]:
+    """item_id -> theoretical on-hand in base units. ONE GLOBAL POOL.
+
+    Stowaway and Harry Gatos draw from the same physical stock (Zak,
+    2026-08-15), so the balance is per ITEM, not per venue. A bottle is not in
+    two places, and partitioning the balance by venue would invent a second one.
+
+    `venue` stays on every row, because "which venue's sales depleted this" is a
+    real and useful question — it is just not a question about how much is on
+    the shelf. The same applies to `transfer`: moving stock between venues no
+    longer changes any balance, so a transfer row is a record of a physical
+    move, not an adjustment.
 
     A `count` row is TRUTH, not an adjustment: everything before it for that
-    item is superseded, and the difference it books is the variance. So on-hand
-    is computed forward from the last count, which is what makes a count worth
-    doing.
+    item is superseded, and the difference it books is the variance. That is
+    what makes a count worth doing — and why a PARTIAL count must never be
+    written as a count row. See count_scope_warning().
     """
     rows = [r for r in read_all() if not as_at or r["ts"] <= as_at]
     rows.sort(key=lambda r: r["ts"])
 
-    last_count: dict[tuple[str, str], str] = {}
+    last_count: dict[str, str] = {}
     for r in rows:
         if r["reason"] == "count":
-            last_count[(r["venue"], r["item_id"])] = r["ts"]
+            last_count[r["item_id"]] = r["ts"]
 
-    bal: dict[tuple[str, str], Decimal] = {}
+    bal: dict[str, Decimal] = {}
     for r in rows:
-        k = (r["venue"], r["item_id"])
-        cut = last_count.get(k)
+        item = r["item_id"]
+        cut = last_count.get(item)
         if cut and r["ts"] < cut:
             continue                      # superseded by a later count
         q = Decimal(r["qty_base"])
-        bal[k] = bal.get(k, Decimal(0)) + (q if r["direction"] == "in" else -q)
+        bal[item] = bal.get(item, Decimal(0)) + (q if r["direction"] == "in" else -q)
     return bal
+
+
+def consumption_by_venue(as_at: str | None = None) -> dict[tuple[str, str], Decimal]:
+    """(venue, item_id) -> base units consumed. The question venue DOES answer.
+
+    Stock is one pool; usage is not. This is what says Harry Gatos went through
+    twice the coriander Stowaway did, which is a rostering and menu question
+    even though both hands reach into the same fridge.
+    """
+    out: dict[tuple[str, str], Decimal] = {}
+    for r in read_all():
+        if as_at and r["ts"] > as_at:
+            continue
+        if r["reason"] not in ("sale", "production", "waste"):
+            continue
+        if r["direction"] != "out":
+            continue
+        k = (r["venue"], r["item_id"])
+        out[k] = out.get(k, Decimal(0)) + Decimal(r["qty_base"])
+    return out
