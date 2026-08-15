@@ -64,7 +64,18 @@ def _label(tok: str) -> str:
 # OUR OWN ABNs. Anything here is the customer side of the invoice and can never
 # be the vendor. 17 606 243 921 is Stowaway Freshwater Pty Ltd and appears on
 # invoices addressed to Harry Gatos too.
-CUSTOMER_ABNS = {"17606243921"}
+#
+# 38 760 949 765 IS ALSO OURS, and missing it is why the 2026-08-15 entry in the
+# triage log recorded the SYMSAFE credit note as "an ambiguous vendor ... it
+# references a second party". There is no second party: that document carries
+# SYMSAFE's ABN and OUR OTHER ONE, so dropping only 17606243921 left two
+# candidates and the parser correctly refused to choose. Evidence, not a guess —
+# 38 760 949 765 appears in 33 corpus documents and in EVERY ONE of them it is
+# printed inside the ship-to block, directly under "STOWAWAY FRESHWATER / SHOP
+# 18, 1-3 MOORE ROAD"; it is never on the letterhead side. A wrong entry here is
+# the expensive direction (it would blind us to a real vendor), so it was checked
+# across the whole corpus rather than on the one invoice that needed it.
+CUSTOMER_ABNS = {"17606243921", "38760949765"}
 
 # Vendor ABN -> (supplier_key, display name). EXPLICIT on purpose: an unknown
 # vendor must fall through to Review rather than be guessed at. Keys reuse the
@@ -79,7 +90,20 @@ ABN_SUPPLIER: dict[str, tuple[str, str]] = {
     "39616427340": ("philter", "Philter Brewing Pty Ltd"),
     "15145358836": ("moda_sparkling", "MODA Sparkling"),
     "56167206260": ("sigurd_wines", "Sigurd Wines Pty Ltd"),
+    # Added 2026-08-15. Every one of these names is PRINTED ON THE PAGE of the
+    # invoice carrying that ABN — none is looked up, inferred from a product
+    # range, or guessed from a suburb:
+    #   98610948813  "Wine Enterprises Pty Ltd", Copacabana NSW (4 invoices)
+    #   98146579053  "Australian Wine Company, 31 Drayton Street, Bowden SA"
+    #   26681889154  masthead reads "IA WINE & SPIRITS PTY LTD" — the logo eats
+    #                the first letters, so the name is taken from the bank block
+    #                on the same page, "Account Name: Australia Wine & Spirits
+    #                Pty Ltd". Sells Massenez liqueurs; Brighton VIC.
+    "98610948813": ("wine_enterprises", "Wine Enterprises Pty Ltd"),
+    "98146579053": ("australian_wine_company", "Australian Wine Company"),
+    "26681889154": ("australia_wine_spirits", "Australia Wine & Spirits Pty Ltd"),
     # services / consumables
+    "48540665321": ("prime_catering_repairs", "Prime Catering Repairs"),
     "55096609166": ("speed_gas", "Speed Gas Pty Limited"),
     "33110257086": ("cookers", "Cordless Filter Machine Pty Ltd"),
     "83105791419": ("symsafe", "Symsafe Pty Ltd"),
@@ -110,6 +134,7 @@ SERVICE_SUPPLIERS = {
     "symsafe",              # safety compliance
     "beerline_cleaning",    # line cleaning
     "cookers",              # oil filtration service
+    "prime_catering_repairs",  # fryer / cooking equipment repairs, charged by callout
 }
 
 
@@ -143,8 +168,40 @@ def _cols_from_header(hrow):
     at = {}
     for x0, _x1, t in hrow:
         at.setdefault(_label(t), x0)
-    if not {"Description", "Quantity", "Amount"} <= set(at):
+    if not {"Description", "Amount"} <= set(at):
         return None
+    mid_x = at.get("GST", at.get("Discount", at.get("Tax")))
+
+    if "Quantity" not in at:
+        # SERVICES TEMPLATE — "Description | GST | Amount AUD", no quantity and
+        # no unit price. The Beerline Cleaning Company bills a fixed monthly fee
+        # per venue this way, and it is a whole shape rather than a one-off: the
+        # invoice sells an agreement, so there is no unit to count.
+        #
+        # A missing quantity is NOT a reason to refuse the document — it is one
+        # implied unit of the thing described, and unit_price then equals the
+        # line amount, which is true. What WOULD be wrong is inventing a
+        # quantity where the column exists and is simply unread, so this branch
+        # only fires when the header genuinely has no Quantity, no Unit and no
+        # Price label.
+        #
+        # It is also deliberately narrow because of what sits next to it in the
+        # corpus: Xero's payment RECEIPT ("Total AUD paid", "Amount Paid",
+        # "Still Owing") also lacks a Quantity column, states a total, and would
+        # reconcile — booking one as a bill would double-count an invoice we
+        # have already recorded. It carries no Description column, so requiring
+        # Description keeps every one of them out. Verified: the three SYMSAFE
+        # receipts in the corpus still do not parse after this change.
+        if {"Item", "Unit", "Price"} & set(at):
+            return None
+        cols = [("desc", 0.0)]
+        if mid_x is not None:
+            cols.append(("mid", mid_x - 10))
+        cols.append(("amt", at["Amount"] - 12))
+        if any(b <= a for (_, a), (_, b) in zip(cols, cols[1:])):
+            return None
+        return cols
+
     price_x = at.get("Unit", at.get("Price"))
     if price_x is None:
         return None
@@ -152,7 +209,6 @@ def _cols_from_header(hrow):
     cols.append(("desc", (at["Item"] + at["Description"]) / 2 if "Item" in at else 0.0))
     cols.append(("qty", at["Quantity"] - 18))
     cols.append(("price", price_x - 12))
-    mid_x = at.get("GST", at.get("Discount", at.get("Tax")))
     if mid_x is not None:
         cols.append(("mid", mid_x - 10))
     cols.append(("amt", at["Amount"] - 12))
@@ -186,15 +242,26 @@ def parse(pdf_bytes: bytes) -> Invoice:
              else Venue.STOWAWAY if re.search(r"stowaway", flat, re.I)
              else Venue.UNKNOWN)
 
+    # TWO PASSES, AND THE ORDER IS THE POINT. A full header (with Quantity) is
+    # always preferred; the reduced services header is only looked for when no
+    # full one exists anywhere on the page. Searching for both at once would let
+    # a stray "Description ... Amount" row earlier in a normal invoice win the
+    # `break` and become the header, silently re-columning a supplier that
+    # parses correctly today. This way every currently-passing invoice takes the
+    # identical path it took before.
     hi = cols = None
-    for i, r in enumerate(rows):
-        if {"Description", "Quantity", "Amount"} <= {_label(t) for _, _, t in r}:
-            c = _cols_from_header(r)
-            if c:
-                hi, cols = i, c
-                break
+    for want in ({"Description", "Quantity", "Amount"}, {"Description", "Amount"}):
+        for i, r in enumerate(rows):
+            if want <= {_label(t) for _, _, t in r}:
+                c = _cols_from_header(r)
+                if c:
+                    hi, cols = i, c
+                    break
+        if hi is not None:
+            break
     if hi is None:
         raise ValueError("Xero: header row not found")
+    has_qty = any(name == "qty" for name, _ in cols)
 
     # Footer totals. Lines are ex-GST and the tax is added once at the bottom.
     gst_total = Decimal("0")
@@ -229,7 +296,9 @@ def parse(pdf_bytes: bytes) -> Invoice:
         if "subtotal" in toks or "total" in toks:
             break                        # the totals block ends the line table
         c = pdf_text.bucket(r, cols)
-        qty, amt = _m(c.get("qty")), _m(c.get("amt"))
+        # No Quantity column means one implied unit — see _cols_from_header.
+        qty = _m(c.get("qty")) if has_qty else Decimal("1")
+        amt = _m(c.get("amt"))
         if qty is None or amt is None or amt == 0 or qty == 0:
             continue
         raw.append((qty, amt, (c.get("desc") or "").strip(),

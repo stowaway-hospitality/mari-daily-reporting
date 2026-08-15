@@ -398,8 +398,95 @@ reframing found a much bigger miss than Sun Circle, and a bug I nearly shipped.
     technical. Still the biggest coverage gap: ~1 invoice in data/invoices
     against 15 arrivals, and every one of those has to be keyed by hand.
 
-The three zero-total documents can never PASS by construction: validator's
-_check_required_fields treats total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
+TRIAGE LOG — 2026-08-15 (fifth pass, unattended daily run). Corpus 452 -> 732
+readable invoices, because item 4's build_corpus fix ran for the first time on a
+folder set that had never been paged. That is the entry's own prediction coming
+true: a bigger, less flattering sample. TOTAL 440/452 (97%) -> 717/732 (97%).
+
+ 18. GULLI'S ONE FAILURE IS NOT A PARSER DEFECT — do not write a parser for it.
+     CI-437314 (corpus b381fb197ab6) raises "no line items parsed" and it is a
+     FOURTH zero-total document, not a fifth column-drift. Its single line reads
+     "Barbaro-Soppressata Hot (Zig Zag) r/w 2.5kg / 1.400 kg / 31.19000 / DISC.%
+     100.00 / 0% / $0.00", the Customer Reference field literally says "sample",
+     and the footer Total is $0.00. It is a free sample docket. It joins the
+     three documents parked at the foot of this docstring and is refused by the
+     same validator rule for the same correct reason. Gulli's other 31 pass.
+     Checked specifically because Gulli's corpus PDFs all dated 23 July and the
+     Foodlink/FFT pattern (hard-coded x-boundaries, silent rot) fits it exactly —
+     gulli.py still buckets on literal 125/335/330-360. It has not drifted YET,
+     but it is the last parser in the tree still doing that, and it is kitchen
+     food. Worth a header-derived rewrite on a day with nothing more urgent.
+
+ 19. XERO 66/82 (80%) -> 77/82 (93%), eleven invoices, two causes.
+
+     (a) OUR SECOND ABN WAS NOT ON THE CUSTOMER LIST. Item 17 recorded the
+         SYMSAFE credit note as "an ambiguous vendor ... references a second
+         party" and item 16's test pinned that reading. It was wrong. The second
+         ABN is 38 760 949 765 — OURS. It appears in 33 corpus documents and in
+         every single one it sits inside the ship-to block under "STOWAWAY
+         FRESHWATER / SHOP 18, 1-3 MOORE ROAD", never on a letterhead. Added to
+         CUSTOMER_ABNS. Worth noting how the error survived: the claim was made
+         from ONE document, and it was plausible, so the next four passes reused
+         it instead of re-checking. The fix was checked corpus-wide before it
+         shipped, and the old test now pins the CORRECTION rather than the claim.
+
+     (b) Four vendors were unregistered and one template variant was unhandled:
+           98610948813  Wine Enterprises Pty Ltd          4 invoices
+           98146579053  Australian Wine Company           1
+           26681889154  Australia Wine & Spirits Pty Ltd  1
+           48540665321  Prime Catering Repairs            2  (SERVICE_SUPPLIERS)
+         Every name is PRINTED ON THE PAGE of the invoice carrying that ABN —
+         none inferred from the product range or the suburb, which for the
+         Massenez one was tempting and would have been a guess. Its masthead
+         reads "IA WINE & SPIRITS PTY LTD" (the logo covers the first letters);
+         the name used is the one in its own bank block.
+
+         The variant is the Beerline Cleaning Company's fixed monthly fee:
+         "Description | GST | Amount AUD", no Quantity and no Unit Price,
+         because the invoice sells an agreement and there is no unit to count.
+         A missing quantity is not a reason to refuse a bill — it is one implied
+         unit — so _cols_from_header now accepts that shape, but ONLY when the
+         header has no Quantity, no Unit and no Price label, and parse() looks
+         for a full header FIRST and falls back to the reduced one only if no
+         full header exists anywhere on the page. Without that ordering a stray
+         "Description ... Amount" row could outrank the real header on a normal
+         invoice and every line would read as one unit at the line total.
+
+     THE DANGEROUS NEIGHBOUR, and why the Description column is the gate: Xero's
+     payment RECEIPT ("Total AUD paid", "Amount Paid", "Still Owing") ALSO has no
+     Quantity column, also states a total, and would reconcile — and it is a
+     record of an invoice ALREADY BOOKED, so parsing one double-counts the money.
+     Three SYMSAFE receipts sit in this corpus. A receipt tabulates OTHER
+     invoices and therefore never has a Description column, so requiring one
+     keeps all three out; verified after the change, and pinned by a test.
+
+     The 5 that remain are all correct refusals: 3 SYMSAFE payment receipts (see
+     above — they should be classified not-inv, see item 20), the SYMSAFE credit
+     note (now names its vendor, then stops at "invoice total not found" because
+     a CREDIT ADVICE states a "Credit Amount" and no total), and 164542cc0a23,
+     a "Tax Invoice / Bill to / Attn: OLIVER" template unrelated to the others.
+
+ 20. FOR ZAK — TWO CLASSIFICATION GAPS DELIBERATELY NOT SHIPPED, both because
+     they change run.py::looks_like_statement, which is cross-supplier:
+       * Xero payment RECEIPTS (3 in corpus, more in the Review folder). Refused
+         today only as a side effect of the header gate, which is thinner
+         protection than it deserves given the failure mode is double-counting.
+       * B&E "CUSTOMER STATEMENT - 21 JUL 26 - C200028467" reached a parser at
+         all — it says CUSTOMER STATEMENT in its own subject line and is not
+         caught by the ageing-bucket or Invoice-Amount-column rules.
+
+ 21. OPERATIONAL, and it cost this run most of the backlog: pull_mailbox's Review
+     sweep DIED PART-WAY on a single transient "Graph 504 UnknownError" while
+     fetching one message's attachments, at message 120 of 200. One flaky call
+     aborts the whole sweep and the remaining 80 are never re-tried. _req has a
+     timeout now (item 5) but no retry. A 5xx from Graph is not exceptional and
+     one bounded retry would have finished the pass. Left for a deliberate
+     change rather than an unattended run, but it is the reason today's Review
+     numbers below cover 120 documents and not 200.
+
+The three zero-total documents (now four, with Gulli CI-437314 — see item 18)
+can never PASS by construction: validator's _check_required_fields treats
+total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
 So no parser can promote them — the only way to stop them costing an LLM call on
 every retry pass forever is to classify a STATED $0.00 total as not-an-invoice in
 run.py::looks_like_statement. That is a shared, cross-supplier gate, so it wants

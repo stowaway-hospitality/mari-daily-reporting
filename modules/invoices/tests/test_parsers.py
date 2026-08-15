@@ -604,10 +604,18 @@ def test_xero_refuses_to_guess_a_vendor():
     assert vendor_from_abn("") is None                       # no ABN at all
     assert vendor_from_abn("ABN 17 606 243 921") is None      # only ours
     assert vendor_from_abn("ABN 11 111 111 111") is None      # not registered
-    # AMBIGUOUS: two non-customer ABNs (a real SYMSAFE credit note references a
-    # second party). Two candidates must never be resolved by picking one.
-    two = "ABN 83 105 791 419\nABN 38 760 949 765"
+    # AMBIGUOUS: two non-customer ABNs. Two candidates must never be resolved by
+    # picking one — an invented vendor merges two suppliers' price histories.
+    two = "ABN 83 105 791 419\nABN 53 158 357 450"
     assert vendor_from_abn(two) is None
+    # THIS PAIR IS NOT AMBIGUOUS, and believing it was is what kept the SYMSAFE
+    # credit note in Review. 38 760 949 765 is OUR OWN second ABN (it is printed
+    # in the ship-to block of 33 corpus invoices, never on a letterhead), so
+    # dropping the customer side leaves exactly one vendor. Pinned because the
+    # earlier reading — "references a second party" — was recorded in the triage
+    # log as fact and would otherwise be re-derived.
+    assert vendor_from_abn("ABN 83 105 791 419\nABN 38 760 949 765") == (
+        "symsafe", "Symsafe Pty Ltd")
 
 
 def test_our_own_abn_can_never_be_a_vendor():
@@ -660,6 +668,48 @@ def test_xero_unreadable_header_falls_back_rather_than_inventing_columns():
     from modules.invoices.parsers.xero import _cols_from_header
     assert _cols_from_header(_row((31, "Description"))) is None
     assert _cols_from_header([]) is None
+
+
+# The Beerline Cleaning Company bills a fixed monthly fee per venue: the invoice
+# sells an agreement, so there is no unit to count and the header carries neither
+# Quantity nor Unit Price.
+XERO_HEADER_SERVICES = _row((31, "Description"), (469, "GST"),
+                            (515, "Amount"), (547, "AUD"))
+# Xero's payment RECEIPT. Also has no Quantity, also states a total that would
+# reconcile — and it is a record of an invoice ALREADY PAID, so parsing one would
+# book the same money twice.
+XERO_HEADER_RECEIPT = _row((31, "Invoice"), (76, "Date"), (140, "Reference"),
+                           (250, "Payment"), (287, "Reference"), (380, "Invoice"),
+                           (410, "Total"), (470, "Amount"), (500, "Paid"),
+                           (540, "Still"), (562, "Owing"))
+
+
+def test_xero_services_header_with_no_quantity_resolves():
+    from modules.invoices.parsers.xero import _cols_from_header
+    cols = _cols_from_header(XERO_HEADER_SERVICES)
+    assert cols is not None, "a fixed-fee services invoice is still an invoice"
+    names = dict(cols)
+    assert "qty" not in names and "price" not in names
+    assert names["desc"] < names["mid"] < names["amt"]
+
+
+def test_xero_payment_receipt_is_not_read_as_an_invoice():
+    # The guard is the Description column, not a keyword: a receipt tabulates
+    # OTHER invoices and so never has one. If this ever starts returning columns,
+    # every payment receipt in the mailbox becomes a duplicate purchase.
+    from modules.invoices.parsers.xero import _cols_from_header
+    assert _cols_from_header(XERO_HEADER_RECEIPT) is None
+
+
+def test_xero_reduced_header_never_outranks_a_full_one():
+    # Order matters in parse(): a full header must win even when a reduced match
+    # appears EARLIER on the page, or a normal invoice silently loses its qty and
+    # unit-price columns and every line reads as one unit at the line total.
+    from modules.invoices.parsers.xero import _cols_from_header
+    full = dict(_cols_from_header(XERO_HEADER_ITEM))
+    assert "qty" in full and "price" in full
+    # the same row must not be mistaken for the services shape
+    assert _cols_from_header(XERO_HEADER_ITEM) != _cols_from_header(XERO_HEADER_SERVICES)
 
 
 def test_a_service_suppliers_lines_are_not_stock():
