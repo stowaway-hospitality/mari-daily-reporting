@@ -1,11 +1,11 @@
 {
-  "generated": "2026-08-15T01:45:27+00:00",
-  "overall": "ok",
+  "generated": "2026-08-15T02:06:36+00:00",
+  "overall": "down",
   "checks": [
     {
       "name": "Invoice poller",
       "detail": "reads the accounts@ inbox every 30 min",
-      "age": 52.1,
+      "age": 14.3,
       "unit": "min",
       "status": "ok",
       "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
@@ -15,7 +15,7 @@
     {
       "name": "Xero approvals poller",
       "detail": "posts approved bills every 2 min",
-      "age": 0.2,
+      "age": 1.1,
       "unit": "min",
       "status": "ok",
       "meaning": "Posts approved supplier bills into Xero every couple of minutes (office Mac).",
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 2.4,
+      "age": 0.3,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -35,7 +35,7 @@
     {
       "name": "Weekly Xero pull",
       "detail": "runs once a week",
-      "age": 5.0,
+      "age": 5.1,
       "unit": "day",
       "status": "ok",
       "meaning": "Pulls payroll and overheads from Xero once a week.",
@@ -116,17 +116,23 @@
     },
     {
       "name": "Automation jobs",
-      "detail": "all 10 jobs that ran in the last 48h succeeded",
+      "detail": "1 job(s) failing: Tests",
       "age": null,
       "unit": "",
-      "status": "ok"
+      "status": "down",
+      "meaning": "These are the scheduled jobs that pull sales, wages, invoices and Uber fees and publish the site.",
+      "action": "'Tests' failed and has not succeeded since. Open https://github.com/zakstowaway/mari-daily-reporting/actions/runs/31858196322 to see why, or ask Claude to look. Auto-retry has already had its go at the safe ones.",
+      "selfheal": "Only if it was transient - the 3-hourly monitor retries the safe jobs once."
     },
     {
       "name": "Published app is current",
-      "detail": "app matches the repo on all 5 key feeds",
+      "detail": "app is behind the repo on 1 feed(s): health panel itself (showing ok, differs on Automation jobs)",
       "age": null,
       "unit": "",
-      "status": "ok"
+      "status": "warn",
+      "meaning": "The app reads its numbers from the published copy, which updates only when a deploy runs \u2014 so the repo can be right while the screen is wrong.",
+      "action": "The figures on screen are older than the ones already recorded. Nothing is lost and nothing is wrong in the data - it just has not been published. Ask Claude to check the Pages deploy; a re-run of the deploy workflow usually clears it.",
+      "selfheal": "Clears on its own the next time any deploy runs."
     }
   ]
 }
