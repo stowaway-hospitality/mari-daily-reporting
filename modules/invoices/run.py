@@ -125,6 +125,20 @@ def looks_like_statement(text: str) -> bool:
     # so a genuine one-off receipt can't trip it.
     if "payment receipt" in t and "invoice number" in t and "payment amount" in t:
         return True
+    # AGEING BUCKETS ARE SUFFICIENT ON THEIR OWN. Foodlink's monthly Statement of
+    # Account prints no masthead in the text layer at all — it opens straight into
+    # the ledger ("15079 stowaway ... invoice si4500784 340.80 ... 1,441.20"), so
+    # the `titled` test below never fired and the document cycled through Review
+    # on every retry pass, unparseable by construction (it has no line items).
+    #
+    # A "Current | 7 Days | 14 Days | 21 Days+" spread is a statement-only
+    # construct: an invoice states ONE set of terms, never a spread of buckets.
+    # Measured against the whole corpus on 2026-08-15 — of 418 PASSing invoices,
+    # ZERO match this rule, so promoting it from a `strong` signal to a standalone
+    # one costs nothing and cannot swallow a real bill. The "tax invoice" escape
+    # hatch above still runs first and covers 417 of those 418 outright.
+    if "current" in t and len(set(_AGEING.findall(t))) >= 2:
+        return True
     titled = "statement" in t[:600] or "statement of account" in t  # word up top
     strong = ("running total" in t or "remaining amount" in t
               or ("opening balance" in t and "closing balance" in t)

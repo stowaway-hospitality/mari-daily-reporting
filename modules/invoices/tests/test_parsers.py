@@ -430,3 +430,84 @@ def test_foodlink_unreadable_header_falls_back_rather_than_inventing_columns():
     from modules.invoices.parsers.foodlink import _cols_from_header
     assert _cols_from_header(_row((10, "No."), (50, "Description"))) is None
     assert _cols_from_header([]) is None
+
+
+# --- FFT: column boundaries derived from the header, not hard-coded -----------
+# 2026-08-15, the sibling of the Foodlink defect found the same day. FFT's header
+# does not sit still: across the corpus the ITEM anchor ranges 181.7 -> 201.3.
+# The hard-coded desc boundary was 198 — the TOP of that range — so on every
+# invoice whose ITEM anchor sat left of 198, the description's FIRST WORD fell
+# into the unit bucket: raw_uom "Carrot", description "Large".
+#
+# The money still reconciled to the cent on every one of those invoices, so the
+# regression table read 52/52 (100%) while 274 lines carried a description word
+# as their unit and 51 of 119 codes had split into two descriptions. Fixing the
+# boundaries took it to 32 bad units (31 of which are the REAL unit "Market
+# Bunch") and 6 split codes, with the money unchanged.
+
+FFT_HEADER_WIDE = _row((30.0, "QTY"), (68.0, "SKU"), (143.3, "UNIT"), (198.3, "ITEM"),
+                       (362.0, "UNIT"), (389.5, "PRICE"), (450.9, "GST"), (508.9, "AMOUNT"))
+FFT_HEADER_NARROW = _row((30.4, "QTY"), (68.8, "SKU"), (130.5, "UNIT"), (185.5, "ITEM"),
+                         (357.9, "UNIT"), (385.4, "PRICE"), (448.3, "GST"), (507.7, "AMOUNT"))
+
+
+def test_fft_narrow_layout_keeps_the_first_description_word():
+    from modules.invoices.parsers.fresh_fruit_team import _cols_from_header
+    cols = _cols_from_header(FFT_HEADER_NARROW)
+    # "Carrot Large", 1 Kilogram @ 1.32 — the row that produced raw_uom="Carrot".
+    row = _row((30, "1"), (69, "CLKG"), (131, "Kilogram"), (186, "Carrot"),
+               (214, "Large"), (392, "1.32"), (455, "0.00"), (521, "1.32"))
+    c = pdf_text.bucket(row, cols)
+    assert c["sku"] == "CLKG"
+    assert c["unit"] == "Kilogram"
+    assert c["desc"] == "Carrot Large", "the regression: 'Carrot' bled into the unit column"
+    assert c["price"] == "1.32"
+    assert c["amt"] == "1.32"
+
+
+def test_fft_wide_layout_still_buckets_correctly():
+    from modules.invoices.parsers.fresh_fruit_team import _cols_from_header
+    cols = _cols_from_header(FFT_HEADER_WIDE)
+    row = _row((30, "1"), (68, "CLKG"), (143, "Kilogram"), (199, "Carrot"),
+               (227, "Large"), (392, "1.32"), (455, "0.00"), (521, "1.32"))
+    c = pdf_text.bucket(row, cols)
+    assert c["sku"] == "CLKG" and c["unit"] == "Kilogram"
+    assert c["desc"] == "Carrot Large"
+
+
+def test_fft_hardcoded_cols_would_have_eaten_the_narrow_layout_word():
+    # Pins the diagnosis: under the old fixed boundaries the same row loses
+    # "Carrot" to the unit cell. If this stops being true, the story above is
+    # wrong and the comments need revisiting.
+    from modules.invoices.parsers.fresh_fruit_team import COLS, _split_sku
+    row = _row((30, "1"), (69, "CLKG"), (131, "Kilogram"), (186, "Carrot"),
+               (214, "Large"), (392, "1.32"), (455, "0.00"), (521, "1.32"))
+    c = pdf_text.bucket(row, COLS)
+    # One root cause, both documented symptoms on a single row: the SKU cell
+    # swallows the unit AND the unit cell swallows the first description word.
+    assert c["sku"] == "CLKG Kilogram"
+    assert _split_sku(c["sku"]) == ("CLKG", "Kilogram")
+    assert c["unit"] == "Carrot"
+    assert c["desc"] == "Large"
+
+
+def test_fft_unreadable_header_falls_back_rather_than_inventing_columns():
+    from modules.invoices.parsers.fresh_fruit_team import _cols_from_header
+    assert _cols_from_header(_row((30, "QTY"), (68, "SKU"))) is None
+    assert _cols_from_header([]) is None
+    # Right shape, wrong labels -> fall back, don't guess.
+    assert _cols_from_header(_row(*[(x, "X") for x in (30, 68, 143, 198, 362, 389, 450, 508)])) is None
+
+
+def test_fft_order_note_is_not_part_of_the_product_name():
+    from modules.invoices.parsers.fresh_fruit_team import _strip_order_note
+    assert _strip_order_note("Zucchini Green 0.5Kg please") == "Zucchini Green 0.5Kg"
+    assert _strip_order_note("please make sure all product are") == ""
+    assert _strip_order_note("Avocado Hass good and best quality. thank you") \
+        == "Avocado Hass good and best quality."
+    # A real name is untouched, including one whose size IS the catalogue name.
+    assert _strip_order_note("Mushroom King Brown (200G Punnet)") \
+        == "Mushroom King Brown (200G Punnet)"
+    assert _strip_order_note("Carrot Large") == "Carrot Large"
+    assert _strip_order_note("") == ""
+    assert _strip_order_note(None) == ""

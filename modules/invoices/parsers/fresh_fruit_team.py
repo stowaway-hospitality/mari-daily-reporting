@@ -23,9 +23,82 @@ from modules.invoices.parsers import register
 
 # Column x-starts from the header row (QTY 30, SKU 68, UNIT 145, ITEM 200,
 # UNIT PRICE 363, GST 451, AMOUNT 508).
+# FALLBACK ONLY — see _cols_from_header, which is the live path.
+#
+# These constants were the whole story until 2026-08-15, and the fixed `desc`
+# boundary of 198 is what made "Large" a product name. FFT's header does not sit
+# still: across the corpus the ITEM anchor ranges 181.7 -> 201.3 and UNIT ranges
+# 126.0 -> 146.3 (16 distinct header signatures). 198 sits at the TOP of ITEM's
+# range, so on every invoice whose ITEM anchor landed left of 198 the
+# description's FIRST WORD fell into the unit bucket instead: raw_uom became
+# "Carrot" and the description became "Large".
+#
+# That is invisible to the money check — the line still reconciles to the cent —
+# so FFT scored 52/52 (100%) while 274 lines carried a description word as their
+# unit and 51 of 119 supplier codes had split into two identities ("Carrot Large"
+# AND "Large" for CLKG). Same failure mode, same day, as the Foodlink defect:
+# hard-coded pixel columns rot when a supplier re-templates.
 COLS = [("qty", 0), ("sku", 64), ("unit", 143), ("desc", 198),
         ("price", 360), ("gst", 449), ("amt", 506)]
 MONEY = re.compile(r"^\$?(-?[\d,]+\.?\d*)$")
+
+# The header is 8 tokens in a fixed ORDER, and "UNIT" appears twice ("UNIT" and
+# "UNIT PRICE"), so anchors are taken by POSITION, never by label lookup.
+_HEADER = ("QTY", "SKU", "UNIT", "ITEM", "UNIT", "PRICE", "GST", "AMOUNT")
+
+
+def _cols_from_header(hrow):
+    """
+    Derive column x-boundaries from the header row's own word positions.
+
+    Text columns (SKU, UNIT, ITEM) are LEFT-aligned under their labels, so the
+    boundary between two of them is the midpoint of their anchors. Money columns
+    (UNIT PRICE, GST, AMOUNT) are RIGHT-aligned and run past their label, so they
+    take a small fixed margin to the left of the label instead.
+
+    Returns None if the header is not the 8-token shape we know, so the caller
+    falls back to COLS rather than inventing a layout.
+    """
+    toks = [(x0, t) for x0, _x1, t in hrow]
+    if tuple(t for _x, t in toks) != _HEADER:
+        return None
+    qty_x, sku_x, unit_x, item_x, uprice_x, _price_x, gst_x, amt_x = (x for x, _t in toks)
+    cols = [("qty", 0.0),
+            ("sku", (qty_x + sku_x) / 2),
+            ("unit", (sku_x + unit_x) / 2),
+            ("desc", (unit_x + item_x) / 2),
+            ("price", uprice_x - 6),
+            ("gst", gst_x - 6),
+            ("amt", amt_x - 10)]
+    if any(b <= a for (_, a), (_, b) in zip(cols, cols[1:])):
+        return None
+    return cols
+
+
+# A picking instruction Stowaway typed onto the ORDER, which FFT reprints inside
+# the ITEM cell: "Zucchini Green 0.5Kg please", "Tomatoes Roma half box please",
+# "please make sure all product are". It is not part of the product name, but it
+# reaches the chef's picker as one — and worse, it is a second "spelling" of the
+# code's identity, so the same product lands in the cost book twice.
+#
+# Cutting at the courtesy word is safe: no produce line is named "please" or
+# "thank you", and FFT's own product names never contain them. If the note IS the
+# whole cell the description comes back empty, which is correct — the caller then
+# falls back to the neighbour stitch or the SKU, as it does for any blank cell.
+#
+# NOT stripped: a trailing size the note left behind ("Chillies Red Long 200g",
+# "Tomatoes Roma half box"). That was measured and deliberately left alone —
+# pack size is read from raw_uom, never from the description, so these are
+# cosmetic and cost-neutral (all three codes resolve to the same pack and the
+# same $/kg as their clean spelling). Guessing at trailing sizes with a regex
+# risks eating a REAL one, e.g. "Mushroom King Brown (200G Punnet)", where the
+# size is the catalogue name — the exact mistake that once booked a 200 g punnet
+# as 800 g.
+_ORDER_NOTE = re.compile(r"\s*\b(?:please|thank\s+you|thanks)\b.*$", re.I)
+
+
+def _strip_order_note(desc: str) -> str:
+    return _ORDER_NOTE.sub("", desc or "").strip()
 
 
 def _split_sku(cell: str) -> tuple[str, str]:
@@ -97,15 +170,17 @@ def parse(pdf_bytes: bytes) -> Invoice:
     if hi is None:
         raise ValueError("FFT: header row not found")
 
+    cols = _cols_from_header(rows[hi]) or COLS
+
     def is_money(row):
-        cc = pdf_text.bucket(row, COLS)
+        cc = pdf_text.bucket(row, cols)
         return (_m(cc["qty"]) is not None and _m(cc["price"]) is not None
                 and _m(cc["amt"]) not in (None, Decimal("0")))
 
     body = rows[hi + 1:]
     items = []
     for idx, r in enumerate(body):
-        c = pdf_text.bucket(r, COLS)
+        c = pdf_text.bucket(r, cols)
         qty, price, amt = _m(c["qty"]), _m(c["price"]), _m(c["amt"])
         if qty is None or price is None or amt is None:   # not a stock money row
             continue
@@ -114,13 +189,18 @@ def parse(pdf_bytes: bytes) -> Invoice:
         # FFT prints the money row in the MIDDLE of a wrapped description, so when
         # this row has no description of its own, stitch in the desc from the rows
         # immediately above and below (which carry no money).
-        desc = c["desc"].strip()
+        # Strip the order note BEFORE deciding the cell is empty: on AH20T the
+        # whole ITEM cell was the note ("please make sure all product are"), so a
+        # strip afterwards would leave nothing and the line would fall back to the
+        # bare SKU. Stripping first lets it stitch the real name off the
+        # neighbouring rows instead, which is what the wrap handling is for.
+        desc = _strip_order_note(c["desc"])
         if not desc:
             parts = []
             if idx - 1 >= 0 and not is_money(body[idx - 1]):
-                parts.append(pdf_text.bucket(body[idx - 1], COLS)["desc"].strip())
+                parts.append(_strip_order_note(pdf_text.bucket(body[idx - 1], cols)["desc"]))
             if idx + 1 < len(body) and not is_money(body[idx + 1]):
-                parts.append(pdf_text.bucket(body[idx + 1], COLS)["desc"].strip())
+                parts.append(_strip_order_note(pdf_text.bucket(body[idx + 1], cols)["desc"]))
             desc = " ".join(p for p in parts if p).strip()
         g = _m(c["gst"]) or Decimal("0")
         # THE UNIT COLUMN WRAPS TOO. FFT prints "200g punnet" across two rows and
@@ -143,9 +223,9 @@ def parse(pdf_bytes: bytes) -> Invoice:
         if not unit:
             uparts = []
             if idx - 1 >= 0 and not is_money(body[idx - 1]):
-                uparts.append(pdf_text.bucket(body[idx - 1], COLS)["unit"].strip())
+                uparts.append(pdf_text.bucket(body[idx - 1], cols)["unit"].strip())
             if idx + 1 < len(body) and not is_money(body[idx + 1]):
-                uparts.append(pdf_text.bucket(body[idx + 1], COLS)["unit"].strip())
+                uparts.append(pdf_text.bucket(body[idx + 1], cols)["unit"].strip())
             stitched = " ".join(p for p in uparts if p).strip()
             # Only if it actually NAMES a unit. On INB00109089 the layout shifts
             # (the SKU cell absorbs "Kilogram") and the neighbours' unit cells

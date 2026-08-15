@@ -121,6 +121,79 @@ in Review for 2.5 weeks and the last Foodlink invoice to reach data/invoices was
   sockets, 1.75s CPU, zero files written) and had to be killed, exactly like the
   stale pull_mailbox.py found at start-up. It has no timeout. Worth one.
 
+TRIAGE LOG — 2026-08-15 (second pass, same day). Zak: "fix it all and improve it".
+Everything the morning entry had parked as "needs Zak's nod" is now done, plus the
+sibling defect that entry's own evidence pointed at.
+
+  1. FRESH FRUIT TEAM had the SAME bug as Foodlink, and this table could not see
+     it either. FFT's header does not sit still: across the corpus the ITEM anchor
+     ranges 181.7 -> 201.3. The hard-coded desc boundary was 198 — the TOP of that
+     range — so on every invoice whose ITEM anchor sat left of 198 the
+     description's FIRST WORD fell into the unit bucket: raw_uom "Carrot",
+     description "Large". 274 lines and 51 of 119 codes affected, while FFT scored
+     52/52 (100%) throughout, because a wrong UNIT still reconciles to the cent.
+     This is the actual source of the "Large"/"Ruby Red"/"Baby Gem" fragments the
+     product triage has been flagging for weeks — they were never a naming problem
+     downstream, they were a column boundary here. Fixed with the same
+     header-derived boundaries as foodlink: 274 bad units -> 32, and 31 of those
+     32 are FFT's REAL "Market" (head of "Market Bunch"). Split codes 51 -> 6.
+     Money unchanged: FFT 52/52, TOTAL 418/426.
+
+  2. Order notes are no longer product names. FFT reprints our own picking
+     instructions inside the ITEM cell ("Zucchini Green 0.5Kg please", "please
+     make sure all product are"). Cut at the courtesy word. Deliberately NOT
+     stripping the trailing size a note leaves behind ("Chillies Red Long 200g"):
+     measured, and pack size comes from raw_uom, never the description, so those
+     are cosmetic and cost-neutral — and a greedy size regex would eat the REAL
+     size in "Mushroom King Brown (200G Punnet)", the exact mistake that once
+     booked a 200 g punnet as 800 g.
+
+  3. THIS HARNESS NOW CHECKS UNITS, not just codes. The identity audit caught a
+     column bleeding into the CODE cell; it was blind to the same drift bleeding
+     into the UNIT cell. New audit: a raw_uom that does not name a unit is another
+     column's text, which means the description lost a word. Allowlist carries the
+     five supplier-printed abbreviations verified today (be_foods DRU/EAC/PK/ROL,
+     andrews_meat PK, ilg 1xKEG49./1xKEG50, paramount MISC, fft Market/400gm) so
+     the alarm stays quiet enough to be worth reading. Both audits are clean now.
+
+  4. THE CORPUS IS NO LONGER A SURVIVOR SAMPLE. build_corpus.py scanned the inbox
+     only, but pull_mailbox MOVES everything it handles out of the inbox, so a
+     document could only enter the corpus if it had already PARSED — the one
+     population this harness exists to measure was structurally excluded. It now
+     pages Review and Processed too, NEWEST first, and --per is a per-run budget
+     rather than a hard ceiling (foodlink sat at the 60 cap since July, so no new
+     layout could ever get in no matter how often it ran).
+
+  5. THE WEDGE HAD ONE CAUSE: urlopen() with no timeout, at the bottom of every
+     mail path. That is why a pull_mailbox was found hung for ~21h and a
+     build_corpus for 1h45m. GRAPH_TIMEOUT=60s with a clear error; a stuck socket
+     now fails loudly and the next run retries.
+
+  6. The Review retry pass was starving its own backlog — both passes took the
+     newest 20, so in a ~60-message folder anything older was never re-tried
+     (which is why the Foodlink fix recovered only 3 of 10 until a manual
+     --max 60). The retry pass now sweeps the whole folder, but ONLY under
+     --no-llm: a billed retry stays on the small batch so this cannot turn a
+     20-message run into a 200-message bill.
+
+  7. Foodlink's monthly Statement of Account is now classified. It has no masthead
+     in the text layer at all — no "statement", no "tax invoice" — so titled+strong
+     never fired and it cycled through Review forever. Ageing buckets ("Current |
+     7 Days | 14 Days | 21 Days") are now sufficient alone: an invoice states ONE
+     set of terms, never a spread. Verified against the whole corpus first — of
+     418 PASSing invoices, ZERO match the rule, so it cannot swallow a real bill.
+
+  STILL DELIBERATELY OPEN, with reasons:
+  * The three $0.00 documents (be_foods d02385290774, ilg e23ce69fe899 +
+    b46bfb0a542a). The 08-14 entry wanted a $0.00 gate because they "cost an LLM
+    call on every retry pass forever" — but the daily task always runs --no-llm,
+    where they cost NOTHING, and all three are credit/adjustment dockets that a
+    human genuinely should see. A text-level "stated $0.00" detector is fragile
+    for no benefit, so it was NOT written. Correctly parked, not stuck.
+  * sun_circle — unchanged, 15 image scans with no text layer. Needs OCR, which is
+    a real dependency decision (and a cost), not a parser. Still Zak's call, and
+    still the biggest single gap: 1 invoice in data/invoices against 15 arrivals.
+
 The three zero-total documents can never PASS by construction: validator's
 _check_required_fields treats total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
 So no parser can promote them — the only way to stop them costing an LLM call on
@@ -172,6 +245,15 @@ def main() -> int:
     # entire time. A supplier code is an IDENTIFIER: it does not contain
     # whitespace. Cheap to check, and it would have caught the whole thing.
     codes: dict[str, set[str]] = {}
+    # SECOND BLIND SPOT, found 2026-08-15. The whitespace check above catches a
+    # neighbouring column bleeding INTO the code cell. It cannot see the same
+    # layout drift bleeding into the UNIT cell, which is how Fresh Fruit Team put
+    # the description's first word in raw_uom ("Carrot") and shipped "Large" to
+    # the chef as a product name. 274 lines and 51 of 119 codes were affected
+    # while this table read 52/52 (100%), because a wrong UNIT still reconciles.
+    # A UOM comes from a small, closed vocabulary — pack_size.names_a_unit already
+    # knows it — so anything else in that field is another column's text.
+    uoms: dict[str, set[str]] = {}
     print(f"{'supplier':<18} {'pass':>11}   review  parsefail   not-inv   scan   parser")
     for key in keys:
         if only and key not in only:
@@ -201,6 +283,8 @@ def main() -> int:
             for _l in inv.lines:
                 if _l.supplier_code:
                     codes.setdefault(key, set()).add(_l.supplier_code)
+                if _l.raw_uom:
+                    uoms.setdefault(key, set()).add(_l.raw_uom.strip())
             if V.validate(inv).ok:
                 p += 1
             else:
@@ -238,6 +322,48 @@ def main() -> int:
             print(f"   {k:<18} {len(v)}/{total} codes affected, e.g. {v[:3]}")
     else:
         print("\nidentity: no supplier code contains whitespace in any parsed invoice.")
+
+    # --- unit audit (the second blind spot; see the note above the loop) ------
+    # A raw_uom that does not name a unit is another column's text sitting in the
+    # unit cell — which means the description lost that word. Reported as a count
+    # per supplier because a handful are legitimate partial units the supplier
+    # itself prints (FFT's "Market" is the head of "Market Bunch"), so this is a
+    # smoke alarm to investigate, not a hard failure.
+    from modules.invoices.pack_size import names_a_unit          # noqa: E402
+    # Allowlist of values the SUPPLIER itself prints that names_a_unit does not
+    # know. Every one was opened on 2026-08-15 and its description confirmed
+    # COMPLETE, so none is a bleed:
+    #   be_foods     DRU/EAC/PK/ROL  truncated DRUM/EACH/PACK/ROLL
+    #                                ("OIL - CANOLA OIL" DRU, "FOIL ROLL" ROL)
+    #   andrews_meat PK              PACK ("PROSCIUTTO SLICED 500G")
+    #   ilg          1xKEG49./1xKEG50 keg pack descriptors ("SAPPORO KEG 50LT")
+    #   paramount    MISC            charge lines ("Carton Freight", "Fuel Levy")
+    #   fft          Market          head of "Market Bunch"; 400gm a real size
+    # They are allowlisted here rather than added to names_a_unit on purpose:
+    # names_a_unit is a GUARD in the FFT parser, and widening it would let a
+    # description word through as a unit — the very bug this check exists for.
+    UNIT_OK = {
+        "be_foods": {"DRU", "EAC", "PK", "ROL"},
+        "andrews_meat": {"PK"},
+        "ilg": {"1xKEG49.", "1xKEG50"},
+        "paramount": {"MISC"},
+        "fresh_fruit_team": {"Market", "400gm"},
+    }
+    odd = {k: sorted(u for u in v
+                     if not names_a_unit(u) and u not in UNIT_OK.get(k, set()))
+           for k, v in uoms.items()}
+    odd = {k: v for k, v in odd.items() if v}
+    if odd:
+        print("\n!! UNIT WARNING — raw_uom values that do not name a unit.")
+        print("   A UOM is a closed vocabulary. Anything else in that field is")
+        print("   another column's text, which means the DESCRIPTION lost a word")
+        print("   (FFT: raw_uom 'Carrot', description 'Large'). The money still")
+        print("   reconciles, which is exactly why this needs its own check.")
+        for k, v in sorted(odd.items()):
+            total = len(uoms[k])
+            print(f"   {k:<18} {len(v)}/{total} distinct uoms, e.g. {v[:4]}")
+    else:
+        print("units: every raw_uom names a unit in every parsed invoice.")
     return 0
 
 

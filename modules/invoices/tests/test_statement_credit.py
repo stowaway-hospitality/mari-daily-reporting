@@ -91,3 +91,45 @@ def test_credit_words_do_not_false_trip():
     doc = "TAX INVOICE\nPayment by credit card incurs a fee. Credit terms 7 days.\nTotal 100.00"
     assert looks_like_credit_note(doc) is False
     assert looks_like_statement(doc) is False
+
+
+# ── Foodlink's untitled ageing statement (2026-08-15) ──────────────────────
+# The real one, trimmed. It has NO masthead in the text layer — no "statement",
+# no "tax invoice" — it opens straight into the ledger. The `titled and strong`
+# rule therefore never fired, so this document was unparseable by construction
+# (no line items) yet kept cycling through the Review retry pass forever.
+#
+# What gives it away is the ageing spread. An invoice states ONE set of terms;
+# only a statement ages a balance across buckets.
+FOODLINK_STATEMENT = """15079 STOWAWAY 18/1-3 MOORE ROAD FRESHWATER
+14/02/26 CR/ADJ NOTE SC324772 29/01/26 88.00 -88.00
+03/08/26 INVOICE SI4500784 10/08/26 340.80 340.80 252.80
+08/08/26 INVOICE SI4511803 15/08/26 335.40 335.40 1,130.60
+22311 HARRY GATOS 18/1-3 MOORE ROAD FRESHWATER
+CURRENT 7 DAYS 08 DAYS 14 DAYS 21 DAYS
+1,441.20 674.50 512.90 165.30 88.00"""
+
+
+def test_foodlink_untitled_ageing_statement_is_caught():
+    # Regression: this returned False and the document sat in Review forever.
+    assert looks_like_statement(FOODLINK_STATEMENT) is True
+
+
+def test_ageing_buckets_alone_are_enough_without_the_word_statement():
+    assert "statement" not in FOODLINK_STATEMENT.lower()
+    assert "tax invoice" not in FOODLINK_STATEMENT.lower()
+    assert looks_like_statement(FOODLINK_STATEMENT) is True
+
+
+def test_a_real_invoice_quoting_plain_terms_is_not_aged():
+    # One set of terms is not a bucket spread. Must stay an invoice.
+    doc = ("Foodlink Australia Pty Ltd\nTax Invoice SI4483241\n"
+           "Terms 7 DAYS from Inv Date\nCurrent charges apply\n"
+           "Total AUD Incl. GST 206.61")
+    assert looks_like_statement(doc) is False
+
+
+def test_ageing_rule_needs_two_distinct_buckets():
+    # "current" plus a single "7 days" terms line is an invoice, not a statement.
+    doc = "ACME SUPPLY\nCurrent order\nTerms: 7 DAYS\nAmount 100.00"
+    assert looks_like_statement(doc) is False
