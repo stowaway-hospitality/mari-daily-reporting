@@ -827,6 +827,74 @@ def seed_matched_liquor_cost(pack_cost, pack_qty, pack_unit, note, seed_per_unit
     return None
 
 
+COUNTABLE_SEED = ("can", "ea", "each", "tin", "bottle", "stubbie", "unit")
+
+
+def build_countable_seeds(cogs_rows):
+    """ProductID -> the Back Office price for ONE of the thing. -> {pid: Decimal}
+
+    seed_price only ever holds a per-BASE-UNIT figure, because build_seed_conv
+    expresses a seed through stated_pack_in_base_units(), which returns nothing for
+    a container word. So a product Lightspeed holds per CAN has no seed price at
+    all — and seed_matched_liquor_cost, which needs one to judge against, cannot
+    fire for it.
+
+    That is why 77 of 104 ILG codes were missing from the cost book. Nine of them
+    are the cans and bottles the bar sells as bought: Peroni, Asahi, Two Bays,
+    Young Henrys, Monteith's, Fellr, Better Beer. Every one has a readable pack on
+    the invoice (0.330 L) and a price, and every one was dropped as "pack
+    unreadable" — so add_passthrough_products fell back to the Back Office cost and
+    the book stayed tied to Lightspeed for a product we hold real invoices for.
+    """
+    out: dict[str, Decimal] = {}
+    for r in cogs_rows:
+        if (r.get("supplier") or "") != "Lightspeed":
+            continue
+        if not str(r.get("source_invoice") or "").startswith(("bo-seed", "bo-ingredient-seed")):
+            continue
+        if (r.get("pack_unit") or "").strip().lower() not in COUNTABLE_SEED:
+            continue
+        if str(r.get("pack_qty") or "").strip() not in ("1", "1.0", ""):
+            continue
+        try:
+            v = Decimal(r["cost_per_unit_incl_gst"])
+        except (ArithmeticError, ValueError, KeyError, TypeError):
+            continue
+        if v > 0:
+            out[f"lightspeed:{(r.get('supplier_code') or '').strip()}"] = v
+    return out
+
+
+def seed_matched_countable_cost(pack_cost, seed_per_unit, band=Decimal("3")):
+    """A sold-as-bought can, judged the same way the liquor rescue judges a bottle.
+
+    No conversion is involved and that is the whole argument: Back Office holds the
+    product per CAN, the invoice line is one can, so the invoice's own unit price IS
+    the cost. The only question is whether this line is one can or a CASE of them,
+    and the band answers it — a 6-pack lands at 6x the seed and a carton at 24x,
+    both refused, while every real one here sits between 0.98x and 1.17x.
+
+    Peroni is the proof that the two sides are the same number: Back Office says
+    $2.5217 and ILG 115-4173 invoices $2.5217, identical to four decimals across
+    four invoices. The Back Office figure was set from this line.
+
+    Returns None when nothing matches, so a line that agrees with neither reading
+    stays OUT of the book — under-costing a drink is the flattering direction.
+    """
+    if seed_per_unit is None:
+        return None
+    try:
+        pc, seed = Decimal(str(pack_cost)), Decimal(str(seed_per_unit))
+    except (ArithmeticError, ValueError, TypeError):
+        return None
+    if pc <= 0 or seed <= 0:
+        return None
+    ratio = pc / seed
+    if (Decimal(1) / band) <= ratio <= band:
+        return pc.quantize(Decimal("0.000001")), "ea", f"one unit vs seed ${seed}"
+    return None
+
+
 def _read_cogs_rows():
     """data/cogs_list.csv, ONE ROW PER (invoice, product). -> list[dict]
 
@@ -896,6 +964,9 @@ def main() -> int:
         print(f"    NOT pinned: {what} — {why}")
 
     seed_conv, seed_price = build_seed_conv(cogs_rows, overrides, bo_rate, book_pack)
+    # ...and the per-CAN seeds, which build_seed_conv cannot express (see the
+    # docstring): a container word has no base-unit size to divide by.
+    countable_seed = build_countable_seeds(cogs_rows)
     # The base unit Back Office declares, for products that have no seed at all.
     bo_units = bo_declared_units()
 
@@ -1048,6 +1119,29 @@ def main() -> int:
                     per, unit, _lbl = fb
                     qty, bad, seed_liquor = Decimal(1), None, True
                     how = f"seed-matched {_lbl} vs seed ${_sp}"
+            if not qty or not unit:
+                # SOLD-AS-BOUGHT RESCUE. The liquor path needs a per-ml seed; a can
+                # has none. Same discipline, different unit: one can against the
+                # Back Office price for one can, refused unless they agree.
+                # A COUNTABLE SEED IS NOT ENOUGH — the product must not be a
+                # MEASURED good. Brown onion carries a per-"can" Back Office seed of
+                # $1.54 that actually means $1.54 a KILO, and the first cut of this
+                # rescue matched it 1.00x and emitted "one unit". The number came out
+                # right only because a chef-confirmed 1000 g override converted it
+                # afterwards; on a product without that override it would have been a
+                # unit error. So refuse anything either source calls measured:
+                #   * a chef-confirmed pack override (someone declared a weight), or
+                #   * a Back Office Unit of g / ml.
+                # What is left is what is genuinely bought and sold by the piece.
+                _cid = next((p for p in (bridge.get(iid) or ())
+                             if p in countable_seed
+                             and p not in overrides
+                             and bo_units.get(p) not in ("g", "ml")), None)
+                fb2 = seed_matched_countable_cost(pack_cost, countable_seed.get(_cid)) if _cid else None
+                if fb2:
+                    per, unit, _lbl = fb2
+                    qty, bad, seed_liquor = Decimal(1), None, True
+                    how = f"seed-matched {_lbl}"
 
         if not qty or not unit:
             skipped.append((r["supplier"], desc, f"pack unreadable ({how})"))
