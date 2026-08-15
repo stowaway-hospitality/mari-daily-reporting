@@ -172,16 +172,102 @@ logic in index.html** — `scripts/arch_guard.py` fails CI *and* the deploy if y
 do (it also runs 3 JS test suites + the P&L conservation check). `scripts/schema_guard.py`
 guards the history CSVs. `reconcile_wages.py` proves every Xero dollar classifies.
 
-**Deploy trap — work in an ISOLATED clone, never this mounted folder.** The cron
-(Daily Pull / Rebuild Wages) does `git pull --rebase` on THIS working tree and
-will silently clobber in-progress edits mid-session. Pattern: `git clone` to /tmp,
-edit + commit + push there, so automation can't stomp you. A push to `dashboard/**`
+**Work in an ISOLATED clone, never this mounted folder** — see *Never edit the
+Mac tree directly* below for the recipe and the recovery. A push to `dashboard/**`
 (or a Daily Pull / Wages Backfill / Rebuild Wages / Roster Pull run) triggers the
 `deploy_dashboard` GitHub Action which rebuilds Pages. Data-only commits need a
 `dashboard/**` touch OR one of those workflows to redeploy.
 
 The old patch_index_v*.py / push_*.py scripts are archived in
 `_archive/patch-scripts-2026-07/` — do not use them.
+
+## Never edit the Mac tree directly — clone to /tmp (2026-08-15)
+
+**You are not the only writer.** A cron runs `git pull --rebase --autostash` in
+`~/Documents/STOW/Sales Reports/Daily Reporting` on a schedule, as user `zak`,
+and `pull_mailbox.py` commits and pushes on its own every time it finds an
+invoice. If you have uncommitted edits to a TRACKED file when one of those fires,
+your work is swept into an autostash mid-rebase and the file on disk reverts.
+
+This is not theoretical and it is not rare. On 2026-08-15 it happened twice in
+one day:
+
+* a parser fix (`foodlink.py`, its tests, the triage log) vanished from the
+  working tree while the invoices it had just rescued sat committed — the edits
+  were in `.git/rebase-merge/autostash`, un-applied, because the rebase had
+  stopped on a conflict;
+* a second session's fix to the same area was "silently dropped by their
+  rebase", which is why the black-beans bug had to be diagnosed twice.
+
+CLAUDE.md has said "edit in an isolated /tmp clone" for a while. It kept being
+treated as advice. It is not — it is the only safe way to hold a file here.
+
+### The recipe
+
+    rm -rf /tmp/dr
+    git clone -q "/Users/stowaway/Documents/STOW/Sales Reports/Daily Reporting" /tmp/dr
+    cd /tmp/dr
+    # the corpus is gitignored, so it does NOT come with the clone — link it if
+    # you need parser_regression.py or the identity/unit audits
+    ln -s "/Users/stowaway/Documents/STOW/Sales Reports/Daily Reporting/data/invoice_corpus" \
+          data/invoice_corpus
+
+Edit, run the tests, run `scripts/arch_guard.py`, commit — all in `/tmp/dr`,
+where nothing else is writing.
+
+**Stage files explicitly in the clone; do not `git add -A`.** The ignore rule is
+`data/invoice_corpus/` (a directory) and the thing you just made is a *symlink*
+of that name, so it does not match and `-A` will happily stage it — committing a
+link to a path that exists on no other machine. Same for any scratch file you
+drop in the tree while debugging.
+
+`origin` in that clone is the MAC TREE, not GitHub, so add the real remote to
+push. Rebase onto it first and re-run the tests AFTER the rebase — upstream moves
+under you constantly:
+
+    git remote add gh https://github.com/zakstowaway/mari-daily-reporting.git
+    git fetch -q gh
+    git rebase gh/main
+    python3 -m pytest                     # again, on the rebased tree
+    git push gh HEAD:main
+
+Then bring the Mac tree up:
+
+    cd "/Users/stowaway/Documents/STOW/Sales Reports/Daily Reporting"
+    git pull --rebase --autostash
+
+### If your edits disappear anyway, they are not lost
+
+Look in this order — every one of these held real work on 2026-08-15:
+
+    git stash list                        # autostashes pile up here
+    cat .git/rebase-merge/autostash       # a stopped rebase parks one here
+    git show <that-sha>                   # it is an ordinary commit object
+
+A rebase that will not continue — `git rebase --continue` insisting on merge
+conflicts when `git ls-files -u` is empty — is best exited with
+**`git rebase --quit`**. It clears the state, leaves HEAD where it is, and
+converts the autostash into a normal stash entry you can `git stash pop`.
+`--abort` is the one to avoid: it rewinds to the pre-rebase HEAD.
+
+### Conflicts in `data/` are usually not conflicts
+
+`dashboard/pricing/compare.json`, `data/system_health.json`, `data/costs.csv`
+and friends are DERIVED. When one conflicts, do not hand-merge it — regenerate
+it and stage the result:
+
+    python3 modules/invoices/build_price_compare.py     # compare.json
+    python3 scripts/health_monitor.py                   # system_health.json
+    python3 modules/recipes/pipeline/build_costs.py     # costs.csv
+
+Hand-merging a derived file produces a number nobody computed.
+
+### What IS safe on the Mac tree
+
+`git pull`, `git log`, reading, and running the pollers — anything that does not
+leave a tracked file dirty across a cron tick. Ad-hoc scratch files are fine as
+long as they are gitignored or outside the repo; a stray `.png` written into the
+tree will be picked up by the next `git add -A` the poller runs.
 
 ## Git on the Cowork mount — it cannot delete files (2026-08-08)
 

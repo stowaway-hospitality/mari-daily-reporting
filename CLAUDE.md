@@ -37,7 +37,12 @@ deletes HG's Monday revenue and blinds the Mari coverage guard (~6 figures/yr).
 
 ## How to work here (or you will lose edits / break the live site)
 - **Edit in an isolated `/tmp` clone**, never this mounted tree — the cron does
-  `git pull --rebase` and clobbers in-progress edits to tracked files.
+  `git pull --rebase --autostash` (and `pull_mailbox.py` commits + pushes on its
+  own), so uncommitted edits to a TRACKED file get swept into an autostash
+  mid-rebase and the file reverts. This cost work twice on 2026-08-15, in two
+  different sessions. It is a rule, not advice: recipe, push-from-clone steps and
+  the "my edits vanished" recovery are in **WORKING_HERE.md → *Never edit the Mac
+  tree directly***.
 - `daily_aggregator.py` **requires `--venue`** (positional silently defaults to Mari).
 - After any deploy, hard-refresh (Pages caches 10 min); `build_site.py` stamps `?v=` hashes.
 - `arch_guard.py` fails CI + deploy if logic leaks into `sales/index.html`.
