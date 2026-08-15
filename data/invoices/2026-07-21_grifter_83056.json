@@ -1,0 +1,125 @@
+{
+  "invoice": {
+    "supplier_key": "grifter",
+    "supplier_name_raw": "The Grifter Brewing Company Pty Ltd",
+    "invoice_ref": "83056",
+    "invoice_date": "2026-07-21",
+    "total_incl": "380.05",
+    "lines": [
+      {
+        "description": "GRIFTER PALE ALE 50L KEG (KONVOY KEG)",
+        "qty": "1.00",
+        "line_total_incl": "292.05",
+        "unit_price_incl": "292.0500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "50",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "GRIFTER PALE CANS 24 PK",
+        "qty": "1.00",
+        "line_total_incl": "74.25",
+        "unit_price_incl": "74.2500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Freight",
+        "qty": "1.00",
+        "line_total_incl": "13.75",
+        "unit_price_incl": "13.7500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-08-04",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "493c1ba8db63fb1f5a23dc45618b0c6ae36be911d1214f7eb379d571c1a52edb.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $13.75 under the invoice total \u2014 expected. Skipped: Freight ($13.75). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "366.30",
+        "actual": "380.05"
+      }
+    ],
+    "expected_ls_receive_total": "366.30",
+    "extras_total": "13.75"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "GRIFTER PALE ALE 50L KEG (KONVOY KEG)",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      },
+      {
+        "description": "GRIFTER PALE CANS 24 PK",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      },
+      {
+        "description": "Freight",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

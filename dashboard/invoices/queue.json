@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-15",
-  "count": 320,
-  "skipped_already_in_xero": 277,
+  "count": 324,
+  "skipped_already_in_xero": 292,
   "invoices": [
     {
       "ref": "5515242",
@@ -28,6 +28,45 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "known supplier 'paramount'"
+        }
+      ]
+    },
+    {
+      "ref": "OMI298891",
+      "supplier": "Urbun Bakery",
+      "supplier_key": "mallia_industries",
+      "date": "2026-08-15",
+      "due_date": "2026-08-22",
+      "total": "111.72",
+      "venue": "stowaway",
+      "pdf_path": "a2b4e78472e2bd716e80634551809513a4e9040ef37f0ebdf6ecc408cfca1165.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Sliced T2 Milk Bun (85g) - White Sesame",
+          "supplier_code": "ST285-WS",
+          "qty": "90.00",
+          "amount": "88.20",
+          "unit_cost": "$11.53/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "Turkish/Focaccia Bread (120g)",
+          "supplier_code": "TFB120",
+          "qty": "24.00",
+          "amount": "23.52",
+          "unit_cost": "$8.17/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
         }
       ]
     },
@@ -255,6 +294,101 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "known supplier 'paramount'"
+        }
+      ]
+    },
+    {
+      "ref": "INV-73076",
+      "supplier": "MODA Sparkling",
+      "supplier_key": "moda_sparkling",
+      "date": "2026-08-06",
+      "due_date": "2026-08-06",
+      "total": "204.10",
+      "venue": "harry_gatos",
+      "pdf_path": "0d4055fad9a14ae232ec790d9f34d18b6d351c3d5e159aaa69544166640bb558.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Moda System Serviced Rental Agreement",
+          "supplier_code": null,
+          "qty": "1.00",
+          "amount": "204.10",
+          "unit_cost": "$204.10/ea",
+          "tax": "gst",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
+        }
+      ]
+    },
+    {
+      "ref": "OMI297402",
+      "supplier": "Urbun Bakery",
+      "supplier_key": "mallia_industries",
+      "date": "2026-08-05",
+      "due_date": "2026-08-12",
+      "total": "153.60",
+      "venue": "stowaway",
+      "pdf_path": "cc653698f7a8553a0584e63861de8f33e1411170b93640c86ff3c65608c16ed9.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Sliced T2 Milk Bun (85g) - White Sesame",
+          "supplier_code": "ST285-WS",
+          "qty": "90.00",
+          "amount": "88.20",
+          "unit_cost": "$11.53/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        },
+        {
+          "description": "Gluten Free and Vegan Milk Bun",
+          "supplier_code": "GFBB",
+          "qty": "30.00",
+          "amount": "65.40",
+          "unit_cost": "$2.18/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
+    {
+      "ref": "and",
+      "supplier": "Cordless Filter Machine Pty Ltd",
+      "supplier_key": "cookers",
+      "date": "2026-07-30",
+      "due_date": "2026-08-06",
+      "total": "224.00",
+      "venue": "stowaway",
+      "pdf_path": "861df49c0c6e5ebe371143c6c9c24b5f6270d6188e9afcd2273133eace04b621.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CFM Sunpower Oil",
+          "supplier_code": null,
+          "qty": "80.00",
+          "amount": "224.00",
+          "unit_cost": "$2.80/ea",
+          "tax": "gst_free",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "learned from Xero history for this supplier"
         }
       ]
     },

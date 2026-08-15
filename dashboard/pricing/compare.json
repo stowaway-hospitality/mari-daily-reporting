@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-15",
-  "count": 942,
-  "compared": 20,
+  "count": 959,
+  "compared": 21,
   "window_days": 90,
   "total_saving": 94.5,
   "switches": [
@@ -1379,6 +1379,46 @@
       "low_date": "2026-05-07",
       "est_saving": 0.0,
       "main": null,
+      "switch": false
+    },
+    {
+      "key": "bun milk sesame sliced t2 white",
+      "name": "Sliced T2 Milk Bun White Sesame",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Mallia",
+          "cost": 11.529,
+          "date": "2026-07-25",
+          "desc": "Sliced T2 Milk Bun (85g) - White Sesame",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 117.6,
+          "volume": 10.2
+        },
+        {
+          "supplier": "Urbun Bakery",
+          "cost": 11.529,
+          "date": "2026-08-15",
+          "desc": "Sliced T2 Milk Bun (85g) - White Sesame",
+          "change_pct": null,
+          "n": 2,
+          "prev_cost": null,
+          "spend": 176.4,
+          "volume": 15.3
+        }
+      ],
+      "cheapest": "Mallia",
+      "min": 11.529,
+      "max": 11.529,
+      "spread_pct": 0.0,
+      "multi": true,
+      "suspect": false,
+      "low": 11.529,
+      "low_date": "2026-07-25",
+      "est_saving": 0.0,
+      "main": "Urbun Bakery",
       "switch": false
     },
     {
@@ -5174,6 +5214,64 @@
       "switch": false
     },
     {
+      "key": "brew carbon dioxide home monthly service size",
+      "name": "Carbon Dioxide Size Home Brew Monthly Service",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Speed Gas",
+          "cost": 16.5,
+          "date": "2026-07-31",
+          "desc": "Carbon Dioxide - D Size Home Brew monthly service",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Speed Gas",
+      "min": 16.5,
+      "max": 16.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 16.5,
+      "low_date": "2026-07-31",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "carbon dioxide monthly service size",
+      "name": "Carbon Dioxide Size Monthly Service",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Speed Gas",
+          "cost": 16.5,
+          "date": "2026-07-31",
+          "desc": "Carbon Dioxide - F Size monthly service",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Speed Gas",
+      "min": 16.5,
+      "max": 16.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 16.5,
+      "low_date": "2026-07-31",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "carpano classico vermouth",
       "name": "Carpano Classico Vermouth",
       "unit": "L",
@@ -5471,10 +5569,10 @@
         {
           "supplier": "Cookers",
           "cost": 2.8,
-          "date": "2026-07-23",
+          "date": "2026-07-30",
           "desc": "CFM Sunpower Oil",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -9959,6 +10057,64 @@
       "switch": false
     },
     {
+      "key": "bbq bun davidson plum pork",
+      "name": "Davidson Plum Bbq Pork Bun",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Canton",
+          "cost": 40.0,
+          "date": "2026-07-23",
+          "desc": "DAVIDSON PLUM BBQ PORK BUNS (20 PCS)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Canton",
+      "min": 40.0,
+      "max": 40.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 40.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "davidson duck peking plum roll spring",
+      "name": "Davidson Plum Peking Duck Spring Roll",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Canton",
+          "cost": 100.0,
+          "date": "2026-07-23",
+          "desc": "DAVIDSON PLUM PEKING DUCK SPRING ROLL",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Canton",
+      "min": 100.0,
+      "max": 100.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 100.0,
+      "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "bortoli de dry gold red seal special",
       "name": "De Bortoli Gold Seal Special Dry Red",
       "unit": "L",
@@ -10196,18 +10352,18 @@
       "unit": "ea",
       "suppliers": [
         {
-          "supplier": "Jun Pacific",
+          "supplier": "JFC",
           "cost": 11.0,
-          "date": "2026-07-03",
+          "date": "2026-08-14",
           "desc": "Dim Sim Paper 5.0\" 20/500sheet Cooking Paper",
           "change_pct": null,
-          "n": 1,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
-      "cheapest": "Jun Pacific",
+      "cheapest": "JFC",
       "min": 11.0,
       "max": 11.0,
       "spread_pct": 0.0,
@@ -13932,6 +14088,35 @@
       "switch": false
     },
     {
+      "key": "bun free gluten milk vegan",
+      "name": "Gluten Free Vegan Milk Bun",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Urbun Bakery",
+          "cost": 2.18,
+          "date": "2026-08-05",
+          "desc": "Gluten Free and Vegan Milk Bun",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Urbun Bakery",
+      "min": 2.18,
+      "max": 2.18,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 2.18,
+      "low_date": "2026-08-05",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "gourmet",
       "name": "Gourmet",
       "unit": "ea",
@@ -14246,6 +14431,64 @@
       "suspect": false,
       "low": 292.05,
       "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "ale grifter keg pale",
+      "name": "Grifter Pale Ale Keg",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Grifter",
+          "cost": 5.841,
+          "date": "2026-08-11",
+          "desc": "GRIFTER PALE ALE 50L KEG (KONVOY KEG)",
+          "change_pct": null,
+          "n": 4,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Grifter",
+      "min": 5.841,
+      "max": 5.841,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 5.841,
+      "low_date": "2026-07-21",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "grifter pale pk",
+      "name": "Grifter Pale Pk",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Grifter",
+          "cost": 74.25,
+          "date": "2026-07-21",
+          "desc": "GRIFTER PALE CANS 24 PK",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Grifter",
+      "min": 74.25,
+      "max": 74.25,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 74.25,
+      "low_date": "2026-07-21",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -16223,6 +16466,35 @@
       "switch": false
     },
     {
+      "key": "dried genen kelp kurakon salted shiokonbu",
+      "name": "Kurakon Genen Shiokonbu Dried Salted Kelp",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "JFC",
+          "cost": 108.0,
+          "date": "2026-07-31",
+          "desc": "KURAKON Genen Shiokonbu 6/20/25g Dried Salted Kelp",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "JFC",
+      "min": 108.0,
+      "max": 108.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 108.0,
+      "low_date": "2026-07-31",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "bush kutjera tomato whole100gm",
       "name": "Kutjera Bush Tomato Whole100gm",
       "unit": "kg",
@@ -18074,6 +18346,35 @@
       "suspect": false,
       "low": 16.667,
       "low_date": "2026-04-04",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "agreement moda rental serviced system",
+      "name": "Moda System Serviced Rental Agreement",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "MODA Sparkling",
+          "cost": 204.1,
+          "date": "2026-08-06",
+          "desc": "Moda System Serviced Rental Agreement",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "MODA Sparkling",
+      "min": 204.1,
+      "max": 204.1,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 204.1,
+      "low_date": "2026-08-06",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -21414,6 +21715,35 @@
       "switch": false
     },
     {
+      "key": "abv keg philter xpa",
+      "name": "Philter Xpa Abv Keg",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Philter",
+          "cost": 5.262,
+          "date": "2026-08-04",
+          "desc": "Philter XPA 4.2% ABV - 50L Keg",
+          "change_pct": null,
+          "n": 2,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Philter",
+      "min": 5.262,
+      "max": 5.262,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 5.262,
+      "low_date": "2026-07-20",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "bread butter pickled",
       "name": "Pickled Bread Butter",
       "unit": "ea",
@@ -24691,6 +25021,35 @@
       "switch": false
     },
     {
+      "key": "red sigurd",
+      "name": "Sigurd Red",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Sigurd Wines",
+          "cost": 17.9083,
+          "date": "2026-07-21",
+          "desc": "2023 Sigurd Red ($21 LUC)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Sigurd Wines",
+      "min": 17.9083,
+      "max": 17.9083,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 17.9083,
+      "low_date": "2026-07-21",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "slaw",
       "name": "Slaw",
       "unit": "ea",
@@ -24746,35 +25105,6 @@
       "low_date": "2026-04-04",
       "est_saving": 0.0,
       "main": null,
-      "switch": false
-    },
-    {
-      "key": "bun milk sesame sliced t2 white",
-      "name": "Sliced T2 Milk Bun White Sesame",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Mallia",
-          "cost": 11.529,
-          "date": "2026-07-25",
-          "desc": "Sliced T2 Milk Bun (85g) - White Sesame",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
-          "spend": 117.6,
-          "volume": 10.2
-        }
-      ],
-      "cheapest": "Mallia",
-      "min": 11.529,
-      "max": 11.529,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false,
-      "low": 11.529,
-      "low_date": "2026-07-25",
-      "est_saving": 0.0,
-      "main": "Mallia",
       "switch": false
     },
     {
@@ -24899,18 +25229,18 @@
       "unit": "kg",
       "suppliers": [
         {
-          "supplier": "Jun Pacific",
+          "supplier": "JFC",
           "cost": 15.5,
-          "date": "2026-07-03",
+          "date": "2026-08-14",
           "desc": "SOMI Kitano Miso G 10/1kg Ramen Noodle Soup Base 7x",
           "change_pct": null,
-          "n": 1,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
-      "cheapest": "Jun Pacific",
+      "cheapest": "JFC",
       "min": 15.5,
       "max": 15.5,
       "spread_pct": 0.0,
@@ -24928,18 +25258,18 @@
       "unit": "kg",
       "suppliers": [
         {
-          "supplier": "Jun Pacific",
+          "supplier": "JFC",
           "cost": 11.0,
-          "date": "2026-07-03",
+          "date": "2026-08-14",
           "desc": "SOMI Shoyu G 10/1kg Ramen Noodle Soup Base 10x",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
-      "cheapest": "Jun Pacific",
+      "cheapest": "JFC",
       "min": 11.0,
       "max": 11.0,
       "spread_pct": 0.0,
@@ -24957,18 +25287,18 @@
       "unit": "kg",
       "suppliers": [
         {
-          "supplier": "Jun Pacific",
+          "supplier": "JFC",
           "cost": 16.0,
-          "date": "2026-07-03",
+          "date": "2026-08-14",
           "desc": "SOMI Tonkotsu Gara Soup 10/1kg GF No MSG Noodle Soup Base x10",
           "change_pct": null,
-          "n": 1,
+          "n": 4,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
-      "cheapest": "Jun Pacific",
+      "cheapest": "JFC",
       "min": 16.0,
       "max": 16.0,
       "spread_pct": 0.0,
@@ -25295,6 +25625,64 @@
       "suspect": false,
       "low": 5.9,
       "low_date": "2026-07-23",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "monthly service size speedmix",
+      "name": "Speedmix Size Monthly Service",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Speed Gas",
+          "cost": 16.5,
+          "date": "2026-07-31",
+          "desc": "Speedmix 55 - F Size monthly service",
+          "change_pct": null,
+          "n": 4,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Speed Gas",
+      "min": 16.5,
+      "max": 16.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 16.5,
+      "low_date": "2026-07-31",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "refill size speedmix",
+      "name": "Speedmix Size Refill",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Speed Gas",
+          "cost": 64.4,
+          "date": "2026-08-06",
+          "desc": "Speedmix 30 - D Size - refill.",
+          "change_pct": -12.5,
+          "n": 2,
+          "prev_cost": 73.6,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Speed Gas",
+      "min": 64.4,
+      "max": 64.4,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 64.4,
+      "low_date": "2026-08-06",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -26315,6 +26703,35 @@
       "switch": false
     },
     {
+      "key": "fuel surcharge temporary",
+      "name": "Temporary Fuel Surcharge",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Cookers",
+          "cost": 3.0,
+          "date": "2026-08-06",
+          "desc": "Temporary Fuel Surcharge",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Cookers",
+      "min": 3.0,
+      "max": 3.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 3.0,
+      "low_date": "2026-08-06",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "banane creme de fugit tempu",
       "name": "Tempu Fugit Creme De Banane",
       "unit": "L",
@@ -27040,6 +27457,35 @@
       "switch": false
     },
     {
+      "key": "bread focaccia turkish",
+      "name": "Turkish Focaccia Bread",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Urbun Bakery",
+          "cost": 8.167,
+          "date": "2026-08-15",
+          "desc": "Turkish/Focaccia Bread (120g)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 23.52,
+          "volume": 2.88
+        }
+      ],
+      "cheapest": "Urbun Bakery",
+      "min": 8.167,
+      "max": 8.167,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 8.167,
+      "low_date": "2026-08-15",
+      "est_saving": 0.0,
+      "main": "Urbun Bakery",
+      "switch": false
+    },
+    {
       "key": "ale bay free gluten pale two",
       "name": "Two Bay Gluten Free Pale Ale",
       "unit": "ea",
@@ -27620,6 +28066,35 @@
       "switch": false
     },
     {
+      "key": "equalisation tax wine",
+      "name": "Wine Equalisation Tax",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Sigurd Wines",
+          "cost": 0.319,
+          "date": "2026-07-21",
+          "desc": "Wine Equalisation Tax",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Sigurd Wines",
+      "min": 0.319,
+      "max": 0.319,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 0.319,
+      "low_date": "2026-07-21",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "blue duty heavy wipe",
       "name": "Wipe Blue Heavy Duty",
       "unit": "ea",
@@ -27736,15 +28211,15 @@
       "switch": false
     },
     {
-      "key": "125gx5 5pc noodle ramen straight wpm yellow",
-      "name": "Wpm Yellow Ramen 5pc Straight Noodle 125gx5",
-      "unit": "ea",
+      "key": "edamame pod soybean wp yude",
+      "name": "Wp Yude Edamame Soybean Pod",
+      "unit": "kg",
       "suppliers": [
         {
-          "supplier": "Jun Pacific",
-          "cost": 0.84,
-          "date": "2026-07-03",
-          "desc": "WPM Yellow Ramen #22 12/5pc Frozen Straight Noodle 125gx5",
+          "supplier": "JFC",
+          "cost": 6.388,
+          "date": "2026-08-07",
+          "desc": "WP Yude Edamame 10/454g Frozen Soybeans in Pod",
           "change_pct": null,
           "n": 1,
           "prev_cost": null,
@@ -27752,7 +28227,36 @@
           "volume": 0.0
         }
       ],
-      "cheapest": "Jun Pacific",
+      "cheapest": "JFC",
+      "min": 6.388,
+      "max": 6.388,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 6.388,
+      "low_date": "2026-08-07",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "125gx5 5pc noodle ramen straight wpm yellow",
+      "name": "Wpm Yellow Ramen 5pc Straight Noodle 125gx5",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "JFC",
+          "cost": 0.84,
+          "date": "2026-08-14",
+          "desc": "WPM Yellow Ramen #22 12/5pc Frozen Straight Noodle 125gx5",
+          "change_pct": null,
+          "n": 4,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "JFC",
       "min": 0.84,
       "max": 0.84,
       "spread_pct": 0.0,
