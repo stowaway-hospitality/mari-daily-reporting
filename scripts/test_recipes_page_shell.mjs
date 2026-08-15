@@ -206,6 +206,42 @@ const ok = (label, cond, extra = '') => {
      noHtmlComments.includes('id="q"') && noHtmlComments.includes('id="pickq"'));
 }
 
+// --- NO *NEW* SELECTOR MAY BE DEFINED TWICE ----------------------------------
+// The systematic sweep after the second merge bug (2026-08-15) found the same
+// shape in the stylesheet: two pages' CSS concatenated into one <style>, so 14
+// selectors are defined twice.
+//
+// Nothing is broken by it — every variable the duplicates reference resolves from
+// tokens.css — but it is a maintenance trap. CSS cascades PER PROPERTY, so the
+// effective style is a MERGE of both copies, not the later one: `.gp` takes
+// font-size:26px from the first and font-weight:700 from the second. That means
+// editing the first block appears to do nothing for some properties and
+// everything for others, and deleting it silently changes the page.
+//
+// Consolidating them is a deliberate VISUAL change and wants someone looking at
+// the screen, so it is not done here. This locks the door instead: the 14 known
+// ones are listed by name, and a fifteenth fails.
+{
+  const css = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map(m => m[1]).join('\n')
+    .replace(/\/\*[\s\S]*?\*\//g, '');
+  const sels = [...css.matchAll(/([^{}]+)\{[^{}]*\}/g)]
+    .map(m => m[1].replace(/\s+/g, ' ').trim())
+    .filter(s => s && !s.startsWith('@'));
+  const dupes = [...new Set(sels.filter((x, i) => sels.indexOf(x) !== i))].sort();
+
+  // Known, inherited from the page merge. Not a licence to add more.
+  const KNOWN = ['.empty', '.gp', '.gp.bad', '.gp.good', '.gp.warn', '.hidden',
+                 '.maintabs', '.maintabs .n', '.maintabs .n:empty',
+                 '.maintabs button', '.maintabs button.on', '.sub', '.wrap',
+                 'h1'].sort();
+  const novel = dupes.filter(s => !KNOWN.includes(s));
+  ok('no NEW css selector is defined twice', novel.length === 0, novel.join(' | '));
+  // ...and the known list stays honest: if one gets consolidated, shrink it.
+  const goneStale = KNOWN.filter(s => !dupes.includes(s));
+  ok('the known-duplicate list has no stale entries', goneStale.length === 0,
+     `consolidated, remove from KNOWN: ${goneStale.join(' | ')}`);
+}
+
 // --- THE TAB STRIP IS PAINTED BEFORE IT IS WIRED -----------------------------
 // 2026-08-15: every tab on /recipes/ was unclickable. Not a 404, not an
 // exception — the shell ships `<div id="maintabs"></div>` EMPTY and navHtml
