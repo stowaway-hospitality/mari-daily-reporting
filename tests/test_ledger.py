@@ -21,6 +21,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT))
 
 from ledger import (BASE_UNITS, Movement, UnprovableUnit,      # noqa: E402
                     load_base_units, to_base)
@@ -152,3 +153,23 @@ def test_on_hand_is_measured_forward_from_the_last_count(tmp_path, monkeypatch):
     assert got == Decimal(400), (
         f"expected 500 counted - 100 sold = 400, got {got}. If this is 1200 the "
         f"count was added to the stock it was measuring instead of replacing it.")
+
+
+# ---- confirmed pack sizes that must not drift ------------------------------
+
+def test_alehouse_kegs_stay_at_the_size_ilg_states():
+    """49.5L, not 50L, by Zak's ruling: "if the ilg line is 49.5 then run with
+    that."
+
+    ILG's raw_uom field is 8 characters wide and truncates "1 x KEG 49.5" to
+    '1xKEG49.', which is why these two refused in the first place. Rounding them
+    up to 50,000 is a 1% overstatement on every keg movement forever, and it
+    errs toward more beer arriving than did — the flattering direction.
+    """
+    from core.pack_overrides import load_pack_overrides
+    ov = load_pack_overrides(ROOT / "data" / "pack_overrides.yaml")
+    for keg in ("lightspeed:20487298", "lightspeed:20487313"):
+        qty, unit = ov[keg]
+        assert (qty, unit) == (Decimal("49500"), "ml"), (
+            f"{keg} is confirmed at 49.5L because that is what ILG's line says; "
+            f"got {qty}{unit}")
