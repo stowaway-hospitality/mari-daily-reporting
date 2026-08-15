@@ -56,10 +56,17 @@ deletes HG's Monday revenue and blinds the Mari coverage guard (~6 figures/yr).
   Diagnose which token is in play by comparing `shasum -a 256` of the keychain
   password against each file — never print a token. (Fetch keeps working while
   broken because the repo is public, so a dead token shows up ONLY as failed pushes.)
-- **A live PAT is hardcoded in `setup_github.sh`** (untracked, repo root, the old
-  July token). It is a real credential sitting in a plaintext script — rotate or
-  gut it. Token strings also leaked into old MCP session logs under
-  `~/Library/Caches/claude-cli-nodejs/**/mcp-logs-workspace/*.jsonl` (July dates).
+- `setup_github.sh` (untracked, repo root) **had a live PAT hardcoded in it** —
+  gutted **2026-08-15**; it now reads `.secrets/github_pat_v2.txt` and exits if
+  absent. Any older copy of that file still contains the real July token.
+- **Credential sweep 2026-08-15:** searched 102,884 files across `~/Library/Caches`,
+  `~/Documents`, `~/Downloads`, `~/Desktop` and the shared STOW tree for the two
+  token values. Each now appears in **exactly one** file — its own, in `.secrets/`.
+  An earlier note here claimed tokens had leaked into MCP session logs under
+  `~/Library/Caches/claude-cli-nodejs/**/*.jsonl`; that was **wrong** — those files
+  contain the bare string `github_pat_` (secret-scanning regexes in the Claude app
+  bundle and redacted log output), not credentials. 0 of 2,112 `.jsonl` files hold
+  a real token. Grepping for the prefix finds decoys; grep for the VALUE.
 
 ## Standing constraints (still in force)
 - Never handle `GRAPH_CLIENT_SECRET` or the Supabase `service_role` key — Zak pastes those.
