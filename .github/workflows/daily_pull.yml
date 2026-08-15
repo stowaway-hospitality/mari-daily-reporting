@@ -214,6 +214,29 @@ jobs:
           python scripts/pull_integrity.py --log /tmp/pull.log --date ${{ steps.date.outputs.target }} \
             || echo "::warning::pull integrity scan failed (non-fatal)"
 
+      - name: Duplicate-export guard (is today's export actually today's?)
+        run: |
+          # 2026-08-10 and 2026-08-13 both landed carrying an EARLIER day's rows,
+          # identical to the cent, for stow AND hg. Nothing complained for a week:
+          # the files existed, parsed, and totalled a plausible quiet Monday.
+          # Because the Stow export is the whole site, that moved all three venues
+          # ($3,467 ex-GST, and two of them published NEGATIVE revenue).
+          # Warning, not fatal — a stale file must not also block the day landing.
+          # tests.yml fails on it, so it cannot be merged past.
+          python scripts/duplicate_export_guard.py \
+            || echo "::warning::duplicate Insights export — a day is carrying another day's data, see log"
+
+      - name: Rebuild full daily product mix rollup
+        run: |
+          # data/products_daily/<year>.csv — every till line, every venue, every
+          # day, untruncated. The stock ledger deducts from THIS, never from the
+          # daily record's top_products (that is the 20-row dashboard panel;
+          # deducting from it under-counts silently and forever).
+          # Facts come from data/product_mix/, written by daily_aggregator.py in
+          # the step above. See INVENTORY_ARCHITECTURE.md.
+          python scripts/build_products_daily.py \
+            || echo "::warning::daily product mix rollup failed (non-fatal)"
+
       - name: Rebuild product-level weekly rollup
         run: |
           # Menu Trends "Products" view. Reads the committed Sales-by-Product
