@@ -1,6 +1,6 @@
 {
   "date": "2026-08-14",
-  "generated_at": "2026-08-14T20:30:58.975176Z",
+  "generated_at": "2026-08-15T03:01:52.453303Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -15,20 +15,20 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 10773.52,
-    "revenue_ex_gst": 9793.95,
-    "cogs_dollars": 2111.62,
+    "revenue_inc_gst": 10763.09,
+    "revenue_ex_gst": 9784.47,
+    "cogs_dollars": 2115.0,
     "cogs_pct": 21.6,
-    "gp_dollars": 7682.33,
+    "gp_dollars": 7669.47,
     "gp_pct": 78.4,
     "cogs_source": "recipe_blend",
     "cogs_lightspeed_dollars": 1974.75,
     "recipe_coverage_pct": 84.5,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0.0,
-    "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null,
+    "eatclub_giveaway_ex_gst": 9.48,
+    "eatclub_covers": 1,
+    "revenue_ex_gst_before_eatclub": 9793.95,
     "food_ex_gst": 2914.15,
     "bev_ex_gst": 6879.96,
     "food_cogs": 443.3,
@@ -42,17 +42,17 @@
     "stow_food_out_ex_gst": 0.0
   },
   "wages": {
-    "kitchen_dollars": 128.96,
+    "kitchen_dollars": 948.77,
     "foh_dollars": 1240.49,
     "driver_dollars": 0,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": 1369.45,
-    "wages_pct": 14.0,
+    "total_dollars": 2189.26,
+    "wages_pct": 22.4,
     "net_wage_pct": null,
-    "kitchen_hours": 6.2,
+    "kitchen_hours": 26.6,
     "foh_hours": 31.0,
-    "wages_kitchen_pct": 4.4,
+    "wages_kitchen_pct": 32.6,
     "wages_foh_pct": 18.0,
     "includes_super": true,
     "salaried_synthesized": true
@@ -66,7 +66,7 @@
     "gp": "green",
     "cogs_food": "green",
     "cogs_bev": "yellow",
-    "wages_kitchen": "green",
+    "wages_kitchen": "red",
     "wages_foh": "green"
   },
   "targets": {
@@ -124,7 +124,7 @@
       "name": "Jalape\u00f1o Marg",
       "qty": 19.0,
       "rev": 432.03,
-      "cost": 73.0683,
+      "cost": 73.0702,
       "cost_source": "recipe",
       "cost_lightspeed": 15.39
     },
@@ -179,7 +179,7 @@
       "name": "Beef Burrito",
       "qty": 9.0,
       "rev": 230.19,
-      "cost": 83.5335,
+      "cost": 84.6648,
       "cost_source": "recipe",
       "cost_lightspeed": 60.94
     },
@@ -227,7 +227,7 @@
       "name": "Stow Schnitty",
       "qty": 7.0,
       "rev": 192.73,
-      "cost": 38.5,
+      "cost": 38.486,
       "cost_source": "recipe",
       "cost_lightspeed": 37.28
     },
@@ -259,7 +259,7 @@
       "name": "Chicken Burrito",
       "qty": 5.0,
       "rev": 146.39,
-      "cost": 40.776,
+      "cost": 41.405,
       "cost_source": "recipe",
       "cost_lightspeed": 33.99
     },

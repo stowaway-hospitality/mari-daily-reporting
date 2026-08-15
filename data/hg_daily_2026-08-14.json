@@ -1,6 +1,6 @@
 {
   "date": "2026-08-14",
-  "generated_at": "2026-08-14T20:31:00.475406Z",
+  "generated_at": "2026-08-15T03:01:54.046763Z",
   "venue": "harry",
   "venue_display": "Harry Gatos",
   "lane_config": [
@@ -15,20 +15,20 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 4681.45,
-    "revenue_ex_gst": 4256.12,
-    "cogs_dollars": 640.87,
-    "cogs_pct": 15.1,
-    "gp_dollars": 3615.25,
-    "gp_pct": 84.9,
+    "revenue_inc_gst": 4453.04,
+    "revenue_ex_gst": 4048.47,
+    "cogs_dollars": 641.47,
+    "cogs_pct": 15.8,
+    "gp_dollars": 3407.01,
+    "gp_pct": 84.2,
     "cogs_source": "recipe_blend",
     "cogs_lightspeed_dollars": 586.49,
     "recipe_coverage_pct": 65.2,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0.0,
-    "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null,
+    "eatclub_giveaway_ex_gst": 207.65,
+    "eatclub_covers": 12,
+    "revenue_ex_gst_before_eatclub": 4256.12,
     "food_ex_gst": 3243.55,
     "bev_ex_gst": 1012.32,
     "food_cogs": 352.89,
@@ -42,17 +42,17 @@
     "stow_food_out_ex_gst": 30.91
   },
   "wages": {
-    "kitchen_dollars": 294.02,
+    "kitchen_dollars": 1570.87,
     "foh_dollars": 621.34,
     "driver_dollars": 0,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": 915.35,
-    "wages_pct": 21.5,
+    "total_dollars": 2192.21,
+    "wages_pct": 54.1,
     "net_wage_pct": null,
-    "kitchen_hours": 7.8,
+    "kitchen_hours": 28.4,
     "foh_hours": 15.0,
-    "wages_kitchen_pct": 9.1,
+    "wages_kitchen_pct": 48.4,
     "wages_foh_pct": 61.4,
     "includes_super": true,
     "salaried_synthesized": true
@@ -61,12 +61,12 @@
   "payments_breakdown": null,
   "alerts": {
     "cogs": "green",
-    "wages": "green",
+    "wages": "red",
     "delivery": "n/a",
     "gp": "green",
     "cogs_food": "green",
     "cogs_bev": "yellow",
-    "wages_kitchen": "green",
+    "wages_kitchen": "red",
     "wages_foh": "red"
   },
   "targets": {
@@ -123,7 +123,7 @@
       "name": "Mie Goreng",
       "qty": 16.0,
       "rev": 372.0,
-      "cost": 88.5248,
+      "cost": 90.7008,
       "cost_source": "recipe",
       "cost_lightspeed": 50.92
     },
@@ -131,7 +131,7 @@
       "name": "Tonkotsu",
       "qty": 11.0,
       "rev": 319.0,
-      "cost": 48.3736,
+      "cost": 46.9073,
       "cost_source": "recipe",
       "cost_lightspeed": 45.8
     },
@@ -139,7 +139,7 @@
       "name": "Dumplings - Prawn Har Gow [GF]",
       "qty": 16.0,
       "rev": 300.0,
-      "cost": 70.4384,
+      "cost": 70.4304,
       "cost_source": "recipe",
       "cost_lightspeed": 70.62
     },
@@ -184,7 +184,7 @@
       "name": "Dumplings - Beef & Cabbage",
       "qty": 13.0,
       "rev": 182.0,
-      "cost": 19.0112,
+      "cost": 19.0047,
       "cost_source": "recipe",
       "cost_lightspeed": 19.16
     },
@@ -192,7 +192,7 @@
       "name": "Fried Rice",
       "qty": 7.0,
       "rev": 159.7,
-      "cost": 19.9577,
+      "cost": 19.7694,
       "cost_source": "recipe",
       "cost_lightspeed": 18.76
     },
@@ -208,7 +208,7 @@
       "name": "Chicken Katsu Curry",
       "qty": 5.0,
       "rev": 135.0,
-      "cost": 15.5425,
+      "cost": 15.4815,
       "cost_source": "recipe",
       "cost_lightspeed": 14.29
     },
@@ -247,7 +247,7 @@
       "name": "Dumplings - Veg Gyoza",
       "qty": 6.0,
       "rev": 84.0,
-      "cost": 11.7144,
+      "cost": 11.7114,
       "cost_source": "recipe",
       "cost_lightspeed": 11.77
     },
