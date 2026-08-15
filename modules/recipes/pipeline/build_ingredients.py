@@ -637,8 +637,32 @@ def main() -> int:
         # bounds still judge what falls out of it. See build_costs.py.
         if key in overrides:
             oq, ou = overrides[key]
-            qty, unit, how = oq, ou, "chef-confirmed"
-            per = pack_cost / oq
+            # A CONFIRMED PACK IS THE SIZE OF ONE PIECE, AND A CARTON HOLDS N OF
+            # THEM. The resolve_pack path above already multiplies a single piece
+            # by its CTN-N note; THIS path did not, so a line that bought a
+            # CARTON was divided by ONE piece. Foodlink 100175:
+            #
+            #   BEANS BLACK WHOLE TIN A10   $8.70 "EA"    -> $0.0029/g
+            #                              $52.20 "CTN-6" -> $0.0174/g   6x OVER
+            #
+            # and 6 x $8.70 is exactly $52.20, so the carton reading is not a
+            # judgement call. build_costs.py has carried this rule since the
+            # camembert (100487) and its comment says "Must match
+            # build_ingredients" — it did not, and the two files disagreed by
+            # exactly 6x until the rate-comparison seam test caught it in CI.
+            # Kept character-for-character in step with build_costs.py: the
+            # discriminator is `pack_size`, which the parser sets to N when it has
+            # ALREADY divided the carton into pieces and leaves at 1 when the
+            # price is the whole line, so we multiply only in the second case.
+            _ctn = re.search(r"CTN[-\s]?(\d+)", r.get("note", "") or "", re.I)
+            _ps = (r.get("pack_size") or "").strip()
+            if _ctn and _ps in ("", "1"):
+                oq = oq * Decimal(_ctn.group(1))
+                how = f"chef-confirmed x CTN-{_ctn.group(1)} (invoice)"
+            else:
+                how = "chef-confirmed"
+            qty, unit = oq, ou
+            per = (pack_cost / oq).quantize(Decimal("0.000001"))
             bad = out_of_bounds(per, ou)
 
         item = {

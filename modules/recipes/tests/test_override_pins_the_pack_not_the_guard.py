@@ -110,6 +110,14 @@ PIN_125G = ('- id: "foodlink:100487"\n'
             '  by: "test"\n'
             "  on: 2026-08-05\n")
 
+# Foodlink 100175 black beans: the pin is ONE A10 tin, and the CTN-6 line buys
+# six of them. See test_the_two_builders_agree_on_the_black_beans.
+PIN_3000G = ('- id: "foodlink:100175"\n'
+             "  pack_qty: 3000\n"
+             "  pack_unit: g\n"
+             '  by: "test"\n'
+             "  on: 2026-08-15\n")
+
 
 # --- the guard itself ------------------------------------------------------
 
@@ -175,11 +183,26 @@ def test_the_carton_line_is_never_published_at_12x(tmp_path, monkeypatch):
 
 # --- build_ingredients (the chef-facing half, which must agree) ------------
 
-def test_the_picker_flags_the_same_row_instead_of_calling_it_confirmed(tmp_path,
-                                                                       monkeypatch):
-    """build_ingredients had the identical line. An ingredient priced at
-    $364.80/kg must not read `needs_pack_review: false` just because a chef
-    confirmed a different pack for the same code."""
+def test_the_picker_reads_the_carton_at_the_same_rate_as_the_piece(tmp_path,
+                                                                   monkeypatch):
+    """build_ingredients had the identical line, and follows the same arc its
+    build_costs sibling did (see test_the_carton_line_is_never_published_at_12x).
+
+    It first asserted the row was FLAGGED — right while nothing could tell how
+    many pieces were in the carton, so an absurd $364.80/kg had to go to a human
+    rather than be published. But build_costs learned to read the CTN-12 in the
+    line's own note and build_ingredients did not, so from that point the two
+    files disagreed by exactly 12x on this row and 6x on Foodlink 100175 black
+    beans. This module's own docstring predicted both and said they "want their
+    own pass"; that pass is done and the override path now multiplies by CTN-N
+    exactly as the description path always has.
+
+    So the assertion is no longer "flagged" but the stronger thing flagging was
+    standing in for: **the picker must cost it the same per gram as the piece**,
+    and must agree with the cost book. $45.60 over 12 x 125 g is $0.030400/g,
+    which is what the $3.80 piece costs. Re-break the multiplication and this
+    goes to $0.364800/g and reds — now as a wrong NUMBER, not a missing flag.
+    """
     import json
     from datetime import date, timedelta
     recent = (date.today() - timedelta(days=5)).isoformat()
@@ -192,8 +215,50 @@ def test_the_picker_flags_the_same_row_instead_of_calling_it_confirmed(tmp_path,
     bi.main()
     items = json.loads((tmp_path / "ing.json").read_text())["ingredients"]
     cam = [i for i in items if i["id"] == CAMEMBERT]
-    assert cam and cam[0]["needs_pack_review"] is True
-    assert "implausibly DEAR" in cam[0]["review_reason"]
+    assert cam, "the camembert carton row is missing from the picker"
+    assert cam[0]["cost_per_base_unit"] == "0.030400", (
+        f"the picker reads {cam[0]['cost_per_base_unit']}/g against the piece's "
+        f"0.030400/g — the CTN-12 multiplication is wrong")
+    assert "CTN-12" in cam[0]["pack_parsed_as"], cam[0]["pack_parsed_as"]
+    # A correct rate is not a flagged one: the guard still runs, it simply has
+    # nothing to complain about now.
+    assert cam[0]["needs_pack_review"] is False
+
+
+def test_the_two_builders_agree_on_the_black_beans(tmp_path, monkeypatch):
+    """The row that took CI red on 2026-08-15, and the reason this pass happened.
+
+    Foodlink bills 100175 both ways and both are internally consistent — $8.70 a
+    tin (note "EA") and $52.20 a CTN-6, which is exactly 6 x $8.70. The override
+    pins 3000 g, the size of ONE tin. build_costs multiplied that by the CTN-6
+    and read $0.0029/g; build_ingredients did not and read $0.0174/g. Two derived
+    files, one product, 6x apart, and the rate-comparison seam test refused it.
+
+    Note the direction: this error made the beans DEARER than they are, so no GP
+    was ever flattered by it — but "wrong and cautious" is still wrong, and the
+    picker is what a chef reads.
+    """
+    import json
+    from datetime import date, timedelta
+    recent = (date.today() - timedelta(days=5)).isoformat()
+    beans = dict(_camembert_rows()[1])
+    beans.update(supplier_code="100175", invoice_date=recent,
+                 invoice_description="BEANS BLACK WHOLE TIN A10",
+                 cost_per_unit_incl_gst="52.20", note="UOM CTN-6", pack_size="1")
+    _cogs(tmp_path / "cogs.csv", [beans])
+    _overrides(tmp_path / "packs.yaml", PIN_3000G)
+    monkeypatch.setattr(bi, "ROOT", tmp_path)
+    monkeypatch.setattr(bi, "COGS", tmp_path / "cogs.csv")
+    monkeypatch.setattr(bi, "OUT", tmp_path / "ing.json")
+    monkeypatch.setattr(bi, "PACK_OVERRIDES", tmp_path / "packs.yaml")
+    bi.main()
+    items = json.loads((tmp_path / "ing.json").read_text())["ingredients"]
+    row = [i for i in items if i["id"] == "foodlink:100175"]
+    assert row, "the black beans row is missing from the picker"
+    # $52.20 / (6 x 3000 g) = $0.0029/g, which is what the $8.70 tin costs.
+    assert row[0]["cost_per_base_unit"] == "0.002900", (
+        f"the picker reads {row[0]['cost_per_base_unit']}/g; the CTN-6 carton "
+        f"divided by one 3000 g tin is the 6x error that took CI red")
 
 
 # --- the invariant on the real book ---------------------------------------
