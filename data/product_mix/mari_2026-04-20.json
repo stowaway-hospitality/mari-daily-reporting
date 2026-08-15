@@ -1,0 +1,71 @@
+{
+  "schema": "product_mix/1",
+  "venue": "marilynas",
+  "prefix": "mari",
+  "date": "2026-04-20",
+  "generated_at": "2026-08-15T14:33:10",
+  "source_file": "stow_2026-04-20.csv",
+  "source_kind": "history_pull",
+  "name_basis": "current_master",
+  "sibling_till_available": true,
+  "ex_gst_basis": "inc_div_1.1",
+  "truncated": false,
+  "row_count": 4,
+  "totals": {
+    "qty": 8.0,
+    "rev_inc": 24.34,
+    "rev_ex": 22.13
+  },
+  "reconciliation": {
+    "expected_rev_inc": 24.34,
+    "expected_rev_ex": 22.13,
+    "gap_inc": 0.0,
+    "gap_ex": 0.0,
+    "basis": "gross of EatClub give-away"
+  },
+  "reconciled": true,
+  "products": [
+    {
+      "name": "Chicken.",
+      "qty": 4.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 8.21,
+      "rev_ex": 7.4636,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Chicken",
+      "qty": 2.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 8.13,
+      "rev_ex": 7.3909,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Coke Zero Can",
+      "qty": 1.0,
+      "cost": 1.89,
+      "cost_source": "recipe",
+      "cost_lightspeed": 1.88,
+      "rev_inc": 4.0,
+      "rev_ex": 3.6364,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Coke Can",
+      "qty": 1.0,
+      "cost": 1.89,
+      "cost_source": "recipe",
+      "cost_lightspeed": 1.84,
+      "rev_inc": 4.0,
+      "rev_ex": 3.6364,
+      "dept": "f",
+      "till": "mari"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "schema": "product_mix/1",
+  "venue": "marilynas",
+  "prefix": "mari",
+  "date": "2026-03-02",
+  "generated_at": "2026-08-15T14:33:01",
+  "source_file": "stow_2026-03-02.csv",
+  "source_kind": "history_pull",
+  "name_basis": "current_master",
+  "sibling_till_available": true,
+  "ex_gst_basis": "inc_div_1.1",
+  "truncated": false,
+  "row_count": 3,
+  "totals": {
+    "qty": 4.0,
+    "rev_inc": 36.2,
+    "rev_ex": 32.91
+  },
+  "reconciliation": {
+    "expected_rev_inc": 36.2,
+    "expected_rev_ex": 32.91,
+    "gap_inc": 0.0,
+    "gap_ex": 0.0,
+    "basis": "gross of EatClub give-away"
+  },
+  "reconciled": true,
+  "products": [
+    {
+      "name": "Btl Villa Fresco Sangiovese D",
+      "qty": 1.0,
+      "cost": 12.0615,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.06,
+      "rev_inc": 25.0,
+      "rev_ex": 22.7273,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Peroni D",
+      "qty": 2.0,
+      "cost": 5.12,
+      "cost_source": "recipe",
+      "cost_lightspeed": 4.65,
+      "rev_inc": 7.2,
+      "rev_ex": 6.5455,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Chicken",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 4.0,
+      "rev_ex": 3.6364,
+      "dept": "f",
+      "till": "mari"
+    }
+  ]
+}

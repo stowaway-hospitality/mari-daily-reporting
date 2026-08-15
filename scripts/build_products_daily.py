@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
-"""Build data/products_daily.csv — the full daily product mix, every venue,
-every day, in one file the stock ledger can read in a single pass.
+"""Build data/products_daily/<year>.csv — the full daily product mix, every
+venue, every day, for the stock ledger to read.
+
+SHARDED BY YEAR ON PURPOSE. This started as one file. At two years of history
+it is 133,907 lines / 11 MB, and `daily_pull.yml` does `git add data/` every
+morning — so a single file would commit a fresh 11 MB blob DAILY and grow the
+repo by roughly a gigabyte a year to add ~600 rows. Sharded by year, only the
+current year's file changes; 2024 and 2025 are written once and never touched
+again. Read them with `glob("data/products_daily/*.csv")`.
 
 Source: data/product_mix/<prefix>_<date>.json, written by daily_aggregator.py.
 Those files are the per-day facts; this is the derived rollup, regenerated
 whole on every run (idempotent, so it can never fossilise).
 
 WHY A ROLLUP AND NOT JUST THE FILES: a ledger rebuild reads every day at once.
-155 days x 3 venues is 465 file opens per rebuild; this is one.
+1,250 per-day files is 1,250 opens per rebuild; this is three.
 
 Columns:
     date,venue,prefix,till,dept,product_name,qty,rev_ex_gst,rev_inc_gst,
@@ -38,7 +45,7 @@ from pathlib import Path
 
 ROOT = Path(os.environ.get("REPO_ROOT", Path(__file__).resolve().parent.parent))
 MIX_DIR = ROOT / "data" / "product_mix"
-OUT = ROOT / "data" / "products_daily.csv"
+OUT_DIR = ROOT / "data" / "products_daily"
 
 COLUMNS = ["date", "venue", "prefix", "till", "dept", "product_name", "qty",
            "rev_ex_gst", "rev_inc_gst", "cost", "cost_source", "reconciled"]
@@ -94,14 +101,22 @@ def build() -> int:
     rows.sort(key=lambda r: (r["date"], r["venue"], -float(r["rev_ex_gst"] or 0),
                              r["product_name"]))
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    with OUT.open("w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=COLUMNS)
-        w.writeheader()
-        w.writerows(rows)
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    by_year: dict[str, list[dict]] = {}
+    for r in rows:
+        by_year.setdefault(r["date"][:4], []).append(r)
+
+    for year, yrows in sorted(by_year.items()):
+        out = OUT_DIR / f"{year}.csv"
+        with out.open("w", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=COLUMNS)
+            w.writeheader()
+            w.writerows(yrows)
+        print(f"  {out.relative_to(ROOT)}: {len(yrows):,} lines, "
+              f"{len({(r['date'], r['venue']) for r in yrows}):,} venue-days")
 
     days = {(r["date"], r["venue"]) for r in rows}
-    print(f"wrote {OUT.relative_to(ROOT)}: {len(rows):,} lines, "
+    print(f"wrote {len(by_year)} year file(s): {len(rows):,} lines, "
           f"{len(days):,} venue-days, {len({r['date'] for r in rows}):,} dates "
           f"({min(r['date'] for r in rows)} .. {max(r['date'] for r in rows)})")
 

@@ -81,7 +81,7 @@ for *where everything is and how a number gets from a till to the screen*.
 - `graph_mailbox.py` — app-only Microsoft Graph mailbox reader.
 - `eatclub/ingest_hourly.py` — the Stow hour×RG feed → `stow_hourly_<date>.json`.
 - `build_products_api.py` / `build_products_weekly.py` — build the **Sales Product API** (`dashboard/sales/products/{index,latest,rollup_*}.json` + `SCHEMA.md`).
-- `build_products_daily.py` / `backfill_product_mix.py` — the **full daily product mix**: `data/product_mix/<prefix>_<date>.json` (per-day fact, every till line, written by `daily_aggregator.py`) rolled into `data/products_daily.csv`. This is what the stock ledger deducts from — NOT the daily record's `top_products`, which is the 20-row dashboard panel. See `INVENTORY_ARCHITECTURE.md`.
+- `build_products_daily.py` / `backfill_product_mix.py` — the **full daily product mix**: `data/product_mix/<prefix>_<date>.json` (per-day fact, every till line, written by `daily_aggregator.py`) rolled into `data/products_daily/<year>.csv`. This is what the stock ledger deducts from — NOT the daily record's `top_products`, which is the 20-row dashboard panel. See `INVENTORY_ARCHITECTURE.md`.
 
 **Dashboard build + guards**
 - `build_site.py` — builds `dashboard/` → the Pages site; stamps content-hash `?v=` cache-busts. Has an EXPLICIT page list.

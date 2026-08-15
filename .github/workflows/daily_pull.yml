@@ -222,7 +222,7 @@ jobs:
 
       - name: Rebuild full daily product mix rollup
         run: |
-          # data/products_daily.csv — every till line, every venue, every day,
+          # data/products_daily/ — every till line, every venue, every day,
           # untruncated. The stock ledger deducts from THIS, never from the
           # daily record's top_products (that is the 20-row dashboard panel;
           # deducting from it under-counts silently forever).

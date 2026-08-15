@@ -1,0 +1,105 @@
+{
+  "schema": "product_mix/1",
+  "venue": "marilynas",
+  "prefix": "mari",
+  "date": "2026-05-18",
+  "generated_at": "2026-08-15T14:33:15",
+  "source_file": "stow_2026-05-18.csv",
+  "source_kind": "history_pull",
+  "name_basis": "current_master",
+  "sibling_till_available": true,
+  "ex_gst_basis": "inc_div_1.1",
+  "truncated": false,
+  "row_count": 7,
+  "totals": {
+    "qty": 9.0,
+    "rev_inc": 4.13,
+    "rev_ex": 3.75
+  },
+  "reconciliation": {
+    "expected_rev_inc": 4.13,
+    "expected_rev_ex": 3.75,
+    "gap_inc": 0.0,
+    "gap_ex": 0.0,
+    "basis": "gross of EatClub give-away"
+  },
+  "reconciled": true,
+  "products": [
+    {
+      "name": "Chicken",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 4.13,
+      "rev_ex": 3.7545,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Sprite Can",
+      "qty": 3.0,
+      "cost": 7.3269,
+      "cost_source": "recipe",
+      "cost_lightspeed": 4.94,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Corona D",
+      "qty": 1.0,
+      "cost": 2.5799,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.58,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Coke Zero Can",
+      "qty": 1.0,
+      "cost": 1.89,
+      "cost_source": "recipe",
+      "cost_lightspeed": 1.75,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "San Pellegrino 500ml D",
+      "qty": 1.0,
+      "cost": 2.34,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.19,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Coke Can",
+      "qty": 1.0,
+      "cost": 1.89,
+      "cost_source": "recipe",
+      "cost_lightspeed": 1.68,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Regular Hail Africa [Dine-in]",
+      "qty": 1.0,
+      "cost": 2.8225,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.91,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "mari"
+    }
+  ]
+}

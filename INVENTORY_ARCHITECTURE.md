@@ -78,7 +78,7 @@ What was built:
 | Thing | Where |
 |---|---|
 | Per-day fact, untruncated | `data/product_mix/<prefix>_<date>.json` |
-| Rollup the ledger reads | `data/products_daily.csv` (`scripts/build_products_daily.py`) |
+| Rollup the ledger reads | `data/products_daily/<year>.csv` (`scripts/build_products_daily.py`) |
 | History rebuild | `scripts/backfill_product_mix.py` |
 | Guard | `tests/test_product_mix.py` |
 

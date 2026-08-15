@@ -1,0 +1,40 @@
+{
+  "schema": "product_mix/1",
+  "venue": "marilynas",
+  "prefix": "mari",
+  "date": "2026-03-30",
+  "generated_at": "2026-08-15T14:33:06",
+  "source_file": "stow_2026-03-30.csv",
+  "source_kind": "history_pull",
+  "name_basis": "current_master",
+  "sibling_till_available": true,
+  "ex_gst_basis": "inc_div_1.1",
+  "truncated": false,
+  "row_count": 1,
+  "totals": {
+    "qty": 2.0,
+    "rev_inc": 8.0,
+    "rev_ex": 7.27
+  },
+  "reconciliation": {
+    "expected_rev_inc": 8.0,
+    "expected_rev_ex": 7.27,
+    "gap_inc": 0.0,
+    "gap_ex": 0.0,
+    "basis": "gross of EatClub give-away"
+  },
+  "reconciled": true,
+  "products": [
+    {
+      "name": "Coke Zero Can",
+      "qty": 2.0,
+      "cost": 3.78,
+      "cost_source": "recipe",
+      "cost_lightspeed": 3.74,
+      "rev_inc": 8.0,
+      "rev_ex": 7.2727,
+      "dept": "f",
+      "till": "mari"
+    }
+  ]
+}

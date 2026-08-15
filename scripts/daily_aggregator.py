@@ -291,12 +291,23 @@ def classify_product(row: dict, product_name: str, venue_key: str) -> str:
 venue_key = "marilynas"
 target = None
 mix_only = False
+insights_override = None
 args = sys.argv[1:]
 i = 0
 while i < len(args):
     a = args[i]
     if a == "--venue":
         venue_key = args[i + 1]
+        i += 2
+        continue
+    if a == "--insights-file":
+        # Read the day's product export from an explicit path instead of
+        # resolving data/insights_<prefix>_<date>.csv. Used by the product-mix
+        # history backfill, whose per-day files live in data/insights_history/
+        # so that adding two years of them cannot silently restate
+        # products_weekly.csv (which prefers daily files over its Looker
+        # backfill wherever a daily file exists).
+        insights_override = Path(args[i + 1])
         i += 2
         continue
     if a == "--mix-only":
@@ -373,7 +384,7 @@ MIX_TOLERANCE = 0.01          # cents; the mix IS the day, it must tie exactly
 
 
 def write_product_mix(entries, *, venue, prefix, day, source_file, ex_basis,
-                      expected_inc, expected_ex):
+                      source_kind, sibling_available, expected_inc, expected_ex):
     """Persist the FULL daily product mix — every line off the till, untruncated.
 
     WHY THIS FILE EXISTS (INVENTORY_ARCHITECTURE.md, prerequisite to the stock
@@ -411,6 +422,16 @@ def write_product_mix(entries, *, venue, prefix, day, source_file, ex_basis,
         "date": day.isoformat(),
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "source_file": source_file,
+        "source_kind": source_kind,
+        # A history-pull day is re-fetched from the Lightspeed report endpoint
+        # long after the fact. The endpoint joins to the CURRENT product master,
+        # so a SKU renamed in place carries its NEW name on OLD sales (observed:
+        # "Bread & Butter Pud" -> "Apple Crumble", "Jala Marg Duo (2) - PartyJar
+        # [6 serves]" -> "Jala Marg PartyJar [6 serves]"). Deleted products keep
+        # their own names. Product name is the join key to the recipe book, so a
+        # deduction on a renamed SKU deducts TODAY's recipe for an OLD sale.
+        "name_basis": "current_master" if source_kind == "history_pull" else "as_at_sale",
+        "sibling_till_available": sibling_available,
         "ex_gst_basis": ex_basis,
         "truncated": False,
         "row_count": len(entries),
@@ -478,7 +499,11 @@ def write_product_mix(entries, *, venue, prefix, day, source_file, ex_basis,
 # Her own export is still pulled — as a CROSS-CHECK, not a source. If it ever
 # disagrees with the till, that's the filter drifting and we want to hear about
 # it. It just can't move a number any more.
-if venue_key == "marilynas":
+if insights_override is not None:
+    insights_file = insights_override if insights_override.exists() else None
+    if insights_file is None:
+        print(f"  --insights-file {insights_override} does not exist.")
+elif venue_key == "marilynas":
     insights_file = resolve(DATA_DIR / f"insights_stow_{target.isoformat()}.csv")
     if insights_file is None:
         print(f"  Mari needs the STOW export (she has no till of her own) — not found.")
@@ -779,6 +804,9 @@ else:
     else:
         write_product_mix(product_mix, venue=venue_key, prefix=prefix, day=target,
                           source_file=insights_file.name, ex_basis=ex_basis,
+                          source_kind=("history_pull" if insights_override is not None
+                                       else "committed_export"),
+                          sibling_available=(not split_venue) or bool(cross_rows),
                           expected_inc=revenue_inc_gross,
                           expected_ex=revenue_ex_gross)
 

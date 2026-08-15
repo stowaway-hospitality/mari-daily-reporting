@@ -23,8 +23,23 @@ Dates come from the committed data/insights_*.csv files, so this only ever
 rebuilds days we hold the source for. Idempotent: re-running overwrites each
 mix file with the same content.
 
+--history mode reaches further back. `data/insights_history/stow_<date>.csv` is
+the day-by-day pull off the Lightspeed report endpoint (see
+split_history_export.py), covering 2024-10-23 onward — roughly two years instead
+of six weeks. It is used ONLY for dates with no committed export, so a committed
+fact always wins over a re-fetch.
+
+  * **Stowaway and Marilyna's only.** Mari has no till, so she is the 'm' slice
+    of this same Stow export and backfills perfectly. Harry Gatos rings its own
+    till on a SEPARATE Lightspeed account this login cannot see, so HG history
+    is NOT recoverable this way and is skipped rather than written short.
+  * Stow's Kitchen also gains food rung on HG's till ('stf' rows, ~$20-30/day).
+    Without the HG history those rows are absent, so history-sourced Stow days
+    are stamped `sibling_till_available: false`.
+
 Run:
     python3 scripts/backfill_product_mix.py                  # everything we hold
+    python3 scripts/backfill_product_mix.py --history        # + the 2-year pull
     python3 scripts/backfill_product_mix.py --from 2026-07-01
     python3 scripts/backfill_product_mix.py --venue stowaway
     python3 scripts/backfill_product_mix.py --dry-run
@@ -71,10 +86,28 @@ def available() -> dict[str, set[date]]:
     return have
 
 
-def parse_args(argv: list[str]) -> tuple[date | None, date | None, list[str], bool]:
+HISTORY_DIR = DATA / "insights_history"
+# Which venues the Stow-till history can honestly rebuild. HG is absent by
+# design, not by oversight — see the module docstring.
+HISTORY_VENUES = ("stowaway", "marilynas")
+
+
+def history_days() -> dict[date, Path]:
+    out: dict[date, Path] = {}
+    if not HISTORY_DIR.exists():
+        return out
+    for f in HISTORY_DIR.glob("stow_*.csv"):
+        try:
+            out[date.fromisoformat(f.stem[len("stow_"):])] = f
+        except ValueError:
+            continue
+    return out
+
+
+def parse_args(argv: list[str]) -> tuple[date | None, date | None, list[str], bool, bool]:
     d_from = d_to = None
     venues = list(VENUES)
-    dry = False
+    dry = use_history = False
     i = 0
     while i < len(argv):
         a = argv[i]
@@ -89,31 +122,61 @@ def parse_args(argv: list[str]) -> tuple[date | None, date | None, list[str], bo
             venues = [v]; i += 2; continue
         if a == "--dry-run":
             dry = True; i += 1; continue
+        if a == "--history":
+            use_history = True; i += 1; continue
         raise SystemExit(f"unrecognised argument {a!r}")
-    return d_from, d_to, venues, dry
+    return d_from, d_to, venues, dry, use_history
 
 
 def main() -> int:
-    d_from, d_to, venues, dry = parse_args(sys.argv[1:])
+    d_from, d_to, venues, dry, use_history = parse_args(sys.argv[1:])
     have = available()
 
-    jobs: list[tuple[str, date]] = []
+    # (venue, day, insights_file_or_None)
+    jobs: list[tuple[str, date, Path | None]] = []
+    committed: dict[str, set[date]] = {}
     for venue in venues:
         _prefix, needs = VENUES[venue]
         days = set.intersection(*(have[p] for p in needs)) if needs else set()
+        committed[venue] = days
         for day in sorted(days):
             if d_from and day < d_from:
                 continue
             if d_to and day > d_to:
                 continue
-            jobs.append((venue, day))
+            jobs.append((venue, day, None))
+
+    if use_history:
+        hist = history_days()
+        if not hist:
+            print(f"--history: nothing in {HISTORY_DIR} — run split_history_export.py first")
+        skipped_hg = "harry" in venues
+        for venue in venues:
+            if venue not in HISTORY_VENUES:
+                continue
+            for day, path in sorted(hist.items()):
+                if day in committed.get(venue, set()):
+                    continue          # a committed fact always wins
+                if d_from and day < d_from:
+                    continue
+                if d_to and day > d_to:
+                    continue
+                jobs.append((venue, day, path))
+        if skipped_hg:
+            print("  NOTE: Harry Gatos is skipped in --history mode. Its own till is on a "
+                  "separate\n        Lightspeed account, so its history is not in this "
+                  "pull. Writing HG days from\n        the Stow export alone would record "
+                  "HG as its food-on-Stow rows only.")
 
     jobs.sort(key=lambda j: (j[1], j[0]))
+    n_hist = sum(1 for _, _, p in jobs if p is not None)
     print(f"{len(jobs)} venue-day(s) to backfill "
-          f"({len({d for _, d in jobs})} dates, venues: {', '.join(venues)})")
+          f"({len({d for _, d, _ in jobs})} dates, venues: {', '.join(venues)}; "
+          f"{len(jobs) - n_hist} from committed exports, {n_hist} from the history pull)")
     if dry:
-        for venue, day in jobs[:10]:
-            print(f"  would run: {venue} {day.isoformat()}")
+        for venue, day, path in jobs[:10]:
+            print(f"  would run: {venue} {day.isoformat()}"
+                  f"{' [history]' if path else ''}")
         if len(jobs) > 10:
             print(f"  ... and {len(jobs) - 10} more")
         return 0
@@ -123,10 +186,12 @@ def main() -> int:
     written = failed = notied = skipped = 0
     problems: list[str] = []
 
-    for n, (venue, day) in enumerate(jobs, 1):
-        out = subprocess.run(
-            [sys.executable, str(AGG), "--venue", venue, "--mix-only", day.isoformat()],
-            cwd=ROOT, env=env, capture_output=True, text=True)
+    for n, (venue, day, path) in enumerate(jobs, 1):
+        cmd = [sys.executable, str(AGG), "--venue", venue, "--mix-only"]
+        if path is not None:
+            cmd += ["--insights-file", str(path)]
+        cmd.append(day.isoformat())
+        out = subprocess.run(cmd, cwd=ROOT, env=env, capture_output=True, text=True)
         tail = out.stdout.strip().splitlines()[-1:] or [""]
         if out.returncode != 0:
             failed += 1

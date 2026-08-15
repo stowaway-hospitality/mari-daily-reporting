@@ -26,7 +26,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 MIX_DIR = ROOT / "data" / "product_mix"
-DAILY_CSV = ROOT / "data" / "products_daily.csv"
+DAILY_CSVS = sorted((ROOT / "data" / "products_daily").glob("*.csv"))
 MIX_FILES = sorted(MIX_DIR.glob("*.json"))
 
 # Measured 2026-08-15 off data/insights_stow_2026-08-14.csv (a Friday).
@@ -109,14 +109,22 @@ def test_mix_is_wider_than_the_dashboard_panel():
 
 def test_daily_rollup_covers_every_mix_file():
     """products_daily.csv is derived — if it lags the facts it is a fossil."""
-    if not DAILY_CSV.exists():
-        pytest.skip("data/products_daily.csv not built yet")
+    if not DAILY_CSVS:
+        pytest.skip("data/products_daily/ not built yet")
 
-    with DAILY_CSV.open() as f:
-        rows = list(csv.DictReader(f))
+    rows = []
+    for path in DAILY_CSVS:
+        with path.open() as f:
+            rows.extend(csv.DictReader(f))
     in_csv = {(r["date"], r["prefix"]) for r in rows}
-    on_disk = {(json.loads(p.read_text())["date"], json.loads(p.read_text())["prefix"])
-               for p in MIX_FILES}
+    # A zero-row mix is a real answer, not a gap: Marilyna's rings nothing at
+    # all on some Mondays, and the mix records that we looked and found none.
+    # Those contribute no CSV rows by definition.
+    on_disk = set()
+    for p in MIX_FILES:
+        d = json.loads(p.read_text())
+        if d["row_count"]:
+            on_disk.add((d["date"], d["prefix"]))
 
     missing = on_disk - in_csv
     assert not missing, (
