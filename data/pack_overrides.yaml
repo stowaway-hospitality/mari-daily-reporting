@@ -704,3 +704,31 @@
   by: "Claude (Select Fresh PGRE $0.40/ea and FFT $3.96/kg both say $0.65 is a pear, not a kilo)"
   on: 2026-08-14
   by_email: "hello@stowawaybar.com"
+
+# --- 2026-08-15 -----------------------------------------------------------
+# B&E 15037, read off the befoodsonline catalogue today: the product is listed
+# "Pizza Box Liner Brown 9" 228x228 200's Ej Eco" — 200 liners a carton. The
+# invoice prices the CARTON ($21.56), so without this the picker read $21.56 for
+# ONE liner and a pizza that adds a liner booked ~200x its cost. $21.56/200 =
+# $0.1078 each, which lands on Gulli's own pizza box inserts at $0.11055 ea —
+# an independent check that the count is right and not just plausible.
+- id: "b-e:15037"
+  pack_qty: 200
+  pack_unit: ea
+  by: "B&E catalogue (9\" liner listed 200's; $21.56/200 = $0.1078 ea, vs Gulli inserts $0.11055 ea)"
+  on: 2026-08-15
+  by_email: "befoodsonline.com.au"
+# FFT POTCO20KG "Potato Cocktail", sold as a bag at $38.50 and read as ONE unit,
+# i.e. $38.50 for a potato. 20 kg is not inferred from the code alone:
+#   * POTCOBX — the SAME Cocktail potato in its box form — is already
+#     chef-confirmed at 20000 g ($49.50 -> $2.475/kg);
+#   * FFT's "20" convention is chef-confirmed on two further codes,
+#     PCW20BG Potato Chat Washed and OBL20BG Onion Brown, both 20000 g.
+# $38.50/20 kg = $1.925/kg, against the same potato's own box at $2.475/kg —
+# a bag cheaper than a box, which is the expected direction.
+- id: "fresh-fruit-team:POTCO20KG"
+  pack_qty: 20000
+  pack_unit: g
+  by: "Claude (POTCOBX same potato chef-confirmed 20kg; PCW20BG + OBL20BG confirm the 20 = 20kg convention)"
+  on: 2026-08-15
+  by_email: "hello@stowawaybar.com"
