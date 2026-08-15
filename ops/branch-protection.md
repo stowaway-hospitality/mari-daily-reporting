@@ -1,5 +1,25 @@
 # Wall 1 — branch-protect `main` (Zak, one-time)
 
+> ## READ THIS FIRST — it will break your automation if you skip it
+>
+> This repo's BOTS push straight to `main` dozens of times a day: the daily pull,
+> the ingest ledger, the Xero pull (Contents API), EatClub, Uber, and the health
+> snapshot. Turning on **Require a pull request before merging** without adding
+> the bot as a **bypass actor** stops every one of them — and a silent automation
+> outage is worse than the problem you are fixing. On 2026-08-11 an expired token
+> did exactly that and three days of sales went missing before anyone noticed.
+>
+> So, when you enable the ruleset:
+> 1. Add the PAT's identity under **"Allow specified actors to bypass required
+>    pull requests"**.
+> 2. Turn it on when you can WATCH the next daily pull run (early morning AEST),
+>    not last thing at night.
+> 3. Check the health panel afterwards: "Automation jobs" going amber is the
+>    signal you got it wrong.
+>
+> Everything below still applies — this is a caveat, not a cancellation.
+
+
 This is the single highest-leverage guardrail. Once it's on, **no** session — not a
 support session, not even Zak's full-power one — can put broken or unreviewed code
 live. The worst anything can do is open a pull request that waits for CI and your OK.

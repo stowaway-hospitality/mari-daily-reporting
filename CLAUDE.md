@@ -5,7 +5,20 @@ for Stowaway Hospitality Group (three venues: **Stowaway `stow`**, **Harry Gatos
 `hg`**, **Marilyna's `mari`** — Northern Beaches, Sydney). GitHub repo:
 `zakstowaway/mari-daily-reporting` (name is historical — it's a 3-venue platform now).
 
+## STOP — more than one chat works this repo
+
+**Before touching anything: `python3 scripts/session.py status`, then
+`python3 scripts/session.py start <area> --who "<what you are doing>"`.**
+If it blocks, do not proceed — say who holds it. **After every push:
+`python3 scripts/session.py verify <files>`** — the commit log is NOT evidence
+that your change is on main. On 2026-08-14 a rebase by a second session kept one
+hunk of a two-hunk commit and dropped the other; nothing conflicted, CI stayed
+green, and three days of sales silently failed to heal. Full protocol:
+**`SESSIONS.md`** — read it before `CODEMAP.md`.
+
 **Start with these docs, in order:**
+- `SESSIONS.md` — **read first when more than one chat is open**: claims, the
+  push/verify protocol, and the silent-loss failure it prevents.
 - `CODEMAP.md` — where everything is and how a number gets from a till to the screen.
 - `ARCHITECTURE.md` — the expensive decisions (identity, effective-dated time, dependency direction).
 - `MODULES.md` — how modules stay independent (`data/` is the API contract).
