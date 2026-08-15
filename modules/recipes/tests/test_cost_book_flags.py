@@ -62,6 +62,7 @@ WHAT THIS GUARDS
 
 import re
 import json
+import yaml
 import sys
 from pathlib import Path
 
@@ -218,25 +219,46 @@ def test_an_uncosted_dish_reports_revenue_at_stake_not_an_under_cost(feed):
 # --- the cook-loss arithmetic ----------------------------------------------
 
 def test_the_cook_loss_dollars_reproduce_from_the_book_and_the_sales_api(feed):
-    """Lamb Roast, recomputed here from first principles rather than trusted:
+    """Recomputed from first principles rather than trusted:
 
         the protein line's own cost  x  serves in the last 52 weeks
-                                     x  (1/0.65 - 1)
+                                     x  (1/assumed_yield - 1)
 
-    It lands on $2,726, which is the figure Zak arrived at independently. The
-    0.65 is an assumption and is applied to no cost anywhere — it exists to say
-    whether the question is worth a chef's afternoon."""
+    LAMB IS NO LONGER THE SUBJECT. Zak weighed it on 2026-08-15 — "raw lamb 2.7kg
+    was 2.3kg cooked" — so its question is answered and its flag is gone; the
+    measurement is applied in data/cook_yields.yaml and guarded by
+    test_cook_yields.py. The arithmetic this test exists for is unchanged, so it
+    now runs on whichever subjects are still open.
+
+    WORTH KNOWING WHILE READING THOSE FIGURES: the assumed 0.65 implied a 54%
+    uplift on the raw joint. The one protein anybody has actually weighed came in
+    at 85.2%, a 17% uplift. The assumption is doing what it was built to do — size
+    the question — but it is sizing it HIGH, and the remaining dollar figures
+    should be read as an upper bound rather than an estimate.
+    """
+    spec = yaml.safe_load(flags.DECLARED.read_text(encoding="utf-8-sig"))["cook_loss"]
+    y = float(spec["assumed_yield"])
     recipes = json.loads(flags.BOOK.read_text(encoding="utf-8-sig"))["recipes"]
     sold, _window = flags.annual_units()
-    line = next(l for l in recipes["Lamb Roast"]["ingredients"]
-                if l["ref"] == "lightspeed:22888695")
-    serves = sold[flags._nrm("Lamb Roast")]
-    expect = float(line["eff_cost"]) * serves * ((1 / 0.65) - 1)
 
-    got = next(f for f in feed["flags"] if f["id"] == "yield-lamb-roast")
-    assert abs(got["impact_per_year"] - expect) < 0.02
-    assert 2500 < got["impact_per_year"] < 3000, got["impact_per_year"]
-    assert got["severity"] == "high"
+    checked = 0
+    for subj in spec["subjects"]:
+        got = next((f for f in feed["flags"] if f["id"] == subj["id"]), None)
+        if not got or not subj.get("ref") or not subj.get("in_recipe"):
+            continue
+        rec = recipes.get(subj["in_recipe"])
+        if not rec:
+            continue
+        line = next((l for l in rec["ingredients"] if l["ref"] == subj["ref"]), None)
+        if line is None:
+            continue
+        expect = float(line["eff_cost"]) * sold[flags._nrm(subj["in_recipe"])] * ((1 / y) - 1)
+        assert abs(got["impact_per_year"] - expect) < 0.02, subj["id"]
+        checked += 1
+    assert checked, "no open cook-loss subject reproduced — the arithmetic is untested"
+
+    # and the settled one is settled
+    assert not any(f["id"] == "yield-lamb-roast" for f in feed["flags"])
 
 
 def test_a_batch_yield_question_sums_every_dish_that_draws_on_it(feed):

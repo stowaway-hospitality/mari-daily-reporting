@@ -102,6 +102,64 @@ def apply_unit_fixes(rec: dict) -> int:
     return n
 
 
+def apply_cook_yields(rec: dict) -> int:
+    """Scale a PLATED quantity up to the RAW one somebody actually weighed.
+
+    A roast recipe states what lands on the plate. The kitchen buys what goes in
+    the oven, and the two differ by the cook loss — so a 220 g plated lamb line
+    against a 2.3-from-2.7 kg weighing is really 258.3 g of raw leg. Until the
+    weighing exists there is nothing to apply and the line stays as written;
+    data/cost_book_flags.yaml carries the open question and sizes it with an
+    assumption it never applies to a cost.
+
+    THE QUANTITY MOVES, NOT PRODUCE'S COST. Our book charges qty x our own rate,
+    so scaling `qty` from 220 g to 258.3 g is what makes the plate cost the raw
+    joint behind it ($4.29 -> $5.04 at $0.0195/g). Produce's own stated line cost
+    is left exactly as Produce states it: it is that system's figure for the
+    plated portion, `_RAW_LINE_COST` deliberately wants it untouched for the
+    whole-vs-fraction decision downstream, and rewriting another system's number
+    to make ours agree would be the wrong way round.
+
+    Deliberately narrow, exactly like apply_unit_fixes above: it touches only the
+    (recipe, ingredient) pairs named in data/cook_yields.yaml, only where the name
+    still matches, and only once per line. A yield outside 0 < y <= 1 is refused:
+    cooking does not add weight, and a "yield" above 1 is somebody having entered
+    the ratio upside down.
+    """
+    path = ROOT / "data" / "cook_yields.yaml"
+    if not path.exists():
+        return 0
+    import yaml
+    n = 0
+    for spec in (yaml.safe_load(path.read_text(encoding="utf-8-sig")) or []):
+        body = (rec or {}).get(spec.get("recipe"))
+        if not body:
+            continue
+        try:
+            y = float(spec.get("yield"))
+        except (TypeError, ValueError):
+            continue
+        if not 0 < y <= 1:
+            continue
+        want_ref = str(spec.get("ingredient_ref") or "").split(":")[-1]
+        want_name = spec.get("ingredient")
+        for ing in (body.get("ingredients") or []):
+            if ing.get("_cook_yield_applied"):
+                continue
+            if want_name and ing.get("name") != want_name:
+                continue
+            q = ing.get("qty")
+            if q in (None, ""):
+                continue
+            try:
+                ing["qty"] = f"{float(q) / y:.4f}"
+            except (TypeError, ValueError):
+                continue
+            ing["_cook_yield_applied"] = True
+            n += 1
+    return n
+
+
 def apply_ingredient_swaps(rec: dict) -> int:
     """Repoint a line at the bottle the venue actually pours.
 
@@ -1181,6 +1239,12 @@ def main() -> int:
     # Correct any unit typo BEFORE anything reads the line — see
     # data/recipe_line_unit_fixes.yaml, where each entry carries arithmetic proof.
     _fixed = apply_unit_fixes(rec)
+    # ...then turn any PLATED quantity somebody has weighed into the RAW one the
+    # kitchen actually buys. Before costing, so the cost follows the quantity.
+    _cooked = apply_cook_yields(rec)
+    if _cooked:
+        print(f"  scaled {_cooked} plated quantit(ies) to raw from a measured "
+              f"cook yield (data/cook_yields.yaml)")
     if _fixed:
         print(f"  corrected {_fixed} mislabelled unit(s) (recipe_line_unit_fixes.yaml)")
     # ...repoint any line Produce files against a bottle the venue no longer pours,

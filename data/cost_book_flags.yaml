@@ -42,13 +42,19 @@ cook_loss:
     # / Yorkshire / gravy lines, identical $30.00 price — so they carry the same
     # question, and it has to be asked once per protein because they do not
     # shrink at the same rate.
-    - id: yield-lamb-roast
-      ref: "lightspeed:22888695"
-      in_recipe: "Lamb Roast"
-      subject: "Lamb Roast — lamb leg, boned, rolled & netted"
-      question: "What does 1 kg of raw lamb leg plate at, cooked and rested?"
-      evidence: "Zak confirmed the 220 g in the recipe is PLATED weight, not raw"
-      owner: "Kitchen — weigh one joint in, one joint out"
+    # CLOSED 2026-08-15 — Zak weighed one: "raw lamb 2.7kg was 2.3kg cooked for
+    # roast". 2.3 / 2.7 = 85.19%, and it is APPLIED, not recorded: the measurement
+    # lives in data/cook_yields.yaml and scales the plated 220 g to the 258.3 g of
+    # raw leg behind it. Lamb Roast $6.6188 -> $7.3649, GP 75.7% -> 73.0%.
+    #
+    # AND IT MOVES THE OTHER TWO QUESTIONS, WITHOUT ANSWERING THEM. This block
+    # sizes cook loss with assumed_yield 0.65, so yield-lamb-roast was advertised
+    # at $2,666/yr. The real lamb figure is 85.2% — the loss is less than a third
+    # of what 65% implied. Nobody should read the pork and beef dollar figures
+    # below as facts; they are the same assumption, and the one protein anybody
+    # has actually weighed came in far better than it. They still need weighing,
+    # because the three do not shrink at the same rate — that is exactly why this
+    # is asked once per protein — but the prize is smaller than it looks.
     - id: yield-pork-roast
       ref: "lightspeed:22992677"
       in_recipe: "Pork Roast"
