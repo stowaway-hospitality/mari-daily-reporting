@@ -1,11 +1,11 @@
 {
-  "generated": "2026-08-15T00:37:40+00:00",
+  "generated": "2026-08-15T01:45:27+00:00",
   "overall": "ok",
   "checks": [
     {
       "name": "Invoice poller",
       "detail": "reads the accounts@ inbox every 30 min",
-      "age": 14.5,
+      "age": 52.1,
       "unit": "min",
       "status": "ok",
       "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
@@ -15,7 +15,7 @@
     {
       "name": "Xero approvals poller",
       "detail": "posts approved bills every 2 min",
-      "age": 1.7,
+      "age": 0.2,
       "unit": "min",
       "status": "ok",
       "meaning": "Posts approved supplier bills into Xero every couple of minutes (office Mac).",
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 1.3,
+      "age": 2.4,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
