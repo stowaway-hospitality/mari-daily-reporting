@@ -63,11 +63,10 @@ def _prep_yield_estimates() -> dict:
     return _yaml.safe_load(f.read_text(encoding="utf-8-sig")) or {}
 
 
-# A line may be wired LIVE (rate x qty, re-costing from invoices forever) only if
-# rate x qty still lands on the number the recipe book audited (eff_cost). When it
-# doesn't, the qty is lying — a "1.5 ml" that means 1.5 kg, a "1 ml" glass of wine
-# — and the line freezes at the audited figure instead. One definition, used by the
-# sub-recipe branch and the ingredient branch, so the two can never drift apart.
+# An INGREDIENT line may be wired LIVE (rate x qty, re-costing from invoices
+# forever) only if rate x qty still lands on the number the recipe book audited.
+# Here the two sides are measuring the same thing — a supplier price against a
+# scraped price — so they should agree closely, and 25% is generous drift.
 _AGREE_TOLERANCE = 0.25
 
 
@@ -82,6 +81,59 @@ def _agrees(rate, qty, eff) -> bool:
     if not eff:
         return False
     return abs(float(rate) * float(qty) - eff) <= _AGREE_TOLERANCE * abs(eff)
+
+
+# A SUB-RECIPE line is judged differently, and the difference matters.
+#
+# eff_cost is what LIGHTSPEED's book said a batch cost. But the batch is ours: Zak
+# re-specs prep in the builder, and when he does our number is SUPPOSED to diverge
+# from Lightspeed's. On 2026-08-15 Pizza Sauce went from a 10 kg tomato-sauce mix
+# to 6 kg of Kagome — $3.98/kg to $2.37/kg, a 40% drop. Judged on the ingredient
+# rule that re-spec would have been rejected as "disagreement" and all 60-odd
+# pizzas would have frozen at the superseded price. Holding a re-spec to the old
+# book defeats the point of having a builder.
+#
+# So don't police the PRICE. Police the QUANTITY, which is where the actual lies
+# live, with two tests the price can't fake:
+#
+#   1. UNIT CLASS must match the batch's yield. Salsa Rosa asks for "1.5 ml" of a
+#      sauce measured in grams; it means 1.5 kg. Volume against mass is not a
+#      price disagreement, it's a unit the batch cannot answer. Same for the
+#      "0.077 ml" of cauliflower cheese and the "1 ml" of tandoori sauce.
+#   2. ORDER OF MAGNITUDE against the book. A re-spec moves a line by tens of
+#      percent; a broken yield moves it by multiples. Cooked brisket wired off a
+#      "[1Kg]" portion label reads $146/kg (6x the book) and jalapeno tequila
+#      $561/L (7.5x). Five-fold is the line: wide enough for any real recipe
+#      change, far too narrow for a mis-read yield.
+_SUB_MAGNITUDE = 5.0
+_UNIT_CLASS = {
+    "g": "mass", "kg": "mass",
+    "ml": "volume", "l": "volume", "lt": "volume", "litre": "volume",
+    "ea": "count", "each": "count", "pc": "count", "pcs": "count",
+    "unit": "count", "units": "count",
+}
+
+
+def _unit_class(u):
+    return _UNIT_CLASS.get(str(u or "").strip().lower())
+
+
+def _sub_agrees(rate, qty, eff, line_unit, yield_unit) -> bool:
+    """May this sub-recipe line be wired live off its own quantity?"""
+    if not rate or not qty or qty <= 0:
+        return False
+    lc, yc = _unit_class(line_unit), _unit_class(yield_unit)
+    if lc is None or yc is None or lc != yc:
+        return False          # the batch cannot answer this unit — freeze it
+    try:
+        eff = float(eff)
+    except (TypeError, ValueError):
+        return False
+    live = float(rate) * float(qty)
+    if not eff:
+        return False
+    ratio = live / abs(eff)
+    return 1.0 / _SUB_MAGNITUDE <= ratio <= _SUB_MAGNITUDE
 
 
 def resolve_yield(name: str, estimates: dict | None = None):
@@ -189,12 +241,22 @@ def recipes_index() -> dict:
     for v in VENUES:
         venue_sessions = [s for s in sessions if s.venue == v]
         recipes = load_recipes(v)
-        # latest version per product
+        # LATEST VERSION PER PRODUCT. data/recipes/*.yaml is an append-only log —
+        # the save endpoint only ever appends a block (shg-auth: appendCommit), it
+        # never rewrites one — so POSITION IN FILE IS CHRONOLOGICAL and the last
+        # block for a product is the current recipe. Zak saved Pizza Sauce four
+        # times on 2026-08-15 (twice on the old spec, once mid-edit with the salt
+        # still at 0, then the real one) and none of them carried effective_from.
+        # Ranking on the date alone left "which one is live" to whatever order the
+        # dict happened to yield. Rank on (date, position) so an undated re-save
+        # always wins over the undated block above it, and a genuinely dated future
+        # version still outranks both.
         latest: dict[str, object] = {}
-        for r in recipes:
-            cur = latest.get(r.product)
-            if cur is None or (r.effective_from or date.min) >= (cur.effective_from or date.min):
-                latest[r.product] = r
+        rank: dict[str, tuple] = {}
+        for pos, r in enumerate(recipes):
+            key = (r.effective_from or date.min, pos)
+            if r.product not in latest or key >= rank[r.product]:
+                latest[r.product], rank[r.product] = r, key
         for r in latest.values():
             # A saved recipe's OWN yield wins. Only when it has none do we fall
             # back to the same rule the scraped path uses, so saving a prep can
@@ -344,12 +406,14 @@ def recipes_full() -> dict:
         # live per-unit rate of every costable ingredient
         _idxf = DATA / "recipes_index.json"
         usable_subs = set()
-        sub_rate: dict[str, float] = {}   # product -> $ per yield-unit, for the agreement check
+        sub_rate: dict[str, float] = {}   # product -> $ per yield-unit
+        sub_unit: dict[str, str] = {}     # product -> the unit that rate is per
         if _idxf.exists():
             for e in json.loads(_idxf.read_text(encoding="utf-8-sig")).get("recipes", []):
                 if not e.get("usable_as_subrecipe"):
                     continue
                 usable_subs.add(e["product"])
+                sub_unit[e["product"]] = e.get("yield_unit")
                 try:
                     sub_rate[e["product"]] = float(e["cost_per_yield_unit"])
                 except (TypeError, ValueError, KeyError):
@@ -409,16 +473,17 @@ def recipes_full() -> dict:
                     if abs(_real - round(_real)) < 0.02 and round(_real) >= 1:
                         lines.append({"id": ref, "qty": round(_real), "unit": _pk[1]})
                         continue
-                # ...but ONLY when the live number agrees with the audited book,
-                # the same test the `id` branch below already applies. Salsa Rosa
-                # records its pizza sauce as "1.5 ml"; it means 1.5 kg. Wired live
-                # off the qty as written that line reads $0.006 instead of $5.50 —
-                # a 1000x UNDERSTATEMENT that flows into Black Beans, Pulled
-                # Mushroom, Burrito Rice Sauce and every burrito on the menu. An
-                # error that flatters (CLAUDE.md); so a sub-recipe whose live cost
-                # misses the book freezes at the audited eff_cost instead.
-                if kind == "subrecipe" and ref in usable_subs and _agrees(
-                        sub_rate.get(ref), _q, _eff):
+                # ...but ONLY when the line's own QUANTITY can be trusted: its unit
+                # must be one the batch can answer, and the result must land within
+                # an order of magnitude of the audited book. That admits a genuine
+                # re-spec (Pizza Sauce, -40%, 2026-08-15) and still refuses Salsa
+                # Rosa's "1.5 ml" of a sauce measured in grams — which means 1.5 kg,
+                # and wired live would read $0.006 against $5.50, a 1000x
+                # UNDERSTATEMENT flowing into Black Beans, Pulled Mushroom, Burrito
+                # Rice Sauce and every burrito. Errors that flatter (CLAUDE.md) are
+                # the dangerous ones, so a line that fails freezes at eff_cost.
+                if kind == "subrecipe" and ref in usable_subs and _sub_agrees(
+                        sub_rate.get(ref), _q, _eff, ln.get("unit"), sub_unit.get(ref)):
                     lines.append({"subrecipe": ref, "qty": ln.get("qty"), "unit": ln.get("unit")})
                 # An ingredient is wired LIVE when the book prices it AND the live
                 # number agrees with the audited line cost. our_cost being None only

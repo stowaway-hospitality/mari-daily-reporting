@@ -21,7 +21,8 @@ Both tests hold real measured numbers, not round ones.
 """
 from decimal import Decimal
 
-from modules.recipes.pipeline.build_recipe_feeds import _agrees, resolve_yield
+from modules.recipes.pipeline.build_recipe_feeds import (
+    _agrees, _sub_agrees, resolve_yield)
 
 PREP_YIELDS = {
     "Pizza Sauce [Recipe]": {"yield_qty": 9338, "yield_unit": "g"},
@@ -67,19 +68,67 @@ def test_a_real_pizza_line_agrees_and_may_go_live():
     assert _agrees(RATE, 64.44, 0.256642)   # gluten-free
 
 
-def test_salsa_rosas_lying_qty_is_refused():
-    # "1.5 ml" means 1.5 kg. Live says $0.006, the book says $5.498416.
-    assert not _agrees(RATE, 1.5, 5.498416)
-
-
-def test_the_guard_is_two_sided():
-    """It must catch overstatement too, not just understatement."""
-    # Cooked brisket wired off a 1 kg bracket reads $10.24 for 70 g; book $1.71.
-    assert not _agrees(10.2436 / 70, 70, 1.7072)
-
-
 def test_missing_inputs_never_wire_live():
     assert not _agrees(None, 90, 0.358439)   # no live rate for the sub
     assert not _agrees(RATE, 0, 0.358439)    # no qty
     assert not _agrees(RATE, 90, None)       # book never audited the line
     assert not _agrees(RATE, 90, 0)          # a $0 line proves nothing
+
+
+# --- the SUB-RECIPE guard ----------------------------------------------------
+# Judged on the quantity, not the price, because the price is allowed to change:
+# eff_cost is what LIGHTSPEED thought a batch cost, and re-speccing a batch in our
+# builder is supposed to move our number away from theirs.
+NEW_RATE = 14.3075 / 6028      # Zak's 2026-08-15 re-spec: $2.37/kg
+
+
+def test_a_pizza_line_stays_live_through_a_real_respec():
+    """The whole point. Pizza Sauce dropped 40%; the pizzas must NOT freeze."""
+    assert _sub_agrees(NEW_RATE, 90, 0.358439, "g", "g")     # large
+    assert _sub_agrees(NEW_RATE, 53, 0.211081, "g", "g")     # regular
+    assert _sub_agrees(NEW_RATE, 64.44, 0.256642, "g", "g")  # gluten-free
+    assert _sub_agrees(NEW_RATE, 110, 0.438092, "g", "g")    # parmy
+
+
+def test_salsa_rosas_lying_unit_is_refused():
+    """"1.5 ml" of a sauce measured in grams means 1.5 kg. Volume != mass."""
+    assert not _sub_agrees(NEW_RATE, 1.5, 5.498416, "ml", "g")
+
+
+def test_other_volume_against_mass_lines_are_refused():
+    assert not _sub_agrees(0.000201, 0.077, 0.880957, "ml", "g")   # cauliflower cheese
+    assert not _sub_agrees(0.0092, 1, 2.811866, "ml", "g")         # nut roast prep
+    assert not _sub_agrees(0.0117, 1, 7.35, "ml", "g")             # tandoori sauce
+
+
+def test_a_broken_yield_is_still_caught_even_with_matching_units():
+    """Magnitude backstops the unit check when the yield itself is wrong."""
+    # "[1Kg]" is a portion label, not a batch yield: brisket reads $146/kg,
+    # so 70 g costs $10.24 against the book's $1.71 — 6x, past the 5x line.
+    assert not _sub_agrees(10.2436 / 70, 70, 1.7072, "g", "g")
+    # Jalapeno tequila at $561/L: 40 ml reads $22.44 against $2.99 — 7.5x.
+    assert not _sub_agrees(22.4352 / 40, 40, 2.9914, "ml", "ml")
+
+
+def test_ordinary_price_drift_still_goes_live():
+    """A sub-recipe must not freeze just because its price moved a bit."""
+    assert _sub_agrees(0.00227, 10, 0.016545, "ml", "ml")    # sugar syrup, 1.37x
+    assert _sub_agrees(3.0530 / 175, 175, 4.361435, "g", "g")  # achiote, 0.70x
+    assert _sub_agrees(0.3507 / 50, 50, 0.18009, "g", "g")   # buffalo aioli, 1.95x
+
+
+def test_unknown_or_absent_units_never_wire_live():
+    assert not _sub_agrees(NEW_RATE, 90, 0.358439, "handful", "g")
+    assert not _sub_agrees(NEW_RATE, 90, 0.358439, None, "g")
+    assert not _sub_agrees(NEW_RATE, 90, 0.358439, "g", None)
+
+
+def test_sub_guard_rejects_missing_inputs():
+    assert not _sub_agrees(None, 90, 0.358439, "g", "g")
+    assert not _sub_agrees(NEW_RATE, 0, 0.358439, "g", "g")
+    assert not _sub_agrees(NEW_RATE, 90, 0, "g", "g")
+
+
+def test_kg_and_g_are_the_same_class():
+    """A batch measured in g can answer a line written in kg."""
+    assert _sub_agrees(NEW_RATE * 1000, 0.09, 0.358439, "kg", "g")
