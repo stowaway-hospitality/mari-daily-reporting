@@ -1,11 +1,11 @@
 {
-  "generated": "2026-08-14T23:37:11+00:00",
-  "overall": "warn",
+  "generated": "2026-08-15T00:37:40+00:00",
+  "overall": "ok",
   "checks": [
     {
       "name": "Invoice poller",
       "detail": "reads the accounts@ inbox every 30 min",
-      "age": 14.9,
+      "age": 14.5,
       "unit": "min",
       "status": "ok",
       "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
@@ -15,7 +15,7 @@
     {
       "name": "Xero approvals poller",
       "detail": "posts approved bills every 2 min",
-      "age": 0.9,
+      "age": 1.7,
       "unit": "min",
       "status": "ok",
       "meaning": "Posts approved supplier bills into Xero every couple of minutes (office Mac).",
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 0.3,
+      "age": 1.3,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -116,20 +116,17 @@
     },
     {
       "name": "Automation jobs",
-      "detail": "all 9 jobs that ran in the last 48h succeeded",
+      "detail": "all 10 jobs that ran in the last 48h succeeded",
       "age": null,
       "unit": "",
       "status": "ok"
     },
     {
       "name": "Published app is current",
-      "detail": "app is behind the repo on 1 feed(s): health panel itself (showing down, differs on Automation jobs)",
+      "detail": "app matches the repo on all 5 key feeds",
       "age": null,
       "unit": "",
-      "status": "warn",
-      "meaning": "The app reads its numbers from the published copy, which updates only when a deploy runs \u2014 so the repo can be right while the screen is wrong.",
-      "action": "The figures on screen are older than the ones already recorded. Nothing is lost and nothing is wrong in the data - it just has not been published. Ask Claude to check the Pages deploy; a re-run of the deploy workflow usually clears it.",
-      "selfheal": "Clears on its own the next time any deploy runs."
+      "status": "ok"
     }
   ]
 }
