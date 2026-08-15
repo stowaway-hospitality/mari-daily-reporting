@@ -18,6 +18,14 @@ DOMAIN_KEY: dict[str, str] = {
     "gullifood.com.au": "gulli",
     "suncircle.com.au": "sun_circle",
     "junpacific.com": "jun_pacific",
+    # JFC Australia is a SEPARATE company from Jun Pacific — ABN 36 003 080 260 vs
+    # 71 054 434 061, and a completely different invoice system — despite every
+    # JFC invoice already in data/invoices carrying supplier_key "jun_pacific".
+    # Those were LLM-extracted before either had a parser and nothing checked the
+    # ABN. Their product codes do not collide (JFC numeric, Jun Pacific
+    # alphanumeric), so separating them costs nothing; build_cogs_list re-labels
+    # the historical rows so the cost series stays continuous.
+    "jfcaust.com.au": "jfc",
     "ilg.com.au": "ilg",
     "lionco.com": "lion",
     "paramountliquor.com.au": "paramount",

@@ -111,6 +111,7 @@ def looks_like_statement(text: str) -> bool:
     # these per invoice; it leaked into review as a 1-line "invoice"). A real tax
     # invoice says "tax invoice" (returned above), so these titles are safe.
     if ("direct debit advice" in t or "remittance advice" in t
+            or "direct debit notice" in t
             or "payment advice" in t):
         return True
     # A DIRECT DEBIT REQUEST / authority form is an onboarding form, not a bill:
