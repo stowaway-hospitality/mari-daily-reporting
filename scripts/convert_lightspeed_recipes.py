@@ -2329,6 +2329,22 @@ def main() -> int:
                     continue                        # not a clean pack multiple
                 ln["qty"] = round(implied, 2)
                 ln["unit"] = cur[1]
+                # ...AND THE LINE IS NOW OURS TO PRICE. This is the half that was
+                # missing. our_cost is decided up in cost_of(), against the unit the
+                # line had BEFORE this function corrected it — so a line Produce
+                # typed as "0.05 ml" of a thing we hold per EACH failed the unit
+                # match, got no our_cost, and fell through to Lightspeed's figure.
+                # It then arrived here, was restated to "1 ea", and nobody went back.
+                #
+                # 47 gluten-free pizza bases were the largest single Lightspeed
+                # dependency in the book for exactly that reason: we hold the base
+                # at $4.4375/ea, the recipes want one base, and the two never met.
+                #
+                # NO MONEY MOVES. The restatement is defined as implied = eff/rate,
+                # so rate x implied == eff identically — this attributes the cost we
+                # were already charging to the book it actually came from. The
+                # aggregate pass below is re-run so fully_our_book keeps up.
+                ln["our_cost"] = str(rate)
                 n += 1
         return n
 
@@ -2409,6 +2425,22 @@ def main() -> int:
     _restated = _restate_pack_quantities()
     print(f"  restated {_restated} pack-count quantities into real units "
           f"(costs unchanged)")
+    if _restated:
+        # cost_of() ran before the restatement, so the recipe-level totals still
+        # describe the pre-restate attribution. Recompute them: the per-line
+        # eff_cost is unchanged by construction, so this moves no money — it moves
+        # lines out of the Lightspeed column and into ours.
+        _re_ours = 0
+        for _n in out:
+            _o, _l, _fo = cost_of(_n)
+            out[_n]["our_cost"] = _o
+            out[_n]["ls_cost"] = _l
+            if _fo and not out[_n].get("fully_our_book"):
+                _re_ours += 1
+            out[_n]["fully_our_book"] = _fo
+        if _re_ours:
+            print(f"  {_re_ours} recipe(s) became fully our book once the restated "
+                  f"lines were attributed")
 
 
     payload = {
