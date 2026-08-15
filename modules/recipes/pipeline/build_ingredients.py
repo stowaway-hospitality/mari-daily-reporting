@@ -190,6 +190,37 @@ _NAME_FIX = {
 }
 
 
+# BRANDS THE INVOICE DROPS AND THE PICKER NEEDS. Zak: "i need brands in things
+# like this so it's certain when i pick it."
+#
+# Some suppliers print the brand in the description and some do not, and B&E is
+# the one that does not: its invoice line reads "TOMATO - PIZZA SAUCE" while its
+# own catalogue calls the same code 14580 "Tomato - Pizza Sauce 5x3kg Ctn
+# #Kau04-4 Kagome". So the sauce Marilyna's puts on every pizza WAS in the
+# picker, correctly costed at $2.33/kg over the 15 kg carton — it just could not
+# be found by the name anyone actually uses for it, and two different tomato
+# sauces sat next to each other with nothing to tell them apart.
+#
+# Keyed by (supplier, code) rather than code alone: B&E's codes are numeric and
+# a bare number is far too easy to collide with another supplier's. The brand is
+# APPENDED rather than replacing the name, so it composes with _NAME_FIX and with
+# the descriptions suppliers already get right, and it is skipped when the name
+# already contains it (Foodlink writes "PECAN NUT 1KG Natures" itself).
+#
+# Confirmed on befoodsonline 2026-08-15, by code and price.
+_BRAND = {
+    ("B&E", "14580"): "Kagome",      # Tomato - Pizza Sauce 5x3kg Ctn, $35.00/CTN
+}
+
+
+def with_brand(supplier: str, code: str, desc: str) -> str:
+    """Append the supplier's brand when the invoice description omits it."""
+    b = _BRAND.get((supplier, (code or "").strip()))
+    if not b or b.lower() in (desc or "").lower():
+        return desc
+    return f"{desc} {b}".strip()
+
+
 # A bare unit word tacked on the END of a name ("CARROT KG", "ONION BROWN BAG",
 # "HERB BASIL BCH") — Select Fresh writes these. It reads raw AND hides near-dupes
 # (the same onion as "... BAG" and "... KG" looks like two products). Strip it.
@@ -638,21 +669,22 @@ def main() -> int:
         if key in overrides:
             oq, ou = overrides[key]
             # A CONFIRMED PACK IS THE SIZE OF ONE PIECE, AND A CARTON HOLDS N OF
-            # THEM. This is the same discriminator build_costs.py applies (see
-            # the long note in its override block); it lived in ONE of the two
-            # builders, and the comment there says "Must match build_ingredients"
-            # while this half never got it. The seam test caught the split:
+            # THEM. The resolve_pack path above already multiplies a single piece
+            # by its CTN-N note; THIS path did not, so a line that bought a
+            # CARTON was divided by ONE piece. Foodlink 100175:
             #
-            #   foodlink:100175 BEANS BLACK WHOLE TIN A10
-            #     costs.csv       $52.20 / (3000 g x CTN-6) = $0.0029/g
-            #     ingredients.json $52.20 /  3000 g         = $0.0174/g   6x OVER
+            #   BEANS BLACK WHOLE TIN A10   $8.70 "EA"    -> $0.0029/g
+            #                              $52.20 "CTN-6" -> $0.0174/g   6x OVER
             #
-            # and 6 x the $8.70 "EA" line is exactly $52.20, so the carton
-            # reading is arithmetic, not judgement. `pack_size` is the guard: the
-            # parser sets it to N when it has ALREADY divided a carton into
-            # pieces, and leaves it 1 when the price is the whole line. Multiply
-            # only in the second case — camembert 100487's latest row is an "EA"
-            # piece and must stay at $0.0304/g, not be multiplied to $0.0025/g.
+            # and 6 x $8.70 is exactly $52.20, so the carton reading is not a
+            # judgement call. build_costs.py has carried this rule since the
+            # camembert (100487) and its comment says "Must match
+            # build_ingredients" — it did not, and the two files disagreed by
+            # exactly 6x until the rate-comparison seam test caught it in CI.
+            # Kept character-for-character in step with build_costs.py: the
+            # discriminator is `pack_size`, which the parser sets to N when it has
+            # ALREADY divided the carton into pieces and leaves at 1 when the
+            # price is the whole line, so we multiply only in the second case.
             _ctn = re.search(r"CTN[-\s]?(\d+)", r.get("note", "") or "", re.I)
             _ps = (r.get("pack_size") or "").strip()
             if _ctn and _ps in ("", "1"):
@@ -661,7 +693,7 @@ def main() -> int:
             else:
                 how = "chef-confirmed"
             qty, unit = oq, ou
-            per = pack_cost / oq
+            per = (pack_cost / oq).quantize(Decimal("0.000001"))
             bad = out_of_bounds(per, ou)
 
         item = {
@@ -776,6 +808,13 @@ def main() -> int:
         fix = _NAME_FIX.get(normalize_code(it.get("supplier_code") or "").upper())
         if fix:
             it["description"] = fix
+        # Brand LAST, so it composes with the fix above rather than being
+        # overwritten by it — and before the name-collapse below, because two
+        # sauces that differ only by brand must stop colliding once the brand
+        # is on them.
+        it["description"] = with_brand(it.get("supplier") or "",
+                                       it.get("supplier_code") or "",
+                                       it["description"])
 
     # Second pass: two DIFFERENT codes can still be the same product once the
     # names match (Carrot Large 'CLKG' per-kg vs 'CL20KGBX' the 20kg box — same

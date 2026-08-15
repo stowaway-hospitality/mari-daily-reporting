@@ -119,11 +119,22 @@ if (!fs.existsSync(p)) {
 
   // 1. yields nobody has measured. Lamb Roast is a PLATED portion, so the loss
   //    is on the plate, not on a batch.
-  for (const s of ['Lamb Roast', 'Cooked Beef Brisket', 'Achiote Chicken']) {
+  for (const s of ['Cooked Beef Brisket', 'Achiote Chicken']) {
     ok(`missing yield flagged: ${s}`, inFeed(s));
   }
-  ok('the lamb question is sized off a plated portion',
-     d.flags.some(f => f.id.includes('lamb') && /plated|serve/i.test(f.impact_basis || '')));
+  // LAMB IS ANSWERED — Zak weighed it 2026-08-15, "raw lamb 2.7kg was 2.3kg
+  // cooked". 2.3/2.7 = 85.19%, applied in data/cook_yields.yaml, which scales the
+  // plated 220 g to the 258.3 g of raw leg behind it. So the question is gone and
+  // this guards that it stays gone — while the two roasts nobody has weighed stay
+  // open, because the three proteins do not shrink at the same rate.
+  ok('the lamb cook-loss question is settled, not merely quiet',
+     !d.flags.some(f => f.id === 'yield-lamb-roast'),
+     'yield-lamb-roast is back — check data/cook_yields.yaml still applies');
+  for (const s of ['yield-pork-roast', 'yield-beef-roast']) {
+    ok(`still open, nobody has weighed it: ${s}`, d.flags.some(f => f.id === s));
+  }
+  ok('the remaining yield questions are still sized off a plated portion',
+     d.flags.some(f => f.category === 'cook_loss' && /plated|serve/i.test(f.impact_basis || '')));
 
   // 2. dishes with NO costed recipe — derived from audit_book.coverage(), never
   //    a hardcoded list, so a recipe landing removes its own flag.

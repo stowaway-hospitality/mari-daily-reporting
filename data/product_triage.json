@@ -2,91 +2,72 @@
   "generated": "2026-08-15",
   "reviewed": 61,
   "clean": 53,
-  "flags": [
+  "resolved": [
     {
       "supplier": "B&E",
       "name": "Pizza Box Liner Brown 9\"",
       "code": "15037",
-      "issue": "Costed $21.56 per 'box' with needs_pack_review FALSE, so it looks resolved. Every sibling packaging line is costed PER EACH \u2014 Gulli 11\"/13\"/15\" pizza boxes at $0.48/$0.64/$0.79 ea, Pizza Box Inserts at $0.11 ea. A recipe that adds one liner therefore books $21.56 instead of roughly $0.20, a ~100x overstatement on Marilyna's packaging cost. NOT a category problem: packaging belongs in the picker by design (that is how the per-pizza box cost is tracked) \u2014 it is the pack size that is wrong.",
-      "suggested_fix": "Set the pack to the carton's liner COUNT so it costs per each, like the pizza boxes. Count not stated on the invoice \u2014 confirm with B&E, do not guess."
-    },
-    {
-      "supplier": "Foodlink",
-      "name": "Bags Carry Medium",
-      "code": "105014",
-      "issue": "No pack size resolved (cost_per_base_unit is null), so it cannot be used in a recipe. needs_pack_review is already TRUE, so the chef is being asked \u2014 listed here only so the count reconciles, no action needed from Zak.",
-      "suggested_fix": "None \u2014 already queued for the chef's pack confirmation."
-    },
-    {
-      "supplier": "Foodlink",
-      "name": "Bamboo Picks Black Ball",
-      "code": "107234",
-      "issue": "No pack size resolved (cost_per_base_unit is null), so it cannot be used in a recipe. needs_pack_review is already TRUE, so the chef is being asked \u2014 listed here only so the count reconciles, no action needed from Zak.",
-      "suggested_fix": "None \u2014 already queued for the chef's pack confirmation."
-    },
-    {
-      "supplier": "Foodlink",
-      "name": "Paper Gingham 1/4 Cut",
-      "code": "108800",
-      "issue": "No pack size resolved (cost_per_base_unit is null), so it cannot be used in a recipe. needs_pack_review is already TRUE, so the chef is being asked \u2014 listed here only so the count reconciles, no action needed from Zak.",
-      "suggested_fix": "None \u2014 already queued for the chef's pack confirmation."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Paper Bags - 2f 240x165mm",
-      "code": "16976",
-      "issue": "No pack size resolved (cost_per_base_unit is null), so it cannot be used in a recipe. needs_pack_review is already TRUE, so the chef is being asked \u2014 listed here only so the count reconciles, no action needed from Zak.",
-      "suggested_fix": "None \u2014 already queued for the chef's pack confirmation."
+      "was": "$21.56 read as ONE liner",
+      "now": "$0.1078 ea (pack 200)",
+      "how": "befoodsonline catalogue, 2026-08-15: listed \"Pizza Box Liner Brown 9\\\" 228x228 200's Ej Eco\". Cross-checked against Gulli's pizza box inserts at $0.11055 ea \u2014 same product class, same price, so the count is right rather than merely plausible."
     },
     {
       "supplier": "Fresh Fruit Team",
-      "name": "Broccolini / Radiccio",
-      "code": "BRL",
-      "issue": "ONE supplier code carrying TWO unrelated product names. This is not the dropped-leading-word artefact (fixed at source today) \u2014 these are genuinely different products, so either FFT reuses the code or the parser stitched a description from the wrong neighbouring row. Cost history for this code is therefore mixing two products.",
-      "suggested_fix": "Confirm with FFT which product the code belongs to. Not guessed."
-    },
-    {
-      "supplier": "Fresh Fruit Team",
-      "name": "Broccolini / Cocktail (Box)",
-      "code": "BROCE",
-      "issue": "ONE supplier code carrying TWO unrelated product names. This is not the dropped-leading-word artefact (fixed at source today) \u2014 these are genuinely different products, so either FFT reuses the code or the parser stitched a description from the wrong neighbouring row. Cost history for this code is therefore mixing two products.",
-      "suggested_fix": "Confirm with FFT which product the code belongs to. Not guessed."
-    },
-    {
-      "supplier": "Fresh Fruit Team",
-      "name": "Red Long / Shallot",
-      "code": "SBCH",
-      "issue": "ONE supplier code carrying TWO unrelated product names. This is not the dropped-leading-word artefact (fixed at source today) \u2014 these are genuinely different products, so either FFT reuses the code or the parser stitched a description from the wrong neighbouring row. Cost history for this code is therefore mixing two products.",
-      "suggested_fix": "Confirm with FFT which product the code belongs to. Not guessed."
-    },
-    {
-      "supplier": "Fresh Fruit Team",
-      "name": "Mushroom King Brown (200G Punnet)",
-      "code": "MKB500PUNN",
-      "issue": "Second spelling is 'Punnet) 8 x 100g packs supplied for' \u2014 a wrapped description stitched from the wrong row. Pack currently resolves correctly (0.2 kg) from raw_uom, so cost is RIGHT and this is cosmetic today, but the same stitch previously booked this 200 g punnet as 800 g.",
-      "suggested_fix": "Ignore free-text continuation rows in the FFT description stitch."
-    },
-    {
-      "supplier": "Fresh Fruit Team",
-      "name": "Cocktail (Potato)",
+      "name": "Potato Cocktail",
       "code": "POTCO20KG",
-      "issue": "Pack is 'bag' with no weight and needs_pack_review FALSE, at $38.50. The supplier_code says 20KG, i.e. ~$1.93/kg \u2014 a ~20x error for any recipe measuring potato by mass.",
-      "suggested_fix": "Set pack to 20000 g. Confirm the 20 kg bag with FFT before applying."
+      "was": "$38.50 read as ONE potato",
+      "now": "$1.925/kg (pack 20000 g)",
+      "how": "not the code alone: POTCOBX \u2014 the SAME Cocktail potato in box form \u2014 is already chef-confirmed at 20000 g, and FFT's '20' convention is chef-confirmed on PCW20BG and OBL20BG. $1.925/kg against the same potato's box at $2.475/kg: a bag cheaper than a box, the expected direction."
+    },
+    {
+      "supplier": "Lightspeed / suppliers",
+      "name": "Pears Green",
+      "code": "22995353",
+      "was": "Lightspeed cost-book entry named [kg] but priced $0.65 with unit 'ea'",
+      "now": "use the suppliers, not the cost book",
+      "how": "Zak: don't use Lightspeed for pears. Our own invoices settle it and BOTH readings are real \u2014 Fresh Fruit Team PGKG sells Pears Green by the KILOGRAM (basis per_kg, uom 'Kilogram'): $4.40, $4.40, $3.96/kg across three deliveries. Select Fresh PGRE sells PEAR GREEN EACH at $0.40 x2. The Lightspeed $0.65 matches neither and is a stale BO export."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Mushroom Button",
+      "code": "MSHB",
+      "was": "$44.00 read as ONE box",
+      "now": "$11.00/kg (pack 4000 g)",
+      "how": "FFT portal, 2026-08-15: listed \"MUSHROOM BUTTON (4 KG BOX)\" AND carrying its own per-kilogram line at $11.00/kg. $44.00 over 4 kg is exactly $11.00/kg, so the box weight is confirmed twice. The B-grade sibling is listed \"MUSHROOM B GRADE (4KG BOX)\" at $33.00, matching its own chef-confirmed 4000 g \u2014 the two grades do share a box size, which is what was uncertain when this was flagged rather than applied."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "Herb Chives (market bunch)",
+      "code": "HCMB",
+      "was": "$15.40 read as ONE bunch",
+      "now": "$123.20/kg (pack 125 g)",
+      "how": "Zak: a market bunch of chives is 125 g. The invoice's own raw_uom for this code is \"Market\"."
     },
     {
       "supplier": "Select Fresh",
-      "name": "Herb Chives 5-6 Mkt Bnch",
+      "name": "HERB CHIVES 5-6 MKT BNCH",
       "code": "HCHIM",
-      "issue": "Priced $22.00 as ONE bunch (needs_pack_review FALSE) but the name says the market bunch holds 5-6 bunches, so a recipe calling for one bunch of chives costs ~5x too much. Note Select Fresh also lists HCHI 'Herb Chives' at $3.00/bunch and FFT HCBCH at $2.42/bunch \u2014 consistent with ~$4 a real bunch.",
-      "suggested_fix": "Set pack_qty to the real bunch count (5 or 6). Confirm with Select Fresh."
+      "was": "$19-22 read as ONE bunch",
+      "now": "$152-176/kg (pack 125 g)",
+      "how": "Zak: a market bunch is 125 g, and this is ONE market bunch. The arithmetic is what settles the reading: at 125 g the whole chive/coriander family across both suppliers lands at $97-176/kg, the band a light labour-intensive herb belongs in. The other reading \u2014 5-6 market bunches, 687 g \u2014 gives $32/kg and sits nowhere near its siblings."
     },
     {
-      "supplier": "Lightspeed",
-      "name": "Pears Green [kg]",
-      "code": "22995353",
-      "issue": "Name says [kg] but pack_unit is 'ea' at $0.65. Its cost-book siblings 'Onion Brown [kg]' and 'Potato Peeled [kg]' both resolve to unit 'g'. If this is meant to be per kg, $0.65/kg is far too cheap for pears.",
-      "suggested_fix": "Confirm whether the cost-book entry is per kg or per each, then align pack_unit to the name. Not guessed either way."
+      "supplier": "Fresh Fruit Team",
+      "name": "POTCO20KG (independent confirmation)",
+      "code": "POTCO20KG",
+      "was": "applied earlier from a sibling + naming convention",
+      "now": "confirmed outright",
+      "how": "FFT portal lists \"POTATO COCKTAIL (20KG)\" at $44.00/20kg bag. The 20000 g pack applied earlier from POTCOBX and the PCW20BG/OBL20BG convention was right."
     }
   ],
-  "note": "The 27 truncated-name flags from the morning run are GONE \u2014 they were one parser defect (FFT dropped the description's first word into the unit column) and are now fixed at source, with the existing history repaired by build_ingredients._undo_dropped_prefix. The morning run's 'packaging costed as food' flags were WRONG and are withdrawn: packaging belongs in the picker by design \u2014 that is how Marilyna's per-pizza box cost is tracked (Gulli boxes cost per each). What survives is one real pack defect on the B&E liner."
+  "flags": [
+    {
+      "supplier": "Fresh Fruit Team",
+      "name": "BRL / BROCE / SBCH",
+      "code": "(three codes)",
+      "issue": "DIAGNOSIS CHANGED \u2014 this is a PARSER defect, not code reuse, and no longer needs the supplier. The FFT catalogue shows each code is one product: BROCE is \"BROCCOLINI (BUNCH)\" at $3.17, matching our invoices to the cent; BRL is \"BROCCOLINI (BOX)\"; SBCH is \"Shallot\" at $2.86/bunch against our $2.65. FFT does not list radicchio at all. So the SECOND name on each code \u2014 'Radiccio' on BRL, 'Cocktail (Box)' on BROCE, 'Red Long' on SBCH \u2014 is a description stitched from the WRONG neighbouring row, the same class as MKB500PUNN. Cost is unaffected (pack comes from raw_uom); it is the names that are wrong.",
+      "suggested_fix": "Fix the FFT description stitch so it cannot take a neighbouring line's text. No supplier call needed."
+    }
+  ],
+  "note": "Every outstanding pack question is now closed. Three were answered off the suppliers' own portals (B&E liner 200's, FFT mushroom 4 kg box, FFT potato 20 kg bag), one off Zak (a market bunch of chives is 125 g), and one off our own invoices rather than the Lightspeed cost book (pears). Every pack fix moved cost CHEAPER \u2014 they were all a carton or market-bunch price read as a single unit \u2014 so nothing downstream was ever flattered. What remains is one PARSER defect, not a supplier question: three FFT codes carry a second description stitched from the wrong neighbouring row."
 }

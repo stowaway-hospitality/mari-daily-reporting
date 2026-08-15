@@ -704,3 +704,67 @@
   by: "Claude (Select Fresh PGRE $0.40/ea and FFT $3.96/kg both say $0.65 is a pear, not a kilo)"
   on: 2026-08-14
   by_email: "hello@stowawaybar.com"
+
+# --- 2026-08-15 -----------------------------------------------------------
+# B&E 15037, read off the befoodsonline catalogue today: the product is listed
+# "Pizza Box Liner Brown 9" 228x228 200's Ej Eco" — 200 liners a carton. The
+# invoice prices the CARTON ($21.56), so without this the picker read $21.56 for
+# ONE liner and a pizza that adds a liner booked ~200x its cost. $21.56/200 =
+# $0.1078 each, which lands on Gulli's own pizza box inserts at $0.11055 ea —
+# an independent check that the count is right and not just plausible.
+- id: "b-e:15037"
+  pack_qty: 200
+  pack_unit: ea
+  by: "B&E catalogue (9\" liner listed 200's; $21.56/200 = $0.1078 ea, vs Gulli inserts $0.11055 ea)"
+  on: 2026-08-15
+  by_email: "befoodsonline.com.au"
+# FFT POTCO20KG "Potato Cocktail", sold as a bag at $38.50 and read as ONE unit,
+# i.e. $38.50 for a potato. 20 kg is not inferred from the code alone:
+#   * POTCOBX — the SAME Cocktail potato in its box form — is already
+#     chef-confirmed at 20000 g ($49.50 -> $2.475/kg);
+#   * FFT's "20" convention is chef-confirmed on two further codes,
+#     PCW20BG Potato Chat Washed and OBL20BG Onion Brown, both 20000 g.
+# $38.50/20 kg = $1.925/kg, against the same potato's own box at $2.475/kg —
+# a bag cheaper than a box, which is the expected direction.
+- id: "fresh-fruit-team:POTCO20KG"
+  pack_qty: 20000
+  pack_unit: g
+  by: "Claude (POTCOBX same potato chef-confirmed 20kg; PCW20BG + OBL20BG confirm the 20 = 20kg convention)"
+  on: 2026-08-15
+  by_email: "hello@stowawaybar.com"
+# --- 2026-08-15, second pass: read off the FFT portal (Zak logged in) ---------
+# FFT MSHB "Mushroom Button", invoiced $44.00 a box and read as ONE box, so
+# unusable in a recipe. The catalogue settles it twice over: the product is
+# listed "MUSHROOM BUTTON (4 KG BOX)" AND carries its own per-kilogram line at
+# $11.00/kg — and $44.00 over 4 kg is exactly $11.00/kg. The B-grade sibling
+# MSHB2 is listed "MUSHROOM B GRADE (4KG BOX)" at $33.00, matching its own
+# chef-confirmed 4000 g, so the two grades really do share a box size (which was
+# the reason this was flagged rather than inferred earlier).
+- id: "fresh-fruit-team:MSHB"
+  pack_qty: 4000
+  pack_unit: g
+  by: "FFT catalogue (MUSHROOM BUTTON 4 KG BOX; $44.00/4kg = $11.00/kg = their own per-kg listing)"
+  on: 2026-08-15
+  by_email: "thefreshfruitteamptyltd.shop.bossqi.app"
+# A MARKET BUNCH OF CHIVES IS 125 g (Zak, 2026-08-15). Applied to the two codes
+# whose own invoice calls them a market bunch, and to NOTHING else: the single
+# bunch weight is not stated anywhere and dividing 125 by "5-6" to get it would
+# be a guess.
+#   FFT HCMB   $15.40 / 125 g = $123.20/kg   (raw_uom on the invoice is "Market")
+#   SF  HCHIM  $19-22  / 125 g = $152-176/kg ("HERB CHIVES 5-6 MKT BNCH")
+# The family reads $97-176/kg across every chive and coriander line either
+# supplier sells, which is the band a light labour-intensive herb belongs in —
+# and it is the check that says HCHIM is ONE market bunch. The other reading,
+# 5-6 market bunches at 687 g, gives $32/kg and sits nowhere near its siblings.
+- id: "fresh-fruit-team:HCMB"
+  pack_qty: 125
+  pack_unit: g
+  by: "Zak (a market bunch of chives is 125g)"
+  on: 2026-08-15
+  by_email: "hello@stowawaybar.com"
+- id: "select-fresh:HCHIM"
+  pack_qty: 125
+  pack_unit: g
+  by: "Zak (a market bunch of chives is 125g; HCHIM is one market bunch)"
+  on: 2026-08-15
+  by_email: "hello@stowawaybar.com"

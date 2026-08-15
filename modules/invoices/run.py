@@ -104,6 +104,25 @@ def looks_like_statement(text: str) -> bool:
     makes the "a real tax invoice is never a statement" promise actually hold.
     """
     t = re.sub(r"\s+", " ", (text or "").lower())
+    # THESE TWO RUN BEFORE THE "tax invoice" ESCAPE HATCH, and that ordering is
+    # the whole point. Gulli's monthly statement carries the words "tax invoice"
+    # in its standing footer, so the hatch below returned False on it every time
+    # and four of them cycled through Review indefinitely.
+    #
+    # Both signals are things a real bill never carries:
+    #   * a CLOSING BALANCE is a ledger concept — an invoice states its own total,
+    #     it does not carry a balance forward (Gulli, at char 1153).
+    #   * "STATEMENT OF ACCOUNT" as the MASTHEAD, i.e. the first thing on the
+    #     page. Lion's statements open with it at index 0 and print no other
+    #     statement marker at all — no ageing spread, no "amount enclosed" — so
+    #     titled+strong could never fire on them.
+    # Measured against the corpus on 2026-08-15: of 439 PASSing invoices, ZERO
+    # contain either. The masthead is anchored to the first 80 characters rather
+    # than matched anywhere, so a mention in payment terms cannot trip it.
+    if "closing balance" in t:
+        return True
+    if "statement of account" in t[:80]:
+        return True
     if "tax invoice" in t:
         return False
     # Payment notices — a direct-debit / remittance advice that references an
@@ -111,6 +130,7 @@ def looks_like_statement(text: str) -> bool:
     # these per invoice; it leaked into review as a 1-line "invoice"). A real tax
     # invoice says "tax invoice" (returned above), so these titles are safe.
     if ("direct debit advice" in t or "remittance advice" in t
+            or "direct debit notice" in t
             or "payment advice" in t):
         return True
     # A DIRECT DEBIT REQUEST / authority form is an onboarding form, not a bill:

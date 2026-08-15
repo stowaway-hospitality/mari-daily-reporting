@@ -69,6 +69,8 @@ MUTANTS = [
   "Frank's gallon priced per litre again"),
  ("modules/recipes/pipeline/build_costs.py", "if pid and u in (\"g\", \"ml\"):",
   "if False:", "a zero-cost product can never be given one"),
+ ("data/cook_yields.yaml", "yield: 0.851852", "yield: 1.0",
+  "the measured lamb cook loss stops being applied"),
 ]
 
 def run(cmd):

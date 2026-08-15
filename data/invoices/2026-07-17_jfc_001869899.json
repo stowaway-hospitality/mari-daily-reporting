@@ -1,0 +1,170 @@
+{
+  "invoice": {
+    "supplier_key": "jfc",
+    "supplier_name_raw": "JFC Australia Co Pty Ltd",
+    "invoice_ref": "001869899",
+    "invoice_date": "2026-07-17",
+    "total_incl": "296.25",
+    "lines": [
+      {
+        "description": "SOMI Kitano Miso G 10/1kg Ramen Noodle Soup Base 7x",
+        "qty": "2",
+        "line_total_incl": "31.00",
+        "unit_price_incl": "15.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "39806",
+        "raw_qty": null,
+        "raw_uom": "EACH",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "SOMI Tonkotsu Gara Soup 10/1kg GF No MSG Noodle Soup Base x10",
+        "qty": "5",
+        "line_total_incl": "80.00",
+        "unit_price_incl": "16.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "31256",
+        "raw_qty": null,
+        "raw_uom": "EACH",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Dim Sim Paper 5.0\" 20/500sheet Cooking Paper",
+        "qty": "2",
+        "line_total_incl": "22.00",
+        "unit_price_incl": "11.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": "2.00",
+        "wet_amount": null,
+        "supplier_code": "52608",
+        "raw_qty": null,
+        "raw_uom": "EACH",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "WP Edamame Mukimi 20/454g Frozen Soybean Kernels without Shell",
+        "qty": "5",
+        "line_total_incl": "16.25",
+        "unit_price_incl": "3.2500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "44674",
+        "raw_qty": null,
+        "raw_uom": "EACH",
+        "pack_qty": "0.454",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "WPM Yellow Ramen #22 12/5pc Frozen Straight Noodle 125gx5",
+        "qty": "35",
+        "line_total_incl": "147.00",
+        "unit_price_incl": "4.2000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "56296",
+        "raw_qty": null,
+        "raw_uom": "EACH",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-17",
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "022c29f6dd56ceb1d71d11d2edd403471ec2fe69f1d4e33fa2243a29776ef75c.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "296.25",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "SOMI Kitano Miso G 10/1kg Ramen Noodle Soup Base 7x",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "SOMI Tonkotsu Gara Soup 10/1kg GF No MSG Noodle Soup Base x10",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Dim Sim Paper 5.0\" 20/500sheet Cooking Paper",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "WP Edamame Mukimi 20/454g Frozen Soybean Kernels without Shell",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "WPM Yellow Ramen #22 12/5pc Frozen Straight Noodle 125gx5",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

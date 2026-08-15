@@ -511,3 +511,172 @@ def test_fft_order_note_is_not_part_of_the_product_name():
     assert _strip_order_note("Carrot Large") == "Carrot Large"
     assert _strip_order_note("") == ""
     assert _strip_order_note(None) == ""
+
+
+# --- JFC Australia: a separate company from Jun Pacific ----------------------
+# 2026-08-15. Every JFC invoice that reached data/invoices before today carries
+# supplier_key "jun_pacific" — they were LLM-extracted before either had a parser
+# and nothing checked the ABN. They are different companies on different invoice
+# systems:
+#     Jun Pacific Corporation   ABN 71 054 434 061   "Tax Invoice: NB10482429"
+#     JFC Australia Co Pty Ltd  ABN 36 003 080 260   "INVOICE No.  001910089"
+# Their codes do not collide (JFC numeric, Jun Pacific alphanumeric), so the two
+# separate cleanly; build_cogs_list re-labels the five historical rows onto "JFC"
+# so the cost series stays continuous across the correction.
+
+JFC_HEADER = _row((12, "ITEM"), (45, "PRODUCT"), (87, "DESCRIPTION"), (317, "QTY"),
+                  (335, "þ"), (354, "UNIT"), (385, "LIST"), (434, "UNIT"),
+                  (466, "AMOUNT"))
+JFC_HEADER2 = _row((533, "GST"), (573, "WET"))
+
+
+def test_jfc_columns_come_from_the_header():
+    from modules.invoices.parsers.jfc import _cols_from_header
+    cols = _cols_from_header(JFC_HEADER, JFC_HEADER2)
+    assert cols is not None
+    # A real money row off invoice 001910089.
+    row = _row((11, "30562"), (45, "SOMI"), (71, "Shoyu"), (101, "G"), (110, "10/1kg"),
+               (327, "1"), (351, "EACH"), (397, "18.70"), (440, "11.00"),
+               (487, "11.00"), (532, "0.00"), (575, "0.00"))
+    c = pdf_text.bucket(row, cols)
+    assert c["item"] == "30562"
+    assert c["desc"] == "SOMI Shoyu G 10/1kg"
+    assert c["qty"] == "1"
+    assert c["udesc"] == "EACH"
+    assert c["listp"] == "18.70"      # LIST price is not what we cost off
+    assert c["unitp"] == "11.00"
+    assert c["amt"] == "11.00"
+    assert c["gst"] == "0.00"
+    assert c["wet"] == "0.00"
+
+
+def test_jfc_two_unit_headers_are_taken_in_order():
+    # "UNIT" appears twice — "UNIT DESC." and "UNIT PRICE". A label lookup would
+    # collapse them and put the price in the unit-of-measure cell.
+    from modules.invoices.parsers.jfc import _cols_from_header
+    cols = dict(_cols_from_header(JFC_HEADER, JFC_HEADER2))
+    assert cols["udesc"] < cols["listp"] < cols["unitp"] < cols["amt"]
+
+
+def test_jfc_unreadable_header_falls_back_rather_than_inventing_columns():
+    from modules.invoices.parsers.jfc import _cols_from_header
+    assert _cols_from_header(_row((12, "ITEM"), (45, "PRODUCT")), JFC_HEADER2) is None
+    assert _cols_from_header(JFC_HEADER, []) is None          # no GST/WET row
+    assert _cols_from_header([], []) is None
+
+
+def test_jfc_line_counter_is_not_a_product_code():
+    # The wrap row carries "< 3 >" in the ITEM column; it must never be read as a
+    # supplier code, and its description tail belongs to the line above.
+    from modules.invoices.parsers.jfc import _COUNTER
+    for s in ("< 1 >", "<2>", "< 10 >"):
+        assert _COUNTER.match(s)
+    for s in ("30562", "HA8204612", "", "<>"):
+        assert not _COUNTER.match(s)
+
+
+def test_jfc_direct_debit_notice_is_not_an_invoice():
+    from modules.invoices.run import looks_like_statement
+    doc = ("EFT Direct Debit Notice\nABN 36 003 080 260\nSTOWAWAY\n"
+           "The following amount will be debited from your account: 223.50\n"
+           "Payment Amount Invoice Number Doc Type Invoice Date\n"
+           "223.50 07/08/2026 Invoice 001900310\nTotal: 223.50")
+    assert looks_like_statement(doc) is True
+
+
+# --- Xero: one sender, many vendors ------------------------------------------
+# 2026-08-15. The first parser where the sender domain does NOT name the supplier
+# — every Xero-issued invoice arrives from post.xero.com. Getting the vendor wrong
+# merges several suppliers' price histories, so the identification is pinned hard.
+
+def test_xero_vendor_is_the_abn_that_is_not_ours():
+    from modules.invoices.parsers.xero import vendor_from_abn
+    # Urbun Bakery: OUR ABN is printed FIRST, above the vendor's. Keying on the
+    # first ABN would have filed five different suppliers under Stowaway's own.
+    urbun = "ABN: 17 606 243 921\nInvoice\nABN 25 617 284 705\nMallia Industries"
+    assert vendor_from_abn(urbun) == ("mallia_industries", "Urbun Bakery")
+    # Grifter prints only its own.
+    assert vendor_from_abn("ABN 53 158 357 450")[0] == "grifter"
+
+
+def test_xero_refuses_to_guess_a_vendor():
+    from modules.invoices.parsers.xero import vendor_from_abn
+    assert vendor_from_abn("") is None                       # no ABN at all
+    assert vendor_from_abn("ABN 17 606 243 921") is None      # only ours
+    assert vendor_from_abn("ABN 11 111 111 111") is None      # not registered
+    # AMBIGUOUS: two non-customer ABNs (a real SYMSAFE credit note references a
+    # second party). Two candidates must never be resolved by picking one.
+    two = "ABN 83 105 791 419\nABN 38 760 949 765"
+    assert vendor_from_abn(two) is None
+
+
+def test_our_own_abn_can_never_be_a_vendor():
+    from modules.invoices.parsers.xero import CUSTOMER_ABNS, ABN_SUPPLIER
+    assert CUSTOMER_ABNS & set(ABN_SUPPLIER) == set(), (
+        "an ABN cannot be both the customer and a vendor")
+
+
+XERO_HEADER_ITEM = _row((31, "Item"), (85, "Description"), (262, "Quantity"),
+                        (339, "Unit"), (357, "Price"), (400, "Discount"),
+                        (469, "GST"), (515, "Amount"), (547, "AUD"))
+XERO_HEADER_PLAIN = _row((31, "Description"), (316, "Quantity"), (393, "Unit"),
+                         (411, "Price"), (453, "Discount"), (515, "Amount"),
+                         (547, "AUD"))
+XERO_HEADER_QTY_L = _row((28, "Description"), (233, "Quantity(L)"), (334, "Unit"),
+                         (354, "Price"), (425, "GST"), (512, "Amount"), (548, "AUD"))
+
+
+def test_xero_header_shapes_all_resolve():
+    from modules.invoices.parsers.xero import _cols_from_header
+    for h in (XERO_HEADER_ITEM, XERO_HEADER_PLAIN, XERO_HEADER_QTY_L):
+        assert _cols_from_header(h) is not None
+    # "Quantity(L)" (Speed Gas) must be recognised as Quantity — letters only.
+    cols = dict(_cols_from_header(XERO_HEADER_QTY_L))
+    assert cols["qty"] < cols["price"] < cols["amt"]
+
+
+def test_xero_item_column_only_exists_when_the_header_says_so():
+    from modules.invoices.parsers.xero import _cols_from_header
+    assert "item" in dict(_cols_from_header(XERO_HEADER_ITEM))
+    assert "item" not in dict(_cols_from_header(XERO_HEADER_PLAIN))
+
+
+def test_xero_philters_two_token_code_stays_in_the_item_column():
+    # "XPA 200" is Philter's real code, printed as two tokens; the description
+    # starts cleanly at its own anchor. This is the row the identity audit flags,
+    # and it is a false positive — the whitespace is the supplier's.
+    from modules.invoices.parsers.xero import _cols_from_header
+    cols = _cols_from_header(XERO_HEADER_ITEM)
+    row = _row((31, "XPA"), (47, "200"), (85, "Philter"), (111, "XPA"), (127, "4.2%"),
+               (169, "50L"), (184, "Keg"), (279, "2.00"), (350, "299.00"),
+               (402, "20.00%"), (468, "10%"), (539, "478.40"))
+    c = pdf_text.bucket(row, cols)
+    assert c["item"] == "XPA 200"
+    assert c["desc"].startswith("Philter XPA")
+    assert c["amt"] == "478.40"
+
+
+def test_xero_unreadable_header_falls_back_rather_than_inventing_columns():
+    from modules.invoices.parsers.xero import _cols_from_header
+    assert _cols_from_header(_row((31, "Description"))) is None
+    assert _cols_from_header([]) is None
+
+
+def test_a_service_suppliers_lines_are_not_stock():
+    # A STOCK line is bounds-checked as a purchasable AND offered to the chef as
+    # a recipe ingredient. Twin Fin's "Social Media Management" at $4,400 was
+    # held by SANITY_BOUNDS for being outside the plausible per_unit range —
+    # the guard working exactly as designed on a number that is not a unit price
+    # for a thing. These vendors sell services and nothing else, so it is a
+    # supplier-level fact and there is no per-line judgement to get wrong.
+    from modules.invoices.parsers.xero import SERVICE_SUPPLIERS, ABN_SUPPLIER
+    keys = {k for k, _n in ABN_SUPPLIER.values()}
+    assert SERVICE_SUPPLIERS <= keys, (
+        "a service supplier must also be a registered vendor, or it can never "
+        f"be reached: {SERVICE_SUPPLIERS - keys}")
+    # the food and beverage vendors must NOT be in it — their lines are goods
+    for goods in ("mallia_industries", "canton_group", "grifter", "philter",
+                  "moda_sparkling", "sigurd_wines", "speed_gas"):
+        assert goods not in SERVICE_SUPPLIERS, (
+            f"{goods} sells goods; marking it a service would take its lines out "
+            f"of the cost book entirely")

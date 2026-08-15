@@ -110,6 +110,14 @@ PIN_125G = ('- id: "foodlink:100487"\n'
             '  by: "test"\n'
             "  on: 2026-08-05\n")
 
+# Foodlink 100175 black beans: the pin is ONE A10 tin, and the CTN-6 line buys
+# six of them. See test_the_two_builders_agree_on_the_black_beans.
+PIN_3000G = ('- id: "foodlink:100175"\n'
+             "  pack_qty: 3000\n"
+             "  pack_unit: g\n"
+             '  by: "test"\n'
+             "  on: 2026-08-15\n")
+
 
 # --- the guard itself ------------------------------------------------------
 
@@ -175,71 +183,82 @@ def test_the_carton_line_is_never_published_at_12x(tmp_path, monkeypatch):
 
 # --- build_ingredients (the chef-facing half, which must agree) ------------
 
-def _run_ingredients(tmp_path, monkeypatch, rows):
+def test_the_picker_reads_the_carton_at_the_same_rate_as_the_piece(tmp_path,
+                                                                   monkeypatch):
+    """build_ingredients had the identical line, and follows the same arc its
+    build_costs sibling did (see test_the_carton_line_is_never_published_at_12x).
+
+    It first asserted the row was FLAGGED — right while nothing could tell how
+    many pieces were in the carton, so an absurd $364.80/kg had to go to a human
+    rather than be published. But build_costs learned to read the CTN-12 in the
+    line's own note and build_ingredients did not, so from that point the two
+    files disagreed by exactly 12x on this row and 6x on Foodlink 100175 black
+    beans. This module's own docstring predicted both and said they "want their
+    own pass"; that pass is done and the override path now multiplies by CTN-N
+    exactly as the description path always has.
+
+    So the assertion is no longer "flagged" but the stronger thing flagging was
+    standing in for: **the picker must cost it the same per gram as the piece**,
+    and must agree with the cost book. $45.60 over 12 x 125 g is $0.030400/g,
+    which is what the $3.80 piece costs. Re-break the multiplication and this
+    goes to $0.364800/g and reds — now as a wrong NUMBER, not a missing flag.
+    """
     import json
-    _cogs(tmp_path / "cogs.csv", rows)
+    from datetime import date, timedelta
+    recent = (date.today() - timedelta(days=5)).isoformat()
+    _cogs(tmp_path / "cogs.csv", [dict(_camembert_rows()[1], invoice_date=recent)])
     _overrides(tmp_path / "packs.yaml", PIN_125G)
     monkeypatch.setattr(bi, "ROOT", tmp_path)
     monkeypatch.setattr(bi, "COGS", tmp_path / "cogs.csv")
     monkeypatch.setattr(bi, "OUT", tmp_path / "ing.json")
     monkeypatch.setattr(bi, "PACK_OVERRIDES", tmp_path / "packs.yaml")
     bi.main()
-    return json.loads((tmp_path / "ing.json").read_text())["ingredients"]
-
-
-def test_the_picker_reads_the_carton_at_the_same_rate_as_the_piece(tmp_path,
-                                                                   monkeypatch):
-    """build_ingredients had the identical line, and for a while the answer here
-    was "flag it": an override pinned one piece, the line had bought a carton,
-    and the rate that fell out was refused rather than published.
-
-    Its build_costs twin above has since moved on to the stronger answer — READ
-    the carton, because the CTN-12 in the row's own note says how many pieces are
-    in it — and this half did not follow. That split was not academic: the two
-    builders published different numbers for the same purchase, which is exactly
-    what scripts/test_pipeline_integration.py's "costs.csv and ingredients.json
-    agree on unit" seam is there to catch, and it caught it on foodlink:100175
-    black beans at $0.0029/g vs $0.0174/g.
-
-    So the assertion is no longer "flagged" but the thing flagging stood in for:
-    **the carton must cost the same per gram as the piece.** Re-break the
-    multiplication and this goes to $0.364800/g and reds.
-    """
-    from datetime import date, timedelta
-    recent = (date.today() - timedelta(days=5)).isoformat()
-    items = _run_ingredients(
-        tmp_path, monkeypatch,
-        [dict(_camembert_rows()[1], invoice_date=recent)])
+    items = json.loads((tmp_path / "ing.json").read_text())["ingredients"]
     cam = [i for i in items if i["id"] == CAMEMBERT]
-    assert cam, "the camembert carton line is missing from the picker"
-    assert cam[0]["cost_per_base_unit"] == "0.0304", (
-        f"the carton reads {cam[0]['cost_per_base_unit']}/g against the piece's "
-        f"0.0304/g — the CTN-12 multiplication is wrong")
+    assert cam, "the camembert carton row is missing from the picker"
+    assert cam[0]["cost_per_base_unit"] == "0.030400", (
+        f"the picker reads {cam[0]['cost_per_base_unit']}/g against the piece's "
+        f"0.030400/g — the CTN-12 multiplication is wrong")
     assert "CTN-12" in cam[0]["pack_parsed_as"], cam[0]["pack_parsed_as"]
+    # A correct rate is not a flagged one: the guard still runs, it simply has
+    # nothing to complain about now.
     assert cam[0]["needs_pack_review"] is False
 
 
-def test_the_override_still_does_not_silence_the_guard(tmp_path, monkeypatch):
-    """The ORIGINAL finding, which must not regress while the above is being
-    made to pass. `bad` used to be cleared to "" in this block, so confirming a
-    pack switched the plausibility alarm off for every line under that code.
+def test_the_two_builders_agree_on_the_black_beans(tmp_path, monkeypatch):
+    """The row that took CI red on 2026-08-15, and the reason this pass happened.
 
-    The CTN-n rescue only fires when the row's own note says how many pieces it
-    holds. Take that away — the same $45.60 carton price billed with a bare "EA"
-    note, which is how a supplier mislabels a carton — and there is nothing left
-    to correct the rate with. It must then be FLAGGED, not published at
-    $364.80/kg under a chef's name.
+    Foodlink bills 100175 both ways and both are internally consistent — $8.70 a
+    tin (note "EA") and $52.20 a CTN-6, which is exactly 6 x $8.70. The override
+    pins 3000 g, the size of ONE tin. build_costs multiplied that by the CTN-6
+    and read $0.0029/g; build_ingredients did not and read $0.0174/g. Two derived
+    files, one product, 6x apart, and the rate-comparison seam test refused it.
+
+    Note the direction: this error made the beans DEARER than they are, so no GP
+    was ever flattered by it — but "wrong and cautious" is still wrong, and the
+    picker is what a chef reads.
     """
+    import json
     from datetime import date, timedelta
     recent = (date.today() - timedelta(days=5)).isoformat()
-    items = _run_ingredients(
-        tmp_path, monkeypatch,
-        [dict(_camembert_rows()[1], invoice_date=recent, note="EA")])
-    cam = [i for i in items if i["id"] == CAMEMBERT]
-    assert cam and cam[0]["needs_pack_review"] is True, (
-        "an unrescuable carton rate was published as chef-confirmed — the "
-        "override is silencing the plausibility guard again")
-    assert "implausibly DEAR" in cam[0]["review_reason"]
+    beans = dict(_camembert_rows()[1])
+    beans.update(supplier_code="100175", invoice_date=recent,
+                 invoice_description="BEANS BLACK WHOLE TIN A10",
+                 cost_per_unit_incl_gst="52.20", note="UOM CTN-6", pack_size="1")
+    _cogs(tmp_path / "cogs.csv", [beans])
+    _overrides(tmp_path / "packs.yaml", PIN_3000G)
+    monkeypatch.setattr(bi, "ROOT", tmp_path)
+    monkeypatch.setattr(bi, "COGS", tmp_path / "cogs.csv")
+    monkeypatch.setattr(bi, "OUT", tmp_path / "ing.json")
+    monkeypatch.setattr(bi, "PACK_OVERRIDES", tmp_path / "packs.yaml")
+    bi.main()
+    items = json.loads((tmp_path / "ing.json").read_text())["ingredients"]
+    row = [i for i in items if i["id"] == "foodlink:100175"]
+    assert row, "the black beans row is missing from the picker"
+    # $52.20 / (6 x 3000 g) = $0.0029/g, which is what the $8.70 tin costs.
+    assert row[0]["cost_per_base_unit"] == "0.002900", (
+        f"the picker reads {row[0]['cost_per_base_unit']}/g; the CTN-6 carton "
+        f"divided by one 3000 g tin is the 6x error that took CI red")
 
 
 # --- the invariant on the real book ---------------------------------------

@@ -88,7 +88,7 @@ FIELDS = ["supplier", "supplier_code", "invoice_description", "lightspeed_produc
 SUPPLIER_ALIAS = {
     "fresh_fruit_team": "Fresh Fruit Team", "select_fresh": "Select Fresh",
     "be_foods": "B&E", "foodlink": "Foodlink", "gulli": "Gulli",
-    "sun_circle": "Sun Circle", "jun_pacific": "Jun Pacific",
+    "sun_circle": "Sun Circle", "jun_pacific": "Jun Pacific", "jfc": "JFC",
     "farmer_joes": "Farmer Joes", "the_berry_man": "The Berry Man",
     "nicholas_seafood": "Nicholas Seafood",
     "andrews_meat": "Andrews Meat", "aquarius": "Aquarius", "mj_chickens": "M&J Chickens",
@@ -262,10 +262,32 @@ def _load_existing() -> tuple[list[dict], set[tuple[str, str]]]:
     return rows, seen
 
 
+def _supplier_label(inv: dict) -> str:
+    """The short supplier name the recipe pipeline keys on.
+
+    Normally SUPPLIER_ALIAS on supplier_key. The one exception is JFC Australia:
+    it is a separate company from Jun Pacific (ABN 36 003 080 260 vs
+    71 054 434 061, different invoice systems) but every JFC invoice extracted
+    before it had a parser was stored with supplier_key "jun_pacific", because
+    the LLM had no reason to distinguish them and nothing checked the ABN.
+
+    Those stored keys are FACTS and are not rewritten. Instead the label is
+    corrected here, off supplier_name_raw, so the historical rows and the ones the
+    new parser writes land on the SAME identity ("jfc:30562") — otherwise adding
+    the parser would split five SKUs' price history down the middle, which is the
+    exact failure this file's DERIVED note is about. Their codes do not collide
+    (JFC numeric, Jun Pacific alphanumeric), so the correction is unambiguous.
+    """
+    key = inv.get("supplier_key", "")
+    raw = inv.get("supplier_name_raw", "") or ""
+    if key == "jun_pacific" and "JFC" in raw.upper():
+        return "JFC"
+    return SUPPLIER_ALIAS.get(key, raw or key)
+
+
 def _rows_from_invoice(payload: dict) -> list[dict]:
     inv = payload["invoice"]
-    supplier = SUPPLIER_ALIAS.get(inv.get("supplier_key", ""),
-                                  inv.get("supplier_name_raw", inv.get("supplier_key", "")))
+    supplier = _supplier_label(inv)
     venue = (inv.get("venue") or "unknown")
     ref = inv.get("invoice_ref", "")
     d = inv.get("invoice_date", "")

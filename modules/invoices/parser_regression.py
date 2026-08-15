@@ -340,6 +340,49 @@ reframing found a much bigger miss than Sun Circle, and a bug I nearly shipped.
      of the 21, only Urbun Bakery and Canton Group are kitchen food — the rest are
      liquor and services, which do not feed recipe costs.
 
+ 17. THE XERO PARSER GOT WRITTEN AFTER ALL, and item 16 above was wrong about the
+     hard part. Threading the email subject through parse_pdf was the wrong fix:
+     it changes a shared interface, and it leaves the parser UNCOVERABLE, because
+     the corpus stores PDFs by content hash and has no subject to replay. A
+     parser the harness cannot see is precisely how Foodlink and FFT rotted, so
+     that was not an acceptable shape.
+
+     The vendor IS on the page: it is the ABN THAT IS NOT OURS. Reading "the
+     first ABN" is the trap (Stowaway's own 17 606 243 921 is printed above the
+     supplier's on half these templates, so it appears on invoices from five
+     different vendors), but taking every ABN and dropping our own leaves exactly
+     one candidate on every invoice bar a single SYMSAFE credit note that
+     references a second party — and that one returns None and stays in Review.
+     Explicit ABN -> supplier_key registry; an unregistered vendor is never
+     guessed. No interface change, and post.xero.com now has a DOMAIN_KEY entry
+     so build_corpus collects it and this table scores it like any other parser.
+
+     Three tax conventions had to be told apart, and NOT by keyword:
+       Grifter    Subtotal 270.50 + "TOTAL GST 10% 27.05" -> TOTAL AUD 297.55
+       Speed Gas  one line at 64.40, "INCLUDES GST 10% 5.85", TOTAL AUD 64.40
+     The same-looking Amount column is EX on one and INC on the other. The parser
+     decides by ARITHMETIC against the printed total — whichever hypothesis
+     reconciles wins, and if neither does it changes nothing and lets the
+     validator refuse the invoice.
+
+     xero 17/22. The 5 remaining: 3 unhandled template variants, 1 credit note
+     with an ambiguous vendor, and Twin Fin Studio's $4,400 design invoice, which
+     parses fine and is held by SANITY_BOUNDS — a non-food service line hitting a
+     food bound, correctly going to a human. TOTAL 422/430 -> 439/452 (97%); the
+     percentage went DOWN because the unhandled Xero templates are now counted
+     rather than invisible, which is the honest direction.
+
+     Two things worth recording about how this went:
+       * The identity audit added this morning flagged the new parser within
+         minutes ("XPA 200"). It turned out to be Philter's real item code,
+         printed as two tokens inside the Item column — allowlisted with the
+         evidence. The check earned its keep on the day it was written, and the
+         answer was to read the invoice rather than widen the rule.
+       * A fixture test written from a header I had labelled "Speed Gas" was
+         actually Cordless Filter's "Quantity(L)", and it failed — revealing that
+         stripping non-letters turned that into "QuantityL" and matched nothing.
+         Brackets now come off before letters do, and two more invoices parse.
+
   STILL DELIBERATELY OPEN, with reasons:
   * The three $0.00 documents (be_foods d02385290774, ilg e23ce69fe899 +
     b46bfb0a542a). The 08-14 entry wanted a $0.00 gate because they "cost an LLM
@@ -468,7 +511,13 @@ def main() -> int:
     # genuinely holds multi-word codes ("Barra FSO", "Squid - LW"), so its
     # whitespace is the supplier's own and collapsing it would MERGE distinct
     # products — the opposite of the FFT bug.
-    WHITESPACE_OK = {"nicholas_seafood"}
+    # xero: Philter's own item code is "XPA 200", printed as two tokens ("XPA" at
+    # x=31, "200" at x=47) BOTH inside the Item column, with the description
+    # starting cleanly at the Description anchor x=85. Verified on PHIN-56956 and
+    # PHIN-57196 — the supplier's whitespace, not a bleed. (This check earned its
+    # keep the day it was written: it flagged the brand-new xero parser within
+    # minutes, and the flag had to be read rather than assumed.)
+    WHITESPACE_OK = {"nicholas_seafood", "xero"}
     dirty = {k: sorted(c for c in v if " " in c)
              for k, v in codes.items() if k not in WHITESPACE_OK}
     dirty = {k: v for k, v in dirty.items() if v}

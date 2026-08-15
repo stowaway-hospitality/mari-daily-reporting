@@ -166,12 +166,24 @@ def _feed_by_code():
 
 
 def test_market_bunch_is_not_swallowed_by_the_single_bunch():
+    """BOTH packs must survive. That is the whole protection.
+
+    The price comparison below is only made when the two are quoted in the SAME
+    unit. Once Zak confirmed a market bunch of chives is 125 g (2026-08-15), HCMB
+    became a per-GRAM entry at $123.20/kg while HCBCH is still per BUNCH at
+    $2.42 — comparing 0.1232 against 2.42 says nothing at all, and an earlier
+    version of this test did exactly that and went red on an improvement.
+    """
     by = _feed_by_code()
     for dear, cheap in (("HCMB", "HCBCH"), ("HCDRMB", "HCB")):
         assert dear in by, (
             f"{dear} vanished — the dearer pack was merged away into {cheap}, "
             f"which understates every recipe that uses it")
         assert cheap in by, f"{cheap} missing"
+        assert by[dear][0]["id"] != by[cheap][0]["id"], (
+            f"{dear} and {cheap} collapsed onto one id")
+        if by[dear][0]["pack_unit"] != by[cheap][0]["pack_unit"]:
+            continue                       # not comparable; survival is the point
         d = float(by[dear][0]["cost_per_base_unit"])
         c = float(by[cheap][0]["cost_per_base_unit"])
         assert d > c * 1.5, (
@@ -185,9 +197,29 @@ def test_names_stay_unique_even_when_two_packs_share_a_name():
     feed = _feed()
     counts = Counter((i["supplier"], i["description"]) for i in feed["ingredients"])
     assert not {k: n for k, n in counts.items() if n > 1}
+    # Exactly one of a colliding pair carries the disambiguating code — WHICH one
+    # is not pinned. `_rank` prefers a weight/volume entry, so once a market bunch
+    # gets a real gram pack it becomes the primary and its per-bunch sibling takes
+    # the suffix instead. That flip is an improvement, not a regression.
     by = _feed_by_code()
-    if "HCMB" in by:
-        assert "HCMB" in by["HCMB"][0]["description"]
+    if "HCMB" in by and "HCBCH" in by:
+        pair = [by["HCMB"][0]["description"], by["HCBCH"][0]["description"]]
+        assert sum(("HCMB" in d or "HCBCH" in d) for d in pair) == 1, pair
+
+
+def test_a_brand_is_appended_when_the_invoice_drops_it():
+    """B&E invoices name the category and size but not the brand, so the pizza
+    sauce Marilyna's uses on everything read as "Tomato - Pizza Sauce" and could
+    not be found by searching the name anyone actually says. Their own catalogue
+    calls code 14580 "... #Kau04-4 Kagome"."""
+    assert bi.with_brand("B&E", "14580", "Tomato - Pizza Sauce") \
+        == "Tomato - Pizza Sauce Kagome"
+    # composes, and never doubles up
+    assert bi.with_brand("B&E", "14580", "Tomato - Pizza Sauce Kagome") \
+        == "Tomato - Pizza Sauce Kagome"
+    # a supplier/code with no brand recorded is untouched
+    assert bi.with_brand("B&E", "99999", "Something Else") == "Something Else"
+    assert bi.with_brand("Foodlink", "14580", "Not B&E's 14580") == "Not B&E's 14580"
 
 
 def test_same_priced_packs_of_one_product_still_collapse():

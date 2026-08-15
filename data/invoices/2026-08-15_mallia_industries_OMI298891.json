@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "mallia_industries",
+    "supplier_name_raw": "Urbun Bakery",
+    "invoice_ref": "OMI298891",
+    "invoice_date": "2026-08-15",
+    "total_incl": "111.72",
+    "lines": [
+      {
+        "description": "Sliced T2 Milk Bun (85g) - White Sesame",
+        "qty": "90.00",
+        "line_total_incl": "88.20",
+        "unit_price_incl": "0.9800",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "ST285-WS",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "0.085",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Turkish/Focaccia Bread (120g)",
+        "qty": "24.00",
+        "line_total_incl": "23.52",
+        "unit_price_incl": "0.9800",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "TFB120",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "0.12",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-08-22",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "a2b4e78472e2bd716e80634551809513a4e9040ef37f0ebdf6ecc408cfca1165.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "111.72",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "Sliced T2 Milk Bun (85g) - White Sesame",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "supplier name looks like Purchases - Food"
+      },
+      {
+        "description": "Turkish/Focaccia Bread (120g)",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "supplier name looks like Purchases - Food"
+      }
+    ]
+  }
+}
