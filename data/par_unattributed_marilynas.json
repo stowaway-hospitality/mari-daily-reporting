@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-15T15:49:31.722589+10:00",
+  "generated_at": "2026-08-15T16:15:39.480342+10:00",
   "venue": "mari",
   "venue_label": "Marilyna's",
   "stock_venue": "stow",
@@ -18,22 +18,58 @@
     "other_unattributed": "Reached no par SKU and is neither stock-bearing by reporting group nor a finished good — today this is 'Delivery Alcohol', real bottles and cans whose group name the stock-bearing regex does not match. Outside the gate's remit, exactly as at the other two venues, but listed so it is never silent.",
     "auto_unresolved": "Lines MariNameRule was asked about and refused, with the nearest Stowaway par SKU by container base where there is one. The work queue: each is one explicit alias away. Pizzas are excluded — they are `needs_recipe`, not an alias to write."
   },
-  "aliases_in_force": 0,
-  "cross_venue_aliases": {},
+  "aliases_in_force": 35,
+  "cross_venue_aliases": {
+    "Asahi 3.5% 6-pack D": "stow:Asahi 3.5%",
+    "Asahi 3.5% D": "stow:Asahi 3.5%",
+    "Better Beer D": "stow:Better Beer Tin",
+    "Big Sur IPA 4-pack D": "stow:Grifter Big Sur IPA Tin",
+    "Big Sur IPA D (old)": "stow:Grifter Big Sur IPA Tin",
+    "Btl A. Rodda Tempranillo D": "stow:A. Rodda Tempranillo - Bottle",
+    "Btl Fever-Tree Light Tonic D": "stow:Fever-Tree Naturally Light Tonic [Bottle]",
+    "Btl Fever-Tree Mediterannean Tonic D": "stow:Fever-Tree Mediterannean Tonic [Bottle]",
+    "Btl Ottelia Cab Sav D": "stow:Ottelia Cab Sav - Bottle",
+    "Btl Padrillos Malbec D": "stow:Padrillos Malbec - Bottle",
+    "Btl Sigurd Red Blend D": "stow:Sigurd GSM Red Blend - Bottle",
+    "Btl Version 2 Pinot Grigio D": "stow:Version Two Pinot Grigio - Bottle",
+    "Btl Villa Fresco Sangiovese D": "stow:Villa Fresco Sangiovese - Bottle",
+    "Bundaberg Ginger Beer D": "stow:Bundaberg Ginger Beer [750ml]",
+    "Casa Gheller Prosecco D": "stow:Casa Gheller Prosecco - Bottle",
+    "Corona 6-pack D": "stow:Corona",
+    "Corona D": "stow:Corona",
+    "Fellr Watermelon Seltzer Seltzer 4-pack": "stow:Fellr Watermelon Seltzer Tin",
+    "Fellr Watermelon Seltzer Seltzer D": "stow:Fellr Watermelon Seltzer Tin",
+    "Geppetto Pinot Noir D": "stow:Geppetto Pinot Noir - Bottle",
+    "Grifter Pale Ale 4-pack D": "stow:Grifter Pale Ale Cans D",
+    "Heaps Normal 4-pack D": "stow:Heaps Normal Tin",
+    "Heaps Normal XPA D": "stow:Heaps Normal Tin",
+    "Kuku Sauvignon Blanc D": "stow:Kuku Sauvignon Blanc - Bottle",
+    "Mothers Milk Shiraz D": "stow:Mother's Milk Shiraz - Bottle",
+    "Omen Stout 4-pack": "stow:Grifter Omen Stout Tin",
+    "Omen Stout Can D": "stow:Grifter Omen Stout Tin",
+    "Peroni 6-pack D": "stow:Peroni",
+    "Peroni D": "stow:Peroni",
+    "Petits Detours Rosé D": "stow:Petits Detours Rosé Mediterranee - Bottle",
+    "San Pellegrino 500ml D": "stow:San Pellegrino 500ml",
+    "Trentham Estate Rosé D": "stow:Trentham Estate Rosé - Bottle",
+    "Unico Zelo Terra Cotta D": "stow:Unico Zelo Terra Cotta - Bottle",
+    "VB Can 4-pack": "stow:VB Tinnie",
+    "VB Can D": "stow:VB Tinnie"
+  },
   "alias_targets_not_found": {},
   "summary": {
-    "attributed_lines": 11,
-    "attributed_qty_per_week": 29.69,
-    "attributed_revenue_ex_gst": 1635.82,
+    "attributed_lines": 45,
+    "attributed_qty_per_week": 39.59,
+    "attributed_revenue_ex_gst": 3602.06,
     "auto_resolved_lines": 11,
-    "auto_unresolved_lines": 39,
+    "auto_unresolved_lines": 5,
     "needs_recipe_lines": 217,
     "needs_recipe_qty_per_week": 668.55,
     "needs_recipe_revenue_ex_gst": 137846.51,
-    "unattributed_lines": 2,
-    "unattributed_revenue_ex_gst": 214.31,
-    "other_unattributed_lines": 37,
-    "other_unattributed_revenue_ex_gst": 1842.65,
+    "unattributed_lines": 0,
+    "unattributed_revenue_ex_gst": 0,
+    "other_unattributed_lines": 5,
+    "other_unattributed_revenue_ex_gst": 90.72,
     "intentionally_unattributed_lines": 0
   },
   "attributed_to_other_venue": [
@@ -68,6 +104,16 @@
       "via": "mari_name_rule"
     },
     {
+      "product": "Grifter Pale Ale 4-pack D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 12.0,
+      "qty_per_week": 0.92,
+      "revenue_ex_gst_window": 186.35,
+      "target_venue": "stow",
+      "target_sku": "Grifter Pale Ale Cans D",
+      "via": "alias"
+    },
+    {
       "product": "Coke Can",
       "reporting_group": "Marilyna's Soft Drinks",
       "qty_window": 61.0,
@@ -76,6 +122,26 @@
       "target_venue": "stow",
       "target_sku": "Coke Can",
       "via": "mari_name_rule"
+    },
+    {
+      "product": "Petits Detours Rosé D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 6.0,
+      "qty_per_week": 0.46,
+      "revenue_ex_gst_window": 177.45,
+      "target_venue": "stow",
+      "target_sku": "Petits Detours Rosé Mediterranee - Bottle",
+      "via": "alias"
+    },
+    {
+      "product": "Kuku Sauvignon Blanc D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 7.0,
+      "qty_per_week": 0.54,
+      "revenue_ex_gst_window": 169.35,
+      "target_venue": "stow",
+      "target_sku": "Kuku Sauvignon Blanc - Bottle",
+      "via": "alias"
     },
     {
       "product": "Sprite Can",
@@ -88,6 +154,46 @@
       "via": "mari_name_rule"
     },
     {
+      "product": "Mothers Milk Shiraz D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 5.0,
+      "qty_per_week": 0.38,
+      "revenue_ex_gst_window": 136.36,
+      "target_venue": "stow",
+      "target_sku": "Mother's Milk Shiraz - Bottle",
+      "via": "alias"
+    },
+    {
+      "product": "Casa Gheller Prosecco D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 5.0,
+      "qty_per_week": 0.38,
+      "revenue_ex_gst_window": 130.9,
+      "target_venue": "stow",
+      "target_sku": "Casa Gheller Prosecco - Bottle",
+      "via": "alias"
+    },
+    {
+      "product": "Bundaberg Ginger Beer D",
+      "reporting_group": "Marilyna's Soft Drinks",
+      "qty_window": 16.0,
+      "qty_per_week": 1.23,
+      "revenue_ex_gst_window": 116.14,
+      "target_venue": "stow",
+      "target_sku": "Bundaberg Ginger Beer [750ml]",
+      "via": "alias"
+    },
+    {
+      "product": "Big Sur IPA 4-pack D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 5.0,
+      "qty_per_week": 0.38,
+      "revenue_ex_gst_window": 114.44,
+      "target_venue": "stow",
+      "target_sku": "Grifter Big Sur IPA Tin",
+      "via": "alias"
+    },
+    {
       "product": "Solo 1.25L",
       "reporting_group": "Marilyna's Soft Drinks",
       "qty_window": 20.0,
@@ -96,6 +202,26 @@
       "target_venue": "stow",
       "target_sku": "Solo 1.25L",
       "via": "mari_name_rule"
+    },
+    {
+      "product": "Btl Version 2 Pinot Grigio D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 5.0,
+      "qty_per_week": 0.38,
+      "revenue_ex_gst_window": 102.78,
+      "target_venue": "stow",
+      "target_sku": "Version Two Pinot Grigio - Bottle",
+      "via": "alias"
+    },
+    {
+      "product": "San Pellegrino 500ml D",
+      "reporting_group": "Marilyna's Soft Drinks",
+      "qty_window": 15.0,
+      "qty_per_week": 1.15,
+      "revenue_ex_gst_window": 98.17,
+      "target_venue": "stow",
+      "target_sku": "San Pellegrino 500ml",
+      "via": "alias"
     },
     {
       "product": "Sprite 1.25L",
@@ -108,6 +234,36 @@
       "via": "mari_name_rule"
     },
     {
+      "product": "Geppetto Pinot Noir D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 77.23,
+      "target_venue": "stow",
+      "target_sku": "Geppetto Pinot Noir - Bottle",
+      "via": "alias"
+    },
+    {
+      "product": "Btl Sigurd Red Blend D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 76.95,
+      "target_venue": "stow",
+      "target_sku": "Sigurd GSM Red Blend - Bottle",
+      "via": "alias"
+    },
+    {
+      "product": "Corona 6-pack D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 4.0,
+      "qty_per_week": 0.31,
+      "revenue_ex_gst_window": 76.82,
+      "target_venue": "stow",
+      "target_sku": "Corona",
+      "via": "alias"
+    },
+    {
       "product": "Grifter Pale Ale Cans D",
       "reporting_group": "Delivery Alcohol",
       "qty_window": 12.0,
@@ -116,6 +272,16 @@
       "target_venue": "stow",
       "target_sku": "Grifter Pale Ale Cans D",
       "via": "mari_name_rule"
+    },
+    {
+      "product": "Btl Villa Fresco Sangiovese D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 68.19,
+      "target_venue": "stow",
+      "target_sku": "Villa Fresco Sangiovese - Bottle",
+      "via": "alias"
     },
     {
       "product": "Grifter Serpents Kiss Can",
@@ -128,6 +294,66 @@
       "via": "mari_name_rule"
     },
     {
+      "product": "Asahi 3.5% 6-pack D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 42.18,
+      "target_venue": "stow",
+      "target_sku": "Asahi 3.5%",
+      "via": "alias"
+    },
+    {
+      "product": "VB Can D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 7.0,
+      "qty_per_week": 0.54,
+      "revenue_ex_gst_window": 38.15,
+      "target_venue": "stow",
+      "target_sku": "VB Tinnie",
+      "via": "alias"
+    },
+    {
+      "product": "Btl Ottelia Cab Sav D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 32.86,
+      "target_venue": "stow",
+      "target_sku": "Ottelia Cab Sav - Bottle",
+      "via": "alias"
+    },
+    {
+      "product": "Btl Padrillos Malbec D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 32.73,
+      "target_venue": "stow",
+      "target_sku": "Padrillos Malbec - Bottle",
+      "via": "alias"
+    },
+    {
+      "product": "VB Can 4-pack",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 30.0,
+      "target_venue": "stow",
+      "target_sku": "VB Tinnie",
+      "via": "alias"
+    },
+    {
+      "product": "Unico Zelo Terra Cotta D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 24.54,
+      "target_venue": "stow",
+      "target_sku": "Unico Zelo Terra Cotta - Bottle",
+      "via": "alias"
+    },
+    {
       "product": "Sunkist 1.25L",
       "reporting_group": "Marilyna's Soft Drinks",
       "qty_window": 4.0,
@@ -138,6 +364,146 @@
       "via": "mari_name_rule"
     },
     {
+      "product": "Peroni 6-pack D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 22.73,
+      "target_venue": "stow",
+      "target_sku": "Peroni",
+      "via": "alias"
+    },
+    {
+      "product": "Trentham Estate Rosé D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 22.73,
+      "target_venue": "stow",
+      "target_sku": "Trentham Estate Rosé - Bottle",
+      "via": "alias"
+    },
+    {
+      "product": "Omen Stout 4-pack",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 22.73,
+      "target_venue": "stow",
+      "target_sku": "Grifter Omen Stout Tin",
+      "via": "alias"
+    },
+    {
+      "product": "Heaps Normal XPA D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 19.93,
+      "target_venue": "stow",
+      "target_sku": "Heaps Normal Tin",
+      "via": "alias"
+    },
+    {
+      "product": "Omen Stout Can D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 19.72,
+      "target_venue": "stow",
+      "target_sku": "Grifter Omen Stout Tin",
+      "via": "alias"
+    },
+    {
+      "product": "Btl A. Rodda Tempranillo D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 19.64,
+      "target_venue": "stow",
+      "target_sku": "A. Rodda Tempranillo - Bottle",
+      "via": "alias"
+    },
+    {
+      "product": "Heaps Normal 4-pack D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 18.18,
+      "target_venue": "stow",
+      "target_sku": "Heaps Normal Tin",
+      "via": "alias"
+    },
+    {
+      "product": "Corona D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 16.35,
+      "target_venue": "stow",
+      "target_sku": "Corona",
+      "via": "alias"
+    },
+    {
+      "product": "Big Sur IPA D (old)",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 14.54,
+      "target_venue": "stow",
+      "target_sku": "Grifter Big Sur IPA Tin",
+      "via": "alias"
+    },
+    {
+      "product": "Btl Fever-Tree Light Tonic D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 12.72,
+      "target_venue": "stow",
+      "target_sku": "Fever-Tree Naturally Light Tonic [Bottle]",
+      "via": "alias"
+    },
+    {
+      "product": "Btl Fever-Tree Mediterannean Tonic D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 12.72,
+      "target_venue": "stow",
+      "target_sku": "Fever-Tree Mediterannean Tonic [Bottle]",
+      "via": "alias"
+    },
+    {
+      "product": "Peroni D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 10.9,
+      "target_venue": "stow",
+      "target_sku": "Peroni",
+      "via": "alias"
+    },
+    {
+      "product": "Better Beer D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 10.9,
+      "target_venue": "stow",
+      "target_sku": "Better Beer Tin",
+      "via": "alias"
+    },
+    {
+      "product": "Asahi 3.5% D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 6.5,
+      "target_venue": "stow",
+      "target_sku": "Asahi 3.5%",
+      "via": "alias"
+    },
+    {
       "product": "4 Pines Kolsch Bottle D",
       "reporting_group": "Delivery Alcohol",
       "qty_window": 1.0,
@@ -146,6 +512,16 @@
       "target_venue": "stow",
       "target_sku": "4 Pines Kolsch Bottle D",
       "via": "mari_name_rule"
+    },
+    {
+      "product": "Fellr Watermelon Seltzer Seltzer D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 4.36,
+      "target_venue": "stow",
+      "target_sku": "Fellr Watermelon Seltzer Tin",
+      "via": "alias"
     }
   ],
   "auto_resolved": [
@@ -262,141 +638,6 @@
   ],
   "auto_unresolved": [
     {
-      "pos_line": "Grifter Pale Ale 4-pack D",
-      "stripped": "Grifter Pale Ale 4-pack D",
-      "reason": "no stow par SKU matches 'Grifter Pale Ale 4-pack D' exactly",
-      "still_unattributed": true,
-      "qty_window": 12.0,
-      "qty_per_week": 0.92,
-      "revenue_ex_gst_window": 186.35
-    },
-    {
-      "pos_line": "Petits Detours Rosé D",
-      "stripped": "Petits Detours Rosé D",
-      "reason": "no stow par SKU matches 'Petits Detours Rosé D' exactly",
-      "still_unattributed": true,
-      "qty_window": 6.0,
-      "qty_per_week": 0.46,
-      "revenue_ex_gst_window": 177.45
-    },
-    {
-      "pos_line": "Kuku Sauvignon Blanc D",
-      "stripped": "Kuku Sauvignon Blanc D",
-      "reason": "no stow par SKU matches 'Kuku Sauvignon Blanc D' exactly (nearest stow par SKU by container base: 'Kuku Sauvignon Blanc - Bottle' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 7.0,
-      "qty_per_week": 0.54,
-      "revenue_ex_gst_window": 169.35
-    },
-    {
-      "pos_line": "Mothers Milk Shiraz D",
-      "stripped": "Mothers Milk Shiraz D",
-      "reason": "no stow par SKU matches 'Mothers Milk Shiraz D' exactly (nearest stow par SKU by container base: \"Mother's Milk Shiraz - Bottle\" — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 5.0,
-      "qty_per_week": 0.38,
-      "revenue_ex_gst_window": 136.36
-    },
-    {
-      "pos_line": "Casa Gheller Prosecco D",
-      "stripped": "Casa Gheller Prosecco D",
-      "reason": "no stow par SKU matches 'Casa Gheller Prosecco D' exactly (nearest stow par SKU by container base: 'Casa Gheller Prosecco - Bottle' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 5.0,
-      "qty_per_week": 0.38,
-      "revenue_ex_gst_window": 130.9
-    },
-    {
-      "pos_line": "Bundaberg Ginger Beer D",
-      "stripped": "Bundaberg Ginger Beer D",
-      "reason": "no stow par SKU matches 'Bundaberg Ginger Beer D' exactly (nearest stow par SKU by container base: 'Bundaberg Ginger Beer [750ml]' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 16.0,
-      "qty_per_week": 1.23,
-      "revenue_ex_gst_window": 116.14
-    },
-    {
-      "pos_line": "Big Sur IPA 4-pack D",
-      "stripped": "Big Sur IPA 4-pack D",
-      "reason": "no stow par SKU matches 'Big Sur IPA 4-pack D' exactly",
-      "still_unattributed": true,
-      "qty_window": 5.0,
-      "qty_per_week": 0.38,
-      "revenue_ex_gst_window": 114.44
-    },
-    {
-      "pos_line": "Btl Version 2 Pinot Grigio D",
-      "stripped": "Btl Version 2 Pinot Grigio D",
-      "reason": "no stow par SKU matches 'Btl Version 2 Pinot Grigio D' exactly",
-      "still_unattributed": true,
-      "qty_window": 5.0,
-      "qty_per_week": 0.38,
-      "revenue_ex_gst_window": 102.78
-    },
-    {
-      "pos_line": "San Pellegrino 500ml D",
-      "stripped": "San Pellegrino 500ml D",
-      "reason": "no stow par SKU matches 'San Pellegrino 500ml D' exactly (nearest stow par SKU by container base: 'San Pellegrino 500ml' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 15.0,
-      "qty_per_week": 1.15,
-      "revenue_ex_gst_window": 98.17
-    },
-    {
-      "pos_line": "Geppetto Pinot Noir D",
-      "stripped": "Geppetto Pinot Noir D",
-      "reason": "no stow par SKU matches 'Geppetto Pinot Noir D' exactly (nearest stow par SKU by container base: 'Geppetto Pinot Noir - Bottle' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 77.23
-    },
-    {
-      "pos_line": "Btl Sigurd Red Blend D",
-      "stripped": "Btl Sigurd Red Blend D",
-      "reason": "no stow par SKU matches 'Btl Sigurd Red Blend D' exactly",
-      "still_unattributed": true,
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 76.95
-    },
-    {
-      "pos_line": "Corona 6-pack D",
-      "stripped": "Corona 6-pack D",
-      "reason": "no stow par SKU matches 'Corona 6-pack D' exactly",
-      "still_unattributed": true,
-      "qty_window": 4.0,
-      "qty_per_week": 0.31,
-      "revenue_ex_gst_window": 76.82
-    },
-    {
-      "pos_line": "Btl Villa Fresco Sangiovese D",
-      "stripped": "Btl Villa Fresco Sangiovese D",
-      "reason": "no stow par SKU matches 'Btl Villa Fresco Sangiovese D' exactly",
-      "still_unattributed": true,
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 68.19
-    },
-    {
-      "pos_line": "Asahi 3.5% 6-pack D",
-      "stripped": "Asahi 3.5% 6-pack D",
-      "reason": "no stow par SKU matches 'Asahi 3.5% 6-pack D' exactly",
-      "still_unattributed": true,
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 42.18
-    },
-    {
-      "pos_line": "VB Can D",
-      "stripped": "VB Can D",
-      "reason": "no stow par SKU matches 'VB Can D' exactly (nearest stow par SKU by container base: 'VB Tinnie' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 7.0,
-      "qty_per_week": 0.54,
-      "revenue_ex_gst_window": 38.15
-    },
-    {
       "pos_line": "Fellr Watermelon Seltzer Seltzer 4-pack D",
       "stripped": "Fellr Watermelon Seltzer Seltzer 4-pack D",
       "reason": "no stow par SKU matches 'Fellr Watermelon Seltzer Seltzer 4-pack D' exactly",
@@ -406,72 +647,9 @@
       "revenue_ex_gst_window": 33.99
     },
     {
-      "pos_line": "Btl Ottelia Cab Sav D",
-      "stripped": "Btl Ottelia Cab Sav D",
-      "reason": "no stow par SKU matches 'Btl Ottelia Cab Sav D' exactly",
-      "still_unattributed": true,
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 32.86
-    },
-    {
-      "pos_line": "Btl Padrillos Malbec D",
-      "stripped": "Btl Padrillos Malbec D",
-      "reason": "no stow par SKU matches 'Btl Padrillos Malbec D' exactly",
-      "still_unattributed": true,
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 32.73
-    },
-    {
-      "pos_line": "VB Can 4-pack",
-      "stripped": "VB Can 4-pack",
-      "reason": "no stow par SKU matches 'VB Can 4-pack' exactly",
-      "still_unattributed": true,
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 30.0
-    },
-    {
-      "pos_line": "Unico Zelo Terra Cotta D",
-      "stripped": "Unico Zelo Terra Cotta D",
-      "reason": "no stow par SKU matches 'Unico Zelo Terra Cotta D' exactly (nearest stow par SKU by container base: 'Unico Zelo Terra Cotta - Bottle' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 24.54
-    },
-    {
-      "pos_line": "Omen Stout 4-pack",
-      "stripped": "Omen Stout 4-pack",
-      "reason": "no stow par SKU matches 'Omen Stout 4-pack' exactly",
-      "still_unattributed": true,
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 22.73
-    },
-    {
-      "pos_line": "Peroni 6-pack D",
-      "stripped": "Peroni 6-pack D",
-      "reason": "no stow par SKU matches 'Peroni 6-pack D' exactly",
-      "still_unattributed": true,
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 22.73
-    },
-    {
       "pos_line": "Pink Galah 4-pack D",
       "stripped": "Pink Galah 4-pack D",
       "reason": "no stow par SKU matches 'Pink Galah 4-pack D' exactly",
-      "still_unattributed": true,
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 22.73
-    },
-    {
-      "pos_line": "Trentham Estate Rosé D",
-      "stripped": "Trentham Estate Rosé D",
-      "reason": "no stow par SKU matches 'Trentham Estate Rosé D' exactly (nearest stow par SKU by container base: 'Trentham Estate Rosé - Bottle' — write an explicit alias if that is the same stock)",
       "still_unattributed": true,
       "qty_window": 1.0,
       "qty_per_week": 0.08,
@@ -487,96 +665,6 @@
       "revenue_ex_gst_window": 20.37
     },
     {
-      "pos_line": "Heaps Normal XPA D",
-      "stripped": "Heaps Normal XPA D",
-      "reason": "no stow par SKU matches 'Heaps Normal XPA D' exactly",
-      "still_unattributed": true,
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 19.93
-    },
-    {
-      "pos_line": "Omen Stout Can D",
-      "stripped": "Omen Stout Can D",
-      "reason": "no stow par SKU matches 'Omen Stout Can D' exactly",
-      "still_unattributed": true,
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 19.72
-    },
-    {
-      "pos_line": "Btl A. Rodda Tempranillo D",
-      "stripped": "Btl A. Rodda Tempranillo D",
-      "reason": "no stow par SKU matches 'Btl A. Rodda Tempranillo D' exactly",
-      "still_unattributed": true,
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 19.64
-    },
-    {
-      "pos_line": "Heaps Normal 4-pack D",
-      "stripped": "Heaps Normal 4-pack D",
-      "reason": "no stow par SKU matches 'Heaps Normal 4-pack D' exactly",
-      "still_unattributed": true,
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 18.18
-    },
-    {
-      "pos_line": "Corona D",
-      "stripped": "Corona D",
-      "reason": "no stow par SKU matches 'Corona D' exactly (nearest stow par SKU by container base: 'Corona' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 16.35
-    },
-    {
-      "pos_line": "Big Sur IPA D (old)",
-      "stripped": "Big Sur IPA D (old)",
-      "reason": "no stow par SKU matches 'Big Sur IPA D (old)' exactly",
-      "still_unattributed": true,
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 14.54
-    },
-    {
-      "pos_line": "Btl Fever-Tree Light Tonic D",
-      "stripped": "Btl Fever-Tree Light Tonic D",
-      "reason": "no stow par SKU matches 'Btl Fever-Tree Light Tonic D' exactly",
-      "still_unattributed": true,
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 12.72
-    },
-    {
-      "pos_line": "Btl Fever-Tree Mediterannean Tonic D",
-      "stripped": "Btl Fever-Tree Mediterannean Tonic D",
-      "reason": "no stow par SKU matches 'Btl Fever-Tree Mediterannean Tonic D' exactly",
-      "still_unattributed": true,
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 12.72
-    },
-    {
-      "pos_line": "Better Beer D",
-      "stripped": "Better Beer D",
-      "reason": "no stow par SKU matches 'Better Beer D' exactly (nearest stow par SKU by container base: 'Better Beer Tin' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 10.9
-    },
-    {
-      "pos_line": "Peroni D",
-      "stripped": "Peroni D",
-      "reason": "no stow par SKU matches 'Peroni D' exactly (nearest stow par SKU by container base: 'Peroni' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 10.9
-    },
-    {
       "pos_line": "Pink Galah Can D",
       "stripped": "Pink Galah Can D",
       "reason": "no stow par SKU matches 'Pink Galah Can D' exactly",
@@ -586,15 +674,6 @@
       "revenue_ex_gst_window": 7.27
     },
     {
-      "pos_line": "Asahi 3.5% D",
-      "stripped": "Asahi 3.5% D",
-      "reason": "no stow par SKU matches 'Asahi 3.5% D' exactly (nearest stow par SKU by container base: 'Asahi 3.5%' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 6.5
-    },
-    {
       "pos_line": "Status Quo Can D",
       "stripped": "Status Quo Can D",
       "reason": "no stow par SKU matches 'Status Quo Can D' exactly (nearest stow par SKU by container base: 'Status Quo [Keg]' — write an explicit alias if that is the same stock)",
@@ -602,15 +681,6 @@
       "qty_window": 1.0,
       "qty_per_week": 0.08,
       "revenue_ex_gst_window": 6.36
-    },
-    {
-      "pos_line": "Fellr Watermelon Seltzer Seltzer D",
-      "stripped": "Fellr Watermelon Seltzer Seltzer D",
-      "reason": "no stow par SKU matches 'Fellr Watermelon Seltzer Seltzer D' exactly",
-      "still_unattributed": true,
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 4.36
     }
   ],
   "needs_recipe": [
@@ -2568,213 +2638,14 @@
       "classification": "needs_recipe"
     }
   ],
-  "unattributed": [
-    {
-      "product": "Bundaberg Ginger Beer D",
-      "reporting_group": "Marilyna's Soft Drinks",
-      "qty_window": 16.0,
-      "qty_per_week": 1.23,
-      "revenue_ex_gst_window": 116.14,
-      "stock_bearing": true,
-      "classification": "alias_failure"
-    },
-    {
-      "product": "San Pellegrino 500ml D",
-      "reporting_group": "Marilyna's Soft Drinks",
-      "qty_window": 15.0,
-      "qty_per_week": 1.15,
-      "revenue_ex_gst_window": 98.17,
-      "stock_bearing": true,
-      "classification": "alias_failure"
-    }
-  ],
+  "unattributed": [],
   "other_unattributed": [
-    {
-      "product": "Grifter Pale Ale 4-pack D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 12.0,
-      "qty_per_week": 0.92,
-      "revenue_ex_gst_window": 186.35,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Petits Detours Rosé D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 6.0,
-      "qty_per_week": 0.46,
-      "revenue_ex_gst_window": 177.45,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Kuku Sauvignon Blanc D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 7.0,
-      "qty_per_week": 0.54,
-      "revenue_ex_gst_window": 169.35,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Mothers Milk Shiraz D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 5.0,
-      "qty_per_week": 0.38,
-      "revenue_ex_gst_window": 136.36,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Casa Gheller Prosecco D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 5.0,
-      "qty_per_week": 0.38,
-      "revenue_ex_gst_window": 130.9,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Big Sur IPA 4-pack D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 5.0,
-      "qty_per_week": 0.38,
-      "revenue_ex_gst_window": 114.44,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Btl Version 2 Pinot Grigio D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 5.0,
-      "qty_per_week": 0.38,
-      "revenue_ex_gst_window": 102.78,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Geppetto Pinot Noir D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 77.23,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Btl Sigurd Red Blend D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 76.95,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Corona 6-pack D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 4.0,
-      "qty_per_week": 0.31,
-      "revenue_ex_gst_window": 76.82,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Btl Villa Fresco Sangiovese D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 68.19,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Asahi 3.5% 6-pack D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 42.18,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "VB Can D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 7.0,
-      "qty_per_week": 0.54,
-      "revenue_ex_gst_window": 38.15,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
     {
       "product": "Fellr Watermelon Seltzer Seltzer 4-pack D",
       "reporting_group": "Delivery Alcohol",
       "qty_window": 2.0,
       "qty_per_week": 0.15,
       "revenue_ex_gst_window": 33.99,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Btl Ottelia Cab Sav D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 32.86,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Btl Padrillos Malbec D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 32.73,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "VB Can 4-pack",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 30.0,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Unico Zelo Terra Cotta D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 24.54,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Peroni 6-pack D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 22.73,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Trentham Estate Rosé D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 22.73,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Omen Stout 4-pack",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 22.73,
       "stock_bearing": false,
       "classification": "not_stock_bearing"
     },
@@ -2797,96 +2668,6 @@
       "classification": "not_stock_bearing"
     },
     {
-      "product": "Heaps Normal XPA D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 19.93,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Omen Stout Can D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 19.72,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Btl A. Rodda Tempranillo D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 19.64,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Heaps Normal 4-pack D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 18.18,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Corona D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 16.35,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Big Sur IPA D (old)",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 14.54,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Btl Fever-Tree Light Tonic D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 12.72,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Btl Fever-Tree Mediterannean Tonic D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 12.72,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Peroni D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 10.9,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Better Beer D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 10.9,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
       "product": "Pink Galah Can D",
       "reporting_group": "Delivery Alcohol",
       "qty_window": 1.0,
@@ -2896,29 +2677,11 @@
       "classification": "not_stock_bearing"
     },
     {
-      "product": "Asahi 3.5% D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 6.5,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
       "product": "Status Quo Can D",
       "reporting_group": "Delivery Alcohol",
       "qty_window": 1.0,
       "qty_per_week": 0.08,
       "revenue_ex_gst_window": 6.36,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Fellr Watermelon Seltzer Seltzer D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 4.36,
       "stock_bearing": false,
       "classification": "not_stock_bearing"
     }

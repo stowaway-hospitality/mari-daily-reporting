@@ -30,6 +30,69 @@ SH = ROOT / "dashboard/_shared"
 IDX = ROOT / "dashboard/sales/index.html"
 MODULES = ["pnl.js", "util.js", "data.js", "render.js"]
 SIZE_CAP = 100 * 1024
+
+# ── R0 — the generated feeds the R8 suites read must be FRESH ───────────────
+#
+# The feeds below are gitignored: CI rebuilds them from scratch every run, so
+# they are always current there. A long-lived working copy is the opposite —
+# the feed sits on disk from whenever it was last built, and the R8 suites
+# happily assert against a stale one.
+#
+# What that looks like is the problem. You do not get "your feed is old", you
+# get "68 flags-family assertions, 3 failures" and a wall of produce lines, or
+# "assert 'yield-lamb-roast' not in {...}" — a specific, plausible, completely
+# fictional regression. It cost two separate debugging passes on 2026-08-15,
+# both of which concluded "pre-existing failure on main" about code that was
+# fine. Worse, it is exactly backwards: the guard is loudest when nothing is
+# wrong, and silent about the one thing that is.
+#
+# So: check the feed against its own inputs FIRST, and if it is behind, say so
+# and print the command. Cheap (a few stat calls), and it fails toward the
+# truth instead of toward a ghost.
+FEEDS = [
+    ("data/ingredients.json",
+     ["data/cogs_list.csv", "data/pack_overrides.yaml",
+      "modules/recipes/pipeline/build_ingredients.py"],
+     "python3 modules/recipes/pipeline/build_ingredients.py"),
+    ("data/cost_book_flags.json",
+     ["data/lightspeed_recipes_costed.json", "data/costs.csv", "data/cogs_list.csv",
+      "scripts/build_cost_book_flags.py"],
+     "python3 scripts/build_cost_book_flags.py"),
+    ("data/recipes_index.json",
+     ["data/lightspeed_recipes_costed.json", "data/costs.csv",
+      "modules/recipes/pipeline/build_recipe_feeds.py"],
+     "python3 modules/recipes/pipeline/build_recipe_feeds.py"),
+    ("data/recipes_full.json",
+     ["data/lightspeed_recipes_costed.json", "data/costs.csv",
+      "modules/recipes/pipeline/build_recipe_feeds.py"],
+     "python3 modules/recipes/pipeline/build_recipe_feeds.py"),
+]
+
+def stale_feeds():
+    """(stale, absent) — feeds that exist but are behind their inputs, and feeds
+    that are not there at all.
+
+    ONLY `stale` is a failure. An ABSENT feed is normal and safe: on a clean
+    checkout (which is every CI run) the feed does not exist yet at this point
+    in the workflow, and every R8 suite that reads one exits 0 when it is
+    missing — verified, not assumed. Failing on absence would red every CI run
+    on the first step. The dangerous state is the one in between: a feed that
+    is present, so the suites run, and old, so they assert against yesterday.
+    """
+    stale, absent = [], []
+    for rel, inputs, cmd in FEEDS:
+        feed = ROOT / rel
+        if not feed.exists():
+            absent.append(rel)
+            continue
+        f_mtime = feed.stat().st_mtime
+        newer = [i for i in inputs
+                 if (ROOT / i).exists() and (ROOT / i).stat().st_mtime > f_mtime]
+        if newer:
+            stale.append((rel, "older than " + ", ".join(newer), cmd))
+    return stale, absent
+
+
 FN_DECL = re.compile(r'(?m)^\s*function\s+([A-Za-z0-9_]+)\s*\(')
 DOM_TOKENS = re.compile(r'document\.|getElementById|innerHTML|addEventListener|querySelector|\.style\b|location\.|\bwindow\.|\.classList|\.textContent')
 problems = []
@@ -129,6 +192,28 @@ SUITES = [("model conservation", "scripts/test_pnl_model.mjs"),
           # family of question is actually on it. Zak has asked twice.
           ("cost book flags panel", "scripts/test_recipe_book_flags.mjs"),
           ("cost book flag families", "scripts/test_recipe_flags_families.mjs")]
+# R0 runs BEFORE R8, and stops here if it trips. Letting the suites run against
+# a stale feed is what produces the fictional regression this check exists to
+# prevent — reporting both would just bury the real cause under the ghost.
+_stale, _absent = stale_feeds()
+if _stale:
+    print("GENERATED FEEDS ARE STALE — not an architecture regression.\n")
+    for rel, why, cmd in _stale:
+        print(f"  ✗ {rel}  ({why})")
+    print("\nThese are gitignored, so CI always builds them fresh and only a "
+          "long-lived\nworking copy can drift. The R8 suites were NOT run: "
+          "against a stale feed they\nreport confident, specific, wrong "
+          "failures. Rebuild, then re-run this guard:\n")
+    for cmd in dict.fromkeys(c for _, _, c in _stale):
+        print(f"    {cmd}")
+    sys.exit(1)
+if _absent:
+    # Not a failure — but say it out loud, because the summary line below would
+    # otherwise claim all N suites "pass" when some of them quietly did nothing.
+    print(f"note: {len(_absent)} generated feed(s) not built yet "
+          f"({', '.join(_absent)});\n      the R8 suites that read them will "
+          f"skip. Normal on a clean checkout.")
+
 for label, rel in SUITES:
     t = ROOT / rel
     if not t.exists():

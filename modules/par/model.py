@@ -528,12 +528,25 @@ class AliasBook:
         # build's error output and the meta block stay readable; self.targets
         # holds the parsed (venue, sku) pair that the model actually uses.
         self.auto_rule = None
-        self.map, self.serve, self.targets = {}, {}, {}
+        self.map, self.serve, self.targets, self.pack = {}, {}, {}, {}
         for pos_name, val in raw.items():
             if isinstance(val, dict):
                 self.map[pos_name] = val.get("sku")
                 if val.get("serve_ml"):
                     self.serve[_norm(pos_name)] = float(val["serve_ml"])
+                # ONE RING, N UNITS OFF THE SHELF. Marilyna's sells the same
+                # beer as a single and as a 4- or 6-pack: 'Corona D' and
+                # 'Corona 6-pack D' are two till lines against one par SKU, and
+                # a 6-pack takes SIX cans off the shelf. Without this the
+                # aliased pack line contributes 1, and the par is short by the
+                # pack factor on every pack sold — the same shape of error as a
+                # carton price divided by one piece, which has now bitten this
+                # repo in the invoice reader twice.
+                #
+                # Stated data, not a guess: the count is in the till line's own
+                # name. An alias that omits `units` is 1:1 exactly as before.
+                if val.get("units"):
+                    self.pack[_norm(pos_name)] = float(val["units"])
             else:
                 self.map[pos_name] = val
             self.targets[pos_name] = parse_alias_target(self.map[pos_name], venue)
@@ -625,6 +638,11 @@ class AliasBook:
     def serve_ml(self, pos_name):
         """Explicit per-alias serve size in ml, or None to use the group rule."""
         return self.serve.get(_norm(pos_name))
+
+    def pack_units(self, pos_name):
+        """How many stock units ONE ring of this line takes off the shelf.
+        1.0 unless the alias says otherwise (a 4-pack, a 6-pack)."""
+        return self.pack.get(_norm(pos_name), 1.0)
 
     def is_intentional(self, pos_name):
         return _norm(pos_name) in self.intentional
@@ -1183,7 +1201,7 @@ def _wine_serve_ml(pos_name, bottle_size_ml):
     return WINE_REGULAR_ML
 
 
-def _alias_units(pos_name, rg, qty, sku, serve_ml=None):
+def _alias_units(pos_name, rg, qty, sku, serve_ml=None, pack_units=1.0):
     """Physical units of par SKU `sku` consumed by `qty` of an aliased POS line.
 
     The alias file says only WHICH par SKU a POS line belongs to. The unit
@@ -1191,7 +1209,12 @@ def _alias_units(pos_name, rg, qty, sku, serve_ml=None):
     schooner/pint->keg), applied to the aliased target. Units are computed ONCE,
     here, straight from qty — there is no second conversion downstream, so an
     aliased line can never be double-converted.
+
+    `pack_units` is applied FIRST: a 6-pack ring is six sale units, and whatever
+    conversion the target needs then runs on all six. Defaults to 1.0, so every
+    alias written before this existed behaves exactly as it did.
     """
+    qty = qty * (pack_units or 1.0)
     if not _is_bulk_par(sku):
         return qty                      # sale unit == stock unit (cans, tins)
     bml = bottle_ml(sku)
@@ -1329,7 +1352,8 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
             if tgt_venue != venue or not tgt_sku:
                 continue
             units = _alias_units(name, rg, qty, tgt_sku,
-                                 serve_ml=ab.serve_ml(name))
+                                 serve_ml=ab.serve_ml(name),
+                                 pack_units=ab.pack_units(name))
             if units > 0:
                 pour[tgt_sku][i] += units
                 rev[tgt_sku] = rev.get(tgt_sku, 0.0) + _rev(r)
@@ -1356,7 +1380,8 @@ def _build_consumption(rows, venue, idx, leaves_by_norm, matcher, id2name, weeks
                           else aliases.auto_rule_via())
                 continue
             units = _alias_units(name, rg, qty, alias_sku,
-                                 serve_ml=aliases.serve_ml(name))
+                                 serve_ml=aliases.serve_ml(name),
+                                 pack_units=aliases.pack_units(name))
             if units > 0:
                 pour[alias_sku][i] += units
                 rev[alias_sku] = rev.get(alias_sku, 0.0) + _rev(r)

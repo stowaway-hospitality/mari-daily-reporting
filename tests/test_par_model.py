@@ -1587,3 +1587,54 @@ def test_the_week_still_being_traded_is_excluded(tmp_path):
                         for r in model.load_weekly(str(tmp_path),
                                                    today=date(2026, 8, 17))})
     assert weeks_mon == ["2026-08-02", "2026-08-09", "2026-08-16"], weeks_mon
+
+
+# ── alias pack multiplier ───────────────────────────────────────────────────
+def test_a_pack_alias_takes_the_whole_pack_off_the_shelf():
+    """Marilyna's sells the same beer as a single and as a 4- or 6-pack, two
+    till lines against one par SKU. Aliasing the pack line 1:1 would book six
+    cans of Corona as one, and the par would be short by the pack factor on
+    every pack sold — the carton-price-over-one-piece error again, in the alias
+    reader instead of the invoice reader.
+
+    The count is stated in the till line's own name, so it is data, not a guess.
+    """
+    book = model.AliasBook({"mari": {
+        "Corona D": "stow:Corona",
+        "Corona 6-pack D": {"sku": "stow:Corona", "units": 6},
+    }}, "mari")
+
+    assert book.pack_units("Corona D") == 1.0, "a plain alias must stay 1:1"
+    assert book.pack_units("Corona 6-pack D") == 6.0
+
+    single = model._alias_units("Corona D", "Delivery Alcohol", 1.0, "Corona",
+                                pack_units=book.pack_units("Corona D"))
+    sixpack = model._alias_units("Corona 6-pack D", "Delivery Alcohol", 1.0,
+                                 "Corona",
+                                 pack_units=book.pack_units("Corona 6-pack D"))
+    assert single == 1.0
+    assert sixpack == 6.0, f"a 6-pack ring booked {sixpack} can(s)"
+
+
+def test_the_pack_multiplier_is_opt_in_and_composes_with_the_bulk_conversion():
+    """Two guarantees at once.
+
+    OPT-IN: every alias written before `units` existed must behave identically,
+    so the default has to be a true no-op rather than a new number.
+
+    COMPOSES: for a bulk target the pack count and the pour conversion both
+    apply — a case of six 750ml bottles is six bottles, not six pours and not
+    one case. Getting this backwards is how a case price becomes a bottle price.
+    """
+    # opt-in: no `units` anywhere == the old behaviour
+    assert model._alias_units("Corona D", "Delivery Alcohol", 3.0, "Corona") == 3.0
+
+    # composes: 1 ring of a 6-bottle case -> 6 whole bottles of a bulk par
+    six = model._alias_units("Kuku Sauvignon Blanc 6-pack D", "Delivery Alcohol",
+                             1.0, "Kuku Sauvignon Blanc - Bottle", pack_units=6)
+    assert six == 6.0, f"a six-bottle case booked {six} bottle(s)"
+
+    # ...and an explicit serve still wins for a genuine pour, times the pack
+    half = model._alias_units("Some Pour", "Non-Alcoholic", 1.0,
+                              "Massenez Lychee [5L]", serve_ml=30, pack_units=2)
+    assert half == pytest.approx(2 * 30 / 5000)
