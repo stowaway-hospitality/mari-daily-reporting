@@ -158,6 +158,14 @@ TAP_BEER_RGS = {"Tap Beer"}
 DIRECT_RGS = {
     "Bottles / Cans Alcoholic", "Non-alcoholic", "Non-Alcoholic",
     "Marilyna's Soft Drinks", "Delivery Alcohol",
+    # Sake & Soju: HG sells these BOTH as whole bottles ('Jinro Strawberry -
+    # 360ml', 'Tengumai Junmai - 180ml') and as 60ml pours. The pour lines carry
+    # a Lightspeed recipe and are claimed by the recipe path before this elif is
+    # reached, so only the whole-bottle lines land here — one ring, one bottle.
+    # Before this, the group matched NO branch and whole-bottle soju sales were
+    # silently dropped: Jinro Strawberry read 0.04 bottles/wk against 4 bottles
+    # actually sold, and the model wanted to zero a par that turns over weekly.
+    "Sake & Soju",
 }
 VERMOUTH_KW = (
     "vermouth", "cocchi", "dolin", "carpano", "noilly", "prat", "vinada",
