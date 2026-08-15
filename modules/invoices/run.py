@@ -125,6 +125,21 @@ def looks_like_statement(text: str) -> bool:
     # so a genuine one-off receipt can't trip it.
     if "payment receipt" in t and "invoice number" in t and "payment amount" in t:
         return True
+    # A PROOF OF DELIVERY is a carrier's docket, not a bill. CartonCloud emails one
+    # per consignment on behalf of the brewers ("MOUNTAIN CULTURE / Proof Of
+    # Delivery ... KEG: 2 | Value: $0.00"); 13 of them were sitting in Review as
+    # though a parser were missing. They carry quantities and no prices at all, so
+    # there is nothing to cost and nothing a parser could ever reconcile.
+    if "proof of delivery" in t:
+        return True
+    # A STATEMENT LEDGER names the columns of a running account. "Invoice Amount"
+    # as a COLUMN alongside a "Balance Due" is a statement construct — an invoice
+    # states its own total, it does not tabulate other invoices' amounts against a
+    # balance. Xero's statement template does exactly this and slipped through
+    # because it prints neither "amount enclosed" nor an ageing spread (Speed Gas,
+    # Grifter, Cordless Filter).
+    if "balance due" in t and "invoice amount" in t:
+        return True
     # AGEING BUCKETS ARE SUFFICIENT ON THEIR OWN. Foodlink's monthly Statement of
     # Account prints no masthead in the text layer at all — it opens straight into
     # the ledger ("15079 stowaway ... invoice si4500784 340.80 ... 1,441.20"), so

@@ -214,3 +214,66 @@ def test_unreadable_files_still_exit_1_not_4():
             assert _run(p).returncode == 1
         finally:
             _P(p).unlink(missing_ok=True)
+
+
+# ── carrier dockets and Xero statement ledgers (2026-08-15) ────────────────
+# 13 CartonCloud "Proof Of Delivery" dockets and 9 Xero statements were sitting
+# in Review looking like missing parsers. Neither is a bill: the docket carries
+# quantities and no prices at all, and the ledger tabulates OTHER invoices'
+# amounts against a running balance.
+
+CARTONCLOUD_POD = """MOUNTAIN CULTURE
+Proof Of Delivery
+Delivered by MOTUS TRANSPORT.
+Reference: SOMO28189
+KEG: 2 | WGHT: 124 | Value: $0.00
+Item Code Description Product Type Quantity
+SQUO-50L-01K Status Quo Pale Ale 50L Konvoy General 2 KEGS
+Signatureless Proof Of Delivery. Powered by CartonCloud"""
+
+XERO_STATEMENT = """STATEMENT
+HARRY GATOS
+As At 6 Aug 2026
+Account Number 5471
+Speed Gas
+Date Activity Reference Due Date Invoice Amount Payments Balance AUD
+31 Jul 2026 Invoice # INV227158 30 Aug 2026 82.50 0.00 82.50
+BALANCE DUE AUD   82.50
+Email remittance to: accounts@speedgas.com.au"""
+
+XERO_INVOICE = """TAX INVOICE
+STOWAWAY FRESHWATER
+Invoice Date 11 Aug 2026
+Invoice Number 83676
+The Grifter Brewing Company Pty Ltd
+Description Quantity Unit Price Discount Amount AUD
+GRIFTER PALE ALE 50L KEG (KONVOY KEG) 1.00 295.00 10.00% 265.50
+Freight 1.00 5.00 5.00
+Subtotal (includes a discount of 29.50) 270.50
+TOTAL  GST  10% 27.05
+TOTAL AUD 297.55
+Due Date: 25 Aug 2026"""
+
+
+def test_proof_of_delivery_is_not_an_invoice():
+    assert looks_like_statement(CARTONCLOUD_POD) is True
+
+
+def test_xero_statement_ledger_is_caught():
+    # Slipped through before: it prints neither "amount enclosed" nor an ageing
+    # spread, so titled+strong never fired.
+    assert looks_like_statement(XERO_STATEMENT) is True
+
+
+def test_a_xero_TAX_INVOICE_is_still_an_invoice():
+    # The other half of the contract — the new rules must not swallow the real
+    # bills that arrive from the same sender.
+    assert looks_like_statement(XERO_INVOICE) is False
+    assert looks_like_credit_note(XERO_INVOICE) is False
+
+
+def test_balance_due_alone_does_not_trip_it():
+    # An invoice may well say "balance due"; it is the "Invoice Amount" COLUMN
+    # beside it that makes a ledger.
+    doc = "TAX INVOICE\nInvoice Number 123\nWidget 1 10.00\nTOTAL AUD 10.00\nBalance due 10.00"
+    assert looks_like_statement(doc) is False
