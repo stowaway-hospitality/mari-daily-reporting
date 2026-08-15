@@ -1,0 +1,220 @@
+# Price questions that have been ANSWERED, so the queue stops asking them.
+#
+# WHY THIS FILE EXISTS SEPARATELY FROM data/product_map.csv
+# --------------------------------------------------------
+# _adjudicated_ids() used to read product_map.csv alone, and the Havana Club row
+# is why: somebody checked an invoice, wrote down which side was right, and the
+# flag retired. That works when the answer IS a bridge — Havana Club has a real
+# ILG code and a real price to import.
+#
+# It does not work when the answer is "our number was already right", or "both
+# records are right and here is the ratio between them". Those have no supplier
+# code to key on, and product_map.csv is contractually keyed by (supplier,
+# supplier_code): purchasable_id() RAISES on a blank code rather than guessing,
+# on purpose — "There is no natural key, so there is no identity. Do NOT fall
+# back to the description." Ten adjudication rows with blank codes were written
+# into it and three separate tests went red on that ValueError immediately. The
+# refusal was right and the rows were in the wrong file.
+#
+# So: bridges go in product_map.csv. Verdicts go here. A verdict retires a flag
+# without importing a price.
+#
+# Each entry must say what was checked and what it proved, in enough detail that
+# the next person can DISAGREE with it. "Checked, fine" is not an adjudication.
+
+- id: "lightspeed:22684315"
+  product_name: "Massenez Elderflower [5L]"
+  venue: "stowaway"
+  checked_invoice: "5198837"
+  checked_on: "2026-08-14"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: OURS IS RIGHT, root cause found. BO DefaultSize is 50000 ml on
+    a cask the name calls [5L]; $253.00/50000 = $0.00506/ml is the figure
+    Lightspeed's own recipe costing used ($0.004833), ours divided by 5000. Five
+    sibling Massenez casks read $0.058-$0.0675/ml and Paramount 5198837 puts
+    Massenez Triple Sec BIB at $71.80/L = $0.0718/ml. A 5L Massenez at $24.17 is
+    not a price anyone paid. Pinned to 5000 ml in pack_overrides; real repair is
+    DefaultSize -> 5000 in Back Office.
+
+- id: "lightspeed:22931827"
+  product_name: "Noodles Instant Ayam [700g]"
+  venue: "stowaway"
+  checked_invoice: "6529361"
+  checked_on: "2026-05-01"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: OURS IS RIGHT to the cent. Our book holds $0.021286/g, which is
+    exactly B&E invoice 6529361 'INSTANT NOODLE - 10 PCS/PK' at $14.90 the 700 g
+    pack (10 x 70 g). $14.90/700 = $0.0212857. Lightspeed's implied $1.36 on the
+    Mie Goreng line works back to $5.29/kg, which is below any instant noodle we
+    have ever been invoiced.
+
+- id: "lightspeed:22524108"
+  product_name: "Red Chilli [$10/Kg]"
+  venue: "stowaway"
+  checked_invoice: "3111442"
+  checked_on: "2026-08-08"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: settled, and both sides now AGREE at $0.08 a line. Our $0.016/g
+    is exactly Select Fresh 3111442 CHILLI RED LONG KG at $16.00/kg
+    (2026-08-08); Select Fresh 3064370 and 3092061 say $13.50/kg. Only the NAME
+    is stale - it still reads [$10/Kg] from the circular Lightspeed seed
+    corrected on 2026-08-09. Nothing to price; rename in Back Office when
+    convenient.
+
+- id: "lightspeed:20727779"
+  product_name: "Bittermen's Tiki Bitters [Bottle]"
+  venue: "stowaway"
+  checked_invoice: "5424761"
+  checked_on: "2026-07-07"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: LIGHTSPEED WAS RIGHT, ours was 4.79x low. Paramount
+    5424761/5457927 (code 67652) state the pack in words: 'BITTERMENS XOCOLATL
+    MOLE BITTERS : 146 ml', raw UOM '12/146 ml', $29.44 a bottle. Our book read
+    700ML off the product NAME; BO DefaultSize says 120. 700 is not a Bittermens
+    size. Fixed by pack_overrides 146 ml: $26.03/146 = $0.1783/ml against
+    Paramount's own $0.2016/ml.
+
+- id: "lightspeed:22488995"
+  product_name: "Avocado [Tray]"
+  venue: "stowaway"
+  checked_invoice: "INB00101295"
+  checked_on: "2026-05-01"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: both records are the same product at different granularity,
+    neither is wrong. FFT code AH20T is a 20-count Hass tray ($22.00-$33.00, 24
+    invoices); Select Fresh AVOE is loose fruit at $3.10 ea. $26.40/20 = $1.32 a
+    fruit against $3.10 retail - an ordinary bulk spread. Corroborated two ways:
+    BO DefaultSize is 5000 g (20 x 250 g), and Guacamole [4kg] consumes exactly
+    one tray per 4 kg batch, i.e. ~80% flesh yield off a 5 kg tray. BASIS
+    DELIBERATELY NOT CHANGED to g: the 5000 g is GROSS (skin and stone), so
+    costing flesh grams against it would under-cost by the peel yield. That
+    yield is a kitchen weighing.
+
+- id: "lightspeed:20564869"
+  product_name: "Lemon"
+  venue: "stowaway"
+  checked_invoice: "3115073"
+  checked_on: "2026-08-12"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: same product, two granularities. BO's own DefaultSize says one
+    lemon is 200 g, so the per-kg feed and the per-each record are the same
+    fruit: Select Fresh LEMK $3.20/kg (3115073) x 0.2 kg = $0.64 a lemon, and
+    Select Fresh LEME invoices loose lemons at $0.50 ea directly. RESIDUAL,
+    RECORDED NOT BURIED: the ls-recipe-seed rate is $0.375/ml, ~41% below the
+    invoice-derived $0.64, and its 'ml' label is wrong - the 5 recipe lines on
+    it are counts of fruit (0.08 = a wedge, 2 = two lemons), not millilitres.
+    NOT re-based: reading 0.08 as 0.08 g would collapse the line to nothing,
+    which is the Rosemary Salted Fries trap. Fix is the unit in Produce, then a
+    bridge. ~$0.90 of recipe cost rides on it.
+
+- id: "lightspeed:22995343"
+  product_name: "Herb Chives [Market]"
+  venue: "stowaway"
+  checked_invoice: "INB00113232"
+  checked_on: "2026-07-30"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: BOTH RECORDS ARE RIGHT — they are two different bunches, not
+    two prices. FFT bill chives under HCBCH (retail bunch, $1.49-$2.75) and HCMB
+    (market bunch, $8.91-$15.40). Across 17 paired invoices the ratio has a
+    median of EXACTLY 6.00x, eight consecutive same-day pairs to the cent. I
+    read that as a 6-pack and was wrong: pack_overrides line 185 already carries
+    Zak's 2026-07-26 confirmation that FFT market herbs are sold BY THE BUNCH —
+    a market bunch is one bunch ~6x the size, which is why it costs 6x. A ratio
+    is not evidence of a pack count when a size difference explains it equally
+    well. The 6 ea override I shipped also landed on the wrong observation
+    (recipe-bridge-seed $1.65/ea, not the $9.90 pack) and invented $0.275
+    chives; backed out, reasoning kept in pack_overrides. REMAINING WORK IS THE
+    SCALES: weigh one bunch so the g-denominated lines convert off a real weight
+    (feed-line-unit-chives).
+
+- id: "lightspeed:22995320"
+  product_name: "Broccolini [Bunch]"
+  venue: "stowaway"
+  checked_invoice: "INB00113232"
+  checked_on: "2026-07-30"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: the Lightspeed record needed nothing - it is already per-bunch
+    and already fed by FFT BROCE invoices (latest $3.17). The other world was
+    FFT BRL, the BOX. Same-day pairs settle the count: 2026-07-30 box $36.00 /
+    bunch $3.60 = 10.00 exactly; 2026-06-19 $28.80 / $3.17 = 9.09. At 9 the box
+    would cost $4.00 a bunch against $3.60 loose, which no supplier prices. Box
+    = 10 bunches, pinned on fresh-fruit-team:BRL. 10 is the lowest defensible
+    count so it errs dear, not cheap.
+
+- id: "lightspeed:22893568"
+  product_name: "Gyoza Vegetable Marumatsu Jun [800g]"
+  venue: "harry_gatos"
+  checked_invoice: ""
+  checked_on: "2026-08-14"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: found by sweep, not by a flag. BO DefaultSize 8000 g against a
+    name that says [800g] and a cost of $9.25 - a 10x UNDER-cost ($1.16/kg for
+    frozen gyoza, which does not exist; at 800 g it is $11.56/kg). Same extra-
+    zero defect as the Massenez Elderflower. Pinned to 800 g.
+
+- id: "lightspeed:22973178"
+  product_name: "Mango-Chilli Puree [1L]"
+  venue: "stowaway"
+  checked_invoice: ""
+  checked_on: "2026-08-14"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: BO DefaultSize 1 ml against a name that says [1L].
+    CostPriceIncTax is $0.0000 so it moves no dish today - pinned to 1000 ml
+    purely as a landmine, because the first real price against a 1 ml pack would
+    be recorded 1000x dear.
+
+- id: "lightspeed:20445811"
+  product_name: "Bombay Dry [House]"
+  venue: "stowaway"
+  checked_invoice: "03744947"
+  checked_on: "2026-08-11"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    OURS IS RIGHT, and it is not a close call. Our $0.072145/ml is fed by NINE real
+    ILG invoices between 2026-03-26 and 2026-08-11, every one of them in the band
+    $0.070179-$0.073931/ml, and the independent Back Office seed agrees at
+    $0.073943. Lightspeed's recipe costing implies $2.118667/ml, which prices a
+    700 ml bottle of Bombay Dry at $1,483. Nine invoices and a seed against a
+    number no bottle of gin has ever cost. This is really a UNIT argument rather
+    than a price one - the same class the detector already excludes above 50x - and
+    it lands at 29.37x, just under that line. Left in the detector rather than
+    widening the 50x rule: the rule is calibrated and one straggler is not evidence
+    to move it.
+
+- id: "lightspeed:22888667"
+  product_name: "Sugar Brown 1kg CSR"
+  venue: "stowaway"
+  checked_invoice: "SI4267834"
+  checked_on: "2026-03-28"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    OURS IS THE INVOICE, to the cent. Our $0.004200/g is Foodlink SI4267834 'SUGAR
+    BROWN 1KG CSR' exactly, and Harry Gatos' own 'Brown Sugar [1kg]' seed
+    independently reads $0.004200 too. Lightspeed's ls-recipe-seed says $0.008400 -
+    exactly 2.0000x, which is a pack error and not an opinion about a price. THE
+    SIBLING PROVES IT: Sugar Demerera 375Gm CSR shows the same signature, seed
+    $0.022933 against invoice $0.011467, also exactly 2.0000x. Two unrelated CSR
+    sugars off the same supplier, both exactly double, is a systematic Lightspeed
+    pack halving. Ours needs nothing; the repair belongs in Back Office.

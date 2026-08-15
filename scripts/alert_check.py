@@ -162,7 +162,11 @@ def main():
                 + "\n\nNeeds a human:\n" + "\n".join("- " + e for e in escalate)
                 + "\n\nSee TROUBLESHOOTING.md, or ask Claude to investigate.")
         notify("pipeline needs a human", body)
-        log(f"ESCALATED {len(escalate)} item(s)")
+        # Write the FULL text to the run summary, not just a count. With no push
+        # channel configured (by design — the health panel is the channel), the
+        # job summary is where a human looking at a red workflow reads what
+        # actually went wrong, instead of scrolling raw logs for it.
+        log(f"ESCALATED {len(escalate)} item(s)\n\n{body}")
     if not fixes and not escalate:
         log("all clear — nothing failed, sales current, health ok")
     return 0

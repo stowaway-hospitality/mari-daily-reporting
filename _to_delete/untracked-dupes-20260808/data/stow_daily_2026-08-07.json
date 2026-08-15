@@ -1,0 +1,256 @@
+{
+  "date": "2026-08-07",
+  "generated_at": "2026-08-08T03:41:55.694527Z",
+  "venue": "stowaway",
+  "venue_display": "Stowaway Bar",
+  "lane_config": [
+    "revenue",
+    "cogs",
+    "wages",
+    "gp"
+  ],
+  "data_status": {
+    "lightspeed": "ok",
+    "deputy": "ok",
+    "payments": "missing"
+  },
+  "sales": {
+    "revenue_inc_gst": 12191.63,
+    "revenue_ex_gst": 11083.37,
+    "cogs_dollars": 2363.59,
+    "cogs_pct": 21.3,
+    "gp_dollars": 8719.78,
+    "gp_pct": 78.7,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 2363.59,
+    "recipe_coverage_pct": 0.0,
+    "uber_eats_revenue": 0,
+    "net_takings_ex_gst": null,
+    "eatclub_giveaway_ex_gst": 2.95,
+    "eatclub_covers": 2,
+    "revenue_ex_gst_before_eatclub": 11086.32,
+    "food_ex_gst": 2535.26,
+    "bev_ex_gst": 8550.99,
+    "food_cogs": 365.71,
+    "bev_cogs": 1997.88,
+    "food_cogs_pct": 14.4,
+    "bev_cogs_pct": 23.4,
+    "food_gp_pct": 85.6,
+    "bev_gp_pct": 76.6,
+    "mari_rideon_ex_gst": 3330.56,
+    "hg_food_out_ex_gst": 0.0,
+    "stow_food_out_ex_gst": 0.0
+  },
+  "wages": {
+    "kitchen_dollars": 982.72,
+    "foh_dollars": 1836.21,
+    "driver_dollars": 0,
+    "admin_dollars": 0,
+    "leave_dollars": 0,
+    "total_dollars": 2818.93,
+    "wages_pct": 25.4,
+    "net_wage_pct": null,
+    "kitchen_hours": 22.2,
+    "foh_hours": 42.2,
+    "wages_kitchen_pct": 38.8,
+    "wages_foh_pct": 21.5,
+    "includes_super": true,
+    "salaried_synthesized": true
+  },
+  "delivery": null,
+  "payments_breakdown": null,
+  "alerts": {
+    "cogs": "green",
+    "wages": "green",
+    "delivery": "n/a",
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "yellow",
+    "wages_kitchen": "red",
+    "wages_foh": "yellow"
+  },
+  "targets": {
+    "cogs": {
+      "target": 28.0,
+      "amber": 32.0,
+      "red": 35.0,
+      "note": "Blended food+bev COGS; bar-heavy Stow typically lands ~28-30% \u2014 refine after 8 weeks of daily data"
+    },
+    "wages": {
+      "target": 30.0,
+      "amber": 33.0,
+      "red": 36.0,
+      "note": "Zak-set 30% target \u2014 hospitality benchmark; splits kitchen + FOH"
+    },
+    "cogs_food": {
+      "target": 32.0,
+      "amber": 36.0,
+      "red": 40.0,
+      "note": "DRAFT \u2014 Zak to confirm. Food COGS vs food revenue (ex-GST). Weekly-report placeholder food GP is 65% (i.e. 35% COGS); target set slightly tighter."
+    },
+    "cogs_bev": {
+      "target": 22.0,
+      "amber": 25.0,
+      "red": 28.0,
+      "note": "DRAFT \u2014 Zak to confirm. Bev COGS vs bev revenue (ex-GST). Drinks GP at Stow runs ~80% on cocktails (known-margins.md); blended bev incl. beer/wine lands lower."
+    },
+    "wages_kitchen": {
+      "target": 12.0,
+      "amber": 15.0,
+      "red": 18.0,
+      "note": "DRAFT \u2014 Zak to confirm. Kitchen wages as % of FOOD revenue (ex-GST), not total."
+    },
+    "wages_foh": {
+      "target": 18.0,
+      "amber": 22.0,
+      "red": 26.0,
+      "note": "DRAFT \u2014 Zak to confirm. FOH wages as % of BEV revenue (ex-GST), not total."
+    },
+    "gp": {
+      "note": "Higher is better \u2014 70% target; status inversion not yet implemented so alerts left empty",
+      "target_direction": "high_is_good"
+    }
+  },
+  "top_products": [
+    {
+      "name": "Classic Margarita",
+      "qty": 50.0,
+      "rev": 908.77,
+      "cost": 194.52,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Guinness Draught - Pint",
+      "qty": 37.0,
+      "rev": 644.53,
+      "cost": 175.71,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fresh is Best Lager - Pint",
+      "qty": 50.0,
+      "rev": 590.2,
+      "cost": 122.32,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Jalape\u00f1o Marg",
+      "qty": 18.0,
+      "rev": 352.5,
+      "cost": 14.58,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "American Standard Burger",
+      "qty": 12.0,
+      "rev": 333.38,
+      "cost": 70.13,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Mulled Wine",
+      "qty": 20.0,
+      "rev": 306.42,
+      "cost": 40.7,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Petits Detours Ros\u00e9 Mediterranee - Bottle",
+      "qty": 4.0,
+      "rev": 264.42,
+      "cost": 64.71,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fresh is Best Lager - Schooner",
+      "qty": 28.0,
+      "rev": 244.35,
+      "cost": 51.07,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Coconut Margarita",
+      "qty": 11.0,
+      "rev": 229.21,
+      "cost": 43.52,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Kirin - Pint",
+      "qty": 12.0,
+      "rev": 222.0,
+      "cost": 60.54,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Baked Camembert",
+      "qty": 8.0,
+      "rev": 204.13,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Version Two Pinot Grigio - Regular",
+      "qty": 21.4,
+      "rev": 198.04,
+      "cost": 37.81,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Aperol Spritz",
+      "qty": 12.0,
+      "rev": 182.73,
+      "cost": 42.63,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Grifter Pale - Pint",
+      "qty": 16.0,
+      "rev": 180.6,
+      "cost": 53.27,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Arancini Balls [5pc]",
+      "qty": 8.0,
+      "rev": 180.25,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Petits Detours Ros\u00e9 - Regular",
+      "qty": 10.0,
+      "rev": 161.58,
+      "cost": 34.67,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Bombay Dry [House]",
+      "qty": 15.0,
+      "rev": 146.8,
+      "cost": 32.53,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Negroni",
+      "qty": 8.0,
+      "rev": 145.37,
+      "cost": 31.26,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fish Tacos",
+      "qty": 7.0,
+      "rev": 143.27,
+      "cost": 15.29,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Whispering Angel Ros\u00e9 - Regular",
+      "qty": 5.0,
+      "rev": 142.76,
+      "cost": 33.68,
+      "cost_source": "lightspeed"
+    }
+  ]
+}

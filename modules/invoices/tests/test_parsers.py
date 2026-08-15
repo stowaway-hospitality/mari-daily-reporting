@@ -302,3 +302,212 @@ def test_every_parser_domain_has_a_domain_key_entry():
     missing = sorted(d for d in DOMAIN_TO_PARSER
                      if d not in DOMAIN_KEY and not d.startswith("members."))
     assert not missing, f"parser domains absent from DOMAIN_KEY: {missing}"
+
+
+# --------------------------------------------------------------------------
+# Fresh Fruit Team — the SKU cell swallowing the UNIT word.
+#
+# FFT's UNIT column does not always start right of its x-boundary, so bucket()
+# files the unit under "sku" and the code arrives as "CLKG Kilogram". Money was
+# never affected (FFT scored 52/52 on the regression the whole time this was
+# happening) because supplier_code plays no part in reconciling to the printed
+# total. What it corrupts is IDENTITY: "CLKG" and "CLKG Kilogram" are the same
+# carrot, so the cost book carried the product twice, price history split across
+# the pair, and build_ingredients could no longer consolidate the fullest name
+# across them — which is how fragments like "Large" (Carrot Large) and "Ruby
+# Red" (Grapefruit Ruby Red) reached the chef's picker as product names.
+#
+# Before the fix: 169 distinct FFT codes, 84 carrying a swallowed word, 50
+# products split into two identities. After: 119 codes, 0 dirty, 0 split.
+
+
+def test_fft_split_sku_strips_a_swallowed_unit_word():
+    from modules.invoices.parsers.fresh_fruit_team import _split_sku
+    assert _split_sku("CLKG Kilogram") == ("CLKG", "Kilogram")
+    assert _split_sku("TR10BX Box") == ("TR10BX", "Box")
+    assert _split_sku("AH20T Tray") == ("AH20T", "Tray")
+    assert _split_sku("CL20KGBX 20kg") == ("CL20KGBX", "20kg")
+
+
+def test_fft_split_sku_leaves_a_clean_code_alone():
+    from modules.invoices.parsers.fresh_fruit_team import _split_sku
+    # The overwhelmingly common case: the unit landed in its own column.
+    assert _split_sku("CLKG") == ("CLKG", "")
+    assert _split_sku("GRR12BX") == ("GRR12BX", "")
+    assert _split_sku("") == ("", "")
+    assert _split_sku(None) == ("", "")
+
+
+def test_fft_the_two_spellings_of_one_carrot_collapse_to_one_identity():
+    # The whole point: these two must not be two products.
+    from modules.invoices.parsers.fresh_fruit_team import _split_sku
+    assert _split_sku("CLKG Kilogram")[0] == _split_sku("CLKG")[0]
+
+
+def test_fft_a_swallowed_word_is_only_taken_as_the_unit_if_it_names_one():
+    # The swallowed tail is used as the row's unit, but ONLY through the same
+    # names_a_unit guard the neighbour-stitch uses. A description word bleeding
+    # into the SKU cell must NOT become the unit — taking "Cabbage" or "Herb" as
+    # a UOM is what turns a per-kilogram line into a pack and misprices it.
+    from modules.invoices.pack_size import names_a_unit
+    assert names_a_unit("Kilogram") and names_a_unit("Box") and names_a_unit("Tray")
+    assert not names_a_unit("Herb")
+    assert not names_a_unit("Lettuce")
+    assert not names_a_unit("Cauliflower")
+
+
+# --- Foodlink: column boundaries derived from the header, not hard-coded ------
+# 2026-08-15. Foodlink re-templated and shifted its table right by ~25pt. The
+# parser's hard-coded COLS put the Qty. VALUE (x=290) past the uom boundary
+# (270), so c["qty"] came back empty, the `qty is None` guard skipped every row,
+# and the parser raised "no line items parsed" on EVERY invoice from 2026-07-29
+# on — 10 of them sat in Review for 2.5 weeks. The corpus could not catch it:
+# build_corpus.py only scans the INBOX, and these had already been moved to the
+# Invoices Review folder. So the regression harness said foodlink 59/59 (100%)
+# while production was failing 100% of new invoices.
+#
+# These two rows are the REAL header word positions from each layout.
+
+FL_HEADER_OLD = _row((32.6, "No."), (70.9, "Description"), (251.0, "Qty."),
+                     (272.5, "UOM"), (327.1, "Weight"), (429.5, "Disc"),
+                     (451.0, "%"), (462.9, "GST"))
+FL_HEADER_NEW = _row((34.0, "No."), (73.6, "Description"), (277.5, "Qty."),
+                     (306.4, "UOM"), (345.1, "Weight"), (432.5, "Disc"),
+                     (454.0, "%"), (468.1, "GST"))
+
+
+def test_foodlink_old_layout_row_buckets_correctly():
+    from modules.invoices.parsers.foodlink import _cols_from_header
+    cols = _cols_from_header(FL_HEADER_OLD)
+    # SOUR CREAM FULL 2LT Brancourts, 3 EA @ 19.00 = 57.00
+    row = _row((33, "102638"), (71, "SOUR"), (99, "CREAM"), (134, "FULL"),
+               (159, "2LT"), (177, "Brancourts"), (263, "3"), (276, "EA"),
+               (384, "19.00"), (529, "57.00"))
+    c = pdf_text.bucket(row, cols)
+    assert c["code"] == "102638"
+    assert c["qty"] == "3"
+    assert c["uom"] == "EA"
+    assert c["price"] == "19.00"
+    assert c["total"] == "57.00"
+
+
+def test_foodlink_new_layout_row_buckets_correctly():
+    from modules.invoices.parsers.foodlink import _cols_from_header
+    cols = _cols_from_header(FL_HEADER_NEW)
+    # ARANCINI TRUFFLED PORCINI, origin AU, 1 CTN @ 124.00 = 124.00
+    row = _row((34, "103742"), (74, "ARANCINI"), (119, "TRUFFLED"), (207, "AU"),
+               (290, "1"), (308, "CTN"), (399, "124.00"), (527, "124.00"))
+    c = pdf_text.bucket(row, cols)
+    assert c["code"] == "103742"
+    assert c["qty"] == "1", "the regression: qty fell into uom under hard-coded COLS"
+    assert c["uom"] == "CTN"
+    assert c["price"] == "124.00"
+    assert c["total"] == "124.00"
+    assert "AU" in c["desc"]        # origin folds into description, as before
+
+
+def test_foodlink_hardcoded_cols_would_have_missed_the_new_qty():
+    # Guards the diagnosis itself: if this ever stops being true, the bug
+    # described above was something else and the comment needs revisiting.
+    from modules.invoices.parsers.foodlink import COLS
+    row = _row((290, "1"), (308, "CTN"))
+    c = pdf_text.bucket(row, COLS)
+    assert c["qty"] == ""
+    assert c["uom"] == "1 CTN"
+
+
+def test_foodlink_gst_flag_column_survives_both_layouts():
+    from modules.invoices.parsers.foodlink import _cols_from_header
+    for hdr, gx, tx in ((FL_HEADER_OLD, 463, 529), (FL_HEADER_NEW, 468, 537)):
+        cols = _cols_from_header(hdr)
+        c = pdf_text.bucket(_row((71, "Fuel"), (91, "Levy"), (263, "1"),
+                                 (389, "3.00"), (gx, "GST"), (tx, "3.00")), cols)
+        assert c["gstflag"] == "GST"
+        assert c["total"] == "3.00"
+
+
+def test_foodlink_unreadable_header_falls_back_rather_than_inventing_columns():
+    from modules.invoices.parsers.foodlink import _cols_from_header
+    assert _cols_from_header(_row((10, "No."), (50, "Description"))) is None
+    assert _cols_from_header([]) is None
+
+
+# --- FFT: column boundaries derived from the header, not hard-coded -----------
+# 2026-08-15, the sibling of the Foodlink defect found the same day. FFT's header
+# does not sit still: across the corpus the ITEM anchor ranges 181.7 -> 201.3.
+# The hard-coded desc boundary was 198 — the TOP of that range — so on every
+# invoice whose ITEM anchor sat left of 198, the description's FIRST WORD fell
+# into the unit bucket: raw_uom "Carrot", description "Large".
+#
+# The money still reconciled to the cent on every one of those invoices, so the
+# regression table read 52/52 (100%) while 274 lines carried a description word
+# as their unit and 51 of 119 codes had split into two descriptions. Fixing the
+# boundaries took it to 32 bad units (31 of which are the REAL unit "Market
+# Bunch") and 6 split codes, with the money unchanged.
+
+FFT_HEADER_WIDE = _row((30.0, "QTY"), (68.0, "SKU"), (143.3, "UNIT"), (198.3, "ITEM"),
+                       (362.0, "UNIT"), (389.5, "PRICE"), (450.9, "GST"), (508.9, "AMOUNT"))
+FFT_HEADER_NARROW = _row((30.4, "QTY"), (68.8, "SKU"), (130.5, "UNIT"), (185.5, "ITEM"),
+                         (357.9, "UNIT"), (385.4, "PRICE"), (448.3, "GST"), (507.7, "AMOUNT"))
+
+
+def test_fft_narrow_layout_keeps_the_first_description_word():
+    from modules.invoices.parsers.fresh_fruit_team import _cols_from_header
+    cols = _cols_from_header(FFT_HEADER_NARROW)
+    # "Carrot Large", 1 Kilogram @ 1.32 — the row that produced raw_uom="Carrot".
+    row = _row((30, "1"), (69, "CLKG"), (131, "Kilogram"), (186, "Carrot"),
+               (214, "Large"), (392, "1.32"), (455, "0.00"), (521, "1.32"))
+    c = pdf_text.bucket(row, cols)
+    assert c["sku"] == "CLKG"
+    assert c["unit"] == "Kilogram"
+    assert c["desc"] == "Carrot Large", "the regression: 'Carrot' bled into the unit column"
+    assert c["price"] == "1.32"
+    assert c["amt"] == "1.32"
+
+
+def test_fft_wide_layout_still_buckets_correctly():
+    from modules.invoices.parsers.fresh_fruit_team import _cols_from_header
+    cols = _cols_from_header(FFT_HEADER_WIDE)
+    row = _row((30, "1"), (68, "CLKG"), (143, "Kilogram"), (199, "Carrot"),
+               (227, "Large"), (392, "1.32"), (455, "0.00"), (521, "1.32"))
+    c = pdf_text.bucket(row, cols)
+    assert c["sku"] == "CLKG" and c["unit"] == "Kilogram"
+    assert c["desc"] == "Carrot Large"
+
+
+def test_fft_hardcoded_cols_would_have_eaten_the_narrow_layout_word():
+    # Pins the diagnosis: under the old fixed boundaries the same row loses
+    # "Carrot" to the unit cell. If this stops being true, the story above is
+    # wrong and the comments need revisiting.
+    from modules.invoices.parsers.fresh_fruit_team import COLS, _split_sku
+    row = _row((30, "1"), (69, "CLKG"), (131, "Kilogram"), (186, "Carrot"),
+               (214, "Large"), (392, "1.32"), (455, "0.00"), (521, "1.32"))
+    c = pdf_text.bucket(row, COLS)
+    # One root cause, both documented symptoms on a single row: the SKU cell
+    # swallows the unit AND the unit cell swallows the first description word.
+    assert c["sku"] == "CLKG Kilogram"
+    assert _split_sku(c["sku"]) == ("CLKG", "Kilogram")
+    assert c["unit"] == "Carrot"
+    assert c["desc"] == "Large"
+
+
+def test_fft_unreadable_header_falls_back_rather_than_inventing_columns():
+    from modules.invoices.parsers.fresh_fruit_team import _cols_from_header
+    assert _cols_from_header(_row((30, "QTY"), (68, "SKU"))) is None
+    assert _cols_from_header([]) is None
+    # Right shape, wrong labels -> fall back, don't guess.
+    assert _cols_from_header(_row(*[(x, "X") for x in (30, 68, 143, 198, 362, 389, 450, 508)])) is None
+
+
+def test_fft_order_note_is_not_part_of_the_product_name():
+    from modules.invoices.parsers.fresh_fruit_team import _strip_order_note
+    assert _strip_order_note("Zucchini Green 0.5Kg please") == "Zucchini Green 0.5Kg"
+    assert _strip_order_note("please make sure all product are") == ""
+    assert _strip_order_note("Avocado Hass good and best quality. thank you") \
+        == "Avocado Hass good and best quality."
+    # A real name is untouched, including one whose size IS the catalogue name.
+    assert _strip_order_note("Mushroom King Brown (200G Punnet)") \
+        == "Mushroom King Brown (200G Punnet)"
+    assert _strip_order_note("Carrot Large") == "Carrot Large"
+    assert _strip_order_note("") == ""
+    assert _strip_order_note(None) == ""

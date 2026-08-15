@@ -480,10 +480,30 @@ tbody tr:hover { background: var(--group-tint); }
 .daywrap p .dw-pos { color: #1D9E75; font-weight: 600; }
 .daywrap p .dw-neg { color: #E24B4A; font-weight: 600; }
 .daywrap p strong { color: var(--ink); font-weight: 600; }
+  /* Restatements — what moved after it was published. See _shared/restatements.js */
+  .rs-note{font-size:13px;color:var(--ink-soft);line-height:1.5;margin:0 0 10px}
+  .rs-table{width:100%;border-collapse:collapse;font-size:13px}
+  .rs-table th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);
+    text-align:left;padding:7px 9px;font-weight:600}
+  .rs-table td{padding:7px 9px;border-top:1px solid var(--line);vertical-align:middle}
+  .rs-table .r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .rs-table .up{color:var(--red)} .rs-table .down{color:var(--green)}
+  .rs-table small{opacity:.65;margin-left:4px}
+  .rs-chip{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:700}
+  .rs-chip.warn{background:color-mix(in srgb,var(--amber) 18%,transparent);color:var(--amber)}
+  .rs-chip.good{background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--green)}
+  .rs-chip.mute{background:color-mix(in srgb,var(--ink) 10%,transparent);color:var(--ink-soft)}
+  .rs-empty{font-size:13px;color:var(--ink-soft);line-height:1.5}
 </style>
 <script src="/_shared/pnl.js"></script>
 <script src="/_shared/util.js"></script>
 <script src="/_shared/data.js"></script>
+<script type="module">
+  // render.js is a classic script, so it cannot import an ES module. Hand it
+  // the mount instead; it calls this whenever the dashboard repaints.
+  import { mountRestatements } from '/_shared/restatements.js';
+  window.__mountRestatements = mountRestatements;
+</script>
 <script src="/_shared/render.js"></script>
 </head>
 <script>
@@ -564,9 +584,18 @@ tbody tr:hover { background: var(--group-tint); }
     <div class="grid" id="split-snapshot" style="margin-top: 10px;"></div>
     <div id="dollar-strip" style="margin-top: 14px;"></div>
     <div id="avg-spend" style="margin-top: 14px;"></div>
+    <div id="cogs-variance" style="margin-top: 14px;"></div>
     <div id="wow-section" style="margin-top: 14px;"></div>
 
     <!-- Hourly sales vs labour (single real venue + single day only). -->
+    <!-- Figures that changed AFTER they were published. Marilyna's July moved
+         for weeks as late Xero bills landed and nothing said so. Drawn by
+         /_shared/restatements.js off /data/restatements.json. -->
+    <div class="section" id="restatements-section">
+      <h2>Restatements <span style="font-size:13px;color:var(--ink-soft);font-weight:400">— figures that changed after you saw them</span></h2>
+      <div id="restatements"></div>
+    </div>
+
     <div class="section" id="hourly-section" style="display:none">
       <h2 id="hourly-title">Hourly sales vs labour</h2>
       <p id="hourly-note" style="font-size:13px;color:var(--ink-soft);margin:-6px 0 14px;line-height:1.5"></p>
@@ -644,7 +673,7 @@ var ROLE_CONFIG = {
     history_cols: ['date', 'food_ex_gst', 'food_cogs_pct', 'wages_kitchen_pct', 'food_gp_pct'] },
 };
 
-var STATE = { histories: {}, currentVenue: null, currentTimeframe: 'day', currentDay: null, rangeStart: null, rangeEnd: null, xeroCogs: [], xeroOH: [], baselines: {}, focusMetric: null, focusYears: [], roster: null, uberFees: [], includeAdmin: false, includeLeave: false, oncost: { rate: 0, ownerWeekly: 0 }, uberDaily: [], uberAds: [], uberDirect: [], sph: [] };
+var STATE = { histories: {}, currentVenue: null, currentTimeframe: 'day', currentDay: null, rangeStart: null, rangeEnd: null, xeroCogs: [], xeroOH: [], cogsVariance: null, baselines: {}, focusMetric: null, focusYears: [], roster: null, uberFees: [], includeAdmin: false, includeLeave: false, oncost: { rate: 0, ownerWeekly: 0 }, uberDaily: [], uberAds: [], uberDirect: [], sph: [] };
 
 // Plan-basis fixed overheads (non-wage), $/week — Olly's BEP workbooks
 // (FIXED_OH_WEEKLY): Stow 462,748/yr, HG 150,280/yr, Mari 92,508/yr.

@@ -60,6 +60,7 @@ WHAT THIS GUARDS
 - the same feed built twice is the same feed (ids stable, order stable)
 """
 
+import re
 import json
 import sys
 from pathlib import Path
@@ -258,15 +259,28 @@ def test_the_assumed_yield_is_declared_in_the_feed(feed):
 
 # --- the derived families the audit already knows about --------------------
 
-def test_the_bad_seeds_are_the_two_pack_misreads(feed):
-    """Both harmless today — costs.csv carries the invoiced rate — and both a
-    wrong fallback for the next recipe that reaches the product before an
-    invoice does. Each lands on an exact whole pack count, which names the
-    defect rather than just flagging it."""
+def test_the_bad_seeds_are_gone(feed):
+    """CLOSED 2026-08-14. The family is empty and this guards that it stays so.
+
+    Both were recipe-bridge-seed rows that copied a Gulli PACK price into a
+    per-each field: garlic bread $59.81 (the carton of 40) and pizza box inserts
+    $11.055 (the box of 100), each landing on an exact whole pack count, which is
+    what named the defect rather than merely flagging it.
+
+    Neither was mispriced in the book — costs.csv already carried the invoiced
+    rate — but a seed is what a new ProductID falls back to before its first
+    invoice lands, so a $59.81 garlic bread was a loaded gun with the safety on.
+    Corrected in data/cogs_list.csv to $1.4952 and $0.11055, the per-each figures
+    the Gulli packs actually work out at.
+
+    NOT fixed by re-running build_recipe_bridge.py, which is the obvious move and
+    the wrong one: it now proposes bridging Herb Coriander to FFT's HCDRMB at
+    $15.40 — the MARKET bunch — against a retail bunch at $1.30, and re-points
+    the 6" tortilla at a different B&E code than the one already adjudicated.
+    A regenerator is only safe where nothing downstream has been decided by hand.
+    """
     seeds = {f["subject"]: f for f in _by_cat(feed, "bad_seed")}
-    assert set(seeds) == {"Garlic Bread", "Pizza Box Inserts"}, sorted(seeds)
-    assert "pack of 40" in seeds["Garlic Bread"]["what_is_wrong"]
-    assert "pack of 100" in seeds["Pizza Box Inserts"]["what_is_wrong"]
+    assert seeds == {}, sorted(seeds)
 
 
 def test_the_config_gap_is_closed(feed):
@@ -348,12 +362,24 @@ def test_a_price_conflict_reports_a_spread_and_calls_it_one(feed):
     measured" — stays a true sentence. The spread still sets the severity, so it
     sorts by money anyway."""
     pcs = {f["subject"]: f for f in _by_cat(feed, "price_conflict")}
-    assert "Massenez Elderflower [5L]" in pcs, sorted(pcs)
-    m = pcs["Massenez Elderflower [5L]"]
-    assert m["impact_per_year"] is None
-    assert m["severity"] == "high"
-    assert "SPREAD, not a loss" in m["evidence"][0]
-    assert "10.47x above" in m["what_is_wrong"]
+    # Massenez was ADJUDICATED 2026-08-14 (Back Office's DefaultSize carries an
+    # extra zero — 50000 ml on a [5L] cask — so Lightspeed's $0.004833 divided by
+    # 50 L of liqueur that does not exist, and our $0.0506 is right), so it is no
+    # longer here. The CONTRACT this test exists for is not about Massenez, so it
+    # is asserted against whatever is in the family rather than a named member.
+    assert pcs, "the family is empty — this contract is untested, not satisfied"
+    for name, m in pcs.items():
+        # a spread is not an under-cost: nobody knows yet which side is wrong
+        assert m["impact_per_year"] is None, name
+        assert m["impact_basis"] is None, name
+        # the ratio is stated in words, in the sentence a human reads
+        assert re.search(r"\d+(\.\d+)?x (above|below)", m["what_is_wrong"]), (
+            name, m["what_is_wrong"])
+    # and where a spread was measurable it is called one, in the evidence
+    spreads = [m for m in pcs.values()
+               if any("SPREAD, not a loss" in e for e in m["evidence"])]
+    assert spreads, sorted(pcs)
+    assert all(m["severity"] in ("high", "medium") for m in pcs.values())
 
 
 def test_the_headline_still_counts_only_measured_under_cost(feed):

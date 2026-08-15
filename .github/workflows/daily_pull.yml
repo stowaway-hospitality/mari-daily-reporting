@@ -6,7 +6,12 @@ name: Daily Pull
 # independently; cross-venue push collisions are absorbed by the
 # pull-rebase-retry loops in the commit steps.
 concurrency:
-  group: daily-pull-${{ github.event.client_payload.venue || inputs.venue || github.event.action || 'cron' }}
+  # ...and per DATE as well. Per-venue alone still collides when a backfill
+  # dispatches several days for one venue at once: GitHub holds only ONE
+  # pending run per group and CANCELS the rest, so recovering the 2026-08-11
+  # to 08-13 outage lost 11 and 12 and kept only the newest. Venue+date means
+  # each day queues on its own and a backfill lands whole.
+  group: daily-pull-${{ github.event.client_payload.venue || inputs.venue || github.event.action || 'cron' }}-${{ github.event.client_payload.target_date || inputs.target_date || 'latest' }}
   cancel-in-progress: false
 
 on:
@@ -91,7 +96,21 @@ jobs:
       - name: Determine target date
         id: date
         run: |
-          if [[ -n "${{ inputs.target_date }}" ]]; then
+          # The DISPATCH's date wins. This read only inputs.target_date
+          # (workflow_dispatch), so a repository_dispatch carrying an older day —
+          # which is how EVERY sales email arrives — fell through to 'yesterday'.
+          # On a normal day that is the same value and nothing showed. On a
+          # BACKFILL it is not: recovering 2026-08-11..13 wrote the 11th's export
+          # to data/insights_*_2026-08-13.csv and moved Stowaway's 13 Aug revenue
+          # from $2,198 to $5,364. A backfill that relabels the day it is fixing
+          # is worse than no backfill.
+          #
+          # (Re-applied 2026-08-14: first fix in 6d6f9e4 was lost in a rebase of
+          # this file. If it goes missing again, 11-12 Aug will silently fail to
+          # heal — that is the symptom.)
+          if [[ -n "${{ github.event.client_payload.target_date }}" ]]; then
+            echo "target=${{ github.event.client_payload.target_date }}" >> $GITHUB_OUTPUT
+          elif [[ -n "${{ inputs.target_date }}" ]]; then
             echo "target=${{ inputs.target_date }}" >> $GITHUB_OUTPUT
           else
             echo "target=$(TZ='Australia/Sydney' date -d 'yesterday' +%Y-%m-%d)" >> $GITHUB_OUTPUT
@@ -134,7 +153,23 @@ jobs:
           git config user.email "hello@stowawaybar.com"
           git add data/
           git diff --quiet --staged || git commit -m "Ingest payload ${{ steps.venue.outputs.venue }} ${{ steps.date.outputs.target }}"
-          for i in 1 2 3; do git pull --rebase origin main && git push && break || sleep $((i*5)); done
+          # A failed rebase LEAVES .git/rebase-merge behind, so attempts 2 and 3
+          # died on "already a rebase-merge directory" without ever retrying —
+          # and because the loop ends in `|| sleep`, the step still exited 0.
+          # That is how 2026-08-11 and 08-12 were lost while eight Daily Pull
+          # runs all reported success. Abort any half-rebase first, and fail
+          # the step if nothing was pushed: a pull that cannot land must be
+          # loud, not green.
+          pushed=""
+          for i in 1 2 3; do
+            git rebase --abort 2>/dev/null || true
+            if git pull --rebase origin main && git push; then pushed=yes; break; fi
+            sleep $((i*5))
+          done
+          if [ -z "$pushed" ] && ! git diff --quiet HEAD origin/main; then
+            echo "::error::push failed after 3 attempts - data was aggregated but never committed"
+            exit 1
+          fi
 
       - name: Deputy pull + aggregate
         env:
@@ -198,6 +233,9 @@ jobs:
           # Combines data/eatclub_hg_<date>.json into data/eatclub_nights.json,
           # which the EatClub dashboard fetches live (keeps the page current).
           python scripts/build_eatclub_nights.py || echo "::warning::eatclub rollup failed (non-fatal)"
+          # Record any reported figure that moved since the last run. Append-only,
+          # so a shallow checkout is fine — the ledger IS the history.
+          python scripts/build_restatements.py || echo "::warning::restatements failed (non-fatal)"
 
       - name: Schema guard (block column wipes / truncation before commit)
         run: |
@@ -213,4 +251,20 @@ jobs:
           git config user.email "hello@stowawaybar.com"
           git add data/ dashboard/sales/products/
           git diff --quiet --staged || git commit -m "Daily pull ${{ steps.venue.outputs.venue }} ${{ steps.date.outputs.target }}"
-          for i in 1 2 3; do git pull --rebase origin main && git push && break || sleep $((i*5)); done
+          # A failed rebase LEAVES .git/rebase-merge behind, so attempts 2 and 3
+          # died on "already a rebase-merge directory" without ever retrying —
+          # and because the loop ends in `|| sleep`, the step still exited 0.
+          # That is how 2026-08-11 and 08-12 were lost while eight Daily Pull
+          # runs all reported success. Abort any half-rebase first, and fail
+          # the step if nothing was pushed: a pull that cannot land must be
+          # loud, not green.
+          pushed=""
+          for i in 1 2 3; do
+            git rebase --abort 2>/dev/null || true
+            if git pull --rebase origin main && git push; then pushed=yes; break; fi
+            sleep $((i*5))
+          done
+          if [ -z "$pushed" ] && ! git diff --quiet HEAD origin/main; then
+            echo "::error::push failed after 3 attempts - data was aggregated but never committed"
+            exit 1
+          fi

@@ -55,16 +55,74 @@ sys.path.insert(0, str(ROOT))
 from core.domain import (canonical_purchasable, normalize_code,   # noqa: E402
                          purchasable_id)   # the SAME natural key the cost engine uses
 from core.pack_overrides import load_pack_overrides   # noqa: E402
+from modules.invoices.pack_size import single_unit_content   # noqa: E402
 COGS = ROOT / "data" / "cogs_list.csv"
 OUT = ROOT / "data" / "ingredients.json"
 PACK_OVERRIDES = ROOT / "data" / "pack_overrides.yaml"
 
 # Suppliers whose goods a chef cooks with. Liquor is a different UI problem
 # (a bottle IS the unit); keep this list explicit rather than clever.
+#
+# MATCHED ON THE TRADING NAME, NOT THE EXACT STRING. This used to be an exact
+# `in` test against the supplier column, and the supplier column carries whatever
+# the invoice header says — which for the same company is not one string:
+#
+#     "Jun Pacific"                            4 rows   (matched, in the picker)
+#     "Jun Pacific Corporation Pty Ltd"      128 rows   (did NOT match, invisible)
+#     "Sun Circle"                             4 rows   (matched, but code-less)
+#     "Sun Circle Food Manufacturing Pty Ltd"  8 rows   (did NOT match, invisible)
+#
+# So 86 recent coded Jun Pacific rows (23 SKUs of Asian pantry goods) and every
+# Sun Circle dumpling were silently missing from the chef's picker — not because
+# of a parser or a price, but because the legal name has "Corporation Pty Ltd" on
+# the end. Nothing reported it: an ingredient that never appears raises no flag.
+#
+# _is_kitchen strips the legal suffixes and matches the trading name as a prefix,
+# so any of the above spellings resolves to the same supplier. The list below
+# stays explicit — that part of the original instinct was right — and the test
+# in test_ingredient_quality pins BOTH the inclusions and the liquor exclusions,
+# because a prefix rule that quietly swallowed ILG or Paramount would put bottles
+# in a food picker.
 KITCHEN_SUPPLIERS = {
     "Select Fresh", "B&E", "Foodlink", "Gulli", "Sun Circle",
     "Fresh Fruit Team", "FFT", "Andrews Meat", "Jun Pacific",
+    # Kitchen suppliers that were never listed at all, so their costs have never
+    # reached a recipe: JFC (Japanese dry goods), The Berry Man (produce),
+    # F J Chickens / Farmer Joes (poultry), Nicholas Seafood (fish).
+    "JFC", "JFC Australia", "The Berry Man", "F J Chickens", "Farmer Joes",
+    "Nicholas Seafood", "Aquarius",          # Aquarius Fisheries — seafood
 }
+
+# Legal-entity noise that is never part of a trading name.
+# "the" is in here because the legal name is "The Fresh Fruit Team Pty Ltd" while
+# the trading name is "Fresh Fruit Team" — dropping it from BOTH sides means the
+# article can sit on either and still match ("The Berry Man" resolves the same).
+_SUPPLIER_NOISE = re.compile(
+    r"\b(the|pty|ltd|limited|inc|incorporated|corporation|corp|"
+    r"co|company|group|holdings|australia|aust|nsw|qld|vic)\b", re.I)
+
+
+def _norm_supplier(s: str) -> str:
+    s = _SUPPLIER_NOISE.sub(" ", (s or ""))
+    return re.sub(r"[^a-z0-9]+", " ", s.lower()).strip()
+
+
+_KITCHEN_NORM = {_norm_supplier(s) for s in KITCHEN_SUPPLIERS}
+_KITCHEN_NORM.discard("")
+
+
+def is_kitchen_supplier(supplier: str) -> bool:
+    """True if this invoice's supplier is one a chef cooks from.
+
+    Prefix match on the NORMALISED trading name, so "Jun Pacific",
+    "Jun Pacific Corporation Pty Ltd" and "JUN PACIFIC CORP" are one supplier.
+    Prefix (not equality) is what catches "Sun Circle Food Manufacturing", where
+    the extra words are a description of the business rather than legal noise.
+    """
+    n = _norm_supplier(supplier)
+    if not n:
+        return False
+    return any(n == k or n.startswith(k + " ") for k in _KITCHEN_NORM)
 
 # Consumables and packaging suppliers list alongside food but that are NEVER
 # recipe ingredients — a chef should never see "napkins" in the ingredient
@@ -175,6 +233,44 @@ def suspect_name(desc: str, code: str) -> str | None:
     if c and len(n) >= 3 and (n == c or c.startswith(n)):
         return "name echoes the supplier code (parse artefact)"
     return None
+
+
+def _word_suffix(frag: str, full: str) -> bool:
+    """True if `full` is `frag` with extra WORDS on the front ("Carrot Large" vs
+    "Large"). Word-boundary anchored, so "Bean Green" does not match "Green Bean"
+    and "Radish Red" cannot swallow an unrelated "Red"."""
+    if len(full) <= len(frag) or not full.lower().endswith(frag.lower()):
+        return False
+    return full[len(full) - len(frag) - 1] in " -/"
+
+
+def _undo_dropped_prefix(seq: list[str]) -> str:
+    """
+    `seq` is one supplier code's descriptions, NEWEST FIRST. Normally the latest
+    name wins — a supplier renaming its own product must show the current name.
+
+    But a parse artefact is not a rename. Until 2026-08-15 the FFT parser dropped
+    the description's FIRST WORD into the unit column on any invoice whose header
+    sat left of a hard-coded boundary, so one code carried both "Carrot Large" and
+    "Large", and whichever the most recent invoice happened to be decided the name
+    the chef saw. That is how "Large", "Hass", "Jap" and "Sweet" became products.
+
+    A dropped leading word is recognisable without guessing: the fragment is a
+    WORD-BOUNDARY SUFFIX of a longer spelling of the SAME code. A genuine rename
+    is not ("Carrot Large" -> "Carrot Jumbo" shares no suffix), so this can only
+    undo the artefact. Measured on the live cost book: it repairs 44 of the 52 FFT
+    codes that carry more than one description, and touches nothing else.
+
+    The parser fix stops new ones appearing; this repairs the history already in
+    data/, which cannot be re-parsed (the source PDFs live behind the Supabase
+    service key, which this pipeline must never hold).
+    """
+    latest = seq[0]
+    best = latest
+    for other in seq:
+        if _word_suffix(latest, other) and len(other) > len(best):
+            best = other
+    return best
 
 
 def _better_name(a: str, b: str) -> str:
@@ -382,6 +478,26 @@ def resolve_pack(desc: str, cost, basis: str = "", note: str = "", code: str = "
     if b in ("lt", "l", "litre"):
         return Decimal(1000), "ml", (cost / 1000).quantize(Decimal("0.000001")), "per L (invoice)", None
 
+    # THE SUPPLIER'S OWN UOM OUTRANKS A SCAVENGED DESCRIPTION, where the UOM
+    # names one sellable thing and states its size ("200g punnet"). A description
+    # is free text: it wraps, it truncates, and it carries substitution notes.
+    # MKB500PUNN arrived as "Punnet) 8 x 100g packs supplied for" — a fragment
+    # whose "8 x 100g" is the TOTAL of a four-punnet line — and reading it as one
+    # punnet booked King Brown mushrooms at $7.56/kg against the $30.25/kg every
+    # other delivery of the same code states.
+    #
+    # single_unit_content refuses a multi ("6x700ML") and a bulk label ("CTN-6")
+    # precisely so this cannot become the case/bottle error in a new place: those
+    # need a second source to tell a case price from a bottle price, which is
+    # seed_matched_liquor_cost's job, not this one's.
+    suc = single_unit_content(note)
+    if suc:
+        _q, _u = suc
+        _base = (_q * 1000).quantize(Decimal("0.000001"))
+        _bu = "g" if _u == "kg" else "ml"
+        _per = (cost / _base).quantize(Decimal("0.000001"))
+        return _base, _bu, _per, f"{note.strip()} (invoice UOM)", out_of_bounds(_per, _bu)
+
     qty, unit, how = parse_pack(desc)
     if qty and unit and unit in ("g", "ml"):
         ctn = re.search(r"CTN[-\s]?(\d+)", note, re.I)
@@ -469,9 +585,9 @@ def main() -> int:
     # renaming its own product must still show the current name, and pooling
     # every row would have quietly reverted 20 unrelated descriptions to older
     # spellings. Only the parser artefact is being undone.
-    names: dict[tuple[str, str], str] = {}
+    name_hist: dict[tuple[str, str], list[str]] = {}
     for r in reversed(rows):
-        if r["supplier"] not in KITCHEN_SUPPLIERS:
+        if not is_kitchen_supplier(r["supplier"]):
             continue
         try:
             seen_date = datetime.fromisoformat(r["invoice_date"]).date()
@@ -498,7 +614,7 @@ def main() -> int:
         # because that trailing word is how some Fresh Fruit Team lines state
         # their sold unit.
         key = purchasable_id(r["supplier"], code)
-        names.setdefault((key, code.upper()), clean_name(desc))   # rows are newest-first
+        name_hist.setdefault((key, code.upper()), []).append(clean_name(desc))  # newest-first
         if key in seen:
             continue
         seen.add(key)
@@ -551,6 +667,13 @@ def main() -> int:
             item["review_reason"] = bad or how
             review += 1
         out.append(item)
+
+    # Undo the dropped leading word BEFORE merging across codes (see
+    # _undo_dropped_prefix). This is the half the (key, code) keying could not do:
+    # both spellings share one raw code, so "latest wins" kept whichever the most
+    # recent invoice happened to carry — and for 44 FFT codes that was the
+    # truncated one.
+    names = {k: _undo_dropped_prefix(v) for k, v in name_hist.items()}
 
     # the fullest description across the spellings of this identity (see `names`)
     best: dict[str, str] = {}
@@ -637,17 +760,64 @@ def main() -> int:
     # useful row: resolved over flagged, a weight/volume unit over a discrete one
     # (a chef portions by gram), then the cheaper. Exact-name within one supplier
     # is safe — it is the same product bought two ways.
+    # ...BUT ONLY IF THE MONEY AGREES. "Same name, one supplier" is NOT enough on
+    # its own, and the tiebreak below prefers the CHEAPER row, so a wrong merge
+    # here silently deletes the dearer product — the "errors that flatter you"
+    # direction this codebase exists to refuse.
+    #
+    # Fresh Fruit Team sells the same herb as a single bunch AND as a MARKET
+    # bunch, and calls both "Herb Chives" on the invoice; only the code and the
+    # price tell them apart (HCBCH $2.42 vs HCMB $15.40, HCB $2.64 vs HCDRMB
+    # $7.70). They escaped this pass purely because the old parser bug had
+    # truncated one of each pair to "Chives" / "Coriander". Repairing those names
+    # on 2026-08-15 made the names match and the collapse promptly dropped both
+    # market bunches — a 6x and a 3x understatement on two packs Zak had himself
+    # confirmed in pack_overrides. Caught before shipping by diffing the feed
+    # against the pre-change build.
+    #
+    # So: merge only when the canonical $/unit agree within 10%. If they do not,
+    # these are two different packs that share a name — keep BOTH and disambiguate
+    # with the supplier's own code, which is the only distinguishing fact we have
+    # that was not invented here.
     def _rank(it):
         return (0 if not it.get("needs_pack_review") else 1,
                 0 if it.get("pack_unit") in ("g", "ml") else 1,
                 float(it.get("cost_per_base_unit") or 1e9))
+
+    def _cost(it):
+        try:
+            return float(it.get("cost_per_base_unit"))
+        except (TypeError, ValueError):
+            return None
+
+    def _same_money(a, b) -> bool:
+        ca, cb = _cost(a), _cost(b)
+        if ca is None or cb is None:
+            return True                     # nothing to compare -> old behaviour
+        if a.get("pack_unit") != b.get("pack_unit"):
+            return False                    # $/ea vs $/g is not the same question
+        hi = max(ca, cb)
+        return hi <= 0 or abs(ca - cb) / hi <= 0.10
+
     byname: dict[tuple[str, str], dict] = {}
+    kept_apart: list[dict] = []
     for it in out:
         k = (it["supplier"], it["description"])
         cur = byname.get(k)
-        if cur is None or _rank(it) < _rank(cur):
+        if cur is None:
             byname[k] = it
-    out = list(byname.values())
+        elif _same_money(cur, it):
+            if _rank(it) < _rank(cur):
+                byname[k] = it              # same product bought two ways
+        else:
+            kept_apart.append(it if _rank(cur) <= _rank(it) else cur)
+            if _rank(it) < _rank(cur):
+                byname[k] = it
+    for it in kept_apart:
+        code = (it.get("supplier_code") or "").strip()
+        if code and code.upper() not in (it["description"] or "").upper():
+            it["description"] = f"{it['description']} ({code})"
+    out = list(byname.values()) + kept_apart
     review = sum(1 for i in out if i.get("needs_pack_review"))
 
     out.sort(key=lambda i: (i["needs_pack_review"], i["description"]))

@@ -87,6 +87,11 @@ def sig(d):
 def main():
     ensure_clone()
     sys.path.insert(0, CLONE)
+    # health_monitor's "Automation jobs" check reads GitHub Actions run results,
+    # which needs a token. We already hold one; hand it over rather than making
+    # the check reach into .secrets/ itself (that directory is gitignored, so it
+    # does not exist inside the main-pinned clone this runs from).
+    os.environ.setdefault("GH_TOKEN", PAT)
     import scripts.health_monitor as hm
     snap = hm.build()
     # Surface the exact failure that hid for 2 days (Aug 2026): the shared Mac

@@ -11,6 +11,16 @@ on:
       - 'modules/recipes/**'   # the recipe builder app + its feed pipelines
       - 'core/**'              # the cost/identity engine the feeds build on
       - 'data/recipes/**'      # saved recipes feed the sub-recipe index
+      - 'data/**'              # the numbers themselves. WITHOUT THIS, any commit that
+                               # touches only data/ never deploys: the feed is correct in
+                               # git and stale on screen, with nothing anywhere saying so.
+                               # Bit the Uber pull (the one daily writer that is a Cowork
+                               # task, not a workflow, so it cannot trigger the
+                               # workflow_run path below either) and — worse — bit the
+                               # health snapshot itself: alert_check.py commits
+                               # data/system_health.json when a check CHANGES STATUS, so a
+                               # feed could go down, publish 'down' to main, and the app
+                               # would keep serving the last 'ok' it happened to deploy.
       - 'scripts/build_site.py' # the builder itself (cache-bust, link-check)
   workflow_dispatch:
 

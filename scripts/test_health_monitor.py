@@ -46,6 +46,21 @@ def _build_with(monkey_ages, queue_days):
     hm._pull_integrity = lambda *a, **k: monkey_ages.get("integrity", {"status": "ok", "detail": "clean"})
     hm._uber_feed = lambda *a, **k: monkey_ages.get("uber", {"status": "ok", "detail": "clean"})
     hm._uber_direct = lambda *a, **k: monkey_ages.get("uberdirect", {"status": "ok", "detail": "clean"})
+    hm._pages_drift = lambda *a, **k: monkey_ages.get("pagesdrift", {"status": "ok", "detail": "clean"})
+    # Added 2026-08-10. Both must be stubbed or this test stops being hermetic:
+    # _uber_direct_reconciled reads two CSVs off disk, and _workflow_failures
+    # calls the GitHub API and returns "unknown" wherever there is no token —
+    # which silently dragged `overall` off "ok" and failed two cases here.
+    hm._uber_direct_reconciled = lambda *a, **k: monkey_ages.get("uberdirectrecon", {"status": "ok", "detail": "clean"})
+    hm._workflow_failures = lambda *a, **k: monkey_ages.get("jobs", {"status": "ok", "detail": "clean"})
+    hm._uber_vs_books = lambda *a, **k: monkey_ages.get("books", {"status": "ok", "detail": "clean"})
+    # Added 2026-08-14, and it is the THIRD time this has happened — see the note
+    # above. _missing_sales_days reads data/*_daily_*.json off disk against
+    # date.today(), so an un-stubbed call makes this suite depend on whether the
+    # real venues happened to trade this week. It went red on a REAL two-day
+    # sales gap (2026-08-11/12, all three venues), which is a true finding and
+    # exactly the thing this file must not be the one to report.
+    hm._missing_sales_days = lambda *a, **k: monkey_ages.get("sales", {"status": "ok", "detail": "clean"})
     return hm.build()
 
 
@@ -65,6 +80,41 @@ check("dead invoice poller -> overall down", out["overall"] == "down")
 out = _build_with(dict(allfresh), 0)
 check("all healthy -> overall ok", out["overall"] == "ok")
 
+# ---- Uber vs the books -----------------------------------------------------
+# The only Uber check that looks OUTSIDE the portal. DoorDash was dropped from
+# Mari's delivery cost for two months and every internal guard stayed green,
+# because a missing channel leaves no trace in a feed - the feed is just smaller.
+out = _build_with(dict(allfresh, books={"status": "warn", "detail": "2026-06 feeds short A$624"}), 0)
+check("feeds short of the books -> overall warn", out["overall"] == "warn")
+check("books check is reported", any(c.get("name") == "Uber vs the books" for c in out["checks"]))
+
+# ---- Automation jobs (failed Actions runs) ---------------------------------
+# The one class of alert_check escalation with nowhere on screen to land until
+# 2026-08-10: everything else it raises maps to a check here, and snapshot
+# staleness is caught client-side from the snapshot's own timestamp.
+out = _build_with(dict(allfresh, jobs={"status": "down", "detail": "Daily Pull failing"}), 0)
+check("failing critical job -> overall down", out["overall"] == "down")
+
+out = _build_with(dict(allfresh, jobs={"status": "warn", "detail": "Alias suggest failing"}), 0)
+check("failing minor job -> overall warn", out["overall"] == "warn")
+
+# No token (CI, or anyone's laptop) must not muddy the headline — see the
+# advisory note in health_monitor.build().
+out = _build_with(dict(allfresh, jobs={"status": "unknown", "detail": "no GitHub token"}), 0)
+check("cannot read jobs -> stays ok, not unknown", out["overall"] == "ok")
+check("unreadable jobs check is still reported", any(c.get("name") == "Automation jobs" for c in out["checks"]))
+
+# ---- Sales completeness ----------------------------------------------------
+# Stubbed in _build_with, so it needs its own cases or the stub would be the
+# only thing this file ever says about it. A missing trading day is the signal
+# that the Lightspeed export never ingested - it is how the real 2026-08-11/12
+# gap across all three venues should have surfaced, and would have, had the
+# snapshot publisher not been down at the same time.
+out = _build_with(dict(allfresh, sales={"status": "warn", "detail": "sales missing: Stowaway 2026-08-11"}), 0)
+check("a missing trading day -> overall warn", out["overall"] == "warn")
+check("sales completeness check is reported",
+      any(c.get("name") == "Sales completeness" for c in out["checks"]))
+
 # ---- Uber fee feed ---------------------------------------------------------
 # The reason this check exists: the fee split was wrong for four weeks, the drift
 # WAS detected on 11 consecutive runs, and every one of them wrote it to a log
@@ -83,6 +133,22 @@ check("healthy uber feed is reported", any(c.get("name") == "Uber fee feed" for 
 out = _build_with(dict(allfresh, uberdirect={"status": "down", "detail": "silent 22d"}), 0)
 check("dead uber direct ingest -> overall down", out["overall"] == "down")
 check("uber direct check is reported", any(c.get("name") == "Uber Direct ingest" for c in out["checks"]))
+
+# The app reads Pages, not main. deploy_dashboard.yml is path-triggered and
+# data/** was missing from it, so a data-only commit was correct in git and
+# never reached the screen. Confirmed live on 2026-08-09: Pages was published at
+# 62e704c2 while main had moved on twice, INCLUDING an 08:41 health snapshot
+# committed because a check had changed status. The panel that reports outages
+# was itself unpublishable. Warn, not down: the numbers are safe, just unseen.
+out = _build_with(dict(allfresh, pagesdrift={"status": "warn", "detail": "app behind on 2 feeds"}), 0)
+check("app behind the repo -> overall warn", out["overall"] == "warn")
+check("pages drift check is reported",
+      any(c.get("name") == "Published app is current" for c in out["checks"]))
+
+# Offline (office Mac with no network) must never masquerade as an outage.
+out = _build_with(dict(allfresh, pagesdrift={"status": "unknown", "detail": "unreachable"}), 0)
+check("unreachable app -> not down", out["overall"] != "down")
+
 
 # ---- folded-in watchdog checks -------------------------------------------
 # Stow export narrowed is the six-figure-silent-loss case -> must go down

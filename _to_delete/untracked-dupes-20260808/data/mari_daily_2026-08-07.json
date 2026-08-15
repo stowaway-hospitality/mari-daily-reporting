@@ -1,0 +1,244 @@
+{
+  "date": "2026-08-07",
+  "generated_at": "2026-08-08T03:41:54.143858Z",
+  "venue": "marilynas",
+  "venue_display": "Marilyna's Pizza",
+  "lane_config": [
+    "revenue",
+    "cogs",
+    "wages",
+    "delivery"
+  ],
+  "data_status": {
+    "lightspeed": "ok",
+    "deputy": "ok",
+    "payments": "missing"
+  },
+  "sales": {
+    "revenue_inc_gst": 3630.71,
+    "revenue_ex_gst": 3286.27,
+    "cogs_dollars": 787.01,
+    "cogs_pct": 23.9,
+    "gp_dollars": 2499.26,
+    "gp_pct": 76.1,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 787.01,
+    "recipe_coverage_pct": 0.0,
+    "uber_eats_revenue": 0,
+    "net_takings_ex_gst": null,
+    "eatclub_giveaway_ex_gst": 29.92,
+    "eatclub_covers": 2,
+    "revenue_ex_gst_before_eatclub": 3316.19,
+    "food_ex_gst": 3286.27,
+    "bev_ex_gst": 0.0,
+    "food_cogs": 787.01,
+    "bev_cogs": 0.0,
+    "food_cogs_pct": 23.9,
+    "bev_cogs_pct": null,
+    "food_gp_pct": 76.1,
+    "bev_gp_pct": null
+  },
+  "wages": {
+    "kitchen_dollars": 975.75,
+    "foh_dollars": 0,
+    "driver_dollars": 201.31,
+    "admin_dollars": 0,
+    "leave_dollars": 0,
+    "total_dollars": 1177.06,
+    "wages_pct": 35.8,
+    "net_wage_pct": null,
+    "kitchen_hours": 26.2,
+    "foh_hours": 0,
+    "wages_kitchen_pct": 29.7,
+    "wages_foh_pct": null,
+    "includes_super": true,
+    "salaried_synthesized": true
+  },
+  "delivery": {
+    "uber_eats_commission_dollars": 0,
+    "own_driver_dollars": 201.31,
+    "uber_direct_dollars": 0.0,
+    "total_dollars": 201.31,
+    "delivery_pct": 6.1,
+    "fees_are_estimate": true
+  },
+  "payments_breakdown": null,
+  "alerts": {
+    "cogs": "red",
+    "wages": "red",
+    "delivery": "yellow",
+    "gp": "unknown",
+    "cogs_food": "unknown",
+    "cogs_bev": "unknown",
+    "wages_kitchen": "unknown",
+    "wages_foh": "unknown"
+  },
+  "targets": {
+    "cogs": {
+      "target": 17.6,
+      "amber": 20.6,
+      "red": 22.6,
+      "note": "Recent baseline - 3pt (aspirational, tighten quarterly)"
+    },
+    "wages": {
+      "target": 30.0,
+      "amber": 32.0,
+      "red": 34.0,
+      "note": "Zak-set: 30% target from cost-structure math"
+    },
+    "delivery": {
+      "target": 6.0,
+      "amber": 8.0,
+      "red": 10.0,
+      "note": "Uber Eats commission + Uber Direct + own driver combined, % of ex-GST rev"
+    },
+    "overheads": {
+      "target": 25.0,
+      "amber": 28.0,
+      "red": 30.0,
+      "note": "Rent + utils + admin + insurance + real marketing (excludes delivery + Uber commission)"
+    }
+  },
+  "top_products": [
+    {
+      "name": "Large Super House Special",
+      "qty": 10.0,
+      "rev": 197.6,
+      "cost": 77.21,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular Hawaiian",
+      "qty": 9.0,
+      "rev": 176.7,
+      "cost": 11.23,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Large Meatlovers",
+      "qty": 6.0,
+      "rev": 138.6,
+      "cost": 41.74,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular Super House Special",
+      "qty": 6.0,
+      "rev": 135.8,
+      "cost": 33.17,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Large Pepperoni",
+      "qty": 8.0,
+      "rev": 135.6,
+      "cost": 36.52,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular Little Italy [Dine-in]",
+      "qty": 5.0,
+      "rev": 133.4,
+      "cost": 24.02,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "$60 BANQUET",
+      "qty": 2.0,
+      "rev": 120.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular BBQ Chicken Pizza",
+      "qty": 5.0,
+      "rev": 116.9,
+      "cost": 14.93,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Large Hawaiian",
+      "qty": 6.0,
+      "rev": 95.8,
+      "cost": 19.58,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular Margherita",
+      "qty": 16.0,
+      "rev": 92.7,
+      "cost": 19.68,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Large Margherita",
+      "qty": 8.0,
+      "rev": 91.6,
+      "cost": 18.38,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "$90 PIZZA PARTY",
+      "qty": 1.0,
+      "rev": 90.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Large Bubba Gump",
+      "qty": 4.0,
+      "rev": 85.8,
+      "cost": 22.13,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular Jimmy Jury [Dine-in]",
+      "qty": 3.0,
+      "rev": 83.7,
+      "cost": 10.01,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular Uber Margherita",
+      "qty": 4.0,
+      "rev": 81.9,
+      "cost": 12.77,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular Pepperoni",
+      "qty": 4.0,
+      "rev": 80.9,
+      "cost": 8.51,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Garlic Bread",
+      "qty": 18.0,
+      "rev": 75.0,
+      "cost": 25.56,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular New Yorker [Dine-in]",
+      "qty": 3.0,
+      "rev": 74.37,
+      "cost": 10.76,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular Roma Special",
+      "qty": 3.0,
+      "rev": 72.0,
+      "cost": 12.1,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular Meatlovers",
+      "qty": 3.0,
+      "rev": 69.9,
+      "cost": 14.94,
+      "cost_source": "lightspeed"
+    }
+  ]
+}

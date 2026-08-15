@@ -80,6 +80,8 @@ from datetime import date, timedelta
 from decimal import Decimal
 from pathlib import Path
 
+import yaml
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -628,16 +630,59 @@ def _slug(s: str) -> str:
 
 
 def _adjudicated_ids() -> set:
-    """Every ProductID somebody has already reconciled against a real invoice,
-    with the reasoning written down in data/product_map.csv. Havana Club is the
-    live example: it sits at exactly 2.0000x and the file says why our figure is
-    the right one. A queue that re-raises settled questions stops being read."""
+    """Every ProductID somebody has already reconciled against a real invoice.
+
+    TWO SOURCES, because there are two shapes of answer and only one of them is a
+    bridge.
+
+    data/product_map.csv — the answer WAS a bridge. Havana Club is the live
+    example: it sits at exactly 2.0000x, and the row carries the ILG code whose
+    invoice settled it, so the price flows as well as the verdict.
+
+    data/adjudicated_prices.yaml — the answer was a VERDICT with no price to
+    import: "ours was already right" (Massenez Elderflower, where Back Office's
+    DefaultSize carries an extra zero), or "both records are right and here is the
+    ratio" (Avocado, a 20-count tray against loose fruit). These have no supplier
+    code, and product_map.csv cannot hold them: purchasable_id() raises on a blank
+    code rather than guess an identity from the description, which is correct and
+    is what stopped ten such rows being smuggled in there on 2026-08-14.
+
+    A queue that re-raises settled questions stops being read, which is the whole
+    reason either file exists.
+
+    A BRIDGE IS NOT A VERDICT, and reading every product_map row as one was muting
+    this queue. Found 2026-08-14: `bridge_stale_seeds.py --apply` wrote 27 rows in
+    one go and silently retired the Frank's Hot Sauce and Honey Pure conflicts —
+    two flags whose own test comment says "The conflict is Lightspeed's to fix; our
+    side is the evidenced one, and it should stay visible until it is fixed there."
+    Bridging our side to an invoice does not correct Lightspeed's recipe costing,
+    so it cannot answer "which of these two prices is real".
+
+    The distinction is already in the data. Havana Club — the row this function was
+    written for — carries `confidence: "pricebook-adjudicated; ..."`, a sentence
+    somebody wrote after reading an invoice. The auto-bridger writes
+    `confidence: "name-prefix; seed $X -> invoice $Y (-Z%)"`, which records a MATCH,
+    not a judgement. Only the former settles anything.
+    """
+    out: set = set()
     p = DATA / "product_map.csv"
-    if not p.exists():
-        return set()
-    return {"lightspeed:" + (r.get("product_id") or "").strip()
-            for r in csv.DictReader(p.open(encoding="utf-8-sig"))
-            if (r.get("product_id") or "").strip()}
+    if p.exists():
+        out |= {"lightspeed:" + (r.get("product_id") or "").strip()
+                for r in csv.DictReader(p.open(encoding="utf-8-sig"))
+                if (r.get("product_id") or "").strip()
+                and "adjudicat" in (r.get("confidence") or "").lower()}
+    y = DATA / "adjudicated_prices.yaml"
+    if y.exists():
+        try:
+            docs = yaml.safe_load(y.read_text(encoding="utf-8-sig")) or []
+        except yaml.YAMLError:
+            docs = []      # a malformed verdict file settles nothing; say so by having none
+        for d in docs:
+            # A verdict with no reasoning is not a verdict, it is a mute button.
+            if isinstance(d, dict) and str(d.get("id") or "").strip() \
+                    and str(d.get("verdict") or "").strip():
+                out.add(str(d["id"]).strip())
+    return out
 
 
 def structure_flags(recipes, sold, window="") -> list:

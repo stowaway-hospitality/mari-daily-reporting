@@ -30,6 +30,7 @@ import argparse
 import base64
 import json
 import os
+import socket
 import subprocess
 import sys
 import tempfile
@@ -49,6 +50,8 @@ GRAPH = f"https://graph.microsoft.com/v1.0/users/{urllib.parse.quote(MAILBOX)}"
 PROCESSED_FOLDER = "Invoices Processed"
 REVIEW_FOLDER = "Invoices Review"
 BATCH = 20        # messages per run; the schedule catches the rest
+RETRY_BATCH = 200  # the Review retry sweeps the WHOLE folder — see main()
+GRAPH_TIMEOUT = 60   # seconds per Graph call; see the note in _req()
 WINDOW_WEEKS = 12  # ~3 months. Widened from 6 for a one-off deep backfill (Zak:
                    # "do another month of invoices to ensure we've caught
                    # everything, incl. beverage purchases"). The daily pass still
@@ -75,12 +78,25 @@ def _req(token, method, path, body=None):
         headers["Content-Type"] = "application/json"
     req = urllib.request.Request(url, data=data, headers=headers, method=method)
     try:
-        with urllib.request.urlopen(req) as r:
+        # TIMEOUT IS NOT OPTIONAL. urlopen() with no timeout blocks FOREVER on a
+        # half-open socket, and this call is the bottom of every mail path:
+        # pull_mailbox, the Review retry, and build_corpus all reach Graph
+        # through here. On 2026-08-15 a pull_mailbox.py was found still wedged
+        # after ~21 hours and a build_corpus.py after 1h45m (2 open sockets,
+        # 1.75s of CPU, zero files written) — both had to be killed by hand, and
+        # a wedged run blocks the next scheduled one. A stuck socket must fail
+        # loudly and let the retry pass pick the work up tomorrow.
+        with urllib.request.urlopen(req, timeout=GRAPH_TIMEOUT) as r:
             raw = r.read()
             return json.loads(raw) if raw else {}
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8", "replace")[:400]
         raise RuntimeError(f"Graph {e.code} on {method} {url.split('?')[0]}: {body}") from None
+    except (TimeoutError, socket.timeout) as e:
+        raise RuntimeError(
+            f"Graph TIMEOUT after {GRAPH_TIMEOUT}s on {method} {url.split('?')[0]} "
+            f"— no response. Nothing was promoted; the next run retries."
+        ) from None
 
 
 def ensure_folder(token, name) -> str:
@@ -151,7 +167,8 @@ def move_message(token, msg_id, folder_id):
 
 # ── invoice handling ───────────────────────────────────────────────────────
 def run_invoice(pdf_bytes, source, sender="", no_llm=False) -> int:
-    """run.py on one PDF. 0 PASS, 2 REVIEW, 1 ERROR (its own exit codes).
+    """run.py on one PDF. Its exit codes: 0 PASS, 1 ERROR, 2 REVIEW,
+    3 STATEMENT (not an invoice), 4 IMAGE-ONLY (no text layer -> manual entry).
     Passes the sender domain so run.py tries a free deterministic parser first.
     no_llm forbids the API call — parser or review, nothing spent."""
     # keep the original PDF so the app can show the actual invoice for review
@@ -209,13 +226,30 @@ def main() -> int:
     ap.add_argument("--oldest-first", action="store_true",
                     help="drain the OLDEST unprocessed mail first — for backfilling a backlog "
                          "the newest-first daily pass has starved (still within WINDOW_WEEKS)")
-    ap.add_argument("--max", type=int, default=BATCH,
-                    help=f"messages to gather this run (default {BATCH}; raise for a backfill)")
+    ap.add_argument("--max", type=int, default=None,
+                    help=f"messages to gather this run (default {BATCH} for the inbox pass, "
+                         f"{RETRY_BATCH} for the Review retry; raise for a backfill)")
     ap.add_argument("--no-llm", action="store_true",
                     help="parse deterministically only — no API credit needed; unparseable "
                          "invoices go to Review for a later LLM pass")
     args = ap.parse_args()
     retry = args.source_folder.lower() != "inbox"   # Review-retry pass
+    # THE RETRY PASS WAS STARVING ITS OWN BACKLOG. Both passes defaulted to the
+    # newest BATCH=20 messages, which is right for the inbox (today's invoices
+    # must not queue behind a backlog) and wrong for Review, where the whole
+    # point is to re-try things that have ALREADY been sitting there. Review
+    # holds ~60 messages, so the newest 20 are permanently in front and anything
+    # older is never re-tried: after the Foodlink parser was fixed on 2026-08-15
+    # the retry pass recovered only the 3 newest invoices and left 7 stuck, which
+    # took a manual --max 60 to clear. A retry pass should sweep the whole
+    # folder — it is cheap under --no-llm, where a miss costs nothing.
+    #
+    # ONLY under --no-llm. A retry pass WITHOUT it pays for an extraction per
+    # message, so sweeping the folder would turn a 20-message run into a
+    # 200-message bill. Deterministic sweeps are free and get the whole backlog;
+    # billed sweeps stay on the small batch. --max still overrides either way.
+    if args.max is None:
+        args.max = RETRY_BATCH if (retry and args.no_llm) else BATCH
 
     token = get_token()
     processed_id = review_id = None
@@ -261,16 +295,29 @@ def main() -> int:
 
         worst = 0
         saw_invoice = False
+        needs_manual = False
         for name, data in pdfs:
             code = run_invoice(data, f"{subj} / {name}", sender=sender, no_llm=args.no_llm)
             if code == 3:                                  # statement / not an invoice
                 print("    (statement / not an invoice — skipped)")
                 continue
+            if code == 4:
+                # Image-only: no parser can ever read it (see run.py). Kept in
+                # Review for a human to key, but labelled so it does not read as
+                # a parser gap — otherwise every future triage re-investigates
+                # the same 15 Sun Circle scans and "concludes" they need OCR.
+                print("    (image-only scan — needs MANUAL ENTRY, not a parser)")
+                needs_manual = True
+                continue
             saw_invoice = True
             worst = max(worst, 1 if code == 1 else (2 if code == 2 else 0))
             any_change = True
-        if not saw_invoice:                                # every PDF was a statement
-            if not retry:
+        if not saw_invoice:                                # statement / manual-entry only
+            if needs_manual:
+                if not retry:
+                    move_message(token, m["id"], review_id)
+                print("    -> Review (manual entry — no text layer)")
+            elif not retry:
                 move_message(token, m["id"], review_id)
                 print("    -> Review (statement, no invoice)")
         elif worst == 0:

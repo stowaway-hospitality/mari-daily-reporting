@@ -12,8 +12,9 @@ data/invoices/ becomes rows in the recipe system, no hands.
 
 MERGE, NOT REGENERATE. cogs_list.csv already holds hand-entered rows from the
 sweep that have no invoice JSON behind them. This ADDS validated invoice lines
-that aren't already present (keyed by invoice_ref + supplier_code/description)
-and leaves everything else untouched. Idempotent: run twice, same result.
+that aren't already present (keyed by invoice_ref + supplier_code/description),
+re-derives the ones that are (see below), and leaves everything else untouched.
+Idempotent: run twice, same result.
 
 IDEMPOTENT AGAINST ITSELF, NOT AGAINST EVERYONE. That claim only ever covered
 rows this script adds. Three rows reached the file another way — Paramount
@@ -27,6 +28,23 @@ applies it too (build_costs._read_cogs_rows). A check on the way in can be
 bypassed; a check on the way out cannot. The three rows stay in the file —
 cogs_list.csv is an append-only fact table and both notes are evidence — and
 this script reports them so a bypass is never silent again.
+
+MERGE, AND RE-DERIVE WHAT IT DERIVED. Adding only what was missing made every
+parser fix FORWARD-ONLY: the fix reached invoices that arrived after it and
+nothing else, because the identity was already present and the row was skipped.
+That is how 344 ILG lines kept a case price in a per-bottle field for months
+after `units_on_line` was corrected — the correction could not reach them.
+
+A row that came from a validated invoice JSON is DERIVED, and derived values
+track their source. So the four fields this script computes from the invoice —
+cost_per_unit_incl_gst, pack_qty, pack_unit, cost_per_base_unit — are refreshed
+in place when the source JSON now says something different, and every move is
+printed. The rest of the row is NOT touched: `lightspeed_product`, `basis` and
+`pack_size` are where a human's judgement is recorded (14 ILG rows carry a
+hand-set per_bottle / per_can / per_keg basis and a bridged product name), and
+re-deriving would silently delete that work. `note` is filled only when blank.
+A row with no invoice JSON behind it — the hand-built sweep rows — is left
+entirely alone, as before.
 
 Only STOCK lines become cost rows. Freight, fuel levies, WET adjustments and
 'waiting on stock' lines are excluded — they are not ingredients.
@@ -42,6 +60,7 @@ from __future__ import annotations
 import csv
 import json
 import sys
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
@@ -59,9 +78,19 @@ FIELDS = ["supplier", "supplier_code", "invoice_description", "lightspeed_produc
 
 # supplier_key (suppliers.yaml) -> the short name cogs_list / the recipe
 # pipeline uses. Kitchen names here MUST match build_ingredients.KITCHEN_SUPPLIERS.
+# MISSING ALIASES ARE INVISIBLE. A supplier with no entry here falls back to the
+# long legal name on the invoice, which then fails build_ingredients'
+# KITCHEN_SUPPLIERS test — so its costs never reach the chef's picker and NOTHING
+# reports it, because an ingredient that never appears raises no flag. Found
+# 2026-08-15: jun_pacific (invoices headed "JFC AUSTRALIA CO PTY LTD") had 128
+# cost rows / 23 SKUs of Asian pantry goods stranded this way, and every Sun
+# Circle dumpling likewise. The five added below are all kitchen food.
 SUPPLIER_ALIAS = {
     "fresh_fruit_team": "Fresh Fruit Team", "select_fresh": "Select Fresh",
     "be_foods": "B&E", "foodlink": "Foodlink", "gulli": "Gulli",
+    "sun_circle": "Sun Circle", "jun_pacific": "Jun Pacific",
+    "farmer_joes": "Farmer Joes", "the_berry_man": "The Berry Man",
+    "nicholas_seafood": "Nicholas Seafood",
     "andrews_meat": "Andrews Meat", "aquarius": "Aquarius", "mj_chickens": "M&J Chickens",
     "cookers": "Cookers", "torino": "Torino", "captains_of_trade": "Captains of Trade",
     "ilg": "ILG", "ilg_distribution_coop": "ILG", "paramount": "Paramount",
@@ -70,6 +99,134 @@ SUPPLIER_ALIAS = {
     "philter": "Philter", "young_rashleigh": "Young & Rashleigh",
     "mountain_culture": "Mountain Culture", "four_pines": "4 Pines",
 }
+
+
+# Computed from the invoice by _rows_from_invoice — a stale one is a wrong cost,
+# so these track their source. See the module docstring.
+# `supplier` is DERIVED — it is SUPPLIER_ALIAS applied to the invoice's
+# supplier_key, not a fact off the page — so adding an alias must reach the rows
+# already written. It was omitted, which is why adding the sun_circle /
+# jun_pacific / jfc aliases on 2026-08-15 would otherwise have been forward-only:
+# purchasable_id slugs the supplier, so the same product carried two identities
+# ("jun-pacific-corporation-pty-ltd:HA8204612" with 8 price observations AND
+# "jun-pacific:...") and its price history was split in half. The row KEY is
+# (invoice, code, description), so re-deriving this label cannot move a row.
+DERIVED = ("supplier", "cost_per_unit_incl_gst", "pack_qty", "pack_unit",
+           "cost_per_base_unit")
+# A human's judgement, recorded against the row. Never re-derived.
+JUDGED = ("lightspeed_product", "basis", "pack_size")
+# A PRICE AND ITS BASIS ARE ONE STATEMENT, so a row may never take half of each.
+# "$12.20" means nothing until you know it is per kg and not per bag, and B&E
+# 12776 is what taking halves looks like:
+#
+#   stored   $61.00  basis per_unit   desc "...5MM PREMIUM 5KG BAG"
+#            -> the description's 5 kg divides it: $0.0122/g. Correct.
+#   parser   $12.20  basis per_kg
+#            -> per kg (invoice) divides by 1 kg: $0.0122/g. Also correct.
+#   mixed    $12.20  basis per_unit   (price re-derived, basis pinned)
+#            -> the description's 5 kg divides a PER-KG price: $0.00244/g.
+#               $2.44/kg for chicken breast, five times under, from two readings
+#               that are each individually right.
+#
+# basis stays JUDGED — re-deriving it moved 19 unrelated rows off a per-keg /
+# per-bottle / per-can basis a human had chosen — so _cheaper refuses any
+# re-derive that would change the basis AND the price together. Neither source
+# is wrong; the mixture is, and the mixture is what is forbidden.
+
+# How much cheaper a re-derive may come out before it is held for review. Not a
+# judgement about money — it separates two populations that do not overlap.
+# Re-deriving through a different division path moves the LAST STORED DIGIT of a
+# 4-dp figure ($3.7687 -> $3.7686, 1 part in 40,000); a misread pack moves it by
+# a whole pack factor (2x, 6x, 12x — see _cheaper). 1% sits two orders of
+# magnitude above the rounding and two below the smallest real error.
+HOLD_BAND = Decimal("0.99")
+
+
+def _cheaper(old: dict, new: dict) -> str:
+    """Does this re-derive LOWER the comparable cost? -> why, or "" if not.
+
+    A RE-DERIVE MAY RAISE A COST FREELY AND MAY NOT QUIETLY LOWER ONE. The two
+    directions are not symmetric: a cost that comes out too HIGH makes a dish
+    look unprofitable and someone goes and looks at it, while a cost that comes
+    out too LOW flatters GP and nothing ever asks. This whole re-derive exists to
+    let parser fixes reach old rows, and a parser fix is exactly as capable of
+    being wrong as the code it replaced. Two of the first four it unblocked were:
+
+      Y&R  Villa Fresco Sangiovese 24 - OPO   $12.06 -> $6.03  (2x low)
+          "24" is the VINTAGE in the product name, read as a case count; the
+          raw_uom is "C750", a case of 12, so 2 cartons is 24 bottles, not 48.
+          Lightspeed's own BO export states $12.06 for the same ProductID.
+      Foodlink  FLOUR TORTILLAS 12X91GM      $33.60 -> $5.60  (6x low)
+          one CTN-6 split into 6 boxes, against a recipe-bridge-seed row that
+          states $33.60 a box, "confirmed bridge from Foodlink 101113".
+
+    Both would have published a lower food cost on the strength of a parser
+    nobody had checked. So the comparison is on `cost_per_base_unit` — the
+    canonical $/kg, $/L, $/each — because that is the number a recipe actually
+    costs off, and it is the one the ILG fix deliberately holds CONSTANT while
+    the raw unit price falls sixfold (a case price becoming a bottle price is not
+    a cost reduction). Filling a blank is not a move. A changed pack_unit is not
+    comparable — $/ea and $/L are different questions — so it is allowed through
+    and reported.
+    """
+    # A price and its basis are ONE statement, and `basis` is JUDGED (not
+    # re-derived), so a re-derive that moves the price under a DIFFERENT basis
+    # would leave the row holding half of each reading — see the note above
+    # DERIVED. Refuse the whole row rather than assemble a false one.
+    ob, nb = (old.get("basis") or "").strip(), (new.get("basis") or "").strip()
+    op = (old.get("cost_per_unit_incl_gst") or "").strip()
+    np_ = (new.get("cost_per_unit_incl_gst") or "").strip()
+    if ob and nb and ob != nb and op != np_:
+        return (f"basis {ob} -> {nb} while the price moves {op} -> {np_}; the row "
+                f"keeps its basis, so it would hold half of each reading")
+
+    ou, nu = (old.get("pack_unit") or "").strip(), (new.get("pack_unit") or "").strip()
+    cbu_was, cbu_now = ((old.get("cost_per_base_unit") or "").strip(),
+                        (new.get("cost_per_base_unit") or "").strip())
+    # Judge on the canonical rate where there IS one to judge on: same pack_unit,
+    # stated both sides. Otherwise fall back to the raw unit price — a blank
+    # cost_per_base_unit is not permission, it is the absence of a second
+    # opinion, and treating it as permission published B&E CHICKEN BREAST at
+    # $2.44/kg (the row moved $61.00 -> $12.20/kg while its pack stayed the whole
+    # 5 kg line, so the book divided by 5 a second time; every other delivery of
+    # the same code states $11.90-$12.20/kg).
+    if cbu_was and cbu_now and ou == nu:
+        field, was, now, per = "cost_per_base_unit", cbu_was, cbu_now, f" per {nu or 'unit'}"
+    else:
+        field, was, now, per = "cost_per_unit_incl_gst", (
+            old.get("cost_per_unit_incl_gst") or "").strip(), (
+            new.get("cost_per_unit_incl_gst") or "").strip(), ""
+    if not was or not now:
+        return ""                          # a fill, not a move
+    try:
+        a, b = Decimal(was), Decimal(now)
+    except (InvalidOperation, ValueError):
+        return ""
+    if a <= 0 or b >= a * HOLD_BAND:
+        return ""
+    return f"{field} {a} -> {b}{per} ({a / b:.2f}x lower)"
+
+
+def _refresh(old: dict, new: dict) -> tuple[list[str], str]:
+    """Bring `old`'s DERIVED fields up to what the invoice now says.
+
+    -> ([what moved], held_reason). A re-derive is never silent — the whole
+    failure this fixes was a correction that could not be seen because it could
+    not be applied — and it never lowers a cost without being asked (see
+    _cheaper). When held, `old` is left exactly as it was."""
+    held = _cheaper(old, new)
+    if held:
+        return [], held
+    moved = []
+    for f in DERIVED:
+        was, now = (old.get(f) or "").strip(), (new.get(f) or "").strip()
+        if was == now:
+            continue
+        old[f] = now
+        moved.append(f"{f} {was or '(blank)'} -> {now or '(blank)'}")
+    if not (old.get("note") or "").strip() and (new.get("note") or "").strip():
+        old["note"] = new["note"]          # fill a blank; never overwrite one
+    return moved, ""
 
 
 def _key(source_invoice: str, code: str, desc: str) -> tuple[str, str]:
@@ -162,7 +319,11 @@ def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     rows, seen = _load_existing()
-    added, invoices = 0, 0
+    by_key = {}
+    for r in rows:
+        by_key.setdefault(
+            _key(r["source_invoice"], r.get("supplier_code", ""), r["invoice_description"]), r)
+    added, invoices, refreshed, moves, held = 0, 0, 0, [], []
     for p in sorted(INVOICES.glob("*.json")) if INVOICES.exists() else []:
         try:
             payload = json.loads(p.read_text(encoding="utf-8-sig"))
@@ -173,10 +334,38 @@ def main() -> int:
         for row in _rows_from_invoice(payload):
             k = _key(row["source_invoice"], row["supplier_code"], row["invoice_description"])
             if k in seen:
+                # Already present — but it was DERIVED from this same invoice, so
+                # re-derive it. Skipping here is what made every parser fix
+                # forward-only. See the module docstring.
+                what, why = _refresh(by_key[k], row)
+                if why:
+                    held.append((row["supplier"], row["source_invoice"],
+                                 row["supplier_code"], row["invoice_description"], why))
+                elif what:
+                    refreshed += 1
+                    moves.append((row["supplier"], row["source_invoice"],
+                                  row["supplier_code"], row["invoice_description"], what))
                 continue
             seen.add(k)
+            by_key[k] = row
             rows.append(row)
             added += 1
+
+    if moves:
+        print(f"  {refreshed} row(s) re-derived from their invoice — the parser now "
+              f"reads them differently:")
+        for sup, ref, code, desc, what in moves:
+            print(f"      {sup} {ref} {code} {desc[:32]}")
+            for w in what:
+                print(f"          {w}")
+
+    if held:
+        print(f"  ** {len(held)} re-derive(s) HELD — the invoice now reads CHEAPER than "
+              f"the row already in the book, and a lower cost flatters GP. The row is "
+              f"unchanged; confirm the parser before letting these through: **")
+        for sup, ref, code, desc, why in held:
+            print(f"      {sup} {ref} {code} {desc[:40]}")
+            print(f"          {why}")
 
     rows.sort(key=lambda r: (r["invoice_date"], r["supplier"], r["supplier_code"], r["invoice_description"]))
     with COGS.open("w", newline="", encoding="utf-8") as f:
@@ -184,8 +373,8 @@ def main() -> int:
         w.writeheader()
         w.writerows(rows)
 
-    print(f"{added} new rows from {invoices} validated invoice(s) -> "
-          f"{COGS.relative_to(ROOT)} ({len(rows)} rows total)")
+    print(f"{added} new rows + {refreshed} re-derived from {invoices} validated "
+          f"invoice(s) -> {COGS.relative_to(ROOT)} ({len(rows)} rows total)")
     return 0
 
 

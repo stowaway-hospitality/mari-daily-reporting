@@ -80,5 +80,157 @@ for (const tf of TFS) {
     else console.log(`✓ ${tf.padEnd(9)} group $${Math.round(revByVenue.group).toLocaleString()} == Σvenues; conservation holds`);
   } else console.log(`✓ ${tf.padEnd(9)} real-venue conservation holds`);
 }
+// ---- DoorDash must not fall out of the delivery line ------------------------
+// It has no feed of its own; it exists only as (mari_uber_fees - mari_uber_only)
+// in the books, less whatever Uber Direct we can see. venueDeliveryEst used to
+// replace that whole difference with dir.fee once the Direct feed covered a
+// window, which silently dropped A$545.95 (May 2026) and A$624.47 (June).
+// It reads ~0 from July because DoorDash stopped - so the bug went quiet on its
+// own instead of being caught. Understating cost flatters the margin.
+{
+  const wk = (w) => { const s = new Date(w + 'T00:00:00Z');
+    return ctx.venueDeliveryEst('mari', w, new Date(s.getTime() + 6*864e5).toISOString().slice(0,10),
+                                new Date(s.getTime() + 6*864e5).toISOString().slice(0,10)); };
+  let ddTotal = 0, negative = 0, exceeded = 0;
+  for (const w of ['2026-06-08','2026-06-15','2026-06-22','2026-06-29','2026-07-06','2026-07-13','2026-08-03']) {
+    const d = wk(w);
+    const dd = d.doorDash || 0;
+    ddTotal += dd;
+    if (dd < 0) negative++;
+    // never invent cost: DoorDash can only be what the books hold beyond Direct
+    if (dd > 0 && d.df < d.commission + d.marketing) exceeded++;
+  }
+  checks++; if (!(ddTotal > 0)) { fails++; console.log('  FAIL  DoorDash recovered from the books (got ' + ddTotal.toFixed(2) + ')'); }
+  else console.log('  ok    DoorDash recovered from the books: A$' + ddTotal.toFixed(2) + ' across the affected weeks');
+  checks++; if (negative) { fails++; console.log('  FAIL  DoorDash went negative on ' + negative + ' week(s)'); }
+  else console.log('  ok    DoorDash never negative');
+  checks++; if (exceeded) { fails++; console.log('  FAIL  DoorDash inflated the delivery line'); }
+  else console.log('  ok    DoorDash never exceeds what the books hold');
+}
+
+// ---- platform fees must equal what the books hold, month by month ------------
+// The failure this replaces: deliveryFeesPct blended the last THREE months of
+// ME&U fees into a % of revenue. Marilyna's left ME&U for Bite on 2026-07-01, so
+// the account fell from $4,682.90 (May) / $3,265.18 (June) to $218.00 (July) —
+// but the blend still carried Mari's departed volume, and the whole account is
+// split across Stowaway and Harry Gatos by revenue share. Stowaway is not on
+// Uber Eats, so ME&U is its ENTIRE delivery line: it reported ~$530-750/week
+// against a real cost near $39, and would have kept doing so until the window
+// rolled past June. Now each month uses its own booked figure, so a closed month
+// must reconcile to Xero exactly.
+{
+  const oh = S.xeroOH.filter(r => r.month && ctx.hasVal(r.meu_fees));
+  let checkedMonths = 0, worst = 0, worstM = '';
+  const today = ctx.isoDate(ctx.sydneyToday()).slice(0, 7);
+  for (const r of oh) {
+    if (r.month >= today) continue;                    // only CLOSED months
+    const mStart = r.month + '-01';
+    const d = new Date(mStart);
+    const mEnd = ctx.isoDate(new Date(d.getFullYear(), d.getMonth() + 1, 0));
+    // ME&U is Stow + HG only; strip HG's Uber Eats actuals to leave its ME&U slice
+    const st = ctx.venueDeliveryEst('stow', mStart, mEnd, mEnd);
+    const hg = ctx.venueDeliveryEst('hg', mStart, mEnd, mEnd);
+    const hgMeu = hg.df - (hg.commission || 0) - (hg.marketing || 0) - (hg.tailEst || 0);
+    const got = st.df + hgMeu, want = ctx.toNum(r.meu_fees);
+    if (!want) continue;
+    checkedMonths++;
+    const gap = Math.abs(got - want);
+    if (gap > worst) { worst = gap; worstM = r.month; }
+  }
+  checks++;
+  if (!checkedMonths) { console.log('  ok    (no closed month with ME&U fees to reconcile)'); }
+  else if (worst > 0.02) {
+    fails++;
+    console.log('  FAIL  ME&U does not reconcile to the books: ' + worstM + ' off by ' + worst.toFixed(2));
+  } else {
+    console.log('  ok    ME&U reconciles to the books on all ' + checkedMonths + ' closed month(s), to the cent');
+  }
+
+  // A week inside the CURRENT month must not be handed most of a month's fee:
+  // its revenue denominator is only month-to-date, so revenue-share would compare
+  // a 7-day week against ~9 days of trade. Day-prorated instead.
+  const wk = '2026-08-03', wkEnd = '2026-08-09';
+  const cur = ctx.venueDeliveryEst('stow', wk, wkEnd, wkEnd).df;
+  const lastClosedMeu = 218.00;
+  checks++;
+  if (cur > lastClosedMeu * (7 / 28)) {
+    fails++;
+    console.log('  FAIL  current-month week took ' + cur.toFixed(2) + ' of a ~' + lastClosedMeu + ' month fee');
+  } else {
+    console.log('  ok    current-month week is day-prorated (' + cur.toFixed(2) + '), not revenue-shared against a part month');
+  }
+}
+
+// ---- each venue carries its OWN Uber Eats fees ------------------------------
+// xero_pull.py maps the whole "Service & Delivery Fees - UberEats" account to
+// Marilyna's, but Harry Gatos has its own Uber Eats shop and always has - 53
+// orders in May 2026, 48 in June. Read from each shop's own portal page, May was
+// HG 889.84 + Mari 10,889.46 = 10,708.45 ex against Xero's 10,667.08: a 0.4%
+// match, which is what proves one account holds BOTH shops. Group was right, the
+// split was not - the same shape as the till-split bug.
+{
+  // HG must have a non-zero Uber Eats cost in the weeks BEFORE its daily feed
+  // starts (2026-07-13). It used to be exactly zero there, with the money on Mari.
+  let zeroWeeks = 0, seen = 0;
+  for (const w of ['2026-05-18','2026-06-01','2026-06-08','2026-06-22','2026-07-06']) {
+    const e = ctx.isoDate(ctx.addDays(new Date(w), 6));
+    const d = ctx.venueDeliveryEst('hg', w, e, e);
+    const uber = (d.commission || 0) + (d.marketing || 0);
+    seen++;
+    if (!(uber > 0)) zeroWeeks++;
+  }
+  checks++;
+  if (zeroWeeks) { fails++; console.log('  FAIL  HG has no Uber Eats cost in ' + zeroWeeks + '/' + seen + ' pre-feed weeks'); }
+  else console.log('  ok    HG carries its own Uber Eats fees in all ' + seen + ' pre-feed weeks sampled');
+
+  // Splitting must not create or destroy money: on a whole closed month the three
+  // venues' booked fees have to add back to the group figure exactly.
+  let worst = 0, worstM = '';
+  for (const m of ['2026-06', '2026-07']) {
+    const d0 = new Date(m + '-01');
+    const day = { date: m + '-01 \u2014 ' + ctx.isoDate(new Date(d0.getFullYear(), d0.getMonth() + 1, 0)) };
+    const g = ctx.feesActualWindow(day, 'group');
+    if (!g) continue;
+    const parts = ['mari','hg','stow'].reduce((t, v) => t + ctx.feesActualWindow(day, v).fees, 0);
+    const gap = Math.abs(parts - g.fees);
+    if (gap > worst) { worst = gap; worstM = m; }
+  }
+  checks++;
+  if (worst > 0.02) { fails++; console.log('  FAIL  venue split does not conserve in ' + worstM + ': off by ' + worst.toFixed(2)); }
+  else console.log('  ok    venue split conserves - mari+hg+stow == group on every closed month');
+}
+
+// ---- one month, one answer --------------------------------------------------
+// Delivery used to be computed on two different GST bases: the Uber feeds went in
+// inc-GST while the Xero-derived and whole-month paths were ex-GST. Harry Gatos'
+// July figure literally summed one of each. So the SAME venue reported a
+// different delivery cost depending on which date range you selected —
+// Marilyna's June was A$8,067 as a month and A$9,379 as the sum of its own weeks.
+// Everything else in this P&L is ex-GST, and so is Xero, so ex-GST won.
+{
+  let worst = 0, worstWhat = '';
+  for (const [a, b] of [['2026-06-01','2026-06-30'], ['2026-07-01','2026-07-31']]) {
+    const day = { date: a + ' \u2014 ' + b };
+    if (!ctx.feesActualWindow(day, 'group')) continue;
+    for (const v of ['mari', 'hg', 'stow']) {
+      const mo = ctx.feesActualWindow(day, v).fees;
+      let wkTot = 0;
+      for (let d = new Date(a); ctx.isoDate(d) <= b; d = ctx.addDays(d, 7)) {
+        const s0 = ctx.isoDate(d);
+        let e0 = ctx.isoDate(ctx.addDays(d, 6)); if (e0 > b) e0 = b;
+        wkTot += ctx.venueDeliveryEst(v, s0, e0, e0).df;
+      }
+      const rel = mo ? Math.abs(mo - wkTot) / mo : 0;
+      if (rel > worst) { worst = rel; worstWhat = v + ' ' + a.slice(0, 7) + ' (month ' + mo.toFixed(2) + ' vs weeks ' + wkTot.toFixed(2) + ')'; }
+    }
+  }
+  checks++;
+  // 2%: Uber Direct's coverage begins mid-week on 2026-06-05, so the first June
+  // week falls back to an estimate for its non-Eats slice. That is a real
+  // boundary, not a basis error, and it is worth ~1.3% on Mari in June alone.
+  if (worst > 0.02) { fails++; console.log('  FAIL  month and its own weeks disagree: ' + worstWhat); }
+  else console.log('  ok    monthly view agrees with the sum of its weeks (worst ' + (worst * 100).toFixed(2) + '%)');
+}
+
 console.log(`\n${checks} checks, ${fails} failures`);
 process.exit(fails ? 1 : 0);

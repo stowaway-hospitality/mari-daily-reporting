@@ -50,6 +50,30 @@ jobs:
       - name: Schema guard (history CSVs must not regress)
         run: python3 scripts/schema_guard.py
 
+      - name: Pack agreement (a price and its pack must describe the same unit)
+        # The ILG case/bottle class: a line whose PRICE counts one thing while
+        # its PACK describes another. It hid for months because the wrong number
+        # was self-consistent. A misread moves a cost by a WHOLE PACK FACTOR
+        # (6x, 12x, 24x) and real price movement never lands on 6.000, so each
+        # supplier code is its own control via the median of its deliveries.
+        # --strict so a finding fails the build instead of scrolling past.
+        run: python3 scripts/check_pack_agreement.py --strict
+
+      - name: Pack-as-rate (a container's price is not its unit rate)
+        # An ls-recipe-seed sometimes holds the price of the whole container
+        # filed against pack_qty 1 with a per-ml/per-g unit — a $35 gallon of hot
+        # sauce becoming $35 per LITRE. Detected by ratio against the invoice-fed
+        # twin: it lands on the pack size printed in the product's own name.
+        run: python3 scripts/check_pack_as_rate.py --strict
+
+      - name: Estimated vs actual COGS (purchases minus consumption)
+        # The number COGS_ARCHITECTURE.md has named since it was written: Xero
+        # purchases (what we bought) minus recipe cost (what we used) = stock
+        # movement + waste + theft. Both feeds were already on the dashboard and
+        # never differenced. Builds the feed so a break shows up here rather than
+        # as a blank panel.
+        run: python3 scripts/build_cogs_variance.py --quiet
+
       - name: Tests (pytest)
         run: python3 -m pytest
 
@@ -117,6 +141,7 @@ jobs:
           node scripts/test_pnl_model.mjs
           node scripts/test_dashboard_render.mjs
           node scripts/test_dashboard_units.mjs
+          node scripts/test_restatements.mjs
 
       - name: Recipe-book flags panel (node)
         # The /recipes/ Flags tab — the cost book's work queue. Its failure modes
@@ -133,6 +158,13 @@ jobs:
           python3 scripts/build_cost_book_flags.py
           node scripts/test_recipe_book_flags.mjs
           node scripts/test_recipe_flags_families.mjs
+
+      - name: COGS bought-vs-used panel (node)
+        # The panel renders a dollar gap that must NOT be read as a loss: it is
+        # only waste to the extent products have recipes, and HG has ~31% of
+        # revenue with no cost behind it. These assertions mostly hold the caveat
+        # in place, and keep the feed admin-only like every other economic feed.
+        run: node scripts/test_cogs_variance_panel.mjs
 
       - name: Merged recipe module — tabs, rows, shell (node)
         # /recipes-book/ and /recipes/ are ONE module with four tabs now. What

@@ -1,17 +1,28 @@
-name: Uber Direct fee ingest
+name: Uber Direct fee ingest [RETIRED]
 
-# Fired by the Pipedream "Mari Insights to GitHub" workflow when Uber's daily
-# Direct invoice email arrives. Pipedream parses date + fee and POSTs a
-# repository_dispatch (event_type: uber-direct-arrived, client_payload:
-# { target_date, fee }). This job upserts the fee into the CSV the dashboard reads.
+# RETIRED 2026-08-10. Kept, not deleted (no permanent deletion), but its
+# automatic trigger is REMOVED so it cannot fire on its own.
+#
+# It was fired by the Pipedream "Mari Insights to GitHub" workflow when Uber's
+# daily Direct invoice email arrived: Pipedream parsed date + fee and POSTed a
+# repository_dispatch (uber-direct-arrived), and this job upserted the fee.
+# Pipedream's free tier ran out 2026-07-24 and the feed sat dead for 22 days.
+# Uber Direct now comes from direct.uber.com via the uber-eats-daily-fees task.
+#
+# WHY the trigger had to go rather than just being left inert: this job keys the
+# fee by the INVOICE date from the email. The feed is now keyed by DELIVERY date,
+# because that is what lines the cost up with the sales it belongs to, and the
+# two are NOT the same day — the 2026-07-24 deliveries were billed partly on the
+# 24th and partly on the 27th. If anything ever re-fired this dispatch it would
+# quietly write rows on the wrong basis into a feed that now reconciles against
+# Uber's own invoices, and break that reconciliation. workflow_dispatch is left
+# so the job can still be driven by hand if a historical day ever needs it.
 concurrency:
   group: uber-direct-ingest
   cancel-in-progress: false
 
 on:
-  repository_dispatch:
-    types:
-      - uber-direct-arrived
+  # repository_dispatch trigger removed 2026-08-10 — see the note above.
   workflow_dispatch:
     inputs:
       target_date:

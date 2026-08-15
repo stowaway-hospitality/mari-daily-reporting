@@ -1,0 +1,271 @@
+{
+  "date": "2026-08-12",
+  "generated_at": "2026-08-14T13:09:39.762104Z",
+  "venue": "stowaway",
+  "venue_display": "Stowaway Bar",
+  "lane_config": [
+    "revenue",
+    "cogs",
+    "wages",
+    "gp"
+  ],
+  "data_status": {
+    "lightspeed": "ok",
+    "deputy": "ok",
+    "payments": "missing"
+  },
+  "sales": {
+    "revenue_inc_gst": 3375.78,
+    "revenue_ex_gst": 3068.88,
+    "cogs_dollars": 674.64,
+    "cogs_pct": 22.0,
+    "gp_dollars": 2394.24,
+    "gp_pct": 78.0,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 659.09,
+    "recipe_coverage_pct": 78.8,
+    "uber_eats_revenue": 0,
+    "net_takings_ex_gst": null,
+    "eatclub_giveaway_ex_gst": 55.7,
+    "eatclub_covers": 3,
+    "revenue_ex_gst_before_eatclub": 3124.58,
+    "food_ex_gst": 1222.26,
+    "bev_ex_gst": 1902.33,
+    "food_cogs": 213.64,
+    "bev_cogs": 445.45,
+    "food_cogs_pct": 17.5,
+    "bev_cogs_pct": 23.4,
+    "food_gp_pct": 82.5,
+    "bev_gp_pct": 76.6,
+    "mari_rideon_ex_gst": 1106.73,
+    "hg_food_out_ex_gst": 10.55,
+    "stow_food_out_ex_gst": 0.0
+  },
+  "wages": {
+    "kitchen_dollars": 1498.17,
+    "foh_dollars": 446.7,
+    "driver_dollars": 0,
+    "admin_dollars": 424.49,
+    "leave_dollars": 0,
+    "total_dollars": 2369.36,
+    "wages_pct": 77.2,
+    "net_wage_pct": null,
+    "kitchen_hours": 35.3,
+    "foh_hours": 11.0,
+    "wages_kitchen_pct": 122.6,
+    "wages_foh_pct": 23.5,
+    "includes_super": true,
+    "salaried_synthesized": true
+  },
+  "delivery": null,
+  "payments_breakdown": null,
+  "alerts": {
+    "cogs": "green",
+    "wages": "red",
+    "delivery": "n/a",
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "yellow",
+    "wages_kitchen": "red",
+    "wages_foh": "amber"
+  },
+  "targets": {
+    "cogs": {
+      "target": 28.0,
+      "amber": 32.0,
+      "red": 35.0,
+      "note": "Blended food+bev COGS; bar-heavy Stow typically lands ~28-30% \u2014 refine after 8 weeks of daily data"
+    },
+    "wages": {
+      "target": 30.0,
+      "amber": 33.0,
+      "red": 36.0,
+      "note": "Zak-set 30% target \u2014 hospitality benchmark; splits kitchen + FOH"
+    },
+    "cogs_food": {
+      "target": 32.0,
+      "amber": 36.0,
+      "red": 40.0,
+      "note": "DRAFT \u2014 Zak to confirm. Food COGS vs food revenue (ex-GST). Weekly-report placeholder food GP is 65% (i.e. 35% COGS); target set slightly tighter."
+    },
+    "cogs_bev": {
+      "target": 22.0,
+      "amber": 25.0,
+      "red": 28.0,
+      "note": "DRAFT \u2014 Zak to confirm. Bev COGS vs bev revenue (ex-GST). Drinks GP at Stow runs ~80% on cocktails (known-margins.md); blended bev incl. beer/wine lands lower."
+    },
+    "wages_kitchen": {
+      "target": 12.0,
+      "amber": 15.0,
+      "red": 18.0,
+      "note": "DRAFT \u2014 Zak to confirm. Kitchen wages as % of FOOD revenue (ex-GST), not total."
+    },
+    "wages_foh": {
+      "target": 18.0,
+      "amber": 22.0,
+      "red": 26.0,
+      "note": "DRAFT \u2014 Zak to confirm. FOH wages as % of BEV revenue (ex-GST), not total."
+    },
+    "gp": {
+      "note": "Higher is better \u2014 70% target; status inversion not yet implemented so alerts left empty",
+      "target_direction": "high_is_good"
+    }
+  },
+  "top_products": [
+    {
+      "name": "Fancy Pants Parmy - Classic",
+      "qty": 9.0,
+      "rev": 218.35,
+      "cost": 68.4054,
+      "cost_source": "recipe",
+      "cost_lightspeed": 76.03
+    },
+    {
+      "name": "American Standard Burger",
+      "qty": 6.0,
+      "rev": 155.1,
+      "cost": 35.0418,
+      "cost_source": "recipe",
+      "cost_lightspeed": 35.06
+    },
+    {
+      "name": "Classic Margarita",
+      "qty": 7.0,
+      "rev": 136.54,
+      "cost": 29.2068,
+      "cost_source": "recipe",
+      "cost_lightspeed": 27.23
+    },
+    {
+      "name": "Beef Cheek",
+      "qty": 3.0,
+      "rev": 121.01,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Negroni",
+      "qty": 7.0,
+      "rev": 116.35,
+      "cost": 27.1362,
+      "cost_source": "recipe",
+      "cost_lightspeed": 27.43
+    },
+    {
+      "name": "Fresh is Best Lager - Schooner",
+      "qty": 13.0,
+      "rev": 111.0,
+      "cost": 23.4754,
+      "cost_source": "recipe",
+      "cost_lightspeed": 23.71
+    },
+    {
+      "name": "Version Two Pinot Grigio - Regular",
+      "qty": 12.4,
+      "rev": 106.8,
+      "cost": 21.9071,
+      "cost_source": "recipe",
+      "cost_lightspeed": 21.91
+    },
+    {
+      "name": "Stow Schnitty",
+      "qty": 5.0,
+      "rev": 105.69,
+      "cost": 27.5,
+      "cost_source": "recipe",
+      "cost_lightspeed": 26.63
+    },
+    {
+      "name": "Villa Fresco Sangiovese - Regular",
+      "qty": 9.0,
+      "rev": 104.79,
+      "cost": 21.7107,
+      "cost_source": "recipe",
+      "cost_lightspeed": 21.71
+    },
+    {
+      "name": "Philter XPA - Schooner",
+      "qty": 10.0,
+      "rev": 97.03,
+      "cost": 22.385,
+      "cost_source": "recipe",
+      "cost_lightspeed": 22.37
+    },
+    {
+      "name": "Chicken Parmy D",
+      "qty": 3.0,
+      "rev": 92.7,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fresh is Best Lager - Pint",
+      "qty": 7.0,
+      "rev": 88.32,
+      "cost": 16.9533,
+      "cost_source": "recipe",
+      "cost_lightspeed": 17.12
+    },
+    {
+      "name": "Guinness Draught - Pint",
+      "qty": 5.0,
+      "rev": 87.5,
+      "cost": 24.0255,
+      "cost_source": "recipe",
+      "cost_lightspeed": 23.75
+    },
+    {
+      "name": "Padrillos Malbec - Bottle",
+      "qty": 1.0,
+      "rev": 72.0,
+      "cost": 19.33,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Buffalo Wings",
+      "qty": 4.0,
+      "rev": 71.71,
+      "cost": 11.9056,
+      "cost_source": "recipe",
+      "cost_lightspeed": 15.61
+    },
+    {
+      "name": "Rosemary Salted Fries",
+      "qty": 5.0,
+      "rev": 65.76,
+      "cost": 9.3,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.28
+    },
+    {
+      "name": "Kuku Sauvignon Blanc - Bottle",
+      "qty": 1.0,
+      "rev": 58.0,
+      "cost": 14.57,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Mother's Milk Shiraz - Bottle",
+      "qty": 1.0,
+      "rev": 57.6,
+      "cost": 16.08,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Kirin - Schooner",
+      "qty": 4.0,
+      "rev": 56.0,
+      "cost": 15.1876,
+      "cost_source": "recipe",
+      "cost_lightspeed": 15.05
+    },
+    {
+      "name": "Espresso Martini",
+      "qty": 3.0,
+      "rev": 55.31,
+      "cost": 9.855,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.7
+    }
+  ]
+}

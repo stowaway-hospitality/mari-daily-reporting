@@ -101,3 +101,121 @@
   # roast. Under the old label it never could — the plate would have kept costing
   # $3.05 for a bird that had gone to $7.
   why: "our book prices the bird per each at $6.10 and B&E 10677 bills it per unit; 0.5 x $6.10 is Produce's own $3.05 to the cent"
+
+# ==========================================================================
+# LABEL-ONLY, 2026-08-14. Nine ingredients, sixteen lines, NO cost_factor.
+# ==========================================================================
+#
+# These are the other half of what this file is for, and the half that had never
+# been used. The Peking Sauce entries above change a COST because Produce derived
+# the cost from the same wrong unit. These do the opposite: Produce already
+# costed the line correctly and typed the unit wrong, so the money must not move.
+#
+# THE PROOF IS THE SAME SUM EVERY TIME, and it is why these are safe where the
+# three below them are not. Take the line's quantity, multiply by the
+# ingredient's own per-pack rate, and compare with what the book actually
+# charges:
+#
+#   Broccolini   0.22 x $3.17/bunch = $0.6974   book: $0.6945   ratio 0.996
+#   Parsley      2    x $1.50/bunch = $3.0000   book: $3.0000   ratio 1.000
+#   Thyme        1    x $1.65/bunch = $1.6500   book: $1.6500   ratio 1.000
+#   Lettuce      0.083 x $2.75/ea   = $0.2283   book: $0.2283   ratio 1.000
+#   Lime         0.0167 x $30/tray  = $0.5010   book: $0.5000   ratio 0.998
+#   Radish       0.1  x $2.88/bunch = $0.2880   book: $0.2900   ratio 1.007
+#   Mint         2    x $1.30/bunch = $2.6000   book: $2.6000   ratio 1.000
+#   Coriander    2    x $2.60/bunch = $5.2000   book: $5.0000   ratio 0.962 *
+#   Garlic Bread 1    x $1.4952/ea  = $1.4952   book: $1.4200   ratio 0.950 *
+#
+# A ratio of 1.0 means the NUMBER IS ALREADY BEING READ AS PACKS and only the
+# word is wrong. (* the two under 1.0 are rate drift — the book's rate moved
+# after Produce costed the line — not a different reading. Both are still
+# unambiguously "packs", not grams: read as grams they would be ~1000x out.)
+#
+# WHAT THIS DELIBERATELY DOES NOT TOUCH. Three ingredients in the same family
+# fail the same test and are NOT here — Shallot (900 g of it in Tonkotsu Broth,
+# ratio 0.0034), Choi Sum (0.0010) and chives (0.0250). Those lines genuinely
+# ARE in grams, and the fix is a bunch weight off a set of scales, which is what
+# their flags ask for. Relabelling them would turn 900 g of shallots into 900
+# BUNCHES. Ratio ~1 gets a label fix; ratio ~0.001 gets a weighing; anything in
+# between (Corn Baby Sweet at 2.00, Herb Coriander at 2.03, Edible Flower at
+# 0.03) is a real question and stays flagged.
+
+- {recipe: "Beef Roast",    ingredient: "Broccolini [Bunch]", from_unit: "ml", to_unit: "bunch",
+   why: "0.22 x $3.17/bunch = $0.6974 against the book's $0.6945"}
+- {recipe: "Chicken Roast", ingredient: "Broccolini [Bunch]", from_unit: "ml", to_unit: "bunch",
+   why: "same portion as the other four roasts"}
+- {recipe: "Lamb Roast",    ingredient: "Broccolini [Bunch]", from_unit: "ml", to_unit: "bunch",
+   why: "same portion as the other four roasts"}
+- {recipe: "Nut Roast",     ingredient: "Broccolini [Bunch]", from_unit: "ml", to_unit: "bunch",
+   why: "same portion as the other four roasts"}
+- {recipe: "Pork Roast",    ingredient: "Broccolini [Bunch]", from_unit: "ml", to_unit: "bunch",
+   why: "same portion as the other four roasts"}
+
+- {recipe: "Guacamole [4kg]",       ingredient: "Coriander [bunch]", from_unit: "ml", to_unit: "bunch",
+   why: "2 x $2.60/bunch = $5.20 against the book's $5.00 (rate drift); as grams it would be 2 g of coriander in a 4 kg batch"}
+- {recipe: "Pico de Gallo [2.5kg]", ingredient: "Coriander [bunch]", from_unit: "ml", to_unit: "bunch",
+   why: "1 x $2.60/bunch = $2.60 against the book's $2.50"}
+
+- {recipe: "Chimichurri", ingredient: "Fresh Parsley [Bunch]", from_unit: "ml", to_unit: "bunch",
+   why: "2 x $1.50/bunch = $3.00, exactly the book's $3.00"}
+
+# GARLIC BREAD IS DELIBERATELY ABSENT, and this is the record of why.
+#
+# The two entries belong here on their own merits — 1 x $1.4952/ea against the
+# book's $1.42, plainly a label. Shipped, rebuilt, and "Garlic Bread [Deal]" fell
+# from $1.4952 to $0.0374. Exactly 40x, in the flattering direction.
+#
+# The mechanism is not in this file. Produce's Deal recipe references the line by
+# its PACK-SIZED name, 'Garlic Bread [9" x40]'. norm() strips the bracket, so it
+# resolves against the recipe named "Garlic Bread" — and while that recipe's line
+# read "ml" it fell through to the single-piece PRODUCT (lightspeed:20467596,
+# 1 ea, $1.4952) and cost correctly by accident. Relabelling the line to "ea"
+# made the recipe a valid per-unit subrecipe, the pack-sized reference then
+# resolved to it, and the x40 in the name divided the result.
+#
+# So the label fix is right and the resolver is fragile, and a low-severity
+# cosmetic flag is not worth a 40x under-cost on a deal that sells. Left open;
+# feed-line-unit-garlic-bread stays in the queue saying so. The real fix is in
+# resolve()'s pack-sized-name branch, which needs its own test before it is
+# touched.
+
+- {recipe: "Nut Roast Prep", ingredient: "Herb Thyme [Bunch]", from_unit: "ml", to_unit: "bunch",
+   why: "1 x $1.65/bunch = $1.65, exactly the book's $1.65"}
+
+- {recipe: "American Standard Burger", ingredient: "Lettuce Cos Baby Twin Pack [Each]",
+   from_unit: "ml", to_unit: "ea",
+   why: "0.083 x $2.75/ea = $0.2283, exactly the book's $0.2283 — a twelfth of the twin pack. This is the line feed_defects names as its canonical example."}
+
+- {recipe: "Lime [ea]", ingredient: "Lime [Tray]", from_unit: "ml", to_unit: "tray",
+   why: "0.0167 x $30.00/tray = $0.5010 against the book's $0.5000 — a sixtieth of a tray, i.e. one lime"}
+
+- {recipe: "Mint Yoghurt [Batch]", ingredient: "Mint [bunch]", from_unit: "ml", to_unit: "bunch",
+   why: "2 x $1.30/bunch = $2.60, exactly the book's $2.60"}
+
+- {recipe: "Eggplant Schnitty", ingredient: "Radish Red [Bunch]", from_unit: "ml", to_unit: "bunch",
+   why: "0.1 x $2.88/bunch = $0.288 against the book's $0.29"}
+- {recipe: "Stow Schnitty",     ingredient: "Radish Red [Bunch]", from_unit: "ml", to_unit: "bunch",
+   why: "same garnish portion"}
+
+# Pears Green, added 2026-08-14 after the pack override told the truth about the
+# unit. Rocket Man takes "0.25 ml" of a pear and is charged $0.1625, which is a
+# quarter of the $0.65 the book pays for ONE pear — ratio 1.0000. A quarter of a
+# pear, muddled. Rocket Man D is the same drink (Zak confirmed) and inherits it.
+- {recipe: "Rocket Man", ingredient: "Pears Green [kg]", from_unit: "ml", to_unit: "ea",
+   why: "0.25 x $0.65/ea = $0.1625, exactly what the book charges"}
+
+# Dry goods measured in "ml", 2026-08-14. Both cost NOTHING today: the ingredient
+# is priced per GRAM and the line says ml, the dimensions disagree, so the book
+# refuses to cost it and the line contributes $0 on a real quantity — the
+# flattering direction. Relabelling ADDS cost, which is the safe direction, and
+# ml is not a unit either of these has ever been sold in.
+# NB the raw line is named just "Oregano" — INGREDIENT_ALIAS maps it to the
+# costed "Oregano Leaves Rubbed - Torino" LATER, and apply_unit_fixes runs first,
+# so this must match the name the scrape actually carries. "[Dine-in]" is a
+# derived twin and inherits the fix rather than needing its own entry.
+- {recipe: "Regular Little Italy", ingredient: "Oregano",
+   from_unit: "ml", to_unit: "g",
+   why: "rubbed oregano is bought by weight (Gulli WINORE-UC10, 500 g at $0.02/g) and 0.5 g is a pinch on a pizza; as ml it costs $0"}
+- {recipe: "Frozen Marg", ingredient: "Dehydrated Lime Garnish",
+   from_unit: "ml", to_unit: "g",
+   why: "a dehydrated lime wheel is priced per gram ($0.092308/g) and weighs about the 1 the line asks for; as ml it costs $0"}

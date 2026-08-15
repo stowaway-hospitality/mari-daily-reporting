@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import json
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -235,6 +235,101 @@ def _pull_integrity(rel="data/pull_integrity.json"):
         return {"status": "unknown", "detail": f"integrity record unreadable: {e}"}
 
 
+SELF = "Published app is current"
+
+
+def _pages_drift(feeds=(("data/stow_daily_history.csv", "Stowaway daily history"),
+                        ("data/hg_daily_history.csv", "Harry Gatos daily history"),
+                        ("data/mari_daily_history.csv", "Marilyna's daily history"),
+                        ("data/uber_daily.csv", "Uber fees"),
+                        ("data/uber_direct_daily.csv", "Uber Direct fees")),
+                 base="https://app.stowawaybar.com", computed=None):
+    """Is the APP showing the numbers the repo actually has?
+
+    The dashboard reads its feeds from GitHub Pages, not from main. Pages only
+    republishes when a deploy runs, and deploy_dashboard.yml is triggered by
+    PATHS. data/** was not among them, so for a long time a commit that touched
+    only data/ was correct in git and invisible on screen — no error, no red,
+    just yesterday's figures rendered with today's confidence.
+
+    That is the failure mode this whole file exists to catch, aimed at the file
+    itself: the health snapshot is ALSO a data/ file, so a check could flip to
+    'down', publish, and never reach the panel meant to display it.
+
+    The path fix means this should now read ok permanently. The check stays
+    because it tests the OUTCOME (are the app's numbers current) rather than the
+    mechanism (did a workflow fire), so it still holds if the paths are edited,
+    if Pages fails to build, or if a future writer bypasses the trigger again.
+
+    Two comparisons, because they fail differently:
+
+      1. The newest DATE in each feed. Dates, not bytes — a cosmetic reformat is
+         not an outage and an in-flight deploy must not cry wolf. Catches the
+         app rendering older figures than the repo holds.
+      2. The published snapshot's own verdict vs the one just computed. Feed
+         dates alone would NOT have caught the 2026-08-09 case, where the drift
+         was a health snapshot that had flipped status and never shipped. With
+         alerting deliberately kept on-screen rather than emailed, a stale panel
+         IS the outage: it reports "ok" with no way to know it is out of date.
+
+    Self-reference is avoided by excluding this check from comparison (2), so it
+    converges in one cycle instead of oscillating against its own output.
+    Unreachable network (the office Mac offline) is 'unknown', never 'down'.
+    """
+    import urllib.request
+
+    def _last_date(text):
+        best = None
+        for line in text.splitlines()[1:]:
+            cell = line.split(",", 1)[0].strip()
+            if len(cell) == 10 and cell[4] == "-" and cell[7] == "-":
+                if best is None or cell > best:
+                    best = cell
+        return best
+
+    behind = []
+    try:
+        for rel, label in feeds:
+            local = ROOT / rel
+            if not local.exists():
+                continue
+            mine = _last_date(local.read_text())
+            if mine is None:
+                continue
+            with urllib.request.urlopen(f"{base}/{rel}", timeout=15) as r:
+                theirs = _last_date(r.read().decode("utf-8", "replace"))
+            if theirs is None or theirs < mine:
+                behind.append(f"{label} (app {theirs or 'none'}, repo {mine})")
+
+        if computed is not None:
+            with urllib.request.urlopen(f"{base}/data/system_health.json", timeout=15) as r:
+                live = json.loads(r.read().decode("utf-8", "replace"))
+            def _flagged(rows):
+                return {c.get("name") for c in rows
+                        if c.get("status") in ("warn", "down")
+                        and c.get("name") != SELF}
+            was, now = _flagged(live.get("checks", [])), _flagged(computed)
+            if was != now:
+                missing = sorted(now - was) or sorted(was - now)
+                behind.append(f"health panel itself (showing {live.get('overall', '?')}, "
+                              f"differs on {missing[0]})")
+    except Exception as e:
+        return {"status": "unknown", "detail": f"could not reach the published app: {e}"}
+
+    meaning = ("The app reads its numbers from the published copy, which updates only when a "
+               "deploy runs — so the repo can be right while the screen is wrong.")
+    if behind:
+        return {"status": "warn",
+                "detail": f"app is behind the repo on {len(behind)} feed(s): {behind[0]}",
+                "meaning": meaning,
+                "action": ("The figures on screen are older than the ones already recorded. Nothing is "
+                           "lost and nothing is wrong in the data - it just has not been published. "
+                           "Ask Claude to check the Pages deploy; a re-run of the deploy workflow "
+                           "usually clears it."),
+                "selfheal": "Clears on its own the next time any deploy runs."}
+    return {"status": "ok", "detail": f"app matches the repo on all {len(feeds)} key feeds"}
+
+
 def _uber_feed(rel="data/uber_daily.csv"):
     """Uber Eats fee feed — freshness AND correctness.
 
@@ -293,14 +388,14 @@ def _uber_feed(rel="data/uber_daily.csv"):
                                "expired. Ask Claude to run the Uber pull; if it reports a login screen, Zak needs "
                                "to sign in to merchants.ubereats.com once."),
                     "selfheal": "Resumes on its own if the session is still valid."}
-        return {"status": "ok", "detail": f"exact split, balances on all {len(rows)} days ({age}d old)"}
+        return {"status": "ok", "detail": f"exact split, balances on all {len(rows)} rows ({age}d old)"}
     except Exception as e:
         return {"status": "unknown", "detail": f"Uber feed unreadable: {e}"}
 
 
 def _uber_direct(rel="data/uber_direct_daily.csv"):
     """Uber DIRECT ingest — Mari's own online orders delivered by Uber's fleet,
-    billed daily by email and dispatched into the repo by Pipedream.
+    read daily from direct.uber.com by the uber-eats-daily-fees task.
 
     WHY it needs watching: it used to have no schedule of its own — it moved only
     when an invoice email fired the uber_direct_dispatch workflow via Pipedream.
@@ -317,7 +412,7 @@ def _uber_direct(rel="data/uber_direct_daily.csv"):
     age = _csv_last_date_age_days(rel, "date")
     if age is None:
         return {"status": "unknown", "detail": "no Uber Direct feed yet"}
-    meaning = "Uber Direct is Mari's own online delivery, billed daily by email — separate from Uber Eats."
+    meaning = "Uber Direct is Mari's own online delivery, read daily from direct.uber.com — separate from Uber Eats."
     if age >= 21:
         return {"status": "down", "detail": f"Uber Direct ingest silent {age}d",
                 "meaning": meaning,
@@ -331,8 +426,261 @@ def _uber_direct(rel="data/uber_direct_daily.csv"):
         return {"status": "warn", "detail": f"no Uber Direct fee for {age}d",
                 "meaning": meaning,
                 "action": f"No Uber Direct invoice has landed for {age} days - fine if Mari genuinely had no Direct orders, worth a look if she did.",
-                "selfheal": "Clears when the next invoice email arrives."}
+                "selfheal": "Clears when the next Direct delivery is recorded."}
     return {"status": "ok", "detail": f"last Direct fee {age}d ago"}
+
+
+def _uber_direct_reconciled(feed_rel="data/uber_direct_daily.csv",
+                            stmt_rel="data/uber_direct_statements.csv"):
+    """Does the Direct feed still agree with Uber's own invoices?
+
+    WHY on the panel and not only in CI: the deliveries list at direct.uber.com
+    paginates at 50 rows, and a truncated read returns FEWER deliveries — rows
+    that are correctly formatted, correctly dated, sorted, Mari-only, and too
+    small. Every structural guard passes. Only Uber's invoice disagrees.
+
+    That is not hypothetical: the first June-July read on 2026-08-10 came back
+    capped at 50 rows and had 2026-06-05 at 27.94 against an invoice of 40.60.
+    Re-read in weekly windows it was 40.60. The same read also recovered 16 days
+    (A$607.67) that the feed had never held at all.
+
+    Compared on TOTALS over the settled window, never day by day: Uber's invoice
+    date is not the delivery date, and the feed is deliberately delivery-dated so
+    it lines up with the sales it belongs to.
+    """
+    import csv as _csv
+    from datetime import date as _date, timedelta as _td
+    from decimal import Decimal as _D
+    fp, sp = ROOT / feed_rel, ROOT / stmt_rel
+    if not fp.exists() or not sp.exists():
+        return {"status": "unknown", "detail": "no Uber Direct statements to reconcile against"}
+    try:
+        with fp.open() as fh:
+            feed = {r["date"]: _D(r["fee_inc_gst"]) for r in _csv.DictReader(fh)}
+        with sp.open() as fh:
+            stmt = {r["statement_date"]: _D(r["amount_inc_gst"]) for r in _csv.DictReader(fh)}
+        if not feed or not stmt:
+            return {"status": "unknown", "detail": "Uber Direct reconciliation inputs empty"}
+        # ACK: a A$50.00 credit Uber applied across 2026-07-01/02 (63.67 of
+        # deliveries incurred, 13.67 invoiced). Traced 2026-08-10; the other 31
+        # invoice days match the deliveries to the cent. Recorded so a NEW gap
+        # cannot hide inside it — if this moves, it is not this credit.
+        SETTLE, ACK = 3, _D("-50.00")
+        cutoff = (_date.fromisoformat(max(stmt)) - _td(days=SETTLE)).isoformat()
+        floor = min(min(stmt), min(feed))
+        f_tot = sum((v for d, v in feed.items() if floor <= d <= cutoff), _D("0"))
+        s_tot = sum((v for d, v in stmt.items() if floor <= d <= cutoff), _D("0"))
+        resid = s_tot - f_tot
+        drift = resid - ACK
+        if drift != 0:
+            return {"status": "warn",
+                    "detail": f"Direct feed vs Uber invoices out by A${drift} ({floor}..{cutoff})",
+                    "meaning": ("Uber Direct fees are read from the deliveries list; Uber's invoices are "
+                                "an independent record of the same money."),
+                    "action": ("The two no longer agree. A feed SHORT of the invoices is almost always a "
+                               "truncated deliveries page - the list caps at 50 rows per page. Ask Claude "
+                               "to re-read the affected range in weekly windows, checking each window "
+                               "returns fewer than 50 rows."),
+                    "selfheal": "No - the affected days need re-reading from the portal."}
+        return {"status": "ok",
+                "detail": f"matches Uber invoices to the cent through {cutoff}"}
+    except Exception as e:
+        return {"status": "unknown", "detail": f"Uber Direct reconciliation unreadable: {e}"}
+
+
+def _pat_candidates():
+    """Where the PAT may sit on disk, as a FUNCTION so a test can replace it.
+
+    tests/test_automation_jobs_check.py asserts that no token means "unknown", not
+    a false all-clear. It deletes the env vars — but on the office Mac this
+    fallback still found the real PAT, so the test passed everywhere except the
+    one machine that has one, and quietly asserted nothing there. Same trap as the
+    disk-reading check in test_health_monitor.py.
+    """
+    import os as _os
+    return (ROOT / ".secrets" / "github_pat_v2.txt",
+            Path(_os.path.expanduser("~/Documents/STOW/Sales Reports/Daily Reporting"))
+            / ".secrets" / "github_pat_v2.txt")
+
+
+def _workflow_failures(window_h=48):
+    """Is any GitHub Actions job currently failing?
+
+    WHY this belongs on the panel: scripts/alert_check.py already detects failed
+    workflow runs every 3 hours, retries the safe ones, and escalates the rest.
+    But EVERY OTHER thing it escalates has a home on this panel — sales behind is
+    "Sales completeness", a narrowed STOW export is "Pull integrity", and a stale
+    snapshot is caught client-side by the home page from the snapshot's own
+    timestamp. Failed workflow runs were the one class with nowhere on screen to
+    land, so they existed only in a workflow log. That is the gap this closes.
+
+    Judged on the LATEST completed run per workflow, not on any failure in the
+    window: a job that failed once and then succeeded on retry is healthy, and
+    saying otherwise trains people to ignore the panel.
+    """
+    import json as _json
+    import os as _os
+    import urllib.request as _url
+    token = (_os.environ.get("GH_TOKEN") or _os.environ.get("GITHUB_TOKEN")
+             or _os.environ.get("GH_DISPATCH_PAT"))
+    if not token:
+        # Fall back to the PAT on disk. WHY this is not just handled by the
+        # caller: launchd runs a STANDALONE COPY at ~/.stowaway-ops/publish_health.py
+        # (see ops/com.stowaway.healthpublish.plist), not ops/publish_health.py in
+        # the repo. The snapshot's CHECKS come from a fresh main-pinned clone, so
+        # a new check here goes live immediately — but a change to publish_health
+        # does not land until someone copies the file across by hand. Relying on
+        # the caller to pass a token meant this check would sit at "unknown"
+        # indefinitely while looking installed. .secrets/ is gitignored, so it is
+        # absent from the clone; the mounted tree is where it actually lives.
+        for cand in _pat_candidates():
+            try:
+                if cand.exists():
+                    token = cand.read_text().strip()
+                    break
+            except Exception:
+                pass
+    if not token:
+        return {"status": "unknown",
+                "detail": "no GitHub token in this environment — cannot read job results"}
+    repo = _os.environ.get("GITHUB_REPOSITORY", "zakstowaway/mari-daily-reporting")
+    # Jobs that move money or data onto the screen. Anything else failing is
+    # worth knowing about but is not an outage.
+    CRITICAL = {"daily_pull.yml", "ingest_insights_email.yml",
+                "deploy_dashboard.yml", "tests.yml"}
+    try:
+        req = _url.Request(
+            f"https://api.github.com/repos/{repo}/actions/runs"
+            f"?branch=main&status=completed&per_page=60",
+            headers={"Authorization": f"Bearer {token}",
+                     "Accept": "application/vnd.github+json",
+                     "User-Agent": "stowaway-health"})
+        with _url.urlopen(req, timeout=20) as r:
+            runs = _json.loads(r.read() or "{}").get("workflow_runs", [])
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=window_h)
+        latest = {}
+        for run in runs:
+            wf = _os.path.basename(run.get("path", "") or "")
+            if not wf:
+                continue
+            when = run.get("updated_at") or run.get("created_at")
+            try:
+                ts = datetime.fromisoformat(when.replace("Z", "+00:00"))
+            except Exception:
+                continue
+            if ts < cutoff:
+                continue
+            if wf not in latest or ts > latest[wf][0]:
+                latest[wf] = (ts, run)
+        bad = [(wf, run) for wf, (_, run) in latest.items()
+               if run.get("conclusion") == "failure"]
+        if not bad:
+            return {"status": "ok",
+                    "detail": f"all {len(latest)} jobs that ran in the last {window_h}h succeeded"}
+        crit = [b for b in bad if b[0] in CRITICAL]
+        worst = (crit or bad)[0]
+        names = ", ".join(sorted({b[1].get("name") or b[0] for b in bad}))
+        return {"status": "down" if crit else "warn",
+                "detail": f"{len(bad)} job(s) failing: {names}",
+                "meaning": ("These are the scheduled jobs that pull sales, wages, invoices and "
+                            "Uber fees and publish the site."),
+                "action": (f"'{worst[1].get('name') or worst[0]}' failed and has not succeeded since. "
+                           f"Open {worst[1].get('html_url', 'the Actions tab')} to see why, or ask "
+                           "Claude to look. Auto-retry has already had its go at the safe ones."),
+                "selfheal": "Only if it was transient - the 3-hourly monitor retries the safe jobs once."}
+    except Exception as e:
+        return {"status": "unknown", "detail": f"could not read job results: {e}"}
+
+
+def _uber_vs_books(feed_rel="data/uber_daily.csv", direct_rel="data/uber_direct_daily.csv",
+                   books_rel="data/xero_overheads_monthly.csv"):
+    """Do the Uber feeds add up to what the ACCOUNTS say we paid?
+
+    WHY: every other Uber guard is internal — the portal's own arithmetic, or the
+    portal against itself. None of them can see a whole CHANNEL going missing.
+    That is not hypothetical. xero_pull.py splits Mari's third-party delivery into
+    mari_uber_fees (all of it) and mari_uber_only (the UberEats account), and the
+    difference is "DoorDash + Uber Direct". pnl.js replaced that entire difference
+    with the Uber Direct feed the moment it covered a window, so DoorDash — A$546
+    in May 2026, A$624 in June — simply stopped being a cost. It reads ~0 from
+    July because DoorDash stopped, so the bug went quiet by itself rather than
+    being caught. Only the books disagreed, and nothing was reading the books.
+
+    Compared per CLOSED month, and only for months where the DAILY feeds cover
+    every trading day. The earlier era is weekly totals sliced across month
+    boundaries by straight sevenths, which is ±10% by construction — reconciling
+    that would produce a permanent warn, and a permanent warn is furniture.
+    """
+    import csv as _csv
+    import datetime as _dt
+    from decimal import Decimal as _D
+    fp, dp, bp = ROOT / feed_rel, ROOT / direct_rel, ROOT / books_rel
+    if not (fp.exists() and bp.exists()):
+        return {"status": "unknown", "detail": "no Uber feed or no Xero overheads to compare"}
+    try:
+        GST = _D("1.1")
+        eats, direct, days = {}, {}, set()
+        with fp.open() as fh:
+            for r in _csv.DictReader(fh):
+                if r["shop"] != "mari":
+                    continue
+                eats[r["date"]] = _D(r["commission_inc_gst"]) + _D(r["offers_inc_gst"])
+                days.add(r["date"])
+        if dp.exists():
+            with dp.open() as fh:
+                for r in _csv.DictReader(fh):
+                    if r["shop"] == "mari":
+                        direct[r["date"]] = _D(r["fee_inc_gst"])
+        if not eats:
+            return {"status": "unknown", "detail": "no Mari rows in the Uber feed"}
+        first_daily = min(eats)
+        today = _dt.date.today()
+        with bp.open() as fh:
+            books = {r["month"]: r for r in _csv.DictReader(fh) if r.get("mari_uber_fees")}
+
+        worst = None
+        checked = []
+        for m in sorted(books):
+            # closed months only, and only once the daily feed covers the whole month
+            mstart = _dt.date.fromisoformat(m + "-01")
+            nxt = (mstart.replace(day=28) + _dt.timedelta(days=7)).replace(day=1)
+            if nxt > today:                      # month not finished
+                continue
+            if mstart.isoformat() < first_daily:  # pre-daily era: not comparable
+                continue
+            feed = sum((v for k, v in eats.items() if k[:7] == m), _D("0"))
+            feed += sum((v for k, v in direct.items() if k[:7] == m), _D("0"))
+            feed_ex = (feed / GST).quantize(_D("0.01"))
+            books_ex = _D(books[m]["mari_uber_fees"])
+            gap = books_ex - feed_ex
+            checked.append(m)
+            tol = max(_D("100"), (books_ex * _D("0.03")).quantize(_D("0.01")))
+            if abs(gap) > tol and (worst is None or abs(gap) > abs(worst[1])):
+                worst = (m, gap, books_ex, feed_ex)
+        if not checked:
+            nxt_m = (_dt.date.fromisoformat(first_daily).replace(day=28)
+                     + _dt.timedelta(days=7)).replace(day=1).strftime("%Y-%m")
+            return {"status": "ok",
+                    "detail": f"no closed month is fully daily-covered yet (first will be {nxt_m})"}
+        if worst:
+            m, gap, b, f = worst
+            short = gap > 0
+            return {"status": "warn",
+                    "detail": f"{m}: books A${b}, feeds A${f} — {'short' if short else 'over'} A${abs(gap)}",
+                    "meaning": ("The Uber feeds are read from the merchant portals; Xero is what actually "
+                                "left the bank. They should agree for a finished month."),
+                    "action": ("The feeds are SHORT of the books, which understates delivery cost and "
+                               "flatters the margin — usually a whole channel with no feed of its own "
+                               "(DoorDash is the one that has done this before). Ask Claude to reconcile "
+                               f"{m} against the books."
+                               if short else
+                               "The feeds exceed the books, which usually means a cost is being counted "
+                               f"twice. Ask Claude to reconcile {m}."),
+                    "selfheal": "No — needs a human to say which channel is missing or doubled."}
+        return {"status": "ok",
+                "detail": f"feeds match the books on all {len(checked)} closed month(s) daily-covered"}
+    except Exception as e:
+        return {"status": "unknown", "detail": f"books reconciliation unreadable: {e}"}
 
 
 def _missing_sales_days(lookback=6):
@@ -344,13 +692,28 @@ def _missing_sales_days(lookback=6):
     PREF = {"stow": "Stowaway", "hg": "Harry Gatos", "mari": "Marilyna's"}
     today = _dt.date.today()
 
+    # ROOT-anchored, NOT relative. This was `open(f"data/...")` - the only
+    # relative data path in this file, every other check goes through ROOT -
+    # and it made this check structurally unable to report an outage in
+    # production. publish_health.py runs from launchd, where cwd is not the
+    # repo, so every open raised, the bare `except: return False` made the day
+    # AND its comparison weeks look sale-less, no gap was recorded, and the
+    # check published "every venue's recent trading days have sales" from zero
+    # files read. It said ok all the way through the 2026-08-11/12 outage; the
+    # same call in a checkout returns the five missing days correctly.
+    seen = {"any": False}
+
     def has_sales(prefix, d):
         try:
-            j = json.load(open(f"data/{prefix}_daily_{d}.json"))
-            return (j.get("data_status", {}).get("lightspeed") == "ok"
-                    and bool(j.get("sales", {}).get("revenue_ex_gst")))
+            with (ROOT / "data" / f"{prefix}_daily_{d}.json").open() as fh:
+                j = json.load(fh)
+        except FileNotFoundError:
+            return False
         except Exception:
             return False
+        seen["any"] = True
+        return (j.get("data_status", {}).get("lightspeed") == "ok"
+                and bool(j.get("sales", {}).get("revenue_ex_gst")))
 
     gaps = []
     for prefix in ("stow", "hg", "mari"):
@@ -362,6 +725,10 @@ def _missing_sales_days(lookback=6):
             wk2 = has_sales(prefix, (today - _dt.timedelta(days=back + 14)).isoformat())
             if wk1 or wk2:
                 gaps.append(f"{PREF[prefix]} {d}")
+    # An "ok" that read nothing is the failure mode above. Say so instead.
+    if not seen["any"]:
+        return {"status": "unknown",
+                "detail": "no daily sales files readable - cannot tell if a day is missing"}
     if not gaps:
         return {"status": "ok", "detail": "every venue's recent trading days have sales"}
     return {"status": "warn",
@@ -438,6 +805,45 @@ def build() -> dict:
         if ud.get(_k):
             _ud_check[_k] = ud[_k]
     checks.append(_ud_check)
+
+    udr = _uber_direct_reconciled()
+    _udr_check = {"name": "Uber Direct reconciled", "detail": udr.get("detail"),
+                  "age": None, "unit": "", "status": udr.get("status", "unknown")}
+    for _k in ("meaning", "action", "selfheal"):
+        if udr.get(_k):
+            _udr_check[_k] = udr[_k]
+    checks.append(_udr_check)
+
+    uvb = _uber_vs_books()
+    _uvb_check = {"name": "Uber vs the books", "detail": uvb.get("detail"),
+                  "age": None, "unit": "", "status": uvb.get("status", "unknown")}
+    for _k in ("meaning", "action", "selfheal"):
+        if uvb.get(_k):
+            _uvb_check[_k] = uvb[_k]
+    checks.append(_uvb_check)
+
+    wfx = _workflow_failures()
+    _wfx_check = {"name": "Automation jobs", "detail": wfx.get("detail"),
+                  "age": None, "unit": "", "status": wfx.get("status", "unknown")}
+    # "I could not look" is not the same as "something is wrong". Without a token
+    # (any environment but the office Mac) this check cannot read Actions at all,
+    # and letting that unknown outrank ok would leave the headline permanently
+    # muddied — the fastest way to teach people to stop reading the panel. It
+    # stays visible in the JSON, but only a real warn/down moves the overall.
+    if _wfx_check["status"] == "unknown":
+        _wfx_check["advisory"] = True
+    for _k in ("meaning", "action", "selfheal"):
+        if wfx.get(_k):
+            _wfx_check[_k] = wfx[_k]
+    checks.append(_wfx_check)
+
+    pd = _pages_drift(computed=checks)
+    _pd_check = {"name": SELF, "detail": pd.get("detail"),
+                 "age": None, "unit": "", "status": pd.get("status", "unknown")}
+    for _k in ("meaning", "action", "selfheal"):
+        if pd.get(_k):
+            _pd_check[_k] = pd[_k]
+    checks.append(_pd_check)
 
     # overall reflects AUTOMATION health — the jobs that must keep running. An
     # advisory (workload) check can raise a warn but never a down on its own.

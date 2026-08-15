@@ -68,12 +68,71 @@ def _d(s: str) -> Optional[Decimal]:
         return None
 
 
+def _KNOWN() -> set:
+    return _WEIGHT_UOM | _VOLUME_UOM | _DOZEN_UOM | set(_BULK_LABEL) | _EACH_UOM
+
+
+def names_a_unit(text: Optional[str]) -> bool:
+    """Does `text` actually name a unit we know? -> bool
+
+    For a caller stitching a wrapped UOM column back together: "200g punnet"
+    does, "Cabbage 500g" does not — the second is description text that bled into
+    the unit column on a row whose layout had shifted, and taking it as the unit
+    turns a per-kilogram line into a 500 g pack. A measure alone is not enough,
+    because a description is full of measures; the UOM has to say what the thing
+    IS.
+    """
+    if not text:
+        return False
+    known = _KNOWN()
+    return any(m.group(0).lower().rstrip(".") in known
+               for m in re.finditer(r"[A-Za-z][A-Za-z.]*", text))
+
+
+def single_unit_content(raw_uom: Optional[str]):
+    """The size of ONE sellable unit, where the UOM states it. -> (qty, kg|L)|None
+
+    For a caller that already has a description and wants to know whether the
+    supplier's own UOM overrides it. Answers ONLY for a UOM that names a single
+    sellable thing and gives that thing's size — "200g punnet" -> (0.2, kg).
+
+    It deliberately refuses a MULTI ("6x700ML") and a bulk label ("CTN-6").
+    Those describe a container of unknown-to-this-function inners, and reading
+    them as one unit is the case/bottle error: ILG's "6x700ML" would hand back
+    4.2 L, a whole case, against a price that may be for one bottle. That
+    discrimination needs a second source (see seed_matched_liquor_cost) and is
+    not this function's to make.
+    """
+    tok = _uom_token(raw_uom)
+    if tok not in _EACH_UOM:
+        return None
+    if _MULTI.search(raw_uom or ""):        # "6x700ML" is a case, not a unit
+        return None
+    return _content(raw_uom or "")
+
+
 def _uom_token(raw_uom: Optional[str]) -> Optional[str]:
-    """First alpha word of the UOM/notes field, lowercased (KG, 'Box', 'Kilo')."""
+    """The UOM word, lowercased (KG, 'Box', 'Kilo'). -> str | None
+
+    THE FIRST ALPHA RUN IS NOT ALWAYS THE WORD. Fresh Fruit Team prints the
+    selling unit as "200g punnet", and taking the first run gives "g" — which is
+    in no vocabulary, so the whole thing fell through to scavenging the
+    description. On a line whose description had wrapped to
+    "Punnet) 8 x 100g packs supplied for" that scavenge found "8 x 100g" and
+    called the punnet 800 g, four times its real 200 g, and King Brown mushrooms
+    went into the book at $7.56/kg against the $30.25/kg every other delivery of
+    the same code states.
+
+    So prefer the first run that is a unit we actually know; fall back to the
+    first run otherwise, which is the old behaviour for everything else.
+    """
     if not raw_uom:
         return None
-    m = re.search(r"[A-Za-z][A-Za-z.]*", raw_uom)
-    return m.group(0).lower().rstrip(".") if m else None
+    runs = [m.group(0).lower().rstrip(".") for m in re.finditer(r"[A-Za-z][A-Za-z.]*", raw_uom)]
+    if not runs:
+        return None
+    known = _KNOWN()
+    return next((r for r in runs if r in known), runs[0])
 
 
 def _content(text: str) -> Optional[tuple[Decimal, str]]:
@@ -112,7 +171,14 @@ def parse_pack(description: str, raw_uom: Optional[str] = None,
         if tok in _BULK_LABEL:                 # box/carton/case/tray: unknown inners
             return Decimal("1"), _BULK_LABEL[tok]
         if tok in _EACH_UOM:                   # single unit — use its stated content if any
-            return _content(description or "") or (Decimal("1"), "ea")
+            # The UOM FIRST. "200g punnet" is the supplier stating the size of
+            # the very unit it is pricing; the description is a free-text field
+            # that wraps, gets truncated, and carries substitution notes ("8 x
+            # 100g packs supplied for same price" is the TOTAL of a 4-punnet
+            # line, not one punnet). Leading with the UOM is what this module
+            # says it does everywhere else — this branch was the exception.
+            return (_content(raw_uom or "") or _content(description or "")
+                    or (Decimal("1"), "ea"))
         # unrecognised token — fall through to reading the description
 
     # No informative UOM: read the pack out of the description (bottled/dry goods).

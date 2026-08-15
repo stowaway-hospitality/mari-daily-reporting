@@ -217,14 +217,27 @@ if (book && ingFeed) {
     { name: i.description, packUnit: i.pack_unit, qty: 1, qtyUnit: i.pack_unit,
       ratePerBaseUnit: Number(i.cost_per_base_unit) }, { isBatch: true })
     .some(w => w.code === 'rate-unit-contradicts-name'));
-  // Onion Brown [kg], Pears Green [kg] and Potato Peeled [kg] are all priced
-  // "per can", and Ponzu Dashi Vinegar Uchibori [360mL] is priced "per can" at
-  // $0.0153 — which is a per-mL number wearing a per-can label. All four are
-  // wrong and all four are worth saying out loud.
-  ok(`the ingredient feed's rate/name contradictions stay at 4 (got ${feedHits.length})`,
-     feedHits.length <= 6, feedHits.map(i => i.description).join(' / '));
-  ok('...and Onion Brown [kg] priced per can is one of them',
-     feedHits.some(i => /Onion Brown \[kg\]/.test(i.description)),
+  // Three of the four were FIXED on 2026-08-14 by pinning the pack in
+  // data/pack_overrides.yaml at the unit each one's price was already sane for:
+  // Onion Brown 1000 g ($1.54/kg, which is Fresh Fruit Team's own invoiced rate
+  // to the cent), Potato Peeled 1000 g, and Ponzu Dashi 1 mL ($0.0153/mL = $5.51
+  // for the 360 mL bottle the name declares, against Foodlink's Mizkan ponzu at
+  // $0.0167/mL). None moved money.
+  //
+  // PEARS GREEN IS STILL HERE ON PURPOSE and must stay. Its price is right and
+  // its NAME is wrong: $0.65 is not a kilo of pears (FFT bill PGKG at $3.96/kg)
+  // but it is an ordinary price for ONE pear (Select Fresh bill PGRE at $0.40
+  // each), and the book has always treated it that way — Rocket Man takes 0.25
+  // and is charged $0.1625. The pack is pinned at 1 ea so the book states
+  // something true, and the rule keeps reporting it because the fix that closes
+  // it is a rename to "Pears Green [ea]" in Back Office, not another override.
+  ok(`the ingredient feed's rate/name contradictions are down to the naming one (got ${feedHits.length})`,
+     feedHits.length <= 2, feedHits.map(i => i.description).join(' / '));
+  ok('...and Pears Green [kg] — price right, name wrong — is still said out loud',
+     feedHits.some(i => /Pears Green \[kg\]/.test(i.description)),
+     feedHits.map(i => i.description).join(' / '));
+  ok('...while the three that were pinned stay fixed',
+     !feedHits.some(i => /Onion Brown \[kg\]|Potato Peeled \[kg\]|Ponzu Dashi/.test(i.description)),
      feedHits.map(i => i.description).join(' / '));
 } else {
   console.log('  (skipped the real-book calibration — data/ingredients.json is built, not committed)');

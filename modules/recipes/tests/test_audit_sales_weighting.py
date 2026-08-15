@@ -302,12 +302,18 @@ def test_the_100pc_gp_number_is_split_into_work_someone_can_do():
         assert phrase in split[0], phrase
 
 
-def test_the_pricing_pages_top_movers_are_flagged_as_pack_reads():
-    """The /pricing page exists so a supplier creeping prices up gets noticed the
-    week it happens. Its top entries are Pellegrino +2300% and Coca Cola +1100%,
-    both of which are exactly 24.00x and 12.00x — one invoice priced the bottle,
-    the next priced the case. Aperol went $30.11 a bottle to $174.50 a case,
-    which is $29.08 a bottle: a 3% FALL shown as a 480% rise.
+def test_the_pricing_pages_pack_read_movers_are_gone():
+    """WAS: this asserted the DEFECT. The /pricing page's top entries were
+    Pellegrino +2300% and Coca Cola +1100% — exactly 24.00x and 12.00x, one
+    invoice pricing the bottle and the next pricing the case. Aperol went $30.11
+    a bottle to $174.50 a case, which is $29.08 a bottle: a 3% FALL shown as a
+    480% rise. The page exists so a supplier creeping prices up gets noticed the
+    week it happens, and those three were drowning it.
+
+    NOW: the ILG parser reads the pack as ONE unit of whatever qty counts
+    (ilg.one_unit_pack), the last six invoices that predated the fix have been
+    re-parsed, and none of the three is a mover at all. So this guards the FIX —
+    re-break the pack reading and these come back and it reds.
 
     A single ingredient's per-unit price does not double between two deliveries
     from the same supplier."""
@@ -317,4 +323,6 @@ def test_the_pricing_pages_top_movers_are_flagged_as_pack_reads():
     if not flagged:
         return          # compare.json is generated; absent on a clean checkout
     for name in ("Pellegrino", "Coca Cola", "Aperol"):
-        assert any(name in d for d in flagged), name
+        assert not any(name in d for d in flagged), (
+            f"{name} is a pack-size mover again — the price and the pack have "
+            f"stopped describing the same unit: {[d for d in flagged if name in d]}")

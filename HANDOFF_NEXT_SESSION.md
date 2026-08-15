@@ -1,5 +1,10 @@
 # Start here — handoff for a new Cowork chat
 
+> **2026-08-09: the next job is `HANDOFF_20260809_ilg.md`** — the ILG re-parse,
+> with the raw_uom/qty blocker stated in full, plus what was finished on 9 Aug
+> (Angostura and Red Chilli under-costs, the real Lightspeed batch yields, the
+> flags clean-up). Read that first; this file is the older standing context.
+
 Written 2026-08-09 at the end of the COGS audit session. Paste-and-go context.
 
 ## Where things stand

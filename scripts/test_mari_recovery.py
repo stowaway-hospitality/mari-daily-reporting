@@ -151,6 +151,33 @@ write(BT/"data"/f"insights_stow_{d}.csv", [row("Pepsi Max Glass", 12.00)])
 out = run(d, venue="stowaway")
 check("NARROWED fires", "NARROWED" in out)
 
+print("\n8. A PIZZA THE MAP HAS NEVER SEEN STILL REACHES MARI  (2026-08-09)")
+# MARI FILTER DRIFT fired for real on 2026-08-06 and 08-08. 'Family El Patron'
+# and 'Family Jimmy Jury' were added to the register after the last rebuild of
+# product_dept_map.json, so classify_product() fell through to the 'b' FOH
+# catch-all: $89.70 of Marilyna's revenue was billed to Stowaway. Every other
+# size of both pizzas already mapped to 'm'; only Family was missing.
+#
+# The fix is PRODUCT_OVERRIDES, not the JSON, because build_dept_map.py
+# regenerates that file wholesale from a Lightspeed product export — an edit
+# there survives until the next rebuild and no further. So this asserts the
+# behaviour the override is there to guarantee, and will fail if a future
+# rebuild is assumed to have made it redundant.
+fresh(); d = "2099-01-08"
+FAMILY = [row("Family El Patron", 29.90), row("Family Jimmy Jury", 29.90)]
+write(BT/"data"/f"insights_stow_{d}.csv", TILL + FAMILY)
+write(BT/"data"/f"insights_mari_{d}.csv",
+      [row("Regular Sanchez [Dine-in]", 110.00), row("Add Pineapple", 5.50),
+       row("Large Sanchez", 80.91)] + FAMILY)
+out = run(d)
+want = MARI_EX + (29.90 + 29.90) / 1.1
+check("Family pizzas land on Mari, not Stow",
+      abs(float(rev(d)) - want) < 0.5, f"got {rev(d)}, want ~{want:.2f}")
+check("and the filter agrees, so no drift is raised", "MARI FILTER DRIFT" not in out)
+run(d, venue="stowaway")
+check("Stow does not also keep them",
+      abs(float(rev(d, "stow")) - 12.00/1.1) < 0.5, f"stow got {rev(d,'stow')}")
+
 print("\n" + "=" * 78)
 print(f"PASSED {len(PASS)}   FAILED {len(FAIL)}")
 if FAIL: print("FAILURES: " + ", ".join(FAIL))

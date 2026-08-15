@@ -45,3 +45,37 @@
 # lines at $3.0322. Harry Gatos sells it as plain "Katsu Curry"; the book files
 # it with the protein in the name, alongside "Seitan Katsu Curry [vegan]".
 "Katsu Curry": "Chicken Katsu Curry"
+
+# Zak, 2026-08-10: "yes rocket man D is the same as rocket man." The delivery
+# twin, which every other D in the book already is — Fish Tacos / Fish Tacos D
+# and Beef Burrito / Beef Burrito D are each one recipe at one cost. "Rocket Man"
+# is costed at $3.20; "Rocket Man D" had no recipe at all and $1,217 of 13-week
+# revenue was falling through to Lightspeed's figure.
+"Rocket Man D": "Rocket Man"
+
+# Zak, 2026-08-10: "yes rocket man D is the same as rocket man" — the same
+# mechanical convention, applied where it is checkable. 20 D-pairs are ALREADY
+# costed in the book (Fish Tacos / Fish Tacos D, Beef Burrito / Beef Burrito D,
+# Bang Bang Cauli / D ... each one recipe at one cost), so "X D" is the delivery
+# twin of "X". This is the only remaining case where the base exists and is
+# costed and the D does not — every other D-named product in the flags (Chicken
+# Schnitty D, Beef Cheek D, Fries D, Chicken Parmy D) has no costed base either,
+# so those are genuinely unwritten recipes and NOT aliases.
+"Eggplant Schnitty D": "Eggplant Schnitty"
+
+# The house-pour convention, applied where it is checkable rather than guessed.
+# All ten [House] products already in the book are the SAME shape without
+# exception: 30 mL of their own bottle, selling at $11.00. "Rooster Blanco
+# Tequila [House]" is one of them, at $1.9641.
+#
+# The till sells the same pour as "Rooster Rojo Blanco Tequila [House]" — the
+# fuller brand name, which is how ILG itself invoices it ("ROOSTER ROJO TEQUILA
+# BLANCO", code 360-1310). One tequila, one 30 mL pour, one $11.00 price, two
+# spellings; $1,147 of 13-week revenue was falling through to Lightspeed's figure.
+#
+# This is the ONLY one of 17 name-variant candidates that survived checking. The
+# rest are a batch against a portion of it (Side Chipotle Mayo vs the 1.1 kg
+# batch), a kids serve against a full one, or an upcharge against the dish it
+# swaps to — and aliasing any of those would record a lie in the file this repo
+# treats as a statement of fact.
+"Rooster Rojo Blanco Tequila [House]": "Rooster Blanco Tequila [House]"

@@ -201,11 +201,20 @@ def test_antica_invoices_now_reach_the_product_the_recipes_use():
     The pair was held back from the §3 sibling sweep because their seed rates
     were 1.42x apart — which was the pack disagreement all along, 700 against
     1000. Corrected, they agree to 0.995x, so the sibling row is now safe to
-    add and three invoice observations reach the recipes."""
+    add and the invoice observations reach the recipes.
+
+    THE COUNT IS NOT THE POINT AND MUST NOT BE PINNED. This asserted `== 3`
+    and went red on 2026-08-14 when ILG 03744948 (2026-08-11, $0.064080/ml)
+    became the fourth — a normal delivery landing on a working bridge, i.e.
+    exactly what this test wants to happen. A guard that fails every time the
+    thing it is protecting succeeds is one people learn to skip past, and this
+    one sat in front of pytest in CI, so the whole suite stopped running with
+    it. What actually matters is the floor (the bridge still reaches the
+    product) and the AGREEMENT below, which now covers four invoices."""
     obs = [r for r in csv.DictReader(COSTS.open(encoding="utf-8-sig"))
            if r["ingredient"] == "lightspeed:20445890"
            and r["source_invoice"] not in ("ls-recipe-seed",)]
-    assert len(obs) == 3, [o["source_invoice"] for o in obs]
+    assert len(obs) >= 3, [o["source_invoice"] for o in obs]
     rates = sorted(Decimal(o["cost_per_unit"]) for o in obs)
     assert rates[-1] / rates[0] < Decimal("1.01"), (
-        f"three ILG invoices for one bottle should agree: {rates}")
+        f"{len(obs)} ILG invoices for one bottle should agree: {rates}")

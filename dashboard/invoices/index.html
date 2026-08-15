@@ -68,6 +68,14 @@
          padding:10px 18px;border-radius:10px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
   .toast.show{opacity:1}
   .rowmsg{font-size:12px;color:var(--red);padding:0 15px 10px}
+  .maintabs{position:sticky;top:0;z-index:9;display:flex;gap:8px;padding:10px 0;flex-wrap:wrap}
+  .maintabs button,.maintabs .mt-link{flex:1;min-width:104px;text-align:center;text-decoration:none;
+    font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;padding:11px 10px;
+    border:1px solid var(--line);border-radius:12px;background:var(--paper);color:var(--ink-soft);cursor:pointer}
+  .maintabs button.on,.maintabs .mt-link.on{background:var(--group);color:var(--paper);border-color:var(--group)}
+  .maintabs .n{display:inline-block;min-width:18px;margin-left:6px;padding:0 5px;border-radius:99px;
+    background:var(--amber);color:#1a1a1a;font-size:11px}
+  .maintabs .n:empty{display:none}
 </style>
 </head>
 <body>
@@ -78,6 +86,7 @@
     <div class="who"><span id="who"></span><a href="/">home</a></div>
   </div></header>
   <div class="wrap">
+    <div id="maintabs"></div>
     <h1>Invoices to review</h1>
     <p class="sub">Each bill is already read and reconciled to its printed total, and coded
       per line from your Xero history. Check it, fix anything, Approve — it posts into
@@ -95,12 +104,20 @@
 
 <script type="module">
 import { Auth } from '/_shared/auth.js';
+import { navHtml } from '/_shared/recipe_tabs.js';
+// The same strip /recipes/ draws — this page is one tab of that module,
+// not a separate tool. See _shared/recipe_tabs.js.
+function paintTabs(user) {
+  const host = document.getElementById('maintabs');
+  if (host) host.innerHTML = navHtml('invoices', { isAdmin: !!(user && user.role === 'admin') });
+}
 
 let ACCOUNTS = [], TRACKING = [], QUEUE = [];
 
 Auth.gate(document.getElementById('gate'), {
   roles: ['admin'],                       // invoices are admin-only
   onOk: async (user) => {
+    paintTabs(user);
     document.getElementById('app').style.display = '';
     document.getElementById('who').textContent = user.name;
     const [q, a, decided] = await Promise.all([

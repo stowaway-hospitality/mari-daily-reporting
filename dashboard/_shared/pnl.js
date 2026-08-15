@@ -176,7 +176,7 @@ function ohFactor(day, venue, wdays) {
 }
 
 function uberRateFallback(venue) {
-  // Blended Uber-fee rate (inc GST) as a share of revenue, from the weeks we DO
+  // Blended Uber-fee rate (ex GST, like revenue) from the weeks we DO
   // have Uber actuals for. Used to ESTIMATE delivery on older weeks that predate
   // the Uber feed, so a delivery brand's cost line isn't left at driver-only.
   if (venue !== 'mari' || !STATE.uberFees || !STATE.uberFees.length) return null;
@@ -184,7 +184,7 @@ function uberRateFallback(venue) {
   let fees = 0, rev = 0;
   for (const r of STATE.uberFees) {
     if (r.venue !== 'mari' || !r.week_ending) continue;
-    fees += toNum(r.total_fees_inc_gst);
+    fees += toNum(r.total_fees_inc_gst) / 1.1;
     const s0 = isoDate(addDays(new Date(r.week_ending), -6));
     for (const d of hist) if (d.date >= s0 && d.date <= r.week_ending) rev += toNum(d.revenue_ex_gst);
   }
@@ -193,7 +193,7 @@ function uberRateFallback(venue) {
 
 function uberWeeklyFees(venue, sIso, eIso) {
   // Weekly Uber actuals (uber_fees_weekly) — the bridge between the daily feed
-  // (recent only) and the monthly Xero rate. Same inc-GST basis + shape as
+  // (recent only) and the monthly Xero rate. Same ex-GST basis + shape as
   // uberSplit, so venueDeliveryEst can use it interchangeably. Prorated by the
   // overlap of each Uber week (ending week_ending) with the requested window.
   if (!STATE.uberFees || !STATE.uberFees.length) return null;
@@ -205,7 +205,9 @@ function uberWeeklyFees(venue, sIso, eIso) {
     const ovStart = wkStart > sIso ? wkStart : sIso;
     const ovEnd = r.week_ending < eIso ? r.week_ending : eIso;
     const days = (new Date(ovEnd) - new Date(ovStart)) / 86400000 + 1;
-    if (days > 0) { const frac = days / 7; comm += toNum(r.service_fees_inc_gst) * frac; mkt += toNum(r.marketing_inc_gst) * frac; have = true; }
+    if (days > 0) { const frac = days / 7;
+      comm += toNum(r.service_fees_inc_gst) / 1.1 * frac;
+      mkt += toNum(r.marketing_inc_gst) / 1.1 * frac; have = true; }
   }
   return have ? { commission: comm, marketing: mkt } : null;
 }
@@ -216,7 +218,10 @@ function uberSplit(venue, sIso, eIso) {
   let comm = 0, offers = 0, have = false;
   for (const r of STATE.uberDaily) {
     if (r.shop === venue && r.date >= sIso && r.date <= eIso) {
-      comm += toNum(r.commission_inc_gst); offers += toNum(r.offers_inc_gst); have = true;
+      // /1.1: the feeds store what the portal shows (inc GST) but the P&L is
+      // ex-GST throughout — revenue, COGS, wages, overheads and Xero itself.
+      // The GST is reclaimed, so it is not a cost. See the note on uberSplit.
+      comm += toNum(r.commission_inc_gst) / 1.1; offers += toNum(r.offers_inc_gst) / 1.1; have = true;
     }
   }
   if (!have) return null;
@@ -225,7 +230,7 @@ function uberSplit(venue, sIso, eIso) {
   // payout. Adding uber_marketing_weekly (uberAds) on top double-counted ads.
   // That feed is deprecated and empty, so this was latent rather than live;
   // removed so it cannot fire if anyone ever repopulates it. (2026-08-09)
-  return { commission: comm, marketing: offers };
+  return { commission: comm, marketing: offers };   // ex-GST
 }
 
 function uberDailyStart(venue) {
@@ -306,7 +311,7 @@ function uberDirectActual(venue, sIso, eIso) {
   if (min === null) return null;
   let fee = 0;
   for (const r of rows) {
-    if (r.shop === venue && r.date >= sIso && r.date <= eIso) fee += toNum(r.fee_inc_gst);
+    if (r.shop === venue && r.date >= sIso && r.date <= eIso) fee += toNum(r.fee_inc_gst) / 1.1;
   }
   return { fee, covered: sIso >= min && eIso <= max };
 }
@@ -319,10 +324,158 @@ function venueRevWindow(venue, sIso, eIso) {
   return rev;
 }
 
+function hgUberInMonthEx(month) {
+  // Harry Gatos' own Uber Eats fees for a month, ex-GST.
+  //
+  // WHY: xero_pull.py maps the whole "Service & Delivery Fees - UberEats"
+  // account to Marilyna's (MARI_DELIVERY), but HG has its own Uber Eats shop and
+  // has done all along - 53 orders in May 2026, 48 in June. Read from each shop's
+  // own portal page, May was HG 889.84 + Mari 10,889.46 = 10,708.45 ex against
+  // Xero's 10,667.08: a 0.4% match, which is the proof that one account holds
+  // BOTH shops. So Marilyna's was carrying HG's delivery cost - A$808.95 in May
+  // and A$904.78 in June - and HG looked cheaper than it is. Group was right;
+  // the split was not. Same shape as the till-split bug.
+  //
+  // Day by day so the weekly->daily handover cannot double count: use the daily
+  // feed where it reaches, otherwise the week that covers the day, at 1/7.
+  const daily = {}, wk = {};
+  for (const r of (STATE.uberDaily || []))
+    if (r.shop === 'hg') daily[r.date] = toNum(r.commission_inc_gst) + toNum(r.offers_inc_gst);
+  for (const r of (STATE.uberFees || []))
+    if (r.venue === 'hg' && r.week_ending) wk[r.week_ending] = toNum(r.total_fees_inc_gst);
+  const firstDaily = Object.keys(daily).sort()[0];
+  const d0 = new Date(month + '-01');
+  const last = new Date(d0.getFullYear(), d0.getMonth() + 1, 0).getDate();
+  let inc = 0;
+  for (let i = 1; i <= last; i++) {
+    const day = month + '-' + String(i).padStart(2, '0');
+    if (firstDaily && day >= firstDaily) { inc += daily[day] || 0; continue; }
+    // the Uber week ENDING on or after this day, within 6 days
+    for (let k = 0; k < 7; k++) {
+      const we = isoDate(addDays(new Date(day), k));
+      if (wk[we] !== undefined) { inc += wk[we] / 7; break; }
+    }
+  }
+  return inc / 1.1;
+}
+
+function bookedFeesWindow(venue, sIso, eIso) {
+  // Third-party platform fees straight from the BOOKS, month by month.
+  //
+  // WHY this replaced a trailing-rate estimate (2026-08-10): deliveryFeesPct
+  // blended the last THREE months of fees into a % of revenue and applied it to
+  // the window. That silently kept describing a business that had changed.
+  // Marilyna's moved off ME&U to Bite on 2026-07-01, so ME&U fell from $4,682.90
+  // (May) and $3,265.18 (June) to $218.00 (July) — but the blended rate still
+  // carried Mari's departed volume, and the whole ME&U account is split across
+  // Stowaway and Harry Gatos by revenue share. Stowaway is not on Uber Eats, so
+  // ME&U is its ENTIRE delivery line: it was showing ~$530-750/week against a
+  // real cost nearer $39, and would have kept doing so until the window rolled
+  // past June around October. Averaging across a change in the business is the
+  // same failure as the DoorDash drop — a number quietly describing last quarter.
+  //
+  // So: use each month's OWN figure. A finished month uses what Xero actually
+  // holds for it. The current month is not closed yet (Xero lags), so it borrows
+  // the most recent CLOSED month rather than a blend. Apportioned by revenue
+  // share of the month, because a week is not a flat seventh of a month's trade.
+  if (venue === 'group') return REAL_VENUES.reduce((t, v) => t + bookedFeesWindow(v, sIso, eIso), 0);
+  const oh = STATE.xeroOH || [];
+  if (!oh.length || !sIso || !eIso) return 0;
+  const byMonth = Object.fromEntries(oh.filter(r => r.month).map(r => [r.month, r]));
+  const curMonth = isoDate(sydneyToday()).slice(0, 7);
+  const closed = Object.keys(byMonth).filter(m => m < curMonth).sort();
+  const field = venue === 'mari' ? 'mari_uber_fees' : 'meu_fees';
+  const lastClosed = [...closed].reverse().find(m => hasVal(byMonth[m][field]));
+  const revIn = (v, a, b) => (STATE.histories[v] || [])
+    .reduce((t, r) => (r.date >= a && r.date <= b) ? t + toNum(r.revenue_ex_gst) : t, 0);
+  let out = 0;
+  for (let m = sIso.slice(0, 7); m <= eIso.slice(0, 7); ) {
+    const src = (m < curMonth && byMonth[m] && hasVal(byMonth[m][field])) ? m : lastClosed;
+    if (src) {
+      // Xero's Marilyna's Uber account also holds Harry Gatos' Uber Eats fees.
+      // Take HG's out here and HG picks them up through its own feeds, so each
+      // venue carries what it actually spent and the group total is unchanged.
+      let fee = toNum(byMonth[src][field]);
+      if (venue === 'mari') fee = Math.max(0, fee - hgUberInMonthEx(src));
+      const mStart = m + '-01';
+      const d = new Date(mStart); const mEnd = isoDate(new Date(d.getFullYear(), d.getMonth() + 1, 0));
+      const oStart = sIso > mStart ? sIso : mStart, oEnd = eIso < mEnd ? eIso : mEnd;
+      // ME&U covers dine-in at Stowaway + Harry Gatos and the books hold ONE
+      // account for both, so each venue takes its revenue share of the pair.
+      // Mari's Uber account is Mari's alone.
+      if (src === m) {
+        // A CLOSED month: we know its whole revenue, so revenue share is exact
+        // and the venues' slices add back to the month's booked fee to the cent.
+        const denomMonth = venue === 'mari' ? revIn('mari', mStart, mEnd)
+                                            : revIn('stow', mStart, mEnd) + revIn('hg', mStart, mEnd);
+        const mine = revIn(venue, oStart, oEnd);
+        if (denomMonth > 0) out += fee * (mine / denomMonth);
+      } else {
+        // The CURRENT month, borrowing the last closed month's fee. Its revenue
+        // is only month-TO-DATE, so a revenue share would compare a 7-day week
+        // against 9 days of trade and hand it most of a month's fee. Prorate by
+        // DAYS elapsed instead, then split between the venues by their revenue
+        // share of just those days.
+        const dim = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+        const days = Math.round((new Date(oEnd) - new Date(oStart)) / 864e5) + 1;
+        const denomWin = venue === 'mari' ? revIn('mari', oStart, oEnd)
+                                          : revIn('stow', oStart, oEnd) + revIn('hg', oStart, oEnd);
+        const mine = revIn(venue, oStart, oEnd);
+        if (denomWin > 0) out += fee * (days / dim) * (mine / denomWin);
+      }
+    }
+    const nd = new Date(m + '-01'); nd.setMonth(nd.getMonth() + 1);
+    m = isoDate(nd).slice(0, 7);
+  }
+  return out;
+}
+
+function doorDashFromBooks(venue, sIso, eIso) {
+  // DoorDash, recovered from the accounts. It has no feed of its own.
+  //
+  // WHY this function has to exist: xero_pull.py builds TWO Uber figures --
+  // mari_uber_fees (all third-party delivery) and mari_uber_only (the UberEats
+  // account alone) -- and its own comment says the difference is "DoorDash +
+  // Uber Direct". venueDeliveryEst used to replace that whole difference with
+  // dir.fee the moment the Uber Direct feed covered the window, which silently
+  // dropped DoorDash: A$545.95 in May 2026 and A$624.47 in June. It reads ~0
+  // from July, which is why nobody caught it -- DoorDash appears to have
+  // stopped, so the bug went quiet on its own instead of being found.
+  // Understating cost flatters the margin, the direction CLAUDE.md warns about.
+  //
+  // Basis: ex-GST, like the books it comes from and like every other line.
+  // Apportioned by REVENUE, not by days: a week is not a flat seventh of a
+  // month's trading.
+  if (venue !== 'mari') return 0;
+  const oh = STATE.xeroOH || [];
+  if (!oh.length) return 0;
+  let out = 0;
+  for (const r of oh) {
+    const m = r.month;
+    if (!m || !hasVal(r.mari_uber_fees) || !hasVal(r.mari_uber_only)) continue;
+    if (m < sIso.slice(0, 7) || m > eIso.slice(0, 7)) continue;
+    // What the books say is NOT UberEats, less the Uber Direct we can see.
+    let direct = 0;
+    for (const d of (STATE.uberDirect || []))
+      if (d.shop === 'mari' && d.date.slice(0, 7) === m) direct += toNum(d.fee_inc_gst) / 1.1;
+    const dd = toNum(r.mari_uber_fees) - toNum(r.mari_uber_only) - direct;
+    if (!(dd > 0)) continue;            // nothing left over: DoorDash is done
+    let monthRev = 0, windowRev = 0;
+    for (const h of (STATE.histories.mari || [])) {
+      if (h.date.slice(0, 7) !== m) continue;
+      const v = toNum(h.revenue_ex_gst);
+      monthRev += v;
+      if (h.date >= sIso && h.date <= eIso) windowRev += v;
+    }
+    if (monthRev > 0) out += dd * (windowRev / monthRev);
+  }
+  return out;
+}
+
 function venueDeliveryEst(venue, sIso, eIso, endIso) {
   const rev = venueRevWindow(venue, sIso, eIso);
-  const dfr = deliveryFeesPct(venue, endIso);
-  const dfEst = dfr ? rev * dfr.pct / 100 : 0;
+  // The books, month by month — NOT a trailing blended rate. See bookedFeesWindow.
+  const dfEst = bookedFeesWindow(venue, sIso, eIso);
   const _u = uberActual(venue, sIso, eIso);
   if (!_u) {
     let est = dfEst;
@@ -331,7 +484,14 @@ function venueDeliveryEst(venue, sIso, eIso, endIso) {
   }
   const dir = uberDirectActual(venue, sIso, eIso);
   const directActual = dir && dir.covered;
-  const nonUber = directActual ? dir.fee : dfEst * (1 - uberEatsShareOfDelivery(venue, endIso));
+  // Uber Direct we can read per-day; DoorDash only exists in the books. Taking
+  // dir.fee alone here is what dropped DoorDash -- see doorDashFromBooks.
+  const doorDash = directActual ? doorDashFromBooks(venue, sIso, eIso) : 0;
+  // Mari: Uber Direct we read per-day, DoorDash from the books. Stow/HG: dfEst is
+  // now the booked ME&U figure itself, not a rate, and uberEatsShareOfDelivery is
+  // 0 for them, so they take it whole.
+  const nonUber = directActual ? dir.fee + doorDash
+                               : dfEst * (1 - uberEatsShareOfDelivery(venue, endIso));
   // The feed's TAIL: days in the window the Uber pull has not reached yet. Their
   // revenue is already in the P&L, so leaving their fees out understates delivery
   // cost on every window ending today — and by a lot more if the pull is stuck.
@@ -345,7 +505,7 @@ function venueDeliveryEst(venue, sIso, eIso, endIso) {
   }
   return { df: _u.commission + _u.marketing + tail + nonUber, commission: _u.commission,
            marketing: _u.marketing, direct: directActual ? dir.fee : null,
-           actual: true, feedCovered: !!_u.covered, tailEst: tail };
+           doorDash: doorDash, actual: true, feedCovered: !!_u.covered, tailEst: tail };
 }
 
 function pnlWindow(day, venue = STATE.currentVenue) {
@@ -376,7 +536,7 @@ function pnlWindow(day, venue = STATE.currentVenue) {
   } else if (venue === 'group') {
     const parts = REAL_VENUES.map(v => venueDeliveryEst(v, _win[0], _win[1], endIso));
     if (parts.some(p => p.actual)) df = parts.reduce((t, p) => t + p.df, 0);
-    else { const dfr = deliveryFeesPct(venue, endIso); df = dfr ? rev * dfr.pct / 100 : 0; }
+    else df = bookedFeesWindow('group', _win[0], _win[1]);
   } else {
     df = venueDeliveryEst(venue, _win[0], _win[1], endIso).df;
   }
@@ -490,10 +650,16 @@ function breakevenParts(venue, endIso) {
   const fixedDaily = (ohA ? ohA.rate : (OVERHEADS_WEEKLY[venue] || 0) / 7)
                      + corpPayrollDaily(venue, endIso) + wageOncostDaily(venue, endIso);
   const a = actualCogs(venue, endIso);
-  const dfr = deliveryFeesPct(venue, endIso);
+  // Delivery % for breakeven comes from the SAME booked figure the P&L uses, over
+  // the trailing 28 days. It used to come from deliveryFeesPct's 3-month blend,
+  // so breakeven and the delivery line could disagree with each other.
+  const _bs = isoDate(addDays(new Date(endIso), -27));
+  const _brev = venueRevWindow(venue, _bs, endIso);
+  const _bfee = venueDeliveryEst(venue, _bs, endIso, endIso).df;
+  const dfPct = _brev > 0 ? _bfee / _brev * 100 : null;
   const wm = wageMedian12wk(STATE.histories[venue] || []);
   if (!a && wm === null) return null;
-  const varPct = (a ? a.pct : 0) + (dfr ? dfr.pct : 0) + (wm || 0);
+  const varPct = (a ? a.pct : 0) + (dfPct || 0) + (wm || 0);
   if (varPct >= 95) return null;
   return { fixedDaily, varPct };
 }
@@ -524,19 +690,37 @@ function actualCogsSplit(venue, endIso, nWeeks = 4) {
 }
 
 function uberSvcWindow(sIso, eIso) {
-  const feed = STATE.uberFees || [];
-  if (!feed.length) return null;
-  const sundays = [];
+  // Mari's portal Uber Eats fees over a window, ex-GST, built DAY BY DAY:
+  // the daily feed where it reaches, otherwise 1/7 of the week covering that day.
+  //
+  // Two things this fixes. It used to sum whole weeks whose SUNDAY fell inside
+  // the window — week-shaped arithmetic against a day-shaped window, so June
+  // 2026 (30 days, 4 Sundays) lost its last two days and the monthly view came
+  // in ~A$468 under the sum of its own weeks. And it only ever read the WEEKLY
+  // feed, so from 2026-07-13 — when Mari moved to a daily feed — the override
+  // stopped firing at all and whole-month windows silently fell back to the Xero
+  // figure while every other view used the portal. Same month, two sources.
+  // Day-by-day also makes the weekly->daily handover safe from double counting.
+  const daily = {}, wk = {};
+  for (const r of (STATE.uberDaily || []))
+    if (r.shop === 'mari') daily[r.date] = (toNum(r.commission_inc_gst) + toNum(r.offers_inc_gst)) / 1.1;
+  for (const r of (STATE.uberFees || []))
+    if (r.venue === 'mari' && r.week_ending && hasVal(r.service_fees_inc_gst)) wk[r.week_ending] = r;
+  if (!Object.keys(daily).length && !Object.keys(wk).length) return null;
+  let svc = 0, mkt = 0, days = 0;
   for (let d = new Date(sIso); isoDate(d) <= eIso; d = addDays(d, 1)) {
-    if (d.getDay() === 0) sundays.push(isoDate(d));
+    const day = isoDate(d);
+    if (daily[day] !== undefined) { svc += daily[day]; days++; continue; }
+    let hit = null;
+    for (let k = 0; k < 7; k++) { const we = isoDate(addDays(new Date(day), k)); if (wk[we]) { hit = wk[we]; break; } }
+    if (!hit) return null;   // a day neither feed covers: do not part-override
+    svc += toNum(hit.service_fees_inc_gst) / 1.1 / 7;
+    mkt += toNum(hit.marketing_inc_gst) / 1.1 / 7;
+    days++;
   }
-  if (!sundays.length) return null;
-  const wk = {};
-  for (const r of feed) if (r.venue === 'mari' && hasVal(r.service_fees_inc_gst)) wk[r.week_ending] = r;
-  if (!sundays.every(su => wk[su])) return null;
-  let svc = 0, mkt = 0;
-  for (const su of sundays) { svc += toNum(wk[su].service_fees_inc_gst); mkt += toNum(wk[su].marketing_inc_gst); }
-  return { svc: svc / 1.1, mkt: mkt / 1.1, weeks: sundays.length };
+  // The daily feed carries commission AND marketing in one figure, so it lands in
+  // svc; feesActualWindow adds svc + mkt, which is why that is safe.
+  return days ? { svc, mkt, days } : null;
 }
 
 function wholeMonthEdges(sIso, eIso) {
@@ -560,26 +744,42 @@ function feesActualWindow(day, venue = STATE.currentVenue) {
     cur = new Date(cur.getFullYear(), cur.getMonth() + 1, 1);
   }
   if (!months.length || !months.every(m => feed[m] && m < curMonth)) return null;
-  let mari = 0, meu = 0, uberOnly = 0;
+  let mari = 0, meu = 0, uberOnly = 0, hgUber = 0;
   for (const m of months) {
-    mari += toNum(feed[m].mari_uber_fees);
-    uberOnly += toNum(feed[m].mari_uber_only);
+    // Xero's Marilyna's Uber account holds Harry Gatos' Uber Eats too. Split it
+    // here as well as in bookedFeesWindow, or a whole-month window would still
+    // put HG's delivery cost on Mari. See hgUberInMonthEx.
+    const hg = hgUberInMonthEx(m);
+    hgUber += hg;
+    mari += toNum(feed[m].mari_uber_fees) - hg;
+    uberOnly += toNum(feed[m].mari_uber_only) - hg;
     meu += toNum(feed[m].meu_fees);
   }
+  if (mari < 0) mari = 0;
+  if (uberOnly < 0) uberOnly = 0;
   // Portal override: swap the booked UberEats line for REAL portal service
   // fees (ex-marketing) when portal weeks cover the window. DoorDash +
   // Uber Direct stay from the books (mari_uber_fees - mari_uber_only).
   const u = uberSvcWindow(sIso, eIso);
   let portal = false;
-  if (u && uberOnly) { mari = u.svc + (mari - uberOnly); portal = true; }
+  // svc + mkt, not svc alone. The books' UberEats account INCLUDES Uber's
+  // marketing deduction — May 2026 proves it: the two shops' portal pages sum to
+  // A$10,708.45 ex WITH marketing against Xero's A$10,667.08, a 0.4% match.
+  // Swapping in service fees alone therefore deleted the marketing, ~A$1,829 ex
+  // in June, and only on WHOLE-MONTH windows: pnlWindow keeps marketing inside
+  // the delivery line ("Zak: no separate line"), so the same venue reported a
+  // different delivery cost depending on which date range you picked. (2026-08-10)
+  if (u && uberOnly) { mari = u.svc + u.mkt + (mari - uberOnly); portal = true; }
   const v = venue;
   let fees;
   if (v === 'mari') fees = mari;
-  else if (v === 'group') fees = mari + meu;
+  else if (v === 'group') fees = mari + meu + hgUber;
   else {
     const revOf = vv => (STATE.histories[vv] || []).reduce((tt, r) => (r.date >= sIso && r.date <= eIso) ? tt + toNum(r.revenue_ex_gst) : tt, 0);
     const rs = revOf('stow'), rh = revOf('hg');
     fees = (rs + rh) ? meu * (v === 'stow' ? rs : rh) / (rs + rh) : 0;
+    // ...and HG picks up the Uber Eats fees just taken off Marilyna's.
+    if (v === 'hg') fees += hgUber;
   }
   return { fees, mari, meu, nMonths: months.length, portal, mkt: u ? u.mkt : null,
            uberEats: portal ? u.svc : uberOnly };
@@ -693,7 +893,7 @@ function deliveryBreakdown(day, venue) {
   } else if (venue === 'group') {
     const parts = REAL_VENUES.map(v => venueDeliveryEst(v, _win[0], _win[1], end));
     platform = parts.some(p => p.actual) ? parts.reduce((t, p) => t + p.df, 0)
-      : (() => { const dfr = deliveryFeesPct(venue, end); return dfr ? rev * dfr.pct / 100 : 0; })();
+      : bookedFeesWindow('group', _win[0], _win[1]);
     const pm = venueDeliveryEst('mari', _win[0], _win[1], end);
     actual = pm.actual; marketing = pm.marketing;
     uberEats = pm.commission + pm.marketing;

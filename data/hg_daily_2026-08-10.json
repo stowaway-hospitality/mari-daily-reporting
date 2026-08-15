@@ -1,0 +1,274 @@
+{
+  "date": "2026-08-10",
+  "generated_at": "2026-08-11T03:53:38.703784Z",
+  "venue": "harry",
+  "venue_display": "Harry Gatos",
+  "lane_config": [
+    "revenue",
+    "cogs",
+    "wages",
+    "gp"
+  ],
+  "data_status": {
+    "lightspeed": "ok",
+    "deputy": "ok",
+    "payments": "missing"
+  },
+  "sales": {
+    "revenue_inc_gst": 4340.4,
+    "revenue_ex_gst": 3946.12,
+    "cogs_dollars": 1028.64,
+    "cogs_pct": 26.1,
+    "gp_dollars": 2917.48,
+    "gp_pct": 73.9,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 342.29,
+    "recipe_coverage_pct": 91.2,
+    "uber_eats_revenue": 0,
+    "net_takings_ex_gst": null,
+    "eatclub_giveaway_ex_gst": 0.0,
+    "eatclub_covers": 0,
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 3520.27,
+    "bev_ex_gst": 425.55,
+    "food_cogs": 251.33,
+    "bev_cogs": 90.96,
+    "food_cogs_pct": 7.1,
+    "bev_cogs_pct": 21.4,
+    "food_gp_pct": 92.9,
+    "bev_gp_pct": 78.6,
+    "mari_rideon_ex_gst": 0.0,
+    "hg_food_out_ex_gst": 0.0,
+    "stow_food_out_ex_gst": 0.0
+  },
+  "wages": {
+    "kitchen_dollars": 971.81,
+    "foh_dollars": 924.92,
+    "driver_dollars": 0,
+    "admin_dollars": 0,
+    "leave_dollars": 0,
+    "total_dollars": 1896.73,
+    "wages_pct": 48.1,
+    "net_wage_pct": null,
+    "kitchen_hours": 25.2,
+    "foh_hours": 22.0,
+    "wages_kitchen_pct": 27.6,
+    "wages_foh_pct": 217.3,
+    "includes_super": true,
+    "salaried_synthesized": true
+  },
+  "delivery": null,
+  "payments_breakdown": null,
+  "alerts": {
+    "cogs": "green",
+    "wages": "red",
+    "delivery": "n/a",
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "green",
+    "wages_kitchen": "red",
+    "wages_foh": "red"
+  },
+  "targets": {
+    "cogs": {
+      "target": 32.0,
+      "amber": 35.0,
+      "red": 38.0,
+      "note": "HG food-heavy mix (dumplings, shared plates) runs ~32-35% blended \u2014 heavier than Stow"
+    },
+    "wages": {
+      "target": 30.0,
+      "amber": 33.0,
+      "red": 36.0,
+      "note": "Zak-set 30% target \u2014 hospitality benchmark; splits kitchen + FOH"
+    },
+    "cogs_food": {
+      "target": 32.0,
+      "amber": 36.0,
+      "red": 40.0,
+      "note": "DRAFT \u2014 Zak to confirm. Food COGS vs food revenue (ex-GST). Olly's BEP work put HG food COGS ~35%."
+    },
+    "cogs_bev": {
+      "target": 22.0,
+      "amber": 25.0,
+      "red": 28.0,
+      "note": "DRAFT \u2014 Zak to confirm. Bev COGS vs bev revenue (ex-GST)."
+    },
+    "wages_kitchen": {
+      "target": 14.0,
+      "amber": 17.0,
+      "red": 20.0,
+      "note": "DRAFT \u2014 Zak to confirm. Kitchen wages as % of FOOD revenue (ex-GST), not total. HG kitchen is heavier than Stow's."
+    },
+    "wages_foh": {
+      "target": 16.0,
+      "amber": 20.0,
+      "red": 24.0,
+      "note": "DRAFT \u2014 Zak to confirm. FOH wages as % of BEV revenue (ex-GST), not total."
+    },
+    "gp": {
+      "note": "Higher is better \u2014 68% target; status inversion not yet implemented so alerts left empty",
+      "target_direction": "high_is_good"
+    }
+  },
+  "top_products": [
+    {
+      "name": "Unlimited Dumplings",
+      "qty": 86.0,
+      "rev": 2068.8,
+      "cost": 601.7506,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Unlimited Dumplings",
+      "qty": 29.0,
+      "rev": 684.0,
+      "cost": 202.9159,
+      "cost_source": "recipe",
+      "cost_lightspeed": 203.3
+    },
+    {
+      "name": "Fried Rice",
+      "qty": 3.0,
+      "rev": 71.3,
+      "cost": 9.6237,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Mie Goreng",
+      "qty": 3.0,
+      "rev": 69.0,
+      "cost": 17.0115,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "BBQ Pork Buns",
+      "qty": 4.0,
+      "rev": 61.95,
+      "cost": 14.0,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Tonkotsu",
+      "qty": 2.0,
+      "rev": 60.9,
+      "cost": 8.3486,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Drunken Koi",
+      "qty": 3.0,
+      "rev": 58.8,
+      "cost": 7.3275,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.96
+    },
+    {
+      "name": "Tonkotsu",
+      "qty": 3.0,
+      "rev": 58.0,
+      "cost": 12.5229,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.49
+    },
+    {
+      "name": "Katsu Curry",
+      "qty": 2.0,
+      "rev": 54.89,
+      "cost": 6.0644,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Sapporo - Schooner",
+      "qty": 4.0,
+      "rev": 52.0,
+      "cost": 12.614,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.77
+    },
+    {
+      "name": "Shredded Beef",
+      "qty": 2.0,
+      "rev": 52.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Duck Spring Rolls",
+      "qty": 3.0,
+      "rev": 49.58,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Sapporo - 500ml",
+      "qty": 4.0,
+      "rev": 49.5,
+      "cost": 14.84,
+      "cost_source": "recipe",
+      "cost_lightspeed": 15.02
+    },
+    {
+      "name": "Fried Rice",
+      "qty": 2.0,
+      "rev": 46.0,
+      "cost": 6.4158,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.36
+    },
+    {
+      "name": "BBQ Pork Buns",
+      "qty": 3.0,
+      "rev": 45.0,
+      "cost": 10.5,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.5
+    },
+    {
+      "name": "Popcorn Cauliflower",
+      "qty": 3.0,
+      "rev": 44.0,
+      "cost": 2.8686,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.94
+    },
+    {
+      "name": "Popcorn Cauliflower",
+      "qty": 3.0,
+      "rev": 43.37,
+      "cost": 2.8686,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Dumplings - Beef & Cabbage",
+      "qty": 3.0,
+      "rev": 40.29,
+      "cost": 4.3836,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Angas & Bremer Ros\u00e9 - Large",
+      "qty": 2.0,
+      "rev": 37.8,
+      "cost": 5.8464,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.43
+    },
+    {
+      "name": "Outback Prawn Toast",
+      "qty": 2.0,
+      "rev": 32.52,
+      "cost": 7.7748,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    }
+  ]
+}

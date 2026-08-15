@@ -125,6 +125,35 @@ def looks_like_statement(text: str) -> bool:
     # so a genuine one-off receipt can't trip it.
     if "payment receipt" in t and "invoice number" in t and "payment amount" in t:
         return True
+    # A PROOF OF DELIVERY is a carrier's docket, not a bill. CartonCloud emails one
+    # per consignment on behalf of the brewers ("MOUNTAIN CULTURE / Proof Of
+    # Delivery ... KEG: 2 | Value: $0.00"); 13 of them were sitting in Review as
+    # though a parser were missing. They carry quantities and no prices at all, so
+    # there is nothing to cost and nothing a parser could ever reconcile.
+    if "proof of delivery" in t:
+        return True
+    # A STATEMENT LEDGER names the columns of a running account. "Invoice Amount"
+    # as a COLUMN alongside a "Balance Due" is a statement construct — an invoice
+    # states its own total, it does not tabulate other invoices' amounts against a
+    # balance. Xero's statement template does exactly this and slipped through
+    # because it prints neither "amount enclosed" nor an ageing spread (Speed Gas,
+    # Grifter, Cordless Filter).
+    if "balance due" in t and "invoice amount" in t:
+        return True
+    # AGEING BUCKETS ARE SUFFICIENT ON THEIR OWN. Foodlink's monthly Statement of
+    # Account prints no masthead in the text layer at all — it opens straight into
+    # the ledger ("15079 stowaway ... invoice si4500784 340.80 ... 1,441.20"), so
+    # the `titled` test below never fired and the document cycled through Review
+    # on every retry pass, unparseable by construction (it has no line items).
+    #
+    # A "Current | 7 Days | 14 Days | 21 Days+" spread is a statement-only
+    # construct: an invoice states ONE set of terms, never a spread of buckets.
+    # Measured against the whole corpus on 2026-08-15 — of 418 PASSing invoices,
+    # ZERO match this rule, so promoting it from a `strong` signal to a standalone
+    # one costs nothing and cannot swallow a real bill. The "tax invoice" escape
+    # hatch above still runs first and covers 417 of those 418 outright.
+    if "current" in t and len(set(_AGEING.findall(t))) >= 2:
+        return True
     titled = "statement" in t[:600] or "statement of account" in t  # word up top
     strong = ("running total" in t or "remaining amount" in t
               or ("opening balance" in t and "closing balance" in t)
@@ -207,6 +236,39 @@ def main() -> int:
             if looks_like_statement(_txt):
                 print("[skipped — statement / not an invoice]")
                 return 3
+            # AN IMAGE-ONLY PDF NEVER GOES TO THE EXTRACTOR. No text layer means
+            # no parser can read it, and the fallback was to let the LLM look at
+            # the picture — which is where this gets dangerous rather than merely
+            # unhelpful.
+            #
+            # All 17 scans in the corpus were opened on 2026-08-15 and NOT ONE is
+            # a printed invoice:
+            #   * 15 are Sun Circle, a PRE-PRINTED order form filled in BY HAND.
+            #     The product names are printed, but qty, unit price, amount and
+            #     the total are handwritten in pen ("48 x 4.50  216", total
+            #     "540.-"). Those handwritten numbers are the only data we need.
+            #     A model reading them is GUESSING at money, and because it
+            #     guesses the line amounts AND the total from the same strokes it
+            #     can guess consistently and still reconcile — a wrong number that
+            #     validates. That is precisely the "errors that flatter you"
+            #     failure this codebase is built to refuse.
+            #   * 1 is a blank ILG Direct Debit Request; 1 is a blank B&E Credit
+            #     Card Authorisation form. Neither is a bill at all, and the
+            #     latter is a card-details form that should not be shipped to an
+            #     extractor on principle.
+            #
+            # So this costs zero automation today and removes the whole class.
+            # It stays in Review, where a human keys it — Sun Circle is ~3-4
+            # lines an invoice, about one a week. The real fix is upstream:
+            # ask Sun Circle to email a digital invoice. OCR is NOT the answer —
+            # Tesseract reads print, not handwriting, and would return confident
+            # nonsense for exactly the fields that matter.
+            # Exit 4, not 2, so the mailbox can tell "needs a parser" from "needs
+            # a human with a keyboard". A 2 invites tomorrow's triage to go
+            # looking for a parser to write; there isn't one to write.
+            if not _pt.has_text_layer(pdf):
+                print("[image-only PDF — no text layer; needs manual entry, never guessed]")
+                return 4
             _is_credit = looks_like_credit_note(_txt)
             # FREE FIRST, BUT ONLY IF IT RECONCILES. A recurring supplier with a
             # known layout is parsed deterministically (no API). We TRUST it only

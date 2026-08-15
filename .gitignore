@@ -42,3 +42,10 @@ data/invoice_corpus/nicholas_seafood/
 
 # generated at build time (two moving sales windows) — see scripts/build_cost_book_flags.py
 data/cost_book_flags.json
+
+# scratch space for curl payloads during the API-commit path (uber pull, etc).
+# Never commit it: a PAT was copied in here on 2026-08-10 for convenience and the
+# FUSE mount would not allow deleting the file afterwards, only truncating it.
+# Read secrets straight from .secrets/ instead of copying them anywhere.
+.scratch/
+.mutation_test.lock
