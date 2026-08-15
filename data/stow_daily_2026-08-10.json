@@ -1,6 +1,6 @@
 {
   "date": "2026-08-10",
-  "generated_at": "2026-08-11T03:53:37.504873Z",
+  "generated_at": "2026-08-15T05:46:33.181698Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -15,30 +15,30 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 1875.23,
-    "revenue_ex_gst": 1704.81,
-    "cogs_dollars": 422.2,
-    "cogs_pct": 24.8,
-    "gp_dollars": 1282.61,
-    "gp_pct": 75.2,
+    "revenue_inc_gst": 1026.95,
+    "revenue_ex_gst": 933.59,
+    "cogs_dollars": 314.6,
+    "cogs_pct": 33.7,
+    "gp_dollars": 618.99,
+    "gp_pct": 66.3,
     "cogs_source": "recipe_blend",
-    "cogs_lightspeed_dollars": 352.52,
-    "recipe_coverage_pct": 95.7,
+    "cogs_lightspeed_dollars": 286.34,
+    "recipe_coverage_pct": 70.9,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0.0,
-    "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null,
+    "eatclub_giveaway_ex_gst": 177.35,
+    "eatclub_covers": 6,
+    "revenue_ex_gst_before_eatclub": 1110.95,
     "food_ex_gst": 0.0,
-    "bev_ex_gst": 1704.75,
+    "bev_ex_gst": 1110.95,
     "food_cogs": 0.0,
-    "bev_cogs": 352.52,
+    "bev_cogs": 286.34,
     "food_cogs_pct": null,
-    "bev_cogs_pct": 20.7,
+    "bev_cogs_pct": 25.8,
     "food_gp_pct": null,
-    "bev_gp_pct": 79.3,
-    "mari_rideon_ex_gst": 10.91,
-    "hg_food_out_ex_gst": 2466.18,
+    "bev_gp_pct": 74.2,
+    "mari_rideon_ex_gst": 7.27,
+    "hg_food_out_ex_gst": 1098.18,
     "stow_food_out_ex_gst": 0.0
   },
   "wages": {
@@ -48,24 +48,24 @@
     "admin_dollars": 0,
     "leave_dollars": 0,
     "total_dollars": 610.91,
-    "wages_pct": 35.8,
+    "wages_pct": 65.4,
     "net_wage_pct": null,
     "kitchen_hours": 0,
     "foh_hours": 16.0,
     "wages_kitchen_pct": null,
-    "wages_foh_pct": 35.8,
+    "wages_foh_pct": 55.0,
     "includes_super": true,
     "salaried_synthesized": true
   },
   "delivery": null,
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "green",
-    "wages": "amber",
+    "cogs": "amber",
+    "wages": "red",
     "delivery": "n/a",
     "gp": "green",
     "cogs_food": "unknown",
-    "cogs_bev": "green",
+    "cogs_bev": "amber",
     "wages_kitchen": "unknown",
     "wages_foh": "red"
   },
@@ -113,163 +113,161 @@
   },
   "top_products": [
     {
-      "name": "Stone & Wood - Schooner",
-      "qty": 10.0,
-      "rev": 130.43,
-      "cost": 32.954,
-      "cost_source": "recipe",
-      "cost_lightspeed": 32.65
-    },
-    {
-      "name": "Trentham Estate Ros\u00e9 - Regular",
-      "qty": 12.0,
-      "rev": 118.0,
-      "cost": 25.32,
-      "cost_source": "recipe",
-      "cost_lightspeed": 25.32
-    },
-    {
-      "name": "Guinness Draught - Pint",
-      "qty": 6.0,
-      "rev": 105.0,
-      "cost": 28.824,
-      "cost_source": "recipe",
-      "cost_lightspeed": 28.59
-    },
-    {
-      "name": "Fresh is Best Lager - Pint",
-      "qty": 7.0,
-      "rev": 84.82,
-      "cost": 16.9533,
-      "cost_source": "recipe",
-      "cost_lightspeed": 17.16
-    },
-    {
-      "name": "Pepsi Max Glass",
-      "qty": 16.0,
-      "rev": 72.45,
-      "cost": 20.96,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0
-    },
-    {
-      "name": "Biscoff Espresso",
-      "qty": 3.0,
-      "rev": 69.0,
-      "cost": 9.7563,
-      "cost_source": "recipe",
-      "cost_lightspeed": 9.74
-    },
-    {
-      "name": "Petits Detours Ros\u00e9 - Regular",
-      "qty": 4.0,
-      "rev": 64.0,
-      "cost": 13.872,
-      "cost_source": "recipe",
-      "cost_lightspeed": 13.87
-    },
-    {
-      "name": "Version Two Pinot Grigio - Regular",
-      "qty": 5.0,
-      "rev": 61.2,
-      "cost": 8.8335,
-      "cost_source": "recipe",
-      "cost_lightspeed": 8.83
-    },
-    {
-      "name": "Pepsi Glass",
-      "qty": 13.0,
-      "rev": 58.5,
-      "cost": 17.03,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0
-    },
-    {
-      "name": "Grifter Pale - Pint",
-      "qty": 5.0,
-      "rev": 58.5,
-      "cost": 16.647,
-      "cost_source": "recipe",
-      "cost_lightspeed": 16.65
-    },
-    {
-      "name": "Jalape\u00f1o Marg",
-      "qty": 3.0,
-      "rev": 55.0,
-      "cost": 11.5374,
-      "cost_source": "recipe",
-      "cost_lightspeed": 2.43
-    },
-    {
-      "name": "Stone & Wood - Pint",
-      "qty": 4.0,
-      "rev": 51.56,
-      "cost": 17.6792,
-      "cost_source": "recipe",
-      "cost_lightspeed": 17.51
-    },
-    {
-      "name": "Version Two Pinot Grigio - Bottle",
-      "qty": 1.0,
-      "rev": 49.0,
-      "cost": 8.83,
+      "name": "Glaetzer Anaperenna Shiraz Cab - Bottle",
+      "qty": 2.0,
+      "rev": 212.0,
+      "cost": 69.65,
       "cost_source": "lightspeed"
     },
     {
-      "name": "Ottelia Chardonnay - Regular",
+      "name": "Kirin - Pint",
+      "qty": 8.0,
+      "rev": 138.75,
+      "cost": 40.7392,
+      "cost_source": "recipe",
+      "cost_lightspeed": 40.36
+    },
+    {
+      "name": "Stone & Wood - Pint",
+      "qty": 5.0,
+      "rev": 85.0,
+      "cost": 22.1045,
+      "cost_source": "recipe",
+      "cost_lightspeed": 21.86
+    },
+    {
+      "name": "Mother's Milk Shiraz - Bottle",
+      "qty": 1.0,
+      "rev": 64.0,
+      "cost": 16.08,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Fresh is Best Lager - Schooner",
+      "qty": 7.0,
+      "rev": 59.93,
+      "cost": 12.6406,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.77
+    },
+    {
+      "name": "Kuku Sauvignon Blanc - Bottle",
+      "qty": 1.0,
+      "rev": 58.0,
+      "cost": 14.57,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Aperol Spritz",
       "qty": 3.0,
-      "rev": 48.53,
-      "cost": 10.3782,
+      "rev": 54.0,
+      "cost": 10.668,
       "cost_source": "recipe",
-      "cost_lightspeed": 10.38
+      "cost_lightspeed": 10.66
     },
     {
-      "name": "Quiet Riot Negroni",
-      "qty": 2.0,
-      "rev": 46.0,
-      "cost": 8.73,
+      "name": "Archie Rose Signature Gin",
+      "qty": 5.0,
+      "rev": 53.69,
+      "cost": 14.15,
       "cost_source": "recipe",
-      "cost_lightspeed": 8.75
+      "cost_lightspeed": 13.19
     },
     {
-      "name": "Lemon, Lime & Bitters",
-      "qty": 9.0,
+      "name": "Pepsi Glass",
+      "qty": 10.0,
       "rev": 45.0,
-      "cost": 9.0288,
+      "cost": 13.1,
       "cost_source": "recipe",
       "cost_lightspeed": 0.0
     },
     {
-      "name": "Old Fashioned",
-      "qty": 2.0,
-      "rev": 44.0,
-      "cost": 9.6692,
+      "name": "Mulled Wine",
+      "qty": 3.0,
+      "rev": 45.0,
+      "cost": 6.2586,
       "cost_source": "recipe",
-      "cost_lightspeed": 9.56
+      "cost_lightspeed": 6.1
     },
     {
-      "name": "Hugo Spritz",
-      "qty": 2.0,
-      "rev": 42.0,
-      "cost": 8.192,
+      "name": "Stone & Wood - Schooner",
+      "qty": 3.0,
+      "rev": 39.84,
+      "cost": 9.8889,
       "cost_source": "recipe",
-      "cost_lightspeed": 2.69
+      "cost_lightspeed": 9.78
     },
     {
-      "name": "Southside",
-      "qty": 2.0,
-      "rev": 42.0,
-      "cost": 8.4214,
+      "name": "Pepsi Max Glass",
+      "qty": 8.0,
+      "rev": 36.0,
+      "cost": 10.48,
       "cost_source": "recipe",
-      "cost_lightspeed": 8.67
+      "cost_lightspeed": 0.0
     },
     {
-      "name": "Aperol Spritz",
-      "qty": 2.0,
-      "rev": 40.0,
-      "cost": 7.1058,
+      "name": "Villa Fresco Sangiovese - Regular",
+      "qty": 4.0,
+      "rev": 35.6,
+      "cost": 9.6492,
       "cost_source": "recipe",
-      "cost_lightspeed": 7.11
+      "cost_lightspeed": 9.65
+    },
+    {
+      "name": "Version Two Pinot Grigio - Regular",
+      "qty": 3.0,
+      "rev": 31.0,
+      "cost": 5.3001,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.3
+    },
+    {
+      "name": "Geppetto Pinot Noir - Regular",
+      "qty": 2.0,
+      "rev": 30.0,
+      "cost": 7.024,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.02
+    },
+    {
+      "name": "Kirin - Schooner",
+      "qty": 2.0,
+      "rev": 28.0,
+      "cost": 7.5938,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.52
+    },
+    {
+      "name": "Fresh is Best Summer Lager - Schooner",
+      "qty": 3.0,
+      "rev": 26.07,
+      "cost": 4.7163,
+      "cost_source": "recipe",
+      "cost_lightspeed": 4.76
+    },
+    {
+      "name": "Davy's Old Fashioned",
+      "qty": 1.0,
+      "rev": 24.0,
+      "cost": 4.9609,
+      "cost_source": "recipe",
+      "cost_lightspeed": 4.75
+    },
+    {
+      "name": "White Light Pure Vodka [House]",
+      "qty": 2.0,
+      "rev": 18.36,
+      "cost": 3.0416,
+      "cost_source": "recipe",
+      "cost_lightspeed": 3.04
+    },
+    {
+      "name": "Guinness Draught - Pint",
+      "qty": 1.0,
+      "rev": 17.5,
+      "cost": 4.8051,
+      "cost_source": "recipe",
+      "cost_lightspeed": 4.75
     }
   ]
 }

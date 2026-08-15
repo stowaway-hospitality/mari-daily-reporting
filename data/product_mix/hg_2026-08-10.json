@@ -3,22 +3,22 @@
   "venue": "harry",
   "prefix": "hg",
   "date": "2026-08-10",
-  "generated_at": "2026-08-15T15:38:39",
+  "generated_at": "2026-08-15T15:46:33",
   "source_file": "insights_hg_2026-08-10.csv",
   "source_kind": "committed_export",
   "name_basis": "as_at_sale",
   "sibling_till_available": true,
   "ex_gst_basis": "inc_minus_tax",
   "truncated": false,
-  "row_count": 70,
+  "row_count": 61,
   "totals": {
-    "qty": 237.0,
-    "rev_inc": 4340.4,
-    "rev_ex": 3946.12
+    "qty": 172.0,
+    "rev_inc": 2835.6,
+    "rev_ex": 2687.74
   },
   "reconciliation": {
-    "expected_rev_inc": 4340.4,
-    "expected_rev_ex": 3946.12,
+    "expected_rev_inc": 2835.6,
+    "expected_rev_ex": 2687.74,
     "gap_inc": 0.0,
     "gap_ex": 0.0,
     "basis": "gross of EatClub give-away"
@@ -27,12 +27,12 @@
   "products": [
     {
       "name": "Unlimited Dumplings",
-      "qty": 86.0,
-      "cost": 601.8366,
+      "qty": 36.0,
+      "cost": 251.9316,
       "cost_source": "recipe",
       "cost_lightspeed": 0.0,
-      "rev_inc": 2068.8,
-      "rev_ex": 1880.86,
+      "rev_inc": 864.0,
+      "rev_ex": 864.0,
       "dept": "f",
       "till": "stow"
     },
@@ -46,50 +46,6 @@
       "rev_ex": 621.88,
       "dept": "f",
       "till": "hg"
-    },
-    {
-      "name": "Fried Rice",
-      "qty": 3.0,
-      "cost": 8.4726,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0,
-      "rev_inc": 71.3,
-      "rev_ex": 64.82,
-      "dept": "f",
-      "till": "stow"
-    },
-    {
-      "name": "Mie Goreng",
-      "qty": 3.0,
-      "cost": 17.0064,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0,
-      "rev_inc": 69.0,
-      "rev_ex": 62.73,
-      "dept": "f",
-      "till": "stow"
-    },
-    {
-      "name": "BBQ Pork Buns",
-      "qty": 4.0,
-      "cost": 14.0,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0,
-      "rev_inc": 61.95,
-      "rev_ex": 56.34,
-      "dept": "f",
-      "till": "stow"
-    },
-    {
-      "name": "Tonkotsu",
-      "qty": 2.0,
-      "cost": 8.5286,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0,
-      "rev_inc": 60.9,
-      "rev_ex": 55.36,
-      "dept": "f",
-      "till": "stow"
     },
     {
       "name": "Drunken Koi",
@@ -119,8 +75,19 @@
       "cost": 6.1926,
       "cost_source": "recipe",
       "cost_lightspeed": 0.0,
-      "rev_inc": 54.89,
-      "rev_ex": 49.91,
+      "rev_inc": 55.78,
+      "rev_ex": 55.78,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
+      "name": "Dumplings - Prawn Har Gow [GF]",
+      "qty": 3.0,
+      "cost": 13.2057,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 55.77,
+      "rev_ex": 55.77,
       "dept": "f",
       "till": "stow"
     },
@@ -146,16 +113,6 @@
       "till": "hg"
     },
     {
-      "name": "Duck Spring Rolls",
-      "qty": 3.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed",
-      "rev_inc": 49.58,
-      "rev_ex": 45.07,
-      "dept": "f",
-      "till": "stow"
-    },
-    {
       "name": "Sapporo - 500ml",
       "qty": 4.0,
       "cost": 14.84,
@@ -167,6 +124,26 @@
       "till": "hg"
     },
     {
+      "name": "Duck Spring Rolls",
+      "qty": 3.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 48.53,
+      "rev_ex": 48.53,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
+      "name": "Karaage Chicken",
+      "qty": 3.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 48.0,
+      "rev_ex": 48.0,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
       "name": "Fried Rice",
       "qty": 2.0,
       "cost": 5.6484,
@@ -176,6 +153,17 @@
       "rev_ex": 41.82,
       "dept": "f",
       "till": "hg"
+    },
+    {
+      "name": "Fried Rice",
+      "qty": 2.0,
+      "cost": 5.6484,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 46.0,
+      "rev_ex": 46.0,
+      "dept": "f",
+      "till": "stow"
     },
     {
       "name": "BBQ Pork Buns",
@@ -200,28 +188,6 @@
       "till": "hg"
     },
     {
-      "name": "Popcorn Cauliflower",
-      "qty": 3.0,
-      "cost": 2.8833,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0,
-      "rev_inc": 43.37,
-      "rev_ex": 39.45,
-      "dept": "f",
-      "till": "stow"
-    },
-    {
-      "name": "Dumplings - Beef & Cabbage",
-      "qty": 3.0,
-      "cost": 4.3857,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0,
-      "rev_inc": 40.29,
-      "rev_ex": 36.63,
-      "dept": "f",
-      "till": "stow"
-    },
-    {
       "name": "Angas & Bremer Ros\u00e9 - Large",
       "qty": 2.0,
       "cost": 5.8464,
@@ -231,17 +197,6 @@
       "rev_ex": 34.36,
       "dept": "b",
       "till": "hg"
-    },
-    {
-      "name": "Outback Prawn Toast",
-      "qty": 2.0,
-      "cost": 7.7792,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0,
-      "rev_inc": 32.52,
-      "rev_ex": 29.57,
-      "dept": "f",
-      "till": "stow"
     },
     {
       "name": "Azurescens Pinot Noir - Regular",
@@ -276,26 +231,6 @@
       "till": "hg"
     },
     {
-      "name": "Miso Ramen",
-      "qty": 1.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed",
-      "rev_inc": 29.0,
-      "rev_ex": 26.36,
-      "dept": "f",
-      "till": "stow"
-    },
-    {
-      "name": "Shoyu",
-      "qty": 1.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed",
-      "rev_inc": 29.0,
-      "rev_ex": 26.36,
-      "dept": "f",
-      "till": "stow"
-    },
-    {
       "name": "Angas & Bremer Grenache - Regular",
       "qty": 4.0,
       "cost": 7.016,
@@ -318,16 +253,6 @@
       "till": "hg"
     },
     {
-      "name": "Shredded Beef",
-      "qty": 1.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed",
-      "rev_inc": 26.85,
-      "rev_ex": 24.41,
-      "dept": "f",
-      "till": "stow"
-    },
-    {
       "name": "Mie Goreng",
       "qty": 1.0,
       "cost": 5.6688,
@@ -337,6 +262,17 @@
       "rev_ex": 21.82,
       "dept": "f",
       "till": "hg"
+    },
+    {
+      "name": "Mie Goreng",
+      "qty": 2.0,
+      "cost": 11.3376,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 23.0,
+      "rev_ex": 23.0,
+      "dept": "f",
+      "till": "stow"
     },
     {
       "name": "Edamame",
@@ -360,6 +296,16 @@
       "till": "hg"
     },
     {
+      "name": "Edamame",
+      "qty": 2.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 22.0,
+      "rev_ex": 22.0,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
       "name": "Margato",
       "qty": 1.0,
       "cost": 3.7334,
@@ -369,17 +315,6 @@
       "rev_ex": 18.18,
       "dept": "b",
       "till": "hg"
-    },
-    {
-      "name": "Dumplings - Prawn Har Gow [GF]",
-      "qty": 1.0,
-      "cost": 4.4019,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0,
-      "rev_inc": 18.59,
-      "rev_ex": 16.9,
-      "dept": "f",
-      "till": "stow"
     },
     {
       "name": "Pepsi Max Glass",
@@ -402,16 +337,6 @@
       "rev_ex": 16.36,
       "dept": "f",
       "till": "hg"
-    },
-    {
-      "name": "Karaage Chicken",
-      "qty": 1.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed",
-      "rev_inc": 17.6,
-      "rev_ex": 16.0,
-      "dept": "f",
-      "till": "stow"
     },
     {
       "name": "Yuzu Orange Soda",
@@ -467,6 +392,28 @@
       "till": "hg"
     },
     {
+      "name": "Outback Prawn Toast",
+      "qty": 1.0,
+      "cost": 3.8896,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 16.0,
+      "rev_ex": 16.0,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
+      "name": "BBQ Pork Buns",
+      "qty": 1.0,
+      "cost": 3.5,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 15.49,
+      "rev_ex": 15.49,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
       "name": "Jasmine Rice",
       "qty": 3.0,
       "cost": 0.0,
@@ -509,13 +456,13 @@
       "till": "hg"
     },
     {
-      "name": "Dumplings - Veg Gyoza",
+      "name": "Dumplings - Beef & Cabbage",
       "qty": 1.0,
-      "cost": 1.9519,
+      "cost": 1.4619,
       "cost_source": "recipe",
       "cost_lightspeed": 0.0,
       "rev_inc": 13.43,
-      "rev_ex": 12.21,
+      "rev_ex": 13.43,
       "dept": "f",
       "till": "stow"
     },
@@ -529,16 +476,6 @@
       "rev_ex": 11.82,
       "dept": "b",
       "till": "hg"
-    },
-    {
-      "name": "Edamame",
-      "qty": 1.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed",
-      "rev_inc": 12.1,
-      "rev_ex": 11.0,
-      "dept": "f",
-      "till": "stow"
     },
     {
       "name": "Kids Unlimited Dumplings",
@@ -615,16 +552,6 @@
       "till": "hg"
     },
     {
-      "name": "Jasmine Rice",
-      "qty": 1.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed",
-      "rev_inc": 4.13,
-      "rev_ex": 3.76,
-      "dept": "f",
-      "till": "stow"
-    },
-    {
       "name": "Sprite Can",
       "qty": 1.0,
       "cost": 2.4423,
@@ -655,36 +582,6 @@
       "rev_ex": 3.64,
       "dept": "b",
       "till": "hg"
-    },
-    {
-      "name": "Tofu",
-      "qty": 1.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed",
-      "rev_inc": 4.0,
-      "rev_ex": 3.64,
-      "dept": "f",
-      "till": "stow"
-    },
-    {
-      "name": "Extra Chashu Pork",
-      "qty": 1.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed",
-      "rev_inc": 2.75,
-      "rev_ex": 2.5,
-      "dept": "f",
-      "till": "stow"
-    },
-    {
-      "name": "1x Soft-boiled Egg",
-      "qty": 1.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed",
-      "rev_inc": 2.75,
-      "rev_ex": 2.5,
-      "dept": "f",
-      "till": "stow"
     },
     {
       "name": "Bamboo Shoots",
@@ -765,6 +662,17 @@
       "rev_ex": 0.0,
       "dept": "b",
       "till": "hg"
+    },
+    {
+      "name": "Tonkotsu",
+      "qty": 1.0,
+      "cost": 4.2643,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "stow"
     }
   ]
 }

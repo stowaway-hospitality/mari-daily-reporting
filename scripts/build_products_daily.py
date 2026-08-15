@@ -109,7 +109,7 @@ def build() -> int:
     for year, yrows in sorted(by_year.items()):
         out = OUT_DIR / f"{year}.csv"
         with out.open("w", newline="") as fh:
-            w = csv.DictWriter(fh, fieldnames=COLUMNS)
+            w = csv.DictWriter(fh, fieldnames=COLUMNS, lineterminator="\n")
             w.writeheader()
             w.writerows(yrows)
         print(f"  {out.relative_to(ROOT)}: {len(yrows):,} lines, "

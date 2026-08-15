@@ -81,7 +81,7 @@ def main() -> int:
                         if any(ord(c) > 127 for c in (r.get("Product") or ""))})
     sp_file = ROOT / "data" / "product_spellings.csv"
     with sp_file.open("w", newline="") as f:
-        w = csv.writer(f)
+        w = csv.writer(f, lineterminator="\n")
         w.writerow(["product_name"])
         w.writerows([[n] for n in spellings])
     print(f"wrote {sp_file.relative_to(ROOT)}: {len(spellings)} name(s) carrying non-ASCII")
@@ -91,7 +91,7 @@ def main() -> int:
     for day, rows in sorted(by_day.items()):
         out = OUT_DIR / f"stow_{day}.csv"
         with out.open("w", newline="") as f:
-            w = csv.DictWriter(f, fieldnames=COLUMNS, extrasaction="ignore")
+            w = csv.DictWriter(f, fieldnames=COLUMNS, extrasaction="ignore", lineterminator="\n")
             w.writeheader()
             w.writerows(rows)
         written += 1

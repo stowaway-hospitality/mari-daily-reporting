@@ -214,6 +214,17 @@ jobs:
           python scripts/pull_integrity.py --log /tmp/pull.log --date ${{ steps.date.outputs.target }} \
             || echo "::warning::pull integrity scan failed (non-fatal)"
 
+      - name: Duplicate-export guard (is today's export actually today's?)
+        run: |
+          # 2026-08-10 and 2026-08-13 both landed carrying an EARLIER day's rows,
+          # identical to the cent, for stow AND hg. Nothing complained for a week:
+          # the files existed, parsed, and totalled something plausible. Because
+          # the Stow export is the whole site, that moved all three venues.
+          # Warning, not fatal — a stale file must not also block the day's pull.
+          # tests.yml fails on it, so it cannot be merged past.
+          python scripts/duplicate_export_guard.py \
+            || echo "::warning::duplicate Insights export detected — a day is carrying another day's data, see log"
+
       - name: Rebuild product-level weekly rollup
         run: |
           # Menu Trends "Products" view. Reads the committed Sales-by-Product

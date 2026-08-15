@@ -1327,7 +1327,11 @@ history_rows.sort(key=lambda r: r["date"])
 fieldnames = list(nr.keys())
 with history_file.open("w", newline="") as f:
     if history_rows:
-        w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+        # lineterminator="\n": csv defaults to CRLF, and the committed histories
+        # are LF. Without this a re-run rewrites all 609 rows as line-ending
+        # churn, burying the one row that actually changed.
+        w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore",
+                           lineterminator="\n")
         w.writeheader()
         for r in history_rows:
             w.writerow({k: r.get(k, "") for k in fieldnames})
