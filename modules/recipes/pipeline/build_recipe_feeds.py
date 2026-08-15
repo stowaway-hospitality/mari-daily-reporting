@@ -34,6 +34,78 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 
+# --- ONE yield rule, used by BOTH paths below --------------------------------
+# A prep is usable as a sub-recipe only if it has a yield, and a yield can come
+# from the size bracket in its name ("[2.5kg]", "[1L]", "[24 pcs]") or, when the
+# Produce recipe carries none, from the measured estimate in prep_yields.yaml.
+#
+# This used to be resolved ONLY on the Lightspeed-scraped path. A prep saved in
+# the builder took the other path, and that path read nothing but the saved
+# yield field — so saving a prep SHADOWED its own scraped twin and threw the
+# estimate away. `usable_as_subrecipe` went False, every dish that used it froze
+# the line as manual, and the builder printed it as "(imported)" — the exact
+# thing freezing was supposed to avoid. Pizza Sauce was the whole blast radius:
+# 60-odd pizzas, every one of them showing "Pizza Sauce [Recipe] (imported)"
+# beside a live "Pizza Dough [Recipe]", whose only difference was that nobody
+# had ever saved the dough. Editing a recipe silently downgraded it.
+#
+# Cost-neutral when it landed ($37.19/9338 g = $3.98/kg reproduces every frozen
+# eff_cost to the cent) — it buys re-costing, not a new number.
+_YIELD_BRACKET = re.compile(
+    r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre|pcs|pc|units|unit|each|ea)\]", re.I)
+
+
+def _prep_yield_estimates() -> dict:
+    f = ROOT / "data" / "prep_yields.yaml"
+    if not f.exists():
+        return {}
+    import yaml as _yaml
+    return _yaml.safe_load(f.read_text(encoding="utf-8-sig")) or {}
+
+
+# A line may be wired LIVE (rate x qty, re-costing from invoices forever) only if
+# rate x qty still lands on the number the recipe book audited (eff_cost). When it
+# doesn't, the qty is lying — a "1.5 ml" that means 1.5 kg, a "1 ml" glass of wine
+# — and the line freezes at the audited figure instead. One definition, used by the
+# sub-recipe branch and the ingredient branch, so the two can never drift apart.
+_AGREE_TOLERANCE = 0.25
+
+
+def _agrees(rate, qty, eff) -> bool:
+    """Does live `rate x qty` reproduce the book's audited `eff` for this line?"""
+    if not rate or not qty or qty <= 0:
+        return False
+    try:
+        eff = float(eff)
+    except (TypeError, ValueError):
+        return False
+    if not eff:
+        return False
+    return abs(float(rate) * float(qty) - eff) <= _AGREE_TOLERANCE * abs(eff)
+
+
+def resolve_yield(name: str, estimates: dict | None = None):
+    """(qty, unit) for a prep, from its name bracket then prep_yields.yaml.
+
+    A MEASURED yield in the name always beats an estimate. Returns (None, None)
+    when neither knows — the caller must then treat the prep as unusable rather
+    than invent one.
+    """
+    m = _YIELD_BRACKET.search(name or "")
+    if m:
+        q, u = Decimal(m.group(1)), m.group(2).lower()
+        if u == "kg":
+            return q * 1000, "g"
+        if u in ("l", "lt", "litre"):
+            return q * 1000, "ml"
+        if u in ("g", "ml"):
+            return q, u
+        return q, "each"
+    e = (estimates if estimates is not None else _prep_yield_estimates()).get(name)
+    if e:
+        return Decimal(str(e["yield_qty"])), e["yield_unit"]
+    return None, None
+
 # --- which venue does a recipe belong to? ------------------------------------
 # It was hard-coded "stowaway" for every Lightspeed recipe, so all 144 of
 # Marilyna's pizzas were filed under Stowaway and the only recipes tagged
@@ -112,6 +184,7 @@ def recipes_index() -> dict:
         costs = CostSeries([])
     today = date.today()
     sessions = load_prep_sessions(PREP_DIR)   # what the prep timer logged
+    prep_estimates = _prep_yield_estimates()  # read once; both paths share it
     items = []
     for v in VENUES:
         venue_sessions = [s for s in sessions if s.venue == v]
@@ -123,12 +196,19 @@ def recipes_index() -> dict:
             if cur is None or (r.effective_from or date.min) >= (cur.effective_from or date.min):
                 latest[r.product] = r
         for r in latest.values():
+            # A saved recipe's OWN yield wins. Only when it has none do we fall
+            # back to the same rule the scraped path uses, so saving a prep can
+            # never downgrade it to a frozen "(imported)" line (see resolve_yield).
+            yq, yu = r.yield_qty, r.yield_unit
+            if not (yq and yu):
+                yq, yu = resolve_yield(r.product, prep_estimates)
             entry = {
                 "product": r.product,
                 "venue": v,
-                "yield_qty": _dec(r.yield_qty) if r.yield_qty else None,
-                "yield_unit": r.yield_unit,
-                "usable_as_subrecipe": bool(r.yield_qty and r.yield_unit),
+                "yield_qty": _dec(yq) if yq else None,
+                "yield_unit": yu,
+                "usable_as_subrecipe": bool(yq and yu),
+                "yield_is_estimated": bool(yq and not (r.yield_qty and r.yield_unit)),
                 "cost": None,
                 "cost_per_yield_unit": None,
                 "prep_minutes_avg": None,   # mean of the last 4 preps (display)
@@ -140,8 +220,8 @@ def recipes_index() -> dict:
             try:
                 c = cost_on(r, costs, today, price_mode="rolling", recipes=recipes)
                 entry["cost"] = _dec(c.quantize(Decimal("0.0001")))
-                if r.yield_qty:
-                    entry["cost_per_yield_unit"] = _dec((c / r.yield_qty).quantize(Decimal("0.000001")))
+                if yq:
+                    entry["cost_per_yield_unit"] = _dec((c / yq).quantize(Decimal("0.000001")))
             except Exception:
                 pass   # a recipe we can't fully cost yet still lists for selection
 
@@ -163,8 +243,8 @@ def recipes_index() -> dict:
                 own = product_labour(r.product, venue_sessions, on=today, last_n=4) or Decimal("0")
                 tot = (cwp + own)
                 entry["cost_with_prep"] = _dec(tot.quantize(Decimal("0.0001")))
-                if r.yield_qty:
-                    entry["cost_per_yield_unit_with_prep"] = _dec((tot / r.yield_qty).quantize(Decimal("0.000001")))
+                if yq:
+                    entry["cost_per_yield_unit_with_prep"] = _dec((tot / yq).quantize(Decimal("0.000001")))
             except Exception:
                 pass
             items.append(entry)
@@ -173,39 +253,13 @@ def recipes_index() -> dict:
     # picker shows them (Pico de Gallo, Achiote Chicken, Guacamole, ...). A recipe
     # saved in the builder above wins on name. Yield comes from the bracket size in
     # the name ("[2.5kg]", "[1L]", "[24 pcs]"); its our-book cost is the batch cost.
-    import re as _re
-    # Preps whose Produce recipe carries no bracket yield get an ESTIMATE from
-    # data/prep_yields.yaml, so a dish built on them costs per gram/ml instead of
-    # freezing a scrape number. A measured yield in the name still wins.
-    _EST = {}
-    _ey = ROOT / "data" / "prep_yields.yaml"
-    if _ey.exists():
-        import yaml as _yaml
-        _EST = _yaml.safe_load(_ey.read_text(encoding="utf-8-sig")) or {}
     have = {e["product"] for e in items}
     ls_path = DATA / "lightspeed_recipes_costed.json"
     if ls_path.exists():
-        _Y = _re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre|pcs|pc|units|unit|each|ea)\]", _re.I)
         for name, r in json.loads(ls_path.read_text(encoding="utf-8-sig")).get("recipes", {}).items():
             if not r.get("is_prep") or name in have:
                 continue
-            m = _Y.search(name)
-            yq = yu = None
-            if not m and name in _EST:
-                _e = _EST[name]
-                yq, yu = Decimal(str(_e["yield_qty"])), _e["yield_unit"]
-            if m:
-                q = Decimal(m.group(1)); u = m.group(2).lower()
-                if u == "kg":
-                    yq, yu = q * 1000, "g"
-                elif u in ("l", "lt", "litre"):
-                    yq, yu = q * 1000, "ml"
-                elif u == "g":
-                    yq, yu = q, "g"
-                elif u == "ml":
-                    yq, yu = q, "ml"
-                else:
-                    yq, yu = q, "each"
+            yq, yu = resolve_yield(name, prep_estimates)
             cost = Decimal(str(r.get("our_cost") or 0))
             items.append({
                 "product": name, "venue": venue_of(name),
@@ -286,14 +340,20 @@ def recipes_full() -> dict:
                 costable.add(_i["id"])
     ls_path = DATA / "lightspeed_recipes_costed.json"
     if ls_path.exists():
-        import re as _re
         # sub-recipes the picker can actually cost (they carry a yield), and the
         # live per-unit rate of every costable ingredient
         _idxf = DATA / "recipes_index.json"
         usable_subs = set()
+        sub_rate: dict[str, float] = {}   # product -> $ per yield-unit, for the agreement check
         if _idxf.exists():
-            usable_subs = {e["product"] for e in json.loads(_idxf.read_text(encoding="utf-8-sig")).get("recipes", [])
-                           if e.get("usable_as_subrecipe")}
+            for e in json.loads(_idxf.read_text(encoding="utf-8-sig")).get("recipes", []):
+                if not e.get("usable_as_subrecipe"):
+                    continue
+                usable_subs.add(e["product"])
+                try:
+                    sub_rate[e["product"]] = float(e["cost_per_yield_unit"])
+                except (TypeError, ValueError, KeyError):
+                    pass
         ing_rate, ing_pack = {}, {}
         # The PACK COUNT (50 boxes to a carton) lives in pack_overrides — by the
         # time a cost reaches ingredients.json it is already per-unit, so the
@@ -312,7 +372,6 @@ def recipes_full() -> dict:
                         ing_rate[_i["id"]] = float(_i["cost_per_base_unit"])
                 except (TypeError, ValueError, KeyError):
                     pass
-        _Y = _re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre|pcs|pc|units|unit|each|ea)\]", _re.I)
         LSR = json.loads(ls_path.read_text(encoding="utf-8-sig")).get("recipes", {})
 
         for name, r in LSR.items():
@@ -350,7 +409,16 @@ def recipes_full() -> dict:
                     if abs(_real - round(_real)) < 0.02 and round(_real) >= 1:
                         lines.append({"id": ref, "qty": round(_real), "unit": _pk[1]})
                         continue
-                if kind == "subrecipe" and ref in usable_subs:
+                # ...but ONLY when the live number agrees with the audited book,
+                # the same test the `id` branch below already applies. Salsa Rosa
+                # records its pizza sauce as "1.5 ml"; it means 1.5 kg. Wired live
+                # off the qty as written that line reads $0.006 instead of $5.50 —
+                # a 1000x UNDERSTATEMENT that flows into Black Beans, Pulled
+                # Mushroom, Burrito Rice Sauce and every burrito on the menu. An
+                # error that flatters (CLAUDE.md); so a sub-recipe whose live cost
+                # misses the book freezes at the audited eff_cost instead.
+                if kind == "subrecipe" and ref in usable_subs and _agrees(
+                        sub_rate.get(ref), _q, _eff):
                     lines.append({"subrecipe": ref, "qty": ln.get("qty"), "unit": ln.get("unit")})
                 # An ingredient is wired LIVE when the book prices it AND the live
                 # number agrees with the audited line cost. our_cost being None only
@@ -359,8 +427,7 @@ def recipes_full() -> dict:
                 # at $0.0163/g vs the book's $0.0171/g).
                 elif kind == "id" and ref in costable and (
                         ln.get("our_cost") is not None
-                        or (_eff and _q > 0 and ing_rate.get(ref)
-                            and abs(ing_rate[ref] * _q - float(_eff)) <= 0.25 * abs(float(_eff)))):
+                        or _agrees(ing_rate.get(ref), _q, _eff)):
                     lines.append({"id": ref, "qty": ln.get("qty"), "unit": ln.get("unit")})
                 else:
                     try:
@@ -377,12 +444,11 @@ def recipes_full() -> dict:
                     lines.append({"manual": True, "name": ln.get("name", ""),
                                   "qty": ln.get("qty"), "unit": ln.get("unit"),
                                   "unit_cost_incl": round(per, 6)})
-            m = _Y.search(name)
-            yq = yu = None
-            if m:
-                q = float(m.group(1)); u = m.group(2).lower()
-                yq, yu = (q * 1000, "g") if u == "kg" else (q * 1000, "ml") if u in ("l", "lt", "litre") \
-                    else (q, "g") if u == "g" else (q, "ml") if u == "ml" else (q, "each")
+            # Same rule as recipes_index — including the prep_yields.yaml fallback,
+            # which this copy used to lack, so a prep with an estimated yield
+            # published yield_qty: null here while reading fine over there.
+            yq, yu = resolve_yield(name, _prep_yield_estimates())
+            yq = float(yq) if yq is not None else None
             out.append({
                 "product": name, "venue": venue_of(name), "source": "lightspeed",
                 "sell_incl_gst": r.get("sell_incl"),
