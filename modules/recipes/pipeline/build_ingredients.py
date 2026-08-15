@@ -637,7 +637,30 @@ def main() -> int:
         # bounds still judge what falls out of it. See build_costs.py.
         if key in overrides:
             oq, ou = overrides[key]
-            qty, unit, how = oq, ou, "chef-confirmed"
+            # A CONFIRMED PACK IS THE SIZE OF ONE PIECE, AND A CARTON HOLDS N OF
+            # THEM. This is the same discriminator build_costs.py applies (see
+            # the long note in its override block); it lived in ONE of the two
+            # builders, and the comment there says "Must match build_ingredients"
+            # while this half never got it. The seam test caught the split:
+            #
+            #   foodlink:100175 BEANS BLACK WHOLE TIN A10
+            #     costs.csv       $52.20 / (3000 g x CTN-6) = $0.0029/g
+            #     ingredients.json $52.20 /  3000 g         = $0.0174/g   6x OVER
+            #
+            # and 6 x the $8.70 "EA" line is exactly $52.20, so the carton
+            # reading is arithmetic, not judgement. `pack_size` is the guard: the
+            # parser sets it to N when it has ALREADY divided a carton into
+            # pieces, and leaves it 1 when the price is the whole line. Multiply
+            # only in the second case — camembert 100487's latest row is an "EA"
+            # piece and must stay at $0.0304/g, not be multiplied to $0.0025/g.
+            _ctn = re.search(r"CTN[-\s]?(\d+)", r.get("note", "") or "", re.I)
+            _ps = (r.get("pack_size") or "").strip()
+            if _ctn and _ps in ("", "1"):
+                oq = oq * Decimal(_ctn.group(1))
+                how = f"chef-confirmed x CTN-{_ctn.group(1)} (invoice)"
+            else:
+                how = "chef-confirmed"
+            qty, unit = oq, ou
             per = pack_cost / oq
             bad = out_of_bounds(per, ou)
 

@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "_comment": "Lead-time / holiday calendar for the par model. COPIED from the lightspeed-reorder skill's rules.json (holidayMondays, holidayShifts) plus the NSW public holidays that fall on a FRIDAY, which that file never needed. The par model must not read anything outside this repo at runtime, so these dates live here.",
+  "_maintained": "2026-08-09",
+  "timezone": "Australia/Sydney",
+
+  "order": {
+    "day": "Sunday",
+    "_comment": "Pars are reviewed and the ILG order is placed Sunday evening; ILG's cutoff is 11:00 Tuesday, so a Sunday order makes the Wednesday run."
+  },
+
+  "delivery": {
+    "supplier": "ILG",
+    "normal_weekday": "Wednesday",
+    "holiday_week_weekday": "Friday",
+    "_confirmed": "ILG confirmed by Zak, Jun 2026 (rules.json holidayShifts.ILG.confirmed=true). Tuesday suppliers (Paramount/Bacchus/Grifter/Lion) probably slip a day too but are UNCONFIRMED and are not modelled here.",
+    "rules": [
+      "Normal week: order Sunday -> delivery Wednesday.",
+      "Holiday MONDAY in the delivery week: the Wednesday run slips to FRIDAY.",
+      "Holiday on the resulting delivery day (a holiday FRIDAY): NO delivery that week at all; the goods slip to the next available delivery day, which is the following cycle's run."
+    ]
+  },
+
+  "day_weights": {
+    "_comment": "Exposure is counted in weighted DAY-UNITS, not flat weeks. Fri/Sat/Sun trade about double a weekday at Stowaway; a public-holiday Monday trades like a weekend day. A normal Wed->Wed cycle is 1+1+2+2+2+1+1 = 10 day-units, which is the denominator everything else is expressed against.",
+    "Monday": 1.0,
+    "Tuesday": 1.0,
+    "Wednesday": 1.0,
+    "Thursday": 1.0,
+    "Friday": 2.0,
+    "Saturday": 2.0,
+    "Sunday": 2.0,
+    "public_holiday": 2.0,
+    "normal_cycle_day_units": 10.0
+  },
+
+  "publicHolidays": {
+    "_comment": "NSW public holidays. holidayMondays/holidayShifts came from the reorder skill's rules.json; the Friday and other-day entries were added here because the delivery chain needs them (a holiday FRIDAY kills a slipped delivery outright).",
+    "2025": [
+      {"date": "2025-12-25", "name": "Christmas Day", "weekday": "Thursday"},
+      {"date": "2025-12-26", "name": "Boxing Day", "weekday": "Friday"}
+    ],
+    "2026": [
+      {"date": "2026-01-01", "name": "New Year's Day", "weekday": "Thursday"},
+      {"date": "2026-01-26", "name": "Australia Day", "weekday": "Monday", "source": "rules.json holidayMondays"},
+      {"date": "2026-04-03", "name": "Good Friday", "weekday": "Friday"},
+      {"date": "2026-04-04", "name": "Easter Saturday", "weekday": "Saturday"},
+      {"date": "2026-04-05", "name": "Easter Sunday", "weekday": "Sunday"},
+      {"date": "2026-04-06", "name": "Easter Monday", "weekday": "Monday", "source": "rules.json holidayMondays"},
+      {"date": "2026-04-25", "name": "Anzac Day", "weekday": "Saturday"},
+      {"date": "2026-06-08", "name": "King's Birthday", "weekday": "Monday", "source": "rules.json holidayMondays"},
+      {"date": "2026-10-05", "name": "Labour Day", "weekday": "Monday", "source": "rules.json holidayMondays"},
+      {"date": "2026-12-25", "name": "Christmas Day", "weekday": "Friday"},
+      {"date": "2026-12-26", "name": "Boxing Day", "weekday": "Saturday"},
+      {"date": "2026-12-28", "name": "Boxing Day (observed)", "weekday": "Monday", "source": "rules.json holidayMondays"}
+    ],
+    "2027": [
+      {"date": "2027-01-01", "name": "New Year's Day", "weekday": "Friday"},
+      {"date": "2027-01-26", "name": "Australia Day", "weekday": "Tuesday"},
+      {"date": "2027-03-26", "name": "Good Friday", "weekday": "Friday"},
+      {"date": "2027-03-27", "name": "Easter Saturday", "weekday": "Saturday"},
+      {"date": "2027-03-28", "name": "Easter Sunday", "weekday": "Sunday"},
+      {"date": "2027-03-29", "name": "Easter Monday", "weekday": "Monday", "source": "rules.json holidayMondays"},
+      {"date": "2027-04-26", "name": "Anzac Day (observed)", "weekday": "Monday"},
+      {"date": "2027-06-14", "name": "King's Birthday", "weekday": "Monday", "source": "rules.json holidayMondays"},
+      {"date": "2027-10-04", "name": "Labour Day", "weekday": "Monday", "source": "rules.json holidayMondays"},
+      {"date": "2027-12-25", "name": "Christmas Day", "weekday": "Saturday"},
+      {"date": "2027-12-27", "name": "Christmas Day (additional)", "weekday": "Monday", "source": "rules.json holidayMondays"},
+      {"date": "2027-12-28", "name": "Boxing Day (additional)", "weekday": "Tuesday", "source": "rules.json holidayMondays"}
+    ]
+  },
+
+  "christmas_2026": {
+    "_comment": "THE BIG ONE. Read data/_par_review/christmas_2026.md before the December orders.",
+    "chain": [
+      {"order_sunday": "2026-12-20", "delivery": "2026-12-23", "note": "last normal ILG run before the break"},
+      {"order_sunday": "2026-12-27", "delivery": null, "note": "Mon 28 Dec is a public holiday -> Wed 30 Dec slips to Fri 1 Jan; Fri 1 Jan is New Year's Day -> NO delivery at all"},
+      {"order_sunday": "2027-01-03", "delivery": "2027-01-06", "note": "first realistic run of 2027"}
+    ],
+    "gap_days": 14,
+    "exposure_day_units": 21.0,
+    "normal_cycle_day_units": 10.0,
+    "multiplier_vs_normal": 2.1,
+    "action": "The order placed ~Sun 20 Dec 2026 must cover 23 Dec -> 6 Jan, over peak summer trade. Expect roughly 2.1x a normal cycle. Confirm supplier shutdowns in late November."
+  },
+
+  "supplierShutdowns": {
+    "_comment": "Supplier Christmas/New Year shutdown windows. Suppliers publish these in early-to-mid December; until they land the model falls back to the public-holiday delivery chain above, which is the OPTIMISTIC case (it assumes ILG runs on 6 Jan). Fill these in and the calendar will use them.",
+    "2026-12": [
+      {"supplier": "ILG", "last_order": "PENDING — suppliers publish in December", "last_delivery": "PENDING — suppliers publish in December", "resumes": "PENDING — suppliers publish in December", "confirmed": false},
+      {"supplier": "Paramount", "last_order": "PENDING — suppliers publish in December", "last_delivery": "PENDING — suppliers publish in December", "resumes": "PENDING — suppliers publish in December", "confirmed": false},
+      {"supplier": "Bacchus", "last_order": "PENDING — suppliers publish in December", "last_delivery": "PENDING — suppliers publish in December", "resumes": "PENDING — suppliers publish in December", "confirmed": false},
+      {"supplier": "Lion", "last_order": "PENDING — suppliers publish in December", "last_delivery": "PENDING — suppliers publish in December", "resumes": "PENDING — suppliers publish in December", "confirmed": false},
+      {"supplier": "Grifter", "last_order": "PENDING — suppliers publish in December", "last_delivery": "PENDING — suppliers publish in December", "resumes": "PENDING — suppliers publish in December", "confirmed": false}
+    ]
+  }
+}

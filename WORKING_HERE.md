@@ -395,3 +395,37 @@ Verified end-to-end 2026-07-24 (164 rows, dinner window $9,330 inc-GST, live).
 
 HG hourly is NOT possible: HG's Kounta account has no Custom Insights, so there's
 no HG hour×RG report to schedule. Hourly stays Stowaway-only unless HG upgrades.
+
+## Par model v3 — two things that will cost money if you forget them (2026-08-09)
+
+**1. The net stock variance lies. Never read it.**
+Lightspeed's stock count export nets the losses against the gains. On the 28 Jul
+2026 count the gross NEGATIVE was **-$1,598** and the gross positive **+$1,636**,
+so the net printed **+$37** and the count read clean. It was not clean: $1,598 of
+stock left the building without a sale (Rooster Rojo -18.8%, San Pellegrino
+-19.4%, Coke Zero Can -67%) and an unrelated pile of miscounts happened to cover
+it. `modules/par/shrinkage.py` only ever takes `max(0, -Variance)`. If you are
+ever eyeballing a count by hand, do the same — sum the negatives on their own.
+
+Related: 16 Stowaway SKUs are flagged `shrinkage_without_demand_mapping` — the
+stock counts can see them moving but `products_weekly.csv` shows zero demand for
+them. That is a POS product/name mapping gap (Coke Can, Coke Zero Can, Sprite
+Can, the 1.25L bottles, the Fever-Tree tonics, St. Germain). Their pars are HELD
+at the live value rather than zeroed, but nobody is forecasting them until the
+mapping is fixed. Coke Can alone is 3.05 units a week the till never saw.
+
+**2. Christmas 2026 is a 14-day delivery gap, not a long weekend.**
+Last normal ILG run **Wed 23 Dec 2026**. The 30 Dec run slips to Fri 1 Jan
+(holiday Monday 28 Dec) and Fri 1 Jan is New Year's Day, so it does not happen —
+next realistic delivery **Wed 6 Jan 2027**. That is 14 days / 21 weighted
+day-units = **2.10× a normal cycle**, over peak summer trade, and it all has to
+be on the truck on 23 Dec. The model computes this itself now (no more ×1.3
+fudge at order time) and prints it in every weekly par build.
+**Late November: collect supplier Christmas cutoffs** into
+`data/par_calendar.json → supplierShutdowns`. Until then the 6 Jan resumption is
+the optimistic case. Full note: `data/_par_review/christmas_2026.md`.
+
+Also: bookings uplift is computed but **shadow only**
+(`modules/par/bookings.py`, `BOOKINGS_LIVE = False`) — the admin endpoints need
+a bearer token the build box does not have, and it should be watched for a few
+cycles before it moves a par either way.

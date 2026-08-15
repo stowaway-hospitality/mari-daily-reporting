@@ -88,6 +88,10 @@ def analyse(venue, doc_overrides):
             honoured = rec <= float(v) + 1e-9
         elif t == "zero":
             honoured = rec == 0
+        elif t == "reserve":
+            # additive: the par is the physical float PLUS modelled cover, so
+            # the guarantee is simply that it never dips below the float.
+            honoured = rec >= float(v) - 1e-9
         else:
             honoured = None
         hard_honoured.append({"product": p, "type": t, "value": v,
