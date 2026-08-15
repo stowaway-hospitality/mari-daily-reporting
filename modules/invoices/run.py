@@ -221,6 +221,39 @@ def main() -> int:
             if looks_like_statement(_txt):
                 print("[skipped — statement / not an invoice]")
                 return 3
+            # AN IMAGE-ONLY PDF NEVER GOES TO THE EXTRACTOR. No text layer means
+            # no parser can read it, and the fallback was to let the LLM look at
+            # the picture — which is where this gets dangerous rather than merely
+            # unhelpful.
+            #
+            # All 17 scans in the corpus were opened on 2026-08-15 and NOT ONE is
+            # a printed invoice:
+            #   * 15 are Sun Circle, a PRE-PRINTED order form filled in BY HAND.
+            #     The product names are printed, but qty, unit price, amount and
+            #     the total are handwritten in pen ("48 x 4.50  216", total
+            #     "540.-"). Those handwritten numbers are the only data we need.
+            #     A model reading them is GUESSING at money, and because it
+            #     guesses the line amounts AND the total from the same strokes it
+            #     can guess consistently and still reconcile — a wrong number that
+            #     validates. That is precisely the "errors that flatter you"
+            #     failure this codebase is built to refuse.
+            #   * 1 is a blank ILG Direct Debit Request; 1 is a blank B&E Credit
+            #     Card Authorisation form. Neither is a bill at all, and the
+            #     latter is a card-details form that should not be shipped to an
+            #     extractor on principle.
+            #
+            # So this costs zero automation today and removes the whole class.
+            # It stays in Review, where a human keys it — Sun Circle is ~3-4
+            # lines an invoice, about one a week. The real fix is upstream:
+            # ask Sun Circle to email a digital invoice. OCR is NOT the answer —
+            # Tesseract reads print, not handwriting, and would return confident
+            # nonsense for exactly the fields that matter.
+            # Exit 4, not 2, so the mailbox can tell "needs a parser" from "needs
+            # a human with a keyboard". A 2 invites tomorrow's triage to go
+            # looking for a parser to write; there isn't one to write.
+            if not _pt.has_text_layer(pdf):
+                print("[image-only PDF — no text layer; needs manual entry, never guessed]")
+                return 4
             _is_credit = looks_like_credit_note(_txt)
             # FREE FIRST, BUT ONLY IF IT RECONCILES. A recurring supplier with a
             # known layout is parsed deterministically (no API). We TRUST it only

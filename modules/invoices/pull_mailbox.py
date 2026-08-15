@@ -167,7 +167,8 @@ def move_message(token, msg_id, folder_id):
 
 # ── invoice handling ───────────────────────────────────────────────────────
 def run_invoice(pdf_bytes, source, sender="", no_llm=False) -> int:
-    """run.py on one PDF. 0 PASS, 2 REVIEW, 1 ERROR (its own exit codes).
+    """run.py on one PDF. Its exit codes: 0 PASS, 1 ERROR, 2 REVIEW,
+    3 STATEMENT (not an invoice), 4 IMAGE-ONLY (no text layer -> manual entry).
     Passes the sender domain so run.py tries a free deterministic parser first.
     no_llm forbids the API call — parser or review, nothing spent."""
     # keep the original PDF so the app can show the actual invoice for review
@@ -294,16 +295,29 @@ def main() -> int:
 
         worst = 0
         saw_invoice = False
+        needs_manual = False
         for name, data in pdfs:
             code = run_invoice(data, f"{subj} / {name}", sender=sender, no_llm=args.no_llm)
             if code == 3:                                  # statement / not an invoice
                 print("    (statement / not an invoice — skipped)")
                 continue
+            if code == 4:
+                # Image-only: no parser can ever read it (see run.py). Kept in
+                # Review for a human to key, but labelled so it does not read as
+                # a parser gap — otherwise every future triage re-investigates
+                # the same 15 Sun Circle scans and "concludes" they need OCR.
+                print("    (image-only scan — needs MANUAL ENTRY, not a parser)")
+                needs_manual = True
+                continue
             saw_invoice = True
             worst = max(worst, 1 if code == 1 else (2 if code == 2 else 0))
             any_change = True
-        if not saw_invoice:                                # every PDF was a statement
-            if not retry:
+        if not saw_invoice:                                # statement / manual-entry only
+            if needs_manual:
+                if not retry:
+                    move_message(token, m["id"], review_id)
+                print("    -> Review (manual entry — no text layer)")
+            elif not retry:
                 move_message(token, m["id"], review_id)
                 print("    -> Review (statement, no invoice)")
         elif worst == 0:

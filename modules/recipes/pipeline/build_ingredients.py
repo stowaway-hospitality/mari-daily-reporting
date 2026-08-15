@@ -178,6 +178,44 @@ def suspect_name(desc: str, code: str) -> str | None:
     return None
 
 
+def _word_suffix(frag: str, full: str) -> bool:
+    """True if `full` is `frag` with extra WORDS on the front ("Carrot Large" vs
+    "Large"). Word-boundary anchored, so "Bean Green" does not match "Green Bean"
+    and "Radish Red" cannot swallow an unrelated "Red"."""
+    if len(full) <= len(frag) or not full.lower().endswith(frag.lower()):
+        return False
+    return full[len(full) - len(frag) - 1] in " -/"
+
+
+def _undo_dropped_prefix(seq: list[str]) -> str:
+    """
+    `seq` is one supplier code's descriptions, NEWEST FIRST. Normally the latest
+    name wins — a supplier renaming its own product must show the current name.
+
+    But a parse artefact is not a rename. Until 2026-08-15 the FFT parser dropped
+    the description's FIRST WORD into the unit column on any invoice whose header
+    sat left of a hard-coded boundary, so one code carried both "Carrot Large" and
+    "Large", and whichever the most recent invoice happened to be decided the name
+    the chef saw. That is how "Large", "Hass", "Jap" and "Sweet" became products.
+
+    A dropped leading word is recognisable without guessing: the fragment is a
+    WORD-BOUNDARY SUFFIX of a longer spelling of the SAME code. A genuine rename
+    is not ("Carrot Large" -> "Carrot Jumbo" shares no suffix), so this can only
+    undo the artefact. Measured on the live cost book: it repairs 44 of the 52 FFT
+    codes that carry more than one description, and touches nothing else.
+
+    The parser fix stops new ones appearing; this repairs the history already in
+    data/, which cannot be re-parsed (the source PDFs live behind the Supabase
+    service key, which this pipeline must never hold).
+    """
+    latest = seq[0]
+    best = latest
+    for other in seq:
+        if _word_suffix(latest, other) and len(other) > len(best):
+            best = other
+    return best
+
+
 def _better_name(a: str, b: str) -> str:
     """The fuller of two descriptions for the SAME product. Ranked by how many
     REAL words it has (a real word has a lowercase letter and no digits), then by
@@ -490,7 +528,7 @@ def main() -> int:
     # renaming its own product must still show the current name, and pooling
     # every row would have quietly reverted 20 unrelated descriptions to older
     # spellings. Only the parser artefact is being undone.
-    names: dict[tuple[str, str], str] = {}
+    name_hist: dict[tuple[str, str], list[str]] = {}
     for r in reversed(rows):
         if r["supplier"] not in KITCHEN_SUPPLIERS:
             continue
@@ -519,7 +557,7 @@ def main() -> int:
         # because that trailing word is how some Fresh Fruit Team lines state
         # their sold unit.
         key = purchasable_id(r["supplier"], code)
-        names.setdefault((key, code.upper()), clean_name(desc))   # rows are newest-first
+        name_hist.setdefault((key, code.upper()), []).append(clean_name(desc))  # newest-first
         if key in seen:
             continue
         seen.add(key)
@@ -572,6 +610,13 @@ def main() -> int:
             item["review_reason"] = bad or how
             review += 1
         out.append(item)
+
+    # Undo the dropped leading word BEFORE merging across codes (see
+    # _undo_dropped_prefix). This is the half the (key, code) keying could not do:
+    # both spellings share one raw code, so "latest wins" kept whichever the most
+    # recent invoice happened to carry — and for 44 FFT codes that was the
+    # truncated one.
+    names = {k: _undo_dropped_prefix(v) for k, v in name_hist.items()}
 
     # the fullest description across the spellings of this identity (see `names`)
     best: dict[str, str] = {}

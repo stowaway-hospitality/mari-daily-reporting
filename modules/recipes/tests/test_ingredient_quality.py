@@ -53,3 +53,89 @@ def test_suspect_name_gate_is_precise():
     assert not bi.suspect_name("Bbq Sauce 4Lt Heinz", "100164")
     assert not bi.suspect_name("Avocado Hass", "AH20T")
     assert not bi.suspect_name("Carrot", "CARK")
+
+
+# ── the dropped leading word (2026-08-15) ─────────────────────────────────
+# Until today the FFT parser dropped a description's FIRST WORD into the unit
+# column whenever the invoice header sat left of a hard-coded boundary, so one
+# supplier code carried both "Carrot Large" and "Large". build_ingredients kept
+# each code's LATEST name, so whichever spelling the most recent invoice happened
+# to carry became the product name the chef saw. That is how "Large", "Hass",
+# "Jap" and "Sweet" became products.
+#
+# The parser is fixed, but the history in data/ cannot be re-parsed (the source
+# PDFs live behind the Supabase service key). _undo_dropped_prefix repairs it:
+# a fragment that is a WORD-BOUNDARY SUFFIX of a longer spelling of the SAME code
+# is a dropped word, never a rename.
+
+def test_dropped_leading_word_is_restored_newest_first():
+    # seq is NEWEST FIRST: the truncated spelling is the most recent.
+    assert bi._undo_dropped_prefix(["Large", "Carrot Large"]) == "Carrot Large"
+    assert bi._undo_dropped_prefix(["Hass", "Avocado Hass"]) == "Avocado Hass"
+    assert bi._undo_dropped_prefix(["Jap", "Pumpkin Jap"]) == "Pumpkin Jap"
+    assert bi._undo_dropped_prefix(["Sweet", "Corn Sweet"]) == "Corn Sweet"
+    assert bi._undo_dropped_prefix(["700 Grams", "Eggs 700 Grams"]) == "Eggs 700 Grams"
+    # doubled word: "Paw Paw Shredded" really does end with "Paw Shredded"
+    assert bi._undo_dropped_prefix(["Paw Shredded", "Paw Paw Shredded"]) == "Paw Paw Shredded"
+
+
+def test_a_genuine_rename_is_left_alone():
+    # THE POINT of the word-suffix rule. A supplier renaming its own product must
+    # still show the CURRENT name; a rename shares no suffix with the old name.
+    assert bi._undo_dropped_prefix(["Carrot Jumbo", "Carrot Large"]) == "Carrot Jumbo"
+    assert bi._undo_dropped_prefix(["Tomatoes Gourmet", "Tomatoes Roma"]) == "Tomatoes Gourmet"
+    # single spelling -> unchanged
+    assert bi._undo_dropped_prefix(["Broccolini"]) == "Broccolini"
+
+
+def test_suffix_must_land_on_a_word_boundary():
+    # "Green" must not be repaired from "Bean Green" via a mid-word match, and a
+    # shorter word that merely ENDS the same must not be swallowed.
+    assert bi._word_suffix("Green", "Bean Green") is True
+    assert bi._word_suffix("Green", "Evergreen") is False
+    assert bi._word_suffix("Red", "Radish Red") is True
+    assert bi._word_suffix("Red", "Shredded") is False
+    # not a suffix at all
+    assert bi._word_suffix("Green", "Green Bean") is False
+    # equal / longer fragment is never a suffix of a shorter full name
+    assert bi._word_suffix("Carrot Large", "Carrot Large") is False
+    assert bi._word_suffix("Carrot Large", "Large") is False
+
+
+def test_the_repair_reaches_the_feed_and_kills_the_repairable_fragments():
+    """
+    End-to-end on the committed cost book.
+
+    These nine fragments each had a FULL twin under the SAME supplier code in
+    history, so _undo_dropped_prefix can repair them from data we already hold.
+    They must never come back.
+
+    The other fragments the morning triage flagged ("Ruby Red", "Baby Gem",
+    "Roma", "Pencil", ...) are NOT asserted here, and deliberately so: their code
+    only ever carried the truncated spelling, so there is nothing in the cost book
+    to repair them FROM. Guessing across codes is exactly the pooling this module
+    refuses. They self-heal the next time that product is invoiced, because the
+    parser fix means the new row carries the full name and becomes the latest.
+    Cost is unaffected either way — pack size is read from raw_uom, not the name.
+    """
+    if not bi.OUT.exists():
+        return
+    items = json.loads(bi.OUT.read_text())
+    items = items if isinstance(items, list) else items.get("ingredients", items.get("items", []))
+    names = {(i.get("description") or "").strip() for i in items if isinstance(i, dict)}
+    for fragment in ("Large", "Hass", "Jap", "Sweet", "700 Grams",
+                     "Button B Grade", "Pink Peeled", "Red And Green", "Chives"):
+        assert fragment not in names, f"{fragment!r} is back in the picker as a product name"
+
+
+def test_the_repair_collapsed_the_duplicate_picker_entries():
+    # The point of restoring real names: two codes for the same product finally
+    # merge, so the chef stops seeing the same carrot twice.
+    if not bi.OUT.exists():
+        return
+    items = json.loads(bi.OUT.read_text())
+    items = items if isinstance(items, list) else items.get("ingredients", items.get("items", []))
+    fft = [i for i in items if isinstance(i, dict) and "Fresh Fruit" in (i.get("supplier") or "")]
+    for name in ("Carrot Large", "Onion Spanish"):
+        hits = [i for i in fft if (i.get("description") or "").strip() == name]
+        assert len(hits) == 1, f"{name!r} appears {len(hits)}x for FFT — the collapse regressed"

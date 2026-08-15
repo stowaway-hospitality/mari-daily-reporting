@@ -183,6 +183,58 @@ sibling defect that entry's own evidence pointed at.
      set of terms, never a spread. Verified against the whole corpus first — of
      418 PASSing invoices, ZERO match the rule, so it cannot swallow a real bill.
 
+TRIAGE LOG — 2026-08-15 (third pass). Zak: "go and fix it all". sun_circle is now
+CLOSED as a question, and the product-name flags are fixed at their source.
+
+  8. SUN CIRCLE IS NOT AN OCR PROBLEM AND NEVER WAS. Every previous entry logged
+     "15 image scans, needs OCR" without opening one. They were opened. Sun Circle
+     invoices are a PRE-PRINTED ORDER FORM FILLED IN BY HAND: the product names
+     and pack sizes are printed (bilingual EN/ZH), but the qty, unit price, line
+     amount, date and total are all written in pen ("48 x 4.50  216", total
+     "540.-"). The handwriting is the only data we need.
+     Tesseract reads print, not handwriting — it would return confident nonsense
+     for exactly the fields that matter, so an OCR pipeline could not have worked
+     and buying one would have been wasted. DO NOT re-open this as an OCR task.
+     The real fix is upstream and commercial: ask Sun Circle to email a digital
+     invoice. Failing that it is ~3-4 lines a week to key by hand.
+
+  9. IMAGE-ONLY PDFs NOW STOP BEFORE THE EXTRACTOR (run.py, new exit code 4).
+     Previously a scan with no parser fell through to the LLM, which meant the
+     extractor was being asked to read handwritten money. That is worse than
+     useless: it guesses the line amounts AND the total from the same strokes, so
+     it can guess CONSISTENTLY and still reconcile — a wrong number that passes
+     validation. Exit 4 keeps them in Review labelled "manual entry", distinct
+     from exit 2 "no parser yet", so future triage stops re-investigating them.
+     All 17 scans in the corpus were checked and NOT ONE is a printed invoice:
+     15 Sun Circle handwritten forms, 1 blank ILG Direct Debit Request, 1 blank
+     B&E Credit Card Authorisation form (which also should never have been going
+     to an extractor). So this costs zero automation.
+
+ 10. THE TRUNCATED PRODUCT NAMES ARE FIXED, INCLUDING THE HISTORY. The parser fix
+     (item 1) stops new ones, but data/ already held both spellings and could not
+     be re-parsed — the source PDFs sit behind the Supabase service key, which
+     this pipeline must never hold. build_ingredients keyed names by (identity,
+     RAW code) and took each code's LATEST name, so where one code carried both
+     "Carrot Large" and "Large" the most recent invoice decided what the chef saw.
+     New rule (_undo_dropped_prefix): a fragment that is a WORD-BOUNDARY SUFFIX of
+     a longer spelling of the SAME code is a dropped leading word, not a rename —
+     a real rename shares no suffix. Measured on the live cost book: repairs 44 of
+     the 52 FFT codes carrying more than one description, touches nothing else.
+     Side effect, and the point: with real names restored, four duplicate picker
+     entries finally collapsed onto their siblings (CLKG into CL20KGBX "Carrot
+     Large", OSKG into OS10BG "Onion Spanish", HCMB, HCDRMB). The chef's list no
+     longer shows the same carrot twice.
+
+ 11. THE MORNING RUN'S "PACKAGING COSTED AS FOOD" FLAGS WERE WRONG — WITHDRAWN.
+     Packaging is in the ingredient picker BY DESIGN: that is how Marilyna's
+     per-pizza box cost is tracked, and the Gulli boxes are correctly costed per
+     each ($0.48 / $0.64 / $0.79). _NON_FOOD deliberately omits "box" and says so.
+     No change was made to it. What the review DID turn up is a real pack defect
+     hiding next to them: B&E "Pizza Box Liner Brown 9\"" is costed $21.56 per
+     CARTON with needs_pack_review FALSE, while every sibling is per each — a
+     recipe adding one liner books ~100x its true cost. Flagged, not guessed: the
+     liner count is not stated on the invoice.
+
   STILL DELIBERATELY OPEN, with reasons:
   * The three $0.00 documents (be_foods d02385290774, ilg e23ce69fe899 +
     b46bfb0a542a). The 08-14 entry wanted a $0.00 gate because they "cost an LLM
@@ -190,9 +242,13 @@ sibling defect that entry's own evidence pointed at.
     where they cost NOTHING, and all three are credit/adjustment dockets that a
     human genuinely should see. A text-level "stated $0.00" detector is fragile
     for no benefit, so it was NOT written. Correctly parked, not stuck.
-  * sun_circle — unchanged, 15 image scans with no text layer. Needs OCR, which is
-    a real dependency decision (and a cost), not a parser. Still Zak's call, and
-    still the biggest single gap: 1 invoice in data/invoices against 15 arrivals.
+  * sun_circle — SUPERSEDED by item 8 above. This entry (and the 08-14 one) said
+    "needs OCR". That was wrong, and it was wrong because nobody had opened the
+    documents: they are handwritten order forms, so no OCR engine can read the
+    numbers. Left here only so the correction is visible next to the claim.
+    The open item is commercial — ask Sun Circle for a digital invoice — not
+    technical. Still the biggest coverage gap: ~1 invoice in data/invoices
+    against 15 arrivals, and every one of those has to be keyed by hand.
 
 The three zero-total documents can never PASS by construction: validator's
 _check_required_fields treats total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
