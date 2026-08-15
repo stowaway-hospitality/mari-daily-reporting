@@ -26,6 +26,12 @@ DOMAIN_KEY: dict[str, str] = {
     # alphanumeric), so separating them costs nothing; build_cogs_list re-labels
     # the historical rows so the cost series stays continuous.
     "jfcaust.com.au": "jfc",
+    # Xero mails on behalf of MANY suppliers, so this key names the PLATFORM, not
+    # a vendor — parsers/xero.py identifies the vendor by the ABN on the page that
+    # is not ours. The entry exists so build_corpus collects these and the
+    # regression harness scores the parser like any other; a parser the harness
+    # cannot see is exactly how Foodlink and FFT rotted.
+    "post.xero.com": "xero",
     "ilg.com.au": "ilg",
     "lionco.com": "lion",
     "paramountliquor.com.au": "paramount",

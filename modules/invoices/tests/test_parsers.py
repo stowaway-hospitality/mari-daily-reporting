@@ -582,3 +582,81 @@ def test_jfc_direct_debit_notice_is_not_an_invoice():
            "Payment Amount Invoice Number Doc Type Invoice Date\n"
            "223.50 07/08/2026 Invoice 001900310\nTotal: 223.50")
     assert looks_like_statement(doc) is True
+
+
+# --- Xero: one sender, many vendors ------------------------------------------
+# 2026-08-15. The first parser where the sender domain does NOT name the supplier
+# — every Xero-issued invoice arrives from post.xero.com. Getting the vendor wrong
+# merges several suppliers' price histories, so the identification is pinned hard.
+
+def test_xero_vendor_is_the_abn_that_is_not_ours():
+    from modules.invoices.parsers.xero import vendor_from_abn
+    # Urbun Bakery: OUR ABN is printed FIRST, above the vendor's. Keying on the
+    # first ABN would have filed five different suppliers under Stowaway's own.
+    urbun = "ABN: 17 606 243 921\nInvoice\nABN 25 617 284 705\nMallia Industries"
+    assert vendor_from_abn(urbun) == ("mallia_industries", "Urbun Bakery")
+    # Grifter prints only its own.
+    assert vendor_from_abn("ABN 53 158 357 450")[0] == "grifter"
+
+
+def test_xero_refuses_to_guess_a_vendor():
+    from modules.invoices.parsers.xero import vendor_from_abn
+    assert vendor_from_abn("") is None                       # no ABN at all
+    assert vendor_from_abn("ABN 17 606 243 921") is None      # only ours
+    assert vendor_from_abn("ABN 11 111 111 111") is None      # not registered
+    # AMBIGUOUS: two non-customer ABNs (a real SYMSAFE credit note references a
+    # second party). Two candidates must never be resolved by picking one.
+    two = "ABN 83 105 791 419\nABN 38 760 949 765"
+    assert vendor_from_abn(two) is None
+
+
+def test_our_own_abn_can_never_be_a_vendor():
+    from modules.invoices.parsers.xero import CUSTOMER_ABNS, ABN_SUPPLIER
+    assert CUSTOMER_ABNS & set(ABN_SUPPLIER) == set(), (
+        "an ABN cannot be both the customer and a vendor")
+
+
+XERO_HEADER_ITEM = _row((31, "Item"), (85, "Description"), (262, "Quantity"),
+                        (339, "Unit"), (357, "Price"), (400, "Discount"),
+                        (469, "GST"), (515, "Amount"), (547, "AUD"))
+XERO_HEADER_PLAIN = _row((31, "Description"), (316, "Quantity"), (393, "Unit"),
+                         (411, "Price"), (453, "Discount"), (515, "Amount"),
+                         (547, "AUD"))
+XERO_HEADER_QTY_L = _row((28, "Description"), (233, "Quantity(L)"), (334, "Unit"),
+                         (354, "Price"), (425, "GST"), (512, "Amount"), (548, "AUD"))
+
+
+def test_xero_header_shapes_all_resolve():
+    from modules.invoices.parsers.xero import _cols_from_header
+    for h in (XERO_HEADER_ITEM, XERO_HEADER_PLAIN, XERO_HEADER_QTY_L):
+        assert _cols_from_header(h) is not None
+    # "Quantity(L)" (Speed Gas) must be recognised as Quantity — letters only.
+    cols = dict(_cols_from_header(XERO_HEADER_QTY_L))
+    assert cols["qty"] < cols["price"] < cols["amt"]
+
+
+def test_xero_item_column_only_exists_when_the_header_says_so():
+    from modules.invoices.parsers.xero import _cols_from_header
+    assert "item" in dict(_cols_from_header(XERO_HEADER_ITEM))
+    assert "item" not in dict(_cols_from_header(XERO_HEADER_PLAIN))
+
+
+def test_xero_philters_two_token_code_stays_in_the_item_column():
+    # "XPA 200" is Philter's real code, printed as two tokens; the description
+    # starts cleanly at its own anchor. This is the row the identity audit flags,
+    # and it is a false positive — the whitespace is the supplier's.
+    from modules.invoices.parsers.xero import _cols_from_header
+    cols = _cols_from_header(XERO_HEADER_ITEM)
+    row = _row((31, "XPA"), (47, "200"), (85, "Philter"), (111, "XPA"), (127, "4.2%"),
+               (169, "50L"), (184, "Keg"), (279, "2.00"), (350, "299.00"),
+               (402, "20.00%"), (468, "10%"), (539, "478.40"))
+    c = pdf_text.bucket(row, cols)
+    assert c["item"] == "XPA 200"
+    assert c["desc"].startswith("Philter XPA")
+    assert c["amt"] == "478.40"
+
+
+def test_xero_unreadable_header_falls_back_rather_than_inventing_columns():
+    from modules.invoices.parsers.xero import _cols_from_header
+    assert _cols_from_header(_row((31, "Description"))) is None
+    assert _cols_from_header([]) is None

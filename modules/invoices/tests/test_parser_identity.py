@@ -50,7 +50,15 @@ KEY_DOMAIN = {v: k for k, v in DOMAIN_KEY.items()}
 #   the FFT failure. (One code, "- Baby", does look truncated; it is a naming
 #   defect on a 7-invoice supplier, not an identity split, so it is noted here
 #   rather than silently repaired.)
-WHITESPACE_OK = {"nicholas_seafood"}
+#
+# xero — verified 2026-08-15 against Philter PHIN-56956 and PHIN-57196. Philter's
+#   own item code is "XPA 200", printed as two tokens ("XPA" at x=31, "200" at
+#   x=47) BOTH inside the Item column, with the description starting cleanly at
+#   its own anchor (x=85). The space is Philter's. Worth recording HOW this was
+#   found: the identity audit flagged the xero parser within minutes of it being
+#   written, which is the check doing exactly its job — and the answer was to read
+#   the invoice, not to widen the rule.
+WHITESPACE_OK = {"nicholas_seafood", "xero"}
 
 
 def _parsed_codes(key: str) -> set[str]:
