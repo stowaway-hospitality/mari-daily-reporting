@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-15T21:30:07.864415+10:00",
+  "generated_at": "2026-08-15T21:45:01.811367+10:00",
   "venue": "mari",
   "venue_label": "Marilyna's",
   "stock_venue": "stow",
@@ -62,15 +62,15 @@
     "attributed_qty_per_week": 39.59,
     "attributed_revenue_ex_gst": 3602.06,
     "auto_resolved_lines": 11,
-    "auto_unresolved_lines": 2,
+    "auto_unresolved_lines": 1,
     "needs_recipe_lines": 217,
     "needs_recipe_qty_per_week": 668.55,
     "needs_recipe_revenue_ex_gst": 137846.51,
     "unattributed_lines": 0,
     "unattributed_revenue_ex_gst": 0,
-    "other_unattributed_lines": 2,
-    "other_unattributed_revenue_ex_gst": 40.35,
-    "intentionally_unattributed_lines": 3
+    "other_unattributed_lines": 1,
+    "other_unattributed_revenue_ex_gst": 33.99,
+    "intentionally_unattributed_lines": 4
   },
   "attributed_to_other_venue": [
     {
@@ -645,15 +645,6 @@
       "qty_window": 2.0,
       "qty_per_week": 0.15,
       "revenue_ex_gst_window": 33.99
-    },
-    {
-      "pos_line": "Status Quo Can D",
-      "stripped": "Status Quo Can D",
-      "reason": "no stow par SKU matches 'Status Quo Can D' exactly (nearest stow par SKU by container base: 'Status Quo [Keg]' — write an explicit alias if that is the same stock)",
-      "still_unattributed": true,
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 6.36
     }
   ],
   "needs_recipe": [
@@ -2621,15 +2612,6 @@
       "revenue_ex_gst_window": 33.99,
       "stock_bearing": false,
       "classification": "not_stock_bearing"
-    },
-    {
-      "product": "Status Quo Can D",
-      "reporting_group": "Delivery Alcohol",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 6.36,
-      "stock_bearing": false,
-      "classification": "not_stock_bearing"
     }
   ],
   "intentionally_unattributed": [
@@ -2659,6 +2641,15 @@
       "revenue_ex_gst_window": 7.27,
       "stock_bearing": false,
       "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
+    },
+    {
+      "product": "Status Quo Can D",
+      "reporting_group": "Delivery Alcohol",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 6.36,
+      "stock_bearing": false,
+      "reason": "REAL PRODUCT, NO PAR, ON PURPOSE - Zak, 2026-08-15: 'status quo can d is a real thing, it's cans of Status Quo for delivery.' There is no stock SKU behind it (only Status Quo [Keg] holds a par) and demand is ~0.08/wk, well under the 0.25/wk floor for CREATING a par - so cans are bought ad hoc and nothing reorders them. REVISIT if delivery cans grow past ~0.25/wk: the $2,000 unattributed gate will never trip at this size, so this entry is the only record. Onboarding a real can SKU is stowaway-new-product work."
     }
   ]
 }
