@@ -1,7 +1,7 @@
 {
   "generated": "2026-08-15",
   "count": 324,
-  "skipped_already_in_xero": 292,
+  "skipped_already_in_xero": 304,
   "invoices": [
     {
       "ref": "5515242",
@@ -365,34 +365,6 @@
       ]
     },
     {
-      "ref": "and",
-      "supplier": "Cordless Filter Machine Pty Ltd",
-      "supplier_key": "cookers",
-      "date": "2026-07-30",
-      "due_date": "2026-08-06",
-      "total": "224.00",
-      "venue": "stowaway",
-      "pdf_path": "861df49c0c6e5ebe371143c6c9c24b5f6270d6188e9afcd2273133eace04b621.pdf",
-      "tracking_category": "Stowaway",
-      "tracking_option": "Kitchen",
-      "tracking_confidence": "low",
-      "is_credit_note": false,
-      "status": "pass",
-      "lines": [
-        {
-          "description": "CFM Sunpower Oil",
-          "supplier_code": null,
-          "qty": "80.00",
-          "amount": "224.00",
-          "unit_cost": "$2.80/ea",
-          "tax": "gst_free",
-          "account_code": "111",
-          "account_name": "Purchases Other COGS",
-          "reason": "learned from Xero history for this supplier"
-        }
-      ]
-    },
-    {
       "ref": "INV495641",
       "supplier": "Bacchus Wine Merchants P/L",
       "supplier_key": "bacchus",
@@ -617,6 +589,34 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "and",
+      "supplier": "Cordless Filter Machine Pty Ltd",
+      "supplier_key": "cookers",
+      "date": "2026-07-16",
+      "due_date": "2026-07-23",
+      "total": "224.00",
+      "venue": "stowaway",
+      "pdf_path": "e6f9910b8b488d108e9040b585daab35a62e7f53448629003970d65596dae5ab.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CFM Sunpower Oil",
+          "supplier_code": null,
+          "qty": "80.00",
+          "amount": "224.00",
+          "unit_cost": "$2.80/ea",
+          "tax": "gst_free",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
