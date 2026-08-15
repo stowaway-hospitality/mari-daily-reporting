@@ -3,22 +3,22 @@
   "venue": "harry",
   "prefix": "hg",
   "date": "2026-08-15",
-  "generated_at": "2026-08-15T19:22:20",
+  "generated_at": "2026-08-15T19:34:45",
   "source_file": "insights_hg_2026-08-15.csv",
   "source_kind": "committed_export",
   "name_basis": "as_at_sale",
-  "sibling_till_available": false,
+  "sibling_till_available": true,
   "ex_gst_basis": "inc_minus_tax",
   "truncated": false,
-  "row_count": 65,
+  "row_count": 68,
   "totals": {
-    "qty": 198.0,
-    "rev_inc": 2990.0,
-    "rev_ex": 2718.25
+    "qty": 206.0,
+    "rev_inc": 3106.96,
+    "rev_ex": 2824.57
   },
   "reconciliation": {
-    "expected_rev_inc": 2990.0,
-    "expected_rev_ex": 2718.25,
+    "expected_rev_inc": 3106.96,
+    "expected_rev_ex": 2824.57,
     "gap_inc": 0.0,
     "gap_ex": 0.0,
     "basis": "gross of EatClub give-away"
@@ -207,6 +207,17 @@
       "till": "hg"
     },
     {
+      "name": "Dumplings - Prawn Har Gow [GF]",
+      "qty": 3.0,
+      "cost": 13.2057,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 50.53,
+      "rev_ex": 45.93,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
       "name": "Fried Rice",
       "qty": 2.0,
       "cost": 5.6484,
@@ -261,6 +272,17 @@
       "till": "hg"
     },
     {
+      "name": "Dumplings - Veg Gyoza",
+      "qty": 3.0,
+      "cost": 5.8557,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 36.49,
+      "rev_ex": 33.17,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
       "name": "Padrillos Malbec - Regular",
       "qty": 2.0,
       "cost": 7.7332,
@@ -292,6 +314,16 @@
       "rev_ex": 30.0,
       "dept": "b",
       "till": "hg"
+    },
+    {
+      "name": "Karaage Chicken",
+      "qty": 2.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 29.94,
+      "rev_ex": 27.22,
+      "dept": "f",
+      "till": "stow"
     },
     {
       "name": "Dumplings - Veg Gyoza",
