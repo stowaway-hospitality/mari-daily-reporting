@@ -70,6 +70,22 @@ def main() -> int:
                 continue          # footer / blank
             by_day[r["Date"]].append(r)
 
+    # ---- correct spellings, harvested on the way past ----
+    # The endpoint returns proper UTF-8; the EMAILED export mangles every
+    # non-ASCII character to a literal '|' ("No Jalape|os", "Dom P|rignon").
+    # Recording the correct spellings here lets product_identity.py repair the
+    # mangled ones by key, so both spellings join to one recipe. Generated, not
+    # hand-kept: a new accented product appears here the next time this runs.
+    spellings = sorted({(r.get("Product") or "").strip()
+                        for rows in by_day.values() for r in rows
+                        if any(ord(c) > 127 for c in (r.get("Product") or ""))})
+    sp_file = ROOT / "data" / "product_spellings.csv"
+    with sp_file.open("w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["product_name"])
+        w.writerows([[n] for n in spellings])
+    print(f"wrote {sp_file.relative_to(ROOT)}: {len(spellings)} name(s) carrying non-ASCII")
+
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     written = 0
     for day, rows in sorted(by_day.items()):

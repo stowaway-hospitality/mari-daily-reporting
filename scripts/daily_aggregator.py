@@ -87,6 +87,9 @@ from wage_model import super_lookup
 # imported without running this script. See that module's docstring.
 from cogs_blend import (COSTED_BOOK, _load_book_costs,   # noqa: F401
                         _load_our_costs, blend_reported_cogs, book_cost)
+# Product identity across renames + the emailed export's mangled non-ASCII.
+# Used for the stock-ledger mix only; the P&L path keeps the raw name.
+from product_identity import canonical_name
 
 REPO_ROOT = Path(os.environ.get("REPO_ROOT", "."))
 DATA_DIR = REPO_ROOT / "data"
@@ -772,6 +775,19 @@ else:
         _cross = _i >= _cross_start
         mix_entry = dict(entry)
         mix_entry.pop("rev", None)
+        # The ledger joins a till line to its recipe BY NAME, so the mix gets
+        # the canonical name: the emailed export's mangled non-ASCII repaired,
+        # and a reused SKU's old sales put back under the dish that was
+        # actually served. data/product_renames.yaml is the adjudicated
+        # register; canonical_name leaves anything it does not recognise alone.
+        # Only the mix is canonicalised — the P&L path keeps the raw name, so
+        # no published number moves.
+        _canon = canonical_name(
+            name, target,
+            source_kind="history_pull" if insights_override is not None else "committed_export")
+        if _canon != name:
+            mix_entry["name"] = _canon
+            mix_entry["name_as_reported"] = name
         mix_entry["rev_inc"] = round(row_rev(r), 4)
         mix_entry["rev_ex"] = round(row_rev_ex(r, ex_basis), 4)
         mix_entry["dept"] = "f" if _cross else classify_product(r, name, venue_key)
