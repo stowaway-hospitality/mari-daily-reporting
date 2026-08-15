@@ -1,0 +1,223 @@
+#!/usr/bin/env python3
+"""The stock movement ledger — one append-only row per change in stock.
+
+    (ts, venue, item_id, qty_base, base_unit, direction, reason, source_ref, actor)
+
+Six reasons cover the whole business (INVENTORY_ARCHITECTURE.md):
+
+    receive     a supplier delivered            invoice pipeline
+    sale        recipe x units sold             daily aggregation
+    production  consumes ingredients, YIELDS a prep item
+    waste       spill, spoil, comp, staff feed  a human
+    transfer    venue -> venue
+    count       sets truth and BOOKS the difference as its own row
+
+    theoretical on-hand = sum of movements
+    counted on-hand     = last count
+    VARIANCE            = counted - theoretical
+
+APPEND-ONLY. A correction is a NEW ROW, never an edit — so "what did we think
+last Tuesday" stays answerable, the same property the restatement ledger gives
+the P&L. Rows are sharded by year so a daily append does not rewrite history.
+
+UNIT IDENTITY IS THE WHOLE GAME. In one day this repo found a CTN-6 read as one
+tin (6x), ILG cases read as bottles (6x), Red Chilli (10x), Angostura (13x). In
+COSTING a bad unit is one wrong dish. In INVENTORY it is wrong on every movement
+forever, and it compounds. So:
+
+  * one canonical base unit per item — g, ml or each, and nothing else;
+  * every other unit is a DECLARED conversion with evidence;
+  * an unprovable conversion RAISES. It does not guess, and it does not skip
+    the line quietly either — a refused receipt is visible, a guessed one is
+    not.
+
+'box' and 'tray' are deliberately absent from the conversion table. A box of
+what, how many? That number is not in the invoice, and inventing it would be
+the flattering error: stock that lasts longer than it should.
+"""
+from __future__ import annotations
+
+import csv
+import os
+from dataclasses import dataclass, asdict
+from datetime import date, datetime
+from decimal import Decimal
+from pathlib import Path
+
+ROOT = Path(os.environ.get("REPO_ROOT", Path(__file__).resolve().parent.parent))
+LEDGER_DIR = ROOT / "data" / "ledger"
+BASE_UNITS_FILE = ROOT / "data" / "item_base_units.csv"
+
+COLUMNS = ["ts", "venue", "item_id", "qty_base", "base_unit", "direction",
+           "reason", "source_ref", "actor", "note"]
+
+REASONS = {"receive", "sale", "production", "waste", "transfer", "count"}
+DIRECTIONS = {"in", "out"}
+BASE_UNITS = {"g", "ml", "each"}
+
+# Declared conversions, with the dimension they land in. Anything not here has
+# no provable size and must refuse. 'bunch', 'box' and 'tray' are absent ON
+# PURPOSE — see the module docstring.
+CONVERSIONS: dict[str, tuple[Decimal, str]] = {
+    "g":  (Decimal(1),    "g"),
+    "kg": (Decimal(1000), "g"),
+    "mg": (Decimal("0.001"), "g"),
+    "ml": (Decimal(1),    "ml"),
+    "l":  (Decimal(1000), "ml"),
+    "ea": (Decimal(1),    "each"),
+    "each": (Decimal(1),  "each"),
+}
+
+
+class UnprovableUnit(Exception):
+    """Raised rather than guessing a conversion. See the module docstring."""
+
+
+@dataclass(frozen=True)
+class Movement:
+    ts: str
+    venue: str
+    item_id: str
+    qty_base: str          # Decimal as string — money and stock are never float
+    base_unit: str
+    direction: str
+    reason: str
+    source_ref: str
+    actor: str
+    note: str = ""
+
+    def validate(self) -> None:
+        if self.reason not in REASONS:
+            raise ValueError(f"unknown reason {self.reason!r}; expected one of {sorted(REASONS)}")
+        if self.direction not in DIRECTIONS:
+            raise ValueError(f"direction must be in/out, got {self.direction!r}")
+        if self.base_unit not in BASE_UNITS:
+            raise ValueError(
+                f"base_unit must be g/ml/each, got {self.base_unit!r}. A ledger that "
+                f"accepts 'box' has no idea how much stock it holds.")
+        q = Decimal(self.qty_base)
+        if q < 0:
+            raise ValueError(
+                f"qty_base is negative ({q}). Direction carries the sign — a negative "
+                f"quantity plus direction 'out' is an addition nobody meant.")
+        if not self.item_id or ":" not in self.item_id:
+            raise ValueError(
+                f"item_id {self.item_id!r} must be namespaced, e.g. 'lightspeed:21999746' — "
+                f"the same key the recipe book uses, so the two cannot drift apart.")
+        if not self.source_ref:
+            raise ValueError("source_ref is required: every row must be traceable to its fact")
+
+
+def to_base(qty: Decimal, unit: str) -> tuple[Decimal, str]:
+    """(quantity, unit) -> (quantity in base units, base unit). Raises on
+    anything without a declared conversion."""
+    key = (unit or "").strip().lower()
+    if key not in CONVERSIONS:
+        raise UnprovableUnit(
+            f"no declared conversion for unit {unit!r}. It is not enough to know a "
+            f"'box' arrived — a box of what, how many? Guessing here is wrong on "
+            f"every future movement for this item, in the direction that flatters "
+            f"(stock lasting longer than it should). Declare the conversion with "
+            f"evidence, or leave the line unbooked and visible.")
+    factor, base = CONVERSIONS[key]
+    return qty * factor, base
+
+
+def load_base_units() -> dict[str, str]:
+    """item_id -> its ONE canonical base unit."""
+    if not BASE_UNITS_FILE.exists():
+        return {}
+    out = {}
+    with BASE_UNITS_FILE.open() as f:
+        for r in csv.DictReader(f):
+            if r.get("conflict") == "true":
+                continue          # an item with two base units is not usable
+            out[r["item_id"]] = r["base_unit"]
+    return out
+
+
+def ledger_path(year: int | str) -> Path:
+    return LEDGER_DIR / f"movements_{year}.csv"
+
+
+def append(movements: list[Movement]) -> dict[str, int]:
+    """Append rows, sharded by the year of their timestamp.
+
+    Append-only: existing rows are never rewritten. Re-running a builder that
+    produces the same source_refs will DUPLICATE them — dedupe on source_ref
+    upstream, or rebuild a year wholesale with `rewrite_year`.
+    """
+    for m in movements:
+        m.validate()
+    LEDGER_DIR.mkdir(parents=True, exist_ok=True)
+    counts: dict[str, int] = {}
+    by_year: dict[str, list[Movement]] = {}
+    for m in movements:
+        by_year.setdefault(m.ts[:4], []).append(m)
+    for year, rows in sorted(by_year.items()):
+        path = ledger_path(year)
+        exists = path.exists()
+        with path.open("a", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=COLUMNS, lineterminator="\n")
+            if not exists:
+                w.writeheader()
+            for m in rows:
+                w.writerow(asdict(m))
+        counts[year] = len(rows)
+    return counts
+
+
+def rewrite_year(year: int | str, movements: list[Movement]) -> int:
+    """Regenerate one year wholesale — for DERIVED movements (receive, sale)
+    that are rebuilt from immutable facts and must stay reproducible.
+
+    Never use this for `count` or `waste`: those are typed in by a human once
+    and exist nowhere else.
+    """
+    for m in movements:
+        m.validate()
+    LEDGER_DIR.mkdir(parents=True, exist_ok=True)
+    rows = sorted(movements, key=lambda m: (m.ts, m.venue, m.item_id))
+    with ledger_path(year).open("w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=COLUMNS, lineterminator="\n")
+        w.writeheader()
+        for m in rows:
+            w.writerow(asdict(m))
+    return len(rows)
+
+
+def read_all() -> list[dict]:
+    rows: list[dict] = []
+    if not LEDGER_DIR.exists():
+        return rows
+    for path in sorted(LEDGER_DIR.glob("movements_*.csv")):
+        with path.open() as f:
+            rows.extend(csv.DictReader(f))
+    return rows
+
+
+def on_hand(as_at: str | None = None) -> dict[tuple[str, str], Decimal]:
+    """(venue, item_id) -> theoretical on-hand in base units.
+
+    A `count` row is TRUTH, not an adjustment: everything before it for that
+    item is superseded, and the difference it books is the variance. So on-hand
+    is computed forward from the last count, which is what makes a count worth
+    doing.
+    """
+    rows = [r for r in read_all() if not as_at or r["ts"] <= as_at]
+    rows.sort(key=lambda r: r["ts"])
+
+    last_count: dict[tuple[str, str], str] = {}
+    for r in rows:
+        if r["reason"] == "count":
+            last_count[(r["venue"], r["item_id"])] = r["ts"]
+
+    bal: dict[tuple[str, str], Decimal] = {}
+    for r in rows:
+        k = (r["venue"], r["item_id"])
+        cut = last_count.get(k)
+        if cut and r["ts"] < cut:
+            continue                      # superseded by a later count
+        q = Decimal(r["qty_base"])
+        bal[k] = bal.get(k, Decimal(0)) + (q if r["direction"] == "in" else -q)
+    return bal

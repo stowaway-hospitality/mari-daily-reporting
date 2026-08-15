@@ -159,8 +159,8 @@ Nothing else on this page matters more than that list.
 ## Build order
 
 1. ~~Persist the FULL daily product mix~~ — DONE 2026-08-15 (prerequisite above)
-2. Ledger schema + `receive` + `count` — this alone gives on-hand and a real
-   variance against counts, with no recipe dependency at all
+2. Ledger schema + `receive` + `count` — **schema DONE, `receive` PARTIAL,
+   `count` has no source yet.** See "Step 2, and the gate it hit" below.
 3. Recipes for the top 50 sellers by volume (the gate)
 4. `sale` + `production` movements
 5. Variance report, with confidence
@@ -169,6 +169,63 @@ Nothing else on this page matters more than that list.
 Steps 1–2 are useful on their own. That is deliberate: if the project stalls
 after step 2 you still have a working stock ledger fed by real invoices and real
 counts, which is more than exists today.
+
+## Step 2, and the gate it hit — 2026-08-15
+
+Built: `scripts/ledger.py` (the append-only movement ledger, `data/ledger/
+movements_<year>.csv`), `build_item_base_units.py`, `build_receive_movements.py`,
+`tests/test_ledger.py`.
+
+The schema is the one at the top of this page, and it enforces itself: base unit
+must be g/ml/each, quantity may not be negative (direction carries the sign),
+`item_id` must be namespaced exactly as the recipe book does it
+(`lightspeed:21999746`) so the two cannot drift apart, and every row needs a
+`source_ref`. `on_hand()` measures FORWARD FROM THE LAST COUNT — a count is
+truth, not an adjustment, or every stocktake gets added to the stock it was
+measuring.
+
+**Unit identity, per trap 1.** `data/item_base_units.csv` derives one canonical
+base unit per item from how recipes actually consume it. 546 of 578 items
+resolve. The other 32 are refused rather than guessed, and the refusals are
+informative:
+
+* **21 packaged drinks — Peroni, Corona, VB Tinnie, the cans, Coke 1.25L — are
+  consumed in BOTH `each` and `ml`.** One id, two ideas of what the item is.
+  Declaring a can's volume fixes it; guessing which recipes meant what does not.
+* 7 items exist only in `bunch` or `tray` (coriander, mint, parsley, thyme,
+  broccolini, radish, Lime [Tray]). No provable gram weight.
+* `Lemon [Sliced]`, `Avocado [Tray]` and `Sunshine Smokey BBQ Sauce [3L]` are
+  consumed in both g and ml.
+
+**THE GATE FOR STEP 2 IS ITEM IDENTITY, not units.** Of 3,501 invoice stock
+lines, **438 book (12.5%)**. The refusals:
+
+| why | lines | $ incl |
+|---|---:|---:|
+| supplier code not in `product_map.csv` | 2,840 | $150,400 |
+| item has no canonical base unit | 83 | $5,400 |
+| unit dimension clash (recipes say ml, invoice delivers each) | 67 | $15,802 |
+| unit dimension clash (g vs each) | 38 | $1,487 |
+| unit dimension clash (each vs ml) | 18 | $1,484 |
+| unprovable pack unit `box` | 17 | $1,308 |
+
+`product_map.csv` holds 230 rows / 212 products, so only **180 of the 579 stock
+items recipes consume (31%)** can currently be received into at all. The
+unmapped weight is the kitchen: be_foods 915 lines, fresh_fruit_team 711,
+foodlink 395, select_fresh 279.
+
+This is the same shape as the recipe-coverage gate for step 4, and it has the
+same answer: **it is a list, and the list is the work.** `resolve.py` already
+argues the durable fix — backfill the SKU field in Back Office with the supplier
+item code, which was populated on 84 of 2,170 products when last measured.
+
+**`count` has no source in this repo yet.** The stocktake app is still outside
+it. The ledger accepts count rows and the supersede logic is tested against a
+worked example; nothing writes them.
+
+So step 2 does NOT yet give a trustworthy on-hand. It gives the plumbing, the
+refusals, and a measured list of what unblocks it — which is the honest state,
+and better than an on-hand number computed from an eighth of the deliveries.
 
 ## Standing rules that apply here
 
