@@ -136,6 +136,19 @@ cook_loss:
 # A pattern here is a PERMANENT statement, not a "not yet". Anything that could
 # one day have a recipe does not belong.
 exempt:
+  # DISCONTINUED — Zak, 2026-08-16. Both still ring on the POS and neither can
+  # be bought, so there is no cost to find and never will be. The fix is
+  # delisting them in Back Office, not back-filling a price for something we do
+  # not stock; carrying them as "sells but costs $0" made two of the seven
+  # SEVERE findings a permanent, unactionable red.
+  - match: "^kids spag bol$"
+    reason: "discontinued (Zak, 2026-08-16). Its only line was the bolognese
+      batch, retired as redundant, and the dish went with it. Delist in Back
+      Office — inventing a sauce is how a $13 dish gets a made-up GP."
+  - match: "^sea foam pet nat"
+    reason: "discontinued (Zak, 2026-08-16). Already on the reorder skill's
+      exclusion list, so no invoice will ever price it again, yet the POS still
+      offers it at $28 on delivery. Delist it."
   - match: "^open (price|food)$"
     reason: "an open-price key rings whatever the operator types — there is no
       product behind it, so there is nothing to cost. It is a payment method

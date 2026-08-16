@@ -31,6 +31,36 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+_EXEMPT_PATS = None
+
+
+def _exempt(name: str) -> bool:
+    """Is this product on the flags spec's exempt list?
+
+    ONE LIST, READ TWICE. data/cost_book_flags.yaml already carried the
+    exemptions -- open-price keys, fees, and now two discontinued products --
+    and build_cost_book_flags honoured them while this audit did not. So a
+    product could be a documented, accepted non-issue on the Flags tab and a
+    permanent SEVERE here at the same time, which is how a ratchet pinned at 7
+    ends up holding two findings nobody intends to fix.
+
+    A missing cost is only a defect if we could have costed it. Something we no
+    longer sell is a menu problem, not a costing one.
+    """
+    global _EXEMPT_PATS
+    if _EXEMPT_PATS is None:
+        _EXEMPT_PATS = []
+        try:
+            import yaml as _yaml
+            f = ROOT / "data" / "cost_book_flags.yaml"
+            spec = _yaml.safe_load(f.read_text(encoding="utf-8-sig")) if f.exists() else None
+            for e in ((spec or {}).get("exempt") or []):
+                if e.get("match"):
+                    _EXEMPT_PATS.append(re.compile(e["match"], re.I))
+        except Exception:                                    # noqa: BLE001
+            pass
+    return any(p.search((name or "").strip()) for p in _EXEMPT_PATS)
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 # Identity is core's, not rebuilt by hand here — see the "never reached the cost
@@ -562,7 +592,7 @@ def audit():
             # already reported above, as what it is
             continue
 
-        if sell >= MENU_PRICED and cost == 0 and not prep:
+        if sell >= MENU_PRICED and cost == 0 and not prep and not _exempt(name):
             add("SEVERE", "sells for money but costs $0 (reads as 100% GP)",
                 f"${sell:>7.2f}  {name}", product=name)
         if not lines and not prep:
