@@ -21,6 +21,12 @@ const API = 'https://stowaway-bookings.onrender.com';
 const TOKEN_KEY = 'stowaway_booking_token';
 
 const $ = (id) => document.getElementById(id);
+// Pencil notes are free text typed by whoever took the call, so they are escaped
+// on the way into the DOM. NOTE: the booking rows above still interpolate raw —
+// same-origin, staff-only, and pre-existing, but it is a real gap and worth
+// closing in its own change rather than half-doing it here.
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 let DAY = null;
 let EDITING = null;
 let SEL = null;   // selected card {date, name, sittings, public}
@@ -102,6 +108,37 @@ function renderDay(d) {
   const times = d.sittings.length ? d.sittings
     : [...new Set(active.map(b => b.time))].sort();
 
+  // PENCILS first: what we know about the day but cannot book yet. Drawn above
+  // the sittings because the whole point is that it is seen — a confirmed
+  // function reached 16 Aug 2026 with this page showing an empty day, since a
+  // booking needs a room and a headcount and neither had been agreed.
+  // Deliberately styled as NOT a booking: no table chip, no covers in the
+  // totals, no edit/cancel. What it does show is what is still unknown.
+  (d.pencils || []).forEach(pc => {
+    const missing = ['time', 'pax', 'area'].filter(k => !pc[k]);
+    const bits = [
+      pc.time ? T12(pc.time) : null,
+      pc.pax ? `${pc.pax} pax` : null,
+      pc.area || null,
+    ].filter(Boolean).join(' · ');
+    const block = document.createElement('div');
+    block.className = 'sitting-block pencil-block';
+    block.innerHTML = `<div class="sitting-head">
+        <span class="sit-time">PENCILLED</span>
+        <span class="sit-meta">not holding tables${bits ? ' · ' + esc(bits) : ''}</span>
+      </div>
+      <div class="brow">
+        <div class="bmain">
+          <div class="bname">${esc(pc.name)}</div>
+          <div class="bsub">${esc(pc.notes || '')}${pc.contact ? ' · ' + esc(pc.contact) : ''}</div>
+          ${missing.length ? `<div class="bsub pencil-missing">still to confirm:
+             <b>${missing.join(', ')}</b></div>` : ''}
+        </div>
+        <button class="ghost" data-unpencil="${esc(pc.id)}" title="remove this note">Clear</button>
+      </div>`;
+    wrap.appendChild(block);
+  });
+
   times.forEach(t => {
     const rows = active.filter(b => b.time === t)
       .sort((a, b) => String(a.created_at).localeCompare(String(b.created_at)));
@@ -126,7 +163,7 @@ function renderDay(d) {
         '<div class="bsub" style="padding:14px 18px">No bookings yet.</div>');
     wrap.appendChild(block);
   });
-  if (!times.length) {
+  if (!times.length && !(d.pencils || []).length) {
     wrap.innerHTML = '<div class="bsub" style="padding:14px 4px">No bookings on this day yet — use + New booking.</div>';
   }
 
@@ -143,6 +180,14 @@ function renderDay(d) {
     el.addEventListener('click', () => openEdit(el.dataset.edit)));
   wrap.querySelectorAll('[data-cancel]').forEach(el =>
     el.addEventListener('click', () => cancelBooking(el.dataset.cancel)));
+  wrap.querySelectorAll('[data-unpencil]').forEach(el =>
+    el.addEventListener('click', async () => {
+      if (!confirm('Remove this pencilled note? Do this once it is a real booking.')) return;
+      try {
+        await call(`/api/admin/pencils/${el.dataset.unpencil}`, { method: 'DELETE' });
+        loadDay();
+      } catch (e) { $('status').textContent = 'could not clear it: ' + e.message; }
+    }));
   wrap.querySelectorAll('[data-pick]').forEach(el =>
     el.addEventListener('click', () => pickTable(el.dataset.pick, el)));
 }

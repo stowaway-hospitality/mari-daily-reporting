@@ -50,6 +50,12 @@
         border-bottom:1px solid var(--line)}
   .brow:last-child{border-bottom:none}
   .brow.pending{border-left:3px solid var(--amber,#b8860b)}
+  /* A PENCIL is not a booking. It must not read like one at a glance: dashed
+     edge, no table chip, muted. It is the day's "we know this is happening and
+     we do not yet know enough to book it". */
+  .pencil-block{border-style:dashed;opacity:.92}
+  .pencil-block .sit-time{letter-spacing:.12em;font-size:.72rem;opacity:.75}
+  .pencil-missing{margin-top:3px;color:var(--amber,#b8860b)}
   .btable{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13.5px;
         min-width:104px;background:transparent;color:var(--ink);border-radius:8px;
         border:1.5px solid var(--ink-soft);text-align:center;padding:8px 6px;
