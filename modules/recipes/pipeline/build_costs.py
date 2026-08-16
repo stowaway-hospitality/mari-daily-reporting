@@ -47,6 +47,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 from core.domain import (canonical_purchasable, cogs_row_key,            # noqa: E402
                          purchasable_id)
 from core.pack_overrides import load_pack_overrides                      # noqa: E402
+from core.conversions import load_declared_conversions, conversion_key   # noqa: E402
 # The Alehouse Crisp/Premium guard. Imported, never restated: one definition of
 # "material in BOTH dollars and percent" or the band drifts apart. See §8 in
 # load_bridge for why this file is the caller resolve.py never had.
@@ -1224,6 +1225,28 @@ def main() -> int:
                     rows.append({**row, "ingredient": pid, "unit": sunit,
                                  "cost_per_unit": str(bper), "pack": f"{how} (via {iid})"})
                     bridged += 1
+
+    # DECLARED-CONVERSION RESTATEMENT (data/declared_conversions.yaml).
+    # A supplier series priced per bottle cannot join a per-ml canon without
+    # building the mixed-unit series this file refuses everywhere else. Where
+    # a conversion is DECLARED — documented convention or BO name, never a
+    # guess — restate the pack-unit rows into base units at derivation, so the
+    # ingredient map's fence compares like with like. An id with no entry
+    # keeps its source's unit; refusal stays the default.
+    declared = load_declared_conversions()
+    restated = 0
+    for row in rows:
+        conv = declared.get(conversion_key(row["ingredient"]))
+        if conv and str(row["unit"]).lower() == conv["from_unit"]:
+            per = (Decimal(str(row["cost_per_unit"])) / conv["to_qty"]
+                   ).quantize(Decimal("0.000001"))
+            row["cost_per_unit"] = str(per)
+            row["unit"] = conv["to_unit"]
+            row["pack"] = (f"{row.get('pack', '')} "
+                           f"(declared {conv['from_unit']}={conv['to_qty']}{conv['to_unit']})").strip()
+            restated += 1
+    if restated:
+        print(f"  {restated} pack-unit rows restated to base units via declared conversions")
 
     rows.sort(key=lambda x: (x["ingredient"], x["observed_on"]))
     with OUT.open("w", newline="", encoding="utf-8") as f:

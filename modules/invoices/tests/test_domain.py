@@ -158,9 +158,16 @@ def test_the_real_cogs_list_loads_as_an_observation_log():
     assert all(isinstance(o.cost_per_unit, Decimal) for o in obs)
     assert all(o.observed_on.year >= 2024 for o in obs)
     s = CostSeries(obs)
-    a = s.as_of("ilg:395-6785P", date(2026, 7, 14))          # Aperol, invoice 03729959
-    assert a.cost_per_unit == Decimal("29.0817")
-    assert a.source_invoice == "03729959"
+    # Aperol by its supplier id. Until 2026-08-16 this returned the raw
+    # bottle-priced row ($29.0817/bottle, invoice 03729959). The declared-
+    # conversion layer now restates that same observation to base units
+    # (29.0817 / 700 = 0.041545/ml) and the ingredient map folds it into the
+    # canon series — so the lookup returns per-ml, from whichever of the two
+    # same-day invoices sorts latest. Same fact, one unit system.
+    a = s.as_of("ilg:395-6785P", date(2026, 7, 14))
+    assert a.unit == "ml"
+    assert Decimal("0.0415") <= a.cost_per_unit <= Decimal("0.0431")
+    assert a.source_invoice in ("03729959", "03729960")
 
 
 # ---- ingredient identity map (Decision 1) ---------------------------------

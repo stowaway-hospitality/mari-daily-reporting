@@ -16,41 +16,49 @@
 # Appendix K, and each canon's own BO product name says 700ML.
 
 - ingredient: "lightspeed:20464685"    # Mother's Milk Shiraz - Bottle
+  applies_to: ["bacchus:FD2MOTHER 23", "lightspeed:20464685"]
   from_unit: bottle
   to_qty: 750
   to_unit: ml
   evidence: "wine bottle = 750ml (Appendix K convention)"
 - ingredient: "lightspeed:20485056"    # Cri De Couer Pinot Noir - Bottle
+  applies_to: ["combined-wines:CCCPN750ML", "lightspeed:20485056"]
   from_unit: bottle
   to_qty: 750
   to_unit: ml
   evidence: "wine bottle = 750ml (Appendix K convention)"
 - ingredient: "lightspeed:20655236"    # Geppetto Pinot Noir - Bottle
+  applies_to: ["combined-wines:CGPN750ML", "lightspeed:20655236"]
   from_unit: bottle
   to_qty: 750
   to_unit: ml
   evidence: "wine bottle = 750ml (Appendix K convention)"
 - ingredient: "lightspeed:20466120"    # Version Two Pinot Grigio - Bottle
+  applies_to: ["nelson:HA25PIG", "lightspeed:20466120"]
   from_unit: bottle
   to_qty: 750
   to_unit: ml
   evidence: "wine bottle = 750ml (Appendix K convention)"
 - ingredient: "lightspeed:20464662"    # Padrillos Malbec - Bottle
+  applies_to: ["viticult:ECPM24", "lightspeed:20464662"]
   from_unit: bottle
   to_qty: 750
   to_unit: ml
   evidence: "wine bottle = 750ml (Appendix K convention)"
 - ingredient: "lightspeed:20464694"    # Ottelia Chardonnay - Bottle
+  applies_to: ["viticult:OC24", "lightspeed:20464694"]
   from_unit: bottle
   to_qty: 750
   to_unit: ml
   evidence: "wine bottle = 750ml (Appendix K convention)"
 - ingredient: "lightspeed:20466168"    # Villa Fresco Sangiovese - Bottle
+  applies_to: ["young-rashleigh:PIZVFSAN1224", "lightspeed:20466168"]
   from_unit: bottle
   to_qty: 750
   to_unit: ml
   evidence: "wine bottle = 750ml (Appendix K convention)"
 - ingredient: "lightspeed:20484286"    # Aperol [Bottle]
+  applies_to: ["ilg:395-6785P", "lightspeed:20484286"]
   from_unit: bottle
   to_qty: 700
   to_unit: ml

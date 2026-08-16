@@ -14,6 +14,7 @@ ilg:345-0401,lightspeed:20487949,zak (batched identity review 2026-08-16),ilg:34
 ilg:360-1524P,lightspeed:20484243,zak (batched identity review 2026-08-16),ilg:360-1524P -> 1800 Coconut [Bottle]
 ilg:360-2514,lightspeed:20487484,zak (batched identity review 2026-08-16),ilg:360-2514 -> Herradura Plata [Bottle]
 ilg:360-3194P,lightspeed:20487923,zak (batched identity review 2026-08-16),ilg:360-3194P -> Patron Reposado [Bottle]
+ilg:395-6785P,lightspeed:20484286,zak (batched identity review 2026-08-16),ilg:395-6785P -> Aperol [Bottle]
 ilg:405-0957,lightspeed:20487788,zak (batched identity review 2026-08-16),ilg:405-0957 -> Mr Black Coffee Liqueur [Bottle]
 ilg:410-3552,lightspeed:20492689,zak (batched identity review 2026-08-16),ilg:410-3552 -> Domaine de Canton Ginger Liqueur [Bottle]
 ilg:410-4472,lightspeed:20487225,zak (batched identity review 2026-08-16),ilg:410-4472 -> Grand Marnier [Bottle]
@@ -64,6 +65,9 @@ b-e:14580,lightspeed:22514322,product_map (recipe-bridge),Pizza Tomato Sauce
 b-e:17530,lightspeed:22888647,product_map (recipe-bridge),Mayonnaise Mild Japanese 1kg Kewpie
 b-e:27544,lightspeed:22995341,product_map (name-prefix; seed $0.012764 -> invoice $0.012700/g (-0.5%)),Ham Soccerball Sliced Pendle [1kg]
 b-e:31254,lightspeed:22962978,"product_map (COST $0 ON A REAL QUANTITY. 'White Pepper' had no cost observation at all, so four recipes — Chashu Pork Belly Prep, Shiitake Bouillon, Chicken Marination and Beef Marination — were seasoning for free. B&E 31254 'PEPPER WHITE GROUND SS' is the product, invoiced at $32.40 the bag and pinned at 1000 g from the B&E catalogue, i.e. $0.0324/g. Units agree (g both sides). CORROBORATED BY TWO INDEPENDENT COPIES: Lightspeed already holds the same pepper twice more, at $0.0375/g (22888658) and $0.0380/g (22898078). Three sources within 17% of each other and a fourth identity on zero is not a price question, it is a missing bridge.)",White Pepper
+bacchus:FD2MOTHER 23,lightspeed:20464685,product_map (exact),Mother's Milk Shiraz - Bottle
+combined-wines:CCCPN750ML,lightspeed:20485056,product_map (name+price),Cri De Couer Pinot Noir - Bottle
+combined-wines:CGPN750ML,lightspeed:20655236,product_map (name+price),Geppetto Pinot Noir - Bottle
 foodlink:100026,lightspeed:22888616,product_map (name-prefix; seed $0.014600 -> invoice $0.014600/g (+0.0%)),Almond Meal 1kg Natures Secret
 foodlink:100034,lightspeed:22888703,product_map (name-prefix; seed $0.022000 -> invoice $0.022000/g (+0.0%)),Almond Slivered 1kg Natures Secret
 foodlink:100164,lightspeed:22989447,product_map (recipe-bridge),Heinz BBQ Sauce [4L]
@@ -187,6 +191,7 @@ lion:1200769,lightspeed:23216243,product_map (exact),Guinness [Keg]
 lion:1254690,lightspeed:20786711,product_map (stale_drift),Kirin [Keg]
 lion:1256672,lightspeed:20492637,product_map (stale_drift),Stone & Wood [Keg]
 mallia-industries-pty-ltd:ST285-WS,lightspeed:22995947,product_map (recipe-bridge),T2 Milk Bun Sliced White Sesame [85g]
+nelson:HA25PIG,lightspeed:20466120,product_map (name+price),Version Two Pinot Grigio - Bottle
 paramount:10015926,lightspeed:20483609,product_map (name+price),Carpano Classico [750ml]
 paramount:10017813,lightspeed:20483413,product_map (name+seed-agreed; seed $0.0675 -> invoice $0.0718/ml),Massenez Triple Sec [5L]
 paramount:32051,lightspeed:20484930,product_map (name+price),White Light Vodka [20L]
@@ -218,3 +223,6 @@ select-fresh:XSHRCAB,lightspeed:22898086,product_map (name-prefix; seed $0.00420
 select-fresh:ZUCK,lightspeed:22480147,product_map (name-prefix; seed $0.002766 -> invoice $0.002900/g (+4.8%)),Zucchini [1Kg]
 the-berry-man-nsw-pty-ltd:DPULP10,lightspeed:22893724,product_map (name-prefix; seed $0.008639 -> invoice $0.008500/g (-1.6%)),Dragonfruit Puree [10kg]
 the-berry-man-nsw-pty-ltd:PJ1,lightspeed:22843691,product_map (recipe-bridge),Passionfruit Puree Seedless [1kg]
+viticult:ECPM24,lightspeed:20464662,product_map (name+price),Padrillos Malbec - Bottle
+viticult:OC24,lightspeed:20464694,product_map (name+price),Ottelia Chardonnay - Bottle
+young-rashleigh:PIZVFSAN1224,lightspeed:20466168,product_map (name+price),Villa Fresco Sangiovese - Bottle
