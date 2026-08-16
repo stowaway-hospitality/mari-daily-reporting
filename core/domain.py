@@ -251,15 +251,46 @@ class CostSeries:
         """
         ingredient = canonical_purchasable(ingredient)
         ingredient = self._map.get(ingredient, ingredient)
-        for key in ((ingredient, venue), *( ((ingredient, v) for v in self._venues(ingredient)) if venue else () )):
-            hit = self._latest(key, on)
+
+        # 1. THE ASKED-FOR VENUE WINS if it has anything on or before the day.
+        #    That is the documented preference and it stays: an observation from
+        #    the account that actually bought it is the best evidence there is.
+        if venue is not None:
+            hit = self._latest((ingredient, venue), on)
             if hit:
                 return hit
-        if venue is None:
-            for v in self._venues(ingredient):
-                hit = self._latest((ingredient, v), on)
-                if hit:
-                    return hit
+
+        # 2. OTHERWISE, THE MOST RECENT OBSERVATION ANYWHERE -- not the first
+        #    bucket that happens to have one.
+        #
+        #    It used to walk the buckets in dict order and return the first hit,
+        #    with the untagged bucket tried first. So an ingredient whose every
+        #    real invoice is venue-tagged answered from whatever stale untagged
+        #    seed existed, forever. Broccolini was being costed at a 2 January
+        #    price of $4.61 while the 12 August invoice on the Harry Gatos
+        #    account said $3.17. Fifteen ingredients across 63 dishes were doing
+        #    this on 2026-08-16, and MOST WERE STALE LOW -- understating cost and
+        #    overstating GP, the direction nobody investigates.
+        #
+        #    T6 (Zak, 15 Aug 2026) settles what the right answer is: "the whole
+        #    group pays the same costs per ingredient." Venue on a cost row is
+        #    PROVENANCE -- which account bought it -- never a cost dimension. So
+        #    with no venue preference to honour, the newest price is the price.
+        #
+        #    Ties break on the venue label so the answer is deterministic; a
+        #    non-deterministic cost would make costs.csv stop reproducing.
+        best = None
+        for (i, v), lst in self._by.items():
+            if i != ingredient:
+                continue
+            hit = self._latest((i, v), on)
+            if hit is None:
+                continue
+            if best is None or (hit.observed_on, str(v or "")) > (best.observed_on, str(best.venue or "")):
+                best = hit
+        if best is not None:
+            return best
+
         raise LookupError(
             f"no cost observation for {ingredient!r} on or before {on}"
             + (f" (venue {venue})" if venue else "")
