@@ -61,8 +61,14 @@ jobs:
           # Up to ~10 minutes: the push that triggered Tests and the event that
           # triggered this deploy race, so "not started yet" is normal.
           for i in $(seq 1 40); do
-            run=$(gh api "repos/$REPO/actions/workflows/tests.yml/runs?head_sha=$SHA&per_page=1"                     --jq '.workflow_runs[0] | "\(.status) \(.conclusion)"' 2>/dev/null || echo "none none")
-            status=${run% *}; concl=${run#* }
+            run=$(gh api "repos/$REPO/actions/workflows/tests.yml/runs?head_sha=$SHA&per_page=1" --jq '"\(.workflow_runs[0].status // "none") \(.workflow_runs[0].conclusion // "-")"' 2>/dev/null || echo "none -")
+            status=${run%% *}; concl=${run##* }
+            # jq prints "null" for a missing run, not the empty string, so the
+            # no-run branch below must match it. It did not on the night this
+            # shipped: every workflow_run deploy sat in this loop for ten
+            # minutes and failed, and the site fell eleven hours behind its own
+            # data while the repo itself was correct.
+            case "$status" in null|"") status=none;; esac
             if [ "$status" = "completed" ]; then
               if [ "$concl" = "success" ]; then
                 echo "Tests passed for $SHA — deploying."; exit 0
