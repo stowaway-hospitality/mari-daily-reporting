@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-16T16:40:54.223386+10:00",
+  "generated_at": "2026-08-16T16:54:11.063861+10:00",
   "venue": "stow",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 95,
@@ -36,7 +36,7 @@
     "n_skus": 227,
     "increase": 13,
     "decrease": 0,
-    "unchanged": 180,
+    "unchanged": 176,
     "coverage_gaps": [],
     "shrinkage_applied": 57,
     "shrinkage_capped": 6,
@@ -7202,10 +7202,10 @@
       "product": "La Petite Mort Albarino 2025",
       "venue": "stow",
       "reporting_group": "White Wine",
-      "rec_par": 2.8,
-      "rec_par_pre_override": 2.8,
+      "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
-      "current_par": 2.8,
+      "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
@@ -7248,19 +7248,22 @@
       "forecast_method": "No recent sales",
       "growth": null,
       "buffer": 1.2,
-      "override": null,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
       "flags": [
-        "held_no_recent_demand"
+        "override:zero"
       ]
     },
     {
       "product": "La Petite Mort Albarino 2025 - Bottle",
       "venue": "stow",
       "reporting_group": "White Wine",
-      "rec_par": 1.9,
+      "rec_par": 0.0,
       "rec_par_pre_override": 1.9,
       "rec_par_modelled": 1.9,
-      "current_par": 1.9,
+      "current_par": null,
       "drivers": {
         "pour_wk": 0.46,
         "recipe_wk": 0.0,
@@ -7303,8 +7306,13 @@
       "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
-      "override": null,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
       "flags": [
+        "override:zero",
+        "override_changed",
         "shrinkage_applied"
       ]
     },
@@ -7312,10 +7320,10 @@
       "product": "La Petite Mort Rosso 2025",
       "venue": "stow",
       "reporting_group": "Red Wine",
-      "rec_par": 3.4,
-      "rec_par_pre_override": 3.4,
+      "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
-      "current_par": 3.4,
+      "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
@@ -7358,19 +7366,22 @@
       "forecast_method": "No recent sales",
       "growth": null,
       "buffer": 1.2,
-      "override": null,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
       "flags": [
-        "held_no_recent_demand"
+        "override:zero"
       ]
     },
     {
       "product": "La Petite Mort Rosso 2025 - Bottle",
       "venue": "stow",
       "reporting_group": "Red Wine",
-      "rec_par": 1.9,
+      "rec_par": 0.0,
       "rec_par_pre_override": 1.9,
       "rec_par_modelled": 1.9,
-      "current_par": 1.9,
+      "current_par": null,
       "drivers": {
         "pour_wk": 0.28,
         "recipe_wk": 0.0,
@@ -7413,8 +7424,14 @@
       "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
-      "override": null,
-      "flags": []
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero",
+        "override_changed"
+      ]
     },
     {
       "product": "Lagavulin 16yr [Bottle]",
