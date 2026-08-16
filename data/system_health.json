@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-16T23:36:06+00:00",
-  "overall": "warn",
+  "generated": "2026-08-16T23:44:43+00:00",
+  "overall": "down",
   "checks": [
     {
       "name": "Invoice poller",
@@ -128,17 +128,23 @@
     },
     {
       "name": "Automation jobs",
-      "detail": "all 5 jobs that ran in the last 48h succeeded",
+      "detail": "1 job(s) failing: Deploy dashboard to GitHub Pages",
       "age": null,
       "unit": "",
-      "status": "ok"
+      "status": "down",
+      "meaning": "These are the scheduled jobs that pull sales, wages, invoices and Uber fees and publish the site.",
+      "action": "'Deploy dashboard to GitHub Pages' failed and has not succeeded since. Open https://github.com/stowaway-hospitality/mari-daily-reporting/actions/runs/31979944235 to see why, or ask Claude to look. Auto-retry has already had its go at the safe ones.",
+      "selfheal": "Only if it was transient - the 3-hourly monitor retries the safe jobs once."
     },
     {
       "name": "Published app is current",
-      "detail": "app matches the repo on all 5 key feeds",
+      "detail": "app is behind the repo on 1 feed(s): health panel itself (showing warn, differs on Automation jobs)",
       "age": null,
       "unit": "",
-      "status": "ok"
+      "status": "warn",
+      "meaning": "The app reads its numbers from the published copy, which updates only when a deploy runs \u2014 so the repo can be right while the screen is wrong.",
+      "action": "The figures on screen are older than the ones already recorded. Nothing is lost and nothing is wrong in the data - it just has not been published. Ask Claude to check the Pages deploy; a re-run of the deploy workflow usually clears it.",
+      "selfheal": "Clears on its own the next time any deploy runs."
     }
   ]
 }

@@ -204,10 +204,19 @@ def _cost_book(flags_rel="data/cost_book_flags.json",
     """
     pth = ROOT / flags_rel
     if not pth.exists():
-        return {"status": "down",
-                "detail": "no cost_book_flags.json — the book's backlog is not being built",
-                "meaning": "Nobody can see what the cost book needs from a human.",
-                "action": "Run scripts/build_cost_book_flags.py; it is normally built in CI."}
+        # UNKNOWN, NOT DOWN. This feed is gitignored and built by CI, so it is
+        # legitimately absent on a clean checkout -- which is exactly what CI
+        # itself is. Returning "down" here forced the whole monitor down during
+        # the script-shaped test step, which runs BEFORE build_cost_book_flags,
+        # and took ten health_monitor assertions with it. A check that cannot
+        # tell "not built yet" from "broken" reports an outage every morning
+        # until somebody stops reading it.
+        return {"status": "absent",
+                "detail": "cost_book_flags.json not built yet",
+                "meaning": "The book's backlog has not been generated in this "
+                           "checkout. Normal before the feed step runs; a "
+                           "problem only if it persists on the live site.",
+                "action": "scripts/build_cost_book_flags.py builds it, in CI."}
     try:
         d = json.loads(pth.read_text())
     except Exception as e:                                   # noqa: BLE001
@@ -889,13 +898,21 @@ def build() -> dict:
         _csv_last_date_age_days("data/xero_cogs_weekly.csv", "week_ending"), 8.5, 12, unit="day")
     add("Xero overheads feed", "monthly overheads from Xero",
         _overheads_months_behind(), 1.5, 2.5, unit="mo")
+    # SKIPS CLEANLY WHEN THERE IS NOTHING TO LOOK AT, like the parser-corpus
+    # guard. data/cost_book_flags.json is gitignored and built by CI, so it is
+    # legitimately absent on a clean checkout -- and CI IS a clean checkout at
+    # the point the script-shaped tests run, before the feed step. Reporting it
+    # as "down" took ten health assertions with it; reporting "unknown" still
+    # broke three, because a monitor with nothing to say should say nothing
+    # rather than colour the overall status.
     cb = _cost_book()
-    _cb_check = {"name": "Cost book", "detail": cb.get("detail"),
-                 "age": None, "unit": "", "status": cb.get("status", "unknown")}
-    for _k in ("meaning", "action", "selfheal"):
-        if cb.get(_k):
-            _cb_check[_k] = cb[_k]
-    checks.append(_cb_check)
+    if cb.get("status") != "absent":
+        _cb_check = {"name": "Cost book", "detail": cb.get("detail"),
+                     "age": None, "unit": "", "status": cb.get("status", "unknown")}
+        for _k in ("meaning", "action", "selfheal"):
+            if cb.get(_k):
+                _cb_check[_k] = cb[_k]
+        checks.append(_cb_check)
 
     ig = _pull_integrity()
     _ig_check = {"name": "Pull integrity", "detail": ig.get("detail"),
