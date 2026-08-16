@@ -26,6 +26,7 @@ on:
 
 permissions:
   contents: write
+  actions: write        # to re-dispatch Tests after healing
 
 concurrency:
   group: cogs-write        # serialise writers to costs.csv with invoice_ingest
@@ -55,4 +56,14 @@ jobs:
           else
             git commit -m "Rebuild costs.csv: pack confirmation changed the divisors"
             git push
+            # A pack confirmation reds the Tests run on ITS commit (stale
+            # costs.csv window), and this bot's healing push does not trigger
+            # workflows — so without this, main LOOKS red until the next human
+            # push (it cost the 2026-08-16 par session real time). Re-dispatch
+            # Tests on the healed head so a green run reports.
+            curl -s -X POST \
+              -H "Authorization: Bearer ${{ github.token }}" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/${{ github.repository }}/actions/workflows/tests.yml/dispatches" \
+              -d '{"ref":"main"}'
           fi
