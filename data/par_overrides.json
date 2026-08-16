@@ -1168,6 +1168,19 @@
       "status": "active",
       "source": "par_flag_report",
       "protect": "flag"
+    },
+    {
+      "venue": "stow",
+      "product": "Grifter Big Sur IPA Tin",
+      "api_name": null,
+      "type": "min",
+      "value": 9.7,
+      "reason": "detected manual raise",
+      "set_by": "par_flag_report.py",
+      "set_on": "2026-08-16",
+      "status": "active",
+      "source": "par_flag_report",
+      "protect": "flag"
     }
   ],
   "hard_protect_policy": "All seeded reserve-mins, holds and zeros are protect=hard (Zak, 2026-08-09). Future manual raises on non-reserve SKUs enter as protect=flag.",
