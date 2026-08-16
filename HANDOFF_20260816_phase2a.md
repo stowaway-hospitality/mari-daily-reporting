@@ -93,17 +93,74 @@ mislabelled thing is the drawing line (scrape says 60 g, the hand-authored
 **These yields are still estimates and still wrong in the flattering direction
 by roughly the oil fraction (~2.7% on Garlic Oil). WEIGH THE THREE BATCHES.**
 
+## Second pass, same day — "fix everything"
+
+Three of the four open items are fixed at source. The fourth is deliberately not.
+
+### FIXED — `resolve_yield` read a pack label as a yield (all venues)
+
+Not a Mari problem. `build_recipe_feeds.resolve_yield` preferred the size
+bracket in a prep's name over `prep_yields.yaml`. **Seven preps conflict, and in
+all seven the bracket is wrong** — worst is Jalapeno Tequila at 7.5x, then
+brisket at 6x. The bracket is Lightspeed's pack/nominal naming (a 1 L bottle you
+decant a 7.5 L batch into; a 15 kg raw joint that leaves the oven at 10.5 kg).
+
+This was also a **consistency** bug: the P&L costs off the converter's prep
+rates, which have always read `prep_yields.yaml`. Only this path read the
+bracket, so the builder and the published cost disagreed about the same batch.
+Precedence flipped; the bracket still answers when nothing is written down.
+A ratchet test fails if an eighth conflict ever appears.
+
+### FIXED — the batch-unit correction is now a rule, not a hand-list
+
+Fires only when three things agree: `prep_yields` states the basis as a "sum of
+ingredients" (so the number is a mixed-unit sum and its label is arbitrary),
+every drawing line uses one unit that is not the declared one, and the batch's
+own dominant component is in that same unit. **No density is ever applied.**
+
+It reproduces both hand-declared cases and found three more —
+`Black Beans Prep` and `Cauliflower Cheese Prep` were mislabelled identically —
+and it correctly **refuses** Tandoori Sauce, where the two readings disagree.
+
+### FIXED — Mulled Wine PartyJar, by arithmetic
+
+Its "3.89 ml" of a drink is not a quantity of anything, but $8.127473 / $2.0908
+a serve = 3.8872. The magnitude counts **serves**; the unit is junk.
+
+**Mari refusals 22 -> 6. Products costing 202 -> 218 of 224.**
+
+### NOT FIXED, on purpose — two things that are not mine to change
+
+**1. Tandoori (6 products).** `Tandoori Chicken [2Kg]` draws "1 ml" of a batch
+yielding 1,116 g. The "1 that is really a 1kg tub" pattern applies, but *which*
+reading — 1 kg of sauce, or the whole 1.116 kg batch? The scrape's $7.35 line
+cost is exactly 1,000 g of Greek yoghurt, which hints at the tub, but a hint is
+not evidence and the readings differ by 12% on six products. The derived rule
+deliberately holds rather than picking. **Needs a human.**
+
+**2. The group-wide price series is stale for 16 ingredients.** Spanish Onion
+turned out not to be a venue-split defect at all: `CostSeries.as_of(venue=None)`
+does not see venue-tagged observations, so it returns July's $0.002420 while the
+1 August Marilyna's invoice says $0.002200. Sixteen of 1,365 ingredients are
+affected, some badly — `lightspeed:22995320` is on a 2 January price of $4.61
+against 12 August's $3.17, and `fresh-fruit-team:LMM15BX` shows $17.40 against
+$0.0174, which is a 1000x unit defect on top.
+
+Under T6 ("the whole group pays the same costs per ingredient", venue is
+provenance only) the group-wide lookup should consider every row and take the
+latest. **The fix is in `core/domain.py`, which belongs to no area and is read
+by the P&L, par and invoices alike** — so per SESSIONS.md rule 3 it is flagged,
+not widened into silently. It is probably the highest-value item left in the
+whole cost book.
+
 ## Next, in order
 
-1. **7 products still refuse.** `Tandoori Sauce [Batch]` yields g against a 1 ml
-   line (6 products); `Mulled Wine` declares no yield at all and is carried as
-   1 ea. Same shape as the three above, same treatment: read the basis, do not
-   assume a density.
-2. **Watch the daily diff for a week.** Cut over when it is boringly
+1. **`CostSeries.as_of` group-wide staleness** — 16 ingredients, needs an
+   `ops`-ish decision because `core/domain.py` is read by everything.
+2. **Tandoori: 1 kg or the whole batch?** One answer unblocks 6 products.
+3. **Watch the daily diff for a week.** Cut over when it is boringly
    *attributed* — not necessarily zero, because cause 2 above is a correction
    we want to keep. Decide explicitly whether cutover accepts the +$0.53.
-3. **Tier 2 branch protection** (`HANDOFF_20260816_full.md` §3b) before
-   promotion, not after.
 4. **Then `--promote`**, and only then archive the scrape and converter.
 5. Stow (2b) will be harder: 612 products, and its builder book is much larger,
    so the authored-overlap path gets a real workout for the first time.
