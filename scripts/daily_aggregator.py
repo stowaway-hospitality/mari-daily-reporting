@@ -80,6 +80,7 @@ from pathlib import Path
 from datetime import date, timedelta, datetime
 
 sys.path.insert(0, str(Path(__file__).parent.parent))   # repo root -> core/, modules/
+sys.path.insert(0, str(Path(__file__).parent))          # scripts/ -> export_guards
 
 from core import venues as V
 from wage_model import super_lookup
@@ -343,18 +344,40 @@ def resolve(*candidates: Path) -> Path | None:
     return None
 
 
+# Export shape/duplication guards live in their own module so they can be
+# tested: this file does its work at import time and cannot be imported.
+from export_guards import StaleExport, assert_not_a_copy   # noqa: E402
+
+
 def load_product_rows(path: Path):
-    """Parse an Insights product CSV -> (rows, fieldnames), footer dropped."""
+    """Parse an Insights product CSV -> (rows, fieldnames), footer dropped.
+
+    An export with no data rows is a CLOSED DAY, not a failure: Lightspeed
+    emails a header-only report when a venue did not trade. It is returned
+    empty and the caller records the day as closed rather than blank, so that
+    "we know they were shut" and "we never got the numbers" stop looking the
+    same on a screen.
+    """
     csv_text = read_insights_csv_text(path)
     reader = csv.DictReader(io.StringIO(csv_text))
     all_rows = list(reader)
     fieldnames = reader.fieldnames or []
     if any(c in fieldnames for c in ("Product Name", "Product")):
-        footer_rows = [r for r in all_rows if not (r.get("Product Name") or r.get("Product") or "").strip()]
+        footer_rows = [r for r in all_rows
+                       if not (r.get("Product Name") or r.get("Product") or "").strip()]
         if footer_rows:
-            footer_rev = sum(parse_num(col(r, "Revenue_inc_gst", "$ Sales", "Sales", "Sale Amount", "Total Sales")) for r in footer_rows)
-            print(f"  Dropped {len(footer_rows)} footer/subtotal row(s) with no product name (${footer_rev:,.2f} inc-GST)")
-            all_rows = [r for r in all_rows if (r.get("Product Name") or r.get("Product") or "").strip()]
+            footer_rev = sum(parse_num(col(r, "Revenue_inc_gst", "$ Sales", "Sales",
+                                           "Sale Amount", "Total Sales"))
+                             for r in footer_rows)
+            print(f"  Dropped {len(footer_rows)} footer/subtotal row(s) with no "
+                  f"product name (${footer_rev:,.2f} inc-GST)")
+            all_rows = [r for r in all_rows
+                        if (r.get("Product Name") or r.get("Product") or "").strip()]
+    if not all_rows:
+        # CLOSED DAY, not a failure. Said out loud so the log distinguishes it
+        # from an export that never arrived — they looked identical before.
+        print(f"  {path.name}: header only, no rows — treating {path.name[-14:-4]} "
+              f"as a CLOSED day for this venue.")
     return all_rows, fieldnames
 
 
@@ -521,6 +544,9 @@ if insights_file is None:
         print("  No product mix written — there is no Insights CSV for this day.")
         sys.exit(0)
 else:
+    # A re-sent report is the one failure that looks like data. Checked before
+    # anything is computed, so a duplicated day cannot reach the history file.
+    assert_not_a_copy(insights_file, prefix)
     all_rows, fieldnames = load_product_rows(insights_file)
     print(f"  Parsed {len(all_rows)} rows; columns: {fieldnames}")
 

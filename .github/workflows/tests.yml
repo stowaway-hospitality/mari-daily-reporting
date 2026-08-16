@@ -102,6 +102,7 @@ jobs:
           python3 scripts/test_auth_gate.py
           python3 scripts/test_cogs_blend.py
           python3 scripts/test_health_monitor.py
+          python3 scripts/test_export_guards.py
           python3 scripts/test_monitor.py
           python3 ops/support-agent/test_guard.py
 

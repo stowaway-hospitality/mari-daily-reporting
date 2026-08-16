@@ -1,0 +1,84 @@
+"""The export guards, against the real files that made them necessary.
+
+Fixtures are the committed exports, not invented ones, because the whole point
+is what actually arrives in the mailbox:
+
+  insights_hg_2026-08-15.csv  a normal trading Saturday, 66 product rows
+  insights_hg_2026-08-16.csv  header only — HG was CLOSED that Sunday
+  insights_hg_2026-08-03.csv  \\ byte-identical 51-row Mondays. One is a re-send.
+  insights_hg_2026-08-10.csv  /  Discovered 17 Aug 2026.
+
+Run: python3 scripts/test_export_guards.py
+"""
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from export_guards import (StaleExport, assert_not_a_copy,  # noqa: E402
+                           is_closed_day, is_product_level, read_rows)
+
+DATA = Path(__file__).resolve().parent.parent / "data"
+PASS, FAIL = [], []
+
+
+def check(name, cond, detail=""):
+    (PASS if cond else FAIL).append(name)
+    print(f"  {'PASS' if cond else 'FAIL'}  {name}" + (f"  — {detail}" if detail and not cond else ""))
+
+
+trading = DATA / "insights_hg_2026-08-15.csv"
+closed = DATA / "insights_hg_2026-08-16.csv"
+mon_a = DATA / "insights_hg_2026-08-03.csv"
+mon_b = DATA / "insights_hg_2026-08-10.csv"
+
+print("-- a normal trading day --")
+if trading.exists():
+    rows, _ = read_rows(trading)
+    check("has product rows", len(rows) > 10, str(len(rows)))
+    check("is product-level", is_product_level(trading))
+    check("is not treated as closed", not is_closed_day(trading))
+else:
+    check("fixture present: 15 Aug", False, "missing")
+
+print("\n-- a CLOSED day (header only) --")
+if closed.exists():
+    check("recognised as closed", is_closed_day(closed))
+    check("closed is NOT an error — no exception", (assert_not_a_copy(closed, "hg") is None))
+    # This is the distinction that was missing: closed and never-arrived looked
+    # identical on the dashboard, and one of them is a fact.
+    check("a closed day carries no product rows", read_rows(closed)[0] == [])
+else:
+    check("fixture present: 16 Aug", False, "missing")
+
+print("\n-- a RE-SENT report (the dangerous one) --")
+if mon_a.exists() and mon_b.exists():
+    same = mon_a.read_bytes() == mon_b.read_bytes()
+    check("the two Mondays really are byte-identical", same,
+          "fixtures diverged — re-point this test")
+    raised = False
+    try:
+        assert_not_a_copy(mon_b, "hg")
+    except StaleExport as e:
+        raised = True
+        msg = str(e)
+    check("refused rather than aggregated", raised)
+    if raised:
+        check("the message names the other file", "2026-08-03" in msg, msg[:80])
+else:
+    check("fixtures present: 3 + 10 Aug", False, "missing")
+
+print("\n-- a unique day passes --")
+if trading.exists():
+    ok = True
+    try:
+        assert_not_a_copy(trading, "hg")
+    except StaleExport as e:
+        ok = False
+        print("     ", e)
+    check("15 Aug is accepted", ok)
+
+print("\n" + "=" * 58)
+print(f"{len(PASS)} passed, {len(FAIL)} failed")
+for f in FAIL:
+    print("  FAILED:", f)
+raise SystemExit(1 if FAIL else 0)
