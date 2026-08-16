@@ -1,8 +1,108 @@
 {
-  "generated": "2026-08-16",
-  "count": 324,
+  "generated": "2026-08-17",
+  "count": 326,
   "skipped_already_in_xero": 311,
   "invoices": [
+    {
+      "ref": "SI4527224",
+      "supplier": "Foodlink Australia Pty Ltd",
+      "supplier_key": "foodlink",
+      "date": "2026-08-17",
+      "due_date": "2026-08-24",
+      "total": "253.80",
+      "venue": "stowaway",
+      "pdf_path": "c9c02fa355dcf979cf97cb219ff522c403dc6c34e6e90ecb8e598d860921e393.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "PIZZA DOUGH BALLS",
+          "supplier_code": "108784",
+          "qty": "1",
+          "amount": "70.00",
+          "unit_cost": "$70.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHOCOLATE DARK 1KG",
+          "supplier_code": "100710",
+          "qty": "3",
+          "amount": "43.50",
+          "unit_cost": "$14.50/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MILK FRESH FULL CREAM",
+          "supplier_code": "101636",
+          "qty": "2",
+          "amount": "7.00",
+          "unit_cost": "$3.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MAYONNAISE WHOLE EGG",
+          "supplier_code": "105001",
+          "qty": "1",
+          "amount": "130.00",
+          "unit_cost": "$130.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Fuel Levy",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "SI4527225",
+      "supplier": "Foodlink Australia Pty Ltd",
+      "supplier_key": "foodlink",
+      "date": "2026-08-17",
+      "due_date": "2026-08-24",
+      "total": "57.61",
+      "venue": "stowaway",
+      "pdf_path": "7005b8b545e272e9dedd6ce23205cbb5609f081b060f0a10f3266eaa32ad2513.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "GRAVY MIX RICH BROWN",
+          "supplier_code": "101239",
+          "qty": "1",
+          "amount": "57.61",
+          "unit_cost": "$57.61/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
     {
       "ref": "5515242",
       "supplier": "Marlau Nominees Pty Ltd T/A Paramount Liquor",
