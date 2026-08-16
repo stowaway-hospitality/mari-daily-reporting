@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-16T16:19:00.620929+10:00",
+  "generated_at": "2026-08-16T16:40:54.223386+10:00",
   "venue": "stow",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 95,
@@ -35,7 +35,7 @@
   "summary": {
     "n_skus": 227,
     "increase": 13,
-    "decrease": 1,
+    "decrease": 0,
     "unchanged": 180,
     "coverage_gaps": [],
     "shrinkage_applied": 57,
@@ -273,7 +273,7 @@
       "rec_par": 2.0,
       "rec_par_pre_override": 2.0,
       "rec_par_modelled": 2.0,
-      "current_par": 2.3,
+      "current_par": 2.0,
       "drivers": {
         "pour_wk": 1.2,
         "recipe_wk": 0.0,
@@ -7641,10 +7641,10 @@
       "product": "Lost Explorer Espad\u00edn Mezcal [Bottle]",
       "venue": "stow",
       "reporting_group": "Mezcal",
-      "rec_par": 1.5,
+      "rec_par": 0.0,
       "rec_par_pre_override": 0.7,
       "rec_par_modelled": 0.7,
-      "current_par": 1.5,
+      "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.05,
@@ -7688,11 +7688,11 @@
       "growth": 0.6,
       "buffer": 1.3,
       "override": {
-        "type": "min",
-        "value": 1.5
+        "type": "zero",
+        "value": null
       },
       "flags": [
-        "override:min",
+        "override:zero",
         "sanity_floored",
         "override_changed"
       ]
