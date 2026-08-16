@@ -132,6 +132,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
+    # Needed for the same reason as build's if(), and missing it cost a real
+    # dispatch: a job's implicit condition is success() over ALL ancestors, so
+    # the SKIPPED gate propagated down here and deploy was skipped even though
+    # build succeeded. Verified on run 31929152913 — build ok, nothing published.
+    # An override that builds and publishes nothing is worse than no override.
+    if: ${{ always() && needs.build.result == 'success' }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
