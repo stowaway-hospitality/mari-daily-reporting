@@ -163,5 +163,8 @@ serve_yields:
     yield_qty: 1
     yield_unit: "ea"
   - product: "Espresso Martini"
-    yield_qty: 1
-    yield_unit: "ea"
+    # 80 ml, not 1 serve: Caffe Crema draws 30 ml of it, so the divisor has to be
+    # a volume. Its own lines sum to 79.6 ml (30 coffee + 25 vodka + 12 Kahlua +
+    # 12 rum + trace), which is what one is before ice.
+    yield_qty: 80
+    yield_unit: "ml"

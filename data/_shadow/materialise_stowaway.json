@@ -1,0 +1,1463 @@
+{
+ "authored_overlap": [
+  {
+   "in": "marilynas",
+   "product": "Chimichurri"
+  },
+  {
+   "in": "stowaway",
+   "product": "Davy's Old Fashioned"
+  },
+  {
+   "in": "stowaway",
+   "product": "Demerara Syrup"
+  },
+  {
+   "in": "stowaway",
+   "product": "Passionfruit Syrup"
+  },
+  {
+   "in": "stowaway",
+   "product": "Pizza Sauce [Recipe]"
+  },
+  {
+   "in": "harry_gatos",
+   "product": "Sapporo - Schooner"
+  },
+  {
+   "in": "stowaway",
+   "product": "Sugar Syrup"
+  }
+ ],
+ "by_source": {
+  "authored": 21,
+  "derived": 144,
+  "mirrored": 43,
+  "rule": 36,
+  "scrape": 1192
+ },
+ "generated": "2026-08-16",
+ "lines": 1436,
+ "manual_lines": [
+  {
+   "engine": null,
+   "frozen_unit_cost": 3.96,
+   "line": "Coke 1.25L",
+   "line_cost": 3.96,
+   "product": "1.25L Coke",
+   "qty": 1.0,
+   "ref": "lightspeed:20459552",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 3.98,
+   "line": "Coke Zero 1.25L",
+   "line_cost": 3.98,
+   "product": "1.25L Coke Zero",
+   "qty": 1.0,
+   "ref": "lightspeed:20459553",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 4.27,
+   "line": "Sprite 1.25L",
+   "line_cost": 4.27,
+   "product": "1.25L Sprite",
+   "qty": 1.0,
+   "ref": "lightspeed:20459555",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.65,
+   "line": "4 Pines Kolsch Bottle D",
+   "line_cost": 2.65,
+   "product": "4 Pines Kolsch Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20459447",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.01936,
+   "frozen_unit_cost": 0.02299,
+   "line": "Spanish Onion [10Kg]",
+   "line_cost": 0.18392,
+   "product": "American Standard Burger",
+   "qty": 8.0,
+   "ref": "lightspeed:20445597",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.09433333333333334,
+   "line": "Archie Rose Signature Gin [Bottle]",
+   "line_cost": 2.83,
+   "product": "Archie Rose Signature Gin",
+   "qty": 30.0,
+   "ref": "lightspeed:20445809",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.18,
+   "line": "Asahi 3.5%",
+   "line_cost": 2.18,
+   "product": "Asahi 3.5%",
+   "qty": 1.0,
+   "ref": "lightspeed:20445705",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.31,
+   "line": "Edible Flower [Punnet]",
+   "line_cost": 0.31,
+   "product": "Bad Bitch Martini",
+   "qty": 1.0,
+   "ref": "lightspeed:21020204",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 9.9,
+   "line": "Herb Chives [Market]",
+   "line_cost": 0.099,
+   "product": "Bang Bang Cauli",
+   "qty": 0.01,
+   "ref": "lightspeed:22995343",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 9.9,
+   "line": "Herb Chives [Market]",
+   "line_cost": 0.099,
+   "product": "Bang Bang Cauli D",
+   "qty": 0.01,
+   "ref": "lightspeed:22995343",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.01936,
+   "frozen_unit_cost": 0.02299,
+   "line": "Spanish Onion [10Kg]",
+   "line_cost": 0.18392,
+   "product": "Beef Burger D",
+   "qty": 8.0,
+   "ref": "lightspeed:20445597",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.06435,
+   "frozen_unit_cost": 0.00132,
+   "line": "Carrot Large [kg]",
+   "line_cost": 0.0594,
+   "product": "Beef Roast",
+   "qty": 45.0,
+   "ref": "lightspeed:22995324",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 1.0142,
+   "frozen_unit_cost": 3.17,
+   "line": "Broccolini [Bunch]",
+   "line_cost": 0.6974,
+   "product": "Beef Roast",
+   "qty": 0.22,
+   "ref": "lightspeed:22995320",
+   "unit": "bunch",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.8,
+   "line": "Babys Breath [bunch]",
+   "line_cost": 0.16,
+   "product": "Beetle Juice",
+   "qty": 0.2,
+   "ref": "lightspeed:22893390",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.6290625,
+   "line": "Better Beer Tin",
+   "line_cost": 15.774375,
+   "product": "Better Beer 6-pack D",
+   "qty": 6.0,
+   "ref": "lightspeed:20445702",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.38,
+   "line": "Better Beer Tin",
+   "line_cost": 2.38,
+   "product": "Better Beer Tin",
+   "qty": 1.0,
+   "ref": "lightspeed:20445702",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.25,
+   "line": "James Boags Light",
+   "line_cost": 2.25,
+   "product": "Boags Light D",
+   "qty": 1.0,
+   "ref": "lightspeed:20445706",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.31,
+   "line": "Edible Flower [Punnet]",
+   "line_cost": 0.31,
+   "product": "Brownie",
+   "qty": 1.0,
+   "ref": "lightspeed:21020204",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.004712,
+   "frozen_unit_cost": 2.37631,
+   "line": "San Pellegrino 500ml",
+   "line_cost": 2.37631,
+   "product": "Bry Ol San Pell",
+   "qty": 1.0,
+   "ref": "lightspeed:20445897",
+   "unit": "ml",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.64,
+   "line": "Herb Coriander [Bunch]",
+   "line_cost": 2.64,
+   "product": "Burrito Rice Sauce",
+   "qty": 1.0,
+   "ref": "lightspeed:22995344",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.1672,
+   "frozen_unit_cost": 0.00385,
+   "line": "Garlic Peeled [kg]",
+   "line_cost": 0.154,
+   "product": "Chashu Pork Belly Prep",
+   "qty": 40.0,
+   "ref": "lightspeed:22995939",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.06435,
+   "frozen_unit_cost": 0.00132,
+   "line": "Carrot Large [kg]",
+   "line_cost": 0.0594,
+   "product": "Chicken Roast",
+   "qty": 45.0,
+   "ref": "lightspeed:22995324",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 1.0142,
+   "frozen_unit_cost": 3.17,
+   "line": "Broccolini [Bunch]",
+   "line_cost": 0.6974,
+   "product": "Chicken Roast",
+   "qty": 0.22,
+   "ref": "lightspeed:22995320",
+   "unit": "bunch",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.96,
+   "frozen_unit_cost": 0.001,
+   "line": "Red Chilli [10/Kg]",
+   "line_cost": 0.06,
+   "product": "Cooked Beef Brisket [1Kg]",
+   "qty": 60.0,
+   "ref": "lightspeed:22524108",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 3.08,
+   "line": "Corn Baby Sweet [Pack]",
+   "line_cost": 1.54,
+   "product": "Corn Star",
+   "qty": 0.5,
+   "ref": "lightspeed:22995331",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.5713,
+   "line": "Corona",
+   "line_cost": 2.5713,
+   "product": "Corona",
+   "qty": 1.0,
+   "ref": "lightspeed:20445701",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.051,
+   "line": "Davidson Plum Puree",
+   "line_cost": 51.0,
+   "product": "Davidson Plum Hoisin",
+   "qty": 1000.0,
+   "ref": "lightspeed:22947356",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "frozen_unit_cost": 34.5802,
+   "line": "(whole product)",
+   "line_cost": 34.5802,
+   "product": "De La Grosse Beaujolais - Bottle",
+   "qty": 1,
+   "ref": null,
+   "unit": "ea",
+   "why": "sold as bought; the scrape decomposes it into no lines at all and an empty recipe costs $0.00"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 332.55,
+   "line": "Dom P\u00e9rignon Champagne - Bottle",
+   "line_cost": 332.55,
+   "product": "Dom P\u00e9rignon Champagne - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20445737",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.0363,
+   "frozen_unit_cost": 0.023232,
+   "line": "Spanish Onion [10Kg]",
+   "line_cost": 0.34848,
+   "product": "Eggplant Schnitty",
+   "qty": 15.0,
+   "ref": "lightspeed:20445597",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.40999,
+   "frozen_unit_cost": 0.018,
+   "line": "Lettuce Mesculin [1.5kg]",
+   "line_cost": 0.63,
+   "product": "Eggplant Schnitty",
+   "qty": 35.0,
+   "ref": "lightspeed:22995349",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.0363,
+   "frozen_unit_cost": 0.023232,
+   "line": "Spanish Onion [10Kg]",
+   "line_cost": 0.34848,
+   "product": "Eggplant Schnitty D",
+   "qty": 15.0,
+   "ref": "lightspeed:20445597",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.40999,
+   "frozen_unit_cost": 0.018,
+   "line": "Lettuce Mesculin [1.5kg]",
+   "line_cost": 0.63,
+   "product": "Eggplant Schnitty D",
+   "qty": 35.0,
+   "ref": "lightspeed:22995349",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.0363,
+   "frozen_unit_cost": 0.023232,
+   "line": "Spanish Onion [10Kg]",
+   "line_cost": 0.34848,
+   "product": "Fancy Pants Parmy - Classic",
+   "qty": 15.0,
+   "ref": "lightspeed:20445597",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.40999,
+   "frozen_unit_cost": 0.018,
+   "line": "Lettuce Mesculin [1.5kg]",
+   "line_cost": 0.63,
+   "product": "Fancy Pants Parmy - Classic",
+   "qty": 35.0,
+   "ref": "lightspeed:22995349",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.08266666666666667,
+   "line": "Flor De Ca\u00f1a 4 Extra Seco [Bottle]",
+   "line_cost": 2.48,
+   "product": "Flor De Ca\u00f1a 4 Extra Seco",
+   "qty": 30.0,
+   "ref": "lightspeed:20445858",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 2.09,
+   "frozen_unit_cost": 0.00385,
+   "line": "Garlic Peeled [kg]",
+   "line_cost": 1.925,
+   "product": "Garlic Oil",
+   "qty": 500.0,
+   "ref": "lightspeed:22995939",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.0,
+   "line": "Pickled Ginger",
+   "line_cost": 0.0,
+   "product": "Ginger Ponzu",
+   "qty": 250.0,
+   "ref": "lightspeed:22973738",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.0,
+   "line": "Massenez Apple [700ml]",
+   "line_cost": 0.0,
+   "product": "Green Glass Highball",
+   "qty": 10.0,
+   "ref": "lightspeed:22874518",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 4.0,
+   "line": "Grifter Big Sur IPA Tin",
+   "line_cost": 4.0,
+   "product": "Grifter Big Sur IPA Tin",
+   "qty": 1.0,
+   "ref": "lightspeed:20445709",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 3.19,
+   "line": "Grifter Omen Stout Tin",
+   "line_cost": 3.19,
+   "product": "Grifter Omen Stout Tin",
+   "qty": 1.0,
+   "ref": "lightspeed:20445710",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 3.19,
+   "line": "Grifter Pink Galah Tin",
+   "line_cost": 3.19,
+   "product": "Grifter Pink Galah Tin",
+   "qty": 1.0,
+   "ref": "lightspeed:20445708",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 30.8,
+   "line": "Avocado [Tray]",
+   "line_cost": 30.8,
+   "product": "Guacamole [4kg]",
+   "qty": 1.0,
+   "ref": "lightspeed:22488995",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.0,
+   "line": "Corn Kernels [Tin]",
+   "line_cost": 2.0,
+   "product": "Guacamole [4kg]",
+   "qty": 1.0,
+   "ref": "lightspeed:22975185",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 2.09,
+   "frozen_unit_cost": 0.00385,
+   "line": "Garlic Peeled [kg]",
+   "line_cost": 1.925,
+   "product": "HG Soy Chilli Sauce",
+   "qty": 500.0,
+   "ref": "lightspeed:22995939",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.0099171,
+   "line": "Shallot [bunch]",
+   "line_cost": 2.479275,
+   "product": "HG Soy Chilli Sauce",
+   "qty": 250.0,
+   "ref": "lightspeed:22996509",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.0099171,
+   "line": "Shallot [bunch]",
+   "line_cost": 2.479275,
+   "product": "HG's Soy Chilli Sauce",
+   "qty": 250.0,
+   "ref": "lightspeed:22996509",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.625,
+   "line": "Hahn Super Dry GF",
+   "line_cost": 2.625,
+   "product": "Hahn Super Dry GF",
+   "qty": 1.0,
+   "ref": "lightspeed:22931792",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 3.96,
+   "line": "Hard Rated Can",
+   "line_cost": 3.96,
+   "product": "Hard Rated Can",
+   "qty": 1.0,
+   "ref": "lightspeed:22614595",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.6696,
+   "line": "Heaps Normal Tin",
+   "line_cost": 2.6696,
+   "product": "Heaps Normal Tin",
+   "qty": 1.0,
+   "ref": "lightspeed:20445707",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.009548,
+   "line": "Avocado [kg]",
+   "line_cost": 1.52768,
+   "product": "Holy Guacamole [HG]",
+   "qty": 160.0,
+   "ref": "lightspeed:22488995",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.00695,
+   "frozen_unit_cost": 15.29,
+   "line": "Heinz BBQ Sauce [4L]",
+   "line_cost": 30.58,
+   "product": "House BBQ Sauce [11L]",
+   "qty": 2.0,
+   "ref": "lightspeed:22989447",
+   "unit": "ml",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.004167,
+   "frozen_unit_cost": 13.75,
+   "line": "Sunshine Smokey BBQ Sauce [3L]",
+   "line_cost": 13.75,
+   "product": "House BBQ Sauce [11L]",
+   "qty": 1.0,
+   "ref": "lightspeed:22989451",
+   "unit": "ml",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 4.31,
+   "line": "Hyoketsu Lemon [HG]",
+   "line_cost": 4.31,
+   "product": "Hyoketsu Lemon [HG]",
+   "qty": 1.0,
+   "ref": "lightspeed:21319585",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.34,
+   "line": "James Boags Light",
+   "line_cost": 2.34,
+   "product": "James Boags Light",
+   "qty": 1.0,
+   "ref": "lightspeed:20445706",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.29,
+   "line": "Kaiju Hazy Pale [HG]",
+   "line_cost": 2.29,
+   "product": "Kaiju Hazy Pale [HG]",
+   "qty": 1.0,
+   "ref": "lightspeed:20691647",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 1.232,
+   "frozen_unit_cost": 0.00132,
+   "line": "Onion Brown [10kg]",
+   "line_cost": 1.056,
+   "product": "Katsu Curry Sauce",
+   "qty": 800.0,
+   "ref": "lightspeed:22995352",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.06435,
+   "frozen_unit_cost": 0.00132,
+   "line": "Carrot Large [kg]",
+   "line_cost": 0.0594,
+   "product": "Lamb Roast",
+   "qty": 45.0,
+   "ref": "lightspeed:22995324",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 1.0142,
+   "frozen_unit_cost": 3.17,
+   "line": "Broccolini [Bunch]",
+   "line_cost": 0.6974,
+   "product": "Lamb Roast",
+   "qty": 0.22,
+   "ref": "lightspeed:22995320",
+   "unit": "bunch",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 5.1595,
+   "line": "large pizza, sales-weighted mean of every large sold",
+   "line_cost": 5.1595,
+   "product": "Large Pizza [menu average]",
+   "qty": 1.0,
+   "ref": "",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.8032,
+   "line": "Lemonade [mixer]",
+   "line_cost": 0.8032,
+   "product": "Lemon, Lime & Bitters",
+   "qty": 1.0,
+   "ref": "lightspeed:20681676",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.8032,
+   "line": "Lemonade [mixer]",
+   "line_cost": 0.8032,
+   "product": "Lemonade Glass",
+   "qty": 1.0,
+   "ref": "lightspeed:20681676",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 3.4861,
+   "line": "Little Dragon Can",
+   "line_cost": 3.4861,
+   "product": "Little Dragon Can",
+   "qty": 1.0,
+   "ref": "lightspeed:21939293",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.31,
+   "line": "Edible Flower [Punnet]",
+   "line_cost": 0.31,
+   "product": "Lychee Martini",
+   "qty": 1.0,
+   "ref": "lightspeed:21020204",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.006514,
+   "frozen_unit_cost": 4.56,
+   "line": "700ml Glass Bottle",
+   "line_cost": 4.56,
+   "product": "Margarita PartyJar (6)",
+   "qty": 1.0,
+   "ref": "lightspeed:20484711",
+   "unit": "ml",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.006514,
+   "frozen_unit_cost": 4.56,
+   "line": "700ml Glass Bottle",
+   "line_cost": 4.56,
+   "product": "Margarita PartyJar [FBI Perk]",
+   "qty": 1.0,
+   "ref": "lightspeed:20484711",
+   "unit": "ml",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.0,
+   "line": "White Miso",
+   "line_cost": 0.0,
+   "product": "Miso Tare",
+   "qty": 1000.0,
+   "ref": "lightspeed:22962728",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.0,
+   "line": "Potato Starch",
+   "line_cost": 0.0,
+   "product": "Miso Tare",
+   "qty": 50.0,
+   "ref": "lightspeed:22947363",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 3.11,
+   "line": "Monteith's Apple Cider Bottle",
+   "line_cost": 3.11,
+   "product": "Monteith's Apple Cider Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20445714",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.06435,
+   "frozen_unit_cost": 0.00132,
+   "line": "Carrot Large [kg]",
+   "line_cost": 0.0594,
+   "product": "Nut Roast",
+   "qty": 45.0,
+   "ref": "lightspeed:22995324",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 1.0142,
+   "frozen_unit_cost": 3.17,
+   "line": "Broccolini [Bunch]",
+   "line_cost": 0.6974,
+   "product": "Nut Roast",
+   "qty": 0.22,
+   "ref": "lightspeed:22995320",
+   "unit": "bunch",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 1.43,
+   "frozen_unit_cost": 0.00132,
+   "line": "Carrot Large [kg]",
+   "line_cost": 1.32,
+   "product": "Nut Roast Prep",
+   "qty": 1000.0,
+   "ref": "lightspeed:22995324",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 1.31,
+   "line": "Pepsi Glass",
+   "line_cost": 1.31,
+   "product": "Pepsi Glass",
+   "qty": 1.0,
+   "ref": "lightspeed:20702600",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 1.31,
+   "line": "Pepsi Max Glass",
+   "line_cost": 1.31,
+   "product": "Pepsi Max Glass",
+   "qty": 1.0,
+   "ref": "lightspeed:20779180",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.5217,
+   "line": "Peroni",
+   "line_cost": 2.5217,
+   "product": "Peroni",
+   "qty": 1.0,
+   "ref": "lightspeed:20445700",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 1.8463,
+   "line": "Peroni 0%",
+   "line_cost": 1.8463,
+   "product": "Peroni 0%",
+   "qty": 1.0,
+   "ref": "lightspeed:21999769",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.8032,
+   "line": "Pink Lemonade [mixer]",
+   "line_cost": 0.8032,
+   "product": "Pink Lemonade Glass",
+   "qty": 1.0,
+   "ref": "lightspeed:20681681",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.06435,
+   "frozen_unit_cost": 0.00132,
+   "line": "Carrot Large [kg]",
+   "line_cost": 0.0594,
+   "product": "Pork Roast",
+   "qty": 45.0,
+   "ref": "lightspeed:22995324",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 1.0142,
+   "frozen_unit_cost": 3.17,
+   "line": "Broccolini [Bunch]",
+   "line_cost": 0.6974,
+   "product": "Pork Roast",
+   "qty": 0.22,
+   "ref": "lightspeed:22995320",
+   "unit": "bunch",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.0425,
+   "line": "Chives [bunch]",
+   "line_cost": 5.1,
+   "product": "Prawn Mix",
+   "qty": 120.0,
+   "ref": "lightspeed:22493903",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.0038461538461538464,
+   "line": "Lemon [kg]",
+   "line_cost": 0.05,
+   "product": "Prawn Mix",
+   "qty": 13.0,
+   "ref": "lightspeed:20564869",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.71,
+   "line": "Barebones Clear Ice Block",
+   "line_cost": 0.71,
+   "product": "Ronin Negroni",
+   "qty": 1.0,
+   "ref": "lightspeed:20873385",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 40.7,
+   "line": "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Bottle",
+   "line_cost": 40.7,
+   "product": "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:23358932",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 8.14,
+   "line": "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Large Glass",
+   "line_cost": 8.14,
+   "product": "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Large Glass",
+   "qty": 1.0,
+   "ref": "lightspeed:23358931",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 8.14,
+   "line": "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Regular Glass",
+   "line_cost": 8.14,
+   "product": "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Regular Glass",
+   "qty": 1.0,
+   "ref": "lightspeed:23358927",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.32,
+   "line": "San Pellegrino 500ml",
+   "line_cost": 2.32,
+   "product": "San Pellegrino 500ml",
+   "qty": 1.0,
+   "ref": "lightspeed:20445897",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.77,
+   "frozen_unit_cost": 0.00132,
+   "line": "Onion Brown [10kg]",
+   "line_cost": 0.66,
+   "product": "Shiitake Bouillon",
+   "qty": 500.0,
+   "ref": "lightspeed:22995352",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.418,
+   "frozen_unit_cost": 0.00385,
+   "line": "Garlic Peeled [kg]",
+   "line_cost": 0.385,
+   "product": "Shiitake Bouillon",
+   "qty": 100.0,
+   "ref": "lightspeed:22995939",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.0099171,
+   "line": "Shallot [bunch]",
+   "line_cost": 0.99171,
+   "product": "Shiitake Bouillon",
+   "qty": 100.0,
+   "ref": "lightspeed:22996509",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.0363,
+   "frozen_unit_cost": 0.023232,
+   "line": "Spanish Onion [10Kg]",
+   "line_cost": 0.34848,
+   "product": "Stow Schnitty",
+   "qty": 15.0,
+   "ref": "lightspeed:20445597",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.40999,
+   "frozen_unit_cost": 0.018,
+   "line": "Lettuce Mesculin [1.5kg]",
+   "line_cost": 0.63,
+   "product": "Stow Schnitty",
+   "qty": 35.0,
+   "ref": "lightspeed:22995349",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.0,
+   "line": "Cucumber",
+   "line_cost": 0.0,
+   "product": "Sunomono Pickle Salad",
+   "qty": 10.0,
+   "ref": "lightspeed:20564881",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 154.0,
+   "line": "Tiziano Grasso Barolo Briccolina 2019 - Bottle",
+   "line_cost": 154.0,
+   "product": "Tiziano Grasso Barolo Briccolina 2019 - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:23358952",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 30.8,
+   "line": "Tiziano Grasso Barolo Briccolina 2019 - Large Glass",
+   "line_cost": 30.8,
+   "product": "Tiziano Grasso Barolo Briccolina 2019 - Large Glass",
+   "qty": 1.0,
+   "ref": "lightspeed:23358951",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 30.8,
+   "line": "Tiziano Grasso Barolo Briccolina 2019 - Regular Glass",
+   "line_cost": 30.8,
+   "product": "Tiziano Grasso Barolo Briccolina 2019 - Regular Glass",
+   "qty": 1.0,
+   "ref": "lightspeed:23358946",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 1.848,
+   "frozen_unit_cost": 0.00132,
+   "line": "Onion Brown [10kg]",
+   "line_cost": 1.584,
+   "product": "Tonkotsu Broth",
+   "qty": 1200.0,
+   "ref": "lightspeed:22995352",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.009917098888888889,
+   "line": "Shallot [bunch]",
+   "line_cost": 8.925389,
+   "product": "Tonkotsu Broth",
+   "qty": 900.0,
+   "ref": "lightspeed:22996509",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.418,
+   "frozen_unit_cost": 0.00385,
+   "line": "Garlic Peeled [kg]",
+   "line_cost": 0.385,
+   "product": "Tonkotsu Broth",
+   "qty": 100.0,
+   "ref": "lightspeed:22995939",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.1824,
+   "frozen_unit_cost": 11.4,
+   "line": "White Truffle Oil Sandhurst [250ml]",
+   "line_cost": 45.6,
+   "product": "Truffle Oil Prep",
+   "qty": 4.0,
+   "ref": "lightspeed:22995367",
+   "unit": "ml",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 6.21839875,
+   "line": "Two Bays Pale Ale Can",
+   "line_cost": 24.873595,
+   "product": "Two Bays GF Pale 4-pack D",
+   "qty": 4.0,
+   "ref": "lightspeed:20445703",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 4.71,
+   "line": "Two Bays Pale Ale Can",
+   "line_cost": 4.71,
+   "product": "Two Bays Pale Ale Can",
+   "qty": 1.0,
+   "ref": "lightspeed:20445703",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "frozen_unit_cost": 21.8903,
+   "line": "(whole product)",
+   "line_cost": 21.8903,
+   "product": "Unico Zelo Terra Cotta - Bottle",
+   "qty": 1,
+   "ref": null,
+   "unit": "ea",
+   "why": "sold as bought; the scrape decomposes it into no lines at all and an empty recipe costs $0.00"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 1.96,
+   "line": "VB Tinnie",
+   "line_cost": 1.96,
+   "product": "VB Tinnie",
+   "qty": 1.0,
+   "ref": "lightspeed:20445704",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.56,
+   "line": "Kutjera Bush Tomato Powder [100g]",
+   "line_cost": 0.28,
+   "product": "Veg Spring Rolls [2pc]",
+   "qty": 0.5,
+   "ref": "lightspeed:22918953",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.385,
+   "line": "Wattleseed [100g]",
+   "line_cost": 77.0,
+   "product": "Wattleseed Honey Soy",
+   "qty": 200.0,
+   "ref": "lightspeed:22920854",
+   "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.0209,
+   "frozen_unit_cost": 0.00385,
+   "line": "Garlic Peeled [kg]",
+   "line_cost": 0.01925,
+   "product": "Wok Green Beans",
+   "qty": 5.0,
+   "ref": "lightspeed:22995939",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": 0.0539,
+   "frozen_unit_cost": 0.00132,
+   "line": "Onion Brown [10kg]",
+   "line_cost": 0.0462,
+   "product": "Wok Green Beans",
+   "qty": 35.0,
+   "ref": "lightspeed:22995352",
+   "unit": "g",
+   "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.58,
+   "line": "Young Henrys Cloudy Cider Can",
+   "line_cost": 2.58,
+   "product": "Young Henrys Cloudy Cider Can",
+   "qty": 1.0,
+   "ref": "lightspeed:20445713",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  }
+ ],
+ "no_yield": [],
+ "products": 612,
+ "pulled_in_for_closure": [
+  "Davy's Old Fashioned Batch"
+ ],
+ "subrecipes_pulled_in": [],
+ "unit_relabels": [
+  {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
+   "batch": "Garlic Oil [Batch]",
+   "from": "ml",
+   "to": "g",
+   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+  },
+  {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
+   "batch": "Mint Yoghurt [Batch]",
+   "from": "ml",
+   "to": "g",
+   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+  },
+  {
+   "basis": "read off the [bracket] in the name",
+   "batch": "Yorkshire Pudding Prep [110 units]",
+   "from": "each",
+   "to": "ml",
+   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in ml"
+  },
+  {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
+   "batch": "Cauliflower Cheese Prep",
+   "from": "g",
+   "to": "ml",
+   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in ml"
+  },
+  {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
+   "batch": "Black Beans Prep",
+   "from": "ml",
+   "to": "g",
+   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+  },
+  {
+   "basis": "read off the [bracket] in the name",
+   "batch": "Buffalo Aioli [1L]",
+   "from": "ml",
+   "to": "g",
+   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+  },
+  {
+   "from": "ml",
+   "line": "Lime [ea]",
+   "product": "Beef Burrito",
+   "to": "ea"
+  },
+  {
+   "from": "0.125 ea",
+   "line": "Lime [ea]",
+   "product": "Beef Burrito",
+   "to": "0.125 each",
+   "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+  },
+  {
+   "from": "ml",
+   "line": "Lime [ea]",
+   "product": "Beef Burrito D",
+   "to": "ea"
+  },
+  {
+   "from": "0.125 ea",
+   "line": "Lime [ea]",
+   "product": "Beef Burrito D",
+   "to": "0.125 each",
+   "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+  },
+  {
+   "from": "1 ml",
+   "line": "Brownie Prep [24 pcs]",
+   "product": "Brownie",
+   "to": "1 each",
+   "why": "the batch yields 24 each; the line's own cost is 1 of them"
+  },
+  {
+   "from": "1 ml",
+   "line": "Brownie Prep [24 pcs]",
+   "product": "Brownie D",
+   "to": "1 each",
+   "why": "the batch yields 24 each; the line's own cost is 1 of them"
+  },
+  {
+   "from": "ml",
+   "line": "Lime [ea]",
+   "product": "Cauliflower Burrito",
+   "to": "ea"
+  },
+  {
+   "from": "0.125 ea",
+   "line": "Lime [ea]",
+   "product": "Cauliflower Burrito",
+   "to": "0.125 each",
+   "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+  },
+  {
+   "from": "ml",
+   "line": "Lime [ea]",
+   "product": "Cauliflower Burrito D",
+   "to": "ea"
+  },
+  {
+   "from": "0.125 ea",
+   "line": "Lime [ea]",
+   "product": "Cauliflower Burrito D",
+   "to": "0.125 each",
+   "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+  },
+  {
+   "from": "0.077 ml",
+   "line": "Cauliflower Cheese Prep",
+   "product": "Cauliflower Cheese",
+   "to": "336.952 ml",
+   "why": "a fraction of the batch: 0.077 x 4376 ml reproduces the line's own cost to within 1%"
+  },
+  {
+   "from": "ml",
+   "line": "Lime [ea]",
+   "product": "Chicken Burrito",
+   "to": "ea"
+  },
+  {
+   "from": "0.125 ea",
+   "line": "Lime [ea]",
+   "product": "Chicken Burrito",
+   "to": "0.125 each",
+   "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+  },
+  {
+   "from": "ml",
+   "line": "Lime [ea]",
+   "product": "Chicken Burrito D",
+   "to": "ea"
+  },
+  {
+   "from": "0.125 ea",
+   "line": "Lime [ea]",
+   "product": "Chicken Burrito D",
+   "to": "0.125 each",
+   "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+  },
+  {
+   "from": "1.0 ml",
+   "line": "Brownie Prep [24 pcs]",
+   "product": "Choc Brownie",
+   "to": "1.0 each",
+   "why": "the batch yields 24 each; the line's own cost is 1.0 of them"
+  },
+  {
+   "from": "g",
+   "line": "Chimichurri",
+   "product": "J.J. Aioli [Batch]",
+   "to": "ml"
+  },
+  {
+   "from": "ml",
+   "line": "Lime [ea]",
+   "product": "Super Lime Juice [1L]",
+   "to": "ea"
+  },
+  {
+   "from": "3 ea",
+   "line": "Lime [ea]",
+   "product": "Super Lime Juice [1L]",
+   "to": "3 each",
+   "why": "a fraction of the batch: 3 x 1 each reproduces the line's own cost to within 1%"
+  },
+  {
+   "from": "1 ml",
+   "line": "Tandoori Sauce [Batch]",
+   "product": "Tandoori Chicken [2Kg]",
+   "to": "1116 g"
+  }
+ ],
+ "unresolved": [],
+ "venue": "stowaway",
+ "yield_conflicts": [
+  {
+   "basis": "ESTIMATED, not measured \u2014 pending the kitchen weighing this batch (raw in -> cooked out).\n\nProduce's 'Expected yield' field holds 15,000 g, which is exactly the",
+   "name_bracket": "15000 g",
+   "product": "Achiote Chicken [15Kg]",
+   "ratio": 0.7,
+   "used": "10500 g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-06. Zak: \"you should've scraped yields from lightspeed\" \u2014 it was there all along; every d",
+   "name_bracket": "1000 ml",
+   "product": "Coconut-washed Rooster Blanco [1L]",
+   "ratio": 3.929,
+   "used": "3929 ml"
+  },
+  {
+   "basis": "ESTIMATED, not measured \u2014 pending the kitchen weighing this batch (raw in -> cooked out).\n\nProduce's 'Expected yield' field holds 10,500 g, which is the RAW WEI",
+   "name_bracket": "1000 g",
+   "product": "Cooked Beef Brisket [1Kg]",
+   "ratio": 6.0,
+   "used": "6000 g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-06. Zak: \"you should've scraped yields from lightspeed\" \u2014 it was there all along; every d",
+   "name_bracket": "1000 ml",
+   "product": "Jalape\u00f1o Tequila [1L]",
+   "ratio": 7.5,
+   "used": "7500 ml"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-06. Zak: \"you should've scraped yields from lightspeed\" \u2014 it was there all along; every d",
+   "name_bracket": "1000 ml",
+   "product": "Mango-Chilli Puree [1L]",
+   "ratio": 1.05,
+   "used": "1050 ml"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-06. Zak: \"you should've scraped yields from lightspeed\" \u2014 it was there all along; every d",
+   "name_bracket": "1000 ml",
+   "product": "Super Lemon Juice [1L]",
+   "ratio": 1.142,
+   "used": "1142 ml"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-06. Zak: \"you should've scraped yields from lightspeed\" \u2014 it was there all along; every d",
+   "name_bracket": "1000 ml",
+   "product": "Super Lime Juice [1L]",
+   "ratio": 1.142,
+   "used": "1142 ml"
+  }
+ ]
+}

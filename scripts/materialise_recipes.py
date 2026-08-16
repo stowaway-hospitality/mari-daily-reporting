@@ -307,13 +307,28 @@ def derive_yield_unit_fixes(book: dict, report: dict) -> dict:
     out = {}
     for name, units in drawn.items():
         e = est.get(name)
-        if not e or not _SUM_BASIS.search(e.get("basis") or ""):
+        have = ((e or {}).get("yield_unit") or "").lower()
+        if not have:
+            # No prep_yields entry at all, so the unit comes off the [bracket] in
+            # the name -- the weakest evidence there is, and until now the one
+            # kind this rule skipped entirely. Buffalo Aioli [1L] declares ml on
+            # a batch that is 750 g of mayonnaise and is drawn in g.
+            _q, _u = resolve_yield(name)
+            have = (_u or "").lower()
+        if not have:
             continue
+        # The "sum of ingredients" precondition came off on 2026-08-16. It was a
+        # proxy for "this unit label was never measured", but a yield SCRAPED from
+        # Produce's own field was not measured either -- Salsa Rosa Prep declares
+        # ml while 2,841 g of roasted peppers dominate it and all six drawing
+        # lines are in g. The real evidence is the two-way agreement below: what
+        # the kitchen draws AND what the batch is mostly made of, both saying the
+        # same thing and both disagreeing with the label. That is what the rule
+        # actually rests on, so it is what the rule now requires.
         units = {u for u in units if u}
         if len(units) != 1:
             continue
         want = next(iter(units))
-        have = (e.get("yield_unit") or "").lower()
         if want == have or want not in ("g", "ml"):
             continue
         if _dominant_unit(book.get(name) or {}) != want:
@@ -323,7 +338,7 @@ def derive_yield_unit_fixes(book: dict, report: dict) -> dict:
             {"batch": name, "from": have, "to": want,
              "why": "yield basis is a mixed-unit sum; every drawing line and the "
                     "batch's own dominant component are both in " + want,
-             "basis": (e.get("basis") or "")[:120]})
+             "basis": ((e or {}).get("basis") or "read off the [bracket] in the name")[:120]})
     return out
 
 
@@ -381,6 +396,86 @@ def _yield_for(name: str, report: dict):
         return Decimal(str(bq)), bu
     return _serve_yields().get(name, (None, None))
 
+
+def _fraction_of_batch(ln, book, report, product, yield_fixes):
+    """A sub-recipe line stating a FRACTION OF THE BATCH rather than a quantity.
+
+    "Cauliflower Cheese Prep 0.077 ml" is not 77 microlitres of sauce; it is
+    0.077 of the batch. The proof is arithmetic and exact:
+
+        0.077 x 4,376 ml yield = 336.95, and the line's own cost implies 336.952
+        0.03  x 1,000 ml yield =  30.00, and the line's own cost implies  30.000
+
+    Both land on their implied quantity to five figures, which a coincidence does
+    not do. Only fires when it reproduces to within 1% -- Nut Roast and Tandoori
+    also carry junk units but do NOT satisfy this, so they are left alone rather
+    than swept into a rule they do not fit. Refusal over guessing, per line.
+    """
+    sub = book.get(ln.get("ref") or "")
+    if not sub:
+        return None
+    yq, yu = resolve_yield(ln["ref"])
+    yu = yield_fixes.get(ln["ref"], yu)     # the unit the RECORD will carry
+    q, eff = _dec(ln.get("qty")), _dec(ln.get("eff_cost"))
+    try:
+        bc = _dec(sub.get("our_cost"))
+    except Exception:  # noqa: BLE001
+        return None
+    if not (yq and bc and q and eff) or q <= 0 or bc <= 0:
+        return None
+    rate = Decimal(str(bc)) / Decimal(str(yq))
+    if rate <= 0:
+        return None
+    implied = eff / rate
+    as_fraction = q * Decimal(str(yq))
+    if as_fraction <= 0:
+        return None
+    if abs(implied - as_fraction) / as_fraction > Decimal("0.01"):
+        return None
+    report["unit_relabels"].append(
+        {"product": product, "line": ln.get("ref"),
+         "from": f"{q} {ln.get('unit')}", "to": f"{as_fraction} {yu}",
+         "why": f"a fraction of the batch: {q} x {yq} {yu} reproduces the "
+                f"line's own cost to within 1%"})
+    return as_fraction, yu
+
+
+
+_COUNTS = {"ea", "each", "unit", "units", "pc", "pcs", "piece"}
+
+
+def _count_line(ln, book, report, product, yield_fixes):
+    """A line asking for "1 ml" of a batch that yields 24 brownies.
+
+    Produce writes a unit on every line whether or not one applies, so a batch
+    measured in things -- 24 pieces, 110 puddings -- is drawn with a millilitre
+    label on a number that is plainly a count. The line's own cost settles it:
+    one twenty-fourth of the brownie batch is what "1" costs, so the 1 is one
+    piece. Fires only when the cost agrees to within 1%.
+    """
+    sub = book.get(ln.get("ref") or "")
+    if not sub:
+        return None
+    yq, yu = resolve_yield(ln["ref"])
+    yu = yield_fixes.get(ln["ref"], yu)
+    if not yq or (yu or "").lower() not in _COUNTS:
+        return None
+    if (ln.get("unit") or "").lower() in _COUNTS:
+        return None
+    q, eff = _dec(ln.get("qty")), _dec(ln.get("eff_cost"))
+    bc = _dec(sub.get("our_cost"))
+    if not (q and eff and bc) or q <= 0 or bc <= 0:
+        return None
+    rate = bc / Decimal(str(yq))
+    if rate <= 0 or abs(eff / rate - q) / q > Decimal("0.01"):
+        return None
+    report["unit_relabels"].append(
+        {"product": product, "line": ln.get("ref"),
+         "from": f"{q} {ln.get('unit')}", "to": f"{q} {yu}",
+         "why": f"the batch yields {yq} {yu}; the line's own cost is {q} of them"})
+    return q, yu
+
+
 def _engine_line_cost(ln, costs, on, venue):
     """What modules.recipes.cost would charge for this one line, or None if it
     refuses. A single-line throwaway recipe is the honest way to ask: it goes
@@ -412,6 +507,9 @@ def materialise(venue: str) -> tuple[list, dict]:
     authored = builder_records()
 
     # Every sub-recipe my products reach for, transitively.
+    drawn_as_sub = {ln["ref"] for rr in book.values()
+                    for ln in (rr.get("ingredients") or [])
+                    if ln.get("kind") == "subrecipe"}
     need, seen = set(), set()
     frontier = set(mine)
     while frontier:
@@ -503,6 +601,18 @@ def materialise(venue: str) -> tuple[list, dict]:
             elif ln.get("scaled_from"):
                 src, ev = "derived", f"scaled from {ln['scaled_from']}"
 
+            if ln.get("kind") == "subrecipe":
+                if (fb := _fraction_of_batch(ln, book, report, name, yield_fixes)):
+                    ln = dict(ln, qty=fb[0], unit=fb[1])
+                    src = "rule"
+                    ev = ("stated as a fraction of the batch; recovered from the "
+                          "line's own cost")
+                elif (cl := _count_line(ln, book, report, name, yield_fixes)):
+                    ln = dict(ln, qty=cl[0], unit=cl[1])
+                    src = "rule"
+                    ev = ("the batch is measured in things, not millilitres; the "
+                          "line's own cost confirms the count")
+
             # Can the TARGET ENGINE price this line, and does it land on today's
             # number? Asked of cost.py itself rather than reasoned about: an
             # arithmetic check ("rate x qty == eff_cost") passes for Coke 1.25L,
@@ -534,8 +644,52 @@ def materialise(venue: str) -> tuple[list, dict]:
             report["by_source"][src] += 1
             report["lines"] += 1
 
+        # A PRODUCT WITH NO LINES IS NOT A FREE PRODUCT.
+        #
+        # Two Stowaway wines are sold as the bottle they were bought as, so the
+        # scrape decomposes them into nothing at all -- and the old book still
+        # carries their cost, $34.58 and $21.89. Emitting an empty record makes
+        # cost_on return $0.00, which publishes a $34 bottle at 100% GP: a
+        # silent, flattering, entirely wrong number of exactly the shape this
+        # project exists to stop. Carry the cost as a manual line instead.
+        if not lines and (oc := _dec(r.get("our_cost"))) and oc > 0:
+            lines.append({"id": "", "desc": f"{name} (sold as bought)",
+                          "qty": 1, "unit": "ea", "manual": True,
+                          "unit_cost_incl": float(oc), "source": "scrape",
+                          "evidence": "no recipe: the product IS the purchase, "
+                                      "so its cost is carried whole"})
+            report["by_source"]["scrape"] += 1
+            report["lines"] += 1
+            report["manual_lines"].append(
+                {"product": name, "line": "(whole product)", "ref": None,
+                 "qty": 1, "unit": "ea", "frozen_unit_cost": float(oc),
+                 "line_cost": float(oc),
+                 "why": "sold as bought; the scrape decomposes it into no lines "
+                        "at all and an empty recipe costs $0.00"})
+
         rec = {"product": name, "venue_source": venue}
-        if is_sub or r.get("is_prep"):
+        # IS THIS A BATCH, OR A SERVE THAT IS ALSO DRAWN ELSEWHERE?
+        #
+        # cogs_blend excludes anything with a yield from serve costs, because
+        # publishing a batch cost against every unit sold is a 4x over-cost (the
+        # Dragon Soda case). But BBQ Wings is SOLD and also drawn "1 ea" by 22
+        # wings deals: it needs a yield to be divisible and a serve cost to be
+        # sold. Under the yield-alone rule it gets a yield and loses its cost.
+        #
+        # The right test is already written down in cogs_blend's own comment -- a
+        # batch declares a yield and carries NO SELL PRICE; a serve carries a
+        # sell price and no yield -- it is just not the test the code applies.
+        # Recording is_serve here so that fix is a one-line change in the
+        # sales-pipeline area rather than an archaeology exercise.
+        # ...and only for THIS venue's own products. A batch pulled in from
+        # another venue's book is a divisor here, not something Marilyna's sells.
+        if not r.get("is_prep") and name in mine:
+            rec["is_serve"] = True
+        # A serve yield applies to anything DRAWN as a sub-recipe, even when the
+        # product is also sold in its own right and lives in this venue -- Caffe
+        # Crema draws 30 ml of an Espresso Martini. Keying it off is_prep alone
+        # left those with no yield and took the parent dish down with them.
+        if is_sub or r.get("is_prep") or name in drawn_as_sub:
             q, u = _yield_for(name, report)
             if (fix := yield_fixes.get(name)) and u != fix:
                 u = fix
@@ -546,6 +700,39 @@ def materialise(venue: str) -> tuple[list, dict]:
                 rec["yield_unit"] = u
         rec["ingredients"] = lines
         records.append(rec)
+
+    # CLOSURE. An authored block can reference a batch the scrape never mentions
+    # -- Davy's Old Fashioned draws "Davy's Old Fashioned Batch", and both live
+    # in data/recipes/stowaway.yaml. The sub-recipe walk above only followed the
+    # SCRAPE, so the batch was missing and the dish refused with "no version in
+    # force": a recipe losing its cost because its own author's other record was
+    # not carried across.
+    have = {r["product"] for r in records}
+    for _ in range(6):                       # batches can nest a few deep
+        wanted = {l["subrecipe"] for r in records
+                  for l in (r.get("ingredients") or []) if l.get("subrecipe")}
+        missing = wanted - have
+        if not missing:
+            break
+        for nm in sorted(missing):
+            if nm in authored:
+                vf, blk = authored[nm]
+                rec = {"product": nm, "venue_source": venue,
+                       "authored_in": f"data/recipes/{vf}.yaml"}
+                for k in ("yield_qty", "yield_unit", "effective_from", "entered_by"):
+                    if blk.get(k) is not None:
+                        rec[k] = blk[k]
+                rec["ingredients"] = [dict(l, source="authored") for l in (blk.get("ingredients") or [])]
+                records.append(rec)
+                have.add(nm)
+                report["by_source"]["authored"] += len(rec["ingredients"])
+                report["lines"] += len(rec["ingredients"])
+                report["pulled_in_for_closure"] = report.get("pulled_in_for_closure", []) + [nm]
+            else:
+                report["unresolved"].append(
+                    {"product": nm, "why": "referenced as a sub-recipe but exists "
+                                           "in neither the scrape nor the builder book"})
+                have.add(nm)
 
     report["by_source"] = dict(report["by_source"])
     return records, report

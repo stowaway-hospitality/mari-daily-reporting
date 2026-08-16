@@ -1576,6 +1576,13 @@
    "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
   },
   {
+   "basis": "read off the [bracket] in the name",
+   "batch": "Yorkshire Pudding Prep [110 units]",
+   "from": "each",
+   "to": "ml",
+   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in ml"
+  },
+  {
    "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
    "batch": "Cauliflower Cheese Prep",
    "from": "g",
@@ -1585,6 +1592,13 @@
   {
    "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
    "batch": "Black Beans Prep",
+   "from": "ml",
+   "to": "g",
+   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+  },
+  {
+   "basis": "read off the [bracket] in the name",
+   "batch": "Buffalo Aioli [1L]",
    "from": "ml",
    "to": "g",
    "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"

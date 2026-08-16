@@ -65,13 +65,26 @@ def old_costs(venue: str) -> dict:
 
 
 def new_costs(venue: str, path: Path, on: date) -> tuple[dict, list]:
+    import yaml as _yaml
+    serves = {b["product"] for b in (_yaml.safe_load(path.read_text(encoding="utf-8-sig")) or [])
+              if isinstance(b, dict) and b.get("is_serve")}
     recipes = load_recipes(venue, path=path)
     costs = CostSeries(load_cost_observations())
     out, refused = {}, []
     for product in sorted({r.product for r in recipes}):
         r = recipe_as_of(recipes, product, on)
-        if r is None or r.yield_qty:
-            continue                     # a batch is not a serve cost
+        if r is None:
+            continue
+        # A BATCH IS NOT A SERVE COST -- but "has a yield" is the wrong test for
+        # it. BBQ Wings is sold AND drawn "1 ea" by 22 wings deals, so it needs
+        # both a yield and a serve cost; excluding it on the yield alone drops a
+        # real product's cost. The book records `is_serve` for exactly this, and
+        # cogs_blend._load_our_costs wants the same one-line change (its own
+        # comment already states the right rule: a batch has a yield and NO SELL
+        # PRICE). Until that lands, this measures the intended end state.
+        if r.yield_qty and not getattr(r, "is_serve", False):
+            if product not in serves:
+                continue
         try:
             out[product] = float(cost_on(r, costs, on, recipes=recipes))
         except (MissingCost, CircularRecipe) as e:
