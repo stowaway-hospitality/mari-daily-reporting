@@ -562,8 +562,19 @@
   # by: "Claude (FFT HCBCH 6 x $1.65 = $9.90 = HCMB x 1, three invoices)"
   # on: 2026-08-14  /  by_email: "hello@stowawaybar.com"
 - id: "fresh-fruit-team:BRL"          # Broccolini, the BOX (BROCE is the bunch)
-  pack_qty: 10
+  pack_qty: 12
   pack_unit: ea
+  # 2026-08-16: raised 10 -> 12. Zak, batched identity review: "12 bunches per
+  # box" — a PHYSICAL COUNT, which beats the price-ratio inference the 10 was
+  # derived from (below). The two readings were never far apart and the ratio
+  # was always the weaker evidence: a box and a loose bunch carry different
+  # margins, so the box price is not obliged to be an exact multiple of the
+  # bunch price. At 12 the box works out $36.00/12 = $3.00 a bunch against
+  # $3.17 loose — buying the box saves ~5%, which is the normal direction. At
+  # 10 it was $3.60 a bunch, i.e. DEARER than buying them loose, which is the
+  # reading that should have looked wrong at the time.
+  # This is the count Zak actually gave on 08-16; it was applied to BROCE (the
+  # bunch) by mistake and is recorded here, on the box, where it belongs.
   # Fresh Fruit Team sell broccolini by the bunch (BROCE) and by the box (BRL),
   # and twice they have billed both on the same day:
   #
@@ -905,11 +916,21 @@
   by: "Zak"
   on: 2026-08-16
   by_email: "hello@stowawaybar.com"
-# Fresh Fruit Team broccolini (BROCE) — invoiced as a box, recipes use
-# bunches. Zak, 2026-08-16: "12 bunches per box".
-- id: "fresh-fruit-team:BROCE"
-  pack_qty: 12
-  pack_unit: ea
-  by: "Zak"
-  on: 2026-08-16
-  by_email: "hello@stowawaybar.com"
+# BROCE HAS NO PACK OVERRIDE, DELIBERATELY — a bunch IS the purchasable unit.
+#
+# 2026-08-16: Zak's "12 bunches per box" was recorded here, against BROCE. The
+# FACT is right; the CODE was wrong. Fresh Fruit Team bill broccolini two ways
+# and their own UOM column says which is which on every invoice:
+#
+#     BROCE   raw_uom "Bunch"   $3.17 - $3.60      <- one bunch
+#     BRL     raw_uom "Box"     $28.80 - $36.00    <- one box
+#
+# So dividing BROCE by 12 divided a BUNCH by 12 and put broccolini in the chef's
+# picker at $0.264167 a bunch against a real $3.17 — 12x under, in the direction
+# that flatters GP and is never questioned. It also contradicted the BRL entry
+# above, which has said "Broccolini, the BOX (BROCE is the bunch)" since 08-14.
+#
+# Nothing here caught it: the money still reconciled, every test stayed green,
+# and CI cannot see a pack divisor. The count moved to BRL where it belongs.
+# Left as a comment rather than a silent deletion so the next session does not
+# re-derive the same wrong entry from the same correct sentence.
