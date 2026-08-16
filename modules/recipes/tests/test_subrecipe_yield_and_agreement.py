@@ -172,3 +172,48 @@ def test_sub_guard_rejects_missing_inputs():
 def test_kg_and_g_are_the_same_class():
     """A batch measured in g can answer a line written in kg."""
     assert _sub_agrees(NEW_RATE * 1000, 0.09, 0.358439, "kg", "g")
+
+
+# --- sub-recipe unit conversion ----------------------------------------------
+
+def test_a_batch_in_kg_drawn_in_grams_converts_the_right_way():
+    """cost-per-yield-unit is MULTIPLIED by the same-dimension factor.
+
+    A $10 batch yielding 1 kg is $0.01/g, so a 200 g line is $2.00. Dividing by
+    the factor instead gives $2,000,000 — arithmetically perfect, physically
+    absurd, and in the direction that does not alarm anybody until a P&L lands.
+    """
+    from datetime import date
+    from decimal import Decimal
+
+    from core.domain import CostObservation, CostSeries
+    from modules.recipes.cost import Recipe, RecipeLine, cost_on
+
+    on = date(2026, 8, 16)
+    costs = CostSeries([CostObservation(
+        ingredient="ing:x", observed_on=on, cost_per_unit=Decimal("0.01"),
+        unit="g", venue=None, source_invoice="t")], purchasable_to_ingredient={})
+
+    batch = Recipe(product="B", venue="v", yield_qty=Decimal("1"), yield_unit="kg",
+                   lines=(RecipeLine(ingredient="ing:x", qty=Decimal("1000"), unit="g"),))
+    dish = Recipe(product="D", venue="v",
+                  lines=(RecipeLine(ingredient="", qty=Decimal("200"), unit="g",
+                                    subrecipe="B"),))
+    assert cost_on(dish, costs, on, recipes=[batch, dish]) == Decimal("2.00")
+
+
+def test_ea_and_each_are_the_same_unit():
+    """resolve_yield normalises a bracket to "each" while recipe lines say "ea".
+    They refused each other over spelling, and it cost 23 wings deals their cost
+    on 2026-08-16."""
+    from modules.recipes.cost import _same_dim_factor
+    assert _same_dim_factor("each", "ea") == 1
+    assert _same_dim_factor("pcs", "each") == 1
+
+
+def test_a_pack_is_still_not_a_count():
+    """box/tray/bottle are counts too, but how many grams is in one of them is
+    exactly the question the unit guard exists to refuse. That stays refused."""
+    from modules.recipes.cost import _same_dim_factor
+    assert _same_dim_factor("box", "each") is None
+    assert _same_dim_factor("tray", "g") is None

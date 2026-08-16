@@ -46,6 +46,16 @@ RECIPES_DIR = ROOT / "data" / "recipes"
 # here (ea, bottle, can, pack) has no conversion — those must match exactly.
 _MASS = {"g": 1, "gm": 1, "gram": 1, "grams": 1, "kg": 1000, "kgs": 1000, "kilogram": 1000}
 _VOL = {"ml": 1, "milliliter": 1, "l": 1000, "lt": 1000, "litre": 1000, "litres": 1000, "liter": 1000}
+# COUNTS. All the same dimension at a factor of 1 -- these are spellings of "one
+# thing", not conversions. "ea" and "each" being different units cost 23 wings
+# deals their cost on 2026-08-16: resolve_yield normalises a "[24 pcs]" bracket
+# to "each" while the recipe lines say "ea", so a batch yielding `each` and a
+# line asking for `ea` refused each other over spelling.
+#
+# Deliberately NOT extended to pack/box/tray/bottle. Those are counts too, but
+# how many grams is in one of them is exactly the question the unit guard exists
+# to refuse to answer -- that is the $11,400/serve bug, and it stays refused.
+_COUNT = {"ea": 1, "each": 1, "unit": 1, "units": 1, "pc": 1, "pcs": 1, "piece": 1, "pieces": 1}
 
 
 def _same_dim_factor(from_unit: str, to_unit: str) -> Optional[Decimal]:
@@ -53,7 +63,7 @@ def _same_dim_factor(from_unit: str, to_unit: str) -> Optional[Decimal]:
     are the same physical dimension (mass or volume). Returns None otherwise, so
     the caller still refuses a pack/each vs base mismatch (the $11,400/serve bug)."""
     fu, tu = (from_unit or "").lower(), (to_unit or "").lower()
-    for fam in (_MASS, _VOL):
+    for fam in (_MASS, _VOL, _COUNT):
         if fu in fam and tu in fam:
             return Decimal(fam[tu]) / Decimal(fam[fu])
     return None
@@ -215,7 +225,9 @@ def cost_on(recipe: Recipe, costs: CostSeries, on: date,
                     f"{recipe.product!r}: sub-recipe {sub.product!r} has a non-positive yield "
                     f"({sub.yield_qty}). A batch must yield a positive quantity."
                 )
-            if line.unit and line.unit != sub.yield_unit:
+            sub_factor = (Decimal(1) if line.unit == sub.yield_unit
+                          else _same_dim_factor(sub.yield_unit, line.unit))
+            if line.unit and sub_factor is None:
                 raise MissingCost(
                     f"{recipe.product!r}: unit mismatch on sub-recipe {sub.product!r} — "
                     f"recipe wants {line.qty}{line.unit}, batch yields {sub.yield_unit}. "
@@ -230,7 +242,15 @@ def cost_on(recipe: Recipe, costs: CostSeries, on: date,
                 bp = product_labour(sub.product, sessions, on=on, last_n=4)
                 if bp is not None:
                     batch_cost = batch_cost + bp
-            total += (batch_cost / sub.yield_qty) * line.qty
+            # A batch declared in kg drawn by a line in g is the same arithmetic
+            # as a $/kg price against a gram line: cost-per-yield-unit MULTIPLIED
+            # by the factor gives cost per line unit. _same_dim_factor("kg","g")
+            # is 1/1000, so $/kg x 1/1000 = $/g. Dividing instead -- which is what
+            # this said for about ninety seconds -- is wrong by a factor of a
+            # million on the first batch that declares kg. Cross-dimension still
+            # refuses above.
+            per_line_unit = (batch_cost / sub.yield_qty) * (sub_factor or Decimal(1))
+            total += per_line_unit * line.qty
             continue
 
         # ---- a bought ingredient -------------------------------------------

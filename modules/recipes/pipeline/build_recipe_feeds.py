@@ -55,6 +55,22 @@ _YIELD_BRACKET = re.compile(
     r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre|pcs|pc|units|unit|each|ea)\]", re.I)
 
 
+def _measured_yields() -> dict:
+    """batch -> the entry somebody weighed. Latest measurement wins: two real
+    weighings that disagree are information about variance, not a conflict."""
+    f = ROOT / "data" / "measured_yields.yaml"
+    if not f.exists():
+        return {}
+    import yaml as _yaml
+    doc = _yaml.safe_load(f.read_text(encoding="utf-8-sig")) or {}
+    out: dict = {}
+    for e in (doc.get("measured") or []):
+        prev = out.get(e["batch"])
+        if prev is None or str(e.get("measured_on")) >= str(prev.get("measured_on")):
+            out[e["batch"]] = e
+    return out
+
+
 def _prep_yield_estimates() -> dict:
     f = ROOT / "data" / "prep_yields.yaml"
     if not f.exists():
@@ -169,6 +185,14 @@ def resolve_yield(name: str, estimates: dict | None = None):
     #
     # The bracket still answers when nothing has been written down, which is the
     # common case -- "[4kg]", "[24 pcs]", "[110 units]" are usually all there is.
+    # 0. A MEASUREMENT OUTRANKS EVERYTHING BELOW IT. Every other rung on this
+    #    ladder is an inference -- a cook-loss band, Produce's own guess, a
+    #    label in a name -- and three of them were badly wrong without anybody
+    #    knowing. data/measured_yields.yaml is where a scale settles it.
+    m0 = _measured_yields().get(name)
+    if m0:
+        return Decimal(str(m0["yield_qty"])), m0["yield_unit"]
+
     e = (estimates if estimates is not None else _prep_yield_estimates()).get(name)
     if e:
         return Decimal(str(e["yield_qty"])), e["yield_unit"]

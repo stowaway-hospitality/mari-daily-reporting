@@ -72,15 +72,15 @@ COSTED = DATA / "lightspeed_recipes_costed.json"
 RECIPES = DATA / "recipes"
 STAGED = RECIPES / "_staged"
 
-# Sub-recipes the scrape uses as a whole unit rather than by weight. A recipe line
-# "BBQ Wings x 1 ea" means one serve of that recipe, so its yield is one serve.
-# Named explicitly: inventing a yield for a batch is exactly the guess this
-# project refuses to make, and resolve_yield returning None must stay an error
-# for anything not on this list.
-_UNIT_YIELD = {
-    "BBQ Wings": (Decimal("1"), "ea"),
-    "Mulled Wine": (Decimal("1"), "ea"),
-}
+# Sub-recipes the scrape uses as a whole unit rather than by weight -- "BBQ Wings
+# x 1 ea" is one serve, so the yield is one serve.
+#
+# This used to be a dict here. It is empty now because those two moved into
+# data/prep_yields.yaml where every other yield lives: a special case hidden in
+# a script is invisible to scripts/yield_worklist.py, so the two batches with no
+# yield anywhere were reported as unresolved while quietly working. Yields are
+# DATA. Kept as a hook for a case that genuinely cannot be written down.
+_UNIT_YIELD: dict = {}
 
 
 def _dec(x):
@@ -466,6 +466,9 @@ def materialise(venue: str) -> tuple[list, dict]:
             key = (name, ln.get("name"))
             src, ev = "scrape", None
 
+            # `recipe: "*"` applies wherever the ingredient appears -- used when
+            # the mislabel belongs to the INGREDIENT, not to one recipe.
+            lf = line_fixes.get(key) or line_fixes.get(("*", ln.get("name")))
             if (qf := qty_fixes.get(key)) and (ln.get("unit") or "") == qf[1] \
                     and _dec(ln.get("qty")) == _dec(qf[0]):
                 ln = dict(ln, qty=qf[2], unit=qf[3])
@@ -475,7 +478,7 @@ def materialise(venue: str) -> tuple[list, dict]:
                 report["unit_relabels"].append(
                     {"product": name, "line": key[1],
                      "from": f"{qf[0]} {qf[1]}", "to": f"{qf[2]} {qf[3]}"})
-            elif (lf := line_fixes.get(key)) and (ln.get("unit") or "") == lf[0]:
+            elif lf and (ln.get("unit") or "") == lf[0]:
                 ln = dict(ln, unit=lf[1])
                 src = "rule"
                 ev = (f"batch_yield_units.yaml: {lf[0]} -> {lf[1]}, per the "

@@ -1,0 +1,45 @@
+# MEASURED batch yields. A number somebody put on a scale.
+#
+# This file outranks everything. The ladder resolve_yield now walks is:
+#
+#   1. measured_yields.yaml   somebody weighed it            <- this file
+#   2. prep_yields.yaml       a written basis, or a scrape of Produce
+#   3. the [bracket] in the name   usually a pack label, sometimes a yield
+#
+# WHY IT SITS ON TOP
+# ------------------
+# Every yield below this line is an inference. Some are good ones -- a cook-loss
+# band from published figures, Produce's own 'Expected yield' field -- but an
+# inference is what you use until somebody weighs the thing. Three of them were
+# badly wrong and nobody knew: brisket by 6x, jalapeno tequila by 7.5x.
+#
+# A measurement here retires the argument permanently. It cannot be overwritten
+# by a re-scrape, because there is no scrape any more, and it cannot be
+# outranked by a "basis", because a basis is reasoning and this is a fact.
+#
+# HOW A CHEF ADDS ONE
+# -------------------
+# Weigh the empty container. Make the batch. Weigh it again. Subtract.
+# That is the whole method, and the tare is the step people skip.
+#
+#   - batch: "Pizza Sauce [Recipe]"
+#     yield_qty: 6120
+#     yield_unit: g            # g for anything you weigh, ml only if you measure volume
+#     measured_by: "Dan"
+#     measured_on: 2026-08-18
+#     note: "full batch, two trays, tared at 840 g"
+#
+# WEIGH IT IN GRAMS unless you genuinely poured it into a jug. A sauce weighed
+# on a scale is grams. Calling grams "ml" is how three batches ended up with a
+# unit nobody had measured -- see data/batch_yield_units.yaml.
+#
+# ONE BATCH, ONE ENTRY. If a second measurement disagrees with the first, add it
+# anyway with its own date: two real weighings that differ are information about
+# variance, and the most recent wins.
+#
+# The ranked list of what to weigh next is
+# data/_worklist/yield_verification.json, printable at
+# data/_worklist/yield_verification.html. It is ordered by the revenue standing
+# on each answer, so the top of the list is where a wrong number costs most.
+
+measured: []

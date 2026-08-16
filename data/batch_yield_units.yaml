@@ -85,6 +85,18 @@ line_unit_fixes:
       same aioli, hand-entered -- reads: subrecipe "Chimichurri", qty 60,
       unit "ml".
 
+  # `recipe: "*"` applies to every recipe drawing this ingredient. Used where the
+  # mislabel is in the INGREDIENT rather than in any one recipe -- all nine
+  # burrito lines ask for "0.125 ml" of a lime, and a lime has no millilitres.
+  - recipe: "*"
+    ingredient: "Lime [ea]"
+    from_unit: "ml"
+    to_unit: "ea"
+    proof: >-
+      Lime [ea] is one lime -- its only component is 0.0167 of a tray, and
+      0.0167 is 1/60. The drawing lines ask for 0.125 of it, an eighth of a
+      lime, which is a wedge. Millilitres of a whole fruit is not a quantity.
+
 # ---------------------------------------------------------------------------
 # RULED: the whole batch. Zak, 2026-08-16.
 # ---------------------------------------------------------------------------

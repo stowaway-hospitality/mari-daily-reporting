@@ -765,6 +765,13 @@ def audit():
         declared, _unit = _declared[name]
         if declared <= 0:
             continue
+        # A YIELD IN A COUNT IS NOT COMPARABLE TO A MASS. "BBQ Wings makes 1
+        # serve" against 500 g of wings is not a 500x defect, it is a serve with
+        # half a kilo of wings in it. The unit fell through to the g/kg branch
+        # and this fired the moment those serve-yields moved out of a script and
+        # into prep_yields.yaml where they belong.
+        if _unit not in ("ml", "l", "g", "kg"):
+            continue
         # sum only same-dimension inputs (ml/l with ml/l, g/kg with g/kg)
         want = {"ml", "l"} if _unit in ("ml", "l") else {"g", "kg"}
         total = 0.0

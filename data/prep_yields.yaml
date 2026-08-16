@@ -338,3 +338,66 @@ Wattleseed Honey Soy:
     book.'
   yield_qty: 3200
   yield_unit: g
+Lime [ea]:
+  basis: 'ASSUMED by Claude, 2026-08-16 — one lime, and the arithmetic says so
+    exactly: the batch is "Lime [Tray] 0.0167 tray", and 0.0167 is 1/60 of a
+    60-lime tray. The nine burrito lines drawing it ask for "0.125 ml", which is
+    not a volume of anything — it is an eighth of a lime, a wedge. So the yield
+    is one lime and the drawing lines are counting limes, not millilitres.
+    Confident in the magnitude; nothing here needs weighing, only confirming
+    that a tray is 60.'
+  yield_qty: 1
+  yield_unit: each
+Davidson Plum Hoisin:
+  basis: 'ASSUMED by Claude, 2026-08-16 — 9,079 g hoisin + 1,000 ml plum puree,
+    blended cold, so nothing cooks off. Hoisin is a thick fermented bean sauce
+    at roughly 1.2 g/ml, giving ~7,570 ml + 1,000 ml = ~8,570 ml. The density is
+    the assumption: read 1:1 instead and the batch looks like 10,079 ml, which
+    OVERSTATES yield and understates the cost of every dumpling using it. Erring
+    toward the smaller batch is erring toward the higher cost. WEIGH IT.'
+  yield_qty: 8570
+  yield_unit: ml
+HG's Soy Chilli Sauce:
+  basis: 'ASSUMED by Claude, 2026-08-16 — 5,000 g honey (~1.42 g/ml, so ~3,520
+    ml), 2,500 ml tamari, and ~2,750 g of aromatics and dry goods taken at ~1.0.
+    Total ~8,770 ml, called 8,800. Honey is the whole uncertainty: it is 57% of
+    the mass and the densest thing in the pot. Nothing is cooked off. WEIGH IT.'
+  yield_qty: 8800
+  yield_unit: ml
+Ginger Ponzu:
+  basis: 'ASSUMED by Claude, 2026-08-16 — 1,000 ml ponzu + 250 g pickled ginger,
+    which is stored in brine and sits near 1.0 g/ml, so ~1,250 ml. The least
+    uncertain of these estimates: one component is already a volume and the
+    other is mostly water. WEIGH IT to close it out.'
+  yield_qty: 1250
+  yield_unit: ml
+Espresso Martini:
+  basis: 'ASSUMED by Claude, 2026-08-16 — a single serve, not a batch. Its own
+    lines sum to 79.6 ml (30 coffee + 25 vodka + 12 Kahlua + 12 rum + trace),
+    called 80 ml, which is what one Espresso Martini is before ice. It is only
+    here because Caffe Crema draws 30 ml of it, so it needs a yield to divide by.
+    No weighing needed; the recipe states itself.'
+  yield_qty: 80
+  yield_unit: ml
+Chimichurri:
+  basis: 'From the hand-authored record in data/recipes/marilynas.yaml, entered
+    from Zak''s "Pizza Topping sauces Recipe" doc on 2026-08-05: 500 ml olive oil
+    + 60 ml balsamic + 2 bunches parsley + a chilli + a spoon of garlic, blended
+    cold so nothing cooks off. Recorded here as well so every consumer resolves
+    it, not only the ones that read the builder book.'
+  yield_qty: 650
+  yield_unit: ml
+BBQ Wings:
+  basis: 'One serve. Not a batch at all — it is a sold product that 22 wings
+    deals draw as "1 ea", meaning one serve of wings goes in the deal. Recorded
+    here so the yield lives in the data with every other one, rather than as a
+    special case inside a script where nothing can see it. No weighing needed.'
+  yield_qty: 1
+  yield_unit: each
+Mulled Wine:
+  basis: 'One serve, same shape as BBQ Wings. Mulled Wine PartyJar (4) draws
+    3.89 of them — see data/batch_yield_units.yaml, where the arithmetic
+    ($8.127473 line cost / $2.0908 a serve = 3.8872) shows the line counts
+    serves. No weighing needed.'
+  yield_qty: 1
+  yield_unit: each
