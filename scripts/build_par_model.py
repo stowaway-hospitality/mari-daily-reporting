@@ -180,14 +180,18 @@ def write_unattributed(venue, meta, generated_at):
     exported = meta["attributed_to_other_venue"]
     auto_hg = meta.get("auto_hg_suffix") or []
     hg_unresolved = meta.get("hg_suffix_unresolved") or []
+    zero_rev = meta.get("unattributed_zero_revenue") or []
+    zero_rev_qty = meta.get("unattributed_zero_revenue_qty_per_week", 0.0)
     total = meta["unattributed_revenue"]
     payload = {
-        "schema_version": 2,
+        "schema_version": 3,
         "generated_at": generated_at,
         "venue": venue,
         "window_weeks": meta["unattributed_weeks"],
         "week_range": meta["week_range"],
         "threshold_revenue_ex_gst": model.UNATTRIBUTED_FAIL_REVENUE,
+        "threshold_zero_revenue_qty_per_week":
+            model.UNATTRIBUTED_FAIL_QTY_PER_WEEK,
         "what_this_is": (
             "POS lines in a stock-bearing drink group whose sales volume reached "
             "NO par SKU. Each one is demand the par model cannot see, so the "
@@ -233,9 +237,21 @@ def write_unattributed(venue, meta, generated_at):
             "attributed_to_other_venue_lines": len(exported),
             "attributed_to_other_venue_revenue_ex_gst": round(
                 sum(r["revenue_ex_gst_window"] for r in exported), 2),
+            "zero_revenue_volume_lines": len(zero_rev),
+            "zero_revenue_volume_qty_per_week": zero_rev_qty,
         },
+        "what_zero_revenue_volume_is": (
+            "POS lines that moved real UNITS for effectively no money — comps, "
+            "staff drinks, owner usage. The revenue gate above cannot see them "
+            "by construction, and they are typically rung under a group like "
+            "'Modifiers' that the unattributed pass filters out, so they were "
+            "silently dropped twice over. The stock still leaves the building. "
+            "Fix by aliasing the line to its par SKU in data/par_aliases.json "
+            "so the units attribute, or — if it genuinely consumes no stock — "
+            "by naming it in `_intentionally_unattributed`."),
         "unattributed": offenders,
         "intentionally_unattributed": intentional,
+        "zero_revenue_volume": zero_rev,
         "attributed_to_other_venue": exported,
         "auto_hg_suffix": auto_hg,
         "hg_suffix_unresolved": hg_unresolved,
@@ -279,10 +295,25 @@ def write_unattributed(venue, meta, generated_at):
             print(f"       ??    {r['qty_per_week']:>6.2f}/wk  {r['pos_line'][:34]:34s}"
                   f" -> NO {model.HG_SUFFIX_STOCK_VENUE} par SKU for "
                   f"{r['stripped']!r} (add an explicit alias)")
+    if zero_rev:
+        z_verdict = ("FAIL" if zero_rev_qty > model.UNATTRIBUTED_FAIL_QTY_PER_WEEK
+                     else "warn")
+        print(f"  zero-revenue volume (comps / staff / owner usage): "
+              f"{len(zero_rev)} line(s), {zero_rev_qty:.2f} units/wk "
+              f"[{z_verdict}, threshold "
+              f"{model.UNATTRIBUTED_FAIL_QTY_PER_WEEK:.2f}/wk]")
+        for r in zero_rev[:10]:
+            mark = "" if r["stock_bearing"] else "  (group not stock-bearing)"
+            print(f"     {r['qty_per_week']:>6.2f}/wk  "
+                  f"{str(r['reporting_group'])[:22]:22s} {r['product'][:36]}{mark}")
+        if len(zero_rev) > 10:
+            print(f"     ... and {len(zero_rev) - 10} more — "
+                  f"see data/{UNATTR_OUT[venue]}")
+
     if not offenders:
         print("  Unattributed gate: PASS — every stock-bearing drink line "
               "reaches a par SKU.")
-        return total, 0, alias_errors
+        return total, 0, alias_errors, zero_rev_qty
     verdict = ("FAIL" if total > model.UNATTRIBUTED_FAIL_REVENUE else "warn")
     print(f"  !! {len(offenders)} stock-bearing POS line(s) reach NO par SKU — "
           f"${total:,.0f} ex-GST over {meta['unattributed_weeks']} weeks "
@@ -294,7 +325,7 @@ def write_unattributed(venue, meta, generated_at):
               f"{str(r['reporting_group'])[:22]:22s} {r['product'][:40]}{known}")
     if len(offenders) > 20:
         print(f"     ... and {len(offenders) - 20} more — see data/{UNATTR_OUT[venue]}")
-    return total, len(offenders), alias_errors
+    return total, len(offenders), alias_errors, zero_rev_qty
 
 
 def write_source_venue(venue, rows, generated_at):
@@ -452,6 +483,7 @@ def main():
     rows = model.load_weekly(DATA)
     gate_failed = False
     unattr_failed = False
+    zero_rev_failed = False
     all_meta = {}
     for venue in model.PAR_VENUES:
         recs, meta, (inc, dec, same, changes) = build_venue(venue, rows)
@@ -496,12 +528,17 @@ def main():
                       f"{sum(imp[src].values()):,.1f} units over "
                       f"{meta['weeks']} wk")
 
-        total, n_off, alias_errors = write_unattributed(
+        total, n_off, alias_errors, zero_rev_qty = write_unattributed(
             venue, meta, datetime.now(timezone.utc).astimezone().isoformat())
         if alias_errors:
             unattr_failed = True
         if total > model.UNATTRIBUTED_FAIL_REVENUE:
             unattr_failed = True
+        # Units moving for no money is the same failure as revenue reaching no
+        # par SKU — the revenue gate just cannot express it. See
+        # model.UNATTRIBUTED_FAIL_QTY_PER_WEEK.
+        if zero_rev_qty > model.UNATTRIBUTED_FAIL_QTY_PER_WEEK:
+            zero_rev_failed = True
 
     # ── the venues that sell but hold nothing ──────────────────────────────
     # Marilyna's. No pars, so no recommendations file — but the same guard, and
@@ -529,6 +566,18 @@ def main():
               f"does not exist).\n"
               f"Fix: map the offending POS lines in data/par_aliases.json, or "
               f"create the missing stock item in the Purchase module. See "
+              f"{', '.join('data/' + f for f in UNATTR_OUT.values())}.",
+              file=sys.stderr)
+        sys.exit(1)
+    if zero_rev_failed:
+        print(f"\nBUILD FAILED: more than "
+              f"{model.UNATTRIBUTED_FAIL_QTY_PER_WEEK:.2f} units/wk of stock "
+              f"leaves on POS lines rung at ~$0 — comps, staff drinks, owner "
+              f"usage — reaching no par SKU. Revenue cannot see this, which is "
+              f"why it is counted separately.\n"
+              f"Fix: alias the line to its par SKU in data/par_aliases.json so "
+              f"the units attribute, or name it in `_intentionally_unattributed` "
+              f"if it genuinely consumes no stock. See "
               f"{', '.join('data/' + f for f in UNATTR_OUT.values())}.",
               file=sys.stderr)
         sys.exit(1)

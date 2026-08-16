@@ -755,6 +755,56 @@ def test_unattributed_gate_fires_on_a_high_revenue_stock_bearing_line():
     assert total > model.UNATTRIBUTED_FAIL_REVENUE, "this must FAIL the build"
 
 
+def test_a_comp_rung_at_zero_dollars_is_invisible_to_the_revenue_gate():
+    """The blind spot itself, stated as a test.
+
+    'Bry Ol San Pell' — owner usage, rung under 'Modifiers' at $0. It moves real
+    stock and it reached no par SKU, but the revenue gate cannot see it (it
+    earns nothing) and `unattributed_report` drops it (its group is not
+    stock-bearing). Two independent reasons to be invisible.
+    """
+    raw = _raw("Bry Ol San Pell", "Modifiers", 6.0, 0.0)
+
+    offenders, intentional = model.unattributed_report(raw, [WEEK], None)
+    assert offenders == [], "the old pass cannot see it — that is the bug"
+    assert intentional == []
+    total = sum(r["revenue_ex_gst_window"] for r in offenders)
+    assert total <= model.UNATTRIBUTED_FAIL_REVENUE, "and $0 can never trip a $ gate"
+
+    # ...which is why units are counted separately.
+    zero_rev = model.zero_revenue_volume_report(raw, [WEEK], None)
+    assert [r["product"] for r in zero_rev] == ["Bry Ol San Pell"]
+    assert zero_rev[0]["qty_window"] == 6.0
+    assert zero_rev[0]["stock_bearing"] is False
+
+
+def test_zero_revenue_volume_fails_the_build_above_the_unit_threshold():
+    qty = (model.UNATTRIBUTED_FAIL_QTY_PER_WEEK + 1.0)
+    raw = _raw("Staff Beers", "Modifiers", qty, 0.0)
+    zero_rev = model.zero_revenue_volume_report(raw, [WEEK], None)
+    per_week = sum(r["qty_per_week"] for r in zero_rev)
+    assert per_week > model.UNATTRIBUTED_FAIL_QTY_PER_WEEK, "this must FAIL the build"
+
+
+def test_a_line_that_earns_money_is_not_a_comp():
+    """The unit gate must not swallow ordinary trade — that is the revenue
+    gate's job, and double-counting a line into both is how a guard loses its
+    meaning."""
+    raw = _raw("Peroni", "Bottles / Cans Alcoholic", 40.0, 380.0)
+    assert model.zero_revenue_volume_report(raw, [WEEK], None) == []
+
+
+def test_an_intentionally_unattributed_line_is_not_a_comp():
+    """Post-mix consumes no discrete stock unit, so a $0 post-mix line is not
+    stock walking out. Silenced by name, the same way as everywhere else."""
+    doc = {"stow": {},
+           "_intentionally_unattributed": {
+               "stow": [{"product": "Soda Water", "reason": "post-mix gun"}]}}
+    ab = model.AliasBook(doc, "stow")
+    raw = _raw("Soda Water", "Non-alcoholic", 500.0, 0.0)
+    assert model.zero_revenue_volume_report(raw, [WEEK], ab) == []
+
+
 def test_intentionally_unattributed_lines_do_not_trip_the_gate():
     """Post-mix drinks consume no discrete stock unit. They can never attribute,
     so they must never be able to fail a build."""

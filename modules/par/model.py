@@ -1564,6 +1564,21 @@ UNATTRIBUTED_WEEKS = 13
 # $54,794 was reaching nothing when this guard was written.
 UNATTRIBUTED_FAIL_REVENUE = 2000.0
 
+# ── ...and the same guard measured in UNITS, because revenue cannot see a comp ─
+# The revenue gate above has a blind spot with a precise shape: a line rung at
+# $0 that still moves real stock. Staff drinks, owner usage, comps. It adds
+# nothing to the dollar figure, so it could never trip the gate no matter how
+# much stock it took — and, being rung under a group like 'Modifiers', it was
+# dropped by `unattributed_report` before it was ever counted.
+#
+# Found 2026-08-16 via 'Bry Ol San Pell': 231 units over 61 weeks, $10.40 of
+# revenue, and it had never once appeared in the unattributed report. Small
+# today. The mechanism is not — it is the same "volume was silently dropped"
+# class the $2,000 gate exists to end, wearing a $0 price tag.
+UNATTRIBUTED_FAIL_QTY_PER_WEEK = 2.0
+# A line counts as "rung at zero" if 13 weeks of it earned less than this.
+ZERO_REVENUE_EPSILON = 1.0
+
 # ── Marilyna's finished goods: a KNOWN backlog, not an alias failure ────────
 # A pizza is not a stock item and can never be one. 'Large Super House Special'
 # will never resolve to a par SKU by any name rule, because what it consumes is
@@ -1651,6 +1666,41 @@ def unattributed_report(raw, weeks, aliases=None, window=UNATTRIBUTED_WEEKS):
     offenders.sort(key=lambda r: -r["revenue_ex_gst_window"])
     intentional.sort(key=lambda r: -r["revenue_ex_gst_window"])
     return offenders, intentional
+
+
+def zero_revenue_volume_report(raw, weeks, aliases=None,
+                               window=UNATTRIBUTED_WEEKS):
+    """POS lines that moved real units for ~no money — comps, staff, owner use.
+
+    Deliberately a SEPARATE pass rather than a third bucket out of
+    `unattributed_report`. That function answers "which stock-bearing drink
+    line failed to attribute", and to do it, it drops every non-stock-bearing
+    line on the floor with a bare `continue`. A comp is rung under 'Modifiers'
+    or 'Bar / FOH', so it never survives that filter, and it earns nothing, so
+    the $2,000 revenue gate downstream could not have seen it either. Two
+    independent reasons to be invisible; this closes both.
+
+    So it is NOT filtered by reporting group. It asks the one question the
+    other pass cannot — did units move without money? — and leaves the
+    classifying to a human. A line that genuinely consumes no stock is silenced
+    the same way as everywhere else in this module: by name, in
+    par_aliases.json `_intentionally_unattributed`. Never by excusing a group,
+    which is how the blind spot got there in the first place.
+    """
+    out = []
+    for _a, row in _window_rows(raw, weeks, window):
+        if row["qty_window"] <= 0:
+            continue
+        if row["revenue_ex_gst_window"] >= ZERO_REVENUE_EPSILON:
+            continue
+        if aliases is not None and aliases.is_intentional(row["product"]):
+            continue
+        row["stock_bearing"] = bool(
+            STOCK_BEARING_RG.search(row["reporting_group"]))
+        row["classification"] = "zero_revenue_volume"
+        out.append(row)
+    out.sort(key=lambda r: -r["qty_per_week"])
+    return out
 
 
 def cross_venue_report(raw, weeks, window=UNATTRIBUTED_WEEKS):
@@ -2214,6 +2264,7 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
 
     gaps = coverage_gap(rows, venue, matcher, leaves_by_norm, recent_weeks)
     unattr, unattr_intentional = unattributed_report(unattributed_raw, weeks, aliases)
+    unattr_zero_rev = zero_revenue_volume_report(unattributed_raw, weeks, aliases)
     exported = cross_venue_report(exported_raw, weeks)
     hg_resolved, hg_unresolved = hg_suffix_report(
         aliases.auto_rule, exported_raw, unattributed_raw, weeks)
@@ -2250,6 +2301,9 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
         "cross_venue_sources": sorted(cross_aliases),
         "unattributed": unattr,
         "unattributed_intentional": unattr_intentional,
+        "unattributed_zero_revenue": unattr_zero_rev,
+        "unattributed_zero_revenue_qty_per_week": round(
+            sum(r["qty_per_week"] for r in unattr_zero_rev), 2),
         "unattributed_revenue": round(
             sum(r["revenue_ex_gst_window"] for r in unattr), 2),
         "unattributed_weeks": UNATTRIBUTED_WEEKS,

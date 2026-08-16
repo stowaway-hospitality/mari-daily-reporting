@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-16T12:18:23.090525+10:00",
+  "generated_at": "2026-08-16T12:51:47.233344+10:00",
   "venue": "stow",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 95,
@@ -34,9 +34,9 @@
   },
   "summary": {
     "n_skus": 228,
-    "increase": 18,
-    "decrease": 4,
-    "unchanged": 168,
+    "increase": 17,
+    "decrease": 2,
+    "unchanged": 171,
     "coverage_gaps": [],
     "shrinkage_applied": 57,
     "shrinkage_capped": 6,
@@ -4495,7 +4495,7 @@
       "rec_par": 4.0,
       "rec_par_pre_override": 4.0,
       "rec_par_modelled": 4.0,
-      "current_par": 2.8,
+      "current_par": 4.0,
       "drivers": {
         "pour_wk": 0.14,
         "recipe_wk": 0.0,
@@ -10311,7 +10311,7 @@
       "rec_par": 18.0,
       "rec_par_pre_override": 18.0,
       "rec_par_modelled": 18.0,
-      "current_par": 24.4,
+      "current_par": 18.0,
       "drivers": {
         "pour_wk": 9.25,
         "recipe_wk": 0.0,
@@ -11990,7 +11990,7 @@
       "rec_par": 19.9,
       "rec_par_pre_override": 19.9,
       "rec_par_modelled": 19.9,
-      "current_par": 21.4,
+      "current_par": 19.9,
       "drivers": {
         "pour_wk": 7.48,
         "recipe_wk": 5.46,

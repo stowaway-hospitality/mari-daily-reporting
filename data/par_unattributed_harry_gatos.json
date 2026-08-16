@@ -1,6 +1,6 @@
 {
-  "schema_version": 2,
-  "generated_at": "2026-08-16T12:18:23.785002+10:00",
+  "schema_version": 3,
+  "generated_at": "2026-08-16T12:51:48.003562+10:00",
   "venue": "hg",
   "window_weeks": 13,
   "week_range": [
@@ -8,6 +8,7 @@
     "2026-08-09"
   ],
   "threshold_revenue_ex_gst": 2000.0,
+  "threshold_zero_revenue_qty_per_week": 2.0,
   "what_this_is": "POS lines in a stock-bearing drink group whose sales volume reached NO par SKU. Each one is demand the par model cannot see, so the affected par collapses silently. Fix by adding an entry to data/par_aliases.json (if the stock item exists under another name) or by creating the stock item in the Lightspeed Purchase module.",
   "aliases_in_force": 20,
   "cross_venue_aliases": {
@@ -35,8 +36,11 @@
     "intentionally_unattributed_lines": 16,
     "intentionally_unattributed_revenue_ex_gst": 1725.55,
     "attributed_to_other_venue_lines": 11,
-    "attributed_to_other_venue_revenue_ex_gst": 696.61
+    "attributed_to_other_venue_revenue_ex_gst": 696.61,
+    "zero_revenue_volume_lines": 2,
+    "zero_revenue_volume_qty_per_week": 0.16
   },
+  "what_zero_revenue_volume_is": "POS lines that moved real UNITS for effectively no money — comps, staff drinks, owner usage. The revenue gate above cannot see them by construction, and they are typically rung under a group like 'Modifiers' that the unattributed pass filters out, so they were silently dropped twice over. The stock still leaves the building. Fix by aliasing the line to its par SKU in data/par_aliases.json so the units attribute, or — if it genuinely consumes no stock — by naming it in `_intentionally_unattributed`.",
   "unattributed": [
     {
       "product": "Veuve Clicquot",
@@ -213,6 +217,26 @@
       "revenue_ex_gst_window": 3.64,
       "stock_bearing": true,
       "reason": "post-mix gun - no discrete stock unit"
+    }
+  ],
+  "zero_revenue_volume": [
+    {
+      "product": "Fever-Tree Light Tonic [mixer]",
+      "reporting_group": "Add-ons - Bar",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 0.91,
+      "stock_bearing": false,
+      "classification": "zero_revenue_volume"
+    },
+    {
+      "product": "Nori Sheet",
+      "reporting_group": "Bar / FOH (no reporting group)",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 0.91,
+      "stock_bearing": false,
+      "classification": "zero_revenue_volume"
     }
   ],
   "attributed_to_other_venue": [
