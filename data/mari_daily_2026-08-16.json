@@ -1,6 +1,6 @@
 {
   "date": "2026-08-16",
-  "generated_at": "2026-08-16T20:21:34.743888Z",
+  "generated_at": "2026-08-16T21:54:33.428489Z",
   "venue": "marilynas",
   "venue_display": "Marilyna's Pizza",
   "lane_config": [
@@ -10,25 +10,33 @@
     "delivery"
   ],
   "data_status": {
-    "lightspeed": "missing",
+    "lightspeed": "ok",
     "deputy": "ok",
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": null,
-    "revenue_ex_gst": null,
-    "cogs_dollars": null,
-    "cogs_pct": null,
-    "gp_dollars": null,
-    "gp_pct": null,
-    "cogs_source": null,
-    "cogs_lightspeed_dollars": null,
-    "recipe_coverage_pct": null,
+    "revenue_inc_gst": 1541.58,
+    "revenue_ex_gst": 1398.38,
+    "cogs_dollars": 249.14,
+    "cogs_pct": 17.8,
+    "gp_dollars": 1149.24,
+    "gp_pct": 82.2,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 260.14,
+    "recipe_coverage_pct": 90.4,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0,
+    "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 1398.38,
+    "bev_ex_gst": 0.0,
+    "food_cogs": 249.14,
+    "bev_cogs": 0.0,
+    "food_cogs_pct": 17.8,
+    "bev_cogs_pct": null,
+    "food_gp_pct": 82.2,
+    "bev_gp_pct": null
   },
   "wages": {
     "kitchen_dollars": 612.68,
@@ -36,12 +44,12 @@
     "driver_dollars": 107.16,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": null,
-    "wages_pct": null,
+    "total_dollars": 719.84,
+    "wages_pct": 51.5,
     "net_wage_pct": null,
     "kitchen_hours": 14.8,
     "foh_hours": 0,
-    "wages_kitchen_pct": null,
+    "wages_kitchen_pct": 43.8,
     "wages_foh_pct": null,
     "includes_super": true,
     "salaried_synthesized": true
@@ -50,15 +58,15 @@
     "uber_eats_commission_dollars": 0,
     "own_driver_dollars": 107.16,
     "uber_direct_dollars": 0.0,
-    "total_dollars": null,
-    "delivery_pct": null,
+    "total_dollars": 107.16,
+    "delivery_pct": 7.7,
     "fees_are_estimate": true
   },
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "unknown",
-    "wages": "unknown",
-    "delivery": "unknown",
+    "cogs": "yellow",
+    "wages": "red",
+    "delivery": "yellow",
     "gp": "unknown",
     "cogs_food": "unknown",
     "cogs_bev": "unknown",
@@ -91,5 +99,163 @@
       "note": "Rent + utils + admin + insurance + real marketing (excludes delivery + Uber commission)"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Regular Bubba Gump",
+      "qty": 4.0,
+      "rev": 95.58,
+      "cost": 14.2108,
+      "cost_source": "recipe",
+      "cost_lightspeed": 16.65
+    },
+    {
+      "name": "Large Hawaiian",
+      "qty": 4.0,
+      "rev": 91.57,
+      "cost": 12.6828,
+      "cost_source": "recipe",
+      "cost_lightspeed": 13.06
+    },
+    {
+      "name": "Large Super House Special",
+      "qty": 3.0,
+      "rev": 88.77,
+      "cost": 22.4184,
+      "cost_source": "recipe",
+      "cost_lightspeed": 23.17
+    },
+    {
+      "name": "Regular Truffalo Soldier [Dine-in]",
+      "qty": 3.0,
+      "rev": 85.8,
+      "cost": 9.2037,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.8
+    },
+    {
+      "name": "Regular No Chorizo, No Cry [Dine-in]",
+      "qty": 3.0,
+      "rev": 69.48,
+      "cost": 7.6683,
+      "cost_source": "recipe",
+      "cost_lightspeed": 8.02
+    },
+    {
+      "name": "Regular Cosmopolitan",
+      "qty": 3.0,
+      "rev": 65.67,
+      "cost": 13.1424,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.15
+    },
+    {
+      "name": "Large Little Italy",
+      "qty": 2.0,
+      "rev": 63.8,
+      "cost": 14.491,
+      "cost_source": "recipe",
+      "cost_lightspeed": 18.24
+    },
+    {
+      "name": "Regular Hail Africa [Dine-in]",
+      "qty": 2.0,
+      "rev": 60.37,
+      "cost": 5.4742,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.99
+    },
+    {
+      "name": "Regular Little Italy [Dine-in]",
+      "qty": 2.0,
+      "rev": 57.2,
+      "cost": 8.1602,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.95
+    },
+    {
+      "name": "Regular El Patron",
+      "qty": 2.0,
+      "rev": 43.78,
+      "cost": 8.4716,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.58
+    },
+    {
+      "name": "Gluten-free Little Italy",
+      "qty": 1.0,
+      "rev": 32.9,
+      "cost": 9.5423,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.97
+    },
+    {
+      "name": "Family Super House Special",
+      "qty": 1.0,
+      "rev": 32.89,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Family Cosmopolitan",
+      "qty": 1.0,
+      "rev": 32.89,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Regular Hawaiian",
+      "qty": 2.0,
+      "rev": 32.78,
+      "cost": 6.3732,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.49
+    },
+    {
+      "name": "Large Jimmy Jury",
+      "qty": 1.0,
+      "rev": 31.9,
+      "cost": 6.057,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.47
+    },
+    {
+      "name": "Large Meatlovers",
+      "qty": 1.0,
+      "rev": 31.9,
+      "cost": 6.595,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.47
+    },
+    {
+      "name": "Large Paddock",
+      "qty": 1.0,
+      "rev": 31.9,
+      "cost": 4.9583,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.36
+    },
+    {
+      "name": "Family Roma Special",
+      "qty": 1.0,
+      "rev": 31.79,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Gluten-free BBQ Chicken Pizza",
+      "qty": 1.0,
+      "rev": 30.9,
+      "cost": 7.1943,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.61
+    },
+    {
+      "name": "Large El Patron",
+      "qty": 1.0,
+      "rev": 29.59,
+      "cost": 5.667,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.11
+    }
+  ]
 }
