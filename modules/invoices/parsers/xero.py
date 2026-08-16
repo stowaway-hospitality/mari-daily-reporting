@@ -86,6 +86,12 @@ ABN_SUPPLIER: dict[str, tuple[str, str]] = {
     "25617284705": ("mallia_industries", "Urbun Bakery"),
     "92634099844": ("canton_group", "Canton Group Pty Ltd"),
     # beverage
+    # Barrel One Coffee Roasters, ABN 41 643 628 844 — PRINTED on its own
+    # invoice under "FROM ... 5/36 Campbell Avenue, Cromer, NSW, 2099". Not
+    # looked up. It bills through Ordermentum rather than Xero, and the
+    # ordermentum parser imports this registry rather than keeping a second
+    # copy of our own ABNs.
+    "41643628844": ("barrel_one", "Barrel One Coffee Roasters"),
     "53158357450": ("grifter", "The Grifter Brewing Company Pty Ltd"),
     "39616427340": ("philter", "Philter Brewing Pty Ltd"),
     "15145358836": ("moda_sparkling", "MODA Sparkling"),

@@ -39,6 +39,8 @@ from modules.invoices.parsers import gulli              # noqa: E402,F401
 from modules.invoices.parsers import jun_pacific        # noqa: E402,F401
 from modules.invoices.parsers import jfc                # noqa: E402,F401
 from modules.invoices.parsers import xero               # noqa: E402,F401
+# AFTER xero: ordermentum imports vendor_from_abn from it.
+from modules.invoices.parsers import ordermentum        # noqa: E402,F401
 from modules.invoices.parsers import lion               # noqa: E402,F401
 from modules.invoices.parsers import paramount          # noqa: E402,F401
 from modules.invoices.parsers import nicholas_seafood   # noqa: E402,F401

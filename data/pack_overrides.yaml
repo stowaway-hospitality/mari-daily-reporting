@@ -956,3 +956,24 @@
   by: "Claude (corrective; evidence cogs_list per_unit basis, Zak's case=physical)"
   on: 2026-08-16
   by_email: "hello@stowawaybar.com"
+# BARREL ONE COFFEE CONCENTRATE — the case, expressed as a MEASURE.
+# 2026-08-17. The Ordermentum invoice prices ONE CASE ("750ml (6)") at $83.25 ex
+# / $91.575 inc. The cost book's identity for this product is the BOTTLE
+# (lightspeed:20484935 Stowaway, :20750115 Harry Gatos), so the case rate has to
+# be converted or the bridge would write a 6x-too-dear cost onto a bottle.
+#
+# EXPRESSED IN ml, NOT AS A COUNT OF 6, and that is the item-26 rule: an override
+# in ml/g says "one of these CONTAINS this much" — a real conversion, and the
+# only route to costing by volume. An override in "ea" says "a carton holds N",
+# which is a fact about the carton and is applied upstream; using one here is how
+# nine products were understated 40x-288x before the feed diff caught it.
+#
+# CORROBORATED BY ARITHMETIC, not asserted: 6 x 750 mL = 4500 mL, and
+# $91.575 / 4500 = $0.020350/mL against the recipe seed's $0.020389/mL — a 0.2%
+# agreement with a number derived independently, from Lightspeed, in January.
+- id: "barrel-one:BOCC750-6"
+  pack_qty: 4500
+  pack_unit: ml
+  by: "Zak (supplier confirmed 2026-08-17) + arithmetic: $91.575/4500ml = $0.020350 vs recipe seed $0.020389"
+  on: 2026-08-17
+  by_email: "hello@stowawaybar.com"

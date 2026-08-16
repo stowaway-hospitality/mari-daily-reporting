@@ -11,6 +11,10 @@ tests and tooling can read it with no heavy imports.
 from __future__ import annotations
 
 DOMAIN_KEY: dict[str, str] = {
+    # Ordermentum is a PLATFORM sender (many vendors), like post.xero.com. The
+    # key here is only what build_corpus/parser_regression file it under; the
+    # real vendor comes from the ABN on the page. See parsers/ordermentum.py.
+    "ordermentum.com": "ordermentum",
     "selectprovidores.com.au": "select_fresh",
     "foodlinkaustralia.com.au": "foodlink",
     "befoods.com.au": "be_foods",

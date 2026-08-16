@@ -98,6 +98,12 @@ SUPPLIER_ALIAS = {
     "combined_wines": "Combined Wines", "bacchus": "Bacchus", "grifter": "Grifter",
     "philter": "Philter", "young_rashleigh": "Young & Rashleigh",
     "mountain_culture": "Mountain Culture", "four_pines": "4 Pines",
+    # 2026-08-17. Without this the supplier falls back to the LEGAL name on
+    # the invoice, "Barrel One Coffee Roasters", which slugs to
+    # barrel-one-coffee-roasters: — so the pack override and product_map rows
+    # keyed barrel-one: never matched and the case was costed off the "750ml"
+    # in its own description, 6x too dear. Item 12 of the triage log, again.
+    "barrel_one": "Barrel One",
 }
 
 
