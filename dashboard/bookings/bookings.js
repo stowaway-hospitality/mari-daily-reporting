@@ -464,7 +464,13 @@ function cardFor(ev, selected) {
   const card = document.createElement('div');
   card.className = 'event-card' + (selected ? ' sel' : '') + (ev.public ? ' pub' : '');
   card.title = `${ev.name} — ${niceDate(ev.date)}`;
-  const badge = ev.bookings ? `<span class="ec-count">${ev.bookings} bkg · ${ev.covers}p</span>` : '';
+  // A day can be worth opening for a PENCIL alone — something is happening and
+  // we do not yet know enough to book it. Without this the card either says
+  // nothing or does not exist, which is how 16 Aug 2026 looked like a free day.
+  const pen = ev.pencils ? `<span class="ec-count ec-pencil">${ev.pencils} pencilled</span>` : '';
+  const badge = ev.bookings
+    ? `<span class="ec-count">${ev.bookings} bkg · ${ev.covers}p</span>${pen}`
+    : pen;
   card.innerHTML = `<div class="ec-dow">${dow}</div>
     <div class="ec-date">${dm}</div>
     <div class="ec-name">${ev.name}</div>${badge}`;
