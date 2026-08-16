@@ -21,7 +21,7 @@
   "scrape": 523,
   "weighed": 238
  },
- "generated": "2026-08-16",
+ "generated": "2026-08-17",
  "lines": 1511,
  "manual_lines": [
   {
@@ -1562,52 +1562,171 @@
  ],
  "unit_relabels": [
   {
-   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
-   "batch": "Garlic Oil [Batch]",
+   "basis": "sum of ingredients x0.75",
+   "batch": "Gravy Prep",
    "from": "ml",
    "to": "g",
-   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+   "why": "house rule: food is weighed, so g"
   },
   {
-   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
-   "batch": "Mint Yoghurt [Batch]",
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-06. Zak: \"you should've scraped yields from light",
+   "batch": "Balsamic Dressing House [4.9L]",
    "from": "ml",
    "to": "g",
-   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
-  },
-  {
-   "basis": "read off the [bracket] in the name",
-   "batch": "Yorkshire Pudding Prep [110 units]",
-   "from": "each",
-   "to": "ml",
-   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in ml"
-  },
-  {
-   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
-   "batch": "Cauliflower Cheese Prep",
-   "from": "g",
-   "to": "ml",
-   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in ml"
+   "why": "house rule: food is weighed, so g"
   },
   {
    "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
    "batch": "Black Beans Prep",
    "from": "ml",
    "to": "g",
-   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+   "why": "house rule: food is weighed, so g"
   },
   {
    "basis": "read off the [bracket] in the name",
    "batch": "Buffalo Aioli [1L]",
    "from": "ml",
    "to": "g",
-   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+   "why": "house rule: food is weighed, so g"
   },
   {
+   "basis": "read off the [bracket] in the name",
+   "batch": "House BBQ Sauce [11L]",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-06. Zak: \"you should've scraped yields from light",
+   "batch": "Salsa Rosa Prep",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "sum of ingredients x1.0",
+   "batch": "Carnaval Fruit Mix",
    "from": "g",
-   "line": "Chimichurri",
-   "product": "J.J. Aioli [Batch]",
-   "to": "ml"
+   "to": "ml",
+   "why": "house rule: a drink is poured, so ml"
+  },
+  {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
+   "batch": "Mint Yoghurt [Batch]",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
+   "batch": "Garlic Oil [Batch]",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "From the hand-authored record in data/recipes/marilynas.yaml, entered from Zak's \"Pizza Topping sauces Recipe\" doc on 20",
+   "batch": "Chimichurri",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Quandong Sambal",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "read off the [bracket] in the name",
+   "batch": "Peking Sauce [6.75L]",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "ASSUMED by Claude, 2026-08-16 \u2014 9,079 g hoisin + 1,000 ml plum puree, blended cold, so nothing cooks off. Hoisin is a th",
+   "batch": "Davidson Plum Hoisin",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "ASSUMED by Claude, 2026-08-16 \u2014 1,000 ml ponzu + 250 g pickled ginger, which is stored in brine and sits near 1.0 g/ml, ",
+   "batch": "Ginger Ponzu",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "ASSUMED by Claude, 2026-08-16 \u2014 5,000 g honey (~1.42 g/ml, so ~3,520 ml), 2,500 ml tamari, and ~2,750 g of aromatics and",
+   "batch": "HG's Soy Chilli Sauce",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Tofu Marination",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Chicken Marination",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Beef Marination",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Pickle Cabbage",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Gochujang Honey Soy",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Katsu Curry Sauce",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Tonkotsu Broth",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "from": "ml",
+   "line": "House BBQ Sauce [11L]",
+   "product": "BBQ Wings",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "batch": "Chimichurri",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule, applied over a hand-authored unit"
   },
   {
    "from": "ml",

@@ -63,6 +63,7 @@ sys.path.insert(0, str(ROOT))
 
 from core.domain import CostSeries, load_cost_observations  # noqa: E402
 from modules.recipes.cost import cost_on  # noqa: E402
+from modules.recipes.units import beverage_batches, house_unit  # noqa: E402
 from modules.recipes.pipeline.build_recipe_feeds import (  # noqa: E402
     _prep_yield_estimates, resolve_yield, venue_of,
 )
@@ -282,63 +283,47 @@ def _dominant_unit(batch: dict):
 
 
 def derive_yield_unit_fixes(book: dict, report: dict) -> dict:
-    """batch name -> corrected yield unit, derived rather than hand-listed.
+    """batch name -> the unit it should declare, from the house rule.
 
-    Fires only when all three of these hold, which is deliberately narrow:
+    Food is weighed, drinks are poured (modules/recipes/units.py). This replaced
+    a two-way-agreement heuristic on 2026-08-16 -- "relabel when the drawing
+    lines AND the batch's dominant component both disagree with the label" --
+    which was sound but timid: it could not fire when the drawing recipes
+    disagreed with each other (Salsa Rosa, drawn in g by two and ml by four), or
+    when the batch was a dead-even 1,000 g of sugar against 1,000 ml of cream
+    (Salted Caramel), and it got Cauliflower Cheese backwards because 2 L of milk
+    outweighed the cheese.
 
-      1. prep_yields.yaml states the basis as a "sum of ingredients" -- i.e. the
-         number is a mixed-unit sum and its unit label is arbitrary;
-      2. every recipe drawing on the batch uses ONE unit, and it is not the unit
-         the yield claims;
-      3. the batch's own dominant component is measured in that same unit.
+    The kitchen convention answers all three, and answers them without inventing
+    a density: those are all FOOD, so they are all grams.
 
-    Two independent readings of the batch -- what the kitchen draws from it, and
-    what it is mostly made of -- have to agree before the label moves. Neither is
-    a density assumption; a density is never applied, and a batch that fails any
-    of the three keeps its declared unit and stays refused, which is correct.
+    The magnitude is untouched. It was a sum of mostly-masses to begin with --
+    that is exactly why its unit was arbitrary -- so relabelling it as a mass
+    asserts nothing new.
     """
+    beverages = beverage_batches(book)
     est = _prep_yield_estimates()
-    drawn = {}
-    for r in book.values():
-        for ln in (r.get("ingredients") or []):
-            if ln.get("kind") == "subrecipe":
-                drawn.setdefault(ln["ref"], set()).add((ln.get("unit") or "").lower())
-
     out = {}
-    for name, units in drawn.items():
-        e = est.get(name)
-        have = ((e or {}).get("yield_unit") or "").lower()
-        if not have:
-            # No prep_yields entry at all, so the unit comes off the [bracket] in
-            # the name -- the weakest evidence there is, and until now the one
-            # kind this rule skipped entirely. Buffalo Aioli [1L] declares ml on
-            # a batch that is 750 g of mayonnaise and is drawn in g.
-            _q, _u = resolve_yield(name)
-            have = (_u or "").lower()
-        if not have:
+    for name, r in book.items():
+        if not r.get("is_prep") and name not in {
+                l["ref"] for rr in book.values()
+                for l in (rr.get("ingredients") or []) if l.get("kind") == "subrecipe"}:
             continue
-        # The "sum of ingredients" precondition came off on 2026-08-16. It was a
-        # proxy for "this unit label was never measured", but a yield SCRAPED from
-        # Produce's own field was not measured either -- Salsa Rosa Prep declares
-        # ml while 2,841 g of roasted peppers dominate it and all six drawing
-        # lines are in g. The real evidence is the two-way agreement below: what
-        # the kitchen draws AND what the batch is mostly made of, both saying the
-        # same thing and both disagreeing with the label. That is what the rule
-        # actually rests on, so it is what the rule now requires.
-        units = {u for u in units if u}
-        if len(units) != 1:
+        q, u = resolve_yield(name)
+        if q is None or not u:
             continue
-        want = next(iter(units))
-        if want == have or want not in ("g", "ml"):
-            continue
-        if _dominant_unit(book.get(name) or {}) != want:
+        if u.lower() in ("ea", "each", "unit", "units", "pc", "pcs", "piece"):
+            continue                       # a count is a count in either world
+        want = house_unit(name, beverages)
+        if u.lower() == want:
             continue
         out[name] = want
         report["unit_relabels"].append(
-            {"batch": name, "from": have, "to": want,
-             "why": "yield basis is a mixed-unit sum; every drawing line and the "
-                    "batch's own dominant component are both in " + want,
-             "basis": ((e or {}).get("basis") or "read off the [bracket] in the name")[:120]})
+            {"batch": name, "from": u, "to": want,
+             "why": ("house rule: a drink is poured, so ml" if want == "ml"
+                     else "house rule: food is weighed, so g"),
+             "basis": ((est.get(name) or {}).get("basis")
+                       or "read off the [bracket] in the name")[:120]})
     return out
 
 
@@ -476,6 +461,52 @@ def _count_line(ln, book, report, product, yield_fixes):
     return q, yu
 
 
+
+def _house_unit_line(ln, book, report, product, yield_fixes):
+    """A line drawing a batch in the other unit. Follow the batch.
+
+    Under the house rule a food batch is grams, so a recipe asking for "50 ml"
+    of a roasted-pepper sauce is asking for 50 g of it. The magnitude is what
+    the cook wrote down and is left alone; only the label moves, and it moves to
+    the one the batch itself now carries.
+    """
+    ref = ln.get("ref") or ""
+    sub = book.get(ref)
+    if not sub:
+        return None
+    yq, yu = resolve_yield(ref)
+    yu = yield_fixes.get(ref, yu)
+    lu = (ln.get("unit") or "").lower()
+    if not yq or not yu or not lu:
+        return None
+    if lu == yu.lower():
+        return None
+    if {lu, yu.lower()} - {"g", "ml"}:
+        return None                        # counts and packs are not this rule
+    report["unit_relabels"].append(
+        {"product": product, "line": ref, "from": lu, "to": yu,
+         "why": "house rule: the line follows the batch's unit"})
+    return yu
+
+
+
+def _engine_line_cost_sub(ln, book, costs, on, venue, yield_fixes, recipes_so_far):
+    """What cost.py would charge for one SUB-RECIPE line, or None if it can't say.
+
+    Costs the batch straight from the book rather than from the emitted records,
+    because the records are still being built when this is asked.
+    """
+    sub = book.get(ln.get("ref") or "")
+    if not sub:
+        return None
+    yq, yu = resolve_yield(ln["ref"])
+    yu = yield_fixes.get(ln["ref"], yu)
+    q, bc = _dec(ln.get("qty")), _dec(sub.get("our_cost"))
+    if not (yq and bc and q) or bc <= 0 or Decimal(str(yq)) <= 0:
+        return None
+    return (bc / Decimal(str(yq))) * q
+
+
 def _engine_line_cost(ln, costs, on, venue):
     """What modules.recipes.cost would charge for this one line, or None if it
     refuses. A single-line throwaway recipe is the honest way to ask: it goes
@@ -554,6 +585,25 @@ def materialise(venue: str) -> tuple[list, dict]:
                       "prep_minutes", "yield_qty", "yield_unit"):
                 if blk.get(k) is not None:
                     rec[k] = blk[k]
+            # THE HOUSE RULE APPLIES TO A HAND-AUTHORED YIELD TOO.
+            #
+            # Chimichurri was entered as "650 ml" from Zak's recipe doc. It is a
+            # sauce, so under the house rule it is 650 g, and J.J. Aioli draws
+            # 60 g of it. Leaving authored records out of the relabel left the
+            # batch in ml while every line reaching it had moved to g, and six
+            # Jimmy Jury products refused over it.
+            #
+            # This is the one place the rule overrides a human, and it is worth
+            # being plain about: for a mostly-oil sauce, 650 g and 650 ml differ
+            # by about 8%. The magnitude is not being converted -- it is being
+            # relabelled -- so that 8% is a real open question, and Chimichurri
+            # is on the weighing list because of it.
+            if rec.get("yield_unit") and (fx := yield_fixes.get(name)):
+                if rec["yield_unit"] != fx:
+                    report["unit_relabels"].append(
+                        {"batch": name, "from": rec["yield_unit"], "to": fx,
+                         "why": "house rule, applied over a hand-authored unit"})
+                    rec["yield_unit"] = fx
             out_lines = []
             for l in (blk.get("ingredients") or []):
                 d = dict(l)
@@ -607,6 +657,10 @@ def materialise(venue: str) -> tuple[list, dict]:
                     src = "rule"
                     ev = ("stated as a fraction of the batch; recovered from the "
                           "line's own cost")
+                elif (hu := _house_unit_line(ln, book, report, name, yield_fixes)):
+                    ln = dict(ln, unit=hu)
+                    src = "rule"
+                    ev = ("house rule: the batch is " + hu + ", so the line is too")
                 elif (cl := _count_line(ln, book, report, name, yield_fixes)):
                     ln = dict(ln, qty=cl[0], unit=cl[1])
                     src = "rule"
@@ -639,6 +693,39 @@ def materialise(venue: str) -> tuple[list, dict]:
                 elif not agrees:
                     report["unresolved"].append({"product": name, "line": ln.get("name"),
                                                  "why": "no cost either way"})
+
+            # A SUB-RECIPE LINE WHOSE QUANTITY IS JUNK IN EITHER UNIT.
+            #
+            # Nut Roast draws "1 ml" of a 7,304 g batch. The house rule relabels
+            # that to 1 g -- and one gram of nut roast is not a portion, it is
+            # nothing, so the dish quietly lost $2.39. The "1" was never a
+            # quantity in millilitres OR grams; it means one portion, and the
+            # batch's own cost says that portion is about 304 g.
+            #
+            # A relabel is only ever a change of label, so it must not move the
+            # line's cost. When the engine and the old book disagree by more
+            # than 3x after every rule has had its go, the quantity is junk and
+            # equivalence is preserved by freezing it -- visibly, as a debt --
+            # rather than by publishing a number that is 300x too small in the
+            # flattering direction. 3x is deliberately loose: garlic oil
+            # disagrees by 2.7x for a good reason (our book prices it and the
+            # old engine did not) and must stay unfrozen.
+            if ln.get("kind") == "subrecipe" and frozen is None:
+                eng = _engine_line_cost_sub(ln, book, costs, today, venue,
+                                            yield_fixes, recipes_so_far=records)
+                eff = _dec(ln.get("eff_cost"))
+                q = _dec(ln.get("qty"))
+                if (eng is not None and eff is not None and q not in (None, 0)
+                        and eng > 0 and (eng / eff > 3 or eff / eng > 3)):
+                    frozen = eff / q
+                    report["manual_lines"].append(
+                        {"product": name, "line": ln.get("ref"), "ref": ln.get("ref"),
+                         "qty": float(q), "unit": ln.get("unit"),
+                         "frozen_unit_cost": float(frozen), "line_cost": float(eff),
+                         "engine": float(eng),
+                         "why": "the quantity is junk in either unit — a relabel "
+                                "moved this line's cost by more than 3x, so the "
+                                "number is not a quantity at all"})
 
             lines.append(_line_out(ln, src, ev, frozen))
             report["by_source"][src] += 1

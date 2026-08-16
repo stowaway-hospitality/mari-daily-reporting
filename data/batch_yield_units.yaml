@@ -76,26 +76,11 @@ line_unit_fixes:
       holds once you allow for what stays in the jug. Mulled Wine therefore
       yields 1 ea and this line draws 3.89 of them.
 
-  - recipe: "J.J. Aioli [Batch]"
-    ingredient: "Chimichurri"
-    from_unit: "g"
-    to_unit: "ml"
-    proof: >-
-      data/recipes/marilynas.yaml, "Jimmy Jury Aioli" -- the same sauce in the
-      same aioli, hand-entered -- reads: subrecipe "Chimichurri", qty 60,
-      unit "ml".
-
-  # `recipe: "*"` applies to every recipe drawing this ingredient. Used where the
-  # mislabel is in the INGREDIENT rather than in any one recipe -- all nine
-  # burrito lines ask for "0.125 ml" of a lime, and a lime has no millilitres.
-  - recipe: "*"
-    ingredient: "Lime [ea]"
-    from_unit: "ml"
-    to_unit: "ea"
-    proof: >-
-      Lime [ea] is one lime -- its only component is 0.0167 of a tray, and
-      0.0167 is 1/60. The drawing lines ask for 0.125 of it, an eighth of a
-      lime, which is a wedge. Millilitres of a whole fruit is not a quantity.
+  # The J.J. Aioli -> Chimichurri fix that used to sit here (g -> ml, on the
+  # evidence of the hand-authored "Jimmy Jury Aioli" reading 60 ml) was RETIRED
+  # on 2026-08-16 when the house rule landed. Chimichurri is a sauce, so it is
+  # grams, and the line follows the batch. The hand-authored ml was the older
+  # convention, not a measurement.
 
 # ---------------------------------------------------------------------------
 # RULED: the whole batch. Zak, 2026-08-16.

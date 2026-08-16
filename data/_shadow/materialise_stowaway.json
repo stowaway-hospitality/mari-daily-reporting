@@ -31,12 +31,12 @@
  ],
  "by_source": {
   "authored": 21,
-  "derived": 144,
-  "mirrored": 43,
-  "rule": 36,
-  "scrape": 1192
+  "derived": 141,
+  "mirrored": 42,
+  "rule": 61,
+  "scrape": 1171
  },
- "generated": "2026-08-16",
+ "generated": "2026-08-17",
  "lines": 1436,
  "manual_lines": [
   {
@@ -820,6 +820,17 @@
    "why": "our book prices this line differently"
   },
   {
+   "engine": 0.009237951807228915,
+   "frozen_unit_cost": 2.811866,
+   "line": "Nut Roast Prep",
+   "line_cost": 2.811866,
+   "product": "Nut Roast",
+   "qty": 1.0,
+   "ref": "Nut Roast Prep",
+   "unit": "g",
+   "why": "the quantity is junk in either unit \u2014 a relabel moved this line's cost by more than 3x, so the number is not a quantity at all"
+  },
+  {
    "engine": 1.43,
    "frozen_unit_cost": 0.00132,
    "line": "Carrot Large [kg]",
@@ -1234,68 +1245,189 @@
  "subrecipes_pulled_in": [],
  "unit_relabels": [
   {
-   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
-   "batch": "Garlic Oil [Batch]",
+   "basis": "sum of ingredients x0.75",
+   "batch": "Gravy Prep",
    "from": "ml",
    "to": "g",
-   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+   "why": "house rule: food is weighed, so g"
   },
   {
-   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
-   "batch": "Mint Yoghurt [Batch]",
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-06. Zak: \"you should've scraped yields from light",
+   "batch": "Balsamic Dressing House [4.9L]",
    "from": "ml",
    "to": "g",
-   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
-  },
-  {
-   "basis": "read off the [bracket] in the name",
-   "batch": "Yorkshire Pudding Prep [110 units]",
-   "from": "each",
-   "to": "ml",
-   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in ml"
-  },
-  {
-   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
-   "batch": "Cauliflower Cheese Prep",
-   "from": "g",
-   "to": "ml",
-   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in ml"
+   "why": "house rule: food is weighed, so g"
   },
   {
    "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
    "batch": "Black Beans Prep",
    "from": "ml",
    "to": "g",
-   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+   "why": "house rule: food is weighed, so g"
   },
   {
    "basis": "read off the [bracket] in the name",
    "batch": "Buffalo Aioli [1L]",
    "from": "ml",
    "to": "g",
-   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "read off the [bracket] in the name",
+   "batch": "House BBQ Sauce [11L]",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-06. Zak: \"you should've scraped yields from light",
+   "batch": "Salsa Rosa Prep",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "sum of ingredients x1.0",
+   "batch": "Carnaval Fruit Mix",
+   "from": "g",
+   "to": "ml",
+   "why": "house rule: a drink is poured, so ml"
+  },
+  {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
+   "batch": "Mint Yoghurt [Batch]",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
+   "batch": "Garlic Oil [Batch]",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "From the hand-authored record in data/recipes/marilynas.yaml, entered from Zak's \"Pizza Topping sauces Recipe\" doc on 20",
+   "batch": "Chimichurri",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Quandong Sambal",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "read off the [bracket] in the name",
+   "batch": "Peking Sauce [6.75L]",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "ASSUMED by Claude, 2026-08-16 \u2014 9,079 g hoisin + 1,000 ml plum puree, blended cold, so nothing cooks off. Hoisin is a th",
+   "batch": "Davidson Plum Hoisin",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "ASSUMED by Claude, 2026-08-16 \u2014 1,000 ml ponzu + 250 g pickled ginger, which is stored in brine and sits near 1.0 g/ml, ",
+   "batch": "Ginger Ponzu",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "ASSUMED by Claude, 2026-08-16 \u2014 5,000 g honey (~1.42 g/ml, so ~3,520 ml), 2,500 ml tamari, and ~2,750 g of aromatics and",
+   "batch": "HG's Soy Chilli Sauce",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Tofu Marination",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Chicken Marination",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Beef Marination",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Pickle Cabbage",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Gochujang Honey Soy",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Katsu Curry Sauce",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Tonkotsu Broth",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
   },
   {
    "from": "ml",
-   "line": "Lime [ea]",
-   "product": "Beef Burrito",
-   "to": "ea"
+   "line": "House BBQ Sauce [11L]",
+   "product": "$2 BBQ Wing",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
   },
   {
-   "from": "0.125 ea",
+   "from": "ml",
+   "line": "House BBQ Sauce [11L]",
+   "product": "BBQ Wings",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "ml",
+   "line": "House BBQ Sauce [11L]",
+   "product": "BBQ Wings D",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "0.125 ml",
    "line": "Lime [ea]",
    "product": "Beef Burrito",
    "to": "0.125 each",
    "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
   },
   {
-   "from": "ml",
-   "line": "Lime [ea]",
-   "product": "Beef Burrito D",
-   "to": "ea"
-  },
-  {
-   "from": "0.125 ea",
+   "from": "0.125 ml",
    "line": "Lime [ea]",
    "product": "Beef Burrito D",
    "to": "0.125 each",
@@ -1303,10 +1435,31 @@
   },
   {
    "from": "1 ml",
+   "line": "Yorkshire Pudding Prep [110 units]",
+   "product": "Beef Roast",
+   "to": "1 each",
+   "why": "the batch yields 110 each; the line's own cost is 1 of them"
+  },
+  {
+   "from": "ml",
+   "line": "Salsa Rosa Prep",
+   "product": "Black Beans Prep",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "1 ml",
    "line": "Brownie Prep [24 pcs]",
    "product": "Brownie",
    "to": "1 each",
    "why": "the batch yields 24 each; the line's own cost is 1 of them"
+  },
+  {
+   "from": "ml",
+   "line": "Salted Caramel Sauce",
+   "product": "Brownie",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
   },
   {
    "from": "1 ml",
@@ -1317,25 +1470,27 @@
   },
   {
    "from": "ml",
-   "line": "Lime [ea]",
-   "product": "Cauliflower Burrito",
-   "to": "ea"
+   "line": "Salsa Rosa Prep",
+   "product": "Burrito Rice Sauce",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
   },
   {
-   "from": "0.125 ea",
+   "from": "g",
+   "line": "Carnaval Fruit Mix",
+   "product": "Carnaval Gypsy",
+   "to": "ml",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "0.125 ml",
    "line": "Lime [ea]",
    "product": "Cauliflower Burrito",
    "to": "0.125 each",
    "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
   },
   {
-   "from": "ml",
-   "line": "Lime [ea]",
-   "product": "Cauliflower Burrito D",
-   "to": "ea"
-  },
-  {
-   "from": "0.125 ea",
+   "from": "0.125 ml",
    "line": "Lime [ea]",
    "product": "Cauliflower Burrito D",
    "to": "0.125 each",
@@ -1345,34 +1500,42 @@
    "from": "0.077 ml",
    "line": "Cauliflower Cheese Prep",
    "product": "Cauliflower Cheese",
-   "to": "336.952 ml",
-   "why": "a fraction of the batch: 0.077 x 4376 ml reproduces the line's own cost to within 1%"
+   "to": "336.952 g",
+   "why": "a fraction of the batch: 0.077 x 4376 g reproduces the line's own cost to within 1%"
   },
   {
-   "from": "ml",
-   "line": "Lime [ea]",
-   "product": "Chicken Burrito",
-   "to": "ea"
-  },
-  {
-   "from": "0.125 ea",
+   "from": "0.125 ml",
    "line": "Lime [ea]",
    "product": "Chicken Burrito",
    "to": "0.125 each",
    "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
   },
   {
-   "from": "ml",
-   "line": "Lime [ea]",
-   "product": "Chicken Burrito D",
-   "to": "ea"
-  },
-  {
-   "from": "0.125 ea",
+   "from": "0.125 ml",
    "line": "Lime [ea]",
    "product": "Chicken Burrito D",
    "to": "0.125 each",
    "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+  },
+  {
+   "from": "1 ml",
+   "line": "Yorkshire Pudding Prep [110 units]",
+   "product": "Chicken Roast",
+   "to": "1 each",
+   "why": "the batch yields 110 each; the line's own cost is 1 of them"
+  },
+  {
+   "from": "ml",
+   "line": "Gochujang Honey Soy",
+   "product": "Chicken Wings",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "batch": "Chimichurri",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule, applied over a hand-authored unit"
   },
   {
    "from": "1.0 ml",
@@ -1382,19 +1545,112 @@
    "why": "the batch yields 24 each; the line's own cost is 1.0 of them"
   },
   {
-   "from": "g",
-   "line": "Chimichurri",
-   "product": "J.J. Aioli [Batch]",
-   "to": "ml"
+   "from": "ml",
+   "line": "Balsamic Dressing House [4.9L]",
+   "product": "Eggplant Schnitty",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
   },
   {
    "from": "ml",
-   "line": "Lime [ea]",
-   "product": "Super Lime Juice [1L]",
-   "to": "ea"
+   "line": "Balsamic Dressing House [4.9L]",
+   "product": "Eggplant Schnitty D",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
   },
   {
-   "from": "3 ea",
+   "from": "ml",
+   "line": "Balsamic Dressing House [4.9L]",
+   "product": "Fancy Pants Parmy - Classic",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "ml",
+   "line": "Quandong Sambal",
+   "product": "Fried Rice Mix",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "ml",
+   "line": "Katsu Curry Sauce",
+   "product": "Katsu Curry Dumplings",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "ml",
+   "line": "Salted Caramel Sauce",
+   "product": "Kids Icecream",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "1 ml",
+   "line": "Yorkshire Pudding Prep [110 units]",
+   "product": "Lamb Roast",
+   "to": "1 each",
+   "why": "the batch yields 110 each; the line's own cost is 1 of them"
+  },
+  {
+   "from": "1 ml",
+   "line": "Yorkshire Pudding Prep [110 units]",
+   "product": "Nut Roast",
+   "to": "1 each",
+   "why": "the batch yields 110 each; the line's own cost is 1 of them"
+  },
+  {
+   "from": "ml",
+   "line": "Nut Roast Prep",
+   "product": "Nut Roast",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "1 ml",
+   "line": "Yorkshire Pudding Prep [110 units]",
+   "product": "Pork Roast",
+   "to": "1 each",
+   "why": "the batch yields 110 each; the line's own cost is 1 of them"
+  },
+  {
+   "from": "ml",
+   "line": "Salsa Rosa Prep",
+   "product": "Pulled Mushroom [1Kg]",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "ml",
+   "line": "Salsa Rosa Prep",
+   "product": "Rice",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "ml",
+   "line": "Balsamic Dressing House [4.9L]",
+   "product": "Rocket Man",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "ml",
+   "line": "Balsamic Dressing House [4.9L]",
+   "product": "Rocket Man D",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "ml",
+   "line": "Balsamic Dressing House [4.9L]",
+   "product": "Stow Schnitty",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "3 ml",
    "line": "Lime [ea]",
    "product": "Super Lime Juice [1L]",
    "to": "3 each",
@@ -1405,6 +1661,13 @@
    "line": "Tandoori Sauce [Batch]",
    "product": "Tandoori Chicken [2Kg]",
    "to": "1116 g"
+  },
+  {
+   "from": "ml",
+   "line": "Peking Sauce [6.75L]",
+   "product": "Veg Spring Rolls [2pc]",
+   "to": "g",
+   "why": "house rule: the line follows the batch's unit"
   }
  ],
  "unresolved": [],
