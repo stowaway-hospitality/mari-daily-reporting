@@ -65,7 +65,7 @@ Worked examples of the three shapes:
 |---|---|---|---|---|
 | `invoices` | yes | no | `costs`, `ingredients` | pure fact producer |
 | `recipes` | yes (cost calc) | yes (chef UI) | reads `ingredients`, writes `recipes` | both |
-| `cogs` | yes | no | reads `recipes`+`sales`, writes `cogs_daily` | pure derivation |
+| `cogs` | yes | no | reads `recipes`+`sales`, writes `cogs_daily` | pure derivation (NOTE 2026-08-16: never landed as a module — lives as `scripts/cogs_blend.py`; fold in when next touched) |
 | `dashboard` | no | yes | reads everything | pure renderer |
 | **`preptimer`** | **no** | **yes** | **none** | **pure app. Proves modules aren't all pipelines.** |
 

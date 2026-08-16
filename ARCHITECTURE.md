@@ -242,8 +242,10 @@ Churn on unwatched 6am jobs is how they die.
 
 - `data/` grows ~4k files/year at 3 venues. 134 now, `.git` 4.1MB — fine. Decide
   before 20k: roll into monthly, or accept (the cost is `git clone`).
-- `dashboard/index.html` is 134KB, one file. Split when a **second** page needs
-  shared code — `recipes.html` is standalone precisely to defer that. Extract
-  `dashboard/lib/` (auth, fetch, money) at that moment, not before.
-- No `as_of` anywhere yet. Decision 2 is a decision, not yet code. It must land
-  **before** recipes reference costs, or the history is wrong from day one.
+- ~~`dashboard/index.html` is 134KB, one file~~ RESOLVED: split happened —
+  shared code lives in `dashboard/_shared/`, `arch_guard.py` holds the line.
+- ~~No `as_of` anywhere yet~~ RESOLVED: `CostSeries.as_of()` shipped in
+  `core/domain.py` (raises rather than guessing on unknowable days), and the
+  ingredient map (Decision 1) was populated 2026-08-16 — lookups translate
+  through it on both sides. This section said otherwise until 2026-08-16;
+  like CLAUDE.md's token paragraph, re-read rather than trusting memory.
