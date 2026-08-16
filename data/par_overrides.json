@@ -1371,6 +1371,32 @@
    "status": "active",
    "source": "owner directive",
    "protect": "hard"
+  },
+  {
+   "venue": "hg",
+   "product": "Saika Junmai Daiginjo",
+   "api_name": null,
+   "type": "zero",
+   "value": null,
+   "reason": "SERVE LINE, NOT A STOCK ITEM (Zak, 2026-08-16). Same rule as the wines: the '[720ml]' record is the stock item and carries the par. This bare record shows onHand '-' and has never been counted, yet held a par of 0.4.",
+   "set_by": "par-review 2026-08-16",
+   "set_on": "2026-08-16",
+   "status": "active",
+   "source": "owner directive",
+   "protect": "hard"
+  },
+  {
+   "venue": "hg",
+   "product": "Saika Junmai Daiginjo [720ml]",
+   "api_name": null,
+   "type": "min",
+   "value": 1.0,
+   "reason": "Stock item for Saika (Zak, 2026-08-16: on the menu since Harry Gatos opened). Counted 04 Aug at 2.08 bottles. Serves are 60ml and 180ml, so a 720ml bottle is the reorder unit; floor of 1 = reorder when under a full bottle. The modelled 0.1 came off a POS line whose name changed, which hides the older history.",
+   "set_by": "par-review 2026-08-16",
+   "set_on": "2026-08-16",
+   "status": "active",
+   "source": "owner directive",
+   "protect": "hard"
   }
  ],
  "hard_protect_policy": "All seeded reserve-mins, holds and zeros are protect=hard (Zak, 2026-08-09). Future manual raises on non-reserve SKUs enter as protect=flag.",
