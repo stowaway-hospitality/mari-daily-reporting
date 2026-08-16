@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-17T08:27:16.033531+10:00",
+  "generated_at": "2026-08-17T09:27:57.989539+10:00",
   "venue": "stow",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 96,
@@ -36,7 +36,7 @@
     "n_skus": 228,
     "increase": 41,
     "decrease": 40,
-    "unchanged": 101,
+    "unchanged": 100,
     "coverage_gaps": [],
     "shrinkage_applied": 57,
     "shrinkage_capped": 6,
@@ -6565,10 +6565,10 @@
       "product": "Hyoketsu Lemon Can",
       "venue": "stow",
       "reporting_group": "Bottles / Cans Alcoholic",
-      "rec_par": 9.0,
+      "rec_par": 0.0,
       "rec_par_pre_override": 9.0,
       "rec_par_modelled": 9.0,
-      "current_par": 9.0,
+      "current_par": null,
       "drivers": {
         "pour_wk": 0.53,
         "recipe_wk": 0.0,
@@ -6611,8 +6611,13 @@
       "forecast_method": "Deseasonalised level x seasonal index",
       "growth": null,
       "buffer": 1.3,
-      "override": null,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
       "flags": [
+        "override:zero",
+        "override_changed",
         "low_mover_poisson"
       ]
     },

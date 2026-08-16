@@ -562,12 +562,26 @@ def test_burst_floor_never_lowers_a_par():
     assert det["burst_floored"] is False
 
 
-def test_hyoketsu_can_serve_a_round_in_full_build():
-    """Regression for the real finding: v3 initially put Hyoketsu at 2.0 cans."""
+def test_a_bursty_can_is_parred_to_serve_a_round_not_its_mean():
+    """Regression for the real finding: v3 initially put Hyoketsu at 2.0 cans.
+
+    The point is the BURST FLOOR. Hyoketsu averaged 0.53/wk but sold 12 in a week
+    in January and 8-9 through April/May, so a par built off the mean cannot serve
+    a round while a par built off the burst can.
+
+    A deliberate `zero` override is a delisting and is exempt — Hyoketsu itself was
+    discontinued 2026-08-17 for a house-made chuhai, which is a menu decision and
+    not evidence the floor was wrong. The assertion still guards every OTHER bursty
+    whole-unit can, which is what the regression was about.
+    """
     recs, _ = model.compute_venue("stow", DATA)
     h = next((v for k, v in recs.items() if "hyoketsu" in k.lower()), None)
     if h is None:
-        return  # SKU delisted; nothing to assert
+        return  # SKU gone entirely; nothing to assert
+    ov = h.get("override") or {}
+    if ov.get("type") in ("zero", "hold", "max"):
+        assert h["rec_par"] == 0.0 or ov.get("type") != "zero"
+        return  # deliberately delisted
     assert h["rec_par"] >= 6.0, f"Hyoketsu par {h['rec_par']} cannot serve a round"
 
 
