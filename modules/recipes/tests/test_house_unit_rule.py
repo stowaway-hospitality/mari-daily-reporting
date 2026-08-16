@@ -79,3 +79,47 @@ def test_the_drink_groups_are_the_ones_the_sales_api_actually_uses():
             for p in json.loads(idx.read_text())["products"]}
     unknown = BEVERAGE_GROUPS - real
     assert not unknown, f"BEVERAGE_GROUPS names groups the API does not have: {unknown}"
+
+
+def test_a_liquid_INGREDIENT_keeps_its_millilitres_inside_a_food_recipe():
+    """The refinement: the house rule governs batch YIELDS, not every line.
+
+        "if something obviously liquid like milk or lime/lemon juice is used in
+         a food, then stick with ml for those ingredients. but yes batch yields
+         will always be in g for all food items"          — Zak, 2026-08-16
+
+    A cook weighs the bowl the sauce ends up in and still pours the milk into it
+    from a jug. Cauliflower Cheese Prep is 2,000 ml of milk making a batch
+    declared in grams, and both of those are right.
+
+    Asserted against what the materialiser actually CHANGED rather than against
+    names in the finished file: an ingredient that is itself a bought sauce, like
+    "Spiced Sour Cream [Batch]", is legitimately drawn in grams and was never
+    touched. The question is only ever whether a relabel reached a raw line.
+    """
+    for venue in ("marilynas", "stowaway"):
+        rp = ROOT / "data" / "_shadow" / f"materialise_{venue}.json"
+        if not rp.exists():
+            continue
+        book = _book()
+        subs = {l["ref"] for r in book.values()
+                for l in (r.get("ingredients") or []) if l.get("kind") == "subrecipe"}
+        for r in json.loads(rp.read_text())["unit_relabels"]:
+            line = r.get("line")
+            if line is None:                       # a batch yield: in scope
+                continue
+            assert line in subs or r.get("to") in ("ea", "each"), (
+                f"{venue}: a relabel reached {line!r}, which is not a sub-recipe "
+                f"draw. The house rule governs yields and the lines that draw "
+                f"them, never a raw ingredient line.")
+
+
+def test_the_rule_only_ever_touches_yields_and_the_lines_that_draw_them():
+    """A structural guard on the same thing: materialise_recipes must not contain
+    a path that relabels a non-sub-recipe line's unit from the house rule."""
+    src = (ROOT / "scripts" / "materialise_recipes.py").read_text()
+    fn = src[src.index("def _house_unit_line("):]
+    fn = fn[:fn.index("\ndef ", 1)]
+    assert 'sub = book.get(ref)' in fn and 'if not sub:' in fn, (
+        "_house_unit_line must return early for anything that is not a "
+        "sub-recipe draw — otherwise it starts rewriting ingredient lines")

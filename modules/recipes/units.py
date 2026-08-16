@@ -25,6 +25,23 @@ and the recipe lines drawing on it use the same unit. No density is applied
 anywhere, because none is needed: the magnitude was a sum of mostly-masses to
 begin with, and now it is labelled as one.
 
+THE REFINEMENT, and it matters (Zak, 2026-08-16):
+
+    "if something obviously liquid like milk or lime/lemon juice is used in a
+     food, then stick with ml for those ingredients. but yes batch yields will
+     always be in g for all food items"
+
+So the rule is about BATCH YIELDS, not about every line. A cook weighs the bowl
+the sauce ends up in; they still pour the milk into it from a jug. Two litres of
+milk in a cauliflower cheese stays 2,000 ml even though the batch it makes is
+declared in grams, and nothing in this module touches a raw ingredient line --
+only the yields of batches, and the lines that DRAW on a batch, which follow the
+unit that batch now declares.
+
+That is also why the yield can be relabelled without converting: the mass and
+the volume lines were being added together anyway. Labelling the total as grams
+does not restate the milk.
+
 WHERE THE CLASSIFICATION COMES FROM
 -----------------------------------
 The Sales Product API's reporting_group, which CLAUDE.md names as the authority
