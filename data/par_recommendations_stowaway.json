@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-16T16:59:27.498375+10:00",
+  "generated_at": "2026-08-16T17:37:06.951302+10:00",
   "venue": "stow",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 95,
@@ -36,7 +36,7 @@
     "n_skus": 227,
     "increase": 13,
     "decrease": 0,
-    "unchanged": 172,
+    "unchanged": 171,
     "coverage_gaps": [],
     "shrinkage_applied": 57,
     "shrinkage_capped": 6,
@@ -5938,10 +5938,10 @@
       "product": "Halal Pepperoni Slice Fettayleh [1kg]",
       "venue": "stow",
       "reporting_group": "",
-      "rec_par": 22.0,
-      "rec_par_pre_override": 22.0,
+      "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
-      "current_par": 22.0,
+      "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
@@ -5984,9 +5984,12 @@
       "forecast_method": "No recent sales",
       "growth": null,
       "buffer": 1.2,
-      "override": null,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
       "flags": [
-        "held_no_recent_demand"
+        "override:zero"
       ]
     },
     {

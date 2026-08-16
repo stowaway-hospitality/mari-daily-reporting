@@ -1345,6 +1345,19 @@
    "status": "active",
    "source": "owner directive",
    "protect": "hard"
+  },
+  {
+   "venue": "stow",
+   "product": "Halal Pepperoni Slice Fettayleh [1kg]",
+   "api_name": null,
+   "type": "zero",
+   "value": null,
+   "reason": "FOOD — OUT OF SCOPE FOR PARS (Zak, 2026-08-16: 'don't order any food. we only order bev'). Carried a live par of 22 against on-hand 0 with no supplier attached, so every reorder wanted 22kg of pepperoni. The only genuine food item holding a par across either venue.",
+   "set_by": "par-review 2026-08-16",
+   "set_on": "2026-08-16",
+   "status": "active",
+   "source": "owner directive",
+   "protect": "hard"
   }
  ],
  "hard_protect_policy": "All seeded reserve-mins, holds and zeros are protect=hard (Zak, 2026-08-09). Future manual raises on non-reserve SKUs enter as protect=flag.",
