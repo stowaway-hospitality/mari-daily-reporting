@@ -730,3 +730,126 @@ def test_a_service_suppliers_lines_are_not_stock():
         assert goods not in SERVICE_SUPPLIERS, (
             f"{goods} sells goods; marking it a service would take its lines out "
             f"of the cost book entirely")
+
+
+# --- Gulli: column boundaries derived from the header, not hard-coded ---------
+# 2026-08-16. The third parser in this family, and the last one that was still
+# bucketing on literal x-positions. The 2026-08-15 (fifth pass) triage entry
+# named it as the remaining risk; opening it found the defect had ALREADY fired.
+#
+# Gulli lays its table out to fit its CONTENT, so the columns move invoice to
+# invoice rather than drifting once at a re-template: across 33 corpus invoices
+# the DESCRIPTION anchor ranges 122.8 -> 166.5 and QUANTITY 336.3 -> 394.5. The
+# hard-coded boundaries were 125 and 335 — INSIDE both ranges. So the split was
+# effectively decided per invoice by how wide that invoice's content happened to
+# be, and it had gone wrong in BOTH directions on real documents:
+#
+#   * narrow layout (DESCRIPTION 122.8, below the 125 split) — the description's
+#     FIRST word falls into the code cell and is dropped:
+#         "Barbaro- Soppressata Hot (Zig Zag) r/w 2.5kg" -> "Soppressata Hot ..."
+#   * wide layout (QUANTITY 394.5, so the description runs past the 335 split) —
+#     the description's LAST words fall into the numeric cell and are dropped:
+#         "Sweet Baby Rays ... Barbeque Sauce" -> "Sweet Baby Rays ... Barbeque"
+#
+# Both still reconcile to the cent — the money never touches the description —
+# so the regression table read gulli 31/32 throughout and the identity/unit
+# audits stayed clean, exactly as they did for Foodlink and FFT. Deriving the
+# boundaries from the header repairs 3 of 309 line rows with the money unchanged.
+
+GU_HEADER_NARROW = _row((31.8, "PRODUCT"), (77.4, "CODE"), (122.8, "DESCRIPTION"),
+                        (336.3, "QUANTITY"), (395.1, "UNIT"), (418.6, "PRICE"),
+                        (454.6, "DISC.%"), (489.7, "GST"), (521.9, "AMOUNT"))
+GU_HEADER_TYPICAL = _row((31.8, "PRODUCT"), (77.4, "CODE"), (157.4, "DESCRIPTION"),
+                         (376.9, "QUANTITY"), (435.1, "UNIT"), (458.6, "PRICE"),
+                         (490.3, "GST"), (521.9, "AMOUNT"))
+GU_HEADER_WIDE = _row((31.8, "PRODUCT"), (77.4, "CODE"), (147.1, "DESCRIPTION"),
+                      (394.5, "QUANTITY"), (471.5, "UNIT"), (498.8, "GST"),
+                      (521.9, "AMOUNT"))
+
+
+def _gu_split(row, desc_lo, num_lo):
+    """The code/description split exactly as gulli.parse() performs it."""
+    code = next((t for x0, _, t in row if x0 < desc_lo and t.strip()), "")
+    desc = " ".join(t for x0, _, t in row if desc_lo <= x0 < num_lo)
+    return code, desc
+
+
+def test_gulli_narrow_layout_keeps_the_first_description_word():
+    from modules.invoices.parsers.gulli import _cols_from_header
+    desc_lo, num_lo = _cols_from_header(GU_HEADER_NARROW)
+    # The real row off corpus b381fb197ab6 (Gulli CI-437314).
+    row = _row((31.8, "BARSOPHOT-KC2"), (122.8, "Barbaro-"), (160.2, "Soppressata"),
+               (210.8, "Hot"), (227.8, "(Zig"), (244.9, "Zag)"), (264.3, "r/w"),
+               (280.1, "2.5kg"), (348.4, "1.400"), (373.3, "kg"), (406.0, "31.19000"))
+    code, desc = _gu_split(row, desc_lo, num_lo)
+    assert code == "BARSOPHOT-KC2"
+    assert desc == "Barbaro- Soppressata Hot (Zig Zag) r/w 2.5kg", \
+        "the regression: 'Barbaro-' fell into the product-code cell and was dropped"
+
+
+def test_gulli_wide_layout_keeps_the_last_description_words():
+    from modules.invoices.parsers.gulli import _cols_from_header
+    desc_lo, num_lo = _cols_from_header(GU_HEADER_WIDE)
+    # The real row off corpus 7adf09f0baa3 — the widest layout in the corpus.
+    row = _row((31.8, "SAUCEHICKORYBBQ-"), (147.1, "Sweet"), (180.0, "Baby"),
+               (208.0, "Rays"), (238.0, "Hickory"), (280.0, "&"), (292.0, "Brown"),
+               (330.0, "Sugar"), (352.0, "Barbeque"), (378.0, "Sauce"),
+               (398.0, "1.000"), (475.0, "Unit"), (505.0, "9.29000"))
+    code, desc = _gu_split(row, desc_lo, num_lo)
+    assert code == "SAUCEHICKORYBBQ-"
+    assert desc.endswith("Barbeque Sauce"), \
+        "the regression: 'Sauce' fell past the numeric boundary and was dropped"
+
+
+def test_gulli_typical_layout_is_unchanged():
+    # The 30 of 33 invoices that were already correct must stay correct — this is
+    # a repair, not a re-interpretation.
+    from modules.invoices.parsers.gulli import _cols_from_header
+    desc_lo, num_lo = _cols_from_header(GU_HEADER_TYPICAL)
+    row = _row((31.8, "MOZZARELLA2KG-UC4"), (157.4, "Big"), (180.0, "Cheese-"),
+               (222.0, "Shredded"), (272.0, "Mozzarella"), (330.0, "2kg"),
+               (375.0, "6.000"), (438.0, "Unit"), (462.0, "24.66338"))
+    assert _gu_split(row, desc_lo, num_lo) == \
+        ("MOZZARELLA2KG-UC4", "Big Cheese- Shredded Mozzarella 2kg")
+    # ... and identically under the old constants, since this layout never broke.
+    from modules.invoices.parsers.gulli import FALLBACK_DESC_LO, FALLBACK_NUM_LO
+    assert _gu_split(row, FALLBACK_DESC_LO, FALLBACK_NUM_LO) == \
+        _gu_split(row, desc_lo, num_lo)
+
+
+def test_gulli_hardcoded_bounds_would_have_eaten_both_words():
+    # Pins the diagnosis itself. If either assertion stops holding, the story in
+    # the comment block above is wrong and the comments need revisiting.
+    from modules.invoices.parsers.gulli import FALLBACK_DESC_LO, FALLBACK_NUM_LO
+    narrow = _row((31.8, "BARSOPHOT-KC2"), (122.8, "Barbaro-"), (160.2, "Soppressata"),
+                  (210.8, "Hot"), (348.4, "1.400"))
+    assert _gu_split(narrow, FALLBACK_DESC_LO, FALLBACK_NUM_LO)[1] == "Soppressata Hot"
+    wide = _row((31.8, "SAUCEHICKORYBBQ-"), (147.1, "Sweet"), (352.0, "Barbeque"),
+                (378.0, "Sauce"), (398.0, "1.000"))
+    assert _gu_split(wide, FALLBACK_DESC_LO, FALLBACK_NUM_LO)[1] == "Sweet"
+
+
+def test_gulli_unreadable_header_falls_back_rather_than_inventing_columns():
+    from modules.invoices.parsers.gulli import _cols_from_header
+    assert _cols_from_header(_row((31.8, "PRODUCT"), (77.4, "CODE"))) is None
+    assert _cols_from_header([]) is None
+    # Right shape, wrong labels -> fall back, don't guess.
+    assert _cols_from_header(_row(*[(x, "X") for x in (31, 77, 157, 376, 435, 490)])) is None
+    # Labels present but out of order -> refuse rather than emit a negative span.
+    assert _cols_from_header(_row((400.0, "CODE"), (157.4, "DESCRIPTION"),
+                                  (376.9, "QUANTITY"))) is None
+
+
+def test_gulli_derived_bounds_clear_every_observed_anchor():
+    # The margins the derivation relies on, stated as a test so a future layout
+    # change that eats them fails here rather than silently truncating names:
+    # a description's first word starts exactly AT the DESCRIPTION anchor, and
+    # the earliest quantity value observed sits at QUANTITY - 1.2.
+    from modules.invoices.parsers.gulli import _cols_from_header
+    for hdr, desc_x, qty_x in ((GU_HEADER_NARROW, 122.8, 336.3),
+                               (GU_HEADER_TYPICAL, 157.4, 376.9),
+                               (GU_HEADER_WIDE, 147.1, 394.5)):
+        desc_lo, num_lo = _cols_from_header(hdr)
+        assert desc_lo <= desc_x, "would drop the description's first word"
+        assert num_lo <= qty_x - 1.2, "would drop the quantity"
+        assert desc_lo < num_lo

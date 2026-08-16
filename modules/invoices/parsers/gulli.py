@@ -22,6 +22,45 @@ from modules.invoices.parsers import register
 MONEY = re.compile(r"^-?[\d,]+\.?\d*$")
 EXTRA_DESC = re.compile(r"delivery|freight|fuel\s*levy|cartage", re.I)
 
+# FALLBACK ONLY — the literal x-boundaries this parser used until 2026-08-16.
+# `_cols_from_header` below is the live path; see the note there for why.
+FALLBACK_DESC_LO = 125.0
+FALLBACK_NUM_LO = 335.0
+
+
+def _cols_from_header(hrow):
+    """
+    Derive the two column boundaries from the header row's own word positions.
+
+    Gulli's table is laid out to fit its CONTENT, so the columns do not sit
+    still between invoices: across the corpus the DESCRIPTION anchor ranges
+    122.8 -> 166.5 and QUANTITY 336.3 -> 394.5. The literal 125 / 335 splits
+    this parser used were inside both ranges, i.e. one invoice's content width
+    away from mis-bucketing, and the low end had ALREADY been crossed (see the
+    2026-08-16 triage entry). Measured over the corpus:
+
+      * a description's first word starts EXACTLY at the DESCRIPTION anchor
+        (margin 0.0 on all 309 line rows), and the nearest product-code token
+        is 91-135pt to its left — so `DESCRIPTION - 2` splits code from
+        description with no ambiguity at either end.
+      * the earliest quantity value sits at `QUANTITY - 1.2`, so `QUANTITY - 8`
+        clears every qty while staying right of the description text.
+
+    Returns None if the header is not the shape we know, so the caller falls
+    back to the constants above rather than inventing a layout.
+    """
+    at = {}
+    for x0, _x1, t in hrow:
+        at.setdefault(t.rstrip("."), x0)
+    try:
+        code_x, desc_x, qty_x = at["CODE"], at["DESCRIPTION"], at["QUANTITY"]
+    except KeyError:
+        return None
+    desc_lo, num_lo = desc_x - 2, qty_x - 8
+    if not (code_x < desc_lo < num_lo):
+        return None
+    return desc_lo, num_lo
+
 
 def _m(s):
     s = (s or "").replace(",", "").replace("$", "").strip()
@@ -55,6 +94,9 @@ def parse(pdf_bytes: bytes) -> Invoice:
     if hi is None:
         raise ValueError("Gulli: header row not found")
 
+    bounds = _cols_from_header(rows[hi])
+    desc_lo, num_lo = bounds if bounds else (FALLBACK_DESC_LO, FALLBACK_NUM_LO)
+
     # Row parsing anchored on the GST% token (qty/price column x-positions drift
     # so much between invoices that a fixed split can't separate them, but the
     # GST% cell is stable): the two numbers LEFT of GST% are qty (first) and unit
@@ -66,13 +108,13 @@ def parse(pdf_bytes: bytes) -> Invoice:
         if not gi:
             continue
         gst_x, gm = gi
-        left = [v for x0, _, t in r if 335 <= x0 < gst_x and (v := _m(t)) is not None]
+        left = [v for x0, _, t in r if num_lo <= x0 < gst_x and (v := _m(t)) is not None]
         amt = next((v for x0, _, t in reversed(r) if x0 > gst_x and (v := _m(t)) is not None), None)
         if len(left) < 2 or amt is None:
             continue
         qty, price = left[0], left[-1]
-        code = next((t for x0, _, t in r if x0 < 125 and t.strip()), "")
-        desc = " ".join(t for x0, _, t in r if 125 <= x0 < 335)
+        code = next((t for x0, _, t in r if x0 < desc_lo and t.strip()), "")
+        desc = " ".join(t for x0, _, t in r if desc_lo <= x0 < num_lo)
         pct = Decimal(gm.group(1))
         f = 1 + pct / 100
         incl = (amt * f).quantize(Decimal("0.01"))

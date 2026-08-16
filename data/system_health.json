@@ -1,11 +1,11 @@
 {
-  "generated": "2026-08-16T00:11:26+00:00",
+  "generated": "2026-08-16T01:25:48+00:00",
   "overall": "ok",
   "checks": [
     {
       "name": "Invoice poller",
       "detail": "reads the accounts@ inbox every 30 min",
-      "age": 11.8,
+      "age": 0.0,
       "unit": "min",
       "status": "ok",
       "meaning": "Reads the supplier-bills inbox on the office Mac every 30 minutes.",
@@ -15,7 +15,7 @@
     {
       "name": "Xero approvals poller",
       "detail": "posts approved bills every 2 min",
-      "age": 1.9,
+      "age": 1.7,
       "unit": "min",
       "status": "ok",
       "meaning": "Posts approved supplier bills into Xero every couple of minutes (office Mac).",
@@ -25,7 +25,7 @@
     {
       "name": "Xero token",
       "detail": "auto-refreshes daily",
-      "age": 2.5,
+      "age": 3.7,
       "unit": "hr",
       "status": "ok",
       "meaning": "The Xero login the finance jobs use, refreshed automatically each day.",
@@ -88,21 +88,21 @@
     },
     {
       "name": "Uber fee feed",
-      "detail": "exact split, balances on all 60 rows (1d old)",
+      "detail": "exact split, balances on all 58 rows (2d old)",
       "age": null,
       "unit": "",
       "status": "ok"
     },
     {
       "name": "Uber Direct ingest",
-      "detail": "last Direct fee 1d ago",
+      "detail": "last Direct fee 2d ago",
       "age": null,
       "unit": "",
       "status": "ok"
     },
     {
       "name": "Uber Direct reconciled",
-      "detail": "matches Uber invoices to the cent through 2026-08-12",
+      "detail": "matches Uber invoices to the cent through 2026-08-11",
       "age": null,
       "unit": "",
       "status": "ok"
@@ -116,7 +116,7 @@
     },
     {
       "name": "Automation jobs",
-      "detail": "all 12 jobs that ran in the last 48h succeeded",
+      "detail": "all 0 jobs that ran in the last 48h succeeded",
       "age": null,
       "unit": "",
       "status": "ok"

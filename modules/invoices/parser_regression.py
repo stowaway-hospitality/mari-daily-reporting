@@ -484,6 +484,81 @@ true: a bigger, less flattering sample. TOTAL 440/452 (97%) -> 717/732 (97%).
      change rather than an unattended run, but it is the reason today's Review
      numbers below cover 120 documents and not 200.
 
+TRIAGE LOG — 2026-08-16 (unattended daily run). Corpus unchanged at 732 readable
+invoices, TOTAL 717/732 (97%) before and after. All 15 shortfalls re-opened and
+every one is byte-for-byte the SAME document named above — be_foods x2,
+farmer_joes 4444676, gulli CI-437314, ilg x2, paramount price list, reward_dist
+x2, vanguard x1, xero x5. No drift, no new failure mode among them.
+
+ 22. GULLI WAS THE LAST HARD-CODED PARSER AND THE DEFECT HAD ALREADY FIRED. Item
+     18 flagged gulli.py as "the last parser in the tree still doing that ...
+     has not drifted YET". It had. The mistake in that reading was the word
+     "yet": Foodlink and FFT drifted ONCE, at a re-template, so the risk looked
+     like a future event. Gulli's table is laid out to fit its CONTENT, so the
+     columns move INVOICE TO INVOICE — across 33 corpus invoices the DESCRIPTION
+     anchor ranges 122.8 -> 166.5 and QUANTITY 336.3 -> 394.5. The literal
+     boundaries were 125 and 335, inside BOTH ranges. Which side of the split a
+     word landed on was therefore decided per invoice by how wide that invoice's
+     content happened to be, and it had gone wrong in both directions on real
+     documents already in the corpus:
+
+       narrow (DESCRIPTION 122.8, left of the 125 split) — the description's
+         FIRST word falls in the code cell and is dropped:
+           "Barbaro- Soppressata Hot (Zig Zag) r/w 2.5kg" -> "Soppressata Hot..."
+       wide (QUANTITY 394.5, so the text runs past the 335 split) — the LAST
+         words fall in the numeric cell and are dropped:
+           "Sweet Baby Rays ... Barbeque Sauce" -> "... Barbeque"
+           "Sapore- ... Polpa Fine Bib 10kg (4915)" -> "... 10kg"
+
+     Fixed with the same header-derived boundaries as foodlink and fft
+     (gulli.py::_cols_from_header); the literals survive as FALLBACK_* only.
+     Measured margins the derivation rests on: a description's first word starts
+     EXACTLY at the DESCRIPTION anchor (0.0 on all 309 line rows) with the
+     nearest code token 91-135pt to its left, and the earliest quantity value
+     sits at QUANTITY - 1.2. Boundaries are DESCRIPTION-2 and QUANTITY-8.
+     3 of 309 line rows repaired, money unchanged, gulli 31/32 and TOTAL 717/732
+     identical before and after, both audits still clean. Six fixture tests
+     added, including one asserting the OLD constants eat both words, so the
+     diagnosis is pinned the way Foodlink's and FFT's are.
+
+     Note the footer "Total" token was checked too and NOT changed: it sits at a
+     fixed x=345.4 on all 33 invoices, because the footer block is not
+     content-laid-out. The 330..360 window is safe; only the line table moves.
+
+     WHY THE PASS RATE COULD NOT MOVE, stated plainly because the daily task
+     asks for a rate improvement: gulli's only non-PASS is CI-437314, the $0.00
+     sample docket, which can never PASS by construction (see item 18 and the
+     validator note below). A description is not part of reconciliation, so this
+     entire class of defect is invisible to the PASS column by design — that is
+     precisely how FFT scored 52/52 while corrupting 274 lines. The change was
+     kept on the evidence of the 3 repaired rows plus zero regression anywhere,
+     not on a rate.
+
+ 23. ONE TRUNCATED NAME IS LIVE IN THE COST BOOK and will not self-heal by the
+     item 10 rule. data/cogs_list.csv carries
+     "Gulli,SAUCEHICKORYBBQ-,Sweet Baby Rays Hickory & Brown Sugar Barbeque"
+     (invoice CI-366411, 2026-03-26) — missing the trailing word "Sauce".
+     _undo_dropped_prefix repairs a dropped LEADING word (it matches a fragment
+     that is a word-boundary SUFFIX of a longer spelling); this is a dropped
+     TRAILING word, which that rule does not see. The fullest-name consolidation
+     should still prefer the complete spelling once any future Gulli invoice for
+     that code parses under the fix, so it is expected to correct itself on the
+     next delivery rather than needing an edit. Recorded so that if it is still
+     truncated in a week, the reason to look is here. NOT edited by hand — the
+     source PDFs sit behind the Supabase key this pipeline must never hold, and
+     data/ facts are append-only. Same for "Sapore- ... 10kg", which lost only
+     the trailing lot number "(4915)" and is cosmetic.
+
+ 24. STILL NOT DONE, and deliberately: gulli.py throws its UOM away. The UNIT
+     column is read and discarded (raw_uom=None, cost_basis hard-set PER_UNIT),
+     while the corpus shows real values there — "Unit", "Box", "kg". Capturing
+     it would let the per-kg lines cost correctly instead of as units. NOT done
+     in an unattended run because it moves cost_basis, and this run's own
+     pull_mailbox output shows seven re-derives already HELD for exactly that
+     reason ("basis per_kg -> per_unit while the price moves ... the row keeps
+     its basis, so it would hold half of each reading"). A basis change wants
+     Zak's eyes and a before/after feed diff, which is the item 13 standard.
+
 The three zero-total documents (now four, with Gulli CI-437314 — see item 18)
 can never PASS by construction: validator's _check_required_fields treats
 total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
