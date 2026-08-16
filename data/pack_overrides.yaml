@@ -896,3 +896,20 @@
   by: "Claude (ILG 450-1293 raw_uom '24x500ML' on 4 invoices May-Jul 2026)"
   on: 2026-08-16
   by_email: "hello@stowawaybar.com"
+# ILG "Coke Zero 1.25L" (460-1639) — the long-unresolved case-vs-single: Zak,
+# batched identity review 2026-08-16: "it's a case of 12". One invoice line
+# buys 12 x 1.25L = 15,000 ml.
+- id: "ilg:460-1639"
+  pack_qty: 15000
+  pack_unit: ml
+  by: "Zak"
+  on: 2026-08-16
+  by_email: "hello@stowawaybar.com"
+# Fresh Fruit Team broccolini (BROCE) — invoiced as a box, recipes use
+# bunches. Zak, 2026-08-16: "12 bunches per box".
+- id: "fresh-fruit-team:BROCE"
+  pack_qty: 12
+  pack_unit: ea
+  by: "Zak"
+  on: 2026-08-16
+  by_email: "hello@stowawaybar.com"
