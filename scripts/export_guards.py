@@ -98,26 +98,65 @@ def fingerprint(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def assert_not_a_copy(path: Path, prefix: str, data_dir: Path | None = None) -> None:
-    """Raise StaleExport if an identical file exists for a different date.
+def content_fingerprint(path: Path) -> str:
+    """Hash of the day's TRADE, independent of row order and export shape.
 
-    Closed-day exports are exempt: they are identical to each other by nature
-    and carry no revenue to duplicate.
+    A byte hash was the original check and it very nearly failed. Lightspeed
+    does not promise a stable order for rows that tie on the sort column: the
+    same Harry Gatos day, re-pulled twice on 2026-08-17, came back with
+    BBQ Pork Buns/Tonkotsu and four other equal-quantity pairs swapped. Same
+    day, same cents, different bytes — so a re-sent report that happened to
+    come back re-sorted would have sailed past assert_not_a_copy() and been
+    written as a real day. The 10 Aug duplicate was caught on the luck of the
+    copy being byte-exact.
+
+    So fingerprint what cannot change without the trade changing: the set of
+    (product, quantity, sales) lines, sorted. Footer/subtotal rows are dropped
+    — they carry no product name and would otherwise let a total stand in for
+    the detail. Normalising through read_rows() means a schema-A and a schema-B
+    export of the SAME day also collide, which is correct: both are that day.
+
+    This is deliberately the same rule as scripts/duplicate_export_guard.py,
+    which has always been content-based. The two guards now agree, so CI and
+    the runtime cannot disagree about what a duplicate is.
+    """
+    rows, _ = read_rows(path)
+    parts = []
+    for r in rows:
+        name = (r.get("Product Name") or "").strip()
+        if not name:
+            continue                      # footer/subtotal row
+        qty = (r.get("Product Quantity") or "").strip()
+        sales = (r.get("$ Sales") or "").strip()
+        parts.append(f"{name}|{qty}|{sales}")
+    parts.sort()
+    return hashlib.sha256("\n".join(parts).encode()).hexdigest()
+
+
+def assert_not_a_copy(path: Path, prefix: str, data_dir: Path | None = None) -> None:
+    """Raise StaleExport if another DATE's export rings the same trade.
+
+    Compares content, not bytes — see content_fingerprint(). Closed-day
+    exports are exempt: they are identical to each other by nature and carry
+    no revenue to duplicate.
     """
     if is_closed_day(path):
         return
     data_dir = data_dir or path.parent
-    mine = fingerprint(path)
+    mine = content_fingerprint(path)
     for other in sorted(data_dir.glob(f"insights_{prefix}_*.csv")):
         if other.name == path.name:
             continue
         try:
-            if fingerprint(other) == mine:
+            if is_closed_day(other):
+                continue
+            if content_fingerprint(other) == mine:
                 raise StaleExport(
-                    f"{path.name} is byte-identical to {other.name} — that is a "
-                    f"re-sent report, not this day's trade. Writing it would "
-                    f"duplicate a day's revenue into the week. Re-export this "
-                    f"date from Lightspeed Insights.")
+                    f"{path.name} rings the same products, quantities and cents "
+                    f"as {other.name} — that is a re-sent report, not this day's "
+                    f"trade. Two trading days do not tie to the cent. Writing it "
+                    f"would duplicate a day's revenue into the week. Re-export "
+                    f"this date from Lightspeed Insights.")
         except OSError:
             continue
 

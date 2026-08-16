@@ -14,11 +14,20 @@
 # happens again. The stow files were repaired from a fresh pull of the report
 # endpoint (see scripts/split_history_export.py); these two could not be.
 
-hg:2026-08-10    # Harry Gatos rings its own till on a SEPARATE Lightspeed
-                 # account, which the Stowaway login cannot see. Its 2026-08-10
-                 # file is a copy of 2026-08-03 and its published day is
-                 # therefore still wrong. Repair needs someone signed into the
-                 # HG account to re-pull that day.
+# REPAIRED 2026-08-17 — hg:2026-08-10, entry removed. Both Mondays were
+# re-pulled from Insights > Product sales, Site Name = Harry Gatos, Sale Closed
+# Date filtered to the single day. Two things in the old note were wrong and
+# are worth correcting rather than just deleting:
+#
+#   * The direction. 3 Aug was NEVER the copy — its file is genuine, and
+#     re-pulling it returned the same 49 products and the same $1,627.60 to
+#     the cent. It was 10 Aug that carried 3 Aug's trade. 10 Aug is really
+#     $2,532.00 inc / 195 units, and its published day was UNDERstated:
+#     $2,687.74 -> $3,509.97 ex.
+#   * The obstacle. Harry Gatos is NOT invisible to the Stowaway login. Both
+#     sites appear under the Site Name filter on the shared Insights account
+#     (zak@stowawaybar.com); no separate HG sign-in was needed. Anyone
+#     repairing an HG day can just do it.
 
 mari:2026-08-13  # Marilyna's own export is a CROSS-CHECK, never a source — her
                  # revenue is the 'm' slice of the Stow till, which has been
