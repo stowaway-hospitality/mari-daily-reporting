@@ -52,7 +52,7 @@ Venue codes: `stow` = Stowaway Bar, `hg` = Harry Gatos, `mari` = Marilyna's.
     "stow":  "https://app.stowawaybar.com/sales/products/rollup_stow.json",
     "hg":    "https://app.stowawaybar.com/sales/products/rollup_hg.json",
     "mari":  "https://app.stowawaybar.com/sales/products/rollup_mari.json",
-    "schema_doc": "https://github.com/zakstowaway/mari-daily-reporting/blob/main/dashboard/sales/products/SCHEMA.md"
+    "schema_doc": "https://github.com/stowaway-hospitality/mari-daily-reporting/blob/main/dashboard/sales/products/SCHEMA.md"
   },
   "notes": "…"
 }

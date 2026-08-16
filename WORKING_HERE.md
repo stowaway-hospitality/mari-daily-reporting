@@ -4,7 +4,7 @@
 (also reachable as `~/Documents/STOW/Sales Reports/Daily Reporting` — symlink, same folder.
 ACLs grant both `zak` and `stowaway` full access.)
 
-As of 2026-07-15 this folder is a **real git clone** of `zakstowaway/mari-daily-reporting`.
+As of 2026-07-15 this folder is a **real git clone** of `stowaway-hospitality/mari-daily-reporting`.
 It had previously drifted ~3 days stale because it was a plain folder with no
 git, so nobody could see it had fallen behind. Don't let that happen again:
 
@@ -238,7 +238,7 @@ drop in the tree while debugging.
 push. Rebase onto it first and re-run the tests AFTER the rebase — upstream moves
 under you constantly:
 
-    git remote add gh https://github.com/zakstowaway/mari-daily-reporting.git
+    git remote add gh https://github.com/stowaway-hospitality/mari-daily-reporting.git
     git fetch -q gh
     git rebase gh/main
     python3 -m pytest                     # again, on the rebased tree

@@ -13,7 +13,7 @@
  *   2. Add a new step -> "Run custom code" (Node.js). Paste everything below.
  *   3. Add a Pipedream Environment Variable named GITHUB_TOKEN:
  *        - a GitHub fine-grained PAT
- *        - Repository access: zakstowaway/mari-daily-reporting
+ *        - Repository access: stowaway-hospitality/mari-daily-reporting
  *        - Permission: Contents -> Read and write
  *      (You create/paste this in Pipedream; it is never shared here.)
  *   4. Deploy.
@@ -29,7 +29,7 @@
  */
 import { Buffer } from "buffer";
 
-const REPO   = "zakstowaway/mari-daily-reporting";
+const REPO   = "stowaway-hospitality/mari-daily-reporting";
 const BRANCH = "main";
 const FILE   = "data/uber_direct_daily.csv";
 const HEADER = "date,shop,fee_inc_gst,source";

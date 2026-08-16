@@ -23,8 +23,8 @@ On the management account/machine, authenticate the CLI with THIS token:
 
 Confirm the boundary — both of these should be true in the support session:
 
-    gh run list -R zakstowaway/mari-daily-reporting        # works (read)
-    gh run rerun <id> -R zakstowaway/mari-daily-reporting  # works (re-run)
+    gh run list -R stowaway-hospitality/mari-daily-reporting        # works (read)
+    gh run rerun <id> -R stowaway-hospitality/mari-daily-reporting  # works (re-run)
     git push                                               # FAILS (no contents:write)
 
 ## Notes

@@ -35,7 +35,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CLAIMS = ROOT / "ops" / "session_claims.json"
 EXPIRY_H = 12
-REPO = "zakstowaway/mari-daily-reporting"
+REPO = "stowaway-hospitality/mari-daily-reporting"
 
 # An area is a NAME plus the paths it owns. Overlap is computed on the paths, so
 # two differently-named claims that touch the same file still collide.

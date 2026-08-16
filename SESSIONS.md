@@ -70,7 +70,7 @@ within an hour of the tool shipping, because the release never got committed.)
 
 ## 2. Work in a /tmp clone. Never the mount.
 
-    git clone --depth 1 https://x-access-token:$PAT@github.com/zakstowaway/mari-daily-reporting.git /tmp/<topic>
+    git clone --depth 1 https://x-access-token:$PAT@github.com/stowaway-hospitality/mari-daily-reporting.git /tmp/<topic>
 
 `/Users/Shared/ClaudeShared/...` is shared state, cannot delete files, and is
 where the cron pulls — editing a tracked file there gets swept into an autostash

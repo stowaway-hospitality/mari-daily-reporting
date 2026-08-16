@@ -38,7 +38,7 @@ CACHE_FILE = SECRETS_DIR / "xero_token_cache.json"
 PAT_FILE = SECRETS_DIR / "github_pat_v2.txt"
 WORK_DIR = Path(__file__).parent / "xero_work"
 WORK_DIR.mkdir(exist_ok=True)
-REPO = "zakstowaway/mari-daily-reporting"
+REPO = "stowaway-hospitality/mari-daily-reporting"
 
 # ---- canon (weekly-report skill + Olly's BEP plan) ----
 COGS_ACCOUNTS = {

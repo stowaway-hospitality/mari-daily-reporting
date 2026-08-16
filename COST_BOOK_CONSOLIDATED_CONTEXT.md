@@ -1,7 +1,7 @@
 # Cost Book — Consolidated Context
 
 **Compiled:** 15 August 2026
-**Sources:** 27 Cowork transcripts + live audit of `zakstowaway/mari-daily-reporting` @ `main` = `ed05e4a`
+**Sources:** 27 Cowork transcripts + live audit of `stowaway-hospitality/mari-daily-reporting` @ `main` = `ed05e4a`
 **Purpose:** one document that replaces ten handoff docs and twenty-seven chat threads.
 **Companion:** `COST_BOOK_ARCHITECTURE_PLAN.md`
 

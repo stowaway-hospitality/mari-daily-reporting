@@ -24,7 +24,7 @@ import sys
 import urllib.request
 from datetime import datetime, timezone
 
-REPO = "zakstowaway/mari-daily-reporting"
+REPO = "stowaway-hospitality/mari-daily-reporting"
 MOUNTED = os.path.expanduser("~/Documents/STOW/Sales Reports/Daily Reporting")
 OPS = os.path.expanduser("~/.stowaway-ops")
 CLONE = os.path.join(OPS, "repo")

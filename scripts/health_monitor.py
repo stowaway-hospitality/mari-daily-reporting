@@ -543,7 +543,7 @@ def _workflow_failures(window_h=48):
     if not token:
         return {"status": "unknown",
                 "detail": "no GitHub token in this environment — cannot read job results"}
-    repo = _os.environ.get("GITHUB_REPOSITORY", "zakstowaway/mari-daily-reporting")
+    repo = _os.environ.get("GITHUB_REPOSITORY", "stowaway-hospitality/mari-daily-reporting")
     # Jobs that move money or data onto the screen. Anything else failing is
     # worth knowing about but is not an outage.
     CRITICAL = {"daily_pull.yml", "ingest_insights_email.yml",

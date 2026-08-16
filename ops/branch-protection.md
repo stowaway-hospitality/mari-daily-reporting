@@ -59,7 +59,7 @@ live. The worst anything can do is open a pull request that waits for CI and you
 ## Or via the CLI (advanced)
 Fill in your actual status-check names, then:
 
-    gh api -X PUT repos/zakstowaway/mari-daily-reporting/branches/main/protection \
+    gh api -X PUT repos/stowaway-hospitality/mari-daily-reporting/branches/main/protection \
       -H "Accept: application/vnd.github+json" --input - <<'JSON'
     {
       "required_status_checks": { "strict": true, "contexts": ["<CI-check-name>"] },

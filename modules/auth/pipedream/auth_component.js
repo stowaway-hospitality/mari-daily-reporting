@@ -24,7 +24,7 @@
 const KITCHEN = ["admin", "bigchef", "stowfood", "hgfood", "pizza"];
 const ROLES = ["admin", "bigchef", "stowfood", "hgfood", "bar", "pizza"];
 const VENUES = ["stowaway", "harry_gatos", "marilynas"];
-const REPO = "zakstowaway/mari-daily-reporting";
+const REPO = "stowaway-hospitality/mari-daily-reporting";
 
 const CORS = {
   "access-control-allow-origin": "https://app.stowawaybar.com",

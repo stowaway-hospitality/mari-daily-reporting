@@ -3,7 +3,7 @@
 This repo powers **app.stowawaybar.com**, the server-less P&L + operations platform
 for Stowaway Hospitality Group (three venues: **Stowaway `stow`**, **Harry Gatos
 `hg`**, **Marilyna's `mari`** — Northern Beaches, Sydney). GitHub repo:
-`zakstowaway/mari-daily-reporting` (name is historical — it's a 3-venue platform now).
+`stowaway-hospitality/mari-daily-reporting` (name is historical — it's a 3-venue platform now).
 
 ## STOP — more than one chat works this repo
 
