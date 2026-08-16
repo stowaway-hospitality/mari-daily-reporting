@@ -1,0 +1,57 @@
+# Declared pack -> base-unit conversions, with evidence. NOTHING here is a
+# guess: every entry cites a documented convention, a BO product name, or a
+# chef confirmation. This is the input the declared-conversion layer
+# (COST_BOOK_ARCHITECTURE_PLAN.md, next cost-book task) will consume in
+# build_costs.py to restate pack-unit cost series (bottle / keg) in base
+# units, which is what unblocks the 18 unit-clash merges held in
+# data/_identity_review/held_lowering_merges.csv.
+#
+# NOT here on purpose:
+#   - keg volumes and bag/box counts — data/pack_overrides.yaml owns those
+#     (Alehouse 49.5L, Grifter 50L, onion 10kg, broccolini 12/box, Coke 12x1.25L)
+#   - Sprite can size — undocumented, stays held until someone reads a can
+#
+# Wine bottles: 750ml is the documented serve-cost convention (dext-lightspeed-
+# invoices Appendix K: "wine bottle 750ml"). Spirit/aperitif bottles: 700ml per
+# Appendix K, and each canon's own BO product name says 700ML.
+
+- ingredient: "lightspeed:20464685"    # Mother's Milk Shiraz - Bottle
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "wine bottle = 750ml (Appendix K convention)"
+- ingredient: "lightspeed:20485056"    # Cri De Couer Pinot Noir - Bottle
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "wine bottle = 750ml (Appendix K convention)"
+- ingredient: "lightspeed:20655236"    # Geppetto Pinot Noir - Bottle
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "wine bottle = 750ml (Appendix K convention)"
+- ingredient: "lightspeed:20466120"    # Version Two Pinot Grigio - Bottle
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "wine bottle = 750ml (Appendix K convention)"
+- ingredient: "lightspeed:20464662"    # Padrillos Malbec - Bottle
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "wine bottle = 750ml (Appendix K convention)"
+- ingredient: "lightspeed:20464694"    # Ottelia Chardonnay - Bottle
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "wine bottle = 750ml (Appendix K convention)"
+- ingredient: "lightspeed:20466168"    # Villa Fresco Sangiovese - Bottle
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "wine bottle = 750ml (Appendix K convention)"
+- ingredient: "lightspeed:20484286"    # Aperol [Bottle]
+  from_unit: bottle
+  to_qty: 700
+  to_unit: ml
+  evidence: "Appendix K spirits 700ml; BO seed row pack '700ml'"
