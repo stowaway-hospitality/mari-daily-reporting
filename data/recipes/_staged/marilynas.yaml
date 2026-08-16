@@ -9,8 +9,8 @@
 #   weighed    238 — somebody put it on scales
 #   derived    715 — computed from another line (a size scaling, a cook yield)
 #   mirrored    22 — deliberately the same spec as a sibling record
-#   rule         1 — a written rule with arithmetic proof corrected it
-#   scrape     526 — nobody has checked it. This is the number to shrink.
+#   rule         2 — a written rule with arithmetic proof corrected it
+#   scrape     525 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -607,7 +607,7 @@
 - product: Garlic Oil [Batch]
   venue_source: marilynas
   yield_qty: 1500
-  yield_unit: ml
+  yield_unit: g
   ingredients:
   - id: lightspeed:22524134
     desc: Peeled Garlic [1Kg]
@@ -3450,8 +3450,9 @@
   - subrecipe: Chimichurri
     desc: Chimichurri
     qty: 60
-    unit: g
-    source: scrape
+    unit: ml
+    source: rule
+    evidence: 'batch_yield_units.yaml: g -> ml, per the hand-authored record for the same sauce'
   - id: lightspeed:22524073
     desc: Mayo [plain]
     qty: 500
@@ -6398,7 +6399,7 @@
 - product: Mint Yoghurt [Batch]
   venue_source: marilynas
   yield_qty: 1102
-  yield_unit: ml
+  yield_unit: g
   ingredients:
   - id: lightspeed:22533097
     desc: Yoghurt Greek Style [1Kg]

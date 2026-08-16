@@ -17,8 +17,8 @@
   "authored": 9,
   "derived": 715,
   "mirrored": 22,
-  "rule": 1,
-  "scrape": 526,
+  "rule": 2,
+  "scrape": 525,
   "weighed": 238
  },
  "generated": "2026-08-16",
@@ -1559,6 +1559,26 @@
   "Sugar Syrup",
   "Tandoori Chicken [2Kg]",
   "Tandoori Sauce [Batch]"
+ ],
+ "unit_relabels": [
+  {
+   "batch": "Garlic Oil [Batch]",
+   "from": "ml",
+   "to": "g",
+   "why": "yield is a sum of mixed units; see data/batch_yield_units.yaml"
+  },
+  {
+   "from": "g",
+   "line": "Chimichurri",
+   "product": "J.J. Aioli [Batch]",
+   "to": "ml"
+  },
+  {
+   "batch": "Mint Yoghurt [Batch]",
+   "from": "ml",
+   "to": "g",
+   "why": "yield is a sum of mixed units; see data/batch_yield_units.yaml"
+  }
  ],
  "unresolved": [],
  "venue": "marilynas",

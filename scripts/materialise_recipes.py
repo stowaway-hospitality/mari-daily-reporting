@@ -243,6 +243,23 @@ def _line_out(ln, source, evidence, frozen=None):
 
 
 
+
+def _batch_unit_fixes():
+    """(yield relabels, line relabels) from data/batch_yield_units.yaml.
+
+    See that file for the arithmetic. In short: two of the three blocked batches
+    have a yield number that is a SUM OF MIXED UNITS, so its "ml" is a label
+    nobody measured; the third has a correctly-labelled yield and a mislabelled
+    drawing line. Neither correction assumes a density.
+    """
+    doc = _load_yaml("batch_yield_units.yaml") or {}
+    ylds = {e["batch"]: (e["from_unit"], e["to_unit"])
+            for e in (doc.get("yield_unit_fixes") or [])}
+    lns = {(f["recipe"], f["ingredient"]): (f["from_unit"], f["to_unit"])
+           for f in (doc.get("line_unit_fixes") or [])}
+    return ylds, lns
+
+
 def _yield_for(name: str, report: dict):
     """The batch yield to divide by — prep_yields.yaml FIRST, name bracket second.
 
@@ -301,6 +318,7 @@ def materialise(venue: str) -> tuple[list, dict]:
     sold = {n for n, r in book.items() if not r.get("is_prep")}
 
     prov = line_provenance_index()
+    yield_fixes, line_fixes = _batch_unit_fixes()
     weighed = regular_grams_matcher()
     authored = builder_records()
 
@@ -324,7 +342,7 @@ def materialise(venue: str) -> tuple[list, dict]:
     report = {"venue": venue, "generated": date.today().isoformat(),
               "products": len(mine), "subrecipes_pulled_in": sorted(need),
               "lines": 0, "by_source": Counter(), "manual_lines": [],
-              "yield_conflicts": [],
+              "yield_conflicts": [], "unit_relabels": [],
               "authored_overlap": [], "no_yield": [], "unresolved": []}
 
     records = []
@@ -363,6 +381,14 @@ def materialise(venue: str) -> tuple[list, dict]:
         for ln in (r.get("ingredients") or []):
             key = (name, ln.get("name"))
             src, ev = "scrape", None
+
+            if (lf := line_fixes.get(key)) and (ln.get("unit") or "") == lf[0]:
+                ln = dict(ln, unit=lf[1])
+                src = "rule"
+                ev = (f"batch_yield_units.yaml: {lf[0]} -> {lf[1]}, per the "
+                      f"hand-authored record for the same sauce")
+                report["unit_relabels"].append(
+                    {"product": name, "line": key[1], "from": lf[0], "to": lf[1]})
 
             if (w := weighed(name, ln, sold)):
                 src, ev = "weighed", w
@@ -405,6 +431,12 @@ def materialise(venue: str) -> tuple[list, dict]:
         rec = {"product": name, "venue_source": venue}
         if is_sub or r.get("is_prep"):
             q, u = _yield_for(name, report)
+            fix = yield_fixes.get(name)
+            if fix and u == fix[0]:
+                u = fix[1]
+                report["unit_relabels"].append(
+                    {"batch": name, "from": fix[0], "to": fix[1],
+                     "why": "yield is a sum of mixed units; see data/batch_yield_units.yaml"})
             if q is None:
                 report["no_yield"].append(name)
             else:

@@ -92,27 +92,56 @@ def test_manual_lines_carry_a_cost_and_are_reported():
 
 @pytest.mark.skipif(not DIFF.exists(), reason="no shadow diff recorded yet")
 def test_shadow_diff_stays_within_the_attributed_residual():
-    """The first attributed diff was: max $0.0011, all of it sub-cent rounding on
-    Wings Deal products from freezing a per-unit cost at six decimal places.
+    """Every dollar of the residual is attributed. Two causes, no others:
 
-    This is a RATCHET. If it fails, something moved that nobody has explained —
-    stop and attribute it before touching the number in this test.
+    1. Sub-cent rounding on Wings Deals, from freezing a per-unit cost at six
+       decimal places (<= $0.0011 each).
+    2. Sub-recipe lines the OLD engine was publishing Lightspeed's figure for
+       because it never costed them from our book at all -- `our_cost: None,
+       eff_cost = ls_cost`. Large Garlic Cheese Pizza is the worst: Lightspeed
+       says 43 g of garlic oil costs 6c ($1.40/kg) against our invoice-fed
+       $3.80/kg, so the new engine charges $0.1634 and the old charged $0.06.
+
+    The second is the migration WORKING -- a real cost the old path was hiding,
+    and hiding in the flattering direction, which CLAUDE.md names as the
+    dangerous one. It is deliberately not frozen into a `manual` line: doing so
+    would embed Lightspeed's $1.40/kg garlic oil in the book permanently, which
+    is the exact thing this migration exists to end.
+
+    This is a RATCHET. If it fails, something moved that nobody has explained --
+    attribute it before touching the numbers here.
     """
     d = json.loads(DIFF.read_text())
-    assert d["max_abs_delta"] <= 0.002, (
+    assert d["max_abs_delta"] <= 0.15, (
         f"max |delta| ${d['max_abs_delta']} exceeds the attributed residual. "
         f"Worst: {[(r['product'], r['delta']) for r in d['diffs'][:5]]}")
-    assert d["sum_abs_delta"] <= 0.10, f"sum |delta| ${d['sum_abs_delta']} — drift"
+    assert d["sum_abs_delta"] <= 1.00, f"sum |delta| ${d['sum_abs_delta']} — drift"
+    # THE ONLY COSTS THAT MAY FALL are the Jimmy Jury family, and only by cents.
+    # data/batch_yield_units.yaml relabels the scrape's "60 g of Chimichurri" in
+    # J.J. Aioli to the 60 ml the hand-authored record states, and 60 ml of a
+    # 650 ml batch is slightly less sauce than the 1:1 reading charged for.
+    # Deliberate, evidenced, and worth about three quarters of a cent a pizza.
+    #
+    # A fall anywhere else, or a bigger one here, is unexplained -- and an
+    # unexplained fall flatters GP, which is the direction nobody investigates.
+    neg = [r for r in d["diffs"] if r["delta"] < -0.01
+           or (r["delta"] < -0.002 and "jimmy jury" not in r["product"].lower())]
+    assert not neg, (
+        f"unattributed cost fall: {[(r['product'], r['delta']) for r in neg[:5]]}")
 
 
 @pytest.mark.skipif(not DIFF.exists(), reason="no shadow diff recorded yet")
-def test_the_migration_loses_no_products_beyond_the_known_density_block():
-    """22 products refuse because three batches yield ml and their recipes draw g.
-    The old engine converted 1 g = 1 ml silently; cost_on refuses on a hunch and
-    is right to (oil is ~0.92 g/ml, so the assumption is an 8% error on Garlic
-    Oil). Pinned until Zak rules on a density, so a 23rd cannot appear unnoticed.
+def test_the_migration_loses_no_products_beyond_the_known_seven():
+    """7 products still refuse: `Tandoori Sauce [Batch]` yields g and its recipe
+    draws 1 ml (6 products), and `Mulled Wine PartyJar (4)` draws 3.89 ml of a
+    `Mulled Wine` that declares no yield at all, so it is carried as 1 ea.
+
+    Both are the same shape as the three batch-unit mislabels already corrected
+    in data/batch_yield_units.yaml and want the same treatment: read the yield's
+    own basis rather than assume a density. Pinned so an eighth cannot appear
+    unnoticed.
     """
     d = json.loads(DIFF.read_text())
-    assert len(d["only_old"]) <= 22, (
+    assert len(d["only_old"]) <= 7, (
         f"{len(d['only_old'])} products the old book costs and the new one does not: "
         f"{d['only_old'][:10]}")

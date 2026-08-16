@@ -1,0 +1,73 @@
+# Batch yields whose UNIT LABEL is wrong, corrected by reading the yield's own
+# stated basis. Read only by scripts/materialise_recipes.py.
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# 22 Marilyna's products would not cost under modules/recipes/cost.py: three
+# batches declare a yield in ml while every recipe draws them in g, and cost_on
+# refuses to convert mass to volume without a density. The old converter
+# converted 1 g = 1 ml in silence, which is how nobody noticed.
+#
+# The reflex is to declare a density. For two of these three that would be
+# inventing a second assumption to paper over the first, because THE YIELD
+# NUMBER IS ITSELF A SUM OF MIXED UNITS. prep_yields.yaml states the basis in
+# its own words -- "sum of ingredients x1" -- and the sum adds grams to
+# millilitres. A number produced that way has no unit; the "ml" on it is a
+# label somebody had to pick, not a measurement anybody took.
+#
+# So the correction is not "assume a density", it is "read the label off the
+# component that dominates the sum, and off the unit every drawing recipe
+# already uses". That REMOVES an assumption rather than adding one.
+#
+# THIS DOES NOT MAKE THE YIELDS RIGHT. Each is still an estimate, still wrong in
+# the flattering direction by roughly the oil fraction. That error existed
+# identically before this file -- 1500 ml converted 1:1 is the same number as
+# 1500 g -- so nothing is worse, and it is now written where a weighing retires
+# it. WEIGH THESE BATCHES.
+
+yield_unit_fixes:
+
+  - batch: "Garlic Oil [Batch]"
+    from_unit: "ml"
+    to_unit: "g"
+    weigh_this: true
+    proof: >-
+      The batch is 1000 g peeled garlic + 500 ml vegetable oil, and
+      prep_yields.yaml gives 1500 with basis "sum of ingredients x1" -- i.e.
+      1000 + 500, a mass added to a volume. Two thirds of that sum is a mass,
+      and all 10 recipe lines drawing on it are written in g.
+      Residual error, stated: at 0.92 g/ml the oil is 460 g, so the true batch
+      is ~1460 g; calling it 1500 overstates yield by 2.7% and understates the
+      cost of every dish using it by the same. Identical to the error already
+      present under the 1:1 conversion.
+
+  - batch: "Mint Yoghurt [Batch]"
+    from_unit: "ml"
+    to_unit: "g"
+    weigh_this: true
+    proof: >-
+      1000 g Greek yoghurt + 2 bunch mint + 100 ml lime juice, and
+      prep_yields.yaml gives 1102 = 1000 + 100 + 2 -- grams, millilitres and
+      BUNCHES added together. Over 90% of the sum is the yoghurt, a mass; all 6
+      drawing lines are in g. Greek yoghurt is ~1.03 g/ml, so the label swap is
+      within 3% either way regardless.
+
+# Chimichurri is deliberately NOT in the list above.
+#
+# Its yield really is a volume: 500 ml oil + 60 ml vinegar dominate the batch,
+# and the hand-authored record in data/recipes/marilynas.yaml independently
+# declares 650 ml. There the mislabelled thing is the DRAWING LINE -- the
+# scrape's "J.J. Aioli [Batch]" asks for 60 g of it while the hand-authored
+# "Jimmy Jury Aioli", the same sauce entered by a person from Zak's recipe doc,
+# asks for 60 ml. A human wrote ml; the scrape wrote g.
+
+line_unit_fixes:
+
+  - recipe: "J.J. Aioli [Batch]"
+    ingredient: "Chimichurri"
+    from_unit: "g"
+    to_unit: "ml"
+    proof: >-
+      data/recipes/marilynas.yaml, "Jimmy Jury Aioli" -- the same sauce in the
+      same aioli, hand-entered -- reads: subrecipe "Chimichurri", qty 60,
+      unit "ml".
