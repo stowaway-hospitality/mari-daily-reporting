@@ -1,0 +1,94 @@
+name: Shadow diff — recipe book vs scrape
+
+# PHASE 2a's CORD. Do not delete this until the scrape is archived.
+#
+# The materialised book (data/recipes/_staged/<venue>.yaml) and the costed
+# scrape (data/lightspeed_recipes_costed.json) are both costed every morning and
+# diffed. Cutover happens only after this has been boringly zero -- or boringly
+# ATTRIBUTED -- for a week (COST_BOOK_ARCHITECTURE_PLAN.md, T2).
+#
+# WHY DAILY AND NOT ONCE. A one-shot equivalence check answers "were they equal
+# on the afternoon somebody ran it". The two engines read prices differently --
+# the costed book is an undated snapshot, cost_on is as-of -- so they diverge
+# the first time an invoice moves a price, and that divergence is the whole
+# thing worth watching. It cannot be seen by running the check once.
+#
+# Runs AFTER the daily pull, so it diffs against the day's fresh costs.csv
+# rather than yesterday's.
+
+on:
+  schedule:
+    - cron: '15 21 * * *'      # 07:15 Sydney (AEST, UTC+10) — after the 6am pull
+  workflow_dispatch:
+    inputs:
+      venue:
+        description: 'venue to diff'
+        default: 'marilynas'
+
+concurrency:
+  group: shadow-diff
+  cancel-in-progress: false
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Re-materialise the staged book
+        # Re-run rather than diff the committed file: the materialisation reads
+        # costs.csv (to decide which lines our book can price at all), so a
+        # price change can move which lines are `manual`. Diffing a stale
+        # staged file against a fresh scrape would compare two different days.
+        run: python3 scripts/materialise_recipes.py --venue ${{ inputs.venue || 'marilynas' }}
+
+      - name: Diff both engines
+        id: diff
+        # NOT --fail-over here. A red workflow at 07:15 every morning that the
+        # residual has not changed teaches people to ignore it, and this cord
+        # only works if somebody still looks at it in week three. The RATCHET
+        # lives in the test suite (test_materialised_mari_book.py), where it
+        # fires on a human push, at the moment somebody can act on it.
+        run: python3 scripts/shadow_diff_recipes.py --venue ${{ inputs.venue || 'marilynas' }}
+
+      - name: Commit the day's diff
+        run: |
+          git config user.name  "shadow-diff-bot"
+          git config user.email "bot@stowawaybar.com"
+          git add data/_shadow data/recipes/_staged
+          if git diff --cached --quiet; then
+            echo "shadow diff unchanged"
+          else
+            git commit -m "Shadow diff: recipe book vs scrape, $(date -u +%F)"
+            git push
+          fi
+
+      - name: Summarise
+        if: always()
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json, pathlib
+          v = "${{ inputs.venue || 'marilynas' }}"
+          p = pathlib.Path(f"data/_shadow/{v}_diff.json")
+          if not p.exists():
+              print("no diff file produced"); raise SystemExit
+          d = json.loads(p.read_text())
+          print(f"## Shadow diff — {v}\n")
+          print(f"- costed as of **{d['costed_as_of']}**")
+          print(f"- {d['matched']} products costed both ways; "
+                f"{d['identical']} identical, {d['differing']} differing")
+          print(f"- max |delta| **${d['max_abs_delta']:.4f}**, "
+                f"sum |delta| **${d['sum_abs_delta']:.2f}**")
+          if d["only_old"]:
+              print(f"- **{len(d['only_old'])} refuse** under the new engine: "
+                    f"{', '.join(d['only_old'][:8])}")
+          if d["diffs"]:
+              print("\n| product | old | new | delta |\n|---|---|---|---|")
+              for r in d["diffs"][:12]:
+                  print(f"| {r['product']} | {r['old']:.4f} | {r['new']:.4f} | {r['delta']:+.4f} |")
+          PY
