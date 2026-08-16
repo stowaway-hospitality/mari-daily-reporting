@@ -25,6 +25,7 @@ let DAY = null;
 let EDITING = null;
 let SEL = null;   // selected card {date, name, sittings, public}
 let SVC = null;   // service token held in memory for this session
+let AREAS = null; // function areas, from the engine's tables.json (never retyped here)
 
 // ---------------------------------------------------------------- service io
 const svcToken = () => SVC || localStorage.getItem(TOKEN_KEY) || '';
@@ -44,7 +45,14 @@ const hdrs = () => ({ 'Authorization': 'Bearer ' + svcToken(),
 
 async function call(path, opts = {}) {
   const r = await fetch(API + path, { ...opts, headers: { ...hdrs(), ...(opts.headers || {}) } });
-  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || ('HTTP ' + r.status));
+  if (!r.ok) {
+    // A refused FUNCTION answers with an object — the area, who is in the way,
+    // what to do about it. new Error(object) would flatten that to
+    // "[object Object]" and throw away the only actionable part, so structured
+    // details are passed on as JSON for the caller to unpack.
+    const d = (await r.json().catch(() => ({}))).detail;
+    throw new Error(d && typeof d === 'object' ? JSON.stringify(d) : (d || ('HTTP ' + r.status)));
+  }
   return r;
 }
 
@@ -271,6 +279,31 @@ async function saveEdit() {
   } catch (e) { $('status').textContent = 'edit refused: ' + e.message; }
 }
 
+/** The function areas — Old Stow, Main Hall, Whole venue — as the ENGINE
+ *  defines them. Fetched, not hard-coded: tables.json is the single source of
+ *  truth for what a room contains, and a copy here would drift the first time
+ *  an area changed. */
+async function loadAreas() {
+  if (AREAS) return AREAS;
+  try { AREAS = await (await call('/api/admin/areas')).json(); }
+  catch (_) { AREAS = []; }
+  return AREAS;
+}
+
+/** A function books a ROOM: it needs an area and an end time, and the pax box
+ *  stops being a table-capacity question. */
+function onKindChange() {
+  const fn = $('nb_kind').value === 'function';
+  $('nb_areawrap').style.display = fn ? '' : 'none';
+  if (fn) {
+    $('nb_endwrap').style.display = '';           // functions always have a finish
+    if (!$('nb_end').value) {
+      const [h, m] = ($('nb_start').value || '18:00').split(':').map(Number);
+      $('nb_end').value = String((h + 4) % 24).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+    }
+  }
+}
+
 // New booking. On event days: pick a sitting. On house days: free start time
 // plus optional end time (becomes the booking's table hold).
 function openAdd() {
@@ -286,6 +319,12 @@ function openAdd() {
   $('nb_start').value = '18:00'; $('nb_end').value = '';
   $('nb_adults').value = 2; $('nb_kids').value = 0;
   $('nb_babies').value = 0; $('nb_dogs').value = 0;
+  $('nb_kind').value = 'table';
+  loadAreas().then(list => {
+    $('nb_area').innerHTML = list.map(a =>
+      `<option value="${a.id}">${a.id} — holds ${a.tables} tables, guide ${a.seats} pax</option>`).join('');
+  });
+  onKindChange();
   $('editbox').style.display = 'none';
   $('addbox').style.display = 'block';
   $('addbox').scrollIntoView({ behavior: 'smooth' });
@@ -297,11 +336,16 @@ async function saveNew() {
   const phone = ($('nb_phone').value || '').trim();
   const email = ($('nb_email').value || '').trim();
   if (!phone && !email) { $('status').textContent = 'a phone number or an email is required'; return; }
+  const isFunction = $('nb_kind').value === 'function';
   const virt = !SEL.public;
-  const time = virt ? $('nb_start').value : $('nb_time').value;
+  const time = (virt || isFunction) ? $('nb_start').value : $('nb_time').value;
   if (!time) { $('status').textContent = 'start time is required'; return; }
+  if (isFunction && !$('nb_end').value) {
+    $('status').textContent = 'a function needs an end time — it holds the room until then';
+    return;
+  }
   let hold = null;
-  if (virt && $('nb_end').value) {
+  if ((virt || isFunction) && $('nb_end').value) {
     const [sh, sm] = time.split(':').map(Number);
     const [eh, em] = $('nb_end').value.split(':').map(Number);
     hold = (eh * 60 + em) - (sh * 60 + sm);
@@ -319,13 +363,25 @@ async function saveNew() {
         babies: +$('nb_babies').value, dogs: +$('nb_dogs').value,
         notes: $('nb_notes').value,
         hold_minutes: hold,
+        is_function: isFunction,
+        pinned_table: isFunction ? $('nb_area').value : null,
       }),
     })).json();
     $('addbox').style.display = 'none';
     $('status').textContent = `booked — ${r.covers} pax at ${T12(r.time)}`;
     refreshCards();
     loadDay();
-  } catch (e) { $('status').textContent = 'booking refused: ' + e.message; }
+  } catch (e) {
+    let msg = e.message;
+    try {
+      const d = JSON.parse(msg);
+      if (d && d.error) {
+        const who = (d.blocking || []).map(b => `${T12(b.time)} (${b.covers} pax)`).join(', ');
+        msg = d.error + (who ? ` — in the way: ${who}` : '') + (d.hint ? `. ${d.hint}` : '');
+      }
+    } catch (_) { /* plain string message */ }
+    $('status').textContent = 'refused: ' + msg;
+  }
 }
 
 async function downloadRunsheet() {
@@ -432,6 +488,7 @@ Auth.gate($('gate'), {
       init();
     });
     $('addbtn').addEventListener('click', openAdd);
+    $('nb_kind').addEventListener('change', onKindChange);
     $('savenewbtn').addEventListener('click', saveNew);
     $('closenewbtn').addEventListener('click', () => { $('addbox').style.display = 'none'; });
     $('runsheetbtn').addEventListener('click', downloadRunsheet);

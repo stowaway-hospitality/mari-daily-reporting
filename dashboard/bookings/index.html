@@ -143,6 +143,13 @@
           <div id="nb_timewrap"><label>Sitting</label><select id="nb_time"></select></div>
           <div id="nb_startwrap" style="display:none"><label>Start</label><input id="nb_start" type="time" value="18:00"></div>
           <div id="nb_endwrap" style="display:none"><label>End (optional)</label><input id="nb_end" type="time"></div>
+          <div><label>Type</label>
+            <select id="nb_kind" title="A function takes a whole area for a package; a table booking is seated dining">
+              <option value="table">Table booking</option>
+              <option value="function">Function (whole area)</option>
+            </select></div>
+          <div id="nb_areawrap" style="display:none"><label>Area</label>
+            <select id="nb_area" title="every table in this area is held for the whole booking"></select></div>
           <div><label>Name</label><input id="nb_name"></div>
           <div><label>Phone</label><input id="nb_phone" type="tel"></div>
           <div><label>Email</label><input id="nb_email" type="email"></div>
