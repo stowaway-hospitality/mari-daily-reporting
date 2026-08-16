@@ -213,6 +213,14 @@ jobs:
         # generated at build time and not committed at all.
         run: |
           set -e
+          # The integration battletest above REBUILDS costs.csv and leaves it
+          # rebuilt — so without this restore, the step below copied a rebuild
+          # and diffed it against a second rebuild. It could not fail. It sat
+          # green while pack_overrides.yaml changed under a committed costs.csv
+          # (the 2026-08-15 Alehouse 49.5L confirmations landed at 21:27, three
+          # and a half hours after the last rebuild, and CI said nothing).
+          # Restore the COMMITTED file first so the diff means what it claims.
+          git restore data/costs.csv
           cp data/costs.csv /tmp/costs.before.csv
           python3 modules/recipes/pipeline/build_costs.py >/dev/null
           if ! diff -q /tmp/costs.before.csv data/costs.csv >/dev/null; then
@@ -221,6 +229,16 @@ jobs:
             exit 1
           fi
           echo "costs.csv reproduces from source"
+
+      - name: Cost book cannot get worse (SEVERE ratchet)
+        # audit_book.py's docstring has always said it exits 1 on SEVERE "so CI
+        # can hold the line" — but no workflow ever ran it, and SEVERE 7 stood
+        # for days with CI green. This pins the current per-rule SEVERE counts
+        # in baselines/audit_baseline.json as a ceiling: a new defect class or
+        # a growing one fails the build; an improvement invites a --rebase so
+        # the ceiling only ever moves down. WARN/INFO are reported, not gated —
+        # they drift with the calendar via the 90-day ingredients window.
+        run: python3 scripts/audit_ratchet.py
 
       - name: Site must build and every reference must resolve
         # The repo layout and the deployed layout differ. A broken path fails
