@@ -131,3 +131,37 @@ line_qty_unit_fixes:
     to_qty: 1116          # the whole batch, not a 1 kg tub of it
     to_unit: "g"
     weigh_this: true
+
+# ---------------------------------------------------------------------------
+# SERVE YIELDS — read ONLY by scripts/materialise_recipes.py.
+# ---------------------------------------------------------------------------
+# Three products are SOLD and also used as a sub-recipe: a wings deal contains
+# "1 ea" of BBQ Wings, a PartyJar contains 3.89 Mulled Wines, a Caffe Crema
+# draws 30 ml of an Espresso Martini. cost_on needs a yield to divide by, so
+# each needs to declare "1 serve".
+#
+# THEY MUST NOT GO IN prep_yields.yaml. That file is read by the converter and
+# by audit_book, and both use "has a yield" to mean "is a batch" -- and a batch
+# is deliberately excluded from serve costs, because publishing a batch cost
+# against every unit sold is a 4x over-cost (the Dragon Soda case). Putting
+# these three there made three SOLD products cost $0.00 and report 100% GP, and
+# tests/test_no_free_menu_items.py caught it within the hour.
+#
+# The distinction that matters is already written down in cogs_blend: a batch
+# declares a yield and carries NO SELL PRICE; a serve carries a sell price and
+# no yield. These carry sell prices. They are serves that happen to be
+# reachable from another recipe, so their yield lives here, where only the one
+# consumer that needs it can see it.
+#
+# Nothing here needs weighing. One serve is one serve.
+
+serve_yields:
+  - product: "BBQ Wings"
+    yield_qty: 1
+    yield_unit: "ea"
+  - product: "Mulled Wine"
+    yield_qty: 1
+    yield_unit: "ea"
+  - product: "Espresso Martini"
+    yield_qty: 1
+    yield_unit: "ea"

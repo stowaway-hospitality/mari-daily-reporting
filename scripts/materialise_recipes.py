@@ -80,7 +80,17 @@ STAGED = RECIPES / "_staged"
 # a script is invisible to scripts/yield_worklist.py, so the two batches with no
 # yield anywhere were reported as unresolved while quietly working. Yields are
 # DATA. Kept as a hook for a case that genuinely cannot be written down.
-_UNIT_YIELD: dict = {}
+def _serve_yields() -> dict:
+    """product -> (qty, unit) for a SOLD item also used as a sub-recipe.
+
+    Deliberately not in prep_yields.yaml: the converter and audit_book both read
+    "has a yield" as "is a batch", and a batch is excluded from serve costs. Put
+    these three there and three sold products cost $0.00 at 100% GP.
+    See data/batch_yield_units.yaml for the full reasoning.
+    """
+    doc = _load_yaml("batch_yield_units.yaml") or {}
+    return {e["product"]: (Decimal(str(e["yield_qty"])), e["yield_unit"])
+            for e in (doc.get("serve_yields") or [])}
 
 
 def _dec(x):
@@ -369,7 +379,7 @@ def _yield_for(name: str, report: dict):
         return q, u
     if bq is not None:
         return Decimal(str(bq)), bu
-    return _UNIT_YIELD.get(name, (None, None))
+    return _serve_yields().get(name, (None, None))
 
 def _engine_line_cost(ln, costs, on, venue):
     """What modules.recipes.cost would charge for this one line, or None if it

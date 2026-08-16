@@ -371,14 +371,6 @@ Ginger Ponzu:
     other is mostly water. WEIGH IT to close it out.'
   yield_qty: 1250
   yield_unit: ml
-Espresso Martini:
-  basis: 'ASSUMED by Claude, 2026-08-16 — a single serve, not a batch. Its own
-    lines sum to 79.6 ml (30 coffee + 25 vodka + 12 Kahlua + 12 rum + trace),
-    called 80 ml, which is what one Espresso Martini is before ice. It is only
-    here because Caffe Crema draws 30 ml of it, so it needs a yield to divide by.
-    No weighing needed; the recipe states itself.'
-  yield_qty: 80
-  yield_unit: ml
 Chimichurri:
   basis: 'From the hand-authored record in data/recipes/marilynas.yaml, entered
     from Zak''s "Pizza Topping sauces Recipe" doc on 2026-08-05: 500 ml olive oil
@@ -387,17 +379,3 @@ Chimichurri:
     it, not only the ones that read the builder book.'
   yield_qty: 650
   yield_unit: ml
-BBQ Wings:
-  basis: 'One serve. Not a batch at all — it is a sold product that 22 wings
-    deals draw as "1 ea", meaning one serve of wings goes in the deal. Recorded
-    here so the yield lives in the data with every other one, rather than as a
-    special case inside a script where nothing can see it. No weighing needed.'
-  yield_qty: 1
-  yield_unit: each
-Mulled Wine:
-  basis: 'One serve, same shape as BBQ Wings. Mulled Wine PartyJar (4) draws
-    3.89 of them — see data/batch_yield_units.yaml, where the arithmetic
-    ($8.127473 line cost / $2.0908 a serve = 3.8872) shows the line counts
-    serves. No weighing needed.'
-  yield_qty: 1
-  yield_unit: each
