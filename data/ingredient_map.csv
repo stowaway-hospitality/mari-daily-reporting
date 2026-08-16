@@ -1,1 +1,166 @@
 purchasable_id,ingredient_id,confirmed_by,note
+andrews-meat:3090K,lightspeed:22918962,product_map (name-prefix; seed $0.004000 -> invoice $0.004000/g (+0.0%)),Pork Skin Frozen [kg] 1000g
+b-e:10677,lightspeed:22992669,product_map (recipe-bridge),Chicken Whole Bird [No.8]
+b-e:10737,lightspeed:22995328,product_map (name-prefix; seed $0.006000 -> invoice $0.006000/g (+0.0%)),Chicken Wing Nibble [15kg]
+b-e:10796,lightspeed:22480046,product_map (verified: B&E invoice 7051734 2026-08-01 $28.00/kg),Prosciutto Sliced [500g]
+b-e:10876,lightspeed:23007639,product_map (name-prefix; seed $0.013500 -> invoice $0.014000/g (+3.7%)),Beef Brisket YG Point End [1kg]
+b-e:12429,lightspeed:22962975,"product_map (COST $0 ON A REAL QUANTITY. Chicken Marination and Beef Marination each take 50 g of bicarb — it is the velveting agent, not a trace — and both were charged nothing. B&E 12429 'BI - CARB SODA 2KG (6)' is $8.10 the 2 kg bag = $0.004050/g, the most recent of the two real sources; Foodlink 100205 'BICARB SODA 1KG' independently says $0.006900/g. Same order, both per gram, and the recipe lines are per gram. Bridged to the newer.)",bicarb
+b-e:12776,lightspeed:20445603,product_map (name-prefix; seed $0.012184 -> invoice $0.012200/g (+0.1%)),Chicken
+b-e:13812,lightspeed:22975185,product_map (recipe-bridge),Corn Kernels [Tin]
+b-e:14580,lightspeed:22514322,product_map (recipe-bridge),Pizza Tomato Sauce
+b-e:17530,lightspeed:22888647,product_map (recipe-bridge),Mayonnaise Mild Japanese 1kg Kewpie
+b-e:27544,lightspeed:22995341,product_map (name-prefix; seed $0.012764 -> invoice $0.012700/g (-0.5%)),Ham Soccerball Sliced Pendle [1kg]
+b-e:31254,lightspeed:22962978,"product_map (COST $0 ON A REAL QUANTITY. 'White Pepper' had no cost observation at all, so four recipes — Chashu Pork Belly Prep, Shiitake Bouillon, Chicken Marination and Beef Marination — were seasoning for free. B&E 31254 'PEPPER WHITE GROUND SS' is the product, invoiced at $32.40 the bag and pinned at 1000 g from the B&E catalogue, i.e. $0.0324/g. Units agree (g both sides). CORROBORATED BY TWO INDEPENDENT COPIES: Lightspeed already holds the same pepper twice more, at $0.0375/g (22888658) and $0.0380/g (22898078). Three sources within 17% of each other and a fourth identity on zero is not a price question, it is a missing bridge.)",White Pepper
+foodlink:100026,lightspeed:22888616,product_map (name-prefix; seed $0.014600 -> invoice $0.014600/g (+0.0%)),Almond Meal 1kg Natures Secret
+foodlink:100034,lightspeed:22888703,product_map (name-prefix; seed $0.022000 -> invoice $0.022000/g (+0.0%)),Almond Slivered 1kg Natures Secret
+foodlink:100164,lightspeed:22989447,product_map (recipe-bridge),Heinz BBQ Sauce [4L]
+foodlink:100175,lightspeed:22796313,"product_map (verified: Foodlink 'BEANS BLACK WHOLE TIN A10' $8.70/tin is the only black bean actually invoiced. 3 tins x $8.70 = $26.10, exactly the Black Beans Prep line, so the recipe agrees. Was costing off a January BO seed ($3.87/kg) with no invoice behind it.)",Black Beans [7.8kg]
+foodlink:100180,lightspeed:22898623,"product_map (OUR BOOK WAS THE WRONG ONE here - the opposite direction to the rest of this batch. The bo-ingredient-seed held $0.025714/g = $9.00 for a 350 g bag, while Foodlink have invoiced the same 'BEANS EDAMAME SOY 350GM' five times at $7.14-$10.86/kg, i.e. $2.50-$3.80 a bag - our seed was 2.4-3.6x ABOVE every invoice we hold. Over-costing is the safe direction, which is why no guard caught it; Fried Rice was carrying $0.77 a serve where the invoice says $0.27. Bridged so the invoice wins the as-of lookup. bo_cost/invoice_cost left blank on purpose: they are a PACK-cost contract and these are per-unit rates, so filling them would trip the Back Office cost guard.)",Beans Edamame Soy Frozen [350g]
+foodlink:100272,lightspeed:20445569,product_map (name-prefix; seed $0.018596 -> invoice $0.018000/g (-3.2%)),Bocconcini
+foodlink:100464,lightspeed:22888668,product_map (name-prefix; seed $0.003500 -> invoice $0.003500/g (+0.0%)),Sugar Caster 1kg CSR
+foodlink:100499,lightspeed:22995162,product_map (name-prefix; seed $0.031500 -> invoice $0.031500/g (+0.0%)),Cheese Blue Danish 10X100GM
+foodlink:100705,lightspeed:22888802,product_map (name-prefix; seed $0.031050 -> invoice $0.031053/g (+0.0%)),Mousse Chocolate 1.9kg Nestle
+foodlink:100710,lightspeed:22888733,product_map (name-prefix; seed $0.014500 -> invoice $0.014500/g (+0.0%)),Chocolate Dark 1kg Natures Secret
+foodlink:100848,lightspeed:22996486,product_map (name-prefix; seed $0.004600 -> invoice $0.004600/g (+0.0%)),Corn Flour Maize Gluten Free 5kg Edlyn
+foodlink:100953,lightspeed:22888856,product_map (name-prefix; seed $0.022933 -> invoice $0.011467/g (-50.0%)),Sugar Demerera 375Gm CSR
+foodlink:101175,lightspeed:22888762,product_map (name-prefix; seed $0.008889 -> invoice $0.008800/g (-1.0%)),Garlic Powder 5kg Galaxy
+foodlink:101239,lightspeed:22888768,product_map (name-prefix; seed $0.007861 -> invoice $0.008230/g (+4.7%)),Gravy Mix Rich Brown G/Free 7kg Executive Chef
+foodlink:101313,lightspeed:22888642,product_map (name-prefix; seed $0.006993 -> invoice $0.007000/g (+0.1%)),Honey Pure 3kg Wild Flower
+foodlink:101396,lightspeed:22888647,product_map (name-prefix; seed $0.011500 -> invoice $0.010900/g (-5.2%)),Mayonnaise Mild Japanese 1kg Kewpie
+foodlink:101636,lightspeed:22888650,product_map (recipe-bridge),Milk Fresh Full Cream 2L Norco
+foodlink:101732,lightspeed:22888803,product_map (name-prefix; seed $0.008000 -> invoice $0.010400/g (+30.0%)),Mustard Dijon 2.5kg Masterfoods
+foodlink:102473,lightspeed:22888760,product_map (name-prefix; seed $0.009266 -> invoice $0.008553/ml (-7.7%)),Frank's Hot Sauce 1Galln 3.8L Franks
+foodlink:102601,lightspeed:22989451,product_map (recipe-bridge),Sunshine Smokey BBQ Sauce [3L]
+foodlink:102707,lightspeed:22920840,product_map (name-prefix; seed $0.050000 -> invoice $0.050000/g (+0.0%)),Star Anise [200g]
+foodlink:102732,lightspeed:22888667,product_map (name-prefix; seed $0.008400 -> invoice $0.004200/g (-50.0%)),Sugar Brown 1kg CSR
+foodlink:103090,lightspeed:22514090,product_map (name-prefix; seed $0.016546 -> invoice $0.016500/g (-0.3%)),Walnuts [1kg]
+foodlink:103169,lightspeed:22874517,"product_map (COST $0 ON A REAL QUANTITY. Shiba Highball pours 10 ml of yuzu and was charged nothing. Foodlink 103169 'JUICE LIME YUZU 1LT Tonami' states its pack in its own name — 1 L at $71.29, so $0.071290/ml — and the recipe line is in ml, so the bases agree without any conversion being assumed. 10 ml is $0.71, which is most of the drink's ingredient cost.)",Yuzu Juice
+foodlink:103272,lightspeed:22888618,product_map (recipe-bridge),Barramundi Fillets Imp 200/300 S/Off 5kg Trading
+foodlink:104407,lightspeed:22888614,product_map (name-prefix; seed $0.013900 -> invoice $0.013900/g (+0.0%)),Achiote Paste 1kg El Yucateco
+foodlink:104520,lightspeed:22893550,product_map (name-prefix; seed $0.002100 -> invoice $0.002100/g (+0.0%)),Rice Jasmine Fragrant [20kg]
+foodlink:105001,lightspeed:22888649,product_map (name-prefix; seed $0.006500 -> invoice $0.006500/g (+0.0%)),Mayonnaise Whole Egg 20kg Plate & Platter
+foodlink:106504,lightspeed:22902937,product_map (name-prefix; seed $0.011918 -> invoice $0.010971/ml (-7.9%)),Sriracha [730mL]
+foodlink:108970,lightspeed:22988218,product_map (name-prefix; seed $0.015091 -> invoice $0.015000/g (-0.6%)),Cheese Mexican Blend Shredded [2kg]
+foodlink:110315,lightspeed:22533097,product_map (recipe-bridge),Yoghurt Greek Style [1Kg]
+fresh-fruit-team:AH20T,lightspeed:22488995,product_map (name-prefix; seed $25.000000 -> invoice $30.800000/tray (+23.2%)),Avocado [Tray]
+fresh-fruit-team:CLKG,lightspeed:22995324,product_map (name-prefix; seed $0.001556 -> invoice $0.001320/g (-15.2%)),Carrot Large [kg]
+fresh-fruit-team:CSCB,lightspeed:22995331,product_map (recipe-bridge),Corn Baby Sweet [Pack]
+fresh-fruit-team:EFR700DOZ,lightspeed:22995335,product_map (recipe-bridge),Eggs 700 Grams [12x]
+fresh-fruit-team:GINKG,lightspeed:22931835,product_map (name-prefix; seed $0.013200 -> invoice $0.013200/g (+0.0%)),Ginger [kg] 1000g
+fresh-fruit-team:GPKG,lightspeed:22995939,product_map (name-prefix; seed $0.004180 -> invoice $0.003850/g (-7.9%)),Garlic Peeled [kg] 1000g
+fresh-fruit-team:HCBCH,lightspeed:22995343,product_map (recipe-bridge),Herb Chives [Market]
+fresh-fruit-team:KITCARSHKG,lightspeed:22995325,product_map (name-prefix; seed $0.003900 -> invoice $0.003900/g (+0.0%)),Carrot Shredded [kg] 1000g
+fresh-fruit-team:KITCD5MM,lightspeed:22918959,product_map (name-prefix; seed $0.002900 -> invoice $0.003900/g (+34.5%)),Carrot Diced 5mm [kg] 1000g
+fresh-fruit-team:KITCELD5MM,lightspeed:23035273,product_map (name-prefix; seed $0.005900 -> invoice $0.005900/g (+0.0%)),Celery Diced [1kg]
+fresh-fruit-team:KITCFKG,lightspeed:22995936,product_map (name-prefix; seed $0.007917 -> invoice $0.007900/g (-0.2%)),Cauliflower Florets [kg]
+fresh-fruit-team:KITCGWASKG,lightspeed:20445584,product_map (name-prefix; seed $0.008658 -> invoice $0.009800/g (+13.2%)),Capsicum
+fresh-fruit-team:KITDSKG,lightspeed:22995937,product_map (name-prefix; seed $0.007917 -> invoice $0.007900/g (-0.2%)),Dry Slaw [kg]
+fresh-fruit-team:KITLMWASKG,lightspeed:22995349,product_map (name-prefix; seed $0.011714 -> invoice $0.018000/g (+53.7%)),Lettuce Mesculin [1.5kg]
+fresh-fruit-team:KITPUD5MM,lightspeed:20445593,product_map (name-prefix; seed $0.004283 -> invoice $0.004900/g (+14.4%)),Pumpkin
+fresh-fruit-team:LCBTPEA,lightspeed:22995348,product_map (recipe-bridge),Lettuce Cos Baby Twin Pack [Each]
+fresh-fruit-team:ONBRKG,lightspeed:22995352,"product_map (adjudicated AND bridged: OURS IS RIGHT and now tracks the invoice. Every loose brown onion we have ever been billed is $1.32-$2.40/kg — FFT ONBRKG at $1.54 then $1.32, Select Fresh ONIBK at $2.40. Lightspeed's recipe costing implies $3.25/kg, above all of them. This conflict was INVISIBLE until 2026-08-14 because the record's pack_unit read 'can', so the detector had no comparable rate; fixing the label surfaced it. Bridged to ONBRKG so the invoice wins the as-of lookup instead of a pinned figure.)",Onion Brown [kg]
+fresh-fruit-team:PDKG,lightspeed:22995356,product_map (name-prefix; seed $0.003600 -> invoice $0.003960/g (+10.0%)),Potato Desiree [10kg]
+fresh-fruit-team:RRBCH,lightspeed:22995358,product_map (name-prefix; seed $2.880000 -> invoice $2.880000/bunch (+0.0%)),Radish Red [Bunch]
+gulli:AGBGARBRE-B,lightspeed:20467596,product_map (recipe-bridge),Garlic Bread
+gulli:INSERTSMALL-U,lightspeed:22873876,product_map (recipe-bridge),Pizza Box Inserts
+gulli:MOZZARELLA2KG-UC4,lightspeed:22479979,product_map (name-prefix; seed $0.011761 -> invoice $0.010500/g (-10.7%)),Big Cheese - Shredded Mozzarella [2kg]
+gulli:PBLTB11-U,lightspeed:22873831,"product_map (verified: Gulli 'B Flute Lock Top 11"" Pizza Boxes x 50' is the regular-pizza box; $24.10/50 = $0.482 ea. Regular pizzas were costing 0.716 of a 13"" box instead.)","Regular Pizza Box 11"""
+gulli:PBLTB13-U,lightspeed:22873851,product_map (verified: Gulli 'Pizza Boxes x 50' -> per box),"Large Pizza Box 13"""
+gulli:SAPPEPSTRIPA12-UC3,lightspeed:22874436,product_map (recipe-bridge),Roasted Red Peppers [A12]
+ilg:115-3129,lightspeed:21999769,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. The 0.0% stubs are a different product from the Peroni above and map to Lightspeed's own 'Peroni 0%'. BO $1.8463 vs invoice $1.9300 (1.05x), 8 invoices.)",Peroni 0%
+ilg:115-4173,lightspeed:20445700,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. DECISIVE: the Back Office cost is $2.5217 and ILG 115-4173 'PERONI NASTRO 6PK BTLS R' invoices at $2.5217 — identical to four decimals across 4 invoices, so the BO figure was set FROM this line.)",Peroni
+ilg:117-4687,lightspeed:20445703,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. ILG name it 'TWO BAYS GLUTEN FREE PALE ALE'; Two Bays' entire range is gluten free, so it is the same beer. NOT mapped to 22795730 'Two Bays GF Rice Lager [HG]', which is a different beer. BO $4.71 vs invoice $5.4138 (1.15x).)",Two Bays Pale Ale Can
+ilg:117-5472,lightspeed:20445702,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. BO $2.38 vs invoice $2.5012 (1.05x).)",Better Beer Tin
+ilg:170-5319,lightspeed:23358617,product_map (name+price),Boronia Marsala [Bottle]
+ilg:175-044-8,lightspeed:20445882,product_map (ilg-pricebook),Fernet Branca
+ilg:176-0026,lightspeed:20445887,product_map (name+seed-agreed; seed $0.0333 -> invoice $0.0388/ml),Dolin Blanc Vermouth
+ilg:177-027-5,lightspeed:20445891,product_map (ilg-pricebook),Oscar 697 Rosso Vermouth
+ilg:177-028-4,lightspeed:20445883,product_map (ilg-pricebook),Oscar 697 Bianco Vermouth
+ilg:177-0328,lightspeed:20487319,product_map (name+seed-agreed; seed $0.0480 -> invoice $0.0386/ml),Noilly Prat Dry Vermouth [Bottle]
+ilg:215-3314,lightspeed:21749602,product_map (name+seed-agreed; seed $0.0461 -> invoice $0.0480/ml),Whispering Angel Rosé - Bottle
+ilg:215-3314P,lightspeed:21749602,product_map (name+seed-agreed; seed $0.0461 -> invoice $0.0457/ml),Whispering Angel Rosé - Bottle
+ilg:220-1593,lightspeed:20487328,product_map (name+price),De Bortoli Gold Seal Dry Red [15L]
+ilg:235-1323,lightspeed:20645881,product_map (name+seed-agreed; seed $0.1077 -> invoice $0.1077/ml),Veuve Clicquot Yellow Label - Bottle
+ilg:235-1369,lightspeed:20445737,product_map (name+seed-agreed; seed $0.4434 -> invoice $0.5171/ml),Dom Pérignon Champagne 750ML
+ilg:285-0409P,lightspeed:20487286,product_map (name+price),Four Pillars Bloody Shiraz [Bottle]
+ilg:285-3683,lightspeed:20484781,product_map (name+seed-agreed; seed $0.0946 -> invoice $0.0946/ml),Brookie's Byron Dry 700ML
+ilg:285-3763,lightspeed:20484292,product_map (name+seed-agreed; seed $0.0852 -> invoice $0.0913/ml),Archie Rose Signature Gin 750ML
+ilg:285-3870,lightspeed:20445811,product_map (name+seed-agreed; seed $0.0706 -> invoice $0.0702/ml),Bombay Dry [House]
+ilg:285-3870P,lightspeed:20445811,product_map (name+seed-agreed; seed $0.0706 -> invoice $0.0706/ml),Bombay Dry [House]
+ilg:285-3889P,lightspeed:20445810,product_map (name+seed-agreed; seed $0.0774 -> invoice $0.0774/ml),Bombay Sapphire
+ilg:285-5217P,lightspeed:20445808,"product_map ($380 of spirit bought since June never reached the cost book. The line is not unreadable — ILG state the pack in their own UOM (6x700ML -> 0.700 L) and cogs_list already carries it — but resolve_pack scavenges the DESCRIPTION, and 'HENDRICKS GIN' carries no size. seed_matched_liquor_cost exists precisely to rescue that: it forms the case reading and the bottle reading and keeps whichever agrees with the product's seed, refusing both if neither does, because under-costing spirits is the flattering direction. It fires ONLY for a bridged product. These had no bridge, so it never fired. Bridging is the fix; the rescue then does the judging. Bottle reading $62.74/700ml = $0.0896/ml against a $0.1069 seed (0.84x, accepted); the case reading would be $0.014935 (0.14x, refused). 2 recipes.)",Hendrick's Gin [Bottle]
+ilg:295-0603,lightspeed:20484688,product_map (name+seed-agreed; seed $0.1975 -> invoice $0.1975/ml),Balvenie 14yr Caribbean Cask [Bottle]
+ilg:305-3377,lightspeed:20445854,product_map (recipe-bridge),Jack Daniels
+ilg:305-373-2,lightspeed:20729541,product_map (ilg-pricebook),Michter's Us 1 Bourbon Whisky
+ilg:310-0101P,lightspeed:20710102,product_map (name+seed-agreed; seed $0.0580 -> invoice $0.0628/ml),Canadian Club 700ML
+ilg:315-006-6,lightspeed:20445850,product_map (ilg-pricebook),Jameson Irish Whiskey
+ilg:315-0066P,lightspeed:20445850,product_map (name+seed-agreed; seed $0.0674 -> invoice $0.0752/ml),Jameson Irish Whiskey [700ml]
+ilg:345-036-7,lightspeed:20445865,product_map (ilg-pricebook),Kraken Black Spiced Rum
+ilg:345-0367P,lightspeed:20445865,product_map (recipe-bridge),Kraken Rum
+ilg:345-0955,lightspeed:21150832,product_map (recipe-bridge),Diplomatico Mantuano [Bottle]
+ilg:345-103-5,lightspeed:22442475,product_map (ilg-pricebook),Plantation Original Dark Rum
+ilg:355-0552,lightspeed:21999746,"product_map (pricebook-adjudicated; seed $0.0416 -> invoice $0.0829/ml. ILG book price MAR 2026 for 355-055-2 Havana Club 700ml 3yo. is $49.20 a bottle, so the $58.01 line is ONE bottle. The seed said $29.09 — below ILG's own book price, impossible.)",Havana 3yr [700ml]
+ilg:355-0847,lightspeed:20445866,"product_map ($150 of spirit bought since June never reached the cost book. The line is not unreadable — ILG state the pack in their own UOM (6x700ML -> 0.700 L) and cogs_list already carries it — but resolve_pack scavenges the DESCRIPTION, and 'HENDRICKS GIN' carries no size. seed_matched_liquor_cost exists precisely to rescue that: it forms the case reading and the bottle reading and keeps whichever agrees with the product's seed, refusing both if neither does, because under-costing spirits is the flattering direction. It fires ONLY for a bridged product. These had no bridge, so it never fired. Bridging is the fix; the rescue then does the judging. Bottle reading $50.05/700ml = $0.0715/ml against a $0.071603 seed — 0.999x, agreement to a tenth of a percent. 11 recipes.)",Bacardi Blanca [700ml]
+ilg:360-1230,lightspeed:20445832,product_map (name+seed-agreed; seed $0.3498 -> invoice $0.3264/ml),Don Julio 1942 Añejo
+ilg:360-160-4,lightspeed:20445829,product_map (ilg-pricebook),Casamigos Reposado Tequila
+ilg:360-228-4,lightspeed:22575946,product_map (ilg-pricebook),818 Tequila Blanco
+ilg:360-269-4,lightspeed:20445825,product_map (ilg-pricebook),Patron Silver Tequila R
+ilg:360-2694,lightspeed:20445825,product_map (recipe-bridge),Patron Silver
+ilg:360-271-0,lightspeed:22442211,product_map (portal-hunt),Patron XO Cafe
+ilg:360-275-6,lightspeed:20445827,product_map (ilg-pricebook),Patron Reposado Tequila R
+ilg:360-3283,lightspeed:22442211,product_map (name+seed-agreed; seed $0.0903 -> invoice $0.1061/ml),Patron XO Cafe [750ml]
+ilg:365-0276,lightspeed:20492685,product_map (name+price),Lyre's Italian Spritz [Bottle]
+ilg:390-0023,lightspeed:20487805,product_map (name+seed-agreed; seed $0.1500 -> invoice $0.1501/ml),Fee Bros Black Walnut Bitters [150ml]
+ilg:395-0166,lightspeed:20492690,"product_map ($133 of spirit bought since June never reached the cost book. The line is not unreadable — ILG state the pack in their own UOM (6x700ML -> 0.700 L) and cogs_list already carries it — but resolve_pack scavenges the DESCRIPTION, and 'HENDRICKS GIN' carries no size. seed_matched_liquor_cost exists precisely to rescue that: it forms the case reading and the bottle reading and keeps whichever agrees with the product's seed, refusing both if neither does, because under-costing spirits is the flattering direction. It fires ONLY for a bridged product. These had no bridge, so it never fired. Bridging is the fix; the rescue then does the judging. Bottle reading $66.56/700ml = $0.0951/ml against a $0.0930 seed (1.02x). 2 recipes.)",Italicus Bergamot Liqueur [Bottle]
+ilg:395-102-1,lightspeed:20445894,product_map (ilg-pricebook),Campari Aperitif 25%
+ilg:395-1021,lightspeed:20445894,"product_map ($336 of spirit bought since June never reached the cost book. The line is not unreadable — ILG state the pack in their own UOM (6x700ML -> 0.700 L) and cogs_list already carries it — but resolve_pack scavenges the DESCRIPTION, and 'HENDRICKS GIN' carries no size. seed_matched_liquor_cost exists precisely to rescue that: it forms the case reading and the bottle reading and keeps whichever agrees with the product's seed, refusing both if neither does, because under-costing spirits is the flattering direction. It fires ONLY for a bridged product. These had no bridge, so it never fired. Bridging is the fix; the rescue then does the judging. ALSO A SPELLING BUG: product_map already carried Campari as ILG '395-102-1', the PRICEBOOK spelling, while every invoice writes '395-1021'. _ilg_key() documents that ILG writes one code two ways and load_bridge keys on the literal string, so the existing row never matched an invoice. This is the only one of 77 ILG map codes affected — checked — so it is fixed by adding the invoice spelling rather than by normalising every key. Bottle reading $43.33/700ml = $0.0619/ml against a $0.0515 seed (1.20x, accepted); case would be 0.20x. 10 recipes.)",Campari [Bottle]
+ilg:405-095-7,lightspeed:20445870,product_map (ilg-pricebook),Mr Black Coffee Liqueur 700ml
+ilg:410-040-3,lightspeed:20445875,product_map (ilg-pricebook),St Germain Elderflower Liqueur
+ilg:410-249-2,lightspeed:20512442,product_map (ilg-pricebook),Chartreuse Green
+ilg:410-277-7,lightspeed:20445869,product_map (ilg-pricebook),Mac By Brookie's Liqueur
+ilg:410-3945,lightspeed:20484934,product_map (name-prefix; seed $0.048000 -> invoice $0.048110/ml (+0.2%)),Kahlua [1L]
+ilg:410-775-4,lightspeed:20445868,product_map (ilg-pricebook),Cointreau
+ilg:425-7100P,lightspeed:20445711,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. BO carries $3.4187 from an invoice-derived seed and ILG invoices $3.4188 — a tenth of a cent apart, so this simply makes the existing figure live.)",Fellr Watermelon Seltzer Tin
+ilg:440-2140P,lightspeed:20445713,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. BO $2.58 vs invoice $2.8217 (1.09x), 4 invoices.)",Young Henrys Cloudy Cider Can
+ilg:440-7225,lightspeed:20445714,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. BO $3.11 vs invoice $3.0333 (0.98x), 5 invoices — the closest of the set.)",Monteith's Apple Cider Bottle
+ilg:450-1293,lightspeed:20445897,product_map (stale_drift),San Pellegrino 500ml
+ilg:455-1078,lightspeed:20727770,product_map (name+seed-agreed; seed $0.0068 -> invoice $0.0073/ml),Bickfords Raspberry Cordial [Bottle]
+ilg:460-1504,lightspeed:20459552,product_map (exact),Coke 1.25L
+ilg:460-2255P,lightspeed:20484784,product_map (name+seed-agreed; seed $0.0082 -> invoice $0.0082/ml),Fever-Tree Naturally Light Tonic [Bottle]
+ilg:460-2567,lightspeed:20459560,product_map (exact),Coke Can
+ilg:460-412-8,lightspeed:20445917,product_map (ilg-pricebook),Bundaberg Ginger Beer 750ml
+lion:1200769,lightspeed:23216243,product_map (exact),Guinness [Keg]
+lion:1254690,lightspeed:20786711,product_map (stale_drift),Kirin [Keg]
+lion:1256672,lightspeed:20492637,product_map (stale_drift),Stone & Wood [Keg]
+mallia-industries-pty-ltd:ST285-WS,lightspeed:22995947,product_map (recipe-bridge),T2 Milk Bun Sliced White Sesame [85g]
+paramount:10015926,lightspeed:20483609,product_map (name+price),Carpano Classico [750ml]
+paramount:10017813,lightspeed:20483413,product_map (name+seed-agreed; seed $0.0675 -> invoice $0.0718/ml),Massenez Triple Sec [5L]
+paramount:32051,lightspeed:20484930,product_map (name+price),White Light Vodka [20L]
+paramount:43786,lightspeed:23217497,product_map (recipe-bridge),Seppeltsfield Para Grand 10yo Tawny [Bottle]
+paramount:44583,lightspeed:20487328,product_map (stale_drift),De Bortoli Gold Seal Dry Red [15L]
+paramount:56841,lightspeed:20445893,product_map (portal-hunt),Regal Rogue Bold Red
+paramount:56844,lightspeed:20445888,product_map (portal-hunt),Regal Rogue Wild Rose
+paramount:60431,lightspeed:20445836,product_map (portal-hunt),Ilegal Mezcal Reposado
+paramount:61300,lightspeed:20445828,product_map (portal-hunt),Cazcabel Reposado Tequila
+paramount:61599,lightspeed:20445893,product_map (name-prefix; seed $0.047760 -> invoice $0.040916/ml (-14.3%)),Regal Rogue Bold Red [500ml]
+paramount:65988,lightspeed:20445808,product_map (portal-hunt),Hendricks Gin
+paramount:67137,lightspeed:20645918,product_map (portal-hunt),Goslings Black Seal Rum
+paramount:67607,lightspeed:20445831,product_map (portal-hunt),Fortaleza Reposado Tequila
+paramount:67882,lightspeed:20512408,"product_map (name+seed-agreed; seed $0.0741 -> invoice $0.0986/ml. Single bottle, not the 6-pack the '6/700 ml' uom describes: the same invoice bills Casamigos Reposado at $88.43 and Lost Explorer Mezcal at $65.09 on identical uoms, and carries a $15.07 minimum-delivery top-up, which is a three-bottle order and not eighteen. The case reading is $11.50 a bottle.)",Germano Caetano Cachaça [Bottle]
+paramount:79299,lightspeed:20445856,product_map (portal-hunt),Plantation 3 Star White Rum
+paramount:79885,lightspeed:20710158,product_map (name-prefix; seed $0.084771 -> invoice $0.107914/ml (+27.3%)),Tempus Fugit Creme de Banane 700ML
+paramount:880126,lightspeed:20445861,product_map (portal-hunt),Myers Jamaican Rum
+paramount:880952,lightspeed:20492724,product_map (portal-hunt),Wray & Nephew White Overproof
+paramount:90266,lightspeed:20488033,product_map (name-prefix; seed $0.053556 -> invoice $0.058929/ml (+10.0%)),Seadrift Coast [Bottle]
+select-fresh:BEANK,lightspeed:22898695,product_map (name-prefix; seed $0.006400 -> invoice $0.008200/g (+28.1%)),Bean Green [kg] 1000g
+select-fresh:CARK,lightspeed:22903011,product_map (name-prefix; seed $0.002100 -> invoice $0.002400/g (+14.3%)),Carrot [kg] 1000g
+select-fresh:CHLR,lightspeed:22918956,product_map (name-prefix; seed $0.017500 -> invoice $0.016000/g (-8.6%)),Chilli Red Long [kg] 1000g
+select-fresh:CHOI,lightspeed:22898085,"product_map (OVER-COST, the safe direction, which is why nothing caught it for months. The bo-ingredient-seed holds $9.00 a bunch. Select Fresh CHOI 'CHOI SUM BCH' invoices at $2.20 (3064370) and FFT CSB 'Choy Sum (Bunch)' at $1.93-$2.75 across three invoices - so every real bunch we have ever bought is $1.93-$2.75 and the seed is 4.1x the median. Units agree (bunch both sides) and the names are the same vegetable. bridge_stale_seeds parked this one because -76% drift exceeds its 60% guard; that guard exists to catch PACK clashes, and here there is no pack to clash - four invoices agree with each other and only the seed is out, so the drift is the defect rather than evidence against the match.)",Choi Sum [bunch]
+select-fresh:EDMVI,lightspeed:21020204,product_map (recipe-bridge),Edible Flower [Punnet]
+select-fresh:FLWBB,lightspeed:22893390,product_map (recipe-bridge),Babys Breath [bunch]
+select-fresh:HCOR,lightspeed:22995344,product_map (recipe-bridge),Herb Coriander [Bunch]
+select-fresh:SHAL,lightspeed:22996509,product_map (name-prefix; seed $1.930000 -> invoice $2.900000/bunch (+50.3%)),Shallot [Bunch]
+select-fresh:XSHRCAB,lightspeed:22898086,product_map (name-prefix; seed $0.004200 -> invoice $0.004200/g (+0.0%)),Cabbage Green Shredded [kg] 1000g
+select-fresh:ZUCK,lightspeed:22480147,product_map (name-prefix; seed $0.002766 -> invoice $0.002900/g (+4.8%)),Zucchini [1Kg]
+the-berry-man-nsw-pty-ltd:DPULP10,lightspeed:22893724,product_map (name-prefix; seed $0.008639 -> invoice $0.008500/g (-1.6%)),Dragonfruit Puree [10kg]
+the-berry-man-nsw-pty-ltd:PJ1,lightspeed:22843691,product_map (recipe-bridge),Passionfruit Puree Seedless [1kg]

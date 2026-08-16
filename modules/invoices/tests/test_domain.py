@@ -165,15 +165,21 @@ def test_the_real_cogs_list_loads_as_an_observation_log():
 
 # ---- ingredient identity map (Decision 1) ---------------------------------
 
-def test_ingredient_map_empty_by_default_and_maps_to_self():
+def test_ingredient_map_populated_and_purchasables_still_resolve():
     """
-    No cross-supplier duplicates in the data yet, so the map is empty and every
-    purchasable is its own ingredient. Squid must still resolve.
+    The map was empty until 2026-08-16; scripts/build_ingredient_map.py now
+    populates it from the product_map bridge. The contract that matters is
+    unchanged: a recipe referencing the PURCHASABLE id must still find its
+    series (as_of translates through the map — both spellings, one series).
     """
-    from core.domain import load_cost_observations, load_ingredient_map
-    assert load_ingredient_map() == {}
-    obs = load_cost_observations()
-    assert any(o.ingredient == "foodlink:102689" for o in obs)
+    from datetime import date
+    from core.domain import CostSeries, load_cost_observations, load_ingredient_map
+    m = load_ingredient_map()
+    assert len(m) > 100, "map should carry the product_map bridge"
+    assert all(v.startswith("lightspeed:") for v in m.values())
+    s = CostSeries(load_cost_observations())
+    o = s.as_of("foodlink:102689", date(2026, 8, 1))   # squid, by supplier id
+    assert o.cost_per_unit > 0
 
 
 def test_ingredient_map_merges_two_suppliers_when_confirmed(tmp_path):

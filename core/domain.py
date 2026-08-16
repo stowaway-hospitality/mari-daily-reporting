@@ -221,10 +221,23 @@ class CostSeries:
     written as "fresh-fruit-team:ONBRKG". A rename must never snap a recipe.
     """
 
-    def __init__(self, observations: Iterable[CostObservation]):
+    def __init__(self, observations: Iterable[CostObservation],
+                 purchasable_to_ingredient: Optional[dict[str, str]] = None):
+        # Lookups translate through the ingredient map too. Observations were
+        # re-keyed to their ingredient at load; a RECIPE may still reference the
+        # purchasable ("foodlink:100464"). Both spellings must find the series —
+        # the same both-sides rule canonical_purchasable already applies to
+        # renames. Without this, populating the map broke Sugar Syrup: its
+        # observations moved to the lightspeed anchor and the recipe's
+        # supplier-id lookup found nothing (caught by the integration seam,
+        # 2026-08-16).
+        self._map = purchasable_to_ingredient if purchasable_to_ingredient is not None \
+            else load_ingredient_map()
         self._by: dict[tuple[str, Optional[str]], list[CostObservation]] = {}
         for o in observations:
-            self._by.setdefault((canonical_purchasable(o.ingredient), o.venue), []).append(o)
+            k = canonical_purchasable(o.ingredient)
+            k = self._map.get(k, k)      # store under the ingredient too
+            self._by.setdefault((k, o.venue), []).append(o)
         for lst in self._by.values():
             lst.sort(key=lambda o: o.observed_on)
 
@@ -237,6 +250,7 @@ class CostSeries:
         zero, an average) is how history starts lying. Fail toward review.
         """
         ingredient = canonical_purchasable(ingredient)
+        ingredient = self._map.get(ingredient, ingredient)
         for key in ((ingredient, venue), *( ((ingredient, v) for v in self._venues(ingredient)) if venue else () )):
             hit = self._latest(key, on)
             if hit:
@@ -276,6 +290,7 @@ class CostSeries:
           * mixed units in the window -> most recent, not a meaningless average
         """
         ingredient = canonical_purchasable(ingredient)
+        ingredient = self._map.get(ingredient, ingredient)
         key = self._pick_key(ingredient, on, venue)
         if key is None:
             # Reuse as_of purely to raise the same, well-explained LookupError.
