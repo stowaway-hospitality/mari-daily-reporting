@@ -802,6 +802,36 @@ vanguard x1, xero 164542cc0a23 + 4. No drift, no new failure mode among them.
      wants its own before/after on the money sign (a credit is negative, and
      getting that wrong is the flattering direction).
 
+ 36. THE FORWARDED INVOICES ARE CLOSED AS A QUESTION — Zak, 2026-08-17: "the
+     forwarded invoices won't be supplier items that feed food and bev cogs so
+     ignore it." DO NOT propose a vendor-from-the-page parser for them. Item 34
+     called the 27 stowawaybar.com forwards "the single largest bucket in the
+     pile" and pointed at the item 16/17 Xero answer; that was a correct reading
+     of the COUNT and the wrong reading of the VALUE, because this table cannot
+     see what a document is FOR.
+
+     The evidence, from the 2026-08-17 sweep, so the ruling is checkable rather
+     than just asserted — the 27 are: Freshwater Locksmiths x2, Hybrid Signs,
+     Sydney Upholstery, Applause Entertainment, Uber Direct billing, Frymate
+     (fryer equipment), Trivialicious trivia packs, JAMAC cleaning supply x2,
+     SEEK, barware receipts x2, Render (hosting), Singa (karaoke), Amazon x2,
+     printing/flyers x2, and assorted receipts. Services, equipment, marketing
+     and software. None of it reaches a recipe, which is what this pipeline
+     exists to feed. They are still real payables and are NOT filed away like
+     the statements and credit notes of item 34 — a service bill still has to be
+     paid, so it stays in Review where a human sees it. Consequence, stated
+     plainly: those 27 keep occupying the retry sweep's budget. That is now a
+     deliberate cost, not an unnoticed one.
+
+     ONE EXCEPTION IS WORTH A HUMAN'S EYE, and it is named here rather than
+     quietly folded into the ruling: "Fwd: Invoice - Barrel One Coffee Roasters
+     #OMI7874". Coffee IS beverage COGS. It is the only one of the 27 whose
+     product could feed a recipe, so if Barrel One becomes a regular supplier it
+     wants its own domain entry and parser like any other — the ruling above is
+     about forwarded ADMIN, not about a coffee roaster that happens to have been
+     forwarded once. Not acted on: one invoice is not a supplier relationship,
+     and Zak's instruction was to ignore the bucket.
+
 The three zero-total documents (now four, with Gulli CI-437314 — see item 18)
 can never PASS by construction: validator's _check_required_fields treats
 total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
