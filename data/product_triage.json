@@ -1,35 +1,30 @@
 {
-  "generated": "2026-08-16T13:05:00+10:00",
-  "reviewed": 3,
-  "clean": 3,
-  "flags": [],
-  "resolved_today": [
+  "generated": "2026-08-17",
+  "reviewed": 6,
+  "clean": 4,
+  "flags": [
     {
-      "supplier": "Lightspeed / Gulli",
-      "name": "Roasted Red Peppers [A12] (= Sapore- Roasted Red Peppers Strips A12)",
-      "code": "22874436 / SAPPEPSTRIPA12-UC3",
-      "was": "1 'ea' at $14.00 with needs_pack_review FALSE, so the tin could only be booked whole and no recipe could cost pepper strips by mass. The bridged Lightspeed copy was not even flagged for the chef, while its Gulli twin was.",
-      "fix": "Pinned to 2500 g in pack_overrides.yaml, giving $0.005600/g. Both spellings of the tin now agree on that rate, which also closes the duplicate-identity gap.",
-      "source": "NOT guessed and not in our data — the Gulli invoice states no UOM. Taken from the manufacturer's spec sheet published on the supplier's own catalogue: shop.gullifood.com.au product sappepstripa12-uc3 -> Documents -> 'Specifications for Red Roasted Peppers Whole & Strips.pdf', page 2 ('ROASTED PEPPERS RED strips'): Packing Type 'A 12 (5/1) TIN BOX', NET WEIGHT 4200 G, DRAINED WEIGHT 2500 G. The PDF is an image scan and had to be rendered to be read.",
-      "judgement": "DRAINED (2500 g) chosen over NET (4200 g): a recipe uses the peppers, not the brine, and it is the conservative direction — net would read 1.68x cheap, and CLAUDE.md is explicit that errors flattering GP are the dangerous ones."
+      "supplier": "Foodlink",
+      "name": "Gravy Mix Rich Brown",
+      "code": "101239",
+      "issue": "Name is truncated and the pack size went with it. The invoice line reads 'GRAVY MIX RICH BROWN G/FREE' + '7KG Executive Chef' across two rows; only the first row was captured, so the product entered the feed as 'Gravy Mix Rich Brown' with pack_qty null, needs_pack_review true, and a cost of $57.6087 per 'ea'. Foodlink's UOM column only ever says EA/CTN, so the description is the ONLY place the pack size is stated — losing it loses the rate.",
+      "suggested_fix": "Pack is 7 kg -> $8.23/kg. NOT GUESSED: confirmed from two independent sources already in our own data. (1) Foodlink invoice SI4483241, 2026-07-24, same code 101239, where the words did not wrap: 'GRAVY MIX RICH BROWN G/FREE 7KG Executive Chef', stored as 7 kg at $8.2300/kg. (2) The Lightspeed recipe seed, ProductID 22888768, 'Gravy Mix Rich Brown G/Free 7kg Executive Chef' at $7.8611/kg. The root cause is fixed in the parser today (see parser_regression.py triage item 33) and this row should re-read correctly on the next Foodlink delivery; no manual edit made, and none needed if that holds.",
+      "severity": "high",
+      "money": "a recipe costing gravy off the sizeless row books ~7x"
     },
     {
-      "supplier": "Lightspeed",
-      "name": "San Pellegrino 500ml",
-      "code": "21050706 (HG) + 20445897 (Stow)",
-      "was": "pack_unit 'can', pack_qty 1, so the 500 mL was lost and the item was costed per container while the picker's other sparkling water is costed per ml. 'can' was also factually wrong. The $2.3200 was a Back Office seed dated 2026-01-01.",
-      "fix": "Pinned to 500 ml. The rate is now $0.004640/ml (x500 = $2.32). build_costs applies the override upstream, so the row reads as a per-ml rate rather than a 500 ml pack — both shapes are correct and the test asserts the rate, not the shape.",
-      "source": "CONFIRMED from our own invoices, not the label: ILG code 450-1293 'S.PELLEGRINO SPARKLING WATER', raw_uom '24x500ML', on invoices 03690691 (2026-05-05), 03701256 (05-21), 03714643 (06-16), 03729959 (07-14).",
-      "note": "The stale January seed is already resolving itself as predicted — live ILG invoices have superseded it on the Stowaway id at $0.004712/ml as of 2026-08-04."
+      "supplier": "Fresh Fruit Team",
+      "name": "Broccolini / Broccolini (BROCE)",
+      "code": "BRL / BROCE",
+      "issue": "Two picker entries for the same vegetable from the same supplier. BRL is a box costed at 12 ea for $33.60 = $2.80 each (pack_parsed_as 'chef-confirmed'); BROCE is a single bunch at $3.17, disambiguated with its own code by the 2026-08-15 collapse rule because the pack units differ ('ea' vs 'bunch') and the rates are 13% apart, just outside the 10% merge window. The chef now sees broccolini twice.",
+      "suggested_fix": "NOT GUESSED — needs Zak or the chef to confirm the one fact that decides it: is an FFT 'bunch' (BROCE) the same physical unit as one of the 12 in a BRL box? The two rates agreeing to within 13% suggests yes, and if so BROCE's pack unit should be 'ea' so the two collapse. If a market bunch is genuinely bigger, both rows are correct and should stay — that is exactly the case the 10%/pack-unit guard exists to protect (triage item 13, where merging deleted two market bunches).",
+      "severity": "low",
+      "money": "none directly; a duplicate picker entry, and a 13% cost swing depending which the chef picks"
     }
   ],
-  "clean_notes": [
-    {
-      "supplier": "Lightspeed (bridged from B&E)",
-      "name": "Chicken Whole Bird [No.8]",
-      "code": "22992669",
-      "why_clean": "Name complete, cost confirmed at $6.10 across ~10 B&E invoices, and 'ea' matches the supplier's own raw_uom 'PCS' — B&E genuinely sells it by the piece, so per-each is the invoiced basis rather than a parser artefact."
-    }
-  ],
-  "pipeline_fix": "Separately from the two products above: pack_overrides.yaml previously had NO EFFECT on any lightspeed:* cost-book row, so every wrong-unit flag this review has raised against one (about thirty spirits on 2026-08-15, both of today's) was unfixable by the mechanism built for it. build_ingredients now applies confirmed packs to cost-book rows, guarded so a COUNT override is never applied to a row that is already per-piece — the first draft of that fix understated nine products by 40x to 288x and was caught by the before/after feed diff. See parser_regression.py TRIAGE LOG items 26-28."
+  "notes": [
+    "lightspeed:21050706 San Pellegrino 500ml is clean at $0.004640/ml ($2.32 per 500 mL bottle) but carries the January Back Office seed. The live ILG invoices on the Stowaway id (lightspeed:20445597, ILG 450-1293) moved to $0.004712/ml on 2026-08-04. 1.5% stale, cosmetic, self-healing on the next bridge.",
+    "lightspeed:22874436 'Roasted Red Peppers [A12]' and gulli:SAPPEPSTRIPA12-UC3 both read $0.0056/g and agree by design — the drained-weight divisor (2500 g) confirmed from the supplier spec sheet in triage item 27. Both clean.",
+    "fresh-fruit-team:BRL and BROCE cross-corroborate each other's pack: $33.60/12 = $2.80 vs a stated single bunch at $3.17."
+  ]
 }
