@@ -1,0 +1,58 @@
+name: Rebuild cost table on pack confirmation
+
+# Closes a staleness hole the determinism gate exposed on 2026-08-15:
+#
+#   chef taps "confirm pack" in the recipe builder
+#     -> shg-auth edge function append-commits data/pack_overrides.yaml
+#     -> ... and NOTHING rebuilt data/costs.csv.
+#
+# pack_overrides changes the divisor on cost observations (last confirmation
+# wins), so a confirmation without a rebuild leaves the committed cost table
+# quietly wrong. Concretely: Zak's 49.5L Alehouse keg confirmations landed at
+# 21:27 on 2026-08-15, three and a half hours after the last rebuild, and the
+# committed book still said 50L rates. invoice_ingest.yml already rebuilds on
+# the invoice path; this covers the confirmation path.
+#
+# Also triggers on its own file so shipping it (or fixing it) heals the tree
+# immediately. workflow_dispatch for manual healing after any hand edit.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - data/pack_overrides.yaml
+      - .github/workflows/rebuild_costs.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cogs-write        # serialise writers to costs.csv with invoice_ingest
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Rebuild the cost table
+        run: python3 modules/recipes/pipeline/build_costs.py
+
+      - name: Commit if the table moved
+        run: |
+          git config user.name  "pack-confirm-rebuild"
+          git config user.email "bot@stowawaybar.com"
+          git add data/costs.csv
+          if git diff --cached --quiet; then
+            echo "costs.csv already current"
+          else
+            git commit -m "Rebuild costs.csv: pack confirmation changed the divisors"
+            git push
+          fi
