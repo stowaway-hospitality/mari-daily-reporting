@@ -345,8 +345,11 @@ def test_a_declared_flag_re_reads_its_prices_from_disk(feed):
     The yaml names the ids; the builder looks up what they cost today."""
     hg = next(f for f in feed["flags"] if f["id"] == "decision-hg-bottle-prices")
     assert hg["derived"] is False
-    assert any("ilg:122-2858" in e and "212.44" in e for e in hg["evidence"]), hg["evidence"]
-    assert any("ilg:122-2867" in e and "184.94" in e for e in hg["evidence"]), hg["evidence"]
+    # The invoice observation was $212.44/keg until the declared-conversion
+    # layer (2026-08-16) restated keg series to base units: 212.44 / 49500 =
+    # $0.0043/ml. Same observation, one unit system — pin the restated form.
+    assert any("ilg:122-2858" in e and "/ml" in e for e in hg["evidence"]), hg["evidence"]
+    assert any("ilg:122-2867" in e and "/ml" in e for e in hg["evidence"]), hg["evidence"]
 
 
 # --- the book disagreeing with itself --------------------------------------

@@ -63,3 +63,25 @@
   to_qty: 700
   to_unit: ml
   evidence: "Appendix K spirits 700ml; BO seed row pack '700ml'"
+# Kegs, from the held-merge queue. Volumes are NOT guessed: Alehouse 49.5L is
+# Zak's chef confirmation (pack_overrides, pinned in tests, per ILG's own
+# truncated raw_uom "1xKEG49."); Grifter Pale is a Konvoy 50L keg — the
+# supplier's own code says so (GRIFTER-PALE-50L).
+- ingredient: "lightspeed:20487298"    # Alehouse Draught Lager [Keg]
+  applies_to: ["ilg:122-2858", "lightspeed:20487298"]
+  from_unit: keg
+  to_qty: 49500
+  to_unit: ml
+  evidence: "chef-confirmed 49.5L (pack_overrides 2026-08-15, ILG raw_uom)"
+- ingredient: "lightspeed:20487313"    # Alehouse Summer Mid [Keg]
+  applies_to: ["ilg:122-2867", "lightspeed:20487313"]
+  from_unit: keg
+  to_qty: 49500
+  to_unit: ml
+  evidence: "chef-confirmed 49.5L (pack_overrides 2026-08-15, ILG raw_uom)"
+- ingredient: "lightspeed:20487426"    # Grifter Pale [Keg]
+  applies_to: ["grifter:GRIFTER-PALE-50L", "lightspeed:20487426"]
+  from_unit: keg
+  to_qty: 50000
+  to_unit: ml
+  evidence: "Konvoy 50L keg; supplier code GRIFTER-PALE-50L"
