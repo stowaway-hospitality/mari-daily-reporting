@@ -191,8 +191,20 @@ def _load_our_costs(venue_key, target):
             r = recipe_as_of(recipes, product, target)
             if not r:
                 continue
-            if r.yield_qty:
+            if r.yield_qty and not getattr(r, "is_serve", False):
                 # A BATCH IS NOT A SERVE, AND THIS DICT IS SERVE COSTS.
+                #
+                # "Has a yield" was the whole test until 2026-08-16, and it is
+                # not quite the rule this comment describes. BBQ Wings is SOLD
+                # and also drawn "1 ea" by 22 wings deals: it needs a yield to be
+                # divisible and a serve cost to be sold, and on the yield alone
+                # it got the yield and lost the cost. Same shape as three sold
+                # products that briefly cost $0.00 the same afternoon.
+                #
+                # So the test is now the one the paragraph below already states:
+                # a batch has a yield AND NO SELL PRICE. `is_serve` is set by
+                # scripts/materialise_recipes.py on any record the scrape reports
+                # as a sold product of this venue.
                 #
                 # The distinction is already in the recipe: a batch declares a
                 # yield ("Dragon Soda: 20,000 ml") and carries no sell price; a

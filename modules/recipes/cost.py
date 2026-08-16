@@ -103,6 +103,11 @@ class Recipe:
     # sub-recipe MUST declare a yield, or its per-gram cost is unknowable.
     yield_qty: Optional[Decimal] = None
     yield_unit: Optional[str] = None
+    # A record that is BOTH sold and drawn as a sub-recipe: BBQ Wings needs a
+    # yield so 22 wings deals can divide by it, and a serve cost because it is
+    # on the menu. Consumers that exclude batches from serve costs must test
+    # "yield AND NOT is_serve", not the yield alone.
+    is_serve: bool = False
 
 
 class MissingCost(Exception):
@@ -129,6 +134,7 @@ def load_recipes(venue: str, path: Optional[Path] = None) -> list[Recipe]:
             prep_minutes=Decimal(str(d["prep_minutes"])) if d.get("prep_minutes") else None,
             yield_qty=Decimal(str(d["yield_qty"])) if d.get("yield_qty") else None,
             yield_unit=d.get("yield_unit") or None,
+            is_serve=bool(d.get("is_serve")),
             lines=tuple(
                 RecipeLine(
                     ingredient=l.get("id", ""), qty=Decimal(str(l["qty"])),
