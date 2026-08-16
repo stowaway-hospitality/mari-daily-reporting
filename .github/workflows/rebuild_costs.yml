@@ -46,11 +46,18 @@ jobs:
       - name: Rebuild the cost table
         run: python3 modules/recipes/pipeline/build_costs.py
 
+      - name: Regenerate the ingredient map
+        # The map's fence measures live rates off costs.csv, and CI's map test
+        # regenerates and diffs — so a pack change that moves a rate would
+        # strand the committed map stale and turn main red on the NEXT human
+        # push. Regenerate both together; one event, one consistent commit.
+        run: python3 scripts/build_ingredient_map.py
+
       - name: Commit if the table moved
         run: |
           git config user.name  "pack-confirm-rebuild"
           git config user.email "bot@stowawaybar.com"
-          git add data/costs.csv
+          git add data/costs.csv data/ingredient_map.csv data/_identity_review
           if git diff --cached --quiet; then
             echo "costs.csv already current"
           else

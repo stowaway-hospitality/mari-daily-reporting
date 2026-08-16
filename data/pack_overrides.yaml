@@ -934,3 +934,14 @@
 # and CI cannot see a pack divisor. The count moved to BRL where it belongs.
 # Left as a comment rather than a silent deletion so the next session does not
 # re-derive the same wrong entry from the same correct sentence.
+# CORRECTION of the 2026-08-16 Coke Zero entry above (last-confirmation-wins).
+# Zak's "it's a case of 12" describes the PHYSICAL carton — but ILG prices the
+# line PER BOTTLE: cogs_list shows basis per_unit at $3.69 with case note
+# "12x1.25LT" ($2.95/L, sane). The 15000ml entry read "$3.69 buys 15L" — the
+# broccolini/camembert shape, latent 12x under-cost. One priced unit = 1.25L.
+- id: "ilg:460-1639"
+  pack_qty: 1250
+  pack_unit: ml
+  by: "Claude (corrective; evidence cogs_list per_unit basis, Zak's case=physical)"
+  on: 2026-08-16
+  by_email: "hello@stowawaybar.com"
