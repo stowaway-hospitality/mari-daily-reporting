@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-16T14:38:20.120516+10:00",
+  "generated_at": "2026-08-16T16:19:00.620929+10:00",
   "venue": "stow",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 95,
@@ -23,9 +23,9 @@
   },
   "target_week_of_year": 34,
   "service_classes": {
-    "core": 69,
-    "standard": 90,
-    "tail": 69
+    "core": 68,
+    "standard": 91,
+    "tail": 68
   },
   "bookings": {
     "live": false,
@@ -33,10 +33,10 @@
     "note": "SHADOW MODE \u2014 bookings_uplift_shadow is recorded per SKU but is NOT added to rec_par (modules/par/bookings.py BOOKINGS_LIVE=False)"
   },
   "summary": {
-    "n_skus": 228,
-    "increase": 22,
+    "n_skus": 227,
+    "increase": 13,
     "decrease": 1,
-    "unchanged": 172,
+    "unchanged": 180,
     "coverage_gaps": [],
     "shrinkage_applied": 57,
     "shrinkage_capped": 6,
@@ -165,7 +165,7 @@
       "rec_par": 0.3,
       "rec_par_pre_override": 0.3,
       "rec_par_modelled": 0.3,
-      "current_par": null,
+      "current_par": 0.3,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.1,
@@ -209,9 +209,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "new_par"
-      ]
+      "flags": []
     },
     {
       "product": "A. Rodda Chardonnay",
@@ -272,9 +270,9 @@
       "product": "A. Rodda Chardonnay - Bottle",
       "venue": "stow",
       "reporting_group": "White Wine",
-      "rec_par": 2.3,
-      "rec_par_pre_override": 2.3,
-      "rec_par_modelled": 2.3,
+      "rec_par": 2.0,
+      "rec_par_pre_override": 2.0,
+      "rec_par_modelled": 2.0,
       "current_par": 2.3,
       "drivers": {
         "pour_wk": 1.2,
@@ -294,15 +292,15 @@
         "path": "normal",
         "burst_floor": 1.4,
         "burst_floored": false,
-        "service_class": "core",
-        "service_level": 0.95,
-        "z": 1.645,
+        "service_class": "standard",
+        "service_level": 0.9,
+        "z": 1.282,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 0.972,
         "shrink_multiplier": 1.1231,
         "cv": 0.77,
         "sigma_exposure": 0.748,
-        "safety_stock": 1.23,
+        "safety_stock": 0.958,
         "cv_source": "sku",
         "seasonal_index": 1.039,
         "seasonal_source": "sku"
@@ -597,7 +595,7 @@
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
       "rec_par_modelled": 0.1,
-      "current_par": null,
+      "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
@@ -641,9 +639,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "new_par"
-      ]
+      "flags": []
     },
     {
       "product": "Angel's Envy Bourbon [Bottle]",
@@ -1205,7 +1201,7 @@
       "rec_par": 6.0,
       "rec_par_pre_override": 3.1,
       "rec_par_modelled": 3.1,
-      "current_par": 6,
+      "current_par": 6.0,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 1.33,
@@ -1373,7 +1369,7 @@
       "rec_par": 6.0,
       "rec_par_pre_override": 6.0,
       "rec_par_modelled": 6.0,
-      "current_par": 6,
+      "current_par": 6.0,
       "drivers": {
         "pour_wk": 1.14,
         "recipe_wk": 0.0,
@@ -1600,7 +1596,7 @@
       "rec_par": 0.1,
       "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
-      "current_par": 0.5,
+      "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.01,
         "recipe_wk": 0.0,
@@ -2043,7 +2039,7 @@
       "rec_par": 5.0,
       "rec_par_pre_override": 1.6,
       "rec_par_modelled": 1.6,
-      "current_par": 5,
+      "current_par": 5.0,
       "drivers": {
         "pour_wk": 0.07,
         "recipe_wk": 0.93,
@@ -2546,7 +2542,7 @@
       "rec_par": 15.0,
       "rec_par_pre_override": 15.0,
       "rec_par_modelled": 15.0,
-      "current_par": 15,
+      "current_par": 15.0,
       "drivers": {
         "pour_wk": 11.78,
         "recipe_wk": 0.0,
@@ -3659,13 +3655,13 @@
       ]
     },
     {
-      "product": "Dom Perignon Champagne - Bottle",
+      "product": "Dom P\u00e9rignon Champagne - Bottle",
       "venue": "stow",
       "reporting_group": "Sparkling Wine",
       "rec_par": 1.0,
       "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
-      "current_par": null,
+      "current_par": 1.0,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
@@ -3714,63 +3710,7 @@
       },
       "flags": [
         "override:hold",
-        "new_par",
         "override_changed"
-      ]
-    },
-    {
-      "product": "Dom P\u00e9rignon Champagne - Bottle",
-      "venue": "stow",
-      "reporting_group": "Sparkling Wine",
-      "rec_par": 1.0,
-      "rec_par_pre_override": 1.0,
-      "rec_par_modelled": 0.0,
-      "current_par": 1,
-      "drivers": {
-        "pour_wk": 0.0,
-        "recipe_wk": 0.0,
-        "variance_wk": 0.0,
-        "true_wk": 0.0,
-        "cross_venue_wk": 0.0,
-        "cross_venue_by_venue_wk": {}
-      },
-      "shrinkage": {
-        "loss_per_week": 0.0,
-        "loss_fraction": 0.0,
-        "n_periods": 0,
-        "capped": false
-      },
-      "service": {
-        "path": "normal",
-        "burst_floor": 0.0,
-        "burst_floored": false,
-        "service_class": "tail",
-        "service_level": 0.85,
-        "z": 1.036,
-        "exposure_ratio": 1.0,
-        "demand_over_exposure": 0.0,
-        "shrink_multiplier": 1.0,
-        "cv": 0.413,
-        "sigma_exposure": 0.0,
-        "safety_stock": 0.0,
-        "cv_source": "group",
-        "seasonal_index": 1.02,
-        "seasonal_source": "group"
-      },
-      "seasonal_index": 1.02,
-      "seasonal_source": "group",
-      "level_deseasonalised": 0.0,
-      "forecast_wk": 0.0,
-      "bookings_uplift_shadow": 0.0,
-      "bookings_applied": false,
-      "sanity_floor": 0.0,
-      "spike_floor": 0.0,
-      "forecast_method": "No recent sales",
-      "growth": null,
-      "buffer": 1.2,
-      "override": null,
-      "flags": [
-        "held_no_recent_demand"
       ]
     },
     {
@@ -4220,7 +4160,7 @@
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
       "rec_par_modelled": 0.1,
-      "current_par": null,
+      "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
@@ -4264,9 +4204,7 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": [
-        "new_par"
-      ]
+      "flags": []
     },
     {
       "product": "Fee Bros Black Walnut Bitters [150ml]",
@@ -5258,7 +5196,7 @@
       "rec_par": 0.1,
       "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
-      "current_par": null,
+      "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.01,
@@ -5303,8 +5241,7 @@
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "min_live_par",
-        "new_par"
+        "min_live_par"
       ]
     },
     {
@@ -5998,7 +5935,7 @@
       "rec_par": 22.0,
       "rec_par_pre_override": 22.0,
       "rec_par_modelled": 0.0,
-      "current_par": 22,
+      "current_par": 22.0,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
@@ -6106,7 +6043,7 @@
       "rec_par": 0.1,
       "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
-      "current_par": null,
+      "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.02,
@@ -6151,8 +6088,7 @@
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "min_live_par",
-        "new_par"
+        "min_live_par"
       ]
     },
     {
@@ -6551,7 +6487,7 @@
       "rec_par": 9.0,
       "rec_par_pre_override": 9.0,
       "rec_par_modelled": 9.0,
-      "current_par": 9,
+      "current_par": 9.0,
       "drivers": {
         "pour_wk": 0.78,
         "recipe_wk": 0.0,
@@ -6934,7 +6870,7 @@
       "rec_par": 0.2,
       "rec_par_pre_override": 0.2,
       "rec_par_modelled": 0.2,
-      "current_par": null,
+      "current_par": 0.2,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.05,
@@ -6979,8 +6915,7 @@
       "buffer": 1.3,
       "override": null,
       "flags": [
-        "sanity_floored",
-        "new_par"
+        "sanity_floored"
       ]
     },
     {
@@ -7703,13 +7638,13 @@
       ]
     },
     {
-      "product": "Lost Explorer Espadin Mezcal [Bottle]",
+      "product": "Lost Explorer Espad\u00edn Mezcal [Bottle]",
       "venue": "stow",
       "reporting_group": "Mezcal",
       "rec_par": 1.5,
       "rec_par_pre_override": 0.7,
       "rec_par_modelled": 0.7,
-      "current_par": null,
+      "current_par": 1.5,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.05,
@@ -7759,7 +7694,6 @@
       "flags": [
         "override:min",
         "sanity_floored",
-        "new_par",
         "override_changed"
       ]
     },
@@ -8262,7 +8196,7 @@
       "rec_par": 1.0,
       "rec_par_pre_override": 0.6,
       "rec_par_modelled": 0.6,
-      "current_par": 1,
+      "current_par": 1.0,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.34,
@@ -10151,7 +10085,7 @@
       "rec_par": 38.0,
       "rec_par_pre_override": 17.0,
       "rec_par_modelled": 17.0,
-      "current_par": 38,
+      "current_par": 38.0,
       "drivers": {
         "pour_wk": 0.52,
         "recipe_wk": 8.34,
@@ -10383,7 +10317,7 @@
       "rec_par": 11.0,
       "rec_par_pre_override": 11.0,
       "rec_par_modelled": 0.0,
-      "current_par": 11,
+      "current_par": 11.0,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
@@ -10769,7 +10703,7 @@
       "rec_par": 4.0,
       "rec_par_pre_override": 4.0,
       "rec_par_modelled": 4.0,
-      "current_par": 4,
+      "current_par": 4.0,
       "drivers": {
         "pour_wk": 1.47,
         "recipe_wk": 0.0,
@@ -10827,7 +10761,7 @@
       "rec_par": 4.0,
       "rec_par_pre_override": 4.0,
       "rec_par_modelled": 4.0,
-      "current_par": 4,
+      "current_par": 4.0,
       "drivers": {
         "pour_wk": 1.42,
         "recipe_wk": 0.0,
@@ -11167,7 +11101,7 @@
       "rec_par": 2.0,
       "rec_par_pre_override": 2.0,
       "rec_par_modelled": 2.0,
-      "current_par": 2,
+      "current_par": 2.0,
       "drivers": {
         "pour_wk": 0.33,
         "recipe_wk": 0.0,
@@ -11279,7 +11213,7 @@
       "rec_par": 0.1,
       "rec_par_pre_override": 0.1,
       "rec_par_modelled": 0.1,
-      "current_par": null,
+      "current_par": 0.1,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.05,
@@ -11323,9 +11257,7 @@
       "growth": null,
       "buffer": 1.231,
       "override": null,
-      "flags": [
-        "new_par"
-      ]
+      "flags": []
     },
     {
       "product": "Tequila Ocho Anejo [Bottle]",
@@ -12616,7 +12548,7 @@
       "rec_par": 9.0,
       "rec_par_pre_override": 9.0,
       "rec_par_modelled": 9.0,
-      "current_par": 9,
+      "current_par": 9.0,
       "drivers": {
         "pour_wk": 3.0,
         "recipe_wk": 0.0,

@@ -14,11 +14,11 @@
  "overrides": [
   {
    "venue": "stow",
-   "product": "Dom Perignon Champagne - Bottle",
+   "product": "Dom Pérignon Champagne - Bottle",
    "api_name": null,
    "type": "hold",
    "value": 1.0,
-   "reason": "Permanent par of 1 (owner directive) - min AND max both 1.0",
+   "reason": "Permanent par of 1 (owner directive) - min AND max both 1.0 | 2026-08-16: moved off the unaccented duplicate. The live par SKU is spelled 'Pérignon'; the override was pinned to 'Perignon', which has no live par, so the owner directive was enforcing nothing. Only accent mismatch across 233 live pars.",
    "set_by": "seed:existing-model-config (build_par_model_*.py)",
    "set_on": "2026-08-09",
    "status": "active",
@@ -226,11 +226,11 @@
   },
   {
    "venue": "stow",
-   "product": "Lost Explorer Espadin Mezcal [Bottle]",
+   "product": "Lost Explorer Espadín Mezcal [Bottle]",
    "api_name": null,
    "type": "min",
    "value": 1.5,
-   "reason": "900ml tied in Puerto Sunset drum + shelf (owner override 2026-04-10)",
+   "reason": "900ml tied in Puerto Sunset drum + shelf (owner override 2026-04-10) | 2026-08-16: re-pointed onto the accented spelling. Lightspeed and the Back Office export both use the accent; the override was pinned to the unaccented form, which exists nowhere, so it enforced nothing and the model carried a phantom SKU for it.",
    "set_by": "seed:existing-model-config (build_par_model_*.py)",
    "set_on": "2026-08-09",
    "status": "active",
@@ -473,11 +473,11 @@
   },
   {
    "venue": "hg",
-   "product": "Kahlua Coffee Liqueur [Bottle]",
+   "product": "Kahlúa Coffee Liqueur [Bottle]",
    "api_name": null,
    "type": "min",
    "value": 1.5,
-   "reason": "Espresso Martini reserve",
+   "reason": "Espresso Martini reserve | 2026-08-16: re-pointed onto the accented spelling. Lightspeed and the Back Office export both use the accent; the override was pinned to the unaccented form, which exists nowhere, so it enforced nothing and the model carried a phantom SKU for it.",
    "set_by": "seed:existing-model-config (build_par_model_*.py)",
    "set_on": "2026-08-09",
    "status": "active",
@@ -1104,9 +1104,11 @@
    "reason": "detected manual raise",
    "set_by": "par_flag_report.py",
    "set_on": "2026-08-09",
-   "status": "active",
+   "status": "retired",
    "source": "par_flag_report",
-   "protect": "flag"
+   "protect": "flag",
+   "retired_on": "2026-08-16",
+   "retired_reason": "Duplicate. The hard 'Espresso Martini reserve' override was pinned to the unaccented 'Kahlua' and has been re-pointed onto this accented name, which is the real Back Office spelling. This entry was the auto-logged 'detected manual raise' shadow of the same par — same value, no extra meaning."
   },
   {
    "venue": "hg",
