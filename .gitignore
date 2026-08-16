@@ -15,6 +15,13 @@ data/labour_rate.json
 data/employees.json
 data/_backups/
 data/invoice_corpus/
+# ...and the path itself, with NO trailing slash. A trailing slash matches
+# DIRECTORIES ONLY, so when a working clone replaced the corpus with a
+# SYMLINK to the real one (a file, not a directory), `git add -A data` picked
+# it up and committed a 120000 entry pointing at an absolute path on one Mac.
+# Cherry-picking that then replaced the real corpus directory with a symlink
+# to itself and the 865-PDF cache had to be rebuilt. 2026-08-17.
+data/invoice_corpus
 node_modules/
 package.json
 package-lock.json
