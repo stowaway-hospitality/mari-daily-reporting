@@ -17,8 +17,8 @@
   "authored": 9,
   "derived": 715,
   "mirrored": 22,
-  "rule": 2,
-  "scrape": 525,
+  "rule": 3,
+  "scrape": 524,
   "weighed": 238
  },
  "generated": "2026-08-16",
@@ -1562,10 +1562,32 @@
  ],
  "unit_relabels": [
   {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
    "batch": "Garlic Oil [Batch]",
    "from": "ml",
    "to": "g",
-   "why": "yield is a sum of mixed units; see data/batch_yield_units.yaml"
+   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+  },
+  {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
+   "batch": "Mint Yoghurt [Batch]",
+   "from": "ml",
+   "to": "g",
+   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
+  },
+  {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
+   "batch": "Cauliflower Cheese Prep",
+   "from": "g",
+   "to": "ml",
+   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in ml"
+  },
+  {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
+   "batch": "Black Beans Prep",
+   "from": "ml",
+   "to": "g",
+   "why": "yield basis is a mixed-unit sum; every drawing line and the batch's own dominant component are both in g"
   },
   {
    "from": "g",
@@ -1574,10 +1596,10 @@
    "to": "ml"
   },
   {
-   "batch": "Mint Yoghurt [Batch]",
    "from": "ml",
-   "to": "g",
-   "why": "yield is a sum of mixed units; see data/batch_yield_units.yaml"
+   "line": "Mulled Wine",
+   "product": "Mulled Wine PartyJar (4)",
+   "to": "ea"
   }
  ],
  "unresolved": [],

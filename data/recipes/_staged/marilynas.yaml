@@ -9,8 +9,8 @@
 #   weighed    238 — somebody put it on scales
 #   derived    715 — computed from another line (a size scaling, a cook yield)
 #   mirrored    22 — deliberately the same spec as a sibling record
-#   rule         2 — a written rule with arithmetic proof corrected it
-#   scrape     525 — nobody has checked it. This is the number to shrink.
+#   rule         3 — a written rule with arithmetic proof corrected it
+#   scrape     524 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -6525,8 +6525,9 @@
   - subrecipe: Mulled Wine
     desc: Mulled Wine
     qty: 3.89
-    unit: ml
-    source: scrape
+    unit: ea
+    source: rule
+    evidence: 'batch_yield_units.yaml: ml -> ea, per the hand-authored record for the same sauce'
 - product: Omen Stout 4-pack
   venue_source: marilynas
   ingredients:

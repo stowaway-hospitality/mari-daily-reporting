@@ -1,6 +1,6 @@
 {
  "costed_as_of": "2026-08-16",
- "differing": 154,
+ "differing": 155,
  "diffs": [
   {
    "delta": 0.103393,
@@ -78,6 +78,13 @@
    "old": 9.197,
    "pct": -0.071,
    "product": "Large Jimmy Jury Wings Deal"
+  },
+  {
+   "delta": 0.00584,
+   "new": 8.133340193181818,
+   "old": 8.1275,
+   "pct": 0.072,
+   "product": "Mulled Wine PartyJar (4)"
   },
   {
    "delta": -0.005439,
@@ -414,18 +421,11 @@
    "old": 6.7971,
    "pct": 0.001,
    "product": "Gluten-free Uber Margherita [Dine-in]"
-  },
-  {
-   "delta": 4.6e-05,
-   "new": 6.595046088812786,
-   "old": 6.595,
-   "pct": 0.001,
-   "product": "Large Meatlovers"
   }
  ],
  "generated": "2026-08-16",
  "identical": 63,
- "matched": 217,
+ "matched": 218,
  "max_abs_delta": 0.103393,
  "only_new": [],
  "only_old": [
@@ -433,11 +433,10 @@
   "Gluten-free Tandoori Chicken [Dine-in]",
   "Large Tandoori Chicken",
   "Large Tandoori Chicken Wings Deal",
-  "Mulled Wine PartyJar (4)",
   "Regular Tandoori Chicken",
   "Regular Tandoori Chicken [Dine-in]"
  ],
- "products_new": 217,
+ "products_new": 218,
  "products_old": 224,
  "refused": [
   {
@@ -457,10 +456,6 @@
    "product": "Large Tandoori Chicken Wings Deal"
   },
   {
-   "error": "'Mulled Wine PartyJar (4)': unit mismatch on sub-recipe 'Mulled Wine' \u2014 recipe wants 3.89ml, batch yields ea. Refusing to convert on a hunch.",
-   "product": "Mulled Wine PartyJar (4)"
-  },
-  {
    "error": "'Tandoori Chicken [2Kg]': unit mismatch on sub-recipe 'Tandoori Sauce [Batch]' \u2014 recipe wants 1ml, batch yields g. Refusing to convert on a hunch.",
    "product": "Regular Tandoori Chicken"
   },
@@ -469,6 +464,6 @@
    "product": "Regular Tandoori Chicken [Dine-in]"
   }
  ],
- "sum_abs_delta": 0.5345,
+ "sum_abs_delta": 0.5403,
  "venue": "marilynas"
 }

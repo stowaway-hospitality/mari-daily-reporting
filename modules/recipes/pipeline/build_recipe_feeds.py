@@ -143,6 +143,35 @@ def resolve_yield(name: str, estimates: dict | None = None):
     when neither knows — the caller must then treat the prep as unusable rather
     than invent one.
     """
+    # PREP_YIELDS.YAML FIRST. This used to read the bracket first, on the
+    # reasoning that "a MEASURED yield in the name always beats an estimate".
+    # The real data says the opposite, in every case it actually arises:
+    #
+    #   Jalapeno Tequila [1L]              bracket 1,000 ml   basis 7,500 ml
+    #   Cooked Beef Brisket [1Kg]          bracket 1,000 g    basis 6,000 g
+    #   Coconut-washed Rooster Blanco [1L] bracket 1,000 ml   basis 3,929 ml
+    #   Achiote Chicken [15Kg]             bracket 15,000 g   basis 10,500 g
+    #   Super Lime/Lemon Juice [1L]        bracket 1,000 ml   basis 1,142 ml
+    #   Mango-Chilli Puree [1L]            bracket 1,000 ml   basis 1,050 ml
+    #
+    # Seven conflicts, seven times the bracket is wrong. It is not a measurement
+    # at all: it is the PACK OR NOMINAL SIZE inherited from Lightspeed product
+    # naming -- a 1 L bottle you decant into, a 15 kg raw joint that comes out of
+    # the oven at 10.5 kg. prep_yields.yaml entries, by contrast, each carry a
+    # written `basis` explaining how the number was reached.
+    #
+    # Reading the bracket cost cooked brisket 6x ($8.53 on every Meatlovers) and
+    # jalapeno tequila 7.5x. It also put this path OUT OF STEP WITH THE P&L,
+    # which costs off convert_lightspeed_recipes' prep rates and has always used
+    # prep_yields.yaml -- so the builder and the published cost disagreed about
+    # the same batch. This makes them agree; it is a consistency fix before it is
+    # a new number.
+    #
+    # The bracket still answers when nothing has been written down, which is the
+    # common case -- "[4kg]", "[24 pcs]", "[110 units]" are usually all there is.
+    e = (estimates if estimates is not None else _prep_yield_estimates()).get(name)
+    if e:
+        return Decimal(str(e["yield_qty"])), e["yield_unit"]
     m = _YIELD_BRACKET.search(name or "")
     if m:
         q, u = Decimal(m.group(1)), m.group(2).lower()
@@ -153,9 +182,6 @@ def resolve_yield(name: str, estimates: dict | None = None):
         if u in ("g", "ml"):
             return q, u
         return q, "each"
-    e = (estimates if estimates is not None else _prep_yield_estimates()).get(name)
-    if e:
-        return Decimal(str(e["yield_qty"])), e["yield_unit"]
     return None, None
 
 # --- which venue does a recipe belong to? ------------------------------------

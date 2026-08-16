@@ -63,6 +63,19 @@ yield_unit_fixes:
 
 line_unit_fixes:
 
+  - recipe: "Mulled Wine PartyJar (4)"
+    ingredient: "Mulled Wine"
+    from_unit: "ml"
+    to_unit: "ea"
+    proof: >-
+      The line reads "3.89 ml" of a drink, which is not a quantity of anything.
+      Its unit is junk but its MAGNITUDE is exact: the scrape's own line cost is
+      $8.127473 and one Mulled Wine costs $2.0908, and 8.127473 / 2.0908 =
+      3.8872 -- the 3.89 on the line, to four figures. So the number counts
+      SERVES, and a PartyJar (4) holding 3.89 serves is what a 4-serve jar
+      holds once you allow for what stays in the jug. Mulled Wine therefore
+      yields 1 ea and this line draws 3.89 of them.
+
   - recipe: "J.J. Aioli [Batch]"
     ingredient: "Chimichurri"
     from_unit: "g"

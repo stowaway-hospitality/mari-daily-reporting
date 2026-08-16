@@ -131,17 +131,24 @@ def test_shadow_diff_stays_within_the_attributed_residual():
 
 
 @pytest.mark.skipif(not DIFF.exists(), reason="no shadow diff recorded yet")
-def test_the_migration_loses_no_products_beyond_the_known_seven():
-    """7 products still refuse: `Tandoori Sauce [Batch]` yields g and its recipe
-    draws 1 ml (6 products), and `Mulled Wine PartyJar (4)` draws 3.89 ml of a
-    `Mulled Wine` that declares no yield at all, so it is carried as 1 ea.
+def test_the_migration_loses_no_products_beyond_the_known_six():
+    """6 products still refuse, all of them the Tandoori family.
 
-    Both are the same shape as the three batch-unit mislabels already corrected
-    in data/batch_yield_units.yaml and want the same treatment: read the yield's
-    own basis rather than assume a density. Pinned so an eighth cannot appear
-    unnoticed.
+    `Tandoori Chicken [2Kg]` draws "1 ml" of `Tandoori Sauce [Batch]`, which
+    yields 1,116 g. The "1" is the "a 1 that is really a 1kg tub" pattern
+    prep_yields.yaml names in its own basis text -- but WHICH one is a guess:
+    1 kg of sauce, or the whole 1.116 kg batch? The scrape's line cost of $7.35
+    is exactly 1,000 g of Greek yoghurt, which hints at the tub reading, but a
+    hint is not evidence and the two readings differ by 12% on six products.
+
+    The derived unit rule in materialise_recipes deliberately does NOT fire
+    here: the batch's dominant component is in g while the line is in ml, so
+    the two independent readings disagree and the rule holds rather than
+    picking one. That is the fence working. NEEDS A HUMAN, not a heuristic.
+
+    Pinned so a seventh cannot appear unnoticed.
     """
     d = json.loads(DIFF.read_text())
-    assert len(d["only_old"]) <= 7, (
+    assert len(d["only_old"]) <= 6, (
         f"{len(d['only_old'])} products the old book costs and the new one does not: "
         f"{d['only_old'][:10]}")

@@ -42,9 +42,49 @@ def test_estimate_rescues_a_prep_whose_bracket_carries_no_size():
     assert (qty, unit) == (Decimal("9338"), "g")
 
 
-def test_a_measured_bracket_still_beats_an_estimate():
-    est = {"Guacamole [4kg]": {"yield_qty": 1, "yield_unit": "g"}}
-    assert resolve_yield("Guacamole [4kg]", est) == (Decimal("4000"), "g")
+def test_a_written_basis_beats_the_bracket_in_the_name():
+    """The precedence was the other way round until 2026-08-16, and the real data
+    refutes it: seven preps have a bracket that disagrees with prep_yields.yaml,
+    and in all seven the bracket is a PACK OR NOMINAL size, not a yield.
+
+    `Cooked Beef Brisket [1Kg]` is a 6x error -- $8.53 on every Meatlovers -- and
+    `Jalapeno Tequila [1L]` is 7.5x. A 1 L bottle you decant a 7.5 L batch into
+    is not a yield, and a 15 kg raw joint is not what comes out of the oven.
+
+    prep_yields.yaml entries each carry a written `basis`. Brackets carry nothing
+    but Lightspeed's product naming.
+    """
+    est = {"Cooked Beef Brisket [1Kg]": {"yield_qty": 6000, "yield_unit": "g"}}
+    assert resolve_yield("Cooked Beef Brisket [1Kg]", est) == (Decimal("6000"), "g")
+
+
+def test_the_bracket_still_answers_when_nothing_is_written_down():
+    """The common case: most preps have no prep_yields entry and the bracket is
+    all there is. Flipping the precedence must not throw that away."""
+    assert resolve_yield("Guacamole [4kg]", {}) == (Decimal("4000"), "g")
+    assert resolve_yield("Brownie Prep [24 pcs]", {}) == (Decimal("24"), "each")
+
+
+def test_no_prep_yields_entry_is_a_pack_label_masquerading_as_a_yield():
+    """A ratchet on the seven. If an eighth conflict appears, somebody has added
+    a prep_yields entry that disagrees with its own name -- which is either a new
+    finding or a typo, and both want a human before they reach a cost."""
+    import yaml
+    from pathlib import Path as _P
+    root = _P(__file__).resolve().parents[3]
+    est = yaml.safe_load((root / "data" / "prep_yields.yaml").read_text()) or {}
+    known = {"Jalape\u00f1o Tequila [1L]", "Cooked Beef Brisket [1Kg]",
+             "Coconut-washed Rooster Blanco [1L]", "Achiote Chicken [15Kg]",
+             "Super Lime Juice [1L]", "Super Lemon Juice [1L]",
+             "Mango-Chilli Puree [1L]"}
+    conflicts = set()
+    for name, e in est.items():
+        bq, bu = resolve_yield(name, {})
+        if bq is None:
+            continue
+        if Decimal(str(bq)) != Decimal(str(e["yield_qty"])) or bu != e["yield_unit"]:
+            conflicts.add(name)
+    assert conflicts <= known, f"new bracket-vs-basis conflict(s): {conflicts - known}"
 
 
 def test_unknown_prep_yields_nothing_rather_than_a_guess():

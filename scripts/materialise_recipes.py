@@ -244,6 +244,79 @@ def _line_out(ln, source, evidence, frozen=None):
 
 
 
+
+_SUM_BASIS = __import__("re").compile(r"sum of ingredients", __import__("re").I)
+
+
+def _dominant_unit(batch: dict):
+    """The unit of the single largest component of a batch, by magnitude.
+
+    Only meaningful for a yield whose stated basis is "sum of ingredients xN":
+    such a number is arrived at by ADDING quantities in different units -- Garlic
+    Oil's 1500 is 1000 g + 500 ml, Mint Yoghurt's 1102 is 1000 g + 100 ml + 2
+    BUNCHES. The sum has no unit of its own, so the label on it was chosen, not
+    measured. The biggest contributor is the least arbitrary answer available.
+    """
+    best_q, best_u = None, None
+    for ln in (batch.get("ingredients") or []):
+        u = (ln.get("unit") or "").lower()
+        if u not in ("g", "ml"):
+            continue
+        try:
+            q = float(ln.get("qty") or 0)
+        except (TypeError, ValueError):
+            continue
+        if best_q is None or q > best_q:
+            best_q, best_u = q, u
+    return best_u
+
+
+def derive_yield_unit_fixes(book: dict, report: dict) -> dict:
+    """batch name -> corrected yield unit, derived rather than hand-listed.
+
+    Fires only when all three of these hold, which is deliberately narrow:
+
+      1. prep_yields.yaml states the basis as a "sum of ingredients" -- i.e. the
+         number is a mixed-unit sum and its unit label is arbitrary;
+      2. every recipe drawing on the batch uses ONE unit, and it is not the unit
+         the yield claims;
+      3. the batch's own dominant component is measured in that same unit.
+
+    Two independent readings of the batch -- what the kitchen draws from it, and
+    what it is mostly made of -- have to agree before the label moves. Neither is
+    a density assumption; a density is never applied, and a batch that fails any
+    of the three keeps its declared unit and stays refused, which is correct.
+    """
+    est = _prep_yield_estimates()
+    drawn = {}
+    for r in book.values():
+        for ln in (r.get("ingredients") or []):
+            if ln.get("kind") == "subrecipe":
+                drawn.setdefault(ln["ref"], set()).add((ln.get("unit") or "").lower())
+
+    out = {}
+    for name, units in drawn.items():
+        e = est.get(name)
+        if not e or not _SUM_BASIS.search(e.get("basis") or ""):
+            continue
+        units = {u for u in units if u}
+        if len(units) != 1:
+            continue
+        want = next(iter(units))
+        have = (e.get("yield_unit") or "").lower()
+        if want == have or want not in ("g", "ml"):
+            continue
+        if _dominant_unit(book.get(name) or {}) != want:
+            continue
+        out[name] = want
+        report["unit_relabels"].append(
+            {"batch": name, "from": have, "to": want,
+             "why": "yield basis is a mixed-unit sum; every drawing line and the "
+                    "batch's own dominant component are both in " + want,
+             "basis": (e.get("basis") or "")[:120]})
+    return out
+
+
 def _batch_unit_fixes():
     """(yield relabels, line relabels) from data/batch_yield_units.yaml.
 
@@ -318,7 +391,7 @@ def materialise(venue: str) -> tuple[list, dict]:
     sold = {n for n, r in book.items() if not r.get("is_prep")}
 
     prov = line_provenance_index()
-    yield_fixes, line_fixes = _batch_unit_fixes()
+    declared_yield_fixes, line_fixes = _batch_unit_fixes()
     weighed = regular_grams_matcher()
     authored = builder_records()
 
@@ -344,6 +417,11 @@ def materialise(venue: str) -> tuple[list, dict]:
               "lines": 0, "by_source": Counter(), "manual_lines": [],
               "yield_conflicts": [], "unit_relabels": [],
               "authored_overlap": [], "no_yield": [], "unresolved": []}
+
+    yield_fixes = derive_yield_unit_fixes(book, report)
+    # A hand-written declaration in data/batch_yield_units.yaml overrides the
+    # derivation, so a case the rule gets wrong can always be settled in writing.
+    yield_fixes.update({k: v[1] for k, v in declared_yield_fixes.items()})
 
     records = []
     for name in sorted(set(mine) | need):
@@ -431,12 +509,8 @@ def materialise(venue: str) -> tuple[list, dict]:
         rec = {"product": name, "venue_source": venue}
         if is_sub or r.get("is_prep"):
             q, u = _yield_for(name, report)
-            fix = yield_fixes.get(name)
-            if fix and u == fix[0]:
-                u = fix[1]
-                report["unit_relabels"].append(
-                    {"batch": name, "from": fix[0], "to": fix[1],
-                     "why": "yield is a sum of mixed units; see data/batch_yield_units.yaml"})
+            if (fix := yield_fixes.get(name)) and u != fix:
+                u = fix
             if q is None:
                 report["no_yield"].append(name)
             else:
