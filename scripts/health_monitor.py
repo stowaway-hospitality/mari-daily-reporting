@@ -715,16 +715,63 @@ def _missing_sales_days(lookback=6):
         return (j.get("data_status", {}).get("lightspeed") == "ok"
                 and bool(j.get("sales", {}).get("revenue_ex_gst")))
 
+    # "Normally trades" is read from the HISTORY CSV, not the per-day json
+    # files. The json files only go back ~6 weeks, so a comparison week could
+    # silently be absent and the day would then look like a closed day rather
+    # than a gap. The CSV has every date the venue has ever had.
+    def trades_this_weekday(prefix, d):
+        want = _dt.date.fromisoformat(d).weekday()
+        traded = 0
+        seen_days = 0
+        try:
+            import csv as _csv
+            with (ROOT / "data" / f"{prefix}_daily_history.csv").open() as fh:
+                for r in _csv.DictReader(fh):
+                    rd = _dt.date.fromisoformat(r["date"])
+                    if rd.weekday() != want or rd >= _dt.date.fromisoformat(d):
+                        continue
+                    if (today - rd).days > 56:
+                        continue
+                    seen_days += 1
+                    if (r.get("revenue_ex_gst") or "").strip():
+                        traded += 1
+        except Exception:                                    # noqa: BLE001
+            return True          # cannot tell -> assume it trades, i.e. report
+        if seen_days < 2:
+            return True
+        return traded >= 2       # shut on this weekday if 0 or 1 of the last 8
+
+    def _wages_for(prefix, d):
+        """Wages paid on a day, from the history CSV. 0.0 when unknown."""
+        try:
+            import csv as _csv
+            with (ROOT / "data" / f"{prefix}_daily_history.csv").open() as fh:
+                for r in _csv.DictReader(fh):
+                    if r["date"] == d:
+                        return float((r.get("wages_dollars") or 0) or 0)
+        except Exception:                                    # noqa: BLE001
+            return 0.0
+        return 0.0
+
     gaps = []
+    # From back=1: YESTERDAY counts. It was excluded, so the day most likely to
+    # be wrong was the one day never checked — 16 Aug 2026 sat blank all morning
+    # and this check said "every venue's recent trading days have sales".
     for prefix in ("stow", "hg", "mari"):
-        for back in range(2, lookback + 1):
+        for back in range(1, lookback + 1):
             d = (today - _dt.timedelta(days=back)).isoformat()
             if has_sales(prefix, d):
                 continue
-            wk1 = has_sales(prefix, (today - _dt.timedelta(days=back + 7)).isoformat())
-            wk2 = has_sales(prefix, (today - _dt.timedelta(days=back + 14)).isoformat())
-            if wk1 or wk2:
-                gaps.append(f"{PREF[prefix]} {d}")
+            if not trades_this_weekday(prefix, d):
+                continue         # genuinely closed that weekday — not a gap
+            # The decisive signal, and the cheap one: WAGES. A venue that traded
+            # paid somebody. HG's shut Sunday (16 Aug) shows $0 wages and no
+            # sales, and that pair is a closed day, not a missing export. Its
+            # shut Tuesday shows $83 — someone cleaning, not a service — so the
+            # bar is a shift's worth, not a cent.
+            if _wages_for(prefix, d) < 150:
+                continue
+            gaps.append(f"{PREF[prefix]} {d}")
     # An "ok" that read nothing is the failure mode above. Say so instead.
     if not seen["any"]:
         return {"status": "unknown",
