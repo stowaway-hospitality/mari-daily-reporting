@@ -977,3 +977,23 @@
   by: "Zak (supplier confirmed 2026-08-17) + arithmetic: $91.575/4500ml = $0.020350 vs recipe seed $0.020389"
   on: 2026-08-17
   by_email: "hello@stowawaybar.com"
+# HARRY GATOS' COFFEE CONCENTRATE — give the can its volume so it can reprice.
+# 2026-08-17, Zak: "hg draws from stowaway's coffee." HG never receives a Barrel
+# One invoice, so nothing would ever supersede its January seed on its own.
+#
+# The bridge already ignores venue on purpose (build_costs.load_bridge: identity
+# is venue-free, all three venues ring one till), so the Stowaway invoice DOES
+# reach lightspeed:20750115 — the bridge prints both targets. What stopped it is
+# that this id's only seed is "$13.88 per CAN", a countable with no volume, and
+# the invoice rate is per ml. There was nothing comparable to write onto it.
+#
+# 750 ml is not a guess: it is in the product's own Lightspeed name ("Barrel One
+# Coffee Concentrate 750ml"), on the Barrel One invoice line ("750ml (6)"), and
+# the Stowaway twin already costs in ml at $0.020389 from its recipe seed. A
+# MEASURE, not a count, per the item-26 rule.
+- id: "lightspeed:20750115"
+  pack_qty: 750
+  pack_unit: ml
+  by: "Zak (HG draws Stowaway's coffee, 2026-08-17); 750ml stated in the LS product name and on the invoice"
+  on: 2026-08-17
+  by_email: "hello@stowawaybar.com"
