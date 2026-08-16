@@ -47,7 +47,20 @@ for venue_file, label in (("stowaway", "stow"), ("harry_gatos", "hg")):
                 skipped.append((name, rec, demand,
                                 "shared stock — the par belongs at Stowaway"))
                 continue
-            if demand < NEW_PAR_MIN_DEMAND:
+            # A COCKTAIL INGREDIENT ALWAYS GETS A PAR (Zak, 2026-08-16).
+            # The threshold is calibrated for a dusty back-bar bottle nobody
+            # asks for, where a par would only generate pointless orders. An
+            # ingredient is a different animal: 400 Conejos Mezcal draws just
+            # 0.11/wk, but every drop of it goes through two LIVE menu drinks
+            # (the 400 Conejos Margarita and the Mezcal Paloma, 40ml and 45ml).
+            # Same tiny number, completely different consequence — with no par,
+            # nothing reorders it and both drinks quietly leave the menu.
+            #
+            # recipe_wk > 0 means the recipe book routes real sales through this
+            # SKU, which is exactly the signal "something on the menu needs it".
+            # The pour-line and shared-stock guards above still apply: they
+            # answer "is this a stock item HERE", which the threshold does not.
+            if demand < NEW_PAR_MIN_DEMAND and dr["recipe_wk"] <= 0:
                 skipped.append((name, rec, demand, "demand below new-par threshold"))
                 continue
             new_par.append([name, rec])

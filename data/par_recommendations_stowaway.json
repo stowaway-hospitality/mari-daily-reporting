@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-16T12:51:47.233344+10:00",
+  "generated_at": "2026-08-16T14:38:20.120516+10:00",
   "venue": "stow",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 95,
@@ -34,9 +34,9 @@
   },
   "summary": {
     "n_skus": 228,
-    "increase": 17,
-    "decrease": 2,
-    "unchanged": 171,
+    "increase": 22,
+    "decrease": 1,
+    "unchanged": 172,
     "coverage_gaps": [],
     "shrinkage_applied": 57,
     "shrinkage_capped": 6,
@@ -1597,7 +1597,7 @@
       "product": "Braulio [Bottle]",
       "venue": "stow",
       "reporting_group": "Amaro / Aperitif / Fortified Wine",
-      "rec_par": 0.0,
+      "rec_par": 0.1,
       "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
       "current_par": 0.5,
@@ -1644,7 +1644,9 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": []
+      "flags": [
+        "min_live_par"
+      ]
     },
     {
       "product": "Brix White Rum [Bottle]",
@@ -4603,7 +4605,7 @@
       "product": "Flor De Ca\u00f1a 4 Extra Seco [Bottle]",
       "venue": "stow",
       "reporting_group": "Rum",
-      "rec_par": 0.0,
+      "rec_par": 0.1,
       "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
       "current_par": null,
@@ -4650,7 +4652,10 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": []
+      "flags": [
+        "min_live_par",
+        "new_par"
+      ]
     },
     {
       "product": "Fortaleza A\u00f1ejo [Bottle]",
@@ -5250,7 +5255,7 @@
       "product": "Gosling's Black Rum [700ml]",
       "venue": "stow",
       "reporting_group": "Rum",
-      "rec_par": 0.0,
+      "rec_par": 0.1,
       "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
       "current_par": null,
@@ -5297,7 +5302,10 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": []
+      "flags": [
+        "min_live_par",
+        "new_par"
+      ]
     },
     {
       "product": "Gospel Solera Rye [Bottle]",
@@ -5931,7 +5939,7 @@
       "product": "Hakushu 12yr [Bottle]",
       "venue": "stow",
       "reporting_group": "Whisky",
-      "rec_par": 0.0,
+      "rec_par": 0.1,
       "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
       "current_par": null,
@@ -5978,7 +5986,10 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": []
+      "flags": [
+        "min_live_par",
+        "new_par"
+      ]
     },
     {
       "product": "Halal Pepperoni Slice Fettayleh [1kg]",
@@ -6092,7 +6103,7 @@
       "product": "Harveys Bristol Cream Sherry [Bottle]",
       "venue": "stow",
       "reporting_group": "",
-      "rec_par": 0.0,
+      "rec_par": 0.1,
       "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
       "current_par": null,
@@ -6139,7 +6150,10 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": []
+      "flags": [
+        "min_live_par",
+        "new_par"
+      ]
     },
     {
       "product": "Havana 3yr [700ml]",
@@ -11094,7 +11108,7 @@
       "product": "Stow Vermouth Blend [Bottle]",
       "venue": "stow",
       "reporting_group": "Amaro / Aperitif / Fortified Wine",
-      "rec_par": 0.0,
+      "rec_par": 0.1,
       "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
       "current_par": null,
@@ -11141,7 +11155,10 @@
       "growth": null,
       "buffer": 1.3,
       "override": null,
-      "flags": []
+      "flags": [
+        "min_live_par",
+        "new_par"
+      ]
     },
     {
       "product": "Sunkist 1.25L",
@@ -12375,7 +12392,7 @@
       "product": "Xocolatl Mole Bitters [Bottle]",
       "venue": "stow",
       "reporting_group": "",
-      "rec_par": 0.0,
+      "rec_par": 0.1,
       "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
       "current_par": 0.1,
@@ -12422,7 +12439,9 @@
       "growth": null,
       "buffer": 1.235,
       "override": null,
-      "flags": []
+      "flags": [
+        "min_live_par"
+      ]
     },
     {
       "product": "Yamazaki 12yr [Bottle]",

@@ -1579,6 +1579,19 @@ UNATTRIBUTED_FAIL_QTY_PER_WEEK = 2.0
 # A line counts as "rung at zero" if 13 weeks of it earned less than this.
 ZERO_REVENUE_EPSILON = 1.0
 
+# ── The smallest par a SKU that still sells is allowed to have ──────────────
+# Zak, 2026-08-16: "if something moves slowly, more than 0, we shouldn't be
+# zeroing its par." A par of 0 is not "hold none" — it is "nothing will ever
+# reorder this", which is a delisting. Delistings are declared with a `zero`
+# override, not arrived at by rounding.
+#
+# Bulk (bottles, kegs, casks) keeps a FRACTIONAL floor: 0.1 is a reorder
+# trigger meaning "when a tenth is left", and holds no extra stock. Whole-unit
+# stock cannot be fractional, so it floors at one — the reason bulk must never
+# be routed here is the +$3,097 spare-bottle regression documented above.
+MIN_LIVE_PAR_BULK = 0.1
+MIN_LIVE_PAR_WHOLE = 1.0
+
 # ── Marilyna's finished goods: a KNOWN backlog, not an alias failure ────────
 # A pizza is not a stock item and can never be one. 'Large Super House Special'
 # will never resolve to a par SKU by any name rule, because what it consumes is
@@ -2171,11 +2184,45 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
         pre_ov = rec_par
         rec_par = round(apply_override(rec_par, ov), 1)
 
+        # ── A SKU THAT STILL SELLS NEVER GETS A PAR OF ZERO (Zak, 2026-08-16) ──
+        # Par 0 does not mean "hold none", it means "nothing will ever reorder
+        # this". The bottle empties and no signal is raised. That is fine for a
+        # delisting and wrong for anything still being poured — and it happens
+        # silently, because `rec_raw` simply rounds away below ~0.05/wk.
+        #
+        # Three deliberate limits, each load-bearing:
+        #
+        # 1. Tested on RUNG-UP demand (pour + recipe), never on true_wk. Shrinkage
+        #    alone must not make a SKU look alive — same reasoning as the hold
+        #    above; a SKU with stock loss and no sales is a mapping problem, and
+        #    giving it a par would order stock to replace stock that is walking.
+        # 2. An explicit zero/hold/max override always wins. Those ARE the
+        #    delisting mechanism: 'James Boags Light' still sells 1.03/wk while
+        #    its stock runs down, and the [HG] lines draw on Stowaway's shelf, so
+        #    a par here would order the same stock twice.
+        # 3. Bulk stays FRACTIONAL. A par of 0.1 on a bottle means "reorder when
+        #    a tenth is left" and costs nothing until then. Rounding these up to
+        #    a whole unit is precisely the change that once handed 36 slow spirits
+        #    a spare bottle each (+$3,097) on no evidence.
+        # Hoisted from the drivers block below — the floor needs them here, and
+        # one definition beats two that can drift apart.
+        pour_wk = round(_weighted_recent(p), 2)
+        recipe_wk = round(_weighted_recent(rc), 2)
+        rung_wk = pour_wk + recipe_wk
+        if (rec_par <= 0 and rung_wk > 0
+                and not (ov and ov.get("type") in ("zero", "hold", "max"))):
+            rec_par = MIN_LIVE_PAR_BULK if _is_bulk_par(sku) else MIN_LIVE_PAR_WHOLE
+            min_live_floored = True
+        else:
+            min_live_floored = False
+
         flags = []
         if ov:
             flags.append(f"override:{ov.get('type')}")
         if spike_floored:
             flags.append("sanity_floored" if engine == "v3" else "spike_floored")
+        if min_live_floored:
+            flags.append("min_live_par")
         if held == "cross":
             flags.append("held_cross_venue_demand_only")
         elif held:
@@ -2203,8 +2250,6 @@ def compute_venue(venue, data_dir="data", rows=None, order_sunday=None,
             # held at the live value and this flag is the work item.
             flags.append("shrinkage_without_demand_mapping")
 
-        pour_wk = round(_weighted_recent(p), 2)
-        recipe_wk = round(_weighted_recent(rc), 2)
         cross_wk = round(_weighted_recent(xs), 3)
         variance_wk = round(sk.get("loss_per_week", 0.0), 3)
         recs[sku] = {

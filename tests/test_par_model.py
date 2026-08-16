@@ -755,6 +755,63 @@ def test_unattributed_gate_fires_on_a_high_revenue_stock_bearing_line():
     assert total > model.UNATTRIBUTED_FAIL_REVENUE, "this must FAIL the build"
 
 
+def test_a_selling_sku_never_gets_a_par_of_zero():
+    """Par 0 means nothing reorders it. That is a delisting, and a delisting is
+    declared, not arrived at by rounding a small number away."""
+    assert model.MIN_LIVE_PAR_BULK > 0
+    assert model.MIN_LIVE_PAR_WHOLE >= 1
+    # bulk keeps a fractional trigger — never a whole spare bottle
+    assert model.MIN_LIVE_PAR_BULK < 1, (
+        "a whole-unit floor on bulk is the +$3,097 spare-bottle regression")
+
+
+def test_a_zero_override_still_wins_over_the_min_live_floor():
+    """The delisting mechanism must survive the floor, or 'James Boags Light'
+    (1.03/wk while its stock runs down) and the [HG] lines that draw on
+    Stowaway's shelf would both start reordering."""
+    assert model.apply_override(0.0, {"type": "zero"}) == 0.0
+    assert model.apply_override(5.0, {"type": "zero"}) == 0.0
+    # hold and max can also legitimately pin a SKU at zero
+    assert model.apply_override(5.0, {"type": "hold", "value": 0}) == 0.0
+    assert model.apply_override(5.0, {"type": "max", "value": 0}) == 0.0
+
+
+def test_the_min_live_floor_only_ever_fires_on_rung_up_demand():
+    """Against the real committed data, not a fixture.
+
+    Two ways this floor could go wrong, both checked here: firing on a SKU whose
+    only signal is shrinkage (a mapping problem — ordering stock to replace
+    stock that is walking out), or firing over a deliberate delisting.
+    """
+    for venue in ("stow", "hg"):
+        recs, _ = model.compute_venue(venue, DATA)
+        for sku, r in recs.items():
+            if "min_live_par" not in r["flags"]:
+                continue
+            dr = r["drivers"]
+            assert dr["pour_wk"] + dr["recipe_wk"] > 0, (
+                f"{venue}:{sku} floored on shrinkage alone")
+            ov = r["override"] or {}
+            assert ov.get("type") not in ("zero", "hold", "max"), (
+                f"{venue}:{sku} floored over a deliberate {ov.get('type')}")
+            assert r["rec_par"] > 0
+
+
+def test_no_selling_sku_is_left_at_zero_in_the_real_data():
+    """The rule itself, measured on the committed data: if it sells and it is
+    not explicitly delisted, something must reorder it."""
+    for venue in ("stow", "hg"):
+        recs, _ = model.compute_venue(venue, DATA)
+        stranded = []
+        for sku, r in recs.items():
+            dr = r["drivers"]
+            ov = r["override"] or {}
+            if (r["rec_par"] <= 0 and dr["pour_wk"] + dr["recipe_wk"] > 0
+                    and ov.get("type") not in ("zero", "hold", "max")):
+                stranded.append(sku)
+        assert stranded == [], f"{venue}: sells but nothing reorders it: {stranded}"
+
+
 def test_a_comp_rung_at_zero_dollars_is_invisible_to_the_revenue_gate():
     """The blind spot itself, stated as a test.
 
