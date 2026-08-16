@@ -185,6 +185,74 @@ def _overheads_months_behind(rel="data/xero_overheads_monthly.csv"):
     return (now.year * 12 + now.month) - latest
 
 
+
+def _cost_book(flags_rel="data/cost_book_flags.json",
+               baseline_rel="baselines/audit_baseline.json"):
+    """Is the cost book still alive, and is it getting worse?
+
+    THE GAP THIS FILLS. This monitor pages on stale sales data and says nothing
+    at all about the book — so the pipeline can be perfectly healthy while the
+    thing the pipeline exists to feed quietly rots. COST_BOOK_ARCHITECTURE_PLAN
+    (T8) asks for exactly this, and the August PAT outage showed how long
+    "silent" lasts when nobody is watching a number.
+
+    Three things, in the order they go wrong:
+      * the flags feed stopped being built at all -> nobody can see the backlog
+      * it is stale -> the backlog on screen is describing last week's book
+      * SEVERE grew past its pinned baseline -> a defect landed that CI's
+        ratchet would catch on a human push, but a bot commit can sit for days
+    """
+    pth = ROOT / flags_rel
+    if not pth.exists():
+        return {"status": "down",
+                "detail": "no cost_book_flags.json — the book's backlog is not being built",
+                "meaning": "Nobody can see what the cost book needs from a human.",
+                "action": "Run scripts/build_cost_book_flags.py; it is normally built in CI."}
+    try:
+        d = json.loads(pth.read_text())
+    except Exception as e:                                   # noqa: BLE001
+        return {"status": "down", "detail": f"cost_book_flags.json unreadable ({e})"}
+
+    gen = str(d.get("generated_at") or "")[:10]
+    age = None
+    if gen:
+        try:
+            age = (datetime.now().date() - datetime.fromisoformat(gen).date()).days
+        except ValueError:
+            age = None
+
+    counts = d.get("counts") or {}
+    total = counts.get("total")
+    high = (counts.get("by_severity") or {}).get("high")
+
+    sev, base = None, None
+    bp = ROOT / baseline_rel
+    if bp.exists():
+        try:
+            b = json.loads(bp.read_text())
+            base = b.get("severe") if isinstance(b.get("severe"), int) else b.get("count")
+        except Exception:                                    # noqa: BLE001
+            base = None
+
+    bits = [f"{total} open flag(s)"]
+    if high is not None:
+        bits.append(f"{high} high")
+    if gen:
+        bits.append(f"built {gen}")
+    detail = ", ".join(bits)
+
+    status = "ok"
+    if age is not None and age > 3:
+        status = "down" if age > 7 else "warn"
+        detail += f" — {age} days old"
+    return {"status": status, "detail": detail,
+            "meaning": "The cost book's open questions and its SEVERE ratchet. A "
+                       "stale feed means the backlog on screen is describing a "
+                       "book that has since changed.",
+            "action": "scripts/build_cost_book_flags.py runs in CI; if this is "
+                      "stale the Tests workflow has not run, or has been failing."}
+
+
 def _pull_integrity(rel="data/pull_integrity.json"):
     """(status, detail) from the record the Daily Pull writes each run — the
     replacement for the verify-daily-pull-mari-hg scheduled task. `narrowed`
@@ -821,6 +889,14 @@ def build() -> dict:
         _csv_last_date_age_days("data/xero_cogs_weekly.csv", "week_ending"), 8.5, 12, unit="day")
     add("Xero overheads feed", "monthly overheads from Xero",
         _overheads_months_behind(), 1.5, 2.5, unit="mo")
+    cb = _cost_book()
+    _cb_check = {"name": "Cost book", "detail": cb.get("detail"),
+                 "age": None, "unit": "", "status": cb.get("status", "unknown")}
+    for _k in ("meaning", "action", "selfheal"):
+        if cb.get(_k):
+            _cb_check[_k] = cb[_k]
+    checks.append(_cb_check)
+
     ig = _pull_integrity()
     _ig_check = {"name": "Pull integrity", "detail": ig.get("detail"),
                  "age": None, "unit": "", "status": ig.get("status", "unknown")}
