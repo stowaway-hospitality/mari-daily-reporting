@@ -22,8 +22,8 @@ on:
   workflow_dispatch:
     inputs:
       venue:
-        description: 'venue to diff'
-        default: 'marilynas'
+        description: 'one venue, or blank for all three'
+        default: ''
 
 concurrency:
   group: shadow-diff
@@ -45,7 +45,15 @@ jobs:
         # costs.csv (to decide which lines our book can price at all), so a
         # price change can move which lines are `manual`. Diffing a stale
         # staged file against a fresh scrape would compare two different days.
-        run: python3 scripts/materialise_recipes.py --venue ${{ inputs.venue || 'marilynas' }}
+        #
+        # ALL THREE VENUES since 2026-08-16. It ran Marilyna's alone while Mari
+        # was the pilot; Stowaway and Harry Gatos are staged now, and a cord you
+        # have not attached to two of the three things is not a cord.
+        run: |
+          set -e
+          for v in ${{ inputs.venue || 'marilynas stowaway harry_gatos' }}; do
+            python3 scripts/materialise_recipes.py --venue "$v"
+          done
 
       - name: Diff both engines
         id: diff
@@ -54,7 +62,11 @@ jobs:
         # only works if somebody still looks at it in week three. The RATCHET
         # lives in the test suite (test_materialised_mari_book.py), where it
         # fires on a human push, at the moment somebody can act on it.
-        run: python3 scripts/shadow_diff_recipes.py --venue ${{ inputs.venue || 'marilynas' }}
+        run: |
+          set -e
+          for v in ${{ inputs.venue || 'marilynas stowaway harry_gatos' }}; do
+            python3 scripts/shadow_diff_recipes.py --venue "$v"
+          done
 
       - name: Commit the day's diff
         run: |
@@ -73,22 +85,23 @@ jobs:
         run: |
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json, pathlib
-          v = "${{ inputs.venue || 'marilynas' }}"
-          p = pathlib.Path(f"data/_shadow/{v}_diff.json")
-          if not p.exists():
-              print("no diff file produced"); raise SystemExit
-          d = json.loads(p.read_text())
-          print(f"## Shadow diff — {v}\n")
-          print(f"- costed as of **{d['costed_as_of']}**")
-          print(f"- {d['matched']} products costed both ways; "
-                f"{d['identical']} identical, {d['differing']} differing")
-          print(f"- max |delta| **${d['max_abs_delta']:.4f}**, "
-                f"sum |delta| **${d['sum_abs_delta']:.2f}**")
-          if d["only_old"]:
-              print(f"- **{len(d['only_old'])} refuse** under the new engine: "
-                    f"{', '.join(d['only_old'][:8])}")
-          if d["diffs"]:
-              print("\n| product | old | new | delta |\n|---|---|---|---|")
-              for r in d["diffs"][:12]:
-                  print(f"| {r['product']} | {r['old']:.4f} | {r['new']:.4f} | {r['delta']:+.4f} |")
+          for v in "${{ inputs.venue || 'marilynas stowaway harry_gatos' }}".split():
+            p = pathlib.Path(f"data/_shadow/{v}_diff.json")
+            if not p.exists():
+                print(f"### {v}: no diff file produced\n"); continue
+            d = json.loads(p.read_text())
+            print(f"## Shadow diff — {v}\n")
+            print(f"- costed as of **{d['costed_as_of']}**")
+            print(f"- {d['matched']} products costed both ways; "
+                  f"{d['identical']} identical, {d['differing']} differing")
+            print(f"- max |delta| **${d['max_abs_delta']:.4f}**, "
+                  f"sum |delta| **${d['sum_abs_delta']:.2f}**")
+            if d["only_old"]:
+                print(f"- **{len(d['only_old'])} refuse** under the new engine: "
+                      f"{', '.join(d['only_old'][:8])}")
+            if d["diffs"]:
+                print("\n| product | old | new | delta |\n|---|---|---|---|")
+                for r in d["diffs"][:8]:
+                    print(f"| {r['product']} | {r['old']:.4f} | {r['new']:.4f} | {r['delta']:+.4f} |")
+            print()
           PY
