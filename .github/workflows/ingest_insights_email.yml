@@ -14,8 +14,12 @@ name: Ingest Insights Email
 
 on:
   schedule:
-    - cron: '*/20 19-23 * * *'   # 05:00-09:59 AEST
-    - cron: '*/20 0-1 * * *'     # 10:00-11:59 AEST
+    # Every 15 min across the whole trading day (04:00-23:59 Sydney). Sized
+    # from the ledger, not a guess: of 44 email-sourced ingests, 26 arrived at
+    # ~18:00 Sydney and only 14 in the old 05:00-12:00 window. The evening batch
+    # was landing OUTSIDE the poller's hours and waiting until the next morning.
+    - cron: '*/15 18-23 * * *'   # 04:00-09:59 Sydney
+    - cron: '*/15 0-13 * * *'     # 10:00-23:59 Sydney
   workflow_dispatch:
 
 concurrency:
