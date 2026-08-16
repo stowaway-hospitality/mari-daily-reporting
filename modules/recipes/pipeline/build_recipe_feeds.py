@@ -196,16 +196,25 @@ def resolve_yield(name: str, estimates: dict | None = None):
     e = (estimates if estimates is not None else _prep_yield_estimates()).get(name)
     if e:
         return Decimal(str(e["yield_qty"])), e["yield_unit"]
-    m = _YIELD_BRACKET.search(name or "")
-    if m:
-        q, u = Decimal(m.group(1)), m.group(2).lower()
-        if u == "kg":
-            return q * 1000, "g"
-        if u in ("l", "lt", "litre"):
-            return q * 1000, "ml"
-        if u in ("g", "ml"):
-            return q, u
-        return q, "each"
+
+    # THE [1L] IN A NAME IS NOT A YIELD. Zak, 2026-08-16:
+    #
+    #     "the ie [1L] labels need to be ignored completely for any batch /
+    #      prep item"
+    #
+    # It used to be the last rung of this ladder. Every time the bracket and a
+    # written yield disagreed, the bracket was wrong -- seven times, by up to
+    # 7.5x (Jalapeno Tequila [1L] makes 7,500 ml) and 6x (Cooked Beef Brisket
+    # [1Kg] makes 6,000 g, and put $8.53 on every Meatlovers). It is a naming
+    # convention describing a pack, a bottle you decant into, or the raw joint
+    # that went in the oven.
+    #
+    # Reading it as a fallback made those errors POSSIBLE TO REINTRODUCE: add a
+    # new prep, forget to write its yield down, and the book quietly divides by
+    # whatever number is in its name. Refusing instead means a missing yield is
+    # a missing yield -- loud, and fixed by writing one down.
+    #
+    # Every prep that relied on it now has a stated basis in prep_yields.yaml.
     return None, None
 
 # --- which venue does a recipe belong to? ------------------------------------

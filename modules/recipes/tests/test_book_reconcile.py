@@ -277,9 +277,19 @@ def test_a_batch_finding_names_both_readings_not_one(book):
     # fits its 1,050 mL. So the contract is checked on the shape of a finding, not
     # on a live one, and the emptiness is asserted where the fix can regress it.
     assert br.batch_overflow(book) == []
+    # The yield is INJECTED, not read off "[1L]". Name brackets stopped being a
+    # yield source on 2026-08-16 (Zak: "the ie [1L] labels need to be ignored
+    # completely for any batch / prep item"), and this test is about the SHAPE of
+    # a finding rather than about where the number came from — so it should never
+    # have depended on that in the first place.
     made_up = {"Fake [1L]": {"ingredients": [
         {"name": "x", "qty": "9000", "unit": "ml", "eff_cost": 1.0}]}}
-    f = br.batch_overflow(made_up)[0]
+    br._REAL_YIELDS = dict(br._real_yields() or {})
+    br._REAL_YIELDS["Fake [1L]"] = (1000.0, "ml")
+    try:
+        f = br.batch_overflow(made_up)[0]
+    finally:
+        br._REAL_YIELDS.pop("Fake [1L]", None)
     assert f["declared"] == 1000.0 and f["declared_unit"] == "ml"
     assert f["inputs"] == 9000.0
     assert f["biggest_line"][0] == "x"

@@ -414,14 +414,16 @@ def declared_yield(name: str):
     real = _real_yields().get(str(name or ""))
     if real:
         return real
-    m = _DECLARED_YIELD.search(str(name or ""))
-    if not m:
-        return None
-    u = m.group(2).lower()
-    f = _TO_BASE.get(u)
-    if not f:
-        return None
-    return float(m.group(1)) * f, ("g" if u in ("kg", "kgs", "g", "gm") else "ml")
+    est = _prep_yield_numbers().get(str(name or ""))
+    if est:
+        return est
+
+    # THE NAME IS NOT A FALLBACK EITHER. See resolve_yield in
+    # modules/recipes/pipeline/build_recipe_feeds.py for the full reasoning: the
+    # bracket was wrong every single time it disagreed with a written yield, and
+    # keeping it as a fallback is what let a forgotten yield silently become
+    # whatever number happened to be in a recipe's name.
+    return None
 
 
 def batch_overflow(recipes) -> list:
@@ -441,6 +443,15 @@ def batch_overflow(recipes) -> list:
     for name, r in (recipes or {}).items():
         y = declared_yield(name)
         if not y:
+            continue
+        # A YIELD COUNTED IN THINGS IS NOT COMPARABLE TO A MASS. "Brownie Prep
+        # [24 pcs] makes 24" against 3,106 g of batter is not a 124x defect, it
+        # is 129 g a brownie. This never fired while declared_yield fell back to
+        # the name -- the bracket regex only matched g/ml/kg/L, so "[24 pcs]"
+        # returned nothing and the batch was skipped. Reading prep_yields
+        # instead surfaced the comparison, and with it the same mistake
+        # audit_book made in July.
+        if str(y[1]).lower() not in ("g", "ml"):
             continue
         total = 0.0
         biggest = None
@@ -537,6 +548,8 @@ def yield_overstated(recipes, estimates=None) -> list:
         y = declared_yield(name)
         if not y or y[0] <= 0:
             continue
+        if str(y[1]).lower() not in ("g", "ml"):
+            continue                       # a count is not comparable to a mass
         basis = (est.get(name) or "")
         if _DILUTED.search(basis) or _DILUTED.search(str(name)):
             continue
@@ -554,6 +567,38 @@ def yield_overstated(recipes, estimates=None) -> list:
             "basis": basis[:200],
         })
     return sorted(out, key=lambda f: -f["multiple"])
+
+
+_PREP_YIELD_NUMBERS = None
+
+
+def _prep_yield_numbers() -> dict:
+    """prep name -> (qty, unit) from data/prep_yields.yaml.
+
+    declared_yield used to fall back to the [1L] in a name. It no longer does,
+    so the written estimates have to be reachable from here or every rule built
+    on declared_yield goes blind the moment Lightspeed has not harvested one.
+
+    CACHED, like _real_yields beside it. declared_yield is called once per
+    recipe per rule -- roughly 900 times a run -- and parsing a YAML file on
+    every one of those took the test suite from seconds to minutes. It did not
+    fail, it just stopped, which is the worst way for a mistake to present.
+    """
+    global _PREP_YIELD_NUMBERS
+    if _PREP_YIELD_NUMBERS is None:
+        _PREP_YIELD_NUMBERS = {}
+        try:
+            import yaml as _yaml
+            f = ROOT / "data" / "prep_yields.yaml"
+            doc = _yaml.safe_load(f.read_text(encoding="utf-8-sig")) if f.exists() else None
+            for k, v in (doc or {}).items():
+                try:
+                    _PREP_YIELD_NUMBERS[k] = (float(v["yield_qty"]), str(v["yield_unit"]))
+                except (KeyError, TypeError, ValueError):
+                    pass
+        except Exception:                                    # noqa: BLE001
+            pass
+    return _PREP_YIELD_NUMBERS
 
 
 def _prep_yield_bases() -> dict:

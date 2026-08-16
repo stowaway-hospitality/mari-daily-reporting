@@ -808,7 +808,7 @@
   },
   {
    "batch": "Dragon Soda [1L]",
-   "confidence": "bracket",
+   "confidence": "basis",
    "current_yield": "1000 ml",
    "dishes": 2,
    "revenue_at_risk": 3295.09,
@@ -820,7 +820,7 @@
     "Harry Gatos",
     "Stowaway"
    ],
-   "why": "read off the [size] in the name, which is usually a pack label"
+   "why": "Diluted to volume"
   },
   {
    "batch": "Carnaval Fruit Mix",
@@ -935,7 +935,7 @@
   },
   {
    "batch": "Massenez Lychee [5L]",
-   "confidence": "bracket",
+   "confidence": "basis",
    "current_yield": "5000 ml",
    "dishes": 1,
    "revenue_at_risk": 304.55,
@@ -945,19 +945,7 @@
    "venues": [
     "Stowaway"
    ],
-   "why": "read off the [size] in the name, which is usually a pack label"
-  },
-  {
-   "batch": "Toasted Rice Syrup [1L]",
-   "confidence": "bracket",
-   "current_yield": "1000 ml",
-   "dishes": 0,
-   "revenue_at_risk": 0,
-   "top_dishes": [],
-   "venues": [
-    "\u2014"
-   ],
-   "why": "read off the [size] in the name, which is usually a pack label"
+   "why": "A BOUGHT PRODUCT, not a batch \u2014 a 5 L cask of liqueur that the book happens to reach throu"
   },
   {
    "batch": "Beef Marination",
@@ -1066,6 +1054,18 @@
     "\u2014"
    ],
    "why": "Produce's own 'Expected yield' field"
+  },
+  {
+   "batch": "Toasted Rice Syrup [1L]",
+   "confidence": "basis",
+   "current_yield": "1000 ml",
+   "dishes": 0,
+   "revenue_at_risk": 0,
+   "top_dishes": [],
+   "venues": [
+    "\u2014"
+   ],
+   "why": "Diluted to volume, same shape as Dragon Soda: a syrup made up to a litre with water that c"
   }
  ],
  "generated": "2026-08-17",

@@ -425,3 +425,26 @@ Tandoori Chicken [2Kg]:
     See data/batch_yield_units.yaml for the full arithmetic. WEIGH IT.'
   yield_qty: 2000
   yield_unit: g
+Dragon Soda [1L]:
+  basis: 'Diluted to volume. Its costed lines are 169 g dragonfruit puree + 113
+    ml grapefruit + 43 ml sugar syrup = ~325, and soda water takes it to a litre.
+    The water is real and uncosted, exactly like pizza dough hydration. Recorded
+    here because the [1L] in the name stopped being read on 2026-08-16 and a
+    number nobody has written down is a number the book cannot use.'
+  yield_qty: 1000
+  yield_unit: ml
+Massenez Lychee [5L]:
+  basis: 'A BOUGHT PRODUCT, not a batch — a 5 L cask of liqueur that the book
+    happens to reach through a sub-recipe line. Its yield is its pack size, which
+    is the one case where a size in a name IS the quantity, because nothing was
+    made: it was purchased. Stated here rather than read off the name so that no
+    rule has to tell the difference.'
+  yield_qty: 5000
+  yield_unit: ml
+Toasted Rice Syrup [1L]:
+  basis: 'Diluted to volume, same shape as Dragon Soda: a syrup made up to a
+    litre with water that costs nothing. Nothing currently draws on it, so this
+    is housekeeping rather than a live number — but leaving it unresolvable would
+    mean the first dish to use it silently fails to cost.'
+  yield_qty: 1000
+  yield_unit: ml

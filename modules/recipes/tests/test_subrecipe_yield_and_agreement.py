@@ -19,6 +19,7 @@ Two defects, found together on 2026-08-15 when every pizza on /recipes/ showed
 
 Both tests hold real measured numbers, not round ones.
 """
+import pytest
 from decimal import Decimal
 
 from modules.recipes.pipeline.build_recipe_feeds import (
@@ -30,10 +31,24 @@ PREP_YIELDS = {
 }
 
 
-def test_bracket_yield_wins_and_normalises_to_base_units():
-    assert resolve_yield("Guacamole [4kg]", {}) == (Decimal("4000"), "g")
-    assert resolve_yield("Super Lime Juice [1L]", {}) == (Decimal("1000"), "ml")
-    assert resolve_yield("Brownie Prep [24 pcs]", {}) == (Decimal("24"), "each")
+def test_a_name_bracket_is_never_a_yield():
+    """Zak, 2026-08-16: "the ie [1L] labels need to be ignored completely for any
+    batch / prep item."
+
+    It used to be the last rung of the ladder. Every time the bracket and a
+    written yield disagreed the bracket was wrong -- seven times, by up to 7.5x
+    on Jalapeno Tequila and 6x on brisket, which put $8.53 on every Meatlovers.
+    It describes a pack, a bottle you decant into, or the raw joint that went in
+    the oven.
+
+    Keeping it as a fallback made those errors reintroducible: add a prep, forget
+    to write its yield down, and the book quietly divides by whatever is in its
+    name. Refusing means a missing yield is loud and gets written down.
+    """
+    assert resolve_yield("Guacamole [4kg]", {}) == (None, None)
+    assert resolve_yield("Super Lime Juice [1L]", {}) == (None, None)
+    assert resolve_yield("Brownie Prep [24 pcs]", {}) == (None, None)
+    assert resolve_yield("Anything [500ml]", {}) == (None, None)
 
 
 def test_estimate_rescues_a_prep_whose_bracket_carries_no_size():
@@ -58,11 +73,39 @@ def test_a_written_basis_beats_the_bracket_in_the_name():
     assert resolve_yield("Cooked Beef Brisket [1Kg]", est) == (Decimal("6000"), "g")
 
 
-def test_the_bracket_still_answers_when_nothing_is_written_down():
-    """The common case: most preps have no prep_yields entry and the bracket is
-    all there is. Flipping the precedence must not throw that away."""
-    assert resolve_yield("Guacamole [4kg]", {}) == (Decimal("4000"), "g")
-    assert resolve_yield("Brownie Prep [24 pcs]", {}) == (Decimal("24"), "each")
+def test_every_prep_the_book_uses_has_a_written_yield():
+    """The corollary of ignoring brackets: nothing may be left resolving to
+    nothing. Every prep that was relying on its name got a stated basis in
+    prep_yields.yaml on 2026-08-16 — including three that had never had one
+    (Dragon Soda, Massenez Lychee, Toasted Rice Syrup).
+
+    If this fails, somebody added a batch and did not say what it makes, and the
+    dishes drawing on it will refuse to cost rather than guess."""
+    import json
+    from pathlib import Path as _P
+    root = _P(__file__).resolve().parents[3]
+    f = root / "data" / "lightspeed_recipes_costed.json"
+    if not f.exists():
+        pytest.skip("no costed book")
+    book = json.loads(f.read_text(encoding="utf-8-sig"))["recipes"]
+    subs = {l["ref"] for r in book.values()
+            for l in (r.get("ingredients") or []) if l.get("kind") == "subrecipe"}
+    # Three products are SOLD and also drawn as a sub-recipe -- BBQ Wings,
+    # Espresso Martini, Mulled Wine. Their "1 serve" yields live in
+    # data/batch_yield_units.yaml on purpose: prep_yields is read by the
+    # converter and audit_book, both of which treat "has a yield" as "is a
+    # batch", and a batch is excluded from serve costs. Putting them there made
+    # all three cost $0.00 and report 100% GP.
+    import yaml as _yaml
+    byu = root / "data" / "batch_yield_units.yaml"
+    served = set()
+    if byu.exists():
+        doc = _yaml.safe_load(byu.read_text(encoding="utf-8-sig")) or {}
+        served = {e["product"] for e in (doc.get("serve_yields") or [])}
+    bare = [n for n, r in book.items()
+            if (r.get("is_prep") or n in subs)
+            and n not in served and resolve_yield(n)[0] is None]
+    assert not bare, f"prep(s) with no written yield: {sorted(bare)[:8]}"
 
 
 def test_no_prep_yields_entry_is_a_pack_label_masquerading_as_a_yield():
