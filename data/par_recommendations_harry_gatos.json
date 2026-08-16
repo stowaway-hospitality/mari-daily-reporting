@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-16T16:54:11.651639+10:00",
+  "generated_at": "2026-08-16T16:59:28.083180+10:00",
   "venue": "hg",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 95,
@@ -36,7 +36,7 @@
     "n_skus": 82,
     "increase": 11,
     "decrease": 0,
-    "unchanged": 60,
+    "unchanged": 57,
     "coverage_gaps": [],
     "shrinkage_applied": 0,
     "shrinkage_capped": 0,
@@ -366,10 +366,10 @@
       "product": "Azurescens Pinot Noir",
       "venue": "hg",
       "reporting_group": "Red Wine [Harrys]",
-      "rec_par": 4.6,
-      "rec_par_pre_override": 4.6,
+      "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
-      "current_par": 4.6,
+      "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
@@ -412,9 +412,12 @@
       "forecast_method": "No recent sales",
       "growth": null,
       "buffer": 1.2,
-      "override": null,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
       "flags": [
-        "held_no_recent_demand"
+        "override:zero"
       ]
     },
     {
@@ -2188,10 +2191,10 @@
       "product": "Kuku Sauv Blanc",
       "venue": "hg",
       "reporting_group": "White Wine [Harrys]",
-      "rec_par": 4.0,
-      "rec_par_pre_override": 4.0,
+      "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
-      "current_par": 4.0,
+      "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
@@ -2234,9 +2237,12 @@
       "forecast_method": "No recent sales",
       "growth": null,
       "buffer": 1.2,
-      "override": null,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
       "flags": [
-        "held_no_recent_demand"
+        "override:zero"
       ]
     },
     {
@@ -3507,10 +3513,10 @@
       "product": "River Retreat Pinot Grigio",
       "venue": "hg",
       "reporting_group": "White Wine [Harrys]",
-      "rec_par": 9.4,
-      "rec_par_pre_override": 9.4,
+      "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
       "rec_par_modelled": 0.0,
-      "current_par": 9.4,
+      "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
@@ -3553,9 +3559,12 @@
       "forecast_method": "No recent sales",
       "growth": null,
       "buffer": 1.2,
-      "override": null,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
       "flags": [
-        "held_no_recent_demand"
+        "override:zero"
       ]
     },
     {
