@@ -108,6 +108,8 @@ class Recipe:
     # on the menu. Consumers that exclude batches from serve costs must test
     # "yield AND NOT is_serve", not the yield alone.
     is_serve: bool = False
+    # A human picked this yield's unit in the builder, so no rule may restate it.
+    unit_confirmed: bool = False
 
 
 class MissingCost(Exception):
@@ -135,6 +137,7 @@ def load_recipes(venue: str, path: Optional[Path] = None) -> list[Recipe]:
             yield_qty=Decimal(str(d["yield_qty"])) if d.get("yield_qty") else None,
             yield_unit=d.get("yield_unit") or None,
             is_serve=bool(d.get("is_serve")),
+            unit_confirmed=bool(d.get("unit_confirmed")),
             lines=tuple(
                 RecipeLine(
                     ingredient=l.get("id", ""), qty=Decimal(str(l["qty"])),

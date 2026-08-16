@@ -598,7 +598,12 @@ def materialise(venue: str) -> tuple[list, dict]:
             # by about 8%. The magnitude is not being converted -- it is being
             # relabelled -- so that 8% is a real open question, and Chimichurri
             # is on the weighing list because of it.
-            if rec.get("yield_unit") and (fx := yield_fixes.get(name)):
+            if (rec.get("yield_unit") and (fx := yield_fixes.get(name))
+                    and not blk.get("unit_confirmed")):
+                # unit_confirmed means a person used the g/ml selector in the
+                # builder for this batch. A default exists to be overridden by
+                # somebody standing next to the thing; the house rule does not
+                # get to argue with them.
                 if rec["yield_unit"] != fx:
                     report["unit_relabels"].append(
                         {"batch": name, "from": rec["yield_unit"], "to": fx,

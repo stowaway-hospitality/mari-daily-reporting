@@ -123,3 +123,29 @@ def test_the_rule_only_ever_touches_yields_and_the_lines_that_draw_them():
     assert 'sub = book.get(ref)' in fn and 'if not sub:' in fn, (
         "_house_unit_line must return early for anything that is not a "
         "sub-recipe draw — otherwise it starts rewriting ingredient lines")
+
+
+def test_a_confirmed_unit_beats_the_house_rule():
+    """A default exists to be overridden by somebody standing next to the thing.
+
+    The builder writes `unit_confirmed: true` when a person uses the g/ml/ea
+    selector, and materialise_recipes must then leave the unit alone. Without
+    this the migration would quietly restate a deliberate choice on every run,
+    which is worse than having no default at all -- you would fix it, watch it
+    revert, and stop trusting the page.
+    """
+    src = (ROOT / "scripts" / "materialise_recipes.py").read_text()
+    assert 'not blk.get("unit_confirmed")' in src, (
+        "the house rule must not override a unit a human confirmed")
+
+    js = (ROOT / "dashboard" / "_shared" / "recipe_builder.js").read_text()
+    assert "UNIT_TOUCHED" in js and "unit_confirmed: true" in js, (
+        "the builder must record that the selector was used")
+    html = (ROOT / "modules" / "recipes" / "app" / "index.html").read_text()
+    assert 'markUnitChosen()' in html, "the selector must call markUnitChosen"
+
+
+def test_the_builder_still_emits_a_unit_at_all():
+    """Guard against the YAML losing yield_unit while this was being wired."""
+    js = (ROOT / "dashboard" / "_shared" / "recipe_builder.js").read_text()
+    assert "yield_unit: ${ys(yu)}" in js

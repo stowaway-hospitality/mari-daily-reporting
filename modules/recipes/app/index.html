@@ -326,10 +326,13 @@
           <label style="margin-top:10px">Makes (yield) — only if this batch is used inside other recipes</label>
           <div style="display:flex;gap:8px">
             <input id="yq" type="number" inputmode="decimal" step="any" placeholder="qty" oninput="calc()" style="flex:1">
-            <select id="yu" onchange="calc()" style="flex:0 0 90px">
+            <select id="yu" onchange="markUnitChosen();calc()" style="flex:0 0 90px">
               <option value="">unit</option><option value="g">g</option><option value="ml">ml</option><option value="ea">ea</option>
             </select>
           </div>
+          <div class="note" style="margin-top:6px">Food batches default to <b>g</b> and
+            drinks to <b>ml</b> — a cook weighs a bowl, a bartender pours. Pick a unit here
+            and your choice wins, for this batch, permanently.</div>
           <label style="margin-top:10px">Use a saved recipe as an ingredient</label>
           <div class="scroll" id="sublist" style="max-height:30vh"></div>
         </details>
