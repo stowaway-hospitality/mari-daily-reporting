@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from scripts.notify import notify
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REPO = os.environ.get("GITHUB_REPOSITORY", "zakstowaway/mari-daily-reporting")
+REPO = os.environ.get("GITHUB_REPOSITORY", "stowaway-hospitality/mari-daily-reporting")
 TOKEN = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
 WINDOW_MIN = int(os.environ.get("ALERT_WINDOW_MIN", "200"))
 HEALTH_URL = "https://app.stowawaybar.com/data/system_health.json"

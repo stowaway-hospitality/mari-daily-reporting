@@ -19,7 +19,7 @@ Env:
     GMAIL_ADDRESS        the Gmail the sales emails are routed to
     GMAIL_APP_PASSWORD   a Google App Password (needs 2-Step Verification)
     GH_DISPATCH_PAT      PAT with repo scope (fires repository_dispatch)
-    GH_REPO              owner/repo (default zakstowaway/mari-daily-reporting)
+    GH_REPO              owner/repo (default stowaway-hospitality/mari-daily-reporting)
     STATE_FILE           ledger path (default .ingest/processed.json)
 """
 import base64, email, imaplib, io, json, os, re, sys, urllib.request, zipfile
@@ -32,7 +32,7 @@ APP_PW = os.environ.get("GMAIL_APP_PASSWORD", "").replace(" ", "").strip()   # G
 # workaround — the whole reason for Gmail (admin-only app registration) is gone.
 SALES_MAILBOX = os.environ.get("SALES_MAILBOX", "").strip()
 PAT = os.environ["GH_DISPATCH_PAT"]
-REPO = os.environ.get("GH_REPO", "zakstowaway/mari-daily-reporting")
+REPO = os.environ.get("GH_REPO", "stowaway-hospitality/mari-daily-reporting")
 STATE_FILE = os.environ.get("STATE_FILE", ".ingest/processed.json")
 SYD = timezone(timedelta(hours=10))   # AEST (fine for date-stamping)
 
