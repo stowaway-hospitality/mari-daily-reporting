@@ -1,30 +1,31 @@
 {
   "generated": "2026-08-17",
   "reviewed": 6,
-  "clean": 4,
+  "clean": 5,
   "flags": [
     {
       "supplier": "Foodlink",
       "name": "Gravy Mix Rich Brown",
       "code": "101239",
-      "issue": "Name is truncated and the pack size went with it. The invoice line reads 'GRAVY MIX RICH BROWN G/FREE' + '7KG Executive Chef' across two rows; only the first row was captured, so the product entered the feed as 'Gravy Mix Rich Brown' with pack_qty null, needs_pack_review true, and a cost of $57.6087 per 'ea'. Foodlink's UOM column only ever says EA/CTN, so the description is the ONLY place the pack size is stated — losing it loses the rate.",
+      "issue": "Name is truncated and the pack size went with it. The invoice line reads 'GRAVY MIX RICH BROWN G/FREE' + '7KG Executive Chef' across two rows; only the first row was captured, so the product entered the feed as 'Gravy Mix Rich Brown' with pack_qty null, needs_pack_review true, and a cost of $57.6087 per 'ea'. Foodlink's UOM column only ever says EA/CTN, so the description is the ONLY place the pack size is stated \u2014 losing it loses the rate.",
       "suggested_fix": "Pack is 7 kg -> $8.23/kg. NOT GUESSED: confirmed from two independent sources already in our own data. (1) Foodlink invoice SI4483241, 2026-07-24, same code 101239, where the words did not wrap: 'GRAVY MIX RICH BROWN G/FREE 7KG Executive Chef', stored as 7 kg at $8.2300/kg. (2) The Lightspeed recipe seed, ProductID 22888768, 'Gravy Mix Rich Brown G/Free 7kg Executive Chef' at $7.8611/kg. The root cause is fixed in the parser today (see parser_regression.py triage item 33) and this row should re-read correctly on the next Foodlink delivery; no manual edit made, and none needed if that holds.",
       "severity": "high",
       "money": "a recipe costing gravy off the sizeless row books ~7x"
-    },
+    }
+  ],
+  "notes": [
+    "lightspeed:21050706 San Pellegrino 500ml is clean at $0.004640/ml ($2.32 per 500 mL bottle) but carries the January Back Office seed. The live ILG invoices on the Stowaway id (lightspeed:20445597, ILG 450-1293) moved to $0.004712/ml on 2026-08-04. 1.5% stale, cosmetic, self-healing on the next bridge.",
+    "lightspeed:22874436 'Roasted Red Peppers [A12]' and gulli:SAPPEPSTRIPA12-UC3 both read $0.0056/g and agree by design \u2014 the drained-weight divisor (2500 g) confirmed from the supplier spec sheet in triage item 27. Both clean.",
+    "fresh-fruit-team:BRL and BROCE cross-corroborate each other's pack: $33.60/12 = $2.80 vs a stated single bunch at $3.17."
+  ],
+  "resolved": [
     {
       "supplier": "Fresh Fruit Team",
       "name": "Broccolini / Broccolini (BROCE)",
       "code": "BRL / BROCE",
       "issue": "Two picker entries for the same vegetable from the same supplier. BRL is a box costed at 12 ea for $33.60 = $2.80 each (pack_parsed_as 'chef-confirmed'); BROCE is a single bunch at $3.17, disambiguated with its own code by the 2026-08-15 collapse rule because the pack units differ ('ea' vs 'bunch') and the rates are 13% apart, just outside the 10% merge window. The chef now sees broccolini twice.",
-      "suggested_fix": "NOT GUESSED — needs Zak or the chef to confirm the one fact that decides it: is an FFT 'bunch' (BROCE) the same physical unit as one of the 12 in a BRL box? The two rates agreeing to within 13% suggests yes, and if so BROCE's pack unit should be 'ea' so the two collapse. If a market bunch is genuinely bigger, both rows are correct and should stay — that is exactly the case the 10%/pack-unit guard exists to protect (triage item 13, where merging deleted two market bunches).",
-      "severity": "low",
-      "money": "none directly; a duplicate picker entry, and a 13% cost swing depending which the chef picks"
+      "resolution": "CLOSED 2026-08-17 by Zak: 'yes a box has 12 bunches'. That confirms the value ALREADY held on BRL (pack_qty 12, pack_unit ea) and required NO change. The suggested fix in this flag \u2014 relabelling BROCE's unit so the two rows collapse \u2014 was WRONG and was not applied: pack_overrides.yaml records that on 2026-08-16 the same correct sentence was applied to BROCE, which divided a BUNCH by 12 and put broccolini in the picker at $0.264167 against a real $3.17, 12x under and in the direction that flatters GP. The two picker rows stay separate and both are correct: $3.00/bunch bought as a box, $3.17 loose.",
+      "changed": "nothing \u2014 confirmation only, recorded against BRL in pack_overrides.yaml"
     }
-  ],
-  "notes": [
-    "lightspeed:21050706 San Pellegrino 500ml is clean at $0.004640/ml ($2.32 per 500 mL bottle) but carries the January Back Office seed. The live ILG invoices on the Stowaway id (lightspeed:20445597, ILG 450-1293) moved to $0.004712/ml on 2026-08-04. 1.5% stale, cosmetic, self-healing on the next bridge.",
-    "lightspeed:22874436 'Roasted Red Peppers [A12]' and gulli:SAPPEPSTRIPA12-UC3 both read $0.0056/g and agree by design — the drained-weight divisor (2500 g) confirmed from the supplier spec sheet in triage item 27. Both clean.",
-    "fresh-fruit-team:BRL and BROCE cross-corroborate each other's pack: $33.60/12 = $2.80 vs a stated single bunch at $3.17."
   ]
 }
