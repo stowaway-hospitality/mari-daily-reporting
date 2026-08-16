@@ -103,3 +103,5 @@ Already live on the flags tab (`/recipes/#flags`) and in the builder's
 per Zak's 'keep the flags on the module' rule. Biggest dollars: the be-foods
 frozen-goods boxes (~$14,600 across 6 SKUs).
 
+
+> **2026-08-16 update:** review applied. Conflicts: **0 remain** (all 28 resolved to stock-item anchors, recorded in `conflict_resolutions.csv`). Held pile now **18** — every one a unit clash awaiting the declared-conversion layer; the zak-confirmed identities among them auto-apply when it lands.

@@ -60,6 +60,26 @@ def main() -> int:
     for p in conflicts:
         cand.pop(p, None)
 
+    # Zak-confirmed conflict resolutions (batched identity review 2026-08-16):
+    # one product = one ingredient, anchored on the live STOCK ITEM record —
+    # never a [House] POS pour product, which draws FROM the stock item.
+    # These rows are explicit human confirmations, so they pass the PRICE fence
+    # by authority — but never silently (movements print below), and they do
+    # NOT pass the UNIT guard: identity is Zak's call, unit physics is not.
+    res_path = HELD.parent / "conflict_resolutions.csv"
+    resolutions: dict[str, dict] = {}
+    if res_path.exists():
+        with res_path.open(encoding="utf-8-sig") as f:
+            for r in csv.DictReader(f):
+                resolutions[r["purchasable_id"]] = r
+        for r in resolutions.values():
+            seen = set()
+            while r["ingredient_id"] in resolutions and r["ingredient_id"] not in seen:
+                seen.add(r["ingredient_id"])
+                r["ingredient_id"] = resolutions[r["ingredient_id"]]["ingredient_id"]
+        for pu, r in resolutions.items():
+            conflicts.pop(pu, None)
+
     # 2. the fence: measure the live-rate effect of each merge
     obs = load_cost_observations(purchasable_to_ingredient={})   # UNMERGED view
     latest: dict[tuple, object] = {}
@@ -73,6 +93,24 @@ def main() -> int:
 
     ship, held = [], []
     venues = sorted({v for (_, v) in latest.keys() if v})
+    for pu, r in sorted(resolutions.items()):
+        row = {"purchasable_id": pu, "ingredient_id": r["ingredient_id"],
+               "confirmed_by": r["confirmed_by"], "note": r["note"]}
+        a = latest.get((pu, None)) or next((latest[k] for k in latest if k[0] == pu), None)
+        b = latest.get((r["ingredient_id"], None)) or next(
+            (latest[k] for k in latest if k[0] == r["ingredient_id"]), None)
+        # Zak's confirmation settles IDENTITY, not units. Merging a bottle-unit
+        # series into a per-ml series builds the mixed-unit series this whole
+        # book fights (defect class 4.1) — the Aperol test caught exactly that.
+        # Unit-clashing resolutions hold (identity stays recorded, auto-applies
+        # once the declared-conversion layer lands); same-unit ones ship loud.
+        if a and b and a.unit != b.unit:
+            held.append((row, f"unit clash {a.unit} vs {b.unit} (zak-confirmed identity, needs conversion)"))
+            continue
+        ship.append((row, None))
+        if a and b and abs(float(a.cost_per_unit) - float(b.cost_per_unit)) > 1e-9:
+            print(f"  rate movement (zak-confirmed): {pu} {a.cost_per_unit}/{a.unit}"
+                  f" joins {r['ingredient_id']} {b.cost_per_unit}/{b.unit}")
     for p, row in sorted(cand.items()):
         ing = row["ingredient_id"]
         lowering = None
@@ -91,6 +129,16 @@ def main() -> int:
                             f"-> {recent.cost_per_unit}/{recent.unit}")
                 break
         (held if lowering else ship).append((row, lowering))
+
+    # 3a. flatten the WHOLE map: a bridge row (e.g. ILG's pricebook spelling
+    # ilg:405-095-7) can point at a stub PID that a resolution just absorbed.
+    # CostSeries translation is one-hop, so every ingredient_id must be final.
+    final = {row["purchasable_id"]: row["ingredient_id"] for row, _ in ship}
+    for row, _ in ship:
+        seen = set()
+        while row["ingredient_id"] in final and row["ingredient_id"] not in seen:
+            seen.add(row["ingredient_id"])
+            row["ingredient_id"] = final[row["ingredient_id"]]
 
     # 3. write
     with OUT.open("w", newline="", encoding="utf-8") as f:
