@@ -1,9 +1,9 @@
 {
   "generated": "2026-08-17",
-  "count": 977,
-  "compared": 22,
+  "count": 979,
+  "compared": 23,
   "window_days": 90,
-  "total_saving": 92.1,
+  "total_saving": 98.4,
   "switches": [
     {
       "name": "Cauliflower Floret",
@@ -31,6 +31,15 @@
       "saving": 7.2,
       "from_cost": 3.9,
       "to_cost": 3.1
+    },
+    {
+      "name": "Onion Spanish Peeled",
+      "unit": "kg",
+      "from": "Fresh Fruit Team",
+      "to": "Select Fresh",
+      "saving": 6.3,
+      "from_cost": 5.9,
+      "to_cost": 3.8
     }
   ],
   "movers": [
@@ -800,6 +809,46 @@
       "switch": true
     },
     {
+      "key": "onion peeled spanish",
+      "name": "Onion Spanish Peeled",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 3.8,
+          "date": "2026-07-15",
+          "desc": "ONION SPANISH PEELED KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        },
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 5.9,
+          "date": "2026-07-25",
+          "desc": "Onion Spanish Peeled",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 17.7,
+          "volume": 3.0
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 3.8,
+      "max": 5.9,
+      "spread_pct": 55.3,
+      "multi": true,
+      "suspect": false,
+      "low": 3.8,
+      "low_date": "2026-07-15",
+      "est_saving": 6.3,
+      "main": "Fresh Fruit Team",
+      "switch": true
+    },
+    {
       "key": "bean green",
       "name": "Bean Green",
       "unit": "kg",
@@ -1341,7 +1390,7 @@
           "date": "2026-08-15",
           "desc": "SHALLOT BCH",
           "change_pct": -12.1,
-          "n": 27,
+          "n": 28,
           "prev_cost": 3.3,
           "spend": 0.0,
           "volume": 0.0
@@ -3210,6 +3259,35 @@
       "low_date": "2026-07-28",
       "est_saving": 0.0,
       "main": "Foodlink",
+      "switch": false
+    },
+    {
+      "key": "barrel coffee concentrate one",
+      "name": "Barrel One Coffee Concentrate",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Barrel One",
+          "cost": 122.1,
+          "date": "2026-08-06",
+          "desc": "Barrel One Coffee Concentrate 750ml (6)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Barrel One",
+      "min": 122.1,
+      "max": 122.1,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 122.1,
+      "low_date": "2026-08-06",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -5195,7 +5273,7 @@
           "date": "2026-08-15",
           "desc": "CAPSICUM GREEN 2NDS KG",
           "change_pct": 20.0,
-          "n": 8,
+          "n": 9,
           "prev_cost": 6.0,
           "spend": 0.0,
           "volume": 0.0
@@ -18593,7 +18671,7 @@
           "date": "2026-08-14",
           "desc": "HERB MINT ROUND LEAF BCH",
           "change_pct": null,
-          "n": 16,
+          "n": 17,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -20497,6 +20575,35 @@
       "switch": false
     },
     {
+      "key": "brown onion peeled",
+      "name": "Onion Brown Peeled",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 3.3,
+          "date": "2026-07-15",
+          "desc": "ONION BROWN PEELED KG",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 3.3,
+      "max": 3.3,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 3.3,
+      "low_date": "2026-07-15",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "brown onion sliced",
       "name": "Onion Brown Sliced",
       "unit": "kg",
@@ -20695,35 +20802,6 @@
       "suspect": false,
       "low": 2.42,
       "low_date": "2026-07-18",
-      "est_saving": 0.0,
-      "main": "Fresh Fruit Team",
-      "switch": false
-    },
-    {
-      "key": "onion peeled spanish",
-      "name": "Onion Spanish Peeled",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 5.9,
-          "date": "2026-07-25",
-          "desc": "Onion Spanish Peeled",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
-          "spend": 17.7,
-          "volume": 3.0
-        }
-      ],
-      "cheapest": "Fresh Fruit Team",
-      "min": 5.9,
-      "max": 5.9,
-      "spread_pct": 0.0,
-      "multi": false,
-      "suspect": false,
-      "low": 5.9,
-      "low_date": "2026-07-25",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -27554,7 +27632,7 @@
           "date": "2026-08-15",
           "desc": "TOMATO CHERRY PUN",
           "change_pct": 28.0,
-          "n": 17,
+          "n": 18,
           "prev_cost": 2.5,
           "spend": 0.0,
           "volume": 0.0
@@ -29178,7 +29256,7 @@
           "date": "2026-08-14",
           "desc": "ZUCCHINI GREEN KG",
           "change_pct": 41.4,
-          "n": 7,
+          "n": 8,
           "prev_cost": 2.9,
           "spend": 0.0,
           "volume": 0.0
