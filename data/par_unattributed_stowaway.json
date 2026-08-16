@@ -1,11 +1,11 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-16T17:37:07.562142+10:00",
+  "generated_at": "2026-08-17T08:12:14.838894+10:00",
   "venue": "stow",
   "window_weeks": 13,
   "week_range": [
     "2024-10-06",
-    "2026-08-09"
+    "2026-08-16"
   ],
   "threshold_revenue_ex_gst": 2000.0,
   "threshold_zero_revenue_qty_per_week": 2.0,
@@ -16,103 +16,112 @@
   "what_attributed_to_other_venue_is": "POS lines sold at this venue whose stock is held and ordered at the OTHER venue, against that venue's par SKU (data/par_aliases.json, a '<venue>:<sku>' target). They are ATTRIBUTED — the volume lands on the named par SKU there — and they contribute nothing here, so they are neither unattributed nor double-counted. Listed so a line leaving this venue's numbers is never silent.",
   "what_auto_hg_suffix_is": "Zak, 2026-08-10: 'pretty much any SKU labelled with [HG] is a harrys SKU that draws from stowaway stock'. That is a RULE, so the model applies it automatically: an HG till line carrying the '[HG]' suffix has the suffix stripped and the remainder matched against STOWAWAY's par universe, and its consumption is routed to that Stowaway par SKU. No file edit is needed for a new [HG] product. An explicit alias in data/par_aliases.json always overrides the rule. `auto_hg_suffix` lists every line the rule placed and why; `hg_suffix_unresolved` lists every [HG] line whose stripped name matched no Stowaway par SKU — the rule refuses to guess, so those fall through to the ordinary matchers and, if nothing places them, stay unattributed above. Give one an explicit alias to fix it.",
   "summary": {
-    "unattributed_lines": 0,
-    "unattributed_revenue_ex_gst": 0,
+    "unattributed_lines": 1,
+    "unattributed_revenue_ex_gst": 34.54,
     "hg_suffix_rule_active": false,
     "auto_hg_suffix_resolved_lines": 0,
     "auto_hg_suffix_revenue_ex_gst": 0,
     "hg_suffix_unresolved_lines": 0,
     "hg_suffix_unresolved_still_unattributed": 0,
-    "intentionally_unattributed_lines": 19,
-    "intentionally_unattributed_revenue_ex_gst": 10166.16,
+    "intentionally_unattributed_lines": 18,
+    "intentionally_unattributed_revenue_ex_gst": 10632.05,
     "attributed_to_other_venue_lines": 0,
     "attributed_to_other_venue_revenue_ex_gst": 0,
     "zero_revenue_volume_lines": 1,
-    "zero_revenue_volume_qty_per_week": 0.23
+    "zero_revenue_volume_qty_per_week": 0.15
   },
   "what_zero_revenue_volume_is": "POS lines that moved real UNITS for effectively no money — comps, staff drinks, owner usage. The revenue gate above cannot see them by construction, and they are typically rung under a group like 'Modifiers' that the unattributed pass filters out, so they were silently dropped twice over. The stock still leaves the building. Fix by aliasing the line to its par SKU in data/par_aliases.json so the units attribute, or — if it genuinely consumes no stock — by naming it in `_intentionally_unattributed`.",
-  "unattributed": [],
+  "unattributed": [
+    {
+      "product": "Ron Zacapa 23yr",
+      "reporting_group": "Rum",
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 34.54,
+      "stock_bearing": true
+    }
+  ],
   "intentionally_unattributed": [
     {
       "product": "Pepsi Max Glass",
       "reporting_group": "Non-alcoholic",
-      "qty_window": 551.5,
-      "qty_per_week": 42.42,
-      "revenue_ex_gst_window": 2349.42,
+      "qty_window": 558.0,
+      "qty_per_week": 42.92,
+      "revenue_ex_gst_window": 2381.77,
       "stock_bearing": true,
       "reason": "post-mix gun - no discrete stock unit"
     },
     {
       "product": "Lemon, Lime & Bitters",
       "reporting_group": "Non-alcoholic",
-      "qty_window": 369.0,
-      "qty_per_week": 28.38,
-      "revenue_ex_gst_window": 1743.69,
+      "qty_window": 379.0,
+      "qty_per_week": 29.15,
+      "revenue_ex_gst_window": 1783.22,
       "stock_bearing": true,
       "reason": "made to order (post-mix + bitters) - no discrete stock unit"
     },
     {
       "product": "Pepsi Glass",
       "reporting_group": "Non-alcoholic",
-      "qty_window": 298.5,
-      "qty_per_week": 22.96,
-      "revenue_ex_gst_window": 1221.49,
+      "qty_window": 291.5,
+      "qty_per_week": 22.42,
+      "revenue_ex_gst_window": 1228.15,
       "stock_bearing": true,
       "reason": "post-mix gun - no discrete stock unit"
     },
     {
       "product": "Fresh Lime Soda",
       "reporting_group": "Non-alcoholic",
-      "qty_window": 376.0,
-      "qty_per_week": 28.92,
-      "revenue_ex_gst_window": 1216.67,
+      "qty_window": 372.0,
+      "qty_per_week": 28.62,
+      "revenue_ex_gst_window": 1201.45,
       "stock_bearing": true,
       "reason": "made to order (fresh lime + soda gun) - no discrete stock unit"
     },
     {
       "product": "Lemonade Glass",
       "reporting_group": "Non-alcoholic",
-      "qty_window": 235.0,
-      "qty_per_week": 18.08,
-      "revenue_ex_gst_window": 992.18,
+      "qty_window": 241.0,
+      "qty_per_week": 18.54,
+      "revenue_ex_gst_window": 1020.81,
       "stock_bearing": true,
       "reason": "post-mix gun - no discrete stock unit"
     },
     {
+      "product": "Philter Pale",
+      "reporting_group": "Tap Beer",
+      "qty_window": 57.7,
+      "qty_per_week": 4.44,
+      "revenue_ex_gst_window": 615.16,
+      "stock_bearing": true,
+      "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
+    },
+    {
       "product": "Pink Lemonade Glass",
       "reporting_group": "Non-alcoholic",
-      "qty_window": 126.0,
-      "qty_per_week": 9.69,
-      "revenue_ex_gst_window": 536.47,
+      "qty_window": 128.0,
+      "qty_per_week": 9.85,
+      "revenue_ex_gst_window": 546.05,
       "stock_bearing": true,
       "reason": "post-mix gun + syrup - no discrete stock unit"
     },
     {
       "product": "Stow Soda - Passionfruit",
       "reporting_group": "Non-alcoholic",
-      "qty_window": 48.0,
-      "qty_per_week": 3.69,
-      "revenue_ex_gst_window": 406.7,
+      "qty_window": 53.0,
+      "qty_per_week": 4.08,
+      "revenue_ex_gst_window": 448.94,
       "stock_bearing": true,
       "reason": "house-made soda, built to order from syrup + soda gun; belongs to the recipe system, no discrete par SKU exists"
     },
     {
       "product": "Apple Juice Glass",
       "reporting_group": "Non-alcoholic",
-      "qty_window": 67.0,
-      "qty_per_week": 5.15,
-      "revenue_ex_gst_window": 318.95,
+      "qty_window": 72.0,
+      "qty_per_week": 5.54,
+      "revenue_ex_gst_window": 343.5,
       "stock_bearing": true,
       "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
-    },
-    {
-      "product": "Philter Pale",
-      "reporting_group": "Tap Beer",
-      "qty_window": 29.0,
-      "qty_per_week": 2.23,
-      "revenue_ex_gst_window": 307.33,
-      "stock_bearing": true,
-      "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
     },
     {
       "product": "Stow Soda - Grapefruit",
@@ -126,18 +135,18 @@
     {
       "product": "Two Bays Pale Ale Can",
       "reporting_group": "Bottles / Cans Alcoholic",
-      "qty_window": 17.0,
-      "qty_per_week": 1.31,
-      "revenue_ex_gst_window": 248.32,
+      "qty_window": 15.0,
+      "qty_per_week": 1.15,
+      "revenue_ex_gst_window": 222.02,
       "stock_bearing": true,
       "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
     },
     {
       "product": "Ginger Ale",
       "reporting_group": "Non-alcoholic",
-      "qty_window": 30.0,
-      "qty_per_week": 2.31,
-      "revenue_ex_gst_window": 113.58,
+      "qty_window": 29.0,
+      "qty_per_week": 2.23,
+      "revenue_ex_gst_window": 109.81,
       "stock_bearing": true,
       "reason": "post-mix gun - no discrete stock unit"
     },
@@ -151,49 +160,40 @@
       "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
     },
     {
-      "product": "Pineapple Juice Glass",
-      "reporting_group": "Non-alcoholic",
-      "qty_window": 18.0,
-      "qty_per_week": 1.38,
-      "revenue_ex_gst_window": 84.66,
-      "stock_bearing": true,
-      "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
-    },
-    {
       "product": "Hot Chocolate",
       "reporting_group": "Non-alcoholic",
-      "qty_window": 5.0,
-      "qty_per_week": 0.38,
-      "revenue_ex_gst_window": 66.2,
+      "qty_window": 7.0,
+      "qty_per_week": 0.54,
+      "revenue_ex_gst_window": 93.93,
       "stock_bearing": true,
       "reason": "made to order from powder/milk - no discrete par SKU"
     },
     {
+      "product": "Pineapple Juice Glass",
+      "reporting_group": "Non-alcoholic",
+      "qty_window": 19.0,
+      "qty_per_week": 1.46,
+      "revenue_ex_gst_window": 89.21,
+      "stock_bearing": true,
+      "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
+    },
+    {
       "product": "Cranberry Juice Glass",
       "reporting_group": "Non-alcoholic",
-      "qty_window": 13.0,
-      "qty_per_week": 1.0,
-      "revenue_ex_gst_window": 61.7,
+      "qty_window": 16.0,
+      "qty_per_week": 1.23,
+      "revenue_ex_gst_window": 75.95,
       "stock_bearing": true,
       "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10); see NOTE below"
     },
     {
       "product": "Tonic Glass",
       "reporting_group": "Non-alcoholic",
-      "qty_window": 15.0,
-      "qty_per_week": 1.15,
-      "revenue_ex_gst_window": 57.12,
+      "qty_window": 18.0,
+      "qty_per_week": 1.38,
+      "revenue_ex_gst_window": 68.16,
       "stock_bearing": true,
       "reason": "post-mix gun - no discrete stock unit"
-    },
-    {
-      "product": "Samba Ramba",
-      "reporting_group": "Non-alcoholic",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 37.76,
-      "stock_bearing": true,
-      "reason": "house-made non-alc drink built to order; belongs to the recipe system, no discrete par SKU exists"
     },
     {
       "product": "$5 Stow Soda",
@@ -209,9 +209,9 @@
     {
       "product": "Bry Ol San Pell",
       "reporting_group": "Modifiers",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 0.15,
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 0.1,
       "stock_bearing": false,
       "classification": "zero_revenue_volume"
     }

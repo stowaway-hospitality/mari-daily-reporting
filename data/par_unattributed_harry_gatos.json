@@ -1,11 +1,11 @@
 {
   "schema_version": 3,
-  "generated_at": "2026-08-16T17:37:07.681274+10:00",
+  "generated_at": "2026-08-17T08:12:14.966531+10:00",
   "venue": "hg",
   "window_weeks": 13,
   "week_range": [
     "2024-10-06",
-    "2026-08-09"
+    "2026-08-16"
   ],
   "threshold_revenue_ex_gst": 2000.0,
   "threshold_zero_revenue_qty_per_week": 2.0,
@@ -26,19 +26,19 @@
   "what_attributed_to_other_venue_is": "POS lines sold at this venue whose stock is held and ordered at the OTHER venue, against that venue's par SKU (data/par_aliases.json, a '<venue>:<sku>' target). They are ATTRIBUTED — the volume lands on the named par SKU there — and they contribute nothing here, so they are neither unattributed nor double-counted. Listed so a line leaving this venue's numbers is never silent.",
   "what_auto_hg_suffix_is": "Zak, 2026-08-10: 'pretty much any SKU labelled with [HG] is a harrys SKU that draws from stowaway stock'. That is a RULE, so the model applies it automatically: an HG till line carrying the '[HG]' suffix has the suffix stripped and the remainder matched against STOWAWAY's par universe, and its consumption is routed to that Stowaway par SKU. No file edit is needed for a new [HG] product. An explicit alias in data/par_aliases.json always overrides the rule. `auto_hg_suffix` lists every line the rule placed and why; `hg_suffix_unresolved` lists every [HG] line whose stripped name matched no Stowaway par SKU — the rule refuses to guess, so those fall through to the ordinary matchers and, if nothing places them, stay unattributed above. Give one an explicit alias to fix it.",
   "summary": {
-    "unattributed_lines": 3,
-    "unattributed_revenue_ex_gst": 72.29,
+    "unattributed_lines": 4,
+    "unattributed_revenue_ex_gst": 77.74,
     "hg_suffix_rule_active": true,
     "auto_hg_suffix_resolved_lines": 2,
-    "auto_hg_suffix_revenue_ex_gst": 147.29,
-    "hg_suffix_unresolved_lines": 5,
-    "hg_suffix_unresolved_still_unattributed": 1,
+    "auto_hg_suffix_revenue_ex_gst": 157.29,
+    "hg_suffix_unresolved_lines": 8,
+    "hg_suffix_unresolved_still_unattributed": 3,
     "intentionally_unattributed_lines": 16,
-    "intentionally_unattributed_revenue_ex_gst": 1725.55,
+    "intentionally_unattributed_revenue_ex_gst": 1918.86,
     "attributed_to_other_venue_lines": 11,
-    "attributed_to_other_venue_revenue_ex_gst": 696.61,
-    "zero_revenue_volume_lines": 2,
-    "zero_revenue_volume_qty_per_week": 0.16
+    "attributed_to_other_venue_revenue_ex_gst": 768.44,
+    "zero_revenue_volume_lines": 6,
+    "zero_revenue_volume_qty_per_week": 0.48
   },
   "what_zero_revenue_volume_is": "POS lines that moved real UNITS for effectively no money — comps, staff drinks, owner usage. The revenue gate above cannot see them by construction, and they are typically rung under a group like 'Modifiers' that the unattributed pass filters out, so they were silently dropped twice over. The stock still leaves the building. Fix by aliasing the line to its par SKU in data/par_aliases.json so the units attribute, or — if it genuinely consumes no stock — by naming it in `_intentionally_unattributed`.",
   "unattributed": [
@@ -71,98 +71,106 @@
       "stock_bearing": true,
       "investigate_note": "ZAK TO CONFIRM. HG's Coke and Sprite cans are now linked to Stowaway's 'Coke Can' / 'Sprite Can' pars (shared central stock). Diet Coke is NOT, because Stowaway does not stock Diet Coke: the Stowaway catalogue (data/bo_exports/stowaway_products.csv) carries Coke, Coke Zero and Sprite in can and 1.25L, and no Diet Coke SKU at all. Coke Zero and Diet Coke are different products, so mapping HG's Diet Coke onto 'Coke Zero Can' would inflate a Coke Zero par with demand for a drink that par can never satisfy. Question for Zak: is HG's 'Diet Coke' button actually served from Coke Zero stock? If yes, change this to an alias \"Diet Coke Can\": \"stow:Coke Zero Can\". If it is a genuine separate line, it needs its own stock item in the Purchase module.",
       "known_unmapped": true
+    },
+    {
+      "product": "San Pellegrino 500ml",
+      "reporting_group": "Non-Alcoholic",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 5.45,
+      "stock_bearing": true
     }
   ],
   "intentionally_unattributed": [
     {
       "product": "Pepsi Max Glass",
       "reporting_group": "Non-Alcoholic",
-      "qty_window": 138.0,
-      "qty_per_week": 10.62,
-      "revenue_ex_gst_window": 560.37,
+      "qty_window": 155.0,
+      "qty_per_week": 11.92,
+      "revenue_ex_gst_window": 629.49,
       "stock_bearing": true,
       "reason": "post-mix gun - no discrete stock unit"
     },
     {
       "product": "Yuzu Orange Soda",
       "reporting_group": "Non-Alcoholic",
-      "qty_window": 24.0,
-      "qty_per_week": 1.85,
-      "revenue_ex_gst_window": 195.52,
+      "qty_window": 27.0,
+      "qty_per_week": 2.08,
+      "revenue_ex_gst_window": 219.24,
       "stock_bearing": true,
       "reason": "house-made soda built to order; belongs to the recipe system, no discrete par SKU"
     },
     {
       "product": "Dragon Soda",
       "reporting_group": "Non-Alcoholic",
-      "qty_window": 23.0,
-      "qty_per_week": 1.77,
-      "revenue_ex_gst_window": 188.16,
+      "qty_window": 25.0,
+      "qty_per_week": 1.92,
+      "revenue_ex_gst_window": 204.52,
       "stock_bearing": true,
       "reason": "house-made soda built to order; belongs to the recipe system, no discrete par SKU"
     },
     {
       "product": "Pepsi Glass",
       "reporting_group": "Non-Alcoholic",
-      "qty_window": 39.0,
-      "qty_per_week": 3.0,
-      "revenue_ex_gst_window": 159.52,
+      "qty_window": 44.0,
+      "qty_per_week": 3.38,
+      "revenue_ex_gst_window": 179.97,
       "stock_bearing": true,
       "reason": "post-mix gun - no discrete stock unit"
     },
     {
       "product": "Lemonade Glass",
       "reporting_group": "Non-Alcoholic",
-      "qty_window": 38.0,
-      "qty_per_week": 2.92,
-      "revenue_ex_gst_window": 149.71,
+      "qty_window": 39.0,
+      "qty_per_week": 3.0,
+      "revenue_ex_gst_window": 153.8,
       "stock_bearing": true,
       "reason": "post-mix gun - no discrete stock unit"
     },
     {
       "product": "Lemon Lime Bitters",
       "reporting_group": "Non-Alcoholic",
-      "qty_window": 22.0,
-      "qty_per_week": 1.69,
-      "revenue_ex_gst_window": 89.99,
+      "qty_window": 25.0,
+      "qty_per_week": 1.92,
+      "revenue_ex_gst_window": 102.26,
       "stock_bearing": true,
       "reason": "made to order - no discrete stock unit"
     },
     {
       "product": "Two Bays GF Rice Lager Can [HG]",
       "reporting_group": "Bottles / Cans Alcoholic",
-      "qty_window": 7.0,
-      "qty_per_week": 0.54,
-      "revenue_ex_gst_window": 89.11,
+      "qty_window": 8.0,
+      "qty_per_week": 0.62,
+      "revenue_ex_gst_window": 101.84,
       "stock_bearing": true,
       "reason": "DISCONTINUED - Zak, 2026-08-15, verbatim: 'i deliberately want to discontinue those items'. Run the stock down, do not create a par, do not reorder. Listed here so the line stops surfacing as attribution work every week while the remaining stock sells through; remove the entry if the product ever comes back."
     },
     {
       "product": "Carafe Sparkling Water",
       "reporting_group": "Non-Alcoholic",
-      "qty_window": 13.0,
-      "qty_per_week": 1.0,
-      "revenue_ex_gst_window": 59.14,
+      "qty_window": 15.0,
+      "qty_per_week": 1.15,
+      "revenue_ex_gst_window": 68.24,
       "stock_bearing": true,
       "reason": "carbonated in house - no discrete stock unit"
     },
     {
-      "product": "Pink Lemonade Glass",
-      "reporting_group": "Non-Alcoholic",
-      "qty_window": 14.0,
-      "qty_per_week": 1.08,
-      "revenue_ex_gst_window": 54.39,
-      "stock_bearing": true,
-      "reason": "post-mix gun + syrup - no discrete stock unit"
-    },
-    {
       "product": "Apple Juice Glass",
       "reporting_group": "Non-Alcoholic",
-      "qty_window": 14.0,
-      "qty_per_week": 1.08,
-      "revenue_ex_gst_window": 50.95,
+      "qty_window": 18.0,
+      "qty_per_week": 1.38,
+      "revenue_ex_gst_window": 65.51,
       "stock_bearing": true,
       "reason": "poured from bulk juice - ordered visually on Zak's instruction (2026-08-10): 'ignore the juice as we will just order that visually, too hard to track the stock on those'"
+    },
+    {
+      "product": "Pink Lemonade Glass",
+      "reporting_group": "Non-Alcoholic",
+      "qty_window": 16.0,
+      "qty_per_week": 1.23,
+      "revenue_ex_gst_window": 62.57,
+      "stock_bearing": true,
+      "reason": "post-mix gun + syrup - no discrete stock unit"
     },
     {
       "product": "Mulled Wine [HG]",
@@ -194,9 +202,9 @@
     {
       "product": "Soda & Lime Glass",
       "reporting_group": "Non-Alcoholic",
-      "qty_window": 6.0,
-      "qty_per_week": 0.46,
-      "revenue_ex_gst_window": 16.38,
+      "qty_window": 7.0,
+      "qty_per_week": 0.54,
+      "revenue_ex_gst_window": 19.11,
       "stock_bearing": true,
       "reason": "post-mix gun + fresh lime - no discrete stock unit"
     },
@@ -221,6 +229,24 @@
   ],
   "zero_revenue_volume": [
     {
+      "product": "Jalape|os",
+      "reporting_group": "Add-ons - Kitchen",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 0.91,
+      "stock_bearing": false,
+      "classification": "zero_revenue_volume"
+    },
+    {
+      "product": "Add Parmesan",
+      "reporting_group": "Add-ons - Kitchen",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 0.94,
+      "stock_bearing": false,
+      "classification": "zero_revenue_volume"
+    },
+    {
       "product": "Fever-Tree Light Tonic [mixer]",
       "reporting_group": "Add-ons - Bar",
       "qty_window": 1.0,
@@ -230,8 +256,26 @@
       "classification": "zero_revenue_volume"
     },
     {
-      "product": "Nori Sheet",
+      "product": "Ginger Beer [mixer]",
+      "reporting_group": "Add-ons - Bar",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 0.91,
+      "stock_bearing": false,
+      "classification": "zero_revenue_volume"
+    },
+    {
+      "product": "Butter",
       "reporting_group": "Bar / FOH (no reporting group)",
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 0.91,
+      "stock_bearing": false,
+      "classification": "zero_revenue_volume"
+    },
+    {
+      "product": "Add Ham",
+      "reporting_group": "Stow Food",
       "qty_window": 1.0,
       "qty_per_week": 0.08,
       "revenue_ex_gst_window": 0.91,
@@ -240,6 +284,16 @@
     }
   ],
   "attributed_to_other_venue": [
+    {
+      "product": "Zagara Orange [HG]",
+      "reporting_group": "Bar / FOH (no reporting group)",
+      "qty_window": 10.0,
+      "qty_per_week": 0.77,
+      "revenue_ex_gst_window": 178.2,
+      "target_venue": "stow",
+      "target_sku": "Year Wines 'Zagara' Orange - Bottle",
+      "via": "alias"
+    },
     {
       "product": "Philter XPA",
       "reporting_group": "Tap Beer",
@@ -259,16 +313,6 @@
       "target_venue": "stow",
       "target_sku": "Grifter Big Sur IPA Tin",
       "via": "hg_suffix_rule"
-    },
-    {
-      "product": "Zagara Orange [HG]",
-      "reporting_group": "Bar / FOH (no reporting group)",
-      "qty_window": 6.0,
-      "qty_per_week": 0.46,
-      "revenue_ex_gst_window": 123.65,
-      "target_venue": "stow",
-      "target_sku": "Year Wines 'Zagara' Orange - Bottle",
-      "via": "alias"
     },
     {
       "product": "Grifter Pale",
@@ -303,9 +347,9 @@
     {
       "product": "Monteith's Apple Cider [HG]",
       "reporting_group": "Bottles / Cans Alcoholic",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 20.0,
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 30.0,
       "target_venue": "stow",
       "target_sku": "Monteith's Apple Cider Bottle",
       "via": "hg_suffix_rule"
@@ -321,6 +365,16 @@
       "via": "alias"
     },
     {
+      "product": "Coke Can",
+      "reporting_group": "Non-Alcoholic",
+      "qty_window": 4.0,
+      "qty_per_week": 0.31,
+      "revenue_ex_gst_window": 14.56,
+      "target_venue": "stow",
+      "target_sku": "Coke Can",
+      "via": "alias"
+    },
+    {
       "product": "Guinness Draught",
       "reporting_group": "Tap Beer",
       "qty_window": 1.0,
@@ -331,21 +385,11 @@
       "via": "alias"
     },
     {
-      "product": "Coke Can",
-      "reporting_group": "Non-Alcoholic",
-      "qty_window": 3.0,
-      "qty_per_week": 0.23,
-      "revenue_ex_gst_window": 10.92,
-      "target_venue": "stow",
-      "target_sku": "Coke Can",
-      "via": "alias"
-    },
-    {
       "product": "Sprite Can",
       "reporting_group": "Non-Alcoholic",
-      "qty_window": 1.0,
-      "qty_per_week": 0.08,
-      "revenue_ex_gst_window": 3.64,
+      "qty_window": 2.0,
+      "qty_per_week": 0.15,
+      "revenue_ex_gst_window": 7.28,
       "target_venue": "stow",
       "target_sku": "Sprite Can",
       "via": "alias"
@@ -368,9 +412,9 @@
       "target_venue": "stow",
       "target_sku": "Monteith's Apple Cider Bottle",
       "match": "variant/container",
-      "qty_window": 2.0,
-      "qty_per_week": 0.15,
-      "revenue_ex_gst_window": 20.0
+      "qty_window": 3.0,
+      "qty_per_week": 0.23,
+      "revenue_ex_gst_window": 30.0
     }
   ],
   "hg_suffix_unresolved": [
@@ -379,9 +423,36 @@
       "stripped": "Fries",
       "reason": "no stow par SKU matches 'Fries'",
       "still_unattributed": true,
-      "qty_window": 5.0,
-      "qty_per_week": 0.38,
-      "revenue_ex_gst_window": 54.55
+      "qty_window": 6.0,
+      "qty_per_week": 0.46,
+      "revenue_ex_gst_window": 65.46
+    },
+    {
+      "pos_line": "Vinada Sparkling Rosé [HG]",
+      "stripped": "Vinada Sparkling Rosé",
+      "reason": "no stow par SKU matches 'Vinada Sparkling Rosé'",
+      "still_unattributed": true,
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 10.0
+    },
+    {
+      "pos_line": "Orange Juice Glass [HG]",
+      "stripped": "Orange Juice Glass",
+      "reason": "no stow par SKU matches 'Orange Juice Glass'",
+      "still_unattributed": true,
+      "qty_window": 1.0,
+      "qty_per_week": 0.08,
+      "revenue_ex_gst_window": 3.64
+    },
+    {
+      "pos_line": "Coconut Margarita [HG]",
+      "stripped": "Coconut Margarita",
+      "reason": "no stow par SKU matches 'Coconut Margarita'",
+      "still_unattributed": false,
+      "qty_window": 0.0,
+      "qty_per_week": 0.0,
+      "revenue_ex_gst_window": 0.0
     },
     {
       "pos_line": "Cosmo [HG]",
