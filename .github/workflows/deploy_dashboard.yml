@@ -58,6 +58,7 @@ jobs:
           REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
+          superseded=0
           # Up to ~10 minutes: the push that triggered Tests and the event that
           # triggered this deploy race, so "not started yet" is normal.
           for i in $(seq 1 40); do
@@ -73,16 +74,32 @@ jobs:
               if [ "$concl" = "success" ]; then
                 echo "Tests passed for $SHA — deploying."; exit 0
               fi
-              echo "::error::Tests concluded '$concl' for $SHA. Not deploying a build whose tests are not green."
-              exit 1
+              # CANCELLED is not FAILED. tests.yml cancels in-progress runs when
+              # a newer commit lands (concurrency: cancel-in-progress), and this
+              # repo pushes dozens of times a day — 48 of the last 100 Tests runs
+              # were cancelled. Treating "superseded" as "broken" blocked every
+              # deploy on 17 Aug and left the site behind its own data twice in
+              # one morning. Fall through to main's last DECIDED result instead.
+              if [ "$concl" = "cancelled" ] || [ "$concl" = "skipped" ]; then
+                echo "Tests for $SHA was $concl (superseded, not failed) — checking main."
+                status=none; superseded=1
+              else
+                echo "::error::Tests concluded '$concl' for $SHA. Not deploying a build whose tests are not green."
+                exit 1
+              fi
             fi
-            if [ "$status" = "none" ] && [ "$i" -gt 3 ]; then
+            # Wait a few polls for a run that has not appeared yet, but do not
+            # wait at all when we already KNOW it was superseded.
+            if [ "$status" = "none" ] && { [ "$i" -gt 3 ] || [ "${superseded:-0}" = "1" ]; }; then
               # No Tests run for this SHA at all. That is EXPECTED for the
               # heartbeat commits tests.yml deliberately ignores (health
               # snapshot, logs, ingest ledger), so fall back to the last known
               # state of main: publishing fresh data from a red tree is still
               # publishing from a red tree.
-              last=$(gh api "repos/$REPO/actions/workflows/tests.yml/runs?branch=main&status=completed&per_page=1"                        --jq '.workflow_runs[0].conclusion' 2>/dev/null || echo unknown)
+              # The last DECIDED run on main: skip cancelled ones, or the
+              # fallback inherits exactly the ambiguity it exists to resolve.
+              last=$(gh api "repos/$REPO/actions/workflows/tests.yml/runs?branch=main&per_page=20" \
+                       --jq '[.workflow_runs[] | select(.conclusion=="success" or .conclusion=="failure")][0].conclusion // "unknown"' 2>/dev/null || echo unknown)
               if [ "$last" = "success" ]; then
                 echo "No Tests run for $SHA (ignored path); main was last green — deploying."; exit 0
               fi
