@@ -153,9 +153,80 @@ by the P&L, par and invoices alike** — so per SESSIONS.md rule 3 it is flagged
 not widened into silently. It is probably the highest-value item left in the
 whole cost book.
 
+## Third pass — audit, with everything measured rather than assumed
+
+### The yield findings are now PROOFS, not opinions
+
+"A batch cannot yield more than it contains" — the arithmetic standard
+`recipe_line_unit_fixes.yaml` already demands of itself — settles three of the
+seven outright:
+
+| prep | goes in | name claims | basis says |
+|---|---|---|---|
+| Jalapeno Tequila [1L] | 7,000 ml tequila + 950 g jalapenos | 1,000 ml | 7,500 ml |
+| Coconut-washed Rooster [1L] | 5,100 base units | 1,000 ml | 3,929 ml |
+| Cooked Beef Brisket [1Kg] | 11,454 base units | 1,000 g | 6,000 g |
+
+Seven litres of tequila cannot leave the jar as one. And `prep_yields.yaml` had
+already written the same reasoning down for Achiote Chicken — *"the raw weight
+recorded as if it were the yield, the same fault as Cooked Beef Brisket."*
+`scripts/audit_batch_yields.py` now runs this over every prep.
+
+**It has to be pack-aware or it buries itself.** The scrape records "2 ml" of a
+[4L] sauce meaning two 4-litre packs, so a naive sum says House BBQ Sauce holds
+3 ml and yields 11 L — a 3,666x nonsense sitting on top of every real result.
+Quantities are recovered as cost ÷ rate where both exist.
+
+Remaining after that: **11 preps make more than they contain** with no water in
+their basis, and 2 have a cook loss over 55%. Both lists are Phase 3 work.
+
+### Blast radius of the resolve_yield flip — measured
+
+**43 dishes move: 31 Stowaway, 12 Marilyna's.** The builder was showing **Beef
+Burrito at $32.93 of food cost against the P&L's $5.49**, and **Jalapeno Marg at
+$22.50 on a $22 drink** — a negative GP on screen while the published number was
+fine. Three dishes rise (Achiote Chicken's cook loss, correctly).
+
+This is a display defect closing, not a cost change. The P&L has always used the
+`prep_yields` numbers; only this path read the bracket.
+
+### A new guard on the failure that would be silent
+
+A batch is a cost multiplier. House BBQ Sauce is $44.33 across every wings deal,
+and it is **two pack counts wearing millilitre labels**. If either were ever
+multiplied as millilitres instead of frozen, the batch would fall to about a
+cent and nothing would alarm — a cost that drops never does.
+`test_staged_batches_reproduce.py` asserts all 13 staged batches still cost what
+the old book says, and names the three that deliberately do not.
+
+### I had been running a green gate on nothing
+
+The seven node suites **SKIP their real-data checks when the derived feeds are
+not built**, and report 0 failures on nothing — exactly as SESSIONS.md warns.
+My earlier runs said "3 generated feed(s) not built yet". Built them and re-ran:
+**366 assertions, 0 failures.** `arch_guard` then caught the feeds going stale
+behind a `costs.csv` rebuild, which is the same trap one layer down. Both are
+now part of how I check this repo, and both should be part of yours.
+
+### The stale-price finding, quantified
+
+Not 16 — **15** ingredients where the group-wide series is stale in the same
+unit, and it reaches **63 dishes (48 Marilyna's, 15 Stowaway)**:
+
+- broccolini is on a **2 January** price of $4.61 against 12 August's $3.17
+- three more are 3–4 months stale, moving 14–40%
+- `fresh-fruit-team:LMM15BX` is a separate defect: $17.40 per **box** and
+  $0.0174 per **g** for one ingredient — the "one base unit per ingredient" rule
+  broken, which is Phase 1 identity work, not this
+
+**Most are stale LOW, so cost is understated and GP overstated** — the direction
+CLAUDE.md names as the one nobody investigates. The converter that feeds today's
+P&L reads the group-wide series, so this is live. `cost_on` is venue-scoped and
+gets it right, which is why the migration surfaced it at all.
+
 ## Next, in order
 
-1. **`CostSeries.as_of` group-wide staleness** — 16 ingredients, needs an
+1. **`CostSeries.as_of` group-wide staleness** — 15 ingredients, 63 dishes, needs an
    `ops`-ish decision because `core/domain.py` is read by everything.
 2. **Tandoori: 1 kg or the whole batch?** One answer unblocks 6 products.
 3. **Watch the daily diff for a week.** Cut over when it is boringly
