@@ -79,11 +79,31 @@ def revenue_by_product() -> dict:
     return out
 
 
+def serve_yields() -> dict:
+    """Products that are SOLD and also drawn as a sub-recipe.
+
+    Their "1 serve" yields live in data/batch_yield_units.yaml, deliberately not
+    in prep_yields.yaml -- the converter and audit_book both read "has a yield"
+    as "is a batch", and a batch is excluded from serve costs, so putting them
+    there made three sold products report 100% GP. They were showing here as
+    having no yield at all, which sent BBQ Wings and an Espresso Martini to a
+    kitchen scale. One serve is one serve; there is nothing to weigh.
+    """
+    f = DATA / "batch_yield_units.yaml"
+    if not f.exists():
+        return {}
+    doc = yaml.safe_load(f.read_text(encoding="utf-8-sig")) or {}
+    return {e["product"]: (e["yield_qty"], e["yield_unit"])
+            for e in (doc.get("serve_yields") or [])}
+
+
 def classify(name: str, est: dict, meas: dict) -> tuple[str, str]:
     """(confidence, why) for this batch's yield."""
     if name in meas:
         m = meas[name]
         return "measured", f"weighed by {m.get('measured_by','?')} on {m.get('measured_on','?')}"
+    if name in serve_yields():
+        return "serve", "one serve of a sold product — nothing to weigh"
     e = est.get(name)
     if e:
         basis = (e.get("basis") or "").strip()
@@ -130,7 +150,7 @@ def build() -> dict:
         if batch not in book:
             continue
         conf, why = classify(batch, est, meas)
-        if conf == "measured":
+        if conf in ("measured", "serve"):
             continue                       # settled
         q, u = resolve_yield(batch)
         products = sorted(uses.get(batch, ()))
@@ -144,7 +164,7 @@ def build() -> dict:
             "top_dishes": products[:6],
         })
 
-    order = {"none": 0, "assumed": 1, "bracket": 2, "scraped": 3, "basis": 4}
+    order = {"none": 0, "assumed": 1, "bracket": 2, "scraped": 3, "basis": 4, "serve": 5}
     rows.sort(key=lambda r: (-r["revenue_at_risk"], order.get(r["confidence"], 9)))
     return {"generated": date.today().isoformat(),
             "measured_so_far": len(meas), "outstanding": len(rows), "batches": rows}

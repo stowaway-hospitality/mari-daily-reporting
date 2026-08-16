@@ -30,7 +30,24 @@ venue_context: stowaway
 yields:
   "Chipotle Mayo [1.1kg]": {yield: 1100, unit: g}
   "Pizza Dough [Recipe]": {yield: 7000, unit: g}
-  "Pizza Sauce [Recipe]": {yield: 10150, unit: g}
+  # SUPERSEDED AT SOURCE. The 10,150 g harvested here on 2026-08-09 is the yield
+  # of the OLD pizza sauce -- 10 kg tomato sauce, oregano, tomato paste. Zak
+  # replaced that recipe on 2026-08-15 with 6,000 g Kagome + 18 g salt + 10 g
+  # parsley, and Produce was never updated because we are migrating off it.
+  #
+  # ESTIMATE, pending a weighing: 6,028 g. It is the recipe's own contents and
+  # nothing is cooked off -- a blended cold sauce weighs what went into it -- so
+  # this is arithmetic rather than a guess, and it is the number the authored
+  # record in data/recipes/stowaway.yaml already carries and costs against.
+  #
+  # This is the highest-consequence yield in the book: Pizza Sauce is $1.06M of
+  # revenue across 146 dishes, and every one of them divides by it. At 10,150 g
+  # the per-gram rate is 40% too LOW, so 146 dishes have been under-costing and
+  # reading better GP than they earn -- the direction nobody investigates.
+  #
+  # WEIGH IT. It is top of data/_worklist/yield_verification.html and a real
+  # number belongs in data/measured_yields.yaml, which outranks this file.
+  "Pizza Sauce [Recipe]": {yield: 6028, unit: g}
   "Truffle Oil Prep": {yield: 1500, unit: g}
   "Brownie Prep [24 pcs]": {yield: 24, unit: Units}
   "Queso Dip Prep": {yield: 5100, unit: g}

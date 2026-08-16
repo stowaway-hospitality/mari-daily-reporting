@@ -26,9 +26,9 @@
  "manual_lines": [
   {
    "engine": null,
-   "frozen_unit_cost": 5.1602,
+   "frozen_unit_cost": 5.1573,
    "line": "Large Pizza [menu average]",
-   "line_cost": 10.3204,
+   "line_cost": 10.3146,
    "product": "$45 FEAST",
    "qty": 2.0,
    "ref": "",
@@ -59,9 +59,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 5.1602,
+   "frozen_unit_cost": 5.1573,
    "line": "Large Pizza [menu average]",
-   "line_cost": 15.4806,
+   "line_cost": 15.4719,
    "product": "$60 BANQUET",
    "qty": 3.0,
    "ref": "",
@@ -92,9 +92,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 5.1602,
+   "frozen_unit_cost": 5.1573,
    "line": "Large Pizza [menu average]",
-   "line_cost": 20.6408,
+   "line_cost": 20.6292,
    "product": "$90 PIZZA PARTY",
    "qty": 4.0,
    "ref": "",
@@ -169,9 +169,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 5.1602,
+   "frozen_unit_cost": 5.1573,
    "line": "Large Pizza [menu average]",
-   "line_cost": 15.4806,
+   "line_cost": 15.4719,
    "product": "Banquet Deal Pizzas",
    "qty": 3.0,
    "ref": "",
@@ -323,9 +323,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 5.1602,
+   "frozen_unit_cost": 5.1573,
    "line": "Large Pizza [menu average]",
-   "line_cost": 10.3204,
+   "line_cost": 10.3146,
    "product": "Feast Deal Pizzas",
    "qty": 2.0,
    "ref": "",
@@ -1489,9 +1489,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 5.1602,
+   "frozen_unit_cost": 5.1573,
    "line": "Large Pizza [menu average]",
-   "line_cost": 5.1602,
+   "line_cost": 5.1573,
    "product": "WINGS DEAL",
    "qty": 1.0,
    "ref": "",
@@ -1500,9 +1500,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 3.14,
+   "frozen_unit_cost": 3.141,
    "line": "BBQ Wings",
-   "line_cost": 3.14,
+   "line_cost": 3.141,
    "product": "WINGS DEAL",
    "qty": 1.0,
    "ref": "",
@@ -1583,14 +1583,7 @@
    "why": "house rule: food is weighed, so g"
   },
   {
-   "basis": "read off the [bracket] in the name",
-   "batch": "Buffalo Aioli [1L]",
-   "from": "ml",
-   "to": "g",
-   "why": "house rule: food is weighed, so g"
-  },
-  {
-   "basis": "read off the [bracket] in the name",
+   "basis": "PROVEN, not estimated. Two 4 L packs of Heinz plus one 3 L of Sunshine Smokey is 11 L, exactly the 11L the name declares",
    "batch": "House BBQ Sauce [11L]",
    "from": "ml",
    "to": "g",
@@ -1639,7 +1632,7 @@
    "why": "house rule: food is weighed, so g"
   },
   {
-   "basis": "read off the [bracket] in the name",
+   "basis": "PROVEN, and the proof is already written down in data/recipe_line_unit_fixes.yaml: read every quantity in this recipe as",
    "batch": "Peking Sauce [6.75L]",
    "from": "ml",
    "to": "g",

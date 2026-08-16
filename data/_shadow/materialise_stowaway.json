@@ -689,9 +689,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 5.1602,
+   "frozen_unit_cost": 5.1573,
    "line": "large pizza, sales-weighted mean of every large sold",
-   "line_cost": 5.1602,
+   "line_cost": 5.1573,
    "product": "Large Pizza [menu average]",
    "qty": 1.0,
    "ref": "",
@@ -1266,14 +1266,7 @@
    "why": "house rule: food is weighed, so g"
   },
   {
-   "basis": "read off the [bracket] in the name",
-   "batch": "Buffalo Aioli [1L]",
-   "from": "ml",
-   "to": "g",
-   "why": "house rule: food is weighed, so g"
-  },
-  {
-   "basis": "read off the [bracket] in the name",
+   "basis": "PROVEN, not estimated. Two 4 L packs of Heinz plus one 3 L of Sunshine Smokey is 11 L, exactly the 11L the name declares",
    "batch": "House BBQ Sauce [11L]",
    "from": "ml",
    "to": "g",
@@ -1322,7 +1315,7 @@
    "why": "house rule: food is weighed, so g"
   },
   {
-   "basis": "read off the [bracket] in the name",
+   "basis": "PROVEN, and the proof is already written down in data/recipe_line_unit_fixes.yaml: read every quantity in this recipe as",
    "batch": "Peking Sauce [6.75L]",
    "from": "ml",
    "to": "g",
@@ -1679,6 +1672,13 @@
    "product": "Achiote Chicken [15Kg]",
    "ratio": 0.7,
    "used": "10500 g"
+  },
+  {
+   "basis": "PROVEN. 750 g mayonnaise + 250 ml Frank's hot sauce = 1,000, exactly the [1L] in the name, blended cold so nothing is lost. Drawn in g by the one dish that uses",
+   "name_bracket": "1000 ml",
+   "product": "Buffalo Aioli [1L]",
+   "ratio": 1.0,
+   "used": "1000 g"
   },
   {
    "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-06. Zak: \"you should've scraped yields from lightspeed\" \u2014 it was there all along; every d",

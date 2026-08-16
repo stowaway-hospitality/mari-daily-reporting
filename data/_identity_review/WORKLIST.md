@@ -18,9 +18,11 @@ The fence: a merge may raise a cost freely, never quietly lower one. Unit clashe
 | `ilg:460-1639` | `lightspeed:20459553` | Coke Zero 1.25L | unit clash ml vs can |
 | `ilg:460-3254` | `lightspeed:20459564` | Sprite Can | unit clash ml vs can |
 
-## 2. Conflicted purchasables — 0
+## 2. Conflicted purchasables — 1
 
-None — all resolved via `conflict_resolutions.csv`.
+| purchasable | candidates |
+|---|---|
+| `barrel-one:BOCC750-6` | lightspeed:20484935, lightspeed:20750115 |
 
 ## 3. Pack sizes still unconfirmed
 

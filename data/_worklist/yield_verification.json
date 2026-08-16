@@ -274,7 +274,7 @@
   },
   {
    "batch": "Yorkshire Pudding Prep [110 units]",
-   "confidence": "bracket",
+   "confidence": "basis",
    "current_yield": "110 each",
    "dishes": 5,
    "revenue_at_risk": 131887.51,
@@ -288,7 +288,7 @@
    "venues": [
     "Stowaway"
    ],
-   "why": "read off the [size] in the name, which is usually a pack label"
+   "why": "ESTIMATE corroborated by the batter, pending a count"
   },
   {
    "batch": "Balsamic Dressing House [4.9L]",
@@ -393,7 +393,7 @@
   },
   {
    "batch": "House BBQ Sauce [11L]",
-   "confidence": "bracket",
+   "confidence": "basis",
    "current_yield": "11000 ml",
    "dishes": 26,
    "revenue_at_risk": 55286.54,
@@ -409,7 +409,7 @@
     "Marilyna's",
     "Stowaway"
    ],
-   "why": "read off the [size] in the name, which is usually a pack label"
+   "why": "PROVEN, not estimated"
   },
   {
    "batch": "Davidson Plum Hoisin",
@@ -547,25 +547,6 @@
    "why": "Produce's own 'Expected yield' field"
   },
   {
-   "batch": "Tandoori Chicken [2Kg]",
-   "confidence": "bracket",
-   "current_yield": "2000 g",
-   "dishes": 6,
-   "revenue_at_risk": 26431.84,
-   "top_dishes": [
-    "Gluten-free Tandoori Chicken",
-    "Gluten-free Tandoori Chicken [Dine-in]",
-    "Large Tandoori Chicken",
-    "Large Tandoori Chicken Wings Deal",
-    "Regular Tandoori Chicken",
-    "Regular Tandoori Chicken [Dine-in]"
-   ],
-   "venues": [
-    "Marilyna's"
-   ],
-   "why": "read off the [size] in the name, which is usually a pack label"
-  },
-  {
    "batch": "Mint Yoghurt [Batch]",
    "confidence": "basis",
    "current_yield": "1102 ml",
@@ -583,6 +564,25 @@
     "Marilyna's"
    ],
    "why": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is reall"
+  },
+  {
+   "batch": "Tandoori Chicken [2Kg]",
+   "confidence": "basis",
+   "current_yield": "2000 g",
+   "dishes": 6,
+   "revenue_at_risk": 26431.84,
+   "top_dishes": [
+    "Gluten-free Tandoori Chicken",
+    "Gluten-free Tandoori Chicken [Dine-in]",
+    "Large Tandoori Chicken",
+    "Large Tandoori Chicken Wings Deal",
+    "Regular Tandoori Chicken",
+    "Regular Tandoori Chicken [Dine-in]"
+   ],
+   "venues": [
+    "Marilyna's"
+   ],
+   "why": "ESTIMATE corroborated by the ruling on its sauce line, pending a weighing"
   },
   {
    "batch": "Tandoori Sauce [Batch]",
@@ -605,8 +605,8 @@
   },
   {
    "batch": "Buffalo Aioli [1L]",
-   "confidence": "bracket",
-   "current_yield": "1000 ml",
+   "confidence": "basis",
+   "current_yield": "1000 g",
    "dishes": 1,
    "revenue_at_risk": 26418.6,
    "top_dishes": [
@@ -615,7 +615,7 @@
    "venues": [
     "Stowaway"
    ],
-   "why": "read off the [size] in the name, which is usually a pack label"
+   "why": "PROVEN"
   },
   {
    "batch": "Nut Roast Prep",
@@ -685,7 +685,7 @@
   },
   {
    "batch": "Brownie Prep [24 pcs]",
-   "confidence": "bracket",
+   "confidence": "basis",
    "current_yield": "24 each",
    "dishes": 3,
    "revenue_at_risk": 12269.96,
@@ -697,7 +697,7 @@
    "venues": [
     "Stowaway"
    ],
-   "why": "read off the [size] in the name, which is usually a pack label"
+   "why": "ESTIMATE corroborated by the batter, pending a count"
   },
   {
    "batch": "Pulled Mushroom [1Kg]",
@@ -728,26 +728,6 @@
     "Stowaway"
    ],
    "why": "sum of ingredients x0"
-  },
-  {
-   "batch": "BBQ Wings",
-   "confidence": "none",
-   "current_yield": null,
-   "dishes": 23,
-   "revenue_at_risk": 7002.24,
-   "top_dishes": [
-    "Large BBQ Chicken Wings Deal",
-    "Large Bubba Gump Wings Deal",
-    "Large Cosmopolitan Wings Deal",
-    "Large El Patron Wings Deal",
-    "Large Hail Africa Wings Deal",
-    "Large Hawaiian Wings Deal"
-   ],
-   "venues": [
-    "Marilyna's",
-    "Stowaway"
-   ],
-   "why": "no yield anywhere \u2014 dishes using this cannot be costed"
   },
   {
    "batch": "Tonkotsu Broth",
@@ -810,20 +790,6 @@
     "Harry Gatos"
    ],
    "why": "Produce's own 'Expected yield' field"
-  },
-  {
-   "batch": "Espresso Martini",
-   "confidence": "none",
-   "current_yield": null,
-   "dishes": 1,
-   "revenue_at_risk": 3845.51,
-   "top_dishes": [
-    "Caff\u00e9 Crema"
-   ],
-   "venues": [
-    "Stowaway"
-   ],
-   "why": "no yield anywhere \u2014 dishes using this cannot be costed"
   },
   {
    "batch": "Demerara Syrup",
@@ -952,8 +918,8 @@
   },
   {
    "batch": "Peking Sauce [6.75L]",
-   "confidence": "bracket",
-   "current_yield": "6750.00 ml",
+   "confidence": "basis",
+   "current_yield": "6750 ml",
    "dishes": 3,
    "revenue_at_risk": 1668.55,
    "top_dishes": [
@@ -965,7 +931,7 @@
     "Harry Gatos",
     "Stowaway"
    ],
-   "why": "read off the [size] in the name, which is usually a pack label"
+   "why": "PROVEN, and the proof is already written down in data/recipe_line_unit_fixes"
   },
   {
    "batch": "Massenez Lychee [5L]",
@@ -980,22 +946,6 @@
     "Stowaway"
    ],
    "why": "read off the [size] in the name, which is usually a pack label"
-  },
-  {
-   "batch": "Mulled Wine",
-   "confidence": "none",
-   "current_yield": null,
-   "dishes": 2,
-   "revenue_at_risk": 250.82,
-   "top_dishes": [
-    "Mulled Wine PartyJar (4)",
-    "Mulled Wine [HG]"
-   ],
-   "venues": [
-    "Harry Gatos",
-    "Marilyna's"
-   ],
-   "why": "no yield anywhere \u2014 dishes using this cannot be costed"
   },
   {
    "batch": "Toasted Rice Syrup [1L]",
@@ -1120,5 +1070,5 @@
  ],
  "generated": "2026-08-17",
  "measured_so_far": 0,
- "outstanding": 68
+ "outstanding": 65
 }

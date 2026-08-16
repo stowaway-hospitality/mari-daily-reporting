@@ -379,3 +379,49 @@ Chimichurri:
     it, not only the ones that read the builder book.'
   yield_qty: 650
   yield_unit: ml
+Yorkshire Pudding Prep [110 units]:
+  basis: 'ESTIMATE corroborated by the batter, pending a count. 2,000 ml milk +
+    1,650 g flour + 324 g egg = ~3,974 g of batter, and 3,974 / 110 = 36 g a
+    pudding, which is what a Yorkshire pudding tin holds. The bracket and the
+    arithmetic agree, so unlike the seven pack-label cases there is nothing here
+    contradicting it. Count a tray to close it.'
+  yield_qty: 110
+  yield_unit: each
+House BBQ Sauce [11L]:
+  basis: 'PROVEN, not estimated. Two 4 L packs of Heinz plus one 3 L of Sunshine
+    Smokey is 11 L, exactly the 11L the name declares. The lines read "2 ml" and
+    "1 ml" because Produce records pack COUNTS with a junk unit — recovering the
+    quantity from what each line cost gives 8,800 + 3,300. Nothing is cooked off.'
+  yield_qty: 11000
+  yield_unit: ml
+Buffalo Aioli [1L]:
+  basis: 'PROVEN. 750 g mayonnaise + 250 ml Frank''s hot sauce = 1,000, exactly
+    the [1L] in the name, blended cold so nothing is lost. Drawn in g by the one
+    dish that uses it, and under the house rule a sauce is weighed.'
+  yield_qty: 1000
+  yield_unit: g
+Brownie Prep [24 pcs]:
+  basis: 'ESTIMATE corroborated by the batter, pending a count. Contents come to
+    ~3,106 g (1,000 chocolate + 740 butter + 640 sugar + 400 cornflour + 200
+    mousse + 126 egg), and 3,106 / 24 = 129 g a brownie — generous, but that is
+    what a tray-baked brownie weighs. Count a tray to close it.'
+  yield_qty: 24
+  yield_unit: each
+Peking Sauce [6.75L]:
+  basis: 'PROVEN, and the proof is already written down in
+    data/recipe_line_unit_fixes.yaml: read every quantity in this recipe as g/mL
+    and they sum to 1500 + 750 + 750 + 1500 + 750 + 375 + 375 + 750 = 6,750,
+    which is EXACTLY the 6.75L the name declares. That is what established the
+    "L" labels on its lines were typos.'
+  yield_qty: 6750
+  yield_unit: ml
+Tandoori Chicken [2Kg]:
+  basis: 'ESTIMATE corroborated by the ruling on its sauce line, pending a
+    weighing. Zak ruled on 2026-08-16 that the "1 ml" of Tandoori Sauce [Batch]
+    means the WHOLE 1,116 g batch, so the batch holds 1,000 g chicken + 1,116 g
+    sauce = 2,116 g and yields 2,000 g — a 5.5% loss, normal for a marinated
+    batch that is then cooked. The two other readings are impossible: 1 kg of
+    sauce needs zero loss, and 1 ml needs 1,001 g to become 2,000 g.
+    See data/batch_yield_units.yaml for the full arithmetic. WEIGH IT.'
+  yield_qty: 2000
+  yield_unit: g

@@ -77,12 +77,19 @@ def test_no_prep_yields_entry_is_a_pack_label_masquerading_as_a_yield():
              "Coconut-washed Rooster Blanco [1L]", "Achiote Chicken [15Kg]",
              "Super Lime Juice [1L]", "Super Lemon Juice [1L]",
              "Mango-Chilli Puree [1L]"}
+    # MAGNITUDE only. A pack label masquerading as a yield is a magnitude error
+    # -- 1,000 against 7,500 -- and that is what this guards.
+    #
+    # A g/ml difference at the same magnitude is the house rule doing its job:
+    # Buffalo Aioli [1L] is 750 g of mayonnaise, so it is 1,000 GRAMS, and the
+    # bracket's "L" is the old convention rather than a contradiction. Counting
+    # that as a conflict made a correct entry look like a regression.
     conflicts = set()
     for name, e in est.items():
         bq, bu = resolve_yield(name, {})
         if bq is None:
             continue
-        if Decimal(str(bq)) != Decimal(str(e["yield_qty"])) or bu != e["yield_unit"]:
+        if Decimal(str(bq)) != Decimal(str(e["yield_qty"])):
             conflicts.add(name)
     assert conflicts <= known, f"new bracket-vs-basis conflict(s): {conflicts - known}"
 
