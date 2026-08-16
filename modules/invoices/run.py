@@ -25,6 +25,8 @@ Exit codes
     2  REVIEW  — written to data/invoices_review/, findings printed
     1  ERROR   — could not extract at all
     3  SKIP    — not an invoice (a statement / remittance); nothing written
+    4  MANUAL  — image-only PDF, no text layer; a human keys it, never guessed
+    5  SKIP    — a CREDIT NOTE / adjustment, not a bill; nothing written
 
 REVIEW IS NOT FAILURE. An invoice that lands in review cost five minutes.
 An invoice that silently passes with a wrong number costs a wrong margin on a
@@ -203,11 +205,25 @@ def looks_like_credit_note(text: str) -> bool:
 
     A credit note refunds us (returned stock, an overcharge). Parsers read its
     amount as positive like any invoice, so left alone a $48 credit posts as a
-    $48 payable — money owed the wrong way. We route these to Review and block the
-    push. Match the Australian phrasings ("credit note", "adjustment note") as a
-    PHRASE so "credit terms" / "credit card" can't trip it.
+    $48 payable — money owed the wrong way. Match the Australian phrasings
+    ("credit note", "adjustment note") as a PHRASE so "credit terms" /
+    "credit card" can't trip it.
+
+    Since 2026-08-17 this is a HARD EXIT (run.py returns 5) rather than only a
+    flag, so a false positive now costs a real bill instead of a spurious warning.
+    Measured before that promotion, against the whole corpus: of 839 invoices
+    that parse AND reconcile, exactly ONE matches — Gulli's Tax Credit Note
+    RINV/2026/08838, which is a genuine credit note and was already being held.
+    Zero real bills match, including the suppliers whose terms discuss credit
+    ("We accept credit card", "Claims ... a credit will be issued").
+
+    WHITESPACE IS COLLAPSED FIRST. It was not, and that is the Select Fresh trap
+    described in looks_like_statement above: PDF extraction emits whatever
+    spacing the layout used, so a masthead can arrive as "credit  note" with two
+    spaces and slip a phrase test. Harmless while this only set a flag; not
+    harmless now that it decides whether a bill is read at all.
     """
-    t = (text or "").lower()
+    t = re.sub(r"\s+", " ", (text or "").lower())
     # "credit note" catches "Tax Credit Note" (Gulli) by substring. Add the other
     # AU/US phrasings, kept as PHRASES so "credit terms"/"credit card" can't trip it.
     return ("credit note" in t or "adjustment note" in t
@@ -256,6 +272,29 @@ def main() -> int:
             if looks_like_statement(_txt):
                 print("[skipped — statement / not an invoice]")
                 return 3
+            # A CREDIT NOTE IS NOT A BILL, and this check moved UP here on
+            # 2026-08-17 on Zak's instruction ("I don't want to see statements
+            # and credit notes, we only care about feeding actual prices on
+            # invoices through").
+            #
+            # THIS CHANGES ROUTING, NOT MONEY. credit_hold below already refused
+            # to promote one, and it worked: Gulli's Tax Credit Note
+            # RINV/2026/08838 (03/07/2026, 2x 11" pizza boxes, $48.20) reconciles
+            # to the cent and the validator says ok, yet it is NOT in
+            # data/invoices and PBLTB11-U's price history is clean — flat $24.10
+            # across eight deliveries, with the credit's $21.91 never in it. So
+            # nothing was leaking; the note simply landed in Review, where it sat
+            # in front of Zak forever.
+            #
+            # Exiting HERE instead of after extraction also means a credit note
+            # from a supplier with no parser never costs an LLM call to reach a
+            # conclusion we already have. Exit 5, distinct from 3 (statement),
+            # 4 (image-only) and 2 (no parser yet), so the mailbox can file it
+            # and so a future triage is not told "a parser is missing" about a
+            # document no parser should ever read.
+            if looks_like_credit_note(_txt):
+                print("[skipped — credit note / adjustment, not a bill]")
+                return 5
             # AN IMAGE-ONLY PDF NEVER GOES TO THE EXTRACTOR. No text layer means
             # no parser can read it, and the fallback was to let the LLM look at
             # the picture — which is where this gets dangerous rather than merely

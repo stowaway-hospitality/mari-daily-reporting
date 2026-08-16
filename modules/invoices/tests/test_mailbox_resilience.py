@@ -205,7 +205,12 @@ def test_one_failing_message_does_not_abandon_the_rest(monkeypatch, capsys):
     # be processed, and the run must still reach its aggregate step.
     seen = []
 
-    def fake_handle(m, subj, sender, token, args, retry, review_id, processed_id):
+    # Signature tracks _handle_message. It gained not_bills_id on 2026-08-17,
+    # when statements and credit notes stopped being filed in Review; **kwargs is
+    # deliberately NOT used here, so a future argument breaks this loudly rather
+    # than letting the stub drift out of step with the thing it stands in for.
+    def fake_handle(m, subj, sender, token, args, retry, review_id, processed_id,
+                    not_bills_id):
         seen.append(subj)
         if subj == "boom":
             raise RuntimeError("Graph 504 UnknownError")

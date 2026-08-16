@@ -824,7 +824,8 @@ sys.path.insert(0, str(ROOT))
 from modules.invoices import pdf_text                         # noqa: E402
 from modules.invoices.domains import DOMAIN_KEY               # noqa: E402
 from modules.invoices.parsers import DOMAIN_TO_PARSER, parse_pdf  # noqa: E402
-from modules.invoices.run import looks_like_statement         # noqa: E402
+from modules.invoices.run import (looks_like_credit_note,      # noqa: E402
+                                  looks_like_statement)
 from modules.invoices.validator import Validator              # noqa: E402
 
 CORPUS = ROOT / "data" / "invoice_corpus"
@@ -879,7 +880,15 @@ def main() -> int:
             if not pdf_text.has_text_layer(raw):
                 scan += 1
                 continue
-            if looks_like_statement(pdf_text.text(raw)):
+            _t = pdf_text.text(raw)
+            # MIRROR PRODUCTION, BOTH GATES. This mirrored looks_like_statement
+            # only, so a CREDIT NOTE — which run.py has always refused — scored
+            # here as a parse-fail, i.e. as a missing parser. That is how
+            # foodlink read 137/138 on 2026-08-17: the shortfall was Credit Memo
+            # SC338338, a document no parser should ever read. A harness that
+            # reports a correct refusal as a defect sends the next triage looking
+            # for a parser to write.
+            if looks_like_statement(_t) or looks_like_credit_note(_t):
                 skip += 1
                 continue
             try:

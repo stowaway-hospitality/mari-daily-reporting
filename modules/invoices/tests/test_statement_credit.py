@@ -277,3 +277,74 @@ def test_balance_due_alone_does_not_trip_it():
     # beside it that makes a ledger.
     doc = "TAX INVOICE\nInvoice Number 123\nWidget 1 10.00\nTOTAL AUD 10.00\nBalance due 10.00"
     assert looks_like_statement(doc) is False
+
+
+# ── credit notes as a HARD GATE (2026-08-17) ──────────────────────────────────
+# Zak: "I don't want to see statements and credit notes, we only care about this
+# for feeding actual prices on invoices through." looks_like_credit_note was
+# promoted from a flag (set after extraction) to an EXIT (run.py returns 5,
+# before any parser or LLM runs). A false positive now discards a real bill
+# instead of raising a spurious warning, so the tests below pin BOTH directions.
+
+GULLI_CREDIT_NOTE = """Gulli Food Distributors Pty Ltd
+Product remains the property of Gulli Food Distributors until invoice has been
+fully paid. Claims will only be accepted within 48 hours of delivery. Prices
+subject to change. We accept credit card. Please note there is a surchase of
+1.5% for Visa and MasterCard and 1.85% for Amex.
+Untaxed Amount $ 43.82
+GST 10% $ 4.38
+Total $ 48.20
+Tax Credit Note RINV/2026/08838
+Credit Note Date: 03/07/2026
+PRODUCT CODE DESCRIPTION QUANTITY UNIT PRICE GST AMOUNT
+PBLTB11-U B Flute Lock Top 11" Pizza Boxes x 50 2.000 Unit 21.91000 10% $ 43.82"""
+
+FOODLINK_CREDIT_MEMO = """No. Description Qty UOM Weight Unit Price GST Amount
+Invoice No. SI4312726:
+100848 CORN FLOUR MAIZE GLUTEN FREE 5KG Edlyn 1 EA 23.00 23.00
+Reason Code: MISSING
+Total AUD Excl. GST 23.00
+Total AUD Incl. GST 23.00
+Foodlink Australia Pty Ltd
+Credit Memo SC338338"""
+
+
+def test_gulli_tax_credit_note_is_caught():
+    # THE ONE THAT MATTERED: this reconciles to the cent and the validator says
+    # ok, so only this gate keeps a $48.20 credit from posting as a $48.20
+    # payable. It also carries "We accept credit card" in its own footer, which
+    # is exactly why the match is a PHRASE and not the word "credit".
+    assert looks_like_credit_note(GULLI_CREDIT_NOTE) is True
+
+
+def test_foodlink_credit_memo_is_caught():
+    # Scored as a parse-fail until 2026-08-17 — its header is a different shape
+    # from the tax-invoice template, so it read as a missing parser rather than
+    # a document no parser should ever read.
+    assert looks_like_credit_note(FOODLINK_CREDIT_MEMO) is True
+
+
+def test_credit_words_in_ordinary_terms_do_not_trip_the_gate():
+    # The false-positive direction, which is the expensive one now. Every phrase
+    # here appears in real supplier footers in the corpus.
+    for terms in (
+        "TAX INVOICE\nWe accept credit card. A 1.5% surcharge applies.\nTOTAL 10.00",
+        "TAX INVOICE\nClaims must be made within 48 hours and a credit will be issued.\nTOTAL 10.00",
+        "TAX INVOICE\nCredit terms: 30 days from end of month.\nTOTAL 10.00",
+        "TAX INVOICE\nAccount is subject to our credit application.\nTOTAL 10.00",
+    ):
+        assert looks_like_credit_note(terms) is False, terms
+
+
+def test_credit_note_matches_through_pdf_whitespace():
+    # The Select Fresh trap: extraction emits the layout's own spacing, so a
+    # masthead can arrive as "Credit  Note" across a line break. Harmless while
+    # this only set a flag; it decides whether a bill is read at all now.
+    assert looks_like_credit_note("Tax Credit\n   Note  RINV/2026/08838") is True
+
+
+def test_a_real_invoice_is_never_a_credit_note_or_a_statement():
+    # Both gates run before any parser, in this order, so a real bill has to
+    # survive both.
+    assert looks_like_statement(GRIFTER_INVOICE := XERO_INVOICE) is False
+    assert looks_like_credit_note(GRIFTER_INVOICE) is False

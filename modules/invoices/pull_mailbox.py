@@ -50,6 +50,23 @@ MAILBOX = "accounts@stowawaybar.com"
 GRAPH = f"https://graph.microsoft.com/v1.0/users/{urllib.parse.quote(MAILBOX)}"
 PROCESSED_FOLDER = "Invoices Processed"
 REVIEW_FOLDER = "Invoices Review"
+# 2026-08-17, Zak: "I don't want to see statements and credit notes, we only
+# care about this for feeding actual prices on invoices through."
+#
+# Until today a document we had CORRECTLY refused was still moved to (or left
+# in) Review, so Review meant two different things: "a bill we could not read
+# yet" and "not a bill at all". The second kind never leaves — it is re-fetched
+# and re-classified on every sweep, forever.
+#
+# Measured on the 2026-08-17 run: of the 200 messages the retry sweep read, 102
+# (51%) were statements. They are permanent residents, and because the sweep is
+# capped at RETRY_BATCH they consumed half the budget before a single genuinely
+# stuck invoice was retried — which is why the queue climbed 283 -> 326 between
+# 2026-08-04 and 2026-08-17 while the sweep "completed" every day.
+#
+# Nothing is deleted; a non-bill just gets its own folder and stops competing
+# with the invoices for attention.
+NOT_BILLS_FOLDER = "Invoices Not Bills"
 BATCH = 20        # messages per run; the schedule catches the rest
 RETRY_BATCH = 200  # the Review retry sweeps the WHOLE folder — see main()
 GRAPH_TIMEOUT = 60   # seconds per Graph call; see the note in _req()
@@ -311,10 +328,11 @@ def main() -> int:
         args.max = RETRY_BATCH if (retry and args.no_llm) else BATCH
 
     token = get_token()
-    processed_id = review_id = None
+    processed_id = review_id = not_bills_id = None
     if not args.dry_run:
         processed_id = ensure_folder(token, PROCESSED_FOLDER)
         review_id = ensure_folder(token, REVIEW_FOLDER)
+        not_bills_id = ensure_folder(token, NOT_BILLS_FOLDER)
     source = review_id if retry else "inbox"
     msgs = messages_with_attachments(token, source, oldest_first=args.oldest_first, top=args.max)
     label = "Review folder (retry)" if retry else "accounts@ inbox"
@@ -374,7 +392,7 @@ def main() -> int:
         sender = (m.get("from", {}).get("emailAddress", {}) or {}).get("address", "?")
         try:
             any_change |= _handle_message(m, subj, sender, token, args, retry,
-                                          review_id, processed_id)
+                                          review_id, processed_id, not_bills_id)
         except Exception as e:                       # noqa: BLE001 — deliberate, see above
             failed.append((subj, f"{type(e).__name__}: {e}"))
             print(f"    !! FAILED, left in place and skipped: {type(e).__name__}: {e}")
@@ -390,7 +408,8 @@ def main() -> int:
     return 0
 
 
-def _handle_message(m, subj, sender, token, args, retry, review_id, processed_id) -> bool:
+def _handle_message(m, subj, sender, token, args, retry, review_id, processed_id,
+                    not_bills_id) -> bool:
     """
     Process one message; return True if it changed anything on disk.
 
@@ -399,12 +418,16 @@ def _handle_message(m, subj, sender, token, args, retry, review_id, processed_id
     message wrote anything, because that is what decides if the run aggregates
     and commits at the end.
     """
-    # On the first pass, skip obvious non-invoices. On a retry we process
-    # everything already in Review (they were flagged for a reason).
-    if not retry and SKIP_SUBJECT.search(subj):
+    # A subject that names itself a statement is a non-bill on BOTH passes now.
+    # It used to be tested only on the first pass ("on a retry we process
+    # everything already in Review — they were flagged for a reason"), which was
+    # true when Review was the only destination but is the reason the residents
+    # never left: the sweep re-read them, re-refused them, and put them back.
+    if SKIP_SUBJECT.search(subj):
         print(f"\n• {subj}  <{sender}>  — skip (statement/reminder, not an invoice)")
         if not args.dry_run:
-            move_message(token, m["id"], review_id)
+            move_message(token, m["id"], not_bills_id)
+            print("    -> Not Bills")
         return False
     pdfs = pdf_attachments(token, m["id"])
     print(f"\n• {subj}  <{sender}>  — {len(pdfs)} PDF(s)")
@@ -418,11 +441,20 @@ def _handle_message(m, subj, sender, token, args, retry, review_id, processed_id
     worst = 0
     saw_invoice = False
     needs_manual = False
+    not_a_bill = False
     changed = False
     for name, data in pdfs:
         code = run_invoice(data, f"{subj} / {name}", sender=sender, no_llm=args.no_llm)
         if code == 3:                                  # statement / not an invoice
             print("    (statement / not an invoice — skipped)")
+            not_a_bill = True
+            continue
+        if code == 5:                                  # credit note / adjustment
+            # Zak, 2026-08-17: not something he wants to see here. It is also
+            # not a payable — run.py has always refused to promote one — so
+            # there is nothing for this pipeline to do with it.
+            print("    (credit note / adjustment — not a bill, skipped)")
+            not_a_bill = True
             continue
         if code == 4:
             # Image-only: no parser can ever read it (see run.py). Kept in
@@ -435,14 +467,23 @@ def _handle_message(m, subj, sender, token, args, retry, review_id, processed_id
         saw_invoice = True
         worst = max(worst, 1 if code == 1 else (2 if code == 2 else 0))
         changed = True
-    if not saw_invoice:                                # statement / manual-entry only
+    if not saw_invoice:                                # non-bill / manual-entry only
         if needs_manual:
+            # An image-only scan still needs a human, so it stays in Review —
+            # that is a bill we cannot read, not a document that isn't a bill.
             if not retry:
                 move_message(token, m["id"], review_id)
             print("    -> Review (manual entry — no text layer)")
+        elif not_a_bill:
+            # ON BOTH PASSES, and that is the point of this change. A statement
+            # or credit note is a settled conclusion, not a pending one, so it
+            # leaves Review instead of being re-read tomorrow. This is what
+            # drains the ~102 residents.
+            move_message(token, m["id"], not_bills_id)
+            print("    -> Not Bills")
         elif not retry:
             move_message(token, m["id"], review_id)
-            print("    -> Review (statement, no invoice)")
+            print("    -> Review (nothing readable)")
     elif worst == 0:
         move_message(token, m["id"], processed_id)    # rescued -> Processed
         print("    -> Processed")
