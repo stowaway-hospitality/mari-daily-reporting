@@ -35,6 +35,26 @@ MONEY = re.compile(r"-?\d[\d,]*\.?\d*")   # search, not full-match: weight-price
                                           # lines show price as "23.00/kg"
 EXTRA_DESC = re.compile(r"fuel\s*levy|freight|delivery|cartage", re.I)
 
+# A Foodlink description WRAPS onto its own row, and that row carries no qty and
+# no total — so the `qty is None` guard below silently DROPPED it. Measured on
+# the corpus: 435 wrapped rows across 129 invoices, i.e. two thirds of all line
+# items lost text. It never showed in the PASS column because a description
+# plays no part in reconciliation (the same blind spot as FFT's 52/52 and
+# Gulli's 31/32 — see the TRIAGE LOG in parser_regression.py).
+#
+# It is not cosmetic here. Foodlink's UOM column is only ever "EA"/"CTN", so the
+# PACK SIZE lives in the description and it is usually the part that wrapped:
+#   "GRAVY MIX RICH BROWN G/FREE " + "7KG Executive Chef"
+# Losing "7KG" turned a $8.23/kg row into a $57.61/ea row with needs_pack_review
+# set — a 7x cost error on any recipe that used it, on 101239, live today.
+#
+# A continuation row is identified by its INDENT, derived per invoice, never
+# hard-coded (the 2026-08-15 re-template is why). The description column's own
+# left edge varies between templates — both 70.9 and 73.6 occur in the corpus —
+# so it is read off the FIRST line item on this invoice. Footer boilerplate is
+# the only other desc-only row and it sits at 90.6, ~17-20pt clear of either.
+CONT_INDENT_TOL = 2.0
+
 
 def _cols_from_header(hrow):
     """
@@ -85,6 +105,30 @@ def _m(s):
         return None
 
 
+def _desc_x(rows, cols):
+    """
+    x of the description's first word on the first LINE ITEM of this invoice.
+
+    Pre-scanned over the whole table rather than filled in as we go: a wrapped
+    description can be the very first row after a repeated page header, and a
+    lazily-filled anchor is still None at that point (measured: 2 rows in the
+    corpus). Returns None if no line item has a description, in which case the
+    caller does no joining at all rather than guessing an indent.
+    """
+    lo, hi = cols[1][1], cols[2][1]          # desc boundary .. qty boundary
+    for r in rows:
+        c = pdf_text.bucket(r, cols)
+        qty, total = _m(c["qty"]), _m(c["total"])
+        if qty is None or total is None or qty == 0 or total == 0:
+            continue
+        if not c["desc"].strip():
+            continue
+        for x0, _x1, _t in r:
+            if lo <= x0 < hi:
+                return x0
+    return None
+
+
 @register("foodlinkaustralia.com.au")
 def parse(pdf_bytes: bytes) -> Invoice:
     rows = pdf_text.word_rows(pdf_bytes)
@@ -108,12 +152,32 @@ def parse(pdf_bytes: bytes) -> Invoice:
         raise ValueError("Foodlink: header row not found")
 
     cols = _cols_from_header(rows[hi]) or COLS
+    dx = _desc_x(rows[hi + 1:], cols)
 
     items = []
     for r in rows[hi + 1:]:
         c = pdf_text.bucket(r, cols)
         qty, total = _m(c["qty"]), _m(c["total"])
         if qty is None or total is None or qty == 0 or total == 0:
+            # A WRAPPED DESCRIPTION, not a line — join it to the item above.
+            # Three conditions, all of them necessary:
+            #   * the desc bucket is the ONLY one with text. The delivery note
+            #     ("**Enter via Moore Lane ...") spills across every bucket and
+            #     the repeated page header fills them too, so both are excluded
+            #     here rather than by a keyword.
+            #   * it starts at this invoice's own description indent. The only
+            #     other desc-only rows are Foodlink's two footer boilerplate
+            #     lines ("no.", "MSC Certification code: ...") at x=90.6, which
+            #     is ~17pt clear of both observed indents (70.9 / 73.6).
+            #   * an item exists to join it to. A continuation orphaned above
+            #     the first line item belongs to a page we have already read;
+            #     it is skipped, never attached to the wrong product.
+            if (dx is not None and items and r
+                    and abs(r[0][0] - dx) < CONT_INDENT_TOL
+                    and [k for k, v in c.items() if v.strip()] == ["desc"]):
+                tail = c["desc"].strip()
+                if tail:
+                    items[-1].description = f"{items[-1].description} {tail}".strip()
             continue
         # A "23.00/kg" cell is a per-kg RATE, not a per-unit price, so qty x it
         # won't equal the line — derive the unit price from the line total instead.

@@ -685,6 +685,123 @@ of the answers are that the morning entry was WRONG about what needed doing.
      which is precisely how item 13 silently deleted two market bunches. One
      cosmetic name out of window is not worth that risk.
 
+TRIAGE LOG — 2026-08-17 (unattended daily run). The parser change below was
+measured at 732 readable invoices (TOTAL 717/732, 97% before AND after it). A
+build_corpus run was still paging in the background and finished the day at 800
+(foodlink 129 -> 138, select_fresh 116 -> 150, xero 82 -> 107); on that larger
+sample TOTAL 783/800, still 97%. All 15 original shortfalls were re-opened by
+hash and every one is the SAME document named in the 08-16 entry — be_foods
+3b34ec060c06 + d02385290774, farmer_joes 4444676, gulli b381fb197ab6 (CI-437314),
+ilg b46bfb0a542a + e23ce69fe899, paramount 670685f29215, reward_dist x2,
+vanguard x1, xero 164542cc0a23 + 4. No drift, no new failure mode among them.
+
+ 33. FOODLINK WAS THROWING AWAY EVERY WRAPPED DESCRIPTION — 435 rows across 129
+     invoices, two thirds of all line items, and the table read 129/129 (100%)
+     the whole time. This is the third instance of the item-1/item-22 class (FFT,
+     then Gulli, now Foodlink) and it was found from the OTHER end: not by this
+     harness, but by STEP 3's product review, which asked why a brand-new
+     ingredient had no pack size.
+
+     A Foodlink description wraps onto its own row, and that row carries no qty
+     and no total — so `if qty is None or total is None: continue` dropped it.
+     The parser never joined continuation cells at all; the docstring pattern
+     every other parser in the tree follows was simply missing here.
+
+     WHY IT IS MONEY AND NOT COSMETICS. Foodlink's UOM column only ever says
+     "EA" or "CTN", so the PACK SIZE is stated ONLY in the description, and the
+     size is usually what wrapped:
+         "GRAVY MIX RICH BROWN G/FREE " + "7KG Executive Chef"
+     Today's invoice SI4527225 promoted code 101239 as "GRAVY MIX RICH BROWN",
+     pack_qty null, needs_pack_review TRUE, $57.61 per "ea". The SAME code on
+     SI4483241 (2026-07-24), where the words happened not to wrap, reads
+     "... G/FREE 7KG Executive Chef" and costs $8.23/kg. A recipe costing gravy
+     off the wrapped spelling books ~7x. The same rows recovered 1KG, 2LT, 5KG,
+     20KG, 500GM, 3.8L, 2.35KG, A10, 55X200GM and 15KG on other products.
+
+     It also splits identity, the item-10 failure: code 100710 carried both
+     "CHOCOLATE DARK 1KG" and "CHOCOLATE DARK 1KG Natures Secret" depending on
+     where that invoice's line happened to break. _undo_dropped_prefix cannot
+     repair these — it matches a dropped LEADING word by suffix, and this is a
+     dropped TRAILING word (the item 23/32 asymmetry).
+
+     THE FIX, and the two things that make it safe. A continuation is identified
+     by its INDENT, derived per invoice from the first line item's own
+     description x (foodlink.py::_desc_x), never hard-coded — the corpus holds
+     TWO description left edges, 70.9 and 73.6, so a literal would have been the
+     2026-08-15 time-bomb all over again. Three conditions, all necessary:
+       * the desc bucket is the ONLY one with text. Foodlink's delivery note
+         ("**Enter via Moore Lane, up wheelchair ramp ...") spills across every
+         column and the repeated page header fills them too, so both are
+         excluded structurally rather than by keyword.
+       * the row starts within 2.0pt of that indent. THE DANGEROUS NEIGHBOUR is
+         Foodlink's own footer boilerplate — "no." and "MSC Certification code:
+         MSC-C-52372" are also desc-only rows, on all 129 invoices, and they sit
+         at x=90.6, ~17pt clear of either indent. Measured across the whole
+         corpus: 435 rows match the indent, 268 do not, and 266 of those 268 are
+         exactly those two boilerplate lines (133 invoices x 2).
+       * an item exists to attach to. The remaining 2 of 268 are real
+         continuations orphaned ABOVE the first line item by a page break; they
+         are skipped rather than attached to the wrong product, and nothing is
+         lost because the parent's own tail repeats after its money row.
+
+     MEASURED, to the item-13/item-25 standard rather than on a rate. Every
+     Foodlink corpus PDF was re-parsed and diffed line-by-line against the 425
+     matching lines already in data/invoices: 254 descriptions lengthened, ZERO
+     rewritten (every change is a strict prefix-extension of the stored name),
+     and ZERO money or cost_basis movements attributable to the change — the
+     same diff run against the UNMODIFIED parser produces an identical 2-row
+     difference (101239 unit price stored 57.6087 vs recomputed 57.6100 on
+     SI4310704 and SI4334071), so that pre-dates this work and is a stored-vs-
+     recompute rounding artefact, not a regression. foodlink 129/129 and TOTAL
+     717/732 identical before and after; no other supplier moved; both audits
+     still clean. Five fixture tests added, built from REAL corpus coordinates
+     for both layouts (a hand-invented row does not even reach the qty column
+     under the new header — the item-19 fixture lesson), including one that pins
+     the diagnosis by asserting the tail row has no qty and no total.
+
+     AND THE RATE COULD NOT MOVE, stated plainly because the daily task asks for
+     one: foodlink was ALREADY 129/129. A description plays no part in
+     reconciliation, so this entire defect class is invisible to the PASS column
+     by construction — precisely how FFT scored 52/52 while corrupting 274 lines
+     (item 1) and Gulli 31/32 while eating words in both directions (item 22).
+     Refusing a fix because the rate cannot rise would mean never repairing a
+     description at any supplier already at 100%. Kept on the evidence above.
+
+ 34. THE REVIEW FOLDER IS HALF NON-INVOICES, AND THAT IS WHY IT ONLY GROWS. Of
+     the 200 messages the retry sweep read today, 102 (51%) were classified
+     "statement / not an invoice" — correctly — but a refused document is left
+     where it is, so it is re-fetched and re-scanned tomorrow and forever. They
+     are permanent residents consuming a RETRY_BATCH=200 budget, which means the
+     sweep hit its cap on residents and real stuck invoices below them were never
+     reached. The dashboard queue has risen 283 -> 326 since 2026-08-04 (~+3/day)
+     and this is the mechanism. The obvious fix — move a classified non-invoice
+     to a "Not Invoices" folder instead of leaving it — is a MAILBOX WRITE on 102
+     of Zak's messages, which is not an unattended run's call. FOR ZAK.
+
+     Today's sweep, for the record: 200 read, 3 promoted (all Foodlink, recovered
+     by the 08-15 fix), 102 statements, 4 image-only (manual entry), 89 still
+     stuck. The 89 by sender: 27 are stowawaybar.com — invoices FORWARDED by Zak
+     and Bryony, where the domain->parser registry can only ever see our own
+     domain. That is the single largest bucket in the pile and no supplier parser
+     can reach it; it is the same shape as the Xero problem of item 16/17 and
+     wants the same kind of answer (identify the vendor from the page, not the
+     sender). Recorded, not attempted.
+
+ 35. A NEW DOCUMENT CLASS SURFACED WHEN THE CORPUS GREW, and it is NOT a
+     regression: foodlink 68e7027fd460 is a CREDIT MEMO (SC338338, 2026-05-21,
+     one line, CORN FLOUR MAIZE GLUTEN FREE 5KG Edlyn, $23.00, Reason Code
+     MISSING). It fails identically with AND without today's change — checked
+     both ways explicitly, because a new parse-fail appearing in the same run as
+     a parser edit is exactly the thing to attribute before believing it.
+     Its header is a different shape from the tax-invoice template: "Qty UOM" is
+     one token and there is no "Qty." and no "Disc", so the header search does
+     not fire at all. It is a real credit we are not capturing, and there will be
+     more like it. Worth a day: either widen the header match to the credit-memo
+     shape, or classify it explicitly rather than letting it read as a failure.
+     Deliberately not attempted today — one supplier change per run, and this one
+     wants its own before/after on the money sign (a credit is negative, and
+     getting that wrong is the flattering direction).
+
 The three zero-total documents (now four, with Gulli CI-437314 — see item 18)
 can never PASS by construction: validator's _check_required_fields treats
 total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.

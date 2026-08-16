@@ -432,6 +432,107 @@ def test_foodlink_unreadable_header_falls_back_rather_than_inventing_columns():
     assert _cols_from_header([]) is None
 
 
+# --- Foodlink: a WRAPPED description is joined, not dropped -------------------
+# 2026-08-17. A Foodlink description wraps onto its own row, and that row has no
+# qty and no total, so the `qty is None` guard threw it away. Measured on the
+# corpus: 435 wrapped rows across 129 invoices — two thirds of all line items
+# lost text — while the table read foodlink 129/129 (100%) throughout, because a
+# description takes no part in reconciliation. Same blind spot as FFT above.
+#
+# It carries money. Foodlink's UOM column only ever says EA/CTN, so the PACK
+# SIZE lives in the description and it is usually the part that wrapped:
+# "GRAVY MIX RICH BROWN G/FREE " + "7KG Executive Chef". Without "7KG", code
+# 101239 costs $57.61/ea instead of $8.23/kg and needs_pack_review goes true.
+#
+# The continuation is identified by its indent, DERIVED per invoice: the corpus
+# holds two description left edges (70.9 and 73.6) and Foodlink's only other
+# desc-only rows are its two footer boilerplate lines at 90.6.
+
+
+# Real word positions lifted from the corpus, one invoice per layout — NOT
+# invented. (Inventing them is how the Xero fixture of 2026-08-15 ended up
+# labelled with the wrong supplier's header.) A synthetic row built from the old
+# layout's x-positions does not even reach the qty column under the new header,
+# so a made-up fixture here would fail for the wrong reason.
+#   old: 91076827dc2a, description indent 70.9
+#   new: 10439c457ba4, description indent 73.6
+FL_LAYOUTS = (
+    # header, desc indent, line-item row, its wrapped tail
+    (FL_HEADER_OLD, 70.9,
+     _row((32.6, "105001"), (70.9, "MAYONNAISE"), (133.4, "WHOLE"), (168.9, "EGG"),
+          (191.4, "20KG"), (263.5, "1"), (275.5, "EA"), (379.4, "130.00"), (524.5, "130.00")),
+     _row((70.9, "Plate"), (93.9, "&"), (102.4, "Platter"))),
+    (FL_HEADER_NEW, 73.6,
+     _row((34.0, "100710"), (73.6, "CHOCOLATE"), (132.1, "DARK"), (159.6, "1KG"),
+          (290.0, "3"), (310.9, "EA"), (403.8, "14.50"), (531.7, "43.50")),
+     _row((73.6, "Natures"), (107.6, "Secret"))),
+)
+
+# Foodlink's two footer boilerplate lines, on every invoice in the corpus.
+FL_FOOTER = _row((90.6, "MSC"), (120.0, "Certification"), (180.0, "code:"))
+
+
+def test_foodlink_wrapped_description_is_joined_to_the_line_above():
+    from modules.invoices.parsers.foodlink import _cols_from_header, _desc_x, CONT_INDENT_TOL
+    for header, indent, item, tail in FL_LAYOUTS:
+        cols = _cols_from_header(header)
+        dx = _desc_x([item, tail, FL_FOOTER], cols)
+        assert dx == indent, "the indent is read off the first line item, not hard-coded"
+        c = pdf_text.bucket(tail, cols)
+        # all three conditions the parser requires of a continuation
+        assert [k for k, v in c.items() if v.strip()] == ["desc"]
+        assert abs(tail[0][0] - dx) < CONT_INDENT_TOL
+        assert c["desc"] in ("Plate & Platter", "Natures Secret")
+
+
+def test_foodlink_footer_boilerplate_is_not_joined_as_a_description():
+    # The dangerous neighbour: "MSC Certification code: ..." and "no." are also
+    # desc-only rows. They sit at x=90.6 on every invoice — ~17pt clear of both
+    # description indents — so the indent test is the only thing keeping them
+    # out. If this ever fails, product names are about to grow a certification
+    # number.
+    from modules.invoices.parsers.foodlink import _cols_from_header, _desc_x, CONT_INDENT_TOL
+    for header, _indent, item, _tail in FL_LAYOUTS:
+        cols = _cols_from_header(header)
+        dx = _desc_x([item, FL_FOOTER], cols)
+        c = pdf_text.bucket(FL_FOOTER, cols)
+        assert [k for k, v in c.items() if v.strip()] == ["desc"], "desc-only, like a real tail"
+        assert abs(FL_FOOTER[0][0] - dx) >= CONT_INDENT_TOL, "excluded by indent alone"
+
+
+def test_foodlink_dropping_the_tail_is_what_lost_the_pack_size():
+    # Pins the diagnosis, not just the fix. Under the OLD behaviour the tail row
+    # was skipped by the `qty is None` guard, so 101239 read "GRAVY MIX RICH
+    # BROWN G/FREE" and its 7KG — the only pack size Foodlink states anywhere,
+    # since the UOM column just says EA — went with it.
+    from modules.invoices.parsers.foodlink import _cols_from_header, _m
+    cols = _cols_from_header(FL_HEADER_NEW)
+    tail = _row((73.6, "7KG"), (103.6, "Executive"), (153.6, "Chef"))
+    c = pdf_text.bucket(tail, cols)
+    assert _m(c["qty"]) is None and _m(c["total"]) is None, "no qty, no total"
+    assert c["desc"] == "7KG Executive Chef", "and the pack size is all of it"
+
+
+def test_foodlink_desc_x_returns_none_when_there_is_no_line_item():
+    # No anchor -> no joining at all. Inventing an indent is how a footer line
+    # becomes a product name.
+    from modules.invoices.parsers.foodlink import _cols_from_header, _desc_x
+    cols = _cols_from_header(FL_HEADER_NEW)
+    assert _desc_x([_row((90.6, "MSC"), (120, "Certification"))], cols) is None
+
+
+def test_foodlink_delivery_note_spills_across_columns_so_is_never_a_continuation():
+    # "**Enter via Moore Lane, up wheelchair ramp ..." runs the full width of the
+    # page, so it fills the code/qty/uom buckets too. The desc-only test excludes
+    # it without needing to match on its wording.
+    from modules.invoices.parsers.foodlink import _cols_from_header
+    cols = _cols_from_header(FL_HEADER_NEW)
+    note = _row((37.3, "**Enter"), (74, "via"), (100, "Moore"), (140, "Lane,"),
+                (290, "enter"), (308, "through"), (400, "door,"), (529, "on"))
+    c = pdf_text.bucket(note, cols)
+    assert [k for k, v in c.items() if v.strip()] != ["desc"]
+
+
 # --- FFT: column boundaries derived from the header, not hard-coded -----------
 # 2026-08-15, the sibling of the Foodlink defect found the same day. FFT's header
 # does not sit still: across the corpus the ITEM anchor ranges 181.7 -> 201.3.
