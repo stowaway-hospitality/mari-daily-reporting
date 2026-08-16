@@ -373,11 +373,39 @@ def test_a_batch_that_holds_more_than_it_makes_states_no_dollar(feed):
     """Either "Cooked Beef Brisket [1Kg]" is a 10 kg batch or its brisket line is
     wrong, and the two readings move the per-kilo rate in opposite directions.
     Sizing it would mean picking one — the guess this feed refuses."""
-    # All four are settled, so the family is empty and this guards that it stays
-    # settled. Three were the LABEL being wrong (real yields now read from
-    # Lightspeed, data/recipe_yields.yaml); Mango-Chilli was a 10x-low chilli rate.
-    got = {f["subject"]: f for f in _by_cat(feed, "batch_yield")}
+    # All four are settled, so the OVERFLOW family is empty and this guards that
+    # it stays settled. Three were the LABEL being wrong (real yields now read
+    # from Lightspeed, data/recipe_yields.yaml); Mango-Chilli was a 10x-low
+    # chilli rate.
+    #
+    # Keyed on the rule's own id prefix, not on the category. The category gained
+    # a second rule on 2026-08-16 -- yield_overstated, the mirror -- and asserting
+    # the whole category was empty would have made adding the missing half look
+    # like a regression.
+    got = {f["subject"]: f for f in _by_cat(feed, "batch_yield")
+           if f["id"].startswith("batch-yield-")}
     assert got == {}, sorted(got)
+
+
+def test_the_mirror_rule_exists_and_also_states_no_dollar(feed):
+    """A batch that MAKES more than it contains is the other half, and the half
+    that flatters: it makes the per-unit rate too LOW, so every dish drawing on
+    it under-costs and nothing ever prompts a question. batch_overflow ran
+    without its mirror from the day it was written until 2026-08-16.
+
+    Same refusal to put a dollar on it, for the same reason: either the yield is
+    too big or a quantity is too small, and picking one is the guess this feed
+    exists not to make.
+    """
+    got = [f for f in _by_cat(feed, "batch_yield")
+           if f["id"].startswith("yield-overstated-")]
+    assert got, "the mirror rule produced nothing — has yield_overstated been wired in?"
+    for f in got:
+        assert f["impact_per_year"] is None, f"{f['subject']} put a dollar on a guess"
+        assert "?" in f["question"], f"{f['subject']} must ask, not accuse"
+        assert "uncosted water" in f["question"], (
+            f"{f['subject']}: the question must offer the legitimate explanation "
+            f"first — a dough is 62% hydration and a broth is mostly water")
 
 
 def test_a_price_conflict_reports_a_spread_and_calls_it_one(feed):

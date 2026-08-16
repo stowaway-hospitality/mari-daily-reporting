@@ -822,6 +822,65 @@ def batch_yield_flags(recipes) -> list:
     return out
 
 
+def yield_overstated_flags(recipes) -> list:
+    """A batch that claims to MAKE more than its lines contain — the mirror of
+    batch_yield_flags, and the half that flatters.
+
+    Overflow makes a per-unit rate too high, so dishes look expensive and get
+    investigated. This makes it too low: the dish under-costs and its GP reads
+    better than it is, which is the direction CLAUDE.md says nobody looks at.
+    batch_overflow had been running without its mirror since it was written.
+
+    NO DOLLAR FIGURE, for the same reason batch_yield_flags carries none: either
+    the yield is too big or a quantity is too small, and the two have opposite
+    consequences. Sizing it would mean picking one, which is the guess this feed
+    exists not to make.
+
+    The question is deliberately "does uncosted water go into this?" rather than
+    an accusation. Several of these are legitimate — a dough is 62% hydration, a
+    broth is mostly water — and the rule cannot know which without being told.
+    """
+    out = []
+    for f in book_reconcile.yield_overstated(recipes):
+        consumers = sorted({n for n, r in recipes.items()
+                            for ln in (r.get("ingredients") or [])
+                            if ln.get("kind") == "subrecipe" and ln.get("ref") == f["recipe"]})
+        out.append({
+            "id": "yield-overstated-" + _slug(f["recipe"]),
+            "category": "batch_yield",
+            "severity": "high" if f["multiple"] >= 2 else "medium",
+            "subject": f["recipe"],
+            "subject_kind": "prep",
+            "what_is_wrong": (
+                f"It states a yield of {f['declared']:,.0f} {f['declared_unit']}, "
+                f"but its costed lines come to {f['contents']:,.0f} — "
+                f"{f['multiple']:g}x less. A batch cannot make more than went "
+                f"into it unless something uncosted did."),
+            "why_it_matters": "Everything drawing on this divides the batch cost "
+                              "by that yield, so the per-unit rate is too LOW by "
+                              "the same multiple and every dish using it "
+                              "under-costs. A cost that reads too low never "
+                              "prompts anybody to check it.",
+            "question": f"Does uncosted water go into {f['recipe']}? If it does, "
+                        f"say so and this closes. If it does not, the yield is "
+                        f"too big or a quantity is too small.",
+            "impact_per_year": None,
+            "impact_basis": None,
+            "action": "Weigh the finished batch — that settles it either way and "
+                      "logs in data/measured_yields.yaml, which outranks every "
+                      "estimate in the system.",
+            "owner": "Kitchen",
+            "evidence": ([f"stated basis: {f['basis']}"] if f["basis"] else [])
+                        + [f"batch costs ${f['batch_cost']:,.2f} as it stands"]
+                        + ([f"drawn on by {', '.join(consumers[:6])}"] if consumers else
+                           ["nothing draws on it as a sub-recipe"]),
+            "derived": True,
+            "source": "modules/recipes/book_reconcile.yield_overstated()"
+                      " over data/lightspeed_recipes_costed.json",
+        })
+    return out
+
+
 def price_conflict_flags(recipes, sold, window="") -> list:
     """Our rate and Lightspeed's rate for one product, 2x-50x apart.
 
@@ -1322,6 +1381,7 @@ def build() -> dict:
     flags += validator_config_flags()
     flags += structure_flags(recipes, sold, window)
     flags += batch_yield_flags(recipes)
+    flags += yield_overstated_flags(recipes)
     flags += price_conflict_flags(recipes, sold, window)
     flags += feed_defect_flags(recipes, sold, window)
     flags += declared_flags(spec.get("declared") or [])

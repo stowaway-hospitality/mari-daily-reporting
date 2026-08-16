@@ -345,6 +345,7 @@ def whole_pack_outliers(recipes) -> list:
 
 _DECLARED_YIELD = re.compile(
     r"\[\s*([0-9]*\.?[0-9]+)\s*(kg|kgs|g|gm|l|lt|ltr|litre|ml|mls)\s*\]\s*$", re.I)
+import re as _re
 from pathlib import Path as _Path
 ROOT = _Path(__file__).resolve().parents[2]   # repo root, for data/ lookups
 
@@ -467,6 +468,102 @@ def batch_overflow(recipes) -> list:
             "batch_cost": float(r.get("our_cost") or 0),
         })
     return sorted(out, key=lambda f: -f["multiple"])
+
+
+
+# How much more a batch may claim to make than its lines contain before it is a
+# finding. Deliberately tight where batch_overflow is loose: overflow is caught
+# at 3x because the ambiguity is which number is wrong, whereas a yield that
+# EXCEEDS its contents is arithmetically impossible at any multiple above one.
+# 1.05 leaves room for rounding and for a line recorded to the nearest 10 g.
+YIELD_OVERSTATED_X = 1.05
+
+# A basis or a name that explains a yield larger than its costed contents.
+_DILUTED = _re.compile(r"water|hydrat|dilut|syrup|brine|broth|stock|soda|tea|infus|"
+                       # super juice is peels, acid and WATER -- the technique is
+                       # a dilution and the name never says so.
+                       r"super\s+\w+\s+juice|"
+                       # rice and grains take up their cooking water; 2.5x dry to
+                       # cooked is the expected ratio, not a defect.
+                       r"\brice\b|couscous|quinoa|pasta|noodle", _re.I)
+
+
+def _priced_quantity(ln):
+    """A line's real quantity, recovering pack counts from what they cost.
+
+    The scrape records "2 ml" of a [4L] sauce meaning TWO 4-LITRE PACKS. Summing
+    the label says House BBQ Sauce holds 3 ml and makes 11 L -- a 3,666x nonsense
+    that buries every real finding beneath it. Where a line carries both a
+    per-unit rate and a line cost, cost / rate is the quantity the converter
+    actually priced, which is the one that means something.
+    """
+    try:
+        qty = float(ln.get("qty") or 0)
+    except (TypeError, ValueError):
+        qty = 0.0
+    try:
+        rate, eff = float(ln.get("our_cost")), float(ln.get("eff_cost"))
+        if rate > 0:
+            implied = eff / rate
+            if qty <= 0 or abs(implied - qty) / max(qty, 1e-9) > 0.01:
+                return implied
+    except (TypeError, ValueError, ZeroDivisionError):
+        pass
+    f = _TO_BASE.get(str(ln.get("unit") or "").lower())
+    return qty * f if f and qty > 0 else 0.0
+
+
+def yield_overstated(recipes, estimates=None) -> list:
+    """A batch that claims to MAKE more than its lines contain. The mirror of
+    batch_overflow, and the dangerous half.
+
+    Overflow makes a batch's per-unit rate too HIGH, so dishes look expensive and
+    somebody investigates. This makes it too LOW: the dish under-costs, GP reads
+    better than it is, and nothing ever prompts a question. CLAUDE.md names that
+    direction as the one nobody looks at, and until 2026-08-16 there was no rule
+    for it at all -- batch_overflow had been running alone since it was written.
+
+    Two escapes, and each must be visible in the recipe or its basis:
+      * uncosted water -- pizza dough's 62% hydration, super juice's dilution, a
+        broth. The yield legitimately exceeds the costed contents.
+      * a yield counted in things (24 pieces, 110 puddings), which is not
+        comparable to a mass at all.
+    """
+    est = estimates if estimates is not None else _prep_yield_bases()
+    out = []
+    for name, r in (recipes or {}).items():
+        if not r.get("is_prep"):
+            continue
+        y = declared_yield(name)
+        if not y or y[0] <= 0:
+            continue
+        basis = (est.get(name) or "")
+        if _DILUTED.search(basis) or _DILUTED.search(str(name)):
+            continue
+        contents = sum(_priced_quantity(ln) for ln in (r.get("ingredients") or []))
+        if contents <= 0 or y[0] < YIELD_OVERSTATED_X * contents:
+            continue
+        out.append({
+            "rule": "yield_overstated",
+            "recipe": name,
+            "declared": y[0],
+            "declared_unit": y[1],
+            "contents": round(contents, 2),
+            "multiple": round(y[0] / contents, 2),
+            "batch_cost": float(r.get("our_cost") or 0),
+            "basis": basis[:200],
+        })
+    return sorted(out, key=lambda f: -f["multiple"])
+
+
+def _prep_yield_bases() -> dict:
+    """prep name -> the `basis` text prep_yields.yaml states for its yield."""
+    import yaml as _yaml
+    f = ROOT / "data" / "prep_yields.yaml"
+    if not f.exists():
+        return {}
+    doc = _yaml.safe_load(f.read_text(encoding="utf-8-sig")) or {}
+    return {k: str((v or {}).get("basis") or "") for k, v in doc.items()}
 
 
 # --------------------------------------------------------------------------
