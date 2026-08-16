@@ -583,6 +583,19 @@ def main() -> int:
     overrides = {canonical_purchasable(k): v
                  for k, v in load_pack_overrides(PACK_OVERRIDES).items()}
 
+    # A pack override is either a MEASURE ("this unit holds 500 ml / 2500 g") or
+    # a COUNT ("a carton holds 40 of them"). The two mean different things and
+    # only the first may be applied to a cost-book row — see the long note at the
+    # cost-book branch, and the 40x-288x understatement it documents.
+    _MEASURE_UNITS = {"ml", "l", "lt", "litre", "litres", "g", "kg", "gram",
+                      "grams", "kilogram", "kilograms"}
+
+    def _ou_is_measure_unit(ov) -> bool:
+        if not ov:
+            return False
+        _q, _u = ov
+        return (_u or "").strip().lower() in _MEASURE_UNITS
+
     # THE LATEST INVOICE FOR EACH THING, NOT THE FIRST ONE IN THE FILE.
     #
     # cogs_list.csv is sorted oldest-first, and this loop used to keep whichever
@@ -771,18 +784,66 @@ def main() -> int:
         except Exception:
             continue
         _u = (_unit or "").strip().lower()
+        # Was the cost book already holding a RATE (per litre / per kilo), or the
+        # price of one whole CONTAINER? The answer decides whether a confirmed
+        # pack may be applied below, so it is recorded rather than inferred twice.
+        _is_rate = _u in ("l", "lt", "litre", "litres", "kg", "ml", "g")
         if _u in ("l", "lt", "litre", "litres"):
             _per, _unit = _per / 1000, "ml"
         elif _u == "kg":
             _per, _unit = _per / 1000, "g"
         else:
             _unit = _unit or "ea"
+        _qty, _how, _cpbu = Decimal(1), "cost-book", _per
+
+        # A CONFIRMED PACK APPLIES HERE TOO. This branch used to hard-code
+        # pack_qty "1" and never look at `overrides`, which meant
+        # data/pack_overrides.yaml had NO EFFECT on any lightspeed:* row — the
+        # exact population that needs it most, because the Back Office seed
+        # writes "can" for anything it cannot size. Every "wrong unit" flag the
+        # daily product review has raised against a cost-book row (about thirty
+        # spirits on 2026-08-15, San Pellegrino and the A12 peppers on 08-16) was
+        # therefore unfixable by the one mechanism built for fixing it: Zak could
+        # confirm a pack and the feed would ignore him.
+        #
+        # TWO GUARDS, AND BOTH WERE EARNED BY A REAL 40x-288x ERROR THIS EXACT
+        # CHANGE PRODUCED ON ITS FIRST DRAFT. Caught by diffing the feed before
+        # and after, which is the standard this pipeline has had since the 6x
+        # understatement of 2026-08-15.
+        #
+        #   1. NOT A RATE. If the cost book already holds a rate (a spirit per
+        #      litre, a meat per kilo) then _per is ALREADY per ml or per g, and
+        #      dividing by the pack size again understates by the whole pack — a
+        #      700 ml gin would read 700x cheap.
+        #
+        #   2. THE OVERRIDE MUST CONVERT TO A MEASURE, NOT A COUNT. A cost-book
+        #      row is priced per ONE PURCHASABLE UNIT. An override in ml or g
+        #      says "one of those units CONTAINS this much", which is the only
+        #      way to make it costable by mass/volume — that is a real
+        #      conversion and it applies. An override in "ea" says something
+        #      else entirely: "a CARTON holds N of them". That is a fact about
+        #      the carton, not this row, and the upstream bridge has ALREADY
+        #      applied it — costs.csv records the evidence in its pack column
+        #      ("x40 (count) (via gulli:AGBGARBRE-B)", "chef-confirmed").
+        #      Applying it a second time here divided nine already-correct
+        #      products by their pack size again:
+        #          Garlic Bread          $1.4953/ea -> $0.0374   (40x cheap)
+        #          Large Pizza Box 13"   $0.6426/ea -> $0.0129   (50x)
+        #          Flour Tortillas 6"    $0.1167/ea -> $0.0004  (288x)
+        #      Every one of those is the flattering direction, and none would
+        #      have tripped a bound or a test.
+        _ou_is_measure = _ou_is_measure_unit(overrides.get(_id))
+        if not _is_rate and _ou_is_measure:
+            _oq, _ou = overrides[_id]
+            if _oq and _oq > 0:
+                _qty, _unit, _how = _oq, _ou, "chef-confirmed"
+                _cpbu = (_per / _oq).quantize(Decimal("0.000001"))
         out.append({
             "id": _id, "description": clean_name(bo_name.get(pid, pid)),
             "supplier": "Lightspeed", "supplier_code": pid,
             "pack_cost_incl": str(_per), "source_invoice": "cost-book", "last_seen": _d,
-            "venue": "stowaway", "pack_qty": "1", "pack_unit": _unit,
-            "pack_parsed_as": "cost-book", "cost_per_base_unit": str(_per),
+            "venue": "stowaway", "pack_qty": str(_qty), "pack_unit": _unit,
+            "pack_parsed_as": _how, "cost_per_base_unit": str(_cpbu),
             "needs_pack_review": False,
         })
 

@@ -820,3 +820,79 @@
   on: 2026-08-15
   by_email: "hello@stowawaybar.com"
   # "if the ilg line is 49.5 then run with that" — ILG raw_uom '1xKEG49.'
+# --- Sapore Roasted Red Peppers Strips, A12 tin (2026-08-16) ---------------
+# Flagged by the daily product review: 1 "ea" at $14.00 with needs_pack_review
+# FALSE, so a recipe could only ever book a whole tin and 100 g of pepper strips
+# could not be costed at all. The weight is NOT on the Gulli invoice (the line
+# states no UOM), so it was NOT guessed — it comes from the manufacturer's own
+# spec sheet, published on Gulli's catalogue page for this exact supplier code:
+#   shop.gullifood.com.au -> sappepstripa12-uc3 -> Documents ->
+#   "Specifications for Red Roasted Peppers Whole & Strips.pdf", page 2,
+#   headed "ROASTED PEPPERS RED strips":
+#       Packing Type   A 12 (5/1) TIN BOX
+#       NET WEIGHT     4200 G
+#       DRAINED WEIGHT 2500 G
+# (Page 1 is the WHOLE peppers spec with identical figures; page 2 is the strips
+# one, which is the product we buy. Same catalogue page also states "Outer
+# Quantity CTN (3)", which corroborates the "-UC3" in the supplier code.)
+#
+# DRAINED (2500 g) is the divisor, not net (4200 g), for two reasons:
+#   * A recipe uses the peppers, not the brine. Drained weight is what reaches
+#     the plate, so it is what the dish should be charged for.
+#   * It is also the conservative direction. Costing on the 4200 g net weight
+#     would make the peppers read 1.68x cheaper per gram than they are, and
+#     CLAUDE.md is explicit that the errors which flatter GP are the dangerous
+#     ones. If this is wrong it is wrong toward review, not toward a rosy margin.
+# At $14.00 a tin that is $0.0056/g = $5.60/kg drained (vs $3.33/kg on net).
+#
+# Both ids below are the SAME physical tin: the Gulli row is the invoice source,
+# the Lightspeed row is the bridged copy the picker actually shows (cost-book
+# note: "confirmed bridge from Gulli SAPPEPSTRIPA12-UC3"). They must agree, or
+# the same pepper appears twice in the picker at two different costs.
+- id: "gulli:SAPPEPSTRIPA12-UC3"
+  pack_qty: 2500
+  pack_unit: g
+  by: "Claude (Sapore spec sheet via Gulli catalogue: A12 tin, drained 2500 g)"
+  on: 2026-08-16
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22874436"          # bridged copy of the same tin
+  pack_qty: 2500
+  pack_unit: g
+  by: "Claude (Sapore spec sheet via Gulli catalogue: A12 tin, drained 2500 g)"
+  on: 2026-08-16
+  by_email: "hello@stowawaybar.com"
+# --- San Pellegrino 500 mL (2026-08-16) ------------------------------------
+# Flagged by the daily product review: pack_unit "can", pack_qty 1, so the 500 mL
+# is lost and the item is costed per container while the picker's other sparkling
+# water ("Version Two Sparkling - Bottle") is costed per ml. This is the same
+# wrong-"can" defect the 2026-08-15 review found on ~30 spirits, recurring on a
+# soft drink — the Back Office seed writes "can" for anything it cannot size.
+#
+# "can" is also factually wrong, and our OWN invoices say so: ILG sells us this
+# as code 450-1293 "S.PELLEGRINO SPARKLING WATER" with raw_uom "24x500ML" — a
+# 500 mL bottle, 24 to a carton. San Pellegrino's can format is 330 mL. The pack
+# size is therefore CONFIRMED from four invoices, not guessed:
+#     03690691  2026-05-05  $2.3179     03714643  2026-06-16  $2.3175
+#     03701256  2026-05-21  $2.6704     03729959  2026-07-14  $2.3558
+# ILG already books correctly at 0.500 L; only the Lightspeed seed rows are wrong.
+#
+# NOTE ON THE PRICE, deliberately not overridden here: the seeded $2.3200 is
+# dated 2026-01-01 ("bo-seed-*"), seven months older than the four invoiced
+# observations above, and pack_overrides pins PACK, not price. Pinning the volume
+# lets the live ILG invoices supersede the seed on their own, which is the right
+# mechanism. Worth Zak knowing the seed is stale rather than papering over it.
+#
+# BOTH venue ids carry the same product and must agree, or the same water shows
+# up twice in the picker at two different units.
+- id: "lightspeed:21050706"          # Harry Gatos
+  pack_qty: 500
+  pack_unit: ml
+  by: "Claude (ILG 450-1293 raw_uom '24x500ML' on 4 invoices May-Jul 2026)"
+  on: 2026-08-16
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:20445897"          # Stowaway
+  pack_qty: 500
+  pack_unit: ml
+  by: "Claude (ILG 450-1293 raw_uom '24x500ML' on 4 invoices May-Jul 2026)"
+  on: 2026-08-16
+  by_email: "hello@stowawaybar.com"

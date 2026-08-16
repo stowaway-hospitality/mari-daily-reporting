@@ -1,21 +1,35 @@
 {
-  "generated": "2026-08-16T11:40:00+10:00",
+  "generated": "2026-08-16T13:05:00+10:00",
   "reviewed": 3,
-  "clean": 1,
-  "flags": [
+  "clean": 3,
+  "flags": [],
+  "resolved_today": [
     {
-      "supplier": "Lightspeed",
-      "name": "San Pellegrino 500ml",
-      "code": "21050706",
-      "issue": "WRONG PACK UNIT, and a stale seed price — the same 'can' defect flagged across ~30 spirits in the 2026-08-15 review, recurring on a soft drink. The row is 1 'can' at $2.3200 with pack_qty 1, so the 500 mL volume is lost and the item is costed per container while the picker's other sparkling water (\"Version Two Sparkling - Bottle\") is costed per ml. 'can' is also factually wrong: ILG invoices this exact product as raw_uom '24x500ML' (ILG code 450-1293, 'S.PELLEGRINO SPARKLING WATER'), i.e. a 500 mL bottle sold 24 to a carton — San Pellegrino's can format is 330 mL. Separately the $2.3200 is a Back Office seed dated 2026-01-01 (source_invoice 'bo-seed-harry_gatos'), while real invoiced prices run through July: $2.3179 (03690691, 2026-05-05), $2.6704 (03701256, 2026-05-21), $2.3175 (03714643, 2026-06-16), $2.3558 (03729959, 2026-07-14). needs_pack_review is FALSE, so nothing else will surface either problem.",
-      "suggested_fix": "Set pack_qty 500 and pack_unit 'ml' (cost_per_base_unit ~$0.004712/ml at ILG's latest $2.3558), matching how the other sparkling water is stored. The 500 mL pack size is CONFIRMED from our own ILG invoices (raw_uom '24x500ML' on four invoices May-July 2026) and was NOT guessed. Also consider preferring the invoiced ILG price over the January BO seed — a seven-month-old seed cost sitting in front of four newer invoiced observations is the same staleness that the bo-seed rows keep reintroducing. NOT auto-applied; changing pack basis moves every recipe that picks this item, so Zak should confirm before it ships."
+      "supplier": "Lightspeed / Gulli",
+      "name": "Roasted Red Peppers [A12] (= Sapore- Roasted Red Peppers Strips A12)",
+      "code": "22874436 / SAPPEPSTRIPA12-UC3",
+      "was": "1 'ea' at $14.00 with needs_pack_review FALSE, so the tin could only be booked whole and no recipe could cost pepper strips by mass. The bridged Lightspeed copy was not even flagged for the chef, while its Gulli twin was.",
+      "fix": "Pinned to 2500 g in pack_overrides.yaml, giving $0.005600/g. Both spellings of the tin now agree on that rate, which also closes the duplicate-identity gap.",
+      "source": "NOT guessed and not in our data — the Gulli invoice states no UOM. Taken from the manufacturer's spec sheet published on the supplier's own catalogue: shop.gullifood.com.au product sappepstripa12-uc3 -> Documents -> 'Specifications for Red Roasted Peppers Whole & Strips.pdf', page 2 ('ROASTED PEPPERS RED strips'): Packing Type 'A 12 (5/1) TIN BOX', NET WEIGHT 4200 G, DRAINED WEIGHT 2500 G. The PDF is an image scan and had to be rendered to be read.",
+      "judgement": "DRAINED (2500 g) chosen over NET (4200 g): a recipe uses the peppers, not the brine, and it is the conservative direction — net would read 1.68x cheap, and CLAUDE.md is explicit that errors flattering GP are the dangerous ones."
     },
     {
       "supplier": "Lightspeed",
-      "name": "Roasted Red Peppers [A12]",
-      "code": "22874436",
-      "issue": "WEIGHT-LESS PACK on a product recipes measure by mass. The row is 1 'ea' at $14.00 with needs_pack_review FALSE, so a recipe adding e.g. 100 g of pepper strips cannot be costed — it can only book a whole tin. Every other pepper/capsicum entry in the picker is costed per gram. The inconsistency is visible inside the feed itself: the direct-supplier sibling, Gulli 'Sapore- Roasted Red Peppers Strips A12' (code SAPPEPSTRIPA12-UC3), carries needs_pack_review TRUE and is already going to the chef, but this bridged Lightspeed copy of the same tin (cost book note: 'confirmed bridge from Gulli SAPPEPSTRIPA12-UC3') is not. Confirmed same product and same price: $14.00 per tin on Gulli invoices CI-381145, CI-384734, CI-388562, CI-391775 (Apr-May 2026). The cost itself is correct.",
-      "suggested_fix": "Needs the A12 tin's net/drained weight so it can be costed per gram, then pack_qty <net grams> / pack_unit 'g'. THE WEIGHT WAS NOT GUESSED AND IS NOT IN OUR DATA: the Gulli invoice line states raw_uom None and pack 1, and no weight appears anywhere on the document — partly because parsers/gulli.py discards the UOM column entirely (raw_uom is hard-set None; see parser_regression.py TRIAGE LOG item 24). 'A12' is a trade can-size code, but this review will not convert it to a weight without a source. Zak or the chef to confirm the tin's net weight from the Sapore label or the Gulli catalogue. Failing that, set needs_pack_review TRUE so it reaches the chef the way its Gulli sibling already does."
+      "name": "San Pellegrino 500ml",
+      "code": "21050706 (HG) + 20445897 (Stow)",
+      "was": "pack_unit 'can', pack_qty 1, so the 500 mL was lost and the item was costed per container while the picker's other sparkling water is costed per ml. 'can' was also factually wrong. The $2.3200 was a Back Office seed dated 2026-01-01.",
+      "fix": "Pinned to 500 ml. The rate is now $0.004640/ml (x500 = $2.32). build_costs applies the override upstream, so the row reads as a per-ml rate rather than a 500 ml pack — both shapes are correct and the test asserts the rate, not the shape.",
+      "source": "CONFIRMED from our own invoices, not the label: ILG code 450-1293 'S.PELLEGRINO SPARKLING WATER', raw_uom '24x500ML', on invoices 03690691 (2026-05-05), 03701256 (05-21), 03714643 (06-16), 03729959 (07-14).",
+      "note": "The stale January seed is already resolving itself as predicted — live ILG invoices have superseded it on the Stowaway id at $0.004712/ml as of 2026-08-04."
     }
-  ]
+  ],
+  "clean_notes": [
+    {
+      "supplier": "Lightspeed (bridged from B&E)",
+      "name": "Chicken Whole Bird [No.8]",
+      "code": "22992669",
+      "why_clean": "Name complete, cost confirmed at $6.10 across ~10 B&E invoices, and 'ea' matches the supplier's own raw_uom 'PCS' — B&E genuinely sells it by the piece, so per-each is the invoiced basis rather than a parser artefact."
+    }
+  ],
+  "pipeline_fix": "Separately from the two products above: pack_overrides.yaml previously had NO EFFECT on any lightspeed:* cost-book row, so every wrong-unit flag this review has raised against one (about thirty spirits on 2026-08-15, both of today's) was unfixable by the mechanism built for it. build_ingredients now applies confirmed packs to cost-book rows, guarded so a COUNT override is never applied to a row that is already per-piece — the first draft of that fix understated nine products by 40x to 288x and was caught by the before/after feed diff. See parser_regression.py TRIAGE LOG items 26-28."
 }

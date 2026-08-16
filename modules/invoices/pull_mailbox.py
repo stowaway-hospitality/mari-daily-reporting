@@ -34,6 +34,7 @@ import socket
 import subprocess
 import sys
 import tempfile
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -52,6 +53,19 @@ REVIEW_FOLDER = "Invoices Review"
 BATCH = 20        # messages per run; the schedule catches the rest
 RETRY_BATCH = 200  # the Review retry sweeps the WHOLE folder — see main()
 GRAPH_TIMEOUT = 60   # seconds per Graph call; see the note in _req()
+GRAPH_TRIES = 3      # total attempts per Graph call; see _req()
+GRAPH_BACKOFF = 3    # seconds, multiplied by the attempt number
+# Transient Graph failures. 429 is throttling (Retry-After is honoured); the 5xx
+# family is Graph having a moment. NOT 4xx — a 401/403/404 is deterministic, and
+# retrying it just delays a real error and can mask an expired token.
+GRAPH_RETRY_STATUS = {429, 500, 502, 503, 504}
+# Methods safe to repeat. GET is trivially idempotent. PATCH is here because the
+# only PATCH this module makes is move_message, whose body names an ABSOLUTE
+# destination folder — moving a message to the folder it is already in is a
+# no-op, so a repeat cannot compound. POST is deliberately absent: the only POST
+# is folder creation, and a duplicate "Invoices Review" folder would split the
+# backlog across two folders, which is far worse than one failed run.
+GRAPH_RETRY_METHODS = {"GET", "PATCH"}
 WINDOW_WEEKS = 12  # ~3 months. Widened from 6 for a one-off deep backfill (Zak:
                    # "do another month of invoices to ensure we've caught
                    # everything, incl. beverage purchases"). The daily pass still
@@ -71,32 +85,77 @@ SKIP_SUBJECT = _re.compile(
 
 # ── Graph helpers ──────────────────────────────────────────────────────────
 def _req(token, method, path, body=None):
+    """
+    One Graph call, with a hard timeout and a bounded retry on transient failure.
+
+    TIMEOUT IS NOT OPTIONAL. urlopen() with no timeout blocks FOREVER on a
+    half-open socket, and this call is the bottom of every mail path:
+    pull_mailbox, the Review retry, and build_corpus all reach Graph through
+    here. On 2026-08-15 a pull_mailbox.py was found still wedged after ~21 hours
+    and a build_corpus.py after 1h45m (2 open sockets, 1.75s of CPU, zero files
+    written) — both had to be killed by hand, and a wedged run blocks the next
+    scheduled one.
+
+    THE TIMEOUT ALONE WAS NOT ENOUGH, which is what 2026-08-16 showed. A single
+    transient "Graph 504 UnknownError" on one message's attachments raised
+    straight out of the Review sweep and abandoned the remaining messages —
+    twice: at message 120 of 200 on 08-15, and again on 08-16 at 76 of ~200
+    (that one an `[Errno 32] Broken pipe` on an attachment fetch). Both times
+    the run was doing its job and one flaky call threw the rest away. A 5xx from
+    Graph is not exceptional; it is Tuesday. So a transient failure is now
+    retried a few times before it is allowed to become an error, and only then
+    for the methods it is safe to repeat (see GRAPH_RETRY_METHODS).
+
+    A genuinely stuck socket still fails loudly after the last attempt, and the
+    next scheduled run picks the work up.
+    """
     url = path if path.startswith("http") else f"{GRAPH}{path}"
     data = json.dumps(body).encode() if body is not None else None
     headers = {"Authorization": f"Bearer {token}"}
     if data:
         headers["Content-Type"] = "application/json"
-    req = urllib.request.Request(url, data=data, headers=headers, method=method)
-    try:
-        # TIMEOUT IS NOT OPTIONAL. urlopen() with no timeout blocks FOREVER on a
-        # half-open socket, and this call is the bottom of every mail path:
-        # pull_mailbox, the Review retry, and build_corpus all reach Graph
-        # through here. On 2026-08-15 a pull_mailbox.py was found still wedged
-        # after ~21 hours and a build_corpus.py after 1h45m (2 open sockets,
-        # 1.75s of CPU, zero files written) — both had to be killed by hand, and
-        # a wedged run blocks the next scheduled one. A stuck socket must fail
-        # loudly and let the retry pass pick the work up tomorrow.
-        with urllib.request.urlopen(req, timeout=GRAPH_TIMEOUT) as r:
-            raw = r.read()
-            return json.loads(raw) if raw else {}
-    except urllib.error.HTTPError as e:
-        body = e.read().decode("utf-8", "replace")[:400]
-        raise RuntimeError(f"Graph {e.code} on {method} {url.split('?')[0]}: {body}") from None
-    except (TimeoutError, socket.timeout) as e:
-        raise RuntimeError(
-            f"Graph TIMEOUT after {GRAPH_TIMEOUT}s on {method} {url.split('?')[0]} "
-            f"— no response. Nothing was promoted; the next run retries."
-        ) from None
+    can_retry = method.upper() in GRAPH_RETRY_METHODS
+    where = f"{method} {url.split('?')[0]}"
+
+    for attempt in range(1, GRAPH_TRIES + 1):
+        last = attempt == GRAPH_TRIES
+        req = urllib.request.Request(url, data=data, headers=headers, method=method)
+        try:
+            with urllib.request.urlopen(req, timeout=GRAPH_TIMEOUT) as r:
+                raw = r.read()
+                return json.loads(raw) if raw else {}
+        except urllib.error.HTTPError as e:
+            detail = e.read().decode("utf-8", "replace")[:400]
+            if last or not can_retry or e.code not in GRAPH_RETRY_STATUS:
+                raise RuntimeError(f"Graph {e.code} on {where}: {detail}") from None
+            # Graph asks for a specific wait when it throttles; honour it.
+            try:
+                pause = max(0, int(e.headers.get("Retry-After", "")))
+            except (TypeError, ValueError):
+                pause = 0
+            reason = f"Graph {e.code}"
+        except (TimeoutError, socket.timeout):
+            if last or not can_retry:
+                raise RuntimeError(
+                    f"Graph TIMEOUT after {GRAPH_TIMEOUT}s on {where} — no response"
+                    f"{'' if can_retry else ' (not retried: unsafe to repeat)'}. "
+                    f"Nothing was promoted; the next run retries."
+                ) from None
+            pause, reason = 0, f"timeout after {GRAPH_TIMEOUT}s"
+        except urllib.error.URLError as e:
+            # Connection-level: broken pipe, connection reset, DNS blip. This is
+            # the class that produced the 08-16 "[Errno 32] Broken pipe".
+            if last or not can_retry:
+                raise RuntimeError(f"Graph connection error on {where}: {e.reason}") from None
+            pause, reason = 0, f"connection error ({e.reason})"
+
+        pause = pause or GRAPH_BACKOFF * attempt
+        print(f"    (transient {reason} on {where} — attempt {attempt}/{GRAPH_TRIES},"
+              f" retrying in {pause}s)")
+        time.sleep(pause)
+
+    # Unreachable: the final attempt either returns or raises above.
+    raise RuntimeError(f"Graph: exhausted {GRAPH_TRIES} attempts on {where}")
 
 
 def ensure_folder(token, name) -> str:
@@ -261,77 +320,138 @@ def main() -> int:
     label = "Review folder (retry)" if retry else "accounts@ inbox"
     print(f"{len(msgs)} message(s) with attachments in {label}"
           + (f"  [model={os.environ.get('INVOICE_MODEL','haiku')}]" if retry else ""))
-    # Refresh the system-health snapshot every cycle. This is the most frequent
-    # reliable job, so it doubles as the monitor's clock: if system_health.json
-    # itself goes stale, this poller (which writes it) has stopped — and the app
-    # flags that. Never let a monitor error interrupt the actual mail pull.
-    try:
-        subprocess.run([sys.executable, str(ROOT / "scripts" / "health_monitor.py")],
-                       cwd=str(ROOT), capture_output=True, timeout=30)
-    except Exception:
-        pass
+    # DELIBERATELY NOT refreshing the system-health snapshot here — see below.
+    #
+    # This used to run scripts/health_monitor.py every cycle with cwd=ROOT, which
+    # writes data/system_health.json INTO THE MOUNTED TREE. The comment justified
+    # it as "the monitor's clock: if system_health.json goes stale, this poller
+    # (which writes it) has stopped". Both halves of that stopped being true when
+    # ops/publish_health.py was introduced:
+    #
+    #   * The poller is no longer "the poller which writes it". publish_health.py
+    #     builds the snapshot hourly from a main-pinned clone and PUTs it to main
+    #     through the Contents API. The published artefact — the only one Pages
+    #     serves and the dashboard reads — carries publish_health's timestamp,
+    #     never this one. The local write reached nothing.
+    #   * It is not the clock either. health_monitor measures this poller with
+    #     _log_age_min("invoice_poller.log"), a file this process writes on every
+    #     cycle whether or not there is mail. Poller liveness is unaffected.
+    #
+    # What the local write DID do was dirty a tracked file every 30 minutes
+    # without ever committing it, so `git pull --rebase --autostash` collided on
+    # it on essentially every run — twice during the 2026-08-16 triage alone,
+    # once as an unresolved UU left over from an earlier rebase. Both sides were
+    # stale regenerations of a file that is authored elsewhere. Removing the
+    # write removes the conflict at its source; nothing else changes.
+    #
+    # If a local snapshot is ever wanted for offline debugging, run
+    # `python3 scripts/health_monitor.py` by hand — it is safe, it is just not
+    # something an automated job should do inside the shared working tree.
     if not msgs:
         return 0
 
+    # ONE BAD MESSAGE MUST NOT COST THE REST OF THE SWEEP.
+    #
+    # _req now retries transient Graph failures, which removes most of this
+    # risk — but "most" is not "all", and the failure mode is expensive out of
+    # proportion to its cause. On 2026-08-15 a 504 at message 120 of 200 threw
+    # away the remaining 80; on 2026-08-16 a broken pipe at 76 of ~200 threw
+    # away ~124, and BOTH runs were sweeping a Review backlog that only shrinks
+    # when a sweep completes. A message that cannot be read is a fact about that
+    # message, not about the other 199.
+    #
+    # So each message is now isolated: anything unhandled is reported against
+    # the subject it belongs to and the sweep moves on. The message stays where
+    # it is (Review), which is the correct resting place for something we could
+    # not process — nothing is promoted, nothing is lost, and the next run
+    # retries it. Failures are counted and surfaced at the end rather than
+    # scrolling past, so a supplier that fails EVERY run is visible as a pattern
+    # instead of looking like one-off noise.
     any_change = False
+    failed: list[tuple[str, str]] = []
     for m in msgs:
         subj = m.get("subject", "(no subject)")
         sender = (m.get("from", {}).get("emailAddress", {}) or {}).get("address", "?")
-        # On the first pass, skip obvious non-invoices. On a retry we process
-        # everything already in Review (they were flagged for a reason).
-        if not retry and SKIP_SUBJECT.search(subj):
-            print(f"\n• {subj}  <{sender}>  — skip (statement/reminder, not an invoice)")
-            if not args.dry_run:
-                move_message(token, m["id"], review_id)
-            continue
-        pdfs = pdf_attachments(token, m["id"])
-        print(f"\n• {subj}  <{sender}>  — {len(pdfs)} PDF(s)")
-        if args.dry_run:
-            continue
-        if not pdfs:
-            if not retry:
-                move_message(token, m["id"], review_id)   # attachment but no PDF -> human
-            continue
+        try:
+            any_change |= _handle_message(m, subj, sender, token, args, retry,
+                                          review_id, processed_id)
+        except Exception as e:                       # noqa: BLE001 — deliberate, see above
+            failed.append((subj, f"{type(e).__name__}: {e}"))
+            print(f"    !! FAILED, left in place and skipped: {type(e).__name__}: {e}")
 
-        worst = 0
-        saw_invoice = False
-        needs_manual = False
-        for name, data in pdfs:
-            code = run_invoice(data, f"{subj} / {name}", sender=sender, no_llm=args.no_llm)
-            if code == 3:                                  # statement / not an invoice
-                print("    (statement / not an invoice — skipped)")
-                continue
-            if code == 4:
-                # Image-only: no parser can ever read it (see run.py). Kept in
-                # Review for a human to key, but labelled so it does not read as
-                # a parser gap — otherwise every future triage re-investigates
-                # the same 15 Sun Circle scans and "concludes" they need OCR.
-                print("    (image-only scan — needs MANUAL ENTRY, not a parser)")
-                needs_manual = True
-                continue
-            saw_invoice = True
-            worst = max(worst, 1 if code == 1 else (2 if code == 2 else 0))
-            any_change = True
-        if not saw_invoice:                                # statement / manual-entry only
-            if needs_manual:
-                if not retry:
-                    move_message(token, m["id"], review_id)
-                print("    -> Review (manual entry — no text layer)")
-            elif not retry:
-                move_message(token, m["id"], review_id)
-                print("    -> Review (statement, no invoice)")
-        elif worst == 0:
-            move_message(token, m["id"], processed_id)    # rescued -> Processed
-            print("    -> Processed")
-        elif not retry:
-            move_message(token, m["id"], review_id)
-            print("    -> Review")
-        else:
-            print("    -> still stuck (left in Review)")   # retry couldn't rescue it
+    if failed:
+        print(f"\n{len(failed)} message(s) could not be processed this run "
+              f"(left where they were; the next run retries):")
+        for subj, err in failed:
+            print(f"  • {subj[:70]}  — {err}")
 
     if any_change or args.dry_run:
         aggregate_and_commit(args.dry_run)
     return 0
+
+
+def _handle_message(m, subj, sender, token, args, retry, review_id, processed_id) -> bool:
+    """
+    Process one message; return True if it changed anything on disk.
+
+    Raises on failure — the caller isolates it so one bad message cannot end the
+    sweep. Every early exit here is a `return`, and each returns whether this
+    message wrote anything, because that is what decides if the run aggregates
+    and commits at the end.
+    """
+    # On the first pass, skip obvious non-invoices. On a retry we process
+    # everything already in Review (they were flagged for a reason).
+    if not retry and SKIP_SUBJECT.search(subj):
+        print(f"\n• {subj}  <{sender}>  — skip (statement/reminder, not an invoice)")
+        if not args.dry_run:
+            move_message(token, m["id"], review_id)
+        return False
+    pdfs = pdf_attachments(token, m["id"])
+    print(f"\n• {subj}  <{sender}>  — {len(pdfs)} PDF(s)")
+    if args.dry_run:
+        return False
+    if not pdfs:
+        if not retry:
+            move_message(token, m["id"], review_id)   # attachment but no PDF -> human
+        return False
+
+    worst = 0
+    saw_invoice = False
+    needs_manual = False
+    changed = False
+    for name, data in pdfs:
+        code = run_invoice(data, f"{subj} / {name}", sender=sender, no_llm=args.no_llm)
+        if code == 3:                                  # statement / not an invoice
+            print("    (statement / not an invoice — skipped)")
+            continue
+        if code == 4:
+            # Image-only: no parser can ever read it (see run.py). Kept in
+            # Review for a human to key, but labelled so it does not read as
+            # a parser gap — otherwise every future triage re-investigates
+            # the same 15 Sun Circle scans and "concludes" they need OCR.
+            print("    (image-only scan — needs MANUAL ENTRY, not a parser)")
+            needs_manual = True
+            continue
+        saw_invoice = True
+        worst = max(worst, 1 if code == 1 else (2 if code == 2 else 0))
+        changed = True
+    if not saw_invoice:                                # statement / manual-entry only
+        if needs_manual:
+            if not retry:
+                move_message(token, m["id"], review_id)
+            print("    -> Review (manual entry — no text layer)")
+        elif not retry:
+            move_message(token, m["id"], review_id)
+            print("    -> Review (statement, no invoice)")
+    elif worst == 0:
+        move_message(token, m["id"], processed_id)    # rescued -> Processed
+        print("    -> Processed")
+    elif not retry:
+        move_message(token, m["id"], review_id)
+        print("    -> Review")
+    else:
+        print("    -> still stuck (left in Review)")   # retry couldn't rescue it
+    return changed
 
 
 if __name__ == "__main__":

@@ -559,6 +559,132 @@ x2, vanguard x1, xero x5. No drift, no new failure mode among them.
      its basis, so it would hold half of each reading"). A basis change wants
      Zak's eyes and a before/after feed diff, which is the item 13 standard.
 
+TRIAGE LOG — 2026-08-16 (second pass). Zak: "we need to fix everything you've
+flagged". Everything the morning entry parked is now done or answered, and two
+of the answers are that the morning entry was WRONG about what needed doing.
+
+ 25. ITEM 24 WAS BUILT ON A FALSE PREMISE, and measuring it first is what caught
+     that. It claimed capturing Gulli's UOM "would let the per-kg lines cost
+     correctly instead of as units". There are no per-kg lines. Across the whole
+     corpus — 309 line rows, 33 invoices — the UNIT column holds exactly four
+     values: "Unit" 274, "Box" 33, blank 1, "kg" 1. Both real values are COUNTS,
+     which is why hard-coded PER_UNIT was right on every promoted line for four
+     months. The single "kg" row sits on CI-437314, the $0.00 sample docket that
+     can never be promoted, so the weight path has never once fired on real data.
+
+     Captured anyway, but for a different and honest reason: that one row proves
+     the template CAN express a weight, and the old code would have taken such a
+     line as PER_UNIT, reconciled it to the cent, and written a wrong $/ea into
+     the cost book with nothing anywhere to show for it. Now a weight UOM yields
+     PER_KG and an UNRECOGNISED UOM RAISES rather than being assumed — fail
+     toward review. Proof it changes nothing today: all 33 corpus PDFs re-parsed
+     and diffed line-by-line against the 276 lines stored in data/invoices —
+     ZERO moved on basis, unit price or line total — and data/cogs_list.csv
+     rebuilt byte-identical. Pack sizes were checked separately and were never
+     at risk: all 20 Gulli picker items resolve their "x N" hint correctly
+     (garlic bread 40, pizza boxes 50, inserts 100) from the description.
+
+ 26. pack_overrides.yaml DID NOTHING FOR ANY lightspeed:* ROW, which means every
+     wrong-unit flag this review has ever raised against a cost-book row was
+     unfixable by the one mechanism built to fix it. build_ingredients' cost-book
+     branch hard-coded pack_qty "1" and never consulted `overrides`. That is the
+     population that needs it most — the Back Office seed writes "can" for
+     anything it cannot size — so the ~30 spirit "can" flags of 2026-08-15 and
+     both of this morning's flags were unfixable: Zak could confirm a pack and
+     the feed would ignore him. Now applied, with two guards.
+
+     THE OBVIOUS FIX UNDERSTATED NINE PRODUCTS BY 40x-288x AND WAS CAUGHT BY THE
+     FEED DIFF, NOT BY A TEST. Applying every override in that branch re-divided
+     rows that were ALREADY per-piece: Garlic Bread $1.4953 -> $0.0374 (40x),
+     Large Pizza Box 13" $0.6426 -> $0.0129 (50x), Flour Tortillas 6" $0.1167 ->
+     $0.0004 (288x). costs.csv states why in its own pack column ("x40 (count)
+     (via gulli:AGBGARBRE-B)", "chef-confirmed") — the upstream bridge had
+     already divided the carton. Every one of those is the FLATTERING direction
+     and not one would have tripped a bound. This is the item 13 lesson exactly,
+     and the before/after feed rebuild is again the only thing that saw it.
+
+     The distinction that resolves it: a cost-book row is priced per ONE
+     PURCHASABLE UNIT. An override in ml/g says "one of those CONTAINS this
+     much" — a real conversion, and the only route to costing by mass. An
+     override in "ea" says "a CARTON holds N" — a fact about the carton, already
+     applied upstream. So: apply measures, never counts, and never to a row that
+     is already a rate. After both guards the diff is exactly the 3 intended
+     rows and nothing else.
+
+ 27. THE A12 TIN'S WEIGHT WAS FOUND, NOT GUESSED. Item 24 and this morning's
+     product triage both recorded that the weight is nowhere in our data — true,
+     the Gulli invoice states no UOM. It is on the SUPPLIER'S CATALOGUE:
+     shop.gullifood.com.au, product sappepstripa12-uc3, Documents ->
+     "Specifications for Red Roasted Peppers Whole & Strips.pdf". The PDF is an
+     image scan (31 characters of text layer across 2 pages) and had to be
+     rendered and read; page 2, "ROASTED PEPPERS RED strips", states
+     Packing Type "A 12 (5/1) TIN BOX", NET WEIGHT 4200 G, DRAINED WEIGHT 2500 G.
+     The same page states "Outer Quantity CTN (3)", corroborating the "-UC3".
+     DRAINED is the divisor: a recipe uses the peppers, not the brine, and it is
+     also the conservative direction — costing on the 4200 g net would read
+     1.68x cheap, and CLAUDE.md is explicit that errors flattering GP are the
+     dangerous ones. $14.00 / 2500 g = $0.0056/g. Both spellings of the tin
+     (gulli:SAPPEPSTRIPA12-UC3 and the bridged lightspeed:22874436) now agree on
+     that rate, which is itself the fix for a duplicate-identity flag.
+
+ 28. SAN PELLEGRINO: pinned at 500 mL from OUR OWN invoices (ILG 450-1293,
+     raw_uom "24x500ML", four invoices May-Jul 2026), not from the label. Worth
+     noting where it landed, because it is not where I expected: build_costs
+     applies the override FIRST, so costs.csv now holds a per-ml rate and the
+     cost-book branch correctly declines to divide again. The row reads "1 ml @
+     $0.004640" rather than "500 ml @ $0.004640" and both are correct — the test
+     that first asserted pack_qty == 500 was pinned to an intermediate
+     representation and failed the moment the better route won. It now asserts
+     the RATE (x500 = $2.32) and that the unit is a measure, not "can". Also
+     visible now: the live ILG invoices have superseded the January seed on the
+     Stowaway id, $0.004640 -> $0.004712 as of 2026-08-04, which is the staleness
+     this morning's flag predicted resolving itself.
+
+ 29. THE RE-DERIVE OSCILLATION IS REAL AND IS NOW FIXED. The 08-16 poller log
+     shows one JFC ramen line moving 11.00 -> 11.0000 AND 11.0000 -> 11.00 inside
+     a SINGLE run, with Foodlink's schnitzel doing the same at 56.00. DERIVED
+     fields were compared as TEXT, so a re-formatting counted as a change and the
+     re-derive wrote on it, churning cogs_list.csv on every poll. The cost is not
+     the churn, it is the CAMOUFLAGE: every run printed several "the parser now
+     reads them differently" lines that meant nothing, which is exactly the noise
+     a genuine repricing has to be spotted in. Now compared as Decimals. The
+     _cheaper hold is untouched and still refuses a drop.
+
+ 30. THE MAILBOX SWEEP NO LONGER DIES ON ONE FLAKY CALL — the defect item 21
+     left "for a deliberate change", which then cost this morning's run ~124 of
+     ~200 messages to a Broken pipe at message 76. Two layers: _req retries
+     transient failures (429 honouring Retry-After, 5xx, timeouts, connection
+     errors) up to 3 attempts, for GET and PATCH only — POST is excluded because
+     the only POST creates a mail folder and a duplicate "Invoices Review" would
+     split the backlog; and the sweep isolates each message, so an unhandled
+     error names its subject, leaves it in place, and the run continues and still
+     aggregates. A 401/404 is still fast-failed: retrying an expired token just
+     buries the one error worth reading.
+
+ 31. THE REBASE CONFLICT HAD A SECOND WRITER, not a merge-strategy problem.
+     data/system_health.json is authored by ops/publish_health.py, which builds
+     it from a main-pinned clone and PUTs it to main via the Contents API, with
+     its own change detection. pull_mailbox ALSO ran scripts/health_monitor.py
+     every 30-minute cycle with cwd=ROOT, writing the file into the shared
+     working tree and never committing it — so every `git pull --rebase
+     --autostash` collided on it (twice during the 08-16 triage, once as a
+     leftover unresolved UU). Both sides of every conflict were stale
+     regenerations of a file authored elsewhere. The comment justifying the local
+     write claimed it was "the monitor's clock"; it is not — health_monitor
+     measures this poller by _log_age_min("invoice_poller.log"). Write removed;
+     poller liveness unaffected.
+
+ 32. NOT DONE, and this is the right call: the trailing-word truncation from
+     item 23 ("Sweet Baby Rays ... Barbeque", missing "Sauce"). It is NOT in the
+     picker — its invoice is 2026-03-26, outside the 90-day window — and it will
+     re-read correctly on the next Gulli delivery under the fixed boundaries. A
+     general prefix-repair rule was considered and rejected: _undo_dropped_prefix
+     is safe because it matches a SUFFIX, and dropped leading words are a layout
+     artefact rather than a naming pattern. The mirror rule would merge products
+     that legitimately share a prefix ("Chicken Thigh" / "Chicken Thigh Dice"),
+     which is precisely how item 13 silently deleted two market bunches. One
+     cosmetic name out of window is not worth that risk.
+
 The three zero-total documents (now four, with Gulli CI-437314 — see item 18)
 can never PASS by construction: validator's _check_required_fields treats
 total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.

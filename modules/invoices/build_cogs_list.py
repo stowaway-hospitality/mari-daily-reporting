@@ -207,6 +207,33 @@ def _cheaper(old: dict, new: dict) -> str:
     return f"{field} {a} -> {b}{per} ({a / b:.2f}x lower)"
 
 
+def _same_number(was: str, now: str) -> bool:
+    """Are these two strings the SAME NUMBER written differently? -> bool
+
+    "11.00" and "11.0000" are one price with two spellings, and comparing the
+    DERIVED fields as text called that a change. It is not a cosmetic complaint:
+    the re-derive WRITES on any difference, so the file churned on every poll and
+    each run reported the move as real work. The 2026-08-16 poller log has the
+    same JFC ramen line moving 11.00 -> 11.0000 and back to 11.00 inside a SINGLE
+    run, along with Foodlink's schnitzel doing 56.00 -> 56.0000 -> 56.00, because
+    two rows carry two spellings of one description and each was re-derived
+    toward the other's formatting.
+
+    The cost of leaving it is not the churn, it is the CAMOUFLAGE. Every run
+    printed a handful of "the parser now reads them differently" lines that meant
+    nothing, which is exactly the noise a real repricing has to be spotted in.
+
+    Compared as Decimals, so 11.00 == 11.0000 and a genuine move still shows.
+    Anything non-numeric (supplier, pack_unit) falls through to the text compare.
+    """
+    if not was or not now:
+        return False
+    try:
+        return Decimal(was) == Decimal(now)
+    except (InvalidOperation, ValueError, ArithmeticError):
+        return False
+
+
 def _refresh(old: dict, new: dict) -> tuple[list[str], str]:
     """Bring `old`'s DERIVED fields up to what the invoice now says.
 
@@ -220,7 +247,7 @@ def _refresh(old: dict, new: dict) -> tuple[list[str], str]:
     moved = []
     for f in DERIVED:
         was, now = (old.get(f) or "").strip(), (new.get(f) or "").strip()
-        if was == now:
+        if was == now or _same_number(was, now):
             continue
         old[f] = now
         moved.append(f"{f} {was or '(blank)'} -> {now or '(blank)'}")
