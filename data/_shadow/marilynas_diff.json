@@ -1,13 +1,55 @@
 {
  "costed_as_of": "2026-08-16",
- "differing": 155,
+ "differing": 161,
  "diffs": [
+  {
+   "delta": 0.871181,
+   "new": 2.2293809821150266,
+   "old": 1.3582,
+   "pct": 64.142,
+   "product": "Regular Tandoori Chicken [Dine-in]"
+  },
+  {
+   "delta": 0.871151,
+   "new": 2.8219509821150264,
+   "old": 1.9508,
+   "pct": 44.656,
+   "product": "Regular Tandoori Chicken"
+  },
+  {
+   "delta": 0.131031,
+   "new": 6.3181311009422485,
+   "old": 6.1871,
+   "pct": 2.118,
+   "product": "Large Tandoori Chicken Wings Deal"
+  },
+  {
+   "delta": 0.129981,
+   "new": 3.177081100942248,
+   "old": 3.0471,
+   "pct": 4.266,
+   "product": "Large Tandoori Chicken"
+  },
   {
    "delta": 0.103393,
    "new": 2.6008931884057973,
    "old": 2.4975,
    "pct": 4.14,
    "product": "Large Garlic Cheese Pizza"
+  },
+  {
+   "delta": 0.093043,
+   "new": 6.036743185736099,
+   "old": 5.9437,
+   "pct": 1.565,
+   "product": "Gluten-free Tandoori Chicken [Dine-in]"
+  },
+  {
+   "delta": 0.093013,
+   "new": 6.629313185736099,
+   "old": 6.5363,
+   "pct": 1.423,
+   "product": "Gluten-free Tandoori Chicken"
   },
   {
    "delta": 0.074068,
@@ -379,91 +421,17 @@
    "old": 7.4851,
    "pct": -0.001,
    "product": "Gluten-free Truffalo Soldier [Dine-in]"
-  },
-  {
-   "delta": 4.9e-05,
-   "new": 5.199849188405797,
-   "old": 5.1998,
-   "pct": 0.001,
-   "product": "Large Truffalo Soldier"
-  },
-  {
-   "delta": -4.9e-05,
-   "new": 3.7907508154794534,
-   "old": 3.7908,
-   "pct": -0.001,
-   "product": "Under the Bridge Pizza"
-  },
-  {
-   "delta": 4.8e-05,
-   "new": 4.235847695363665,
-   "old": 4.2358,
-   "pct": 0.001,
-   "product": "Regular El Patron"
-  },
-  {
-   "delta": -4.8e-05,
-   "new": 4.533351695363665,
-   "old": 4.5334,
-   "pct": -0.001,
-   "product": "Regular Super House Special"
-  },
-  {
-   "delta": -4.7e-05,
-   "new": 7.194253480984738,
-   "old": 7.1943,
-   "pct": -0.001,
-   "product": "Gluten-free BBQ Chicken Pizza"
-  },
-  {
-   "delta": 4.7e-05,
-   "new": 6.797147184984738,
-   "old": 6.7971,
-   "pct": 0.001,
-   "product": "Gluten-free Uber Margherita [Dine-in]"
   }
  ],
  "generated": "2026-08-16",
  "identical": 63,
- "matched": 218,
- "max_abs_delta": 0.103393,
+ "matched": 224,
+ "max_abs_delta": 0.871181,
  "only_new": [],
- "only_old": [
-  "Gluten-free Tandoori Chicken",
-  "Gluten-free Tandoori Chicken [Dine-in]",
-  "Large Tandoori Chicken",
-  "Large Tandoori Chicken Wings Deal",
-  "Regular Tandoori Chicken",
-  "Regular Tandoori Chicken [Dine-in]"
- ],
- "products_new": 218,
+ "only_old": [],
+ "products_new": 224,
  "products_old": 224,
- "refused": [
-  {
-   "error": "'Tandoori Chicken [2Kg]': unit mismatch on sub-recipe 'Tandoori Sauce [Batch]' \u2014 recipe wants 1ml, batch yields g. Refusing to convert on a hunch.",
-   "product": "Gluten-free Tandoori Chicken"
-  },
-  {
-   "error": "'Tandoori Chicken [2Kg]': unit mismatch on sub-recipe 'Tandoori Sauce [Batch]' \u2014 recipe wants 1ml, batch yields g. Refusing to convert on a hunch.",
-   "product": "Gluten-free Tandoori Chicken [Dine-in]"
-  },
-  {
-   "error": "'Tandoori Chicken [2Kg]': unit mismatch on sub-recipe 'Tandoori Sauce [Batch]' \u2014 recipe wants 1ml, batch yields g. Refusing to convert on a hunch.",
-   "product": "Large Tandoori Chicken"
-  },
-  {
-   "error": "'Tandoori Chicken [2Kg]': unit mismatch on sub-recipe 'Tandoori Sauce [Batch]' \u2014 recipe wants 1ml, batch yields g. Refusing to convert on a hunch.",
-   "product": "Large Tandoori Chicken Wings Deal"
-  },
-  {
-   "error": "'Tandoori Chicken [2Kg]': unit mismatch on sub-recipe 'Tandoori Sauce [Batch]' \u2014 recipe wants 1ml, batch yields g. Refusing to convert on a hunch.",
-   "product": "Regular Tandoori Chicken"
-  },
-  {
-   "error": "'Tandoori Chicken [2Kg]': unit mismatch on sub-recipe 'Tandoori Sauce [Batch]' \u2014 recipe wants 1ml, batch yields g. Refusing to convert on a hunch.",
-   "product": "Regular Tandoori Chicken [Dine-in]"
-  }
- ],
- "sum_abs_delta": 0.5403,
+ "refused": [],
+ "sum_abs_delta": 2.7297,
  "venue": "marilynas"
 }

@@ -330,7 +330,13 @@ def _batch_unit_fixes():
             for e in (doc.get("yield_unit_fixes") or [])}
     lns = {(f["recipe"], f["ingredient"]): (f["from_unit"], f["to_unit"])
            for f in (doc.get("line_unit_fixes") or [])}
-    return ylds, lns
+    # A line whose QUANTITY is wrong as well as its unit -- "1 ml" meaning one
+    # whole 1,116 g batch. Kept separate from the unit-only fixes because it
+    # asserts more: a unit relabel leaves the magnitude alone, this replaces it.
+    qty_lns = {(f["recipe"], f["ingredient"]):
+               (f["from_qty"], f["from_unit"], f["to_qty"], f["to_unit"])
+               for f in (doc.get("line_qty_unit_fixes") or [])}
+    return ylds, lns, qty_lns
 
 
 def _yield_for(name: str, report: dict):
@@ -391,7 +397,7 @@ def materialise(venue: str) -> tuple[list, dict]:
     sold = {n for n, r in book.items() if not r.get("is_prep")}
 
     prov = line_provenance_index()
-    declared_yield_fixes, line_fixes = _batch_unit_fixes()
+    declared_yield_fixes, line_fixes, qty_fixes = _batch_unit_fixes()
     weighed = regular_grams_matcher()
     authored = builder_records()
 
@@ -460,7 +466,16 @@ def materialise(venue: str) -> tuple[list, dict]:
             key = (name, ln.get("name"))
             src, ev = "scrape", None
 
-            if (lf := line_fixes.get(key)) and (ln.get("unit") or "") == lf[0]:
+            if (qf := qty_fixes.get(key)) and (ln.get("unit") or "") == qf[1] \
+                    and _dec(ln.get("qty")) == _dec(qf[0]):
+                ln = dict(ln, qty=qf[2], unit=qf[3])
+                src = "rule"
+                ev = (f"batch_yield_units.yaml: {qf[0]} {qf[1]} -> {qf[2]} {qf[3]} "
+                      f"(the whole batch; see the arithmetic in that file)")
+                report["unit_relabels"].append(
+                    {"product": name, "line": key[1],
+                     "from": f"{qf[0]} {qf[1]}", "to": f"{qf[2]} {qf[3]}"})
+            elif (lf := line_fixes.get(key)) and (ln.get("unit") or "") == lf[0]:
                 ln = dict(ln, unit=lf[1])
                 src = "rule"
                 ev = (f"batch_yield_units.yaml: {lf[0]} -> {lf[1]}, per the "

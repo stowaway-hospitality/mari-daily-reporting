@@ -9,8 +9,8 @@
 #   weighed    238 — somebody put it on scales
 #   derived    715 — computed from another line (a size scaling, a cook yield)
 #   mirrored    22 — deliberately the same spec as a sibling record
-#   rule         3 — a written rule with arithmetic proof corrected it
-#   scrape     524 — nobody has checked it. This is the number to shrink.
+#   rule         4 — a written rule with arithmetic proof corrected it
+#   scrape     523 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -9415,9 +9415,10 @@
     source: scrape
   - subrecipe: Tandoori Sauce [Batch]
     desc: Tandoori Sauce [Batch]
-    qty: 1
-    unit: ml
-    source: scrape
+    qty: 1116
+    unit: g
+    source: rule
+    evidence: 'batch_yield_units.yaml: 1 ml -> 1116 g (the whole batch; see the arithmetic in that file)'
 - product: Tandoori Sauce [Batch]
   venue_source: marilynas
   yield_qty: 1116

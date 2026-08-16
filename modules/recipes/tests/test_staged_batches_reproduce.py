@@ -49,9 +49,11 @@ _EXPECTED_DIVERGENCE = {
     "Chimichurri",
     # Follows Chimichurri, plus the g -> ml line fix in batch_yield_units.yaml.
     "J.J. Aioli [Batch]",
-    # Open question: "1 ml" of Tandoori Sauce is 1 kg or the whole 1,116 g
-    # batch, and the two readings differ by 12% on six products. Refuses on
-    # purpose until somebody rules. See HANDOFF_20260816_phase2a.md.
+    # RULED the whole batch (Zak, 2026-08-16), so it now carries the sauce's
+    # tandoori paste as well as its yoghurt. The old book charged $7.35 --
+    # exactly 1,000 g of Greek yoghurt and none of the $5.73 of paste beside
+    # it. Diverges on purpose. See data/batch_yield_units.yaml for the
+    # arithmetic, and weigh a batch to turn it into a measurement.
     "Tandoori Chicken [2Kg]",
 }
 

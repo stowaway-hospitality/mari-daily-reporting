@@ -96,13 +96,18 @@ def test_shadow_diff_stays_within_the_attributed_residual():
 
     1. Sub-cent rounding on Wings Deals, from freezing a per-unit cost at six
        decimal places (<= $0.0011 each).
-    2. Sub-recipe lines the OLD engine was publishing Lightspeed's figure for
+    2. The Tandoori ruling (Zak, 2026-08-16): "1 ml" of Tandoori Sauce is the
+       whole 1,116 g batch, so the batch now carries its tandoori paste as well
+       as its yoghurt. The old engine charged $7.35 -- exactly 1,000 g of Greek
+       yoghurt and none of the $5.73 of paste beside it. Worth +$0.87 on a
+       Regular Tandoori Chicken.
+    3. Sub-recipe lines the OLD engine was publishing Lightspeed's figure for
        because it never costed them from our book at all -- `our_cost: None,
        eff_cost = ls_cost`. Large Garlic Cheese Pizza is the worst: Lightspeed
        says 43 g of garlic oil costs 6c ($1.40/kg) against our invoice-fed
        $3.80/kg, so the new engine charges $0.1634 and the old charged $0.06.
 
-    The second is the migration WORKING -- a real cost the old path was hiding,
+    The last is the migration WORKING -- a real cost the old path was hiding,
     and hiding in the flattering direction, which CLAUDE.md names as the
     dangerous one. It is deliberately not frozen into a `manual` line: doing so
     would embed Lightspeed's $1.40/kg garlic oil in the book permanently, which
@@ -112,10 +117,10 @@ def test_shadow_diff_stays_within_the_attributed_residual():
     attribute it before touching the numbers here.
     """
     d = json.loads(DIFF.read_text())
-    assert d["max_abs_delta"] <= 0.15, (
+    assert d["max_abs_delta"] <= 1.00, (
         f"max |delta| ${d['max_abs_delta']} exceeds the attributed residual. "
         f"Worst: {[(r['product'], r['delta']) for r in d['diffs'][:5]]}")
-    assert d["sum_abs_delta"] <= 1.00, f"sum |delta| ${d['sum_abs_delta']} — drift"
+    assert d["sum_abs_delta"] <= 5.00, f"sum |delta| ${d['sum_abs_delta']} — drift"
     # THE ONLY COSTS THAT MAY FALL are the Jimmy Jury family, and only by cents.
     # data/batch_yield_units.yaml relabels the scrape's "60 g of Chimichurri" in
     # J.J. Aioli to the 60 ml the hand-authored record states, and 60 ml of a
@@ -131,24 +136,21 @@ def test_shadow_diff_stays_within_the_attributed_residual():
 
 
 @pytest.mark.skipif(not DIFF.exists(), reason="no shadow diff recorded yet")
-def test_the_migration_loses_no_products_beyond_the_known_six():
-    """6 products still refuse, all of them the Tandoori family.
+def test_the_migration_loses_no_products_at_all():
+    """Every product the old book costs, the new one costs too.
 
-    `Tandoori Chicken [2Kg]` draws "1 ml" of `Tandoori Sauce [Batch]`, which
-    yields 1,116 g. The "1" is the "a 1 that is really a 1kg tub" pattern
-    prep_yields.yaml names in its own basis text -- but WHICH one is a guess:
-    1 kg of sauce, or the whole 1.116 kg batch? The scrape's line cost of $7.35
-    is exactly 1,000 g of Greek yoghurt, which hints at the tub reading, but a
-    hint is not evidence and the two readings differ by 12% on six products.
+    It was 22 refusing, then 7, then 6, now none. Each round was a unit label
+    somebody had picked rather than measured -- an ml on a mixed-unit sum, a g
+    on a volume, a "1" that meant a whole batch. None of them needed a density
+    assumed; all of them needed the basis read.
 
-    The derived unit rule in materialise_recipes deliberately does NOT fire
-    here: the batch's dominant component is in g while the line is in ml, so
-    the two independent readings disagree and the rule holds rather than
-    picking one. That is the fence working. NEEDS A HUMAN, not a heuristic.
-
-    Pinned so a seventh cannot appear unnoticed.
+    A product appearing here again means the new engine has stopped being able
+    to cost something it could yesterday, and at cutover that product silently
+    falls back to Lightspeed's figure.
     """
     d = json.loads(DIFF.read_text())
-    assert len(d["only_old"]) <= 6, (
+    assert not d["only_old"], (
         f"{len(d['only_old'])} products the old book costs and the new one does not: "
         f"{d['only_old'][:10]}")
+    assert d["matched"] == d["products_old"], (
+        f"only {d['matched']} of {d['products_old']} products cost both ways")
