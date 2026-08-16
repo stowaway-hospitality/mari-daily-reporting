@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-16T13:10:26+10:00",
+  "generated_at": "2026-08-17T06:21:40+10:00",
   "coverage": {
     "stow": {
       "label": "Stowaway",
@@ -28,7 +28,7 @@
     "stow": "https://app.stowawaybar.com/sales/products/rollup_stow.json",
     "hg": "https://app.stowawaybar.com/sales/products/rollup_hg.json",
     "mari": "https://app.stowawaybar.com/sales/products/rollup_mari.json",
-    "schema_doc": "https://github.com/zakstowaway/mari-daily-reporting/blob/main/dashboard/sales/products/SCHEMA.md"
+    "schema_doc": "https://github.com/stowaway-hospitality/mari-daily-reporting/blob/main/dashboard/sales/products/SCHEMA.md"
   },
   "notes": "All revenue ex-GST. week_ending = Sunday of Mon-Sun trading week. Fetch index.json first to find product names, then rollup_<venue>.json for full weekly history."
 }
