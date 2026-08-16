@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "engine": "v3",
-  "generated_at": "2026-08-17T08:23:19.601167+10:00",
+  "generated_at": "2026-08-17T08:27:16.033531+10:00",
   "venue": "stow",
   "source": "products_weekly.csv + recipes + bo_exports + scrape + par_overrides.json + stock_counts + par_calendar.json",
   "weeks": 96,
@@ -23,9 +23,9 @@
   },
   "target_week_of_year": 35,
   "service_classes": {
-    "core": 68,
-    "standard": 91,
-    "tail": 68
+    "core": 69,
+    "standard": 90,
+    "tail": 69
   },
   "bookings": {
     "live": false,
@@ -33,10 +33,10 @@
     "note": "SHADOW MODE \u2014 bookings_uplift_shadow is recorded per SKU but is NOT added to rec_par (modules/par/bookings.py BOOKINGS_LIVE=False)"
   },
   "summary": {
-    "n_skus": 227,
+    "n_skus": 228,
     "increase": 41,
     "decrease": 40,
-    "unchanged": 102,
+    "unchanged": 101,
     "coverage_gaps": [],
     "shrinkage_applied": 57,
     "shrinkage_capped": 6,
@@ -2891,9 +2891,9 @@
       "product": "Cri De Couer Pinot Noir - Bottle",
       "venue": "stow",
       "reporting_group": "Red Wine",
-      "rec_par": 2.8,
-      "rec_par_pre_override": 2.8,
-      "rec_par_modelled": 2.8,
+      "rec_par": 3.2,
+      "rec_par_pre_override": 3.2,
+      "rec_par_modelled": 3.2,
       "current_par": 1.3,
       "drivers": {
         "pour_wk": 0.77,
@@ -2913,15 +2913,15 @@
         "path": "normal",
         "burst_floor": 0.9,
         "burst_floored": false,
-        "service_class": "standard",
-        "service_level": 0.9,
-        "z": 1.282,
+        "service_class": "core",
+        "service_level": 0.95,
+        "z": 1.645,
         "exposure_ratio": 1.0,
         "demand_over_exposure": 1.207,
         "shrink_multiplier": 1.1013,
         "cv": 0.966,
         "sigma_exposure": 1.165,
-        "safety_stock": 1.494,
+        "safety_stock": 1.917,
         "cv_source": "sku",
         "seasonal_index": 1.4,
         "seasonal_source": "sku"
@@ -3995,13 +3995,71 @@
       ]
     },
     {
+      "product": "Dragonfly Grenache",
+      "venue": "stow",
+      "reporting_group": "Orange / Skins Wine",
+      "rec_par": 0.0,
+      "rec_par_pre_override": 0.0,
+      "rec_par_modelled": 0.0,
+      "current_par": null,
+      "drivers": {
+        "pour_wk": 0.0,
+        "recipe_wk": 0.0,
+        "variance_wk": 0.0,
+        "true_wk": 0.0,
+        "cross_venue_wk": 0.0,
+        "cross_venue_by_venue_wk": {}
+      },
+      "shrinkage": {
+        "loss_per_week": 0.0,
+        "loss_fraction": 0.0,
+        "n_periods": 0,
+        "capped": false
+      },
+      "service": {
+        "path": "normal",
+        "burst_floor": 0.0,
+        "burst_floored": false,
+        "service_class": "tail",
+        "service_level": 0.85,
+        "z": 1.036,
+        "exposure_ratio": 1.0,
+        "demand_over_exposure": 0.0,
+        "shrink_multiplier": 1.0,
+        "cv": 1.2,
+        "sigma_exposure": 0.0,
+        "safety_stock": 0.0,
+        "cv_source": "group",
+        "seasonal_index": 1.4,
+        "seasonal_source": "group"
+      },
+      "seasonal_index": 1.4,
+      "seasonal_source": "group",
+      "level_deseasonalised": 0.0,
+      "forecast_wk": 0.0,
+      "bookings_uplift_shadow": 0.0,
+      "bookings_applied": false,
+      "sanity_floor": 0.0,
+      "spike_floor": 0.0,
+      "forecast_method": "No recent sales",
+      "growth": null,
+      "buffer": 1.2,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
+      "flags": [
+        "override:zero"
+      ]
+    },
+    {
       "product": "Dragonfly Grenache - Bottle",
       "venue": "stow",
       "reporting_group": "Orange / Skins Wine",
-      "rec_par": 2.7,
-      "rec_par_pre_override": 2.7,
+      "rec_par": 0.0,
+      "rec_par_pre_override": 1.8,
       "rec_par_modelled": 1.8,
-      "current_par": 2.7,
+      "current_par": null,
       "drivers": {
         "pour_wk": 0.0,
         "recipe_wk": 0.0,
@@ -4044,9 +4102,14 @@
       "forecast_method": "No recent sales",
       "growth": null,
       "buffer": 1.2,
-      "override": null,
+      "override": {
+        "type": "zero",
+        "value": null
+      },
       "flags": [
-        "held_no_recent_demand",
+        "override:zero",
+        "sanity_floored",
+        "override_changed",
         "shrinkage_applied",
         "shrinkage_without_demand_mapping"
       ]
