@@ -346,7 +346,9 @@ def resolve(*candidates: Path) -> Path | None:
 
 # Export shape/duplication guards live in their own module so they can be
 # tested: this file does its work at import time and cannot be imported.
-from export_guards import StaleExport, assert_not_a_copy   # noqa: E402
+from export_guards import (SCHEMA_B_MAP, StaleExport,   # noqa: E402
+                           assert_export_is_for, assert_not_a_copy,
+                           reconcile_against_till)
 
 
 def load_product_rows(path: Path):
@@ -362,6 +364,14 @@ def load_product_rows(path: Path):
     reader = csv.DictReader(io.StringIO(csv_text))
     all_rows = list(reader)
     fieldnames = reader.fieldnames or []
+    # Lightspeed sends two product-report shapes. Normalise the second one into
+    # the first's field names, or the day is read partially and silently: see
+    # SCHEMA_B_MAP in export_guards.py and Stowaway 10/13 Aug 2026.
+    if "Product Name" not in fieldnames and "Product" in fieldnames:
+        print(f"  {path.name}: alternate export shape (Position/Product Number) "
+              f"— normalising to the standard field names.")
+        all_rows = [{SCHEMA_B_MAP.get(k, k): v for k, v in r.items()} for r in all_rows]
+        fieldnames = [SCHEMA_B_MAP.get(f, f) for f in fieldnames]
     if any(c in fieldnames for c in ("Product Name", "Product")):
         footer_rows = [r for r in all_rows
                        if not (r.get("Product Name") or r.get("Product") or "").strip()]
@@ -547,6 +557,20 @@ else:
     # A re-sent report is the one failure that looks like data. Checked before
     # anything is computed, so a duplicated day cannot reach the history file.
     assert_not_a_copy(insights_file, prefix)
+    # ...and refuse one whose own rows name a different day (once the
+    # Lightspeed schedule includes the date column; silent until then).
+    assert_export_is_for(insights_file, target.isoformat())
+    # RECONCILE AGAINST THE TILL. The hourly export is produced separately by
+    # Lightspeed and names its own date, so agreement between the two is real
+    # evidence rather than "a file arrived". Nothing did this before, which is
+    # how Stowaway 11 Aug 2026 published $3,807 of a $9,438 day.
+    _hourly = DATA_DIR / f"{prefix}_hourly_{target.isoformat()}.csv"
+    _ok, _msg = reconcile_against_till(insights_file, _hourly)
+    print(f"  till reconciliation: {_msg}")
+    if not _ok:
+        print(f"::error::{prefix} {target.isoformat()} does NOT reconcile to the "
+              f"till — {_msg}. Refusing to write a day the register disagrees with.")
+        sys.exit(1)
     all_rows, fieldnames = load_product_rows(insights_file)
     print(f"  Parsed {len(all_rows)} rows; columns: {fieldnames}")
 

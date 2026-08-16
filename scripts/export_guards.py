@@ -31,18 +31,56 @@ from pathlib import Path
 # The two shapes Lightspeed emails. A product export names the product; the
 # reporting-group one does not, and carries no product detail at all.
 PRODUCT_KEYS = ("Product Name", "Product")
+
+# Lightspeed emails TWO product-report shapes and never says which is which.
+#   A  Product Name, Product Quantity, $ Sales, Total Tax, Cost, ...
+#   B  Position, Product Number, Product, Quantity, Percent of Quantity,
+#      Sale Amount, Percent of Sale Amount, Cost, Percent of Gross Profit
+# B arrived for Stowaway on 10 and 13 Aug 2026. Nothing rejected it and nothing
+# read it properly either: the aggregator looks for "$ Sales"/"Product Name",
+# found neither, and wrote a day that was real but far too small — 10 Aug came
+# out at $933.59 ex against a file holding $2,438.04 inc. An UNDERstatement,
+# which is the direction nobody notices, because a quiet Monday looks like a
+# quiet Monday. Normalising B into A's field names is the whole fix.
+SCHEMA_B_MAP = {
+    "Product": "Product Name",
+    "Quantity": "Product Quantity",
+    "Sale Amount": "$ Sales",
+}
 RG_KEY = "Reporting Group Name"
+
+# Columns a Lightspeed export may use to say WHICH DAY it covers. The product
+# export carries none of them today — which is the whole reason a re-sent report
+# could be filed under the wrong date — but the hourly export already has
+# "Sale Closed Date", so the moment the scheduled report includes it, every file
+# becomes self-identifying and this class of error ends.
+DATE_KEYS = ("Sale Closed Date", "Sale Date", "Date", "Business Date", "Day")
 
 
 class StaleExport(RuntimeError):
     """This export is byte-identical to another DATE's export."""
 
 
-def read_rows(path: Path) -> tuple[list[dict], list[str]]:
-    """(rows, fieldnames). No rows is a legitimate answer: the venue was shut."""
+def read_rows(path: Path, normalise: bool = True) -> tuple[list[dict], list[str]]:
+    """(rows, fieldnames). No rows is a legitimate answer: the venue was shut.
+
+    Shape B is renamed into shape A so every caller downstream sees one export
+    format. Set normalise=False to inspect what actually arrived.
+    """
     text = path.read_text(encoding="utf-8-sig", errors="replace")
     reader = csv.DictReader(io.StringIO(text))
-    return list(reader), (reader.fieldnames or [])
+    rows = list(reader)
+    fields = reader.fieldnames or []
+    if normalise and "Product Name" not in fields and "Product" in fields:
+        rows = [{SCHEMA_B_MAP.get(k, k): v for k, v in r.items()} for r in rows]
+        fields = [SCHEMA_B_MAP.get(f, f) for f in fields]
+    return rows, fields
+
+
+def is_schema_b(path: Path) -> bool:
+    """True when the export arrived in the Position/Product Number shape."""
+    _, fields = read_rows(path, normalise=False)
+    return "Product Name" not in fields and "Product" in fields
 
 
 def is_closed_day(path: Path) -> bool:
@@ -82,3 +120,99 @@ def assert_not_a_copy(path: Path, prefix: str, data_dir: Path | None = None) -> 
                     f"date from Lightspeed Insights.")
         except OSError:
             continue
+
+
+def dates_in_export(path: Path) -> set[str]:
+    """Every distinct date the file claims to cover. Empty set = it does not say.
+
+    This is the difference between trusting an email's delivery time and reading
+    the report itself. On 10 Aug 2026 a re-send of the 3 Aug report was filed as
+    the 10th because the pipeline had nothing else to go on: target_date() in
+    ingest_insights_email.py reads the EMAIL's Date header, and the product
+    export contains no date at all.
+    """
+    rows, fields = read_rows(path)
+    key = next((k for k in DATE_KEYS if k in fields), None)
+    if not key:
+        return set()
+    out = set()
+    for r in rows:
+        v = (r.get(key) or "").strip()[:10]
+        if len(v) == 10 and v[4] in "-/" and v[7] in "-/":
+            out.add(v.replace("/", "-"))
+    return out
+
+
+def assert_export_is_for(path: Path, target: str) -> None:
+    """Refuse an export whose own rows say they belong to a different day.
+
+    Silent when the report does not carry a date — this cannot invent one — so
+    it is safe to ship before the Lightspeed schedules are updated, and starts
+    protecting the moment they are.
+    """
+    claims = dates_in_export(path)
+    if not claims:
+        return
+    if claims != {target}:
+        raise StaleExport(
+            f"{path.name} is filed as {target} but its rows say "
+            f"{', '.join(sorted(claims))}. The export was re-sent and stamped "
+            f"with the email's delivery date. Refusing it.")
+
+
+def hourly_total_inc(hourly_path: Path) -> float:
+    """The day's takings per the HOURLY export — an independent path to the
+    same number, and the only file Lightspeed sends that names its own date."""
+    rows, fields = read_rows(hourly_path)
+    col = next((c for c in fields if c and "Inc" in c), None)
+    if not col:
+        return 0.0
+    tot = 0.0
+    for r in rows:
+        v = (r.get(col) or "").replace("$", "").replace(",", "").strip()
+        try:
+            tot += float(v)
+        except ValueError:
+            pass
+    return tot
+
+
+def product_total_inc(product_path: Path) -> float:
+    """The day's takings per the PRODUCT export, footer/subtotal rows dropped."""
+    rows, _ = read_rows(product_path)
+    tot = 0.0
+    for r in rows:
+        if not (r.get("Product Name") or "").strip():
+            continue                      # footer/subtotal row
+        v = (r.get("$ Sales") or "").replace("$", "").replace(",", "").strip()
+        try:
+            tot += float(v)
+        except ValueError:
+            pass
+    return tot
+
+
+def reconcile_against_till(product_path: Path, hourly_path: Path,
+                           tolerance_pct: float = 10.0) -> tuple[bool, str]:
+    """Do the two independent exports for this day agree?
+
+    THE point of this: until now nothing ever compared our numbers to the till's
+    own. Two weeks of wrong Harry Gatos figures sat in the reporting because the
+    only check was "did a file arrive". These two reports are produced
+    separately by Lightspeed, so agreement is real evidence and disagreement is
+    a fact worth stopping for.
+
+    Returns (ok, message). Tolerance is a percentage: the hourly report counts
+    the whole till while the product report can exclude voids and open-price
+    oddities, so they are close, not identical.
+    """
+    if not hourly_path.exists():
+        return True, "no hourly export for this day — nothing to reconcile against"
+    prod, hourly = product_total_inc(product_path), hourly_total_inc(hourly_path)
+    if hourly <= 0:
+        return True, "hourly export carries no revenue — skipped"
+    gap = prod - hourly
+    pct = abs(gap) / hourly * 100
+    msg = (f"product ${prod:,.2f} vs till ${hourly:,.2f} inc "
+           f"({gap:+,.2f}, {pct:.1f}%)")
+    return (pct <= tolerance_pct), msg

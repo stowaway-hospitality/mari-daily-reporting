@@ -77,6 +77,30 @@ if trading.exists():
         print("     ", e)
     check("15 Aug is accepted", ok)
 
+print("\n-- the alternate export shape (Position/Product Number) --")
+alt = DATA / "insights_stow_2026-08-10.csv"
+if alt.exists():
+    from export_guards import is_schema_b
+    check("recognised as the alternate shape", is_schema_b(alt))
+    rows, fields = read_rows(alt)
+    check("normalised to the standard field names",
+          "Product Name" in fields and "$ Sales" in fields, str(fields[:4]))
+    check("and its rows are readable", len(rows) > 10, str(len(rows)))
+
+print("\n-- reconciliation against the till --")
+from export_guards import reconcile_against_till
+good_p, good_h = DATA / "insights_stow_2026-08-15.csv", DATA / "stow_hourly_2026-08-15.csv"
+bad_p,  bad_h  = DATA / "insights_stow_2026-08-11.csv", DATA / "stow_hourly_2026-08-11.csv"
+if good_p.exists() and good_h.exists():
+    ok, msg = reconcile_against_till(good_p, good_h)
+    check("a normal day reconciles", ok, msg)
+if bad_p.exists() and bad_h.exists():
+    ok, msg = reconcile_against_till(bad_p, bad_h)
+    # 11 Aug 2026: $3,807 of a $9,438 day. The break this exists for.
+    check("11 Aug is caught (60% short of the till)", not ok, msg)
+missing = reconcile_against_till(good_p, DATA / "stow_hourly_1999-01-01.csv")
+check("no hourly export = no false alarm", missing[0] is True, missing[1])
+
 print("\n" + "=" * 58)
 print(f"{len(PASS)} passed, {len(FAIL)} failed")
 for f in FAIL:
