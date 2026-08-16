@@ -84,3 +84,36 @@ line_unit_fixes:
       data/recipes/marilynas.yaml, "Jimmy Jury Aioli" -- the same sauce in the
       same aioli, hand-entered -- reads: subrecipe "Chimichurri", qty 60,
       unit "ml".
+
+# ---------------------------------------------------------------------------
+# PROPOSED, NOT APPLIED — needs one word from Zak.
+# ---------------------------------------------------------------------------
+# Six Tandoori Chicken products refuse to cost because `Tandoori Chicken [2Kg]`
+# draws "1 ml" of `Tandoori Sauce [Batch]`, which yields 1,116 g. The "1" is the
+# "a 1 that is really a 1kg tub" pattern prep_yields.yaml names in its own basis
+# text -- but 1 KG of sauce and the WHOLE 1,116 g batch are different answers,
+# and they differ by 12% on six products, so the rule holds rather than guessing.
+#
+# Three independent readings all point the same way, at the whole batch:
+#
+#   1. THE NAME. The batch is called [2Kg] and prep_yields declares 2,000 g.
+#   2. THE ARITHMETIC. 1,000 g chicken + the whole 1,116 g sauce = 2,116 g of
+#      contents, and 2,116 -> 2,000 is a 5.5% loss: normal for a marinated
+#      batch. Read as 1 kg of sauce it is 2,000 g in and 2,000 g out -- zero
+#      loss, which nothing cooked does. Read literally ("1 ml") it is 1,001 g in
+#      and 2,000 g out, which is impossible. See scripts/audit_batch_yields.py.
+#   3. THE PATTERN. Identical in shape to House BBQ Sauce ("2 ml" = two 4 L
+#      packs) and Truffle Oil Prep ("4 ml" = four 250 ml bottles), both proven.
+#
+# Reading 2 is the strongest: it is the only one of the three that produces a
+# physically possible batch. But it rests on prep_yields' own 2,000 g, which is
+# itself scraped rather than weighed, so it is evidence and not proof -- and the
+# repo's rule is refusal over guessing. Uncomment to apply.
+#
+# proposed_line_unit_fixes:
+#   - recipe: "Tandoori Chicken [2Kg]"
+#     ingredient: "Tandoori Sauce [Batch]"
+#     from_qty: 1
+#     from_unit: "ml"
+#     to_qty: 1116          # the whole batch
+#     to_unit: "g"
