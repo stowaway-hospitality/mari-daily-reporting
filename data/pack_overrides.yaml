@@ -997,3 +997,59 @@
   by: "Zak (HG draws Stowaway's coffee, 2026-08-17); 750ml stated in the LS product name and on the invoice"
   on: 2026-08-17
   by_email: "hello@stowawaybar.com"
+# JUN PACIFIC MOUSSE RICE CAKES — the description states the PIECE, the invoice
+# prices the PACK.
+#
+# The parser read "50g" out of the product name and recorded pack_qty 0.05 kg,
+# making these $0.330000/g — implausibly dear for a frozen dessert, and four of
+# the seven SEVERE findings. ingredients.json had already diagnosed it in its own
+# words: "the description probably states the PIECE size while the price is for
+# the CASE".
+#
+# The evidence is the supplier's other lines, not a guess about case counts.
+# EVERY other Jun Pacific row on these invoices is priced per pack as `1 ea` —
+# including "Fresh Ramen Frozen (150gx12pcs)" at $13.00, where the same parser
+# correctly ignored the piece size because the format did not look like a pack
+# quantity. "…Rice Cake 50g" is the one shape it grabbed.
+#
+# So: one unit, $16.50, exactly like its twelve siblings. Whether the box holds
+# six or twelve pieces does not change the rate the book needs, and nothing
+# draws on these yet — so pricing the piece would be inventing a number for a
+# recipe that does not exist. If one is ever written, the piece count comes off
+# the box.
+- id: "jun-pacific:UZ8141304"        # Frozen Mango Mousse Rice Cake 50g
+  pack_qty: 1
+  pack_unit: ea
+  by: "Claude (description states the piece; every other Jun Pacific line on the
+    same invoices is priced 1 ea per pack, incl. Fresh Ramen (150gx12pcs) $13.00)"
+  on: 2026-08-17
+  by_email: "hello@stowawaybar.com"
+- id: "jun-pacific:UZ8141305"        # Frozen Strawberry Mousse Rice Cake 50g
+  pack_qty: 1
+  pack_unit: ea
+  by: "Claude (as above)"
+  on: 2026-08-17
+  by_email: "hello@stowawaybar.com"
+- id: "jun-pacific:UZ8141301"        # Frozen Tiramisu Mousse Rice Cake 50g
+  pack_qty: 1
+  pack_unit: ea
+  by: "Claude (as above)"
+  on: 2026-08-17
+  by_email: "hello@stowawaybar.com"
+# FINGER LIMES — same shape as the mousse cakes above.
+#
+# "LIME FINGER RUBY RED 45GM" at $18.50: the parser read 45GM as the pack and
+# published $411.11/kg, which is three times the wholesale rate for a premium
+# finger lime and the last of the seven SEVERE in this rule.
+#
+# 144 of Select Fresh's lines are priced `per_unit 1 1 ea`. This is the only one
+# that came out in kilograms, and it did so because the description happens to
+# state the punnet size. $18.50 for a 45 g punnet of finger limes is an ordinary
+# price for a garnish bought in small quantities; $411/kg is not a price at all.
+- id: "select-fresh:LIMFRUB"         # LIME FINGER RUBY RED 45GM
+  pack_qty: 1
+  pack_unit: ea
+  by: "Claude (description states the punnet; 144 other Select Fresh lines are
+    priced 1 ea, and this is the only one the parser read as a weight)"
+  on: 2026-08-17
+  by_email: "hello@stowawaybar.com"
