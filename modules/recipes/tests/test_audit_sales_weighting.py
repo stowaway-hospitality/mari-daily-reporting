@@ -105,9 +105,14 @@ def test_every_finding_carries_a_revenue_weight():
 
 def test_a_live_product_keeps_its_severity_and_states_its_volume():
     F = audit()
-    live = [d for (sev, _r), items in F.items() if sev == "SEVERE"
+    # ANY severity, not SEVERE specifically. SEVERE reached ZERO on 2026-08-17
+    # and this fixture-sanity line then asserted the book still had defects --
+    # a test that fails when the thing it guards succeeds. What it actually
+    # guards is that a finding on a SELLING product states its volume, and that
+    # is true of every severity.
+    live = [d for (sev, _r), items in F.items() if sev in ("SEVERE", "WARN")
             for rev, d in items if rev > 0]
-    assert live, "fixture sanity: some SEVERE findings are on selling products"
+    assert live, "fixture sanity: some findings are on selling products"
     for d in live:
         assert "sold, $" in d
 
@@ -248,7 +253,14 @@ def test_a_batch_masquerading_as_a_serve_is_named_as_one():
     The bound is not a guess: the heaviest real menu item in the book is a Large
     Super House Special at 1,006 g and a beer jug is 1,000 ml."""
     F = audit()
-    batch = [d for (_s, rule), v in F.items() if "BATCH, not a serve" in rule
+    # Either shape counts. Zak declared the portion -- half a cup, ~130 g -- on
+    # 2026-08-17, so the finding moved from SEVERE ("no portion size") to INFO
+    # ("a serve portion is declared", $0.72 a bowl). What must never happen is
+    # Potato Salad being judged as a serve and reported as negative GP, which is
+    # what the second half of this test guards. The naming is what matters, not
+    # which severity it currently sits at.
+    batch = [d for (_s, rule), v in F.items()
+             if "BATCH, not a serve" in rule or "serve portion is declared" in rule
              for _rev, d in v]
     assert any("Potato Salad" in d for d in batch), batch
     for rule_frag in ("negative GP", "costs more than it sells for"):

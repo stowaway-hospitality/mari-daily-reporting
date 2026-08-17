@@ -1,0 +1,31 @@
+# What one SERVE of a batch-shaped recipe actually is.
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# A few recipes are physically a batch but sell as a portion: the recipe holds a
+# tray's worth of ingredients and the POS price is for one bowl of it. audit_book
+# spots the shape ("recipe is a BATCH, not a serve") but had nowhere to look for
+# the answer, so the finding could never be closed -- it just sat at SEVERE
+# describing a fact nobody disputed.
+#
+# The cost of the tray is not the cost of the serve, and dividing one by the
+# other needs a number only the kitchen has. That number goes here.
+#
+# NOT A YIELD. Declaring a yield on one of these would make it a batch to every
+# consumer, and a batch is excluded from serve costs -- which is how three sold
+# products briefly cost $0.00 on 2026-08-16. These ARE sold. They need a portion,
+# not a reclassification.
+
+portions:
+  - product: "Potato Salad"
+    portion_qty: 130
+    portion_unit: g
+    by: "zak"
+    on: 2026-08-17
+    basis: >-
+      Half a cup, per Zak. An Australian metric cup is 250 ml, so half is 125 ml,
+      and potato salad bound with mayonnaise sits near 1.05 g/ml -- call it 130 g.
+      Against the recipe's 1,780 g of inputs that is about 13.7 serves, so the
+      $9.87 tray costs roughly $0.72 a bowl against a $7.00 menu price.
+      The 1,780 g is itself the sum of the ingredient lines rather than a
+      weighing, so the SERVE is as good as the batch it divides.

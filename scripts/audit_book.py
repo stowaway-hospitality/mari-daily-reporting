@@ -35,6 +35,36 @@ ROOT = Path(__file__).resolve().parents[1]
 _EXEMPT_PATS = None
 
 
+_SERVE_PORTIONS = None
+
+
+def _serve_portion(name: str):
+    """(qty, unit) for a batch-shaped recipe that sells as a portion, or None.
+
+    See data/serve_portions.yaml. A recipe holding a tray of ingredients against
+    a one-bowl menu price is a real finding -- but only until somebody says how
+    big the bowl is, and then it is arithmetic. Before this the rule had nowhere
+    to look for that answer, so the finding sat at SEVERE describing a fact
+    nobody disputed and could never be closed.
+    """
+    global _SERVE_PORTIONS
+    if _SERVE_PORTIONS is None:
+        _SERVE_PORTIONS = {}
+        try:
+            import yaml as _yaml
+            f = ROOT / "data" / "serve_portions.yaml"
+            doc = _yaml.safe_load(f.read_text(encoding="utf-8-sig")) if f.exists() else None
+            for e in ((doc or {}).get("portions") or []):
+                try:
+                    _SERVE_PORTIONS[e["product"]] = (float(e["portion_qty"]),
+                                                     str(e["portion_unit"]))
+                except (KeyError, TypeError, ValueError):
+                    pass
+        except Exception:                                    # noqa: BLE001
+            pass
+    return _SERVE_PORTIONS.get(name)
+
+
 def _exempt(name: str) -> bool:
     """Is this product on the flags spec's exempt list?
 
@@ -578,6 +608,17 @@ def audit():
     for n in sorted(batch_shaped):
         rec = recipes[n]
         mass = _input_mass(rec)
+        # A DECLARED PORTION CLOSES IT. The shape is still a batch, but once the
+        # kitchen has said how much goes in the bowl, the tray cost divides into
+        # a serve cost and there is nothing left to ask. Reported as INFO so the
+        # division stays visible rather than disappearing.
+        if (portion := _serve_portion(n)) and mass > 0:
+            per = money(rec.get("our_cost")) * (portion[0] / mass)
+            add("INFO", "batch-shaped, but a serve portion is declared",
+                f"{n[:34]:36} {portion[0]:,.0f} {portion[1]} of {mass:,.0f} "
+                f"= ${per:.2f} a serve against a "
+                f"${money(rec.get('sell_incl')):.2f} menu price", product=n)
+            continue
         add("SEVERE", "recipe is a BATCH, not a serve — it has no portion size",
             f"{n[:34]:36} {mass:,.0f} g/ml of inputs costing ${money(rec.get('our_cost')):,.2f}"
             f" against a ${money(rec.get('sell_incl')):.2f} menu price"
