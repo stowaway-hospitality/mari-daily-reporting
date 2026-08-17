@@ -1,6 +1,6 @@
 {
   "date": "2026-07-13",
-  "generated_at": "2026-07-20T22:35:55.834312Z",
+  "generated_at": "2026-08-17T04:10:26.771376Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -17,10 +17,13 @@
   "sales": {
     "revenue_inc_gst": 1720.58,
     "revenue_ex_gst": 1564.18,
-    "cogs_dollars": 414.51,
-    "cogs_pct": 26.5,
-    "gp_dollars": 1149.67,
-    "gp_pct": 73.5,
+    "cogs_dollars": 474.19,
+    "cogs_pct": 30.3,
+    "gp_dollars": 1089.99,
+    "gp_pct": 69.7,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 414.51,
+    "recipe_coverage_pct": 83.9,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
     "eatclub_giveaway_ex_gst": 14.2,
@@ -40,11 +43,11 @@
   },
   "wages": {
     "kitchen_dollars": 0,
-    "foh_dollars": 682.22,
+    "foh_dollars": 682.42,
     "driver_dollars": 0,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": 682.22,
+    "total_dollars": 682.42,
     "wages_pct": 43.6,
     "net_wage_pct": null,
     "kitchen_hours": 0,
@@ -57,7 +60,7 @@
   "delivery": null,
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "green",
+    "cogs": "yellow",
     "wages": "red",
     "delivery": "n/a",
     "gp": "green",
@@ -120,134 +123,153 @@
       "name": "Mulled Wine",
       "qty": 8.0,
       "rev": 119.48,
-      "cost": 16.56,
-      "cost_source": "lightspeed"
+      "cost": 16.7264,
+      "cost_source": "recipe",
+      "cost_lightspeed": 16.56
     },
     {
       "name": "A. Rodda Chardonnay - Regular",
       "qty": 3.0,
       "rev": 84.0,
-      "cost": 18.5,
-      "cost_source": "lightspeed"
+      "cost": 22.62,
+      "cost_source": "recipe",
+      "cost_lightspeed": 18.5
     },
     {
       "name": "Classic Margarita",
       "qty": 4.0,
       "rev": 81.31,
-      "cost": 16.54,
-      "cost_source": "lightspeed"
+      "cost": 16.7144,
+      "cost_source": "recipe",
+      "cost_lightspeed": 16.54
     },
     {
       "name": "Villa Fresco Sangiovese - Regular",
       "qty": 8.0,
       "rev": 79.79,
-      "cost": 19.3,
-      "cost_source": "lightspeed"
+      "cost": 19.2984,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.3
     },
     {
       "name": "Pepsi Max Glass",
       "qty": 16.0,
       "rev": 72.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 20.96,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Pepsi Glass",
       "qty": 16.0,
       "rev": 72.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 20.96,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Petits Detours Ros\u00e9 - Regular",
       "qty": 4.0,
       "rev": 64.0,
-      "cost": 14.14,
-      "cost_source": "lightspeed"
+      "cost": 13.872,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.14
     },
     {
       "name": "Fresh is Best Lager - Pint",
       "qty": 6.0,
       "rev": 62.0,
-      "cost": 14.72,
-      "cost_source": "lightspeed"
+      "cost": 14.6784,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.72
     },
     {
       "name": "Kuku Sauvignon Blanc - Regular",
       "qty": 4.0,
       "rev": 56.46,
-      "cost": 11.66,
-      "cost_source": "lightspeed"
+      "cost": 11.6564,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.66
     },
     {
       "name": "Hahn Super Dry GF",
       "qty": 5.0,
       "rev": 54.21,
-      "cost": 13.4,
-      "cost_source": "lightspeed"
+      "cost": 13.125,
+      "cost_source": "recipe",
+      "cost_lightspeed": 13.4
     },
     {
       "name": "Stone & Wood - Pint",
       "qty": 3.0,
       "rev": 51.0,
-      "cost": 13.03,
-      "cost_source": "lightspeed"
+      "cost": 13.2627,
+      "cost_source": "recipe",
+      "cost_lightspeed": 13.03
     },
     {
       "name": "White Light Pure Vodka [House]",
       "qty": 6.0,
       "rev": 50.0,
-      "cost": 9.12,
-      "cost_source": "lightspeed"
+      "cost": 9.1248,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.12
     },
     {
       "name": "Guinness Draught - Pint",
       "qty": 3.0,
       "rev": 49.0,
-      "cost": 14.14,
-      "cost_source": "lightspeed"
+      "cost": 14.4153,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.14
     },
     {
       "name": "Ottelia Chardonnay - Large",
       "qty": 2.0,
       "rev": 45.0,
-      "cost": 11.53,
-      "cost_source": "lightspeed"
+      "cost": 11.5314,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.53
     },
     {
       "name": "Lemon, Lime & Bitters",
       "qty": 8.0,
       "rev": 40.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 8.2152,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Dark & Stormy",
       "qty": 2.0,
       "rev": 28.0,
-      "cost": 7.58,
-      "cost_source": "lightspeed"
+      "cost": 8.0236,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.58
     },
     {
       "name": "Kirin - Schooner",
       "qty": 2.0,
       "rev": 28.0,
-      "cost": 7.56,
-      "cost_source": "lightspeed"
+      "cost": 7.5938,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.56
     },
     {
       "name": "Status Quo - Pint",
       "qty": 2.0,
       "rev": 28.0,
-      "cost": 8.23,
-      "cost_source": "lightspeed"
+      "cost": 8.3174,
+      "cost_source": "recipe",
+      "cost_lightspeed": 8.23
     },
     {
       "name": "Philter XPA - Pint",
       "qty": 3.0,
       "rev": 27.0,
-      "cost": 9.0,
-      "cost_source": "lightspeed"
+      "cost": 9.0066,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.0
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "date": "2026-07-13",
-  "generated_at": "2026-07-20T22:35:54.056983Z",
+  "generated_at": "2026-08-17T04:10:25.499629Z",
   "venue": "harry",
   "venue_display": "Harry Gatos",
   "lane_config": [
@@ -16,11 +16,14 @@
   },
   "sales": {
     "revenue_inc_gst": 5525.61,
-    "revenue_ex_gst": 5294.58,
-    "cogs_dollars": 772.66,
-    "cogs_pct": 14.6,
-    "gp_dollars": 4521.92,
-    "gp_pct": 85.4,
+    "revenue_ex_gst": 5023.52,
+    "cogs_dollars": 1473.13,
+    "cogs_pct": 29.3,
+    "gp_dollars": 3550.38,
+    "gp_pct": 70.7,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 772.66,
+    "recipe_coverage_pct": 93.6,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
     "eatclub_giveaway_ex_gst": 0.0,
@@ -39,18 +42,18 @@
     "stow_food_out_ex_gst": 0.0
   },
   "wages": {
-    "kitchen_dollars": 522.44,
-    "foh_dollars": 512.52,
+    "kitchen_dollars": 522.24,
+    "foh_dollars": 483.51,
     "driver_dollars": 0,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": 1034.96,
-    "wages_pct": 19.5,
+    "total_dollars": 1005.74,
+    "wages_pct": 20.0,
     "net_wage_pct": null,
     "kitchen_hours": 12.8,
-    "foh_hours": 12.0,
+    "foh_hours": 11.5,
     "wages_kitchen_pct": 12.2,
-    "wages_foh_pct": 69.5,
+    "wages_foh_pct": 65.6,
     "includes_super": true,
     "salaried_synthesized": true
   },
@@ -113,36 +116,41 @@
       "name": "Unlimited Dumplings",
       "qty": 86.0,
       "rev": 2040.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 613.5068,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Unlimited Dumplings",
       "qty": 80.0,
       "rev": 1819.2,
-      "cost": 560.82,
-      "cost_source": "lightspeed"
+      "cost": 570.704,
+      "cost_source": "recipe",
+      "cost_lightspeed": 560.82
     },
     {
       "name": "Pepsi Max Glass",
       "qty": 31.0,
       "rev": 135.0,
       "cost": 40.61,
-      "cost_source": "lightspeed"
+      "cost_source": "recipe",
+      "cost_lightspeed": 40.61
     },
     {
       "name": "Fried Rice",
       "qty": 5.0,
       "rev": 116.51,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 14.121,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Tonkotsu",
       "qty": 4.0,
       "rev": 102.0,
-      "cost": 16.66,
-      "cost_source": "lightspeed"
+      "cost": 17.0572,
+      "cost_source": "recipe",
+      "cost_lightspeed": 16.66
     },
     {
       "name": "Shredded Beef",
@@ -162,92 +170,105 @@
       "name": "Negroni",
       "qty": 4.0,
       "rev": 61.2,
-      "cost": 19.06,
-      "cost_source": "lightspeed"
+      "cost": 16.396,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.06
     },
     {
       "name": "Classic Margarita",
       "qty": 4.0,
       "rev": 56.0,
-      "cost": 13.06,
-      "cost_source": "lightspeed"
+      "cost": 16.7144,
+      "cost_source": "recipe",
+      "cost_lightspeed": 13.06
     },
     {
       "name": "Dumplings - Prawn Har Gow [GF]",
       "qty": 3.0,
       "rev": 55.18,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 13.4973,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Trutta Streamside Shiraz - Large [HG]",
       "qty": 2.0,
       "rev": 50.0,
-      "cost": 12.03,
-      "cost_source": "lightspeed"
+      "cost": 13.2264,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.03
     },
     {
       "name": "Mie Goreng",
       "qty": 2.0,
       "rev": 47.0,
-      "cost": 6.36,
-      "cost_source": "lightspeed"
+      "cost": 11.3376,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.36
     },
     {
       "name": "Popcorn Cauliflower",
       "qty": 3.0,
       "rev": 42.92,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 2.8833,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Lemonade Glass",
       "qty": 10.0,
       "rev": 40.5,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 8.032,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Sapporo - Schooner",
       "qty": 4.0,
       "rev": 40.0,
-      "cost": 12.61,
-      "cost_source": "lightspeed"
+      "cost": 12.614,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.61
     },
     {
       "name": "Harry's Lager - Schooner",
       "qty": 4.0,
       "rev": 38.0,
-      "cost": 6.5,
-      "cost_source": "lightspeed"
+      "cost": 6.29,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.5
     },
     {
       "name": "Harry's Lager - Pint",
       "qty": 3.0,
       "rev": 37.5,
-      "cost": 6.54,
-      "cost_source": "lightspeed"
+      "cost": 6.327,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.54
     },
     {
       "name": "Pepsi Glass",
       "qty": 8.0,
       "rev": 36.0,
       "cost": 10.48,
-      "cost_source": "lightspeed"
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.48
     },
     {
       "name": "Fried Rice",
       "qty": 2.0,
       "rev": 32.2,
-      "cost": 5.36,
-      "cost_source": "lightspeed"
+      "cost": 5.6484,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.36
     },
     {
       "name": "Outback Prawn Toast",
       "qty": 2.0,
       "rev": 32.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 7.7792,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     }
   ]
 }
