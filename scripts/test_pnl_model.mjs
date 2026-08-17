@@ -149,15 +149,36 @@ for (const tf of TFS) {
   // A week inside the CURRENT month must not be handed most of a month's fee:
   // its revenue denominator is only month-to-date, so revenue-share would compare
   // a 7-day week against ~9 days of trade. Day-prorated instead.
+  //
+  // The ceiling is READ FROM THE BOOKS, not hardcoded. It used to be a literal
+  // 218.00 — July's ME&U as Xero held it on 2026-08-10 — and on 2026-08-17 the
+  // Xero pull trued July up to $3,438.96 once the late invoices landed. The
+  // model was still day-prorating exactly as designed ($614.87 = 3438.96 x 7/31
+  // x Stow's revenue share of the week), but the test failed anyway, because it
+  // was asserting against a number Xero is entitled to revise. A test that
+  // pins a live figure reports a data update as a code regression.
+  //
+  // The PROPERTY is what matters, and it still discriminates: on the same day,
+  // day-proration gives $614.87 against a $859.74 ceiling, while the
+  // revenue-share regression this was written to catch gives $1,133.84 and
+  // still fails. Both scale with the fee, so the check cannot go stale again.
   const wk = '2026-08-03', wkEnd = '2026-08-09';
   const cur = ctx.venueDeliveryEst('stow', wk, wkEnd, wkEnd).df;
-  const lastClosedMeu = 218.00;
+  const curMonth = ctx.isoDate(ctx.sydneyToday()).slice(0, 7);
+  const lastClosedMeu = ctx.toNum(
+    (S.xeroOH || [])
+      .filter(r => r.month && r.month < curMonth && ctx.hasVal(r.meu_fees))
+      .sort((a, b) => a.month < b.month ? 1 : -1)[0]?.meu_fees);
   checks++;
-  if (cur > lastClosedMeu * (7 / 28)) {
+  if (!lastClosedMeu) {
+    console.log('  ok    (no closed month with an ME&U fee to prorate)');
+  } else if (cur > lastClosedMeu * (7 / 28)) {
     fails++;
-    console.log('  FAIL  current-month week took ' + cur.toFixed(2) + ' of a ~' + lastClosedMeu + ' month fee');
+    console.log('  FAIL  current-month week took ' + cur.toFixed(2)
+                + ' of a ~' + lastClosedMeu.toFixed(2) + ' month fee — revenue-shared against a part month?');
   } else {
-    console.log('  ok    current-month week is day-prorated (' + cur.toFixed(2) + '), not revenue-shared against a part month');
+    console.log('  ok    current-month week is day-prorated (' + cur.toFixed(2)
+                + ' of a ' + lastClosedMeu.toFixed(2) + ' month fee), not revenue-shared');
   }
 }
 
