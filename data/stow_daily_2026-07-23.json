@@ -1,6 +1,6 @@
 {
   "date": "2026-07-23",
-  "generated_at": "2026-07-24T10:30:19.828048Z",
+  "generated_at": "2026-08-17T04:27:00.772253Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -15,17 +15,20 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 4619.01,
-    "revenue_ex_gst": 4617.83,
-    "cogs_dollars": 895.47,
-    "cogs_pct": 19.4,
-    "gp_dollars": 3722.36,
-    "gp_pct": 80.6,
+    "revenue_inc_gst": 4523.83,
+    "revenue_ex_gst": 4112.6,
+    "cogs_dollars": 944.39,
+    "cogs_pct": 23.0,
+    "gp_dollars": 3168.21,
+    "gp_pct": 77.0,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 895.47,
+    "recipe_coverage_pct": 86.4,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0.0,
-    "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null,
+    "eatclub_giveaway_ex_gst": 86.53,
+    "eatclub_covers": 8,
+    "revenue_ex_gst_before_eatclub": 4199.13,
     "food_ex_gst": 1239.14,
     "bev_ex_gst": 2959.96,
     "food_cogs": 184.32,
@@ -39,17 +42,17 @@
     "stow_food_out_ex_gst": 0.0
   },
   "wages": {
-    "kitchen_dollars": 1172.72,
-    "foh_dollars": 906.01,
+    "kitchen_dollars": 1167.48,
+    "foh_dollars": 904.37,
     "driver_dollars": 0,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": 2078.73,
-    "wages_pct": 45.0,
+    "total_dollars": 2071.85,
+    "wages_pct": 50.4,
     "net_wage_pct": null,
     "kitchen_hours": 22.2,
     "foh_hours": 23.0,
-    "wages_kitchen_pct": 94.6,
+    "wages_kitchen_pct": 94.2,
     "wages_foh_pct": 30.6,
     "includes_super": true,
     "salaried_synthesized": true
@@ -113,36 +116,41 @@
       "name": "Fresh is Best Lager - Pint",
       "qty": 16.0,
       "rev": 190.5,
-      "cost": 39.22,
-      "cost_source": "lightspeed"
+      "cost": 39.1424,
+      "cost_source": "recipe",
+      "cost_lightspeed": 39.22
     },
     {
       "name": "Classic Margarita",
       "qty": 12.0,
       "rev": 178.99,
-      "cost": 48.79,
-      "cost_source": "lightspeed"
+      "cost": 50.1432,
+      "cost_source": "recipe",
+      "cost_lightspeed": 48.79
     },
     {
       "name": "Fresh is Best Lager - Schooner",
       "qty": 18.0,
       "rev": 157.55,
-      "cost": 32.9,
-      "cost_source": "lightspeed"
+      "cost": 32.8338,
+      "cost_source": "recipe",
+      "cost_lightspeed": 32.9
     },
     {
       "name": "Guinness Draught - Pint",
       "qty": 8.0,
       "rev": 141.14,
-      "cost": 37.67,
-      "cost_source": "lightspeed"
+      "cost": 38.4408,
+      "cost_source": "recipe",
+      "cost_lightspeed": 37.67
     },
     {
       "name": "Buffalo Wings",
       "qty": 8.0,
       "rev": 132.38,
-      "cost": 31.22,
-      "cost_source": "lightspeed"
+      "cost": 23.8112,
+      "cost_source": "recipe",
+      "cost_lightspeed": 31.22
     },
     {
       "name": "Arancini Balls [5pc]",
@@ -155,8 +163,9 @@
       "name": "Mulled Wine",
       "qty": 8.0,
       "rev": 120.49,
-      "cost": 16.41,
-      "cost_source": "lightspeed"
+      "cost": 16.7264,
+      "cost_source": "recipe",
+      "cost_lightspeed": 16.41
     },
     {
       "name": "A. Rodda Chardonnay - Bottle",
@@ -169,57 +178,65 @@
       "name": "American Standard Burger",
       "qty": 4.0,
       "rev": 109.36,
-      "cost": 23.38,
-      "cost_source": "lightspeed"
+      "cost": 23.3612,
+      "cost_source": "recipe",
+      "cost_lightspeed": 23.38
     },
     {
       "name": "Jalape\u00f1o Marg",
       "qty": 6.0,
       "rev": 103.12,
-      "cost": 4.76,
-      "cost_source": "lightspeed"
+      "cost": 23.112,
+      "cost_source": "recipe",
+      "cost_lightspeed": 4.76
     },
     {
       "name": "Stone & Wood - Pint",
       "qty": 6.0,
       "rev": 102.56,
-      "cost": 26.13,
-      "cost_source": "lightspeed"
+      "cost": 26.5254,
+      "cost_source": "recipe",
+      "cost_lightspeed": 26.13
     },
     {
       "name": "Petits Detours Ros\u00e9 - Large",
       "qty": 4.0,
       "rev": 100.0,
-      "cost": 23.19,
-      "cost_source": "lightspeed"
+      "cost": 23.12,
+      "cost_source": "recipe",
+      "cost_lightspeed": 23.19
     },
     {
       "name": "Grifter Pale - Pint",
       "qty": 6.0,
       "rev": 90.99,
-      "cost": 19.98,
-      "cost_source": "lightspeed"
+      "cost": 19.9764,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.98
     },
     {
       "name": "Grifter Pale - Schooner",
       "qty": 8.0,
       "rev": 90.08,
-      "cost": 19.86,
-      "cost_source": "lightspeed"
+      "cost": 19.8592,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.86
     },
     {
       "name": "Beef Burrito",
       "qty": 3.0,
       "rev": 89.55,
-      "cost": 20.31,
-      "cost_source": "lightspeed"
+      "cost": 28.0818,
+      "cost_source": "recipe",
+      "cost_lightspeed": 20.31
     },
     {
       "name": "A. Rodda Chardonnay - Regular",
       "qty": 3.0,
       "rev": 84.92,
       "cost": 22.62,
-      "cost_source": "lightspeed"
+      "cost_source": "recipe",
+      "cost_lightspeed": 22.62
     },
     {
       "name": "Beef Cheek",
@@ -232,22 +249,25 @@
       "name": "Philter XPA - Schooner",
       "qty": 8.0,
       "rev": 80.7,
-      "cost": 17.89,
-      "cost_source": "lightspeed"
+      "cost": 17.908,
+      "cost_source": "recipe",
+      "cost_lightspeed": 17.89
     },
     {
       "name": "Sensei Calamari",
       "qty": 4.0,
       "rev": 79.9,
-      "cost": 9.22,
-      "cost_source": "lightspeed"
+      "cost": 9.1088,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.22
     },
     {
       "name": "Kirin - Schooner",
       "qty": 5.0,
       "rev": 70.0,
-      "cost": 18.77,
-      "cost_source": "lightspeed"
+      "cost": 18.9845,
+      "cost_source": "recipe",
+      "cost_lightspeed": 18.77
     }
   ]
 }
