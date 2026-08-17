@@ -3,28 +3,39 @@
   "venue": "harry",
   "prefix": "hg",
   "date": "2026-08-17",
-  "generated_at": "2026-08-17T19:33:16",
+  "generated_at": "2026-08-17T19:33:37",
   "source_file": "insights_hg_2026-08-17.csv",
   "source_kind": "committed_export",
   "name_basis": "as_at_sale",
-  "sibling_till_available": false,
+  "sibling_till_available": true,
   "ex_gst_basis": "inc_minus_tax",
   "truncated": false,
-  "row_count": 50,
+  "row_count": 66,
   "totals": {
-    "qty": 180.0,
-    "rev_inc": 2489.0,
-    "rev_ex": 2262.84
+    "qty": 258.0,
+    "rev_inc": 4248.69,
+    "rev_ex": 3862.75
   },
   "reconciliation": {
-    "expected_rev_inc": 2489.0,
-    "expected_rev_ex": 2262.84,
+    "expected_rev_inc": 4248.69,
+    "expected_rev_ex": 3862.75,
     "gap_inc": 0.0,
     "gap_ex": 0.0,
     "basis": "gross of EatClub give-away"
   },
   "reconciled": true,
   "products": [
+    {
+      "name": "Unlimited Dumplings",
+      "qty": 58.0,
+      "cost": 413.7604,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 1392.0,
+      "rev_ex": 1265.6,
+      "dept": "f",
+      "till": "stow"
+    },
     {
       "name": "Unlimited Dumplings",
       "qty": 56.0,
@@ -57,6 +68,17 @@
       "rev_ex": 89.98,
       "dept": "b",
       "till": "hg"
+    },
+    {
+      "name": "Fried Rice",
+      "qty": 4.0,
+      "cost": 11.2968,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 93.53,
+      "rev_ex": 85.03,
+      "dept": "f",
+      "till": "stow"
     },
     {
       "name": "Mie Goreng",
@@ -182,11 +204,42 @@
       "qty": 2.0,
       "cost": 8.9982,
       "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 37.19,
+      "rev_ex": 33.81,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
+      "name": "Dumplings - Prawn Har Gow [GF]",
+      "qty": 2.0,
+      "cost": 8.9982,
+      "cost_source": "recipe",
       "cost_lightspeed": 8.83,
       "rev_inc": 37.0,
       "rev_ex": 33.63,
       "dept": "f",
       "till": "hg"
+    },
+    {
+      "name": "Veg Spring Rolls",
+      "qty": 2.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 30.99,
+      "rev_ex": 28.18,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
+      "name": "Shoyu",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 29.0,
+      "rev_ex": 26.36,
+      "dept": "f",
+      "till": "stow"
     },
     {
       "name": "White Light Pure Vodka [House]",
@@ -222,6 +275,38 @@
       "till": "hg"
     },
     {
+      "name": "Katsu Curry",
+      "qty": 1.0,
+      "cost": 3.0963,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 27.0,
+      "rev_ex": 24.55,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
+      "name": "Shredded Beef",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 26.0,
+      "rev_ex": 23.64,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
+      "name": "Mie Goreng",
+      "qty": 1.0,
+      "cost": 5.6688,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 23.77,
+      "rev_ex": 21.61,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
       "name": "Harry's Lager - Schooner",
       "qty": 2.0,
       "cost": 3.145,
@@ -255,6 +340,16 @@
       "till": "hg"
     },
     {
+      "name": "Duck Spring Rolls",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 16.52,
+      "rev_ex": 15.03,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
       "name": "Devon's Prawn Toast",
       "qty": 1.0,
       "cost": 3.8896,
@@ -266,6 +361,27 @@
       "till": "hg"
     },
     {
+      "name": "Karaage Chicken",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 16.0,
+      "rev_ex": 14.55,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
+      "name": "Outback Prawn Toast",
+      "qty": 1.0,
+      "cost": 3.8896,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 16.0,
+      "rev_ex": 14.55,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
       "name": "Geppetto Chardonnay - Regular",
       "qty": 1.0,
       "cost": 3.1136,
@@ -275,6 +391,17 @@
       "rev_ex": 13.64,
       "dept": "b",
       "till": "hg"
+    },
+    {
+      "name": "Popcorn Cauliflower",
+      "qty": 1.0,
+      "cost": 0.9611,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 14.47,
+      "rev_ex": 13.17,
+      "dept": "f",
+      "till": "stow"
     },
     {
       "name": "Sapporo - Schooner",
@@ -308,6 +435,26 @@
       "rev_ex": 12.27,
       "dept": "b",
       "till": "hg"
+    },
+    {
+      "name": "Kids Fried Rice",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 13.44,
+      "rev_ex": 12.22,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
+      "name": "Kids Mie Goreng",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 13.44,
+      "rev_ex": 12.22,
+      "dept": "f",
+      "till": "stow"
     },
     {
       "name": "Virgin Margy",
@@ -380,6 +527,16 @@
       "rev_ex": 8.18,
       "dept": "b",
       "till": "hg"
+    },
+    {
+      "name": "Kids Dumplings - Beef",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 8.27,
+      "rev_ex": 7.51,
+      "dept": "f",
+      "till": "stow"
     },
     {
       "name": "Ginger Beer Glass [HG]",
@@ -473,6 +630,16 @@
       "rev_ex": 2.73,
       "dept": "b",
       "till": "hg"
+    },
+    {
+      "name": "Fried Egg.",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 2.07,
+      "rev_ex": 1.88,
+      "dept": "f",
+      "till": "stow"
     },
     {
       "name": "Chilli Bomb",

@@ -1,6 +1,6 @@
 {
   "date": "2026-08-17",
-  "generated_at": "2026-08-17T19:33:16.879372Z",
+  "generated_at": "2026-08-17T19:33:37.826815Z",
   "venue": "harry",
   "venue_display": "Harry Gatos",
   "lane_config": [
@@ -15,27 +15,27 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 2489.0,
-    "revenue_ex_gst": 2262.84,
-    "cogs_dollars": 612.5,
-    "cogs_pct": 27.1,
-    "gp_dollars": 1650.34,
-    "gp_pct": 72.9,
+    "revenue_inc_gst": 4248.69,
+    "revenue_ex_gst": 3862.75,
+    "cogs_dollars": 1060.18,
+    "cogs_pct": 27.4,
+    "gp_dollars": 2802.57,
+    "gp_pct": 72.6,
     "cogs_source": "recipe_blend",
     "cogs_lightspeed_dollars": 589.9,
-    "recipe_coverage_pct": 92.1,
+    "recipe_coverage_pct": 91.7,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
     "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
     "revenue_ex_gst_before_eatclub": null,
-    "food_ex_gst": 1778.18,
+    "food_ex_gst": 3377.9,
     "bev_ex_gst": 484.55,
     "food_cogs": 461.15,
     "bev_cogs": 128.75,
-    "food_cogs_pct": 25.9,
+    "food_cogs_pct": 13.7,
     "bev_cogs_pct": 26.6,
-    "food_gp_pct": 74.1,
+    "food_gp_pct": 86.3,
     "bev_gp_pct": 73.4,
     "mari_rideon_ex_gst": 0.0,
     "hg_food_out_ex_gst": 0.0,
@@ -48,11 +48,11 @@
     "admin_dollars": 33.71,
     "leave_dollars": 0,
     "total_dollars": 1181.83,
-    "wages_pct": 52.2,
+    "wages_pct": 30.6,
     "net_wage_pct": null,
     "kitchen_hours": 20.2,
     "foh_hours": 10.8,
-    "wages_kitchen_pct": 41.1,
+    "wages_kitchen_pct": 21.6,
     "wages_foh_pct": 86.3,
     "includes_super": true,
     "salaried_synthesized": true
@@ -61,7 +61,7 @@
   "payments_breakdown": null,
   "alerts": {
     "cogs": "green",
-    "wages": "red",
+    "wages": "yellow",
     "delivery": "n/a",
     "gp": "green",
     "cogs_food": "green",
@@ -114,6 +114,14 @@
   "top_products": [
     {
       "name": "Unlimited Dumplings",
+      "qty": 58.0,
+      "rev": 1392.0,
+      "cost": 413.7604,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Unlimited Dumplings",
       "qty": 56.0,
       "rev": 1344.0,
       "cost": 399.4928,
@@ -135,6 +143,14 @@
       "cost": 28.82,
       "cost_source": "recipe",
       "cost_lightspeed": 28.82
+    },
+    {
+      "name": "Fried Rice",
+      "qty": 4.0,
+      "rev": 93.53,
+      "cost": 11.2968,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Mie Goreng",
@@ -225,50 +241,32 @@
     {
       "name": "Dumplings - Prawn Har Gow [GF]",
       "qty": 2.0,
+      "rev": 37.19,
+      "cost": 8.9982,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Dumplings - Prawn Har Gow [GF]",
+      "qty": 2.0,
       "rev": 37.0,
       "cost": 8.9982,
       "cost_source": "recipe",
       "cost_lightspeed": 8.83
     },
     {
-      "name": "White Light Pure Vodka [House]",
-      "qty": 4.0,
-      "rev": 28.0,
-      "cost": 6.0832,
-      "cost_source": "recipe",
-      "cost_lightspeed": 6.08
-    },
-    {
-      "name": "Dumplings - Beef & Cabbage",
+      "name": "Veg Spring Rolls",
       "qty": 2.0,
-      "rev": 28.0,
-      "cost": 3.1182,
-      "cost_source": "recipe",
-      "cost_lightspeed": 2.95
+      "rev": 30.99,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
     },
     {
-      "name": "Lemonade Glass",
-      "qty": 6.0,
-      "rev": 27.0,
-      "cost": 4.8192,
-      "cost_source": "recipe",
-      "cost_lightspeed": 0.0
-    },
-    {
-      "name": "Harry's Lager - Schooner",
-      "qty": 2.0,
-      "rev": 19.0,
-      "cost": 3.145,
-      "cost_source": "recipe",
-      "cost_lightspeed": 3.15
-    },
-    {
-      "name": "Palloncino Prosecco - Regular",
-      "qty": 2.0,
-      "rev": 19.0,
-      "cost": 4.5998,
-      "cost_source": "recipe",
-      "cost_lightspeed": 4.6
+      "name": "Shoyu",
+      "qty": 1.0,
+      "rev": 29.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
     }
   ]
 }
