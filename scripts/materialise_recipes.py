@@ -682,8 +682,27 @@ def materialise(venue: str) -> tuple[list, dict]:
             if ln.get("kind") != "subrecipe":
                 q, eff = _dec(ln.get("qty")), _dec(ln.get("eff_cost"))
                 engine = _engine_line_cost(ln, costs, today, venue)
+                # A PRICE REFRESH IS NOT A DEFECT.
+                #
+                # This froze on ANY disagreement, which meant a 10% price move
+                # got baked into the book permanently: Spanish Onion is
+                # $0.002420 in the old engine (Stowaway's 20 July invoice) and
+                # $0.002200 in ours (the 1 August one), and freezing it wrote
+                # July's price into 57 recipe lines for good. The whole point of
+                # the migration is that the book follows invoices.
+                #
+                # What a freeze is FOR is a line our book cannot price in the
+                # same terms at all -- a pack count wearing a millilitre label,
+                # a rate per 'can' against a recipe in 'ea'. Those are wrong by
+                # a pack factor, not by a few percent. So: agree within 25%,
+                # take our number; disagree by more, preserve today's and flag
+                # it. 25% is comfortably above real price movement (the biggest
+                # single move in the stale-price audit was 40%, and that WAS a
+                # defect) and far below any pack factor.
                 agrees = (engine is not None and eff is not None
-                          and abs(engine - eff) <= max(Decimal("0.0005"), abs(eff) / 1000))
+                          and (abs(engine - eff) <= max(Decimal("0.0005"), abs(eff) / 1000)
+                               or (eff > 0 and engine > 0
+                                   and Decimal("0.8") <= engine / eff <= Decimal("1.25"))))
                 if not agrees and eff is not None and q not in (None, 0):
                     frozen = eff / q
                     report["manual_lines"].append(

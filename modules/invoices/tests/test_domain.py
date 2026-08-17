@@ -135,18 +135,24 @@ def test_money_must_be_decimal():
         CostObservation("x", date(2026, 7, 1), 1.23, "g")            # type: ignore[arg-type]
 
 
-def test_venue_preferred_then_fallback():
-    s = CostSeries([
-        CostObservation("aperol", date(2026, 7, 1), Decimal("29.08"), "bottle", "stowaway", "A"),
-        CostObservation("aperol", date(2026, 7, 2), Decimal("31.00"), "bottle", "harry_gatos", "B"),
-    ])
-    assert s.as_of("aperol", date(2026, 7, 3), venue="stowaway").cost_per_unit == Decimal("29.08")
-    assert s.as_of("aperol", date(2026, 7, 3), venue="harry_gatos").cost_per_unit == Decimal("31.00")
-    # no observation for this venue -> fall back to any rather than fail
-    assert s.as_of("aperol", date(2026, 7, 3), venue="marilynas").cost_per_unit is not None
+def test_venue_no_longer_pins_a_stale_price_but_still_fixes_the_unit():
+    """T6, landed 2026-08-17: venue is PROVENANCE, never a cost dimension, so the
+    newest observation wins even when a venue is named. What the named venue
+    still does is fix the UNIT — venue-blind on price, never on dimension.
 
-
-# ------------------------------------------------------- the real fact log ---
+    This test asserted the old preference, and the old preference is exactly what
+    left Stowaway on a 20 July onion price because the 1 August invoice landed on
+    Marilyna's account.
+    """
+    from datetime import date as _d
+    from decimal import Decimal as _D
+    from core.domain import CostObservation, CostSeries
+    o = [CostObservation(ingredient="x", observed_on=_d(2026, 7, 1),
+                         cost_per_unit=_D("1.00"), unit="kg", venue="stowaway"),
+         CostObservation(ingredient="x", observed_on=_d(2026, 8, 12),
+                         cost_per_unit=_D("2.00"), unit="kg", venue="harry_gatos")]
+    cs = CostSeries(o, purchasable_to_ingredient={})
+    assert cs.as_of("x", _d(2026, 8, 16), venue="stowaway").cost_per_unit == _D("2.00")
 
 def test_the_real_cogs_list_loads_as_an_observation_log():
     """

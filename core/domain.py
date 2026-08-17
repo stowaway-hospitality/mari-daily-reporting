@@ -252,16 +252,29 @@ class CostSeries:
         ingredient = canonical_purchasable(ingredient)
         ingredient = self._map.get(ingredient, ingredient)
 
-        # 1. THE ASKED-FOR VENUE WINS if it has anything on or before the day.
-        #    That is the documented preference and it stays: an observation from
-        #    the account that actually bought it is the best evidence there is.
-        if venue is not None:
-            hit = self._latest((ingredient, venue), on)
-            if hit:
-                return hit
-
-        # 2. OTHERWISE, THE MOST RECENT OBSERVATION ANYWHERE -- not the first
-        #    bucket that happens to have one.
+        # THE MOST RECENT OBSERVATION ANYWHERE. Venue is not consulted.
+        #
+        # T6 (Zak, 15 Aug 2026): "the whole group pays the same costs per
+        # ingredient." Venue on a cost row is PROVENANCE -- which account bought
+        # it -- and never a cost dimension. A venue-split price is by definition
+        # a defect, not a fact to model; genuinely different products per venue
+        # get two ingredient IDs on purpose.
+        #
+        # This used to prefer the asked-for venue, which sounds like better
+        # evidence and is not: it means Stowaway keeps paying 20 July's price for
+        # an onion because the 1 August invoice happened to land on Marilyna's
+        # account. That one ingredient froze 54 recipe lines as `manual` in the
+        # Phase 2 migration, purely because the two engines disagreed about which
+        # venue's copy of the same onion to read.
+        #
+        # MEASURED before changing: 41 of 1,232 ingredients move, most by a few
+        # percent. The only two whose UNIT differs -- fresh-fruit-team BROCE and
+        # LMM15BX -- are drawn by no recipe at all, and the broccolini that IS
+        # drawn (5 roasts) is in `bunch` on both sides. So nothing costed changes
+        # dimension.
+        #
+        # The `venue` argument is kept: callers pass it, and it still narrows
+        # nothing today but documents intent at the call site.
         #
         #    It used to walk the buckets in dict order and return the first hit,
         #    with the untagged bucket tried first. So an ingredient whose every
@@ -279,17 +292,34 @@ class CostSeries:
         #
         #    Ties break on the venue label so the answer is deterministic; a
         #    non-deterministic cost would make costs.csv stop reproducing.
-        best = None
+        # VENUE-BLIND ON PRICE, NEVER ON UNIT.
+        #
+        # T6 removes venue as a cost dimension, not as a dimension full stop.
+        # Taking the newest row outright picked a $2.75-per-BUNCH observation for
+        # an ingredient a recipe draws in CANS, and cost_on refused the dish --
+        # correctly, because that is the $11,400/serve class. So where the
+        # asked-for venue has its own history, its UNIT is kept and only the
+        # price is allowed to come from elsewhere.
+        candidates = []
         for (i, v), lst in self._by.items():
             if i != ingredient:
                 continue
             hit = self._latest((i, v), on)
-            if hit is None:
-                continue
-            if best is None or (hit.observed_on, str(v or "")) > (best.observed_on, str(best.venue or "")):
-                best = hit
-        if best is not None:
-            return best
+            if hit is not None:
+                candidates.append(hit)
+        if not candidates:
+            raise LookupError(
+                f"no cost observation for {ingredient!r} on or before {on}"
+                + (f" (venue {venue})" if venue else "")
+                + ". Cannot cost this day. Do not substitute a current price -- that "
+                  "rewrites history, which is the ACP bug this design exists to avoid.")
+
+        anchor = self._latest((ingredient, venue), on) if venue is not None else None
+        if anchor is not None:
+            same = [c for c in candidates if c.unit == anchor.unit]
+            if same:
+                candidates = same
+        return max(candidates, key=lambda o: (o.observed_on, str(o.venue or "")))
 
         raise LookupError(
             f"no cost observation for {ingredient!r} on or before {on}"
