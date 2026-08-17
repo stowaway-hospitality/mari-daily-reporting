@@ -404,13 +404,42 @@ def row_cogs(r):
     return c
 
 
+def row_tax(r) -> float:
+    """GST on this row. Silence is not zero.
+
+    A row whose export has NO tax column is not tax-free — it simply does not
+    say. Treating that silence as $0.00 understates the day's GST, and because
+    ex-GST revenue is (inc - tax), it OVERSTATES revenue.
+
+    It bit Harry Gatos on 2026-08-10. HG's own export is shape A and carries
+    Total Tax; the ~$1,208 of HG food that rings through the STOW till is
+    reallocated in from the Stow file, which arrived that day in shape B —
+    Position/Product Number, no tax column at all. So the day summed $3,740.00
+    inc against only $230.03 of tax (HG's own rows), and published $3,509.97 ex
+    where the truth is ~$3,400. A 6.15% effective GST rate on a 9.09% day.
+
+    Only MONDAYS are badly exposed, which is why it hid: that is when Stow is
+    shut and nearly all of HG's food comes across on the Stow till. 3 Aug is the
+    same Monday shape and reconciles at 9.08%, because that day's Stow export
+    happened to arrive in shape A.
+
+    An EXPLICIT "$0.00" is trusted — GST-free lines are real (Online Surcharge,
+    Online Discount, several add-ons). col() returns "" only when the column is
+    absent or blank, which is the case this distinguishes.
+    """
+    raw = col(r, "Total Tax", "GST", "Tax")
+    if raw == "":
+        return row_rev(r) / 11.0        # statutory 1/11 of the inc-GST price
+    return parse_num(raw)
+
+
 def row_rev_ex(r, basis: str) -> float:
     """Per-row ex-GST revenue on the basis the DAY settled on, so the mix sums
     to the day's ex-GST revenue by construction rather than by luck."""
     if basis == "explicit_net_column":
         return parse_num(col(r, "Revenue_net", "NetRevenue", "Net Sales"))
     if basis == "inc_minus_tax":
-        return row_rev(r) - parse_num(col(r, "Total Tax", "GST", "Tax"))
+        return row_rev(r) - row_tax(r)
     return row_rev(r) / 1.1
 
 
@@ -718,7 +747,10 @@ else:
                       f"materiality floor (modifier-level, not a filter-group change); ignored.")
 
     revenue_inc = sum(row_rev(r) for r in rows)
-    total_tax = sum(parse_num(col(r, "Total Tax", "GST", "Tax")) for r in rows)
+    # row_tax(), not a raw column sum: rows reallocated in from the OTHER
+    # venue's till can come from a shape-B export with no tax column, and
+    # counting those as tax-free overstates ex-GST revenue. See row_tax().
+    total_tax = sum(row_tax(r) for r in rows)
     revenue_net_explicit = sum(parse_num(col(r, "Revenue_net", "NetRevenue", "Net Sales")) for r in rows)
     # Which ex-GST source the day settled on. The product mix has to use the
     # SAME one per row or it cannot tie to the day it came from: a file where
