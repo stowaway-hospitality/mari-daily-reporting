@@ -260,6 +260,25 @@ jobs:
           # so a shallow checkout is fine — the ledger IS the history.
           python scripts/build_restatements.py || echo "::warning::restatements failed (non-fatal)"
 
+      - name: Repair days whose EatClub give-away landed late
+        run: |
+          # EatClub rings the FULL bill on the POS, so a day is overstated until
+          # the give-away (offer discount + 11% commission) comes off. The
+          # aggregator subtracts it -- but only from the fact file that exists AT
+          # THE MOMENT IT RUNS. When the EatClub pull lands after the day was
+          # aggregated, the deduction never happened and nothing went back for it.
+          #
+          # Nothing did, because the ingest self-heal asks "did the day's SALES
+          # land?". They had. A day missing only its give-away looks complete.
+          # Found 2026-08-17: ten venue-days holding $698.52 ex-GST that EatClub
+          # kept and never paid us, going back five weeks.
+          #
+          # Runs AFTER the EatClub rollup above, so a fact written this run is
+          # repaired in the same run rather than waiting for tomorrow. Its output
+          # lands in the same commit as everything else below.
+          python scripts/refresh_stale_days.py --fix \
+            || echo "::warning::EatClub staleness sweep could not repair a day, see log"
+
       - name: Schema guard (block column wipes / truncation before commit)
         run: |
           # Compares the regenerated histories against HEAD and fails the run if a

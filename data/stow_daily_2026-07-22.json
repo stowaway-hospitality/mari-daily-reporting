@@ -1,6 +1,6 @@
 {
   "date": "2026-07-22",
-  "generated_at": "2026-07-23T10:37:36.574949Z",
+  "generated_at": "2026-08-17T05:29:15.552188Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -15,17 +15,20 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 4588.39,
-    "revenue_ex_gst": 4171.33,
-    "cogs_dollars": 987.87,
-    "cogs_pct": 23.7,
-    "gp_dollars": 3183.46,
-    "gp_pct": 76.3,
+    "revenue_inc_gst": 4514.34,
+    "revenue_ex_gst": 4104.01,
+    "cogs_dollars": 1010.37,
+    "cogs_pct": 24.6,
+    "gp_dollars": 3093.64,
+    "gp_pct": 75.4,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 987.87,
+    "recipe_coverage_pct": 81.2,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0.0,
-    "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null,
+    "eatclub_giveaway_ex_gst": 67.32,
+    "eatclub_covers": 10,
+    "revenue_ex_gst_before_eatclub": 4171.33,
     "food_ex_gst": 1791.24,
     "bev_ex_gst": 2380.03,
     "food_cogs": 382.69,
@@ -39,17 +42,17 @@
     "stow_food_out_ex_gst": 0.0
   },
   "wages": {
-    "kitchen_dollars": 707.19,
-    "foh_dollars": 411.83,
+    "kitchen_dollars": 722.19,
+    "foh_dollars": 411.16,
     "driver_dollars": 0,
-    "admin_dollars": 52.18,
+    "admin_dollars": 52.15,
     "leave_dollars": 0,
-    "total_dollars": 1171.19,
-    "wages_pct": 28.1,
+    "total_dollars": 1185.51,
+    "wages_pct": 28.9,
     "net_wage_pct": null,
     "kitchen_hours": 14.8,
     "foh_hours": 10.2,
-    "wages_kitchen_pct": 39.5,
+    "wages_kitchen_pct": 40.3,
     "wages_foh_pct": 17.3,
     "includes_super": true,
     "salaried_synthesized": true
@@ -113,36 +116,41 @@
       "name": "Stow Schnitty",
       "qty": 22.0,
       "rev": 470.95,
-      "cost": 117.17,
-      "cost_source": "lightspeed"
+      "cost": 120.956,
+      "cost_source": "recipe",
+      "cost_lightspeed": 117.17
     },
     {
       "name": "Fancy Pants Parmy - Classic",
       "qty": 17.0,
       "rev": 415.84,
-      "cost": 137.8,
-      "cost_source": "lightspeed"
+      "cost": 126.1672,
+      "cost_source": "recipe",
+      "cost_lightspeed": 137.8
     },
     {
       "name": "Glaetzer Anaperenna Shiraz Cab - Regular",
       "qty": 6.0,
       "rev": 173.66,
-      "cost": 45.0,
-      "cost_source": "lightspeed"
+      "cost": 41.778,
+      "cost_source": "recipe",
+      "cost_lightspeed": 45.0
     },
     {
       "name": "Guinness Draught - Pint",
       "qty": 9.0,
       "rev": 157.5,
-      "cost": 42.37,
-      "cost_source": "lightspeed"
+      "cost": 43.2459,
+      "cost_source": "recipe",
+      "cost_lightspeed": 42.37
     },
     {
       "name": "Kirin - Schooner",
       "qty": 11.0,
       "rev": 155.83,
-      "cost": 41.31,
-      "cost_source": "lightspeed"
+      "cost": 41.7659,
+      "cost_source": "recipe",
+      "cost_lightspeed": 41.31
     },
     {
       "name": "Mother's Milk Shiraz - Bottle",
@@ -155,15 +163,17 @@
       "name": "Status Quo - Pint",
       "qty": 7.0,
       "rev": 122.5,
-      "cost": 29.14,
-      "cost_source": "lightspeed"
+      "cost": 29.1109,
+      "cost_source": "recipe",
+      "cost_lightspeed": 29.14
     },
     {
       "name": "Stone & Wood - Schooner",
       "qty": 9.0,
       "rev": 117.0,
-      "cost": 29.22,
-      "cost_source": "lightspeed"
+      "cost": 29.6667,
+      "cost_source": "recipe",
+      "cost_lightspeed": 29.22
     },
     {
       "name": "Kuku Sauvignon Blanc - Bottle",
@@ -176,15 +186,17 @@
       "name": "Heaps Normal Tin",
       "qty": 10.0,
       "rev": 111.08,
-      "cost": 26.7,
-      "cost_source": "lightspeed"
+      "cost": 26.696,
+      "cost_source": "recipe",
+      "cost_lightspeed": 26.7
     },
     {
       "name": "American Standard Burger",
       "qty": 4.0,
       "rev": 108.48,
-      "cost": 23.38,
-      "cost_source": "lightspeed"
+      "cost": 23.3612,
+      "cost_source": "recipe",
+      "cost_lightspeed": 23.38
     },
     {
       "name": "Villa Fresco Sangiovese - Bottle",
@@ -197,8 +209,9 @@
       "name": "Villa Fresco Sangiovese - Regular",
       "qty": 8.0,
       "rev": 96.0,
-      "cost": 19.3,
-      "cost_source": "lightspeed"
+      "cost": 19.2984,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.3
     },
     {
       "name": "Fancy Pants Parmy - Mexicali",
@@ -211,8 +224,9 @@
       "name": "Crankshaft IPA - Pint",
       "qty": 5.0,
       "rev": 87.5,
-      "cost": 20.73,
-      "cost_source": "lightspeed"
+      "cost": 21.512,
+      "cost_source": "recipe",
+      "cost_lightspeed": 20.73
     },
     {
       "name": "Beef Cheek",
@@ -225,29 +239,33 @@
       "name": "Stone & Wood - Pint",
       "qty": 5.0,
       "rev": 77.06,
-      "cost": 21.78,
-      "cost_source": "lightspeed"
+      "cost": 22.1045,
+      "cost_source": "recipe",
+      "cost_lightspeed": 21.78
     },
     {
       "name": "Mulled Wine",
       "qty": 5.0,
       "rev": 75.98,
-      "cost": 10.33,
-      "cost_source": "lightspeed"
+      "cost": 10.454,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.33
     },
     {
       "name": "Version Two Pinot Grigio - Regular",
       "qty": 7.0,
       "rev": 74.0,
-      "cost": 12.37,
-      "cost_source": "lightspeed"
+      "cost": 12.3669,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.37
     },
     {
       "name": "Two Bays Pale Ale Can",
       "qty": 4.0,
       "rev": 73.18,
-      "cost": 21.64,
-      "cost_source": "lightspeed"
+      "cost": 18.84,
+      "cost_source": "recipe",
+      "cost_lightspeed": 21.64
     }
   ]
 }

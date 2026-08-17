@@ -1,6 +1,6 @@
 {
   "date": "2026-08-02",
-  "generated_at": "2026-08-03T05:51:22.113954Z",
+  "generated_at": "2026-08-17T05:29:16.095658Z",
   "venue": "marilynas",
   "venue_display": "Marilyna's Pizza",
   "lane_config": [
@@ -15,27 +15,27 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 1652.68,
-    "revenue_ex_gst": 1498.12,
-    "cogs_dollars": 345.6,
-    "cogs_pct": 23.1,
-    "gp_dollars": 1152.52,
-    "gp_pct": 76.9,
+    "revenue_inc_gst": 1631.44,
+    "revenue_ex_gst": 1478.81,
+    "cogs_dollars": 393.93,
+    "cogs_pct": 26.6,
+    "gp_dollars": 1084.88,
+    "gp_pct": 73.4,
     "cogs_source": "recipe_blend",
     "cogs_lightspeed_dollars": 345.6,
-    "recipe_coverage_pct": 0.0,
+    "recipe_coverage_pct": 95.0,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0.0,
-    "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null,
-    "food_ex_gst": 1498.12,
+    "eatclub_giveaway_ex_gst": 19.31,
+    "eatclub_covers": 2,
+    "revenue_ex_gst_before_eatclub": 1498.12,
+    "food_ex_gst": 1478.81,
     "bev_ex_gst": 0.0,
-    "food_cogs": 345.6,
+    "food_cogs": 393.93,
     "bev_cogs": 0.0,
-    "food_cogs_pct": 23.1,
+    "food_cogs_pct": 26.6,
     "bev_cogs_pct": null,
-    "food_gp_pct": 76.9,
+    "food_gp_pct": 73.4,
     "bev_gp_pct": null
   },
   "wages": {
@@ -45,11 +45,11 @@
     "admin_dollars": 0,
     "leave_dollars": 0,
     "total_dollars": 731.05,
-    "wages_pct": 48.8,
+    "wages_pct": 49.4,
     "net_wage_pct": null,
     "kitchen_hours": 15.8,
     "foh_hours": 0,
-    "wages_kitchen_pct": 43.8,
+    "wages_kitchen_pct": 44.4,
     "wages_foh_pct": null,
     "includes_super": true,
     "salaried_synthesized": true
@@ -59,7 +59,7 @@
     "own_driver_dollars": 75.1,
     "uber_direct_dollars": 0.0,
     "total_dollars": 75.1,
-    "delivery_pct": 5.0,
+    "delivery_pct": 5.1,
     "fees_are_estimate": true
   },
   "payments_breakdown": null,
@@ -104,141 +104,161 @@
       "name": "Banquet Deal Pizzas",
       "qty": 2.0,
       "rev": 132.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 41.8392,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Large Super House Special",
       "qty": 4.0,
       "rev": 127.6,
-      "cost": 30.88,
-      "cost_source": "lightspeed"
+      "cost": 29.8912,
+      "cost_source": "recipe",
+      "cost_lightspeed": 30.88
     },
     {
       "name": "Large Hawaiian",
       "qty": 5.0,
       "rev": 122.0,
-      "cost": 16.31,
-      "cost_source": "lightspeed"
+      "cost": 15.8535,
+      "cost_source": "recipe",
+      "cost_lightspeed": 16.31
     },
     {
       "name": "Regular No Chorizo, No Cry [Dine-in]",
       "qty": 3.0,
       "rev": 84.8,
-      "cost": 7.51,
-      "cost_source": "lightspeed"
+      "cost": 7.6683,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.51
     },
     {
       "name": "Large Pepperoni",
       "qty": 3.0,
       "rev": 78.0,
-      "cost": 13.69,
-      "cost_source": "lightspeed"
+      "cost": 12.6483,
+      "cost_source": "recipe",
+      "cost_lightspeed": 13.69
     },
     {
       "name": "Large Margherita",
       "qty": 4.0,
       "rev": 73.0,
-      "cost": 9.19,
-      "cost_source": "lightspeed"
+      "cost": 8.7288,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.19
     },
     {
       "name": "Regular Cosmopolitan",
       "qty": 3.0,
       "rev": 64.35,
-      "cost": 14.2,
-      "cost_source": "lightspeed"
+      "cost": 13.1424,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.2
     },
     {
       "name": "Large Meatlovers",
       "qty": 3.0,
       "rev": 61.6,
-      "cost": 20.87,
-      "cost_source": "lightspeed"
+      "cost": 19.785,
+      "cost_source": "recipe",
+      "cost_lightspeed": 20.87
     },
     {
       "name": "Regular Hail Africa [Dine-in]",
       "qty": 2.0,
       "rev": 61.34,
-      "cost": 5.82,
-      "cost_source": "lightspeed"
+      "cost": 5.4742,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.82
     },
     {
       "name": "Regular Little Italy [Dine-in]",
       "qty": 2.0,
       "rev": 58.14,
-      "cost": 9.61,
-      "cost_source": "lightspeed"
+      "cost": 8.1602,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.61
     },
     {
       "name": "Corona 6-pack D",
       "qty": 2.0,
       "rev": 49.5,
-      "cost": 30.92,
-      "cost_source": "lightspeed"
+      "cost": 30.9188,
+      "cost_source": "recipe",
+      "cost_lightspeed": 30.92
     },
     {
       "name": "$45 FEAST",
       "qty": 1.0,
       "rev": 49.5,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 13.7524,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Regular BBQ Chicken Pizza",
       "qty": 2.0,
       "rev": 45.95,
-      "cost": 5.97,
-      "cost_source": "lightspeed"
+      "cost": 6.0046,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.97
     },
     {
       "name": "Regular Little Italy",
       "qty": 2.0,
       "rev": 42.9,
-      "cost": 9.61,
-      "cost_source": "lightspeed"
+      "cost": 9.3454,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.61
     },
     {
       "name": "Fellr Watermelon Seltzer Seltzer 4-pack D",
       "qty": 2.0,
       "rev": 37.39,
       "cost": 27.28,
-      "cost_source": "lightspeed"
+      "cost_source": "recipe",
+      "cost_lightspeed": 27.28
     },
     {
       "name": "Large Cosmopolitan",
       "qty": 1.0,
       "rev": 32.0,
-      "cost": 6.61,
-      "cost_source": "lightspeed"
+      "cost": 6.896,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.61
     },
     {
       "name": "Kuku Sauvignon Blanc D",
       "qty": 1.0,
       "rev": 30.8,
-      "cost": 14.57,
-      "cost_source": "lightspeed"
+      "cost": 14.5702,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.57
     },
     {
       "name": "Regular Jimmy Jury [Dine-in]",
       "qty": 1.0,
       "rev": 30.68,
-      "cost": 3.34,
-      "cost_source": "lightspeed"
+      "cost": 3.5364,
+      "cost_source": "recipe",
+      "cost_lightspeed": 3.34
     },
     {
       "name": "Large BBQ Chicken Pizza",
       "qty": 2.0,
       "rev": 30.0,
-      "cost": 8.34,
-      "cost_source": "lightspeed"
+      "cost": 7.9322,
+      "cost_source": "recipe",
+      "cost_lightspeed": 8.34
     },
     {
       "name": "Large Sorrento",
       "qty": 1.0,
       "rev": 30.0,
-      "cost": 7.17,
-      "cost_source": "lightspeed"
+      "cost": 5.7125,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.17
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "date": "2026-08-07",
-  "generated_at": "2026-08-08T03:41:54.143858Z",
+  "generated_at": "2026-08-17T05:29:16.411898Z",
   "venue": "marilynas",
   "venue_display": "Marilyna's Pizza",
   "lane_config": [
@@ -15,27 +15,27 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 3630.71,
-    "revenue_ex_gst": 3286.27,
-    "cogs_dollars": 787.01,
-    "cogs_pct": 23.9,
-    "gp_dollars": 2499.26,
-    "gp_pct": 76.1,
+    "revenue_inc_gst": 3514.68,
+    "revenue_ex_gst": 3180.79,
+    "cogs_dollars": 900.47,
+    "cogs_pct": 28.3,
+    "gp_dollars": 2280.32,
+    "gp_pct": 71.7,
     "cogs_source": "recipe_blend",
     "cogs_lightspeed_dollars": 787.01,
-    "recipe_coverage_pct": 0.0,
+    "recipe_coverage_pct": 93.8,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 29.92,
-    "eatclub_covers": 2,
+    "eatclub_giveaway_ex_gst": 135.4,
+    "eatclub_covers": 9,
     "revenue_ex_gst_before_eatclub": 3316.19,
-    "food_ex_gst": 3286.27,
+    "food_ex_gst": 3180.79,
     "bev_ex_gst": 0.0,
-    "food_cogs": 787.01,
+    "food_cogs": 900.47,
     "bev_cogs": 0.0,
-    "food_cogs_pct": 23.9,
+    "food_cogs_pct": 28.3,
     "bev_cogs_pct": null,
-    "food_gp_pct": 76.1,
+    "food_gp_pct": 71.7,
     "bev_gp_pct": null
   },
   "wages": {
@@ -45,11 +45,11 @@
     "admin_dollars": 0,
     "leave_dollars": 0,
     "total_dollars": 1177.06,
-    "wages_pct": 35.8,
+    "wages_pct": 37.0,
     "net_wage_pct": null,
     "kitchen_hours": 26.2,
     "foh_hours": 0,
-    "wages_kitchen_pct": 29.7,
+    "wages_kitchen_pct": 30.7,
     "wages_foh_pct": null,
     "includes_super": true,
     "salaried_synthesized": true
@@ -59,7 +59,7 @@
     "own_driver_dollars": 201.31,
     "uber_direct_dollars": 0.0,
     "total_dollars": 201.31,
-    "delivery_pct": 6.1,
+    "delivery_pct": 6.3,
     "fees_are_estimate": true
   },
   "payments_breakdown": null,
@@ -104,141 +104,161 @@
       "name": "Large Super House Special",
       "qty": 10.0,
       "rev": 197.6,
-      "cost": 77.21,
-      "cost_source": "lightspeed"
+      "cost": 74.728,
+      "cost_source": "recipe",
+      "cost_lightspeed": 77.21
     },
     {
       "name": "Regular Hawaiian",
       "qty": 9.0,
       "rev": 176.7,
-      "cost": 11.23,
-      "cost_source": "lightspeed"
+      "cost": 28.6794,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.23
     },
     {
       "name": "Large Meatlovers",
       "qty": 6.0,
       "rev": 138.6,
-      "cost": 41.74,
-      "cost_source": "lightspeed"
+      "cost": 39.57,
+      "cost_source": "recipe",
+      "cost_lightspeed": 41.74
     },
     {
       "name": "Regular Super House Special",
       "qty": 6.0,
       "rev": 135.8,
-      "cost": 33.17,
-      "cost_source": "lightspeed"
+      "cost": 27.2004,
+      "cost_source": "recipe",
+      "cost_lightspeed": 33.17
     },
     {
       "name": "Large Pepperoni",
       "qty": 8.0,
       "rev": 135.6,
-      "cost": 36.52,
-      "cost_source": "lightspeed"
+      "cost": 33.7288,
+      "cost_source": "recipe",
+      "cost_lightspeed": 36.52
     },
     {
       "name": "Regular Little Italy [Dine-in]",
       "qty": 5.0,
       "rev": 133.4,
-      "cost": 24.02,
-      "cost_source": "lightspeed"
+      "cost": 20.4005,
+      "cost_source": "recipe",
+      "cost_lightspeed": 24.02
     },
     {
       "name": "$60 BANQUET",
       "qty": 2.0,
       "rev": 120.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 41.8392,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Regular BBQ Chicken Pizza",
       "qty": 5.0,
       "rev": 116.9,
-      "cost": 14.93,
-      "cost_source": "lightspeed"
+      "cost": 15.0115,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.93
     },
     {
       "name": "Large Hawaiian",
       "qty": 6.0,
       "rev": 95.8,
-      "cost": 19.58,
-      "cost_source": "lightspeed"
+      "cost": 19.0242,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.58
     },
     {
       "name": "Regular Margherita",
       "qty": 16.0,
       "rev": 92.7,
-      "cost": 19.68,
-      "cost_source": "lightspeed"
+      "cost": 31.1632,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.68
     },
     {
       "name": "Large Margherita",
       "qty": 8.0,
       "rev": 91.6,
-      "cost": 18.38,
-      "cost_source": "lightspeed"
+      "cost": 17.4576,
+      "cost_source": "recipe",
+      "cost_lightspeed": 18.38
     },
     {
       "name": "$90 PIZZA PARTY",
       "qty": 1.0,
       "rev": 90.0,
-      "cost": 0.0,
-      "cost_source": "lightspeed"
+      "cost": 35.4248,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
     },
     {
       "name": "Large Bubba Gump",
       "qty": 4.0,
       "rev": 85.8,
-      "cost": 22.13,
-      "cost_source": "lightspeed"
+      "cost": 21.4224,
+      "cost_source": "recipe",
+      "cost_lightspeed": 22.13
     },
     {
       "name": "Regular Jimmy Jury [Dine-in]",
       "qty": 3.0,
       "rev": 83.7,
-      "cost": 10.01,
-      "cost_source": "lightspeed"
+      "cost": 10.6092,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.01
     },
     {
       "name": "Regular Uber Margherita",
       "qty": 4.0,
       "rev": 81.9,
-      "cost": 12.77,
-      "cost_source": "lightspeed"
+      "cost": 12.8768,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.77
     },
     {
       "name": "Regular Pepperoni",
       "qty": 4.0,
       "rev": 80.9,
-      "cost": 8.51,
-      "cost_source": "lightspeed"
+      "cost": 10.4552,
+      "cost_source": "recipe",
+      "cost_lightspeed": 8.51
     },
     {
       "name": "Garlic Bread",
       "qty": 18.0,
       "rev": 75.0,
-      "cost": 25.56,
-      "cost_source": "lightspeed"
+      "cost": 26.7786,
+      "cost_source": "recipe",
+      "cost_lightspeed": 25.56
     },
     {
       "name": "Regular New Yorker [Dine-in]",
       "qty": 3.0,
       "rev": 74.37,
-      "cost": 10.76,
-      "cost_source": "lightspeed"
+      "cost": 7.6635,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.76
     },
     {
       "name": "Regular Roma Special",
       "qty": 3.0,
       "rev": 72.0,
-      "cost": 12.1,
-      "cost_source": "lightspeed"
+      "cost": 10.347,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.1
     },
     {
       "name": "Regular Meatlovers",
       "qty": 3.0,
       "rev": 69.9,
-      "cost": 14.94,
-      "cost_source": "lightspeed"
+      "cost": 12.7614,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.94
     }
   ]
 }
