@@ -136,6 +136,16 @@ cook_loss:
 # A pattern here is a PERMANENT statement, not a "not yet". Anything that could
 # one day have a recipe does not belong.
 exempt:
+  # DISCONTINUED — Zak, 2026-08-17.
+  - match: "^4 pines kolsch"
+    reason: "discontinued (Zak, 2026-08-17). No invoice will price it again;
+      delist it in Back Office rather than back-fill a cost."
+  - match: "^barebones clear ice"
+    reason: "discontinued (Zak, 2026-08-17). We buy clear ice blocks from MR
+      ICEMAN now — and Mr Iceman does not appear in data/cogs_list.csv at all,
+      so that supplier's invoices are not being ingested. Delisting this closes
+      the flag; getting Mr Iceman into the mailbox pipeline is the real fix and
+      is a separate job."
   # DISCONTINUED — Zak, 2026-08-16. Both still ring on the POS and neither can
   # be bought, so there is no cost to find and never will be. The fix is
   # delisting them in Back Office, not back-filling a price for something we do
