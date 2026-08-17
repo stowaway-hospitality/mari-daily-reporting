@@ -1,0 +1,72 @@
+{
+  "schema": "product_mix/1",
+  "venue": "marilynas",
+  "prefix": "mari",
+  "date": "2026-08-17",
+  "generated_at": "2026-08-17T20:26:40",
+  "source_file": "insights_stow_2026-08-17.csv",
+  "source_kind": "committed_export",
+  "name_basis": "as_at_sale",
+  "sibling_till_available": true,
+  "ex_gst_basis": "inc_minus_tax",
+  "truncated": false,
+  "row_count": 4,
+  "totals": {
+    "qty": 4.0,
+    "rev_inc": 68.47,
+    "rev_ex": 62.4
+  },
+  "reconciliation": {
+    "expected_rev_inc": 68.47,
+    "expected_rev_ex": 62.4,
+    "gap_inc": 0.0,
+    "gap_ex": 0.0,
+    "basis": "gross of EatClub give-away"
+  },
+  "reconciled": true,
+  "products": [
+    {
+      "name": "Large Super House Special",
+      "qty": 1.0,
+      "cost": 7.4728,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.72,
+      "rev_inc": 26.9,
+      "rev_ex": 24.45,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Large Hawaiian",
+      "qty": 1.0,
+      "cost": 3.1707,
+      "cost_source": "recipe",
+      "cost_lightspeed": 3.26,
+      "rev_inc": 19.9,
+      "rev_ex": 18.09,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Large Margherita",
+      "qty": 1.0,
+      "cost": 2.1822,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.58,
+      "rev_inc": 19.9,
+      "rev_ex": 18.09,
+      "dept": "f",
+      "till": "mari"
+    },
+    {
+      "name": "Online Surcharge",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 1.77,
+      "rev_ex": 1.77,
+      "dept": "f",
+      "till": "mari"
+    }
+  ]
+}
