@@ -997,45 +997,51 @@
   by: "Zak (HG draws Stowaway's coffee, 2026-08-17); 750ml stated in the LS product name and on the invoice"
   on: 2026-08-17
   by_email: "hello@stowawaybar.com"
-# JUN PACIFIC MOUSSE RICE CAKES — the description states the PIECE, the invoice
-# prices the PACK.
+# JUN PACIFIC MOUSSE RICE CAKES — catalogue: "12/10 pcs".
 #
-# The parser read "50g" out of the product name and recorded pack_qty 0.05 kg,
-# making these $0.330000/g — implausibly dear for a frozen dessert, and four of
-# the seven SEVERE findings. ingredients.json had already diagnosed it in its own
+# The parser read "50g" out of the product NAME and recorded pack_qty 0.05 kg,
+# publishing $0.330000/g — four of the seven SEVERE findings, and implausibly
+# dear for a frozen dessert. ingredients.json had already diagnosed it in its own
 # words: "the description probably states the PIECE size while the price is for
-# the CASE".
+# the CASE."
 #
-# The evidence is the supplier's other lines, not a guess about case counts.
-# EVERY other Jun Pacific row on these invoices is priced per pack as `1 ea` —
-# including "Fresh Ramen Frozen (150gx12pcs)" at $13.00, where the same parser
-# correctly ignored the piece size because the format did not look like a pack
-# quantity. "…Rice Cake 50g" is the one shape it grabbed.
+# The Jun Pacific catalogue (19 Apr 23) states "12/10 pcs" against both SKUs:
+# TWELVE PACKS TO A CARTON, TEN PIECES TO A PACK. So a pack is 10 x 50 g = 500 g.
 #
-# So: one unit, $16.50, exactly like its twelve siblings. Whether the box holds
-# six or twelve pieces does not change the rate the book needs, and nothing
-# draws on these yet — so pricing the piece would be inventing a number for a
-# recipe that does not exist. If one is ever written, the piece count comes off
-# the box.
+# WHICH UNIT DID THE INVOICE PRICE? That is the question this file exists to
+# answer, and the arithmetic answers it. At $16.50:
+#     a carton of 120 pieces  ->  $0.14 a mochi   — not a wholesale price
+#     a PACK of 10 pieces     ->  $1.65 a mochi   — exactly right
+# So the line prices one pack. Recorded as 10 ea, because a chef plates a piece
+# and a piece is what a recipe will draw.
+#
+# It also lands the per-gram rate where it should be: $16.50 / 500 g = $0.033/g,
+# ten times under the $0.20/g ceiling that flagged it, and an ordinary rate for
+# premium frozen dessert.
 - id: "jun-pacific:UZ8141304"        # Frozen Mango Mousse Rice Cake 50g
-  pack_qty: 1
+  pack_qty: 10
   pack_unit: ea
-  by: "Claude (description states the piece; every other Jun Pacific line on the
-    same invoices is priced 1 ea per pack, incl. Fresh Ramen (150gx12pcs) $13.00)"
+  by: "Claude (catalogue 19APR23: '12/10 pcs' = 12 packs/carton, 10 pcs/pack;
+    $16.50 / 10 = $1.65 a piece, where a carton reading gives an impossible 14c)"
   on: 2026-08-17
   by_email: "hello@stowawaybar.com"
-- id: "jun-pacific:UZ8141305"        # Frozen Strawberry Mousse Rice Cake 50g
-  pack_qty: 1
+- id: "jun-pacific:UZ8141305"        # Frozen Strawberry Mousse Rice Cream 50g
+  pack_qty: 10
   pack_unit: ea
-  by: "Claude (as above)"
+  by: "Claude (catalogue 19APR23: '12/10 pcs'. Note the catalogue calls this one
+    'Rice Cream' where cogs_list has 'Rice Cake' — same SKU, supplier's own
+    inconsistency, not two products)"
   on: 2026-08-17
   by_email: "hello@stowawaybar.com"
 - id: "jun-pacific:UZ8141301"        # Frozen Tiramisu Mousse Rice Cake 50g
-  pack_qty: 1
+  pack_qty: 10
   pack_unit: ea
-  by: "Claude (as above)"
+  by: "Claude (INFERRED: same product family, same $16.50, same 50g piece. The
+    catalogue page supplied covers 304 and 305; 301 is not on it. If a Tiramisu
+    line ever disagrees, this is the entry to check first)"
   on: 2026-08-17
   by_email: "hello@stowawaybar.com"
+
 # FINGER LIMES — same shape as the mousse cakes above.
 #
 # "LIME FINGER RUBY RED 45GM" at $18.50: the parser read 45GM as the pack and
