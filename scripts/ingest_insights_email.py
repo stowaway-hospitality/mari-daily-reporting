@@ -103,13 +103,46 @@ def attachment_b64(msg):
     return None
 
 
-def target_date(msg):
+# How old a message may be and still be dispatched over a day that ALREADY
+# landed. The three daily schedules fire at 05:00/05:30/06:00 Sydney, so a
+# legitimate report is hours old, never days. 26h is one cycle plus slack.
+STALE_AFTER_HOURS = int(os.environ.get("INSIGHTS_STALE_AFTER_HOURS", "26"))
+
+
+def msg_sent_at(msg, kind):
+    """When the mail server says this message was sent. None if it will not say.
+
+    NEVER falls back to now(). That fallback is what made 2026-08-10 possible:
+    the Lightspeed product export carries no date of its own, so this header is
+    the ONLY thing naming the day, and quietly substituting "now" for an
+    unreadable header invents a date and stamps a real CSV with it. A message
+    that cannot say when it was sent cannot be filed, and saying so out loud is
+    the whole point.
+    """
+    raw = msg.received if kind == "graph" else msg.get("Date")
+    if not raw:
+        return None
     try:
-        dt = parsedate_to_datetime(msg.get("Date"))
+        if kind == "graph":
+            dt = datetime.strptime(raw, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+        else:
+            dt = parsedate_to_datetime(raw)
         if dt.tzinfo is None:
             dt = dt.replace(tzinfo=timezone.utc)
+        return dt
     except Exception:
-        dt = datetime.now(timezone.utc)
+        return None
+
+
+def target_date(msg, kind="imap"):
+    """The trading day this email reports on, or None if it cannot be known.
+
+    The schedules all filter on "Yesterday", so the day is the send date minus
+    one. That inference is only as good as the header — see msg_sent_at().
+    """
+    dt = msg_sent_at(msg, kind)
+    if dt is None:
+        return None
     return (dt.astimezone(SYD) - timedelta(days=1)).strftime("%Y-%m-%d")   # report = "Yesterday"
 
 
@@ -135,14 +168,6 @@ def save_state(state):
     state = {k: v for k, v in state.items() if v >= cut}
     os.makedirs(os.path.dirname(STATE_FILE), exist_ok=True)
     json.dump(state, open(STATE_FILE, "w"), indent=0, sort_keys=True)
-
-
-def _graph_tdate(received_iso):
-    try:
-        dt = datetime.strptime(received_iso, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
-    except Exception:
-        dt = datetime.now(timezone.utc)
-    return (dt.astimezone(SYD) - timedelta(days=1)).strftime("%Y-%m-%d")   # report = "Yesterday"
 
 
 DAILY_EVENTS = {"stow-csv-arrived", "hg-csv-arrived", "insights-csv-arrived"}
@@ -199,7 +224,33 @@ def main():
         if not cl:
             continue
         event, venue = cl
-        tdate = _graph_tdate(msg.received) if kind == "graph" else target_date(msg)
+        tdate = target_date(msg, kind)
+        if tdate is None:
+            # Unreadable/absent Date header. The CSV carries no date of its own,
+            # so there is nothing left to file it by. Refuse rather than guess.
+            print(f"  REFUSED '{subject}' — no readable Date header; the export "
+                  f"carries no date of its own, so its day cannot be established")
+            continue
+
+        sent = msg_sent_at(msg, kind)
+        age_h = (datetime.now(timezone.utc) - sent).total_seconds() / 3600.0
+
+        # A RE-DELIVERY of an old report. Gmail/Graph hand us the last 8 days, so
+        # an old message resurfacing with a fresh Message-ID is not `seen` and
+        # would dispatch unconditionally — overwriting a day that already landed
+        # with whatever trade that old report happened to carry. This is the
+        # 2026-08-10 shape: a re-sent report filed as a day it was not.
+        #
+        # Deliberately narrow. Age alone is not suspicious — the self-heal exists
+        # precisely to re-dispatch old mail when a day never landed. So it is
+        # only refused when the day is ALREADY complete, i.e. there is nothing to
+        # gain and a good number to lose.
+        if age_h > STALE_AFTER_HOURS and _output_complete(venue, tdate):
+            print(f"  REFUSED '{subject}' — {age_h/24:.1f} days old and {venue} "
+                  f"{tdate} already landed. A re-sent report cannot overwrite a "
+                  f"day that is already good.")
+            continue
+
         seen = mid in state
         if seen:
             # Hourly / non-daily: ledger dedup only. Daily sales: SELF-HEAL — if the
