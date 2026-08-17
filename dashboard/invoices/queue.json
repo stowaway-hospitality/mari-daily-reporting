@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-17",
-  "count": 326,
+  "count": 327,
   "skipped_already_in_xero": 316,
   "invoices": [
     {
@@ -261,6 +261,45 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "known supplier 'paramount'"
+        }
+      ]
+    },
+    {
+      "ref": "PHIN-57285",
+      "supplier": "Philter Brewing Pty Ltd",
+      "supplier_key": "philter",
+      "date": "2026-08-11",
+      "due_date": "2026-08-25",
+      "total": "541.64",
+      "venue": "stowaway",
+      "pdf_path": "bfba05808f49d3105bd7b93d4eb6c5cf90475e7f0c14ee7c734910ff691e5ffe.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Philter XPA 4.2% ABV - 50L Keg",
+          "supplier_code": "XPA 200",
+          "qty": "2.00",
+          "amount": "526.24",
+          "unit_cost": "$5.26/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SYD Metro Delivery Fee - $14",
+          "supplier_code": null,
+          "qty": "1.00",
+          "amount": "15.40",
+          "unit_cost": "$15.40/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
         }
       ]
     },
