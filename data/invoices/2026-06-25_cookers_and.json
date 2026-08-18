@@ -1,0 +1,71 @@
+{
+  "invoice": {
+    "supplier_key": "cookers",
+    "supplier_name_raw": "Cordless Filter Machine Pty Ltd",
+    "invoice_ref": "and",
+    "invoice_date": "2026-06-25",
+    "total_incl": "224.00",
+    "lines": [
+      {
+        "description": "CFM Sunpower Oil",
+        "qty": "80.00",
+        "line_total_incl": "224.00",
+        "unit_price_incl": "2.8000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst_free",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-02",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "7dcfb5a8f9233733742a0bf70846f2305de9d67656668b5bece882e50a3679e5.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $224.00 under the invoice total \u2014 expected. Skipped: CFM Sunpower Oil ($224.00). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "0",
+        "actual": "224.00"
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "224.00"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "low",
+    "primary_account": "111",
+    "lines": [
+      {
+        "description": "CFM Sunpower Oil",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
