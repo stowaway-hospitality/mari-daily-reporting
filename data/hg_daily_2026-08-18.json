@@ -1,6 +1,6 @@
 {
   "date": "2026-08-18",
-  "generated_at": "2026-08-18T19:28:28.233219Z",
+  "generated_at": "2026-08-18T19:59:40.635420Z",
   "venue": "harry",
   "venue_display": "Harry Gatos",
   "lane_config": [
@@ -10,25 +10,36 @@
     "gp"
   ],
   "data_status": {
-    "lightspeed": "missing",
+    "lightspeed": "ok",
     "deputy": "ok",
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": null,
-    "revenue_ex_gst": null,
-    "cogs_dollars": null,
-    "cogs_pct": null,
-    "gp_dollars": null,
-    "gp_pct": null,
-    "cogs_source": null,
-    "cogs_lightspeed_dollars": null,
-    "recipe_coverage_pct": null,
+    "revenue_inc_gst": 50.8,
+    "revenue_ex_gst": 46.18,
+    "cogs_dollars": 17.78,
+    "cogs_pct": 38.5,
+    "gp_dollars": 28.4,
+    "gp_pct": 61.5,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 0.0,
+    "recipe_coverage_pct": 100.0,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0,
+    "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 46.18,
+    "bev_ex_gst": 0.0,
+    "food_cogs": 0.0,
+    "bev_cogs": 0.0,
+    "food_cogs_pct": 0.0,
+    "bev_cogs_pct": null,
+    "food_gp_pct": 100.0,
+    "bev_gp_pct": null,
+    "mari_rideon_ex_gst": 0.0,
+    "hg_food_out_ex_gst": 0.0,
+    "stow_food_out_ex_gst": 0.0
   },
   "wages": {
     "kitchen_dollars": 0,
@@ -36,12 +47,12 @@
     "driver_dollars": 0,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": null,
-    "wages_pct": null,
+    "total_dollars": 0,
+    "wages_pct": 0.0,
     "net_wage_pct": null,
     "kitchen_hours": 0,
     "foh_hours": 0,
-    "wages_kitchen_pct": null,
+    "wages_kitchen_pct": 0.0,
     "wages_foh_pct": null,
     "includes_super": true,
     "salaried_synthesized": true
@@ -49,13 +60,13 @@
   "delivery": null,
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "unknown",
-    "wages": "unknown",
+    "cogs": "red",
+    "wages": "green",
     "delivery": "n/a",
-    "gp": "unknown",
-    "cogs_food": "unknown",
+    "gp": "green",
+    "cogs_food": "green",
     "cogs_bev": "unknown",
-    "wages_kitchen": "unknown",
+    "wages_kitchen": "green",
     "wages_foh": "unknown"
   },
   "targets": {
@@ -100,5 +111,30 @@
       "target_direction": "high_is_good"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Katsu Curry",
+      "qty": 3.0,
+      "rev": 32.4,
+      "cost": 9.2889,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Mie Goreng",
+      "qty": 1.0,
+      "rev": 9.2,
+      "cost": 5.6688,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Fried Rice",
+      "qty": 1.0,
+      "rev": 9.2,
+      "cost": 2.8242,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    }
+  ]
 }
