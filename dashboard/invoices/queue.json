@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-19",
-  "count": 736,
+  "count": 737,
   "skipped_already_in_xero": 0,
   "invoices": [
     {
@@ -140,6 +140,133 @@
           "qty": "1.00",
           "amount": "3.30",
           "unit_cost": "$3.30/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "INB00115813",
+      "supplier": "The Fresh Fruit Team Pty Ltd",
+      "supplier_key": "fresh_fruit_team",
+      "date": "2026-08-19",
+      "due_date": "2026-09-02",
+      "total": "131.79",
+      "venue": "harry_gatos",
+      "pdf_path": "db24e5d7a57a602ee0fe6575aef81eeab0d7af69caa3cc0bd2b730fee5799f3f.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Cauliflower Florets",
+          "supplier_code": "KITCFKG",
+          "qty": "2",
+          "amount": "15.80",
+          "unit_cost": "$7.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Chillies Red Long",
+          "supplier_code": "CLRKG",
+          "qty": "0.2",
+          "amount": "2.20",
+          "unit_cost": "$11.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Garlic Peeled",
+          "supplier_code": "GPKG",
+          "qty": "1",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Ginger",
+          "supplier_code": "GINKG",
+          "qty": "1",
+          "amount": "13.20",
+          "unit_cost": "$13.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Lettuce Cos Baby Twin Pack",
+          "supplier_code": "LCBTPEA",
+          "qty": "1",
+          "amount": "2.75",
+          "unit_cost": "$2.75/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Mushroom King Brown (500g Punnet)",
+          "supplier_code": "MKB500PUN",
+          "qty": "1",
+          "amount": "21.60",
+          "unit_cost": "$43.20/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Potato Peeled",
+          "supplier_code": "KITPPKG",
+          "qty": "9",
+          "amount": "32.40",
+          "unit_cost": "$3.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Shallot",
+          "supplier_code": "SBCH",
+          "qty": "6",
+          "amount": "17.70",
+          "unit_cost": "$2.95/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Broccolini",
+          "supplier_code": "BROCE",
+          "qty": "2",
+          "amount": "6.34",
+          "unit_cost": "$3.17/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Delivery Fee",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "16.50",
+          "unit_cost": "$16.50/ea",
           "tax": "gst",
           "account_code": "342",
           "account_name": "Freight & Courier",

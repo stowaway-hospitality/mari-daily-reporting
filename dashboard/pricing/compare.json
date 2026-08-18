@@ -3,14 +3,14 @@
   "count": 1049,
   "compared": 25,
   "window_days": 90,
-  "total_saving": 98.4,
+  "total_saving": 102.2,
   "switches": [
     {
       "name": "Cauliflower Floret",
       "unit": "kg",
       "from": "Fresh Fruit Team",
       "to": "Select Fresh",
-      "saving": 68.4,
+      "saving": 72.2,
       "from_cost": 7.9,
       "to_cost": 6.0
     },
@@ -167,7 +167,7 @@
       "prev": 30.25,
       "cost": 43.2,
       "pct": 42.8,
-      "date": "2026-08-07"
+      "date": "2026-08-19"
     },
     {
       "name": "Choy Sum",
@@ -521,6 +521,15 @@
       "date": "2026-08-19"
     },
     {
+      "name": "Shallot",
+      "supplier": "Fresh Fruit Team",
+      "unit": "bunch",
+      "prev": 2.65,
+      "cost": 2.95,
+      "pct": 11.3,
+      "date": "2026-08-19"
+    },
+    {
       "name": "Rooster Rojo Tequila Blanco",
       "supplier": "ILG",
       "unit": "ea",
@@ -743,13 +752,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 7.9,
-          "date": "2026-08-12",
+          "date": "2026-08-19",
           "desc": "Cauliflower Florets",
           "change_pct": null,
-          "n": 17,
+          "n": 18,
           "prev_cost": null,
-          "spend": 284.4,
-          "volume": 36.0
+          "spend": 300.2,
+          "volume": 38.0
         }
       ],
       "cheapest": "Select Fresh",
@@ -760,7 +769,7 @@
       "suspect": false,
       "low": 6.0,
       "low_date": "2026-07-11",
-      "est_saving": 68.4,
+      "est_saving": 72.2,
       "main": "Fresh Fruit Team",
       "switch": true
     },
@@ -1132,10 +1141,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 3.17,
-          "date": "2026-08-12",
+          "date": "2026-08-19",
           "desc": "Broccolini",
           "change_pct": -11.9,
-          "n": 6,
+          "n": 7,
           "prev_cost": 3.6,
           "spend": 0.0,
           "volume": 0.0
@@ -1445,46 +1454,6 @@
       "switch": false
     },
     {
-      "key": "shallot",
-      "name": "Shallot",
-      "unit": "bunch",
-      "suppliers": [
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 2.65,
-          "date": "2026-08-12",
-          "desc": "Shallot",
-          "change_pct": -16.9,
-          "n": 22,
-          "prev_cost": 3.19,
-          "spend": 0.0,
-          "volume": 0.0
-        },
-        {
-          "supplier": "Select Fresh",
-          "cost": 2.9,
-          "date": "2026-08-15",
-          "desc": "SHALLOT BCH",
-          "change_pct": -12.1,
-          "n": 36,
-          "prev_cost": 3.3,
-          "spend": 0.0,
-          "volume": 0.0
-        }
-      ],
-      "cheapest": "Fresh Fruit Team",
-      "min": 2.65,
-      "max": 2.9,
-      "spread_pct": 9.4,
-      "multi": true,
-      "suspect": false,
-      "low": 1.65,
-      "low_date": "2026-04-29",
-      "est_saving": 0.0,
-      "main": null,
-      "switch": false
-    },
-    {
       "key": "basil",
       "name": "Basil",
       "unit": "bunch",
@@ -1562,6 +1531,46 @@
       "low_date": "2026-05-22",
       "est_saving": 0.28,
       "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
+      "key": "shallot",
+      "name": "Shallot",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 2.9,
+          "date": "2026-08-15",
+          "desc": "SHALLOT BCH",
+          "change_pct": -12.1,
+          "n": 36,
+          "prev_cost": 3.3,
+          "spend": 0.0,
+          "volume": 0.0
+        },
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 2.95,
+          "date": "2026-08-19",
+          "desc": "Shallot",
+          "change_pct": 11.3,
+          "n": 23,
+          "prev_cost": 2.65,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 2.9,
+      "max": 2.95,
+      "spread_pct": 1.7,
+      "multi": true,
+      "suspect": false,
+      "low": 1.65,
+      "low_date": "2026-04-29",
+      "est_saving": 0.0,
+      "main": null,
       "switch": false
     },
     {
@@ -8373,13 +8382,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 11.0,
-          "date": "2026-08-12",
+          "date": "2026-08-19",
           "desc": "Chillies Red Long",
           "change_pct": -9.1,
-          "n": 6,
+          "n": 7,
           "prev_cost": 12.1,
-          "spend": 20.22,
-          "volume": 2.05
+          "spend": 22.42,
+          "volume": 2.25
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -14984,24 +14993,24 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 3.85,
-          "date": "2026-08-01",
+          "cost": 3.3,
+          "date": "2026-08-19",
           "desc": "Garlic Peeled",
-          "change_pct": -7.9,
-          "n": 16,
-          "prev_cost": 4.18,
-          "spend": 38.5,
-          "volume": 10.0
+          "change_pct": -14.3,
+          "n": 17,
+          "prev_cost": 3.85,
+          "spend": 41.8,
+          "volume": 11.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 3.85,
-      "max": 3.85,
+      "min": 3.3,
+      "max": 3.3,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 3.85,
-      "low_date": "2026-04-29",
+      "low": 3.3,
+      "low_date": "2026-08-19",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -15130,13 +15139,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 13.2,
-          "date": "2026-08-07",
+          "date": "2026-08-19",
           "desc": "Ginger",
           "change_pct": null,
-          "n": 10,
+          "n": 11,
           "prev_cost": null,
-          "spend": 79.2,
-          "volume": 6.0
+          "spend": 92.4,
+          "volume": 7.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -18320,10 +18329,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 2.75,
-          "date": "2026-08-12",
+          "date": "2026-08-19",
           "desc": "Lettuce Cos Baby Twin Pack",
           "change_pct": null,
-          "n": 10,
+          "n": 11,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -20495,13 +20504,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 43.2,
-          "date": "2026-08-07",
+          "date": "2026-08-19",
           "desc": "Mushroom King Brown (500g Punnet)",
           "change_pct": 42.8,
-          "n": 10,
+          "n": 11,
           "prev_cost": 30.25,
-          "spend": 141.7,
-          "volume": 3.4
+          "spend": 163.3,
+          "volume": 3.9
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -24642,13 +24651,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 3.6,
-          "date": "2026-08-12",
+          "date": "2026-08-19",
           "desc": "Potato Peeled",
           "change_pct": null,
-          "n": 9,
+          "n": 10,
           "prev_cost": null,
-          "spend": 21.6,
-          "volume": 6.0
+          "spend": 54.0,
+          "volume": 15.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
