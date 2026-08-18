@@ -8,6 +8,7 @@ pure, PDF-free part and the thing most likely to silently drift.
 """
 
 import sys
+from datetime import date
 from decimal import Decimal
 from pathlib import Path
 
@@ -831,6 +832,85 @@ def test_a_service_suppliers_lines_are_not_stock():
         assert goods not in SERVICE_SUPPLIERS, (
             f"{goods} sells goods; marking it a service would take its lines out "
             f"of the cost book entirely")
+
+
+# --- Xero: Canton Group, a bare-integer quantity ------------------------------
+# 2026-08-18. Canton Group (bao buns and spring rolls for Harry Gatos — KITCHEN
+# FOOD) had never once parsed. Its header is an ordinary full header, its money
+# reconciles to the cent, and the vendor ABN was registered from the day the
+# parser was written; the whole document was refused because it types its
+# quantity as "3" and the parser read that column with the MONEY reader, which
+# insists on exactly two decimal places. Every line was skipped and parse()
+# raised "no line items parsed".
+#
+# Coordinates below are the REAL ones off corpus 164542cc0a23 (INV-5096), not
+# invented — a hand-made row does not reach the right buckets under a derived
+# header, which is the lesson the Xero fixtures learned the first time.
+XERO_HEADER_CANTON = _row((36.0, "Description"), (344.2, "Quantity"),
+                          (417.8, "Price"), (484.5, "Tax"), (527.2, "Amount"))
+XERO_ROW_CANTON = _row((36.0, "DAVIDSON"), (84.8, "PLUM"), (113.2, "BBQ"),
+                       (134.2, "PORK"), (161.2, "BUNS"), (189.0, "(20"),
+                       (205.5, "PCS)"), (375.0, "3"), (414.0, "40.00"),
+                       (485.2, "0%"), (531.0, "120.00"))
+
+
+def test_xero_canton_header_resolves_and_buckets_its_own_line():
+    from modules.invoices.parsers.xero import _cols_from_header
+    cols = _cols_from_header(XERO_HEADER_CANTON)
+    assert cols is not None
+    names = dict(cols)
+    assert "item" not in names                      # Canton prints no code column
+    assert names["desc"] < names["qty"] < names["price"] < names["mid"] < names["amt"]
+    c = pdf_text.bucket(XERO_ROW_CANTON, cols)
+    assert c["desc"] == "DAVIDSON PLUM BBQ PORK BUNS (20 PCS)"
+    assert c["qty"] == "3"
+    assert c["price"] == "40.00"
+    assert c["amt"] == "120.00"
+
+
+def test_xero_bare_integer_quantity_is_read():
+    # The defect itself. A quantity is printed however the VENDOR typed it into
+    # Xero; it is not money and must not be read with the money reader.
+    from modules.invoices.parsers.xero import _q
+    assert _q("3") == Decimal("3")
+    assert _q("2") == Decimal("2")
+    assert _q("1.00") == Decimal("1.00")            # the common spelling still works
+    assert _q("0.5") == Decimal("0.5")
+    assert _q("1,200") == Decimal("1200")
+
+
+def test_xero_money_reader_still_refuses_a_bare_integer():
+    # PINS THE DIAGNOSIS: under the old code the quantity went through _m, and
+    # _m returning None on "3" is exactly why every Canton line was skipped.
+    # It must KEEP returning None — that two-decimal strictness is what keeps
+    # "0%", "10%" and date fragments out of the AMOUNT column.
+    from modules.invoices.parsers.xero import _m
+    assert _m("3") is None
+    assert _m("2") is None
+    assert _m("120.00") == Decimal("120.00")
+
+
+def test_xero_quantity_reader_is_not_a_free_for_all():
+    # Loosening the column must not let a percentage, a code or a stray word in.
+    from modules.invoices.parsers.xero import _q
+    for junk in ("0%", "10%", "", "   ", "INV-5096", "3 PCS", "$3.00", "3."):
+        assert _q(junk) is None, junk
+
+
+def test_xero_invoice_date_is_taken_by_label_never_by_position():
+    # Canton's template prints "Due date 20 Aug 2026" IMMEDIATELY ABOVE
+    # "Issue date 13 Aug 2026". Taking the first date on the page would book the
+    # cost in the wrong week and mis-order its price history.
+    from modules.invoices.parsers.xero import invoice_date
+    canton = ("Amount due\n$320.00\nDue date\n20 Aug 2026\n"
+              "Issue date\n13 Aug 2026\nInvoice number\nINV-5096\n")
+    assert invoice_date(canton) == date(2026, 8, 13)
+    # the usual label still wins, and wins FIRST when both are present
+    assert invoice_date("Invoice Date\n6 Jul 2026\n") == date(2026, 7, 6)
+    assert invoice_date("Invoice Date\n6 Jul 2026\nIssue date\n1 Jan 2020\n") == date(2026, 7, 6)
+    # no labelled date at all -> None, never a guess off some other date
+    assert invoice_date("Due date\n20 Aug 2026\n") is None
+    assert invoice_date("") is None
 
 
 # --- Gulli: column boundaries derived from the header, not hard-coded ---------

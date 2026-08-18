@@ -1,31 +1,32 @@
 {
-  "generated": "2026-08-17",
-  "reviewed": 6,
-  "clean": 5,
+  "generated": "2026-08-18",
+  "reviewed": 36,
+  "clean": 34,
   "flags": [
     {
-      "supplier": "Foodlink",
-      "name": "Gravy Mix Rich Brown",
-      "code": "101239",
-      "issue": "Name is truncated and the pack size went with it. The invoice line reads 'GRAVY MIX RICH BROWN G/FREE' + '7KG Executive Chef' across two rows; only the first row was captured, so the product entered the feed as 'Gravy Mix Rich Brown' with pack_qty null, needs_pack_review true, and a cost of $57.6087 per 'ea'. Foodlink's UOM column only ever says EA/CTN, so the description is the ONLY place the pack size is stated \u2014 losing it loses the rate.",
-      "suggested_fix": "Pack is 7 kg -> $8.23/kg. NOT GUESSED: confirmed from two independent sources already in our own data. (1) Foodlink invoice SI4483241, 2026-07-24, same code 101239, where the words did not wrap: 'GRAVY MIX RICH BROWN G/FREE 7KG Executive Chef', stored as 7 kg at $8.2300/kg. (2) The Lightspeed recipe seed, ProductID 22888768, 'Gravy Mix Rich Brown G/Free 7kg Executive Chef' at $7.8611/kg. The root cause is fixed in the parser today (see parser_regression.py triage item 33) and this row should re-read correctly on the next Foodlink delivery; no manual edit made, and none needed if that holds.",
+      "supplier": "Fresh Fruit Team",
+      "name": "Avocado Hass",
+      "code": "AH20T",
+      "issue": "Sold and costed BY THE TRAY with no count, and needs_pack_review is FALSE so nothing else will surface it. The feed holds pack_qty 1, pack_unit 'tray', $22.00 per tray. A recipe that adds one avocado books $22.00. Our own cost book prices a single avocado at $3.10 each (Select Fresh AVOE, invoice 3068987, 2026-06-27), so the error is roughly 7-20x depending on the true count, and it is in the direction that HURTS GP rather than flatters it — but it is equally wrong either way and it is live in the picker now.",
+      "suggested_fix": "Set a pack count for AH20T (pack_overrides.yaml) so the tray divides into units. THE COUNT WAS NOT GUESSED AND IS NOT STATED ANYWHERE IN OUR DATA. Evidence available: the supplier's own code is 'AH20T' and invoice INB00115735 (2026-08-18) prints raw_uom 'Tray', qty 1, $22.00 — no count. The '20' in the code is suggestive but a code is not a fact, and the tray count for Hass varies with fruit size (a 20-count and a 25-count tray are both standard). Zak or the chef needs to count one tray, or confirm it with Fresh Fruit Team. Cross-check once known: $22.00/20 = $1.10 vs $22.00/25 = $0.88, both below the Select Fresh loose price of $3.10, which is expected for tray buying.",
       "severity": "high",
-      "money": "a recipe costing gravy off the sizeless row books ~7x"
+      "money": "a recipe adding one avocado books a whole tray"
+    },
+    {
+      "supplier": "Foodlink",
+      "name": "Peppers Roasted Red (Capsicum) 2.35kg Marco Polo",
+      "code": "100442",
+      "issue": "Costed on the NET tin weight, which may include the brine. The feed reads 2350 g at $0.010213/g ($10.21/kg) from the description '2.35KG'; the invoice states raw_uom 'EA' and no drained weight. A recipe uses the peppers, not the liquid they are packed in, so if 2.35 kg is the net fill the true rate is higher and the current one flatters GP — the direction CLAUDE.md names as the dangerous one. Flagged because this is the SAME class as triage item 27: the Gulli A12 tin's spec sheet gave NET 4200 g against DRAINED 2500 g, a 1.68x difference, and the drained figure is the one the cost book uses for that product today.",
+      "suggested_fix": "Confirm the DRAINED weight of the Marco Polo 2.35 kg roasted red pepper tin and, if it differs from 2.35 kg, add a pack_overrides.yaml entry in grams keyed foodlink:100442. NOT GUESSED: no drained weight appears on invoice SI4529423, in any other Foodlink invoice for this code, or anywhere in data/. It needs the supplier spec sheet or a weigh-and-drain in the kitchen. If 2.35 kg turns out to BE the drained weight, no change is needed — record that here so this does not get re-raised.",
+      "severity": "medium",
+      "money": "up to ~1.7x understated on any recipe using roasted peppers, if the tin follows the A10/A12 pattern"
     }
   ],
   "notes": [
-    "lightspeed:21050706 San Pellegrino 500ml is clean at $0.004640/ml ($2.32 per 500 mL bottle) but carries the January Back Office seed. The live ILG invoices on the Stowaway id (lightspeed:20445597, ILG 450-1293) moved to $0.004712/ml on 2026-08-04. 1.5% stale, cosmetic, self-healing on the next bridge.",
-    "lightspeed:22874436 'Roasted Red Peppers [A12]' and gulli:SAPPEPSTRIPA12-UC3 both read $0.0056/g and agree by design \u2014 the drained-weight divisor (2500 g) confirmed from the supplier spec sheet in triage item 27. Both clean.",
-    "fresh-fruit-team:BRL and BROCE cross-corroborate each other's pack: $33.60/12 = $2.80 vs a stated single bunch at $3.17."
+    "THE FOODLINK PACK SIZES ARE BACK, and this batch is the proof that triage item 33 worked. Sixteen of the 36 new products are Foodlink, and every one of them carries a full name AND a parsed pack: 'ALMOND MEAL 1KG Natures Secret' 1000 g, 'BREADCRUMBS JAPANESE PANKO YELLOW 10KG John Bull' 10000 g, 'CHEESE BLUE DANISH 10X100GM Viking' 1000 g, 'VINEGAR WHITE 20LT Edlyn' 20000 ml. Before 2026-08-17 the wrapped half of these descriptions — which is where Foodlink states the size — was being dropped, and each of these would have entered as a sizeless 'per ea' row with needs_pack_review set. Not one product in this batch needs pack review.",
+    "AH20T ALSO SHOWS THE OLD FFT COLUMN DRIFT IN ITS HISTORY, and it is healing. data/cogs_list.csv holds the same code alternating between description 'Avocado Hass' with raw_uom 'Tray' and description 'Hass' with raw_uom 'Avocado' — the truncation of triage item 1, where the description's first word fell into the unit cell. The newest invoice (INB00115735) reads correctly, and the unit audit in parser_regression is clean, so the parser side is fixed; only the historic rows carry the split spelling. No edit made — data/ facts are append-only and the fullest-name rule should consolidate it.",
+    "No cleaning, chemical or packaging items entered the picker in this batch — all 36 are food a chef cooks with. (Packaging in the picker is by design where it exists; see triage item 11.)",
+    "select-fresh:LIMFRUB 'Lime Finger Ruby Red 45gm' at $18.50 each reads expensive as a rate ($411/kg) but is correct for finger lime, and its pack is already chef-confirmed. Not flagged."
   ],
-  "resolved": [
-    {
-      "supplier": "Fresh Fruit Team",
-      "name": "Broccolini / Broccolini (BROCE)",
-      "code": "BRL / BROCE",
-      "issue": "Two picker entries for the same vegetable from the same supplier. BRL is a box costed at 12 ea for $33.60 = $2.80 each (pack_parsed_as 'chef-confirmed'); BROCE is a single bunch at $3.17, disambiguated with its own code by the 2026-08-15 collapse rule because the pack units differ ('ea' vs 'bunch') and the rates are 13% apart, just outside the 10% merge window. The chef now sees broccolini twice.",
-      "resolution": "CLOSED 2026-08-17 by Zak: 'yes a box has 12 bunches'. That confirms the value ALREADY held on BRL (pack_qty 12, pack_unit ea) and required NO change. The suggested fix in this flag \u2014 relabelling BROCE's unit so the two rows collapse \u2014 was WRONG and was not applied: pack_overrides.yaml records that on 2026-08-16 the same correct sentence was applied to BROCE, which divided a BUNCH by 12 and put broccolini in the picker at $0.264167 against a real $3.17, 12x under and in the direction that flatters GP. The two picker rows stay separate and both are correct: $3.00/bunch bought as a box, $3.17 loose.",
-      "changed": "nothing \u2014 confirmation only, recorded against BRL in pack_overrides.yaml"
-    }
-  ]
+  "resolved": []
 }

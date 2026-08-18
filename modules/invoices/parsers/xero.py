@@ -154,6 +154,60 @@ def _m(s):
         return None
 
 
+def _q(s):
+    """A QUANTITY, which is not money and must not be read with the money reader.
+
+    _m above deliberately insists on exactly two decimal places, and that
+    strictness is load-bearing: it is what keeps "0%", "10%" and a stray date
+    fragment out of the AMOUNT column. But a Xero quantity is printed however
+    the VENDOR typed it into Xero, and Canton Group types whole numbers ("3",
+    "2") where every other vendor in this corpus happens to type "1.00".
+
+    Reading the quantity with _m therefore returned None on every Canton line,
+    the `qty is None` guard skipped all of them, and parse() raised "no line
+    items parsed" on every Canton Group invoice ever received — INV-5096 sat in
+    Review since 2026-08-13 and INV-5110 joined it on 2026-08-18. Canton Group
+    is KITCHEN FOOD (bao buns, spring rolls for Harry Gatos), so those costs
+    were not reaching the recipe database at all.
+
+    Loosening this column is safe in a way that loosening _m would not be: the
+    quantity bucket is bounded on both sides by the header's own Quantity
+    anchor, a line still requires a STRICT two-decimal AMOUNT to be emitted at
+    all, and the totals block still ends the table before any footer number is
+    reached. Money keeps the strict reader.
+    """
+    s = (s or "").replace(",", "").strip()
+    if not re.fullmatch(r"-?\d+(?:\.\d+)?", s):
+        return None
+    try:
+        return Decimal(s)
+    except InvalidOperation:
+        return None
+
+
+# The invoice's own date, BY LABEL, in this order. Never "the first date on the
+# page": Xero prints "Due date" IMMEDIATELY ABOVE the issue date on the Canton
+# Group template, and booking a due date as an invoice date would put the cost
+# in the wrong week and mis-order the price history against it.
+#
+# Most templates say "Invoice Date". Canton Group's says "Issue date" — the same
+# fact under a different label, printed on the page. Without the second label
+# Canton parsed with invoice_date=None.
+DATE_LABELS = (r"Invoice\s+Date", r"Issue\s+date")
+
+
+def invoice_date(text: str):
+    """-> date, or None if no labelled invoice date is present."""
+    for label in DATE_LABELS:
+        m = re.search(label + r"\s*\n?\s*(\d{1,2}\s+\w{3}\s+\d{4})", text or "", re.I)
+        if m:
+            try:
+                return datetime.strptime(m.group(1), "%d %b %Y").date()
+            except ValueError:
+                pass
+    return None
+
+
 def vendor_from_abn(text: str) -> tuple[str, str] | None:
     """-> (supplier_key, display name), or None if the vendor is not identifiable."""
     abns = [re.sub(r"\s", "", a) for a in _ABN.findall(text or "")]
@@ -235,13 +289,7 @@ def parse(pdf_bytes: bytes) -> Invoice:
 
     m = re.search(r"Invoice\s+Number\s*\n?\s*(\S+)", flat, re.I)
     ref = m.group(1) if m else ""
-    date = None
-    m = re.search(r"Invoice\s+Date\s*\n?\s*(\d{1,2}\s+\w{3}\s+\d{4})", flat, re.I)
-    if m:
-        try:
-            date = datetime.strptime(m.group(1), "%d %b %Y").date()
-        except ValueError:
-            pass
+    date = invoice_date(flat)
 
     venue = (Venue.MARILYNAS if re.search(r"marilyna", flat, re.I)
              else Venue.HARRY_GATOS if re.search(r"har+y?\s*gat+os", flat, re.I)
@@ -303,7 +351,7 @@ def parse(pdf_bytes: bytes) -> Invoice:
             break                        # the totals block ends the line table
         c = pdf_text.bucket(r, cols)
         # No Quantity column means one implied unit — see _cols_from_header.
-        qty = _m(c.get("qty")) if has_qty else Decimal("1")
+        qty = _q(c.get("qty")) if has_qty else Decimal("1")
         amt = _m(c.get("amt"))
         if qty is None or amt is None or amt == 0 or qty == 0:
             continue

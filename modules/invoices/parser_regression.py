@@ -832,6 +832,96 @@ vanguard x1, xero 164542cc0a23 + 4. No drift, no new failure mode among them.
      forwarded once. Not acted on: one invoice is not a supplier relationship,
      and Zak's instruction was to ignore the bucket.
 
+TRIAGE LOG — 2026-08-18 (unattended daily run). Corpus 820 PDFs / 783 readable.
+All 11 corpus shortfalls were re-opened BY HASH and named; ten are the same
+documents this log already carries, and the eleventh turned out to be a real,
+recurring, kitchen-food defect that four previous entries had walked past
+because it was recorded as "an unrelated template" rather than opened.
+
+ 37. CANTON GROUP HAD NEVER PARSED, AND IT IS KITCHEN FOOD. The 2026-08-15
+     (item 19) entry closed out xero's five shortfalls as "3 SYMSAFE payment
+     receipts, 1 credit note, and 164542cc0a23, a 'Tax Invoice / Bill to /
+     Attn: OLIVER' template unrelated to the others". Two of those three claims
+     have now moved: the credit note is caught by looks_like_credit_note and no
+     longer scores, there are FOUR receipts rather than three as the corpus
+     grew, and 164542cc0a23 is not an unrelated template — it is CANTON GROUP
+     (INV-5096, Davidson Plum BBQ pork buns and Peking duck spring rolls for
+     Harry Gatos). Canton Group was registered in ABN_SUPPLIER on the day the
+     Xero parser was written and is listed there under "# kitchen food". Not one
+     of its invoices has ever reached data/invoices.
+
+     THE DEFECT IS ONE LINE AND IT IS NOT A LAYOUT PROBLEM. Canton's header is
+     an ordinary full header, _cols_from_header resolves it correctly, every
+     word buckets where it should, and the money reconciles to the cent
+     (120.00 + 200.00 = the stated 320.00). The parser read the QUANTITY column
+     with _m, the MONEY reader, which requires exactly two decimal places. Every
+     other vendor in this corpus happens to type "1.00" into Xero. Canton types
+     "3". _m("3") is None, the `qty is None` guard skipped every line, and
+     parse() raised "no line items parsed" on the whole document.
+
+     Fixed with a separate _q() for the quantity column; _m keeps its strictness
+     for money, which is load-bearing — it is what keeps "0%", "10%" and stray
+     date fragments out of the AMOUNT column. Loosening the quantity is safe in
+     a way that loosening _m would not be: the bucket is bounded on both sides
+     by the header's own Quantity anchor, a line still needs a strict two-decimal
+     AMOUNT to be emitted at all, and the totals block still ends the table.
+
+     A SECOND, QUIETER MISS ON THE SAME DOCUMENT. Canton labels the issue date
+     "Issue date", not "Invoice Date", so even once the lines parsed the invoice
+     came out with invoice_date=None — a cost with no date to order its price
+     history by. Added as a second LABEL, deliberately not as "the first date on
+     the page": Canton prints "Due date 20 Aug 2026" IMMEDIATELY ABOVE
+     "Issue date 13 Aug 2026", so position would have booked the cost in the
+     wrong week. Extracted as xero.invoice_date() so it is testable without a
+     PDF, and pinned including the both-labels-present ordering.
+
+     MEASURED to the item-13/25/33 standard rather than on a rate: all 114 xero
+     corpus PDFs parsed with and without the change and diffed field by field —
+     1 newly parsing, 0 lost, 0 MOVED (not one description, quantity, unit
+     price, line total, cost basis, tax treatment or supplier code changed on
+     any invoice that already parsed). xero 108/113 (95%) -> 109/113 (96%),
+     TOTAL 772/783 -> 773/783; no other supplier moved; both audits still clean.
+     500 tests pass. Five fixture tests added from the REAL coordinates of
+     164542cc0a23 (a hand-invented row does not reach the right buckets under a
+     derived header — the item-19 lesson), including one asserting _m STILL
+     refuses "3", so the diagnosis is pinned rather than just the fix.
+
+     WHY IT SURVIVED FOUR PASSES, worth recording because it is the same shape
+     as item 19(a): the shortfall was described from its masthead ("Tax Invoice /
+     Bill to / Attn: OLIVER") instead of from its CONTENT, the description was
+     plausible, and every later pass re-used it. The document was never opened.
+     A one-line note saying which SUPPLIER a failure belongs to would have made
+     this obvious immediately — it is registered kitchen food sitting at 0%.
+
+     Live confirmation, same day: Canton Group INV-5110 arrived in the inbox
+     during this run and failed for exactly this reason before the fix. It and
+     INV-5096 should both promote on the next Review sweep.
+
+ 38. THE OTHER TEN CORPUS SHORTFALLS ARE UNCHANGED, re-opened by hash: be_foods
+     3b34ec060c06 + d02385290774, farmer_joes 4444676 (now out of the corpus
+     window), gulli b381fb197ab6 (CI-437314), ilg b46bfb0a542a + e23ce69fe899,
+     paramount 670685f29215 (the price list), and FOUR xero SYMSAFE payment
+     RECEIPTS (3d3c2698cce5, 98cf4cb45aa6, c7e2d27409b6, e702e84538d3 — item 19
+     said three; the fourth arrived with the corpus growth, which is the shape
+     item 20 predicted). No drift and no new failure mode among them. NO change
+     was made to any of them. reward_dist and vanguard have aged out of the
+     4-month window entirely and no longer appear.
+
+ 39. OPERATIONAL, and it cost this run about 40 minutes: a pull_mailbox.py from
+     the 30-minute poller was found WEDGED — 6h07m elapsed, 1.04s of CPU, its
+     log last written at 14:47 — and had to be killed before this run could
+     work. Item 5 added GRAPH_TIMEOUT=60s and item 30 added retries, so this is
+     a hang the existing guards did not catch; the timeout is per-REQUEST and
+     something is blocking outside a request. Separately, this run's first inbox
+     pass died on "Graph 401 ... token is expired" halfway through, having spent
+     several minutes in 60s socket timeouts first — i.e. the ACCESS TOKEN
+     EXPIRED MID-RUN and _req's retry ladder (correctly) fast-fails a 401 rather
+     than refreshing it. Re-running the pass from a clean start fixed it and
+     both messages were picked up. FOR ZAK: a token refresh on 401-once, and a
+     whole-run watchdog, are the two things that would have made this run
+     unattended. NOT attempted here — it is auth-path code and this task must
+     never handle credentials.
+
 The three zero-total documents (now four, with Gulli CI-437314 — see item 18)
 can never PASS by construction: validator's _check_required_fields treats
 total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
