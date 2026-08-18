@@ -34,10 +34,10 @@
   "derived": 141,
   "mirrored": 42,
   "rule": 61,
-  "scrape": 1171
+  "scrape": 1170
  },
- "generated": "2026-08-17",
- "lines": 1436,
+ "generated": "2026-08-18",
+ "lines": 1435,
  "manual_lines": [
   {
    "engine": null,
@@ -51,7 +51,7 @@
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
-   "engine": 0.003168,
+   "engine": null,
    "frozen_unit_cost": 3.98,
    "line": "Coke Zero 1.25L",
    "line_cost": 3.98,
@@ -59,7 +59,7 @@
    "qty": 1.0,
    "ref": "lightspeed:20459553",
    "unit": "ml",
-   "why": "our book prices this line differently"
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
    "engine": null,
@@ -103,17 +103,6 @@
    "qty": 30.0,
    "ref": "lightspeed:20445809",
    "unit": "ml",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 2.18,
-   "line": "Asahi 3.5%",
-   "line_cost": 2.18,
-   "product": "Asahi 3.5%",
-   "qty": 1.0,
-   "ref": "lightspeed:20445705",
-   "unit": "ea",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
@@ -184,17 +173,6 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 2.38,
-   "line": "Better Beer Tin",
-   "line_cost": 2.38,
-   "product": "Better Beer Tin",
-   "qty": 1.0,
-   "ref": "lightspeed:20445702",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
    "frozen_unit_cost": 2.25,
    "line": "James Boags Light",
    "line_cost": 2.25,
@@ -257,17 +235,6 @@
    "qty": 0.5,
    "ref": "lightspeed:22995331",
    "unit": "ml",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 2.5713,
-   "line": "Corona",
-   "line_cost": 2.5713,
-   "product": "Corona",
-   "qty": 1.0,
-   "ref": "lightspeed:20445701",
-   "unit": "ea",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
@@ -370,39 +337,6 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.0,
-   "line": "Grifter Big Sur IPA Tin",
-   "line_cost": 4.0,
-   "product": "Grifter Big Sur IPA Tin",
-   "qty": 1.0,
-   "ref": "lightspeed:20445709",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 3.19,
-   "line": "Grifter Omen Stout Tin",
-   "line_cost": 3.19,
-   "product": "Grifter Omen Stout Tin",
-   "qty": 1.0,
-   "ref": "lightspeed:20445710",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 3.19,
-   "line": "Grifter Pink Galah Tin",
-   "line_cost": 3.19,
-   "product": "Grifter Pink Galah Tin",
-   "qty": 1.0,
-   "ref": "lightspeed:20445708",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
    "frozen_unit_cost": 30.8,
    "line": "Avocado [Tray]",
    "line_cost": 30.8,
@@ -447,39 +381,6 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 2.625,
-   "line": "Hahn Super Dry GF",
-   "line_cost": 2.625,
-   "product": "Hahn Super Dry GF",
-   "qty": 1.0,
-   "ref": "lightspeed:22931792",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 3.96,
-   "line": "Hard Rated Can",
-   "line_cost": 3.96,
-   "product": "Hard Rated Can",
-   "qty": 1.0,
-   "ref": "lightspeed:22614595",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 2.6696,
-   "line": "Heaps Normal Tin",
-   "line_cost": 2.6696,
-   "product": "Heaps Normal Tin",
-   "qty": 1.0,
-   "ref": "lightspeed:20445707",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
    "frozen_unit_cost": 0.009548,
    "line": "Avocado [kg]",
    "line_cost": 1.52768,
@@ -513,78 +414,12 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.31,
-   "line": "Hyoketsu Lemon [HG]",
-   "line_cost": 4.31,
-   "product": "Hyoketsu Lemon [HG]",
-   "qty": 1.0,
-   "ref": "lightspeed:21319585",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 2.34,
-   "line": "James Boags Light",
-   "line_cost": 2.34,
-   "product": "James Boags Light",
-   "qty": 1.0,
-   "ref": "lightspeed:20445706",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 2.29,
-   "line": "Kaiju Hazy Pale [HG]",
-   "line_cost": 2.29,
-   "product": "Kaiju Hazy Pale [HG]",
-   "qty": 1.0,
-   "ref": "lightspeed:20691647",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
    "frozen_unit_cost": 5.1573,
    "line": "large pizza, sales-weighted mean of every large sold",
    "line_cost": 5.1573,
    "product": "Large Pizza [menu average]",
    "qty": 1.0,
    "ref": "",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.8032,
-   "line": "Lemonade [mixer]",
-   "line_cost": 0.8032,
-   "product": "Lemon, Lime & Bitters",
-   "qty": 1.0,
-   "ref": "lightspeed:20681676",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.8032,
-   "line": "Lemonade [mixer]",
-   "line_cost": 0.8032,
-   "product": "Lemonade Glass",
-   "qty": 1.0,
-   "ref": "lightspeed:20681676",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 3.4861,
-   "line": "Little Dragon Can",
-   "line_cost": 3.4861,
-   "product": "Little Dragon Can",
-   "qty": 1.0,
-   "ref": "lightspeed:21939293",
    "unit": "ea",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
@@ -644,17 +479,6 @@
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
-   "engine": null,
-   "frozen_unit_cost": 3.11,
-   "line": "Monteith's Apple Cider Bottle",
-   "line_cost": 3.11,
-   "product": "Monteith's Apple Cider Bottle",
-   "qty": 1.0,
-   "ref": "lightspeed:20445714",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
    "engine": 0.009237951807228915,
    "frozen_unit_cost": 2.811866,
    "line": "Nut Roast Prep",
@@ -689,39 +513,6 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 2.5217,
-   "line": "Peroni",
-   "line_cost": 2.5217,
-   "product": "Peroni",
-   "qty": 1.0,
-   "ref": "lightspeed:20445700",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 1.8463,
-   "line": "Peroni 0%",
-   "line_cost": 1.8463,
-   "product": "Peroni 0%",
-   "qty": 1.0,
-   "ref": "lightspeed:21999769",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.8032,
-   "line": "Pink Lemonade [mixer]",
-   "line_cost": 0.8032,
-   "product": "Pink Lemonade Glass",
-   "qty": 1.0,
-   "ref": "lightspeed:20681681",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": 14.784,
    "frozen_unit_cost": 0.0425,
    "line": "Chives [bunch]",
    "line_cost": 5.1,
@@ -729,7 +520,7 @@
    "qty": 120.0,
    "ref": "lightspeed:22493903",
    "unit": "g",
-   "why": "our book prices this line differently"
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
    "engine": null,
@@ -740,17 +531,6 @@
    "qty": 13.0,
    "ref": "lightspeed:20564869",
    "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.71,
-   "line": "Barebones Clear Ice Block",
-   "line_cost": 0.71,
-   "product": "Ronin Negroni",
-   "qty": 1.0,
-   "ref": "lightspeed:20873385",
-   "unit": "ea",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
@@ -897,17 +677,6 @@
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
-   "engine": null,
-   "frozen_unit_cost": 4.71,
-   "line": "Two Bays Pale Ale Can",
-   "line_cost": 4.71,
-   "product": "Two Bays Pale Ale Can",
-   "qty": 1.0,
-   "ref": "lightspeed:20445703",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
    "frozen_unit_cost": 21.8903,
    "line": "(whole product)",
    "line_cost": 21.8903,
@@ -916,17 +685,6 @@
    "ref": null,
    "unit": "ea",
    "why": "sold as bought; the scrape decomposes it into no lines at all and an empty recipe costs $0.00"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 1.96,
-   "line": "VB Tinnie",
-   "line_cost": 1.96,
-   "product": "VB Tinnie",
-   "qty": 1.0,
-   "ref": "lightspeed:20445704",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
    "engine": null,
@@ -949,21 +707,10 @@
    "ref": "lightspeed:22920854",
    "unit": "g",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 2.58,
-   "line": "Young Henrys Cloudy Cider Can",
-   "line_cost": 2.58,
-   "product": "Young Henrys Cloudy Cider Can",
-   "qty": 1.0,
-   "ref": "lightspeed:20445713",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   }
  ],
  "no_yield": [],
- "products": 612,
+ "products": 611,
  "pulled_in_for_closure": [
   "Davy's Old Fashioned Batch"
  ],

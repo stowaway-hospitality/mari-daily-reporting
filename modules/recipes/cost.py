@@ -55,7 +55,21 @@ _VOL = {"ml": 1, "milliliter": 1, "l": 1000, "lt": 1000, "litre": 1000, "litres"
 # Deliberately NOT extended to pack/box/tray/bottle. Those are counts too, but
 # how many grams is in one of them is exactly the question the unit guard exists
 # to refuse to answer -- that is the $11,400/serve bug, and it stays refused.
-_COUNT = {"ea": 1, "each": 1, "unit": 1, "units": 1, "pc": 1, "pcs": 1, "piece": 1, "pieces": 1}
+_COUNT = {"ea": 1, "each": 1, "unit": 1, "units": 1, "pc": 1, "pcs": 1, "piece": 1, "pieces": 1,
+          # SINGLE-SERVE CONTAINERS ARE COUNTS TOO. One `ea` of a beer and one
+          # `can` of the same beer are the same drink: the POS rings "1 ea", the
+          # invoice prices "per can", and refusing that pairing left Corona,
+          # Bintang, Asahi and a dozen others correctly identified, correctly
+          # priced, and still uncosted.
+          #
+          # STRICTLY ONE-ITEM CONTAINERS ONLY. box, ctn, carton, crate, case,
+          # pack and tray are deliberately absent: those hold MANY, and treating
+          # a per-carton price as a per-item one is the camembert trap
+          # (foodlink:100175 bills both per-piece and per-CTN-6) and the
+          # $11,400/serve bug. A can holds one drink; a carton holds 24.
+          "can": 1, "cans": 1, "tin": 1, "tins": 1, "tinnie": 1, "tinnies": 1,
+          "bottle": 1, "bottles": 1, "btl": 1, "stubby": 1, "stubbies": 1,
+          "jar": 1, "punnet": 1, "bunch": 1, "sachet": 1}
 
 
 def _same_dim_factor(from_unit: str, to_unit: str) -> Optional[Decimal]:

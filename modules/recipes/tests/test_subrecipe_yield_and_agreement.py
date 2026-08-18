@@ -267,3 +267,30 @@ def test_a_pack_is_still_not_a_count():
     from modules.recipes.cost import _same_dim_factor
     assert _same_dim_factor("box", "each") is None
     assert _same_dim_factor("tray", "g") is None
+
+
+def test_a_single_serve_container_is_a_count():
+    """One `ea` of a beer and one `can` of the same beer are the same drink.
+
+    The POS rings "1 ea", the invoice prices "per can", and refusing that pair
+    left Corona, Bintang, Asahi and a dozen others correctly identified,
+    correctly priced, and still uncosted — 204 manual lines that identity work
+    alone could never have cleared.
+    """
+    from modules.recipes.cost import _same_dim_factor
+    for u in ("can", "tin", "tinnie", "bottle", "btl", "stubby", "jar",
+              "punnet", "bunch"):
+        assert _same_dim_factor(u, "ea") == 1, f"{u} should count as one item"
+        assert _same_dim_factor("each", u) == 1
+
+
+def test_a_MULTI_item_pack_is_still_not_a_count():
+    """The other half, and the half that protects the book. box/carton/crate/
+    case/pack/tray hold MANY, so a per-carton price against a per-item recipe
+    line is the camembert trap (foodlink:100175 bills both per-piece and
+    per-CTN-6) and the $11,400/serve bug. These stay refused."""
+    from modules.recipes.cost import _same_dim_factor
+    for u in ("box", "ctn", "carton", "crate", "case", "pack", "tray"):
+        assert _same_dim_factor(u, "ea") is None, f"{u} holds many — must refuse"
+    assert _same_dim_factor("can", "g") is None
+    assert _same_dim_factor("bottle", "ml") is None
