@@ -1,0 +1,98 @@
+{
+  "invoice": {
+    "supplier_key": "beerline_cleaning",
+    "supplier_name_raw": "The Beerline Cleaning Company Pty Ltd",
+    "invoice_ref": "INV-4210",
+    "invoice_date": "2026-06-19",
+    "total_incl": "484.00",
+    "lines": [
+      {
+        "description": "Beer Line Cleaning - 6 Week Rotation billed monthly",
+        "qty": "1",
+        "line_total_incl": "319.00",
+        "unit_price_incl": "319.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Beer Line cleaning at Harrygatos",
+        "qty": "1",
+        "line_total_incl": "165.00",
+        "unit_price_incl": "165.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-06-20",
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "213601fabab00c304419e9dfdc293f4ab4385b5370f489158abf26b981bc7a73.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $484.00 under the invoice total \u2014 expected. Skipped: Beer Line Cleaning - 6 Week Rotation billed monthly ($319.00), Beer Line cleaning at Harrygatos ($165.00). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "0",
+        "actual": "484.00"
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "484.00"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "306",
+    "lines": [
+      {
+        "description": "Beer Line Cleaning - 6 Week Rotation billed monthly",
+        "account_code": "306",
+        "account_name": "Cleaning",
+        "reason": "line keyword -> Cleaning"
+      },
+      {
+        "description": "Beer Line cleaning at Harrygatos",
+        "account_code": "306",
+        "account_name": "Cleaning",
+        "reason": "line keyword -> Cleaning"
+      }
+    ]
+  }
+}

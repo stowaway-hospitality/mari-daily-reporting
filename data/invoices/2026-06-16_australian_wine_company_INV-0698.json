@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "australian_wine_company",
+    "supplier_name_raw": "Australian Wine Company",
+    "invoice_ref": "INV-0698",
+    "invoice_date": "2026-06-16",
+    "total_incl": "170.96",
+    "lines": [
+      {
+        "description": "2024 Das Juice Pink Pet Nat ($12.95 LUC)",
+        "qty": "12.00",
+        "line_total_incl": "132.53",
+        "unit_price_incl": "11.0442",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "DASJPINK2",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Wine Equalisation Tax",
+        "qty": "120.48",
+        "line_total_incl": "38.43",
+        "unit_price_incl": "0.3190",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "WET",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-16",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "f3a9a1a8aeff622898a41e40e0fcc99ab45e73f4066fbcc82561cda8ce2c3ef5.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "170.96",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "2024 Das Juice Pink Pet Nat ($12.95 LUC)",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Wine Equalisation Tax",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

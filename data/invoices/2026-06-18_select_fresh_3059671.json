@@ -1,0 +1,116 @@
+{
+  "invoice": {
+    "supplier_key": "select_fresh",
+    "supplier_name_raw": "Select Fresh Providores",
+    "invoice_ref": "3059671",
+    "invoice_date": "2026-06-18",
+    "total_incl": "24.05",
+    "lines": [
+      {
+        "description": "CHILLI JALAPENO GREEN KG",
+        "qty": "0.25",
+        "line_total_incl": "2.15",
+        "unit_price_incl": "8.60",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "CHJAL",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "LEMON KG",
+        "qty": "3.00",
+        "line_total_incl": "11.40",
+        "unit_price_incl": "3.80",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_kg",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "LEMK",
+        "raw_qty": null,
+        "raw_uom": "KG",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "EDIBLE FLOWER MIXED VIOLA PUN",
+        "qty": "1.00",
+        "line_total_incl": "10.50",
+        "unit_price_incl": "10.50",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "EDMVI",
+        "raw_qty": null,
+        "raw_uom": "PUNNET",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-02",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "2340b7de2f5f770560225a4b88e4938048a7f2f1901388c62c5da79fc0c009a7.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "24.05",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "CHILLI JALAPENO GREEN KG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "LEMON KG",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "EDIBLE FLOWER MIXED VIOLA PUN",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
