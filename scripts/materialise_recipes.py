@@ -699,10 +699,36 @@ def materialise(venue: str) -> tuple[list, dict]:
                 # it. 25% is comfortably above real price movement (the biggest
                 # single move in the stale-price audit was 40%, and that WAS a
                 # defect) and far below any pack factor.
+                # IF OUR BOOK CAN PRICE IT, OUR BOOK WINS. Freeze only when it
+                # cannot price the line at all.
+                #
+                # This tried a 25% tolerance first, and that was backwards. Corona
+                # is $2.64 on the ILG invoice and $1.96 as a Back Office seed --
+                # a 35% gap -- so the tolerance froze it and kept the STALE,
+                # LOWER number. The whole point of the migration is that the book
+                # follows invoices; a rule that discards an invoice price because
+                # it disagrees with Lightspeed's opinion has the dependency
+                # direction exactly reversed.
+                #
+                # Where our book has nothing, today's figure is still carried and
+                # still flagged -- that is what a manual line is FOR.
+                # OUR BOOK WINS WHEN IT GOES UP, AND IS DOUBTED WHEN IT COLLAPSES.
+                #
+                # Two failures taught this rule, one in each direction. A 25%
+                # tolerance kept Corona on a stale $1.96 Back Office seed instead
+                # of its $2.64 invoice -- the book must follow invoices, so a
+                # RISE is simply the correct newer price. But accepting the
+                # engine unconditionally then took $4.55 off a Margarita PartyJar,
+                # because a 700 ml glass bottle priced per-ml against a line
+                # reading "1 ea" costs almost nothing. That is a unit problem
+                # wearing a price, and it moves cost DOWN -- the direction
+                # CLAUDE.md says nobody investigates.
+                #
+                # So: asymmetric on purpose. Any rise is ours. A fall past a
+                # third of today's figure is not a price, it is a unit, and the
+                # line stays frozen and flagged until somebody says otherwise.
                 agrees = (engine is not None and eff is not None
-                          and (abs(engine - eff) <= max(Decimal("0.0005"), abs(eff) / 1000)
-                               or (eff > 0 and engine > 0
-                                   and Decimal("0.8") <= engine / eff <= Decimal("1.25"))))
+                          and (eff <= 0 or engine * 3 >= eff))
                 if not agrees and eff is not None and q not in (None, 0):
                     frozen = eff / q
                     report["manual_lines"].append(

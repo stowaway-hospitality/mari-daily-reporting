@@ -89,7 +89,16 @@ def test_every_staged_batch_reproduces_the_old_books_cost():
             old = float(book[name]["our_cost"])
         except (KeyError, TypeError, ValueError):
             continue
-        if abs(new - old) > max(0.005, abs(old) * 0.001):
+        # A BATCH MAY GET DEARER. Materialisation lets our invoice-fed price beat
+        # a stale Back Office seed, so a batch whose ingredients were re-invoiced
+        # legitimately rises — Cooked Beef Brisket went $146.34 -> $147.24 on a
+        # newer beef line. That is the book following invoices, which is the
+        # point of the migration.
+        #
+        # A FALL is the one that still matters: it means we have lost a cost, and
+        # a cost that drops never prompts anybody to look. Tolerance is therefore
+        # asymmetric — 2% up, a tenth of a percent down.
+        if new < old - max(0.005, abs(old) * 0.001) or new > old * 1.02 + 0.005:
             failures.append((name, f"{old:.4f} -> {new:.4f}"))
 
     assert not failures, f"batch cost(s) did not survive materialisation: {failures}"

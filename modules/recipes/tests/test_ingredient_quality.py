@@ -223,8 +223,22 @@ def test_a_brand_is_appended_when_the_invoice_drops_it():
 
 
 def test_same_priced_packs_of_one_product_still_collapse():
-    # The pass must keep doing its original job: CLKG (per kg) and CL20KGBX (the
-    # 20 kg box) are the same carrots at the same $/kg and must remain ONE entry.
+    # The pass must keep doing its original job: two packs of the same product at
+    # the same $/kg are ONE entry, not two.
+    #
+    # This used to name the codes — CL20KGBX must survive, CLKG must merge into
+    # it — and that stopped being true on 2026-08-18 for a reason that is not a
+    # regression: WE STOPPED BUYING THE 20 KG BOX. CL20KGBX has aged out of
+    # data/cogs_list.csv entirely and every carrot line is now CLKG per kg.
+    #
+    # A test that pins which code wins is really pinning a purchasing decision,
+    # and it fails the day the kitchen changes supplier or pack. What the pass
+    # actually guarantees is the COLLAPSE: one carrot, one entry, whichever code
+    # is the live one. That is what this asserts now.
     by = _feed_by_code()
-    assert "CL20KGBX" in by, "the carrot collapse regressed"
-    assert "CLKG" not in by, "CLKG should have merged into CL20KGBX — same $/kg"
+    carrots = {c: v for c, v in by.items() if c in ("CLKG", "CL20KGBX")}
+    assert carrots, "no Fresh Fruit Team carrot in the feed at all"
+    assert len(carrots) == 1, (
+        f"the carrot collapse regressed — both packs are in the feed: {sorted(carrots)}")
+    for code, entries in carrots.items():
+        assert len(entries) == 1, f"{code} appears {len(entries)} times, not collapsed"
