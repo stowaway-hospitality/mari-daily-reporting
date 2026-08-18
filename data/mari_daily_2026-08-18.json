@@ -1,6 +1,6 @@
 {
   "date": "2026-08-18",
-  "generated_at": "2026-08-18T19:28:25.710514Z",
+  "generated_at": "2026-08-18T20:23:32.669094Z",
   "venue": "marilynas",
   "venue_display": "Marilyna's Pizza",
   "lane_config": [
@@ -10,25 +10,33 @@
     "delivery"
   ],
   "data_status": {
-    "lightspeed": "missing",
+    "lightspeed": "ok",
     "deputy": "ok",
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": null,
-    "revenue_ex_gst": null,
-    "cogs_dollars": null,
-    "cogs_pct": null,
-    "gp_dollars": null,
-    "gp_pct": null,
-    "cogs_source": null,
-    "cogs_lightspeed_dollars": null,
-    "recipe_coverage_pct": null,
+    "revenue_inc_gst": 1407.91,
+    "revenue_ex_gst": 1275.39,
+    "cogs_dollars": 321.48,
+    "cogs_pct": 25.2,
+    "gp_dollars": 953.91,
+    "gp_pct": 74.8,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 287.48,
+    "recipe_coverage_pct": 89.8,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0,
+    "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 1275.39,
+    "bev_ex_gst": 0.0,
+    "food_cogs": 321.48,
+    "bev_cogs": 0.0,
+    "food_cogs_pct": 25.2,
+    "bev_cogs_pct": null,
+    "food_gp_pct": 74.8,
+    "bev_gp_pct": null
   },
   "wages": {
     "kitchen_dollars": 421.96,
@@ -36,12 +44,12 @@
     "driver_dollars": 74.65,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": null,
-    "wages_pct": null,
+    "total_dollars": 496.61,
+    "wages_pct": 38.9,
     "net_wage_pct": null,
     "kitchen_hours": 12.5,
     "foh_hours": 0,
-    "wages_kitchen_pct": null,
+    "wages_kitchen_pct": 33.1,
     "wages_foh_pct": null,
     "includes_super": true,
     "salaried_synthesized": true
@@ -50,15 +58,15 @@
     "uber_eats_commission_dollars": 0,
     "own_driver_dollars": 74.65,
     "uber_direct_dollars": 0.0,
-    "total_dollars": null,
-    "delivery_pct": null,
+    "total_dollars": 74.65,
+    "delivery_pct": 5.9,
     "fees_are_estimate": true
   },
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "unknown",
-    "wages": "unknown",
-    "delivery": "unknown",
+    "cogs": "red",
+    "wages": "red",
+    "delivery": "green",
     "gp": "unknown",
     "cogs_food": "unknown",
     "cogs_bev": "unknown",
@@ -91,5 +99,164 @@
       "note": "Rent + utils + admin + insurance + real marketing (excludes delivery + Uber commission)"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Large Hawaiian",
+      "qty": 5.0,
+      "rev": 103.6,
+      "cost": 15.8535,
+      "cost_source": "recipe",
+      "cost_lightspeed": 16.32
+    },
+    {
+      "name": "$45 FEAST",
+      "qty": 2.0,
+      "rev": 90.0,
+      "cost": 27.548,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Regular Sanchez [Dine-in]",
+      "qty": 5.0,
+      "rev": 81.19,
+      "cost": 19.263,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.24
+    },
+    {
+      "name": "WINGS DEAL",
+      "qty": 2.0,
+      "rev": 60.0,
+      "cost": 19.5936,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Regular Roma Special [Dine-in]",
+      "qty": 3.0,
+      "rev": 55.24,
+      "cost": 8.5692,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.66
+    },
+    {
+      "name": "Regular Little Italy [Dine-in]",
+      "qty": 3.0,
+      "rev": 54.59,
+      "cost": 12.6228,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.93
+    },
+    {
+      "name": "Large New Yorker",
+      "qty": 2.0,
+      "rev": 49.8,
+      "cost": 9.6562,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.58
+    },
+    {
+      "name": "Regular El Patron [Dine-in]",
+      "qty": 3.0,
+      "rev": 44.39,
+      "cost": 10.908,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.38
+    },
+    {
+      "name": "Regular Jimmy Jury [Dine-in]",
+      "qty": 3.0,
+      "rev": 43.79,
+      "cost": 10.5876,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.52
+    },
+    {
+      "name": "Regular The Paddock [Dine-in]",
+      "qty": 3.0,
+      "rev": 43.2,
+      "cost": 10.2174,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.72
+    },
+    {
+      "name": "Regular Meatlovers [Dine-in]",
+      "qty": 2.0,
+      "rev": 37.21,
+      "cost": 7.3224,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.26
+    },
+    {
+      "name": "Regular Hail Africa [Dine-in]",
+      "qty": 2.0,
+      "rev": 37.18,
+      "cost": 5.4596,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.99
+    },
+    {
+      "name": "Regular Hawaiian [Dine-in]",
+      "qty": 2.0,
+      "rev": 37.18,
+      "cost": 5.188,
+      "cost_source": "recipe",
+      "cost_lightspeed": 2.49
+    },
+    {
+      "name": "Regular Sorrento [Dine-in]",
+      "qty": 2.0,
+      "rev": 36.59,
+      "cost": 6.914,
+      "cost_source": "recipe",
+      "cost_lightspeed": 8.56
+    },
+    {
+      "name": "Regular New Yorker [Dine-in]",
+      "qty": 2.0,
+      "rev": 36.0,
+      "cost": 5.109,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.57
+    },
+    {
+      "name": "Regular No Chorizo, No Cry [Dine-in]",
+      "qty": 2.0,
+      "rev": 36.0,
+      "cost": 5.0976,
+      "cost_source": "recipe",
+      "cost_lightspeed": 5.35
+    },
+    {
+      "name": "Large Super House Special",
+      "qty": 2.0,
+      "rev": 31.9,
+      "cost": 14.9456,
+      "cost_source": "recipe",
+      "cost_lightspeed": 15.45
+    },
+    {
+      "name": "Large Cosmopolitan",
+      "qty": 1.0,
+      "rev": 31.9,
+      "cost": 6.896,
+      "cost_source": "recipe",
+      "cost_lightspeed": 6.59
+    },
+    {
+      "name": "Family Meatlovers",
+      "qty": 1.0,
+      "rev": 29.9,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Family Sorrento",
+      "qty": 1.0,
+      "rev": 29.9,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    }
+  ]
 }
