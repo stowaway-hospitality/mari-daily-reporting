@@ -1060,3 +1060,25 @@
     priced 1 ea, and this is the only one the parser read as a weight)"
   on: 2026-08-17
   by_email: "hello@stowawaybar.com"
+# SPRING ROLLS — the description states the PIECE and the CASE COUNT, and the
+# parser took the piece as the pack.
+#
+# "SPRING ROLL COCKTAIL 15gm 96'S Pacific West" at $14.00 came out as
+# $0.9333/g, which is dearer than saffron and the third instance today of the
+# same misread (the mousse rice cakes and the finger lime were the others).
+#
+# The name carries its own answer: 96'S is ninety-six to the case, 15gm is one
+# roll. $14.00 / 96 = $0.1458 a roll, which is an ordinary wholesale price for a
+# frozen cocktail spring roll. Read as a single 15 g roll it is $14.00 for one
+# mouthful, which is not a price.
+#
+# Recorded as 96 ea because a kitchen plates rolls, not grams. That also puts
+# the per-gram rate at $0.0097/g (14.00 / 1,440 g), comfortably inside the
+# $0.20 ceiling that flagged it.
+- id: "foodlink:102675"              # SPRING ROLL COCKTAIL 15gm 96'S Pacific West
+  pack_qty: 96
+  pack_unit: ea
+  by: "Claude (the name states 96'S = 96 per case; $14.00/96 = $0.1458 a roll,
+    where the 15 g reading gives $14.00 for one roll)"
+  on: 2026-08-18
+  by_email: "hello@stowawaybar.com"
