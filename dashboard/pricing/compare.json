@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-18",
-  "count": 982,
+  "count": 986,
   "compared": 23,
   "window_days": 90,
   "total_saving": 98.4,
@@ -104,7 +104,7 @@
       "prev": 2.64,
       "cost": 7.7,
       "pct": 191.7,
-      "date": "2026-08-12"
+      "date": "2026-08-18"
     },
     {
       "name": "Chemical Choice",
@@ -141,6 +141,15 @@
       "cost": 3.5,
       "pct": 52.2,
       "date": "2026-08-13"
+    },
+    {
+      "name": "Corn Sweet",
+      "supplier": "Fresh Fruit Team",
+      "unit": "ea",
+      "prev": 1.54,
+      "cost": 2.2,
+      "pct": 42.9,
+      "date": "2026-08-18"
     },
     {
       "name": "Mushroom King Brown",
@@ -314,6 +323,15 @@
       "date": "2026-08-01"
     },
     {
+      "name": "Rosemary",
+      "supplier": "Fresh Fruit Team",
+      "unit": "bunch",
+      "prev": 1.65,
+      "cost": 1.98,
+      "pct": 20.0,
+      "date": "2026-08-18"
+    },
+    {
       "name": "Capsicum Green 2nd",
       "supplier": "Select Fresh",
       "unit": "kg",
@@ -377,33 +395,6 @@
       "date": "2026-08-13"
     },
     {
-      "name": "Avocado Hass",
-      "supplier": "Fresh Fruit Team",
-      "unit": "tray",
-      "prev": 26.4,
-      "cost": 30.8,
-      "pct": 16.7,
-      "date": "2026-07-25"
-    },
-    {
-      "name": "Chive",
-      "supplier": "Fresh Fruit Team",
-      "unit": "ea",
-      "prev": 13.2,
-      "cost": 15.4,
-      "pct": 16.7,
-      "date": "2026-08-12"
-    },
-    {
-      "name": "Corn Sweet",
-      "supplier": "Fresh Fruit Team",
-      "unit": "ea",
-      "prev": 1.32,
-      "cost": 1.54,
-      "pct": 16.7,
-      "date": "2026-08-12"
-    },
-    {
       "name": "Jalapino Green",
       "supplier": "Fresh Fruit Team",
       "unit": "ea",
@@ -447,6 +438,15 @@
       "cost": 3.52,
       "pct": 14.3,
       "date": "2026-08-12"
+    },
+    {
+      "name": "Speedmix Size Refill",
+      "supplier": "Speed Gas",
+      "unit": "ea",
+      "prev": 64.4,
+      "cost": 73.6,
+      "pct": 14.3,
+      "date": "2026-08-17"
     },
     {
       "name": "Topless",
@@ -635,7 +635,7 @@
       "prev": 10.08,
       "cost": 10.8,
       "pct": 7.1,
-      "date": "2026-08-12"
+      "date": "2026-08-18"
     },
     {
       "name": "Cauliflower Floret Sml 30mm",
@@ -945,13 +945,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 1.32,
-          "date": "2026-08-12",
+          "date": "2026-08-18",
           "desc": "Carrot Large",
           "change_pct": -7.7,
-          "n": 19,
+          "n": 20,
           "prev_cost": 1.43,
-          "spend": 16.17,
-          "volume": 12.0
+          "spend": 30.69,
+          "volume": 23.0
         },
         {
           "supplier": "Select Fresh",
@@ -1093,46 +1093,6 @@
       "suspect": false,
       "low": 14.0,
       "low_date": "2026-04-02",
-      "est_saving": 0.0,
-      "main": null,
-      "switch": false
-    },
-    {
-      "key": "rosemary",
-      "name": "Rosemary",
-      "unit": "bunch",
-      "suppliers": [
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 1.65,
-          "date": "2026-04-22",
-          "desc": "Herb Rosemary",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
-          "spend": 0.0,
-          "volume": 0.0
-        },
-        {
-          "supplier": "Select Fresh",
-          "cost": 2.4,
-          "date": "2026-07-17",
-          "desc": "HERB ROSEMARY BCH",
-          "change_pct": null,
-          "n": 1,
-          "prev_cost": null,
-          "spend": 0.0,
-          "volume": 0.0
-        }
-      ],
-      "cheapest": "Fresh Fruit Team",
-      "min": 1.65,
-      "max": 2.4,
-      "spread_pct": 45.5,
-      "multi": true,
-      "suspect": false,
-      "low": 1.65,
-      "low_date": "2026-04-22",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -1293,6 +1253,46 @@
       "suspect": false,
       "low": 1.49,
       "low_date": "2026-07-02",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "rosemary",
+      "name": "Rosemary",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 1.98,
+          "date": "2026-08-18",
+          "desc": "Herb Rosemary",
+          "change_pct": 20.0,
+          "n": 2,
+          "prev_cost": 1.65,
+          "spend": 0.0,
+          "volume": 0.0
+        },
+        {
+          "supplier": "Select Fresh",
+          "cost": 2.4,
+          "date": "2026-07-17",
+          "desc": "HERB ROSEMARY BCH",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 1.98,
+      "max": 2.4,
+      "spread_pct": 21.2,
+      "multi": true,
+      "suspect": false,
+      "low": 1.65,
+      "low_date": "2026-04-22",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -2726,24 +2726,24 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 30.8,
-          "date": "2026-07-25",
+          "cost": 22.0,
+          "date": "2026-08-18",
           "desc": "Avocado Hass",
-          "change_pct": 16.7,
-          "n": 6,
-          "prev_cost": 26.4,
+          "change_pct": -28.6,
+          "n": 7,
+          "prev_cost": 30.8,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 30.8,
-      "max": 30.8,
+      "min": 22.0,
+      "max": 22.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 26.4,
-      "low_date": "2026-04-22",
+      "low": 22.0,
+      "low_date": "2026-08-18",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -5772,10 +5772,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 10.8,
-          "date": "2026-08-12",
+          "date": "2026-08-18",
           "desc": "Celeriac",
           "change_pct": 7.1,
-          "n": 11,
+          "n": 12,
           "prev_cost": 10.08,
           "spend": 0.0,
           "volume": 0.0
@@ -8062,19 +8062,19 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 15.4,
-          "date": "2026-08-12",
-          "desc": "Chives",
-          "change_pct": 16.7,
-          "n": 22,
-          "prev_cost": 13.2,
+          "cost": 13.2,
+          "date": "2026-08-18",
+          "desc": "Herb Chives",
+          "change_pct": -14.3,
+          "n": 23,
+          "prev_cost": 15.4,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 15.4,
-      "max": 15.4,
+      "min": 13.2,
+      "max": 13.2,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -8933,13 +8933,13 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 7.9,
-          "date": "2026-07-16",
+          "date": "2026-08-18",
           "desc": "Coleslaw",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
-          "spend": 0.0,
-          "volume": 0.0
+          "spend": 7.9,
+          "volume": 1.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
@@ -8951,7 +8951,7 @@
       "low": 7.9,
       "low_date": "2026-07-16",
       "est_saving": 0.0,
-      "main": null,
+      "main": "Fresh Fruit Team",
       "switch": false
     },
     {
@@ -9252,10 +9252,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 7.7,
-          "date": "2026-08-12",
-          "desc": "Coriander",
+          "date": "2026-08-18",
+          "desc": "Herb Coriander",
           "change_pct": 191.7,
-          "n": 18,
+          "n": 19,
           "prev_cost": 2.64,
           "spend": 0.0,
           "volume": 0.0
@@ -9628,19 +9628,19 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 1.54,
-          "date": "2026-08-12",
+          "cost": 2.2,
+          "date": "2026-08-18",
           "desc": "Corn Sweet",
-          "change_pct": 16.7,
-          "n": 8,
-          "prev_cost": 1.32,
+          "change_pct": 42.9,
+          "n": 9,
+          "prev_cost": 1.54,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 1.54,
-      "max": 1.54,
+      "min": 2.2,
+      "max": 2.2,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -14617,10 +14617,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 1.5,
-          "date": "2026-07-25",
+          "date": "2026-08-18",
           "desc": "Grapefruit Pink Peeled",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -17459,10 +17459,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 27.5,
-          "date": "2026-07-20",
+          "date": "2026-08-18",
           "desc": "Lettuce Cos Baby Twin Pack",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -17626,6 +17626,35 @@
       "switch": false
     },
     {
+      "key": "lettuce radiccio",
+      "name": "Lettuce Radiccio",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 5.5,
+          "date": "2026-08-18",
+          "desc": "Lettuce Radiccio",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 5.5,
+      "max": 5.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 5.5,
+      "low_date": "2026-08-18",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
       "key": "lettuce radiccio white",
       "name": "Lettuce Radiccio White",
       "unit": "ea",
@@ -17662,10 +17691,10 @@
         {
           "supplier": "Fresh Fruit Team",
           "cost": 17.6,
-          "date": "2026-05-04",
+          "date": "2026-08-18",
           "desc": "Lettuce Rocket Wild",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -20845,6 +20874,35 @@
       "switch": false
     },
     {
+      "key": "onion sliced",
+      "name": "Onion Sliced",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 4.0,
+          "date": "2026-08-18",
+          "desc": "Onion Sliced",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 20.0,
+          "volume": 5.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 4.0,
+      "max": 4.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 4.0,
+      "low_date": "2026-08-18",
+      "est_saving": 0.0,
+      "main": "Fresh Fruit Team",
+      "switch": false
+    },
+    {
       "key": "onion spanish",
       "name": "Onion Spanish",
       "unit": "kg",
@@ -21895,24 +21953,24 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 3.96,
-          "date": "2026-07-25",
+          "cost": 3.85,
+          "date": "2026-08-18",
           "desc": "Pears Green",
-          "change_pct": -10.0,
-          "n": 3,
-          "prev_cost": 4.4,
-          "spend": 7.92,
-          "volume": 2.0
+          "change_pct": -2.8,
+          "n": 4,
+          "prev_cost": 3.96,
+          "spend": 11.77,
+          "volume": 3.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 3.96,
-      "max": 3.96,
+      "min": 3.85,
+      "max": 3.85,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 3.96,
-      "low_date": "2026-07-25",
+      "low": 3.85,
+      "low_date": "2026-08-18",
       "est_saving": 0.0,
       "main": "Fresh Fruit Team",
       "switch": false
@@ -22522,6 +22580,35 @@
       "suspect": false,
       "low": 8.4,
       "low_date": "2026-04-02",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "pineapple topless",
+      "name": "Pineapple Topless",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 4.95,
+          "date": "2026-08-18",
+          "desc": "Pineapple Topless (Bethonga)",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 4.95,
+      "max": 4.95,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 4.95,
+      "low_date": "2026-08-18",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -23142,26 +23229,26 @@
       "suppliers": [
         {
           "supplier": "Fresh Fruit Team",
-          "cost": 44.0,
-          "date": "2026-05-04",
+          "cost": 2.2,
+          "date": "2026-08-18",
           "desc": "Potato Chat Washed",
-          "change_pct": null,
-          "n": 2,
-          "prev_cost": null,
-          "spend": 0.0,
-          "volume": 0.0
+          "change_pct": -95.0,
+          "n": 3,
+          "prev_cost": 44.0,
+          "spend": 22.0,
+          "volume": 10.0
         }
       ],
       "cheapest": "Fresh Fruit Team",
-      "min": 44.0,
-      "max": 44.0,
+      "min": 2.2,
+      "max": 2.2,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 44.0,
-      "low_date": "2026-05-01",
+      "low": 2.2,
+      "low_date": "2026-08-18",
       "est_saving": 0.0,
-      "main": null,
+      "main": "Fresh Fruit Team",
       "switch": false
     },
     {
@@ -26303,19 +26390,19 @@
       "suppliers": [
         {
           "supplier": "Speed Gas",
-          "cost": 64.4,
-          "date": "2026-08-06",
-          "desc": "Speedmix 30 - D Size - refill.",
-          "change_pct": -12.5,
-          "n": 3,
-          "prev_cost": 73.6,
+          "cost": 73.6,
+          "date": "2026-08-17",
+          "desc": "Speedmix 55 - F Size - refill.",
+          "change_pct": 14.3,
+          "n": 4,
+          "prev_cost": 64.4,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "Speed Gas",
-      "min": 64.4,
-      "max": 64.4,
+      "min": 73.6,
+      "max": 73.6,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -27481,6 +27568,35 @@
       "suspect": false,
       "low": 1.65,
       "low_date": "2026-04-08",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "thyme",
+      "name": "Thyme",
+      "unit": "bunch",
+      "suppliers": [
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 2.2,
+          "date": "2026-08-18",
+          "desc": "Herb Thyme",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "Fresh Fruit Team",
+      "min": 2.2,
+      "max": 2.2,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 2.2,
+      "low_date": "2026-08-18",
       "est_saving": 0.0,
       "main": null,
       "switch": false
