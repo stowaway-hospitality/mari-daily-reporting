@@ -61,6 +61,7 @@ b-e:10876,lightspeed:23007639,product_map (name-prefix; seed $0.013500 -> invoic
 b-e:12429,lightspeed:22962975,"product_map (COST $0 ON A REAL QUANTITY. Chicken Marination and Beef Marination each take 50 g of bicarb — it is the velveting agent, not a trace — and both were charged nothing. B&E 12429 'BI - CARB SODA 2KG (6)' is $8.10 the 2 kg bag = $0.004050/g, the most recent of the two real sources; Foodlink 100205 'BICARB SODA 1KG' independently says $0.006900/g. Same order, both per gram, and the recipe lines are per gram. Bridged to the newer.)",bicarb
 b-e:12776,lightspeed:20445603,product_map (name-prefix; seed $0.012184 -> invoice $0.012200/g (+0.1%)),Chicken
 b-e:13812,lightspeed:22975185,product_map (recipe-bridge),Corn Kernels [Tin]
+b-e:14127,lightspeed:22995367,product_map (zak-confirmed method 2026-08-18; line-by-line identity review),White Truffle Oil Sandhurst [250ml]
 b-e:14580,lightspeed:22514322,product_map (recipe-bridge),Pizza Tomato Sauce
 b-e:17530,lightspeed:22888647,product_map (recipe-bridge),Mayonnaise Mild Japanese 1kg Kewpie
 b-e:27544,lightspeed:22995341,product_map (name-prefix; seed $0.012764 -> invoice $0.012700/g (-0.5%)),Ham Soccerball Sliced Pendle [1kg]
@@ -97,6 +98,7 @@ foodlink:104407,lightspeed:22888614,product_map (name-prefix; seed $0.013900 -> 
 foodlink:104520,lightspeed:22893550,product_map (name-prefix; seed $0.002100 -> invoice $0.002100/g (+0.0%)),Rice Jasmine Fragrant [20kg]
 foodlink:105001,lightspeed:22888649,product_map (name-prefix; seed $0.006500 -> invoice $0.006500/g (+0.0%)),Mayonnaise Whole Egg 20kg Plate & Platter
 foodlink:106504,lightspeed:22902937,product_map (name-prefix; seed $0.011918 -> invoice $0.010971/ml (-7.9%)),Sriracha [730mL]
+foodlink:107039,lightspeed:22962728,product_map (zak-confirmed method 2026-08-18; line-by-line identity review),White Miso
 foodlink:108970,lightspeed:22988218,product_map (name-prefix; seed $0.015091 -> invoice $0.015000/g (-0.6%)),Cheese Mexican Blend Shredded [2kg]
 foodlink:110315,lightspeed:22533097,product_map (recipe-bridge),Yoghurt Greek Style [1Kg]
 fresh-fruit-team:AH20T,lightspeed:22488995,product_map (name-prefix; seed $25.000000 -> invoice $30.800000/tray (+23.2%)),Avocado [Tray]
@@ -121,6 +123,7 @@ fresh-fruit-team:LCBTPEA,lightspeed:22995348,product_map (recipe-bridge),Lettuce
 fresh-fruit-team:ONBRKG,lightspeed:22995352,"product_map (adjudicated AND bridged: OURS IS RIGHT and now tracks the invoice. Every loose brown onion we have ever been billed is $1.32-$2.40/kg — FFT ONBRKG at $1.54 then $1.32, Select Fresh ONIBK at $2.40. Lightspeed's recipe costing implies $3.25/kg, above all of them. This conflict was INVISIBLE until 2026-08-14 because the record's pack_unit read 'can', so the detector had no comparable rate; fixing the label surfaced it. Bridged to ONBRKG so the invoice wins the as-of lookup instead of a pinned figure.)",Onion Brown [kg]
 fresh-fruit-team:PDKG,lightspeed:22995356,product_map (name-prefix; seed $0.003600 -> invoice $0.003960/g (+10.0%)),Potato Desiree [10kg]
 fresh-fruit-team:RRBCH,lightspeed:22995358,product_map (name-prefix; seed $2.880000 -> invoice $2.880000/bunch (+0.0%)),Radish Red [Bunch]
+fresh-fruit-team:SBCH,lightspeed:22996509,product_map (zak-confirmed method 2026-08-18; line-by-line identity review),Shallot [bunch]
 grifter:GRIFTER-BIGSUR-24PK,lightspeed:20445709,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Grifter Big Sur IPA Tin
 grifter:GRIFTER-PALE-50L,lightspeed:20487426,product_map (name+price),Grifter Pale [Keg]
 gulli:AGBGARBRE-B,lightspeed:20467596,product_map (recipe-bridge),Garlic Bread
@@ -130,6 +133,7 @@ gulli:PBLTB11-U,lightspeed:22873831,"product_map (verified: Gulli 'B Flute Lock 
 gulli:PBLTB13-U,lightspeed:22873851,product_map (verified: Gulli 'Pizza Boxes x 50' -> per box),"Large Pizza Box 13"""
 gulli:PIZZABASE-GF-11-B,lightspeed:21712396,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Gluten-free Base
 gulli:SAPPEPSTRIPA12-UC3,lightspeed:22874436,product_map (recipe-bridge),Roasted Red Peppers [A12]
+ilg:110-4682P,lightspeed:20445704,product_map (zak-confirmed method 2026-08-18; line-by-line identity review),VB Tinnie
 ilg:115-3129,lightspeed:21999769,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. The 0.0% stubs are a different product from the Peroni above and map to Lightspeed's own 'Peroni 0%'. BO $1.8463 vs invoice $1.9300 (1.05x), 8 invoices.)",Peroni 0%
 ilg:115-3511,lightspeed:20445701,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Corona
 ilg:115-4173,lightspeed:20445700,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. DECISIVE: the Back Office cost is $2.5217 and ILG 115-4173 'PERONI NASTRO 6PK BTLS R' invoices at $2.5217 — identical to four decimals across 4 invoices, so the BO figure was set FROM this line.)",Peroni
