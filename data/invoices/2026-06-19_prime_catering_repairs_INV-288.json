@@ -1,0 +1,125 @@
+{
+  "invoice": {
+    "supplier_key": "prime_catering_repairs",
+    "supplier_name_raw": "Prime Catering Repairs",
+    "invoice_ref": "INV-288",
+    "invoice_date": "2026-06-19",
+    "total_incl": "737.00",
+    "lines": [
+      {
+        "description": "Call out and first hour of labour: Middle fryer keeps cutting",
+        "qty": "1.00",
+        "line_total_incl": "308.00",
+        "unit_price_incl": "308.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Additional hourly rate: Overheat thermostat has been",
+        "qty": "0.50",
+        "line_total_incl": "77.00",
+        "unit_price_incl": "154.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Overheat thermostat",
+        "qty": "1.00",
+        "line_total_incl": "352.00",
+        "unit_price_incl": "352.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-06-26",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "48de83f7622be99af4ece97453260d8780162b81c1d363dfe494f023e0ff0a2a.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $737.00 under the invoice total \u2014 expected. Skipped: Call out and first hour of labour: Middle fryer keeps cutting ($308.00), Additional hourly rate: Overheat thermostat has been ($77.00), Overheat thermostat ($352.00). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "0",
+        "actual": "737.00"
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "737.00"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "low",
+    "primary_account": "424",
+    "lines": [
+      {
+        "description": "Call out and first hour of labour: Middle fryer keeps cutting",
+        "account_code": "424",
+        "account_name": "Repairs & Maintenance",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Additional hourly rate: Overheat thermostat has been",
+        "account_code": "424",
+        "account_name": "Repairs & Maintenance",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Overheat thermostat",
+        "account_code": "424",
+        "account_name": "Repairs & Maintenance",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
