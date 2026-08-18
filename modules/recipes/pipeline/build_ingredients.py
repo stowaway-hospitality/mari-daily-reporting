@@ -47,6 +47,7 @@ import json
 import re
 from datetime import date, datetime, timedelta
 from decimal import Decimal
+import re as _re
 from pathlib import Path
 
 import sys  # noqa: E402
@@ -938,7 +939,14 @@ def main() -> int:
                 byname[k] = it
     for it in kept_apart:
         code = (it.get("supplier_code") or "").strip()
-        if code and code.upper() not in (it["description"] or "").upper():
+        # WHOLE WORD, not substring. Select Fresh sells limes by the kg (LIMK)
+        # and by the tray (LIM), both described "Limes" at different $/unit, so
+        # both are kept and one takes its code as a suffix. It never did: "LIM"
+        # is a substring of "LIMES", the check thought the code was already in
+        # the name, and the feed shipped two ingredients called "Limes" — which
+        # is precisely the duplicate this pass exists to prevent.
+        if code and not _re.search(rf"\b{_re.escape(code.upper())}\b",
+                                   (it["description"] or "").upper()):
             it["description"] = f"{it['description']} ({code})"
     out = list(byname.values()) + kept_apart
     review = sum(1 for i in out if i.get("needs_pack_review"))

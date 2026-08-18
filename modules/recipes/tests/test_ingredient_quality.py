@@ -242,3 +242,26 @@ def test_same_priced_packs_of_one_product_still_collapse():
         f"the carrot collapse regressed — both packs are in the feed: {sorted(carrots)}")
     for code, entries in carrots.items():
         assert len(entries) == 1, f"{code} appears {len(entries)} times, not collapsed"
+
+
+def test_a_code_that_is_a_SUBSTRING_of_the_name_still_disambiguates():
+    """Select Fresh sells limes by the kg (LIMK) and by the tray (LIM), both
+    described "Limes" at different $/unit — so both are kept and one takes its
+    code as a suffix.
+
+    It never did. The check asked whether the code appeared ANYWHERE in the
+    name, and "LIM" is a substring of "LIMES", so it concluded the code was
+    already there and shipped two ingredients called "Limes" — the exact
+    duplicate this pass exists to prevent. A code counts as present only when it
+    appears as a whole word.
+    """
+    from pathlib import Path as _P
+    _root = _P(__file__).resolve().parents[3]
+    src = (_root / "modules" / "recipes" / "pipeline" / "build_ingredients.py").read_text()
+    assert r"\b{_re.escape(code.upper())}\b" in src, (
+        "the disambiguator must match the supplier code on a word boundary, "
+        "or a short code hiding inside a longer name silently suppresses it")
+    by = _feed_by_code()
+    if "LIM" in by and "LIMK" in by:
+        names = [by["LIM"][0]["description"], by["LIMK"][0]["description"]]
+        assert len(set(names)) == 2, f"both limes are still called the same thing: {names}"
