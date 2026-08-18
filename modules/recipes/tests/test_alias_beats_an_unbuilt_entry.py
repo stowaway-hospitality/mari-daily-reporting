@@ -150,7 +150,13 @@ def test_the_burger_lettuce_is_a_twelfth_of_a_pack_not_a_whole_one():
     line = next(x for x in book["Beef Burger D"]["ingredients"]
                 if x["name"].startswith("Lettuce Cos Baby Twin Pack"))
     assert abs(line["eff_cost"] - 0.22825) < 0.001, line
-    assert abs(float(book["Beef Burger D"]["our_cost"]) - 5.8403) < 0.001
+    # A BAND, NOT FOUR DECIMAL PLACES. What this test is about is the ALIAS
+    # applying at all: $5.84 for the real nine-line build versus $8.36 when the
+    # lettuce falls back to a whole pack — a $2.52 gap. Pinning to a tenth of a
+    # cent made an invoice-fed rate moving 1.7c read as that failure, which is
+    # the opposite of what the assertion is for.
+    assert 5.60 <= float(book["Beef Burger D"]["our_cost"]) <= 6.10, (
+        book["Beef Burger D"]["our_cost"])
     assert float(book["Beef Burger D"]["gp_pct"]) > 70
 
 
