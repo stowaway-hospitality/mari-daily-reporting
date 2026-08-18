@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-17",
-  "count": 979,
+  "generated": "2026-08-18",
+  "count": 982,
   "compared": 23,
   "window_days": 90,
   "total_saving": 98.4,
@@ -276,6 +276,15 @@
       "cost": 8.286,
       "pct": 23.4,
       "date": "2026-07-22"
+    },
+    {
+      "name": "Almond Meal Nature Secret",
+      "supplier": "Foodlink",
+      "unit": "kg",
+      "prev": 14.6,
+      "cost": 18.0,
+      "pct": 23.3,
+      "date": "2026-08-18"
     },
     {
       "name": "Parsley Continental",
@@ -1176,13 +1185,13 @@
         {
           "supplier": "Foodlink",
           "cost": 3.475,
-          "date": "2026-07-28",
+          "date": "2026-08-18",
           "desc": "BBQ SAUCE 4LT Heinz",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
-          "spend": 55.6,
-          "volume": 16.0
+          "spend": 97.3,
+          "volume": 28.0
         },
         {
           "supplier": "B&E",
@@ -1696,6 +1705,35 @@
       "switch": false
     },
     {
+      "key": "aioli based birch garlic mayonnaise plant waite",
+      "name": "Aioli Garlic Mayonnaise Plant Based Birch Waite",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 17.5,
+          "date": "2026-08-18",
+          "desc": "AIOLI GARLIC MAYONNAISE PLANT BASED (VEGAN) 1LT Birch & Waite",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 35.0,
+          "volume": 2.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 17.5,
+      "max": 17.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 17.5,
+      "low_date": "2026-08-18",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "alehouse crisp keg",
       "name": "Alehouse Crisp Keg",
       "unit": "ea",
@@ -1876,26 +1914,26 @@
       "suppliers": [
         {
           "supplier": "Foodlink",
-          "cost": 14.6,
-          "date": "2026-05-18",
+          "cost": 18.0,
+          "date": "2026-08-18",
           "desc": "ALMOND MEAL 1KG Natures Secret",
-          "change_pct": null,
-          "n": 2,
-          "prev_cost": null,
-          "spend": 0.0,
-          "volume": 0.0
+          "change_pct": 23.3,
+          "n": 3,
+          "prev_cost": 14.6,
+          "spend": 36.0,
+          "volume": 2.0
         }
       ],
       "cheapest": "Foodlink",
-      "min": 14.6,
-      "max": 14.6,
+      "min": 18.0,
+      "max": 18.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
       "low": 14.6,
       "low_date": "2026-04-08",
       "est_saving": 0.0,
-      "main": null,
+      "main": "Foodlink",
       "switch": false
     },
     {
@@ -2607,8 +2645,8 @@
           "change_pct": 0.0,
           "n": 24,
           "prev_cost": 1.4952,
-          "spend": 1435.44,
-          "volume": 960.0
+          "spend": 1375.63,
+          "volume": 920.0
         }
       ],
       "cheapest": "Gulli",
@@ -3588,13 +3626,13 @@
         {
           "supplier": "B&E",
           "cost": 14.0,
-          "date": "2026-08-14",
+          "date": "2026-08-18",
           "desc": "BEEF - BRISKET YG POINT",
           "change_pct": 0.1,
-          "n": 15,
+          "n": 16,
           "prev_cost": 13.992,
-          "spend": 2320.78,
-          "volume": 165.78
+          "spend": 2589.58,
+          "volume": 184.98
         }
       ],
       "cheapest": "B&E",
@@ -3999,8 +4037,8 @@
           "change_pct": -14.9,
           "n": 30,
           "prev_cost": 12.332,
-          "spend": 7938.0,
-          "volume": 756.0
+          "spend": 7602.0,
+          "volume": 724.0
         }
       ],
       "cheapest": "Gulli",
@@ -7358,13 +7396,13 @@
         {
           "supplier": "B&E",
           "cost": 1.5,
-          "date": "2026-08-12",
+          "date": "2026-08-18",
           "desc": "CHICKEN WING 15KG MEGA",
           "change_pct": null,
-          "n": 3,
+          "n": 4,
           "prev_cost": null,
-          "spend": 270.0,
-          "volume": 180.0
+          "spend": 337.5,
+          "volume": 225.0
         }
       ],
       "cheapest": "B&E",
@@ -8344,10 +8382,10 @@
         {
           "supplier": "B&E",
           "cost": 24.7,
-          "date": "2026-08-14",
+          "date": "2026-08-18",
           "desc": "CLING WRAP - WITH CUTTER",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -12380,8 +12418,8 @@
           "change_pct": 0.0,
           "n": 24,
           "prev_cost": 0.4819,
-          "spend": 915.78,
-          "volume": 1900.0
+          "spend": 891.69,
+          "volume": 1850.0
         }
       ],
       "cheapest": "Gulli",
@@ -12409,8 +12447,8 @@
           "change_pct": 0.0,
           "n": 27,
           "prev_cost": 0.6424,
-          "spend": 1863.49,
-          "volume": 2900.0
+          "spend": 1767.13,
+          "volume": 2750.0
         }
       ],
       "cheapest": "Gulli",
@@ -13129,10 +13167,10 @@
         {
           "supplier": "B&E",
           "cost": 87.0,
-          "date": "2026-08-10",
+          "date": "2026-08-18",
           "desc": "FZ CHICKEN BREAST",
           "change_pct": null,
-          "n": 17,
+          "n": 18,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -18001,10 +18039,10 @@
         {
           "supplier": "B&E",
           "cost": 14.4,
-          "date": "2026-08-14",
+          "date": "2026-08-18",
           "desc": "MAIZE CORN FLOUR GLUTEN",
           "change_pct": null,
-          "n": 8,
+          "n": 9,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -18093,8 +18131,8 @@
           "change_pct": null,
           "n": 24,
           "prev_cost": null,
-          "spend": 1587.0,
-          "volume": 1437.5
+          "spend": 1531.8,
+          "volume": 1387.5
         }
       ],
       "cheapest": "Gulli",
@@ -18310,6 +18348,35 @@
       "low_date": "2026-08-05",
       "est_saving": 0.0,
       "main": null,
+      "switch": false
+    },
+    {
+      "key": "based birch chipotle mayonnaise plant smokey waite",
+      "name": "Mayonnaise Smokey Chipotle Plant Based Birch Waite",
+      "unit": "L",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 18.0,
+          "date": "2026-08-18",
+          "desc": "MAYONNAISE SMOKEY CHIPOTLE PLANT BASED (VEGAN) 1LT Birch & Waite",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 36.0,
+          "volume": 2.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 18.0,
+      "max": 18.0,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 18.0,
+      "low_date": "2026-08-18",
+      "est_saving": 0.0,
+      "main": "Foodlink",
       "switch": false
     },
     {
@@ -21196,8 +21263,8 @@
           "change_pct": -10.1,
           "n": 25,
           "prev_cost": 19.348,
-          "spend": 817.8,
-          "volume": 47.0
+          "spend": 800.4,
+          "volume": 46.0
         }
       ],
       "cheapest": "Gulli",
@@ -22061,13 +22128,13 @@
         {
           "supplier": "Foodlink",
           "cost": 10.213,
-          "date": "2026-07-24",
+          "date": "2026-08-18",
           "desc": "PEPPERS ROASTED RED (CAPSICUM) 2.35KG Marco Polo",
           "change_pct": null,
-          "n": 1,
+          "n": 2,
           "prev_cost": null,
-          "spend": 72.0,
-          "volume": 7.05
+          "spend": 120.0,
+          "volume": 11.75
         }
       ],
       "cheapest": "Foodlink",
@@ -23446,6 +23513,35 @@
       "switch": false
     },
     {
+      "key": "galaxy mix quinoa seed",
+      "name": "Quinoa Seed Mix Galaxy",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Foodlink",
+          "cost": 9.5,
+          "date": "2026-08-18",
+          "desc": "QUINOA SEEDS MIX 1KG Galaxy",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 9.5,
+          "volume": 1.0
+        }
+      ],
+      "cheapest": "Foodlink",
+      "min": 9.5,
+      "max": 9.5,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 9.5,
+      "low_date": "2026-08-18",
+      "est_saving": 0.0,
+      "main": "Foodlink",
+      "switch": false
+    },
+    {
       "key": "radiccio",
       "name": "Radiccio",
       "unit": "ea",
@@ -23888,13 +23984,13 @@
         {
           "supplier": "B&E",
           "cost": 2.1,
-          "date": "2026-08-10",
+          "date": "2026-08-18",
           "desc": "RICE - JASMINE RICE 10KG",
           "change_pct": null,
-          "n": 5,
+          "n": 6,
           "prev_cost": null,
-          "spend": 105.0,
-          "volume": 50.0
+          "spend": 126.0,
+          "volume": 60.0
         }
       ],
       "cheapest": "B&E",
@@ -24096,8 +24192,8 @@
           "change_pct": -14.5,
           "n": 4,
           "prev_cost": 18.513,
-          "spend": 113.49,
-          "volume": 7.0
+          "spend": 94.98,
+          "volume": 6.0
         }
       ],
       "cheapest": "Gulli",
@@ -25686,13 +25782,13 @@
         {
           "supplier": "Foodlink",
           "cost": 4.167,
-          "date": "2026-07-23",
+          "date": "2026-08-18",
           "desc": "SMOKEY BBQ SAUCE 3LT Sunshine",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
-          "spend": 50.0,
-          "volume": 12.0
+          "spend": 62.5,
+          "volume": 15.0
         }
       ],
       "cheapest": "Foodlink",
