@@ -100,11 +100,14 @@ foodlink:106504,lightspeed:22902937,product_map (name-prefix; seed $0.011918 -> 
 foodlink:108970,lightspeed:22988218,product_map (name-prefix; seed $0.015091 -> invoice $0.015000/g (-0.6%)),Cheese Mexican Blend Shredded [2kg]
 foodlink:110315,lightspeed:22533097,product_map (recipe-bridge),Yoghurt Greek Style [1Kg]
 fresh-fruit-team:AH20T,lightspeed:22488995,product_map (name-prefix; seed $25.000000 -> invoice $30.800000/tray (+23.2%)),Avocado [Tray]
+fresh-fruit-team:CAULI-EA,lightspeed:22931826,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Cauliflower [ea]
+fresh-fruit-team:CBSPACK,lightspeed:22995331,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Corn Baby Sweet [Pack]
 fresh-fruit-team:CLKG,lightspeed:22995324,product_map (name-prefix; seed $0.001556 -> invoice $0.001320/g (-15.2%)),Carrot Large [kg]
 fresh-fruit-team:CSCB,lightspeed:22995331,product_map (recipe-bridge),Corn Baby Sweet [Pack]
 fresh-fruit-team:EFR700DOZ,lightspeed:22995335,product_map (recipe-bridge),Eggs 700 Grams [12x]
 fresh-fruit-team:GINKG,lightspeed:22931835,product_map (name-prefix; seed $0.013200 -> invoice $0.013200/g (+0.0%)),Ginger [kg] 1000g
 fresh-fruit-team:GPKG,lightspeed:22995939,product_map (name-prefix; seed $0.004180 -> invoice $0.003850/g (-7.9%)),Garlic Peeled [kg] 1000g
+fresh-fruit-team:HCB,lightspeed:22995344,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Herb Coriander [Bunch]
 fresh-fruit-team:HCBCH,lightspeed:22995343,product_map (recipe-bridge),Herb Chives [Market]
 fresh-fruit-team:KITCARSHKG,lightspeed:22995325,product_map (name-prefix; seed $0.003900 -> invoice $0.003900/g (+0.0%)),Carrot Shredded [kg] 1000g
 fresh-fruit-team:KITCD5MM,lightspeed:22918959,product_map (name-prefix; seed $0.002900 -> invoice $0.003900/g (+34.5%)),Carrot Diced 5mm [kg] 1000g
@@ -118,15 +121,19 @@ fresh-fruit-team:LCBTPEA,lightspeed:22995348,product_map (recipe-bridge),Lettuce
 fresh-fruit-team:ONBRKG,lightspeed:22995352,"product_map (adjudicated AND bridged: OURS IS RIGHT and now tracks the invoice. Every loose brown onion we have ever been billed is $1.32-$2.40/kg — FFT ONBRKG at $1.54 then $1.32, Select Fresh ONIBK at $2.40. Lightspeed's recipe costing implies $3.25/kg, above all of them. This conflict was INVISIBLE until 2026-08-14 because the record's pack_unit read 'can', so the detector had no comparable rate; fixing the label surfaced it. Bridged to ONBRKG so the invoice wins the as-of lookup instead of a pinned figure.)",Onion Brown [kg]
 fresh-fruit-team:PDKG,lightspeed:22995356,product_map (name-prefix; seed $0.003600 -> invoice $0.003960/g (+10.0%)),Potato Desiree [10kg]
 fresh-fruit-team:RRBCH,lightspeed:22995358,product_map (name-prefix; seed $2.880000 -> invoice $2.880000/bunch (+0.0%)),Radish Red [Bunch]
+grifter:GRIFTER-BIGSUR-24PK,lightspeed:20445709,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Grifter Big Sur IPA Tin
 grifter:GRIFTER-PALE-50L,lightspeed:20487426,product_map (name+price),Grifter Pale [Keg]
 gulli:AGBGARBRE-B,lightspeed:20467596,product_map (recipe-bridge),Garlic Bread
 gulli:INSERTSMALL-U,lightspeed:22873876,product_map (recipe-bridge),Pizza Box Inserts
 gulli:MOZZARELLA2KG-UC4,lightspeed:22479979,product_map (name-prefix; seed $0.011761 -> invoice $0.010500/g (-10.7%)),Big Cheese - Shredded Mozzarella [2kg]
 gulli:PBLTB11-U,lightspeed:22873831,"product_map (verified: Gulli 'B Flute Lock Top 11"" Pizza Boxes x 50' is the regular-pizza box; $24.10/50 = $0.482 ea. Regular pizzas were costing 0.716 of a 13"" box instead.)","Regular Pizza Box 11"""
 gulli:PBLTB13-U,lightspeed:22873851,product_map (verified: Gulli 'Pizza Boxes x 50' -> per box),"Large Pizza Box 13"""
+gulli:PIZZABASE-GF-11-B,lightspeed:21712396,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Gluten-free Base
 gulli:SAPPEPSTRIPA12-UC3,lightspeed:22874436,product_map (recipe-bridge),Roasted Red Peppers [A12]
 ilg:115-3129,lightspeed:21999769,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. The 0.0% stubs are a different product from the Peroni above and map to Lightspeed's own 'Peroni 0%'. BO $1.8463 vs invoice $1.9300 (1.05x), 8 invoices.)",Peroni 0%
+ilg:115-3511,lightspeed:20445701,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Corona
 ilg:115-4173,lightspeed:20445700,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. DECISIVE: the Back Office cost is $2.5217 and ILG 115-4173 'PERONI NASTRO 6PK BTLS R' invoices at $2.5217 — identical to four decimals across 4 invoices, so the BO figure was set FROM this line.)",Peroni
+ilg:115-5617,lightspeed:20691643,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Bintang
 ilg:117-4687,lightspeed:20445703,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. ILG name it 'TWO BAYS GLUTEN FREE PALE ALE'; Two Bays' entire range is gluten free, so it is the same beer. NOT mapped to 22795730 'Two Bays GF Rice Lager [HG]', which is a different beer. BO $4.71 vs invoice $5.4138 (1.15x).)",Two Bays Pale Ale Can
 ilg:117-5472,lightspeed:20445702,"product_map (Sold-as-bought can/bottle that was being priced from Back Office because ILG's line never reached the book. ILG state the pack in their own UOM and cogs_list carries it; resolve_pack scavenges the DESCRIPTION, which for a beer carries no size, so the line was dropped as 'pack unreadable' and add_passthrough_products fell back to the Back Office cost. 77 of 104 ILG codes are missing from the book for this reason. Bridging lets seed_matched_liquor_cost do the judging. BO $2.38 vs invoice $2.5012 (1.05x).)",Better Beer Tin
 ilg:122-2858,lightspeed:20487298,product_map (exact),Alehouse Draught Lager [Keg]
@@ -187,6 +194,7 @@ ilg:450-1293,lightspeed:20445897,product_map (stale_drift),San Pellegrino 500ml
 ilg:455-1078,lightspeed:20727770,product_map (name+seed-agreed; seed $0.0068 -> invoice $0.0073/ml),Bickfords Raspberry Cordial [Bottle]
 ilg:460-1504,lightspeed:20459552,product_map (exact),Coke 1.25L
 ilg:460-2255P,lightspeed:20484784,product_map (name+seed-agreed; seed $0.0082 -> invoice $0.0082/ml),Fever-Tree Naturally Light Tonic [Bottle]
+ilg:460-2558,lightspeed:20459561,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Coke Zero Can
 ilg:460-2567,lightspeed:20459560,product_map (exact),Coke Can
 ilg:460-412-8,lightspeed:20485266,product_map (ilg-pricebook),Bundaberg Ginger Beer 750ml
 lion:1200769,lightspeed:23216243,product_map (exact),Guinness [Keg]
@@ -217,10 +225,13 @@ select-fresh:BEANK,lightspeed:22898695,product_map (name-prefix; seed $0.006400 
 select-fresh:CARK,lightspeed:22903011,product_map (name-prefix; seed $0.002100 -> invoice $0.002400/g (+14.3%)),Carrot [kg] 1000g
 select-fresh:CHLR,lightspeed:22918956,product_map (name-prefix; seed $0.017500 -> invoice $0.016000/g (-8.6%)),Chilli Red Long [kg] 1000g
 select-fresh:CHOI,lightspeed:22898085,"product_map (OVER-COST, the safe direction, which is why nothing caught it for months. The bo-ingredient-seed holds $9.00 a bunch. Select Fresh CHOI 'CHOI SUM BCH' invoices at $2.20 (3064370) and FFT CSB 'Choy Sum (Bunch)' at $1.93-$2.75 across three invoices - so every real bunch we have ever bought is $1.93-$2.75 and the seed is 4.1x the median. Units agree (bunch both sides) and the names are the same vegetable. bridge_stale_seeds parked this one because -76% drift exceeds its 60% guard; that guard exists to catch PACK clashes, and here there is no pack to clash - four invoices agree with each other and only the seed is out, so the drift is the defect rather than evidence against the match.)",Choi Sum [bunch]
+select-fresh:CUCGK,lightspeed:20564881,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Cucumber
+select-fresh:EDFL,lightspeed:21020204,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Edible Flower [Punnet]
 select-fresh:EDMVI,lightspeed:21020204,product_map (recipe-bridge),Edible Flower [Punnet]
 select-fresh:FLWBB,lightspeed:22893390,product_map (recipe-bridge),Babys Breath [bunch]
 select-fresh:HCOR,lightspeed:22995344,product_map (recipe-bridge),Herb Coriander [Bunch]
 select-fresh:SHAL,lightspeed:22996509,product_map (name-prefix; seed $1.930000 -> invoice $2.900000/bunch (+50.3%)),Shallot [Bunch]
+select-fresh:TBUS100,lightspeed:22918953,product_map (zak-confirmed 2026-08-18; line-by-line identity review),Kutjera Bush Tomato Powder [100g]
 select-fresh:XSHRCAB,lightspeed:22898086,product_map (name-prefix; seed $0.004200 -> invoice $0.004200/g (+0.0%)),Cabbage Green Shredded [kg] 1000g
 select-fresh:ZUCK,lightspeed:22480147,product_map (name-prefix; seed $0.002766 -> invoice $0.002900/g (+4.8%)),Zucchini [1Kg]
 the-berry-man-nsw-pty-ltd:DPULP10,lightspeed:22893724,product_map (name-prefix; seed $0.008639 -> invoice $0.008500/g (-1.6%)),Dragonfruit Puree [10kg]
