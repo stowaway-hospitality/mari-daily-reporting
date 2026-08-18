@@ -1034,3 +1034,112 @@ def test_gulli_derived_bounds_clear_every_observed_anchor():
         assert desc_lo <= desc_x, "would drop the description's first word"
         assert num_lo <= qty_x - 1.2, "would drop the quantity"
         assert desc_lo < num_lo
+
+
+# --------------------------------------------------------------------------
+# NetSuite / Bacchus. Coordinates below are the REAL ones read off corpus
+# invoices — 3379f8e9af9e (INV490330) and 55aaa9803359 (INV493374) — not
+# invented. The item-19 lesson: a hand-made row does not land in the right
+# buckets under a derived header, so a fixture built from imagination tests
+# nothing.
+NS_HEADER = _row((38.0, "Qty"), (64.2, "Units"), (111.2, "Item"), (128.2, "Code"),
+                 (163.5, "Description"), (294.3, "Disc"), (335.2, "LUC"),
+                 (363.4, "Unit"), (378.8, "Price"), (416.0, "Amount"),
+                 (459.7, "WET"), (492.7, "GST"), (523.9, "Gross"), (543.4, "Amt"))
+
+
+def test_netsuite_header_derives_columns_and_keeps_the_vintage():
+    # The disc boundary is the one that mattered: "2025" at x=272.6 is the last
+    # word of the DESCRIPTION, and giving Disc the money columns' 20pt margin
+    # put it in the Disc cell instead — a stolen word that still reconciles to
+    # the cent, which is the item 1 / item 22 defect class exactly.
+    from modules.invoices.parsers.netsuite import _cols_from_header
+    bounds = _cols_from_header(NS_HEADER)
+    assert bounds is not None
+    row = _row((38.0, "1"), (64.2, "CS(12)"), (111.2, "TRE1RRPG"), (144.1, "25"),
+               (163.5, "Trentham"), (194.8, "River"), (211.5, "Retreat"),
+               (235.2, "Pinot"), (252.5, "Grigio"), (272.6, "2025"),
+               (294.3, "List"), (335.0, "9.14"), (378.4, "85.00"),
+               (425.5, "85.00"), (456.9, "24.65"), (488.3, "10.97"),
+               (536.9, "120.62"))
+    c = pdf_text.bucket(row, bounds)
+    assert c["qty"] == "1"
+    assert c["units"] == "CS(12)"
+    assert c["code"] == "TRE1RRPG 25"
+    assert c["desc"] == "Trentham River Retreat Pinot Grigio 2025"
+    assert c["disc"] == "List"
+    assert c["amount"] == "85.00"
+    assert c["gross"] == "120.62"
+
+
+def test_netsuite_unknown_template_refuses_rather_than_bucketing():
+    # NetSuite is a platform: the three Dext bills in the corpus arrive on the
+    # same sender with a completely different layout. An unrecognised header
+    # must return None so the document stays in Review.
+    from modules.invoices.parsers.netsuite import _cols_from_header
+    assert _cols_from_header([]) is None
+    assert _cols_from_header(_row((38.0, "Description"), (400.0, "Amount"))) is None
+    assert _cols_from_header(_row(*[(x, "X") for x in (38, 64, 111, 163, 416, 523)])) is None
+
+
+def test_netsuite_venue_comes_from_the_bill_to_block_only():
+    # INV490330 is billed to Stowaway but its free-text note says "for Harry
+    # Gatos"; INV493375 is genuinely billed to Harry Gatos. A whole-page keyword
+    # match gets the first one wrong, which would write the cost against the
+    # wrong venue's ProductIDs.
+    from modules.invoices.models import Venue
+    from modules.invoices.parsers.netsuite import _venue
+    stow_with_note = (
+        "Bill To:\nStowaway Freshwater\nStowaway Freshwater Pty Ltd\nShop 18\n"
+        "Ship To:\nStowaway Freshwater\n"
+        "TRE1RRPG is for Harry Gatos. Putting on same invoice to keep urgent fees\n")
+    assert _venue(stow_with_note) == Venue.STOWAWAY
+    assert "Gatos" in stow_with_note          # pins WHY the block matters
+    real_hg = ("Bill To:\nOliver Laccarino\nHarry Gatos\nStowaway Freshwater Pty Ltd\n"
+               "Ship To:\nStowaway Freshwater\n")
+    assert _venue(real_hg) == Venue.HARRY_GATOS
+    assert _venue("no addresses here at all") == Venue.UNKNOWN
+
+
+def test_netsuite_pack_size_from_units_cell():
+    from modules.invoices.parsers.netsuite import PACK
+    assert PACK.search("CS(12)").group(1) == "12"
+    assert PACK.search("CS(6)").group(1) == "6"
+    assert PACK.search("EA") is None          # -> pack 1, not a crash
+
+
+def test_netsuite_wrapped_item_code_is_rejoined_without_a_separator():
+    # 55aaa9803359: the code cell reads "PETDETMEDRO" one row above the money
+    # row, nothing on it, and "SE 24" one row below — the break is INSIDE the
+    # word, so the fragments join with no separator. Collecting only the
+    # description (which is what the first cut did) left supplier_code None, and
+    # a code-less line raises in purchasable_id — an invoice that reconciles to
+    # the cent and feeds the cost book nothing.
+    import re
+    from modules.invoices.parsers.netsuite import _cols_from_header
+    bounds = _cols_from_header(NS_HEADER)
+    above = pdf_text.bucket(
+        _row((111.2, "PETDETMEDRO"), (163.5, "Petit"), (178.9, "Detour"),
+             (201.6, "Reserve"), (227.0, "en"), (236.2, "Jandem")), bounds)
+    money = pdf_text.bucket(
+        _row((38.0, "1"), (64.2, "CS(12)"), (294.3, "10%"), (331.4, "15.00"),
+             (374.8, "139.50"), (421.9, "139.50"), (456.9, "40.45"),
+             (488.3, "18.00"), (536.9, "197.95")), bounds)
+    below = pdf_text.bucket(_row((111.2, "SE"), (119.9, "24"),
+                                 (163.5, "Mediterranee"), (206.1, "2024")), bounds)
+    assert money["code"] == ""                       # the diagnosis, pinned
+    joined = " ".join([above["code"], money["code"], below["code"]])
+    assert re.sub(r"\s+", "", joined) == "PETDETMEDROSE24"
+    desc = " ".join(x for x in [above["desc"], money["desc"], below["desc"]] if x)
+    assert desc == "Petit Detour Reserve en Jandem Mediterranee 2024"
+
+
+def test_netsuite_continuation_gap_separates_wrap_from_new_item():
+    # Measured on the corpus: a wrapped cell sits 4.4-8.8pt from its money row,
+    # two separate line items 14.9-17.6pt apart. SAME_CELL_PT must sit strictly
+    # between those, or a description joins the wrong product.
+    from modules.invoices.parsers.netsuite import SAME_CELL_PT
+    for wrap_gap in (4.4, 8.8):
+        assert wrap_gap <= SAME_CELL_PT
+    for item_gap in (14.9, 16.9, 17.6):
+        assert item_gap > SAME_CELL_PT

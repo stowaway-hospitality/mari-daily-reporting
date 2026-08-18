@@ -41,6 +41,8 @@ from modules.invoices.parsers import jfc                # noqa: E402,F401
 from modules.invoices.parsers import xero               # noqa: E402,F401
 # AFTER xero: ordermentum imports vendor_from_abn from it.
 from modules.invoices.parsers import ordermentum        # noqa: E402,F401
+# AFTER xero: netsuite imports vendor_from_abn from it, same as ordermentum.
+from modules.invoices.parsers import netsuite           # noqa: E402,F401
 from modules.invoices.parsers import lion               # noqa: E402,F401
 from modules.invoices.parsers import paramount          # noqa: E402,F401
 from modules.invoices.parsers import nicholas_seafood   # noqa: E402,F401

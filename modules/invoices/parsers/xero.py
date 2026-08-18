@@ -108,6 +108,14 @@ ABN_SUPPLIER: dict[str, tuple[str, str]] = {
     "98610948813": ("wine_enterprises", "Wine Enterprises Pty Ltd"),
     "98146579053": ("australian_wine_company", "Australian Wine Company"),
     "26681889154": ("australia_wine_spirits", "Australia Wine & Spirits Pty Ltd"),
+    # Added 2026-08-19. Bills through NetSuite rather than Xero (see
+    # parsers/netsuite.py), which imports this registry rather than keeping a
+    # second copy of our own ABNs. "72 338 923 086" and the name are PRINTED on
+    # the letterhead of every Bacchus invoice, above "ATF Bacchus Wine Merchants
+    # Trust, Building 1 Warehouse 4, 161 Manchester Road, Auburn NSW 2144" —
+    # not looked up. supplier_key "bacchus" matches the two invoices already in
+    # data/invoices so the price series continues rather than forking.
+    "72338923086": ("bacchus", "Bacchus Wine Merchants P/L"),
     # services / consumables
     "48540665321": ("prime_catering_repairs", "Prime Catering Repairs"),
     "55096609166": ("speed_gas", "Speed Gas Pty Limited"),

@@ -57,4 +57,16 @@ DOMAIN_KEY: dict[str, str] = {
     #     could ever grow — they are the only two dirs it never touches.
     "farmerjoes.com.au": "farmer_joes",
     "nicholasseafood.com.au": "nicholas_seafood",
+    # NetSuite is a PLATFORM sender like post.xero.com and ordermentum.com: the
+    # From address is system@sent-via.netsuite.com for every vendor that bills
+    # through it, so this key names the platform and parsers/netsuite.py
+    # identifies the real vendor from the ABN on the page. Registered because
+    # the 2026-08-19 Review sweep found 14 stuck documents on this sender —
+    # 12 Bacchus Wine Merchant invoices (a live supplier with an MOQ we order
+    # against weekly) and 2 Dext subscription bills — and NONE of them were
+    # visible to the regression harness, because a domain absent from this
+    # mapping is a supplier build_corpus never collects. That is the item-4
+    # survivor-sample failure in its other form: the corpus could not be wrong
+    # about Bacchus, it had simply never heard of it.
+    "sent-via.netsuite.com": "netsuite",
 }

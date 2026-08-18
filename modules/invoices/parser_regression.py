@@ -922,6 +922,150 @@ because it was recorded as "an unrelated template" rather than opened.
      unattended. NOT attempted here — it is auth-path code and this task must
      never handle credentials.
 
+TRIAGE LOG — 2026-08-19 (unattended daily run). Corpus 783 -> 807 readable. The
+ten pre-existing shortfalls were re-opened BY HASH and every one is the SAME
+document already named here: be_foods 3b34ec060c06 + d02385290774, gulli
+b381fb197ab6, ilg b46bfb0a542a + e23ce69fe899, paramount 670685f29215, and four
+xero SYMSAFE payment receipts. No drift and no new failure mode among them, and
+NO change was made to any of them. Worth recording because it nearly sent this
+run down a blind alley: the Review sweep reported "no reconciling parser for
+befoods.com.au" on invoice 6848920 and a B&E parse-fail on a kitchen supplier
+looks exactly like the Foodlink/FFT/Gulli rot. It was opened rather than
+assumed — 6848920 IS corpus hash 3b34ec060c06, the $0.00 credit docket this log
+has carried since 2026-08-08. The invoice NUMBER was new to the log; the
+document was not.
+
+ 40. THE HARNESS CANNOT SCORE A SUPPLIER IT HAS NEVER HEARD OF, and that — not
+     any parser defect — is where the whole remaining opportunity was. The
+     corpus said 98% and had said 98% for four days. Meanwhile the Review sweep
+     read 200 messages and left 143 stuck, and the stuck pile is not a long tail:
+     it is a handful of senders with NO DOMAIN_KEY entry, so build_corpus never
+     collects them, parser_regression never scores them, and they are invisible
+     to the number this task is asked to drive up. Items 4 and 12 are the same
+     lesson twice (a corpus that only sampled survivors; suppliers missing from
+     SUPPLIER_ALIAS); this is the third face of it. The stuck-by-sender count,
+     recorded so the next run can start from evidence rather than re-derive it:
+
+       38  stowawaybar.com        forwarded admin — CLOSED by Zak, see item 36
+       14  sent-via.netsuite.com  12 Bacchus + 2 Dext   <- taken today
+       11  nelsonwineco.com.au    liquor
+        8  post.dearsystems.com   Viticult (platform sender, like Xero)
+        8  apps.myob.com          VMA + Cork And Co + AQUARIUS FISHERIES (kitchen)
+        6  mountainculture.com.au / 6 combinedwines / 5 youngandrashleigh /
+        5  vinsight.net           liquor
+        3  denifoods.com.au       KITCHEN FOOD, no parser
+        2  inalcafb.com.au        KITCHEN FOOD, no parser
+
+     apps.myob.com and post.dearsystems.com are the next two worth a day, and
+     both are PLATFORM senders that take the item 16/17 ABN answer this parser
+     just reused. MYOB carries Aquarius Fisheries, which is kitchen food and is
+     already in KITCHEN_SUPPLIERS from item 12, so it feeds recipes.
+
+ 41. BACCHUS NOW PARSES: netsuite 0/24 -> 20/24 (83%), TOTAL 773/783 -> 793/807.
+     All 21 readable Bacchus invoices parse AND reconcile TO THE CENT; the 4
+     "failures" are Dext subscription bills that share the sender and are
+     correctly refused (see below). No other supplier moved by a single
+     document, and both audits stayed clean. Bacchus is a live wine supplier we
+     order against weekly with an MOQ, and NOT ONE of its invoices had ever
+     reached data/invoices by parser — the only two there were LLM-extracted
+     back when this task still spent credit.
+
+     The template, and the three things that were not what they looked like:
+
+     (a) THE MONEY COLUMN IS THE LAST ONE, not "Amount". This is wine: Amount is
+         ex-tax, WET (29%) is added, then GST on ex+WET, giving Gross Amt. The
+         validator's load-bearing check is sum(line_total_incl) == total_incl,
+         so lines carry GROSS. Verified to the cent on 3379f8e9af9e:
+         136.00 -> WET 39.44 -> GST 17.54 -> Gross 192.98. Freight is NOT a line
+         — it sits in the totals block, on some invoices only — so it is emitted
+         as an EXTRA at freight x 1.1, which that invoice's own GST Total
+         corroborates (51.36 printed, 46.86 from the lines, difference 4.50 =
+         10% of 45.00).
+
+     (b) THE DISC COLUMN IS LEFT-ALIGNED AND IT STOLE A WORD. Every money column
+         on this template is right-aligned, so the first cut gave all of them a
+         20pt margin. Disc is not money — its values are "15%", "07.5%", "List",
+         "Custom", all starting exactly at the Disc label's own x — and that
+         20pt margin reached back into the description and ate its last word:
+         the vintage off "Trentham River Retreat Pinot Grigio 2025" and the "on"
+         off "Putting on". A stolen word that still reconciles to the cent is
+         the item 1 / item 22 / item 33 defect class exactly, and it was
+         reproduced from scratch in a brand-new parser on day one. Caught only
+         by reading the parsed output against the PDF rather than trusting the
+         PASS column, which by construction cannot see it.
+
+     (c) THE ITEM CODE WRAPS, MID-WORD. On 55aaa9803359 the code cell reads
+         "PETDETMEDRO" on the row ABOVE the money row, nothing on the money row
+         itself, and "SE 24" on the row BELOW — one code, PETDETMEDROSE24, split
+         across three rows. The first cut collected only the DESCRIPTION off
+         continuation rows, so that line came out with supplier_code=None, and
+         core/domain.py::purchasable_id RAISES on a code-less line: the invoice
+         would have reconciled perfectly and fed the cost book nothing. Three
+         invoices carried it.
+
+     WHY word_rows_with_y HAD TO EXIST. NetSuite renders a multi-line cell
+     VERTICALLY CENTRED on its money row, so a three-line description puts one
+     line above the money row and one below it. Row INDEX cannot separate that:
+     on 3379f8e9af9e the row above and the row below are each exactly one row
+     from two DIFFERENT money rows, so "nearest row, ties go to X" is wrong for
+     one of them whichever way X is set. The vertical gap separates them with a
+     wide margin — measured across the corpus, a continuation sits 4.4-8.8pt
+     from its own money row and two separate items 14.9-17.6pt apart, with
+     nothing in between. pdf_text.word_rows_with_y is ADDITIVE: word_rows() is
+     untouched and every existing parser keeps its exact behaviour.
+
+     THE VENUE IS READ FROM THE BILL TO BLOCK ONLY, and this is the one to keep
+     if anything here is reused. Every other parser in this tree matches venue
+     keywords against the WHOLE PAGE. On Bacchus that is wrong in both
+     directions, because all three venues bill to the same legal entity
+     ("Stowaway Freshwater Pty Ltd") and it is the trading name above it that
+     decides: THREE invoices are genuinely billed to Harry Gatos (INV493375,
+     INV492625, INV494398), and TWO that are billed to STOWAWAY say "Harry
+     Gatos" elsewhere on the page inside a free-text note ("TRE1RRPG is for
+     Harry Gatos. Putting on same invoice to keep urgent fees to a minimum").
+     A flat page match books those two to the wrong venue, and venue picks the
+     product NAMESPACE — the two venues have different Lightspeed ProductIDs —
+     so it would write a cost against a product that was not bought.
+
+     DEXT SHARES THE SENDER AND IS REFUSED, on purpose and twice over: its
+     invoices carry no ABN but our own, so vendor_from_abn returns None, and
+     their template has no header row this parser recognises. They stay in
+     Review rather than being forced into Bacchus's buckets. That is what the
+     4/24 shortfall is, and it should not be "fixed".
+
+     Six fixture tests added from the REAL coordinates of 3379f8e9af9e and
+     55aaa9803359 (item 19's lesson: an invented row does not even reach the
+     right buckets under a derived header), including ones that pin the
+     diagnoses — that the money row's code cell is EMPTY on the wrapped-code
+     invoice, and that SAME_CELL_PT sits strictly between the two measured gap
+     ranges. All parser tests pass.
+
+ 42. IDENTITY IS ALREADY SPLIT THREE WAYS FOR BACCHUS, LIVE IN THE COST BOOK,
+     and a parser cannot repair it. data/cogs_list.csv holds ONE wine under
+     THREE codes — "PETDETROSE 24" (with a space), "PETDETROSE24" and
+     "PETDETROSE" — from three separate LLM extractions, so Petit Detour Rose's
+     price history is in three pieces. Same for FD2MOTHER 23 / FD2MOTHER23.
+     This parser emits the JOINED form: it is the only one of the three that
+     passes this harness's own no-whitespace identity audit, it keeps the
+     vintage so a 2023 and a 2024 are not merged at different prices, and it
+     matches the most recent extraction so the series continues rather than
+     forking a fourth time. Consolidating the three historical spellings is a
+     build_cogs_list DERIVED question (the item 12 mechanism) and it moves money
+     between price series, so it is FOR ZAK, not for an unattended run.
+
+ 43. CI WAS ALREADY RED WHEN THIS RUN STARTED, and not because of anything here.
+     modules/recipes/tests/test_sold_as_bought_rescue.py::test_peroni_costs_
+     what_ilg_invoiced asserts Peroni's latest invoiced cost is EXACTLY $2.5217.
+     ILG invoice 03748652 (2026-08-18), ingested by the 6am pipeline hours
+     before this session touched a file, moved it to $2.4233 — a real price
+     DROP, correctly captured. The test hard-codes a live supplier price, so it
+     fails CI and blocks the deploy every time that supplier repricess. Its own
+     preceding assertion ("Peroni is still priced from Back Office — the bridge
+     is not landing") is the check that carries the meaning; the exact figure
+     was incidental to the day it was written. NOT changed here: relaxing an
+     assertion changes what a test means, and doing that unattended is how a
+     guard quietly stops guarding. FOR ZAK.
+
 The three zero-total documents (now four, with Gulli CI-437314 — see item 18)
 can never PASS by construction: validator's _check_required_fields treats
 total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
@@ -1083,6 +1227,20 @@ def main() -> int:
     #   ilg          1xKEG49./1xKEG50 keg pack descriptors ("SAPPORO KEG 50LT")
     #   paramount    MISC            charge lines ("Carton Freight", "Fuel Levy")
     #   fft          Market          head of "Market Bunch"; 400gm a real size
+    #   netsuite     CS(12)          Bacchus's printed Units cell, "case of 12".
+    #                                Added 2026-08-19 and checked the way this
+    #                                comment demands rather than waved through:
+    #                                it is the ONLY distinct uom across all 17
+    #                                readable Bacchus invoices, it sits in its
+    #                                own Units column between Qty and Item Code,
+    #                                and every description on those invoices is
+    #                                complete (the two that were NOT — a stolen
+    #                                vintage and a mid-word item code — were
+    #                                found and fixed before this entry went in,
+    #                                so this is not papering over a bleed). The
+    #                                12 is not discarded: PACK reads it into
+    #                                pack_size, which is what makes the
+    #                                per-bottle unit price right.
     # They are allowlisted here rather than added to names_a_unit on purpose:
     # names_a_unit is a GUARD in the FFT parser, and widening it would let a
     # description word through as a unit — the very bug this check exists for.
@@ -1092,6 +1250,7 @@ def main() -> int:
         "ilg": {"1xKEG49.", "1xKEG50"},
         "paramount": {"MISC"},
         "fresh_fruit_team": {"Market", "400gm"},
+        "netsuite": {"CS(12)"},
     }
     odd = {k: sorted(u for u in v
                      if not names_a_unit(u) and u not in UNIT_OK.get(k, set()))

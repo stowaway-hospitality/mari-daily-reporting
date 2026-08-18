@@ -1,32 +1,56 @@
 {
-  "generated": "2026-08-18",
-  "reviewed": 36,
-  "clean": 34,
+  "generated": "2026-08-19",
+  "reviewed": 24,
+  "clean": 19,
   "flags": [
     {
-      "supplier": "Fresh Fruit Team",
-      "name": "Avocado Hass",
-      "code": "AH20T",
-      "issue": "Sold and costed BY THE TRAY with no count, and needs_pack_review is FALSE so nothing else will surface it. The feed holds pack_qty 1, pack_unit 'tray', $22.00 per tray. A recipe that adds one avocado books $22.00. Our own cost book prices a single avocado at $3.10 each (Select Fresh AVOE, invoice 3068987, 2026-06-27), so the error is roughly 7-20x depending on the true count, and it is in the direction that HURTS GP rather than flatters it — but it is equally wrong either way and it is live in the picker now.",
-      "suggested_fix": "Set a pack count for AH20T (pack_overrides.yaml) so the tray divides into units. THE COUNT WAS NOT GUESSED AND IS NOT STATED ANYWHERE IN OUR DATA. Evidence available: the supplier's own code is 'AH20T' and invoice INB00115735 (2026-08-18) prints raw_uom 'Tray', qty 1, $22.00 — no count. The '20' in the code is suggestive but a code is not a fact, and the tray count for Hass varies with fruit size (a 20-count and a 25-count tray are both standard). Zak or the chef needs to count one tray, or confirm it with Fresh Fruit Team. Cross-check once known: $22.00/20 = $1.10 vs $22.00/25 = $0.88, both below the Select Fresh loose price of $3.10, which is expected for tray buying.",
-      "severity": "high",
-      "money": "a recipe adding one avocado books a whole tray"
+      "supplier": "Foodlink",
+      "name": "FLOUR TORTILLAS 12X28GM 6INCH Simson's Pantry",
+      "code": "101115",
+      "issue": "Costed 24x too dear. Feed says $5.00/ea (pack_qty 12, needs_pack_review FALSE). Invoice SI4423598 line reads qty=1, raw_uom='CTN-24', $60.00, description '12X28GM' = 12 tortillas of 28gm per pack. The UOM states the carton holds 24 packs, so $60.00 buys 24 x 12 = 288 tortillas = $0.2083 each. The pack derivation used the 12 from the description and ignored the -24 in the UOM. Confirmed from the invoice's own raw_uom field, not inferred.",
+      "suggested_fix": "Apply the CTN-N carton multiplier when the pack resolves to a COUNT. pack_qty for 101115 should be 288 ea ($0.2083/ea), not 12. NOTE the multiplier IS already being applied when the pack resolves to a weight/volume - Foodlink 100175 (CTN-6) is 18000g and 100487 Camembert (CTN-12) is $30.40/kg, both correct - so the defect is specific to the 'ea' branch."
     },
     {
       "supplier": "Foodlink",
-      "name": "Peppers Roasted Red (Capsicum) 2.35kg Marco Polo",
-      "code": "100442",
-      "issue": "Costed on the NET tin weight, which may include the brine. The feed reads 2350 g at $0.010213/g ($10.21/kg) from the description '2.35KG'; the invoice states raw_uom 'EA' and no drained weight. A recipe uses the peppers, not the liquid they are packed in, so if 2.35 kg is the net fill the true rate is higher and the current one flatters GP — the direction CLAUDE.md names as the dangerous one. Flagged because this is the SAME class as triage item 27: the Gulli A12 tin's spec sheet gave NET 4200 g against DRAINED 2500 g, a 1.68x difference, and the drained figure is the one the cost book uses for that product today.",
-      "suggested_fix": "Confirm the DRAINED weight of the Marco Polo 2.35 kg roasted red pepper tin and, if it differs from 2.35 kg, add a pack_overrides.yaml entry in grams keyed foodlink:100442. NOT GUESSED: no drained weight appears on invoice SI4529423, in any other Foodlink invoice for this code, or anywhere in data/. It needs the supplier spec sheet or a weigh-and-drain in the kitchen. If 2.35 kg turns out to BE the drained weight, no change is needed — record that here so this does not get re-raised.",
-      "severity": "medium",
-      "money": "up to ~1.7x understated on any recipe using roasted peppers, if the tin follows the A10/A12 pattern"
+      "name": "Flour Tortillas 12x91gm",
+      "code": "101113",
+      "issue": "SAME ROOT CAUSE as 101115, already live in the cost book (not new this run, included because it is the same confirmed defect and reporting one while hiding the others would understate it). Feed $2.80/ea, pack_qty 12. Invoice raw_uom 'CTN-6' at $33.60, so the true figure is $33.60 / (6 x 12) = $0.4667/ea. Costed 6x too dear.",
+      "suggested_fix": "pack_qty 72 ea ($0.4667/ea). Same CTN-N fix as 101115."
+    },
+    {
+      "supplier": "Foodlink",
+      "name": "Flour Tortillas 12x63gm 10inch",
+      "code": "101112",
+      "issue": "SAME ROOT CAUSE as 101115, already live (not new this run). Feed $2.75/ea, pack_qty 12. Invoice raw_uom 'CTN-6' at $33.00, true $33.00 / 72 = $0.4583/ea. Costed 6x too dear. These three tortilla codes are the complete set of Foodlink products where a CTN-N UOM meets a count pack: 21 invoice lines carry a CTN-N UOM across 9 codes, and the other 6 resolve to weight or volume and are correct.",
+      "suggested_fix": "pack_qty 72 ea ($0.4583/ea). Same CTN-N fix as 101115."
+    },
+    {
+      "supplier": "Foodlink",
+      "name": "CHIPS 10MM CRISPY COATED 4X.2.5KG Farm Frites",
+      "code": "107114",
+      "issue": "Costed 4x too dear. Feed says $0.022/g = $22.00/kg (pack_qty 2500g, needs_pack_review FALSE). Invoice SI4429436 reads qty=1, raw_uom='CTN', $55.00, description 'CHIPS 10MM CRISPY COATED 4X.2.5KG' = 4 bags of 2.5kg = 10kg per carton, so the true cost is $5.50/kg. $22/kg for frozen coated chips is also implausible on its face. The pack parser read the '2.5KG' and dropped the '4X' multiplier - it handles '96X15GM' correctly on the same invoice (samosas -> 1440g), so the failure is the stray dot in '4X.2.5KG'. This is the only Foodlink line in 4 months of invoices using that form. Confirmed from the description and UOM on the invoice, not inferred.",
+      "suggested_fix": "pack_qty 10000g ($0.0055/g = $5.50/kg). Root fix: let the multiplier regex tolerate a separator between the X and the number, i.e. accept (\\d+)\\s*[xX]\\s*[.\\s]?\\s*([\\d.]+)\\s*(KG|GM|G|LT|ML) as well as the digit-adjacent form."
+    },
+    {
+      "supplier": "JFC",
+      "name": "WPM Tonkotsu Straight #24 10/5p Frozen Straight Ramen 130g",
+      "code": "56727",
+      "issue": "Costed ~5x too dear. Feed says $0.036154/g = $36.15/kg (pack_qty 130g, needs_pack_review FALSE), from invoice 001828752 qty=1 EACH at $4.70. The invoiced EACH is a 5-PORTION BAG, not one 130g portion. Confirmed by its sibling on the SAME invoice: jfc:56296 'WPM Yellow Ramen #22 12/5pc Frozen Straight Noodle 125gx5' also invoices at EACH ($4.20) and was parsed as pack_qty 5 at $0.84 per portion, because its description spells the multiplier out as '125gx5'. 56727 writes the same fact as '10/5p' (10 bags per carton, 5 portions per bag) and the '5p' was not read. True figure: $4.70 / (5 x 130g) = $0.00723/g = $7.23/kg, i.e. $0.94 per portion - which matches 56296's $6.72/kg. Confirmed against the sibling's own parse, not guessed.",
+      "suggested_fix": "pack_qty 650g ($0.00723/g). Root fix: read JFC's 'N/Mp' pack notation (e.g. '10/5p', '12/5pc') the same way '125gx5' is already read - the LAST factor is portions per selling unit."
+    },
+    {
+      "supplier": "Select Fresh",
+      "name": "Limes (LIM)",
+      "code": "LIM",
+      "issue": "Pack unit is a bare 'tray' with pack_qty 1 and needs_pack_review FALSE, so nothing else will surface it. Invoice 3122236 (2026-08-19) reads 'LIMES TRAY', qty=1 TRAY, $78.00. A recipe or cocktail spec that adds one lime off this picker entry books $78.00. Limes are a daily-use bar ingredient, so this is the highest-exposure entry in today's batch. The tray count and the tray weight are BOTH absent from the invoice - it states only 'TRAY'.",
+      "suggested_fix": "NOT GUESSED - the count is not on the invoice and was not inferred. Needs Zak or Select Fresh to confirm limes (or kg) per tray, then a pack_override on 'select-fresh:LIM'. A cross-check exists once the weight is known: the same supplier already has a per-kg 'Limes' row at $0.014/g = $14.00/kg, so a tray weight near 5.5kg would reconcile the two. Also worth noting the picker now shows four lime rows including a second tray (Lightspeed 'Lime' at $30.00/tray) - whichever is stale should be retired so the chef is not choosing between them."
+    },
+    {
+      "supplier": "Foodlink",
+      "name": "SAMOSAS COCKTAIL 96X15GM Pacific West",
+      "code": "102451",
+      "issue": "Not a money error - the $/kg is right - but the pack unit is inconsistent with its twin and will be keyed wrongly. Costed per gram (pack_qty 1440g, $0.00972/g), while foodlink:102675 'SPRING ROLL COCKTAIL 15gm 96'S Pacific West' - same supplier, same brand, same $14.00, same 96 x 15gm pack, on the SAME invoice SI4429436 - is costed per each (96 ea, $0.1458). A chef adding six samosas has to key 90g for one product and 6 for the other.",
+      "suggested_fix": "pack_override 96 ea ($0.1458/ea), matching 102675 which is already chef-confirmed at that shape. Confirmed by the description's own '96X15GM' and by the identical sibling price, not guessed."
     }
-  ],
-  "notes": [
-    "THE FOODLINK PACK SIZES ARE BACK, and this batch is the proof that triage item 33 worked. Sixteen of the 36 new products are Foodlink, and every one of them carries a full name AND a parsed pack: 'ALMOND MEAL 1KG Natures Secret' 1000 g, 'BREADCRUMBS JAPANESE PANKO YELLOW 10KG John Bull' 10000 g, 'CHEESE BLUE DANISH 10X100GM Viking' 1000 g, 'VINEGAR WHITE 20LT Edlyn' 20000 ml. Before 2026-08-17 the wrapped half of these descriptions — which is where Foodlink states the size — was being dropped, and each of these would have entered as a sizeless 'per ea' row with needs_pack_review set. Not one product in this batch needs pack review.",
-    "AH20T ALSO SHOWS THE OLD FFT COLUMN DRIFT IN ITS HISTORY, and it is healing. data/cogs_list.csv holds the same code alternating between description 'Avocado Hass' with raw_uom 'Tray' and description 'Hass' with raw_uom 'Avocado' — the truncation of triage item 1, where the description's first word fell into the unit cell. The newest invoice (INB00115735) reads correctly, and the unit audit in parser_regression is clean, so the parser side is fixed; only the historic rows carry the split spelling. No edit made — data/ facts are append-only and the fullest-name rule should consolidate it.",
-    "No cleaning, chemical or packaging items entered the picker in this batch — all 36 are food a chef cooks with. (Packaging in the picker is by design where it exists; see triage item 11.)",
-    "select-fresh:LIMFRUB 'Lime Finger Ruby Red 45gm' at $18.50 each reads expensive as a rate ($411/kg) but is correct for finger lime, and its pack is already chef-confirmed. Not flagged."
-  ],
-  "resolved": []
+  ]
 }
