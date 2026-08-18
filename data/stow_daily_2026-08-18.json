@@ -1,6 +1,6 @@
 {
   "date": "2026-08-18",
-  "generated_at": "2026-08-18T19:28:27.234231Z",
+  "generated_at": "2026-08-18T19:32:12.159750Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -10,25 +10,36 @@
     "gp"
   ],
   "data_status": {
-    "lightspeed": "missing",
+    "lightspeed": "ok",
     "deputy": "ok",
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": null,
-    "revenue_ex_gst": null,
-    "cogs_dollars": null,
-    "cogs_pct": null,
-    "gp_dollars": null,
-    "gp_pct": null,
-    "cogs_source": null,
-    "cogs_lightspeed_dollars": null,
-    "recipe_coverage_pct": null,
+    "revenue_inc_gst": 2307.3,
+    "revenue_ex_gst": 2097.58,
+    "cogs_dollars": 546.87,
+    "cogs_pct": 26.1,
+    "gp_dollars": 1550.71,
+    "gp_pct": 73.9,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 513.96,
+    "recipe_coverage_pct": 91.9,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0,
+    "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 395.32,
+    "bev_ex_gst": 1702.23,
+    "food_cogs": 83.7,
+    "bev_cogs": 430.26,
+    "food_cogs_pct": 21.2,
+    "bev_cogs_pct": 25.3,
+    "food_gp_pct": 78.8,
+    "bev_gp_pct": 74.7,
+    "mari_rideon_ex_gst": 1279.92,
+    "hg_food_out_ex_gst": 46.18,
+    "stow_food_out_ex_gst": 0.0
   },
   "wages": {
     "kitchen_dollars": 284.65,
@@ -36,27 +47,27 @@
     "driver_dollars": 0,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": null,
-    "wages_pct": null,
+    "total_dollars": 426.82,
+    "wages_pct": 20.3,
     "net_wage_pct": null,
     "kitchen_hours": 7.0,
     "foh_hours": 3.8,
-    "wages_kitchen_pct": null,
-    "wages_foh_pct": null,
+    "wages_kitchen_pct": 72.0,
+    "wages_foh_pct": 8.4,
     "includes_super": true,
     "salaried_synthesized": true
   },
   "delivery": null,
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "unknown",
-    "wages": "unknown",
+    "cogs": "green",
+    "wages": "green",
     "delivery": "n/a",
-    "gp": "unknown",
-    "cogs_food": "unknown",
-    "cogs_bev": "unknown",
-    "wages_kitchen": "unknown",
-    "wages_foh": "unknown"
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "amber",
+    "wages_kitchen": "red",
+    "wages_foh": "green"
   },
   "targets": {
     "cogs": {
@@ -100,5 +111,164 @@
       "target_direction": "high_is_good"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Grifter Pale - Pint",
+      "qty": 15.0,
+      "rev": 203.45,
+      "cost": 49.941,
+      "cost_source": "recipe",
+      "cost_lightspeed": 49.94
+    },
+    {
+      "name": "Stone & Wood - Pint",
+      "qty": 6.0,
+      "rev": 102.55,
+      "cost": 26.5254,
+      "cost_source": "recipe",
+      "cost_lightspeed": 26.28
+    },
+    {
+      "name": "Guinness Draught - Pint",
+      "qty": 6.0,
+      "rev": 98.0,
+      "cost": 28.8306,
+      "cost_source": "recipe",
+      "cost_lightspeed": 28.49
+    },
+    {
+      "name": "Sweet Potato Fries",
+      "qty": 6.0,
+      "rev": 79.69,
+      "cost": 15.1806,
+      "cost_source": "recipe",
+      "cost_lightspeed": 15.17
+    },
+    {
+      "name": "Sigurd GSM Red Blend - Bottle",
+      "qty": 1.0,
+      "rev": 77.0,
+      "cost": 23.1,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "A. Rodda Tempranillo - Regular",
+      "qty": 4.0,
+      "rev": 72.0,
+      "cost": 22.2796,
+      "cost_source": "recipe",
+      "cost_lightspeed": 22.29
+    },
+    {
+      "name": "Bombay Dry [House]",
+      "qty": 6.0,
+      "rev": 63.44,
+      "cost": 12.9864,
+      "cost_source": "recipe",
+      "cost_lightspeed": 13.11
+    },
+    {
+      "name": "Aperol Spritz",
+      "qty": 4.0,
+      "rev": 62.66,
+      "cost": 14.224,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.21
+    },
+    {
+      "name": "Rosemary Salted Fries",
+      "qty": 5.0,
+      "rev": 60.11,
+      "cost": 18.603,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.28
+    },
+    {
+      "name": "Kirin - Pint",
+      "qty": 3.0,
+      "rev": 55.5,
+      "cost": 15.2772,
+      "cost_source": "recipe",
+      "cost_lightspeed": 15.17
+    },
+    {
+      "name": "Stone & Wood - Schooner",
+      "qty": 4.0,
+      "rev": 52.42,
+      "cost": 13.1852,
+      "cost_source": "recipe",
+      "cost_lightspeed": 13.06
+    },
+    {
+      "name": "Fresh is Best Lager - Pint",
+      "qty": 4.0,
+      "rev": 50.82,
+      "cost": 9.7856,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.79
+    },
+    {
+      "name": "Baked Camembert",
+      "qty": 3.0,
+      "rev": 49.29,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Casa Gheller Prosecco - Glass",
+      "qty": 3.0,
+      "rev": 48.0,
+      "cost": 10.044,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.04
+    },
+    {
+      "name": "Kuku Sauvignon Blanc - Large",
+      "qty": 2.0,
+      "rev": 46.75,
+      "cost": 9.7134,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.72
+    },
+    {
+      "name": "Version Two Pinot Grigio - Regular",
+      "qty": 5.0,
+      "rev": 45.0,
+      "cost": 8.8335,
+      "cost_source": "recipe",
+      "cost_lightspeed": 8.83
+    },
+    {
+      "name": "Corona",
+      "qty": 4.0,
+      "rev": 43.36,
+      "cost": 10.2852,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.29
+    },
+    {
+      "name": "Kirin - Schooner",
+      "qty": 3.0,
+      "rev": 42.0,
+      "cost": 11.3907,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.31
+    },
+    {
+      "name": "Status Quo - Schooner",
+      "qty": 3.0,
+      "rev": 40.94,
+      "cost": 9.3024,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.31
+    },
+    {
+      "name": "Classic Margarita",
+      "qty": 2.0,
+      "rev": 40.66,
+      "cost": 8.3572,
+      "cost_source": "recipe",
+      "cost_lightspeed": 7.82
+    }
+  ]
 }
