@@ -120,10 +120,22 @@ function lines() {
   // "ml" on that line is invisible here and has to be flagged in the work queue
   // instead (modules/recipes/feed_defects.line_unit_contradicts_pack).
   ok('...and the box counts EACH, not millilitres', cos.placeholder === '0 ea', cos.placeholder);
-  ok('the dish total is the fraction total, nowhere near a whole pack',
-     byId('c-food').textContent === '$5.68', byId('c-food').textContent);
-  ok('...so the burger reads 77% GP, not 68%',
-     byId('gp-food').textContent === '77%', byId('gp-food').textContent);
+  // A BAND, NOT A CENT. What this guards is that the dish took a FRACTION of the
+  // pack ($5.67) and not a whole one (~$100) — a two-order-of-magnitude
+  // question. Pinning the exact cent made it fail the day an invoice moved a
+  // rate by 1c, which is the book doing its job, and sent somebody hunting a
+  // regression that was a price change.
+  {
+    const t = byId('c-food').textContent;
+    const v = parseFloat(String(t).replace(/[^0-9.]/g, ''));
+    ok('the dish total is the fraction total, nowhere near a whole pack',
+       v > 5.0 && v < 6.5, t);
+  }
+  {
+    const g = parseFloat(String(byId('gp-food').textContent).replace(/[^0-9.]/g, ''));
+    ok('...so the burger reads ~77% GP, not 68%', g >= 76 && g <= 78,
+       byId('gp-food').textContent);
+  }
   ok('the sell price came back too', byId('sell').value === 26.9 || byId('sell').value === '26.9',
      String(byId('sell').value));
   ok('the dish name came back', byId('dish').value === 'American Standard Burger');
