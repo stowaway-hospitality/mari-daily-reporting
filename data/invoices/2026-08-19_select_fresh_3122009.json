@@ -1,0 +1,62 @@
+{
+  "invoice": {
+    "supplier_key": "select_fresh",
+    "supplier_name_raw": "Select Fresh Providores",
+    "invoice_ref": "3122009",
+    "invoice_date": "2026-08-19",
+    "total_incl": "9.00",
+    "lines": [
+      {
+        "description": "LEMON EA",
+        "qty": "20.00",
+        "line_total_incl": "9.00",
+        "unit_price_incl": "0.45",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "LEME",
+        "raw_qty": null,
+        "raw_uom": "EACH",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-09-02",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "17965f50b47b434a5658dbe6cc85c0e507b0f732c053bb7f33dfd5b4653b9cd2.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "9.00",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "medium",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "LEMON EA",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

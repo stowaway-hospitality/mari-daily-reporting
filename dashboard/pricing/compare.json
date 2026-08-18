@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-18",
-  "count": 1033,
+  "generated": "2026-08-19",
+  "count": 1034,
   "compared": 24,
   "window_days": 90,
   "total_saving": 98.4,
@@ -185,16 +185,7 @@
       "prev": 36.5,
       "cost": 52.0,
       "pct": 42.5,
-      "date": "2026-08-15"
-    },
-    {
-      "name": "Zucchini Green",
-      "supplier": "Select Fresh",
-      "unit": "kg",
-      "prev": 2.9,
-      "cost": 4.1,
-      "pct": 41.4,
-      "date": "2026-08-14"
+      "date": "2026-08-19"
     },
     {
       "name": "Corn On Cob",
@@ -248,7 +239,7 @@
       "prev": 2.5,
       "cost": 3.2,
       "pct": 28.0,
-      "date": "2026-08-15"
+      "date": "2026-08-19"
     },
     {
       "name": "Fz Pork Belly",
@@ -257,7 +248,7 @@
       "prev": 120.0,
       "cost": 153.0,
       "pct": 27.5,
-      "date": "2026-08-05"
+      "date": "2026-08-19"
     },
     {
       "name": "Bean Edamame Soy",
@@ -267,15 +258,6 @@
       "cost": 10.857,
       "pct": 26.7,
       "date": "2026-07-23"
-    },
-    {
-      "name": "Lime",
-      "supplier": "Select Fresh",
-      "unit": "tray",
-      "prev": 52.0,
-      "cost": 65.0,
-      "pct": 25.0,
-      "date": "2026-08-15"
     },
     {
       "name": "Gourmet",
@@ -350,6 +332,15 @@
       "date": "2026-08-15"
     },
     {
+      "name": "Lime",
+      "supplier": "Select Fresh",
+      "unit": "tray",
+      "prev": 65.0,
+      "cost": 78.0,
+      "pct": 20.0,
+      "date": "2026-08-19"
+    },
+    {
       "name": "Rosemary",
       "supplier": "Fresh Fruit Team",
       "unit": "ea",
@@ -413,15 +404,6 @@
       "date": "2026-08-01"
     },
     {
-      "name": "Process Garlic Peeled",
-      "supplier": "Select Fresh",
-      "unit": "kg",
-      "prev": 5.0,
-      "cost": 5.8,
-      "pct": 16.0,
-      "date": "2026-08-14"
-    },
-    {
       "name": "Chive Mkt Bnch",
       "supplier": "Select Fresh",
       "unit": "bunch",
@@ -429,6 +411,15 @@
       "cost": 22.0,
       "pct": 15.8,
       "date": "2026-08-15"
+    },
+    {
+      "name": "Sprite Cube",
+      "supplier": "ILG",
+      "unit": "L",
+      "prev": 5.04,
+      "cost": 5.829,
+      "pct": 15.7,
+      "date": "2026-08-18"
     },
     {
       "name": "Chilli Bird Eye",
@@ -503,15 +494,6 @@
       "date": "2026-06-09"
     },
     {
-      "name": "Lemon",
-      "supplier": "Select Fresh",
-      "unit": "kg",
-      "prev": 3.2,
-      "cost": 3.6,
-      "pct": 12.5,
-      "date": "2026-08-15"
-    },
-    {
       "name": "Antipasto Chargrilled",
       "supplier": "B&E",
       "unit": "ea",
@@ -527,7 +509,16 @@
       "prev": 5.2,
       "cost": 5.8,
       "pct": 11.5,
-      "date": "2026-08-08"
+      "date": "2026-08-19"
+    },
+    {
+      "name": "Rooster Rojo Tequila Blanco",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 55.7908,
+      "cost": 62.1083,
+      "pct": 11.3,
+      "date": "2026-08-18"
     },
     {
       "name": "Chive",
@@ -681,6 +672,15 @@
       "cost": 1.98,
       "pct": 5.9,
       "date": "2026-07-23"
+    },
+    {
+      "name": "Buffalo Trace Bourbon",
+      "supplier": "ILG",
+      "unit": "ea",
+      "prev": 54.07,
+      "cost": 57.02,
+      "pct": 5.5,
+      "date": "2026-08-18"
     },
     {
       "name": "Tomato Sauce Heinz",
@@ -1476,46 +1476,6 @@
       "switch": false
     },
     {
-      "key": "lemon",
-      "name": "Lemon",
-      "unit": "kg",
-      "suppliers": [
-        {
-          "supplier": "Fresh Fruit Team",
-          "cost": 3.3,
-          "date": "2026-08-07",
-          "desc": "Lemon",
-          "change_pct": 7.1,
-          "n": 5,
-          "prev_cost": 3.08,
-          "spend": 8.91,
-          "volume": 2.8
-        },
-        {
-          "supplier": "Select Fresh",
-          "cost": 3.6,
-          "date": "2026-08-15",
-          "desc": "LEMON KG",
-          "change_pct": 12.5,
-          "n": 12,
-          "prev_cost": 3.2,
-          "spend": 0.0,
-          "volume": 0.0
-        }
-      ],
-      "cheapest": "Fresh Fruit Team",
-      "min": 3.3,
-      "max": 3.6,
-      "spread_pct": 9.1,
-      "multi": true,
-      "suspect": false,
-      "low": 3.08,
-      "low_date": "2026-05-22",
-      "est_saving": 0.0,
-      "main": "Fresh Fruit Team",
-      "switch": false
-    },
-    {
       "key": "basil",
       "name": "Basil",
       "unit": "bunch",
@@ -1523,10 +1483,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 4.6,
-          "date": "2026-08-15",
+          "date": "2026-08-19",
           "desc": "HERB BASIL BCH",
           "change_pct": -11.5,
-          "n": 21,
+          "n": 22,
           "prev_cost": 5.2,
           "spend": 0.0,
           "volume": 0.0
@@ -1553,6 +1513,46 @@
       "low_date": "2026-05-07",
       "est_saving": 0.0,
       "main": null,
+      "switch": false
+    },
+    {
+      "key": "lemon",
+      "name": "Lemon",
+      "unit": "kg",
+      "suppliers": [
+        {
+          "supplier": "Select Fresh",
+          "cost": 3.2,
+          "date": "2026-08-19",
+          "desc": "LEMON KG",
+          "change_pct": -11.1,
+          "n": 13,
+          "prev_cost": 3.6,
+          "spend": 0.0,
+          "volume": 0.0
+        },
+        {
+          "supplier": "Fresh Fruit Team",
+          "cost": 3.3,
+          "date": "2026-08-07",
+          "desc": "Lemon",
+          "change_pct": 7.1,
+          "n": 5,
+          "prev_cost": 3.08,
+          "spend": 8.91,
+          "volume": 2.8
+        }
+      ],
+      "cheapest": "Select Fresh",
+      "min": 3.2,
+      "max": 3.3,
+      "spread_pct": 3.1,
+      "multi": true,
+      "suspect": false,
+      "low": 3.08,
+      "low_date": "2026-05-22",
+      "est_saving": 0.28,
+      "main": "Fresh Fruit Team",
       "switch": false
     },
     {
@@ -1643,10 +1643,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 0.45,
-          "date": "2026-07-10",
+          "date": "2026-08-19",
           "desc": "LEMON EA",
           "change_pct": -10.0,
-          "n": 2,
+          "n": 3,
           "prev_cost": 0.5,
           "spend": 0.0,
           "volume": 0.0
@@ -1856,19 +1856,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 212.445,
-          "date": "2026-08-11",
+          "cost": 212.44,
+          "date": "2026-08-18",
           "desc": "ALEHOUSE PREMIUM KEG",
-          "change_pct": 0.0,
-          "n": 31,
-          "prev_cost": 212.44,
+          "change_pct": -0.0,
+          "n": 32,
+          "prev_cost": 212.445,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 212.445,
-      "max": 212.445,
+      "min": 212.44,
+      "max": 212.44,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -2175,19 +2175,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 86.525,
-          "date": "2026-06-30",
+          "cost": 87.45,
+          "date": "2026-08-18",
           "desc": "ANGOSTURA BITTERS 200ML 12PK R",
-          "change_pct": -0.1,
-          "n": 4,
-          "prev_cost": 86.65,
+          "change_pct": 1.1,
+          "n": 5,
+          "prev_cost": 86.525,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 86.525,
-      "max": 86.525,
+      "min": 87.45,
+      "max": 87.45,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -2407,19 +2407,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 29.1192,
-          "date": "2026-08-11",
+          "cost": 29.1183,
+          "date": "2026-08-18",
           "desc": "APEROL",
-          "change_pct": 0.0,
-          "n": 11,
-          "prev_cost": 29.1183,
+          "change_pct": -0.0,
+          "n": 12,
+          "prev_cost": 29.1192,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 29.1192,
-      "max": 29.1192,
+      "min": 29.1183,
+      "max": 29.1183,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -2494,19 +2494,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 52.6,
-          "date": "2026-07-31",
+          "cost": 53.92,
+          "date": "2026-08-18",
           "desc": "APPLETON EST SIGN. BLEND",
-          "change_pct": -0.3,
-          "n": 2,
-          "prev_cost": 52.77,
+          "change_pct": 2.5,
+          "n": 3,
+          "prev_cost": 52.6,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 52.6,
-      "max": 52.6,
+      "min": 53.92,
+      "max": 53.92,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -2697,19 +2697,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 2.5471,
-          "date": "2026-07-21",
+          "cost": 2.5562,
+          "date": "2026-08-18",
           "desc": "ASAHI SUPER DRY 3.5%",
-          "change_pct": 3.3,
-          "n": 5,
-          "prev_cost": 2.4658,
+          "change_pct": 0.4,
+          "n": 6,
+          "prev_cost": 2.5471,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 2.5471,
-      "max": 2.5471,
+      "min": 2.5562,
+      "max": 2.5562,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -3133,10 +3133,10 @@
         {
           "supplier": "B&E",
           "cost": 6.7,
-          "date": "2026-07-24",
+          "date": "2026-08-19",
           "desc": "BAMBOO SHOOT SLICE A10",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -4380,10 +4380,10 @@
         {
           "supplier": "ILG",
           "cost": 50.5017,
-          "date": "2026-08-11",
+          "date": "2026-08-18",
           "desc": "BOMBAY DRY GIN",
           "change_pct": 2.8,
-          "n": 14,
+          "n": 15,
           "prev_cost": 49.125,
           "spend": 0.0,
           "volume": 0.0
@@ -4698,19 +4698,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 54.07,
-          "date": "2026-08-04",
+          "cost": 57.02,
+          "date": "2026-08-18",
           "desc": "BUFFALO TRACE BOURBON 40%",
-          "change_pct": 1.0,
-          "n": 18,
-          "prev_cost": 53.56,
+          "change_pct": 5.5,
+          "n": 19,
+          "prev_cost": 54.07,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 54.07,
-      "max": 54.07,
+      "min": 57.02,
+      "max": 57.02,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -4785,19 +4785,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 4.961,
-          "date": "2026-07-31",
+          "cost": 5.192,
+          "date": "2026-08-18",
           "desc": "BUNDABERG GINGER BEER 750ML",
-          "change_pct": -4.0,
-          "n": 6,
-          "prev_cost": 5.168,
+          "change_pct": 4.7,
+          "n": 7,
+          "prev_cost": 4.961,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 4.961,
-      "max": 4.961,
+      "min": 5.192,
+      "max": 5.192,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -5423,19 +5423,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 42.81,
-          "date": "2026-08-11",
+          "cost": 43.05,
+          "date": "2026-08-18",
           "desc": "CAMPARI APERITIF 25%",
-          "change_pct": 2.6,
-          "n": 19,
-          "prev_cost": 41.72,
+          "change_pct": 0.6,
+          "n": 20,
+          "prev_cost": 42.81,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 42.81,
-      "max": 42.81,
+      "min": 43.05,
+      "max": 43.05,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -7193,13 +7193,13 @@
         {
           "supplier": "B&E",
           "cost": 11.6,
-          "date": "2026-08-10",
+          "date": "2026-08-19",
           "desc": "CHICKEN 1/2 BREAST (F)",
           "change_pct": null,
-          "n": 9,
+          "n": 10,
           "prev_cost": null,
-          "spend": 464.0,
-          "volume": 40.0
+          "spend": 522.0,
+          "volume": 45.0
         }
       ],
       "cheapest": "B&E",
@@ -8005,10 +8005,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 7.2,
-          "date": "2026-08-05",
+          "date": "2026-08-19",
           "desc": "CHILLI JALAPENO GREEN KG",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -8979,6 +8979,35 @@
       "suspect": false,
       "low": 1.89,
       "low_date": "2026-07-14",
+      "est_saving": 0.0,
+      "main": null,
+      "switch": false
+    },
+    {
+      "key": "coca cola sugar",
+      "name": "Coca Cola Sugar",
+      "unit": "ea",
+      "suppliers": [
+        {
+          "supplier": "ILG",
+          "cost": 2.8542,
+          "date": "2026-08-18",
+          "desc": "COCA COLA NO SUGAR",
+          "change_pct": null,
+          "n": 1,
+          "prev_cost": null,
+          "spend": 0.0,
+          "volume": 0.0
+        }
+      ],
+      "cheapest": "ILG",
+      "min": 2.8542,
+      "max": 2.8542,
+      "spread_pct": 0.0,
+      "multi": false,
+      "suspect": false,
+      "low": 2.8542,
+      "low_date": "2026-08-18",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -10817,24 +10846,24 @@
       "suppliers": [
         {
           "supplier": "Select Fresh",
-          "cost": 2.9,
-          "date": "2026-07-22",
+          "cost": 2.1,
+          "date": "2026-08-19",
           "desc": "CUCUMBER TELE/CONTINENTAL EACH",
-          "change_pct": -17.1,
-          "n": 5,
-          "prev_cost": 3.5,
+          "change_pct": -27.6,
+          "n": 6,
+          "prev_cost": 2.9,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
-      "min": 2.9,
-      "max": 2.9,
+      "min": 2.1,
+      "max": 2.1,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 2.9,
-      "low_date": "2026-06-25",
+      "low": 2.1,
+      "low_date": "2026-08-19",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -11136,19 +11165,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 58.0333,
-          "date": "2026-08-11",
+          "cost": 58.03,
+          "date": "2026-08-18",
           "desc": "DE BORTOLI G/SEAL DRY RED",
-          "change_pct": 2.8,
-          "n": 10,
-          "prev_cost": 56.45,
+          "change_pct": -0.0,
+          "n": 11,
+          "prev_cost": 58.0333,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 58.0333,
-      "max": 58.0333,
+      "min": 58.03,
+      "max": 58.03,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -11165,19 +11194,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 34.295,
-          "date": "2026-07-31",
+          "cost": 34.6533,
+          "date": "2026-08-18",
           "desc": "DESCLANS WHISPERING ANGEL ROSE",
-          "change_pct": -0.9,
-          "n": 5,
-          "prev_cost": 34.6033,
+          "change_pct": 1.0,
+          "n": 6,
+          "prev_cost": 34.295,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 34.295,
-      "max": 34.295,
+      "min": 34.6533,
+      "max": 34.6533,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -12586,19 +12615,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 4.11,
-          "date": "2026-06-30",
+          "cost": 4.1375,
+          "date": "2026-08-18",
           "desc": "FEVER TREE LIGHT TONIC",
-          "change_pct": null,
-          "n": 5,
-          "prev_cost": null,
+          "change_pct": 0.7,
+          "n": 6,
+          "prev_cost": 4.11,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 4.11,
-      "max": 4.11,
+      "min": 4.1375,
+      "max": 4.1375,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -13805,10 +13834,10 @@
         {
           "supplier": "B&E",
           "cost": 75.0,
-          "date": "2026-08-10",
+          "date": "2026-08-19",
           "desc": "FZ CHICKEN THIGH",
           "change_pct": null,
-          "n": 6,
+          "n": 7,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -14153,10 +14182,10 @@
         {
           "supplier": "B&E",
           "cost": 153.0,
-          "date": "2026-08-05",
+          "date": "2026-08-19",
           "desc": "FZ PORK - BELLY B/L R/L",
           "change_pct": 27.5,
-          "n": 8,
+          "n": 9,
           "prev_cost": 120.0,
           "spend": 0.0,
           "volume": 0.0
@@ -14181,19 +14210,19 @@
       "suppliers": [
         {
           "supplier": "B&E",
-          "cost": 12.901,
-          "date": "2026-08-14",
+          "cost": 12.9,
+          "date": "2026-08-19",
           "desc": "FZ PORK - BELLY R/ON",
-          "change_pct": 0.0,
-          "n": 11,
-          "prev_cost": 12.9,
-          "spend": 1048.62,
-          "volume": 73.21
+          "change_pct": -0.0,
+          "n": 12,
+          "prev_cost": 12.901,
+          "spend": 1105.38,
+          "volume": 77.61
         }
       ],
       "cheapest": "B&E",
-      "min": 12.901,
-      "max": 12.901,
+      "min": 12.9,
+      "max": 12.9,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -16008,19 +16037,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 2.6792,
-          "date": "2026-08-11",
+          "cost": 2.6788,
+          "date": "2026-08-18",
           "desc": "HEAPS NORMAL QUIET XPA NON ALC",
-          "change_pct": 0.3,
-          "n": 16,
-          "prev_cost": 2.67,
+          "change_pct": -0.0,
+          "n": 17,
+          "prev_cost": 2.6792,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 2.6792,
-      "max": 2.6792,
+      "min": 2.6788,
+      "max": 2.6788,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -16443,19 +16472,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 66.56,
-          "date": "2026-08-11",
+          "cost": 66.0,
+          "date": "2026-08-18",
           "desc": "ITALICUS RISOLIO APERITIF",
-          "change_pct": 0.7,
-          "n": 4,
-          "prev_cost": 66.09,
+          "change_pct": -0.8,
+          "n": 5,
+          "prev_cost": 66.56,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 66.56,
-      "max": 66.56,
+      "min": 66.0,
+      "max": 66.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -17284,19 +17313,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 47.862,
-          "date": "2026-08-11",
+          "cost": 48.02,
+          "date": "2026-08-18",
           "desc": "KAHLUA 1 LTR 6PK",
-          "change_pct": -0.5,
-          "n": 12,
-          "prev_cost": 48.11,
+          "change_pct": 0.3,
+          "n": 13,
+          "prev_cost": 47.862,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 47.862,
-      "max": 47.862,
+      "min": 48.02,
+      "max": 48.02,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -18473,19 +18502,19 @@
       "suppliers": [
         {
           "supplier": "Select Fresh",
-          "cost": 65.0,
-          "date": "2026-08-15",
+          "cost": 78.0,
+          "date": "2026-08-19",
           "desc": "LIMES TRAY",
-          "change_pct": 25.0,
-          "n": 13,
-          "prev_cost": 52.0,
+          "change_pct": 20.0,
+          "n": 14,
+          "prev_cost": 65.0,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
-      "min": 65.0,
-      "max": 65.0,
+      "min": 78.0,
+      "max": 78.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -19489,10 +19518,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 1.3,
-          "date": "2026-08-14",
+          "date": "2026-08-19",
           "desc": "HERB MINT ROUND LEAF BCH",
           "change_pct": null,
-          "n": 20,
+          "n": 21,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -19865,19 +19894,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 3.0333,
-          "date": "2026-07-31",
+          "cost": 3.1229,
+          "date": "2026-08-18",
           "desc": "MONTEITHS CRUSHED A.CIDER 4.5%",
-          "change_pct": -2.5,
-          "n": 5,
-          "prev_cost": 3.1112,
+          "change_pct": 3.0,
+          "n": 6,
+          "prev_cost": 3.0333,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 3.0333,
-      "max": 3.0333,
+      "min": 3.1229,
+      "max": 3.1229,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -20127,10 +20156,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 52.0,
-          "date": "2026-08-15",
+          "date": "2026-08-19",
           "desc": "MUSHROOM BUTTON CTN",
           "change_pct": 42.5,
-          "n": 6,
+          "n": 7,
           "prev_cost": 36.5,
           "spend": 0.0,
           "volume": 0.0
@@ -21954,10 +21983,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 58.5,
-          "date": "2026-08-05",
+          "date": "2026-08-19",
           "desc": "ORANGE VIP CTN",
           "change_pct": null,
-          "n": 2,
+          "n": 3,
           "prev_cost": null,
           "spend": 0.0,
           "volume": 0.0
@@ -23200,24 +23229,24 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 2.5217,
-          "date": "2026-06-02",
+          "cost": 2.4233,
+          "date": "2026-08-18",
           "desc": "PERONI NASTRO 6PK BTLS R",
-          "change_pct": 1.6,
-          "n": 4,
-          "prev_cost": 2.4821,
+          "change_pct": -3.9,
+          "n": 5,
+          "prev_cost": 2.5217,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 2.5217,
-      "max": 2.5217,
+      "min": 2.4233,
+      "max": 2.4233,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
-      "low": 2.4692,
-      "low_date": "2026-04-09",
+      "low": 2.4233,
+      "low_date": "2026-08-18",
       "est_saving": 0.0,
       "main": null,
       "switch": false
@@ -23259,10 +23288,10 @@
         {
           "supplier": "ILG",
           "cost": 1.93,
-          "date": "2026-08-11",
+          "date": "2026-08-18",
           "desc": "PERONI NASTRO 0.0% STUBS",
           "change_pct": 4.7,
-          "n": 8,
+          "n": 9,
           "prev_cost": 1.8433,
           "spend": 0.0,
           "volume": 0.0
@@ -24418,19 +24447,19 @@
       "suppliers": [
         {
           "supplier": "Select Fresh",
-          "cost": 5.8,
-          "date": "2026-08-14",
+          "cost": 5.0,
+          "date": "2026-08-19",
           "desc": "PROCESS GARLIC PEELED KG",
-          "change_pct": 16.0,
-          "n": 11,
-          "prev_cost": 5.0,
+          "change_pct": -13.8,
+          "n": 12,
+          "prev_cost": 5.8,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
-      "min": 5.8,
-      "max": 5.8,
+      "min": 5.0,
+      "max": 5.0,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -25086,13 +25115,13 @@
         {
           "supplier": "B&E",
           "cost": 1.75,
-          "date": "2026-07-01",
+          "date": "2026-08-19",
           "desc": "RICE - THAI JASMINE 20KG",
           "change_pct": null,
-          "n": 4,
+          "n": 5,
           "prev_cost": null,
-          "spend": 70.0,
-          "volume": 40.0
+          "spend": 105.0,
+          "volume": 60.0
         }
       ],
       "cheapest": "B&E",
@@ -25433,19 +25462,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 55.79,
-          "date": "2026-08-11",
+          "cost": 62.1083,
+          "date": "2026-08-18",
           "desc": "ROOSTER ROJO TEQUILA BLANCO",
-          "change_pct": -0.0,
-          "n": 21,
+          "change_pct": 11.3,
+          "n": 23,
           "prev_cost": 55.7908,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 55.79,
-      "max": 55.79,
+      "min": 62.1083,
+      "max": 62.1083,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -27666,19 +27695,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 5.04,
-          "date": "2026-07-21",
+          "cost": 5.829,
+          "date": "2026-08-18",
           "desc": "SPRITE 375ML 24 CUBE",
-          "change_pct": -0.8,
-          "n": 3,
-          "prev_cost": 5.083,
+          "change_pct": 15.7,
+          "n": 4,
+          "prev_cost": 5.04,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 5.04,
-      "max": 5.04,
+      "min": 5.829,
+      "max": 5.829,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -28972,10 +29001,10 @@
         {
           "supplier": "B&E",
           "cost": 5.8,
-          "date": "2026-08-08",
+          "date": "2026-08-19",
           "desc": "TOFU - FRESH PRESS SILKEN",
           "change_pct": 11.5,
-          "n": 11,
+          "n": 12,
           "prev_cost": 5.2,
           "spend": 0.0,
           "volume": 0.0
@@ -29117,10 +29146,10 @@
         {
           "supplier": "Select Fresh",
           "cost": 3.2,
-          "date": "2026-08-15",
+          "date": "2026-08-19",
           "desc": "TOMATO CHERRY PUN",
           "change_pct": 28.0,
-          "n": 23,
+          "n": 24,
           "prev_cost": 2.5,
           "spend": 0.0,
           "volume": 0.0
@@ -29783,19 +29812,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 80.7633,
-          "date": "2026-08-04",
+          "cost": 80.81,
+          "date": "2026-08-18",
           "desc": "VEUVE CLICQUOT Y/LAB NV R",
-          "change_pct": 0.0,
-          "n": 4,
-          "prev_cost": 80.7617,
+          "change_pct": 0.1,
+          "n": 5,
+          "prev_cost": 80.7633,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 80.7633,
-      "max": 80.7633,
+      "min": 80.81,
+      "max": 80.81,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -30682,19 +30711,19 @@
       "suppliers": [
         {
           "supplier": "ILG",
-          "cost": 2.8217,
-          "date": "2026-07-07",
+          "cost": 2.8171,
+          "date": "2026-08-18",
           "desc": "YOUNG HENRYS CLOUDY CIDER",
-          "change_pct": 0.6,
-          "n": 4,
-          "prev_cost": 2.805,
+          "change_pct": -0.2,
+          "n": 5,
+          "prev_cost": 2.8217,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "ILG",
-      "min": 2.8217,
-      "max": 2.8217,
+      "min": 2.8171,
+      "max": 2.8171,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,
@@ -30856,19 +30885,19 @@
       "suppliers": [
         {
           "supplier": "Select Fresh",
-          "cost": 4.1,
-          "date": "2026-08-14",
+          "cost": 3.2,
+          "date": "2026-08-19",
           "desc": "ZUCCHINI GREEN KG",
-          "change_pct": 41.4,
-          "n": 9,
-          "prev_cost": 2.9,
+          "change_pct": -22.0,
+          "n": 10,
+          "prev_cost": 4.1,
           "spend": 0.0,
           "volume": 0.0
         }
       ],
       "cheapest": "Select Fresh",
-      "min": 4.1,
-      "max": 4.1,
+      "min": 3.2,
+      "max": 3.2,
       "spread_pct": 0.0,
       "multi": false,
       "suspect": false,

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-18",
-  "count": 709,
+  "generated": "2026-08-19",
+  "count": 715,
   "skipped_already_in_xero": 0,
   "invoices": [
     {
@@ -35,6 +35,294 @@
           "qty": "2",
           "amount": "200.00",
           "unit_cost": "$100.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "7135809",
+      "supplier": "B&E Foods Pty Ltd",
+      "supplier_key": "be_foods",
+      "date": "2026-08-19",
+      "due_date": "2026-08-26",
+      "total": "412.76",
+      "venue": "stowaway",
+      "pdf_path": "d812397524a4b0f2c040e9649dc039baa5f78991aca459416591b0bf92bf67a2.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "FZ PORK - BELLY B/L R/L",
+          "supplier_code": "16579",
+          "qty": "1.00",
+          "amount": "153.00",
+          "unit_cost": "$153.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHICKEN 1/2 BREAST (F)",
+          "supplier_code": "10228",
+          "qty": "5.00",
+          "amount": "58.00",
+          "unit_cost": "$11.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ CHICKEN THIGH",
+          "supplier_code": "19334",
+          "qty": "1.00",
+          "amount": "75.00",
+          "unit_cost": "$75.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FZ PORK - BELLY R/ON",
+          "supplier_code": "10906",
+          "qty": "4.40",
+          "amount": "56.76",
+          "unit_cost": "$12.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BAMBOO SHOOT SLICE A10",
+          "supplier_code": "19632",
+          "qty": "3.00",
+          "amount": "20.10",
+          "unit_cost": "$6.70/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "TOFU - FRESH PRESS SILKEN",
+          "supplier_code": "28783",
+          "qty": "2.00",
+          "amount": "11.60",
+          "unit_cost": "$5.80/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "RICE - THAI JASMINE 20KG",
+          "supplier_code": "28470",
+          "qty": "1.00",
+          "amount": "35.00",
+          "unit_cost": "$1.75/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FUEL LEVY",
+          "supplier_code": null,
+          "qty": "1.00",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "3122009",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-08-19",
+      "due_date": "2026-09-02",
+      "total": "9.00",
+      "venue": "stowaway",
+      "pdf_path": "17965f50b47b434a5658dbe6cc85c0e507b0f732c053bb7f33dfd5b4653b9cd2.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "LEMON EA",
+          "supplier_code": "LEME",
+          "qty": "20.00",
+          "amount": "9.00",
+          "unit_cost": "$0.45/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3122236",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-08-19",
+      "due_date": "2026-09-02",
+      "total": "149.30",
+      "venue": "stowaway",
+      "pdf_path": "d0347666f24451b3d0d1ea6ae905b165c00ee156d44d35595bcc835c6498b7e1.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CUCUMBER TELE/CONTINENTAL EACH",
+          "supplier_code": "CUCTE",
+          "qty": "1.00",
+          "amount": "2.10",
+          "unit_cost": "$2.10/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "LEMON KG",
+          "supplier_code": "LEMK",
+          "qty": "1.00",
+          "amount": "3.20",
+          "unit_cost": "$3.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HERB MINT ROUND LEAF BCH",
+          "supplier_code": "HRMIN",
+          "qty": "3.00",
+          "amount": "3.90",
+          "unit_cost": "$1.30/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "LIMES TRAY",
+          "supplier_code": "LIM",
+          "qty": "1.00",
+          "amount": "78.00",
+          "unit_cost": "$78.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "ORANGE VIP CTN",
+          "supplier_code": "ORV",
+          "qty": "1.00",
+          "amount": "58.50",
+          "unit_cost": "$58.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHILLI JALAPENO GREEN KG",
+          "supplier_code": "CHJAL",
+          "qty": "0.50",
+          "amount": "3.60",
+          "unit_cost": "$7.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3122328",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-08-19",
+      "due_date": "2026-09-02",
+      "total": "82.40",
+      "venue": "stowaway",
+      "pdf_path": "d452fd5ed8887cb917701392f2754a46b5ffa33ec89fa62494e8dfadd5b25e4e.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "ZUCCHINI GREEN KG",
+          "supplier_code": "ZUCK",
+          "qty": "0.50",
+          "amount": "1.60",
+          "unit_cost": "$3.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "TOMATO CHERRY PUN",
+          "supplier_code": "TOMCP",
+          "qty": "6.00",
+          "amount": "19.20",
+          "unit_cost": "$3.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MUSHROOM BUTTON CTN",
+          "supplier_code": "MUSB",
+          "qty": "1.00",
+          "amount": "52.00",
+          "unit_cost": "$52.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HERB BASIL BCH",
+          "supplier_code": "HBAS",
+          "qty": "1.00",
+          "amount": "4.60",
+          "unit_cost": "$4.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "PROCESS GARLIC PEELED KG",
+          "supplier_code": "PGAR",
+          "qty": "1.00",
+          "amount": "5.00",
+          "unit_cost": "$5.00/ea",
           "tax": "gst_free",
           "account_code": "115",
           "account_name": "Purchases - Food",
@@ -503,6 +791,304 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "03748652",
+      "supplier": "Independent Liquor Group",
+      "supplier_key": "ilg",
+      "date": "2026-08-18",
+      "due_date": "2026-08-25",
+      "total": "3492.68",
+      "venue": "stowaway",
+      "pdf_path": "8c64cc4cf851345fbfa4f2bf6d5713721cde9852dbcd13e9b0cc5bc76f6cc867.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "DE BORTOLI G/SEAL DRY RED",
+          "supplier_code": "220-1593",
+          "qty": "1",
+          "amount": "58.03",
+          "unit_cost": "$58.03/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "DESCLANS WHISPERING ANGEL ROSE",
+          "supplier_code": "215-3314P",
+          "qty": "6",
+          "amount": "207.92",
+          "unit_cost": "$34.65/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MONTEITHS CRUSHED A.CIDER 4.5%",
+          "supplier_code": "440-7225",
+          "qty": "24",
+          "amount": "74.95",
+          "unit_cost": "$3.12/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "VEUVE CLICQUOT Y/LAB NV R",
+          "supplier_code": "235-1323",
+          "qty": "6",
+          "amount": "484.86",
+          "unit_cost": "$80.81/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "YOUNG HENRYS CLOUDY CIDER",
+          "supplier_code": "440-2140P",
+          "qty": "24",
+          "amount": "67.61",
+          "unit_cost": "$2.82/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "ANGOSTURA BITTERS 200ML 12PK R",
+          "supplier_code": "390-0210",
+          "qty": "1",
+          "amount": "17.49",
+          "unit_cost": "$87.45/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "APEROL",
+          "supplier_code": "395-6785P",
+          "qty": "6",
+          "amount": "174.71",
+          "unit_cost": "$29.12/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "APPLETON EST SIGN. BLEND",
+          "supplier_code": "345-0401",
+          "qty": "1",
+          "amount": "53.92",
+          "unit_cost": "$53.92/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BOMBAY DRY GIN",
+          "supplier_code": "285-3870",
+          "qty": "6",
+          "amount": "303.01",
+          "unit_cost": "$50.50/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BUFFALO TRACE BOURBON 40%",
+          "supplier_code": "305-1949P",
+          "qty": "1",
+          "amount": "57.02",
+          "unit_cost": "$57.02/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CAMPARI APERITIF 25%",
+          "supplier_code": "395-1021",
+          "qty": "1",
+          "amount": "43.05",
+          "unit_cost": "$43.05/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "ROOSTER ROJO TEQUILA BLANCO",
+          "supplier_code": "360-1310",
+          "qty": "12",
+          "amount": "669.49",
+          "unit_cost": "$55.79/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "ALEHOUSE PREMIUM KEG",
+          "supplier_code": "122-2858",
+          "qty": "4",
+          "amount": "849.76",
+          "unit_cost": "$212.44/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "ASAHI SUPER DRY 3.5%",
+          "supplier_code": "115-1844",
+          "qty": "24",
+          "amount": "61.35",
+          "unit_cost": "$2.56/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HEAPS NORMAL QUIET XPA NON ALC",
+          "supplier_code": "117-4213",
+          "qty": "24",
+          "amount": "64.29",
+          "unit_cost": "$2.68/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "PERONI NASTRO 0.0% STUBS",
+          "supplier_code": "115-3129",
+          "qty": "24",
+          "amount": "46.32",
+          "unit_cost": "$1.93/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "PERONI NASTRO 6PK BTLS R",
+          "supplier_code": "115-4173",
+          "qty": "24",
+          "amount": "58.16",
+          "unit_cost": "$2.42/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BUNDABERG GINGER BEER 750ML",
+          "supplier_code": "460-4128",
+          "qty": "12",
+          "amount": "46.73",
+          "unit_cost": "$5.19/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "COCA COLA NO SUGAR",
+          "supplier_code": "460-1620",
+          "qty": "24",
+          "amount": "68.50",
+          "unit_cost": "$2.85/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FEVER TREE LIGHT TONIC",
+          "supplier_code": "460-2255P",
+          "qty": "8",
+          "amount": "33.10",
+          "unit_cost": "$4.14/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SPRITE 375ML 24 CUBE",
+          "supplier_code": "460-3254",
+          "qty": "24",
+          "amount": "52.46",
+          "unit_cost": "$5.83/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "03748653",
+      "supplier": "Independent Liquor Group",
+      "supplier_key": "ilg",
+      "date": "2026-08-18",
+      "due_date": "2026-08-25",
+      "total": "600.67",
+      "venue": "stowaway",
+      "pdf_path": "48a63f179343d5a175bb926d6ddfb50c9011640c07c155150f34b7eaa79ee0ba.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "ITALICUS RISOLIO APERITIF",
+          "supplier_code": "395-0166",
+          "qty": "2",
+          "amount": "132.00",
+          "unit_cost": "$66.00/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "KAHLUA 1 LTR 6PK",
+          "supplier_code": "410-3945",
+          "qty": "2",
+          "amount": "96.04",
+          "unit_cost": "$48.02/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "ROOSTER ROJO TEQUILA BLANCO",
+          "supplier_code": "360-1310",
+          "qty": "6",
+          "amount": "372.65",
+          "unit_cost": "$62.11/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
