@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-16T23:44:43+00:00",
-  "overall": "down",
+  "generated": "2026-08-18T12:09:46+00:00",
+  "overall": "warn",
   "checks": [
     {
       "name": "Invoice poller",
@@ -55,7 +55,7 @@
     {
       "name": "Xero COGS feed",
       "detail": "weekly actual COGS from Xero",
-      "age": 8,
+      "age": 2,
       "unit": "day",
       "status": "ok",
       "meaning": "Weekly actual cost-of-goods from Xero (drives the margin figures).",
@@ -74,7 +74,7 @@
     },
     {
       "name": "Cost book",
-      "detail": "76 open flag(s), 22 high, built 2026-08-17",
+      "detail": "77 open flag(s), 23 high, built 2026-08-18",
       "age": null,
       "unit": "",
       "status": "ok",
@@ -83,13 +83,10 @@
     },
     {
       "name": "Pull integrity",
-      "detail": "Mari filter drift 2026-08-16",
+      "detail": "Mari filter holding, HG reallocation intact (2026-08-17)",
       "age": null,
       "unit": "",
-      "status": "warn",
-      "meaning": "Marilyna's sales are carved from the Stow till and cross-checked against her own Lightspeed report.",
-      "action": "Minor: on 2026-08-16 a few Marilyna's rows weren't in her Lightspeed report, so the filter drifted slightly. The revenue is still attributed - this is a nudge to tidy the 'Mari Daily Sales Auto' report in Lightspeed when convenient, not an outage.",
-      "selfheal": "Clears on its own once a clean day aggregates; only needs a Lightspeed fix if it keeps recurring."
+      "status": "ok"
     },
     {
       "name": "Sales completeness",
@@ -100,14 +97,14 @@
     },
     {
       "name": "Uber fee feed",
-      "detail": "exact split, balances on all 61 rows (1d old)",
+      "detail": "exact split, balances on all 63 rows (1d old)",
       "age": null,
       "unit": "",
       "status": "ok"
     },
     {
       "name": "Uber Direct ingest",
-      "detail": "last Direct fee 2d ago",
+      "detail": "last Direct fee 3d ago",
       "age": null,
       "unit": "",
       "status": "ok"
@@ -128,17 +125,14 @@
     },
     {
       "name": "Automation jobs",
-      "detail": "1 job(s) failing: Deploy dashboard to GitHub Pages",
+      "detail": "all 7 jobs that ran in the last 48h succeeded",
       "age": null,
       "unit": "",
-      "status": "down",
-      "meaning": "These are the scheduled jobs that pull sales, wages, invoices and Uber fees and publish the site.",
-      "action": "'Deploy dashboard to GitHub Pages' failed and has not succeeded since. Open https://github.com/stowaway-hospitality/mari-daily-reporting/actions/runs/31979944235 to see why, or ask Claude to look. Auto-retry has already had its go at the safe ones.",
-      "selfheal": "Only if it was transient - the 3-hourly monitor retries the safe jobs once."
+      "status": "ok"
     },
     {
       "name": "Published app is current",
-      "detail": "app is behind the repo on 1 feed(s): health panel itself (showing warn, differs on Automation jobs)",
+      "detail": "app is behind the repo on 1 feed(s): health panel itself (showing down, differs on Automation jobs)",
       "age": null,
       "unit": "",
       "status": "warn",
