@@ -62,40 +62,133 @@ def test_a_passthrough_never_overrides_a_real_recipe():
     assert not clash, f"pass-through shadowing a Produce recipe: {clash[:5]}"
 
 
-def test_no_pourable_stock_became_a_passthrough():
-    """The trap this scope guards against.
-
-    A bottle priced per millilitre is an INGREDIENT — you pour 30 ml of it. Cost
-    it as a serve and a nip books at a whole bottle, which is the exact shape of
-    the errors this project spent weeks removing. Only countables sold intact
-    qualify, and the marker is Back Office's own Unit column.
-    """
-    b = _book()
-    if b is None:
-        return
+def _bo_rows():
     import csv
-    pourable = set()
     for f in ("stowaway_products.csv", "harry_gatos_products.csv"):
         p = ROOT / "data" / "bo_exports" / f
         if not p.exists():
             continue
         for row in csv.reader(p.open(encoding="utf-8-sig")):
-            if len(row) >= 12 and row[0].isdigit() and row[6] in ("ml", "g"):
-                pourable.add(row[2].strip())
-    bad = sorted(set(_passthroughs(b)) & pourable)
+            if len(row) >= 12 and row[0].isdigit():
+                yield row
+
+
+def test_no_pourable_stock_became_a_passthrough():
+    """The trap this scope guards against, with the one exception it had to make.
+
+    A bottle priced per millilitre is normally an INGREDIENT — you pour 30 ml of
+    it. Cost it as a serve and a nip books at a whole bottle, which is the exact
+    shape of the errors this project spent weeks removing.
+
+    THE EXCEPTION, and why it is not a hole. Back Office files the WINE LIST per
+    ml, because the Regular and Large pours come out of the same stock — but a
+    product named "Kuku Sauvignon Blanc - Bottle" is not poured, it is handed
+    over, and its CostPriceIncTax (14.5742) is what the bottle cost, not a rate.
+    The old rule excluded all 32 of them, $137,523 of lifetime revenue with no
+    recipe at all, and the size-variant split on 2026-08-18 is what stopped the
+    merged name hiding it.
+
+    So the boundary moved from "per-ml is out" to "per-ml is out unless the cost
+    is 2-90% of the sell price", which is a claim about the NUMBER rather than
+    the name. A genuine per-ml rate sits near 0.02% and cannot pass. This pins
+    the new boundary; the previous version of this test pinned the old one and
+    was correct until the day the wine list needed costing.
+    """
+    b = _book()
+    if b is None:
+        return
+    from convert_lightspeed_recipes import _is_whole_bottle
+    # ANY row may be the one that qualified it, not every row. Both venues carry
+    # "Ottelia Cab Sav - Bottle": Stowaway's has the $24.20 cost that costed it,
+    # Harry Gatos' sits at 0.0000 because HG has no drinks supplier. Requiring
+    # every row to pass failed the product for the existence of its twin.
+    pourable, proved = set(), set()
+    for row in _bo_rows():
+        name = row[2].strip()
+        if row[6] in ("ml", "g"):
+            pourable.add(name)
+        if _is_whole_bottle(name, row[6], row[8], row[10]):
+            proved.add(name)
+    bad = sorted((set(_passthroughs(b)) & pourable) - proved)
     assert not bad, f"per-ml/g stock costed as a whole serve: {bad[:5]}"
+
+
+def test_a_pour_never_costs_what_its_own_bottle_costs():
+    """The half of the wine rule that would cost real money if it broke.
+
+    Every bottle has "- Regular" and "- Large" siblings: the SAME stock, sold by
+    the glass. If a bottle's cost ever reached one of those, a 150 ml pour would
+    book at the price of the whole bottle — a 5x overstatement on the highest-
+    volume wine lines in the venue.
+
+    NOT "a pour is never a pass-through", which is what this asserted first and
+    is wrong: Back Office holds a real per-glass cost for some of them, and those
+    are correct and already in the book (Barolo Large Glass $30.80 against $96,
+    San Giorgio Large $8.14 against $48). The defect is not that a glass has a
+    cost. It is a glass wearing its BOTTLE's cost, so that is what this compares.
+    """
+    b = _book()
+    if b is None:
+        return
+    bad = []
+    for name, r in _passthroughs(b).items():
+        head, _, size = name.rpartition(" - ")
+        if size.strip().lower() not in ("regular", "large", "glass", "large glass"):
+            continue
+        bottle = b.get(f"{head} - Bottle")
+        if not bottle:
+            continue
+        try:
+            if abs(float(r["our_cost"]) - float(bottle["our_cost"])) < 0.005:
+                bad.append(f"{name} costs the same as its bottle "
+                           f"(${r['our_cost']})")
+        except (TypeError, ValueError, KeyError):
+            continue
+    assert not bad, "a pour costed as a whole bottle: " + "; ".join(bad[:5])
 
 
 def test_no_prep_or_batch_became_a_passthrough():
     """A batch's unit price is not its batch cost — the Dragon Soda trap, where a
-    builder booked $37.20 against a $9.00 drink."""
+    builder booked $37.20 against a $9.00 drink.
+
+    The name heuristics stay in force for everything EXCEPT a proved whole
+    bottle. _PREP_NAME matches the bare word "blend", and two wines are named
+    after how the winemaker made them — Sigurd GSM Red Blend and Sigurd White
+    Blend, $5,679 between them — so the batch-name rule was excluding a bottle of
+    wine for containing the word. The ratio test has already established what
+    those are; a name heuristic should not overrule a measurement.
+    """
     b = _book()
     if b is None:
         return
-    from convert_lightspeed_recipes import _PACK_BRACKET, _PREP_NAME
+    from convert_lightspeed_recipes import (_PACK_BRACKET, _PREP_NAME,
+                                            _is_whole_bottle)
+    proved = {row[2].strip() for row in _bo_rows()
+              if _is_whole_bottle(row[2].strip(), row[6], row[8], row[10])}
     bad = [n for n in _passthroughs(b)
-           if _PREP_NAME.search(n) or _PACK_BRACKET.search(n)]
+           if n not in proved and (_PREP_NAME.search(n) or _PACK_BRACKET.search(n))]
     assert not bad, f"prep/pack name costed as a serve: {bad[:5]}"
+
+
+def test_it_actually_found_the_wine():
+    """A filler that fills nothing passes every test above — same argument as
+    test_it_actually_found_the_beer, for the list this scope was widened for.
+
+    Named products rather than a count. Kuku and Version Two are the two
+    highest-revenue uncosted bottles ($14,317 and $11,045); Sigurd GSM Red Blend
+    is the one the batch-name heuristic was throwing away.
+    """
+    b = _book()
+    if b is None:
+        return
+    pt = _passthroughs(b)
+    if not pt:
+        return          # no Back Office exports here — nothing to say
+    for name in ("Kuku Sauvignon Blanc - Bottle",
+                 "Version Two Pinot Grigio - Bottle",
+                 "Sigurd GSM Red Blend - Bottle"):
+        assert name in pt, f"{name} should be costed as a pass-through"
+        assert float(b[name]["our_cost"]) > 0
 
 
 def test_the_passthrough_gps_are_at_least_arithmetically_possible():

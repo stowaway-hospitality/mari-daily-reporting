@@ -1338,6 +1338,58 @@ def _mean_large_pizza_cost(out: dict, cost_of):
     return round(tc / tq, 4) if tq else None
 
 
+#: A per-ml product whose name ends "- Bottle" and whose Back Office cost is
+#: plainly the cost of the WHOLE BOTTLE. See _is_whole_bottle.
+_BOTTLE_SUFFIX = re.compile(r"\s-\s*bottle\s*$", re.I)
+
+#: The cost of a bottle of wine, as a share of what it sells for. Real ones on
+#: this list run 18%-55% (Version Two $8.83 on $49; Veuve $78.68 on $142 — the
+#: prestige lines are the tight ones, which is what prestige wine is). A PER-ML
+#: rate misread as a bottle cost lands three orders of magnitude below the floor,
+#: and a stock pack misread as a serve lands above the ceiling. Both directions
+#: are refused rather than guessed: a cost read too low FLATTERS the GP, and the
+#: errors that flatter are the dangerous ones.
+_BOTTLE_COST_FLOOR, _BOTTLE_COST_CEILING = 0.02, 0.90
+
+
+def _is_whole_bottle(name: str, unit: str, sell: str, cost: str) -> bool:
+    """Is this per-ml product a bottle we hand over, priced per bottle?
+
+    THE FALSE NEGATIVE THIS FIXES. add_passthrough_products excludes per-ml
+    products on the reasoning below -- "a per-ml product is a bottle you POUR
+    from, and pricing it as a serve would cost a 30 ml nip at a whole bottle".
+    Right rule, and it swallowed the wine list whole. Back Office files
+    "Kuku Sauvignon Blanc - Bottle" with Unit=ml (it is the same stock the
+    Regular and Large pours come out of) and CostPriceIncTax=14.5742 -- which is
+    not a per-ml rate, it is what the bottle cost. Read as a rate it would price
+    a bottle at $10,930.
+
+    So 32 wine bottles carrying $137,523 of lifetime revenue had no recipe at
+    all, and the honest split of the size variants on 2026-08-18 stopped the
+    merged name hiding it: Stowaway's coverage fell 90.5% -> 86.4% and the fall
+    was the truth arriving, not a regression.
+
+    THE TEST IS THE RATIO, not the name alone. A whole-bottle cost sits between
+    2% and 90% of the sell price. A per-ml rate sits at ~0.02%. The "- Bottle"
+    suffix says what the product is; the ratio proves the number means it.
+    Everything on the current list lands 18%-55%, no entry within a factor of
+    two of either bound, so nothing here is a close call.
+
+    The pour variants -- "- Regular", "- Large" -- are deliberately NOT touched.
+    They carry cost 0.0000 in Back Office and a pour is a fraction of a bottle,
+    which is a recipe question, not a pass-through one.
+    """
+    if unit != "ml" or not _BOTTLE_SUFFIX.search(name or ""):
+        return False
+    try:
+        s, c = float(sell or 0), float(cost or 0)
+    except ValueError:
+        return False
+    if s <= 0 or c <= 0:
+        return False
+    return _BOTTLE_COST_FLOOR <= c / s <= _BOTTLE_COST_CEILING
+
+
 def add_passthrough_products(out: dict) -> int:
     """Cost the things we sell exactly as we bought them.
 
@@ -1365,9 +1417,14 @@ def add_passthrough_products(out: dict) -> int:
     The resulting GPs land at 70-80%, which is what packaged beer is.
 
     SCOPE, deliberately tight:
-      * unit-priced only. A per-ml or per-g product is a bottle you POUR from —
-        that is an ingredient, and pricing it as a serve would cost a 30 ml nip
-        at a whole bottle. This is the countable you hand over intact.
+      * unit-priced, or a WHOLE BOTTLE (see _is_whole_bottle). A per-ml or per-g
+        product is normally a bottle you POUR from — that is an ingredient, and
+        pricing it as a serve would cost a 30 ml nip at a whole bottle. The one
+        exception is the product that IS the bottle: Back Office files the wine
+        list per ml, because the pours come out of the same stock, while its
+        CostPriceIncTax is what the bottle cost. That exclusion had kept 32
+        bottles and $137,523 of revenue out of the book. Admitted only when the
+        cost is 2-90% of the sell price, which a per-ml rate never is.
       * sold and costed. Both a Back Office price and a Back Office cost, both
         above zero. No price means it is not a menu item; no cost means there is
         nothing to read and it stays visibly at $0 for the audit to shout about.
@@ -1432,7 +1489,9 @@ def add_passthrough_products(out: dict) -> int:
             if len(row) < 12 or not row[0].isdigit():
                 continue
             pid, name, unit, sell, cost = row[0], row[2].strip(), row[6], row[8], row[10]
-            if unit != "unit" or not name or name in out:
+            if not name or name in out:
+                continue
+            if unit != "unit" and not _is_whole_bottle(name, unit, sell, cost):
                 continue
             twin = ""
             try:
@@ -1448,8 +1507,16 @@ def add_passthrough_products(out: dict) -> int:
                     borrowed += 1
             except ValueError:
                 continue
-            if _PREP_NAME.search(name) or _PACK_BRACKET.search(name):
-                continue
+            # ...but a whole bottle has already proved what it is, by its ratio.
+            # _PREP_NAME matches the word "blend", and two wines on the list are
+            # called one -- Sigurd GSM Red Blend and Sigurd White Blend, $5,679
+            # between them, excluded for being named after how the winemaker
+            # made them. The name heuristics exist to keep BATCHES out; a Back
+            # Office line ending "- Bottle" whose cost is 18-55% of its sell
+            # price is not a batch.
+            if not _is_whole_bottle(name, unit, sell, cost):
+                if _PREP_NAME.search(name) or _PACK_BRACKET.search(name):
+                    continue
             out[name] = {"ingredients": [{
                 "name": name, "kind": "id", "ref": f"lightspeed:{pid}",
                 "qty": "1", "unit": "ea", "ls_cost": None,
