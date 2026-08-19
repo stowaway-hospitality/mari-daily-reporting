@@ -53,7 +53,8 @@ from pathlib import Path
 import sys  # noqa: E402
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
-from core.domain import (canonical_purchasable, normalize_code,   # noqa: E402
+from core.domain import (canonical_purchasable, normalize_code,       # noqa: E402
+                         prefer_cost_row,
                          purchasable_id)   # the SAME natural key the cost engine uses
 from core.pack_overrides import load_pack_overrides   # noqa: E402
 from modules.invoices.pack_size import single_unit_content   # noqa: E402
@@ -769,9 +770,9 @@ def main() -> int:
             _id = _r["ingredient"]
             if not _id.startswith("lightspeed:"):
                 continue
-            _d = _r["observed_on"]
-            if _id not in latest_ls or _d >= latest_ls[_id][2]:
-                latest_ls[_id] = (_r["cost_per_unit"], _r["unit"], _d)
+            _cand = (_r["cost_per_unit"], _r["unit"], _r["observed_on"])
+            if prefer_cost_row(latest_ls.get(_id), _cand):
+                latest_ls[_id] = _cand
     for _id, (_cost, _unit, _d) in latest_ls.items():
         pid = _id.split(":", 1)[1]
         if _id in seen:

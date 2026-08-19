@@ -33,6 +33,9 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))          # so the ONE cost-row rule can be imported
+from core.domain import prefer_cost_row   # noqa: E402
+
 RECIPES = ROOT / "data" / "lightspeed_recipes.json"
 COSTS = ROOT / "data" / "costs.csv"
 COGS = ROOT / "data" / "cogs_list.csv"
@@ -891,12 +894,14 @@ def _to_base(cost, unit):
 
 def load_our_costs():
     """ingredient id -> latest (cost_per_unit, unit) from our cost book."""
+    from core.domain import prefer_cost_row          # ONE definition of the rule
+
     latest = {}
     for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
         k = r["ingredient"]
-        d = r["observed_on"]
-        if k not in latest or d >= latest[k][2]:
-            latest[k] = (r["cost_per_unit"], r["unit"], d)
+        cand = (r["cost_per_unit"], r["unit"], r["observed_on"])
+        if prefer_cost_row(latest.get(k), cand):
+            latest[k] = cand
     return {k: _to_base(v[0], v[1]) for k, v in latest.items()}
 
 

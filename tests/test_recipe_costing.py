@@ -125,3 +125,59 @@ def test_the_builder_may_use_a_batch_the_builder_book_does_not_hold():
 
     # ...and a name behind which there is nothing still refuses.
     assert _from_costed_book("Not A Real Batch At All") is None
+
+
+def test_same_day_prices_take_the_lower_and_only_the_lower():
+    """ILG bills freight across a delivery, so two lines for one product on one
+    day are not two prices — the dearer is a freight remainder riding on fewer
+    bottles. Zak, 2026-08-19: "just take the lower number as that's what's
+    accurate."
+
+    Before this, the winner was whichever row sorted last. Rooster Rojo landed
+    on $88.73/L against a real $79.70/L and put 24c of imaginary tequila into
+    every Margarita.
+    """
+    from core.domain import prefer_cost_row
+
+    # newer always wins, dearer or not — a genuine price RISE must come through
+    assert prefer_cost_row(("1.00", "ml", "2026-08-18"), ("2.00", "ml", "2026-08-19"))
+    # same day: cheaper wins
+    assert prefer_cost_row(("0.088726", "ml", "2026-08-18"),
+                           ("0.079701", "ml", "2026-08-18"))
+    assert not prefer_cost_row(("0.079701", "ml", "2026-08-18"),
+                               ("0.088726", "ml", "2026-08-18"))
+    # older never wins
+    assert not prefer_cost_row(("0.01", "ml", "2026-08-18"), ("0.005", "ml", "2026-08-01"))
+    # different units are not comparable numbers — keep what we have
+    assert not prefer_cost_row(("1.00", "ml", "2026-08-18"), ("0.50", "ea", "2026-08-18"))
+    assert prefer_cost_row(None, ("1.00", "ml", "2026-08-18"))
+
+
+def test_one_rule_for_the_live_price_not_four():
+    """It was written out by hand in four places, and build_ingredients' comment
+    claimed they "can never disagree about which one it is" — true only while
+    nobody changed one. Changing one is what happened, and for an afternoon a
+    Margarita's tequila was $88.73/L on one screen and $79.70/L on another.
+    """
+    import re
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    hand_rolled = []
+    for f in ("modules/recipes/pipeline/build_ingredients.py",
+              "scripts/convert_lightspeed_recipes.py",
+              "scripts/test_pipeline_integration.py"):
+        src = (root / f).read_text(encoding="utf-8-sig")
+        lines = src.splitlines()
+        # The old shape: `if k not in d or date >= d[k][n]` picking a COST row.
+        # Scoped to cost rows on purpose -- the converter picks a PACK SIZE the
+        # same way a few lines further down, and "the cheaper one wins" is
+        # meaningless for a pack size. Only prices get this rule.
+        for n, ln in enumerate(lines):
+            if not re.search(r"not in\s+\w+\s+or\s+\w+\s*>=\s*\w+\[\w+\]\[\d\]", ln):
+                continue
+            window = "\n".join(lines[max(0, n - 8):n + 3])
+            if "cost_per_unit" in window:
+                hand_rolled.append(f"{f}:{n + 1}")
+        assert "prefer_cost_row" in src, f"{f} must use the shared rule"
+    assert not hand_rolled, f"hand-rolled cost-row tie-break still in: {hand_rolled}"

@@ -84,11 +84,20 @@ def main() -> int:
     # (A ProductID whose cost history changes DIMENSION is still worth knowing
     # about — costing a past day could hit the old unit. audit_book reports it;
     # it is a history question, not a seam that breaks today's numbers.)
-    _latest: dict[str, tuple[str, str, str]] = {}
+    # THE FOURTH COPY OF THIS RULE, and the one that caught the other three
+    # drifting. `if d >= latest[k][0]` was written out by hand here, in
+    # CostSeries._latest, in build_ingredients.py and in the converter. The
+    # moment one changed, this seam fired -- which is exactly what it is for,
+    # and also the argument for there being one definition instead of four.
+    from core.domain import prefer_cost_row
+
+    _rows: dict[str, tuple[str, str, str]] = {}      # (cost, unit, observed_on)
     for r in csv.DictReader((ROOT / "data" / "costs.csv").open(encoding="utf-8-sig")):
-        k, d = r["ingredient"], r["observed_on"]
-        if k not in _latest or d >= _latest[k][0]:
-            _latest[k] = (d, r["unit"], r["cost_per_unit"])
+        k = r["ingredient"]
+        cand = (r["cost_per_unit"], r["unit"], r["observed_on"])
+        if prefer_cost_row(_rows.get(k), cand):
+            _rows[k] = cand
+    _latest = {k: (v[2], v[1], v[0]) for k, v in _rows.items()}
     cost_unit: dict[str, str] = {k: v[1] for k, v in _latest.items()}
     cost_rate: dict[str, str] = {k: v[2] for k, v in _latest.items()}
 

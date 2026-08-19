@@ -43,7 +43,7 @@ import re
 from bisect import bisect_right
 from dataclasses import dataclass
 from datetime import date, timedelta
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Iterable, Optional
 
@@ -405,17 +405,101 @@ class CostSeries:
         return [v for (i, v) in self._by if i == ingredient]
 
     def _latest(self, key, on: date) -> Optional[CostObservation]:
+        """The newest observation on or before `on` — and on a tie, the CHEAPEST.
+
+        A DAY CAN HOLD SEVERAL PRICES FOR ONE THING, and until this tie-break
+        existed the winner was whichever happened to sort last: an arbitrary
+        pick between real numbers.
+
+            2026-08-18  ROOSTER ROJO TEQUILA BLANCO
+              invoice 03748652   12 bottles   $55.79   ->  $79.70/L
+              invoice 03748653    6 bottles   $62.11   ->  $88.73/L
+
+        Both are ours, both are real, and the coin landed on the dearer one. It
+        put $3.55 of tequila into every Margarita instead of $3.31 and made the
+        builder disagree with the menu page about the same drink.
+
+        Zak, 2026-08-19: "ILG applies freight across every item that's been
+        delivered per invoice, so just take the lower number as that's what's
+        accurate."
+
+        The invoices bear him out, though the mechanism looks like a QUANTITY
+        BREAK as much as freight: in 12 of the 14 same-day conflicts the cheapest
+        line is also the largest-quantity one, and Sailor Jerry does it twice
+        within ONE invoice (6 @ $46.29, 1 @ $47.35) where no freight split can
+        explain it. Either way the lower number is the one attached to how we
+        actually buy, and the dearer is a top-up or a freight remainder riding on
+        a handful of bottles.
+
+        The proper fix is upstream: CostObservation.qty has been sitting here
+        unpopulated since this class was written, and the invoice lines state
+        the quantity plainly. Populate it and this becomes "prefer the biggest
+        buy", which is the real rule, and rolling() becomes volume-weighted as
+        its own docstring already promises. Until then, cheapest-on-a-tie gets
+        the same answer in 12 of 14 cases and Zak's answer in all 14.
+
+        Only a TIE is broken. A newer price still wins outright, so a genuine
+        rise comes through the day it lands — this cannot ratchet costs down.
+        """
         lst = self._by.get(key)
         if not lst:
             return None
         i = bisect_right([o.observed_on for o in lst], on)
-        return lst[i - 1] if i else None
+        if not i:
+            return None
+        newest = lst[i - 1].observed_on
+        j = i
+        while j > 0 and lst[j - 1].observed_on == newest:
+            j -= 1
+        same_day = lst[j:i]
+        if len(same_day) == 1:
+            return same_day[0]
+        # Same unit only: a per-bottle and a per-ml row are not comparable
+        # numbers, and "cheapest" across units is meaningless.
+        by_unit = [o for o in same_day if o.unit == lst[i - 1].unit]
+        return min(by_unit or same_day, key=lambda o: o.cost_per_unit)
 
     def __len__(self) -> int:
         return sum(len(v) for v in self._by.values())
 
 
 # ------------------------------------------------------------------- load ----
+
+
+def prefer_cost_row(current, candidate) -> bool:
+    """Should `candidate` replace `current` as the live price? One rule, one place.
+
+    Each argument is (cost_per_unit, unit, observed_on) as STRINGS, the shape
+    both CSV readers already have. Returns True to take the candidate.
+
+    Newer wins outright. On the same date the CHEAPER wins — see
+    CostSeries._latest for the evidence (ILG bills freight across a delivery, so
+    the dearer of two same-day lines is a freight remainder riding on a handful
+    of bottles, and in 12 of 14 cases it is also the smaller quantity).
+
+    THIS EXISTS BECAUSE THE RULE WAS WRITTEN THREE TIMES. CostSeries._latest,
+    build_ingredients.py and convert_lightspeed_recipes.py each had their own
+    copy of `if d >= latest[k][2]`, and build_ingredients' comment asserted they
+    could "never disagree about which one it is" -- which was true only for as
+    long as nobody changed one. Changing one is exactly what happened, and for
+    an afternoon a Margarita's tequila was $88.73/L on one screen and $79.70/L
+    on another. Three copies of a rule is three rules.
+    """
+    if current is None:
+        return True
+    c_cost, c_unit, c_on = current
+    n_cost, n_unit, n_on = candidate
+    if n_on > c_on:
+        return True
+    if n_on < c_on:
+        return False
+    if n_unit != c_unit:
+        return False              # not comparable numbers; keep what we have
+    try:
+        return Decimal(n_cost) < Decimal(c_cost)
+    except (InvalidOperation, TypeError):
+        return False
+
 
 def load_ingredient_map(path: Path = ROOT / "data" / "ingredient_map.csv"
                         ) -> dict[str, str]:
