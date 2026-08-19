@@ -93,3 +93,35 @@ def test_a_declaration_that_stops_binding_is_caught():
                    for f in broken), "a fix naming a line that isn't there must be caught"
     finally:
         orig.write_text(keep)
+
+
+def test_the_builder_may_use_a_batch_the_builder_book_does_not_hold():
+    """The sub-recipe picker offers 648 batches; the builder book holds 35.
+
+    So a bartender can pick a real, weekly-made, invoice-costed batch and save a
+    drink that then refuses to cost. Zak did it saving Classic Margarita on
+    2026-08-19 and main was red within the hour.
+
+    The architecture already said "builder recipes WIN where both exist"; the
+    "otherwise" half was never written. This pins it — and pins that it is not a
+    guess: no DECLARED yield, no fallback.
+    """
+    from datetime import date
+    from decimal import Decimal
+
+    from core.domain import CostSeries, load_cost_observations
+    from modules.recipes.cost import _from_costed_book, cost_on, load_recipes
+
+    costs = CostSeries(load_cost_observations())
+    recipes = load_recipes("stowaway")
+    marg = [r for r in recipes if r.product == "Classic Margarita"]
+    if marg:
+        c = cost_on(marg[0], costs, date(2026, 8, 4), recipes=recipes)
+        assert Decimal("1.0") < c < Decimal("8.0"), f"Classic Margarita at ${c}"
+
+    # A batch with a declared yield resolves...
+    sub = _from_costed_book("Super Lime Juice [1L]")
+    assert sub is not None and sub.yield_qty > 0 and sub.yield_unit == "ml"
+
+    # ...and a name behind which there is nothing still refuses.
+    assert _from_costed_book("Not A Real Batch At All") is None

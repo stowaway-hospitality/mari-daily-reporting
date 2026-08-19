@@ -181,6 +181,56 @@ def recipe_as_of(recipes: list[Recipe], product: str, on: date) -> Optional[Reci
     return max(candidates, key=lambda r: r.effective_from or date.min)
 
 
+
+_COSTED_BOOK_CACHE: dict | None = None
+
+
+def _from_costed_book(name: str):
+    """A batch the builder book does not hold, taken from the costed book.
+
+    Returns a Recipe carrying the batch's invoice-fed cost as a single fixed
+    line plus its DECLARED yield, so the caller's ordinary qty/yield arithmetic
+    applies unchanged. None when the costed book has no such batch, or has one
+    with no declared yield -- both of which must go on raising.
+    """
+    global _COSTED_BOOK_CACHE
+    if _COSTED_BOOK_CACHE is None:
+        import json as _json
+        _p = Path(__file__).resolve().parents[2] / "data" / "lightspeed_recipes_costed.json"
+        try:
+            _COSTED_BOOK_CACHE = _json.loads(
+                _p.read_text(encoding="utf-8-sig"))["recipes"]
+        except Exception:                                    # noqa: BLE001
+            _COSTED_BOOK_CACHE = {}
+
+        import yaml as _yaml
+        _y = Path(__file__).resolve().parents[2] / "data" / "prep_yields.yaml"
+        try:
+            _COSTED_BOOK_CACHE = dict(_COSTED_BOOK_CACHE)
+            _COSTED_BOOK_CACHE["__yields__"] = _yaml.safe_load(
+                _y.read_text(encoding="utf-8-sig")) or {}
+        except Exception:                                    # noqa: BLE001
+            _COSTED_BOOK_CACHE["__yields__"] = {}
+
+    rec = _COSTED_BOOK_CACHE.get(name)
+    if not rec or rec.get("our_cost") in (None, ""):
+        return None
+    y = (_COSTED_BOOK_CACHE.get("__yields__") or {}).get(name)
+    if not y or not y.get("yield_qty") or not y.get("yield_unit"):
+        return None
+    return Recipe(
+        product=name,
+        venue="",                    # venue-blind: one group, one ingredient cost (T6)
+        lines=(RecipeLine(ingredient=f"{name} [costed book]",
+                          qty=Decimal(1),
+                          unit="",
+                          desc="invoice-fed batch cost from data/lightspeed_recipes_costed.json",
+                          fixed_unit_cost=Decimal(str(rec["our_cost"]))),),
+        yield_qty=Decimal(str(y["yield_qty"])),
+        yield_unit=str(y["yield_unit"]),
+    )
+
+
 def cost_on(recipe: Recipe, costs: CostSeries, on: date,
             venue: Optional[str] = None, price_mode: str = "as_of",
             recipes: Optional[list[Recipe]] = None,
@@ -229,6 +279,29 @@ def cost_on(recipe: Recipe, costs: CostSeries, on: date,
         # ---- a line that is another recipe (sauce / batch / dough) ----------
         if line.subrecipe:
             sub = recipe_as_of(recipes or [], line.subrecipe, on)
+            if sub is None:
+                # THE BUILDER OFFERS BATCHES THE BUILDER BOOK DOES NOT HOLD.
+                #
+                # The sub-recipe picker is populated from the COSTED book (648
+                # recipes scraped from Produce). The builder book is the 35 a
+                # human has typed. So a bartender can pick "Super Lime Juice
+                # [1L]" -- which exists, is made weekly, and costs $2.32 off
+                # invoices -- and save a drink that then refuses to cost at all.
+                # Zak did exactly that saving Classic Margarita on 2026-08-19
+                # and it turned main red within the hour.
+                #
+                # Refusing was right when there was nothing behind the name. It
+                # is wrong here: the architecture is already "builder recipes
+                # WIN where both exist" (see test_pnl_uses_the_book), and the
+                # "otherwise" half was never written. This is that half.
+                #
+                # It is not a guess. The batch cost comes from the costed book
+                # and the divisor from a DECLARED yield -- for Super Lime Juice,
+                # 1,142 ml scraped from Produce's own "Expected yield" field. No
+                # declared yield, no fallback: it raises exactly as before,
+                # because a batch cost divided by a number nobody stated is how
+                # a $10 brownie became $46.72.
+                sub = _from_costed_book(line.subrecipe)
             if sub is None:
                 raise MissingCost(
                     f"{recipe.product!r}: sub-recipe {line.subrecipe!r} has no version "
