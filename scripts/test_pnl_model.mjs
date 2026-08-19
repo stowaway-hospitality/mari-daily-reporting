@@ -40,6 +40,9 @@ S.uberDaily= pc(D('data/uber_daily.csv'));
 S.uberAds  = pc(D('data/uber_marketing_weekly.csv'));
 S.uberDirect=pc(D('data/uber_direct_daily.csv'));
 S.uberFees = pc(D('data/uber_fees_weekly.csv'));
+// The maturity ledger — which booked figures have stopped moving. feeIsSettled()
+// in pnl.js reads it so the current month cannot borrow a half-posted month.
+try { const j = JSON.parse(D('data/restatements.json')||'{}'); S.restate = j.series || j; } catch{}
 try { S.roster = JSON.parse(D('data/roster_week.json')||'{"days":{}}'); } catch{}
 try { const o = JSON.parse(D('data/wage_oncosts.json')||'{}'); S.oncost = { rate: ctx.toNum(o.oncost_rate), ownerWeekly: ctx.toNum(o.owner_weekly_inc_super) }; } catch{}
 if (HAVE_GROUP) S.histories.group = ctx.synthesizeGroupHistory(S.histories);
@@ -165,10 +168,17 @@ for (const tf of TFS) {
   const wk = '2026-08-03', wkEnd = '2026-08-09';
   const cur = ctx.venueDeliveryEst('stow', wk, wkEnd, wkEnd).df;
   const curMonth = ctx.isoDate(ctx.sydneyToday()).slice(0, 7);
+  // Must select the SAME month bookedFeesWindow borrows, i.e. the last SETTLED
+  // one — not merely the last calendar-closed one. Reading a half-posted month
+  // as the ceiling while the model correctly ignores it makes this check fire
+  // during exactly the window it exists to protect. Verified by rewinding July
+  // to its 2026-08-10 state ($218.00, provisional): the model skips to June and
+  // this ceiling has to skip with it.
+  const closedMeu = (S.xeroOH || [])
+    .filter(r => r.month && r.month < curMonth && ctx.hasVal(r.meu_fees))
+    .sort((a, b) => a.month < b.month ? 1 : -1);
   const lastClosedMeu = ctx.toNum(
-    (S.xeroOH || [])
-      .filter(r => r.month && r.month < curMonth && ctx.hasVal(r.meu_fees))
-      .sort((a, b) => a.month < b.month ? 1 : -1)[0]?.meu_fees);
+    (closedMeu.find(r => ctx.feeIsSettled('meu_fees', r.month)) || closedMeu[0])?.meu_fees);
   checks++;
   if (!lastClosedMeu) {
     console.log('  ok    (no closed month with an ME&U fee to prorate)');
@@ -179,6 +189,41 @@ for (const tf of TFS) {
   } else {
     console.log('  ok    current-month week is day-prorated (' + cur.toFixed(2)
                 + ' of a ' + lastClosedMeu.toFixed(2) + ' month fee), not revenue-shared');
+  }
+
+  // The borrowed month must be one whose invoices are actually IN.
+  //
+  // July 2026 was calendar-closed from 1 Aug but read $218.00 — the ME&U
+  // subscription with no transaction fees behind it — until Xero trued it to
+  // $3,438.96 on the 17th. For seventeen days the current month borrowed a
+  // sixteenth of the real figure for Stowaway's ENTIRE delivery line. It is not
+  // a one-off: the fees post mid-way through the following month, every month.
+  //
+  // ME&U has run 1.20%-2.05% of Stow+HG revenue every month for two years. A
+  // month reading 0.14% is not a cheap month, it is an unposted one — which is
+  // exactly what 2025-06 ($372.39) and any fresh month look like.
+  checks++;
+  {
+    const curM = ctx.isoDate(ctx.sydneyToday()).slice(0, 7);
+    const borrowed = (S.xeroOH || [])
+      .filter(r => r.month && r.month < curM && ctx.hasVal(r.meu_fees))
+      .sort((a, b) => a.month < b.month ? 1 : -1)
+      .find(r => ctx.feeIsSettled('meu_fees', r.month));
+    if (!borrowed) {
+      console.log('  ok    (no settled month to borrow)');
+    } else {
+      const rev = ['stow', 'hg'].reduce((t, v) => t + (S.histories[v] || [])
+        .reduce((u, r) => r.date.slice(0, 7) === borrowed.month ? u + ctx.toNum(r.revenue_ex_gst) : u, 0), 0);
+      const pct = rev ? ctx.toNum(borrowed.meu_fees) / rev * 100 : 0;
+      if (pct < 0.4) {
+        fails++;
+        console.log('  FAIL  borrowing ' + borrowed.month + ' at ' + pct.toFixed(2)
+                    + '% of revenue — that is a subscription-only month, not a posted one');
+      } else {
+        console.log('  ok    borrows a SETTLED month (' + borrowed.month + ', '
+                    + pct.toFixed(2) + '% of Stow+HG revenue), not a half-posted one');
+      }
+    }
   }
 }
 

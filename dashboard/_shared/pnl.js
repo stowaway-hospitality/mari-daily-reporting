@@ -359,20 +359,39 @@ function hgUberInMonthEx(month) {
   return inc / 1.1;
 }
 
+function feeIsSettled(metric, month) {
+  // Has this month's figure stopped moving? build_restatements.py watches every
+  // reported number pull to pull and grades it: `final` (closed, and the last
+  // TWO pulls did not move it), `settling` (moved under 2% last pull),
+  // `provisional` (not closed, or still moving materially).
+  //
+  // Absent ledger -> true, so the model behaves exactly as it did before rather
+  // than silently falling back to no fee at all. A missing feed must not be
+  // able to make a cost disappear.
+  const led = STATE.restate;
+  if (!led) return true;
+  const s = led['group|' + month + '|' + metric];
+  if (!s || !s.maturity) return true;
+  return s.maturity !== 'provisional';
+}
+
 function bookedFeesWindow(venue, sIso, eIso) {
   // Third-party platform fees straight from the BOOKS, month by month.
   //
   // WHY this replaced a trailing-rate estimate (2026-08-10): deliveryFeesPct
   // blended the last THREE months of fees into a % of revenue and applied it to
-  // the window. That silently kept describing a business that had changed.
-  // Marilyna's moved off ME&U to Bite on 2026-07-01, so ME&U fell from $4,682.90
-  // (May) and $3,265.18 (June) to $218.00 (July) — but the blended rate still
-  // carried Mari's departed volume, and the whole ME&U account is split across
-  // Stowaway and Harry Gatos by revenue share. Stowaway is not on Uber Eats, so
-  // ME&U is its ENTIRE delivery line: it was showing ~$530-750/week against a
-  // real cost nearer $39, and would have kept doing so until the window rolled
-  // past June around October. Averaging across a change in the business is the
-  // same failure as the DoorDash drop — a number quietly describing last quarter.
+  // the window, which silently kept describing a business that had changed.
+  // Averaging across a change is the same failure as the DoorDash drop — a
+  // number quietly describing last quarter.
+  //
+  // CORRECTION (2026-08-19): the original note here read July 2026's $218.00 as
+  // proof that Marilyna's moving to Bite on 2026-07-01 had emptied the ME&U
+  // account. It had not. July was simply unposted — the subscription had landed,
+  // the transaction fees had not — and on 2026-08-17 Xero trued it to $3,438.96,
+  // which is the 27th percentile of a 22-month series running $2,886-$5,524.
+  // ME&U is dine-in ordering at Stowaway and Harry Gatos; Marilyna's is delivery,
+  // so her leaving was never going to touch it. The reasoning was built on four
+  // weeks of a half-posted month.
   //
   // So: use each month's OWN figure. A finished month uses what Xero actually
   // holds for it. The current month is not closed yet (Xero lags), so it borrows
@@ -385,7 +404,22 @@ function bookedFeesWindow(venue, sIso, eIso) {
   const curMonth = isoDate(sydneyToday()).slice(0, 7);
   const closed = Object.keys(byMonth).filter(m => m < curMonth).sort();
   const field = venue === 'mari' ? 'mari_uber_fees' : 'meu_fees';
-  const lastClosed = [...closed].reverse().find(m => hasVal(byMonth[m][field]));
+  // The current month BORROWS a closed month's fee, so which one it borrows has
+  // to be a month whose invoices are actually in — not merely one the calendar
+  // has finished with. July 2026 was calendar-closed from 1 Aug but read $218.00
+  // (the ME&U subscription alone) until the 17th, when the transaction fees
+  // posted and it became $3,438.96. For those seventeen days Stowaway's ENTIRE
+  // delivery line — it is not on Uber Eats — was estimated from a sixteenth of
+  // the real figure: $92.36 instead of $1,457.01 for 1-17 Aug. Understating
+  // cost flatters the margin, the direction CLAUDE.md warns about, and it
+  // recurs EVERY month because the fees always post mid-way through the next.
+  //
+  // 0.14% of Stow+HG revenue is what a subscription-only month looks like.
+  // ME&U has run 1.20-2.05% every month for two years; the only two readings
+  // below 0.4% are 2025-06 ($372.39) and a fresh, unposted month.
+  const settled = [...closed].reverse().filter(m => feeIsSettled(field, m));
+  const lastClosed = settled.find(m => hasVal(byMonth[m][field]))
+                  ?? [...closed].reverse().find(m => hasVal(byMonth[m][field]));
   const revIn = (v, a, b) => (STATE.histories[v] || [])
     .reduce((t, r) => (r.date >= a && r.date <= b) ? t + toNum(r.revenue_ex_gst) : t, 0);
   let out = 0;

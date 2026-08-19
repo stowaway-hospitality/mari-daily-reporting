@@ -1321,6 +1321,15 @@ async function bootstrap() {
       if (r.ok) STATE.xeroOH = parseCsv(await r.text());
     } catch (e) {}
     try {
+      // Which booked figures have actually SETTLED. build_restatements.py marks
+      // each metric/month final | settling | provisional, and bookedFeesWindow
+      // needs it: a month being over is not the same as its invoices being in.
+      // July 2026's ME&U read $218.00 for four weeks after July ended, then
+      // became $3,438.96 when the fees posted. See feeIsSettled() in pnl.js.
+      const r = await fetch('/data/restatements.json?t=' + Date.now());
+      if (r.ok) { const j = await r.json(); STATE.restate = j.series || j; }
+    } catch (e) {}
+    try {
       // Bought vs used: Xero purchases minus our recipe cost, per venue per week.
       // Built by scripts/build_cogs_variance.py — see renderCogsVariance.
       const r = await fetch('/data/cogs_variance.json?t=' + Date.now());
