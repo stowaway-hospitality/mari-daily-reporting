@@ -40,12 +40,36 @@ def test_genuine_names_survive(clean):
         assert clean(good) == good
 
 
+def _back_office_names() -> set:
+    """Every product name exactly as Lightspeed Back Office spells it."""
+    import csv as _csv
+    out = set()
+    for f in ("stowaway_products.csv", "harry_gatos_products.csv"):
+        path = ROOT / "data" / "bo_exports" / f
+        if path.exists():
+            for r in _csv.DictReader(path.open(encoding="utf-8-sig")):
+                out.add((r.get("ProductName") or "").strip())
+    return out
+
+
 def test_no_dirty_residue_in_data():
     """The shipped feed must contain zero avatar-doubled or dot/space-dirty keys."""
     R = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    # A NAME THAT IS IN THE POS IS NOT RESIDUE, however ugly. "Tengumai Junmai -
+    # 180ml  [SERVE WARM]" really does carry a double space in Back Office, and
+    # "cleaning" it here would only stop our record matching the product it is
+    # for. This rule is for parser ARTEFACTS — a doubled avatar prefix, a
+    # trailing dot, a space the reader invented — and telling those apart from an
+    # ugly real name means asking the source.
+    #
+    # It surfaced on 2026-08-19 because that recipe had been in our book all
+    # along and was being silently dropped, so its name never reached the feed
+    # to be checked.
+    real = _back_office_names()
     dirty = [n for n in R
-             if (re.match(r"^([A-Z][a-z])([A-Z][a-z])", n) and n[:2].lower() == n[2:4].lower())
-             or n.endswith(".") or "  " in n]
+             if n.strip() not in real
+             and ((re.match(r"^([A-Z][a-z])([A-Z][a-z])", n) and n[:2].lower() == n[2:4].lower())
+                  or n.endswith(".") or "  " in n)]
     assert dirty == [], f"dirty names leaked: {dirty[:10]}"
 
 

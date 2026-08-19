@@ -147,20 +147,20 @@
 # figure is one postmix cost applied to all of them, which is also why Zak's
 # "creaming soda postmix from CUB" for the pink lemonade changes the flavour and
 # not the number.
+# SUPERSEDED 2026-08-19: the $0.8032 was a Back Office figure with nothing behind
+# it. The syrup itself is now costed from Zak's CUB order — $300.29 incl for a
+# 10L BIB — so a 170 ml glass is 28.33 ml of syrup at the standard 1:5 gun ratio,
+# $0.851. Nearly the same number, and now it is one somebody can check.
 - recipes:
     - "Lemon, Lime & Bitters"
-  name: "Lemonade [mixer]"
-  ref: "lightspeed:20681676"
-  qty: 1
-  unit: "ea"
-  why: "Zak: LLB is lemonade plus the bitters; BO prices one Lemonade [mixer] at $0.8032"
-- recipes:
-    - "Pink Lemonade Glass"
-  name: "Pink Lemonade [mixer]"
-  ref: "lightspeed:20681681"
-  qty: 1
-  unit: "ea"
-  why: "Zak: same qty of postmix as the rest; BO prices one Pink Lemonade [mixer] at $0.8032"
+  name: "Schweppes Lemonade Postmix 15L BIB"
+  ref: "cub:SCHWLEM15L"
+  qty: 28.33
+  unit: "ml"
+  why: "Zak: LLB is lemonade plus the bitters; the lemonade is gun postmix"
+# REMOVED 2026-08-19. Pink Lemonade Glass now has a full hand-authored recipe in
+# data/recipes/stowaway.yaml — Zak: "pink lemonade is now creaming soda postmix"
+# — so adding a line here as well double-counted the drink at $1.65.
 
 # --- Drinks Produce has no recipe for AT ALL -------------------------------------
 # `create: true` makes the entry rather than adding to one. Everything below is a
@@ -187,13 +187,9 @@
 # "Lemonade [mixer]" at $0.8032, the same product and the same price at both
 # venues — and the glass simply never referenced it. Same shape as the Lemon,
 # Lime & Bitters and Pink Lemonade Glass entries above.
-- recipes: ["Lemonade Glass"]
-  create: true
-  name: "Lemonade [mixer]"
-  ref: "lightspeed:20681676"
-  qty: 1
-  unit: "ea"
-  why: "the postmix is costed at $0.8032; the glass never pointed at it"
+# REMOVED 2026-08-19. Lemonade Glass now has a full hand-authored recipe in
+# data/recipes/stowaway.yaml drawing 28.33 ml of the CUB lemonade syrup, so
+# creating it here too gave the glass two lots of lemonade at $1.65.
 
 # Harry Gatos' mulled wine is Stowaway's mulled wine. Stowaway holds the full
 # build (Sailor Jerry, Kahlua, black cacao, walnut bitters, De Bortoli red, sugar

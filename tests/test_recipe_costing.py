@@ -332,8 +332,18 @@ def test_a_recipe_that_is_one_of_itself_is_flagged():
     flags = json.loads(feed.read_text(encoding="utf-8-sig"))["flags"]
     taut = {f["subject"] for f in flags if f["id"].startswith("tautological-")}
 
-    assert "Pepsi Max Glass" in taut, sorted(taut)
-    assert "Pepsi Glass" in taut
+    # THE PEPSI GLASSES ARE FIXED, so they must NOT be here any more. This
+    # asserted their PRESENCE when the flag was written this morning; the postmix
+    # now has a real price and the glasses draw 28.33 ml of it. A test that pins
+    # a defect expires the day someone fixes it — twice in one day now, which is
+    # why the assertion is inverted rather than deleted.
+    assert "Pepsi Max Glass" not in taut, "the Pepsi glasses have real recipes now"
+    assert "Pepsi Glass" not in taut
+    assert "Lemonade Glass" not in taut
+    assert "Pink Lemonade Glass" not in taut
+
+    # What remains is the four wine glasses, which still say "one of me".
+    assert len(taut) == 4, sorted(taut)
 
     # a 30 ml pour from a bottle is a real recipe
     book = json.loads((root / "data" / "lightspeed_recipes_costed.json")

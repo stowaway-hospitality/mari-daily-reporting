@@ -1482,13 +1482,51 @@ def main() -> int:
     # old version sits there forever, and every prep built on it keeps costing
     # off a recipe the kitchen stopped making. Done BEFORE resolve/costing so
     # the replacement is what gets costed, not a patch applied afterwards.
-    _ourn = 0
+    # ...AND INSERTS ONE PRODUCE NEVER HAD. This only ever REPLACED, so a recipe
+    # we had written for a product Produce does not carry was silently dropped —
+    # and then add_passthrough_products invented "1 ea of itself at the Back
+    # Office price" in its place. That is where "Pepsi Max Glass = 1 ea of Pepsi
+    # Max Glass, $1.31" came from: not a bad recipe, a MANUFACTURED one, standing
+    # in for the real recipe we already had.
+    #
+    # The rule is stated a few hundred lines down, about a different insertion:
+    # "a real recipe always beats a Back Office unit price". It just was not true
+    # for ours.
+    _ourn = _ourins = 0
+    # scrape names with any trailing "[...]" removed, so "Mint Yoghurt [Batch]"
+    # answers to "Mint Yoghurt" when we ask whether Produce already has it.
+    _rec_bare = {re.sub(r"\s*\[[^\]]*\]\s*$", "", _k).strip() for _k in rec}
     for _nm, _lines in our_book.items():
         if _nm in rec and (rec[_nm] or {}).get("ingredients"):
             rec[_nm] = dict(rec[_nm] or {}, ingredients=_lines, _from_our_book=True)
             _ourn += 1
+        elif (_nm not in rec and _nm not in _rec_bare
+                and (sell_of(_nm, *load_sell_prices()) or 0) > 0):
+            # ONLY WHAT THE POS ACTUALLY SELLS, and only what Produce has no
+            # record of under any name. That is precisely the population
+            # add_passthrough_products would otherwise manufacture a "1 ea of
+            # itself" recipe for, which is the defect being fixed — Pepsi Max
+            # Glass, Pepsi Glass, Lemonade Glass.
+            #
+            # Inserting more widely looked tempting and was wrong twice over.
+            # "Avocado Verde" is an authored BATCH nobody sells: inserted, it
+            # was not used_as_sub, so it did not read as a prep, so the builder
+            # guard flagged its three-bunches-of-coriander line as if it were a
+            # plate. That it never reaches the book at all is a real finding,
+            # and a separate one — it wants its own pass, not a side effect.
+            #
+            # NOT IF THE SCRAPE ALREADY HAS IT UNDER A BRACKETED NAME. Our book
+            # calls it "Mint Yoghurt"; Produce calls the same batch "Mint Yoghurt
+            # [Batch]". Inserting ours made a SECOND record that nothing draws
+            # on — so it was not used_as_sub, so it did not read as a prep, so
+            # the builder guard flagged its whole-bunch-of-mint line as if it
+            # were a plate. One insert, three wrong answers.
+            rec[_nm] = {"ingredients": _lines, "_from_our_book": True}
+            _ourins += 1
     if _ourn:
         print(f"  replaced {_ourn} scraped recipe(s) with our own book's version")
+    if _ourins:
+        print(f"  inserted {_ourins} recipe(s) of ours that Produce does not carry")
     packs = load_packs()
     seed_base = load_seed_baseline()
     sell_by_exact, sell_by_norm, sell_by_tok = load_sell_prices()

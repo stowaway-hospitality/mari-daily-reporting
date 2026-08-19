@@ -1,13 +1,13 @@
 {
  "generated": "2026-08-19",
  "source": "Lightspeed Produce (scraped)",
- "recipe_count": 895,
+ "recipe_count": 898,
  "coverage": {
   "ingredient_refs": {
-   "id": 1542,
+   "id": 1553,
    "subrecipe": 383
   },
-  "recipes_fully_on_our_book": 882
+  "recipes_fully_on_our_book": 884
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -32012,33 +32012,23 @@
   "Pink Lemonade Glass": {
    "ingredients": [
     {
-     "name": "Bickfords Raspberry Cordial [Bottle]",
+     "name": "Schweppes Red Cream Soda Postmix 15L BIB",
      "kind": "id",
-     "ref": "lightspeed:20727770",
-     "qty": "20",
+     "ref": "cub:SCHWCREAM15L",
+     "qty": "28.33",
      "unit": "ml",
-     "ls_cost": "0.14",
-     "our_cost": "0.007253",
-     "eff_cost": 0.14506
-    },
-    {
-     "name": "Pink Lemonade [mixer]",
-     "kind": "id",
-     "ref": "lightspeed:20681681",
-     "qty": 1,
-     "unit": "ea",
-     "ls_cost": null,
-     "our_cost": 0.8032,
-     "eff_cost": 0.8032
+     "ls_cost": "0.850722",
+     "our_cost": "0.030029",
+     "eff_cost": 0.850722
     }
    ],
-   "our_cost": 0.9483,
-   "ls_cost": 0.14,
+   "our_cost": 0.8507,
+   "ls_cost": 0.8507,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 4.5,
-   "gp_pct": 76.8
+   "gp_pct": 79.2
   },
   "Dragonfly Grenache D": {
    "ingredients": [
@@ -35778,23 +35768,23 @@
      "eff_cost": 0.223732
     },
     {
-     "name": "Lemonade [mixer]",
+     "name": "Schweppes Lemonade Postmix 15L BIB",
      "kind": "id",
-     "ref": "lightspeed:20681676",
-     "qty": 1,
-     "unit": "ea",
+     "ref": "cub:SCHWLEM15L",
+     "qty": 28.33,
+     "unit": "ml",
      "ls_cost": null,
-     "our_cost": 0.8032,
-     "eff_cost": 0.8032
+     "our_cost": 0.030029,
+     "eff_cost": 0.850722
     }
    ],
-   "our_cost": 1.0269,
+   "our_cost": 1.0745,
    "ls_cost": 0.2,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 5.0,
-   "gp_pct": 77.4
+   "gp_pct": 76.4
   },
   "Laphroaig 10yr": {
    "ingredients": [
@@ -44334,6 +44324,182 @@
    "sell_incl": 14.0,
    "gp_pct": 77.1
   },
+  "Tengumai Junmai - 180ml  [SERVE WARM]": {
+   "ingredients": [
+    {
+     "name": "Tengumai Umajan Junmai [1.8L] \u2014 180ml pour",
+     "kind": "id",
+     "ref": "lightspeed:20768495",
+     "qty": "180.0",
+     "unit": "ml",
+     "ls_cost": "7.09506",
+     "our_cost": "0.039417",
+     "eff_cost": 7.09506
+    }
+   ],
+   "our_cost": 7.0951,
+   "ls_cost": 7.0951,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 30.0,
+   "gp_pct": 74.0
+  },
+  "Southern Squid": {
+   "ingredients": [
+    {
+     "name": "SQUID PINEAPPLE CUT IMP U5 5KG",
+     "kind": "id",
+     "ref": "foodlink:102689",
+     "qty": "200.0",
+     "unit": "g",
+     "ls_cost": "2.28",
+     "our_cost": "0.011400",
+     "eff_cost": 2.28
+    }
+   ],
+   "our_cost": 2.28,
+   "ls_cost": 2.28,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 25.5,
+   "gp_pct": 90.2
+  },
+  "Trade Winds": {
+   "ingredients": [
+    {
+     "name": "John D. Taylor's Velvet Falernum",
+     "kind": "id",
+     "ref": "lightspeed:20492716",
+     "qty": "15.0",
+     "unit": "ml",
+     "ls_cost": "0.74979",
+     "our_cost": "0.049986",
+     "eff_cost": 0.74979
+    },
+    {
+     "name": "Seedless Passionfruit Juice (Berry Man PJ1)",
+     "kind": "id",
+     "ref": "lightspeed:22843691",
+     "qty": "20.0",
+     "unit": "g",
+     "ls_cost": "0.193",
+     "our_cost": "0.009650",
+     "eff_cost": 0.193
+    },
+    {
+     "name": "lime juice",
+     "kind": "id",
+     "ref": "lightspeed:22488947",
+     "qty": "30.0",
+     "unit": "ml",
+     "ls_cost": "0.249",
+     "our_cost": "0.008300",
+     "eff_cost": 0.249
+    },
+    {
+     "name": "Angostura Bitters (2 drops)",
+     "kind": "id",
+     "ref": "lightspeed:20747514",
+     "qty": "0.2",
+     "unit": "ml",
+     "ls_cost": "0.022373",
+     "our_cost": "0.111866",
+     "eff_cost": 0.022373
+    },
+    {
+     "name": "Mint sprig",
+     "kind": "id",
+     "ref": "fresh-fruit-team:HMRBCH BUNCH",
+     "qty": "0.05",
+     "unit": "bunch",
+     "ls_cost": "0.055",
+     "our_cost": null,
+     "eff_cost": 0.055
+    },
+    {
+     "name": "Dehydrated Lime Garnish (1 wheel)",
+     "kind": "id",
+     "ref": "lightspeed:21019999",
+     "qty": "2.0",
+     "unit": "g",
+     "ls_cost": "0.184616",
+     "our_cost": "0.092308",
+     "eff_cost": 0.184616
+    }
+   ],
+   "our_cost": 1.4538,
+   "ls_cost": 1.4538,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 14.0,
+   "gp_pct": 88.6
+  },
+  "Pepsi Max Glass": {
+   "ingredients": [
+    {
+     "name": "Pepsi Max Postmix 10L BIB",
+     "kind": "id",
+     "ref": "cub:PEPSIMAX10L",
+     "qty": "28.33",
+     "unit": "ml",
+     "ls_cost": "0.850722",
+     "our_cost": "0.030029",
+     "eff_cost": 0.850722
+    }
+   ],
+   "our_cost": 0.8507,
+   "ls_cost": 0.8507,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 4.5,
+   "gp_pct": 79.2
+  },
+  "Pepsi Glass": {
+   "ingredients": [
+    {
+     "name": "Pepsi Postmix 15L BIB",
+     "kind": "id",
+     "ref": "cub:PEPSI15L",
+     "qty": "28.33",
+     "unit": "ml",
+     "ls_cost": "0.850722",
+     "our_cost": "0.030029",
+     "eff_cost": 0.850722
+    }
+   ],
+   "our_cost": 0.8507,
+   "ls_cost": 0.8507,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 4.5,
+   "gp_pct": 79.2
+  },
+  "Lemonade Glass": {
+   "ingredients": [
+    {
+     "name": "Schweppes Lemonade Postmix 15L BIB",
+     "kind": "id",
+     "ref": "cub:SCHWLEM15L",
+     "qty": "28.33",
+     "unit": "ml",
+     "ls_cost": "0.850722",
+     "our_cost": "0.030029",
+     "eff_cost": 0.850722
+    }
+   ],
+   "our_cost": 0.8507,
+   "ls_cost": 0.8507,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 4.5,
+   "gp_pct": 79.2
+  },
   "Soda & Lime Glass": {
    "ingredients": [
     {
@@ -44354,27 +44520,6 @@
    "is_prep": false,
    "sell_incl": 3.0,
    "gp_pct": 98.5
-  },
-  "Lemonade Glass": {
-   "ingredients": [
-    {
-     "name": "Lemonade [mixer]",
-     "kind": "id",
-     "ref": "lightspeed:20681676",
-     "qty": 1,
-     "unit": "ea",
-     "ls_cost": null,
-     "our_cost": 0.8032,
-     "eff_cost": 0.8032
-    }
-   ],
-   "our_cost": 0.8032,
-   "ls_cost": 0.0,
-   "fully_our_book": true,
-   "resolved_pct": 100,
-   "is_prep": false,
-   "sell_incl": 4.5,
-   "gp_pct": 80.4
   },
   "Mulled Wine [HG]": {
    "ingredients": [
@@ -46047,29 +46192,6 @@
    "sell_incl": 58.0,
    "gp_pct": 41.6
   },
-  "Pepsi Glass": {
-   "ingredients": [
-    {
-     "name": "Pepsi Glass",
-     "kind": "id",
-     "ref": "lightspeed:20702600",
-     "qty": "1",
-     "unit": "ea",
-     "ls_cost": null,
-     "our_cost": "1.3100",
-     "passthrough": true,
-     "eff_cost": 1.31
-    }
-   ],
-   "passthrough": "harry_gatos",
-   "our_cost": 1.31,
-   "ls_cost": 0.0,
-   "fully_our_book": true,
-   "resolved_pct": 100,
-   "is_prep": false,
-   "sell_incl": 4.5,
-   "gp_pct": 68.0
-  },
   "Heaps Normal Quiet XPA": {
    "ingredients": [
     {
@@ -46092,29 +46214,6 @@
    "is_prep": false,
    "sell_incl": 10.5,
    "gp_pct": 74.2
-  },
-  "Pepsi Max Glass": {
-   "ingredients": [
-    {
-     "name": "Pepsi Max Glass",
-     "kind": "id",
-     "ref": "lightspeed:20779180",
-     "qty": "1",
-     "unit": "ea",
-     "ls_cost": null,
-     "our_cost": "1.3100",
-     "passthrough": true,
-     "eff_cost": 1.31
-    }
-   ],
-   "passthrough": "harry_gatos",
-   "our_cost": 1.31,
-   "ls_cost": 0.0,
-   "fully_our_book": true,
-   "resolved_pct": 100,
-   "is_prep": false,
-   "sell_incl": 4.5,
-   "gp_pct": 68.0
   },
   "Monteith's Apple Cider [HG]": {
    "ingredients": [

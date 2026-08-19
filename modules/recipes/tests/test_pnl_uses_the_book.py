@@ -85,7 +85,14 @@ def test_builder_recipes_resolve_their_sub_recipes():
     # _load_our_costs deliberately withholds batches now (a batch is not a serve
     # cost — see the next test), so going through it would stop testing the thing
     # this guards: that sub-recipes resolve at all.
-    on = date(2026, 8, 4)
+    # TODAY, not a pinned past date. This costed everything as of 2026-08-04,
+    # which was fine until a recipe arrived whose INGREDIENT is newer than that:
+    # the CUB postmix was declared on 2026-08-19, so asking what a Pepsi Max
+    # Glass cost on 4 August has no answer and as_of correctly refuses rather
+    # than substituting a price it did not have. That refusal is the design
+    # working — "recomputing July must give July's number forever" — so the test
+    # moves instead of the engine.
+    on = date.today()
     costs = CostSeries(load_cost_observations())
     for venue_file in ("stowaway", "marilynas", "harry_gatos"):
         recipes = load_recipes(venue_file)
@@ -461,8 +468,14 @@ def test_a_countable_cost_can_be_multiplied_by_a_countable_quantity():
     bitters", and Back Office prices one Lemonade [mixer] at $0.8032."""
     book = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
     llb = book["Lemon, Lime & Bitters"]
-    mixer = [l for l in llb["ingredients"] if "mixer" in (l.get("name") or "").lower()]
-    assert mixer and abs(mixer[0]["eff_cost"] - 0.8032) < 0.001
+    # SUPERSEDED 2026-08-19: the $0.8032 was a Back Office figure with nothing
+    # behind it. The lemonade is the actual CUB syrup now — 28.33 ml of a 15L
+    # BIB, $0.851 a glass. Nearly the same number, and now one you can check
+    # against an order.
+    lemo = [l for l in llb["ingredients"]
+            if "postmix" in (l.get("name") or "").lower()]
+    assert lemo, [l.get("name") for l in llb["ingredients"]]
+    assert abs(float(lemo[0]["eff_cost"]) - 0.851) < 0.01, lemo[0]["eff_cost"]
     assert 70 < llb["gp_pct"] < 85, llb["gp_pct"]
 
     pink = book["Pink Lemonade Glass"]

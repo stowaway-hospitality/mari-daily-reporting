@@ -583,3 +583,62 @@
     - subrecipe: "Sugar Syrup"
       qty: 10
       unit: "ml"
+
+# Postmix glasses — entered by Claude for Zak, 2026-08-19.
+#
+# These four replace "recipes" that were one of themselves: Pepsi Max Glass was
+# 1 ea of "Pepsi Max Glass" at $1.31, a Back Office figure with nothing behind
+# it. The syrup is now a real ingredient (data/declared_purchases.yaml, off
+# Zak's CUB cart) so a glass can cost itself.
+#
+# THE ARITHMETIC, once, since all four share it:
+#   $272.99 ex GST for a 10L BIB = $300.29 incl = $0.030029 per ml of SYRUP.
+#   Zak: "theres 1 bib per order" — the cart's "Case" is one BIB.
+#   Zak: "just do the standard ratio" — 1:5 syrup to soda, so a glass of
+#   finished drink is one sixth syrup.
+#   Zak, on the glass: "same as whatever the juice is" — the book's juice
+#   mixers are 170 ml, so 170 / 6 = 28.33 ml of syrup a glass = $0.851.
+#
+# No unit_cost_incl on these lines ON PURPOSE. The builder stamps a price
+# snapshot when a human saves, and a snapshot stops tracking invoices — that is
+# how the $1.31 outlived the truth. Leaving it off makes the converter price the
+# line live off the cost book every build.
+
+- product: "Pepsi Max Glass"
+  sell_incl_gst: 4.50
+  ingredients:
+    - id: "cub:PEPSIMAX10L"
+      desc: "Pepsi Max Postmix 10L BIB"
+      qty: 28.33
+      unit: "ml"
+
+- product: "Pepsi Glass"
+  sell_incl_gst: 4.50
+  ingredients:
+    - id: "cub:PEPSI15L"
+      desc: "Pepsi Postmix 15L BIB"
+      qty: 28.33
+      unit: "ml"
+
+- product: "Lemonade Glass"
+  sell_incl_gst: 4.50
+  ingredients:
+    - id: "cub:SCHWLEM15L"
+      desc: "Schweppes Lemonade Postmix 15L BIB"
+      qty: 28.33
+      unit: "ml"
+
+# Zak, 2026-08-19: "pink lemonade is now creaming soda postmix". Which is why a
+# Red Cream Soda BIB is on the CUB order — the recipe answers the purchase.
+#
+# The old record was wrong twice over: 20 ml of raspberry cordial PLUS "Pink
+# Lemonade [mixer]", and that mixer is itself 15 ml of the same cordial. So the
+# glass held 35 ml of cordial and no lemonade at all. Now it holds neither —
+# it is one gun button, poured like any other postmix.
+- product: "Pink Lemonade Glass"
+  sell_incl_gst: 4.50
+  ingredients:
+    - id: "cub:SCHWCREAM15L"
+      desc: "Schweppes Red Cream Soda Postmix 15L BIB"
+      qty: 28.33
+      unit: "ml"

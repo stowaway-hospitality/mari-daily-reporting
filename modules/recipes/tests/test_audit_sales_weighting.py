@@ -317,7 +317,15 @@ def test_an_ingredient_problem_no_recipe_can_reach_is_not_a_warning():
     developer's tree because a generated file happens to be sitting there."""
     F = audit()
     for sev, rule in F:
-        if "pack size unconfirmed" in rule:
+        # ONLY the variant no recipe can reach. There are TWO rules with this
+        # prefix and they say opposite things: "pack size unconfirmed" (INFO,
+        # nothing is mispriced today) and "...and a recipe uses it" (WARN,
+        # something is). Matching the prefix caught both, so the moment a real
+        # recipe reached an unconfirmed pack — Southern Squid, once its authored
+        # recipe stopped being silently dropped on 2026-08-19 — this demanded
+        # the audit call a LIVE problem INFO.
+        if ("pack size unconfirmed" in rule
+                and "a recipe uses it" not in rule):
             assert sev == "INFO", f"{sev}: {rule}"
             assert "no recipe uses it" in rule, rule
 
