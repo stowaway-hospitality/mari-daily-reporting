@@ -172,13 +172,35 @@ def recipe_as_of(recipes: list[Recipe], product: str, on: date) -> Optional[Reci
     The version in force on `on`. Recipes are effective-dated: editing writes a
     new version, so recomputing an old day uses the recipe that was actually
     being cooked then.
+
+        THE LAST SAVE WINS A TIE, and it did not used to.
+
+    `max()` returns the FIRST maximal element. Two blocks for one product with
+    no effective_from — which is every pair the builder produces, because it
+    stamps no date — both key on date.min, so max() handed back the EARLIER
+    one. Zak saved Classic Margarita twice on 2026-08-19, correcting the lime
+    garnish from 1 g to 1.95 g to match Produce, and this function would have
+    returned the version he had just corrected.
+
+    The recipe files are documented everywhere else as append-only logs where
+    the tail wins. This is the one place that read them backwards. File order is
+    the tie-break, which is what "append-only" means.
+
+    THE REAL FIX IS STILL UPSTREAM: the builder should stamp effective_from on
+    every save, so a correction supersedes explicitly instead of relying on the
+    order of lines in a file. Until it does, this is what stands between a chef
+    fixing a typo and the wrong number reaching the P&L.
     """
-    candidates = [r for r in recipes
-                  if r.product == product
-                  and (r.effective_from is None or r.effective_from <= on)]
-    if not candidates:
-        return None
-    return max(candidates, key=lambda r: r.effective_from or date.min)
+    best = None
+    for idx, r in enumerate(recipes):
+        if r.product != product:
+            continue
+        if r.effective_from is not None and r.effective_from > on:
+            continue
+        key = (r.effective_from or date.min, idx)
+        if best is None or key >= best[0]:
+            best = (key, r)
+    return best[1] if best else None
 
 
 

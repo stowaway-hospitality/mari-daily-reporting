@@ -1026,6 +1026,34 @@ def main() -> int:
     print(f"  container size on {_stamped} of {len(out)} ingredients "
           f"(the picker can show the bottle, not the litre)")
 
+    # HOW OLD IS THIS PRICE? Stamp the age so the picker can say so.
+    #
+    # Harry Gatos' whole bar ran on Back Office seeds dated 1 January and
+    # nothing anywhere said so — its tequila read $65.47/L against a real
+    # $79.70 and its GP was flattered for eight months. The seeds are NOT
+    # windowed out on purpose (they keep every ingredient pickable), so the
+    # only defence is to show their age at the point a chef picks one.
+    #
+    # Zak ruled on 2026-08-18 that historical COGS comes from Xero, not from
+    # here, so a stale price is not deleted — deleting it would empty the
+    # picker of things we genuinely stock. It is labelled.
+    _today = datetime.now().date()
+    _stale = 0
+    for _it in out:
+        try:
+            _seen = date.fromisoformat(_it.get("last_seen") or "")
+        except Exception:                                    # noqa: BLE001
+            continue
+        _age = (_today - _seen).days
+        _it["price_age_days"] = _age
+        # 90 days is the window the rest of this file already treats as "recent"
+        # (RECENT_DAYS). Past it, the number is a memory rather than a price.
+        if _age > RECENT_DAYS:
+            _it["price_is_stale"] = True
+            _stale += 1
+    print(f"  {_stale} of {len(out)} ingredients priced on something older than "
+          f"{RECENT_DAYS} days (labelled, not hidden)")
+
     # QUALITY GATE: a name that echoes its code / is only a unit is a parse
     # artefact (the FFT class of bug). Surface it here and in the feed so it gets
     # noticed the day it appears, not when a chef squints at "BBRYP Punnet".

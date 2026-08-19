@@ -212,3 +212,40 @@ def test_a_lowering_merge_ships_only_when_a_human_ruled_on_it():
     m = (root / "data" / "ingredient_map.csv").read_text(encoding="utf-8-sig")
     if ruled:
         assert "lightspeed:20744462" in m, "the ruled Monkey Shoulder merge must ship"
+
+
+def test_the_last_save_wins_when_neither_is_dated():
+    """max() returns the FIRST maximal element.
+
+    Every pair of blocks the builder writes is undated — it stamps no
+    effective_from — so both key on date.min and recipe_as_of handed back the
+    EARLIER one. Zak saved Classic Margarita twice on 2026-08-19, correcting the
+    lime garnish 1 g -> 1.95 g, and this would have returned the version he had
+    just corrected.
+
+    The recipe files are append-only logs where the tail wins. This was the one
+    place reading them backwards.
+    """
+    from datetime import date
+    from decimal import Decimal
+
+    from modules.recipes.cost import Recipe, RecipeLine, recipe_as_of
+
+    def block(qty):
+        return Recipe(product="X", venue="stowaway",
+                      lines=(RecipeLine(ingredient="i", qty=Decimal(qty), unit="g"),))
+
+    on = date(2026, 8, 19)
+    assert recipe_as_of([block("1"), block("1.95")], "X", on).lines[0].qty == Decimal("1.95")
+    # order is what decides it, so the reverse must give the reverse
+    assert recipe_as_of([block("1.95"), block("1")], "X", on).lines[0].qty == Decimal("1")
+
+    # A DATE STILL BEATS POSITION. Effective-dating is the real mechanism; file
+    # order is only the tie-break for saves that never got a date.
+    dated = Recipe(product="X", venue="stowaway", effective_from=date(2026, 8, 1),
+                   lines=(RecipeLine(ingredient="i", qty=Decimal("9"), unit="g"),))
+    assert recipe_as_of([block("1"), dated], "X", on).lines[0].qty == Decimal("9")
+    # ...and a future version is not in force yet
+    future = Recipe(product="X", venue="stowaway", effective_from=date(2026, 9, 1),
+                    lines=(RecipeLine(ingredient="i", qty=Decimal("99"), unit="g"),))
+    assert recipe_as_of([dated, future], "X", on).lines[0].qty == Decimal("9")

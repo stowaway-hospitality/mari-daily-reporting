@@ -124,10 +124,11 @@ function renderPick() {
       : (i.container_cost_incl && +i.container_qty)
         ? `${money(+i.container_cost_incl)} <span class="m">/ ${esc(fmtSize(+i.container_qty, i.container_unit || ''))}</span>`
         : `${money(i.cost_per_base_unit * perMult(i.pack_unit))} <span class="m">/${esc(perUnit(i.pack_unit))}</span>`;
+    const age = ageTag(i);
     return `<div class="ing" onclick="add('${i.id}')">
       <div><div class="n">${esc(i.description)}${ok ? '' : '<span class="pill">confirm pack</span>'}</div>
       <div class="m">${esc(i.supplier)}</div></div>
-      <div class="c">${cost}</div></div>`;
+      <div class="c">${cost}${age}</div></div>`;
   }).join('');
   document.getElementById('picklist').innerHTML = (subHtml + ingHtml) ||
     `<div class="empty">${sup || q ? 'No match.' : 'Choose a supplier or search to add ingredients.'}</div>`;
@@ -260,6 +261,17 @@ function containerOf(l) {
   if (!i || !i.container_cost_incl || !+i.container_qty) return null;
   return { cost: +i.container_cost_incl, qty: +i.container_qty, unit: i.container_unit || '' };
 }
+// HOW OLD IS THE PRICE. Harry Gatos' entire bar was costed off Back Office
+// seeds dated 1 January and nothing on any screen said so — its tequila read
+// $65.47/L against a real $79.70 and its GP was flattered for eight months.
+// The seeds stay in the picker on purpose (they keep every ingredient
+// pickable), so the only defence is saying their age where someone picks one.
+function ageTag(i) {
+  if (!i || !i.price_is_stale) return '';
+  const d = +i.price_age_days || 0;
+  const t = d >= 365 ? `${Math.floor(d / 365)}y` : `${Math.round(d / 30)}mo`;
+  return ` <span class="m" title="no invoice for this in ${d} days — the price is a memory">· ${t} old</span>`;
+}
 function fmtSize(q, u) {
   // 700ml, 1.5L, 3kg, 12ea — read it the way the label on the thing reads.
   if (u === 'ml' && q >= 1000) return `${+(q / 1000).toFixed(2)}L`;
@@ -267,10 +279,12 @@ function fmtSize(q, u) {
   return `${+q.toFixed(2)}${u}`;
 }
 function lineCostLabel(l) {           // the line's own cost has its own column
+  const i = (l.kind === 'sub' || l.kind === 'manual') ? null : ING.find(x => x.id === l.id);
+  const age = ageTag(i);
   const c = containerOf(l);
-  if (c) return `${money(c.cost)} <span class="m">/ ${esc(fmtSize(c.qty, c.unit))}</span>`;
+  if (c) return `${money(c.cost)} <span class="m">/ ${esc(fmtSize(c.qty, c.unit))}</span>${age}`;
   const r = lineRate(l);
-  return `${money(r.rate)}/${esc(r.unit)}`;
+  return `${money(r.rate)}/${esc(r.unit)}${age}`;
 }
 function lineMeta(l) {
   // "(recipe)" marks a line as a sub-recipe rather than a bought ingredient. Six
