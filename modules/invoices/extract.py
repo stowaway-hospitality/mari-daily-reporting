@@ -62,7 +62,10 @@ Return ONLY a JSON object, no prose, matching:
   "invoice_date": "2026-07-14",          // ISO
   "total_incl": "2283.19",               // string, GST-INCLUSIVE
   "venue": "stowaway",                   // stowaway | harry_gatos | unknown
-  "account_code": "2428",                // whatever venue signal you used
+  "account_code": "2428",                // REQUIRED where suppliers.yaml names one
+                                         // (ilg 2428=stowaway 3622=harry_gatos).
+                                         // Emit it verbatim; the venue without
+                                         // it is an assertion, not evidence.
   "po_refs": ["54361209"],
   "gst_total": "207.56",
   "wet_total": null,
@@ -86,7 +89,9 @@ Return ONLY a JSON object, no prose, matching:
 
 All money as STRINGS (parsed as Decimal — never float).
 If you cannot classify a line, use "unknown". Do NOT guess.
-If you cannot resolve the venue, use "unknown". Do NOT guess.
+If you cannot resolve the venue, use "unknown". Do NOT guess. "Most invoices
+from this supplier are Stowaway's" is a guess: 61 of 61 ILG bills came back
+"stowaway" that way and Harry Gatos' liquor spend landed on the wrong venue.
 """
 
 

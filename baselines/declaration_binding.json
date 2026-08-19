@@ -1,5 +1,5 @@
 {
- "unbound": 6,
+ "unbound": 9,
  "pinned": "2026-08-19",
- "note": "Declarations that currently describe nothing. RATCHETED, not failed: an unbound declaration is not always a defect. All six today are answers waiting for a question -- two corn chip bag records declared for stock items we have never been invoiced for, and FOUR Harry Gatos twins of Stowaway products whose overrides do bind (tortillas x2, GF pizza base, mango-chilli puree). That is the same HG coverage gap that shows as 75.7% of revenue costed, surfacing in a second place. A GROWTH in this count means a record moved out from under a ruling -- see scripts/check_declarations_bind.py for the three that happened in one week before this guard existed."
+ "note": "Declarations that currently describe nothing. RATCHETED, not failed. SIX pack overrides are answers waiting for a question (two corn chip bag records for stock we have never been invoiced for; four Harry Gatos twins of Stowaway products whose overrides do bind). THREE are venue-resolution rules that have never once been applied: suppliers.yaml knows ILG account 2428 is Stowaway and 3622 is Harry Gatos, and all 173 invoices from ILG, Select Fresh and Gulli carry account_code: null. That one is a REAL DEFECT with money attached -- HG's liquor spend has been booked to Stowaway -- and it is pinned only because the fix is re-extraction of the source PDFs, which runs in the pipeline, not here. It should come DOWN, not be rebased up."
 }

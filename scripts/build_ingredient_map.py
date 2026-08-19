@@ -128,6 +128,27 @@ def main() -> int:
                 lowering = (f"{v or 'any'}: {other.cost_per_unit}/{other.unit} "
                             f"-> {recent.cost_per_unit}/{recent.unit}")
                 break
+        # A LOWERING MERGE A HUMAN HAS RULED ON SHIPS.
+        #
+        # The fence is right to hold these by default: a merge that drops a
+        # consumer's rate is usually a unit error wearing a price, and
+        # under-costing is the direction that flatters GP and nobody
+        # investigates. But it is a HOLD, not a verdict, and holding a call Zak
+        # has already made just means the queue never empties.
+        #
+        # Monkey Shoulder is the case: Harry Gatos' bottle is on a January Back
+        # Office seed at $88.67/L, Stowaway's is an August ILG invoice at
+        # $81.56/L, and merging them "lowers" HG by 8%. It lowers it toward the
+        # truth. Zak, 2026-08-19: "i'm going to merge the accounts soon so hg
+        # won't keep paying for a separate order. just run with the stow GP."
+        #
+        # The ruling has to be written next to the row it releases, in
+        # product_map.csv, so a release is never a silent one.
+        if lowering and "ruled:" in (row.get("confirmed_by") or "").lower():
+            print(f"  lowering merge RELEASED by ruling: {row['purchasable_id']}"
+                  f" -> {row['ingredient_id']} ({lowering})")
+            ship.append((row, None))
+            continue
         (held if lowering else ship).append((row, lowering))
 
     # 3a. flatten the WHOLE map: a bridge row (e.g. ILG's pricebook spelling

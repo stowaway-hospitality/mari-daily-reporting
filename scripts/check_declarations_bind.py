@@ -167,6 +167,56 @@ def unbound() -> list[dict]:
                             "detail": f"{f.get('from_unit')} -> {f.get('to_unit')}",
                             "why": "no such batch"})
 
+
+    # ---- venue-resolution rules that never see their signal -----------------
+    #
+    # suppliers.yaml declares how to tell one venue's invoice from another's:
+    #
+    #     venue_resolution.by_supplier.ilg.account_codes:
+    #       '2428': stowaway
+    #       '3622': harry_gatos
+    #
+    # A rule with an answer in it. EXTRACTION.md carries the worked example --
+    # two Select Fresh invoices, same day, same address, same delivery code,
+    # and only the account code telling them apart -- and instructs the
+    # extractor to emit `unknown` rather than guess.
+    #
+    # Not one invoice from any of those suppliers has ever carried an
+    # account_code. 173 of them, and every single ILG invoice came back
+    # "stowaway" -- never once "unknown". So Harry Gatos' entire liquor spend
+    # has been landing on Stowaway's books, and HG's bar has been costed off
+    # January seeds because its own invoices were filed under the other venue.
+    #
+    # Zak, 2026-08-19: "hg ilg invoices are definitely in the pipeline, you
+    # just aren't reading them." He was right, and this is where.
+    #
+    # Same shape as every other finding in this file: the rule exists, is
+    # correct, and reaches nothing.
+    sup = ROOT / "modules" / "invoices" / "suppliers.yaml"
+    inv_dir = ROOT / "data" / "invoices"
+    if sup.exists() and inv_dir.is_dir():
+        doc = yaml.safe_load(sup.read_text(encoding="utf-8-sig")) or {}
+        by_sup = ((doc.get("venue_resolution") or {}).get("by_supplier") or {})
+        seen: dict[str, list[int]] = {}
+        for f in inv_dir.glob("*.json"):
+            try:
+                iv = json.loads(f.read_text(encoding="utf-8-sig"))["invoice"]
+            except Exception:                                # noqa: BLE001
+                continue
+            k = iv.get("supplier_key")
+            if k not in by_sup:
+                continue
+            tally = seen.setdefault(k, [0, 0])
+            tally[0] += 1
+            if not iv.get("account_code"):
+                tally[1] += 1
+        for k, (total, blind) in sorted(seen.items()):
+            if blind:
+                out.append({
+                    "kind": "venue_resolution", "target": k,
+                    "detail": f"{blind}/{total} invoices carry no signal",
+                    "why": "the rule that names the venue has never been applied"})
+
     return sorted(out, key=lambda f: (f["kind"], f["target"]))
 
 

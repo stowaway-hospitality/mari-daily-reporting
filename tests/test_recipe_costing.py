@@ -181,3 +181,34 @@ def test_one_rule_for_the_live_price_not_four():
                 hand_rolled.append(f"{f}:{n + 1}")
         assert "prefer_cost_row" in src, f"{f} must use the shared rule"
     assert not hand_rolled, f"hand-rolled cost-row tie-break still in: {hand_rolled}"
+
+
+def test_a_lowering_merge_ships_only_when_a_human_ruled_on_it():
+    """The fence holds merges that DROP a rate, because under-costing flatters
+    GP and nobody investigates it. But a hold is not a verdict, and holding a
+    call Zak has already made just means the queue never empties.
+
+    Monkey Shoulder: HG on a January seed at $88.67/L, Stowaway on an August ILG
+    invoice at $81.56/L. Merging "lowers" HG 8% — toward the truth.
+
+    The release requires the word RULED on the row in product_map.csv, so no
+    lowering merge can ever ship silently.
+    """
+    import csv
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    src = (root / "scripts" / "build_ingredient_map.py").read_text(encoding="utf-8-sig")
+    assert 'if lowering and "ruled:" in' in src, "the ruled-release path must survive"
+
+    rows = list(csv.DictReader(
+        (root / "data" / "product_map.csv").open(encoding="utf-8-sig")))
+    ruled = [r for r in rows if "ruled:" in (r.get("confidence") or "").lower()]
+    for r in ruled:
+        assert len(r.get("confidence") or "") > 40, (
+            f"a ruling must say WHY, not just RULED: {r.get('supplier_code')}")
+
+    # and the released row is actually in the shipped map
+    m = (root / "data" / "ingredient_map.csv").read_text(encoding="utf-8-sig")
+    if ruled:
+        assert "lightspeed:20744462" in m, "the ruled Monkey Shoulder merge must ship"

@@ -234,6 +234,28 @@ PO number prefix (`54361` = Stowaway, `35985` = Harry Gatos).
 
 **If the venue is unresolved, emit `unknown`.** `validate()` will block it. Never guess.
 
+### The account code is not optional — CAPTURE IT
+
+`account_code` is the field that carries the signal you used. Where
+`venue_resolution.by_supplier` names a code for a supplier, **find that code on
+the document and emit it**, verbatim, even when the venue seems obvious from
+something else. It is the evidence; the venue without it is an assertion.
+
+This was ignored for 173 invoices — every ILG, Select Fresh and Gulli bill in
+the system carries `account_code: null`. Every ILG one then came back
+`"stowaway"`, not one `"unknown"`, so Harry Gatos' entire liquor spend was
+booked against Stowaway and HG's bar ran on eight-month-old seed prices because
+its own invoices were filed under the other venue.
+
+ILG in particular: **`2428` is Stowaway, `3622` is Harry Gatos.** The two
+accounts are delivered on the same run and invoiced consecutively — one large
+bill and one small one on the same date, sequential refs — so the ONLY thing
+separating them is the account. Do not infer a venue from invoice size, from
+the product mix, or from the fact that most ILG bills are Stowaway's.
+
+If the document shows no account code, that is `unknown`. An `unknown` a human
+files in ten seconds beats a wrong venue nobody ever sees.
+
 ## 8. Multi-page
 
 B&E `6969915` is `Page 1 of 2`. Check for `Page N of M` and read every page
