@@ -155,14 +155,30 @@ def main() -> int:
     check("costs.csv and ingredients.json agree on unit", not unit_split,
           f"{len(unit_split)} split(s): {unit_split[:3]}")
 
-    # ---- SEAM 3: every sub-recipe reference exists --------------------------
+    # ---- SEAM 3: every sub-recipe reference RESOLVES -------------------------
+    #
+    # "Exists in the builder book" is a stricter rule than the engine holds, and
+    # a seam asserting more than the system does is a seam that fails on correct
+    # behaviour. The builder's sub-recipe picker offers all 648 costed batches;
+    # the builder book holds the 35 a human has typed. Zak saved Classic
+    # Margarita drawing "Super Lime Juice [1L]" -- a real batch, made weekly,
+    # $2.32 off invoices -- and this seam called it broken.
+    #
+    # So resolve the way cost_on resolves: builder book first, then the costed
+    # book PROVIDED the batch declares a yield. That proviso is the whole guard.
+    # A reference to a name with nothing behind it, or to a batch nobody has
+    # said the size of, still fails here -- which is the bug this seam was
+    # written for.
+    from modules.recipes.cost import _from_costed_book
+
     missing_sub = []
     for v in VENUES:
         recs = load_recipes(v)
         prods = {r.product for r in recs}
         for r in recs:
             for ln in r.lines:
-                if ln.subrecipe and ln.subrecipe not in prods:
+                if ln.subrecipe and ln.subrecipe not in prods \
+                        and _from_costed_book(ln.subrecipe) is None:
                     missing_sub.append(f"{v}/{r.product} -> {ln.subrecipe}")
     check("every sub-recipe reference resolves", not missing_sub,
           f"{missing_sub[:3]}")
