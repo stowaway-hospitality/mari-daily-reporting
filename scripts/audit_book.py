@@ -563,6 +563,55 @@ def coverage(recipes, weeks=13):
     return tot, cov, gaps
 
 
+
+def _weighed_regular_annotation(stem, ingredient_name, qty):
+    """" -> "regular is WEIGHED..." when this REGULAR quantity is on Zak's sheet.
+
+    Module-level so it can be asked directly. It used to be nested inside
+    audit(), which meant the only way to test the message was to assert the
+    DEFECT still existed in the live book — and on 2026-08-19 the defect was
+    fixed, so that test failed for the best possible reason. A fixture that is
+    a live bug expires the day someone does their job.
+    """
+    if _is_weighed_regular(stem, ingredient_name, qty):
+        return ("  <- regular is WEIGHED, large is still Produce's derived figure")
+    return ""
+
+
+def _is_weighed_regular(stem, ingredient_name, qty) -> bool:
+    """Did this REGULAR quantity come from data/pizza_regular_grams.yaml?"""
+    import re as _re
+    low = (stem or "").lower()
+    for s in _weighed_regular_sheet():          # first match wins; `when` before default
+        if not _re.search(s["match"], ingredient_name or "", _re.I):
+            continue
+        if s.get("when") and s["when"].lower() not in low:
+            continue
+        try:
+            return abs(float(s["grams"]) - float(qty)) < 0.51
+        except (TypeError, ValueError):
+            return False
+    return False
+
+
+_WEIGHED_SHEET: list | None = None
+
+
+def _weighed_regular_sheet() -> list:
+    global _WEIGHED_SHEET
+    if _WEIGHED_SHEET is None:
+        _WEIGHED_SHEET = []
+        try:
+            import yaml as _yaml
+            _p = ROOT / "data" / "pizza_regular_grams.yaml"
+            if _p.exists():
+                _WEIGHED_SHEET = [s for s in (_yaml.safe_load(
+                    _p.read_text(encoding="utf-8-sig")) or []) if s.get("match")]
+        except Exception:                                      # noqa: BLE001
+            _WEIGHED_SHEET = []
+    return _WEIGHED_SHEET
+
+
 def audit():
     recipes = json.loads(COSTED.read_text(encoding="utf-8-sig"))["recipes"]
     # data/ingredients.json is DELIBERATELY not committed — it is a 90-day window
@@ -759,19 +808,7 @@ def audit():
     except Exception:                                          # noqa: BLE001
         _WEIGHED = []
 
-    def _is_weighed(stem, ingredient_name, qty):
-        """Did this REGULAR quantity come from the weighed sheet?"""
-        low = (stem or "").lower()
-        for s in _WEIGHED:                     # first match wins; `when` before default
-            if not re.search(s["match"], ingredient_name or "", re.I):
-                continue
-            if s.get("when") and s["when"].lower() not in low:
-                continue
-            try:
-                return abs(float(s["grams"]) - float(qty)) < 0.51
-            except (TypeError, ValueError):
-                return False
-        return False
+    _is_weighed = _is_weighed_regular      # one definition, module level
 
     def _lines_by_ref(rec):
         out = {}

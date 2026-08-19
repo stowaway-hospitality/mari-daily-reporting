@@ -249,3 +249,49 @@ def test_the_last_save_wins_when_neither_is_dated():
     future = Recipe(product="X", venue="stowaway", effective_from=date(2026, 9, 1),
                     lines=(RecipeLine(ingredient="i", qty=Decimal("99"), unit="g"),))
     assert recipe_as_of([dated, future], "X", on).lines[0].qty == Decimal("9")
+
+
+def test_a_large_pizza_never_carries_less_than_a_regular():
+    """Produce built the regular as "0.716 x the large", so the large was the
+    source. Zak then WEIGHED the regulars and 16 lines came back heavier than
+    the large they were scaled from — 33 g of Spanish onion on a regular against
+    20 g on a large, seven pizzas over.
+
+    Whatever the true ratio is, a 13" pizza does not get less onion than an 11"
+    one. Under-costing flatters GP and nobody investigates it: this was $2,692 a
+    year across the Large range.
+    """
+    import json
+    import re
+    from pathlib import Path
+
+    book = json.loads((Path(__file__).resolve().parents[1]
+                       / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+
+    offenders = []
+    for name, r in book.items():
+        if not re.match(r"^Large\b", name, re.I):
+            continue
+        reg = book.get(re.sub(r"^Large\b", "Regular", name, flags=re.I))
+        if not reg:
+            continue
+        rq = {str(l.get("name") or ""): float(l.get("qty") or 0)
+              for l in reg["ingredients"]}
+        for ln in r["ingredients"]:
+            nm = str(ln.get("name") or "")
+            if re.search(r"pizza box|box insert", nm, re.I):
+                continue                      # a box is counted, not scaled
+            if ln.get("kind") == "subrecipe" and ln.get("ref") in book:
+                continue                      # a whole sold pizza, not a topping
+            lq = float(ln.get("qty") or 0)
+            if (ln.get("unit") or "") == "g" and lq > 0 and rq.get(nm, 0) > lq:
+                offenders.append(f"{name}/{nm}: large {lq} < regular {rq[nm]}")
+    assert not offenders, "large carries less than regular: " + "; ".join(offenders[:5])
+
+    # and the lift is RECORDED, not silent — these are derived, not measured,
+    # and a weighed large must be able to replace them.
+    lifted = [ln for r in book.values() for ln in r["ingredients"]
+              if ln.get("lifted_from_weighed_regular")]
+    assert lifted, "the lift must leave evidence on the lines it changed"
+    for ln in lifted:
+        assert ln.get("qty_was") and float(ln["qty"]) > float(ln["qty_was"])

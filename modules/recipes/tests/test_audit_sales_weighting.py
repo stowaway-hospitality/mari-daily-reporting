@@ -181,15 +181,32 @@ def test_the_audit_says_which_of_the_two_numbers_was_measured():
     Zak WEIGHED against a large Produce derived — Spanish onion is 33 g on a
     weighed regular and 20 g on a guessed large, seven times over. Reporting
     those as an inconsistent recipe is misleading: the large has simply never
-    been weighed, and saying so names the one action that clears them."""
+    been weighed, and saying so names the one action that clears them.
+
+    THE DEFECT IS NOW FIXED IN THE DATA, so this can no longer assert against
+    the live book: on 2026-08-19 the converter began lifting a large to
+    regular / 0.716 wherever it fell below a weighed regular, and the rule
+    correctly reports nothing. A test whose "fixture sanity" check is a live
+    defect stops being a test the day someone fixes it — and the thing worth
+    guarding was never the defect, it was whether the MESSAGE names which of
+    the two numbers is a measurement.
+
+    So it is asked directly, of the function that decides.
+    """
+    from audit_book import _weighed_regular_annotation
+
+    # a regular quantity that is on Zak's weighed sheet -> say so
+    assert "WEIGHED" in (_weighed_regular_annotation(
+        "Sanchez", "Spanish Onion [10Kg]", 33.0) or "")
+    # ...and one that is not -> claim nothing
+    assert not (_weighed_regular_annotation(
+        "Sanchez", "Some Topping Nobody Weighed", 7.0) or "")
+
+    # the live book must now be CLEAN of the finding, which is the real proof
     F = audit()
     items = [d for (_s, rule), v in F.items() if "LARGE carries LESS" in rule
              for _rev, d in v]
-    assert items, "fixture sanity: the rule should fire"
-    weighed = [d for d in items if "regular is WEIGHED" in d]
-    assert len(weighed) >= 15, f"only {len(weighed)} of {len(items)} identified"
-    # and it must not claim a measurement it cannot find
-    assert len(weighed) < len(items), "some regulars are still derived; do not claim otherwise"
+    assert not items, f"a large is carrying less than a regular again: {items[:3]}"
 
 
 def test_the_audit_and_the_pnl_agree_on_what_is_covered():
