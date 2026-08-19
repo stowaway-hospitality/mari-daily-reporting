@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-20",
-  "count": 813,
+  "count": 814,
   "skipped_already_in_xero": 0,
   "invoices": [
     {
@@ -422,6 +422,89 @@
           "qty": "2",
           "amount": "14.40",
           "unit_cost": "$7.20/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "NB10534276",
+      "supplier": "Jun Pacific Corporation Pty Ltd",
+      "supplier_key": "jun_pacific",
+      "date": "2026-08-20",
+      "due_date": "2026-08-20",
+      "total": "347.10",
+      "venue": "stowaway",
+      "pdf_path": "360a375367af484ff7410ad6d508e68f928402992d0cc7e69cd899f88b77184d.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "\u201cJun Pacific\u201dCooking Sake",
+          "supplier_code": "EE8101034",
+          "qty": "1",
+          "amount": "34.55",
+          "unit_cost": "$34.55/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\"Momoya\" Kimchi Sauce Value Pack",
+          "supplier_code": "JB8203032",
+          "qty": "1",
+          "amount": "8.60",
+          "unit_cost": "$8.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\u201cSempio\u201d Gochujang Korean Chilli Paste",
+          "supplier_code": "EZ9523255",
+          "qty": "1",
+          "amount": "18.70",
+          "unit_cost": "$18.70/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\u201cKobayashi\u201d Gluten Free Ramen Noodle",
+          "supplier_code": "BF7517145",
+          "qty": "10",
+          "amount": "35.00",
+          "unit_cost": "$3.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Frozen Tiramisu Mousse Rice Cake 50g",
+          "supplier_code": "UZ8141301",
+          "qty": "1",
+          "amount": "16.50",
+          "unit_cost": "$330.00/kg",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "\u201cJun\u201d Marumatsu Vegetable Dumpling 39-41pcs (Vegetable",
+          "supplier_code": "QB8514617",
+          "qty": "25",
+          "amount": "233.75",
+          "unit_cost": "$9.35/ea",
           "tax": "gst_free",
           "account_code": "115",
           "account_name": "Purchases - Food",
