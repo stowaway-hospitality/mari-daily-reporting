@@ -1183,7 +1183,29 @@ document, and both audits stayed clean.
      senders in the pile. post.dearsystems.com is another PLATFORM sender and
      takes the same ABN answer this parser just reused for the third time.
 
- 47. OPERATIONAL: the run started with an UNRESOLVED REBASE left in the shared
+ 47. THE REVIEW FOLDER HOLDS 472 MESSAGES AND THE RETRY SWEEP READS 200, so 272
+     of them are structurally unreachable — item 34 measured, with a number.
+     This was found the hard way: after the parser shipped, a Review sweep
+     promoted six VMA invoices and NOT ONE Aquarius invoice, which made no sense
+     until the folder was counted. Graph's own search finds Aquarius invoices
+     185277, 185306 and 185327 sitting in Review dated 15/22/28 May — older than
+     the newest 200, so the sweep has never once looked at them. This is the
+     item-4 / item-12 / item-40 lesson in its fourth form: the thing that is
+     wrong is not the parser, it is the SAMPLE the machinery can see.
+
+     Worked around today rather than fixed — a second sweep with
+     `--oldest-first --max 300`, which is free (--no-llm) and reaches the tail.
+     NOT changed in code: RETRY_BATCH is a shared cost/time control and raising
+     it is Zak's call, especially while ~half the folder is permanent residents
+     (item 34's statements and item 36's forwarded admin). FOR ZAK — the durable
+     fix is the one item 34 named: move a classified non-invoice out of Review,
+     which is a mailbox WRITE on Zak's messages and not an unattended run's call.
+     Note the "Not Bills" folder now exists and this run's sweeps moved 22 + 22
+     documents into it, so that fix is partly in place already; the residue is
+     the forwarded-admin bucket, which is deliberately kept in Review because a
+     service bill still has to be paid.
+
+ 48. OPERATIONAL: the run started with an UNRESOLVED REBASE left in the shared
      tree by the poller — pull_mailbox's own commit hit a conflict in
      dashboard/pricing/compare.json and stopped mid-rebase, so the working tree
      was mid-`interactive rebase in progress` before this session touched
@@ -1195,6 +1217,21 @@ document, and both audits stayed clean.
      and never treated as generated, so every concurrent pull collides on it.
      FOR ZAK — the same fix as item 31 would apply (author it where it is
      published, or gitignore it and rebuild on deploy).
+
+ 49. CI IS RED AGAIN ON A TEST THAT PINS LIVE DATA, and it is NOT this change.
+     tests/test_recipe_costing.py::test_a_recipe_that_is_one_of_itself_is_flagged
+     asserts `len(taut) == 4` — "what remains is the four wine glasses, which
+     still say 'one of me'". There are now ZERO tautological flags in
+     data/cost_book_flags.json, so somebody fixed the wine glasses and the test
+     that pinned the defect expired, exactly as its own comment says happened
+     twice before ("a test that pins a defect expires the day someone fixes
+     it"). Verified it is not this work: the same test PASSES on a /tmp clone
+     pinned at 196fba4f and fails only against the regenerated feed. NOT changed
+     — inverting or relaxing an assertion changes what a test MEANS, and doing
+     that unattended is how a guard quietly stops guarding (the item-43 ruling,
+     verbatim). FOR ZAK. The same file's Peroni assertion from item 43 is a
+     second instance of the same design problem: two tests in this suite fail
+     whenever reality improves.
 
 The three zero-total documents (now four, with Gulli CI-437314 — see item 18)
 can never PASS by construction: validator's _check_required_fields treats

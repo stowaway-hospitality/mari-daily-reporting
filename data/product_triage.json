@@ -1,56 +1,36 @@
 {
-  "generated": "2026-08-19",
-  "reviewed": 24,
-  "clean": 19,
+  "generated": "2026-08-20",
+  "reviewed": 14,
+  "clean": 11,
   "flags": [
     {
-      "supplier": "Foodlink",
-      "name": "FLOUR TORTILLAS 12X28GM 6INCH Simson's Pantry",
-      "code": "101115",
-      "issue": "Costed 24x too dear. Feed says $5.00/ea (pack_qty 12, needs_pack_review FALSE). Invoice SI4423598 line reads qty=1, raw_uom='CTN-24', $60.00, description '12X28GM' = 12 tortillas of 28gm per pack. The UOM states the carton holds 24 packs, so $60.00 buys 24 x 12 = 288 tortillas = $0.2083 each. The pack derivation used the 12 from the description and ignored the -24 in the UOM. Confirmed from the invoice's own raw_uom field, not inferred.",
-      "suggested_fix": "Apply the CTN-N carton multiplier when the pack resolves to a COUNT. pack_qty for 101115 should be 288 ea ($0.2083/ea), not 12. NOTE the multiplier IS already being applied when the pack resolves to a weight/volume - Foodlink 100175 (CTN-6) is 18000g and 100487 Camembert (CTN-12) is $30.40/kg, both correct - so the defect is specific to the 'ea' branch."
-    },
-    {
-      "supplier": "Foodlink",
-      "name": "Flour Tortillas 12x91gm",
-      "code": "101113",
-      "issue": "SAME ROOT CAUSE as 101115, already live in the cost book (not new this run, included because it is the same confirmed defect and reporting one while hiding the others would understate it). Feed $2.80/ea, pack_qty 12. Invoice raw_uom 'CTN-6' at $33.60, so the true figure is $33.60 / (6 x 12) = $0.4667/ea. Costed 6x too dear.",
-      "suggested_fix": "pack_qty 72 ea ($0.4667/ea). Same CTN-N fix as 101115."
-    },
-    {
-      "supplier": "Foodlink",
-      "name": "Flour Tortillas 12x63gm 10inch",
-      "code": "101112",
-      "issue": "SAME ROOT CAUSE as 101115, already live (not new this run). Feed $2.75/ea, pack_qty 12. Invoice raw_uom 'CTN-6' at $33.00, true $33.00 / 72 = $0.4583/ea. Costed 6x too dear. These three tortilla codes are the complete set of Foodlink products where a CTN-N UOM meets a count pack: 21 invoice lines carry a CTN-N UOM across 9 codes, and the other 6 resolve to weight or volume and are correct.",
-      "suggested_fix": "pack_qty 72 ea ($0.4583/ea). Same CTN-N fix as 101115."
-    },
-    {
-      "supplier": "Foodlink",
-      "name": "CHIPS 10MM CRISPY COATED 4X.2.5KG Farm Frites",
-      "code": "107114",
-      "issue": "Costed 4x too dear. Feed says $0.022/g = $22.00/kg (pack_qty 2500g, needs_pack_review FALSE). Invoice SI4429436 reads qty=1, raw_uom='CTN', $55.00, description 'CHIPS 10MM CRISPY COATED 4X.2.5KG' = 4 bags of 2.5kg = 10kg per carton, so the true cost is $5.50/kg. $22/kg for frozen coated chips is also implausible on its face. The pack parser read the '2.5KG' and dropped the '4X' multiplier - it handles '96X15GM' correctly on the same invoice (samosas -> 1440g), so the failure is the stray dot in '4X.2.5KG'. This is the only Foodlink line in 4 months of invoices using that form. Confirmed from the description and UOM on the invoice, not inferred.",
-      "suggested_fix": "pack_qty 10000g ($0.0055/g = $5.50/kg). Root fix: let the multiplier regex tolerate a separator between the X and the number, i.e. accept (\\d+)\\s*[xX]\\s*[.\\s]?\\s*([\\d.]+)\\s*(KG|GM|G|LT|ML) as well as the digit-adjacent form."
-    },
-    {
-      "supplier": "JFC",
-      "name": "WPM Tonkotsu Straight #24 10/5p Frozen Straight Ramen 130g",
-      "code": "56727",
-      "issue": "Costed ~5x too dear. Feed says $0.036154/g = $36.15/kg (pack_qty 130g, needs_pack_review FALSE), from invoice 001828752 qty=1 EACH at $4.70. The invoiced EACH is a 5-PORTION BAG, not one 130g portion. Confirmed by its sibling on the SAME invoice: jfc:56296 'WPM Yellow Ramen #22 12/5pc Frozen Straight Noodle 125gx5' also invoices at EACH ($4.20) and was parsed as pack_qty 5 at $0.84 per portion, because its description spells the multiplier out as '125gx5'. 56727 writes the same fact as '10/5p' (10 bags per carton, 5 portions per bag) and the '5p' was not read. True figure: $4.70 / (5 x 130g) = $0.00723/g = $7.23/kg, i.e. $0.94 per portion - which matches 56296's $6.72/kg. Confirmed against the sibling's own parse, not guessed.",
-      "suggested_fix": "pack_qty 650g ($0.00723/g). Root fix: read JFC's 'N/Mp' pack notation (e.g. '10/5p', '12/5pc') the same way '125gx5' is already read - the LAST factor is portions per selling unit."
-    },
-    {
       "supplier": "Select Fresh",
-      "name": "Limes (LIM)",
-      "code": "LIM",
-      "issue": "Pack unit is a bare 'tray' with pack_qty 1 and needs_pack_review FALSE, so nothing else will surface it. Invoice 3122236 (2026-08-19) reads 'LIMES TRAY', qty=1 TRAY, $78.00. A recipe or cocktail spec that adds one lime off this picker entry books $78.00. Limes are a daily-use bar ingredient, so this is the highest-exposure entry in today's batch. The tray count and the tray weight are BOTH absent from the invoice - it states only 'TRAY'.",
-      "suggested_fix": "NOT GUESSED - the count is not on the invoice and was not inferred. Needs Zak or Select Fresh to confirm limes (or kg) per tray, then a pack_override on 'select-fresh:LIM'. A cross-check exists once the weight is known: the same supplier already has a per-kg 'Limes' row at $0.014/g = $14.00/kg, so a tray weight near 5.5kg would reconcile the two. Also worth noting the picker now shows four lime rows including a second tray (Lightspeed 'Lime' at $30.00/tray) - whichever is stale should be retired so the chef is not choosing between them."
+      "name": "Herb Coriander 5-6 M/B",
+      "code": "HCORM",
+      "issue": "MARKET BUNCH COSTED AS A SINGLE BUNCH. The feed carries pack_qty 1, pack_unit 'bunch', $9.40 per bunch, needs_pack_review FALSE — so nothing else will surface it. The supplier's own description says '5-6 M/B' (five to six market bunches) and the invoice's raw_uom is BUNCH, which is what made it look like one. CONFIRMED, NOT GUESSED, from our own paperwork: on the SAME DAY (invoice 3054116, 2026-06-12) Select Fresh billed code HCOR 'HERB CORIANDER BCH' at $1.50 a bunch, and 3068987 (2026-06-27) at $1.30. $9.40 / $1.50 = 6.3, consistent with 5-6 bunches. A recipe that calls for one bunch of coriander and picks this row books 6-7x its true cost. This is the triage-log item-13 pattern exactly (FFT HCB $2.64 single vs HCDRMB $9.90-$15.40 market bunch), on a different supplier.",
+      "suggested_fix": "Do NOT divide by a guessed count — the supplier states a RANGE (5-6), so no single divisor is confirmable, and inventing one is how a 12x error gets shipped. Two safe options for Zak: (a) disambiguate the name the way item 13 does for FFT, e.g. 'Herb Coriander Market Bunch (HCORM)', so the chef can see it is not the same thing as HCOR; or (b) if Zak confirms the count on a delivery, add a pack_overrides entry 'select-fresh:HCORM' with that count in ea. Until then the pickable coriander should stay select-fresh:HCOR / lightspeed:22995344 ($1.30-$1.50 a bunch, already a confirmed bridge)."
     },
     {
       "supplier": "Foodlink",
-      "name": "SAMOSAS COCKTAIL 96X15GM Pacific West",
-      "code": "102451",
-      "issue": "Not a money error - the $/kg is right - but the pack unit is inconsistent with its twin and will be keyed wrongly. Costed per gram (pack_qty 1440g, $0.00972/g), while foodlink:102675 'SPRING ROLL COCKTAIL 15gm 96'S Pacific West' - same supplier, same brand, same $14.00, same 96 x 15gm pack, on the SAME invoice SI4429436 - is costed per each (96 ea, $0.1458). A chef adding six samosas has to key 90g for one product and 6 for the other.",
-      "suggested_fix": "pack_override 96 ea ($0.1458/ea), matching 102675 which is already chef-confirmed at that shape. Confirmed by the description's own '96X15GM' and by the identical sibling price, not guessed."
+      "name": "Corn Chips Rosita Tri",
+      "code": "100831",
+      "issue": "NAME TRUNCATED — the pack size and brand are missing. The full description is on our own invoice SI4457228 (2026-07-10): 'CORN CHIPS ROSITA TRI 6X500GM Mission'. The two later invoices (SI4467596 2026-07-16 and SI4507196 2026-08-06) both print the short form because the description wrapped and the pre-2026-08-17 Foodlink parser dropped the continuation row — the triage-log item-33 defect. build_ingredients keys names by (identity, code) and takes the code's LATEST name, so the truncated spelling wins. _undo_dropped_prefix cannot repair it: that rule matches a dropped LEADING word by suffix, and this is a dropped TRAILING word (the item 23/32 asymmetry). THE COST IS NOT AFFECTED — pack_qty is 3000 g via a chef-confirmed override, which is exactly 6 x 500 g, so $47.30 / 3 kg = $0.015767/g is right. This is identity and legibility, not money.",
+      "suggested_fix": "No edit made and none needed by hand: the item-33 parser fix shipped 2026-08-17, so the NEXT Foodlink delivery of 100831 should re-read the full 'CORN CHIPS ROSITA TRI 6X500GM Mission' and the fullest-name consolidation should heal it on its own. Recorded here so that if it is still truncated in a week, the reason to look is this entry. Same expectation as item 23."
+    },
+    {
+      "supplier": "Foodlink",
+      "name": "BAGS CARRY MEDIUM BROWN KRAFT W/TWIST HANDLE 250'S 300 X 310 X 180 War On Waste",
+      "code": "105014",
+      "issue": "MENTION ONLY — needs_pack_review is already TRUE, so this one is going to the chef regardless. Worth naming the answer because it is printed on the document: the carton count is stated in the product's own description, \"250'S\", and the pack parser does not recognise that form (it reads 6X500GM, 55X200GM, 2KG and 1LT fine). $74.80 / 250 = $0.2992 a bag. Packaging in the ingredient picker is BY DESIGN — item 11 — this is how Marilyna's per-box cost is tracked, so it is not a category error.",
+      "suggested_fix": "Either a pack_overrides entry 'foodlink:105014' at 250 ea, or teach the pack parser the \"N'S\" form (it would also pick up any other Foodlink consumable printed that way). Not applied here — this is a review, not a silent change, and pack_overrides in 'ea' is the count branch that item 26 showed must be applied carefully."
+    }
+  ],
+  "mentions": [
+    {
+      "supplier": "CUB",
+      "name": "Postmix BIBs (Pepsi Max 10L, Pepsi 15L, Schweppes Tonic 10L, Lemonade 15L, Red Cream Soda 15L)",
+      "code": "PEPSIMAX10L / PEPSI15L / SCHWTONIC10L / SCHWLEM15L / SCHWCREAM15L",
+      "issue": "NOT FLAGGED AS AN ERROR, and this is deliberate. All five landed on 2026-08-19 as declared costs at an identical $0.030029/ml, which looks like a division that did not happen — it is not: the 10L rows are $272.99/case ex and the 15L rows $409.49/case ex, i.e. the same $27.30/L, so the arithmetic is internally consistent and the pack division IS being applied. The row's own note records the source and the human confirmation: 'CUB cart 2026-08-19, $409.49/case ex GST, 1 BIB per case (Zak)'. The one thing worth a second look, stated without guessing at a replacement: $27.30/L ex for post-mix syrup is high against what these BIBs have historically listed for, and the single input that would explain it is the BIBS-PER-CASE figure — if a CUB cart line is a case of two or three BIBs, the per-ml rate is 2-3x too dear. It errs in the CONSERVATIVE direction (it understates GP, which is the safe way to be wrong per CLAUDE.md), it is Zak-confirmed and dated, so NOTHING was changed. Worth 30 seconds against the CUB cart next order."
     }
   ]
 }
