@@ -137,12 +137,32 @@ def test_shadow_diff_stays_within_the_attributed_residual():
     #    one Stowaway had been pinned to. A newer invoice being cheaper is the
     #    book working, not drift.
     #
-    # A fall bigger than 1.5c is neither of those and wants explaining: the
-    # onion moves a pizza by about a cent, and the Chimichurri fix by about
-    # three quarters of one.
-    neg = [r for r in d["diffs"] if r["delta"] < -0.015]
+    #  * the SIX TANDOORI PRODUCTS, and this one is worth up to 56c because the
+    #    OLD side is the estimate. Renan entered "Tandoori Sauce [Batch], 400,
+    #    ml, $7.35" free-hand, and $7.35 is the whole batch's cost, not a rate:
+    #    400 x that is $2,940 and the six dishes costed up to $187.76 against a
+    #    $19.50 menu price. The live converter now CAPS a portion at one whole
+    #    batch, which stops the catastrophe but still over-costs -- 400 g out of
+    #    a 1,116 g batch is about a third of it. The staged book does the real
+    #    arithmetic instead, so it comes in lower. A fall toward the true number
+    #    is the migration doing its job.
+    #
+    # A fall bigger than 1.5c outside the Tandoori family is none of those and
+    # wants explaining: the onion moves a pizza by about a cent, and the
+    # Chimichurri fix by about three quarters of one.
+    neg = [r for r in d["diffs"]
+           if r["delta"] < -0.015 and "Tandoori" not in r["product"]]
     assert not neg, (
         f"unattributed cost fall: {[(r['product'], r['delta']) for r in neg[:5]]}")
+
+    # The Tandoori family is bounded too -- it may come DOWN off the cap, never
+    # up, and never by more than the cap is worth.
+    tand = [r for r in d["diffs"] if "Tandoori" in r["product"]]
+    assert all(r["delta"] <= 0.015 for r in tand), (
+        f"Tandoori costs rose: {[(r['product'], r['delta']) for r in tand]}")
+    assert all(r["delta"] > -1.00 for r in tand), (
+        f"Tandoori fell further than the cap explains: "
+        f"{[(r['product'], r['delta']) for r in tand]}")
 
 
 @pytest.mark.skipif(not DIFF.exists(), reason="no shadow diff recorded yet")

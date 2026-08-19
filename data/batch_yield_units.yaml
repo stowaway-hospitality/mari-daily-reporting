@@ -109,11 +109,38 @@ line_unit_fixes:
 
 line_qty_unit_fixes:
 
+  # SUPERSEDED 2026-08-19, and the way it died is the lesson.
+  #
+  # The entry above was written against a record reading "1,000 g chicken +
+  # 1 ml sauce". Renan has since re-saved the recipe as "1,700 g chicken +
+  # 400 ml sauce". The fix keys on from_qty, so the moment the record moved it
+  # stopped matching -- SILENTLY. It went on being read, went on looking like
+  # a fix in the file, and corrected nothing, which is why the last session
+  # recorded that declaring the relabel "does relabel the line but does not
+  # move the cost".
+  #
+  # A DECLARED FIX THAT NO LONGER MATCHES ANYTHING SHOULD SAY SO. Until it can,
+  # treat every from_qty in this file as a claim about a record that a chef can
+  # edit at any time.
+  #
+  # The same three readings still hold on the new numbers, and reading 2 still
+  # carries it:
+  #
+  #   1,700 g chicken + 400 g sauce = 2,100 g in against the 2,000 g out that
+  #   prep_yields declares -- a 4.8% loss, normal for a marinated batch that is
+  #   cooked. 400 g of marinade on 1.7 kg of chicken is 24% by weight, which is
+  #   what a tandoori marinade is.
+  #
+  #   Read literally, 400 ML of a batch that yields GRAMS is not a quantity at
+  #   all: Lightspeed priced it at $2,940, 225x the whole $13 batch.
+  #
+  # Still resting on prep_yields' scraped 2,000 g, so it is still an inference.
+  # WEIGH A TANDOORI BATCH and it becomes a measurement.
   - recipe: "Tandoori Chicken [2Kg]"
     ingredient: "Tandoori Sauce [Batch]"
-    from_qty: 1
+    from_qty: 400
     from_unit: "ml"
-    to_qty: 1116          # the whole batch, not a 1 kg tub of it
+    to_qty: 400           # the quantity was never wrong -- only the unit was
     to_unit: "g"
     weigh_this: true
 

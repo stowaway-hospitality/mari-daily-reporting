@@ -614,6 +614,89 @@ def materialise(venue: str) -> tuple[list, dict]:
                 d = dict(l)
                 d["source"] = "authored"
                 d.setdefault("evidence", f"recipe builder, data/recipes/{venue_file}.yaml")
+
+                # A DECLARED LINE FIX APPLIES TO AN AUTHORED LINE TOO.
+                #
+                # Exactly the argument made three blocks up for the authored
+                # YIELD, and it was only ever half-applied. The declared fixes
+                # ran over the scrape and then this branch copied the builder
+                # block verbatim and `continue`d past them -- so the Tandoori
+                # entry in batch_yield_units.yaml, complete with its worked
+                # arithmetic, sat in the file correcting nothing while six
+                # products costed at up to $187.76 against a $19.50 menu price.
+                # A previous session recorded that declaring the relabel "does
+                # relabel the line but does not move the cost". This is why.
+                #
+                # A rule that only reaches the records nobody has touched is not
+                # a rule; it is a coincidence. The authored record is better
+                # EVIDENCE of what goes in the dish -- it is a person writing
+                # down the recipe -- and it is not evidence about units at all,
+                # because the builder's unit selector has a default and the
+                # arithmetic is what settles the question either way.
+                #
+                # unit_confirmed is the exception, same as for the yield: it
+                # means somebody used the g/ml selector deliberately, and a
+                # default exists to be overridden by the person standing next
+                # to the thing.
+                _k = (name, d.get("name") or d.get("desc"))
+                _qf = qty_fixes.get(_k)
+                _lf = line_fixes.get(_k) or line_fixes.get(("*", d.get("name")))
+                if not d.get("unit_confirmed"):
+                    if _qf and (d.get("unit") or "") == _qf[1] \
+                            and _dec(d.get("qty")) == _dec(_qf[0]):
+                        report["unit_relabels"].append(
+                            {"product": name, "line": _k[1],
+                             "from": f"{_qf[0]} {_qf[1]}", "to": f"{_qf[2]} {_qf[3]}",
+                             "why": "declared fix, applied over a hand-authored line"})
+                        d["qty"], d["unit"] = _qf[2], _qf[3]
+                        d["evidence"] = (f"{d['evidence']}; batch_yield_units.yaml "
+                                         f"{_qf[0]} {_qf[1]} -> {_qf[2]} {_qf[3]}")
+                    elif _lf and (d.get("unit") or "") == _lf[0]:
+                        report["unit_relabels"].append(
+                            {"product": name, "line": _k[1], "from": _lf[0],
+                             "to": _lf[1],
+                             "why": "declared fix, applied over a hand-authored line"})
+                        d["unit"] = _lf[1]
+                        d["evidence"] = (f"{d['evidence']}; batch_yield_units.yaml "
+                                         f"{_lf[0]} -> {_lf[1]}")
+
+                # A MANUAL LINE THAT NAMES A BATCH IS A DRAW FROM THAT BATCH.
+                #
+                # The builder lets a chef type a line free-hand and give it a
+                # unit cost. Renan typed "Tandoori Sauce [Batch], 400, ml,
+                # $7.35" -- and $7.35 is not a per-millilitre rate, it is what
+                # the WHOLE BATCH cost on the day he saved it. Multiplied by 400
+                # it is $2,940, and six Tandoori products costed up to $187.76
+                # against a $19.50 menu price.
+                #
+                # He was not wrong about the recipe. 400 g of marinade on 1.7 kg
+                # of chicken is 24% by weight, which is what a tandoori marinade
+                # is, and 1,700 + 400 against the declared 2,000 g yield is a
+                # 4.8% cooking loss. The recipe is right; the LINE TYPE is wrong.
+                # A free-hand line carries a price a person had to guess at, and
+                # the thing it names is already costed from invoices.
+                #
+                # So: if the description names a recipe we hold, it becomes a
+                # sub-recipe draw and the authored unit cost is dropped. That
+                # also means it tracks -- the sauce is $13.08 today, not $7.35,
+                # and the dish should follow it.
+                #
+                # Only one line in all three venue books does this. The other
+                # four manual lines are garnishes at $0.00 to $0.10 naming
+                # nothing (a nasturtium leaf, two watermelon jellies), and they
+                # are exactly what free-hand entry is for.
+                if d.get("manual") and (d.get("desc") in book):
+                    report["unit_relabels"].append(
+                        {"product": name, "line": d.get("desc"),
+                         "from": f"manual @ ${d.get('unit_cost_incl')}/unit",
+                         "to": "sub-recipe draw",
+                         "why": "a manual line naming a batch is a draw from it"})
+                    d.pop("manual", None)
+                    d.pop("unit_cost_incl", None)
+                    d["subrecipe"] = d["desc"]
+                    d["evidence"] = (f"{d['evidence']}; entered free-hand naming a "
+                                     f"batch we cost from invoices, so drawn from it")
+
                 out_lines.append(d)
                 report["by_source"]["authored"] += 1
                 report["lines"] += 1
