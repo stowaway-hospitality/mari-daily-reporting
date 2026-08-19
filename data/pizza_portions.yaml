@@ -259,8 +259,10 @@ portions:
     large: 100
     family: 130
 
+  # "J.J. Beef [Top Side Kg]" is what Produce calls it — the sheet says "Jimmy
+  # Jury Marinated Beef" and my first regex matched neither spelling of it.
   - label: "jimmy jury marinated beef"
-    match: "marinated beef|jimmy jury beef"
+    match: "marinated beef|jimmy jury beef|j\\.?j\\.? beef"
     regular: 76
     large: 102
     family: 130
@@ -325,8 +327,11 @@ portions:
     large: 88
     family: 127
 
+  # "Vegan Shredded Cheese [500g]" — a word between the two, which the first
+  # pattern did not allow. MUST stay below the mozzarella rules so it only
+  # claims a line they have not already taken.
   - label: "vegan cheese"
-    match: "vegan cheese|cheese.*vegan"
+    match: "vegan.*cheese|cheese.*vegan"
     regular: 68
     large: 90
     family: 115

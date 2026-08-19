@@ -1926,11 +1926,18 @@ def main() -> int:
                     grams = x.get(size)
                     if grams is None:
                         break
+                    # STAMPED WHETHER OR NOT IT MOVES. This only recorded
+                    # `weighed` when the sheet CHANGED a quantity, so a line the
+                    # sheet governs and already agrees with looked identical to
+                    # one the sheet says nothing about. Asking "how much of the
+                    # pizza book is weighed" then answered 64% when the real
+                    # figure is far higher — the provenance was measuring my
+                    # edits rather than the sheet's reach.
+                    ln["weighed"] = {"sheet": "Marilynas_Pizza_Portions_v2",
+                                     "size": size, "rule": x.get("label")}
                     if float(ln.get("qty") or 0) != float(grams):
                         ln["qty_was"], ln["qty"] = ln.get("qty"), float(grams)
                         ln["unit"] = "g"
-                        ln["weighed"] = {"sheet": "Marilynas_Pizza_Portions_v2",
-                                         "size": size, "rule": x.get("label")}
                         # RE-RESOLVE. our_cost was worked out against the line's
                         # ORIGINAL unit -- Produce writes some of these in
                         # "bunch" -- so after rewriting to grams it was left null
