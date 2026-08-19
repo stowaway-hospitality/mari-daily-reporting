@@ -1,7 +1,7 @@
 # Cost book — where it stands, 18 Aug 2026
 
 Supersedes `HANDOFF_20260816_phase2.md` for anything that changed since.
-CI green, no claims held.
+CI green. Cost book: SEVERE 0 on a fresh rebuild, shadow diffs boring, three venues staged.
 
 ## The scoreboard
 
@@ -56,143 +56,123 @@ pcs", "45GM"). None needed a catalogue.
 
 ---
 
-## OPEN DEFECT, found 19 Aug — Tandoori Chicken in the STAGED book
+## CLOSED 19 Aug — the Tandoori defect
 
-`Regular Tandoori Chicken` costs **$187.16** in `data/recipes/_staged/marilynas.yaml`
-against $1.90 in the live book. A 100x error.
+It was three bugs wearing one symptom, and every one of them was a correction
+that had been made and then quietly lost on the way to the number.
 
-**It is not in production.** Nothing is cut over; the P&L still reads the costed
-book. The shadow diff caught it, which is exactly the job the cord exists to do —
-and it is the reason promotion waits for a boring diff rather than a green suite.
+**What it looked like.** Six Tandoori products costing $100-$188 against $19.50
+to $31.00 menu prices, -257% to -959% GP, $2,924 of quarterly revenue. The
+audit ratchet went red on every commit — and *only* on a fresh rebuild, which
+is why it kept looking clean locally: run against the committed artifact it
+reported SEVERE 0, and CI rebuilds.
 
-What is known:
+**The live book.** `Tandoori Chicken [2Kg]` draws 400 **ml** of a batch that
+yields **grams**, so Lightspeed billed 400 batches: $2,940 against a $13 batch.
+Our own book refused the line — `our_cost` is `None`, correctly — and then
+`eff_cost` fell back to `ls`, the very number we had just refused. Falling back
+to a datum you have judged unusable is not a fallback.
 
-* `Tandoori Chicken [2Kg]` is HAND-AUTHORED (not scraped): 1,700 g chicken +
-  400 **ml** of `Tandoori Sauce [Batch]`, declaring a 2,000 g yield.
-* That sauce batch yields 1,116 **g**. A gram batch drawn in millilitres should
-  REFUSE in `modules/recipes/cost.py`; instead the line costs $2,940, i.e.
-  $7.35/ml — which is the yoghurt line's whole cost. Something is resolving the
-  sub-recipe to a per-unit rate rather than dividing by the yield.
-* Read as GRAMS the authored record is coherent: 1,700 + 400 = 2,100 g in
-  against 2,000 g out, a 5% loss, normal for a marinated batch that is cooked.
-  So the record's quantities are right and its UNIT LABEL is wrong.
-* Declaring the ml->g line fix and applying declared fixes to authored records
-  DOES relabel the line (confirmed in `unit_relabels`) but does NOT move the
-  cost — so the $2,940 comes from further up the chain, not from this line.
-  That is where the next session should start.
+Fixed with an invariant that needs no unit, no yield and no density: **a draw
+FROM a batch is capped at the batch.** Threshold 20x, and the threshold is the
+design — at 1x the rule is wrong more often than right, because Super Lime
+Juice really does draw three whole `Lime [ea]` batches and capping that would
+under-cost it. Tandoori is 224x. Large Tandoori Chicken now costs $3.60 at
+84.2% GP, between Hawaiian ($3.17) and BBQ Chicken ($3.97).
 
-Also note this supersedes the earlier `line_qty_unit_fixes` entry that reads the
-SCRAPE's "1 ml" as the whole 1,116 g batch: the authored record wins, and a
-person has since written down what actually goes in. That entry is now dead
-weight and should be removed once the real cause is found.
+The cap is a BOUND, not a measurement — 400 g of a 1,116 g batch is a third of
+it, so it still over-costs — and it says so: the line carries `capped_at_batch`,
+`book_reconcile.capped_at_batch()` reports it, and it is HIGH on the Flags tab
+addressed to the Kitchen. **Weigh a Tandoori batch and this stops being an
+inference.**
 
-**Do not promote Marilyna's until this is closed.**
+**The staged book.** Renan typed the line free-hand: "Tandoori Sauce [Batch],
+400, ml, $7.35". $7.35 is the whole batch's cost, not a rate. He was not wrong
+about the recipe — 400 g of marinade on 1.7 kg of chicken is 24% by weight, and
+1,700 + 400 against a 2,000 g yield is a 4.8% cooking loss — the LINE TYPE was
+wrong. A manual line whose description names a recipe we hold is now a
+sub-recipe draw, and the authored unit cost is dropped, so it tracks: the sauce
+is $13.08 today, not $7.35.
 
----
+**Two silent failures found underneath, both the same shape — a rule that was
+running and reaching nothing:**
 
-## URGENT — main is RED and the cause is a chef's recipe, not a code change
+1. The declared fix in `batch_yield_units.yaml` was written against a record
+   reading "1,000 g chicken + 1 ml sauce". Renan re-saved it as "1,700 g +
+   400 ml". The fix keys on `from_qty`, so it stopped matching the moment the
+   record moved — silently, still sitting in the file with its worked
+   arithmetic, correcting nothing. **Treat every `from_qty` in that file as a
+   claim about a record a chef can edit at any time.**
+2. Declared line fixes never reached AUTHORED records at all: the materialiser
+   applied them to the scrape, then the authored branch copied the builder
+   block verbatim and `continue`d past them. That is the whole explanation for
+   the previous session's note that declaring the relabel "does relabel the
+   line but does not move the cost".
 
-**`Large Tandoori Chicken` costs $135.31 against a $25.00 menu price. −495% GP,
-68 sold in 13 weeks. `Regular Tandoori Chicken` is $187.78 against $19.50.**
+**Shadow diffs are now boring**, which is the promotion criterion:
 
-### Why CI is red on every run
+| venue | max abs delta | sum abs delta |
+|---|---|---|
+| Marilyna's | $0.56 (was $184.37) | $3.61 (was $821.72) |
+| Stowaway | $0.71 | $7.25 |
+| Harry Gatos | $0.39 | $1.35 |
 
-The COMMITTED `data/lightspeed_recipes_costed.json` is fine ($19.55 for the
-batch). A FRESH rebuild is not — it explodes to $2,960 — so the SEVERE ratchet
-fails in CI on every commit, including ones that touch nothing related.
-`SEVERE 17` against a pinned baseline of 0.
+## Also closed 19 Aug — container sizes are declared, not parsed
 
-### The cause
+The prerequisite for the standing instruction to stop trusting unit labels.
+Labels are only droppable once every container-priced ingredient has a DECLARED
+size; the other order turns a 30 ml pour into thirty bottles.
 
-`92d59c2b — Recipe: Tandoori Chicken [2Kg] (marilynas) — renan@stowawaybar.com`
+`data/container_sizes.csv` was 254 rows parsed out of product NAMES. It is now
+507, sourced from the Back Office export, which distinguishes what Lightspeed
+already knew and we were not reading:
 
-Renan saved, through the builder: **1,700 g chicken + 400 ML of
-`Tandoori Sauce [Batch]`**, declaring a 2,000 g yield. That batch yields
-**grams**.
+    Archie Rose Signature Gin           InventoryType ''   Unit unit  DefaultSize 1     <- the POUR
+    Archie Rose Signature Gin [Bottle]  InventoryType '1'  Unit ml    DefaultSize 700   <- the STOCK
 
-The quantities are RIGHT. Read as grams: 1,700 + 400 = 2,100 g in against 2,000 g
-out — a 5% loss, exactly what a marinade that is then cooked should show. Only
-the unit label is wrong.
+126 recipe references point at sale items; 106 have a stock twin holding the
+answer, and 98 rows now come through one (`source=back_office_twin`, twin named
+in the evidence). The join is a name stem and is treated as the matcher it is:
+it speaks only where every stock record sharing the stem agrees. Campari 750 vs
+700, Pepperoni unit vs 3 kg, Lemon sliced/each/kg, Corn Chips 1000 g vs 214 g
+are questions, not facts.
 
-Read as millilitres the units never meet, and instead of refusing, the line
-resolved to **$7.35/ml** — which is the yoghurt line's entire cost — giving
-$2,940 of sauce and a $2,960 batch.
+**BACK OFFICE'S NUMBER IS EVIDENCE; ITS UNIT LABEL IS NOT.** It files both
+conventions under the same string —
 
-### What I tried, and why each failed
+    Tomato Ketchup 4L Heinz   Unit=l  DefaultSize=4      -> 4 litres
+    Tomato Sauce Heinz [4L]   Unit=l  DefaultSize=4000   -> 4000 ml, mislabelled
 
-1. `data/batch_yield_units.yaml` line fix + applying declared fixes to authored
-   records — the relabel IS recorded in `unit_relabels`, but the cost did not
-   move. Affects the materialiser only.
-2. `data/recipe_line_unit_fixes.yaml` — the converter runs `apply_unit_fixes()`
-   on the RAW SCRAPE at the top of `main()`, and the authored recipe is merged
-   in *afterwards* by `load_our_book_lines()`. The fix cannot reach it.
-3. Appending a corrected block to `data/recipes/marilynas.yaml` (append-only,
-   tail-wins) with `unit: g` — the converter still produced $2,960, so its
-   authored-recipe pickup is not tail-wins, or it reads elsewhere. **This is the
-   thread to pull.**
+— and my first cut believed the label, turning sriracha into 730,000 ml. The
+same 1000x shape as every other unit failure in this book, arriving from a
+source I had just called authoritative. `_resolve_bo()` now takes the number and
+decides scale on evidence: the name if it states a size, else plausibility, else
+REFUSE.
 
-All three are reverted. The tree is clean and matches main.
+Three sizes corrected on the way, all the piece-vs-pack trap in reverse — the
+name quoted the piece, Back Office knew the carton: schnitzel 150 g -> 6 kg,
+nuggets 1 kg -> 6 kg, wagyu patties 150 g -> 3 kg.
 
-### The two real bugs behind it
+Wattleseed also cleared SEVERE 1 -> 0: $0.385/g tripped the "dearer than
+anything real" ceiling, but ground wattleseed genuinely retails $19-45 per
+100 g, and code, description and invoice all say 100 g. It is simply an
+expensive spice.
 
-* **A millilitre draw on a gram batch should REFUSE.** `modules/recipes/cost.py`
-  does exactly that. The converter's own prep resolution produces a number
-  instead — and a number nobody can defend is worse than a refusal.
-* **The builder offered a unit the batch cannot supply.** A chef picked ml from
-  a dropdown for a batch measured in grams and got a −495% GP product. That is
-  not a data-entry mistake to blame him for; it is the UI letting it happen.
+## What is still open
 
-### Do this first
-
-Find where `convert_lightspeed_recipes.py` resolves an authored sub-recipe line
-whose unit does not match the batch's yield unit, and make it refuse. That fixes
-the class, not the instance. Then correct Renan's record.
-
-**Marilyna's must not be promoted until this is closed.**
-
----
-
-## Disregarding unit labels — tried, measured, and what it actually needs
-
-Zak, 19 Aug: *"the unit label needs to ALWAYS be disregarded... they constantly
-trip you up. we just need yields to be estimated until legitimately recorded."*
-
-He is right about the diagnosis. Every costing bug in this session was a LABEL
-disagreeing with a quantity that was itself correct: "6 ml" of Asahi meaning six
-cans, "1 ml" of a sauce meaning a whole 1,116 g batch, "2 ml" of a [4L] pack
-meaning two packs, "0.077 ml" meaning 0.077 OF a batch, and a chef picking ml for
-a batch measured in grams.
-
-**Implemented and measured. It takes manual lines 160 -> 66 and refusals to
-almost zero. It also produces $1,862.40 of gin.**
-
-    Archie Rose Signature Gin   30 ml  ->  $1,862.40   (price is $63.92 per BOTTLE)
-    Flor De Cana 4 Extra Seco   30 ml  ->  $1,450.50
-    Stowaway diff  max $1.99 -> max $1,859.57
-
-Why: "30" of a spirit priced per bottle means 30 ml OUT OF a 700 ml bottle. With
-the label gone there is nothing left to distinguish that from 30 bottles. The
-label was carrying the only signal that the quantity was a base unit rather than
-a count.
-
-Normalising the RATE to base units first (kg->g, L->ml) does not help — a bottle
-is not a mass or a volume, it is a container of unstated size.
-
-### So the rule is right and the prerequisite is missing
-
-Labels become genuinely disregardable the moment every container-priced
-ingredient has a DECLARED SIZE. `data/declared_conversions.yaml` already does
-exactly this for 11 items — 7 wine bottles at 750 ml, Aperol 700 ml, Alehouse
-2x49,500 ml, Grifter 50,000 ml — and the plan's acceptance test for one is that
-supplier rate / declared qty lands on the book's independent rate.
-
-**The order is: declare the sizes, THEN drop the labels.** Doing it the other way
-turns a 30 ml pour into thirty bottles.
-
-Roughly how much is left to declare: every ingredient whose price unit is
-bottle/jar/punnet/bunch/tray and which a recipe draws in a base-unit quantity.
-That is a finite, listable set and it is the single highest-value piece of work
-left in the cost book — it closes ~94 manual lines AND makes the label rule safe.
-
-The change itself is reverted; this section is the map for redoing it in the
-right order.
+1. **Weighings, and the Tandoori is now on the list.** Pizza Sauce ($1.06M,
+   146 dishes) and Pizza Dough ($849k) are a third of the $6.05M resting on
+   unweighed yields. `data/_worklist/yield_verification.html`.
+2. **~60 unreviewed identity bridges.** NEVER auto-apply.
+3. **20 sale-only recipe references with no stock twin** — inventory tracking
+   is simply switched off for them in Back Office. An ops gap, not a costing
+   bug, but they cannot be sized until it is on.
+4. **Corn Chips**: two stock records, 1000 g and 214 g. Which is the bag?
+5. **40 stale-recipe lines** to clear out, per Zak: historical COGS comes from
+   Xero, not this system.
+6. **Mr Iceman is not in the ledger at all.**
+7. **Promotion.** The diffs are boring now. `--promote` per venue is available
+   whenever Zak wants it — that is the one-way door, so it is his call.
+8. **The builder can still offer a unit the batch cannot supply.** Every defect
+   above began there. Fixing it at the point of entry is worth more than any
+   guard downstream.
