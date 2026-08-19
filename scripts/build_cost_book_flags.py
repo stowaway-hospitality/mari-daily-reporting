@@ -914,6 +914,100 @@ def missing_pack_size_in_back_office_flags() -> list:
     return out
 
 
+def tautological_recipe_flags(recipes) -> list:
+    """A recipe whose only ingredient is ONE OF ITSELF.
+
+    Zak, 2026-08-19, on Pepsi Max Glass: "this recipe is definitely wrong".
+
+        Pepsi Max Glass  =  1 ea of "Pepsi Max Glass"   ->  $1.31, 68% GP
+
+    That is not a recipe, it is a placeholder that LOOKS costed — and looking
+    costed is worse than being uncosted, because an uncosted product shows up in
+    the no_recipe queue and this one does not.
+
+    The $1.31 comes from a Back Office cost field somebody typed. Nothing
+    supports it: WE BUY NO PEPSI POSTMIX AT ALL. Not a syrup box, not a BIB, not
+    one line across every invoice in the system. We buy Coke bottles and cans,
+    and Solo and Sunkist 1.25L from ILG. So either the postmix invoices are not
+    reaching the pipeline (the Mr Iceman problem) or the glass is poured from
+    something else — and a glass of postmix costs cents, not $1.31.
+
+    NARROW ON PURPOSE. A pour is not tautological: "Hakushu 12yr = 30 ml of
+    Hakushu 12yr [Bottle]" is a correct recipe, and so is "Barolo - Bottle =
+    1 ea of the bottle we bought". This fires only where the quantity is ONE
+    EACH of a name identical to the product's own AND no stock item stands
+    behind it — a statement that resolves to itself and terminates in a typed
+    number. Six products, and each one needs a person, not a rule.
+    """
+    import csv as _csv
+    import re as _re
+    inv = {}
+    for f in ("stowaway_products.csv", "harry_gatos_products.csv"):
+        path = ROOT / "data" / "bo_exports" / f
+        if path.exists():
+            for r in _csv.DictReader(path.open(encoding="utf-8-sig")):
+                inv["lightspeed:" + (r.get("ProductID") or "")] = \
+                    (r.get("InventoryType") or "").strip()
+
+    def _n(x):
+        return _re.sub(r"[^a-z0-9]", "", (x or "").lower())
+
+    out = []
+    for name, r in (recipes or {}).items():
+        lines = r.get("ingredients") or []
+        if len(lines) != 1:
+            continue
+        ln = lines[0]
+        if _n(ln.get("name")) != _n(name):
+            continue
+        if inv.get(ln.get("ref") or "") == "1":
+            continue                       # a real stock item stands behind it
+        try:
+            q = float(ln.get("qty") or 0)
+        except (TypeError, ValueError):
+            continue
+        if q != 1 or (ln.get("unit") or "").lower() not in ("ea", "each", ""):
+            continue
+        cost, sell = r.get("our_cost"), r.get("sell_incl")
+        out.append({
+            "id": "tautological-" + _slug(name),
+            "category": "circular_recipe",
+            "severity": "high",
+            "subject": name,
+            "subject_kind": "product",
+            "what_is_wrong": (
+                f"The recipe for {name} is one of {name}. Its cost — "
+                f"${float(cost or 0):,.2f} — is a Back Office figure somebody "
+                f"typed, with no purchased ingredient behind it."),
+            "why_it_matters": (
+                "It LOOKS costed, so it never appears in the uncosted queue, and "
+                "its GP is published as fact. A product with no recipe at least "
+                "declares itself."),
+            "question": f"What actually goes into {name}, and what do we buy to make it?",
+            "impact_per_year": None,
+            "impact_basis": None,
+            "action": ("Build the real recipe. For the Pepsi glasses the postmix "
+                       "is bought from CUB (online.cub.com.au) — Pepsi Max 10L "
+                       "BIB $272.99 a case, Pepsi 15L BIB $409.49, plus Schweppes "
+                       "lemonade, tonic and red cream soda — and CUB HAS NO "
+                       "INVOICES IN THE LEDGER AT ALL. Get that supplier into the "
+                       "pipeline and the glass costs itself. Two numbers are "
+                       "still needed to do the arithmetic: how many BIBs are in a "
+                       "case, and what ratio the gun runs at."),
+            "owner": "Zak",
+            "evidence": [f"single line: {ln.get('qty')} {ln.get('unit')} of "
+                         f"{ln.get('name')}",
+                         f"sell ${float(sell or 0):,.2f}, "
+                         f"published GP {r.get('gp_pct')}%",
+                         "no stock item stands behind the ingredient",
+                         "postmix is bought from CUB, a supplier with zero "
+                         "invoices in data/invoices — same gap as Mr Iceman"],
+            "derived": True,
+            "source": "data/lightspeed_recipes_costed.json",
+        })
+    return out
+
+
 def capped_at_batch_flags(recipes) -> list:
     """A portion that was billed more than the whole batch it came out of.
 
@@ -1476,6 +1570,12 @@ CATEGORIES = [
     {"key": "batch_yield", "title": "Batches that hold more than they make",
      "why": "The name declares a yield and the lines add up to several times it. "
             "Everything downstream divides by that yield."},
+    {"key": "circular_recipe", "title": "Recipes that are one of themselves",
+     "why": "The only ingredient is the product itself, one each, and the cost "
+            "is a Back Office figure somebody typed with no purchase behind it. "
+            "It LOOKS costed, so it never reaches the uncosted queue and its GP "
+            "is published as fact. A pour is not this — 30 ml of a bottle is a "
+            "real recipe; 'one Pepsi Max Glass of Pepsi Max Glass' is not."},
     {"key": "pack_size", "title": "A pack price with no pack size behind it",
      "why": "Back Office holds a stock item's Unit and DefaultSize. Where the "
             "unit is a MEASURE and nobody set the size, DefaultSize stays 1 — so "
@@ -1528,6 +1628,7 @@ def build() -> dict:
     flags += batch_yield_flags(recipes)
     flags += yield_overstated_flags(recipes)
     flags += capped_at_batch_flags(recipes)
+    flags += tautological_recipe_flags(recipes)
     flags += missing_pack_size_in_back_office_flags()
     flags += price_conflict_flags(recipes, sold, window)
     flags += feed_defect_flags(recipes, sold, window)

@@ -309,3 +309,41 @@ def test_a_large_pizza_never_carries_less_than_a_regular():
                if ln.get("weighed")]
     assert len(weighed) > 500, f"only {len(weighed)} weighed lines"
     assert {w["weighed"]["size"] for w in weighed} <= {"regular", "large", "family"}
+
+
+def test_a_recipe_that_is_one_of_itself_is_flagged():
+    """Zak, 2026-08-19: "this recipe is definitely wrong".
+
+        Pepsi Max Glass = 1 ea of "Pepsi Max Glass"  ->  $1.31, 68% GP
+
+    A placeholder that LOOKS costed, which is worse than being uncosted: an
+    uncosted product shows up in the no_recipe queue and this one does not.
+
+    Narrow on purpose — a POUR is not tautological. "Hakushu 12yr = 30 ml of
+    Hakushu 12yr [Bottle]" is a correct recipe and must never be flagged.
+    """
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    feed = root / "data" / "cost_book_flags.json"
+    if not feed.exists():
+        return                                   # CI builds it; nothing to check
+    flags = json.loads(feed.read_text(encoding="utf-8-sig"))["flags"]
+    taut = {f["subject"] for f in flags if f["id"].startswith("tautological-")}
+
+    assert "Pepsi Max Glass" in taut, sorted(taut)
+    assert "Pepsi Glass" in taut
+
+    # a 30 ml pour from a bottle is a real recipe
+    book = json.loads((root / "data" / "lightspeed_recipes_costed.json")
+                      .read_text(encoding="utf-8-sig"))["recipes"]
+    for pour in ("Hakushu 12yr", "Yamazaki 12yr", "Lagavulin 16yr"):
+        if pour in book:
+            assert pour not in taut, f"{pour} is a pour, not a tautology"
+
+    # and the flag must ask a question, not merely name the defect
+    for f in flags:
+        if f["id"].startswith("tautological-"):
+            assert f["question"] and f["question"].endswith("?")
+            assert f["owner"] == "Zak"
