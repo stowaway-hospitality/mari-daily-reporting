@@ -1,0 +1,85 @@
+# THINGS WE BUY WHOSE INVOICES NEVER REACH THE PIPELINE.
+#
+# A hand-entered purchase, in the same shape a parsed invoice line takes, for a
+# supplier the mailbox does not deliver. It behaves exactly like an invoice row:
+# it is dated, it carries its evidence, and A REAL INVOICE SUPERSEDES IT the day
+# one arrives, because the newer observation wins the as-of lookup.
+#
+# WHY THIS EXISTS. Three suppliers are missing from the ledger entirely — CUB
+# (all postmix), Mr Iceman (clear ice), and Harry Gatos' ILG account. Until
+# today the cost book's only options for those were a Back Office figure
+# somebody typed, or nothing. Both produce a number with no working behind it:
+# Pepsi Max Glass was $1.31 a glass and nobody could say why.
+#
+# `purchased_on`, NOT `on`. YAML 1.1 reads a bare `on:` as the BOOLEAN TRUE, so
+# the key never arrives as a string and every row came through undated — which
+# in a cost book means "no observation date", i.e. invisible. It cost twenty
+# minutes and it would have cost a lot more if the rows had loaded and simply
+# sorted wrong.
+#
+# THIS IS NOT A PLACE TO PUT A GUESS. Every entry names where the price came
+# from, precisely enough that the next person can check it. A price nobody can
+# check is what this file exists to replace.
+
+purchases:
+
+  # Zak's CUB cart, 2026-08-19 (online.cub.com.au/sabmStore/en/cart), screenshot
+  # in the session log. Prices are EX GST and ex freight, as that cart states;
+  # they are recorded here INCL GST (x1.1) because that is what cogs_list holds.
+  #
+  # Zak, 2026-08-19: "theres 1 bib per order" — so the cart's "Case" UOM is one
+  # BIB, and the pack quantity is the BIB's own volume.
+  #
+  # The consistency check that says this is read right: $272.99/10L and
+  # $409.49/15L are both exactly $27.299 per litre of syrup. Two pack sizes,
+  # one syrup price. A misread of the case would break that.
+
+  - supplier: "CUB"
+    supplier_code: "PEPSIMAX10L"
+    description: "Pepsi Max Postmix 10L BIB"
+    price_ex_gst: 272.99
+    pack_qty: 10000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-19
+    evidence: "CUB cart 2026-08-19, $272.99/case ex GST, 1 BIB per case (Zak)"
+
+  - supplier: "CUB"
+    supplier_code: "PEPSI15L"
+    description: "Pepsi Postmix 15L BIB"
+    price_ex_gst: 409.49
+    pack_qty: 15000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-19
+    evidence: "CUB cart 2026-08-19, $409.49/case ex GST, 1 BIB per case (Zak)"
+
+  - supplier: "CUB"
+    supplier_code: "SCHWLEM15L"
+    description: "Schweppes Lemonade Postmix 15L BIB"
+    price_ex_gst: 409.49
+    pack_qty: 15000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-19
+    evidence: "CUB cart 2026-08-19, $409.49/case ex GST, 1 BIB per case (Zak)"
+
+  - supplier: "CUB"
+    supplier_code: "SCHWTONIC10L"
+    description: "Schweppes Indian Tonic Water Postmix 10L BIB"
+    price_ex_gst: 272.99
+    pack_qty: 10000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-19
+    evidence: "CUB cart 2026-08-19, $272.99/case ex GST, 1 BIB per case (Zak)"
+
+  - supplier: "CUB"
+    supplier_code: "SCHWCREAM15L"
+    description: "Schweppes Red Cream Soda Postmix 15L BIB"
+    price_ex_gst: 409.49
+    pack_qty: 15000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-19
+    evidence: "CUB cart 2026-08-19, $409.49/case ex GST, 1 BIB per case (Zak)"

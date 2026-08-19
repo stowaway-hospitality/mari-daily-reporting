@@ -986,14 +986,15 @@ def tautological_recipe_flags(recipes) -> list:
             "question": f"What actually goes into {name}, and what do we buy to make it?",
             "impact_per_year": None,
             "impact_basis": None,
-            "action": ("Build the real recipe. For the Pepsi glasses the postmix "
-                       "is bought from CUB (online.cub.com.au) — Pepsi Max 10L "
-                       "BIB $272.99 a case, Pepsi 15L BIB $409.49, plus Schweppes "
-                       "lemonade, tonic and red cream soda — and CUB HAS NO "
-                       "INVOICES IN THE LEDGER AT ALL. Get that supplier into the "
-                       "pipeline and the glass costs itself. Two numbers are "
-                       "still needed to do the arithmetic: how many BIBs are in a "
-                       "case, and what ratio the gun runs at."),
+            "action": ("For the postmix glasses the ingredient now EXISTS and is "
+                       "priced: search the builder for \"Postmix\" and add "
+                       "28.33 ml of the right syrup, then delete the circular "
+                       "line. 28.33 ml is a 170 ml glass at the standard 1:5 gun "
+                       "ratio — 170 ml because Zak: \"same as whatever the juice "
+                       "is\", and the juice mixers are 170 ml. That comes to "
+                       "$0.851 a glass against the $1.31 sitting there now, so "
+                       "these are OVER-costed by 54%. Everything else on this "
+                       "list needs its real recipe built."),
             "owner": "Zak",
             "evidence": [f"single line: {ln.get('qty')} {ln.get('unit')} of "
                          f"{ln.get('name')}",

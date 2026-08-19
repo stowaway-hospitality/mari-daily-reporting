@@ -347,3 +347,46 @@ def test_a_recipe_that_is_one_of_itself_is_flagged():
         if f["id"].startswith("tautological-"):
             assert f["question"] and f["question"].endswith("?")
             assert f["owner"] == "Zak"
+
+
+def test_a_declared_purchase_behaves_like_an_invoice_line():
+    """CUB, Mr Iceman and Harry Gatos' ILG account send nothing the mailbox can
+    parse, so the cost book's only options were a Back Office figure somebody
+    typed or no cost at all — Pepsi Max Glass was $1.31 and nobody could say why.
+
+    A declared purchase is a hand-entered invoice line: dated, evidenced, and
+    superseded by a real invoice the day one arrives.
+    """
+    import csv
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    rows = [r for r in csv.DictReader(
+        (root / "data" / "cogs_list.csv").open(encoding="utf-8-sig"))
+        if str(r.get("source_invoice") or "").startswith("declared:")]
+    assert rows, "the declared purchases should reach cogs_list"
+
+    seen = set()
+    for r in rows:
+        # DATED. `on:` is a YAML 1.1 BOOLEAN, so the key never arrived as a
+        # string and every row came through undated — invisible to a cost book
+        # that orders by observation date. The file uses `purchased_on`.
+        assert r["invoice_date"], f"undated declared row: {r['supplier_code']}"
+        # EVIDENCED. A price nobody can check is what this file replaces.
+        assert len(r.get("note") or "") > 20, r["supplier_code"]
+        # IDEMPOTENT. Nothing upstream dedupes these, so appending on every
+        # build grew the file by five rows a run, for ever.
+        k = (r["supplier"], r["supplier_code"], r["invoice_date"])
+        assert k not in seen, f"duplicate declared row: {k}"
+        seen.add(k)
+
+    # and the postmix arithmetic that started this: $272.99 ex GST for a 10L BIB
+    # is $30.03/L incl, and a 170 ml glass at the standard 1:5 gun ratio is 28.33
+    # ml of syrup = $0.851 — against the $1.31 the book used to carry.
+    cub = {r["supplier_code"]: r for r in rows if r["supplier"] == "CUB"}
+    assert cub, "CUB postmix should be declared"
+    for code, r in cub.items():
+        per_ml = float(r["cost_per_base_unit"])
+        assert abs(per_ml - 0.030029) < 1e-5, f"{code}: ${per_ml}/ml syrup"
+        glass = per_ml / 6 * 170
+        assert abs(glass - 0.851) < 0.005, f"{code}: ${glass:.3f} a glass"

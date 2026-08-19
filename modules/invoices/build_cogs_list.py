@@ -406,6 +406,69 @@ def main() -> int:
             rows.append(row)
             added += 1
 
+    # DECLARED PURCHASES — things we buy whose invoices never reach the pipeline.
+    #
+    # CUB (all postmix), Mr Iceman and Harry Gatos' ILG account send us nothing
+    # the mailbox can parse, so until now the cost book's only options for them
+    # were a Back Office figure somebody typed or no cost at all. Pepsi Max Glass
+    # was $1.31 and nobody could say why.
+    #
+    # These rows behave exactly like a parsed invoice line — dated, evidenced,
+    # and SUPERSEDED BY A REAL INVOICE the day one arrives, because the newer
+    # observation wins the as-of lookup. Appended last so an actual invoice for
+    # the same key always wins the dedupe above.
+    _dp = ROOT / "data" / "declared_purchases.yaml"
+    if _dp.exists():
+        import yaml as _yaml
+        _declared = 0
+        _declared_seen = {(r.get("supplier", ""), r.get("supplier_code", ""),
+                           r.get("invoice_date", "")) for r in rows
+                          if str(r.get("source_invoice") or "").startswith("declared:")}
+        for d in ((_yaml.safe_load(_dp.read_text(encoding="utf-8-sig")) or {})
+                  .get("purchases") or []):
+            try:
+                incl = round(float(d["price_ex_gst"]) * 1.1, 4)
+                q = float(d["pack_qty"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            if q <= 0:
+                continue
+            # IDEMPOTENT. This block runs on every build and the rows are not
+            # invoice-derived, so nothing upstream dedupes them: appending
+            # unconditionally grew cogs_list.csv by five rows a run, for ever.
+            # test_write_encoding_is_pinned caught it by running the builder
+            # twice and diffing the bytes — it was looking for a locale bug and
+            # found an idempotency one, which is the same symptom.
+            # NOT `_key` — that is a function defined above in this module, and
+            # binding it here made it a local for the WHOLE of main(), so the
+            # dedupe two hundred lines earlier died with UnboundLocalError.
+            _dkey = (d.get("supplier", ""), d.get("supplier_code", ""),
+                     str(d.get("purchased_on", "")))
+            if _dkey in _declared_seen:
+                continue
+            _declared_seen.add(_dkey)
+            rows.append({
+                "supplier": d.get("supplier", ""),
+                "supplier_code": d.get("supplier_code", ""),
+                "invoice_description": d.get("description", ""),
+                "lightspeed_product": "",
+                "cost_per_unit_incl_gst": f"{incl:.4f}",
+                "basis": "per_unit",
+                "pack_size": 1,
+                "pack_qty": d["pack_qty"],
+                "pack_unit": d.get("pack_unit", ""),
+                "cost_per_base_unit": f"{incl / q:.6f}",
+                "venue": d.get("venue", "stowaway"),
+                "source_invoice": f"declared:{d.get('supplier','')}",
+                "invoice_date": str(d.get("purchased_on", "")),
+                "in_bounds": "yes",
+                "note": (d.get("evidence") or "")[:120],
+            })
+            _declared += 1
+        if _declared:
+            print(f"  {_declared} declared purchase(s) for suppliers the mailbox "
+                  f"does not deliver (data/declared_purchases.yaml)")
+
     if moves:
         print(f"  {refreshed} row(s) re-derived from their invoice — the parser now "
               f"reads them differently:")

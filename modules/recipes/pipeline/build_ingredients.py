@@ -93,6 +93,12 @@ KITCHEN_SUPPLIERS = {
     # F J Chickens / Farmer Joes (poultry), Nicholas Seafood (fish).
     "JFC", "JFC Australia", "The Berry Man", "F J Chickens", "Farmer Joes",
     "Nicholas Seafood", "Aquarius",          # Aquarius Fisheries — seafood
+    # CUB supply every postmix syrup in the building — Pepsi, Pepsi Max,
+    # Schweppes lemonade, tonic and red cream soda. A bartender pours from them
+    # all night, so they belong in the picker; the only reason they were never
+    # here is that CUB's invoices do not reach the mailbox and the supplier had
+    # never appeared in cogs_list at all. See data/declared_purchases.yaml.
+    "CUB", "Carlton & United Breweries",
 }
 
 # Legal-entity noise that is never part of a trading name.
