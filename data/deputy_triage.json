@@ -1,54 +1,108 @@
 {
-  "generated": "2026-08-18T17:29:29+00:00",
+  "generated": "2026-08-19T17:28:38+00:00",
   "mode": "live-approve",
   "counts": {
-    "would_approve": 5,
-    "park_for_human": 3,
+    "would_approve": 11,
+    "park_for_human": 5,
     "skip": 0
   },
   "would_approve": [
     {
-      "timesheet_id": 35963,
+      "timesheet_id": 35936,
+      "employee": "Stephanie Kunde",
+      "area": "Admin",
+      "start": 1786939140,
+      "end": 1786944540,
+      "reason": "salaried (Stephanie) \u2014 overstay auto-approve rule",
+      "result": "approved + rounded"
+    },
+    {
+      "timesheet_id": 35969,
+      "employee": "Nicola Bisato",
+      "area": "Admin",
+      "start": 1787104800,
+      "end": 1787142600,
+      "reason": "salaried (Nicola) \u2014 overstay auto-approve rule",
+      "result": "approved"
+    },
+    {
+      "timesheet_id": 35970,
+      "employee": "Min",
+      "area": "Admin",
+      "start": 1787111700,
+      "end": 1787116260,
+      "reason": "salaried (Min) \u2014 overstay auto-approve rule",
+      "result": "approved + round FAILED HTTP 400 {\"error\":{\"code\":400,\"message\":\"Selected time sheet must not overlap an existing one of the same employee\"}}"
+    },
+    {
+      "timesheet_id": 35971,
+      "employee": "Devon Lukiana",
+      "area": "Harry's Kitchen",
+      "start": 1787112000,
+      "end": 1787142600,
+      "reason": "salaried (Devon) \u2014 overstay auto-approve rule",
+      "result": "approved"
+    },
+    {
+      "timesheet_id": 35972,
       "employee": "Renan Borba Bagesteiro",
-      "area": "Stow Kitchen",
-      "start": 1787029200,
-      "end": 1787054400,
+      "area": "Pizza Shop",
+      "start": 1787112000,
+      "end": 1787140800,
       "reason": "salaried (Renan) \u2014 overstay auto-approve rule",
       "result": "approved"
     },
     {
-      "timesheet_id": 35964,
+      "timesheet_id": 35973,
+      "employee": "Pujan Tamang",
+      "area": "Stow Kitchen",
+      "start": 1787112900,
+      "end": 1787140800,
+      "reason": "salaried (Pujan) \u2014 overstay auto-approve rule",
+      "result": "approved"
+    },
+    {
+      "timesheet_id": 35976,
+      "employee": "Sam",
+      "area": "Stow Bar",
+      "start": 1787115600,
+      "end": 1787141700,
+      "reason": "clean \u2014 within rostered finish, break normal",
+      "result": "approved"
+    },
+    {
+      "timesheet_id": 35979,
       "employee": "Sushant Acharya",
       "area": "Pizza Shop",
-      "start": 1787032800,
-      "end": 1787054400,
+      "start": 1787122800,
+      "end": 1787139900,
       "reason": "clean \u2014 within rostered finish, break normal",
       "result": "approved"
     },
     {
-      "timesheet_id": 35965,
-      "employee": "piettra bagesteiro",
-      "area": "Pizza Shop",
-      "start": 1787036400,
-      "end": 1787048100,
-      "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35966,
-      "employee": "Mikel",
-      "area": "Pizza Shop",
-      "start": 1787037300,
-      "end": 1787049000,
-      "reason": "clean \u2014 within rostered finish, break normal",
-      "result": "approved"
-    },
-    {
-      "timesheet_id": 35968,
+      "timesheet_id": 35980,
       "employee": "Lachlan Farquhar",
+      "area": "Harry's Floor",
+      "start": 1787122800,
+      "end": 1787139000,
+      "reason": "clean \u2014 within rostered finish, break normal",
+      "result": "approved"
+    },
+    {
+      "timesheet_id": 35981,
+      "employee": "Kiana Dettmann",
       "area": "Stow Floor",
-      "start": 1787040000,
-      "end": 1787053500,
+      "start": 1787122800,
+      "end": 1787136300,
+      "reason": "casual FOH overstay 0.75h \u2264 1.5h, break normal",
+      "result": "approved"
+    },
+    {
+      "timesheet_id": 35982,
+      "employee": "pedro f",
+      "area": "Pizza Shop",
+      "start": 1787124600,
+      "end": 1787135400,
       "reason": "clean \u2014 within rostered finish, break normal",
       "result": "approved"
     }
@@ -77,6 +131,22 @@
       "start": 1787038200,
       "end": 1787048100,
       "reason": "casual overstay 0.75h in non-FOH area (ou12) \u2014 Kris"
+    },
+    {
+      "timesheet_id": 35975,
+      "employee": "Stephanie Kunde",
+      "area": "Admin",
+      "start": 1787119200,
+      "end": 1787141700,
+      "reason": "clock/area correction \u2014 start 2, finish 11:15pm., split 4-10:15 harry \u2014 verify & set (Kris)"
+    },
+    {
+      "timesheet_id": 35983,
+      "employee": "Jake",
+      "area": "Driver",
+      "start": 1787124600,
+      "end": 1787135400,
+      "reason": "casual overstay 1.00h in non-FOH area (ou12) \u2014 Kris"
     }
   ],
   "skipped": []
