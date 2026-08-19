@@ -166,25 +166,60 @@ relabel that only the staged book obeyed; the fix keyed to a `from_qty` a chef
 had since edited; the corn chip pack that was on the July invoice and gone from
 August. Before writing a new rule, check whether the old one is being read.
 
+## 19 Aug — the day's theme, stated once
+
+**Every defect closed today was a fact the system already held and nothing read.**
+Not one was a missing number. The declared relabel only the staged book obeyed;
+the fix keyed to a quantity a chef had since edited; the corn chip pack that was
+on the July invoice and gone from August; the ILG account codes sitting in
+suppliers.yaml since it was written; the container sizes in Back Office; the
+`max()` that returned the first element. Six of them.
+
+**Before writing a new rule, check whether the old one is being read.**
+`scripts/check_declarations_bind.py` now does that for pack overrides, line
+relabels and venue-resolution rules, ratcheted in CI. It is pinned at 9 and
+three of those are a real defect that should come DOWN, not be rebased up.
+
+## Closed 19 Aug
+
+- **Tandoori** — was $187.76 against a $19.50 menu price, main red on every
+  commit. Two fixes: a portion is capped at the batch it came from (20x, the net
+  not the answer), and the declared relabel now reaches the LIVE converter,
+  which had never opened that file. $2.86 at 83.9% GP.
+- **Container sizes declared** — 254 name-parsed rows -> 507, from Back Office
+  stock items. Back Office's NUMBER is evidence; its unit LABEL is not (it files
+  both conventions under `l` and my first cut made sriracha 730,000 ml).
+- **POS sale items sized from their stock twins** — 98 rows via a twin, the join
+  gated on unanimity because a name stem is a matcher.
+- **Corn chips** — the size was on the 10 July invoice ("6X500GM") and dropped
+  from the next two. $15.77/kg, not the $5.50 January seed. THE INVOICE HISTORY
+  IS THE CATALOGUE.
+- **Freight rule** — same-day prices take the lower. 22 products, all down.
+  The rule had been hand-written FIVE times; there is one definition now
+  (`core.domain.prefer_cost_row`) and a test that fails if anyone copies it.
+- **HG ILG invoices** — they ARE in the pipeline. suppliers.yaml has always known
+  account 2428 = Stowaway, 3622 = Harry Gatos, and all 173 invoices from ILG,
+  Select Fresh and Gulli carry `account_code: null`. HG's liquor spend has been
+  booked to Stowaway. Extractor now demands the code; the 61 need re-extraction.
+- **The builder shows the thing, not the rate** — `$55.79 / 700ml`, not
+  `$79.70/L`. 759 ingredients.
+- **The last save wins** — `max()` returned the FIRST maximal element, so an
+  undated correction lost to the version it corrected.
+- **Stale prices are labelled** — 558 of 1,255 are older than 90 days.
+
 ## What is still open
 
-1. **Weighings — and the Tandoori is the live one.** Its batch now costs off
-   prep_yields' SCRAPED 1,116 g rather than the cap, so six products rest on an
-   estimate nobody has weighed. Pizza Sauce ($1.06M,
-   146 dishes) and Pizza Dough ($849k) are a third of the $6.05M resting on
-   unweighed yields. `data/_worklist/yield_verification.html`.
-2. **~60 unreviewed identity bridges.** NEVER auto-apply.
-3. **20 sale-only recipe references with no stock twin** — inventory tracking
-   is simply switched off for them in Back Office. An ops gap, not a costing
-   bug, but they cannot be sized until it is on.
-4. ~~Corn Chips~~ — CLOSED. The 10 July invoice says "6X500GM"; the later two
-   dropped it. 3,000 g carton at $47.30, bag is 500 g, both BO records wrong.
-   Now bridged to the Foodlink line, so Holy Guacamole is a 66% dish, not 77%.
-5. **40 stale-recipe lines** to clear out, per Zak: historical COGS comes from
-   Xero, not this system.
+1. **Weighings.** Pizza Sauce ($1.06M, 146 dishes), Pizza Dough ($849k), and the
+   Tandoori batch — six products now rest on prep_yields' scraped 1,116 g.
+   65 yields declared, ONE weighed.
+2. **Re-extract the 173 invoices** so account codes land and Xero coding is
+   corrected. Pipeline job; needs the source PDFs.
+3. **Harry Gatos has 24% of revenue with no costed recipe** ($25,537/quarter).
+   Its problem was never prices — 255 recipe lines point at an HG product
+   against 2,237 at Stowaway's. This is the biggest single number left.
+4. **The builder should stamp `effective_from`** on every save. Supabase
+   function deploy; cannot be done from a clone.
+5. **~60 unreviewed identity bridges.** NEVER auto-apply.
 6. **Mr Iceman is not in the ledger at all.**
-7. **Promotion.** The diffs are boring now. `--promote` per venue is available
-   whenever Zak wants it — that is the one-way door, so it is his call.
-8. **The builder can still offer a unit the batch cannot supply.** Every defect
-   above began there. Fixing it at the point of entry is worth more than any
-   guard downstream.
+7. **Promotion.** Diffs are boring (mari $0.27 · stow $0.71 · hg $0.39).
+   `--promote` is a one-way door, so it is Zak's call.
