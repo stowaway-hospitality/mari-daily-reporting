@@ -86,8 +86,26 @@ def _purchase_stats() -> dict:
             unitp = _dec(ln.get("unit_price_incl")) or _dec(ln.get("cost_per_unit_incl_gst"))
             if not desc or qty is None or spend is None or unitp is None:
                 continue
-            q2, unit, per, how, bad = resolve_pack(desc, unitp, basis=ln.get("cost_basis") or "",
-                                                   note="", code=ln.get("supplier_code") or "")
+            # PASS THE INVOICE'S OWN PACK NOTE. This read note="" for its whole
+            # life, while the line beside it carried raw_uom — "CTN", "CTN-6",
+            # "6x700ML" — which is the same field the cogs path calls `note` and
+            # feeds to this same function.
+            #
+            # resolve_pack has a carton branch documented as "what rescues the
+            # camembert ($45.60 is a box of 12 x 125g, not one 125g wheel)", and
+            # the pricing page was the one caller that never reached it. So the
+            # same product resolved per-BOTTLE from one invoice and per-CASE from
+            # the next, and /pricing reported the difference as a price rise:
+            #
+            #   Big Sur Pk        $4.00 -> $96.03   shown as +2,300%
+            #   Bean Black Whole  $8.70 -> $52.20   shown as +500%
+            #   Onion Spanish     $2.42 -> $22.00   shown as +809%
+            #
+            # Eleven of those. A page that cries wolf eleven times is a page Zak
+            # stops reading, which costs more than the eleven.
+            q2, unit, per, how, bad = resolve_pack(
+                desc, unitp, basis=ln.get("cost_basis") or "",
+                note=ln.get("raw_uom") or "", code=ln.get("supplier_code") or "")
             if per is None or unit is None:
                 continue
             _, cu = _to_comp_unit(per, unit)

@@ -323,7 +323,14 @@ function recompute() {
     || (sell > 0 && sell < 3);
   LINES.forEach((l, k) => {
     const cell = document.getElementById('ct-' + k);
-    if (cell) cell.textContent = lineCostLabel(l);
+    // innerHTML, not textContent: lineCostLabel returns MARKUP now — the size
+    // and the age tag are muted spans — and textContent printed it raw, so a
+    // chef saw `$387.80 <span class="m">/ 50L</span>` the moment they touched a
+    // quantity. The first paint (line ~308) always used a template and looked
+    // right; only the re-render was wrong, which is why it survived my own
+    // check. Every interpolated value in that label is already esc()'d or a
+    // money() figure.
+    if (cell) cell.innerHTML = lineCostLabel(l);
     const lc = document.getElementById('lc-' + k);
     if (lc) lc.textContent = money(lineCost(l));
     // The caution next to the offending line. It never blocks the save — a chef

@@ -220,5 +220,25 @@ ok('an empty name is not a lookup', B.openRecipe('') === false);
   }
 }
 
+
+// --- MARKUP MUST NOT REACH THE SCREEN AS TEXT -------------------------------
+// The container label is markup ("$387.80 <span class="m">/ 50L</span>"). The
+// first paint builds it in a template and looks right; the RE-RENDER used
+// textContent and printed the tags raw the moment a chef touched a quantity.
+// Zak saw it on his screen before any test did.
+//
+// THIS IS A SOURCE CHECK, NOT A DOM ONE, and deliberately so: the stub DOM in
+// this harness stores textContent and innerHTML in the same field, so it
+// cannot tell them apart. I wrote the DOM version first and it passed against
+// the bug — a test that cannot fail is worse than no test, because it reports
+// safety it never checked. Asserting on the source is narrow and slightly
+// brittle, and it is the strongest thing that is actually true here.
+{
+  const src = fs.readFileSync(path.join(ROOT, 'dashboard/_shared/recipe_builder.js'), 'utf8');
+  ok('lineCostLabel is never written with textContent',
+     !/textContent\s*=\s*lineCostLabel/.test(src),
+     'a markup label assigned to textContent renders its tags as visible text');
+}
+
 console.log(`\n${n} builder-load assertions, ${fails} failures`);
 process.exit(fails ? 1 : 0);
