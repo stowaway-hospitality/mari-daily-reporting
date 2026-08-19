@@ -53,3 +53,37 @@ bug: the parser takes a size out of the product DESCRIPTION and treats it as the
 pack. Every one was solvable from the product name alone — the tell is a
 description carrying both a piece size and a pack count ("15gm 96'S", "12/10
 pcs", "45GM"). None needed a catalogue.
+
+---
+
+## OPEN DEFECT, found 19 Aug — Tandoori Chicken in the STAGED book
+
+`Regular Tandoori Chicken` costs **$187.16** in `data/recipes/_staged/marilynas.yaml`
+against $1.90 in the live book. A 100x error.
+
+**It is not in production.** Nothing is cut over; the P&L still reads the costed
+book. The shadow diff caught it, which is exactly the job the cord exists to do —
+and it is the reason promotion waits for a boring diff rather than a green suite.
+
+What is known:
+
+* `Tandoori Chicken [2Kg]` is HAND-AUTHORED (not scraped): 1,700 g chicken +
+  400 **ml** of `Tandoori Sauce [Batch]`, declaring a 2,000 g yield.
+* That sauce batch yields 1,116 **g**. A gram batch drawn in millilitres should
+  REFUSE in `modules/recipes/cost.py`; instead the line costs $2,940, i.e.
+  $7.35/ml — which is the yoghurt line's whole cost. Something is resolving the
+  sub-recipe to a per-unit rate rather than dividing by the yield.
+* Read as GRAMS the authored record is coherent: 1,700 + 400 = 2,100 g in
+  against 2,000 g out, a 5% loss, normal for a marinated batch that is cooked.
+  So the record's quantities are right and its UNIT LABEL is wrong.
+* Declaring the ml->g line fix and applying declared fixes to authored records
+  DOES relabel the line (confirmed in `unit_relabels`) but does NOT move the
+  cost — so the $2,940 comes from further up the chain, not from this line.
+  That is where the next session should start.
+
+Also note this supersedes the earlier `line_qty_unit_fixes` entry that reads the
+SCRAPE's "1 ml" as the whole 1,116 g batch: the authored record wins, and a
+person has since written down what actually goes in. That entry is now dead
+weight and should be removed once the real cause is found.
+
+**Do not promote Marilyna's until this is closed.**
