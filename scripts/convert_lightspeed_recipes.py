@@ -804,14 +804,37 @@ _YB = re.compile(r"\[(\d+(?:\.\d+)?)\s*(kg|g|l|ml|lt|litre)\]", re.I)
 
 
 def load_yields():
-    """recipe name -> (qty, unit) from the name bracket or data/prep_yields.yaml."""
+    """recipe name -> (qty, unit) from the name bracket or data/prep_yields.yaml.
+
+    THE DECLARED YIELD RELABELS APPLY HERE TOO, and did not until 2026-08-19.
+    data/batch_yield_units.yaml carries `yield_unit_fixes` — a batch whose yield
+    is labelled ml while everything drawing on it is written in g — each with a
+    worked proof:
+
+        Garlic Oil [Batch]    1000 g garlic + 500 ml oil, yield "1500 ml";
+                              two thirds of that sum is a mass and all 10
+                              drawing lines are in g.
+        Mint Yoghurt [Batch]  1000 g yoghurt + 100 ml lime + 2 bunches, yield
+                              "1102 ml"; over 90% of it is the yoghurt.
+
+    Both were written by an earlier session and both only ever reached the
+    STAGED book. In the live one the batch went on yielding ml while every
+    recipe drew grams, so the units disagreed, so the builder feed could not
+    wire the line and froze it as an "(imported)" number instead. Sixteen lines
+    across the Tandoori and garlic families, costing off a snapshot because of
+    a label nobody had reconciled.
+
+    That is the fourth declared fix today found running and reaching nothing.
+    """
     out = {}
     y = ROOT / "data" / "prep_yields.yaml"
     if y.exists():
         import yaml
         for k, v in (yaml.safe_load(y.read_text(encoding="utf-8-sig")) or {}).items():
             out[k] = (float(v["yield_qty"]), v["yield_unit"])
-    return out
+
+    from modules.recipes.units import apply_declared_yield_relabels
+    return apply_declared_yield_relabels(out)
 
 
 

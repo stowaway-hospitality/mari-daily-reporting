@@ -76,7 +76,9 @@ def _prep_yield_estimates() -> dict:
     if not f.exists():
         return {}
     import yaml as _yaml
-    return _yaml.safe_load(f.read_text(encoding="utf-8-sig")) or {}
+    from modules.recipes.units import apply_declared_yield_relabels
+    return apply_declared_yield_relabels(
+        _yaml.safe_load(f.read_text(encoding="utf-8-sig")) or {})
 
 
 # An INGREDIENT line may be wired LIVE (rate x qty, re-costing from invoices

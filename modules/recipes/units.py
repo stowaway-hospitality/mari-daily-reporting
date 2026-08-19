@@ -60,6 +60,41 @@ SALES = ROOT / "dashboard" / "sales" / "products" / "index.json"
 # Reporting groups that are drinks. Everything not named here is food, because
 # the failure that matters is calling a sauce a beverage: it puts a yield in ml,
 # and ml is the label nobody measured.
+def apply_declared_yield_relabels(yields: dict) -> dict:
+    """Apply data/batch_yield_units.yaml's `yield_unit_fixes` to a yield map.
+
+    ONE PLACE, because there are three readers and they were disagreeing. A
+    batch whose yield is labelled ml while every line drawing on it is written
+    in g cannot be wired live: the units do not match, so the builder feed gives
+    up and freezes the line as an "(imported)" snapshot. Sixteen lines were
+    frozen that way — the Garlic Oil and Mint Yoghurt families — each with a
+    worked proof sitting in the declarations file since an earlier session, and
+    each only ever read by the STAGED book.
+
+    Accepts either {name: {yield_qty, yield_unit}} or {name: (qty, unit)} and
+    returns the same shape. RELABELS ONLY: the magnitude is left exactly as the
+    kitchen recorded it, because a relabel that also moved the number would be a
+    density assumption wearing a correction.
+    """
+    from pathlib import Path as _P
+    f = _P(__file__).resolve().parents[2] / "data" / "batch_yield_units.yaml"
+    if not f.exists():
+        return yields
+    import yaml as _yaml
+    doc = _yaml.safe_load(f.read_text(encoding="utf-8-sig")) or {}
+    for fx in (doc.get("yield_unit_fixes") or []):
+        cur = yields.get(fx["batch"])
+        if cur is None:
+            continue
+        if isinstance(cur, dict):
+            if (cur.get("yield_unit") or "") == fx["from_unit"]:
+                yields[fx["batch"]] = dict(cur, yield_unit=fx["to_unit"])
+        elif isinstance(cur, (tuple, list)) and len(cur) == 2:
+            if cur[1] == fx["from_unit"]:
+                yields[fx["batch"]] = (cur[0], fx["to_unit"])
+    return yields
+
+
 BEVERAGE_GROUPS = {
     "cocktails - classic", "cocktails - signature", "delivery cocktails",
     "delivery alcohol", "tap beer", "bottles / cans alcoholic",
