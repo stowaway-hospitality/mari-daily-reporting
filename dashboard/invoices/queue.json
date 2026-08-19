@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-19",
-  "count": 737,
+  "generated": "2026-08-20",
+  "count": 740,
   "skipped_already_in_xero": 0,
   "invoices": [
     {
@@ -35,6 +35,178 @@
           "qty": "2",
           "amount": "200.00",
           "unit_cost": "$100.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "SI4533756",
+      "supplier": "Foodlink Australia Pty Ltd",
+      "supplier_key": "foodlink",
+      "date": "2026-08-20",
+      "due_date": "2026-08-27",
+      "total": "269.60",
+      "venue": "stowaway",
+      "pdf_path": "156dcda45504b60d336454eee329a7251c23384a987b6de13ab9b460e0311416.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "PIZZA DOUGH BALLS 55X200GM Buvetti",
+          "supplier_code": "108784",
+          "qty": "1",
+          "amount": "70.00",
+          "unit_cost": "$6.36/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "YEAST FRESH 1KG",
+          "supplier_code": "103153",
+          "qty": "2",
+          "amount": "11.00",
+          "unit_cost": "$5.50/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "OLIVES PITTED GREEN 2KG ES Riviana",
+          "supplier_code": "101871",
+          "qty": "1",
+          "amount": "24.00",
+          "unit_cost": "$12.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "OLIVES PITTED KALAMATA 2KG Trading",
+          "supplier_code": "101873",
+          "qty": "1",
+          "amount": "19.50",
+          "unit_cost": "$9.75/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "OIL VEGETABLE 20LT Trading",
+          "supplier_code": "107923",
+          "qty": "1",
+          "amount": "67.00",
+          "unit_cost": "$3.35/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "BAGS CARRY MEDIUM BROWN KRAFT W/TWIST HANDLE 250'S 300 X 310 X 180 War On Waste",
+          "supplier_code": "105014",
+          "qty": "1",
+          "amount": "74.80",
+          "unit_cost": "$74.80/ea",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Fuel Levy",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "3.30",
+          "unit_cost": "$3.30/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "SI4533766",
+      "supplier": "Foodlink Australia Pty Ltd",
+      "supplier_key": "foodlink",
+      "date": "2026-08-20",
+      "due_date": "2026-08-27",
+      "total": "14.40",
+      "venue": "stowaway",
+      "pdf_path": "4fe181a9053385429b9149aeb68f1397698b28980490da12ffac12013e473df3.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "COCONUT CREAM 1LT Kara",
+          "supplier_code": "100755",
+          "qty": "2",
+          "amount": "14.40",
+          "unit_cost": "$7.20/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3123415",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-08-20",
+      "due_date": "2026-09-03",
+      "total": "12.00",
+      "venue": "stowaway",
+      "pdf_path": "8fd2b533c8f41d344b295722ab3ea9f3a3d3995fe7fb0741255b911d6ae6fdf3.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "LEMON EA",
+          "supplier_code": "LEME",
+          "qty": "8.00",
+          "amount": "3.60",
+          "unit_cost": "$0.45/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HERB MINT ROUND LEAF BCH",
+          "supplier_code": "HRMIN",
+          "qty": "2.00",
+          "amount": "2.60",
+          "unit_cost": "$1.30/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "JUICE RUBY GRAPEFRUIT 2LTR",
+          "supplier_code": "JURUB",
+          "qty": "1.00",
+          "amount": "5.80",
+          "unit_cost": "$2.90/L",
           "tax": "gst_free",
           "account_code": "115",
           "account_name": "Purchases - Food",
