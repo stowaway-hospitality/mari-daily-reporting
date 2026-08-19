@@ -46,6 +46,27 @@ AREAS: dict[str, list[str]] = {
         "scripts/convert_lightspeed_recipes.py", "dashboard/_shared/recipe_",
         "dashboard/_shared/flags", "modules/recipes/app/",
     ],
+    # The Uber delivery feed (Eats marketplace + Uber Direct), added 2026-08-19
+    # on Zak's instruction. It had NO claimable area at all: the whole feed —
+    # three CSVs, a log, the upsert/probe scripts and its three test modules —
+    # matched nothing in AREAS, so two sessions could both rewrite
+    # data/uber_daily.csv and the register would say nothing. That is exactly
+    # the hole the par comment below describes.
+    #
+    # Boundaries, because _overlap() is prefix-based and symmetric:
+    #   * .github/workflows/uber_direct_dispatch.yml and probe_uber_direct_api
+    #     .yml are WORKFLOWS: ops-owned, per rule 7. Listing any ".github/" path
+    #     here would make uber clash with every ops claim forever.
+    #   * "data/uber_" is safe against cost-book (data/costs.csv,
+    #     data/cogs_list.csv), inventory (data/stock_) and par (data/par_) —
+    #     no prefix relation in either direction.
+    #   * sales-pipeline owns "data/*_daily_history.csv", a literal string that
+    #     does not prefix-match data/uber_daily.csv.
+    "uber": [
+        "data/uber_", "tests/test_uber_", "pipedream/uber_direct_ingest.js",
+        "scripts/uber_direct_upsert.py", "scripts/enter_uber_direct.py",
+        "scripts/probe_uber_direct_api.py",
+    ],
     "inventory": [
         "modules/inventory/", "INVENTORY_ARCHITECTURE.md", "data/stock_",
         "dashboard/inventory/",
