@@ -1082,3 +1082,38 @@
     where the 15 g reading gives $14.00 for one roll)"
   on: 2026-08-18
   by_email: "hello@stowawaybar.com"
+
+# --- Corn chips: the size was on the FIRST invoice and gone from the next two.
+#
+#   2026-07-10  SI4457228  "CORN CHIPS ROSITA TRI 6X500GM Mi"  1 CTN  $47.30
+#   2026-07-16  SI4467596  "CORN CHIPS ROSITA TRI"             1 CTN  $47.30
+#   2026-08-06  SI4507196  "CORN CHIPS ROSITA TRI"             1 CTN  $47.30
+#
+# Same product, same carton, same price, and the description quietly stopped
+# saying what was in it -- so the parser had a size to read in July and nothing
+# to read in August. THE INVOICE HISTORY IS THE CATALOGUE. Before assuming a
+# pack, read the earlier lines for the same supplier code.
+#
+# The invoice prices ONE CARTON, so the carton is the priced unit: 6 x 500 g =
+# 3,000 g at $47.30 = $0.015767/g. Back Office holds two bag records and both
+# are wrong -- Stowaway says 1,000 g, Harry Gatos says 214 g -- which is why
+# they refused to agree when container_sizes tried to join them. The bag is
+# 500 g. Corrected below so the join resolves.
+- id: "foodlink:100831"              # Corn Chips Rosita Tri, 6x500g carton
+  pack_qty: 3000
+  pack_unit: g
+  by: "Claude (invoice SI4457228 2026-07-10 states 6X500GM; 3 cartons all $47.30)"
+  on: 2026-08-19
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22931832"          # Corn Chips [bag], Stowaway — BO said 1000 g
+  pack_qty: 500
+  pack_unit: g
+  by: "Claude (6x500g carton per invoice SI4457228; the bag is 500 g, not 1 kg)"
+  on: 2026-08-19
+  by_email: "hello@stowawaybar.com"
+- id: "lightspeed:22933675"          # Corn Chips [bag], Harry Gatos — BO said 214 g
+  pack_qty: 500
+  pack_unit: g
+  by: "Claude (same 6x500g carton; 214 g matched nothing on any invoice)"
+  on: 2026-08-19
+  by_email: "hello@stowawaybar.com"

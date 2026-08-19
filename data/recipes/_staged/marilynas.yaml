@@ -9,8 +9,8 @@
 #   weighed    238 — somebody put it on scales
 #   derived    715 — computed from another line (a size scaling, a cook yield)
 #   mirrored    22 — deliberately the same spec as a sibling record
-#   rule         3 — a written rule with arithmetic proof corrected it
-#   scrape     522 — nobody has checked it. This is the number to shrink.
+#   rule         2 — a written rule with arithmetic proof corrected it
+#   scrape     523 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -28,7 +28,7 @@
     qty: 2
     unit: ea
     manual: true
-    unit_cost_incl: 5.1782
+    unit_cost_incl: 5.1661
     source: scrape
   - id: ''
     desc: Garlic Bread
@@ -53,7 +53,7 @@
     qty: 3
     unit: ea
     manual: true
-    unit_cost_incl: 5.1782
+    unit_cost_incl: 5.1661
     source: scrape
   - id: ''
     desc: Garlic Bread
@@ -78,7 +78,7 @@
     qty: 4
     unit: ea
     manual: true
-    unit_cost_incl: 5.1782
+    unit_cost_incl: 5.1661
     source: scrape
   - id: ''
     desc: Garlic Bread
@@ -166,7 +166,7 @@
     qty: 3
     unit: ea
     manual: true
-    unit_cost_incl: 5.1782
+    unit_cost_incl: 5.1661
     source: scrape
   - id: ''
     desc: Garlic Bread
@@ -587,7 +587,7 @@
     qty: 2
     unit: ea
     manual: true
-    unit_cost_incl: 5.1782
+    unit_cost_incl: 5.1661
     source: scrape
   - id: ''
     desc: Garlic Bread
@@ -6600,8 +6600,7 @@
     desc: Mulled Wine
     qty: 3.89
     unit: ea
-    source: rule
-    evidence: 'batch_yield_units.yaml: ml -> ea, per the hand-authored record for the same sauce'
+    source: scrape
 - product: Omen Stout 4-pack
   venue_source: marilynas
   is_serve: true
@@ -9660,7 +9659,7 @@
     qty: 1
     unit: ea
     manual: true
-    unit_cost_incl: 5.1782
+    unit_cost_incl: 5.1661
     source: scrape
   - id: ''
     desc: BBQ Wings

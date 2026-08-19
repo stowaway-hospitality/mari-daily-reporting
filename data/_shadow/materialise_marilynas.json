@@ -21,8 +21,8 @@
   "authored": 11,
   "derived": 715,
   "mirrored": 22,
-  "rule": 3,
-  "scrape": 522,
+  "rule": 2,
+  "scrape": 523,
   "weighed": 238
  },
  "generated": "2026-08-19",
@@ -30,9 +30,9 @@
  "manual_lines": [
   {
    "engine": null,
-   "frozen_unit_cost": 5.1782,
+   "frozen_unit_cost": 5.1661,
    "line": "Large Pizza [menu average]",
-   "line_cost": 10.3564,
+   "line_cost": 10.3322,
    "product": "$45 FEAST",
    "qty": 2.0,
    "ref": "",
@@ -63,9 +63,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 5.1782,
+   "frozen_unit_cost": 5.1661,
    "line": "Large Pizza [menu average]",
-   "line_cost": 15.5346,
+   "line_cost": 15.4983,
    "product": "$60 BANQUET",
    "qty": 3.0,
    "ref": "",
@@ -96,9 +96,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 5.1782,
+   "frozen_unit_cost": 5.1661,
    "line": "Large Pizza [menu average]",
-   "line_cost": 20.7128,
+   "line_cost": 20.6644,
    "product": "$90 PIZZA PARTY",
    "qty": 4.0,
    "ref": "",
@@ -162,9 +162,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 5.1782,
+   "frozen_unit_cost": 5.1661,
    "line": "Large Pizza [menu average]",
-   "line_cost": 15.5346,
+   "line_cost": 15.4983,
    "product": "Banquet Deal Pizzas",
    "qty": 3.0,
    "ref": "",
@@ -283,9 +283,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 5.1782,
+   "frozen_unit_cost": 5.1661,
    "line": "Large Pizza [menu average]",
-   "line_cost": 10.3564,
+   "line_cost": 10.3322,
    "product": "Feast Deal Pizzas",
    "qty": 2.0,
    "ref": "",
@@ -844,9 +844,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 5.1782,
+   "frozen_unit_cost": 5.1661,
    "line": "Large Pizza [menu average]",
-   "line_cost": 5.1782,
+   "line_cost": 5.1661,
    "product": "WINGS DEAL",
    "qty": 1.0,
    "ref": "",
@@ -1075,12 +1075,6 @@
    "from": "ml",
    "to": "g",
    "why": "house rule, applied over a hand-authored unit"
-  },
-  {
-   "from": "ml",
-   "line": "Mulled Wine",
-   "product": "Mulled Wine PartyJar (4)",
-   "to": "ea"
   },
   {
    "from": "400 ml",

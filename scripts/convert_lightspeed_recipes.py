@@ -811,6 +811,51 @@ def load_yields():
     return out
 
 
+
+
+def _dec_eq(a, b) -> bool:
+    """Two recorded quantities are the same number, however each was spelled."""
+    try:
+        return abs(float(a) - float(b)) < 1e-9
+    except (TypeError, ValueError):
+        return False
+
+
+def load_line_unit_fixes():
+    """(recipe, ingredient) -> the relabel declared in data/batch_yield_units.yaml.
+
+    THIS FILE WAS ONLY EVER READ BY THE STAGED BOOK. Every declared fix in it
+    carries worked arithmetic and a named ruling, and the live converter -- the
+    one the P&L reads -- had never heard of any of them. A correction that only
+    reaches the book nobody is using is not a correction.
+
+    Concretely: `Tandoori Chicken [2Kg]` draws "400 ml" of a batch that yields
+    GRAMS. Read literally that is 400 batches and Lightspeed prices it at $2,940;
+    the cap added alongside this stops the catastrophe but bounds the line at one
+    whole batch, which still over-costs a 400 g draw threefold. With the declared
+    relabel the line is 400 g of a 1,116 g batch -- an ESTIMATED yield, but a
+    stated one -- and costs $4.69, which is the number the staged book already
+    produced. Zak, 2026-08-19: "just estimate the tandoori batch yield until
+    verified."
+
+    Only relabels, never conversions: the magnitude is left exactly as recorded.
+    """
+    out = {}
+    y = ROOT / "data" / "batch_yield_units.yaml"
+    if not y.exists():
+        return out
+    import yaml
+    doc = yaml.safe_load(y.read_text(encoding="utf-8-sig")) or {}
+    for f in (doc.get("line_qty_unit_fixes") or []):
+        out[(f["recipe"], f["ingredient"])] = (f["from_qty"], f["from_unit"],
+                                               f["to_qty"], f["to_unit"])
+    for f in (doc.get("line_unit_fixes") or []):
+        out.setdefault((f["recipe"], f["ingredient"]),
+                       (None, f["from_unit"], None, f["to_unit"]))
+    return out
+
+
+_LINE_FIXES: dict = {}
 _BASE = {"kg": ("g", 1000.0), "l": ("ml", 1000.0), "lt": ("ml", 1000.0), "litre": ("ml", 1000.0),
          # A COUNTABLE IS A COUNTABLE. resolve_pack answers "one whole pack" as
          # "can" (its basis word) while every recipe line says "ea", so a cost we
@@ -1424,6 +1469,8 @@ def main() -> int:
         return bo_groups.get((nm or "").strip()) or ""
     our_costs = load_our_costs()
     our_preps = load_our_preps(our_costs)
+    global _LINE_FIXES
+    _LINE_FIXES = load_line_unit_fixes()
     our_book, our_line_ids, our_yields = load_our_book_lines(our_costs)
     # OUR BOOK REPLACES THE SCRAPE where we have the recipe and can cost it.
     # Produce is a mirror nobody updates: re-spec a prep in the builder and the
@@ -2072,6 +2119,23 @@ def main() -> int:
         our_tot = ls_tot = 0.0
         full_ours = True
         for ln in r["ingredients"]:
+            # APPLY THE DECLARED RELABEL BEFORE COSTING, not after.
+            # See load_line_unit_fixes(): these are rulings with arithmetic
+            # behind them, and until now only the staged book obeyed them.
+            # Mutated IN PLACE, deliberately. Rebinding to a copy costs the line
+            # correctly and then writes the uncorrected one into the artifact,
+            # so the dashboard shows "400 ml" beside a price derived from 400 g
+            # and eff_cost lands on the copy nobody keeps. The relabel has to be
+            # visible in the record it changed.
+            _fx = _LINE_FIXES.get((name, ln.get("name")))
+            if _fx and (ln.get("unit") or "") == _fx[1] \
+                    and (_fx[0] is None or _dec_eq(ln.get("qty"), _fx[0])):
+                ln["unit_was"] = ln.get("unit")
+                ln["unit"] = _fx[3]
+                if _fx[2] is not None:
+                    ln["qty_was"], ln["qty"] = ln.get("qty"), _fx[2]
+                ln["relabelled_by"] = "data/batch_yield_units.yaml"
+
             # the scraped per-line `cost` is Lightspeed's own dollar amount for that
             # line — reliable even when the qty/unit shown are garbage (a whole
             # chicken logged as "0.5 ml"). So it is NOT divided by qty; doing so

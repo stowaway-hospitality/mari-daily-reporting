@@ -20,6 +20,8 @@ def test_a_portion_never_costs_more_than_twenty_batches():
     book = json.loads((Path(__file__).resolve().parents[1]
                        / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
 
+    tand_batch = book.get("Tandoori Chicken [2Kg]")
+    assert tand_batch, "the Tandoori prep must be in the book"
     tand = book.get("Large Tandoori Chicken")
     assert tand, "Large Tandoori Chicken must be in the book"
     cost = float(tand["our_cost"])
@@ -27,12 +29,20 @@ def test_a_portion_never_costs_more_than_twenty_batches():
     assert 2.0 < cost < 6.0, f"Large Tandoori Chicken at ${cost}, out of family"
     assert float(tand["gp_pct"]) > 60
 
-    # ...and the cap must not be silent. A bound that nobody can see is just a
-    # quieter version of the same wrong number.
-    capped = [ln for r in book.values() for ln in (r.get("ingredients") or [])
-              if ln.get("capped_at_batch")]
-    assert any(ln.get("ref") == "Tandoori Sauce [Batch]" for ln in capped), \
-        "the capped Tandoori line must stay recorded on the line it fixed"
+    # THE CAP IS THE NET, NOT THE ANSWER, and the Tandoori no longer needs it:
+    # the declared relabel in data/batch_yield_units.yaml now reaches the LIVE
+    # converter (it only ever reached the staged book), so the line is costed as
+    # 400 g of a 1,116 g batch rather than bounded at one whole batch. Zak,
+    # 2026-08-19: "just estimate the tandoori batch yield until verified."
+    sauce = [ln for ln in tand_batch["ingredients"]
+             if ln.get("ref") == "Tandoori Sauce [Batch]"]
+    assert sauce, "Tandoori Chicken [2Kg] must still draw its sauce"
+    assert sauce[0]["unit"] == "g" and sauce[0].get("unit_was") == "ml", \
+        "the relabel must be applied AND recorded on the line it changed"
+    assert not sauce[0].get("capped_at_batch"), \
+        "a relabelled line is costed, not capped"
+    assert 3.0 < float(sauce[0]["eff_cost"]) < 7.0, \
+        f"400 g of a 1,116 g batch, not a whole batch: ${sauce[0]['eff_cost']}"
 
     # Legitimate multi-batch draws are left alone.
     lime = book.get("Super Lime Juice [1L]")
