@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "canton_group",
+    "supplier_name_raw": "Canton Group Pty Ltd",
+    "invoice_ref": "INV-4877",
+    "invoice_date": "2026-06-04",
+    "total_incl": "360.00",
+    "lines": [
+      {
+        "description": "DAVIDSON PLUM BBQ PORK BUNS (20 PCS)",
+        "qty": "4.00",
+        "line_total_incl": "160.00",
+        "unit_price_incl": "40.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "DAVIDSON PLUM PEKING DUCK SPRING ROLL",
+        "qty": "2.00",
+        "line_total_incl": "200.00",
+        "unit_price_incl": "100.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst_free",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-06-11",
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "6c7ac410d70a96662b7bc3b8406fad2f39d09244f9b002ee838013270d082476.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "360.00",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "DAVIDSON PLUM BBQ PORK BUNS (20 PCS)",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "DAVIDSON PLUM PEKING DUCK SPRING ROLL",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

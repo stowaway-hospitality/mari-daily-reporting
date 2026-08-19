@@ -1,0 +1,143 @@
+{
+  "invoice": {
+    "supplier_key": "speed_gas",
+    "supplier_name_raw": "Speed Gas Pty Limited",
+    "invoice_ref": "INV214142",
+    "invoice_date": "2026-05-31",
+    "total_incl": "151.50",
+    "lines": [
+      {
+        "description": "Carbon Dioxide - F Size monthly service",
+        "qty": "3.00",
+        "line_total_incl": "49.50",
+        "unit_price_incl": "16.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Speedmix 55 - F Size monthly service",
+        "qty": "2.00",
+        "line_total_incl": "33.00",
+        "unit_price_incl": "16.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Nitrogen - D Size monthly service",
+        "qty": "2.00",
+        "line_total_incl": "36.00",
+        "unit_price_incl": "18.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Speedmix 55 - D Size monthly service",
+        "qty": "2.00",
+        "line_total_incl": "33.00",
+        "unit_price_incl": "16.5000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-06-30",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "cf28a00f6df1c9e3634931980534aef92aa0af7bcaa0eb5475dd7a90d162166a.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "151.50",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "112",
+    "lines": [
+      {
+        "description": "Carbon Dioxide - F Size monthly service",
+        "account_code": "112",
+        "account_name": "Purchases - Bar Supplies",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Speedmix 55 - F Size monthly service",
+        "account_code": "112",
+        "account_name": "Purchases - Bar Supplies",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Nitrogen - D Size monthly service",
+        "account_code": "112",
+        "account_name": "Purchases - Bar Supplies",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Speedmix 55 - D Size monthly service",
+        "account_code": "112",
+        "account_name": "Purchases - Bar Supplies",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
