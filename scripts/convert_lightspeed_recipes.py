@@ -2161,6 +2161,66 @@ def main() -> int:
                 else:
                     eff = ls
                     full_ours = False
+
+                # YOU CANNOT TAKE PART OF A BATCH AND PAY MORE THAN ALL OF IT.
+                #
+                # The branch above is documented as unable to blow up, because
+                # our_batch ~= ls_batch keeps the line near Lightspeed's own
+                # per-use cost. That holds right up until LIGHTSPEED'S NUMBER is
+                # the broken one, and then the ratio path faithfully reproduces
+                # its madness:
+                #
+                #   Tandoori Chicken [2Kg]
+                #     Chicken                1700 g   $20.74
+                #     Tandoori Sauce [Batch]  400 ml  $2,940.00   <- LS's own figure
+                #
+                # The batch is 1 kg of yoghurt and 240 g of paste; it costs $7.35.
+                # Lightspeed billed 400 BATCHES because the record draws ml from a
+                # batch that yields grams, and every Tandoori pizza inherited it --
+                # six products at -257% to -959% GP, $2,924 of quarterly revenue
+                # priced as a catastrophe. Our own book refused the line (our_cost
+                # is None, correctly), and then we handed the decision back to the
+                # number we had just refused.
+                #
+                # So: a draw FROM a batch is capped at the batch. This needs no
+                # unit, no yield and no density assumption -- it is true of any
+                # portion of any thing. It caps rather than zeroing because an
+                # uncosted line flatters GP, and it is deliberately generous: a
+                # 400 ml draw on a ~1.2 kg batch really costs about a third of it,
+                # so the cap still over-states. That is the safe direction and it
+                # stays visible as a flag until a chef records the real yield.
+                #
+                # Sold sub-recipes are exempt: a Wings Deal legitimately contains
+                # one whole $6.92 pizza, and two of them would legitimately cost
+                # twice that. Only batches -- things you portion out of -- are
+                # bounded by their own size.
+                # HOW FAR OVER THE BATCH BEFORE IT IS IMPOSSIBLE RATHER THAN ODD.
+                #
+                # At 1x this rule is wrong more often than right. "Lime [ea]"
+                # is a one-line pseudo-batch costing $0.50, and Super Lime
+                # Juice draws THREE of them: capping that at one batch would
+                # under-cost it by 3x, and under-costing is the direction that
+                # flatters. Holy Guacamole's single lime at $0.60 against our
+                # $0.50 is not a defect at all, just a price that has moved.
+                #
+                # Both of those are readings a kitchen could actually mean. 20x
+                # is not. Nothing puts twenty whole batches of a prep into one
+                # recipe and records it as a decimal quantity; at that multiple
+                # the only available explanation is that the number is not a
+                # portion at all. Tandoori is 224x. The two lime lines sit at
+                # 1.2x and 3x and this rule never sees them.
+                #
+                # Deliberately in the same family as batch_overflow's 3x: a
+                # threshold set where the ambiguity ends, not where suspicion
+                # starts.
+                _BATCH_CAP_X = 20
+                _sell_sub = sell_of(ln["ref"], sell_by_exact, sell_by_norm,
+                                    sell_by_tok) or 0
+                if so > 0 and eff > so * _BATCH_CAP_X and _sell_sub < 3:
+                    ln["capped_at_batch"] = {"was": round(eff, 2), "batch": round(so, 2)}
+                    eff = so
+                    full_ours = False
+
                 our_tot += eff
                 ls_tot += ls
             elif ln["our_cost"] is not None and _trust_direct(ln, ls, prep_ish(name)):

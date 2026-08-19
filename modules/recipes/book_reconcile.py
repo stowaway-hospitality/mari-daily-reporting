@@ -689,3 +689,38 @@ def price_conflicts(recipes, adjudicated=(), exclude_refs=()) -> list:
             "ls_line_total": round(sum(u[2] for u in uses), 4),
         })
     return sorted(out, key=lambda f: -abs(f["our_line_total"] - f["ls_line_total"]))
+
+
+def capped_at_batch(recipes) -> list:
+    """Lines whose cost was bounded by the size of the batch they draw from.
+
+    The converter refuses to let a portion cost more than the whole (see the
+    cap in convert_lightspeed_recipes.py). That refusal keeps a broken record
+    from reaching the P&L, but the record is STILL BROKEN, and a cap that
+    nobody can see is just a quieter version of the same lie.
+
+    Tandoori Chicken [2Kg] drew "400 ml" of a batch that yields grams;
+    Lightspeed priced it at $2,940 against a $7.35 batch and six Tandoori
+    products went to between -257% and -959% GP. Capped, they cost about $3.50
+    and sit exactly where their siblings sit -- but the capped number is an
+    UPPER BOUND, not a measurement, and the dish stays slightly over-costed
+    until someone records what the batch actually makes.
+    """
+    out = []
+    for name, r in (recipes or {}).items():
+        for ln in r.get("ingredients") or []:
+            cap = ln.get("capped_at_batch")
+            if not cap:
+                continue
+            out.append({
+                "rule": "capped_at_batch",
+                "recipe": name,
+                "line": ln.get("name"),
+                "ref": ln.get("ref"),
+                "qty": str(ln.get("qty")),
+                "unit": str(ln.get("unit")),
+                "was": cap["was"],
+                "batch_cost": cap["batch"],
+                "multiple": round(cap["was"] / cap["batch"], 1) if cap["batch"] else None,
+            })
+    return sorted(out, key=lambda f: -(f["multiple"] or 0))

@@ -822,6 +822,50 @@ def batch_yield_flags(recipes) -> list:
     return out
 
 
+def capped_at_batch_flags(recipes) -> list:
+    """A portion that was billed more than the whole batch it came out of.
+
+    The converter caps these so a broken record cannot reach the P&L. The flag
+    exists so the cap does not become the answer: it is an upper bound holding
+    the line until the kitchen records the batch's real yield.
+    """
+    out = []
+    for f in book_reconcile.capped_at_batch(recipes):
+        out.append({
+            "id": "capped-batch-" + _slug(f["recipe"] + "-" + (f["line"] or "")),
+            "category": "batch_yield",
+            "severity": "high",
+            "subject": f["recipe"],
+            "subject_kind": "prep",
+            "what_is_wrong": (
+                f"This recipe draws {f['qty']} {f['unit']} of {f['line']}, and "
+                f"Lightspeed priced that at ${f['was']:,.2f} — {f['multiple']:g}x "
+                f"the ${f['batch_cost']:,.2f} the whole batch costs. You cannot "
+                f"take part of a batch and pay more than all of it, so the line "
+                f"has been capped at one batch."),
+            "why_it_matters": "The cap stops the error reaching the P&L, but it "
+                              "is a BOUND, not a measurement — the dish is still "
+                              "over-costed until the batch's real yield is "
+                              "recorded. Uncapped, this priced six Tandoori "
+                              "products between -257% and -959% GP.",
+            "question": f"What does one batch of {f['line']} actually make, and "
+                        f"how much of it goes into {f['recipe']}?",
+            "impact_per_year": None,
+            "impact_basis": None,
+            "action": "Weigh one batch and record the yield, then fix the draw "
+                      "quantity in Produce so it is stated in the same units the "
+                      "batch is made in.",
+            "owner": "Kitchen",
+            "evidence": [f"line as recorded: {f['qty']} {f['unit']} of {f['line']}",
+                         f"Lightspeed's figure: ${f['was']:,.2f}",
+                         f"whole batch on our book: ${f['batch_cost']:,.2f}"],
+            "derived": True,
+            "source": "modules/recipes/book_reconcile.capped_at_batch()"
+                      " over data/lightspeed_recipes_costed.json",
+        })
+    return out
+
+
 def yield_overstated_flags(recipes) -> list:
     """A batch that claims to MAKE more than its lines contain — the mirror of
     batch_yield_flags, and the half that flatters.
@@ -1382,6 +1426,7 @@ def build() -> dict:
     flags += structure_flags(recipes, sold, window)
     flags += batch_yield_flags(recipes)
     flags += yield_overstated_flags(recipes)
+    flags += capped_at_batch_flags(recipes)
     flags += price_conflict_flags(recipes, sold, window)
     flags += feed_defect_flags(recipes, sold, window)
     flags += declared_flags(spec.get("declared") or [])
