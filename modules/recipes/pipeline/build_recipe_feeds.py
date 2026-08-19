@@ -56,19 +56,16 @@ _YIELD_BRACKET = re.compile(
 
 
 def _measured_yields() -> dict:
-    """batch -> the entry somebody weighed. Latest measurement wins: two real
-    weighings that disagree are information about variance, not a conflict."""
-    f = ROOT / "data" / "measured_yields.yaml"
-    if not f.exists():
-        return {}
-    import yaml as _yaml
-    doc = _yaml.safe_load(f.read_text(encoding="utf-8-sig")) or {}
-    out: dict = {}
-    for e in (doc.get("measured") or []):
-        prev = out.get(e["batch"])
-        if prev is None or str(e.get("measured_on")) >= str(prev.get("measured_on")):
-            out[e["batch"]] = e
-    return out
+    """batch -> the entry somebody weighed.
+
+    Delegates to modules.recipes.units, which is now the one parse of this file.
+    It used to be parsed here and NOWHERE ELSE, which is how the live converter
+    came to walk a yield ladder missing its top rung — see
+    units.apply_measured_yields for what that would have cost the first time a
+    chef weighed a batch.
+    """
+    from modules.recipes.units import measured_yields
+    return measured_yields()
 
 
 def _prep_yield_estimates() -> dict:

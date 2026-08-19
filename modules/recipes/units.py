@@ -95,6 +95,61 @@ def apply_declared_yield_relabels(yields: dict) -> dict:
     return yields
 
 
+def measured_yields() -> dict:
+    """batch -> the entry somebody put on a scale. Latest measurement wins.
+
+    Two real weighings that disagree are information about variance, not a
+    conflict, so the most recent one answers and both stay in the file.
+    """
+    from core.declarations import MEASURED_YIELDS
+    out: dict = {}
+    for e in (MEASURED_YIELDS.load().get("measured") or []):
+        prev = out.get(e["batch"])
+        if prev is None or str(e.get("measured_on")) >= str(prev.get("measured_on")):
+            out[e["batch"]] = e
+    return out
+
+
+def apply_measured_yields(yields: dict) -> dict:
+    """Overlay data/measured_yields.yaml. A MEASUREMENT OUTRANKS EVERYTHING.
+
+    ONE PLACE, for the same reason apply_declared_yield_relabels is one place,
+    and found the same way. The ladder resolve_yield walks — measured, then a
+    written basis, then the bracket in the name — lived only in
+    build_recipe_feeds, which builds the BUILDER's feeds. The LIVE converter,
+    which is what the P&L costs off, walked a shorter ladder that started at
+    prep_yields.yaml and had never heard of a measurement.
+
+    The file was empty on 2026-08-19, so this moved no money on the day it
+    landed. That is exactly why it was worth landing: the next line in
+    measured_yields.yaml is Pizza Sauce, which carries $1.06M across 146 dishes
+    and is item 7 on the open list. It would have shown up in the builder,
+    stayed out of the P&L, and the two would have disagreed about the same batch
+    with a fresh weighing sitting in the file looking authoritative.
+
+    Accepts and returns the shapes already in use: {name: {yield_qty,
+    yield_unit}} or {name: (qty, unit)}.
+    """
+    m = measured_yields()
+    if not m:
+        return yields
+    for batch, e in m.items():
+        cur = yields.get(batch)
+        qty, unit = e["yield_qty"], e["yield_unit"]
+        if isinstance(cur, (tuple, list)) and len(cur) == 2:
+            yields[batch] = (float(qty), unit)
+        elif isinstance(cur, dict):
+            yields[batch] = dict(cur, yield_qty=qty, yield_unit=unit,
+                                 basis=f"MEASURED {e.get('measured_on')} by "
+                                       f"{e.get('measured_by')}: {e.get('note', '')}")
+        else:
+            # A batch weighed before anyone wrote a basis for it. The scale is
+            # still the best answer in the book.
+            yields[batch] = {"yield_qty": qty, "yield_unit": unit,
+                             "basis": f"MEASURED {e.get('measured_on')}"}
+    return yields
+
+
 BEVERAGE_GROUPS = {
     "cocktails - classic", "cocktails - signature", "delivery cocktails",
     "delivery alcohol", "tap beer", "bottles / cans alcoholic",

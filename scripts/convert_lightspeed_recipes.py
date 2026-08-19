@@ -833,8 +833,16 @@ def load_yields():
         for k, v in (yaml.safe_load(y.read_text(encoding="utf-8-sig")) or {}).items():
             out[k] = (float(v["yield_qty"]), v["yield_unit"])
 
-    from modules.recipes.units import apply_declared_yield_relabels
-    return apply_declared_yield_relabels(out)
+    from modules.recipes.units import (apply_declared_yield_relabels,
+                                       apply_measured_yields)
+    # ...and a MEASUREMENT outranks the lot. This ladder used to start at
+    # prep_yields.yaml and stop there, while build_recipe_feeds -- the BUILDER's
+    # side -- had walked measured_yields.yaml first since it was written. Same
+    # shape as the four found on 2026-08-19: the declaration was correct, the
+    # ladder that names it as rung 0 was correct, and the reader that prices the
+    # menu had never opened the file. Empty on the day this landed, so it moved
+    # nothing; the point is that the next weighing will move BOTH sides.
+    return apply_measured_yields(apply_declared_yield_relabels(out))
 
 
 

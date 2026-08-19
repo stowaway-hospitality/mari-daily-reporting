@@ -75,6 +75,18 @@ jobs:
         # do not yet buy is the right way round.
         run: python3 scripts/check_declarations_bind.py --strict
 
+      - name: Declarations reach everyone who should read them
+        # The OTHER half, and the expensive one. The check above asks whether a
+        # ruling still matches a record. This asks whether the module that
+        # prices the menu has ever opened the file. Four rulings were found on
+        # 2026-08-19 that were correct, bound, and read by exactly one reader —
+        # the Tandoori relabel, the ILG account codes, the BO DefaultSize, the
+        # Garlic Oil yields. Nothing could have told you: there was no statement
+        # anywhere of which reader was supposed to consult which declaration.
+        # core/declarations.py is that statement; this checks it, and ratchets
+        # the count of modules still hand-rolling their own parse.
+        run: python3 scripts/check_declaration_readers.py --strict --quiet
+
       - name: Estimated vs actual COGS (purchases minus consumption)
         # The number COGS_ARCHITECTURE.md has named since it was written: Xero
         # purchases (what we bought) minus recipe cost (what we used) = stock

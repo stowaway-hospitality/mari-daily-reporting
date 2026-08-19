@@ -18,8 +18,17 @@ from pathlib import Path
 import yaml
 
 
-def load_pack_overrides(path: Path) -> dict[str, tuple[Decimal, str]]:
-    """{purchasable_id: (pack_qty, base_unit)} — base_unit in g | ml | ea. Last wins."""
+def load_pack_overrides(path: Path | None = None) -> dict[str, tuple[Decimal, str]]:
+    """{purchasable_id: (pack_qty, base_unit)} — base_unit in g | ml | ea. Last wins.
+
+    `path` defaults to the registry's, so the six callers that each spelled
+    `ROOT / "data" / "pack_overrides.yaml"` out for themselves no longer have to
+    agree by hand. It stays an argument because two tests point the loader at a
+    tmp_path fixture, which is the right way to test a loader.
+    """
+    if path is None:
+        from core.declarations import PACK_OVERRIDES
+        path = PACK_OVERRIDES.path
     if not path.exists():
         return {}
     try:
