@@ -569,6 +569,38 @@ def slug(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
+
+def _container_sizes() -> dict:
+    """item_id -> (qty, unit): the SIZE OF THE THING YOU DRAW FROM.
+
+    Zak, 2026-08-19: "for bottles of spirits, such as tequila, i want to see the
+    price of the bottle in the recipe, not the per L price... i just want to know
+    the weight/volume of the thing i'm drawing from."
+
+    A rate answers "what does a litre cost". Nobody buys a litre of tequila. The
+    question a person actually has, standing at the shelf, is what the BOTTLE
+    cost and how big it is -- and a rate quietly hides both. $79.70/L is a 700 ml
+    bottle at $55.79, and only one of those two numbers is a thing you can pick
+    up.
+
+    data/container_sizes.csv has carried the answer since the Back Office
+    DefaultSize harvest; nothing was reading it into the picker.
+    """
+    import csv as _csv
+    out = {}
+    f = ROOT / "data" / "container_sizes.csv"
+    if not f.exists():
+        return out
+    for r in _csv.DictReader(f.open(encoding="utf-8-sig")):
+        try:
+            q = Decimal(str(r["base_qty"]))
+        except Exception:                                    # noqa: BLE001
+            continue
+        if q > 0:
+            out[r["item_id"]] = (q, r["base_unit"], r.get("container") or "container")
+    return out
+
+
 def main() -> int:
     # stdout is output too — see build_costs.py. An em-dash in a progress line
     # under an ASCII locale kills a run whose files are already correct.
@@ -953,6 +985,46 @@ def main() -> int:
     review = sum(1 for i in out if i.get("needs_pack_review"))
 
     out.sort(key=lambda i: (i["needs_pack_review"], i["description"]))
+
+    # WHAT AM I DRAWING FROM? Stamp the container on every ingredient that has
+    # a declared one, so the picker can say "$55.79 / 700ml bottle" instead of
+    # "$79.70/L". A rate is a derived number; the bottle is the thing on the
+    # shelf, and it is what a person can check. See _container_sizes().
+    _cont = _container_sizes()
+    _stamped = 0
+    for _it in out:
+        _c = _cont.get(_it["id"])
+        if not _c:
+            # THE PACK IS ALREADY THE CONTAINER for anything invoice-fed. Corn
+            # chips are bought as a 3,000 g carton at $47.30; container_sizes
+            # never had a row because it only covers ids RECIPES reference, but
+            # the ingredient has been carrying the answer in its own pack
+            # columns all along. pack_qty of 1 is a RATE, not a container -- a
+            # cost-book row saying "$0.0797 per 1 ml" describes no object.
+            try:
+                _pq = Decimal(str(_it.get("pack_qty") or 0))
+            except Exception:                                # noqa: BLE001
+                continue
+            if _pq <= 1:
+                continue
+            _c = (_pq, _it.get("pack_unit") or "", "pack")
+        _q, _u, _kind = _c
+        try:
+            _rate = Decimal(str(_it["cost_per_base_unit"]))
+        except Exception:                                    # noqa: BLE001
+            continue
+        # Only where the container is measured in the SAME dimension the rate is.
+        # A per-EACH price against a 700 ml container is not a container price,
+        # it is two different questions.
+        if _u != (_it.get("pack_unit") or ""):
+            continue
+        _it["container_qty"] = str(_q)
+        _it["container_unit"] = _u
+        _it["container_kind"] = _kind
+        _it["container_cost_incl"] = str((_rate * _q).quantize(Decimal("0.01")))
+        _stamped += 1
+    print(f"  container size on {_stamped} of {len(out)} ingredients "
+          f"(the picker can show the bottle, not the litre)")
 
     # QUALITY GATE: a name that echoes its code / is only a unit is a parse
     # artefact (the FFT class of bug). Surface it here and in the feed so it gets

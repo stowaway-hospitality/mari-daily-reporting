@@ -95,10 +95,14 @@ ok('the builder boots against the real feeds', B.builderReady());
 /** Every rendered line, parsed back out of the HTML the builder wrote. */
 function lines() {
   const html = byId('lines').innerHTML;
-  const re = /<div class="line">\s*<div class="nm">([\s\S]*?)<small id="ct-\d+">([^<]*)<\/small><\/div>\s*<input[^>]*value="([^"]*)"[^>]*placeholder="([^"]*)"[^>]*>\s*<div class="lc" id="lc-\d+">([^<]*)<\/div>/g;
+  // The <small> holds MARKUP now, not bare text: the container label is
+  // "$55.79 <span class="m">/ 700ml</span>" so a person reads the bottle and
+  // not a per-litre rate they would have to do arithmetic on. Match any
+  // content and strip the tags, rather than assuming the label is plain.
+  const re = /<div class="line">\s*<div class="nm">([\s\S]*?)<small id="ct-\d+">([\s\S]*?)<\/small><\/div>\s*<input[^>]*value="([^"]*)"[^>]*placeholder="([^"]*)"[^>]*>\s*<div class="lc" id="lc-\d+">([^<]*)<\/div>/g;
   const out = []; let m;
   while ((m = re.exec(html)) !== null) {
-    out.push({ name: m[1].trim(), rate: m[2], qty: m[3],
+    out.push({ name: m[1].trim(), rate: m[2].replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim(), qty: m[3],
                placeholder: m[4], cost: m[5] });
   }
   return out;
@@ -114,7 +118,12 @@ function lines() {
   // THE ANSWER. A fraction is not rounded to a whole pack on load.
   ok('the quantity box holds the FRACTION, not 1', cos.qty === '0.083', cos.qty);
   ok('...and the line contributes $0.23, not $2.75', cos.cost === '$0.23', cos.cost);
-  ok('...while $2.75 is shown as the RATE of one whole pack', cos.rate === '$2.75/ea', cos.rate);
+  // ...and $2.75 is still shown as one whole pack. The container label added
+  // 2026-08-19 does not touch this line, and should not: for something priced
+  // per EACH the rate and the container are the same sentence. It is the
+  // MEASURED ingredients that were lying -- "$79.70/L" for a 700 ml bottle
+  // nobody buys by the litre.
+  ok('...while $2.75 is shown as one whole pack', cos.rate === '$2.75/ea', cos.rate);
   // The builder ignores the feed's "ml" and denominates the box in the unit the
   // ingredient is actually bought in. That is right, and it is also why the
   // "ml" on that line is invisible here and has to be flagged in the work queue
@@ -190,6 +199,25 @@ ok('an empty name is not a lookup', B.openRecipe('') === false);
   ok('MUTATION: rounding the countable would show 1', rounded === 1);
   ok('MUTATION: ...and would charge $2.75 instead of $0.23',
      (rounded * 2.75).toFixed(2) === '2.75');
+}
+
+// --- WHAT AM I DRAWING FROM ---------------------------------------------------
+// Zak, 2026-08-19: "for bottles of spirits, such as tequila, i want to see the
+// price of the bottle in the recipe, not the per L price... i just want to know
+// the weight/volume of the thing i'm drawing from."
+//
+// $79.70/L is a real number and nobody has ever bought a litre of tequila.
+{
+  ok('a margarita loads', B.openRecipe('Classic Margarita'));
+  const L = lines();
+  const tq = L.find(l => /Rooster/.test(l.name));
+  ok('the tequila line is there', !!tq, L.map(l => l.name).join(' | '));
+  if (tq) {
+    ok('...and it names the BOTTLE, not the litre',
+       /^\$\d+\.\d\d \/ 700ml$/.test(tq.rate), tq.rate);
+    ok('...and it is the price we were actually invoiced',
+       tq.rate.startsWith('$55.79'), tq.rate);
+  }
 }
 
 console.log(`\n${n} builder-load assertions, ${fails} failures`);

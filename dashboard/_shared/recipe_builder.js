@@ -120,8 +120,10 @@ function renderPick() {
   }).join('');
   const ingHtml = hits.map(i => {
     const ok = !i.needs_pack_review;
-    const cost = ok ? `${money(i.cost_per_base_unit * perMult(i.pack_unit))} <span class="m">/${esc(perUnit(i.pack_unit))}</span>`
-                    : `<span class="m">pack?</span>`;
+    const cost = !ok ? `<span class="m">pack?</span>`
+      : (i.container_cost_incl && +i.container_qty)
+        ? `${money(+i.container_cost_incl)} <span class="m">/ ${esc(fmtSize(+i.container_qty, i.container_unit || ''))}</span>`
+        : `${money(i.cost_per_base_unit * perMult(i.pack_unit))} <span class="m">/${esc(perUnit(i.pack_unit))}</span>`;
     return `<div class="ing" onclick="add('${i.id}')">
       <div><div class="n">${esc(i.description)}${ok ? '' : '<span class="pill">confirm pack</span>'}</div>
       <div class="m">${esc(i.supplier)}</div></div>
@@ -241,7 +243,32 @@ function lineRate(l) {
   else { const i = ING.find(x => x.id === l.id); per = i ? +i.cost_per_base_unit : 0; u = i ? i.pack_unit : (l.unit || 'ea'); }
   return { rate: per * perMult(u), unit: perUnit(u) };
 }
-function lineCostLabel(l) {           // the RATE only; the line's own cost has a column
+// WHAT YOU ARE DRAWING FROM, not the rate you would derive from it.
+//
+// Zak, 2026-08-19: "for bottles of spirits, such as tequila, i want to see the
+// price of the bottle in the recipe, not the per L price... i just want to know
+// the weight/volume of the thing i'm drawing from."
+//
+// $79.70/L is a real number and nobody has ever bought a litre of tequila. The
+// same fact stated as "$55.79 / 700ml" is a bottle you can pick up and check
+// against the invoice — and checking is the entire point of showing a price on
+// this screen. The rate stays as the fallback for anything with no declared
+// container (a sub-recipe, a manual line, an ingredient priced per each).
+function containerOf(l) {
+  if (l.kind === 'sub' || l.kind === 'manual') return null;
+  const i = ING.find(x => x.id === l.id);
+  if (!i || !i.container_cost_incl || !+i.container_qty) return null;
+  return { cost: +i.container_cost_incl, qty: +i.container_qty, unit: i.container_unit || '' };
+}
+function fmtSize(q, u) {
+  // 700ml, 1.5L, 3kg, 12ea — read it the way the label on the thing reads.
+  if (u === 'ml' && q >= 1000) return `${+(q / 1000).toFixed(2)}L`;
+  if (u === 'g' && q >= 1000) return `${+(q / 1000).toFixed(2)}kg`;
+  return `${+q.toFixed(2)}${u}`;
+}
+function lineCostLabel(l) {           // the line's own cost has its own column
+  const c = containerOf(l);
+  if (c) return `${money(c.cost)} <span class="m">/ ${esc(fmtSize(c.qty, c.unit))}</span>`;
   const r = lineRate(l);
   return `${money(r.rate)}/${esc(r.unit)}`;
 }
