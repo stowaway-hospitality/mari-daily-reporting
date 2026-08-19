@@ -87,3 +87,65 @@ person has since written down what actually goes in. That entry is now dead
 weight and should be removed once the real cause is found.
 
 **Do not promote Marilyna's until this is closed.**
+
+---
+
+## URGENT — main is RED and the cause is a chef's recipe, not a code change
+
+**`Large Tandoori Chicken` costs $135.31 against a $25.00 menu price. −495% GP,
+68 sold in 13 weeks. `Regular Tandoori Chicken` is $187.78 against $19.50.**
+
+### Why CI is red on every run
+
+The COMMITTED `data/lightspeed_recipes_costed.json` is fine ($19.55 for the
+batch). A FRESH rebuild is not — it explodes to $2,960 — so the SEVERE ratchet
+fails in CI on every commit, including ones that touch nothing related.
+`SEVERE 17` against a pinned baseline of 0.
+
+### The cause
+
+`92d59c2b — Recipe: Tandoori Chicken [2Kg] (marilynas) — renan@stowawaybar.com`
+
+Renan saved, through the builder: **1,700 g chicken + 400 ML of
+`Tandoori Sauce [Batch]`**, declaring a 2,000 g yield. That batch yields
+**grams**.
+
+The quantities are RIGHT. Read as grams: 1,700 + 400 = 2,100 g in against 2,000 g
+out — a 5% loss, exactly what a marinade that is then cooked should show. Only
+the unit label is wrong.
+
+Read as millilitres the units never meet, and instead of refusing, the line
+resolved to **$7.35/ml** — which is the yoghurt line's entire cost — giving
+$2,940 of sauce and a $2,960 batch.
+
+### What I tried, and why each failed
+
+1. `data/batch_yield_units.yaml` line fix + applying declared fixes to authored
+   records — the relabel IS recorded in `unit_relabels`, but the cost did not
+   move. Affects the materialiser only.
+2. `data/recipe_line_unit_fixes.yaml` — the converter runs `apply_unit_fixes()`
+   on the RAW SCRAPE at the top of `main()`, and the authored recipe is merged
+   in *afterwards* by `load_our_book_lines()`. The fix cannot reach it.
+3. Appending a corrected block to `data/recipes/marilynas.yaml` (append-only,
+   tail-wins) with `unit: g` — the converter still produced $2,960, so its
+   authored-recipe pickup is not tail-wins, or it reads elsewhere. **This is the
+   thread to pull.**
+
+All three are reverted. The tree is clean and matches main.
+
+### The two real bugs behind it
+
+* **A millilitre draw on a gram batch should REFUSE.** `modules/recipes/cost.py`
+  does exactly that. The converter's own prep resolution produces a number
+  instead — and a number nobody can defend is worse than a refusal.
+* **The builder offered a unit the batch cannot supply.** A chef picked ml from
+  a dropdown for a batch measured in grams and got a −495% GP product. That is
+  not a data-entry mistake to blame him for; it is the UI letting it happen.
+
+### Do this first
+
+Find where `convert_lightspeed_recipes.py` resolves an authored sub-recipe line
+whose unit does not match the batch's yield unit, and make it refuse. That fixes
+the class, not the instance. Then correct Renan's record.
+
+**Marilyna's must not be promoted until this is closed.**
