@@ -378,8 +378,28 @@ def load_weekly(data_dir: str, today=None):
     """
     today = today or date.today()
     rows, dropped = [], {}
+    # COLLAPSE THE SIZE VARIANTS HERE, not in the file.
+    #
+    # products_weekly.csv used to merge "- Schooner" and "- Pint" as it was
+    # written, and this model was built on that. It stopped on 2026-08-19,
+    # because the cost book needs them apart — a pint and a schooner have
+    # different prices and different GP, and merging them produced a row
+    # describing nothing you can buy (see build_products_weekly).
+    #
+    # A keg is the opposite question: its demand is every pour of any size, so
+    # the collapse is exactly right here. The file now carries what the POS rang
+    # and each consumer folds it to suit. Nothing about this model's arithmetic
+    # changes — it sees the same rows it always did.
+    import sys as _sys
+    _sp = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))), "scripts")
+    if _sp not in _sys.path:
+        _sys.path.insert(0, _sp)
+    from build_products_weekly import normalize_product as _fold
+
     with open(os.path.join(data_dir, "products_weekly.csv"), newline="") as fh:
         for r in csv.DictReader(fh):
+            r["product_name"] = _fold(r.get("product_name") or "")
             try:
                 r["qty"] = float(r["qty"] or 0)
             except ValueError:

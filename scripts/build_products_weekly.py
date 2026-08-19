@@ -43,14 +43,48 @@ def parse_num(x):
     return -v if neg else v
 
 
-# Serving-size variants of the SAME drink split it across rows. Collapse the
-# trailing " - <size>" so beer pints+schooners merge, and wine regular/large/
-# bottle/glass merge. Whitelisted tokens only — never strips flavours ("- Passion-
-# fruit"), delivery zones ("- Freshwater / Queenscliff"), or deal names.
+# SIZE VARIANTS STAY SEPARATE. This used to collapse a trailing " - <size>" so
+# pints and schooners merged into one row, on the reasoning that they are the
+# same drink. They are the same LIQUID and a different PRODUCT: they have
+# different prices, different pours and different GP, and merging them produces
+# a row that describes nothing you can buy.
+#
+# Zak, 2026-08-19, on finding "Stone & Wood — $11.50, $3.30 cost, 68.5% GP,
+# 1,900 sold" in the cost book: "we dont sell this and not at this price, yet
+# there are sales attributed"... "i need variants separate for the cost book".
+#
+# He was right twice over. A bare "Stone & Wood" has NEVER sold — not one unit
+# across 2024, 2025 or 2026; every sale in the raw export is "- Pint" or
+# "- Schooner". But a retired $11.50 POS button by that name still exists in the
+# catalogue, so the collapsed 15,255 units landed on the dead SKU, wearing the
+# SCHOONER's cost and a price that is neither variant's:
+#
+#     Stone & Wood - Pint       $17.00   cost $4.42   71.4% GP
+#     Stone & Wood - Schooner   $13.00   cost $3.30   72.1% GP
+#     Stone & Wood (retired)    $11.50   cost $3.30   68.5% GP  <- got all the sales
+#
+# It also contradicted the Sales Product API's own documented convention, which
+# is that size variants ARE separate records and a caller sums across them when
+# it wants the drink rather than the pour.
+#
+# THE FUNCTION STAYS; IT IS NO LONGER APPLIED WHEN WRITING THE FILE.
+#
+# Collapsing is right for some questions and wrong for others, and the file is
+# not the place to choose. A PAR model asking "how much of this keg do we pour"
+# wants pints and schooners together; a COST BOOK asking "what is the GP on this
+# product" needs them apart. So the file carries the variants — the truth, and
+# what the POS actually rang — and each consumer collapses if its own question
+# needs it. modules/par/model.py does exactly that at its load point.
 _SIZE_SUFFIXES = {"pint", "schooner", "regular", "large", "bottle",
                   "glass", "large glass", "regular glass"}
 
+
 def normalize_product(name):
+    """Fold a trailing " - <size>" so pints and schooners read as one drink.
+
+    Whitelisted tokens only — never strips flavours ("- Passionfruit"), delivery
+    zones ("- Freshwater / Queenscliff"), or deal names.
+    """
     base, sep, suf = (name or "").rpartition(" - ")
     if sep:
         s = re.sub(r"\s*\[[^\]]*\]\s*$", "", suf).strip().lower()   # drop a trailing [HG] etc.
@@ -172,7 +206,7 @@ def ingest_looker_backfill(agg, skip_weeks):
             if not name or not ex:
                 continue
             venue = rgv.get(rg, "stow")
-            k = (we, venue, rg, normalize_product(name))
+            k = (we, venue, rg, name)
             agg[k][0] += ex
             agg[k][1] += parse_num(r.get("Sales Data Product Quantity"))   # units (cost is null in Looker)
             n += 1
@@ -233,7 +267,7 @@ def main():
                 code = dept_for(name, prefix, dmap)
                 venue = DEPT_VENUE.get(code, prefix)             # reattribute cross-till
                 rg = rgnames.get(prefix, {}).get(name) or UNMAPPED.get(code, "Unmapped")
-                k = (we, venue, rg, normalize_product(name))
+                k = (we, venue, rg, name)
                 agg[k][0] += ex
                 agg[k][1] += qty
                 agg[k][2] += parse_num(row.get(schema["cost"]))  # for GP% (daily feed carries cost)

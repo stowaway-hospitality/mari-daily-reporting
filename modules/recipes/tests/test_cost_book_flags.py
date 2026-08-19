@@ -150,9 +150,9 @@ def test_the_uncosted_long_tail_is_rolled_up_and_not_dropped(feed):
 
     # Every product in a rollup is genuinely below the individual threshold, so
     # nothing appears both as its own flag and inside a group.
-    solo = {f["subject"] for f in _by_cat(feed, "no_recipe")
+    solo = {(f["venue"], f["subject"]) for f in _by_cat(feed, "no_recipe")
             if f.get("subject_kind") != "product_group"}
-    assert not (named & solo), sorted(named & solo)
+    assert not (named & solo), sorted(named & solo)   # same venue, both places
 
 
 def test_the_list_is_long_enough_to_be_the_real_queue(feed):
