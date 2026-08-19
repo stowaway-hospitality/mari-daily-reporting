@@ -30,9 +30,9 @@
  "manual_lines": [
   {
    "engine": null,
-   "frozen_unit_cost": 4.5602,
+   "frozen_unit_cost": 4.5593,
    "line": "Large Pizza [menu average]",
-   "line_cost": 9.1204,
+   "line_cost": 9.1186,
    "product": "$45 FEAST",
    "qty": 2.0,
    "ref": "",
@@ -63,9 +63,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.5602,
+   "frozen_unit_cost": 4.5593,
    "line": "Large Pizza [menu average]",
-   "line_cost": 13.6806,
+   "line_cost": 13.6779,
    "product": "$60 BANQUET",
    "qty": 3.0,
    "ref": "",
@@ -96,9 +96,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.5602,
+   "frozen_unit_cost": 4.5593,
    "line": "Large Pizza [menu average]",
-   "line_cost": 18.2408,
+   "line_cost": 18.2372,
    "product": "$90 PIZZA PARTY",
    "qty": 4.0,
    "ref": "",
@@ -162,9 +162,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.5602,
+   "frozen_unit_cost": 4.5593,
    "line": "Large Pizza [menu average]",
-   "line_cost": 13.6806,
+   "line_cost": 13.6779,
    "product": "Banquet Deal Pizzas",
    "qty": 3.0,
    "ref": "",
@@ -283,9 +283,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.5602,
+   "frozen_unit_cost": 4.5593,
    "line": "Large Pizza [menu average]",
-   "line_cost": 9.1204,
+   "line_cost": 9.1186,
    "product": "Feast Deal Pizzas",
    "qty": 2.0,
    "ref": "",
@@ -822,9 +822,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.5602,
+   "frozen_unit_cost": 4.5593,
    "line": "Large Pizza [menu average]",
-   "line_cost": 4.5602,
+   "line_cost": 4.5593,
    "product": "WINGS DEAL",
    "qty": 1.0,
    "ref": "",
@@ -935,20 +935,6 @@
    "from": "g",
    "to": "ml",
    "why": "house rule: a drink is poured, so ml"
-  },
-  {
-   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
-   "batch": "Mint Yoghurt [Batch]",
-   "from": "ml",
-   "to": "g",
-   "why": "house rule: food is weighed, so g"
-  },
-  {
-   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
-   "batch": "Garlic Oil [Batch]",
-   "from": "ml",
-   "to": "g",
-   "why": "house rule: food is weighed, so g"
   },
   {
    "basis": "From the hand-authored record in data/recipes/marilynas.yaml, entered from Zak's \"Pizza Topping sauces Recipe\" doc on 20",

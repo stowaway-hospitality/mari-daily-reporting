@@ -18,7 +18,23 @@
   },
   {
    "in": "stowaway",
+   "product": "Lemonade Glass"
+  },
+  {
+   "in": "stowaway",
    "product": "Passionfruit Syrup"
+  },
+  {
+   "in": "stowaway",
+   "product": "Pepsi Glass"
+  },
+  {
+   "in": "stowaway",
+   "product": "Pepsi Max Glass"
+  },
+  {
+   "in": "stowaway",
+   "product": "Pink Lemonade Glass"
   },
   {
    "in": "stowaway",
@@ -30,22 +46,30 @@
   },
   {
    "in": "stowaway",
+   "product": "Southern Squid"
+  },
+  {
+   "in": "stowaway",
    "product": "Sugar Syrup"
   },
   {
    "in": "marilynas",
    "product": "Tandoori Chicken [2Kg]"
+  },
+  {
+   "in": "stowaway",
+   "product": "Trade Winds"
   }
  ],
  "by_source": {
-  "authored": 29,
+  "authored": 40,
   "derived": 141,
-  "mirrored": 42,
+  "mirrored": 40,
   "rule": 60,
-  "scrape": 1141
+  "scrape": 1138
  },
  "generated": "2026-08-19",
- "lines": 1413,
+ "lines": 1419,
  "manual_lines": [
   {
    "engine": null,
@@ -411,9 +435,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.5602,
+   "frozen_unit_cost": 4.5593,
    "line": "large pizza, sales-weighted mean of every large sold",
-   "line_cost": 4.5602,
+   "line_cost": 4.5593,
    "product": "Large Pizza [menu average]",
    "qty": 1.0,
    "ref": "",
@@ -485,28 +509,6 @@
    "ref": "Nut Roast Prep",
    "unit": "g",
    "why": "the quantity is junk in either unit \u2014 a relabel moved this line's cost by more than 3x, so the number is not a quantity at all"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 1.31,
-   "line": "Pepsi Glass",
-   "line_cost": 1.31,
-   "product": "Pepsi Glass",
-   "qty": 1.0,
-   "ref": "lightspeed:20702600",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 1.31,
-   "line": "Pepsi Max Glass",
-   "line_cost": 1.31,
-   "product": "Pepsi Max Glass",
-   "qty": 1.0,
-   "ref": "lightspeed:20779180",
-   "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
    "engine": null,
@@ -696,7 +698,7 @@
   }
  ],
  "no_yield": [],
- "products": 589,
+ "products": 591,
  "pulled_in_for_closure": [
   "Davy's Old Fashioned Batch"
  ],
@@ -743,20 +745,6 @@
    "from": "g",
    "to": "ml",
    "why": "house rule: a drink is poured, so ml"
-  },
-  {
-   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
-   "batch": "Mint Yoghurt [Batch]",
-   "from": "ml",
-   "to": "g",
-   "why": "house rule: food is weighed, so g"
-  },
-  {
-   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
-   "batch": "Garlic Oil [Batch]",
-   "from": "ml",
-   "to": "g",
-   "why": "house rule: food is weighed, so g"
   },
   {
    "basis": "From the hand-authored record in data/recipes/marilynas.yaml, entered from Zak's \"Pizza Topping sauces Recipe\" doc on 20",

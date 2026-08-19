@@ -8,9 +8,9 @@
 # Every line carries `source`:
 #   weighed      0 — somebody put it on scales
 #   derived    141 — computed from another line (a size scaling, a cook yield)
-#   mirrored    42 — deliberately the same spec as a sibling record
+#   mirrored    40 — deliberately the same spec as a sibling record
 #   rule        60 — a written rule with arithmetic proof corrected it
-#   scrape    1141 — nobody has checked it. This is the number to shrink.
+#   scrape    1138 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -5785,7 +5785,7 @@
     qty: 1
     unit: ea
     manual: true
-    unit_cost_incl: 4.5602
+    unit_cost_incl: 4.5593
     source: scrape
 - product: Large Sanchez [Vegan] Wings Deal
   venue_source: stowaway
@@ -5955,22 +5955,23 @@
     qty: 2
     unit: ml
     source: scrape
-  - id: lightspeed:20681676
-    desc: Lemonade [mixer]
-    qty: 1
-    unit: ea
+  - id: cub:SCHWLEM15L
+    desc: Schweppes Lemonade Postmix 15L BIB
+    qty: 28.33
+    unit: ml
     source: mirrored
     evidence: 'recipe_missing_lines.yaml: from sibling size'
 - product: Lemonade Glass
   venue_source: stowaway
-  is_serve: true
+  authored_in: data/recipes/stowaway.yaml
+  sell_incl_gst: 4.5
   ingredients:
-  - id: lightspeed:20681676
-    desc: Lemonade [mixer]
-    qty: 1
-    unit: ea
-    source: mirrored
-    evidence: 'recipe_missing_lines.yaml: from sibling size'
+  - id: cub:SCHWLEM15L
+    desc: Schweppes Lemonade Postmix 15L BIB
+    qty: 28.33
+    unit: ml
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
 - product: Lime [ea]
   venue_source: stowaway
   yield_qty: 1
@@ -7257,26 +7258,26 @@
     evidence: 'recipe_line_unit_fixes.yaml: L -> mL'
 - product: Pepsi Glass
   venue_source: stowaway
-  is_serve: true
+  authored_in: data/recipes/stowaway.yaml
+  sell_incl_gst: 4.5
   ingredients:
-  - id: lightspeed:20702600
-    desc: Pepsi Glass
-    qty: 1
-    unit: ea
-    manual: true
-    unit_cost_incl: 1.31
-    source: scrape
+  - id: cub:PEPSI15L
+    desc: Pepsi Postmix 15L BIB
+    qty: 28.33
+    unit: ml
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
 - product: Pepsi Max Glass
   venue_source: stowaway
-  is_serve: true
+  authored_in: data/recipes/stowaway.yaml
+  sell_incl_gst: 4.5
   ingredients:
-  - id: lightspeed:20779180
-    desc: Pepsi Max Glass
-    qty: 1
-    unit: ea
-    manual: true
-    unit_cost_incl: 1.31
-    source: scrape
+  - id: cub:PEPSIMAX10L
+    desc: Pepsi Max Postmix 10L BIB
+    qty: 28.33
+    unit: ml
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
 - product: Peroni
   venue_source: stowaway
   is_serve: true
@@ -7472,19 +7473,15 @@
     source: scrape
 - product: Pink Lemonade Glass
   venue_source: stowaway
-  is_serve: true
+  authored_in: data/recipes/stowaway.yaml
+  sell_incl_gst: 4.5
   ingredients:
-  - id: lightspeed:20727770
-    desc: Bickfords Raspberry Cordial [Bottle]
-    qty: 20
+  - id: cub:SCHWCREAM15L
+    desc: Schweppes Red Cream Soda Postmix 15L BIB
+    qty: 28.33
     unit: ml
-    source: scrape
-  - id: lightspeed:20681681
-    desc: Pink Lemonade [mixer]
-    qty: 1
-    unit: ea
-    source: mirrored
-    evidence: 'recipe_missing_lines.yaml: from sibling size'
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
 - product: Pink Lemonade [mixer]
   venue_source: stowaway
   is_serve: true
@@ -8702,6 +8699,18 @@
     qty: 150
     unit: ml
     source: scrape
+- product: Southern Squid
+  venue_source: stowaway
+  authored_in: data/recipes/stowaway.yaml
+  sell_incl_gst: 26.33
+  ingredients:
+  - id: foodlink:102689
+    desc: SQUID PINEAPPLE CUT IMP U5 5KG
+    qty: 200
+    unit: g
+    unit_cost_incl: 0.0114
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
 - product: Southside
   venue_source: stowaway
   is_serve: true
@@ -9336,6 +9345,53 @@
     qty: 100
     unit: g
     source: scrape
+- product: Trade Winds
+  venue_source: stowaway
+  authored_in: data/recipes/stowaway.yaml
+  sell_incl_gst: 14.0
+  ingredients:
+  - id: lightspeed:20492716
+    desc: John D. Taylor's Velvet Falernum
+    qty: 15
+    unit: ml
+    unit_cost_incl: 0.049986
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
+  - id: lightspeed:22843691
+    desc: Seedless Passionfruit Juice (Berry Man PJ1)
+    qty: 20
+    unit: g
+    unit_cost_incl: 0.0095
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
+  - id: lightspeed:22488947
+    desc: lime juice
+    qty: 30
+    unit: ml
+    unit_cost_incl: 0.0083
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
+  - id: lightspeed:20747514
+    desc: Angostura Bitters (2 drops)
+    qty: 0.2
+    unit: ml
+    unit_cost_incl: 0.0067
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
+  - id: fresh-fruit-team:HMRBCH BUNCH
+    desc: Mint sprig
+    qty: 0.05
+    unit: bunch
+    unit_cost_incl: 1.1
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
+  - id: lightspeed:21019999
+    desc: Dehydrated Lime Garnish (1 wheel)
+    qty: 2
+    unit: g
+    unit_cost_incl: 0.092308
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
 - product: Travelling While Standing Still Gin
   venue_source: stowaway
   is_serve: true

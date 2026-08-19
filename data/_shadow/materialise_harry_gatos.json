@@ -42,6 +42,10 @@
   },
   {
    "in": "harry_gatos",
+   "product": "Tengumai Junmai - 180ml  [SERVE WARM]"
+  },
+  {
+   "in": "harry_gatos",
    "product": "Tengumai Junmai - 60ml [SERVE WARM]"
   },
   {
@@ -50,14 +54,14 @@
   }
  ],
  "by_source": {
-  "authored": 35,
+  "authored": 36,
   "derived": 2,
   "mirrored": 2,
   "rule": 29,
   "scrape": 207
  },
  "generated": "2026-08-19",
- "lines": 275,
+ "lines": 276,
  "manual_lines": [
   {
    "engine": null,
@@ -303,7 +307,7 @@
   }
  ],
  "no_yield": [],
- "products": 82,
+ "products": 83,
  "pulled_in_for_closure": [
   "Dragon Juice Batch",
   "Drunken Koi Batch",
@@ -370,20 +374,6 @@
    "from": "g",
    "to": "ml",
    "why": "house rule: a drink is poured, so ml"
-  },
-  {
-   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
-   "batch": "Mint Yoghurt [Batch]",
-   "from": "ml",
-   "to": "g",
-   "why": "house rule: food is weighed, so g"
-  },
-  {
-   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
-   "batch": "Garlic Oil [Batch]",
-   "from": "ml",
-   "to": "g",
-   "why": "house rule: food is weighed, so g"
   },
   {
    "basis": "From the hand-authored record in data/recipes/marilynas.yaml, entered from Zak's \"Pizza Topping sauces Recipe\" doc on 20",
