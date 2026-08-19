@@ -44,6 +44,7 @@ ROOT = Path(os.environ.get("REPO_ROOT", Path(__file__).resolve().parent.parent))
 BOOK = ROOT / "data" / "lightspeed_recipes_costed.json"
 OUT = ROOT / "data" / "container_sizes.csv"
 _BO_SIZES: dict = {}
+_TWINS: dict = {}
 
 # "[700ml]", "[2L]", "[1Kg]", "500g". Deliberately anchored to a unit word —
 # "Pizza Base Gluten Free 11in" must not read 11 as a size.
@@ -107,6 +108,63 @@ def _bo_default_sizes() -> dict:
     return out
 
 
+def _stem(name: str) -> str:
+    """Product name with its bracketed suffixes and trailing punctuation gone.
+
+    "Appleton Rum [House]" and "Appleton Rum [Bottle]" are the same rum in two
+    roles, and the brackets are exactly what distinguishes the role.
+    """
+    n = re.sub(r"\s*\[[^]]*\]", "", name).strip().rstrip(".").lower()
+    return re.sub(r"\s+", " ", n)
+
+
+def _stock_twins() -> dict:
+    """Stem -> the sizes its stock-tracked records agree on (or don't).
+
+    A recipe that draws "30" of the POS SALE item is unpriceable: the sale item
+    is the POUR, carries no container, and Lightspeed says so (InventoryType '').
+    The bottle beside it does carry one:
+
+        Archie Rose Signature Gin           InventoryType ''   Unit unit  DefaultSize 1
+        Archie Rose Signature Gin [Bottle]  InventoryType '1'  Unit ml    DefaultSize 700
+
+    126 recipe references point at the sale item. 106 have a stock twin holding
+    the answer. Zak, 2026-08-19: "we don't keep stock of archie rose [30ml]."
+
+    The join is a name stem, and a name stem is a MATCHER -- the thing that has
+    already handed this book Hahn Super Dry as Asahi and Coke Zero as Better
+    Beer. So it is only allowed to speak when it cannot be wrong: every stock
+    record sharing the stem must agree on the size. Most apparent ambiguity is
+    just the same bottle appearing in both venue exports, which agrees with
+    itself. Real disagreement is real:
+
+        Campari      [Bottle] 750  vs  [Bottle] 700
+        Pepperoni    unit 1        vs  [3kg] 3000 g
+        Lemon        [Sliced] 1kg  vs  [ea] 1  vs  [kg] 1kg
+
+    Those are questions, not facts. They go to the review file for a human.
+    """
+    import csv as _csv
+    by_stem: dict = {}
+    for f in ("stowaway_products.csv", "harry_gatos_products.csv"):
+        path = ROOT / "data" / "bo_exports" / f
+        if not path.exists():
+            continue
+        for r in _csv.DictReader(path.read_text(encoding="utf-8-sig").splitlines()):
+            if (r.get("InventoryType") or "").strip() != "1":
+                continue
+            unit = (r.get("Unit") or "").strip().lower()
+            try:
+                size = Decimal((r.get("DefaultSize") or "").strip())
+            except Exception:                                # noqa: BLE001
+                continue
+            if size <= 1 or unit not in TO_BASE:
+                continue
+            by_stem.setdefault(_stem(r.get("ProductName") or ""), []).append(
+                (size, unit, (r.get("ProductName") or "").strip()))
+    return by_stem
+
+
 def _resolve_bo(size: Decimal, unit: str, name_qty, base: str):
     """Turn a raw Back Office (DefaultSize, Unit) pair into a base quantity.
 
@@ -156,7 +214,9 @@ def _resolve_bo(size: Decimal, unit: str, name_qty, base: str):
 
 def main() -> int:
     global _BO_SIZES
+    global _TWINS
     _BO_SIZES = _bo_default_sizes()
+    _TWINS = _stock_twins()
     names = item_names()
     base_units = load_base_units()
     overrides = load_pack_overrides(ROOT / "data" / "pack_overrides.yaml")
@@ -187,7 +247,20 @@ def main() -> int:
 
         # BACK OFFICE FIRST: a stock item states its own container size, which
         # beats parsing one out of a name -- but only its NUMBER is evidence.
-        bo = _BO_SIZES.get(item)
+        bo, via_twin = _BO_SIZES.get(item), None
+        if bo is None and base:
+            # No container on this record. If it is a POS sale item, the stock
+            # item standing behind it has one -- but only take it if every
+            # candidate agrees (see _stock_twins).
+            twins = _TWINS.get(_stem(name), [])
+            agreed = {(t[0], t[1]) for t in twins}
+            if len(agreed) == 1:
+                bo, via_twin = next(iter(agreed)), twins[0][2]
+            elif len(agreed) > 1:
+                refused.append((item, name, "stock twins disagree on size: "
+                                + " vs ".join(f"{t[2]} {t[0]:g}{t[1]}" for t in twins[:3])))
+                continue
+
         if bo and base:
             name_qty = None
             if m:
@@ -196,9 +269,15 @@ def main() -> int:
                     name_qty = Decimal(m.group(1)) * f_n
             qty, why = _resolve_bo(bo[0], bo[1], name_qty, base)
             if qty is not None:
+                if via_twin:
+                    # Say so. This row's size came from a DIFFERENT record --
+                    # the stock item standing behind a POS sale item -- and an
+                    # audit trail that hides that is not an audit trail.
+                    why = f"{why}; via stock twin \"{via_twin}\""
                 rows.append({"item_id": item, "item_name": name,
                              "container": "container", "base_qty": qty,
-                             "base_unit": base, "source": "back_office",
+                             "base_unit": base,
+                             "source": "back_office_twin" if via_twin else "back_office",
                              "evidence": why})
                 continue
             refused.append((item, name, why))

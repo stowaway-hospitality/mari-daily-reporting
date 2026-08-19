@@ -86,7 +86,7 @@ def test_container_sizes_record_where_each_came_from():
         rows = list(csv.DictReader(f))
     assert rows
     sources = {r["source"] for r in rows}
-    assert sources <= {"pack_override", "product_name", "unit_is_each", "back_office"}
+    assert sources <= {"pack_override", "product_name", "unit_is_each", "back_office", "back_office_twin"}
     for r in rows:
         assert Decimal(r["base_qty"]) > 0
         assert r["base_unit"] in {"g", "ml", "each"}
@@ -207,3 +207,34 @@ def test_back_office_size_is_a_number_not_a_label():
     # Dimension clash is never resolved by force.
     qty, why = _resolve_bo(Decimal("700"), "ml", None, "g")
     assert qty is None
+
+
+def test_stock_twin_only_speaks_when_it_cannot_be_wrong():
+    """Joining a POS sale item to its stock item is a NAME MATCH, and name
+    matches are how this book once believed Hahn Super Dry was Asahi. So the
+    join is allowed only where every stock record sharing the stem agrees.
+    Campari's two bottles (750 and 700) must refuse, not average.
+    """
+    from scripts.build_container_sizes import _stem
+
+    assert _stem("Appleton Rum [House]") == _stem("Appleton Rum [Bottle]")
+    assert _stem("Archie Rose Signature Gin") == _stem("Archie Rose Signature Gin [Bottle]")
+    assert _stem("Pepperoni.") == _stem("Pepperoni [3kg]")
+    # Different products must NOT collapse together.
+    assert _stem("Lemon [ea]") != _stem("Lemon Juice [1L]")
+    assert _stem("Four Pillars Rare Dry") != _stem("Four Pillars Olive Leaf")
+
+
+def test_archie_rose_pour_is_sized_by_its_bottle():
+    """The case Zak named: "we don't keep stock of archie rose [30ml]".
+
+    Recipes reference the POS sale item, which has no container. Unsized, a
+    30 ml pour reads as 30 BOTTLES -- $1,862.40. The bottle behind it says
+    700 ml, which makes the pour $2.74.
+    """
+    import csv
+    rows = {r["item_id"]: r for r in csv.DictReader(
+        (ROOT / "data" / "container_sizes.csv").read_text().splitlines())}
+    gin = rows.get("lightspeed:20445809")
+    assert gin, "Archie Rose must carry a container size"
+    assert Decimal(gin["base_qty"]) == 700 and gin["base_unit"] == "ml"

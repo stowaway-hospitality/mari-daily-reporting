@@ -1,26 +1,85 @@
 item_id,item_name,container,base_qty,base_unit,source,evidence
-lightspeed:20445566,Mushrooms [4Kg box],container,4000,g,product_name,name states 4kg
-lightspeed:20445569,Bocconcini [1Kg],container,1000,g,product_name,name states 1kg
-lightspeed:20445571,Fetta [2Kg],container,2000,g,product_name,name states 2kg
-lightspeed:20445584,Capsicum [1Kg],container,1000,g,product_name,name states 1kg
-lightspeed:20445586,Corn [2Kg],container,2000,g,product_name,name states 2kg
-lightspeed:20445593,Pumpkin [1kg],container,1000,g,product_name,name states 1kg
-lightspeed:20445597,Spanish Onion [10Kg],container,10000,g,product_name,name states 10kg
-lightspeed:20445598,Sundried Tomato [1Kg],container,1000,g,product_name,name states 1kg
-lightspeed:20445599,Anchovies [Tin 690g],container,690,g,product_name,name states 690g
-lightspeed:20445601,Prawns [Box 7kg],container,7000,g,product_name,name states 7kg
-lightspeed:20445603,Chicken [5Kg] [BBQ Chicken Pizza],container,5000,g,product_name,name states 5kg
-lightspeed:20445610,Pepperoni [3kg],container,3000,g,product_name,name states 3kg
-lightspeed:20445612,Calabrese [1Kg],container,1000,g,product_name,name states 1kg
+lightspeed:20445566,Mushrooms [4Kg box],container,4000,g,back_office_twin,"BO stock item states 4000g; via stock twin ""Mushrooms [4Kg box]"""
+lightspeed:20445569,Bocconcini [1Kg],container,1000,g,back_office_twin,"BO stock item states 1000g; via stock twin ""Bocconcini [1Kg]"""
+lightspeed:20445571,Fetta [2Kg],container,2000,g,back_office_twin,"BO stock item states 2000g; via stock twin ""Fetta [2Kg]"""
+lightspeed:20445572,BBQ Sauce [Bottle 946ml],container,946,g,back_office_twin,"BO stock item states 946g; via stock twin ""BBQ Sauce [Bottle 946ml]"""
+lightspeed:20445579,Basil [Bunch/2.50],container,200,g,back_office_twin,"BO stock item states 200g; via stock twin ""Basil [Bunch/$2.50]"""
+lightspeed:20445584,Capsicum [1Kg],container,1000,g,back_office_twin,"BO stock item states 1000g; via stock twin ""Capsicum [1Kg]"""
+lightspeed:20445586,Corn [2Kg],container,2000,g,back_office_twin,"BO stock item states 2000g; via stock twin ""Corn [2Kg]"""
+lightspeed:20445593,Pumpkin [1kg],container,1000,g,back_office_twin,"BO stock item states 1000g; via stock twin ""Pumpkin [1kg]"""
+lightspeed:20445595,Shallots [Bunch],container,300,g,back_office_twin,"BO stock item states 300g; via stock twin ""Shallots [Bunch]"""
+lightspeed:20445597,Spanish Onion [10Kg],container,10000,g,back_office_twin,"BO stock item states 10000g; via stock twin ""Spanish Onion [10Kg]"""
+lightspeed:20445598,Sundried Tomato [1Kg],container,1000,g,back_office_twin,"BO stock item states 1000g; via stock twin ""Sundried Tomato [1Kg]"""
+lightspeed:20445599,Anchovies [Tin 690g],container,690,g,back_office_twin,"BO stock item states 690g; via stock twin ""Anchovies [Tin 690g]"""
+lightspeed:20445601,Prawns [Box 7kg],container,7000,g,back_office_twin,"BO stock item states 7000g; via stock twin ""Prawns [Box 7kg]"""
+lightspeed:20445603,Chicken [5Kg] [BBQ Chicken Pizza],container,5000,g,back_office_twin,"BO stock item states 5000g; via stock twin ""Chicken [5Kg] [BBQ Chicken Pizza]"""
+lightspeed:20445610,Pepperoni [3kg],container,3000,g,back_office_twin,"BO stock item states 3000g; via stock twin ""Pepperoni [3kg]"""
+lightspeed:20445612,Calabrese [1Kg],container,1000,g,back_office_twin,"BO stock item states 1000g; via stock twin ""Calabrese [1Kg]"""
 lightspeed:20445737,Dom Pérignon Champagne - Bottle,each,1,each,unit_is_each,one is one
-lightspeed:20445822,White Light Pure Vodka [20L],container,20000,ml,product_name,name states 20l
-lightspeed:20445864,Sailor Jerry [700ml],container,700,ml,product_name,name states 700ml
-lightspeed:20445866,Bacardi Blanca [700ml],container,700,ml,product_name,name states 700ml
-lightspeed:20445872,Baileys Irish Cream [1L Bottle],container,1000,ml,product_name,name states 1l
+lightspeed:20445808,Hendrick's Gin [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Hendrick's Gin [Bottle]"""
+lightspeed:20445809,Archie Rose Signature Gin [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Archie Rose Signature Gin [Bottle]"""
+lightspeed:20445810,Bombay Sapphire [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Bombay Sapphire [Bottle]"""
+lightspeed:20445811,Bombay Dry [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Bombay Dry [Bottle]"""
+lightspeed:20445812,Wolf Lane Navy Gin [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Wolf Lane Navy Gin [Bottle]"""
+lightspeed:20445814,Four Pillars Olive Leaf [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Four Pillars Olive Leaf [Bottle]"""
+lightspeed:20445815,Four Pillars Rare Dry [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Four Pillars Rare Dry [Bottle]"""
+lightspeed:20445818,Hartshorn Sheep Whey Vodka [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Hartshorn Sheep Whey Vodka [Bottle]"""
+lightspeed:20445819,Tilde Raw Vodka [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Tilde Raw Vodka [Bottle]"""
+lightspeed:20445821,Grey Goose [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Grey Goose [Bottle]"""
+lightspeed:20445822,White Light Pure Vodka [20L],container,20000,ml,back_office_twin,"BO stock item states 20000ml; via stock twin ""White Light Pure Vodka [20L]"""
+lightspeed:20445823,Belvedere Vodka [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Belvedere Vodka [Bottle]"""
+lightspeed:20445824,1800 Coconut [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""1800 Coconut [Bottle]"""
+lightspeed:20445825,Patron Silver [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Patron Silver [Bottle]"""
+lightspeed:20445826,Herradura Plata [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Herradura Plata [Bottle]"""
+lightspeed:20445827,Patron Reposado [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Patron Reposado [Bottle]"""
+lightspeed:20445828,Cazcabel Reposado Tequila [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Cazcabel Reposado Tequila [Bottle]"""
+lightspeed:20445829,Casamigos Reposado Tequila [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Casamigos Reposado Tequila [Bottle]"""
+lightspeed:20445831,Fortaleza Reposado [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Fortaleza Reposado [Bottle]"""
+lightspeed:20445832,Don Julio 1942 Añejo [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Don Julio 1942 Añejo [Bottle]"""
+lightspeed:20445833,Rooster Rojo Blanco Tequila [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Rooster Rojo Blanco Tequila [Bottle]"""
+lightspeed:20445834,Lost Explorer Espadín Mezcal [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Lost Explorer Espadín Mezcal [Bottle]"""
+lightspeed:20445835,Quiquiriqui Mezcal [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Quiquiriqui Mezcal [Bottle]"""
+lightspeed:20445836,Illegal Reposado Mezcal [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Illegal Reposado Mezcal [Bottle]"""
+lightspeed:20445837,Bunnahabhain 12yr [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Bunnahabhain 12yr [Bottle]"""
+lightspeed:20445838,Hakushu 12yr [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Hakushu 12yr [Bottle]"""
+lightspeed:20445839,Yamazaki 12yr [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Yamazaki 12yr [Bottle]"""
+lightspeed:20445841,Macallan Sherry Oak 12yr [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Macallan Sherry Oak 12yr [Bottle]"""
+lightspeed:20445842,Glenmorangie Signet [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Glenmorangie Signet [Bottle]"""
+lightspeed:20445843,Glendronach 12yr [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Glendronach 12yr [Bottle]"""
+lightspeed:20445844,Johnnie Walker Black [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Johnnie Walker Black [Bottle]"""
+lightspeed:20445846,Lagavulin 16yr [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Lagavulin 16yr [Bottle]"""
+lightspeed:20445847,Laphroaig 10yr [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Laphroaig 10yr [Bottle]"""
+lightspeed:20445848,Redbreast 12yr [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Redbreast 12yr [Bottle]"""
+lightspeed:20445850,Jameson Irish Whiskey [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Jameson Irish Whiskey [Bottle]"""
+lightspeed:20445852,Buffalo Trace Bourbon [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Buffalo Trace Bourbon [Bottle]"""
+lightspeed:20445853,Angel's Envy Bourbon [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Angel's Envy Bourbon [Bottle]"""
+lightspeed:20445854,Jack Daniels [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Jack Daniels [Bottle]"""
+lightspeed:20445855,Monkey Shoulder Scotch [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Monkey Shoulder Scotch [Bottle]"""
+lightspeed:20445858,Flor De Caña 4 Extra Seco [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Flor De Caña 4 Extra Seco [Bottle]"""
+lightspeed:20445859,Clairin Vaval [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Clairin Vaval [Bottle]"""
+lightspeed:20445860,Appleton Rum [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Appleton Rum [Bottle]"""
+lightspeed:20445861,Myer's Jamaican Rum [Bottle],container,1000,ml,back_office_twin,"BO stock item states 1000ml; via stock twin ""Myer's Jamaican Rum [Bottle]"""
+lightspeed:20445862,Flor De Caña 12yr [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Flor De Caña 12yr [Bottle]"""
+lightspeed:20445863,Ron Zacapa 23yr [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Ron Zacapa 23yr [Bottle]"""
+lightspeed:20445864,Sailor Jerry [700ml],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Sailor Jerry [700ml]"""
+lightspeed:20445865,Kraken Rum [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Kraken Rum [Bottle]"""
+lightspeed:20445866,Bacardi Blanca [700ml],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Bacardi Blanca [700ml]"""
+lightspeed:20445868,Cointreau [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Cointreau [Bottle]"""
+lightspeed:20445869,Brookie's Mac. Liqueur [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Brookie's Mac. Liqueur [Bottle]"""
+lightspeed:20445870,Mr Black Coffee Liqueur [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Mr Black Coffee Liqueur [Bottle]"""
+lightspeed:20445871,Grand Marnier [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Grand Marnier [Bottle]"""
+lightspeed:20445872,Baileys Irish Cream [1L Bottle],container,1000,ml,back_office_twin,"BO stock item states 1000ml; via stock twin ""Baileys Irish Cream [1L Bottle]"""
+lightspeed:20445882,Fernet Branca [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Fernet Branca [Bottle]"""
+lightspeed:20445883,Oscar.697 Bianco Vermouth [Bottle],container,750,ml,back_office_twin,"BO stock item states 750ml; via stock twin ""Oscar.697 Bianco Vermouth [Bottle]"""
+lightspeed:20445887,Dolin Blanc Vermouth [Bottle],container,750,ml,back_office_twin,"BO stock item states 750ml; via stock twin ""Dolin Blanc Vermouth [Bottle]"""
 lightspeed:20445888,Regal Rogue Wild Rosé Vermouth [500ml],container,500,ml,product_name,name states 500ml
-lightspeed:20445893,Regal Rogue Bold Red Vermouth [5L],container,5000,ml,product_name,name states 5l
+lightspeed:20445889,Mancino Sakura Vermouth [Bottle],container,500,ml,back_office_twin,"BO stock item states 500ml; via stock twin ""Mancino Sakura Vermouth [Bottle]"""
+lightspeed:20445890,Antica Formula Rosso Vermouth [Bottle],container,1000,ml,back_office_twin,"BO stock item states 1000ml; via stock twin ""Antica Formula Rosso Vermouth [Bottle]"""
+lightspeed:20445891,Oscar.697 Rosso Vermouth [Bottle],container,750,ml,back_office_twin,"BO stock item states 750ml; via stock twin ""Oscar.697 Rosso Vermouth [Bottle]"""
+lightspeed:20445893,Regal Rogue Bold Red Vermouth [5L],container,5000,ml,back_office_twin,"BO stock item states 5000ml; via stock twin ""Regal Rogue Bold Red Vermouth [5L]"""
+lightspeed:20445895,Aperol [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Aperol [Bottle]"""
 lightspeed:20445897,San Pellegrino 500ml,pack,500,ml,pack_override,human-confirmed
-lightspeed:20445917,Bundaberg Ginger Beer [750ml],container,750,ml,product_name,name states 750ml
+lightspeed:20445917,Bundaberg Ginger Beer [750ml],container,750,ml,back_office_twin,"BO stock item states 750ml; via stock twin ""Bundaberg Ginger Beer [750ml]"""
 lightspeed:20459554,Solo 1.25L,each,1,each,unit_is_each,one is one
 lightspeed:20459557,Sunkist 1.25L,each,1,each,unit_is_each,one is one
 lightspeed:20464467,A. Rodda Tempranillo - Bottle,container,750,ml,back_office,BO stock item states 750ml
@@ -47,7 +106,7 @@ lightspeed:20466168,Villa Fresco Sangiovese - Bottle,container,750,ml,back_offic
 lightspeed:20467569,A. Rodda Chardonnay - Bottle,container,750,ml,back_office,BO stock item states 750ml
 lightspeed:20467573,Year Wines 'Zagara' Orange - Bottle,container,750,ml,back_office,BO stock item states 750ml
 lightspeed:20467596,Garlic Bread,pack,40,each,pack_override,human-confirmed
-lightspeed:20471109,Tomato Sauce [10kg],container,10000,g,product_name,name states 10kg
+lightspeed:20471109,Tomato Sauce [10kg],container,10000,g,back_office_twin,"BO stock item states 10000g; via stock twin ""Tomato Sauce [10kg]"""
 lightspeed:20483413,Massenez Triple Sec [5L],container,5000,ml,back_office,BO stock item states 5000ml
 lightspeed:20483609,Carpano Classico [750ml],container,750,ml,back_office,BO stock item states 750ml
 lightspeed:20484685,Bailey's Irish Cream 1L [Bottle],container,1000,ml,back_office,BO stock item states 1000ml
@@ -91,6 +150,7 @@ lightspeed:20492694,Tanqueray 10 [Bottle],container,700,ml,back_office,BO stock 
 lightspeed:20492697,Tequila Ocho Anejo [Bottle],container,700,ml,back_office,BO stock item states 700ml
 lightspeed:20492701,Tito's Vodka [Bottle],container,700,ml,back_office,BO stock item states 700ml
 lightspeed:20492707,Chambord [Bottle],container,700,ml,back_office,BO stock item states 700ml
+lightspeed:20492724,Wray & Nephew's OR Rumbar OP Rum [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Wray & Nephew's OR Rumbar OP Rum [Bottle]"""
 lightspeed:20496148,Old Panther [Keg],container,50000,ml,back_office,BO stock item states 50000ml
 lightspeed:20512316,Tempus Fugit Violette [Bottle],container,750,ml,back_office,BO stock item states 750ml
 lightspeed:20512320,Luxardo Maraschino [Bottle],container,750,ml,back_office,BO stock item states 750ml
@@ -99,6 +159,7 @@ lightspeed:20512418,Joseph Cartron Apricot Brandy [Bottle],container,750,ml,back
 lightspeed:20512419,Brookie's Slow Gin [Bottle],container,700,ml,back_office,BO stock item states 700ml
 lightspeed:20512429,Lillet Blanc Aperitif [Bottle],container,750,ml,back_office,BO stock item states 750ml
 lightspeed:20512432,Pernod Absinthe [Bottle],container,700,ml,back_office,BO stock item states 700ml
+lightspeed:20512442,Chartreuse Green [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Chartreuse Green [Bottle]"""
 lightspeed:20512452,Bols Genever [Bottle],container,700,ml,back_office,BO stock item states 700ml
 lightspeed:20512724,Pimm's Aperitif [Bottle],container,700,ml,back_office,BO stock item states 700ml
 lightspeed:20512731,Barsol Pisco [Bottle],container,700,ml,back_office,BO stock item states 700ml
@@ -110,7 +171,7 @@ lightspeed:20645891,Screaming Betty Vermentino [750ml],container,750,ml,product_
 lightspeed:20645902,Unico Zelo Terra Cotta - Bottle,container,750,ml,back_office,BO stock item states 750ml
 lightspeed:20645909,Dragonfly Grenache - Bottle,container,750,ml,back_office,BO stock item states 750ml
 lightspeed:20645912,Travelling While Standing Still Gin [700ml],container,700,ml,back_office,BO stock item states 700ml
-lightspeed:20645918,Gosling's Black Rum [700ml],container,700,ml,product_name,name states 700ml
+lightspeed:20645918,Gosling's Black Rum [700ml],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Gosling's Black Rum [700ml]"""
 lightspeed:20655236,Geppetto Pinot Noir - Bottle,container,750,ml,back_office,BO stock item states 750ml
 lightspeed:20655376,De La Grosse Beaujolais - Bottle,container,750,ml,back_office,BO stock item states 750ml
 lightspeed:20681676,Lemonade [mixer],each,1,each,unit_is_each,one is one
@@ -139,14 +200,17 @@ lightspeed:20710158,Tempus Fugit Creme de Banane [Bottle],container,700,ml,back_
 lightspeed:20727770,Bickfords Raspberry Cordial [Bottle],container,750,ml,back_office,BO stock item states 750ml
 lightspeed:20727774,Bittermen's Burlesque Bitters,container,146,ml,back_office,BO stock item states 146ml
 lightspeed:20727779,Bittermen's Tiki Bitters [Bottle],pack,146,ml,pack_override,human-confirmed
+lightspeed:20727873,St. Felix Bitter Aperitivo [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""St. Felix Bitter Aperitivo [Bottle]"""
 lightspeed:20727954,De Kuyper Butterscotch Schnapps [Bottle],container,700,ml,back_office,BO stock item states 700ml
 lightspeed:20727968,De Kuyper Peach Schnapps [Bottle],container,700,ml,back_office,BO stock item states 700ml
 lightspeed:20728346,Sibiliana Nero D'Avola - Bottle,container,750,ml,back_office,BO stock item states 750ml
 lightspeed:20728902,Casa Gheller Prosecco - Bottle,container,750,ml,back_office,BO stock item states 750ml
+lightspeed:20729541,Michter's Bourbon [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Michter's Bourbon [Bottle]"""
 lightspeed:20729561,Joseph Cartron Creme de Peche [Bottle],container,700,ml,back_office,BO stock item states 700ml
 lightspeed:20744471,Rooster Blanco Tequila [Bottle],container,700,ml,back_office,BO stock item states 700ml
 lightspeed:20744554,Grifter XPA [Keg],container,50000,ml,back_office,BO stock item states 50000ml
 lightspeed:20744653,Roku Gin [Bottle],container,700,ml,back_office,BO stock item states 700ml
+lightspeed:20744656,Haku Vodka [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Haku Vodka [Bottle]"""
 lightspeed:20744663,Hibiki Harmony [Bottle],container,700,ml,back_office,BO stock item states 700ml
 lightspeed:20744688,Calle 23 Blanco Tequila [Bottle],container,700,ml,back_office,BO stock item states 700ml
 lightspeed:20747514,Angostura Bitters - Bottle 200ml,container,200,ml,back_office,BO stock item states 200ml
@@ -165,7 +229,9 @@ lightspeed:20873427,Massenez Raspberry Framboise [Bottle],container,750,ml,back_
 lightspeed:20904019,Wa no Kokoro Yuzushu,container,500,ml,back_office,BO stock item states 500ml
 lightspeed:20944710,Sapporo [Keg],container,50000,ml,back_office,BO stock item states 50000ml
 lightspeed:20961451,Cocchi Chinato [Bottle],container,750,ml,back_office,BO stock item states 750ml
+lightspeed:21003096,Jinzu Gin [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Jinzu Gin [Bottle]"""
 lightspeed:21003110,Opihr Spiced Gin [Bottle],container,700,ml,back_office,BO stock item states 700ml
+lightspeed:21004391,Kunizakari Umeshu [Bottle],container,720,ml,back_office_twin,"BO stock item states 720ml; via stock twin ""Kunizakari Umeshu [Bottle]"""
 lightspeed:21020008,Flake Salt [6kg Box],container,6000,g,back_office,BO stock item states 6000g
 lightspeed:21020155,Coconut Oil Macro [Jar],container,900,g,back_office,BO stock item states 900g
 lightspeed:21020204,Edible Flower [Punnet],container,35,g,back_office,BO stock item states 35g
@@ -185,12 +251,13 @@ lightspeed:21999746,Havana 3yr [700ml],container,700,ml,back_office,BO stock ite
 lightspeed:21999769,Peroni 0%,each,1,each,unit_is_each,one is one
 lightspeed:22001021,Year Wines Fiano - Bottle,container,750,ml,back_office,BO stock item states 750ml
 lightspeed:22081691,Grifter Serpents Kiss [Keg],container,50000,ml,back_office,BO stock item states 50000ml
-lightspeed:22169755,Hine Rare VSOP Cognac [700ml],container,700,ml,product_name,name states 700ml
+lightspeed:22169755,Hine Rare VSOP Cognac [700ml],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Hine Rare VSOP Cognac [700ml]"""
 lightspeed:22253061,Nikka Black Whisky [700ml],container,700,ml,back_office,BO stock item states 700ml
 lightspeed:22267080,Hills Cider [Keg],container,50000,ml,back_office,BO stock item states 50000ml
 lightspeed:22296524,Hyoketsu Lemon [Keg],container,50000,ml,back_office,BO stock item states 50000ml
 lightspeed:22384136,Little Dragon Ginger Beer Can,each,1,each,unit_is_each,one is one
 lightspeed:22442211,Café Patron [Bottle],container,700,ml,back_office,BO stock item states 700ml
+lightspeed:22442475,Plantation Original Dark [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Plantation Original Dark [Bottle]"""
 lightspeed:22442938,Grifter Big Sur IPA Can [HG],each,1,each,unit_is_each,one is one
 lightspeed:22479979,Big Cheese - Shredded Mozzarella [2kg],container,2000,g,back_office,BO stock item states 2000g
 lightspeed:22480046,Prosciutto Sliced [500g],container,500,g,back_office,BO stock item states 500g
@@ -202,6 +269,7 @@ lightspeed:22480144,Char-grilled Caps [4.1Kg],container,4100,g,back_office,BO st
 lightspeed:22480147,Zucchini [1Kg],container,1000,g,back_office,BO stock item states 1000g
 lightspeed:22480169,Harissa Prawns [7Kg],container,7000,g,back_office,BO stock item states 7000g
 lightspeed:22488943,Pineapple Cut Squid [5kg],container,5000,g,back_office,BO stock item states 5000g
+lightspeed:22488947,Lime Juice [2Lt],container,2000,ml,back_office_twin,"BO stock item states 2000ml; via stock twin ""Lime Juice [2Lt]"""
 lightspeed:22491319,J.J. Beef [Top Side Kg],container,1000,g,back_office,BO stock item states 1000g
 lightspeed:22491356,Cherry Tom [250g/Punnet],container,250,g,back_office,BO stock item states 250g
 lightspeed:22491471,Grilled Chicken [Kg],container,5000,g,back_office,BO stock item states 5000g
@@ -236,7 +304,8 @@ lightspeed:22524134,Peeled Garlic [1Kg],container,1000,g,back_office,BO stock it
 lightspeed:22524158,Spiced Sour Cream [Batch],container,1000,g,back_office,BO stock item states 1000g
 lightspeed:22533097,Yoghurt Greek Style [1Kg],container,1000,g,back_office,BO stock item states 1000g
 lightspeed:22533151,Tandoori Paste [1.25Kg],container,1250,g,back_office,BO stock item states 1250g
-lightspeed:22575946,818 Tequila Blanco [700ml],container,700,ml,product_name,name states 700ml
+lightspeed:22575946,818 Tequila Blanco [700ml],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""818 Tequila Blanco [700ml]"""
+lightspeed:22575954,Don Julio Blanco [Bottle],container,700,ml,back_office_twin,"BO stock item states 700ml; via stock twin ""Don Julio Blanco [Bottle]"""
 lightspeed:22614115,Fortaleza Añejo [Bottle],container,750,ml,back_office,BO stock item states 750ml
 lightspeed:22614595,Hard Rated Can,each,1,each,unit_is_each,one is one
 lightspeed:22684315,Massenez Elderflower [5L],pack,5000,ml,pack_override,human-confirmed
@@ -377,8 +446,10 @@ lightspeed:22920848,Brown Sugar [1kg],container,1000,g,back_office,BO stock item
 lightspeed:22920854,Wattleseed [100g],container,100,g,back_office,BO stock item states 100g
 lightspeed:22931792,Hahn Super Dry GF,each,1,each,unit_is_each,one is one
 lightspeed:22931826,Cauliflower [ea],pack,1,each,pack_override,human-confirmed
-lightspeed:22931827,Noodles Instant Ayam [700g],container,700,g,product_name,name states 700g
+lightspeed:22931827,Noodles Instant Ayam [700g],container,700,g,back_office_twin,"BO stock item states 700g; via stock twin ""Noodles Instant Ayam [700g]"""
 lightspeed:22931830,Turkish Bread [loaf],pack,1,each,pack_override,human-confirmed
+lightspeed:22931833,Pork Bones [kg],container,1000,g,back_office_twin,"BO stock item states 1000g; via stock twin ""Pork Bones [kg]"""
+lightspeed:22931835,Ginger [kg],container,1000,g,back_office_twin,"BO stock item states 1000g; via stock twin ""Ginger [kg]"""
 lightspeed:22975143,Roma Tomatoes [kg],container,1000,g,back_office,BO stock item states 1000g
 lightspeed:22975375,Chicken Thigh Flt S/Off [Kg],container,1000,g,back_office,BO stock item states 1000g
 lightspeed:22975376,Coriander Ground 500Gm Chefs Choice,container,500,g,back_office,BO stock item states 500g
@@ -404,12 +475,14 @@ lightspeed:22995356,Potato Desiree [10kg],container,10000,g,back_office,BO stock
 lightspeed:22995357,Potato Peeled [kg],pack,1000,g,pack_override,human-confirmed
 lightspeed:22995361,Sour Cream Dairy Farmers [2L],container,2000,ml,back_office,BO stock item states 2000ml
 lightspeed:22995363,Sundried Tomato Strips Mezzat [2kg],container,2000,g,back_office,"BO 2kg = 2000g, name agrees"
-lightspeed:22995366,Vegetable Oil Simply [20L],container,20000,ml,product_name,name states 20l
+lightspeed:22995366,Vegetable Oil Simply [20L],container,20000,ml,back_office_twin,"BO stock item states 20000ml; via stock twin ""Vegetable Oil Simply [20L]"""
 lightspeed:22995367,White Truffle Oil Sandhurst [250ml],container,250,ml,product_name,name states 250ml
+lightspeed:22995939,Garlic Peeled [kg],container,1000,g,back_office_twin,"BO stock item states 1000g; via stock twin ""Garlic Peeled [kg]"""
 lightspeed:22995943,Pizza Flour Gem West Manildra [12.5kg],container,12500.0,g,back_office,"BO 12.5kg = 12500.0g, name agrees"
 lightspeed:22995947,T2 Milk Bun Sliced White Sesame [85g],container,85,g,product_name,name states 85g
 lightspeed:22996486,Corn Flour Maize Gluten Free 5kg Edlyn,container,5000,g,product_name,name states 5kg
 lightspeed:22996505,Cheese Burger Sliced Hi Melt Thick [2.25kg] Pure Dairy,container,2250.00,g,product_name,name states 2.25kg
+lightspeed:22996509,Shallot [bunch],container,1000,g,back_office_twin,"BO stock item states 1000g; via stock twin ""Shallot [bunch]"""
 lightspeed:22996511,Pizza Base Gluten Free 11in [10x2 CTN] Letizza,pack,20,each,pack_override,human-confirmed
 lightspeed:23007639,Beef Brisket YG Point End [1kg],container,1000,g,back_office,BO stock item states 1000g
 lightspeed:23007804,Burger Sauce Birch & Waite [1L],container,1000,ml,back_office,BO stock item states 1000ml
