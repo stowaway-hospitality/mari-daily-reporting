@@ -1066,6 +1066,136 @@ document was not.
      assertion changes what a test means, and doing that unattended is how a
      guard quietly stops guarding. FOR ZAK.
 
+TRIAGE LOG — 2026-08-20 (unattended daily run). Corpus 807 -> 836 readable, and
+29 of that growth is a supplier this table had never heard of. Measured
+BEFORE/AFTER ON THE SAME CORPUS from a /tmp clone pinned at 196fba4f, which is
+the only way the comparison means anything: myob 0/12 (0%) -> 11/12 (91%),
+TOTAL 810/836 (96%) -> 821/836 (98%). NOT ONE other supplier moved by a single
+document, and both audits stayed clean.
+
+ 44. AQUARIUS FISHERIES HAD NEVER PARSED, AND IT IS KITCHEN FOOD. Item 40 named
+     apps.myob.com as one of the two next worth a day ("MYOB carries Aquarius
+     Fisheries, which is kitchen food and is already in KITCHEN_SUPPLIERS from
+     item 12, so it feeds recipes"). Taken today. The scale of the miss is on
+     Aquarius's own STATEMENT, which is in the corpus: it lists TEN invoices
+     between 2026-01-08 and 2026-04-30 — roughly fortnightly — while
+     data/invoices held exactly TWO, both LLM-extracted back when this task
+     still spent credit. A seafood supplier's costs were essentially not
+     reaching the cost book.
+
+     apps.myob.com is a PLATFORM sender like post.xero.com, ordermentum.com and
+     sent-via.netsuite.com, so it takes the same answer: the vendor is the ABN
+     that is not ours, from an explicit registry, and an unregistered vendor is
+     refused rather than guessed. CUSTOMER_ABNS, ABN_SUPPLIER and
+     SERVICE_SUPPLIERS are imported from parsers/xero.py rather than copied —
+     our own two ABNs are one fact and a second copy is a second thing to forget
+     (item 19(a) is what forgetting costs).
+
+     TWO TEMPLATES ARRIVE ON THIS DOMAIN and they are told apart by their
+     HEADER, not by the vendor, because a vendor can re-template (item 15):
+       AQUARIUS  Quantity | Item Code | Description | Unit Price (ex-GST) |
+                 CARTON COUNT | Total (ex-GST), on MYOB's customised print form
+                 with a tear-off remittance slip.
+       MODERN    Item ID | Description | Qty | Unit price | Tax | Amount ($) —
+                 MYOB's current hosted invoice, which VMA Ventilation uses.
+
+     FOUR THINGS WERE NOT WHAT THEY LOOKED LIKE, each caught by reading the
+     parsed output against the PDF rather than by the PASS column:
+
+     (a) THE DESCRIPTION CELL IS CENTRED, NOT LEFT-ALIGNED. On 318421f41e14 the
+         label "Description" starts at x=224.5 and its value starts at 184.6 —
+         40pt to the LEFT of its own label, and only 34pt right of the end of
+         the Item Code column. A boundary at the label puts "White Prawn" in the
+         code cell; the obvious alternative, the midpoint of the label gap
+         (187.7), still eats "White". Either one reconciles to the cent and
+         would read 100% here forever. That is the item 1 / 22 / 33 defect class
+         reproduced in a brand-new parser on day one, exactly as item 41(b)
+         warned. The boundary used is the midpoint between the ITEM and
+         DESCRIPTION anchors (165.3), clear of the code value's end (131.1) and
+         of the description's start (184.6). Pinned by a test that asserts both
+         naive boundaries DO eat the word.
+
+     (b) THE TAX ROW SITS ABOVE THE TOTAL ON ONE VARIANT. VMA #4403 is an
+         INCLUDING-tax invoice: no Subtotal at all, "Tax $4.55" printed above
+         "Total Amount (inc. tax) $50.00". A totals scan that starts at the
+         first subtotal/total/balance row skips the tax entirely and the invoice
+         comes out GST-FREE when it is not. But the mirror mistake is worse and
+         is why the scan is bounded at all: the modern template prints "GST" in
+         the Tax column of EVERY LINE ROW, so a whole-page keyword scan reads a
+         $50.00 line AMOUNT as $50.00 of GST. Resolved structurally rather than
+         by keyword — a LINE is a row that fills both the quantity and the money
+         column, a TOTALS row is anything below the header that does not.
+
+     (c) THE FLAT TEXT LIES ABOUT BOTH THE REF AND THE DATE. pdftotext's reading
+         order on the Aquarius form runs "... Tax Invoice / 7/05/2026 / 185244",
+         so a regex for "Invoice <number>" returns the DATE as the invoice
+         reference — it did, on the first cut. And that form prints its DUE date
+         top-left ABOVE the letterhead (30/06/2026), while the modern template
+         repeats "Due date:" in its footer, so "the first Date: on the page" is
+         a due date. Both are now read BY COORDINATE: the label's own row to the
+         right, or the row below within 8pt of the label's x-span, which is what
+         keeps "Invoice number | Issue date | Due date" apart. Verified against
+         the statement, which lists 185222 on 30/04/2026 and 185244 after it —
+         both now agree.
+
+     (d) THE ABN IS DOTTED. "A.B.N. 46 003 857 618", which xero._ABN
+         (r"ABN[:\s]*...") does not match at all. The shared pattern was
+         deliberately NOT widened: vendor_from_abn refuses whenever more than
+         one non-customer ABN is present, so making that regex match MORE
+         strings can only ADD candidates, and adding a candidate to an invoice
+         that today names exactly one vendor turns a PASS into a refusal. Xero,
+         Ordermentum and NetSuite are 140+ passing corpus documents between
+         them. myob.py carries its own dotted-tolerant pattern over the same
+         CUSTOMER_ABNS and the same refuse-unless-exactly-one rule. The A.C.N.
+         printed directly above (9 digits) cannot match an 11-digit pattern, and
+         a test pins that too.
+
+     VMA is in SERVICE_SUPPLIERS: it sells kitchen hood filter exchanges, not
+     goods, so its lines are EXTRA. That is not cosmetic — its "Item ID" column
+     holds a LINE NUMBER ("1"), and emitting that as a supplier_code would mint
+     the identity "vma:1" and merge every service ever billed under it.
+
+     supplier_key "aquarius" matches the two invoices already in data/invoices
+     so the price series continues rather than forking (items 12/42). Both
+     "aquarius" -> "Aquarius" in SUPPLIER_ALIAS and "Aquarius" in
+     KITCHEN_SUPPLIERS were already present from item 12 and needed no change —
+     checked rather than assumed. Ten fixture tests added from the REAL
+     coordinates of 318421f41e14 and be56bbcd354b.
+
+ 45. CORK AND CO IS THE ONE MYOB SHORTFALL AND IT IS NOT A DEFECT — it is next.
+     91513b04a9dd (INV 0086598, 10/08/2026, $266.42) is a WINE invoice on a
+     third template: "QTY | ITEM NO. | DESCRIPTION | PRICE | UNIT | DISC% |
+     EXTENDED", with WINE EQUALISATION TAX $52.40, GST (WINE) $23.31, GST
+     (GENERAL) $0.91, a 7.5% line discount and a FREIGHT - SYD line. Its ABN
+     (63 604 036 035, printed on its own footer) is deliberately NOT registered
+     today: the header is unrecognised so it is refused either way, and the WET
+     arithmetic wants its own before/after on the money the way Bacchus's did
+     (item 41(a)). Liquor, not kitchen food, so it does not feed recipes. One
+     supplier change per run.
+
+ 46. THE REVIEW SWEEP'S REMAINING BUCKETS, unchanged in shape from item 40 and
+     recorded so tomorrow starts from evidence: nelsonwineco.com.au,
+     youngandrashleigh.com, vinsight.net, post.dearsystems.com (Viticult),
+     mountainculture.com.au, combinedwines — all liquor — plus denifoods.com.au
+     and inalcafb.com.au, which are KITCHEN FOOD with no parser and no
+     DOMAIN_KEY entry, so they are still invisible to this table. Those two are
+     small (3 and 2 documents) but they are the only remaining kitchen-food
+     senders in the pile. post.dearsystems.com is another PLATFORM sender and
+     takes the same ABN answer this parser just reused for the third time.
+
+ 47. OPERATIONAL: the run started with an UNRESOLVED REBASE left in the shared
+     tree by the poller — pull_mailbox's own commit hit a conflict in
+     dashboard/pricing/compare.json and stopped mid-rebase, so the working tree
+     was mid-`interactive rebase in progress` before this session touched
+     anything. Resolved by taking the incoming generation of that file (it is a
+     DERIVED dashboard feed, regenerated on every poll, so neither side is a
+     fact) and continuing; the autostash re-applied cleanly and the commit is on
+     main as 196fba4f. This is the item-31 shape again but on a different
+     derived file: compare.json is written by pull_mailbox in the shared tree
+     and never treated as generated, so every concurrent pull collides on it.
+     FOR ZAK — the same fix as item 31 would apply (author it where it is
+     published, or gitignore it and rebuild on deploy).
+
 The three zero-total documents (now four, with Gulli CI-437314 — see item 18)
 can never PASS by construction: validator's _check_required_fields treats
 total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.

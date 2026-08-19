@@ -69,4 +69,15 @@ DOMAIN_KEY: dict[str, str] = {
     # survivor-sample failure in its other form: the corpus could not be wrong
     # about Bacchus, it had simply never heard of it.
     "sent-via.netsuite.com": "netsuite",
+    # MYOB is a PLATFORM sender like post.xero.com, ordermentum.com and
+    # sent-via.netsuite.com: every vendor that bills through MYOB mails from
+    # noreply@apps.myob.com, so this key names the platform and
+    # parsers/myob.py identifies the real vendor from the ABN on the page.
+    # Registered because the 2026-08-19 Review sweep counted 8 stuck documents
+    # on this sender (triage log item 40) — VMA, Cork And Co and AQUARIUS
+    # FISHERIES, the last of which is KITCHEN FOOD and is already in
+    # KITCHEN_SUPPLIERS from item 12, so it feeds recipe costs. A domain absent
+    # from this mapping is a supplier build_corpus never collects and
+    # parser_regression never scores: the item-4/item-40 blind spot again.
+    "apps.myob.com": "myob",
 }

@@ -116,7 +116,22 @@ ABN_SUPPLIER: dict[str, tuple[str, str]] = {
     # not looked up. supplier_key "bacchus" matches the two invoices already in
     # data/invoices so the price series continues rather than forking.
     "72338923086": ("bacchus", "Bacchus Wine Merchants P/L"),
+    # Added 2026-08-20. Bills through MYOB rather than Xero (see
+    # parsers/myob.py), which imports this registry rather than keeping a third
+    # copy of our own ABNs. "A.B.N. 46 003 857 618" and "Aquarius Fisheries Pty
+    # Ltd" are PRINTED on the letterhead of every Aquarius invoice, above
+    # "1/9-19a Meadow Way, Banksmeadow NSW 2019" — not looked up. supplier_key
+    # "aquarius" matches the two invoices already in data/invoices
+    # (2025-10-30_aquarius_184463, 2026-02-19_aquarius_184955) so the price
+    # series continues rather than forking a second identity, which is the
+    # item 12/42 failure.
+    "46003857618": ("aquarius", "Aquarius Fisheries Pty Ltd"),
     # services / consumables
+    # VMA Ventilation Maintenance Australia Services, ABN 15 680 843 314 —
+    # printed on its own letterhead beside vmaaustralia1@gmail.com. Kitchen hood
+    # filter exchanges at Harry Gatos; a service, so it is in SERVICE_SUPPLIERS
+    # below and its lines are EXTRA.
+    "15680843314": ("vma", "VMA Ventilation Maintenance Australia Services"),
     "48540665321": ("prime_catering_repairs", "Prime Catering Repairs"),
     "55096609166": ("speed_gas", "Speed Gas Pty Limited"),
     "33110257086": ("cookers", "Cordless Filter Machine Pty Ltd"),
@@ -149,6 +164,7 @@ SERVICE_SUPPLIERS = {
     "beerline_cleaning",    # line cleaning
     "cookers",              # oil filtration service
     "prime_catering_repairs",  # fryer / cooking equipment repairs, charged by callout
+    "vma",                  # kitchen hood filter exchange / ventilation maintenance
 }
 
 

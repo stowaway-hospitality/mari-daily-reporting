@@ -1143,3 +1143,162 @@ def test_netsuite_continuation_gap_separates_wrap_from_new_item():
         assert wrap_gap <= SAME_CELL_PT
     for item_gap in (14.9, 16.9, 17.6):
         assert item_gap > SAME_CELL_PT
+
+
+# --------------------------------------------------------------------------
+# MYOB (apps.myob.com) — a platform sender carrying TWO templates.
+#
+# Every coordinate below is the REAL one read off a corpus invoice, never
+# invented: Aquarius Fisheries 318421f41e14 (INV 185244, 7/05/2026) and VMA
+# be56bbcd354b / c9e76746733d (INV 4403 / 4415). The item-19 lesson is that a
+# hand-made row does not land in the right buckets under a derived header, so a
+# fixture built from imagination tests nothing.
+AQ_HEADER = _row((45.0, "Quantity"), (106.1, "Item"), (128.6, "Code"),
+                 (224.5, "Description"), (347.5, "Unit"), (368.8, "Price"),
+                 (419.3, "CARTON"), (510.5, "Total"))
+
+MYOB_HEADER = _row((28.4, "Item"), (49.4, "ID"), (96.8, "Description"),
+                   (385.3, "Qty"), (419.6, "Unit"), (439.6, "price"),
+                   (469.4, "Tax"), (527.7, "Amount"), (564.2, "($)"))
+
+
+def test_myob_aquarius_header_derives_columns_and_buckets_its_own_line():
+    from modules.invoices.parsers.myob import _cols_from_header
+    got = _cols_from_header(AQ_HEADER)
+    assert got is not None
+    bounds, template = got
+    assert template == "aquarius"
+    row = _row((83.4, "1"), (106.4, "APDW31"), (184.6, "White"), (208.0, "Prawn"),
+               (233.6, "Meat"), (254.3, "31/40"), (354.7, "$175.00"),
+               (427.6, "1"), (434.5, "Box"), (524.7, "$175.00"))
+    c = pdf_text.bucket(row, bounds)
+    assert c["qty"] == "1"
+    assert c["code"] == "APDW31"
+    assert c["desc"] == "White Prawn Meat 31/40"
+    assert c["price"] == "$175.00"
+    assert c["uom"] == "1 Box"
+    assert c["total"] == "$175.00"
+
+
+def test_myob_a_boundary_at_the_description_label_would_eat_the_first_word():
+    # PINS THE DIAGNOSIS. The Aquarius description cell is CENTRED: the label
+    # "Description" starts at x=224.5 but its value starts at 184.6, 40pt to the
+    # LEFT of its own label. A boundary taken at the label — or at the midpoint
+    # of the label GAP (150.8..224.5 -> 187.7), which is the obvious choice —
+    # puts "White" in the Item Code cell. That still reconciles to the cent and
+    # would still read 100% here, which is the item 1 / 22 / 33 defect class.
+    from modules.invoices.parsers.myob import _cols_from_header
+    bounds, _t = _cols_from_header(AQ_HEADER)
+    row = _row((83.4, "1"), (106.4, "APDW31"), (184.6, "White"), (208.0, "Prawn"),
+               (233.6, "Meat"), (254.3, "31/40"), (354.7, "$175.00"),
+               (427.6, "1"), (434.5, "Box"), (524.7, "$175.00"))
+    naive = [(n, 224.5 if n == "desc" else x) for n, x in bounds]
+    assert pdf_text.bucket(row, naive)["code"] == "APDW31 White Prawn"
+    gap_mid = [(n, 187.7 if n == "desc" else x) for n, x in bounds]
+    assert pdf_text.bucket(row, gap_mid)["code"] == "APDW31 White"
+    # the shipped boundary keeps the description whole
+    assert pdf_text.bucket(row, bounds)["desc"].startswith("White")
+
+
+def test_myob_modern_header_resolves_and_buckets_its_own_line():
+    from modules.invoices.parsers.myob import _cols_from_header
+    got = _cols_from_header(MYOB_HEADER)
+    assert got is not None
+    bounds, template = got
+    assert template == "modern"
+    row = _row((28.4, "1"), (98.3, "Kitchen"), (130.9, "Hood"), (154.9, "Filter"),
+               (177.4, "Exchange"), (395.3, "1"), (438.6, "50.00"),
+               (470.9, "GST"), (544.4, "50.00"))
+    c = pdf_text.bucket(row, bounds)
+    assert c["code"] == "1"
+    assert c["desc"] == "Kitchen Hood Filter Exchange"
+    assert c["qty"] == "1"
+    assert c["price"] == "50.00"
+    assert c["tax"] == "GST"
+    assert c["amt"] == "50.00"
+
+
+def test_myob_unknown_template_refuses_rather_than_bucketing():
+    # apps.myob.com is a PLATFORM. Cork And Co (a wine supplier, WET on every
+    # line) arrives on the same sender with "QTY | ITEM NO. | DESCRIPTION |
+    # PRICE | UNIT | DISC% | EXTENDED" — no Amount column at all. An
+    # unrecognised header must return None so the document stays in Review
+    # rather than being forced into someone else's buckets.
+    from modules.invoices.parsers.myob import _cols_from_header
+    assert _cols_from_header([]) is None
+    assert _cols_from_header(_row((36.0, "QTY"), (70.0, "ITEM"), (100.0, "NO."),
+                                  (150.0, "DESCRIPTION"), (400.0, "PRICE"),
+                                  (440.0, "UNIT"), (470.0, "DISC%"),
+                                  (520.0, "EXTENDED"))) is None
+
+
+def test_myob_reads_a_dotted_abn_and_still_drops_our_own():
+    from modules.invoices.parsers.myob import vendor_from_abn
+    from modules.invoices.parsers.xero import _ABN
+    text = ("Aquarius Fisheries Pty Ltd\nA.B.N.\n46 003 857 618\n"
+            "1/9-19a Meadow Way\nBanksmeadow NSW 2019\n")
+    assert vendor_from_abn(text) == ("aquarius", "Aquarius Fisheries Pty Ltd")
+    # PINS WHY THE SHARED REGEX WAS LEFT ALONE: xero._ABN does not match the
+    # dotted form, so widening it would have been a change to 130+ passing
+    # documents in three other parsers to read a supplier none of them sends.
+    assert _ABN.findall(text) == []
+    # our own ABN can never be the vendor, dotted or not
+    assert vendor_from_abn("ABN: 17 606 243 921") is None
+
+
+def test_myob_an_acn_is_not_read_as_an_abn():
+    # The Aquarius letterhead prints "A.C.N. 003 857 618" directly above its
+    # ABN. An ACN is 9 digits and the pattern requires 11, so it cannot match —
+    # if it could, the document would show two candidates and be refused.
+    from modules.invoices.parsers.myob import _ABN_DOTTED
+    assert _ABN_DOTTED.findall("A.C.N. 003 857 618") == []
+
+
+def test_myob_takes_the_issue_date_not_the_due_date_beside_it():
+    # Both templates print the due date next to (or above) the issue date, and
+    # on the Aquarius form the due date is the FIRST date on the page, up in the
+    # top-left corner above the letterhead. Booking a due date as the invoice
+    # date puts the cost weeks late and mis-orders its price history.
+    from modules.invoices.parsers.myob import _DATE_RE, _field
+    rows = [_row((312.0, "Invoice"), (349.3, "number"), (424.6, "Issue"),
+                 (453.0, "date"), (519.7, "Due"), (541.4, "date")),
+            _row((360.5, "4415"), (423.5, "02/05/2026"), (515.8, "09/09/2026"))]
+    assert _field(rows, ["issue", "date"], _DATE_RE) == "02/05/2026"
+    assert _field(rows, ["due", "date"], _DATE_RE) == "09/09/2026"
+
+
+def test_myob_invoice_ref_is_the_number_beside_the_label_not_a_date():
+    # Flat text on the Aquarius form reads "... Tax Invoice / 7/05/2026 /
+    # 185244", so a regex for "Invoice <something>" over the text layer returns
+    # the DATE as the reference. Read by coordinate it is unambiguous: the
+    # number sits to the RIGHT of "Invoice:" on its own row.
+    from modules.invoices.parsers.myob import _field
+    rows = [_row((123.1, "Banksmeadow"), (195.8, "NSW"), (221.9, "2019"),
+                 (399.1, "Invoice:"), (506.0, "185244")),
+            _row((129.8, "Fax:"), (399.1, "Date:"), (493.4, "7/05/2026"))]
+    assert _field(rows, ["invoice"], r"\d{3,}[\w/-]*") == "185244"
+
+
+def test_myob_carton_count_cell_yields_a_unit_not_a_digit():
+    # "1 Box" — the number restates the line quantity, the WORD is the unit.
+    # Keeping the digit would put a numeral in raw_uom, which the regression
+    # harness's unit audit reads (correctly) as another column having bled in.
+    from modules.invoices.parsers.myob import _uom_word
+    from modules.invoices import pack_size
+    assert _uom_word("1 Box") == "Box"
+    assert _uom_word("2 Boxes") == "Boxes"
+    assert _uom_word("") is None
+    assert pack_size.names_a_unit(_uom_word("1 Box"))
+
+
+def test_myob_quantity_reader_accepts_a_bare_integer_but_money_does_not():
+    # The item-37 defect, pinned in its new home: both MYOB templates print a
+    # bare "1" in the quantity column, so reading it with the money reader
+    # (which insists on two decimals) skips every line and the parser raises
+    # "no line items parsed" on the whole document.
+    from modules.invoices.parsers.myob import _m, _q
+    assert _q("1") == 1
+    assert _q("2.5") == Decimal("2.5")
+    assert _m("1") is None
+    assert _m("$175.00") == Decimal("175.00")
+    assert _m("10%") is None
