@@ -61,6 +61,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from core.declarations import PIZZA_PORTIONS  # noqa: E402
 from core.domain import CostSeries, load_cost_observations  # noqa: E402
 from modules.recipes.cost import cost_on  # noqa: E402
 from modules.recipes.units import beverage_batches, house_unit  # noqa: E402
@@ -169,6 +170,24 @@ def line_provenance_index() -> dict:
             "derived", f"cook_yields.yaml: measured yield {spec.get('yield')}")
 
     return idx
+
+
+def _weighed_rules() -> set:
+    """Every `label` data/pizza_portions.yaml currently declares.
+
+    Used to validate the `weighed` stamp the converter puts on a line, so this
+    book's provenance is checked against the sheet rather than against a build
+    artefact that may predate an edit to it.
+    """
+    global _WEIGHED_RULES
+    try:
+        return _WEIGHED_RULES
+    except NameError:
+        pass
+    _WEIGHED_RULES = {x.get("label") for x in
+                      (PIZZA_PORTIONS.load().get("portions") or [])
+                      if x.get("label")}
+    return _WEIGHED_RULES
 
 
 def regular_grams_matcher():
@@ -732,7 +751,37 @@ def materialise(venue: str) -> tuple[list, dict]:
                 report["unit_relabels"].append(
                     {"product": name, "line": key[1], "from": lf[0], "to": lf[1]})
 
-            if (w := weighed(name, ln, sold)):
+            # THE SHEET STAMPS THE LINE; READ THE STAMP. The converter records
+            # data/pizza_portions.yaml on every line that sheet governs --
+            # ln["weighed"] = {sheet, size, rule} -- and it does so whether or
+            # not the quantity moved, precisely so "how much of this book is
+            # weighed" is answerable.
+            #
+            # This read regular_grams_matcher() alone, which reproduces the
+            # selection rule of pizza_regular_grams.yaml: REGULAR only, and that
+            # file was superseded on 2026-08-19 by a sheet covering all three
+            # sizes. So every weighed LARGE landed in the staged book tagged
+            # `scrape` -- "nobody has checked it" -- when Zak had weighed it the
+            # day before. 843 lines carry the stamp; the old matcher saw a
+            # fraction of them, and the staged book's headline number (lines
+            # nobody has checked, which is only supposed to fall) was held that
+            # much too high.
+            #
+            # Reading the stamp rather than re-deriving it also retires the
+            # duplicate selection rule: two copies of "which line does the sheet
+            # govern" is exactly how the staged and live books drifted apart
+            # everywhere else.
+            #
+            # The stamp is CHECKED against the sheet rather than trusted: a
+            # costed book built before an edit to pizza_portions.yaml carries
+            # stamps naming rules that no longer exist, and "weighed" has to
+            # mean a weighing that is still in the file. An unrecognised rule
+            # falls through to whatever the line can otherwise prove.
+            if (pw := ln.get("weighed")) and pw.get("rule") in _weighed_rules():
+                src, ev = "weighed", (
+                    f"{PIZZA_PORTIONS.path.name}: {pw.get('rule')} "
+                    f"({pw.get('size')}), weighed by Zak — {pw.get('sheet')}")
+            elif (w := weighed(name, ln, sold)):
                 src, ev = "weighed", w
             elif key in prov:
                 src, ev = prov[key]

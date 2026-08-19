@@ -107,9 +107,25 @@ def _names_file(src: str, filename: str) -> bool:
 
     for node in ast.walk(tree):
         if (isinstance(node, ast.Constant) and isinstance(node.value, str)
-                and id(node) not in docstrings and filename in node.value):
+                and id(node) not in docstrings and _is_path_literal(node.value,
+                                                                   filename)):
             return True
     return False
+
+
+def _is_path_literal(value: str, filename: str) -> bool:
+    """Is this string the PATH, or a sentence that happens to mention it?
+
+    `ROOT / "data" / "prep_yields.yaml"` is a reader. `print(f"... see
+    data/measured_yields.yaml, which outranks both files")` is a message, and
+    counting it made two new scripts look like they had hand-rolled a parse each
+    when both go through the registry — the guard reporting its own explanatory
+    output as a violation. A path literal is the path and nothing else.
+    """
+    v = value.strip()
+    if any(c.isspace() for c in v):
+        return False
+    return v == filename or v.endswith("/" + filename)
 
 
 #: The registry itself names every declaration file, by construction. Walking

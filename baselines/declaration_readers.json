@@ -1,5 +1,5 @@
 {
- "pinned_gaps": 3,
- "hand_rolled_parses": 55,
+ "pinned_gaps": 0,
+ "hand_rolled_parses": 47,
  "note": "declaration -> reader pairs named in core/declarations.py that do not connect. Pinned ones carry their reasoning in the registry's known_gaps; this guard fails on a NEW one. hand_rolled_parses counts modules that spell a declaration path out instead of asking the registry \u2014 it may only fall."
 }

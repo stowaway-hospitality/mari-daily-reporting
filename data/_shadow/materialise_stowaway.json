@@ -41,6 +41,10 @@
    "product": "Pizza Sauce [Recipe]"
   },
   {
+   "in": "stowaway",
+   "product": "Rosemary Salted Fries"
+  },
+  {
    "in": "harry_gatos",
    "product": "Sapporo - Schooner"
   },
@@ -62,14 +66,15 @@
   }
  ],
  "by_source": {
-  "authored": 40,
-  "derived": 141,
+  "authored": 41,
+  "derived": 132,
   "mirrored": 40,
   "rule": 60,
-  "scrape": 1138
+  "scrape": 1173,
+  "weighed": 9
  },
- "generated": "2026-08-19",
- "lines": 1419,
+ "generated": "2026-08-20",
+ "lines": 1455,
  "manual_lines": [
   {
    "engine": null,
@@ -116,6 +121,39 @@
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
+   "engine": null,
+   "frozen_unit_cost": 37.7,
+   "line": "A. Rodda Chardonnay - Bottle",
+   "line_cost": 37.7,
+   "product": "A. Rodda Chardonnay - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20467569",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 27.86,
+   "line": "A. Rodda Tempranillo - Bottle",
+   "line_cost": 27.86,
+   "product": "A. Rodda Tempranillo - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20464467",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 9.2867,
+   "line": "A. Rodda Tempranillo - Large",
+   "line_cost": 9.2867,
+   "product": "A. Rodda Tempranillo - Large",
+   "qty": 1.0,
+   "ref": "lightspeed:20464470",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
    "engine": 0.0176,
    "frozen_unit_cost": 0.0209,
    "line": "Spanish Onion [10Kg]",
@@ -125,6 +163,17 @@
    "ref": "lightspeed:20445597",
    "unit": "g",
    "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 8.77,
+   "line": "Angas & Bremer Grenache - Bottle",
+   "line_cost": 8.77,
+   "product": "Angas & Bremer Grenache - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20700602",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
    "engine": null,
@@ -249,6 +298,17 @@
   },
   {
    "engine": null,
+   "frozen_unit_cost": 16.73,
+   "line": "Casa Gheller Prosecco - Bottle",
+   "line_cost": 16.73,
+   "product": "Casa Gheller Prosecco - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20728902",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
    "frozen_unit_cost": 2.2,
    "line": "Corn Baby Sweet [Pack]",
    "line_cost": 1.1,
@@ -256,6 +316,28 @@
    "qty": 0.5,
    "ref": "lightspeed:22995331",
    "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 62.1517,
+   "line": "Cri De Couer Pinot Noir - Bottle",
+   "line_cost": 62.1517,
+   "product": "Cri De Couer Pinot Noir - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20485056",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 16.5,
+   "line": "Das Juice Pink Pet Nat - Bottle",
+   "line_cost": 16.5,
+   "product": "Das Juice Pink Pet Nat - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20464486",
+   "unit": "ea",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
@@ -291,6 +373,39 @@
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
+   "engine": null,
+   "frozen_unit_cost": 44.732,
+   "line": "Domaine Gueguen Chablis - Bottle",
+   "line_cost": 44.732,
+   "product": "Domaine Gueguen Chablis - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20464639",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 20.35,
+   "line": "Dormilona Chenin Blanc - Bottle",
+   "line_cost": 20.35,
+   "product": "Dormilona Chenin Blanc - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20464644",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 17.3,
+   "line": "Dragonfly Grenache - Bottle",
+   "line_cost": 17.3,
+   "product": "Dragonfly Grenache - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20645909",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
    "engine": 0.033,
    "frozen_unit_cost": 0.02112,
    "line": "Spanish Onion [10Kg]",
@@ -311,6 +426,17 @@
    "ref": "lightspeed:20445597",
    "unit": "g",
    "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 13.43,
+   "line": "Esoterico Orange - Bottle",
+   "line_cost": 13.43,
+   "product": "Esoterico Orange - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20700625",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
    "engine": 0.033,
@@ -336,6 +462,17 @@
   },
   {
    "engine": null,
+   "frozen_unit_cost": 17.5608,
+   "line": "Geppetto Pinot Noir - Bottle",
+   "line_cost": 17.5608,
+   "product": "Geppetto Pinot Noir - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20655236",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
    "frozen_unit_cost": 0.0,
    "line": "Pickled Ginger",
    "line_cost": 0.0,
@@ -343,6 +480,17 @@
    "qty": 250.0,
    "ref": "lightspeed:22973738",
    "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 37.5,
+   "line": "Glaetzer Anaperenna Shiraz Cab - Bottle",
+   "line_cost": 37.5,
+   "product": "Glaetzer Anaperenna Shiraz Cab - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20464656",
+   "unit": "ea",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
@@ -435,9 +583,53 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.5593,
+   "frozen_unit_cost": 14.5742,
+   "line": "Kuku Sauvignon Blanc - Bottle",
+   "line_cost": 14.5742,
+   "product": "Kuku Sauvignon Blanc - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20464670",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 18.0,
+   "line": "L'esprit Ros\u00e9 - Bottle",
+   "line_cost": 18.0,
+   "product": "L'esprit Ros\u00e9 - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20700634",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 22.89,
+   "line": "La Petite Mort Albarino 2025 - Bottle",
+   "line_cost": 22.89,
+   "product": "La Petite Mort Albarino 2025 - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:23120129",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 22.89,
+   "line": "La Petite Mort Rosso 2025 - Bottle",
+   "line_cost": 22.89,
+   "product": "La Petite Mort Rosso 2025 - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:23120216",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 4.5636,
    "line": "large pizza, sales-weighted mean of every large sold",
-   "line_cost": 4.5593,
+   "line_cost": 4.5636,
    "product": "Large Pizza [menu average]",
    "qty": 1.0,
    "ref": "",
@@ -500,6 +692,17 @@
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
+   "engine": null,
+   "frozen_unit_cost": 16.0817,
+   "line": "Mother's Milk Shiraz - Bottle",
+   "line_cost": 16.0817,
+   "product": "Mother's Milk Shiraz - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20464685",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
    "engine": 0.009237951807228915,
    "frozen_unit_cost": 2.811866,
    "line": "Nut Roast Prep",
@@ -509,6 +712,50 @@
    "ref": "Nut Roast Prep",
    "unit": "g",
    "why": "the quantity is junk in either unit \u2014 a relabel moved this line's cost by more than 3x, so the number is not a quantity at all"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 24.2,
+   "line": "Ottelia Cab Sav - Bottle",
+   "line_cost": 24.2,
+   "product": "Ottelia Cab Sav - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20464651",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 17.29,
+   "line": "Ottelia Chardonnay - Bottle",
+   "line_cost": 17.29,
+   "product": "Ottelia Chardonnay - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20464694",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 19.3325,
+   "line": "Padrillos Malbec - Bottle",
+   "line_cost": 19.3325,
+   "product": "Padrillos Malbec - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20464662",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 11.5,
+   "line": "Palloncino Prosecco - Bottle",
+   "line_cost": 11.5,
+   "product": "Palloncino Prosecco - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20700620",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
    "engine": null,
@@ -530,6 +777,17 @@
    "qty": 13.0,
    "ref": "lightspeed:20564869",
    "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 18.36,
+   "line": "Ravensworth Skins Gris - Bottle",
+   "line_cost": 18.36,
+   "product": "Ravensworth Skins Gris - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20466083",
+   "unit": "ea",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
@@ -578,6 +836,17 @@
   },
   {
    "engine": null,
+   "frozen_unit_cost": 19.8,
+   "line": "Scout Pinot Gris - Bottle",
+   "line_cost": 19.8,
+   "product": "Scout Pinot Gris - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20466090",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
    "frozen_unit_cost": 0.01008808,
    "line": "Shallot [bunch]",
    "line_cost": 1.008808,
@@ -585,6 +854,39 @@
    "qty": 100.0,
    "ref": "lightspeed:22996509",
    "unit": "g",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 16.34,
+   "line": "Sibiliana Nero D'Avola - Bottle",
+   "line_cost": 16.34,
+   "product": "Sibiliana Nero D'Avola - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20728346",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 23.1,
+   "line": "Sigurd GSM Red Blend - Bottle",
+   "line_cost": 23.1,
+   "product": "Sigurd GSM Red Blend - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20466100",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 16.28,
+   "line": "Sigurd White Blend - Bottle",
+   "line_cost": 16.28,
+   "product": "Sigurd White Blend - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20466095",
+   "unit": "ea",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
@@ -654,6 +956,17 @@
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
+   "engine": null,
+   "frozen_unit_cost": 10.55,
+   "line": "Trentham Estate Ros\u00e9 - Bottle",
+   "line_cost": 10.55,
+   "product": "Trentham Estate Ros\u00e9 - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20466112",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
    "engine": 0.1824,
    "frozen_unit_cost": 11.4,
    "line": "White Truffle Oil Sandhurst [250ml]",
@@ -666,6 +979,17 @@
   },
   {
    "engine": null,
+   "frozen_unit_cost": 18.7,
+   "line": "Trutta Streamside Shiraz [Chilled] - Bottle",
+   "line_cost": 18.7,
+   "product": "Trutta Streamside Shiraz [Chilled] - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20464635",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
    "frozen_unit_cost": 6.21839875,
    "line": "Two Bays Pale Ale Can",
    "line_cost": 24.873595,
@@ -673,6 +997,17 @@
    "qty": 4.0,
    "ref": "lightspeed:20445703",
    "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 17.58,
+   "line": "Two Tonne Riesling - Bottle",
+   "line_cost": 17.58,
+   "product": "Two Tonne Riesling - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20464707",
+   "unit": "ea",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
@@ -687,6 +1022,50 @@
   },
   {
    "engine": null,
+   "frozen_unit_cost": 8.8333,
+   "line": "Version Two Pinot Grigio - Bottle",
+   "line_cost": 8.8333,
+   "product": "Version Two Pinot Grigio - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20466120",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 8.8333,
+   "line": "Version Two Sparkling - Bottle",
+   "line_cost": 8.8333,
+   "product": "Version Two Sparkling - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20466130",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 78.68,
+   "line": "Veuve Clicquot Yellow Label - Bottle",
+   "line_cost": 78.68,
+   "product": "Veuve Clicquot Yellow Label - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20645881",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 12.06,
+   "line": "Villa Fresco Sangiovese - Bottle",
+   "line_cost": 12.06,
+   "product": "Villa Fresco Sangiovese - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20466168",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
    "frozen_unit_cost": 0.385,
    "line": "Wattleseed [100g]",
    "line_cost": 77.0,
@@ -695,10 +1074,43 @@
    "ref": "lightspeed:22920854",
    "unit": "g",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 32.75,
+   "line": "Whispering Angel Ros\u00e9 - Bottle",
+   "line_cost": 32.75,
+   "product": "Whispering Angel Ros\u00e9 - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:21749602",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 17.11,
+   "line": "Year Wines 'Zagara' Orange - Bottle",
+   "line_cost": 17.11,
+   "product": "Year Wines 'Zagara' Orange - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20467573",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 16.5642,
+   "line": "Year Wines Fiano - Bottle",
+   "line_cost": 16.5642,
+   "product": "Year Wines Fiano - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:22001021",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   }
  ],
  "no_yield": [],
- "products": 591,
+ "products": 628,
  "pulled_in_for_closure": [
   "Davy's Old Fashioned Batch"
  ],

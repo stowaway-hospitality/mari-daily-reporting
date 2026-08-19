@@ -1338,6 +1338,77 @@ def _mean_large_pizza_cost(out: dict, cost_of):
     return round(tc / tq, 4) if tq else None
 
 
+def apply_serve_portions(out: dict) -> int:
+    """Divide a tray into the bowl it is actually sold as.
+
+    THE DECLARATION THAT SWITCHED OFF ITS OWN ALARM. A handful of recipes are
+    physically a batch and sell as a portion: the recipe holds a tray's worth of
+    ingredients and the POS price is for one bowl. audit_book has spotted the
+    shape for a while ("recipe is a BATCH, not a serve"), and on 2026-08-17
+    data/serve_portions.yaml was written so the finding could be CLOSED -- Zak
+    ruling that a Potato Salad serve is half a cup, ~130 g.
+
+    audit_book read it, did the division, printed the answer, and downgraded its
+    own SEVERE to INFO. Nothing else read it. So `our_cost` went on holding the
+    whole tray: Potato Salad at $9.87 against a $7.00 menu price, -55.1% GP,
+    with the correct $0.72 sitting one line above it in the audit output.
+
+    That is worse than the Tandoori class of defect rather than another instance
+    of it. There, a correction reached one book and not the other. Here the
+    correction reached only the ALARM -- so declaring the answer is what stopped
+    anyone being told about the question. Found on 2026-08-20 by
+    check_declaration_readers, which is the entire reason that guard exists.
+
+    HOW IT DIVIDES, and why quantities rather than the total. Scaling `our_cost`
+    alone would leave a recipe whose lines say 1,780 g and whose cost says one
+    bowl -- the builder would show a tray and price a serve, and the next person
+    to reconcile the two would find a $0.72 tray. So every quantity is scaled by
+    portion/mass and the cost follows from the lines, exactly as _expand_serves
+    already does for a Regular pizza. The recipe then DESCRIBES a serve, which
+    is what it is sold as.
+
+    The denominator is g+ml only, matching audit_book's _input_mass: "2 ea" of
+    anything says nothing about how much is in the bowl. Countable lines are
+    still scaled -- a serve is a fraction of the whole tray, garnish included.
+    """
+    from core.declarations import SERVE_PORTIONS
+    n = 0
+    for e in (SERVE_PORTIONS.load().get("portions") or []):
+        r = out.get(e.get("product"))
+        if not r:
+            continue
+        mass = 0.0
+        for ln in r["ingredients"]:
+            if str(ln.get("unit") or "").lower() in ("g", "ml"):
+                try:
+                    mass += float(ln.get("qty") or 0)
+                except (TypeError, ValueError):
+                    pass
+        try:
+            portion = float(e["portion_qty"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        # A portion at or above the tray is not a portion, it is a mis-entry, and
+        # scaling by >= 1 would silently INFLATE a cost. Refuse and leave the
+        # SEVERE standing -- the audit shouting is the correct outcome here.
+        if mass <= 0 or not 0 < portion < mass:
+            continue
+        f = portion / mass
+        for ln in r["ingredients"]:
+            for k in ("qty", "ls_cost"):
+                try:
+                    ln[k] = float(ln.get(k) or 0) * f
+                except (TypeError, ValueError):
+                    pass
+            ln["serve_portion_from"] = f"tray x{f:.4g}"
+        r["serve_portion"] = {
+            "portion_qty": portion, "portion_unit": e.get("portion_unit"),
+            "of_tray": round(mass, 2), "by": e.get("by"),
+            "source": "data/serve_portions.yaml"}
+        n += 1
+    return n
+
+
 #: A per-ml product whose name ends "- Bottle" and whose Back Office cost is
 #: plainly the cost of the WHOLE BOTTLE. See _is_whole_bottle.
 _BOTTLE_SUFFIX = re.compile(r"\s-\s*bottle\s*$", re.I)
@@ -1388,6 +1459,109 @@ def _is_whole_bottle(name: str, unit: str, sell: str, cost: str) -> bool:
     if s <= 0 or c <= 0:
         return False
     return _BOTTLE_COST_FLOOR <= c / s <= _BOTTLE_COST_CEILING
+
+
+#: The house pours, Zak 2026-08-20: Regular 150 ml, Large 250 ml, from a 750 ml
+#: bottle. So a Regular is a fifth of the bottle and a Large is a third.
+_POUR_ML = {"regular": 150.0, "regular glass": 150.0, "glass": 150.0,
+            "large": 250.0, "large glass": 250.0}
+_BOTTLE_ML = 750.0
+
+
+def _bo_wine_index() -> dict:
+    """{"bottles": {name: cost}, "pours": {name: (pid, sell, cost, venue)}}.
+
+    Read once, from the same Back Office exports the bottle pass-through uses,
+    so a pour and its bottle can never be sourced from different snapshots.
+    """
+    import csv as _csv
+    bottles: dict[str, float] = {}
+    pours: dict[str, tuple] = {}
+    for venue, fname in (("stowaway", "stowaway_products.csv"),
+                         ("harry_gatos", "harry_gatos_products.csv")):
+        p = ROOT / "data" / "bo_exports" / fname
+        if not p.exists():
+            continue
+        for row in _csv.reader(p.open(encoding="utf-8-sig")):
+            if len(row) < 12 or not row[0].isdigit():
+                continue
+            name = row[2].strip()
+            try:
+                sell, cost = float(row[8] or 0), float(row[10] or 0)
+            except ValueError:
+                continue
+            if _is_whole_bottle(name, row[6], row[8], row[10]):
+                bottles.setdefault(name, cost)
+            elif _POUR_ML.get(name.rpartition(" - ")[2].strip().lower()):
+                pours.setdefault(name, (row[0], sell, cost, venue))
+    return {"bottles": bottles, "pours": pours}
+
+
+def add_wine_pours(out: dict, bottle_cost: dict) -> int:
+    """Cost a glass of wine as the fraction of the bottle it is poured from.
+
+    WHY BACK OFFICE CANNOT BE TRUSTED WITH THIS. The pour costs it holds are
+    wrong in both directions, and each was self-consistent enough to survive:
+
+        Tiziano Grasso Barolo   Regular Glass $30.80 AND Large Glass $30.80,
+                                both exactly one fifth of the $154 bottle. A
+                                fifth is a 150 ml Regular; the Large cannot
+                                also be a fifth, so the 250 ml pour was under-
+                                costed 1.67x and read 64.7% GP against a true
+                                51.1%.
+        San Giorgio             the same shape, both pours at $8.14.
+        La Petite Mort          BOTH pours at the FULL bottle cost, $22.89 --
+                                a 150 ml glass booked as a whole bottle, 5x.
+
+    Two errors of opposite sign in the same column is the tell that the column
+    is not being maintained: somebody duplicates a product to make its sibling
+    and the cost comes along.
+
+    So the pour is DERIVED from the bottle instead, which is the only number in
+    this whole area that is checked -- it comes off an invoice, and the bottle
+    pass-through above spot-checks it against the sell price. A glass of wine is
+    not a separate purchase; it is a measured fraction of a bottle we bought.
+
+    Deliberately does not touch a pour whose Back Office cost is already
+    consistent with its own bottle at the declared pour size (within 5%): where
+    the number is right there is nothing to correct, and leaving it alone keeps
+    the diff to what actually changed.
+
+    THE SHAPE IS A PASS-THROUGH, not a sub-recipe line reading "0.2 bottle".
+    One glass is one thing we hand over, costed at what the wine in it cost, and
+    every existing guard on pass-throughs (one line, 1 ea, names itself, a
+    plausible GP) then applies to it unchanged. `poured_from` carries the
+    derivation so the number is auditable rather than merely present.
+    """
+    n = 0
+    for name, (pid, sell, _cost, venue) in sorted(bottle_cost["pours"].items()):
+        head, _, size = name.rpartition(" - ")
+        frac = _POUR_ML.get(size.strip().lower())
+        bottle = bottle_cost["bottles"].get(f"{head} - Bottle")
+        if not frac or not head or not bottle or bottle <= 0:
+            continue
+        want = bottle * (frac / _BOTTLE_ML)
+        cur = out.get(name)
+        if cur:
+            lines = cur.get("ingredients") or []
+            if not (len(lines) == 1 and lines[0].get("passthrough")):
+                continue            # Produce has a real recipe; it wins
+            try:
+                have = float(lines[0].get("our_cost") or 0)
+            except (TypeError, ValueError):
+                have = 0.0
+            if have > 0 and abs(have - want) <= 0.05 * want:
+                continue            # already right; leave the diff clean
+        elif not sell or sell <= 0:
+            continue                # not a menu item
+        out[name] = {"ingredients": [{
+            "name": name, "kind": "id", "ref": f"lightspeed:{pid}",
+            "qty": "1", "unit": "ea", "ls_cost": None,
+            "our_cost": f"{want:.4f}", "passthrough": True,
+            "poured_from": f"{head} - Bottle ${bottle:.2f} x {frac:g}/750 ml"}],
+            "passthrough": venue, "pour_ml": frac}
+        n += 1
+    return n
 
 
 def add_passthrough_products(out: dict) -> int:
@@ -1853,6 +2027,36 @@ def main() -> int:
     #
     # Only a SOLD serve (>= $3) at a serve-sized multiple is expanded: a batch
     # tray is also "qty 1" but that means one portion of it, not the whole thing.
+    #
+    # A FLOOR ON THE MULTIPLE WAS TRIED HERE ON 2026-08-20 AND BACKED OUT. The
+    # reasoning was sound and the fix was not, so the reasoning is kept:
+    #
+    # Garlic Bread [Deal] holds "0.025 of Garlic Bread [9" x40]" — one bread out
+    # of a carton of forty, a PACK fraction, not a serve fraction. The real serve
+    # fractions in this book stop at an eighth ($2 BBQ Wing is 0.125 of an
+    # eight-wing serve; a Regular pizza is 0.716 of a Large), so a 0.1 floor
+    # separates them cleanly. Expanding 0.025 scales the parent's own line by
+    # 2.5% and books one garlic bread at $0.0374 against a $5.00 deal, 99.2% GP.
+    #
+    # Blocking the expansion did NOT fix it: the line then stays unexpanded at
+    # "0.025 ml" and still costs $0.0374, because the reading that would rescue
+    # it (cost_of forms both the whole and the fraction and keeps whichever
+    # matches Produce's stated $1.32 — the WHOLE one) is not reached either way.
+    # It also cost two unrelated pack restatements, 85 -> 83. A change that does
+    # not fix the thing it was written for and moves two other numbers is churn.
+    #
+    # WHAT IS ACTUALLY GOING ON, which is the part worth keeping. This was RIGHT
+    # until 2026-08-19 and a CORRECT change broke it: Zak saved Garlic Bread in
+    # the builder, giving the line a real our_cost where it had none. Before
+    # that the line's cost came from Lightspeed and disagreed with 0.025 x our
+    # rate by 40x, so _restate_pack_quantities saw the contradiction and put the
+    # quantity back to 1 ea. Costing the line on our own book made the wrong
+    # quantity SELF-CONSISTENT and the signal that had been catching it vanished
+    # — the same shape as the pack-agreement class, where the wrong number
+    # survived for months by not contradicting anything. The fix has to restore
+    # an independent opinion (the raw scrape figure), not add a threshold.
+    # Garlic Bread [Deal] has no POS sales record, so it is a WARN, not money.
+
     def _expand_serves():
         for _ in range(5):                       # nested variants; converges fast
             changed = False
@@ -2680,6 +2884,18 @@ def main() -> int:
     _pt = add_passthrough_products(out)
     if _pt:
         print(f"  {_pt} sold-as-bought product(s) costed from their own Back Office price")
+
+    # AFTER the bottles, because a pour is priced off its bottle and the bottle
+    # has to exist first.
+    _po = add_wine_pours(out, _bo_wine_index())
+    if _po:
+        print(f"  {_po} wine pour(s) costed off their own bottle "
+              f"(Regular 150 ml, Large 250 ml — Zak 2026-08-20)")
+
+    _sp = apply_serve_portions(out)
+    if _sp:
+        print(f"  {_sp} batch-shaped recipe(s) divided into the serve they sell "
+              f"as (data/serve_portions.yaml)")
 
     fully_ours = 0
     for name in out:

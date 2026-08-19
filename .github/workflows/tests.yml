@@ -87,6 +87,24 @@ jobs:
         # the count of modules still hand-rolling their own parse.
         run: python3 scripts/check_declaration_readers.py --strict --quiet
 
+      - name: A glass of wine costs a fraction of its own bottle
+        # The bottle cost comes off an invoice; the pour cost comes off nothing.
+        # Back Office holds it wrong in both directions — Barolo prices a 250 ml
+        # Large at the same fifth-of-a-bottle as the 150 ml Regular, La Petite
+        # Mort prices both pours at the FULL bottle. Produce, which the book
+        # actually costs off, is mostly right, so this is narrow: it catches a
+        # pour wearing another wine's number (Sigurd White Blend carries Sigurd
+        # GSM's, 1.42x). Ratcheted; 150/250 ml per Zak 2026-08-20.
+        run: python3 scripts/check_wine_pours.py --strict
+
+      - name: Two files do not hold two different yields for one batch
+        # data/recipe_yields.yaml (a harvest of Produce) against
+        # data/prep_yields.yaml (what the book costs off). Neither outranks the
+        # other — three prep_yields entries exist SPECIFICALLY to say why
+        # Produce is wrong — so this ranks the conflicts by the revenue standing
+        # on each rather than resolving them. Pizza Sauce is $1.06M of it.
+        run: python3 scripts/check_yield_conflicts.py --strict
+
       - name: Estimated vs actual COGS (purchases minus consumption)
         # The number COGS_ARCHITECTURE.md has named since it was written: Xero
         # purchases (what we bought) minus recipe cost (what we used) = stock

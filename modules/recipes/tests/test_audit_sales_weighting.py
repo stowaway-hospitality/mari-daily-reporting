@@ -270,27 +270,55 @@ def test_every_remaining_severe_is_something_nobody_has_fixed_yet():
 
 def test_a_batch_masquerading_as_a_serve_is_named_as_one():
     """Potato Salad's Produce recipe is a kilo of potato and half a kilo of
-    Kewpie — 1,780 g — against a $7.00 side. Reported as "negative GP" and
-    "costs more than it sells for", it sends someone to fix the price. It is a
-    batch with no portion size, and saying so is the only useful version.
+    Kewpie against a $7.00 side. Reported as "negative GP" and "costs more than
+    it sells for", it sends someone to fix the price, and the price is not what
+    is wrong.
 
-    The bound is not a guess: the heaviest real menu item in the book is a Large
-    Super House Special at 1,006 g and a beer jug is 1,000 ml."""
+    THIS TEST HAS OUTLIVED ITS FIRST TWO FORMS, and the reason is worth keeping.
+
+      v1  asserted the finding said "recipe is a BATCH, not a serve".
+      v2  widened to accept "a serve portion is declared" too, when Zak ruled the
+          portion on 2026-08-17 and audit_book started dividing.
+      v3  is this one. On 2026-08-20 the CONVERTER started dividing as well, so
+          the book itself now holds a 130 g serve costing $1.00 at 84.2% GP.
+          Potato Salad is no longer batch-shaped, so it raises no finding at all
+          and both earlier forms fail — a test that pinned the defect expiring
+          the day the defect was fixed, which is the trap this repo has fallen
+          into three times in one week.
+
+    So the assertion is now the thing that was always actually true and never
+    written down: NOBODY MAY REPORT POTATO SALAD AS NEGATIVE GP. Whether that is
+    achieved by naming it a batch, by declaring a portion, or by the book
+    dividing the tray is an implementation detail. Being told a $7.00 side loses
+    money when it does not is the failure.
+    """
     F = audit()
-    # Either shape counts. Zak declared the portion -- half a cup, ~130 g -- on
-    # 2026-08-17, so the finding moved from SEVERE ("no portion size") to INFO
-    # ("a serve portion is declared", $0.72 a bowl). What must never happen is
-    # Potato Salad being judged as a serve and reported as negative GP, which is
-    # what the second half of this test guards. The naming is what matters, not
-    # which severity it currently sits at.
-    batch = [d for (_s, rule), v in F.items()
-             if "BATCH, not a serve" in rule or "serve portion is declared" in rule
-             for _rev, d in v]
-    assert any("Potato Salad" in d for d in batch), batch
-    for rule_frag in ("negative GP", "costs more than it sells for"):
+    for rule_frag in ("negative GP", "costs more than it sells for",
+                      "BATCH, not a serve"):
         clashing = [d for (_s, rule), v in F.items() if rule_frag in rule
                     for _rev, d in v if "Potato Salad" in d]
-        assert not clashing, f"{rule_frag} should defer to the batch finding: {clashing}"
+        assert not clashing, (
+            f"Potato Salad is a declared 130 g serve costing about $1.00 — "
+            f"nothing should still be reporting it as {rule_frag!r}: {clashing}")
+
+    # ...and the division must actually be in the book, not only in the audit.
+    # This is the half that was missing until 2026-08-20: serve_portions.yaml was
+    # read by audit_book alone, so the finding closed while our_cost went on
+    # holding the whole tray at -55.1% GP.
+    import json
+    from pathlib import Path
+    book_p = (Path(__file__).resolve().parents[3]
+              / "data" / "lightspeed_recipes_costed.json")
+    if book_p.exists():
+        r = json.loads(book_p.read_text())["recipes"].get("Potato Salad")
+        if r:
+            assert r.get("serve_portion"), (
+                "Potato Salad carries a declared portion in "
+                "data/serve_portions.yaml and the costed book does not show it "
+                "— the converter has stopped reading the declaration")
+            assert float(r["our_cost"]) < float(r["sell_incl"]), (
+                f"a declared serve still costs more than it sells for: "
+                f"{r['our_cost']} against {r['sell_incl']}")
 
 
 def test_a_real_serve_is_never_called_a_batch():

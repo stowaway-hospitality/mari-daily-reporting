@@ -153,23 +153,39 @@ RECIPE_YIELDS = _reg(Declaration(
     rules_on="Produce's own 'Expected yield' field, harvested 2026-08-09",
     readers=(
         "modules/recipes/book_reconcile.py",
-        "scripts/convert_lightspeed_recipes.py",
+        "scripts/check_yield_conflicts.py",
     ),
-    known_gaps={
-        "scripts/convert_lightspeed_recipes.py":
-            "27 of 34 entries disagree with prep_yields.yaml and 12 disagree by "
-            "MAGNITUDE, not spelling — Pizza Sauce 6,028 g here against 9,338 g "
-            "there (1.55x, and Pizza Sauce carries $1.06M across 146 dishes), "
-            "Demerara Syrup 560 ml against 1,160 ml (2.07x), Cooked Beef Brisket "
-            "10.5 kg against 6,000 g. Zak has named Lightspeed the source of "
-            "truth for yields, which would make this file outrank prep_yields "
-            "for the seven that carry no measured basis — but three prep_yields "
-            "entries deliberately override Produce with a documented cook loss "
-            "(Achiote Chicken, and the brisket that cost $8.53 on every "
-            "Meatlovers). Wiring this reader blind would silently reverse those. "
-            "Needs a per-batch ruling from Zak, not a bulk import.",
-    },
 ))
+# THE CONVERTER IS DELIBERATELY NOT A READER OF recipe_yields, ruled 2026-08-20.
+#
+# It was listed as one when this registry was written, on the reasoning that Zak
+# has named Lightspeed the source of truth for yields. Making the claim is what
+# forced the question, and the answer turned out to be the other way round.
+#
+# This file is a HARVEST — Produce's "Expected yield" field, read by hand on
+# 2026-08-09 — not a ruling. It disagrees with prep_yields.yaml on 12 batches,
+# and every single prep_yields entry involved carries a WRITTEN DERIVATION,
+# several of which exist precisely to explain why Produce's number is wrong:
+#
+#   Cooked Beef Brisket   Produce 10,500 g is the RAW joint weight recorded as
+#                         if it were the yield. Reading it cost $8.53 on every
+#                         Meatlovers.
+#   Achiote Chicken       same fault, same file, documented cook-loss band.
+#   Pizza Sauce           prep_yields says IN CAPITALS not to touch it: 9,338 g
+#                         describes the OLD 10 kg recipe that the scraped copy
+#                         still holds, 6,028 g describes the Kagome re-spec Zak
+#                         made on 2026-08-15 that lives in the builder book.
+#                         Pairing one recipe's yield with the other's batch cost
+#                         invents a $6.17/kg sauce that has never existed — and
+#                         that had already been tried once and reverted.
+#
+# So neither file outranks the other in general. Produce is authoritative for
+# what Produce holds; prep_yields is authoritative where somebody has written
+# down why Produce is wrong. A bulk import in either direction destroys evidence.
+#
+# What the conflict DOES deserve is to stop being invisible, which is what
+# scripts/check_yield_conflicts.py is for: it ranks the disagreements by the
+# revenue standing on each one, so they get weighed rather than argued.
 
 SERVE_PORTIONS = _reg(Declaration(
     name="serve_portions",
@@ -179,17 +195,6 @@ SERVE_PORTIONS = _reg(Declaration(
         "scripts/audit_book.py",
         "scripts/convert_lightspeed_recipes.py",
     ),
-    known_gaps={
-        "scripts/convert_lightspeed_recipes.py":
-            "THE AUDIT DIVIDES; THE BOOK DOES NOT. audit_book computes the serve "
-            "cost from the declared portion, prints it, and downgrades its own "
-            "SEVERE finding to INFO — while `our_cost` keeps the whole tray. "
-            "Potato Salad stands at $9.87 against a $7.00 menu price (-55.1% GP) "
-            "with '130 g of 1,780 g = $0.72 a serve' declared and evidenced since "
-            "2026-08-17. This is the Tandoori pattern with a sting: the "
-            "declaration RETIRES THE ALARM without moving the number, so the one "
-            "signal that would have found it is the thing it switched off.",
-    },
 ))
 
 COOK_YIELDS = _reg(Declaration(
@@ -211,15 +216,6 @@ PIZZA_PORTIONS = _reg(Declaration(
         "scripts/audit_book.py",
         "scripts/materialise_recipes.py",
     ),
-    known_gaps={
-        "scripts/materialise_recipes.py":
-            "Costs are inherited correctly — the materialiser reads the "
-            "converter's OUTPUT, so the weighings are in the number. What it "
-            "misses is PROVENANCE: 805 weighed lines land in the staged book "
-            "tagged `scrape` ('nobody has checked it') instead of `weighed`. "
-            "The staged book's whole point is that 'lines nobody has checked' is "
-            "a number that can only shrink, and this holds it 805 too high.",
-    },
 ))
 
 PIZZA_REGULAR_GRAMS = _reg(Declaration(
