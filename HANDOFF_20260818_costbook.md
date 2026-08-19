@@ -149,3 +149,50 @@ whose unit does not match the batch's yield unit, and make it refuse. That fixes
 the class, not the instance. Then correct Renan's record.
 
 **Marilyna's must not be promoted until this is closed.**
+
+---
+
+## Disregarding unit labels — tried, measured, and what it actually needs
+
+Zak, 19 Aug: *"the unit label needs to ALWAYS be disregarded... they constantly
+trip you up. we just need yields to be estimated until legitimately recorded."*
+
+He is right about the diagnosis. Every costing bug in this session was a LABEL
+disagreeing with a quantity that was itself correct: "6 ml" of Asahi meaning six
+cans, "1 ml" of a sauce meaning a whole 1,116 g batch, "2 ml" of a [4L] pack
+meaning two packs, "0.077 ml" meaning 0.077 OF a batch, and a chef picking ml for
+a batch measured in grams.
+
+**Implemented and measured. It takes manual lines 160 -> 66 and refusals to
+almost zero. It also produces $1,862.40 of gin.**
+
+    Archie Rose Signature Gin   30 ml  ->  $1,862.40   (price is $63.92 per BOTTLE)
+    Flor De Cana 4 Extra Seco   30 ml  ->  $1,450.50
+    Stowaway diff  max $1.99 -> max $1,859.57
+
+Why: "30" of a spirit priced per bottle means 30 ml OUT OF a 700 ml bottle. With
+the label gone there is nothing left to distinguish that from 30 bottles. The
+label was carrying the only signal that the quantity was a base unit rather than
+a count.
+
+Normalising the RATE to base units first (kg->g, L->ml) does not help — a bottle
+is not a mass or a volume, it is a container of unstated size.
+
+### So the rule is right and the prerequisite is missing
+
+Labels become genuinely disregardable the moment every container-priced
+ingredient has a DECLARED SIZE. `data/declared_conversions.yaml` already does
+exactly this for 11 items — 7 wine bottles at 750 ml, Aperol 700 ml, Alehouse
+2x49,500 ml, Grifter 50,000 ml — and the plan's acceptance test for one is that
+supplier rate / declared qty lands on the book's independent rate.
+
+**The order is: declare the sizes, THEN drop the labels.** Doing it the other way
+turns a 30 ml pour into thirty bottles.
+
+Roughly how much is left to declare: every ingredient whose price unit is
+bottle/jar/punnet/bunch/tray and which a recipe draws in a base-unit quantity.
+That is a finite, listable set and it is the single highest-value piece of work
+left in the cost book — it closes ~94 manual lines AND makes the label rule safe.
+
+The change itself is reverted; this section is the map for redoing it in the
+right order.
