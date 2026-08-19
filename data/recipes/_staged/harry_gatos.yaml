@@ -10,7 +10,7 @@
 #   derived      2 — computed from another line (a size scaling, a cook yield)
 #   mirrored     2 — deliberately the same spec as a sibling record
 #   rule        29 — a written rule with arithmetic proof corrected it
-#   scrape     185 — nobody has checked it. This is the number to shrink.
+#   scrape     207 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -19,6 +19,60 @@
 # reproduces today's number deliberately — migration and correction are separate
 # steps — but a manual line is a debt, not a fact.
 
+- product: Angas & Bremer Grenache - Large
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700602
+    desc: Angas & Bremer Grenache - Bottle
+    qty: 250
+    unit: ml
+    source: scrape
+- product: Angas & Bremer Grenache - Regular
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700602
+    desc: Angas & Bremer Grenache - Bottle
+    qty: 150
+    unit: ml
+    source: scrape
+- product: Angas & Bremer Rosé - Large
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700616
+    desc: Angas & Bremer Rosé - Bottle
+    qty: 250
+    unit: ml
+    source: scrape
+- product: Angas & Bremer Rosé - Regular
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700616
+    desc: Angas & Bremer Rosé - Bottle
+    qty: 150
+    unit: ml
+    source: scrape
+- product: Azurescens Pinot Noir - Large
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700639
+    desc: Azurescens Pinot Noir - Bottle
+    qty: 250
+    unit: ml
+    source: scrape
+- product: Azurescens Pinot Noir - Regular
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700639
+    desc: Azurescens Pinot Noir - Bottle
+    qty: 150
+    unit: ml
+    source: scrape
 - product: BBQ Pork Buns
   venue_source: harry_gatos
   is_serve: true
@@ -135,7 +189,7 @@
     qty: 1
     unit: ml
     manual: true
-    unit_cost_incl: 1.8898
+    unit_cost_incl: 1.8896
     source: scrape
 - product: Cosmo [HG]
   venue_source: harry_gatos
@@ -446,6 +500,15 @@
     unit: g
     source: rule
     evidence: 'house rule: the batch is g, so the line is too'
+- product: Esoterico Orange - Regular
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700625
+    desc: Esoterico Orange - Bottle
+    qty: 150
+    unit: ml
+    source: scrape
 - product: Fried Rice
   venue_source: harry_gatos
   is_serve: true
@@ -505,6 +568,42 @@
   - id: lightspeed:22995366
     desc: Vegetable Oil Simply [20L]
     qty: 30
+    unit: ml
+    source: scrape
+- product: From Sundays Shiraz - Large
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700646
+    desc: From Sundays Shiraz - Bottle
+    qty: 250
+    unit: ml
+    source: scrape
+- product: From Sundays Shiraz - Regular
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700646
+    desc: From Sundays Shiraz - Bottle
+    qty: 150
+    unit: ml
+    source: scrape
+- product: Geppetto Chardonnay - Large
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700630
+    desc: Geppetto Chardonnay - Bottle
+    qty: 250
+    unit: ml
+    source: scrape
+- product: Geppetto Chardonnay - Regular
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700630
+    desc: Geppetto Chardonnay - Bottle
+    qty: 150
     unit: ml
     source: scrape
 - product: Ginger Ponzu
@@ -642,7 +741,16 @@
     qty: 250
     unit: g
     source: scrape
-- product: Harry's Lager
+- product: Harry's Lager - Pint
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20744549
+    desc: Alehouse Premium Lager [Keg]
+    qty: 570
+    unit: ml
+    source: scrape
+- product: Harry's Lager - Schooner
   venue_source: harry_gatos
   is_serve: true
   ingredients:
@@ -782,6 +890,24 @@
     unit: ml
     source: mirrored
     evidence: 'recipe_missing_lines.yaml: from sibling size'
+- product: Kuku Sauv Blanc - Large
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700643
+    desc: Kuku Sauv Blanc - Bottle
+    qty: 250
+    unit: ml
+    source: scrape
+- product: Kuku Sauv Blanc - Regular
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700643
+    desc: Kuku Sauv Blanc - Bottle
+    qty: 150
+    unit: ml
+    source: scrape
 - product: Kuromatsu Honjozo - 180ml
   venue_source: harry_gatos
   is_serve: true
@@ -789,6 +915,24 @@
   - id: lightspeed:21750877
     desc: Kuromatsu Honjozo [900ml]
     qty: 180
+    unit: ml
+    source: scrape
+- product: L'esprit Rosé - Large
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700634
+    desc: L'esprit Rosé - Bottle
+    qty: 250
+    unit: ml
+    source: scrape
+- product: L'esprit Rosé - Regular
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700634
+    desc: L'esprit Rosé - Bottle
+    qty: 150
     unit: ml
     source: scrape
 - product: Lemon Chu-hi
@@ -1034,6 +1178,15 @@
     qty: 29
     unit: g
     source: scrape
+- product: Palloncino Prosecco - Regular
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700620
+    desc: Palloncino Prosecco - Bottle
+    qty: 150
+    unit: ml
+    source: scrape
 - product: Peking Sauce [6.75L]
   venue_source: harry_gatos
   yield_qty: 6750
@@ -1253,6 +1406,24 @@
     desc: Pickles Whole Dill 20kg Westmont
     qty: 250
     unit: g
+    source: scrape
+- product: River Retreat Pinot Grigio - Large
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700650
+    desc: River Retreat Pinot Grigio - Bottle
+    qty: 250
+    unit: ml
+    source: scrape
+- product: River Retreat Pinot Grigio - Regular
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20700650
+    desc: River Retreat Pinot Grigio - Bottle
+    qty: 150
+    unit: ml
     source: scrape
 - product: Rooster Blanco Tequila [House]
   venue_source: harry_gatos
@@ -1514,6 +1685,24 @@
     qty: 100
     unit: g
     source: scrape
+- product: Trutta Streamside Shiraz - Large [HG]
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20464635
+    desc: Trutta Streamside Shiraz - Bottle [HG]
+    qty: 250
+    unit: ml
+    source: scrape
+- product: Trutta Streamside Shiraz - Regular [HG]
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20464635
+    desc: Trutta Streamside Shiraz - Bottle [HG]
+    qty: 150
+    unit: ml
+    source: scrape
 - product: Tsingtao Longneck
   venue_source: harry_gatos
   is_serve: true
@@ -1596,6 +1785,15 @@
     unit: g
     source: derived
     evidence: scaled from Veg Spring Rolls [2pc] x1
+- product: Veuve Clicquot - Glass [HG]
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20645881
+    desc: Veuve Clicquot Yellow Label - Bottle
+    qty: 150
+    unit: ml
+    source: scrape
 - product: Vodka Martini [HG]
   venue_source: harry_gatos
   is_serve: true

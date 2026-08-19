@@ -10,7 +10,7 @@
 #   derived    141 — computed from another line (a size scaling, a cook yield)
 #   mirrored    42 — deliberately the same spec as a sibling record
 #   rule        60 — a written rule with arithmetic proof corrected it
-#   scrape    1169 — nobody has checked it. This is the number to shrink.
+#   scrape    1141 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -416,42 +416,6 @@
     qty: 45
     unit: ml
     source: scrape
-- product: Angas & Bremer Grenache - Large
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700602
-    desc: Angas & Bremer Grenache - Bottle
-    qty: 250
-    unit: ml
-    source: scrape
-- product: Angas & Bremer Grenache - Regular
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700602
-    desc: Angas & Bremer Grenache - Bottle
-    qty: 150
-    unit: ml
-    source: scrape
-- product: Angas & Bremer Rosé - Large
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700616
-    desc: Angas & Bremer Rosé - Bottle
-    qty: 250
-    unit: ml
-    source: scrape
-- product: Angas & Bremer Rosé - Regular
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700616
-    desc: Angas & Bremer Rosé - Bottle
-    qty: 150
-    unit: ml
-    source: scrape
 - product: Angel's Envy Old Fash
   venue_source: stowaway
   is_serve: true
@@ -592,24 +556,6 @@
   - id: lightspeed:20512320
     desc: Luxardo Maraschino [Bottle]
     qty: 2.5
-    unit: ml
-    source: scrape
-- product: Azurescens Pinot Noir - Large
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700639
-    desc: Azurescens Pinot Noir - Bottle
-    qty: 250
-    unit: ml
-    source: scrape
-- product: Azurescens Pinot Noir - Regular
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700639
-    desc: Azurescens Pinot Noir - Bottle
-    qty: 150
     unit: ml
     source: scrape
 - product: BBQ Pork Buns [2pc]
@@ -2555,38 +2501,47 @@
     source: scrape
 - product: Classic Margarita
   venue_source: stowaway
-  is_serve: true
+  authored_in: data/recipes/stowaway.yaml
+  sell_incl_gst: 20.0
   ingredients:
   - id: lightspeed:20445833
-    desc: Rooster Rojo Blanco Tequila [Bottle]
+    desc: Rooster Rojo Blanco Tequila [House]
     qty: 40
     unit: ml
-    source: scrape
+    unit_cost_incl: 0.088726
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
   - id: lightspeed:20483413
-    desc: Massenez Triple Sec [5L]
+    desc: Massenez Triple Sec [5L] (20483413)
     qty: 10
     unit: ml
-    source: scrape
+    unit_cost_incl: 0.0718
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
   - subrecipe: Super Lime Juice [1L]
-    desc: Super Lime Juice [1L]
     qty: 30
     unit: ml
-    source: scrape
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
   - id: lightspeed:21020008
     desc: Flake Salt [6kg Box]
     qty: 0.65
     unit: g
-    source: scrape
+    unit_cost_incl: 0.013692
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
   - id: lightspeed:21019999
     desc: Dehydrated Lime Garnish
     qty: 1.95
     unit: g
-    source: scrape
+    unit_cost_incl: 0.092308
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
   - subrecipe: Sugar Syrup
-    desc: Sugar Syrup
     qty: 10
     unit: ml
-    source: scrape
+    source: authored
+    evidence: recipe builder, data/recipes/stowaway.yaml
 - product: Cocchi Chinato
   venue_source: stowaway
   is_serve: true
@@ -3329,15 +3284,6 @@
     qty: 250
     unit: ml
     source: scrape
-- product: Esoterico Orange - Regular
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700625
-    desc: Esoterico Orange - Bottle
-    qty: 150
-    unit: ml
-    source: scrape
 - product: Espresso Martini
   venue_source: stowaway
   is_serve: true
@@ -4057,24 +4003,6 @@
     qty: 100
     unit: ml
     source: scrape
-- product: From Sundays Shiraz - Large
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700646
-    desc: From Sundays Shiraz - Bottle
-    qty: 250
-    unit: ml
-    source: scrape
-- product: From Sundays Shiraz - Regular
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700646
-    desc: From Sundays Shiraz - Bottle
-    qty: 150
-    unit: ml
-    source: scrape
 - product: Frozen Marg
   venue_source: stowaway
   is_serve: true
@@ -4338,24 +4266,6 @@
   - id: lightspeed:20492692
     desc: Massenez Cacao Blanc [Bottle]
     qty: 10
-    unit: ml
-    source: scrape
-- product: Geppetto Chardonnay - Large
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700630
-    desc: Geppetto Chardonnay - Bottle
-    qty: 250
-    unit: ml
-    source: scrape
-- product: Geppetto Chardonnay - Regular
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700630
-    desc: Geppetto Chardonnay - Bottle
-    qty: 150
     unit: ml
     source: scrape
 - product: Geppetto Pinot Noir - Large Glass
@@ -5022,6 +4932,15 @@
     qty: 1
     unit: ea
     source: scrape
+- product: Harry's Lager
+  venue_source: stowaway
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20744549
+    desc: Alehouse Premium Lager [Keg]
+    qty: 425
+    unit: ml
+    source: scrape
 - product: Harry's Lager - Jug
   venue_source: stowaway
   is_serve: true
@@ -5029,24 +4948,6 @@
   - id: lightspeed:20744549
     desc: Alehouse Premium Lager [Keg]
     qty: 1000
-    unit: ml
-    source: scrape
-- product: Harry's Lager - Pint
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20744549
-    desc: Alehouse Premium Lager [Keg]
-    qty: 570
-    unit: ml
-    source: scrape
-- product: Harry's Lager - Schooner
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20744549
-    desc: Alehouse Premium Lager [Keg]
-    qty: 425
     unit: ml
     source: scrape
 - product: Hartshorn Sheep Whey Vodka
@@ -5679,24 +5580,6 @@
     qty: 30
     unit: ml
     source: scrape
-- product: Kuku Sauv Blanc - Large
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700643
-    desc: Kuku Sauv Blanc - Bottle
-    qty: 250
-    unit: ml
-    source: scrape
-- product: Kuku Sauv Blanc - Regular
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700643
-    desc: Kuku Sauv Blanc - Bottle
-    qty: 150
-    unit: ml
-    source: scrape
 - product: Kuku Sauvignon Blanc - Large
   venue_source: stowaway
   is_serve: true
@@ -5731,24 +5614,6 @@
   - id: lightspeed:21750877
     desc: Kuromatsu Honjozo [900ml]
     qty: 60
-    unit: ml
-    source: scrape
-- product: L'esprit Rosé - Large
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700634
-    desc: L'esprit Rosé - Bottle
-    qty: 250
-    unit: ml
-    source: scrape
-- product: L'esprit Rosé - Regular
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700634
-    desc: L'esprit Rosé - Bottle
-    qty: 150
     unit: ml
     source: scrape
 - product: La Petite Mort Albarino 2025 - Large
@@ -5920,7 +5785,7 @@
     qty: 1
     unit: ea
     manual: true
-    unit_cost_incl: 5.1661
+    unit_cost_incl: 4.5602
     source: scrape
 - product: Large Sanchez [Vegan] Wings Deal
   venue_source: stowaway
@@ -5928,13 +5793,13 @@
   ingredients:
   - subrecipe: Pizza Dough [Recipe]
     desc: Pizza Dough [Recipe]
-    qty: 205
+    qty: 215
     unit: g
     source: derived
     evidence: scaled from Large Sanchez VEGAN x1
   - subrecipe: Pizza Sauce [Recipe]
     desc: Pizza Sauce [Recipe]
-    qty: 90
+    qty: 78
     unit: g
     source: derived
     evidence: scaled from Large Sanchez VEGAN x1
@@ -5946,25 +5811,25 @@
     evidence: scaled from Large Sanchez VEGAN x1
   - id: lightspeed:20445586
     desc: Corn [2Kg]
-    qty: 30
+    qty: 46
     unit: g
     source: derived
     evidence: scaled from Large Sanchez VEGAN x1
   - id: lightspeed:22480112
     desc: Jalapenos [3Kg]
-    qty: 25
+    qty: 30
     unit: g
     source: derived
     evidence: scaled from Large Sanchez VEGAN x1
   - id: lightspeed:22491356
     desc: Cherry Tom [250g/Punnet]
-    qty: 60
+    qty: 75
     unit: g
     source: derived
     evidence: scaled from Large Sanchez VEGAN x1
   - id: lightspeed:22479979
     desc: Big Cheese - Shredded Mozzarella [2kg]
-    qty: 142
+    qty: 88
     unit: g
     source: derived
     evidence: scaled from Large Sanchez VEGAN x1
@@ -5976,7 +5841,7 @@
     evidence: scaled from Large Sanchez VEGAN x1
   - id: lightspeed:22796313
     desc: Black Beans [7.8kg]
-    qty: 124
+    qty: 88
     unit: g
     source: derived
     evidence: scaled from Large Sanchez VEGAN x1
@@ -7208,15 +7073,6 @@
     qty: 150
     unit: ml
     source: scrape
-- product: Palloncino Prosecco - Regular
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700620
-    desc: Palloncino Prosecco - Bottle
-    qty: 150
-    unit: ml
-    source: scrape
 - product: Passionfruit Syrup
   venue_source: stowaway
   authored_in: data/recipes/stowaway.yaml
@@ -8131,24 +7987,6 @@
   - subrecipe: Super Lime Juice [1L]
     desc: Super Lime Juice [1L]
     qty: 100
-    unit: ml
-    source: scrape
-- product: River Retreat Pinot Grigio - Large
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700650
-    desc: River Retreat Pinot Grigio - Bottle
-    qty: 250
-    unit: ml
-    source: scrape
-- product: River Retreat Pinot Grigio - Regular
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20700650
-    desc: River Retreat Pinot Grigio - Bottle
-    qty: 150
     unit: ml
     source: scrape
 - product: Rocket Man
@@ -9542,24 +9380,6 @@
     qty: 500
     unit: g
     source: scrape
-- product: Trutta Streamside Shiraz - Large [HG]
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20464635
-    desc: Trutta Streamside Shiraz - Bottle [HG]
-    qty: 250
-    unit: ml
-    source: scrape
-- product: Trutta Streamside Shiraz - Regular [HG]
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20464635
-    desc: Trutta Streamside Shiraz - Bottle [HG]
-    qty: 150
-    unit: ml
-    source: scrape
 - product: Trutta Streamside Shiraz [Chilled] - Regular
   venue_source: stowaway
   is_serve: true
@@ -9756,15 +9576,6 @@
   - id: lightspeed:20512429
     desc: Lillet Blanc Aperitif [Bottle]
     qty: 15
-    unit: ml
-    source: scrape
-- product: Veuve Clicquot - Glass [HG]
-  venue_source: stowaway
-  is_serve: true
-  ingredients:
-  - id: lightspeed:20645881
-    desc: Veuve Clicquot Yellow Label - Bottle
-    qty: 150
     unit: ml
     source: scrape
 - product: Veuve Clicquot Yellow Label - Glass
