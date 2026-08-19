@@ -43,6 +43,7 @@ from core.pack_overrides import load_pack_overrides             # noqa: E402
 ROOT = Path(os.environ.get("REPO_ROOT", Path(__file__).resolve().parent.parent))
 BOOK = ROOT / "data" / "lightspeed_recipes_costed.json"
 OUT = ROOT / "data" / "container_sizes.csv"
+_BO_SIZES: dict = {}
 
 # "[700ml]", "[2L]", "[1Kg]", "500g". Deliberately anchored to a unit word —
 # "Pizza Base Gluten Free 11in" must not read 11 as a size.
@@ -61,7 +62,101 @@ def item_names() -> dict[str, str]:
     return out
 
 
+
+def _bo_default_sizes() -> dict:
+    """ProductID -> (base_qty, base_unit) from the Back Office export.
+
+    THE STRONGEST SOURCE WE HAVE, and it was going unread. Lightspeed
+    distinguishes a POS SALE ITEM from a STOCK ITEM, and the stock item states
+    its own container:
+
+        Archie Rose Signature Gin           InventoryType ''   Unit unit  DefaultSize 1
+        Archie Rose Signature Gin [Bottle]  InventoryType '1'  Unit ml    DefaultSize 700
+
+    The bottle is what we keep stock of; the pour is what we sell. A recipe line
+    drawing "30" of the bottle is 30 ML, and $63.92 / 700 ml x 30 = $2.74 --
+    which is what that pour actually costs. Without the size the same line reads
+    as 30 BOTTLES and prices a gin and tonic at $1,862.40.
+
+    648 stock items carry a real size this way, against 254 rows the name-parsing
+    source could find. Zak, 2026-08-19: "differentiate the POS sale items from the
+    stock items that we actually want to track inventory for... we don't keep
+    stock of archie rose [30ml]."
+
+    Only InventoryType == '1' is read: a sale item's DefaultSize is 1 by
+    convention and means nothing.
+    """
+    import csv as _csv
+    out = {}
+    for f in ("stowaway_products.csv", "harry_gatos_products.csv"):
+        path = ROOT / "data" / "bo_exports" / f
+        if not path.exists():
+            continue
+        for r in _csv.DictReader(path.read_text(encoding="utf-8-sig").splitlines()):
+            if (r.get("InventoryType") or "").strip() != "1":
+                continue
+            pid = (r.get("ProductID") or "").strip()
+            unit = (r.get("Unit") or "").strip().lower()
+            try:
+                size = Decimal((r.get("DefaultSize") or "").strip())
+            except Exception:                                # noqa: BLE001
+                continue
+            if not pid or size <= 1 or unit not in TO_BASE:
+                continue
+            out[f"lightspeed:{pid}"] = (size, unit)
+    return out
+
+
+def _resolve_bo(size: Decimal, unit: str, name_qty, base: str):
+    """Turn a raw Back Office (DefaultSize, Unit) pair into a base quantity.
+
+    THE LABEL IS NOT EVIDENCE. Back Office stores both conventions under the
+    same unit string and nothing distinguishes them but the number:
+
+        Tomato Ketchup 4L Heinz    Unit=l  DefaultSize=4       <- 4 litres
+        Tomato Sauce Heinz [4L]    Unit=l  DefaultSize=4000    <- 4000 ML, mislabelled l
+
+    Read the label as gospel and the second one becomes four thousand litres --
+    a 1000x error, which is the same shape as every other unit failure in this
+    book. So the NUMBER is what we take from Back Office; the SCALE is decided
+    by evidence, in this order:
+
+      1. The product name, if it states a size. Whichever reading of the number
+         reproduces the name wins. Both examples above resolve on this rule.
+      2. Failing that, plausibility. An ingredient container measured in l/kg is
+         realistically 1-30 of them; at 100+ the number is already in ml/g.
+      3. Between 30 and 100, nothing decides it. REFUSE -- an unpriced line is a
+         visible gap, a wrongly-scaled one is a silent $1,862 gin and tonic.
+    """
+    factor, implied = TO_BASE[unit]
+    if implied != base:
+        return None, f"BO says {unit} but recipes draw {base}"
+
+    scaled, raw = size * factor, size          # e.g. 4 l -> 4000 ml, or 4000 already ml
+    if factor == 1:
+        return scaled, f"BO stock item states {scaled:g}{base}"
+
+    if name_qty is not None:
+        if name_qty == scaled:
+            return scaled, f"BO {size:g}{unit} = {scaled:g}{base}, name agrees"
+        if name_qty == raw:
+            return raw, f"BO number {size:g} is already {base} (label says {unit}); name agrees"
+        # Numbers disagree outright: the name quoted a PIECE size and Back Office
+        # is quoting the pack (150g schnitzels in a 6kg carton). The pack is what
+        # we buy and what the invoice prices, so it wins -- on the scaled reading,
+        # because a genuine mislabel would have matched the name above.
+        return scaled, f"BO pack {size:g}{unit} = {scaled:g}{base} (name quotes a piece size)"
+
+    if size <= 30:
+        return scaled, f"BO stock item states {size:g}{unit} = {scaled:g}{base}"
+    if size >= 100:
+        return raw, f"BO number {size:g} reads as {base} already (label {unit} implausible at this size)"
+    return None, f"BO {size:g}{unit} is ambiguous (30-100 with no name to check it against)"
+
+
 def main() -> int:
+    global _BO_SIZES
+    _BO_SIZES = _bo_default_sizes()
     names = item_names()
     base_units = load_base_units()
     overrides = load_pack_overrides(ROOT / "data" / "pack_overrides.yaml")
@@ -85,7 +180,30 @@ def main() -> int:
                          "source": "unit_is_each", "evidence": "one is one"})
             continue
 
+        # BACK OFFICE FIRST: the stock item states its own container size, which
+        # beats parsing it out of a name. Only where the base unit agrees --
+        # a size in ml against a recipe that draws grams is a question, not a fact.
         m = SIZE.search(name)
+
+        # BACK OFFICE FIRST: a stock item states its own container size, which
+        # beats parsing one out of a name -- but only its NUMBER is evidence.
+        bo = _BO_SIZES.get(item)
+        if bo and base:
+            name_qty = None
+            if m:
+                f_n, impl_n = TO_BASE[m.group(2).lower()]
+                if impl_n == base:
+                    name_qty = Decimal(m.group(1)) * f_n
+            qty, why = _resolve_bo(bo[0], bo[1], name_qty, base)
+            if qty is not None:
+                rows.append({"item_id": item, "item_name": name,
+                             "container": "container", "base_qty": qty,
+                             "base_unit": base, "source": "back_office",
+                             "evidence": why})
+                continue
+            refused.append((item, name, why))
+            continue
+
         if m and base:
             factor, implied = TO_BASE[m.group(2).lower()]
             if implied == base:

@@ -163,7 +163,18 @@ CEIL = {"g": 0.20, "ml": 0.60}
 # Verified against the invoice and genuinely this dear, so the ceiling would
 # only ever cry wolf. Select Fresh 3064370: "KUTJERA BUSH TOMATO WHOLE100GM"
 # $48.00 for 100g — a premium native spice used a pinch at a time.
-DEAR_BUT_REAL = {"select-fresh:BUSHTOMG"}
+DEAR_BUT_REAL = {
+    "select-fresh:BUSHTOMG",
+    # Wattleseed Ground 100gm, Select Fresh WATS100, $38.50 -> $0.385/g.
+    # Checked 2026-08-19 rather than assumed: ground wattleseed retails
+    # $19-45 per 100 g pack (Natif $19, Bush to Bowl $25-45, Wasteless
+    # Pantry $34). $38.50 sits inside that band. Supplier code, description
+    # and invoice all say 100 g and agree with each other -- there is no
+    # pack to confuse this with. Native spices are simply dear; the ceiling
+    # is a heuristic for gram prices and this is the exception it exists to
+    # have named.
+    "select-fresh:WATS100",
+}
 # Products whose high GP Zak has confirmed is REAL, with what he said. A rule
 # that keeps reporting a checked answer is how a list stops being read.
 VERIFIED_HIGH_GP = {

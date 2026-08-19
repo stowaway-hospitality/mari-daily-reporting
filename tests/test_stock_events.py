@@ -86,7 +86,7 @@ def test_container_sizes_record_where_each_came_from():
         rows = list(csv.DictReader(f))
     assert rows
     sources = {r["source"] for r in rows}
-    assert sources <= {"pack_override", "product_name", "unit_is_each"}
+    assert sources <= {"pack_override", "product_name", "unit_is_each", "back_office"}
     for r in rows:
         assert Decimal(r["base_qty"]) > 0
         assert r["base_unit"] in {"g", "ml", "each"}
@@ -176,3 +176,34 @@ def test_the_phone_page_converts_nothing_and_holds_no_secret():
     assert "session_locations" in js, "a count must carry its scope"
     for logic in ("* 1000", "/ 1000", "700", "750"):
         assert logic not in js, f"{logic!r} looks like a unit conversion in the browser"
+
+
+def test_back_office_size_is_a_number_not_a_label():
+    """The 1000x guard. Back Office files both conventions under Unit='l':
+
+        Tomato Ketchup 4L Heinz   DefaultSize=4      -> 4 litres
+        Tomato Sauce Heinz [4L]   DefaultSize=4000   -> 4000 ml, mislabelled
+
+    Trusting the label prices the second at four thousand litres. Both are
+    4L bottles and both must resolve to 4000 ml.
+    """
+    from scripts.build_container_sizes import _resolve_bo
+    from decimal import Decimal
+
+    qty, _ = _resolve_bo(Decimal("4"), "l", Decimal("4000"), "ml")
+    assert qty == Decimal("4000")
+    qty, _ = _resolve_bo(Decimal("4000"), "l", Decimal("4000"), "ml")
+    assert qty == Decimal("4000")
+
+    # A name quoting a piece size does not shrink the carton we actually buy:
+    # 150 g schnitzels arrive 6 kg at a time and the invoice prices the carton.
+    qty, _ = _resolve_bo(Decimal("6"), "kg", Decimal("150"), "g")
+    assert qty == Decimal("6000")
+
+    # Nothing decides 30-100 with no name to check against. Refuse, loudly.
+    qty, why = _resolve_bo(Decimal("50"), "l", None, "ml")
+    assert qty is None and "ambiguous" in why
+
+    # Dimension clash is never resolved by force.
+    qty, why = _resolve_bo(Decimal("700"), "ml", None, "g")
+    assert qty is None
