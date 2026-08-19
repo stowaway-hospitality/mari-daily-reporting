@@ -1,0 +1,89 @@
+{
+  "invoice": {
+    "supplier_key": "sigurd_wines",
+    "supplier_name_raw": "Sigurd Wines Pty Ltd",
+    "invoice_ref": "INV-11148",
+    "invoice_date": "2026-06-05",
+    "total_incl": "277.22",
+    "lines": [
+      {
+        "description": "2023 Sigurd Red ($21 LUC)",
+        "qty": "12.00",
+        "line_total_incl": "214.90",
+        "unit_price_incl": "17.9083",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Wine Equalisation Tax",
+        "qty": "195.36",
+        "line_total_incl": "62.32",
+        "unit_price_incl": "0.3190",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-05",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "bc849b63e6ccca2ea78435579f1c4ca7cbf3fc8337529efdd673ac05274f6e21.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "277.22",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "high",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "2023 Sigurd Red ($21 LUC)",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Wine Equalisation Tax",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}

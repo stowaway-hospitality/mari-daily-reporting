@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-20",
-  "count": 767,
+  "count": 786,
   "skipped_already_in_xero": 0,
   "invoices": [
     {
@@ -3719,6 +3719,45 @@
           "account_code": "115",
           "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "5049",
+      "supplier": "VMA Ventilation Maintenance Australia Services",
+      "supplier_key": "vma",
+      "date": "2026-08-13",
+      "due_date": "2026-08-28",
+      "total": "176.00",
+      "venue": "stowaway",
+      "pdf_path": "4376db0406d8f7a143736060306eb64cda243a88032052bdfa92a0626141b044.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Kitchen Hood Filter Exchange",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "88.00",
+          "unit_cost": "$88.00/ea",
+          "tax": "gst",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
+        },
+        {
+          "description": "Kitchen Hood Filter Exchange Pizza oven filters",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "88.00",
+          "unit_cost": "$88.00/ea",
+          "tax": "gst",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
         }
       ]
     },
@@ -12134,6 +12173,34 @@
       ]
     },
     {
+      "ref": "4932",
+      "supplier": "VMA Ventilation Maintenance Australia Services",
+      "supplier_key": "vma",
+      "date": "2026-07-30",
+      "due_date": "2026-08-09",
+      "total": "55.00",
+      "venue": "harry_gatos",
+      "pdf_path": "4d673e10d6288288c3bc6cb81c5d8c696f96f633295693c008f34cf2277b0132.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Kitchen Hood Filter Exchange",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "55.00",
+          "unit_cost": "$55.00/ea",
+          "tax": "gst",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
+        }
+      ]
+    },
+    {
       "ref": "INV495832",
       "supplier": "Bacchus Wine Merchants P/L",
       "supplier_key": "bacchus",
@@ -19488,6 +19555,34 @@
           "account_code": "115",
           "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "4847",
+      "supplier": "VMA Ventilation Maintenance Australia Services",
+      "supplier_key": "vma",
+      "date": "2026-07-16",
+      "due_date": "2026-07-20",
+      "total": "88.00",
+      "venue": "stowaway",
+      "pdf_path": "dc6dbcff484f7fb67aab2b5faf5a19e7096629076ca595dda33a62469edb6feb.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "low",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Kitchen Hood Filter Exchange",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "88.00",
+          "unit_cost": "$88.00/ea",
+          "tax": "gst",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
         }
       ]
     },
@@ -36621,6 +36716,167 @@
       ]
     },
     {
+      "ref": "3050467",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-06-10",
+      "due_date": "2026-06-24",
+      "total": "98.40",
+      "venue": "harry_gatos",
+      "pdf_path": "66e5b056a3c34203dbd335c992bd20f99d52ad36f97c5519ab4a659b2a25d9f3.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "ONION BROWN KG",
+          "supplier_code": "ONIBK",
+          "qty": "1.00",
+          "amount": "2.40",
+          "unit_cost": "$2.40/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MUSHROOM KING BROWN 150g PUN",
+          "supplier_code": "MUSKBP",
+          "qty": "3.00",
+          "amount": "22.80",
+          "unit_cost": "$50.67/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "LETTUCE BABY GEM BAG",
+          "supplier_code": "LETGMB",
+          "qty": "2.00",
+          "amount": "8.00",
+          "unit_cost": "$4.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SHALLOT BCH",
+          "supplier_code": "SHAL",
+          "qty": "4.00",
+          "amount": "8.00",
+          "unit_cost": "$2.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "DAVIDSON PLUMS FROZEN KG",
+          "supplier_code": "DAVID",
+          "qty": "1.00",
+          "amount": "51.00",
+          "unit_cost": "$51.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CARROT DICED 5MM KG",
+          "supplier_code": "XDCAR05",
+          "qty": "2.00",
+          "amount": "6.20",
+          "unit_cost": "$3.10/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "INV492624",
+      "supplier": "Bacchus Wine Merchants P/L",
+      "supplier_key": "bacchus",
+      "date": "2026-06-09",
+      "due_date": "2026-07-09",
+      "total": "588.87",
+      "venue": "stowaway",
+      "pdf_path": "85d08b46199e45934df07313d23366e1541353a30450f2ea89508206c0e5e343.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "First Drop Mothers Milk Shiraz 2023",
+          "supplier_code": "FD2MOTHER23",
+          "qty": "2",
+          "amount": "385.97",
+          "unit_cost": "$16.08/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
+        },
+        {
+          "description": "Petit Detour Reserve en Jandem Mediterranee 2024",
+          "supplier_code": "PETDETMEDROSE24",
+          "qty": "1",
+          "amount": "197.95",
+          "unit_cost": "$16.50/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
+        },
+        {
+          "description": "Fuel Levy",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "4.95",
+          "unit_cost": "$4.95/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "INV492625",
+      "supplier": "Bacchus Wine Merchants P/L",
+      "supplier_key": "bacchus",
+      "date": "2026-06-09",
+      "due_date": "2026-07-09",
+      "total": "115.79",
+      "venue": "harry_gatos",
+      "pdf_path": "117ec2b74dfcfe2f8828556860f6de32c41bcb6a0efbb7c9b4a4e7b1b8a3d292.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Bar",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Angas & Bremer Rose 2025",
+          "supplier_code": "AB1ROSE25",
+          "qty": "1",
+          "amount": "115.79",
+          "unit_cost": "$9.65/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
+        }
+      ]
+    },
+    {
       "ref": "6785844",
       "supplier": "B&E Foods Pty Ltd",
       "supplier_key": "be_foods",
@@ -36870,6 +37126,45 @@
       ]
     },
     {
+      "ref": "81876",
+      "supplier": "The Grifter Brewing Company Pty Ltd",
+      "supplier_key": "grifter",
+      "date": "2026-06-09",
+      "due_date": "2026-06-23",
+      "total": "595.10",
+      "venue": "stowaway",
+      "pdf_path": "dabb1bdefb2b8b18cbc2ae0a885a1efa108ca1f3a7ccb7d8f7df61b8aeb6fb38.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "PALE ALE 50L KEG",
+          "supplier_code": null,
+          "qty": "2.00",
+          "amount": "584.10",
+          "unit_cost": "$5.84/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
+        },
+        {
+          "description": "Freight",
+          "supplier_code": null,
+          "qty": "1.00",
+          "amount": "11.00",
+          "unit_cost": "$11.00/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
       "ref": "94704219",
       "supplier": "Lion - Beer, Spirits & Wine Pty Ltd",
       "supplier_key": "lion",
@@ -37099,6 +37394,145 @@
           "account_code": "113",
           "account_name": "Purchases - Beverages",
           "reason": "known supplier 'paramount'"
+        }
+      ]
+    },
+    {
+      "ref": "PHIN-56323",
+      "supplier": "Philter Brewing Pty Ltd",
+      "supplier_key": "philter",
+      "date": "2026-06-09",
+      "due_date": "2026-06-23",
+      "total": "278.52",
+      "venue": "stowaway",
+      "pdf_path": "74f29c348ad1d30447412697e461cf7dda2969e1f9d4ac5e957aa521b50a07ff.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Philter XPA 4.2% ABV - 50L Keg",
+          "supplier_code": "XPA 200",
+          "qty": "1.00",
+          "amount": "263.12",
+          "unit_cost": "$5.26/L",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SYD Metro Delivery Fee - $14",
+          "supplier_code": null,
+          "qty": "1.00",
+          "amount": "15.40",
+          "unit_cost": "$15.40/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "3049564",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-06-09",
+      "due_date": "2026-06-23",
+      "total": "93.70",
+      "venue": "stowaway",
+      "pdf_path": "34c08d02ae4f0c5ef3b3e3624da81229948d3d34706cb58df93368f9f00dbb09.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "ORANGE VIP CTN",
+          "supplier_code": "ORV",
+          "qty": "1.00",
+          "amount": "72.00",
+          "unit_cost": "$72.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "EDIBLE FLOWER MIXED VIOLA PUN",
+          "supplier_code": "EDMVI",
+          "qty": "1.00",
+          "amount": "10.50",
+          "unit_cost": "$10.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "JUICE CLEAR APPLE 2LTR",
+          "supplier_code": "JUCAP",
+          "qty": "2.00",
+          "amount": "11.20",
+          "unit_cost": "$2.80/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "INV-5308",
+      "supplier": "Wine Enterprises Pty Ltd",
+      "supplier_key": "wine_enterprises",
+      "date": "2026-06-09",
+      "due_date": "2026-06-23",
+      "total": "899.32",
+      "venue": "harry_gatos",
+      "pdf_path": "0028aaed443adf25afd000f8153a7bb1f1b2b6448965b852bfe880fa15b6baac.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Bar",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "From Sunday Shiraz",
+          "supplier_code": null,
+          "qty": "2.00",
+          "amount": "363.53",
+          "unit_cost": "$181.76/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Azurescens Pinot Noir",
+          "supplier_code": null,
+          "qty": "2.00",
+          "amount": "375.41",
+          "unit_cost": "$187.70/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Palloncino Prosecco",
+          "supplier_code": null,
+          "qty": "1.00",
+          "amount": "160.38",
+          "unit_cost": "$160.38/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
@@ -37353,6 +37787,339 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "INV-70075",
+      "supplier": "MODA Sparkling",
+      "supplier_key": "moda_sparkling",
+      "date": "2026-06-06",
+      "due_date": "2026-06-06",
+      "total": "204.10",
+      "venue": "harry_gatos",
+      "pdf_path": "ef77ffd8f495e77cd0f7c7b93aa02ef505669f6463707787f908a25b76a40151.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Moda System Serviced Rental Agreement",
+          "supplier_code": null,
+          "qty": "1.00",
+          "amount": "204.10",
+          "unit_cost": "$204.10/ea",
+          "tax": "gst",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
+        }
+      ]
+    },
+    {
+      "ref": "3048929",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-06-06",
+      "due_date": "2026-06-20",
+      "total": "21.80",
+      "venue": "stowaway",
+      "pdf_path": "912efb3ae05562ab3f6972e0cb4623af3c4eb5f7762a08a608b33270e0e224db.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CUCUMBER TELE/CONTINENTAL EACH",
+          "supplier_code": "CUCTE",
+          "qty": "2.00",
+          "amount": "3.40",
+          "unit_cost": "$1.70/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "LEMON EA",
+          "supplier_code": "LEME",
+          "qty": "8.00",
+          "amount": "4.00",
+          "unit_cost": "$0.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "EDIBLE FLOWER MIXED VIOLA PUN",
+          "supplier_code": "EDMVI",
+          "qty": "1.00",
+          "amount": "10.50",
+          "unit_cost": "$10.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HERB MINT ROUND LEAF BCH",
+          "supplier_code": "HRMIN",
+          "qty": "3.00",
+          "amount": "3.90",
+          "unit_cost": "$1.30/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3048959",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-06-06",
+      "due_date": "2026-06-20",
+      "total": "36.30",
+      "venue": "harry_gatos",
+      "pdf_path": "52473c9ee44c2a19e5a6811de1834b553056dbea678f2b8bb56f920185c3b980.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CARROT KG",
+          "supplier_code": "CARK",
+          "qty": "1.00",
+          "amount": "2.40",
+          "unit_cost": "$2.40/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CHOI SUM BCH",
+          "supplier_code": "CHOI",
+          "qty": "4.00",
+          "amount": "8.80",
+          "unit_cost": "$2.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "LEMON KG",
+          "supplier_code": "LEMK",
+          "qty": "1.00",
+          "amount": "4.30",
+          "unit_cost": "$4.30/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SHALLOT BCH",
+          "supplier_code": "SHAL",
+          "qty": "4.00",
+          "amount": "8.00",
+          "unit_cost": "$2.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "PROCESS GARLIC PEELED KG",
+          "supplier_code": "PGAR",
+          "qty": "1.00",
+          "amount": "5.80",
+          "unit_cost": "$5.80/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CABBAGE GREEN SHREDDED",
+          "supplier_code": "XSHRCAB",
+          "qty": "1.00",
+          "amount": "4.20",
+          "unit_cost": "$4.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "CARROT SHREDDED",
+          "supplier_code": "XSHRCAR",
+          "qty": "1.00",
+          "amount": "2.80",
+          "unit_cost": "$2.80/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3048975",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-06-06",
+      "due_date": "2026-06-20",
+      "total": "136.30",
+      "venue": "stowaway",
+      "pdf_path": "f81533929ed0b6c96e5a718e737940bf4ac7e0cd32c7f4aaa4c15ba2cf493dd8.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "ONION BROWN BAG",
+          "supplier_code": "ONIB",
+          "qty": "1.00",
+          "amount": "34.00",
+          "unit_cost": "$34.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "ONION SPANISH / RED BAG",
+          "supplier_code": "ONIS",
+          "qty": "1.00",
+          "amount": "26.00",
+          "unit_cost": "$26.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "TOMATO CHERRY PUN",
+          "supplier_code": "TOMCP",
+          "qty": "10.00",
+          "amount": "25.00",
+          "unit_cost": "$2.50/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HERB BASIL BCH",
+          "supplier_code": "HBAS",
+          "qty": "4.00",
+          "amount": "18.40",
+          "unit_cost": "$4.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "HERB PARSLEY CONTINENTAL BCH",
+          "supplier_code": "HCONT",
+          "qty": "3.00",
+          "amount": "3.90",
+          "unit_cost": "$1.30/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SHALLOT BCH",
+          "supplier_code": "SHAL",
+          "qty": "4.00",
+          "amount": "6.80",
+          "unit_cost": "$1.70/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "DRYSLAW DELUXE",
+          "supplier_code": "XDSLW",
+          "qty": "3.00",
+          "amount": "22.20",
+          "unit_cost": "$7.40/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3048980",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-06-06",
+      "due_date": "2026-06-20",
+      "total": "16.80",
+      "venue": "harry_gatos",
+      "pdf_path": "08354ee59eb7cdf3b16017657d7eb5db9affa1ddbeaf727c3e5f0cf443f629e6.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "CAULIFLOWER FLORETS",
+          "supplier_code": "XCAUFL",
+          "qty": "3.00",
+          "amount": "16.80",
+          "unit_cost": "$5.60/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "3049146",
+      "supplier": "Select Fresh Providores",
+      "supplier_key": "select_fresh",
+      "date": "2026-06-06",
+      "due_date": "2026-06-20",
+      "total": "3.90",
+      "venue": "stowaway",
+      "pdf_path": "2db9badea8ac70af6b6362dc6b2bca5aa39a700ff71dff15def83e01206395e8.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "HERB SHISO RED BCH",
+          "supplier_code": "HSHIR",
+          "qty": "1.00",
+          "amount": "3.90",
+          "unit_cost": "$3.90/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
@@ -38164,6 +38931,95 @@
       ]
     },
     {
+      "ref": "INV-11148",
+      "supplier": "Sigurd Wines Pty Ltd",
+      "supplier_key": "sigurd_wines",
+      "date": "2026-06-05",
+      "due_date": "2026-07-05",
+      "total": "277.22",
+      "venue": "stowaway",
+      "pdf_path": "bc849b63e6ccca2ea78435579f1c4ca7cbf3fc8337529efdd673ac05274f6e21.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "2023 Sigurd Red ($21 LUC)",
+          "supplier_code": null,
+          "qty": "12.00",
+          "amount": "214.90",
+          "unit_cost": "$17.91/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Wine Equalisation Tax",
+          "supplier_code": null,
+          "qty": "195.36",
+          "amount": "62.32",
+          "unit_cost": "$0.32/ea",
+          "tax": "gst",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "INV492508",
+      "supplier": "Bacchus Wine Merchants P/L",
+      "supplier_key": "bacchus",
+      "date": "2026-06-04",
+      "due_date": "2026-07-04",
+      "total": "329.55",
+      "venue": "stowaway",
+      "pdf_path": "39a62b8728590430496621c7f747aaeb51abfcf043b193f5f34e8b7994471608.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Petit Detour Reserve en Jandem Mediterranee 2024",
+          "supplier_code": "PETDETMEDROSE24",
+          "qty": "1",
+          "amount": "197.95",
+          "unit_cost": "$16.50/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
+        },
+        {
+          "description": "Trentham The Family Sangiovese Rose 2025",
+          "supplier_code": "TRE3SROSE25",
+          "qty": "1",
+          "amount": "126.65",
+          "unit_cost": "$10.55/ea",
+          "tax": "wet",
+          "account_code": "113",
+          "account_name": "Purchases - Beverages",
+          "reason": "supplier name looks like Purchases - Beverages"
+        },
+        {
+          "description": "Fuel Levy",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "4.95",
+          "unit_cost": "$4.95/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
       "ref": "6771349",
       "supplier": "B&E Foods Pty Ltd",
       "supplier_key": "be_foods",
@@ -38669,6 +39525,34 @@
           "account_code": "115",
           "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "4603",
+      "supplier": "VMA Ventilation Maintenance Australia Services",
+      "supplier_key": "vma",
+      "date": "2026-06-04",
+      "due_date": "2026-06-04",
+      "total": "55.00",
+      "venue": "harry_gatos",
+      "pdf_path": "3437eaee0829eecb199804a01f4733e43f87c8a962a3a1b594259336ac17800e.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Kitchen Hood Filter Exchange",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "55.00",
+          "unit_cost": "$55.00/ea",
+          "tax": "gst",
+          "account_code": "111",
+          "account_name": "Purchases Other COGS",
+          "reason": "fallback \u2014 no rule matched"
         }
       ]
     },
@@ -60388,7 +61272,7 @@
       "due_date": null,
       "total": "350.00",
       "venue": "marilynas",
-      "pdf_path": "aq_184955",
+      "pdf_path": "fbfbfb47aa5f14fce06b238400e65a2ff0820a2ea99c9a329937258d773774a3.pdf",
       "tracking_category": "Stowaway",
       "tracking_option": "Marilyna's Pizza",
       "tracking_confidence": "high",
@@ -60416,7 +61300,7 @@
       "due_date": null,
       "total": "175.00",
       "venue": "marilynas",
-      "pdf_path": "aq_184463",
+      "pdf_path": "ebfcefa993cc138b63405f32554cc7738ba38607960dd59dfcfdfb35a4bea1c5.pdf",
       "tracking_category": "Stowaway",
       "tracking_option": "Marilyna's Pizza",
       "tracking_confidence": "high",

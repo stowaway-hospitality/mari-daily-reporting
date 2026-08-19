@@ -1,0 +1,127 @@
+{
+  "invoice": {
+    "supplier_key": "bacchus",
+    "supplier_name_raw": "Bacchus Wine Merchants P/L",
+    "invoice_ref": "INV492624",
+    "invoice_date": "2026-06-09",
+    "total_incl": "588.87",
+    "lines": [
+      {
+        "description": "First Drop Mothers Milk Shiraz 2023",
+        "qty": "2",
+        "line_total_incl": "385.97",
+        "unit_price_incl": "16.0821",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": "35.09",
+        "wet_amount": "78.88",
+        "supplier_code": "FD2MOTHER23",
+        "raw_qty": null,
+        "raw_uom": "CS(12)",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Petit Detour Reserve en Jandem Mediterranee 2024",
+        "qty": "1",
+        "line_total_incl": "197.95",
+        "unit_price_incl": "16.4958",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": "18.00",
+        "wet_amount": "40.45",
+        "supplier_code": "PETDETMEDROSE24",
+        "raw_qty": null,
+        "raw_uom": "CS(12)",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Fuel Levy",
+        "qty": "1",
+        "line_total_incl": "4.95",
+        "unit_price_incl": "4.9500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": "0.45",
+        "wet_amount": "0",
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-09",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [
+      "Date:\u00a009/06/2026"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "53.54",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "85d08b46199e45934df07313d23366e1541353a30450f2ea89508206c0e5e343.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $4.95 under the invoice total \u2014 expected. Skipped: Fuel Levy ($4.95). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "583.92",
+        "actual": "588.87"
+      }
+    ],
+    "expected_ls_receive_total": "583.92",
+    "extras_total": "4.95"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "First Drop Mothers Milk Shiraz 2023",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      },
+      {
+        "description": "Petit Detour Reserve en Jandem Mediterranee 2024",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      },
+      {
+        "description": "Fuel Levy",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

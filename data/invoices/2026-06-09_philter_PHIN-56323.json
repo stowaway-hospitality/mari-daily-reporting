@@ -1,0 +1,98 @@
+{
+  "invoice": {
+    "supplier_key": "philter",
+    "supplier_name_raw": "Philter Brewing Pty Ltd",
+    "invoice_ref": "PHIN-56323",
+    "invoice_date": "2026-06-09",
+    "total_incl": "278.52",
+    "lines": [
+      {
+        "description": "Philter XPA 4.2% ABV - 50L Keg",
+        "qty": "1.00",
+        "line_total_incl": "263.12",
+        "unit_price_incl": "263.1200",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": "XPA 200",
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "50",
+        "pack_unit": "L",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "SYD Metro Delivery Fee - $14",
+        "qty": "1.00",
+        "line_total_incl": "15.40",
+        "unit_price_incl": "15.4000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-06-23",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "74f29c348ad1d30447412697e461cf7dda2969e1f9d4ac5e957aa521b50a07ff.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $15.40 under the invoice total \u2014 expected. Skipped: SYD Metro Delivery Fee - $14 ($15.40). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "263.12",
+        "actual": "278.52"
+      }
+    ],
+    "expected_ls_receive_total": "263.12",
+    "extras_total": "15.40"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "high",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "Philter XPA 4.2% ABV - 50L Keg",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "SYD Metro Delivery Fee - $14",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

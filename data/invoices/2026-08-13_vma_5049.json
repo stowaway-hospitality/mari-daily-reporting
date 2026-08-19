@@ -1,0 +1,98 @@
+{
+  "invoice": {
+    "supplier_key": "vma",
+    "supplier_name_raw": "VMA Ventilation Maintenance Australia Services",
+    "invoice_ref": "5049",
+    "invoice_date": "2026-08-13",
+    "total_incl": "176.00",
+    "lines": [
+      {
+        "description": "Kitchen Hood Filter Exchange",
+        "qty": "1",
+        "line_total_incl": "88.00",
+        "unit_price_incl": "88.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Kitchen Hood Filter Exchange Pizza oven filters",
+        "qty": "1",
+        "line_total_incl": "88.00",
+        "unit_price_incl": "88.0000",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-08-28",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "4376db0406d8f7a143736060306eb64cda243a88032052bdfa92a0626141b044.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $176.00 under the invoice total \u2014 expected. Skipped: Kitchen Hood Filter Exchange ($88.00), Kitchen Hood Filter Exchange Pizza oven filters ($88.00). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "0",
+        "actual": "176.00"
+      }
+    ],
+    "expected_ls_receive_total": "0",
+    "extras_total": "176.00"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "low",
+    "primary_account": "111",
+    "lines": [
+      {
+        "description": "Kitchen Hood Filter Exchange",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      },
+      {
+        "description": "Kitchen Hood Filter Exchange Pizza oven filters",
+        "account_code": "111",
+        "account_name": "Purchases Other COGS",
+        "reason": "fallback \u2014 no rule matched"
+      }
+    ]
+  }
+}

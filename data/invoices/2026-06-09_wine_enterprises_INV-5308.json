@@ -1,0 +1,116 @@
+{
+  "invoice": {
+    "supplier_key": "wine_enterprises",
+    "supplier_name_raw": "Wine Enterprises Pty Ltd",
+    "invoice_ref": "INV-5308",
+    "invoice_date": "2026-06-09",
+    "total_incl": "899.32",
+    "lines": [
+      {
+        "description": "From Sunday Shiraz",
+        "qty": "2.00",
+        "line_total_incl": "363.53",
+        "unit_price_incl": "181.7650",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Azurescens Pinot Noir",
+        "qty": "2.00",
+        "line_total_incl": "375.41",
+        "unit_price_incl": "187.7050",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Palloncino Prosecco",
+        "qty": "1.00",
+        "line_total_incl": "160.38",
+        "unit_price_incl": "160.3800",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_unit",
+        "gst_amount": null,
+        "wet_amount": null,
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-06-23",
+    "is_credit_note": false,
+    "venue": "harry_gatos",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "0028aaed443adf25afd000f8153a7bb1f1b2b6448965b852bfe880fa15b6baac.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "899.32",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Harry Gatos",
+    "tracking_option": "Bar",
+    "tracking_confidence": "high",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "From Sunday Shiraz",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Azurescens Pinot Noir",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      },
+      {
+        "description": "Palloncino Prosecco",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
