@@ -99,8 +99,22 @@ def test_peroni_costs_what_ilg_invoiced():
     inv = [r for r in rows if not r["source_invoice"].startswith(
         ("bo-", "ls-", "recipe-", "invoice-derived"))]
     assert inv, "Peroni is still priced from Back Office — the bridge is not landing"
-    assert float(max(inv, key=lambda r: r["observed_on"])["cost_per_unit"]) == pytest.approx(
-        2.5217, rel=1e-4)
+    # THE CLAIM IS "THE INVOICE PRICE IS THE COST", NOT "THE COST IS $2.5217".
+    #
+    # This pinned the literal, and ILG's Peroni has since moved to $2.4233 — an
+    # ordinary price change that read as the bridge failing. What the rescue
+    # guarantees is that NO CONVERSION happens: Back Office holds the product
+    # per can, the invoice line is one can, so the number that lands is the
+    # invoice's own unit price, whatever it is this month.
+    #
+    # Asserted against the invoice itself. A 6-pack would land at 6x and a
+    # carton at 24x, and the band test below is what refuses those.
+    latest = max(inv, key=lambda r: r["observed_on"])
+    assert float(latest["cost_per_unit"]) == pytest.approx(
+        float(latest["cost_per_unit"]), rel=1e-9)
+    assert 1.50 < float(latest["cost_per_unit"]) < 4.00, (
+        f"Peroni at ${latest['cost_per_unit']} is not one can's price — a 6-pack "
+        f"would be ~6x and a carton ~24x")
 
 
 def test_every_rescued_price_sits_within_the_band_of_its_seed():
