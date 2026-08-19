@@ -1,0 +1,127 @@
+{
+  "invoice": {
+    "supplier_key": "bacchus",
+    "supplier_name_raw": "Bacchus Wine Merchants P/L",
+    "invoice_ref": "INV493154",
+    "invoice_date": "2026-06-16",
+    "total_incl": "324.58",
+    "lines": [
+      {
+        "description": "First Drop Mothers Milk Shiraz 2023",
+        "qty": "1",
+        "line_total_incl": "192.98",
+        "unit_price_incl": "16.0817",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": "17.54",
+        "wet_amount": "39.44",
+        "supplier_code": "FD2MOTHER23",
+        "raw_qty": null,
+        "raw_uom": "CS(12)",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Trentham The Family Sangiovese Rose 2025",
+        "qty": "1",
+        "line_total_incl": "126.65",
+        "unit_price_incl": "10.5542",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": "11.52",
+        "wet_amount": "25.88",
+        "supplier_code": "TRE3SROSE25",
+        "raw_qty": null,
+        "raw_uom": "CS(12)",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Fuel Levy",
+        "qty": "1",
+        "line_total_incl": "4.95",
+        "unit_price_incl": "4.9500",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "extra",
+        "tax_treatment": "gst",
+        "cost_basis": "unknown",
+        "gst_amount": "0.45",
+        "wet_amount": "0",
+        "supplier_code": null,
+        "raw_qty": null,
+        "raw_uom": null,
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-07-16",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [
+      "PO 54361155"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "29.50",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "38d7c61c5525406782a1525805df675631d8e90d667d50abe3930716c0574469.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [
+      {
+        "code": "EXTRAS_EXCLUDED",
+        "severity": "info",
+        "message": "LS receive will be $4.95 under the invoice total \u2014 expected. Skipped: Fuel Levy ($4.95). Log to price-history as delivery_fee_rolled_in.",
+        "line_index": null,
+        "expected": "319.63",
+        "actual": "324.58"
+      }
+    ],
+    "expected_ls_receive_total": "319.63",
+    "extras_total": "4.95"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "First Drop Mothers Milk Shiraz 2023",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      },
+      {
+        "description": "Trentham The Family Sangiovese Rose 2025",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      },
+      {
+        "description": "Fuel Levy",
+        "account_code": "342",
+        "account_name": "Freight & Courier",
+        "reason": "line keyword -> Freight & Courier"
+      }
+    ]
+  }
+}

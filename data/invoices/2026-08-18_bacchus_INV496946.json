@@ -1,0 +1,64 @@
+{
+  "invoice": {
+    "supplier_key": "bacchus",
+    "supplier_name_raw": "Bacchus Wine Merchants P/L",
+    "invoice_ref": "INV496946",
+    "invoice_date": "2026-08-18",
+    "total_incl": "191.57",
+    "lines": [
+      {
+        "description": "Petit Detour Rose 2024",
+        "qty": "1",
+        "line_total_incl": "191.57",
+        "unit_price_incl": "15.9642",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": "17.42",
+        "wet_amount": "39.15",
+        "supplier_code": "PETDETROSE24",
+        "raw_qty": null,
+        "raw_uom": "CS(12)",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-09-17",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [
+      "54361298"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "17.42",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "9c03a865d7c6866dff63f03ce45fd2dd0324c4e83ce35b4646d23e35f472ea22.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "191.57",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "Petit Detour Rose 2024",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      }
+    ]
+  }
+}

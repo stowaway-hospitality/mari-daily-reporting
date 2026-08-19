@@ -1,0 +1,91 @@
+{
+  "invoice": {
+    "supplier_key": "bacchus",
+    "supplier_name_raw": "Bacchus Wine Merchants P/L",
+    "invoice_ref": "INV495832",
+    "invoice_date": "2026-07-29",
+    "total_incl": "446.27",
+    "lines": [
+      {
+        "description": "First Drop Mothers Milk Shiraz 2023",
+        "qty": "1",
+        "line_total_incl": "192.98",
+        "unit_price_incl": "16.0817",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": "17.54",
+        "wet_amount": "39.44",
+        "supplier_code": "FD2MOTHER23",
+        "raw_qty": null,
+        "raw_uom": "CS(12)",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      },
+      {
+        "description": "Trentham The Family Sangiovese Rose 2025",
+        "qty": "2",
+        "line_total_incl": "253.29",
+        "unit_price_incl": "10.5538",
+        "unit_price_ex": null,
+        "pack_size": 12,
+        "line_class": "stock",
+        "tax_treatment": "wet",
+        "cost_basis": "per_bottle",
+        "gst_amount": "23.03",
+        "wet_amount": "51.76",
+        "supplier_code": "TRE3SROSE25",
+        "raw_qty": null,
+        "raw_uom": "CS(12)",
+        "pack_qty": "1",
+        "pack_unit": "ea",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-08-28",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [
+      "54361242"
+    ],
+    "subtotal_ex": null,
+    "gst_total": "40.57",
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "fabcfa9d6e61e12e06b789a03b21135137f5632f182e529c25244f79443540d5.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "446.27",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Bar",
+    "tracking_confidence": "medium",
+    "primary_account": "113",
+    "lines": [
+      {
+        "description": "First Drop Mothers Milk Shiraz 2023",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      },
+      {
+        "description": "Trentham The Family Sangiovese Rose 2025",
+        "account_code": "113",
+        "account_name": "Purchases - Beverages",
+        "reason": "supplier name looks like Purchases - Beverages"
+      }
+    ]
+  }
+}
