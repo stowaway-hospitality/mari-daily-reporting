@@ -1,6 +1,6 @@
 {
   "date": "2026-08-19",
-  "generated_at": "2026-08-19T19:26:27.810813Z",
+  "generated_at": "2026-08-19T19:43:42.417584Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -10,25 +10,36 @@
     "gp"
   ],
   "data_status": {
-    "lightspeed": "missing",
+    "lightspeed": "ok",
     "deputy": "ok",
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": null,
-    "revenue_ex_gst": null,
-    "cogs_dollars": null,
-    "cogs_pct": null,
-    "gp_dollars": null,
-    "gp_pct": null,
-    "cogs_source": null,
-    "cogs_lightspeed_dollars": null,
-    "recipe_coverage_pct": null,
+    "revenue_inc_gst": 3117.35,
+    "revenue_ex_gst": 2833.97,
+    "cogs_dollars": 655.94,
+    "cogs_pct": 23.1,
+    "gp_dollars": 2178.03,
+    "gp_pct": 76.9,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 612.69,
+    "recipe_coverage_pct": 85.2,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0,
+    "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 942.79,
+    "bev_ex_gst": 1891.16,
+    "food_cogs": 186.31,
+    "bev_cogs": 426.38,
+    "food_cogs_pct": 19.8,
+    "bev_cogs_pct": 22.5,
+    "food_gp_pct": 80.2,
+    "bev_gp_pct": 77.5,
+    "mari_rideon_ex_gst": 1068.68,
+    "hg_food_out_ex_gst": 0.0,
+    "stow_food_out_ex_gst": 0.0
   },
   "wages": {
     "kitchen_dollars": 292.79,
@@ -36,27 +47,27 @@
     "driver_dollars": 0,
     "admin_dollars": 646.91,
     "leave_dollars": 0,
-    "total_dollars": null,
-    "wages_pct": null,
+    "total_dollars": 1355.46,
+    "wages_pct": 47.8,
     "net_wage_pct": null,
     "kitchen_hours": 7.2,
     "foh_hours": 10.5,
-    "wages_kitchen_pct": null,
-    "wages_foh_pct": null,
+    "wages_kitchen_pct": 31.1,
+    "wages_foh_pct": 22.0,
     "includes_super": true,
     "salaried_synthesized": true
   },
   "delivery": null,
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "unknown",
-    "wages": "unknown",
+    "cogs": "green",
+    "wages": "red",
     "delivery": "n/a",
-    "gp": "unknown",
-    "cogs_food": "unknown",
-    "cogs_bev": "unknown",
-    "wages_kitchen": "unknown",
-    "wages_foh": "unknown"
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "yellow",
+    "wages_kitchen": "red",
+    "wages_foh": "amber"
   },
   "targets": {
     "cogs": {
@@ -100,5 +111,163 @@
       "target_direction": "high_is_good"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Stow Schnitty",
+      "qty": 10.0,
+      "rev": 213.45,
+      "cost": 54.663,
+      "cost_source": "recipe",
+      "cost_lightspeed": 53.26
+    },
+    {
+      "name": "Stone & Wood - Pint",
+      "qty": 8.0,
+      "rev": 136.0,
+      "cost": 35.3672,
+      "cost_source": "recipe",
+      "cost_lightspeed": 35.04
+    },
+    {
+      "name": "Guinness Draught - Pint",
+      "qty": 9.0,
+      "rev": 130.55,
+      "cost": 43.2459,
+      "cost_source": "recipe",
+      "cost_lightspeed": 42.74
+    },
+    {
+      "name": "Fancy Pants Parmy - Classic",
+      "qty": 5.0,
+      "rev": 123.95,
+      "cost": 36.9495,
+      "cost_source": "recipe",
+      "cost_lightspeed": 42.24
+    },
+    {
+      "name": "Aperol Spritz",
+      "qty": 7.0,
+      "rev": 111.12,
+      "cost": 24.8913,
+      "cost_source": "recipe",
+      "cost_lightspeed": 24.87
+    },
+    {
+      "name": "Fresh is Best Lager - Schooner",
+      "qty": 12.0,
+      "rev": 103.27,
+      "cost": 21.8892,
+      "cost_source": "recipe",
+      "cost_lightspeed": 21.89
+    },
+    {
+      "name": "Jalape\u00f1o Marg",
+      "qty": 4.0,
+      "rev": 92.0,
+      "cost": 15.408,
+      "cost_source": "recipe",
+      "cost_lightspeed": 3.33
+    },
+    {
+      "name": "Open Price",
+      "qty": 1.0,
+      "rev": 84.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Beef Cheek",
+      "qty": 2.0,
+      "rev": 82.41,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "Classic Margarita",
+      "qty": 5.0,
+      "rev": 76.0,
+      "cost": 20.8935,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.56
+    },
+    {
+      "name": "Fresh is Best Lager - Pint",
+      "qty": 7.0,
+      "rev": 71.32,
+      "cost": 17.1248,
+      "cost_source": "recipe",
+      "cost_lightspeed": 17.12
+    },
+    {
+      "name": "Kuku Sauvignon Blanc - Large",
+      "qty": 3.0,
+      "rev": 70.55,
+      "cost": 14.5701,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.57
+    },
+    {
+      "name": "Kuku Sauvignon Blanc - Regular",
+      "qty": 5.0,
+      "rev": 69.55,
+      "cost": 14.5705,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.57
+    },
+    {
+      "name": "Grifter Pale - Schooner",
+      "qty": 6.0,
+      "rev": 68.63,
+      "cost": 14.8944,
+      "cost_source": "recipe",
+      "cost_lightspeed": 14.89
+    },
+    {
+      "name": "Arancini Balls [5pc]",
+      "qty": 3.0,
+      "rev": 66.44,
+      "cost": 0.0,
+      "cost_source": "lightspeed"
+    },
+    {
+      "name": "American Standard Burger",
+      "qty": 2.0,
+      "rev": 54.68,
+      "cost": 11.647,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.69
+    },
+    {
+      "name": "Chicken Shindig Burger",
+      "qty": 2.0,
+      "rev": 53.8,
+      "cost": 11.1234,
+      "cost_source": "recipe",
+      "cost_lightspeed": 9.53
+    },
+    {
+      "name": "Stone & Wood - Schooner",
+      "qty": 4.0,
+      "rev": 52.0,
+      "cost": 13.1852,
+      "cost_source": "recipe",
+      "cost_lightspeed": 13.06
+    },
+    {
+      "name": "Beef Burrito D",
+      "qty": 2.0,
+      "rev": 50.0,
+      "cost": 18.886,
+      "cost_source": "recipe",
+      "cost_lightspeed": 13.54
+    },
+    {
+      "name": "Casa Gheller Prosecco - Glass",
+      "qty": 3.0,
+      "rev": 48.0,
+      "cost": 10.044,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.04
+    }
+  ]
 }
