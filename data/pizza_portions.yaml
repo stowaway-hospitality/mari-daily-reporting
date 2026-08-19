@@ -1,0 +1,344 @@
+# WEIGHED pizza portions — Marilynas_Pizza_Portions_v2.xlsx, Zak, 2026-08-19.
+#
+# Supersedes data/pizza_regular_grams.yaml, which held REGULAR only. This holds
+# all three sizes, so a Large is now a measurement rather than something derived
+# from a Regular. That matters: on the morning of 2026-08-19 the converter was
+# lifting Large quantities to regular/0.716 because Produce's Large figures were
+# below the weighed Regulars and a bigger pizza cannot carry less. The lift was
+# a reasonable inference from what was known, and this sheet shows it was WRONG
+# for Spanish onion — v2 puts the regular at 10 g and the large at 20 g, which
+# is exactly the figure Produce already had. The old sheet's 33 g regular was
+# the bad number all along, and the lift propagated it onto seven pizzas.
+#
+# A MEASUREMENT ENDS AN ARGUMENT. That is the whole reason this file exists.
+#
+# The v2 sheet moves several old figures a long way, always downward:
+#
+#     ingredient          old regular   v2 regular   v2 large
+#     Spanish onion            33            10          20
+#     Chicken                 105            70         100
+#     Tandoori chicken        126            91         127   <- old regular ~= v2 LARGE
+#     Brown onion              36            19          32
+#     Pineapple (std)          30            49          73   <- and this one upward
+#
+# Tandoori looks transposed in the old sheet: its "regular" 126 is within a gram
+# of v2's LARGE 127, and Produce's large of 90 is within a gram of v2's regular
+# 91. Two numbers swapped, and every Tandoori product costed off the pair.
+#
+# HOW TO READ IT (unchanged from the file it replaces): these CORRECT the
+# quantity of a line already on a recipe. They never ADD a missing ingredient —
+# a pizza's ingredient list stays whatever Produce says it is.
+#
+# `match` is a case-insensitive regex against our ingredient name. `when` narrows
+# a weight to particular pizzas (some ingredients are portioned differently on
+# one pizza — cheese on a Margherita, ham on a Hawaiian); the entry without
+# `when` is the default and MUST come last for that ingredient, because first
+# match wins.
+#
+# `family` is carried from the sheet but nothing reads it yet: the book holds
+# Regular, Large and Gluten-free products and no Family ones. It is here so the
+# day a Family pizza is listed, the number is already weighed.
+#
+# GLUTEN-FREE TAKES THE REGULAR PORTIONS. Its base is "Pizza Base Gluten Free
+# 11in" — an 11" pizza is a regular, whatever the crust is made of.
+
+portions:
+
+  - label: "pizza base"
+    match: "pizza dough"
+    regular: 177
+    large: 215
+    family: 304
+
+  - label: "pizza sauce"
+    match: "pizza sauce"
+    regular: 52
+    large: 78
+    family: 116
+
+  # cheese is heavier on a Margherita — there is nothing else on it
+  - label: "cheese (margherita)"
+    match: "shredded mozzarella|big cheese"
+    when: "margherita"
+    regular: 100
+    large: 125
+    family: 187
+
+  - label: "cheese (other pizzas)"
+    match: "shredded mozzarella|big cheese"
+    regular: 47
+    large: 88
+    family: 100
+
+  - label: "pepperoni (pepperoni pizza)"
+    match: "pepperoni"
+    when: "pepperoni"
+    regular: 62
+    large: 80
+    family: 110
+
+  - label: "pepperoni (other pizzas)"
+    match: "pepperoni"
+    regular: 30
+    large: 40
+    family: 60
+
+  - label: "mushroom ragu"
+    match: "mushroom ragu"
+    regular: 67
+    large: 96
+    family: 128
+
+  - label: "mushroom"
+    match: "mushroom"
+    regular: 40
+    large: 85
+    family: 88
+
+  - label: "capsicum"
+    match: "capsicum|char-grilled caps"
+    regular: 37
+    large: 50
+    family: 62
+
+  - label: "brown onion"
+    match: "brown onion"
+    regular: 19
+    large: 32
+    family: 41
+
+  - label: "ham (hawaiian)"
+    match: "\\bham\\b"
+    when: "hawaiian"
+    regular: 85
+    large: 116
+    family: 153
+
+  - label: "ham (other pizzas)"
+    match: "\\bham\\b"
+    regular: 52
+    large: 63
+    family: 71
+
+  - label: "pineapple (hawaiian)"
+    match: "pineapple"
+    when: "hawaiian"
+    regular: 85
+    large: 120
+    family: 150
+
+  - label: "pineapple (other pizzas)"
+    match: "pineapple"
+    regular: 49
+    large: 73
+    family: 112
+
+  - label: "olives"
+    match: "olive"
+    regular: 15
+    large: 20
+    family: 40
+
+  - label: "roma tomatoes (roma special)"
+    match: "roma tomato"
+    when: "roma special"
+    regular: 100
+    large: 142
+    family: 196
+
+  - label: "roma tomatoes (other pizzas)"
+    match: "roma tomato"
+    regular: 56
+    large: 79
+    family: 109
+
+  - label: "bacon"
+    match: "bacon"
+    regular: 30
+    large: 46
+    family: 60
+
+  - label: "beef brisket (sanchez)"
+    match: "beef brisket|cooked beef brisket"
+    when: "sanchez"
+    regular: 80
+    large: 100
+    family: 170
+
+  - label: "beef brisket (meatlovers)"
+    match: "beef brisket|cooked beef brisket"
+    when: "meatlover"
+    regular: 40
+    large: 50
+    family: 85
+
+  - label: "beef brisket (other pizzas)"
+    match: "beef brisket|cooked beef brisket"
+    regular: 40
+    large: 50
+    family: 85
+
+  - label: "sundried tomatoes"
+    match: "sundried|sun dried|sun-dried"
+    regular: 16
+    large: 30
+    family: 44
+
+  - label: "prosciutto"
+    match: "prosciutto"
+    regular: 26
+    large: 40
+    family: 60
+
+  - label: "bocconcini"
+    match: "bocconcini"
+    regular: 49
+    large: 61
+    family: 73
+
+  - label: "fetta"
+    match: "fetta|feta"
+    regular: 15
+    large: 30
+    family: 45
+
+  - label: "spanish onion"
+    match: "spanish onion"
+    regular: 10
+    large: 20
+    family: 30
+
+  - label: "anchovies"
+    match: "anchov"
+    regular: 12
+    large: 18
+    family: 24
+
+  - label: "prawns (bubba gump)"
+    match: "prawn"
+    when: "bubba gump"
+    regular: 66
+    large: 84
+    family: 107
+
+  - label: "harissa prawns"
+    match: "harissa prawn"
+    regular: 71
+    large: 91
+    family: 113
+
+  - label: "prawns (other pizzas)"
+    match: "prawn"
+    regular: 52
+    large: 76
+    family: 90
+
+  - label: "shallots"
+    match: "shallot"
+    regular: 11
+    large: 15
+    family: 23
+
+  # MUST stay above the plain "chicken" rule — first match wins, and /chicken/
+  # would otherwise claim "Tandoori Chicken [2Kg]".
+  - label: "tandoori chicken"
+    match: "tandoori chicken"
+    regular: 91
+    large: 127
+    family: 158
+
+  - label: "grilled chicken"
+    match: "grilled chicken"
+    regular: 106
+    large: 142
+    family: 180
+
+  - label: "chicken (other pizzas)"
+    match: "chicken"
+    regular: 70
+    large: 100
+    family: 130
+
+  - label: "jimmy jury marinated beef"
+    match: "marinated beef|jimmy jury beef"
+    regular: 76
+    large: 102
+    family: 130
+
+  - label: "spinach"
+    match: "spinach"
+    regular: 37
+    large: 55
+    family: 62
+
+  - label: "pumpkin"
+    match: "pumpkin"
+    regular: 27
+    large: 40
+    family: 50
+
+  - label: "caramelised onion"
+    match: "caramelised onion|caramelized onion"
+    regular: 25
+    large: 34
+    family: 47
+
+  - label: "jalapenos"
+    match: "jalapeno|jalapeño"
+    regular: 25
+    large: 30
+    family: 42
+
+  - label: "corn"
+    match: "\\bcorn\\b"
+    regular: 34
+    large: 46
+    family: 56
+
+  - label: "cherry tomatoes"
+    match: "cherry tom"
+    regular: 65
+    large: 75
+    family: 85
+
+  - label: "garlic (minced)"
+    match: "garlic.*minced|minced garlic|peeled garlic"
+    regular: 24
+    large: 35
+    family: 46
+
+  - label: "eggplant"
+    match: "eggplant"
+    regular: 48
+    large: 61
+    family: 85
+
+  - label: "calabrese"
+    match: "calabrese"
+    regular: 70
+    large: 90
+    family: 110
+
+  - label: "beans"
+    match: "black bean|\\bbeans\\b"
+    regular: 66
+    large: 88
+    family: 127
+
+  - label: "vegan cheese"
+    match: "vegan cheese|cheese.*vegan"
+    regular: 68
+    large: 90
+    family: 115
+
+  - label: "zucchini"
+    match: "zucchini"
+    regular: 30
+    large: 38
+    family: 49
+
+  - label: "chorizo"
+    match: "chorizo"
+    regular: 73
+    large: 87
+    family: 102

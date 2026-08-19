@@ -574,7 +574,11 @@ def _weighed_regular_annotation(stem, ingredient_name, qty):
     a live bug expires the day someone does their job.
     """
     if _is_weighed_regular(stem, ingredient_name, qty):
-        return ("  <- regular is WEIGHED, large is still Produce's derived figure")
+        # Both sizes are weighed since 2026-08-19, so a surviving finding is a
+        # real disagreement between two measurements — or, more often, a topping
+        # the sheet does not cover. Either way it is a question for the kitchen,
+        # not something a ratio can settle.
+        return "  <- regular is WEIGHED; the large disagrees with it"
     return ""
 
 
@@ -603,10 +607,15 @@ def _weighed_regular_sheet() -> list:
         _WEIGHED_SHEET = []
         try:
             import yaml as _yaml
-            _p = ROOT / "data" / "pizza_regular_grams.yaml"
+            # data/pizza_portions.yaml supersedes pizza_regular_grams.yaml:
+            # it weighs BOTH sizes, so "the large has never been weighed" is no
+            # longer the explanation for anything it covers.
+            _p = ROOT / "data" / "pizza_portions.yaml"
             if _p.exists():
-                _WEIGHED_SHEET = [s for s in (_yaml.safe_load(
-                    _p.read_text(encoding="utf-8-sig")) or []) if s.get("match")]
+                _doc = _yaml.safe_load(_p.read_text(encoding="utf-8-sig")) or {}
+                _WEIGHED_SHEET = [dict(x, grams=x.get("regular"))
+                                  for x in (_doc.get("portions") or [])
+                                  if x.get("match") and x.get("regular") is not None]
         except Exception:                                      # noqa: BLE001
             _WEIGHED_SHEET = []
     return _WEIGHED_SHEET

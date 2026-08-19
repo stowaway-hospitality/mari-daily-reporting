@@ -285,13 +285,27 @@ def test_a_large_pizza_never_carries_less_than_a_regular():
                 continue                      # a whole sold pizza, not a topping
             lq = float(ln.get("qty") or 0)
             if (ln.get("unit") or "") == "g" and lq > 0 and rq.get(nm, 0) > lq:
-                offenders.append(f"{name}/{nm}: large {lq} < regular {rq[nm]}")
-    assert not offenders, "large carries less than regular: " + "; ".join(offenders[:5])
+                # Only lines the WEIGHED sheet covers can be held to this. Where
+                # nobody has measured a topping, Produce's two figures may still
+                # disagree and no ratio can settle it — basil pesto is the one
+                # left, large 30 g against regular 40 g, and it is reported by
+                # audit_book rather than papered over here.
+                if ln.get("weighed"):
+                    offenders.append(f"{name}/{nm}: large {lq} < regular {rq[nm]}")
+    assert not offenders, ("a WEIGHED large carries less than a weighed regular: "
+                           + "; ".join(offenders[:5]))
 
-    # and the lift is RECORDED, not silent — these are derived, not measured,
-    # and a weighed large must be able to replace them.
-    lifted = [ln for r in book.values() for ln in r["ingredients"]
-              if ln.get("lifted_from_weighed_regular")]
-    assert lifted, "the lift must leave evidence on the lines it changed"
-    for ln in lifted:
-        assert ln.get("qty_was") and float(ln["qty"]) > float(ln["qty_was"])
+    # THE LIFT IS GONE AND SHOULD STAY GONE. It derived a large as
+    # regular/0.716 while nobody had weighed the larges; pizza_portions.yaml now
+    # weighs both, and the sheet showed the derivation had been propagating a
+    # WRONG regular (Spanish onion 33 g against a measured 10 g) onto seven
+    # pizzas. An inference is what you reach for until somebody measures.
+    assert not [ln for r in book.values() for ln in r["ingredients"]
+                if ln.get("lifted_from_weighed_regular")], \
+        "a derived large has come back; the sheet weighs both sizes now"
+
+    # ...and the measurement is recorded on the lines it set.
+    weighed = [ln for r in book.values() for ln in r["ingredients"]
+               if ln.get("weighed")]
+    assert len(weighed) > 500, f"only {len(weighed)} weighed lines"
+    assert {w["weighed"]["size"] for w in weighed} <= {"regular", "large", "family"}

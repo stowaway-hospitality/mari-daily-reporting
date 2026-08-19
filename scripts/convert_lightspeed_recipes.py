@@ -1842,16 +1842,30 @@ def main() -> int:
         already there and never adds an ingredient a recipe doesn't list.
         """
         import yaml
-        spec_path = ROOT / "data" / "pizza_regular_grams.yaml"
+        spec_path = ROOT / "data" / "pizza_portions.yaml"
         if not spec_path.exists():
             return 0, 0
-        spec = [s for s in (yaml.safe_load(spec_path.read_text(encoding="utf-8-sig")) or []) if s.get("match")]
-        for s in spec:
-            s["_re"] = re.compile(s["match"], re.I)
+        doc = yaml.safe_load(spec_path.read_text(encoding="utf-8-sig")) or {}
+        spec = [x for x in (doc.get("portions") or []) if x.get("match")]
+        for x in spec:
+            x["_re"] = re.compile(x["match"], re.I)
+
+        # Which weight column a product takes. Gluten-free is an 11" base --
+        # "Pizza Base Gluten Free 11in" -- so it is a REGULAR whatever the crust
+        # is made of. Family is carried in the sheet and no product uses it yet.
+        def _size_of(name):
+            if re.match(r"^Large\b", name, re.I):
+                return "large"
+            if re.match(r"^(Regular|Gluten-free)\b", name, re.I):
+                return "regular"
+            if re.match(r"^Family\b", name, re.I):
+                return "family"
+            return None
 
         changed = touched = 0
         for name, r in out.items():
-            if not re.match(r"^Regular\b", name, re.I):
+            size = _size_of(name)
+            if not size:
                 continue
             low = name.lower()
             hit = False
@@ -1859,100 +1873,54 @@ def main() -> int:
                 nm = ln.get("name") or ""
                 if _PACKAGING.search(nm):
                     continue                      # boxes are counted, not weighed
-                # A line can be a whole SOLD pizza rather than an ingredient —
-                # "Regular Pepperoni" is built from one "Pepperoni [Dine-in]", where
-                # qty 1 means one pizza. Matching /pepperoni/ there and writing "62g"
-                # turned a $15 pizza into a 62-gram nothing. Only weigh INGREDIENTS.
-                # (Checked against the recipe book, not the price sheet — the sell
-                # lookup misses on names like "Pepperoni [Dine-in]" and a miss here
-                # silently lets a whole pizza be re-weighed as 62g of topping.)
+                # A line can be a whole SOLD pizza rather than an ingredient --
+                # "Regular Pepperoni" is built from one "Pepperoni [Dine-in]",
+                # where qty 1 means one pizza. Matching /pepperoni/ there and
+                # writing "62g" turned a $15 pizza into a 62-gram nothing.
                 if (ln.get("kind") == "subrecipe" and ln["ref"] in out
                         and not _PREP_NAME.search(ln["ref"])):
                     continue
-                for s in spec:                    # first match wins; `when` rules
-                    if not s["_re"].search(nm):   # are listed before the default
+                for x in spec:                    # first match wins; `when` rules
+                    if not x["_re"].search(nm):   # are listed before the default
                         continue
-                    if s.get("when") and s["when"].lower() not in low:
+                    if x.get("when") and x["when"].lower() not in low:
                         continue
-                    if float(ln.get("qty") or 0) != float(s["grams"]):
-                        ln["qty"], ln["unit"] = float(s["grams"]), "g"
-                        # RE-RESOLVE. our_cost was worked out earlier against the
-                        # line's ORIGINAL unit — Produce writes some of these in
-                        # "bunch" — so after rewriting to grams it was left null and
-                        # the line fell back to Lightspeed's cost for the OLD
-                        # quantity. That is how 15g of shallots cost 8c on one pizza
-                        # and 37c on another. Re-price against our book in the unit
-                        # the line now uses, and bring the referee with it.
+                    grams = x.get(size)
+                    if grams is None:
+                        break
+                    if float(ln.get("qty") or 0) != float(grams):
+                        ln["qty_was"], ln["qty"] = ln.get("qty"), float(grams)
+                        ln["unit"] = "g"
+                        ln["weighed"] = {"sheet": "Marilynas_Pizza_Portions_v2",
+                                         "size": size, "rule": x.get("label")}
+                        # RE-RESOLVE. our_cost was worked out against the line's
+                        # ORIGINAL unit -- Produce writes some of these in
+                        # "bunch" -- so after rewriting to grams it was left null
+                        # and the line fell back to Lightspeed's cost for the OLD
+                        # quantity. That is how 15g of shallots cost 8c on one
+                        # pizza and 37c on another.
                         oc = our_costs.get(ln.get("ref") or "")
                         if oc and oc[1] == "g":
                             ln["our_cost"] = oc[0]
-                            ln["ls_cost"] = float(oc[0]) * float(s["grams"])
+                            ln["ls_cost"] = float(oc[0]) * float(grams)
                         changed += 1
                         hit = True
                     break
             touched += 1 if hit else 0
         return changed, touched
 
-    def _lift_large_to_match_the_weighed_regular():
-        """A LARGE PIZZA CANNOT CARRY LESS TOPPING THAN A REGULAR ONE.
-
-        Produce built the regular as "0.716 x the large", so the large was the
-        source and the regular the derivation. Zak then WEIGHED the regulars
-        (data/pizza_regular_grams.yaml) and 16 lines came back HEAVIER than the
-        large they were supposedly scaled from:
-
-            Spanish onion   large 20 g   regular 33 g   (x7 pizzas)
-            Ham             large 55 g   regular 85 g
-            Chicken         large 87 g   regular 105 g
-
-        Whatever the true ratio is, a 13" pizza does not get less onion than an
-        11" one. The weighed number is the measurement; the large is Produce's
-        guess, and the guess is now provably low. So the large is lifted to
-        regular / 0.716 -- the same constant Produce used to derive downward,
-        run in the direction the evidence points.
-
-        WHY 0.716 AND NOT SOMETHING FITTED. It is the ratio already in the book
-        (median of 185 shared topping lines, and the most common single value at
-        31 of them), and it is the area of an 11" circle over a 13" one: 0.716.
-        Fitting a per-topping factor to 16 points would be inventing precision
-        nobody measured.
-
-        Under-costing is the direction that flatters GP and nobody investigates:
-        this was worth $2,692 a year across the Large range, biggest on Hawaiian
-        ($1.02 a pizza, 193 sold). The lifted lines are DERIVED, not measured --
-        they go on the weighing list and a weighed large replaces them.
-        """
-        REG_OF_LARGE = 0.716
-        lifted = 0
-        for name, r in out.items():
-            if not re.match(r"^Large\b", name, re.I):
-                continue
-            reg = out.get(re.sub(r"^Large\b", "Regular", name, flags=re.I))
-            if not reg:
-                continue
-            rq = {}
-            for ln in reg["ingredients"]:
-                rq[str(ln.get("name") or "")] = float(ln.get("qty") or 0)
-            for ln in r["ingredients"]:
-                nm = str(ln.get("name") or "")
-                if _PACKAGING.search(nm):
-                    continue                       # a box is counted, not scaled
-                if ln.get("kind") == "subrecipe" and ln.get("ref") in out \
-                        and not _PREP_NAME.search(ln.get("ref") or ""):
-                    continue                       # a whole sold pizza, not a topping
-                lq, r_q = float(ln.get("qty") or 0), rq.get(nm, 0.0)
-                if lq <= 0 or r_q <= lq or (ln.get("unit") or "") != "g":
-                    continue
-                new_q = round(r_q / REG_OF_LARGE, 2)
-                ln["qty_was"], ln["qty"] = lq, new_q
-                ln["lifted_from_weighed_regular"] = {
-                    "regular_g": r_q, "ratio": REG_OF_LARGE}
-                oc = our_costs.get(ln.get("ref") or "")
-                if oc and oc[1] == "g":
-                    ln["our_cost"] = oc[0]
-                    ln["ls_cost"] = float(oc[0]) * new_q
-                lifted += 1
-        return lifted
+    # THE 0.716 LIFT IS GONE, SUPERSEDED BY A MEASUREMENT.
+    #
+    # It existed for one morning. Produce's Large figures sat below the weighed
+    # Regulars and a 13" pizza cannot carry less topping than an 11" one, so the
+    # Large was lifted to regular/0.716 -- a reasonable inference from what was
+    # known, and wrong. data/pizza_portions.yaml (Zak, 2026-08-19) weighs BOTH
+    # sizes, and it puts Spanish onion at 10 g regular / 20 g large: Produce's
+    # 20 g was right all along and the old sheet's 33 g regular was the bad
+    # number the lift was propagating onto seven pizzas.
+    #
+    # An inference is what you reach for when nobody has measured. It stops being
+    # the answer the moment somebody does.
 
     def _add_missing_lines():
         """Put back a topping Produce omitted from a recipe entirely.
@@ -2126,10 +2094,6 @@ def main() -> int:
         print(f"  restored {_missing} ingredient line(s) Produce had omitted")
 
     _rg_changed, _rg_recipes = _apply_regular_grams()
-    _lifted = _lift_large_to_match_the_weighed_regular()
-    if _lifted:
-        print(f"  {_lifted} LARGE line(s) lifted to match a weighed regular "
-              f"(a large cannot carry less than a regular)")
     print(f"  regular pizzas: {_rg_changed} quantities set from Zak's weighed sheet "
           f"across {_rg_recipes} recipes")
 
