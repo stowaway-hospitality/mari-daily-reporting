@@ -158,16 +158,28 @@ anything real" ceiling, but ground wattleseed genuinely retails $19-45 per
 100 g, and code, description and invoice all say 100 g. It is simply an
 expensive spice.
 
+## The lesson from both days, in one line
+
+**A correction only counts where it is read.** Three separate fixes this week
+were already written down, with arithmetic, and reached nothing: the declared
+relabel that only the staged book obeyed; the fix keyed to a `from_qty` a chef
+had since edited; the corn chip pack that was on the July invoice and gone from
+August. Before writing a new rule, check whether the old one is being read.
+
 ## What is still open
 
-1. **Weighings, and the Tandoori is now on the list.** Pizza Sauce ($1.06M,
+1. **Weighings — and the Tandoori is the live one.** Its batch now costs off
+   prep_yields' SCRAPED 1,116 g rather than the cap, so six products rest on an
+   estimate nobody has weighed. Pizza Sauce ($1.06M,
    146 dishes) and Pizza Dough ($849k) are a third of the $6.05M resting on
    unweighed yields. `data/_worklist/yield_verification.html`.
 2. **~60 unreviewed identity bridges.** NEVER auto-apply.
 3. **20 sale-only recipe references with no stock twin** — inventory tracking
    is simply switched off for them in Back Office. An ops gap, not a costing
    bug, but they cannot be sized until it is on.
-4. **Corn Chips**: two stock records, 1000 g and 214 g. Which is the bag?
+4. ~~Corn Chips~~ — CLOSED. The 10 July invoice says "6X500GM"; the later two
+   dropped it. 3,000 g carton at $47.30, bag is 500 g, both BO records wrong.
+   Now bridged to the Foodlink line, so Holy Guacamole is a 66% dish, not 77%.
 5. **40 stale-recipe lines** to clear out, per Zak: historical COGS comes from
    Xero, not this system.
 6. **Mr Iceman is not in the ledger at all.**
