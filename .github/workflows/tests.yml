@@ -66,6 +66,15 @@ jobs:
         # twin: it lands on the pack size printed in the product's own name.
         run: python3 scripts/check_pack_as_rate.py --strict
 
+      - name: Declarations still bind to something
+        # A ruling that has quietly detached from the record it corrects. Three
+        # of these in one week, each already SOLVED and each silently undone by
+        # an ordinary edit -- a chef re-saving a recipe, a supplier dropping the
+        # pack size from a description. Reading the file said it was fixed.
+        # Ratcheted rather than failed: a declaration waiting for a product we
+        # do not yet buy is the right way round.
+        run: python3 scripts/check_declarations_bind.py --strict
+
       - name: Estimated vs actual COGS (purchases minus consumption)
         # The number COGS_ARCHITECTURE.md has named since it was written: Xero
         # purchases (what we bought) minus recipe cost (what we used) = stock

@@ -49,3 +49,47 @@ def test_a_portion_never_costs_more_than_twenty_batches():
     if lime:
         assert not any(ln.get("capped_at_batch") for ln in lime["ingredients"]), \
             "3 whole limes is a real recipe, not a defect"
+
+
+def test_a_declaration_that_stops_binding_is_caught():
+    """The failure that cost the most this week, and had no detector.
+
+    Every ruling in this repo binds to a record it does not own. Chefs re-save
+    recipes; suppliers drop the pack size out of a description. When the target
+    moves, the declaration goes on sitting in the file with its paragraph of
+    evidence, correcting nothing -- and reading the file tells you it is fixed.
+
+    Three of those in one week, each found by accident. This pins the detector.
+    """
+    from scripts.check_declarations_bind import unbound
+
+    found = unbound()
+    for f in found:
+        assert {"kind", "target", "detail", "why"} <= set(f), f
+        assert f["why"], "an unbound declaration must say what it could not find"
+
+    # The check must be able to SEE a broken binding, not merely return [].
+    # A fix keyed to a quantity a chef has since edited is exactly the Tandoori
+    # case, and it must land in the list.
+    import json as _json
+    from pathlib import Path as _P
+    import scripts.check_declarations_bind as mod
+
+    book = _json.loads((_P(mod.__file__).resolve().parents[1]
+                        / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
+    real = next((n for n, r in book.items() if r.get("ingredients")), None)
+    assert real, "need at least one recipe to test against"
+
+    doc = {"line_qty_unit_fixes": [{"recipe": real, "ingredient": "Not A Real Line",
+                                    "from_qty": 1, "from_unit": "ml",
+                                    "to_qty": 1, "to_unit": "g"}]}
+    import yaml as _yaml, tempfile, os
+    orig = _P(mod.ROOT) / "data" / "batch_yield_units.yaml"
+    keep = orig.read_text()
+    try:
+        orig.write_text(_yaml.safe_dump(doc))
+        broken = mod.unbound()
+        assert any(f["kind"] == "line_qty_unit_fix" and f["target"] == real
+                   for f in broken), "a fix naming a line that isn't there must be caught"
+    finally:
+        orig.write_text(keep)
