@@ -73,6 +73,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import json as _json
 import re
 import sys
 from collections import defaultdict
@@ -822,6 +823,97 @@ def batch_yield_flags(recipes) -> list:
     return out
 
 
+def missing_pack_size_in_back_office_flags() -> list:
+    """A pack price sitting in Back Office as if it were a per-gram rate.
+
+    Back Office holds a stock item's Unit and DefaultSize. Where the unit is a
+    MEASURE and the size was never set, DefaultSize stays 1 — so a $30 bag of
+    bonito flakes is recorded as $30 for one gram.
+
+        Bonito Flakes              $30.00 /g
+        Prawn Meat                 $25.00 /g
+        Shiitake Mushrooms Dried   $25.00 /g
+        Kombu                      $20.00 /g
+        Pork Mince                 $10.00 /g
+        Potato Starch               $5.00 /g   <- already in a recipe
+
+    Potato Starch is the one already drawn on: Miso Tare takes 50 g, and
+    Lightspeed prices that at $250. Our book refuses it (the units do not agree)
+    so the line contributes $0 instead — wrong in the safer direction, but wrong.
+    The other seven are landmines: the day a chef builds a recipe on 10 g of
+    bonito, the dish costs $300.
+
+    Nothing else catches these. check_pack_as_rate needs a seeded rate AND an
+    invoice-fed twin to compare; these have no cost row at all, which is exactly
+    why they are invisible. The audit's per-gram ceiling is $0.20 and would fire
+    instantly — if the rate ever reached the book.
+
+    THE FIX IS ONE FIELD, IN BACK OFFICE, BY A HUMAN: set DefaultSize to what is
+    actually in the bag. It is not guessable from here — a $30 bag of bonito
+    could be 500 g or 1 kg, and inventing the divisor is how a $300 line becomes
+    a quietly wrong $0.30 one.
+    """
+    import csv as _csv
+    out = []
+    book = _json.loads(BOOK.read_text(encoding="utf-8-sig"))["recipes"] \
+        if BOOK.exists() else {}
+    used = {ln.get("ref") for r in book.values()
+            for ln in (r.get("ingredients") or [])}
+    for f in ("stowaway_products.csv", "harry_gatos_products.csv"):
+        path = ROOT / "data" / "bo_exports" / f
+        if not path.exists():
+            continue
+        venue = "stow" if "stowaway" in f else "hg"
+        for r in _csv.DictReader(path.open(encoding="utf-8-sig")):
+            if (r.get("InventoryType") or "").strip() != "1":
+                continue
+            unit = (r.get("Unit") or "").strip().lower()
+            try:
+                cost = float(r.get("CostPriceIncTax") or 0)
+                size = float(r.get("DefaultSize") or 0)
+            except ValueError:
+                continue
+            # $1 a gram is five times the audit's own "implausibly dear" ceiling.
+            # Wattleseed, the dearest thing we genuinely buy, is $0.385.
+            if unit not in ("g", "ml") or size > 1 or cost < 1.0:
+                continue
+            pid = "lightspeed:" + (r.get("ProductID") or "")
+            live = pid in used
+            out.append({
+                "id": "bo-pack-size-" + _slug(r.get("ProductName") or pid),
+                "category": "pack_size",
+                "severity": "high" if live else "medium",
+                "subject": (r.get("ProductName") or "").strip(),
+                "subject_kind": "ingredient",
+                "venue": venue,
+                "what_is_wrong": (
+                    f"Back Office prices this at ${cost:,.2f} per {unit} — the pack "
+                    f"cost with no pack size behind it. DefaultSize is still 1, so "
+                    f"one {unit} is being sold the whole bag's price."),
+                "why_it_matters": (
+                    "A recipe drawing 50 g would cost "
+                    f"${cost * 50:,.2f}. " + (
+                        "This one is already in a recipe."
+                        if live else
+                        "Nothing draws on it yet, which is the only reason it has "
+                        "cost nothing so far.")),
+                "question": f"How much is actually in one {r.get('ProductName','').strip()}?",
+                "impact_per_year": None,
+                "impact_basis": None,
+                "action": ("Set DefaultSize on the product in Lightspeed Back Office "
+                           "to the real contents of the pack. It cannot be worked out "
+                           "from here — a $30 bag could be 500 g or 1 kg, and guessing "
+                           "the divisor just replaces a loud wrong number with a quiet one."),
+                "owner": "Zak",
+                "evidence": [f"Back Office: Unit={unit}, DefaultSize=1, "
+                             f"CostPriceIncTax=${cost:,.2f}",
+                             "drawn on by a recipe today" if live else "no recipe uses it yet"],
+                "derived": True,
+                "source": "data/bo_exports/*_products.csv",
+            })
+    return out
+
+
 def capped_at_batch_flags(recipes) -> list:
     """A portion that was billed more than the whole batch it came out of.
 
@@ -1384,6 +1476,15 @@ CATEGORIES = [
     {"key": "batch_yield", "title": "Batches that hold more than they make",
      "why": "The name declares a yield and the lines add up to several times it. "
             "Everything downstream divides by that yield."},
+    {"key": "pack_size", "title": "A pack price with no pack size behind it",
+     "why": "Back Office holds a stock item's Unit and DefaultSize. Where the "
+            "unit is a MEASURE and nobody set the size, DefaultSize stays 1 — so "
+            "a $30 bag of bonito flakes reads as $30 for ONE GRAM. Potato Starch "
+            "is already in a recipe and Lightspeed prices 50 g of it at $250. "
+            "Nothing else catches these: the pack-as-rate check needs an "
+            "invoice-fed twin to compare against, and these have no cost row at "
+            "all. One field, in Back Office, by a human — the divisor is not "
+            "guessable from here."},
     {"key": "price_conflict", "title": "One product, two prices",
      "why": "Our invoice-fed rate and Lightspeed's own rate for the same stock "
             "item, 2x-50x apart, with nothing in data/product_map.csv settling "
@@ -1427,6 +1528,7 @@ def build() -> dict:
     flags += batch_yield_flags(recipes)
     flags += yield_overstated_flags(recipes)
     flags += capped_at_batch_flags(recipes)
+    flags += missing_pack_size_in_back_office_flags()
     flags += price_conflict_flags(recipes, sold, window)
     flags += feed_defect_flags(recipes, sold, window)
     flags += declared_flags(spec.get("declared") or [])
