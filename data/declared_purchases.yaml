@@ -523,3 +523,83 @@ purchases:
     venue: stowaway
     purchased_on: 2026-05-22
     evidence: "Philter PHIN-56102 (22 May 2026, Dext): $330.00 less 20% = $264.00 ex; Philter parses in the mailbox, so the next Red keg invoice supersedes"
+
+  # AUSTRALIA WINE & SPIRITS (ABN 26 681 889 154) — the Massenez house.
+  # 109 massenez-carrying invoices in Dext back to 2024 (Cerbaco then
+  # Paramount then AWS since June 2026, fortnightly); nothing ever reaches
+  # the mailbox. Landed Unit Costs printed per line, ex GST after 5 percent.
+
+  - supplier: "Australia Wine & Spirits"
+    supplier_code: "MSN071NV001"
+    description: "Massenez Liq Cacao Blanc (White Cacao) 700ml"
+    price_ex_gst: 47.73
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-19
+    evidence: "AWS invoice 1719 (19 Aug 2026, Dext): LUC $47.73 printed. NOTE the record says [750ml]; the bottle is 700ml"
+
+  - supplier: "Australia Wine & Spirits"
+    supplier_code: "MSN140NV001"
+    description: "Massenez Liq Fleur Sureau (Elderflower) 5L bib"
+    price_ex_gst: 233.37
+    pack_qty: 5000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-19
+    evidence: "AWS invoice 1719 (19 Aug 2026, Dext): LUC $233.37 printed"
+
+  - supplier: "Australia Wine & Spirits"
+    supplier_code: "MSN144NV001"
+    description: "Massenez Liq Mangue (Mango) 5L bib"
+    price_ex_gst: 296.08
+    pack_qty: 5000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-19
+    evidence: "AWS invoice 1719 (19 Aug 2026, Dext): LUC $296.08 printed"
+
+  - supplier: "Australia Wine & Spirits"
+    supplier_code: "MSN131NV001"
+    description: "Massenez Crm de Cacao (Dark Cacao) 5L bib"
+    price_ex_gst: 293.32
+    pack_qty: 5000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-11
+    evidence: "AWS invoice 11 Aug 2026 (Dext): LUC $293.32 printed"
+
+  # MEGACHEF — Foodlink portal lines whose CURRENT prices equal the BO seeds
+  # to the cent ($42.00 = 0.009333 x 4500; $37.00 = 0.006852 x 5400). Last
+  # bought 23 Apr (pre-corpus); declared at the portal price, superseded by
+  # the next Foodlink invoice carrying them.
+
+  - supplier: "Foodlink"
+    supplier_code: "109306"
+    description: "Soy Sauce Sweet Megachef GF 4.5LT"
+    price_ex_gst: 42.00
+    pack_qty: 4500
+    pack_unit: ml
+    venue: harry_gatos
+    purchased_on: 2026-08-20
+    evidence: "Foodlink portal 2026-08-20: 109306 $42.00 ex = the BO seed exactly; last invoiced 23 Apr"
+
+  - supplier: "Foodlink"
+    supplier_code: "104378"
+    description: "Oyster Sauce Megachef Premium 5.4KG"
+    price_ex_gst: 37.00
+    pack_qty: 5400
+    pack_unit: g
+    venue: harry_gatos
+    purchased_on: 2026-08-20
+    evidence: "Foodlink portal 2026-08-20: 104378 $37.00 ex = the BO seed exactly; last invoiced 23 Apr"
+
+  - supplier: "Foodlink"
+    supplier_code: "103965"
+    description: "Pickles Whole Dill 20KG Westmont"
+    price_ex_gst: 115.00
+    pack_qty: 20000
+    pack_unit: g
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "Foodlink portal 2026-08-20: 103965 WESTMONT PICKLES WHOLE DILL 20KG $115.00 ex (currently out of stock; the code is the identity)"

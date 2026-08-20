@@ -355,7 +355,14 @@ def test_the_book_and_lightspeed_agree_about_almost_everything(book):
     # threshold this test exists to defend; the tail that diverged is the
     # invoice-fed tail, and it should GROW as coverage improves. If the MEDIAN
     # ever moves, that is systemic drift and a different conversation.
-    assert sum(1 for r in ratios if r < 1.10) / len(ratios) > 0.75
+    #
+    # 0.75 -> 0.70 on 2026-08-20 (evening), same mechanism, bigger wave: the
+    # fine-tooth comb connected ~35 more records to real invoices in one
+    # sitting — the tortillas alone moved 2.2x and 0.56x, the noodles 4.8x,
+    # the eggs 5.6x, every one a documented correction of a stale seed that
+    # had been agreeing with Lightspeed by construction. 374/503 = 74.4%
+    # agree within 10%; the median is still 1.000.
+    assert sum(1 for r in ratios if r < 1.10) / len(ratios) > 0.70
 
 
 def test_a_unit_argument_is_not_raised_as_a_price_argument(book):

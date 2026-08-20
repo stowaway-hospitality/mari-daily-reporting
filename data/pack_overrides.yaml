@@ -1281,3 +1281,73 @@
     zero users). $18.40 a tub either way.
   true: 2026-08-20
   by_email: hello@stowawaybar.com
+
+# THE ASIAN PANTRY, solved by arithmetic 2026-08-20: for each, the record's
+# own seed rate times the size printed on the record (or the supplier line)
+# reproduces the invoice dollar to within a few percent — three of them to
+# the exact cent. Jun Pacific and JFC bill the pack with no size token
+# resolve_pack can read, so the sizes are declared here.
+
+- id: "jun-pacific:EE8101034"
+  pack_qty: 18000
+  pack_unit: ml
+  by: >-
+    Cooking sake, the [18L] drum the record names. $34.55 / seed 0.001847
+    implies 18.7L; the drum is 18L (3.9 percent, a real price edge).
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
+
+- id: "jun-pacific:EG8516631"
+  pack_qty: 20000
+  pack_unit: ml
+  by: >-
+    Uchibori rice vinegar, the [20L] the record names. $37.75 / seed
+    0.001888 = 19,995 ml. Exact.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
+
+- id: "jun-pacific:EB8202792"
+  pack_qty: 1800
+  pack_unit: ml
+  by: >-
+    Bulldog tonkatsu, the [1.8L] the record names. $11.05 / 1800 = 0.006139,
+    the seed to the sixth decimal. Exact.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
+
+- id: "jun-pacific:DE81595"
+  pack_qty: 1000
+  pack_unit: g
+  by: >-
+    Jun roasted white sesame [kg]. $9.46 / 1000 = 0.00946, the seed exactly.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
+
+- id: "jun-pacific:DE81596"
+  pack_qty: 1000
+  pack_unit: g
+  by: >-
+    Jun roasted black sesame [kg]. $12.70/kg vs seed $11.55/kg — a real 10
+    percent rise on the white's exact sibling.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
+
+- id: "jun-pacific:SA81476"
+  pack_qty: 125
+  pack_unit: g
+  by: >-
+    Takaokaya 50-sheet yaki nori — the record's own [125g]. $16.00 at seed
+    0.128/g = 125.0 g. Exact.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
+
+- id: "jfc:56296"
+  pack_qty: 625
+  pack_unit: g
+  by: >-
+    WPM Yellow Ramen #22 — JFC's description PRINTS the cake weight:
+    'Frozen Straight Noodle 125gx5'. A bag is 5 x 125 g = 625 g at $4.20;
+    $6.72/kg against the record's $7.22/kg seed. The weighed-cake question
+    is answered by the supplier's own label.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com

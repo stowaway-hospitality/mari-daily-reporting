@@ -375,6 +375,30 @@ def bo_stated_rates(cogs_rows):
     return out
 
 
+_RECIPE_BASE_UNITS: dict | None = None
+
+
+def recipe_base_units():
+    """ProductID -> the base unit the RECIPES draw it in (item_base_units.csv).
+
+    bo_declared_units() reads what Back Office says; this reads what the recipe
+    lines actually do, which is the stronger claim for the bridge's purposes —
+    the emitted rate is consumed by recipe lines. Only g and ml are returned,
+    same discipline as bo_declared_units.
+    """
+    global _RECIPE_BASE_UNITS
+    if _RECIPE_BASE_UNITS is None:
+        out: dict[str, str] = {}
+        p = ROOT / "data" / "item_base_units.csv"
+        if p.exists():
+            for r in csv.DictReader(p.open(encoding="utf-8-sig")):
+                u = (r.get("base_unit") or "").strip()
+                if u in ("g", "ml") and (r.get("conflict") or "").strip() != "true":
+                    out[(r.get("item_id") or "").strip()] = u
+        _RECIPE_BASE_UNITS = out
+    return _RECIPE_BASE_UNITS
+
+
 def bo_declared_units():
     """ProductID -> the base unit Back Office says the product is measured in.
 
@@ -1238,6 +1262,7 @@ def main() -> int:
         for pid in (bridge.get(iid) or ()):
             if iid.startswith("lightspeed:"):
                 break
+            _base_unit_1to1 = False
             sc = seed_conv.get(pid)
             # LAST RESORT, and deliberately the narrowest one available: a product
             # with NO seed has no conversion, so the block below never runs and the
@@ -1255,6 +1280,26 @@ def main() -> int:
                 _bu = bo_units.get(pid)
                 if _bu and _bu == unit:
                     sc = (Decimal(1), _bu)
+            elif sc[1] not in ("g", "ml") and unit in ("g", "ml"):
+                # THE CONTAINER-SEED BLOCKADE, found 2026-08-20 on the fine-tooth
+                # comb. Barramundi's seed states its pack as "box", coriander's as
+                # "ea" — so seed_conv hands back (1, container) and the branch
+                # below can only compare container-to-container. Meanwhile the
+                # INVOICE row is already per-gram, and the RECIPES draw the
+                # product in grams (item_base_units.csv, built from every recipe
+                # line). When both of those agree on g or ml, the container word
+                # in the seed is a fact about how BO stores the price, not about
+                # how the thing is measured — take the invoice rate 1:1 in the
+                # recipes' own unit. Still g->g and ml->ml only; a keg, a bottle
+                # or an each row falls through to the container logic unchanged.
+                _rbu = recipe_base_units().get(pid)
+                if _rbu == unit:
+                    sc = (Decimal(1), _rbu)
+                    # seed_price for a container-seeded product is per CONTAINER
+                    # (the $14 pepper tin) while this rate is per gram — the
+                    # magnitude guard would compare the two bases and refuse a
+                    # correct number, the exact defect its keg note describes.
+                    _base_unit_1to1 = True
             if sc and sc[0] > 0:
                 sqty, sunit = sc
                 if sunit == unit:                       # already the seed's unit
@@ -1294,6 +1339,7 @@ def main() -> int:
                 # the one guard between them and the book was comparing against
                 # a number that had been divided twice.
                 if (bper is not None and sp and sp > 0
+                        and not _base_unit_1to1
                         and not (declared_restated
                                  and declared.get(conversion_key(pid)))):
                     ratio = float(bper) / float(sp)
