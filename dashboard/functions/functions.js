@@ -690,9 +690,15 @@ export function diaryRowHTML(f, selId, today) {
   // can do. The GP itself never comes out here: a rail row has nowhere to put
   // what qualifies it, which is the same reason functions.summary() carries
   // outcome_reported as a boolean and not a number.
+  // A report is a report whichever way it arrived — hand-recorded on the brief
+  // or computed off the tab. Which one it was belongs on the card, where there
+  // is room to say what qualifies it; a row has none, which is the same reason
+  // no percentage comes out here.
   if (d !== null && d < 0) {
-    chips.push(f.outcome ? '<span class="chip ok">reported</span>'
-                         : '<span class="chip need">no report yet</span>');
+    chips.push(f.computed_ambiguous
+      ? '<span class="chip bad">report ambiguous</span>'
+      : hasReport(f) ? '<span class="chip ok">reported</span>'
+                     : '<span class="chip need">no report yet</span>');
   }
   return `<div class="row${selId === f.id ? ' on' : ''}" data-fn="${esc(f.id)}"
       role="button" tabindex="0">
@@ -969,6 +975,188 @@ export const hasHappened = (f, today) => {
   return d !== null && d < 0;
 };
 
+// ------------------------------------------ two sources, and which one wins
+// WHY THERE ARE TWO
+// -----------------
+// A night can now be reported on twice, by two different mechanisms:
+//
+//   BY HAND     — somebody types the nine measured numbers into the form
+//                 below; the engine derives the report and it arrives as
+//                 `f.outcome` on the diary row.
+//   COMPUTED    — modules/functions works the same night out from the comped
+//                 tab's own line items against a cost book pinned to that
+//                 date, publishes it to data/functions_gp.json, and
+//                 joinComputedReports() attaches it as `f.computed_outcome`.
+//
+// They are the SAME SHAPE — the feed publishes the field names functions
+// .outcome() returns, deliberately — so everything below this line draws
+// either one without knowing which it has. That is the whole reason the shape
+// was copied rather than invented: one renderer, one set of rules about what
+// may appear beside a percentage, and no second place for the caveat rule to
+// be forgotten.
+//
+// THE JOIN IS THE BOOKING ID AND NOTHING ELSE
+// -------------------------------------------
+// The feed knows what the bar called the tab ("Dazzle drinks"); the diary
+// knows who booked ("Roman Bunting"). Those never match, and 8 August 2026
+// carries TWO functions, so a date join is ambiguous by construction. Either
+// would silently file one night's gross profit under the other booking:
+// nothing 404s, both numbers are real, and the wrong one is under the wrong
+// name. So the id is recorded on the tab file by a human against the evidence,
+// travels on the feed as `booking_id`, and is the only thing matched on here.
+//
+// WHICH WINS: THE COMPUTED ONE
+// ----------------------------
+// Not because it is ours or because it is newer, but because it is
+// RE-DERIVABLE. Every figure on it comes from line items still sitting in
+// data/function_tabs/, priced by a book pinned to the night, so anyone can run
+// it again in a year and get the same answer back. The hand-recorded one is a
+// summary somebody typed once and nothing can check it.
+//
+// A DISAGREEMENT IS NEVER SETTLED SILENTLY
+// ----------------------------------------
+// If the two do not match then one of them is wrong about a MEASURED fact —
+// how many drinks, how much revenue, how many people through the door — and
+// that is something to go and look at, not a tie to break quietly. So the
+// clash is named field by field, above the figure.
+//
+// ...AND THE SCREEN STILL SHOWS ONLY ONE PERCENTAGE
+// ------------------------------------------------
+// The clash notice names the measured INPUTS the two sources disagree about
+// and never touches either percentage — comparing one would mean holding one,
+// and there is one formatter for a function's GP in this file. Two GP figures
+// for one night on one screen is the exact failure this half of the module
+// exists to prevent — one of them would be read out later without the caveats
+// that qualify it, and it would be the one nobody can reproduce.
+
+/** Attach each computed report to the booking it belongs to.
+ *
+ *  Pure: takes the diary rows and the feed, returns new rows. A booking with
+ *  no entry comes back untouched, which is the normal case — most functions
+ *  will never have a tab file, and a past one with no report rightly goes on
+ *  saying "no report yet" and offering the form.
+ *
+ *  Two entries claiming ONE booking attaches NEITHER, and flags it. One of
+ *  them belongs to a different night, and picking either would put one
+ *  function's profit under another's name — the precise error the id exists to
+ *  make impossible. An entry with no `booking_id` joins to nothing at all. */
+export function joinComputedReports(fns, feed) {
+  const seen = new Map();                 // booking id -> the entry, or null if >1
+  for (const o of (feed && feed.functions) || []) {
+    const k = o && o.booking_id;
+    if (!k) continue;
+    seen.set(k, seen.has(k) ? null : o);
+  }
+  return (fns || []).map((f) => {
+    if (!f || !seen.has(f.id)) return f;
+    const o = seen.get(f.id);
+    return o ? { ...f, computed_outcome: o } : { ...f, computed_ambiguous: true };
+  });
+}
+
+/** The MEASURED facts both sources claim to hold, so a disagreement can be
+ *  named rather than averaged.
+ *
+ *  MEASURED ONLY, and the percentage is deliberately not among them. Two
+ *  reports can only really disagree about a fact somebody counted — how many
+ *  came, how many drinks, what the invoice said. Everything else follows from
+ *  these by arithmetic, so listing the consequences of one wrong drink count
+ *  would read as six separate problems. And the percentage in particular is
+ *  never compared here, because comparing it means holding it, and this module
+ *  formats a function's GP in exactly one place with its caveats attached. The
+ *  suite enforces that at the source: a second reader of it anywhere in this
+ *  file fails the build. */
+export const REPORT_COMPARE = [
+  { field: 'actual_heads', label: 'heads through the door', kind: 'count' },
+  { field: 'tickets_sold', label: 'tickets sold', kind: 'count' },
+  { field: 'revenue_inc_cents', label: 'revenue taken', kind: 'money' },
+  { field: 'food_revenue_inc_cents', label: 'the food share of it', kind: 'money' },
+  { field: 'drinks_poured', label: 'drinks poured', kind: 'count' },
+  { field: 'menu_value_inc_cents', label: 'the menu value of the tab', kind: 'money' },
+  { field: 'cogs_ex_cents', label: 'drinks COGS', kind: 'money' },
+  { field: 'mixer_est_ex_cents', label: 'the mixer estimate', kind: 'money' },
+];
+
+/** Where two reports of the same night disagree. A field measured on only one
+ *  side is NOT a disagreement — it is a gap, and saying "they disagree about
+ *  the food share" when one of them simply never recorded it would send
+ *  somebody looking for a contradiction that is not there. */
+export function reportClash(hand, computed) {
+  if (!hand || !computed) return [];
+  return REPORT_COMPARE
+    .filter((c) => hand[c.field] != null && computed[c.field] != null
+                   && hand[c.field] !== computed[c.field])
+    .map((c) => ({ ...c, hand: hand[c.field], computed: computed[c.field] }));
+}
+
+/** Which report this screen draws for one booking, and what it is hiding. */
+export function reportFor(f) {
+  const hand = (f && f.outcome) || null;
+  const computed = (f && f.computed_outcome) || null;
+  if (!computed) return { outcome: hand, source: hand ? 'hand' : null, clash: [] };
+  return { outcome: computed, source: 'computed', clash: reportClash(hand, computed) };
+}
+
+/** Has anybody reported on this night, by either route? */
+export const hasReport = (f) => !!(f && (f.outcome || f.computed_outcome));
+
+const clashValue = (c, v) => (c.kind === 'money' ? money2(v) : String(v));
+
+/** The disagreement, named. No percentage appears in here; see the section
+ *  header above for why that is a rule and not a preference. */
+export function reportClashHTML(clash) {
+  if (!clash || !clash.length) return '';
+  const items = clash.map((c) => `<li>${esc(c.label)} —
+    <b>${esc(clashValue(c, c.computed))}</b> computed,
+    ${esc(clashValue(c, c.hand))} hand-recorded</li>`).join('');
+  return flat(`<div class="prob" style="margin-top:0">
+    <b>Two reports exist for this night and they do not agree.</b> The figure
+    below is the computed one: it is worked out from the comped tab's own line
+    items against the cost book as it stood on the night, so anybody can run it
+    again and get it back. The hand-recorded one is a typed summary and nothing
+    can check it, which is why it does not get to be the number on this screen.
+    What the two disagree about:<ul>${items}</ul>
+    Both cannot be right about a measured fact, so this is worth an hour with
+    the POS rather than a shrug. The hand-entered percentage is deliberately
+    not printed beside the one below — one night gets one gross profit figure
+    here, and a second would be quoted later without its caveats.</div>`);
+}
+
+/** Where a computed figure came from, said on the screen that shows it. The
+ *  pairing evidence travels too: a booking id matched on the money and a
+ *  booking id matched on a hunch look identical in a JSON file, and this is
+ *  the only place anybody would ever notice the difference. */
+export function computedProvenanceHTML(o) {
+  if (!o) return '';
+  const book = o.cost_book_as_of === 'live'
+    ? `the cost book as it stands TODAY — no dated snapshot exists for that
+       night, so this figure moves as recipes are recosted and is not
+       reproducible`
+    : o.cost_book_as_of
+      ? `the cost book as it stood on ${esc(niceDate(o.cost_book_as_of))}`
+      : 'a cost book that did not say when it was from';
+  return flat(`<div class="hint" style="margin-top:0">Computed, not typed:
+    worked out from the comped tab line by line against ${book}.${
+    o.source_file ? ` The lines are in ${esc(o.source_file)}.` : ''}${
+    o.booking_evidence
+      ? ` Attached to this booking on the evidence, not the name —
+          ${esc(o.booking_evidence)}`
+      : ' Nothing on the feed says why it is attached to this booking, which is'
+        + ' worth checking before the figure is quoted.'}</div>`);
+}
+
+/** Two computed reports claiming one booking. Neither is drawn. */
+export function ambiguousJoinHTML(f) {
+  if (!f || !f.computed_ambiguous) return '';
+  return flat(`<div class="prob" style="margin-top:0">
+    <b>Two computed reports claim this booking, so neither is shown.</b> One of
+    them is another night's, and showing either would put one function's gross
+    profit under a different function's name. The booking ids on the tab files
+    in data/function_tabs/ need fixing and the feed rebuilding; until then this
+    night has no computed report, which is better than having the wrong
+    one.</div>`);
+}
+
 /**
  * The whole "How it went" block for one function.
  *
@@ -982,15 +1170,23 @@ export const hasHappened = (f, today) => {
  */
 export function outcomeHTML(f, today, edit) {
   if (!f || !hasHappened(f, today)) return '';
-  const o = f.outcome;
+  const rep = reportFor(f);
+  const o = rep.outcome;
+  // The BUTTON follows the hand-recorded report, never the drawn one. A
+  // computed figure is not something anybody can go and correct in this form —
+  // it comes off the tab file — so offering "Correct the figures" beside one
+  // would point at boxes that are empty and a save that changes nothing.
+  const hand = (f && f.outcome) || null;
   const editing = !!(edit && edit.booking === f.id);
   const act = `<button class="${o ? 'ghost small' : 'small'}"
       data-act="recordoutcome" data-booking="${esc(f.id)}">${
-      o ? 'Correct the figures' : 'Record how it went'}</button>`;
+      hand ? 'Correct the figures' : 'Record how it went'}</button>`;
+  const ambig = ambiguousJoinHTML(f);
 
   if (!o) {
     return `<div class="rep">
       <h2>How it went</h2>
+      ${ambig}
       <div class="quiet">Nobody has reported on this one. That is not a
         function that made nothing — it is a night nobody has counted yet. The
         heads, the tab, the drinks off it and what they cost are all on the
@@ -1007,19 +1203,34 @@ export function outcomeHTML(f, today, edit) {
 
   const heads = headsLine(o);
   const earn = outEarnSentence(o);
+  const computed = rep.source === 'computed';
+  // Recording by hand is still offered beside a computed report — the nine
+  // boxes are measured facts and worth having on the brief — but it is said
+  // out loud that they will not become the figure on this screen. A control
+  // whose effect is invisible is a control people press twice.
+  const also = computed && !hand
+    ? `<span class="hint" style="margin-top:0">The figure above is computed
+        from the tab and stays the one this screen shows. Recording the
+        measured numbers by hand as well is useful — it puts them on the brief
+        — but it does not replace it, and if the two disagree this card will
+        say so.</span>`
+    : '';
   return `<div class="rep">
     <h2>How it went</h2>
+    ${ambig}
+    ${reportClashHTML(rep.clash)}
     <div class="${heads.flag ? 'prob' : 'hint'}" style="margin-top:0">${
       esc(heads.text)}</div>
     ${outcomeMetricsHTML(o)}
     ${gpFigureHTML(o)}
+    ${computed ? computedProvenanceHTML(o) : ''}
     ${earn ? `<div class="earn">${esc(earn)}</div>` : ''}
     ${o.pos_refs ? `<div class="refs"><label>Where these came from</label>
       <div class="log">${esc(o.pos_refs)}</div>
       <div class="hint">${esc(POS_REFS_WHY)}</div></div>`
       : `<div class="hint" style="margin-top:10px">No POS references recorded,
         so nothing here can be traced back to a receipt. ${esc(POS_REFS_WHY)}</div>`}
-    <div class="acts" style="margin-top:10px">${act}</div>
+    <div class="acts" style="margin-top:10px">${act}${also}</div>
     ${editing ? outcomeFormHTML(edit.brief) : ''}</div>`;
 }
 
@@ -1764,6 +1975,34 @@ const copyAsk = () => {
 const copyLink = () => { const el = $('dlink'); if (el) copyText(el.value, 'link copied'); };
 
 // --------------------------------------------------------------------- load
+/** The computed-GP feed. A STATIC FILE on this origin, published by
+ *  modules/functions/pipeline/build_functions_gp.py — not a route on the
+ *  booking engine, which knows nothing about cost books.
+ *
+ *  MISSING IS NOT AN ERROR, and that is load-bearing. Most functions will
+ *  never have a tab file; a clean deploy may not have the feed at all. Every
+ *  failure here — 404, a proxy serving HTML, invalid JSON, no network — lands
+ *  on the same answer as "this night was never costed": no computed report,
+ *  the diary says "no report yet", and the record-by-hand form is offered
+ *  exactly as before. It must never take the diary down with it.
+ *
+ *  A feed declaring a schema this page does not know is refused rather than
+ *  half-read. The contract is additive-only, so `functions_gp/1` will keep
+ *  meaning what it means; something else means the field names may have moved
+ *  underneath, and reading them anyway is how a screen ends up drawing an
+ *  em dash where a number was. */
+export const GP_FEED_URL = '/data/functions_gp.json';
+export const GP_FEED_SCHEMA = 'functions_gp/1';
+
+async function loadGpFeed() {
+  try {
+    const r = await fetch(GP_FEED_URL, { cache: 'no-store' });
+    if (!r.ok) return null;
+    const d = await r.json();
+    return d && d.schema === GP_FEED_SCHEMA ? d : null;
+  } catch (_) { return null; }
+}
+
 async function openBrief(id) {
   if (DIRTY && !confirm('You have unsaved changes. Discard them?')) return;
   try {
@@ -1789,7 +2028,7 @@ async function loadAll(keep) {
     // Promise.all over the PROMISES, not over already-awaited values: four
     // awaits in an array literal run one after another and the page waits for
     // the sum of the round trips instead of the slowest one.
-    const [briefs, chase, cfg, areas, diary] = await Promise.all([
+    const [briefs, chase, cfg, areas, diary, gp] = await Promise.all([
       call('/api/admin/functions').then((r) => r.json()),
       call('/api/admin/functions/chase').then((r) => r.json()),
       call('/api/admin/functions/config').then((r) => r.json()),
@@ -1799,9 +2038,15 @@ async function loadAll(keep) {
       // four still reject on a bad token, which is what re-shows the box.
       call(`/api/admin/functions/diary?from=${DIARY_FROM}`).then((r) => r.json())
         .catch((e) => ({ error: why(e), functions: [], by_date: [] })),
+      // Swallows its own failures — see loadGpFeed. No feed simply means no
+      // computed reports, which is the state every function was in yesterday.
+      loadGpFeed(),
     ]);
     BRIEFS = briefs; CHASE = chase; CONFIG = cfg; AREAS = areas;
-    DIARY = diary.functions || [];
+    // The join happens ONCE, here, so every renderer downstream reads a row
+    // that already knows whether it has a computed report. Joining inside a
+    // renderer would run it per draw and give two of them room to disagree.
+    DIARY = joinComputedReports(diary.functions || [], gp);
     BYDATE = diary.by_date || [];
     DIARY_ERR = diary.error || null;
     // Only on the first load: a Refresh should leave you on the month and the

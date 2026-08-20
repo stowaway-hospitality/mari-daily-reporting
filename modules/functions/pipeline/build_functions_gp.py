@@ -7,6 +7,19 @@
 Run:  python3 modules/functions/pipeline/build_functions_gp.py
       python3 modules/functions/pipeline/build_functions_gp.py --check
 
+THE JOIN KEY
+------------
+Each tab file carries `booking_id` -- the id of the diary row the night IS --
+and `booking_evidence`, the reasoning that pairs them. Both are copied onto the
+feed unchanged, because the screen has no other way to know which of two
+functions on 8 August a report belongs to: the feed knows tab names and the
+diary knows customer names, and "Dazzle drinks" is neither. It is optional and
+stays optional -- a tab with no booking joins to nothing and the diary keeps
+saying "no report yet", which is true. What is NOT optional is that a published
+entry carry one: `scripts/test_functions_gp_feed.mjs` asserts it, so a new tab
+that omits the id fails the suite rather than shipping a report the screen can
+never show.
+
 `--check` rebuilds and byte-compares instead of writing, which is what the
 suite uses. The feed is COMMITTED rather than gitignored-and-rebuilt-in-CI,
 because wiring a new build step into `.github/workflows/` needs the `ops`
@@ -97,6 +110,8 @@ def read_tab(path: Path) -> FunctionNight:
         booked_guests=d.get("booked_guests"),
         tickets_sold=d.get("tickets_sold"),
         pos_refs=d.get("pos_refs", ""),
+        booking_id=d.get("booking_id"),
+        booking_evidence=d.get("booking_evidence", ""),
         lines=[Line(l["product"], int(l["qty"]), Decimal(l["menu_value_inc"]))
                for l in d["lines"]],
     )

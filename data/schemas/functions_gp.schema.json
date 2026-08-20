@@ -55,6 +55,8 @@
         "date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
         "venue": {"type": "string"},
         "source_file": {"type": "string"},
+        "booking_id": {"type": ["string", "null"], "description": "The booking this report IS -- the id of the row on /api/admin/functions/diary. THE join key: the feed knows tab names and the diary knows customer names, 'Dazzle drinks' is neither, and 8 Aug 2026 carries two functions so the date alone cannot disambiguate. Null means the night joins to no booking and the diary rightly goes on saying 'no report yet'."},
+        "booking_evidence": {"type": ["string", "null"], "description": "Why that pairing is believed, in words, carried to the screen. A booking id matched on a hunch and a booking id matched on the money look identical in a JSON file."},
         "pos_refs": {"type": "string", "description": "How the tab was found in the POS. The join between a brief and its tab."},
 
         "actual_heads": {"type": "integer", "minimum": 0},

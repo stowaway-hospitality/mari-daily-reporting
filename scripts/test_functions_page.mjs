@@ -1153,6 +1153,254 @@ const HARRY_DONE = { ...HARRY, brief_id: 'c1c1c1c1c1c1', outcome: HARRY_OUT };
      + 'what qualifies it', !/%/.test(rail), rail);
 }
 
+// ================================== the computed report, joined by booking id
+// WHAT THIS SECTION IS FOR
+// ------------------------
+// data/functions_gp.json holds a gross profit worked out from a function's
+// comped tab. The diary holds the bookings. Until the feed carried
+// `booking_id` nothing joined them: the feed says "Dazzle drinks" and the
+// diary says "Roman Bunting", and 8 August 2026 has TWO functions on it, so
+// the date cannot disambiguate either. Both nights therefore sat in "Already
+// happened" saying "no report yet" while their reports existed.
+//
+// The failure this section exists to catch is the one that would have come of
+// closing that gap sloppily: a join on the name or the date puts ONE night's
+// gross profit under the OTHER booking. Nothing 404s, both numbers are real,
+// the caveats are all present and correct — and Roman's 59.3% is filed under
+// Harry Baker. So the join is asserted to be the id and only the id.
+//
+// The feed here is a FIXTURE, not the real file: this suite is hermetic. The
+// real feed is drawn by the real module in scripts/test_functions_gp_feed.mjs.
+const GP_ENTRY_ROMAN = {
+  ...ROMAN_OUT, id: '2026-08-08_dazzle_drinks', name: 'Dazzle drinks',
+  date: '2026-08-08', venue: 'stowaway', booking_id: 'e93280ad65d1',
+  booking_evidence: 'Roman Bunting, 8 Aug 2026 15:30, Old Stow, 40 covers. '
+    + 'Matched on the package and the money, never on the name.',
+  cost_book_as_of: '2026-08-08',
+  source_file: 'data/function_tabs/2026-08-08_dazzle_drinks.json',
+  pos_refs: 'Tab: Dazzle drinks -- comped to $0.00, 8 Aug 2026',
+};
+const GP_ENTRY_HARRY = {
+  ...HARRY_OUT, id: '2026-08-08_harry', name: 'Harry', date: '2026-08-08',
+  venue: 'stowaway', booking_id: '1878ce4a6350',
+  booking_evidence: 'Harry Baker, 8 Aug 2026 18:30, Main Hall, 25 covers. '
+    + 'Matched on the money: $60 Soiree plus $20pp food is the $80 ticket.',
+  cost_book_as_of: '2026-08-08',
+  source_file: 'data/function_tabs/2026-08-08_harry.json',
+  pos_refs: 'Tab: Harry -- comped to $0.00, 8 Aug 2026',
+};
+const GP_FEED = { schema: 'functions_gp/1', benchmark_gp_pct: 76.4,
+                  functions: [GP_ENTRY_ROMAN, GP_ENTRY_HARRY] };
+
+// ------------------------------------------------------------ the join itself
+{
+  const joined = F.joinComputedReports(DIARY, GP_FEED);
+  const byId = Object.fromEntries(joined.map((f) => [f.id, f]));
+  ok('the computed report lands on the booking whose id it names',
+     byId['e93280ad65d1'].computed_outcome === GP_ENTRY_ROMAN
+     && byId['1878ce4a6350'].computed_outcome === GP_ENTRY_HARRY);
+  ok('...which is the one whose tab name is nothing like the customer name — '
+     + '"Dazzle drinks" is Roman Bunting and no string join could say so',
+     byId['e93280ad65d1'].computed_outcome.name === 'Dazzle drinks'
+     && byId['e93280ad65d1'].name === 'Roman Bunting');
+  ok('...and the two functions on 8 August do NOT get each other’s report',
+     byId['e93280ad65d1'].computed_outcome.drinks_poured === 239
+     && byId['1878ce4a6350'].computed_outcome.drinks_poured === 149,
+     JSON.stringify(joined.map((f) => [f.name,
+       f.computed_outcome && f.computed_outcome.drinks_poured])));
+  ok('a booking the feed says nothing about is returned untouched',
+     byId['1e871002336d'].computed_outcome === undefined
+     && byId['f9eb11be3b3a'].computed_outcome === undefined);
+  ok('the join does not mutate the diary rows it was given',
+     ROMAN.computed_outcome === undefined && DIARY.every((f) => !f.computed_outcome));
+
+  ok('a feed entry with no booking id joins to nothing rather than to a guess',
+     F.joinComputedReports(DIARY, { functions: [
+       { ...GP_ENTRY_ROMAN, booking_id: null }] })
+       .every((f) => !f.computed_outcome));
+  ok('a date match is not a join — same night, wrong booking, no report',
+     F.joinComputedReports([{ id: 'somethingelse', date: '2026-08-08' }], GP_FEED)
+       .every((f) => !f.computed_outcome));
+  ok('no feed at all is not an error, it is just no reports',
+     F.joinComputedReports(DIARY, null).length === DIARY.length
+     && F.joinComputedReports(DIARY, null).every((f) => !f.computed_outcome));
+  ok('...and neither is a feed with nothing on it',
+     F.joinComputedReports(DIARY, { schema: 'functions_gp/1', functions: [] })
+       .every((f) => !f.computed_outcome));
+}
+
+// ----------------------------- two entries claiming one booking: show NEITHER
+{
+  const bad = F.joinComputedReports(DIARY, { functions: [
+    GP_ENTRY_ROMAN, { ...GP_ENTRY_HARRY, booking_id: 'e93280ad65d1' }] });
+  const r = bad.find((f) => f.id === 'e93280ad65d1');
+  ok('two computed reports claiming one booking attaches NEITHER — one of them '
+     + 'is another night and guessing files a profit under the wrong name',
+     !r.computed_outcome && r.computed_ambiguous === true, JSON.stringify(r));
+  const card = F.functionCardHTML(r, TODAY);
+  ok('...and the card says so instead of drawing a figure',
+     /Two computed reports claim this booking/.test(F.flat(card))
+     && !/59\.3%/.test(card) && !/60\.2%/.test(card), F.flat(card).slice(0, 400));
+  ok('...and the rail flags it rather than calling it reported',
+     /report ambiguous/.test(F.diaryRowHTML(r, null, TODAY)),
+     F.diaryRowHTML(r, null, TODAY));
+}
+
+// -------------------------------- the SAME renderer draws it, not a second one
+{
+  const joined = F.joinComputedReports(DIARY, GP_FEED);
+  const roman = joined.find((f) => f.id === 'e93280ad65d1');
+  const harry = joined.find((f) => f.id === '1878ce4a6350');
+  const card = F.functionCardHTML(roman, TODAY);
+  const rep = card.slice(card.indexOf('How it went'));
+
+  ok('a past function whose booking id is on the feed no longer says "no '
+     + 'report yet" — it draws the report',
+     !/Nobody has reported on this one/.test(rep) && /59\.3%/.test(rep), rep);
+  ok('...through the same block as a hand-recorded one, caveats and all',
+     rep.includes('class="gp"') && rep.includes('class="caveats"')
+     && GP_ENTRY_ROMAN.caveats.every((c) => rep.includes(F.esc(c.note))), rep);
+  ok('...with the measured figures on the same card',
+     /239/.test(rep) && /9\.56 a head/.test(rep), rep);
+  ok('...and the displaced-trade sentence, which is the actual question',
+     /out-earn the trade it replaced/.test(F.flat(rep)), F.flat(rep));
+  ok('Harry gets HIS night, on the same date, from the same feed',
+     /60\.2%/.test(F.functionCardHTML(harry, TODAY))
+     && !/59\.3%/.test(F.functionCardHTML(harry, TODAY)));
+
+  ok('the report says it was computed rather than typed',
+     /Computed, not typed/.test(F.flat(rep)), F.flat(rep));
+  ok('...names the dated cost book it was priced against, because a live one '
+     + 'would not be reproducible',
+     /the cost book as it stood on/.test(F.flat(rep)), F.flat(rep));
+  ok('...and says so loudly when there is no dated book',
+     /moves as recipes are recosted and is not\s*reproducible/
+       .test(F.flat(F.computedProvenanceHTML({ ...GP_ENTRY_ROMAN,
+         cost_book_as_of: 'live' }))));
+  ok('...and carries the evidence the booking was paired on, on the screen',
+     F.flat(rep).includes('Matched on the package and the money'), F.flat(rep));
+  ok('...and says when there is no evidence, rather than looking equally sure',
+     /Nothing on the feed says why it is attached/
+       .test(F.flat(F.computedProvenanceHTML({ ...GP_ENTRY_ROMAN,
+         booking_evidence: null }))));
+
+  ok('the rail marks it reported like any other report',
+     /reported<\/span>/.test(F.diaryRowHTML(roman, null, TODAY)));
+  ok('...and the rail STILL carries no percentage, whichever way it arrived',
+     !/%/.test(F.diaryRailHTML(joined, null, TODAY)),
+     F.diaryRailHTML(joined, null, TODAY));
+  ok('a past function absent from the feed still says "no report yet"',
+     /no report yet/.test(F.diaryRowHTML(joined.find((f) => f.id === '1e871002336d'),
+       null, TODAY)));
+  ok('...and still offers the form, because the feed is not the only way in',
+     /data-act="recordoutcome"/.test(
+       F.functionCardHTML(joined.find((f) => f.id === '1e871002336d'), TODAY)));
+  ok('...and a function still to come gets nothing at all, feed or no feed',
+     F.outcomeHTML(F.joinComputedReports([MJ], GP_FEED)[0], TODAY) === '');
+}
+
+// ------------- THE CAVEATS RULE, ON THE FEED PATH: strip them, lose the number
+// The rule already holds for a hand-recorded outcome. The feed is a SECOND way
+// into the same renderer, and a second way in is a second chance for a bare
+// percentage to reach a screen. Same assertion, other door.
+{
+  const stripped = F.joinComputedReports(DIARY,
+    { functions: [{ ...GP_ENTRY_ROMAN, caveats: [] }] })
+    .find((f) => f.id === 'e93280ad65d1');
+  const card = F.functionCardHTML(stripped, TODAY);
+  ok('a COMPUTED report with no caveats draws the refusal, not the percentage',
+     /GP withheld/.test(card) && !/59\.3/.test(card) && !/65\.6/.test(card),
+     card.slice(card.indexOf('How it went')));
+  ok('...and the measured figures still show, because those are not in doubt',
+     /239/.test(card) && /\$2,000/.test(card), card.slice(card.indexOf('How it went')));
+  const gone = F.joinComputedReports(DIARY,
+    { functions: [{ ...GP_ENTRY_ROMAN, caveats: undefined }] })
+    .find((f) => f.id === 'e93280ad65d1');
+  ok('...and a caveat list missing entirely behaves the same way',
+     /GP withheld/.test(F.functionCardHTML(gone, TODAY)));
+}
+
+// ------------------------------------ two sources for one night, and one truth
+// A night can now hold a hand-recorded report AND a computed one. The computed
+// one wins — every figure on it is re-derivable from line items still in the
+// repo, priced by a book pinned to the night, and the hand one is a summary
+// somebody typed once. But a disagreement is a wrong MEASURED fact on one side
+// or the other, so it is named rather than quietly resolved.
+{
+  const agreeing = F.joinComputedReports(
+    [{ ...ROMAN, outcome: ROMAN_OUT, brief_id: 'b0b0b0b0b0b0' }], GP_FEED)[0];
+  ok('when the two agree there is nothing to report but the report',
+     F.reportFor(agreeing).clash.length === 0
+     && F.reportFor(agreeing).source === 'computed');
+  const card0 = F.functionCardHTML(agreeing, TODAY);
+  ok('...and only ONE gross profit block is drawn',
+     (card0.match(/class="gp"/g) || []).length === 1, card0);
+
+  // The hand report says 240 drinks and $612.48 of COGS; the tab says 239 and
+  // $625.48. One of them is wrong and neither the page nor anybody else can
+  // tell which from here.
+  const HAND_OFF = { ...ROMAN_OUT, drinks_poured: 240, cogs_ex_cents: 61248,
+                     actual_heads: 25, gp_pct: 60.61 };
+  const clashing = F.joinComputedReports(
+    [{ ...ROMAN, outcome: HAND_OFF, brief_id: 'b0b0b0b0b0b0' }], GP_FEED)[0];
+  const clash = F.reportFor(clashing).clash;
+  ok('a disagreement is detected field by field',
+     clash.length === 2 && clash.map((c) => c.field).sort().join(',')
+       === 'cogs_ex_cents,drinks_poured', JSON.stringify(clash));
+  ok('...and the computed one is the one drawn',
+     F.reportFor(clashing).outcome === GP_ENTRY_ROMAN);
+  ok('a field measured on only one side is a GAP, not a disagreement',
+     F.reportClash({ drinks_poured: 239 }, GP_ENTRY_ROMAN).length === 0);
+
+  const card = F.functionCardHTML(clashing, TODAY);
+  const rep = F.flat(card.slice(card.indexOf('How it went')));
+  ok('the clash is surfaced, not silently resolved',
+     /Two reports exist for this night and they do not agree/.test(rep), rep);
+  ok('...naming both sides of every measured fact they differ on',
+     rep.includes('drinks poured — <b>239</b> computed, 240 hand-recorded')
+     && rep.includes('drinks COGS — <b>$625.48</b> computed, $612.48 hand-recorded'),
+     rep);
+  ok('...and saying WHY the computed one wins: it can be run again',
+     /worked out from the comped tab.s own line items/.test(rep), rep);
+  ok('...above the figure, so nobody reads the number before the doubt',
+     rep.indexOf('do not agree') < rep.indexOf('class="gp"'), rep);
+
+  // THE RULE. One night, one percentage on the screen.
+  ok('ONE gross profit figure for one night, never two',
+     (card.match(/class="gp"/g) || []).length === 1, card);
+  ok('...and the hand-entered percentage is nowhere on the card — it would be '
+     + 'read back later without the caveats that qualify it, and it is the one '
+     + 'nobody can reproduce',
+     !/60\.6/.test(card), card.slice(card.indexOf('How it went')));
+  ok('...while the computed one is, with its caveats',
+     /59\.3%/.test(card) && /class="caveats"/.test(card));
+
+  ok('a hand-recorded report still offers a correction',
+     /Correct the figures/.test(F.outcomeHTML(clashing, TODAY)));
+  const computedOnly = F.joinComputedReports([ROMAN], GP_FEED)[0];
+  ok('a computed-only night offers first-time entry, not a correction — there '
+     + 'are no typed figures to correct',
+     /Record how it went/.test(F.outcomeHTML(computedOnly, TODAY))
+     && !/Correct the figures/.test(F.outcomeHTML(computedOnly, TODAY)));
+  ok('...and says plainly that typing them will not replace the figure above',
+     /does not replace it/.test(F.flat(F.outcomeHTML(computedOnly, TODAY))),
+     F.flat(F.outcomeHTML(computedOnly, TODAY)));
+}
+
+// --------------------------------------- a missing feed is not a broken screen
+{
+  ok('the feed is a static file on this origin, not a route on the engine',
+     /GP_FEED_URL = '\/data\/functions_gp\.json'/.test(src), 'not found');
+  ok('...fetched with the diary rather than after it',
+     /loadGpFeed\(\),/.test(src) && /const \[briefs, chase, cfg, areas, diary, gp\]/.test(src));
+  ok('...and every way it can fail returns null instead of throwing',
+     /if \(!r\.ok\) return null;/.test(src) && /catch \(_\) \{ return null; \}/.test(src));
+  ok('a feed declaring a schema this page does not know is refused whole, not '
+     + 'half-read', /d\.schema === GP_FEED_SCHEMA \? d : null/.test(src));
+  ok('the join runs once at load, not inside a renderer',
+     /DIARY = joinComputedReports\(diary\.functions \|\| \[\], gp\)/.test(src));
+}
+
 // ------------------------------------------------ recording it: nine measured boxes
 {
   const brief = { id: 'b0b0b0b0b0b0', name: 'Roman Bunting', ...{

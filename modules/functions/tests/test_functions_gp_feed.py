@@ -56,6 +56,43 @@ def test_the_feed_matches_the_schema_it_claims():
         assert o["gp_basis"] == "beverage"
 
 
+def test_every_published_night_names_the_booking_it_is():
+    """The join key, checked at the source rather than only at the screen.
+
+    The feed knows what the bar called the tab; the diary knows who booked.
+    "Dazzle drinks" is not a customer name and 8 August 2026 carries TWO
+    functions, so neither the name nor the date can pair them -- `booking_id`
+    is the entire join, and an entry without one is a report that can never
+    reach a screen.
+
+    Two entries claiming ONE booking is the failure worth a test of its own: it
+    files one night's gross profit under another night's name, and nothing on
+    the screen looks wrong while it does.
+    """
+    feed = json.loads(FEED.read_text(encoding="utf-8"))
+    ids = []
+    for o in feed["functions"]:
+        assert o.get("booking_id"), f"{o['id']}: no booking_id -- joins to nothing"
+        assert len(o.get("booking_evidence") or "") > 40, \
+            f"{o['id']}: no evidence for the pairing, so nobody can check it"
+        ids.append(o["booking_id"])
+    assert len(set(ids)) == len(ids), f"two functions claim one booking: {ids}"
+
+
+def test_the_tab_files_are_where_the_booking_id_comes_from():
+    """The id is recorded by a human on the tab and copied, never derived."""
+    tabs = ROOT / "data" / "function_tabs"
+    feed = json.loads(FEED.read_text(encoding="utf-8"))
+    by_source = {o["source_file"]: o for o in feed["functions"]}
+    for path in sorted(tabs.glob("*.json")):
+        if path.name.startswith("cost_book_"):
+            continue
+        tab = json.loads(path.read_text(encoding="utf-8"))
+        entry = by_source[f"data/function_tabs/{path.name}"]
+        assert entry["booking_id"] == tab.get("booking_id")
+        assert entry["booking_evidence"] == (tab.get("booking_evidence") or None)
+
+
 def test_every_field_the_page_reads_is_on_the_feed():
     """The join that no test on either side of it can see.
 
@@ -78,7 +115,8 @@ def test_every_field_the_page_reads_is_on_the_feed():
              "cogs_ex_cents_per_head", "menu_value_inc_cents",
              "menu_value_inc_cents_per_head", "revenue_inc_cents",
              "actual_heads", "booked_guests", "tickets_sold", "pos_refs",
-             "caveats"]
+             "caveats", "booking_id", "booking_evidence", "cost_book_as_of",
+             "source_file"]
     for field in reads:
         assert f"o.{field}" in js or f"'{field}'" in js, \
             f"{field} is not read by the page — has the page changed?"

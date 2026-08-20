@@ -52,9 +52,63 @@ the night and is reported as uncosted rather than as free. Otherwise the live
 book is used and `cost_book_as_of` is `"live"`, which means the figure will
 drift as recipes are recosted and is **not** reproducible.
 
+## `booking_id` — the join, and the only one
+
+The feed identifies a night by what the bar called the tab. The diary
+identifies it by who booked. **"Dazzle drinks" is a tab name, not a customer**,
+and 8 August 2026 carries *two* functions, so neither the name nor the date can
+pair them. Either join would file one night's gross profit under the other
+booking — nothing 404s, both figures are real and correctly caveated, and
+Roman's 59.3% appears under Harry Baker.
+
+So the id of the diary row is **recorded on the tab file by a human, against
+the evidence**, copied onto the feed unchanged, and is the only thing
+`dashboard/functions/functions.js::joinComputedReports()` matches on.
+`booking_evidence` carries the reasoning with it, onto the screen: a pairing
+matched on the money and one matched on a hunch look identical in a JSON file.
+
+The two published nights, and what pairs them:
+
+| tab | booking | the evidence |
+| --- | --- | --- |
+| `Dazzle drinks` | `e93280ad65d1` — Roman Bunting, 8 Aug 15:30, Old Stow, 40 covers | his is the only note of the four naming the **Razzle Dazzle** package; the ticket is **all beverage, no food line**, which is what "pizzas/wings through the night, everyone pays on arrival" means; the tab pours **cocktails**, which Razzle Dazzle includes and Soiree does not |
+| `Harry` | `1878ce4a6350` — Harry Baker, 8 Aug 18:30, Main Hall, 25 covers | the money splits exactly — $80 × 19 heads = $1,520, of which **$380 food is $20 a head**, the "$20pp food" his note names, leaving **$60 a head of drinks, the Soiree price**; not one cocktail on the tab; 19 through the door sits inside his note's "15-20 pax" |
+
+Knowing the booking is also what lets `booked_guests` be filled in at all —
+40 for Roman, 25 for Harry, off the covers on their own diary rows — so the
+report can say *"25 through the door, against 40 on the booking"* instead of
+quietly dividing by the wrong number. It changes no money: nothing computes
+from it.
+
+It is **optional and stays optional** — a function with no booking joins to
+nothing and the diary rightly goes on saying "no report yet". What is not
+optional is that a *published* entry carry one: both suites assert it, so a new
+tab that omits the id fails rather than shipping a report the screen can never
+show.
+
+Two entries claiming one booking attaches **neither**, and the card says so.
+One of them belongs to a different night and picking either is the exact error
+the id exists to make impossible.
+
+## Two sources for one night
+
+A function can hold a hand-recorded outcome on its brief *and* a computed one
+here. **The computed one wins**, because it is re-derivable: the line items are
+still in `data/function_tabs/`, priced by a book pinned to the night, so
+anybody can run it again in a year and get the same answer. The hand-recorded
+one is a summary somebody typed once and nothing can check it.
+
+A disagreement is **named, not resolved** — it means one side is wrong about a
+measured fact (heads, drinks, revenue, COGS) and that is worth an hour with the
+POS. The clash notice lists those fields, both values, above the figure. It
+never prints the hand-entered percentage: **one night gets one GP figure on the
+screen**, and a second would be quoted later without its caveats and would be
+the one nobody can reproduce.
+
 ## Input: `data/function_tabs/<date>_<slug>.json` (`function_tab/1`)
 
     { "schema": "function_tab/1", "name", "date", "venue", "package",
+      "booking_id", "booking_evidence",
       "package_price_inc", "package_hours", "heads", "booked_guests",
       "food_revenue_inc", "pos_refs",
       "lines": [ { "product", "qty", "menu_value_inc" } ] }
@@ -80,11 +134,13 @@ next pass does not have to rediscover it:
    and White Light Pure Vodka [House] 42.0 against 118 across the two
    functions. Every comped line is missing. The daily pull is the wrong source
    and no amount of filtering fixes it.
-2. **A way to name the tab.** The function briefs already carry `pos_refs`.
-   That is the join: brief → tab name → the tab's lines. It is free-text today,
-   so ingestion either matches on it loosely and reports what it matched, or
-   the field gets a machine part (receipt number, sale id) added beside the
-   prose.
+2. **A way to name the tab.** Answered, for the reading end: `booking_id` on
+   the tab file pairs a night to its diary row and the screen joins on that and
+   nothing else. What is still open is the *writing* end — an ingestion has to
+   decide which booking a swept tab belongs to, and today a human does that and
+   writes down why in `booking_evidence`. `pos_refs` is free text, so an
+   ingestion either matches on it loosely and reports what it matched, or the
+   field gets a machine part (receipt number, sale id) beside the prose.
 3. **The comp itself as the marker.** A function tab is distinguished from
    ordinary trade by being discounted to $0.00, not by what is on it. A sweep
    that pulls "sales on this date with a 100% discount, grouped by tab" finds

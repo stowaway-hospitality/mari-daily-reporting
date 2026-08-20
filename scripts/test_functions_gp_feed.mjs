@@ -73,6 +73,37 @@ const schema = JSON.parse(fs.readFileSync(SCHEMA, 'utf8'));
   }
 }
 
+// -------------------------------------- the join key, without which it is mute
+// The feed identifies a night by tab name; the diary identifies it by booking.
+// "Dazzle drinks" is not a customer, and 8 August 2026 carries TWO functions,
+// so neither the name nor the date can pair them. `booking_id` is the whole
+// join, and an entry without one is a report the screen can never show.
+//
+// This is asserted rather than left to the schema, which allows null on
+// purpose: a function with no booking is a legitimate thing to cost one day.
+// What is not legitimate is PUBLISHING one and nobody noticing it went
+// nowhere, so a new tab that omits the id goes red here and gets a decision
+// made about it.
+{
+  const ids = feed.functions.map((o) => o.booking_id);
+  for (const o of feed.functions) {
+    ok(`${o.id}: carries the booking it belongs to`,
+       typeof o.booking_id === 'string' && o.booking_id.length > 0,
+       String(o.booking_id));
+    ok(`${o.id}: ...and says on what evidence, because a pairing matched on the `
+       + `money and one matched on a hunch look identical in a JSON file`,
+       typeof o.booking_evidence === 'string' && o.booking_evidence.length > 40,
+       String(o.booking_evidence).slice(0, 60));
+  }
+  ok('no two functions claim the same booking — that would file one night’s '
+     + 'gross profit under another night’s name',
+     new Set(ids).size === ids.length, ids.join(', '));
+  ok('the schema declares the key, so the contract is written down and not '
+     + 'just observed',
+     'booking_id' in schema.$defs.outcome.properties
+     && 'booking_evidence' in schema.$defs.outcome.properties);
+}
+
 // ------------------------------ every caveat code the feed emits, the page knows
 // Not "handles gracefully" — KNOWS. The fallback that prints an unknown code
 // verbatim exists so a caveat is never swallowed, not so the page can ship
@@ -200,6 +231,78 @@ ok('the page module loads without a browser', typeof F.gpFigureHTML === 'functio
   ok('both were priced against the dated book, not the live one',
      A && B && A.cost_book_as_of === '2026-08-08' && B.cost_book_as_of === '2026-08-08',
      A && `${A.cost_book_as_of} / ${B.cost_book_as_of}`);
+
+  // The two bookings, off GET /api/admin/functions/diary. Pinned because
+  // getting this pair the wrong way round is the one failure that cannot be
+  // seen on a screen: both figures are real, both carry their caveats, and
+  // Roman's night is filed under Harry Baker.
+  ok('Dazzle drinks is Roman Bunting’s booking — 40 covers, Old Stow, 15:30, '
+     + 'the only note of the four that names the Razzle Dazzle package',
+     A && A.booking_id === 'e93280ad65d1', A && A.booking_id);
+  ok('Harry is Harry Baker’s — $60 Soiree plus the $20pp food his note names, '
+     + 'which is exactly the $80 ticket and the $380 food line on this tab',
+     B && B.booking_id === '1878ce4a6350', B && B.booking_id);
+  ok('...and the food line is what proves it: $380 over 19 heads is $20 a head',
+     B && B.food_revenue_inc_cents === 38000 && B.actual_heads === 19
+       && B.food_revenue_inc_cents / B.actual_heads === 2000);
+  ok('...and each night carries the covers off ITS OWN booking, which is what '
+     + 'lets the report say out loud that it divides by who came',
+     A && B && A.booked_guests === 40 && B.booked_guests === 25,
+     A && B && `${A.booked_guests} / ${B.booked_guests}`);
+  ok('...while Roman’s ticket is all beverage, because his food was paid for '
+     + 'at the till on arrival',
+     A && A.food_revenue_inc_cents === null
+       && A.bev_revenue_inc_cents === A.revenue_inc_cents);
+}
+
+// ------------------- the real feed, joined to the real diary, drawn by the page
+// The last gap. Everything above proves the feed is well formed and that
+// gpFigureHTML draws an entry. This proves the whole path: a diary row with
+// this booking id stops saying "no report yet" and starts drawing the report,
+// through the same renderer a hand-recorded one goes through — and that the
+// caveats rule holds on THIS door as well as the other one.
+{
+  const past = '2027-01-01';      // everything on the feed is history by then
+  for (const o of feed.functions) {
+    const row = { id: o.booking_id, date: o.date, time: '18:00',
+                  name: 'a booking', covers: 0, status: 'confirmed',
+                  brief_id: null, notes: '' };
+    const [joined] = F.joinComputedReports([row], feed);
+    ok(`${o.id}: joins to its booking and is no longer "no report yet"`,
+       !!joined.computed_outcome
+       && !/no report yet/.test(F.diaryRowHTML(joined, null, past)));
+    const card = F.functionCardHTML(joined, past);
+    ok(`${o.id}: the card draws the percentage, with its caveats`,
+       card.includes(`${o.gp_pct.toFixed(1)}%`) && card.includes('class="caveats"')
+       && o.caveats.every((c) => card.includes(F.esc(c.note))),
+       card.slice(card.indexOf('How it went'), card.indexOf('How it went') + 300));
+    ok(`${o.id}: ...exactly one gross profit figure on the night, never two`,
+       (card.match(/class="gp"/g) || []).length === 1);
+    ok(`${o.id}: ...and it says the figure was computed, off which cost book`,
+       /Computed, not typed/.test(F.flat(card))
+       && F.flat(card).includes(F.esc(o.booking_evidence)));
+
+    // THE RULE, on the feed path.
+    const [bare] = F.joinComputedReports([row],
+      { functions: [{ ...o, caveats: [] }] });
+    const bareCard = F.functionCardHTML(bare, past);
+    ok(`${o.id}: strip the caveats off the FEED entry and the number is refused`,
+       bareCard.includes('GP withheld')
+       && !bareCard.includes(`${o.gp_pct.toFixed(1)}%`),
+       bareCard.slice(bareCard.indexOf('How it went'),
+                      bareCard.indexOf('How it went') + 240));
+  }
+
+  // And the other half of the rule: a booking the feed says nothing about is
+  // untouched. Most functions will never have a tab file.
+  const [orphan] = F.joinComputedReports(
+    [{ id: 'nosuchbooking', date: '2026-08-08', time: '18:00', name: 'x',
+       covers: 0, status: 'confirmed', brief_id: null, notes: '' }], feed);
+  ok('a past function absent from the feed still says "no report yet" and '
+     + 'still offers the form',
+     !orphan.computed_outcome
+     && /no report yet/.test(F.diaryRowHTML(orphan, null, past))
+     && /data-act="recordoutcome"/.test(F.functionCardHTML(orphan, past)));
 }
 
 // ----------------------------------------------------- registered to ship

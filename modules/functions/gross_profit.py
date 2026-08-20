@@ -173,7 +173,23 @@ class MixerAssumption:
 
 @dataclass(frozen=True)
 class FunctionNight:
-    """One function, as the tab and the brief between them describe it."""
+    """One function, as the tab and the brief between them describe it.
+
+    `booking_id` IS THE KEY, and it is the only one. The diary identifies a
+    function by its booking -- Roman Bunting, Old Stow, 8 Aug 15:30 -- and this
+    side identifies it by whatever the bar called the tab. "Dazzle drinks" is
+    not a customer name, so there is no string join to be had, and 8 August
+    2026 carries TWO functions, so the date alone is ambiguous by construction.
+    A join on either would silently attribute one night's profit to the other
+    booking, which is the worst available failure here: nothing 404s, both
+    figures are real, and the wrong one is under the wrong name.
+
+    So the id is RECORDED ON THE TAB, by a human, against the evidence -- and
+    `booking_evidence` is that reasoning, carried onto the feed and onto the
+    screen rather than left in a commit message. It may be None: a function
+    with no booking simply joins to nothing and the diary goes on saying "no
+    report yet", which is true.
+    """
     name: str
     date: str                                   # ISO, the night it ran
     heads: int                                  # who actually came
@@ -185,6 +201,8 @@ class FunctionNight:
     tickets_sold: int | None = None             # if it differs from heads
     pos_refs: str = ""                          # how the tab was found
     venue: str = "stowaway"
+    booking_id: str | None = None               # the diary row this IS
+    booking_evidence: str = ""                  # why we believe that
 
 
 # ---------------------------------------------------------------- rounding
@@ -366,6 +384,10 @@ def gross_profit(night: FunctionNight,
         "name": night.name,
         "date": night.date,
         "venue": night.venue,
+        # The join key, and the reasoning behind it. Both travel; see
+        # FunctionNight for why a name or a date will not do.
+        "booking_id": night.booking_id,
+        "booking_evidence": night.booking_evidence or None,
         "actual_heads": heads,
         "booked_guests": night.booked_guests,
         "tickets_sold": night.tickets_sold if night.tickets_sold is not None else heads,
