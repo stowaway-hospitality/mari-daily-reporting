@@ -979,6 +979,29 @@ def load_our_costs():
     return {k: _to_base(v[0], v[1]) for k, v in latest.items()}
 
 
+_SEED_ONLY: set | None = None
+
+
+def _seed_only(ref) -> bool:
+    """Is every cost row this id has ever had a SEED?
+
+    The distinction the prep-outranks-seed rule stands on. An id with one real
+    observation — an invoice, or a dated declared purchase — is priced by
+    evidence and stays on it; an id whose whole history is January seeds is
+    priced by a keystroke. Computed once per run off the same file
+    load_our_costs reads, so the two can never disagree about what exists.
+    """
+    global _SEED_ONLY
+    if _SEED_ONLY is None:
+        seen, invoiced = set(), set()
+        for r in csv.DictReader(COSTS.open(encoding="utf-8-sig")):
+            seen.add(r["ingredient"])
+            if "seed" not in (r["source_invoice"] or "").lower():
+                invoiced.add(r["ingredient"])
+        _SEED_ONLY = seen - invoiced
+    return (ref or "") in _SEED_ONLY
+
+
 def load_our_preps(our_costs):
     """OUR OWN recipe book (data/recipes/*.yaml), priced per BASE unit.
 
@@ -2086,9 +2109,22 @@ def main() -> int:
                     ceil = _UNIT_CEIL.get(ou)
                     if ceil is None or float(oc) <= ceil:
                         our = oc
-            if our is None:
+            if our is None or _seed_only(ref):
                 # Produce's empty PRODUCT stub for a sauce we actually have a
                 # recipe for. Our book knows what it costs to make — use that.
+                #
+                # ...and since 2026-08-20 a JANUARY SEED does not block this
+                # path either. "Mixed Olives [6Kg]" is the worked case: the
+                # stub carries a $10.00/kg ls-recipe-seed, so `our` was never
+                # None and the prep path was dead — while the mix is house-made
+                # from two Riviana lines invoiced WEEKLY (green 16 invoices,
+                # kalamata 15; Zak's ratio, 2/3 green 1/3 kalamata). A seed is
+                # a number somebody typed once in January; an authored recipe
+                # summing invoice-fed ingredients reprices every week. Where
+                # both exist, the recipe is the better evidence — same ranking
+                # the whole book already applies (observation > seed), applied
+                # to one more reader. A real INVOICE for the stub id still
+                # outranks the recipe, because _seed_only is then false.
                 p = our_preps.get(norm(ing["name"]))
                 lu = (ing.get("unit") or "").lower()
                 # g <-> ml is allowed HERE ONLY, at density 1.0. Our sauces yield in
@@ -2339,6 +2375,17 @@ def main() -> int:
                         # quantity. That is how 15g of shallots cost 8c on one
                         # pizza and 37c on another.
                         oc = our_costs.get(ln.get("ref") or "")
+                        # ...with the SAME ranking the first resolve applies: an
+                        # authored recipe outranks a seed-only cost row. Without
+                        # this the weighed pass silently UNDID that ranking —
+                        # "Mixed Olives [6Kg]" was correctly priced off Zak's
+                        # 2/3-green-1/3-kalamata mix in the first pass, then this
+                        # re-resolve put the January seed back on every pizza
+                        # the sheet weighs olives for, which is all of them.
+                        if _seed_only(ln.get("ref")):
+                            _p = our_preps.get(norm(ln.get("name") or ""))
+                            if _p and _p[1] == "g":
+                                oc = (_p[0], "g")
                         if oc and oc[1] == "g":
                             ln["our_cost"] = oc[0]
                             ln["ls_cost"] = float(oc[0]) * float(grams)

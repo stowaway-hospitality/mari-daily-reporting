@@ -664,3 +664,24 @@
       qty: 1
       unit: "ea"
       unit_cost_incl: 1.495250
+
+# Mixed Olives [6Kg] is HOUSE-MADE, not bought — Zak, 2026-08-20: "olives are
+# 2/3 green mixed with 1/3 kalamata." No supplier sells a 6 kg mix; what
+# arrives weekly is Riviana pitted green 2 kg (16 invoices) and kalamata 2 kg
+# (15). The Produce stub's $10.00/kg was a January seed; this recipe prices
+# the mix off the two invoice-fed lines ($11.25/kg today) and reprices itself
+# every time either olive does.
+- product: "Mixed Olives [6Kg]"
+  yield_qty: 6000
+  yield_unit: g
+  ingredients:
+    - id: "foodlink:101871"
+      desc: "Olives Pitted Green 2kg Riviana"
+      qty: 4000
+      unit: g
+      unit_cost_incl: 0.012
+    - id: "foodlink:101873"
+      desc: "Olives Pitted Kalamata 2kg"
+      qty: 2000
+      unit: g
+      unit_cost_incl: 0.00975
