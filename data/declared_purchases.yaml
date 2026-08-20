@@ -256,3 +256,39 @@ purchases:
     venue: stowaway
     purchased_on: 2026-07-30
     evidence: "Bibendum INB302533 (30 Jul 2026): 9 BT @ $19.85 ex less 7.5% = $18.36; the venue pours it as Ravensworth Skins Gris (BO cost $18.36 exact)"
+
+  # SIGURD MIDNIGHT SUN — Zak (2026-08-20): the White Blend 'is called
+  # something different now' -> '2024 Sigurd Midnight Sun Semillon Vermentino'.
+  # Found in DEXT: Sigurd INV-11092 (13 May 2026, ordered 10 May, $831.65),
+  # 24 bottles @ $16.28 ex + WET. LUC arithmetic closes exactly:
+  # 16.28 + (169.96 WET / 36 bottles) = $21.00, and '$21 LUC' is printed on
+  # the line. NOTE: the BO cost of 16.28 for Sigurd White Blend is the ex-WET
+  # unit price — the record was under-costed 22% until this entry.
+
+  - supplier: "Sigurd Wines"
+    supplier_code: "SIGMSUN24"
+    description: "2024 Sigurd Midnight Sun Semillon Vermentino ($21 LUC)"
+    price_ex_gst: 21.00
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-05-13
+    evidence: "Sigurd INV-11092 (13 May 2026, via Dext): 24 BT @ 16.28 ex + WET 4.72/bt = $21.00 LUC printed"
+
+  # CORK & CO — Zak (2026-08-20): 'two tonne is from cork & co... i ordered
+  # 6th august'. Found in DEXT: Cork And Co Pty Ltd invoice 0086598 (10 Aug
+  # 2026, published to Xero 13 Aug), never reaches the accounts mailbox.
+  # 12 x '2025 TTT TMV RIZZ $21' @ $23.10132 less 7.5% = $256.42 extended.
+  # The arithmetic closes twice over: 23.10132 / 1.1 = $21.00 (the '$21' in
+  # the description) and 21.00 x 0.925 x 12 x 1.1 = $256.41. Net ex-GST,
+  # WET-in: $19.425 a bottle. $10 freight excluded per the freight rule.
+
+  - supplier: "Cork And Co"
+    supplier_code: "25TTTRS"
+    description: "2025 Two Tonne TMV Riesling ($21 list)"
+    price_ex_gst: 19.4250
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-10
+    evidence: "Cork And Co 0086598 (10 Aug 2026, via Dext): $21.00 ex list less 7.5% = $19.425; GST/WET totals close exactly"
