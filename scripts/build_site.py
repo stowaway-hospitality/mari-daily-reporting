@@ -46,6 +46,10 @@ LAYOUT: list[tuple[str, str]] = [
     ("dashboard/pricing",      "pricing"),   # -> /pricing/ (admin only) — cross-supplier $/unit
     ("dashboard/recipes-book", "recipes-book"),  # -> /recipes-book/ — full costed recipe book + GP
     ("dashboard/bookings",     "bookings"),  # -> /bookings/ (admin only)
+    ("dashboard/functions",    "functions"), # -> /functions/ — function enquiries:
+                                             # quote it, chase it, take the deposit.
+                                             # Same engine as /bookings/, different
+                                             # question.
     ("dashboard/inventory",    "inventory"), # -> /inventory/ — stocktake + goods-received, on a phone
     ("modules/recipes/app",    "recipes"),   # -> /recipes/
     ("data",                   "data"),      # feeds -> /data/

@@ -191,7 +191,15 @@ SUITES = [("model conservation", "scripts/test_pnl_model.mjs"),
           # The flags panel: that it words a number honestly, and that every
           # family of question is actually on it. Zak has asked twice.
           ("cost book flags panel", "scripts/test_recipe_book_flags.mjs"),
-          ("cost book flag families", "scripts/test_recipe_flags_families.mjs")]
+          ("cost book flag families", "scripts/test_recipe_flags_families.mjs"),
+          # /functions/ — the enquiry-to-deposit screen. It decides what a
+          # client is charged and which of forty enquiries gets chased
+          # today, and every way it breaks is silent: a quote $20 a head
+          # light, a package total that never appears beside the minimum
+          # spend, a paid-but-unheld deposit filed under "Confirmed". It
+          # also holds the rule the page was moved to satisfy — signed-in
+          # staff never paste a service token.
+          ("functions page", "scripts/test_functions_page.mjs")]
 # R0 runs BEFORE R8, and stops here if it trips. Letting the suites run against
 # a stale feed is what produces the fictional regression this check exists to
 # prevent — reporting both would just bury the real cause under the ghost.

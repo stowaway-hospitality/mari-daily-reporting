@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Functions · Stowaway Hospitality Group</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/_shared/tokens.css?v=20260719b">
+<!--
+  Functions admin — shell only; ALL logic lives in functions.js (arch_guard).
+  Bump the ?v= on functions.js whenever it changes.
+
+  Signed-in staff never paste a token: functions.js calls Auth.bookingToken(),
+  which reads it from Supabase app_config (RLS-protected). #tokenbox below is
+  only a fallback for when that lookup fails.
+
+  This screen was built first at /admin/functions on the Render service, where
+  staff never go and where it asked for the service token in a box. Same
+  behaviour, moved to where the work happens and onto the platform's own auth
+  and design system. No server logic moved: every call it makes is to a route
+  on the booking engine, exactly as /bookings/ does it.
+-->
+<style>
+  .wrap{max-width:1320px;margin:0 auto;padding:24px}
+  .app-header{border-bottom:1px solid var(--line);background:var(--paper)}
+  .app-header-inner{max-width:1320px;margin:0 auto;padding:14px 24px;display:flex;
+    align-items:center;justify-content:space-between;gap:16px}
+  .brand-row{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit}
+  .brand-row img{height:34px;width:auto;display:block}
+  .group-brand{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--ink)}
+  .app-header .who{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-soft)}
+  .app-header .who a{color:var(--ink);text-decoration:none}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:24px;margin:0 0 4px}
+  h2{font-family:'Space Grotesk',sans-serif;font-size:15px;margin:0 0 8px}
+  .bar{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-bottom:14px}
+  label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;
+        color:var(--ink-soft);margin:0 0 3px;letter-spacing:.05em}
+  input,select,textarea{padding:8px;border:1px solid var(--line);border-radius:8px;
+        font-size:14px;background:var(--paper);color:var(--ink);width:auto}
+  button{padding:9px 14px;border:none;border-radius:8px;background:var(--ink);
+        color:var(--paper);font-size:13px;cursor:pointer;font-weight:600;
+        font-family:inherit;letter-spacing:0;text-transform:none}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  button.ghost{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+  button.ghost:hover{border-color:var(--ink)}
+  button.warn{background:var(--red)}
+  button.go{background:var(--green)}
+  button.small{padding:5px 10px;font-size:12px;border-radius:6px}
+  #status{font-size:13px;color:var(--ink-soft)}
+  #rates{font-size:12px;color:var(--ink-soft);margin-bottom:12px}
+
+  /* Rail on the left, one enquiry on the right. Same two-column shape the
+     Render page had, because the rail IS the working list. */
+  .cols{display:flex;gap:16px;align-items:flex-start}
+  .rail{width:340px;flex:none}
+  .panel{flex:1;min-width:0}
+  @media (max-width:900px){.cols{flex-direction:column}.rail{width:100%}}
+
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+        padding:14px 16px;margin-bottom:14px;box-shadow:var(--shadow)}
+
+  .grp{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;
+        text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);
+        margin:14px 0 6px;display:flex;align-items:center;gap:6px}
+  .grp .n{background:var(--line);color:var(--ink);border-radius:9px;padding:1px 7px;font-size:11px}
+  .row{background:var(--paper);border:1px solid var(--line);border-radius:10px;
+        padding:9px 11px;margin-bottom:6px;cursor:pointer;box-shadow:var(--shadow);
+        border-left:3px solid transparent}
+  .row:hover{border-color:var(--ink-soft)}
+  /* Waiting on them vs waiting on me. Two rows can carry an identical "needs a
+     start time" chip; the difference that matters is whose move it is next.
+     Declared ABOVE .row.on on purpose — equal specificity, later rule wins, so
+     selecting a row still paints its marker with the ink colour. */
+  .row.onme{border-left-color:var(--amber)}
+  .row.onthem{border-left-color:var(--grey);opacity:.92}
+  .row.on{border-left-color:var(--ink);border-color:var(--ink-soft)}
+  .row .l1{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+  .row .nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .row .when{color:var(--ink-soft);font-size:12px;white-space:nowrap}
+  .row .l2{margin-top:4px;display:flex;gap:4px;flex-wrap:wrap}
+
+  .chip{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;
+        padding:2px 7px;border-radius:9px;background:var(--line);color:var(--ink-soft)}
+  .chip.need{background:var(--line);color:var(--amber);border:1px solid var(--amber)}
+  .chip.bad{background:var(--line);color:var(--red);border:1px solid var(--red)}
+  .chip.ok{background:var(--line);color:var(--green);border:1px solid var(--green)}
+  .chip.soon{background:var(--ink);color:var(--paper)}
+  /* Deliberately quiet. An asked-recently row is not a task. */
+  .chip.asked{background:var(--line);color:var(--ink-soft)}
+
+  .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+  .kv .f{min-width:0}
+  .kv input,.kv select,.kv textarea{width:100%}
+  .full{grid-column:1/-1}
+  .late{border-color:var(--red)}
+
+  .quote{background:var(--parchment);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+  .quote .big{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700}
+  .quote .why{font-size:13px;color:var(--ink-soft);margin-top:3px}
+  .quote.unknown .big{font-size:15px;font-weight:600;color:var(--amber)}
+  /* The package sum sits WITH the minimum-spend quote rather than instead of
+     it: which of the two numbers binds is the whole question. */
+  .sums{margin-top:10px;border-top:1px solid var(--line);padding-top:9px;font-size:13px}
+  .sums .binds{font-weight:600;margin-top:3px}
+  .sums .aside{color:var(--ink-soft);margin-top:4px}
+
+  .need ul{margin:6px 0 0 18px;font-size:14px}
+  .need li{margin-bottom:2px}
+  .prob{color:var(--red);font-size:14px}
+  .hint{font-size:12px;color:var(--ink-soft);margin-top:5px}
+  .strip{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px;
+        color:var(--ink-soft);margin-bottom:10px}
+  .strip a{color:var(--ink)}
+  .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:4px}
+  .linkbox{display:flex;gap:6px;margin-top:8px}
+  .linkbox input{flex:1;font-size:12px;color:var(--ink-soft)}
+  .empty{color:var(--ink-soft);font-size:14px;padding:22px 0;text-align:center}
+  .log{font-size:13px;white-space:pre-wrap;color:var(--ink);max-height:150px;
+        overflow:auto;background:var(--parchment);border:1px solid var(--line);
+        border-radius:8px;padding:8px}
+  #tokenbox{background:var(--paper);border:1px solid var(--line);border-radius:12px;
+        padding:18px;max-width:520px;box-shadow:var(--shadow)}
+</style>
+</head>
+<body>
+<div id="gate"></div>
+<div id="app" style="display:none">
+  <header class="app-header"><div class="app-header-inner">
+    <a class="brand-row" href="/"><img src="/logo_512.png" alt=""><span class="group-brand">Stowaway Hospitality Group</span></a>
+    <div class="who"><span id="whotop"></span><a href="/">home</a><a href="#" id="signout">sign out</a></div>
+  </div></header>
+
+  <div class="wrap">
+    <div class="bar">
+      <div><h1>Functions</h1>
+        <div class="hint" style="margin-top:0">Enquiry to deposit — what is still outstanding, and what it costs.</div></div>
+      <div style="flex:1"></div>
+      <button class="ghost" id="refreshbtn">Refresh</button>
+      <button id="newbtn">New enquiry</button>
+      <a href="/bookings/" style="font-size:13px;color:var(--ink)">bookings →</a>
+      <span id="status"></span>
+    </div>
+
+    <div id="tokenbox" style="display:none">
+      <h2>Couldn't reach the booking engine key</h2>
+      <p style="font-size:13px;color:var(--ink-soft);margin:6px 0 12px">
+        You shouldn't normally see this — signed-in staff are connected
+        automatically. If the automatic lookup failed, an admin can paste the
+        service token here as a one-off for this device
+        (Render → stowaway-bookings → Environment → STOWAWAY_ADMIN_TOKEN).</p>
+      <div class="bar">
+        <div style="flex:1"><label>Service token</label>
+          <input id="svc_token" type="password" style="width:100%"></div>
+        <button id="savetoken">Connect</button>
+      </div>
+    </div>
+
+    <div id="main" style="display:none">
+      <div id="rates"></div>
+      <div class="cols">
+        <div class="rail" id="rail"></div>
+        <div class="panel" id="panel">
+          <div class="card"><div class="empty">Pick an enquiry on the left, or start a new one.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="./functions.js?v=20260820a"></script>
+</body>
+</html>

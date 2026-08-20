@@ -83,6 +83,15 @@ const TOOLS = [
   { href: '/bookings/', cls: 'stow', title: 'Bookings',
     desc: 'Event bookings on the seating engine: day view, edits, runsheets.',
     roles: null },   // everyone signed in
+  // The other half of the same engine. A booking holds tables on a day that is
+  // already agreed; a FUNCTION is the weeks before that — what we still do not
+  // know, what it costs, and whether the deposit can be taken yet. It lived at
+  // /admin/functions on the Render service, where nobody works and where it
+  // asked for the service token in a box. Same behaviour, on this hub's login.
+  { href: '/functions/', cls: 'stow', title: 'Functions',
+    desc: 'Function enquiries end to end: what each one is still missing, the '
+        + 'minimum spend and why, package totals, and the $100 deposit.',
+    roles: null },   // everyone signed in
 ];
 
 // Not a module — a small admin link, kept off the tile grid so the hub reads as
