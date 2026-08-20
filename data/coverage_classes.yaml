@@ -136,9 +136,10 @@ ids:
     name: Cocktail Sticker
     reason: packaging, not food — costed but exempt from GP logic
   lightspeed:20484956:
-    class: question
+    class: awaiting_next_purchase
     name: Fever-Tree Mediterannean Tonic [Bottle]
-    reason: 150/200/500 ml bottles all in the ILG book — which size is stocked?
+    reason: 500ml (Zak 2026-08-20) — pre-declared on ILG 460-178-2; bridges the day an ILG invoice carries
+      it
   lightspeed:20487459:
     class: awaiting_next_purchase
     name: Harveys Bristol Cream Sherry [Bottle]
@@ -231,10 +232,6 @@ ids:
     name: Joseph Cartron Creme de Peche [700ml]
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:20744549:
-    class: question
-    name: Alehouse Premium Lager [Keg]
-    reason: 122-2858 is adjudicated to the DRAUGHT record — are Premium and Draught one beer?
   lightspeed:20873421:
     class: awaiting_next_purchase
     name: Diplomatico Mantuana [Bottle]
@@ -373,10 +370,6 @@ ids:
     name: Roasted Red Peppers [A12]
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:22888615:
-    class: question
-    name: Aioli Garlic Mayonnaise 10kg Birch & Waite
-    reason: Foodlink bills the 1L PLANT-BASED aioli; is the 10kg dairy tub still bought?
   lightspeed:22888618:
     class: awaiting_next_purchase
     name: Barramundi Fillets Imp 200/300 S/Off 5kg Trading
@@ -551,8 +544,9 @@ ids:
   lightspeed:22931827:
     class: question
     name: Noodles Instant Ayam [700g]
-    reason: B&E 18120 'PLAIN INSTANT' rate contradicts the adjudicated $21.29/kg 5x — pack misread on
-      18120 or different product
+    reason: supplier is B&E 18120 (Foodlink checked 2026-08-20 — they do not carry Ayam instant noodles);
+      the 5x rate contradiction is a pack misread on 18120 — eyeball the pack statement on the next B&E
+      docket carrying it
   lightspeed:22931830:
     class: question
     name: Turkish Bread [ea]
@@ -561,10 +555,6 @@ ids:
     class: question
     name: Davidson Plum Puree
     reason: Select Fresh sells FROZEN PLUMS by kg — is the puree house-made from them?
-  lightspeed:22975185:
-    class: question
-    name: Corn Kernels [Tin]
-    reason: no corn-kernel tin in the ledger (IQF corn is bridged) — still bought?
   lightspeed:22995335:
     class: question
     name: Eggs 700 Grams [12x]
