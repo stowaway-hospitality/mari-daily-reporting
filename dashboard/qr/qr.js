@@ -717,8 +717,11 @@ async function boot() {
   if (!SVC) { $('tokenbox').style.display = ''; return; }
   try {
     const h = await call('/api/admin/qr/health');
-    $('writerPill').textContent = h.writer === 'dry-run'
-      ? 'no till link yet — the live queue is the docket' : 'till: ' + h.writer;
+    const pay = { demo: 'demo checkout (no payments)', test: 'Stripe test mode',
+                  live: 'LIVE payments', off: 'payments off' }[h.stripe_mode] || '';
+    $('writerPill').textContent = (pay ? pay + ' · ' : '') +
+      (h.writer === 'dry-run'
+        ? 'no till link — the live queue is the docket' : 'till: ' + h.writer);
   } catch (_) { return; }
   refreshDot();
   try {
