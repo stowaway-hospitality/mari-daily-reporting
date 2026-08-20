@@ -72,7 +72,7 @@ from typing import Callable, Sequence
 __all__ = [
     "Line", "FunctionNight", "MixerAssumption",
     "HOUSE_SUFFIX", "is_house_pour", "HOUSE_MIXER_BLEND", "MIXER_COMPONENTS",
-    "BEVERAGE_BENCHMARK_GP_PCT", "GST_DIVISOR",
+    "BEVERAGE_BENCHMARK_GP_PCT", "GST_DIVISOR", "DEFAULT_PACKAGE_HOURS",
     "gross_profit",
 ]
 
@@ -87,6 +87,28 @@ GST_DIVISOR = Decimal("1.1")
 #: different questions, and this constant is what turns the first into the
 #: second.
 BEVERAGE_BENCHMARK_GP_PCT = Decimal("76.4")
+
+#: HOW LONG THE DRINKS ARE INCLUDED FOR. Two hours, and it is not the same fact
+#: as how long the room is held.
+#:
+#: The brochure page is headed "2-HOUR DRINKS PACKAGES" and all three tiers --
+#: SHIN-DIGG $49, SOIRÈE $60, RAZZLE DAZZLE $80 -- are two-hour packages. Zak
+#: confirmed Roman Bunting's was a two-hour package, and the booking notes for
+#: Harry Baker and Michael Jordan both read "2hr Soiree".
+#:
+#: THE ROOM HOLD IS A DIFFERENT NUMBER and lives in the booking engine as
+#: functions.DEFAULT_DURATION_HOURS, which is three ("usually for a 3-hour time
+#: slot") and which both 8 August bookings ran to four. It decides when a
+#: booking ends and therefore what the peak rate charges, so it reaches money.
+#: This one divides a drinking pace and reaches nothing else.
+#:
+#: Both fixture tabs carried "3" here, copied from the room hold, and every
+#: pace figure this module published came out a third too low. It failed
+#: silently, because the hold is always the longer of the two -- a party can
+#: sit in the room for four hours on a two-hour package. If a later tidy-up
+#: notices two constants that both look like "the length of a function" and
+#: collapses them, that is this bug returning.
+DEFAULT_PACKAGE_HOURS = Decimal("2")
 
 #: The suffix Lightspeed Back Office puts on a house pour. Checked against the
 #: real product list, not assumed: `data/bo_exports/stowaway_products.csv` has
@@ -195,7 +217,11 @@ class FunctionNight:
     heads: int                                  # who actually came
     package_price_inc: Decimal                  # per head, inc-GST
     lines: Sequence[Line]                       # the comped tab
-    package_hours: Decimal | None = None        # the package's stated duration
+    # How long the DRINKS ran -- NOT how long the room was held. Two different
+    # durations; see DEFAULT_PACKAGE_HOURS. None means the tab did not say, and
+    # the brochure's two hours applies. It is never derived from arrival and
+    # departure times, because those measure the room.
+    package_hours: Decimal | None = None
     food_revenue_inc: Decimal = Decimal("0")    # of the ticket, the food part
     booked_guests: int | None = None            # what the brief said
     tickets_sold: int | None = None             # if it differs from heads
@@ -372,7 +398,11 @@ def gross_profit(night: FunctionNight,
     gp_pct_ex_mixer = (_pct(bev_ex - Decimal(cogs_ex_cents), bev_ex)
                        if mixer_est_ex_cents else None)
 
-    hours = night.package_hours
+    # A tab that does not state a package length gets the brochure's two hours
+    # rather than a null pace. Defaulting is safe HERE and nowhere else in this
+    # module: it divides one operational figure and cannot reach any money.
+    hours = (night.package_hours if night.package_hours is not None
+             else DEFAULT_PACKAGE_HOURS)
     heads = night.heads
     menu_cents = _cents(menu_value_inc)
 
@@ -411,8 +441,25 @@ def gross_profit(night: FunctionNight,
         "mixer_pours": mixer_pours,
         "drinks_per_head": (float(_ratio(Decimal(drinks), Decimal(heads)))
                             if heads else None),
-        "drinks_per_hour": (float(_ratio(Decimal(drinks), Decimal(str(hours))))
-                            if hours else None),
+        # THE PACE FIGURE, and it is PER HEAD per hour: the rate at which one
+        # person drinks. This published total drinks over hours for a while --
+        # 239 drinks, 79.67 an hour -- which is the bar's throughput across the
+        # whole room, a different measure wearing the same words. Per head per
+        # hour is the one worth having: 4.8 drinks an hour is a figure somebody
+        # can picture and argue with, it is what the hand sweep recorded
+        # ("9.56 (4.8/hr over 2 hrs)"), and it is what break-even is expressed
+        # against. Room throughput scales with the size of the party and so
+        # says nothing at all about how hard anybody drank.
+        "drinks_per_head_per_hour": (
+            float(_ratio(Decimal(drinks), Decimal(heads) * Decimal(str(hours))))
+            if heads and hours else None),
+        # The room-level figure, kept because it is the one that sizes the bar:
+        # 120 drinks an hour is two people flat out, and that is a rostering
+        # fact. Named for what it measures so it cannot be read as a drinking
+        # pace, and deliberately NOT called drinks_per_hour, which is the name
+        # that let the two be confused in the first place.
+        "drinks_per_hour_room": (
+            float(_ratio(Decimal(drinks), Decimal(str(hours)))) if hours else None),
 
         # --- the cost
         "cogs_ex_cents": cogs_ex_cents,

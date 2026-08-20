@@ -8,10 +8,24 @@
 **Reads:** `dashboard/functions/` — the post-event outcome report.
 **Additive only.** The page is deployed. Add fields, never rename them.
 
+ONE FIELD HAS BEEN RENAMED SINCE, and the exception is recorded here rather
+than left to be discovered. `drinks_per_hour` became `drinks_per_hour_room`,
+and `drinks_per_head_per_hour` was added as the figure that should have been
+published all along. Keeping the old name would have kept the ambiguity that
+caused the error — it read as a drinking pace and carried the room's
+throughput — so renaming it was the correction, not a side effect of one. It
+was safe to do because this feed has exactly one consumer,
+`dashboard/functions/functions.js`, which ships from this repo in the same
+commit, and because `?v=` on the module was bumped so no cached copy reads for
+a field the new feed no longer has. That is the whole of the licence: a rename
+is allowed when the only reader is in this commit and the cache is busted. It
+is not licence for the next one.
+
 ## What one entry is
 
 Beverage gross profit for one function: revenue ex-GST, COGS ex-GST, gross
-profit, GP%, drinks poured, drinks per head and per hour, COGS per head, the
+profit, GP%, drinks poured, drinks per head, the drinking pace per head per
+hour and the room's throughput per hour beside it, COGS per head, the
 menu value given away and per head, the margin foregone against the venue's
 beverage run rate, and the ratio the function must out-earn displaced trade by
 to be GP-neutral.
@@ -115,6 +129,16 @@ the one nobody can reproduce.
 
 All money is a **string** in these files, parsed straight to `Decimal`. A JSON
 number here would be a float, and `539.00` is not a float.
+
+`package_hours` is **how long the drinks ran**, and it is optional: omit it and
+`DEFAULT_PACKAGE_HOURS` — two, per the brochure's "2-HOUR DRINKS PACKAGES" —
+applies. It is **not the room hold**. The hold is how long the party has the
+space, it is usually longer (both 8 August bookings were held four hours on a
+two-hour package), and it lives in the booking engine as
+`functions.DEFAULT_DURATION_HOURS` where it prices the peak window. Both
+fixture tabs carried the hold here once and every pace figure came out a third
+too low. Set this field only where a package genuinely ran to something other
+than two hours.
 
 `product` is the POS product name as the till prints it, not the recipe name.
 The pipeline resolves it through `scripts/cogs_blend.book_cost`, which is the

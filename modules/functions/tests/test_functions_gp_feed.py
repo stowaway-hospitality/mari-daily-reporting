@@ -110,7 +110,8 @@ def test_every_field_the_page_reads_is_on_the_feed():
     # the four functions that render one.
     reads = ["gp_pct", "gp_pct_ex_mixer", "gp_basis", "benchmark_gp_pct",
              "out_earn_ratio", "margin_foregone_ex_cents", "drinks_poured",
-             "drinks_per_head", "drinks_per_hour", "package_hours",
+             "drinks_per_head", "drinks_per_head_per_hour",
+             "drinks_per_hour_room", "package_hours",
              "cogs_ex_cents", "mixer_est_ex_cents", "total_cogs_ex_cents",
              "cogs_ex_cents_per_head", "menu_value_inc_cents",
              "menu_value_inc_cents_per_head", "revenue_inc_cents",

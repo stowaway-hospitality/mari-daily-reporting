@@ -30,8 +30,8 @@ from pathlib import Path
 import pytest
 
 from modules.functions.gross_profit import (
-    HOUSE_MIXER_BLEND, MIXER_COMPONENTS, FunctionNight, Line, MixerAssumption,
-    gross_profit, is_house_pour)
+    DEFAULT_PACKAGE_HOURS, HOUSE_MIXER_BLEND, MIXER_COMPONENTS, FunctionNight,
+    Line, MixerAssumption, gross_profit, is_house_pour)
 from modules.functions.pipeline.build_functions_gp import dated_book, live_book, read_tab
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -74,8 +74,11 @@ DAZZLE_EXPECTED = {
     "gp_pct_ex_mixer": 65.6,
     "gp_basis": "beverage",
     "drinks_per_head": 9.56,
-    "package_hours": 3.0,
-    "drinks_per_hour": 79.67,
+    # The package is TWO hours, not the three the room was held for, and the
+    # pace is PER HEAD. The hand sweep reads "9.56 (4.8/hr over 2 hrs)".
+    "package_hours": 2.0,
+    "drinks_per_head_per_hour": 4.78,
+    "drinks_per_hour_room": 119.5,
     "benchmark_gp_pct": 76.4,
     "margin_foregone_ex_cents": 31019,
     "out_earn_ratio": 1.29,
@@ -108,8 +111,12 @@ HARRY_EXPECTED = {
     "gp_pct_ex_mixer": 67.91,
     "gp_basis": "beverage",
     "drinks_per_head": 7.84,
-    "package_hours": 3.0,
-    "drinks_per_hour": 49.67,
+    # Harry's room was held four hours; the package inside it was two -- the
+    # booking note calls it a "2hr Soiree". The hand sweep reads
+    # "7.84 (3.9/hr over 2 hrs)".
+    "package_hours": 2.0,
+    "drinks_per_head_per_hour": 3.92,
+    "drinks_per_hour_room": 74.5,
     "benchmark_gp_pct": 76.4,
     "margin_foregone_ex_cents": 16764,
     "out_earn_ratio": 1.27,
@@ -128,6 +135,57 @@ def test_the_night_reproduces_from_its_line_items(tab, expected, label):
     assert got["name"] == label
     wrong = {k: (v, got.get(k)) for k, v in expected.items() if got.get(k) != v}
     assert not wrong, f"{label}: expected vs got -> {wrong}"
+
+
+def _report_with_hours(tab_path, hours):
+    """The same night, told a different package length. Rebuilt the way
+    test_food_cannot_exceed_the_ticket does it, because FunctionNight is
+    frozen."""
+    night = read_tab(tab_path)
+    night = FunctionNight(**{**night.__dict__, "package_hours": hours})
+    costs, as_of, pinned = dated_book(night.date)
+    return gross_profit(night, costs, mixer=pinned, cost_book_as_of=as_of)
+
+
+def test_the_package_length_is_not_the_room_hold():
+    """Two durations, and the one that divides a pace is the shorter.
+
+    Both fixture tabs carried the ROOM HOLD in this field once -- three hours,
+    copied off the brochure's time slot -- and every pace figure came out a
+    third too low with nothing failing anywhere. So the default is asserted
+    here, and a tab that states a length is asserted to be obeyed, because a
+    package that genuinely ran longer should report as it ran.
+    """
+    assert DEFAULT_PACKAGE_HOURS == Decimal("2")
+
+    silent = _report_with_hours(DAZZLE, None)
+    assert silent["package_hours"] == 2.0
+    assert silent["drinks_per_head_per_hour"] == 4.78
+
+    longer = _report_with_hours(DAZZLE, Decimal("3"))
+    assert longer["package_hours"] == 3.0
+    assert longer["drinks_per_head_per_hour"] == 3.19    # 239 / 25 / 3
+    assert longer["drinks_per_hour_room"] == 79.67       # 239 / 3
+
+
+def test_duration_cannot_reach_the_money():
+    """Gross profit does not depend on how long anything ran.
+
+    This is the invariant the whole correction rests on: the package length
+    was wrong for weeks and not a cent of the reported GP moved because of it.
+    If changing an hour ever moves a dollar, something has been wired together
+    that should not have been.
+    """
+    for tab in (DAZZLE, HARRY):
+        base = _report_with_hours(tab, read_tab(tab).package_hours)
+        for hours in (Decimal("1"), Decimal("2"), Decimal("4"), None):
+            got = _report_with_hours(tab, hours)
+            for key in ("gp_pct", "gp_pct_ex_mixer", "gross_profit_ex_cents",
+                        "total_cogs_ex_cents", "cogs_ex_cents",
+                        "cogs_ex_cents_per_head", "bev_revenue_ex_cents",
+                        "revenue_ex_cents", "drinks_per_head",
+                        "margin_foregone_ex_cents", "out_earn_ratio"):
+                assert got[key] == base[key], (key, hours, got[key], base[key])
 
 
 def test_the_sum_holds_together():

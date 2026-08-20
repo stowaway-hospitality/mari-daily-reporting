@@ -63,7 +63,7 @@
         "booked_guests": {"type": ["integer", "null"]},
         "tickets_sold": {"type": ["integer", "null"]},
         "package_price_inc_cents": {"$ref": "#/$defs/money_cents"},
-        "package_hours": {"type": ["number", "null"]},
+        "package_hours": {"type": ["number", "null"], "description": "How long the DRINKS PACKAGE ran, defaulting to the brochure's two hours. NOT the room hold, which is a different and usually longer duration living in the booking engine as functions.DEFAULT_DURATION_HOURS."},
 
         "revenue_inc_cents": {"$ref": "#/$defs/money_cents"},
         "revenue_ex_cents": {"$ref": "#/$defs/money_cents"},
@@ -77,7 +77,8 @@
         "house_pours": {"type": "integer", "description": "Lines whose POS name carries the [House] suffix."},
         "mixer_pours": {"type": "integer", "description": "Pours the mixer estimate was applied to. Equals house_pours unless a night's cost book pins extras."},
         "drinks_per_head": {"type": ["number", "null"]},
-        "drinks_per_hour": {"type": ["number", "null"]},
+        "drinks_per_head_per_hour": {"type": ["number", "null"], "description": "THE pace figure: drinks_per_head divided by package_hours, i.e. the rate one person drinks at. Replaces drinks_per_hour, which published the whole room's throughput under a name that read like a pace."},
+        "drinks_per_hour_room": {"type": ["number", "null"], "description": "Drinks poured across the WHOLE ROOM per hour. A measure of the bar's workload, useful for rostering. Never a drinking pace."},
 
         "cogs_ex_cents": {"$ref": "#/$defs/money_cents"},
         "mixer_est_ex_cents": {"$ref": "#/$defs/money_cents"},

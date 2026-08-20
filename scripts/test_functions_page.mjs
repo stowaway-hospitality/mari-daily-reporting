@@ -885,8 +885,9 @@ const ROMAN_OUT = {
   revenue_ex_cents: 181818, bev_revenue_inc_cents: 200000,
   bev_revenue_ex_cents: 181818, total_cogs_ex_cents: 73928,
   gross_profit_ex_cents: 107890, gp_pct: 59.34, gp_pct_ex_mixer: 65.6,
-  gp_basis: 'beverage', drinks_per_head: 9.56, package_hours: 3,
-  drinks_per_hour: 79.67, cogs_ex_cents_per_head: 2957,
+  gp_basis: 'beverage', drinks_per_head: 9.56, package_hours: 2,
+  drinks_per_head_per_hour: 4.78, drinks_per_hour_room: 119.5,
+  cogs_ex_cents_per_head: 2957,
   menu_value_inc_cents_per_head: 14396,
   benchmark_gp_pct: 76.4, margin_foregone_ex_cents: 31019, out_earn_ratio: 1.29,
   caveats: [
@@ -913,8 +914,9 @@ const HARRY_OUT = {
   revenue_ex_cents: 138182, bev_revenue_inc_cents: 114000,
   bev_revenue_ex_cents: 103636, total_cogs_ex_cents: 41222,
   gross_profit_ex_cents: 62414, gp_pct: 60.22, gp_pct_ex_mixer: 67.91,
-  gp_basis: 'beverage', drinks_per_head: 7.84, package_hours: 3,
-  drinks_per_hour: 49.67, cogs_ex_cents_per_head: 2170,
+  gp_basis: 'beverage', drinks_per_head: 7.84, package_hours: 2,
+  drinks_per_head_per_hour: 3.92, drinks_per_hour_room: 74.5,
+  cogs_ex_cents_per_head: 2170,
   menu_value_inc_cents_per_head: 9582,
   benchmark_gp_pct: 76.4, margin_foregone_ex_cents: 16764, out_earn_ratio: 1.27,
   caveats: [
@@ -1027,8 +1029,18 @@ const HARRY_DONE = { ...HARRY, brief_id: 'c1c1c1c1c1c1', outcome: HARRY_OUT };
   ok('the revenue is stated inc-GST with the ex-GST figure beside it',
      /\$2,000/.test(rep) && /\$1,818\.18 ex-GST/.test(rep), rep);
   ok('239 drinks, at 9.56 a head', /239/.test(rep) && /9\.56 a head/.test(rep), rep);
-  ok('...and 79.67 an hour over the three hours the package ran',
-     /79\.67 an hour over 3 hours/.test(rep), rep);
+  // The package is two hours and the pace is per head. The card used to say
+  // "79.67 an hour" straight after "9.56 a head", which reads as one person's
+  // night and is the room's.
+  ok('...over the two hours of drinks package, not the room hold',
+     /over 2 hours of drinks package/.test(rep), rep);
+  ok('...and the pace is per head an hour, which is 4.78',
+     /4\.78 a head an hour/.test(rep), rep);
+  ok('the room throughput is still there, said last and said to be the room',
+     /the bar poured\s+119\.50 an hour/.test(rep)
+     && /not of how hard anybody drank/.test(rep), rep);
+  ok('...and the bare ambiguous phrasing is gone',
+     !/9\.56 a head · 119\.5 an hour/.test(rep), rep);
   ok('cost a head is ex-GST and says what it includes',
      /\$29\.57/.test(rep) && /\$739\.28 in total/.test(rep)
      && /\$113\.80 is the mixer estimate/.test(rep), rep);
@@ -1127,7 +1139,8 @@ const HARRY_DONE = { ...HARRY, brief_id: 'c1c1c1c1c1c1', outcome: HARRY_OUT };
   // it can and nulls where it cannot, and so must the screen.
   const half = F.functionCardHTML({ ...ROMAN_DONE, outcome: {
     actual_heads: 25, booked_guests: 40, drinks_poured: 239,
-    drinks_per_head: 9.56, package_hours: 3, drinks_per_hour: 79.67,
+    drinks_per_head: 9.56, package_hours: 2, drinks_per_head_per_hour: 4.78,
+    drinks_per_hour_room: 119.5,
     gp_pct: null, gp_pct_ex_mixer: null, benchmark_gp_pct: 76.4,
     margin_foregone_ex_cents: null, out_earn_ratio: null,
     caveats: [ROMAN_OUT.caveats[1]] } }, TODAY);

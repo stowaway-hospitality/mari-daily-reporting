@@ -938,9 +938,22 @@ export function outcomeMetricsHTML(o) {
         : 'paid for, which is not the same count as who came'));
   }
   if (o.drinks_poured != null) {
+    // The pace is PER HEAD per hour, because that is the one a person can
+    // reason about — 4.8 drinks an hour is somebody's night, and it is what
+    // break-even is argued against. This used to read the room's whole
+    // throughput ("79.67 an hour") in the same breath as the per-head figure,
+    // which invited the two to be read as the same measure. The room figure
+    // stays, because 120 drinks an hour is a rostering fact, but it is said
+    // last and it is said to be the room's.
     cells.push(metric('Drinks poured', String(o.drinks_poured),
-      `${num(o.drinks_per_head)} a head · ${num(o.drinks_per_hour)} an hour
-       over ${hoursLabel(o.package_hours)} hours`));
+      `${num(o.drinks_per_head)} a head over
+       ${hoursLabel(o.package_hours)} hours of drinks package${
+        o.drinks_per_head_per_hour != null
+          ? ` · ${num(o.drinks_per_head_per_hour)} a head an hour` : ''}${
+        o.drinks_per_hour_room != null
+          ? `. Across the whole room the bar poured
+             ${num(o.drinks_per_hour_room)} an hour — a measure of the bar's
+             workload, not of how hard anybody drank` : ''}`));
   }
   if (o.cogs_ex_cents_per_head != null) {
     cells.push(metric('Cost a head', money2(o.cogs_ex_cents_per_head),
