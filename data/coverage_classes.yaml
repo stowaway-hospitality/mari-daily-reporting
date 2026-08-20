@@ -51,10 +51,31 @@ ids:
     class: awaiting_next_purchase
     name: Bunnahabhain 12yr
     reason: not in the ILG book; first invoice prices it
+  lightspeed:20445843:
+    class: awaiting_next_purchase
+    name: Glendronach 12yr
+    reason: 'slow-moving single malt, $19 of sales in 4 weeks (one pour). Searched every invoice in
+      data/invoices for ''glendronach'': ZERO lines, so there is nothing to bridge to and none was invented.
+      The three Glendronach seeds (20487322 stow/ml, 20750151 HG/each, this one) all sit on the 2026-01
+      Back Office export at $94.51. Its likely suppliers, ILG and Paramount, both have working parsers,
+      so the next delivery prices it automatically — sibling of Bunnahabhain 12yr directly above.'
   lightspeed:20459505:
     class: awaiting_next_purchase
     name: Grifter Pale Ale Cans D
     reason: Grifter direct — the keg (GRIFTER-PALE-50L) is fed; the CANS record waits on a can line
+  lightspeed:20466090:
+    class: question
+    name: Scout Pinot Gris - Bottle
+    reason: 'WHO SUPPLIES SCOUT? One answer from Zak closes it. $18 of sales in 4 weeks (one bottle),
+      priced from the 2026-01 Back Office seed ($19.80 / 750 ml) and from an ls-recipe-seed at $26.40
+      — and a search of every invoice in data/invoices for ''scout'' and ''pinot gris'' returns ZERO
+      lines for it. NOT classed awaiting_next_purchase, because that class promises the next invoice
+      prices it automatically and that is only true if the supplier PARSES: the boutique wine senders
+      still stuck in Review with no parser (nelsonwineco, youngandrashleigh, vinsight, combinedwines,
+      Viticult via post.dearsystems) are the plausible sources and an invoice from any of them would
+      sit in Review forever. Two-plus plausible candidates is a FLAG, not a guess, so the supplier was
+      not inferred from the product range. Naming the supplier either turns this into
+      awaiting_next_purchase or names the next parser to write.'
   lightspeed:20471109:
     class: question
     name: Tomato Sauce

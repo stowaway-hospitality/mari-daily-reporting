@@ -1302,3 +1302,128 @@ def test_myob_quantity_reader_accepts_a_bare_integer_but_money_does_not():
     assert _m("1") is None
     assert _m("$175.00") == Decimal("175.00")
     assert _m("10%") is None
+
+
+# ---------------------------------------------------------------------------
+# DENI FOODS — a kitchen-food supplier that had NEVER parsed (triage log
+# 2026-08-21). denifoods.com.au was absent from DOMAIN_KEY, so build_corpus
+# never collected it and parser_regression never scored it: the harness read
+# 98% while the supplier of the Smoked Mozzarella & Basil Arancini on the
+# Stowaway menu sat at zero and not one of its invoices had reached
+# data/invoices. That is the item-4 / item-12 / item-40 blind spot again.
+#
+# Every coordinate below is REAL, lifted from corpus 64e8e1d12ec8 (invoice
+# I224505, 18/06/2026). A hand-invented row does not reach the right buckets
+# under a derived header — the item-19 lesson.
+# ---------------------------------------------------------------------------
+
+_DENI_HEADER = [(30.5, "Qty"), (59.2, "Unit"), (93.0, "Item"), (161.3, "Description"),
+                (427.2, "Unit"), (446.4, "Price"), (477.0, "Disc"), (507.8, "GST"),
+                (540.5, "Total")]
+_DENI_LINE = [(32.5, "15.6"), (69.0, "Kg"), (93.0, "GASTAM4NA"), (158.2, "GST"),
+              (175.4, "SMOKED"), (211.1, "MOZZARELLA"), (267.4, "&"), (275.6, "BASIL"),
+              (300.7, "ARANICNI"), (449.2, "19.89"), (507.7, "31.03"), (539.7, "341.33")]
+_DENI_CONT = [(158.2, "65G"), (174.0, "(7.8KG)")]
+_DENI_LEVY = [(42.5, "1"), (93.0, "FL01"), (158.2, "FUEL"), (180.2, "LEVY"),
+              (203.6, "SURCHARGE"), (453.2, "5.00"), (511.7, "0.50"), (547.7, "5.50")]
+
+
+def test_deni_line_row_buckets_into_the_right_columns():
+    from modules.invoices.parsers.deni_foods import _cols_from_header
+    cols = _cols_from_header(_row(*_DENI_HEADER))
+    c = pdf_text.bucket(_row(*_DENI_LINE), cols)
+    assert c["qty"] == "15.6"
+    assert c["uom"] == "Kg"
+    assert c["item"] == "GASTAM4NA"
+    assert c["desc"] == "GST SMOKED MOZZARELLA & BASIL ARANICNI"
+    assert c["price"] == "19.89"
+    assert c["gst"] == "31.03"
+    assert c["total"] == "341.33"
+
+
+def test_deni_header_has_unit_twice_and_the_second_one_is_unit_price():
+    # "Qty Unit Item Description Unit Price Disc GST Total". Resolving "Unit" by
+    # label alone takes x=59 for both, which puts the price boundary LEFT of the
+    # item code and collapses the entire right-hand side of the table onto the
+    # UOM column. The two are separated by order of appearance instead.
+    from modules.invoices.parsers.deni_foods import _cols_from_header
+    cols = dict(_cols_from_header(_row(*_DENI_HEADER)))
+    assert cols["uom"] < cols["item"] < cols["desc"] < cols["price"]
+    assert cols["price"] == 427.2 - 20      # the SECOND "Unit", not the first
+    naive = [(x, t) for x, t in _DENI_HEADER if t == "Unit"][0][0]
+    assert cols["price"] > naive
+
+
+def test_deni_wrapped_size_is_joined_and_carries_the_pack():
+    # "65G (7.8KG)" wraps onto its own row with no qty and no total. Dropping it
+    # is the foodlink item-33 defect: the pack size lives in the description, so
+    # a lost tail is money, not cosmetics.
+    from modules.invoices.parsers.deni_foods import (_cols_from_header, _desc_x,
+                                                     CONT_INDENT_TOL)
+    cols = _cols_from_header(_row(*_DENI_HEADER))
+    body = [_row(*_DENI_LINE), _row(*_DENI_CONT)]
+    dx = _desc_x(body, cols)
+    assert dx == 158.2
+    cont = _row(*_DENI_CONT)
+    c = pdf_text.bucket(cont, cols)
+    assert [k for k, v in c.items() if v.strip()] == ["desc"]
+    assert abs(cont[0][0] - dx) < CONT_INDENT_TOL
+    assert c["desc"] == "65G (7.8KG)"
+
+
+def test_deni_carton_qty_note_is_not_joined_as_a_description():
+    # The dangerous neighbour: "CARTON QTY: 0" is also a description-only row on
+    # every Deni invoice. It sits at x=220.5, ~62pt right of the description
+    # indent, so the indent test excludes it structurally rather than by keyword.
+    from modules.invoices.parsers.deni_foods import (_cols_from_header, _desc_x,
+                                                     CONT_INDENT_TOL)
+    cols = _cols_from_header(_row(*_DENI_HEADER))
+    dx = _desc_x([_row(*_DENI_LINE)], cols)
+    note = _row((220.5, "CARTON"), (293.8, "QTY:"), (351.0, "0"))
+    assert abs(note[0][0] - dx) >= CONT_INDENT_TOL
+    mario = _row((218.7, "GOODS"), (265.1, "DELIVERED"), (339.4, "BY"), (359.1, "MARIO"))
+    assert abs(mario[0][0] - dx) >= CONT_INDENT_TOL
+
+
+def test_deni_tax_code_is_stripped_but_a_real_word_is_not():
+    # Deni prints the line's tax code as the first token of the description
+    # cell. Left in place it reaches the chef as "GST Smoked Mozzarella ..." and
+    # splits the product's identity the day a line arrives without one.
+    # "FREE" is deliberately NOT stripped — "FREE RANGE EGGS" is a real product,
+    # and a greedy rule that eats a real word is the fresh_fruit_team / gulli /
+    # foodlink defect class this tree keeps paying for.
+    from modules.invoices.parsers.deni_foods import _TAXCODE
+    assert _TAXCODE.sub("", "GST SMOKED MOZZARELLA & BASIL ARANICNI") == \
+        "SMOKED MOZZARELLA & BASIL ARANICNI"
+    assert _TAXCODE.sub("", "FREE RANGE EGGS 700G") == "FREE RANGE EGGS 700G"
+    assert _TAXCODE.sub("", "GSTFREE CHICKEN") == "GSTFREE CHICKEN"
+    assert _TAXCODE.sub("", "FUEL LEVY SURCHARGE") == "FUEL LEVY SURCHARGE"
+
+
+def test_deni_fuel_levy_row_parses_as_an_extra_with_no_supplier_code():
+    from modules.invoices.parsers.deni_foods import _cols_from_header, EXTRA_DESC, _m
+    cols = _cols_from_header(_row(*_DENI_HEADER))
+    c = pdf_text.bucket(_row(*_DENI_LEVY), cols)
+    assert c["qty"] == "1" and c["item"] == "FL01"
+    assert c["price"] == "5.00" and c["gst"] == "0.50" and c["total"] == "5.50"
+    assert EXTRA_DESC.search(c["desc"])
+    # The levy line has no UOM, and the money column is INC GST: 5.00 + 0.50.
+    assert c["uom"] == ""
+    assert _m(c["total"]) == _m(c["price"]) + _m(c["gst"])
+
+
+def test_deni_account_balance_is_not_mistaken_for_the_invoice_total():
+    # "Total Amount Outstanding $1,029.49" is the whole ACCOUNT balance and sits
+    # BELOW the real totals row, labelled with the word "Total". Reading it
+    # would book a payable three times the size of the bill. The parser reads
+    # the structural "TOTALS: <sale> <gst> <total>" row and stops the table
+    # there, so the balance row is never even scanned for line items.
+    from modules.invoices.parsers.deni_foods import _m
+    totals = _row((302.2, "TOTALS:"), (414.1, "315.30"), (469.4, "31.53"), (518.7, "346.83"))
+    toks = [t for _, _, t in totals]
+    nums = [_m(t) for t in toks if _m(t) is not None]
+    assert len(nums) == 3 and nums[-1] == Decimal("346.83")
+    assert nums[0] + nums[1] == nums[2]      # sale + gst = total, to the cent
+    balance = _row((302.2, "Total"), (332.6, "Amount"), (377.6, "Outstanding"),
+                   (517.0, "$1,029.49"))
+    assert "TOTALS:" not in [t for _, _, t in balance]

@@ -51,6 +51,7 @@ from modules.invoices.parsers import paramount          # noqa: E402,F401
 from modules.invoices.parsers import nicholas_seafood   # noqa: E402,F401
 from modules.invoices.parsers import andrews_meat        # noqa: E402,F401
 from modules.invoices.parsers import farmer_joes         # noqa: E402,F401
+from modules.invoices.parsers import deni_foods          # noqa: E402,F401
 
 
 #: Senders that are US, not a supplier. A FORWARDED invoice arrives with one of

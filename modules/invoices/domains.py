@@ -80,4 +80,14 @@ DOMAIN_KEY: dict[str, str] = {
     # from this mapping is a supplier build_corpus never collects and
     # parser_regression never scores: the item-4/item-40 blind spot again.
     "apps.myob.com": "myob",
+    # Inalca Food & Beverage Australia and Deni Foods are the LAST TWO
+    # kitchen-food senders left in the Review pile with no parser (triage log
+    # item 46). Registered here BEFORE either has a parser, deliberately: a
+    # domain absent from this mapping is a supplier build_corpus never collects
+    # and parser_regression never scores, so the harness reports 98% while a
+    # food supplier sits at zero — the item-4 / item-12 / item-40 blind spot in
+    # its fifth form. With the entry present they show up in the table at 0/N,
+    # which is the honest number and the one that names tomorrow's work.
+    "inalcafb.com.au": "inalca",
+    "denifoods.com.au": "deni_foods",
 }

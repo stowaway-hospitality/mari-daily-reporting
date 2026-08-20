@@ -1233,6 +1233,167 @@ document, and both audits stayed clean.
      second instance of the same design problem: two tests in this suite fail
      whenever reality improves.
 
+TRIAGE LOG — 2026-08-21 (unattended daily run). Corpus 846 -> 864 readable. The
+15 pre-existing shortfalls were re-opened BY HASH before anything else was
+touched and every one is the SAME document this log already carries: be_foods
+3b34ec060c06 + d02385290774, gulli b381fb197ab6, ilg b46bfb0a542a +
+e23ce69fe899, myob 91513b04a9dd (Cork And Co, item 45), paramount 670685f29215,
+netsuite x4 (the Dext subscription bills of item 41, correct refusals) and xero
+x4 (the SYMSAFE payment receipts of item 38). No drift, no new failure mode,
+and NO change was made to any of them.
+
+ 50. DENI FOODS HAD NEVER PARSED AND IT IS THE ARANCINI ON THE MENU. Item 46
+     named denifoods.com.au and inalcafb.com.au as "the only remaining
+     kitchen-food senders in the pile". Both are now in DOMAIN_KEY and both were
+     OPENED rather than described — which is the whole point, because one of
+     those two labels was wrong:
+
+       * DENI FOODS is kitchen food, and it is a live menu item. Every invoice
+         carries one product: GASTAM4NA, "SMOKED MOZZARELLA & BASIL ARANICNI
+         65G (7.8KG)", 15.6 kg at $19.89/kg ex on a roughly weekly cycle. ZERO
+         Deni invoices had ever reached data/invoices, so that arancini's cost
+         has never been in the cost book. (The only "arancini" in cogs_list.csv
+         is foodlink 103742, the TRUFFLED one — a different product.)
+       * INALCA IS NOT KITCHEN FOOD. Item 46 called it so from the company name
+         ("Inalca Food & Beverage Australia"). All six readable corpus invoices
+         are ITALIAN WINE billed under the "IWI - ITALIAN WINE IMPORTERS"
+         masthead — Casa Gheller Prosecco, Sibiliana Nero D'Avola — with WET on
+         the totals block, and two of the six are $4.40 fuel-levy-only dockets.
+         It is liquor, it does not feed recipes, and it is NOT the next day's
+         work on a kitchen-first rule. Recorded rather than acted on. This is
+         item 19(a) / item 37 for the third time: a document class named from
+         its masthead, believed for days, and wrong the moment it was read.
+
+     THE PARSER, and the three things that were not what they looked like:
+
+     (a) THE HEADER SAYS "Unit" TWICE — once as the UOM column at x=59.2 and
+         once as the first word of "Unit Price" at x=427.2. Resolving it by
+         label (the setdefault every other parser here uses) takes the first,
+         which puts the price boundary LEFT of the item code and collapses the
+         entire right-hand side of the table onto the UOM column. Separated by
+         ORDER of appearance, with the bare "Price" label as the fallback if a
+         future template drops the word.
+
+     (b) THE TAX CODE IS THE FIRST WORD OF THE DESCRIPTION CELL. The stock line
+         reads "GST SMOKED MOZZARELLA & BASIL ARANICNI" with "GST" at x=158.2 —
+         inside the description cell, at the same x as the wrapped tail "65G
+         (7.8KG)" and as the levy line's own first word "FUEL". So geometry
+         cannot separate it, and leaving it in ships "GST Smoked Mozzarella..."
+         to the chef and splits the identity the day a line arrives without one.
+         Stripped, but ONLY the three codes that cannot begin a food name (GST,
+         FRE, EXP). "FREE" is deliberately excluded — "FREE RANGE EGGS" is a
+         real product and a greedy rule that eats a real word is exactly the
+         item 1 / 22 / 33 defect class. It is cost-neutral either way: the tax
+         treatment is decided by the GST column's own arithmetic, never by this
+         token.
+
+     (c) THE ACCOUNT BALANCE IS PRINTED BELOW THE INVOICE TOTAL AND IS LABELLED
+         "Total". "Total Amount Outstanding  $1,029.49" is what Deni owes us
+         across the account; the bill is $341.33. Any total-reader that scans
+         for the word "Total" from the top, or takes the largest money figure,
+         books a payable three times the real one. The parser reads the
+         structural "TOTALS: <Sale Amount> <GST> <Total>" row by POSITION and
+         stops the line table there, so the balance row is never scanned at all.
+
+     Money shape: the "Total" column is INC GST and "Unit Price" is EX (15.6 x
+     19.89 = 310.30 ex, GST 31.03, Total column 341.33), and sum(Total column)
+     equals the printed TOTALS row to the cent on all three invoices. Wrapped
+     descriptions are joined by the derived-indent rule (foodlink item 33); the
+     dangerous neighbours here are "CARTON QTY: 0" and "GOODS DELIVERED BY
+     MARIO", both description-only rows, both ~62pt right of the indent.
+
+     MEASURED before/after on the same corpus: deni_foods 0/3 -> 3/3 (100%),
+     all three reconciling to the cent, and NOT ONE other supplier moved by a
+     single document. Both audits stayed clean; the parser test suite passes.
+     TOTAL reads 843/864 (97%) where the same corpus with neither new domain
+     registered reads 840/855 (98%) — the percentage went DOWN because Inalca's
+     six invoices are
+     now COUNTED rather than invisible, which is the honest direction and the
+     same movement item 17 recorded when the Xero templates first appeared.
+
+ 51. THE REVIEW SWEEP WEDGED TWICE AND IS THE REASON NOTHING WAS PROMOTED FROM
+     THE BACKLOG TODAY. pull_mailbox --source-folder "Invoices Review" stopped
+     making progress after ~40 messages (1.99s CPU over 66 minutes), was killed,
+     and the retry stopped again after ~20 (0.67s CPU over 8 minutes). This is
+     item 39's hang, not item 21's 5xx and not item 30's retry gap: the process
+     is alive, burning no CPU, and the per-request GRAPH_TIMEOUT never fires, so
+     something is blocking outside a request. The inbox pass (5 messages) ran
+     clean, so it is not auth and not the network being down. FOR ZAK — item 39
+     already asked for a whole-run watchdog; today is the third run it would
+     have saved. NOT attempted here: it is in the auth/mail path and this task
+     must never handle credentials.
+
+     What the ~60 messages the two passes did read say about the pile, so
+     tomorrow starts from evidence: 0 promoted, and the stuck senders are
+     stowawaybar.com 17 (forwarded admin, CLOSED by Zak — item 36),
+     nelsonwineco.com.au 5, vinsight.net 5, post.dearsystems.com 4,
+     youngandrashleigh.com 3, inalcafb.com.au 3, combinedwines.com.au 3,
+     mountainculture.com.au 2, plus singles. Every one of them is liquor or
+     admin. With Deni parsed, THERE IS NO KITCHEN-FOOD SENDER LEFT IN THE
+     REVIEW PILE WITHOUT A PARSER — the first time that has been true.
+
+ 52. B&E IS DROPPING WRAPPED DESCRIPTIONS — 1,145 ROWS — AND IT IS TOMORROW'S
+     WORK. Found the same way item 33 found Foodlink: not by this harness, but
+     by STEP 3's product review asking why a brand-new ingredient had no pack
+     size. b_e reads 130/132 (98%) and has read ~98% for two weeks, because a
+     description plays no part in reconciliation. This is the FOURTH instance of
+     the item 1 / 22 / 33 class (FFT, Gulli, Foodlink, now B&E) and it is the
+     biggest: B&E is the largest kitchen supplier in the file at $16,611 of
+     30-day spend.
+
+     THE EVIDENCE, opened rather than inferred. Corpus 5b2a07b73c15 = invoice
+     7153386, ingested TODAY. Its word rows read:
+
+       row 28  18304  BEKSUL BLACK (DARK   2.00 2.00 UNIT 0.13 CTN $2.90 ... $5.80
+       row 29         BROWN) SUGAR 1KG(16) CJ
+       row 30         FOODS KRN #186167
+
+       row 45  13003  FZ PIPI CLAM - WHOLE IN  10.00 10.00 KG 1.00 CTN $8.10 ... $81.00
+       row 46         SHELL COOKED 40/60 1KG
+       row 47         (10) (I)
+
+     Rows 29/30 and 46/47 carry no qty and no total, so parsers/be_foods.py
+     skips them exactly as foodlink.py did before item 33. data/invoices for
+     7153386 stores the descriptions "BEKSUL BLACK (DARK" and "FZ PIPI CLAM -
+     WHOLE IN" — both truncated mid-phrase, one with an unbalanced bracket.
+
+     IT IS MONEY, NOT COSMETICS, AND THE NUMBER IS BIG. B&E's UOM column says
+     UNIT / KG / CTN, so on a UNIT line the PACK SIZE is stated ONLY in the
+     description — and the size is usually what wrapped ("1KG(16)" above). The
+     live feed shows it: of 141 ingredients in the whole picker with
+     needs_pack_review TRUE, 48 are B&E — 37% of B&E's 129 ingredients and the
+     largest single bucket, ahead of foodlink's 45 (which is the residue of the
+     same defect before item 33 fixed it). The continuation-shaped rows across
+     the corpus number 1,145 over 133 invoices, against foodlink's 435 over 129.
+
+     NOT ATTEMPTED TODAY, deliberately: one supplier change per run (the item 45
+     rule), and Deni Foods was today's. The fix is known and already written
+     twice — derive the indent per invoice from the first line item's own
+     description x, require the desc bucket to be the only one with text, and
+     require an item to attach to. The dangerous neighbours here will be B&E's
+     own footer boilerplate and the delivery note; measure their x before
+     trusting the indent, the way item 33 measured foodlink's 435-vs-268 split.
+     Do the before/after line-by-line diff against data/invoices (the item
+     13/25/33 standard) — a description repair should lengthen names and move
+     NO money.
+
+ 53. THE COVERAGE RATCHET ROSE BY 2 AND WAS DELIBERATELY NOT RE-PINNED, so CI
+     stays red on scripts/check_invoice_coverage.py --strict until Zak rules.
+     67 vs baseline 65. Both new arrivals are liquor that went on sale standing
+     on a January Back Office seed, and NEITHER CAN BE BRIDGED: a search of
+     every file in data/invoices for "glendronach", "scout" and "pinot gris"
+     returns ZERO lines, so there is no invoice to bridge to and none was
+     invented. Both were the "UNCLASSIFIED — nobody has looked at these yet"
+     state, which is the one state the guard forbids; they now carry classes
+     with the evidence (Glendronach awaiting_next_purchase — ILG and Paramount
+     both parse, so the next delivery prices it; Scout Pinot Gris question —
+     its plausible suppliers are the boutique wine senders still stuck in
+     Review with no parser, so "the next invoice fixes it" would be a promise
+     the pipeline cannot keep). Re-pinning the baseline upward to turn a red
+     guard green is the item 43/49 failure — a guard quietly stopping guarding —
+     and doing it unattended is worse. FOR ZAK: name Scout's supplier, or
+     re-pin deliberately.
+
 The three zero-total documents (now four, with Gulli CI-437314 — see item 18)
 can never PASS by construction: validator's _check_required_fields treats
 total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.
