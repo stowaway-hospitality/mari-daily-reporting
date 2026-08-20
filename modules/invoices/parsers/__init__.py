@@ -53,16 +53,46 @@ from modules.invoices.parsers import andrews_meat        # noqa: E402,F401
 from modules.invoices.parsers import farmer_joes         # noqa: E402,F401
 
 
+#: Senders that are US, not a supplier. A FORWARDED invoice arrives with one of
+#: these domains, so the sender says nothing about which parser fits — Zak and
+#: Nicola forward KegLand invoices (citric and malic acid, no direct email
+#: relationship with the mailbox), and routing those by sender could only ever
+#: mean "no parser". For a forward, every parser gets a try, and the arithmetic
+#: validator downstream is what keeps that safe: a wrong parser's output does
+#: not reconcile to the printed total, so it cannot promote. Same gate that has
+#: guarded the LLM path since INVOICES.md was written.
+_OUR_DOMAINS = {"stowawaybar.com"}
+
+
 def parse_pdf(pdf_bytes: bytes, sender_domain: Optional[str] = None) -> Optional[Invoice]:
     """
     Deterministic parse if we have one for this sender, else None (-> LLM).
     Returns None on any failure so the caller falls back cleanly.
+
+    A sender in _OUR_DOMAINS is a FORWARD: the domain identifies the forwarder,
+    not the supplier, so every registered parser is tried and the FIRST result
+    that carries a stated total is returned — reconciliation to that total is
+    judged by the caller, exactly as for a sender-routed parse. A parser that
+    fires on another supplier's layout produces arithmetic that does not add
+    up, and the validator refuses it; the cost of a wrong attempt is zero and
+    the cost of not trying is a Review pile that can never shrink for any
+    supplier who only reaches us by forward.
     """
-    fn = DOMAIN_TO_PARSER.get((sender_domain or "").lower())
-    if not fn:
-        return None
     if not pdf_text.has_text_layer(pdf_bytes):
         return None                       # scanned image -> LLM
+    dom = (sender_domain or "").lower()
+    if dom in _OUR_DOMAINS:
+        for fn in dict.fromkeys(DOMAIN_TO_PARSER.values()):
+            try:
+                inv = fn(pdf_bytes)
+            except Exception:
+                continue
+            if inv is not None and getattr(inv, "total_incl", None):
+                return inv
+        return None
+    fn = DOMAIN_TO_PARSER.get(dom)
+    if not fn:
+        return None
     try:
         return fn(pdf_bytes)              # parsers get the bytes; they pick text vs coordinates
     except Exception:
