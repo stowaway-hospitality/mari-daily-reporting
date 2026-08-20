@@ -382,12 +382,6 @@ ids:
     class: authored_recipe_needed
     name: Cabbage Red/Green Shredded Mix [kg]
     reason: house mix of the two shredded cabbages; wants the ratio (the olives pattern)
-  lightspeed:22902950:
-    class: awaiting_next_purchase
-    name: Gochujang [kg]
-    reason: 'Jun Pacific EZ9523255 Sempio ''Value Pack'' $18.70, bought 20 Aug — the seed implies a 1.84
-      kg tub; read the printed net weight off the tub and a one-line override closes it. Not guessed:
-      1.8 vs 2 kg changes the rate 11 percent.'
   lightspeed:22902956:
     class: awaiting_next_purchase
     name: Mirin [1.8L]
@@ -404,10 +398,12 @@ ids:
     reason: suppliers sell peeled/washed kit lines; the brushed sebago's own line wants confirming on
       a delivery docket
   lightspeed:22918951:
-    class: question
+    class: awaiting_next_purchase
     name: Egg Fresh [ea]
-    reason: bridged to Select Fresh EG700P ($5.80/doz = 48.3c/ea, 22 Jul) — emit under investigation;
-      the dozen rate is real and the bridge stands.
+    reason: 'ENGINEERING DEBT, precisely bounded: bridged to Select Fresh EG700P (48.3c/ea real, 22 Jul),
+      seed unit corrected can->ea, and a hand simulation of the emit block now produces 0.4833/ea — yet
+      build_costs writes no row. One record, one code, next session steps the emit in a debugger. The
+      price is known even though the plumbing refuses to carry it.'
   lightspeed:22931792:
     class: awaiting_next_purchase
     name: Hahn Super Dry GF
