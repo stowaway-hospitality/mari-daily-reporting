@@ -970,6 +970,10 @@ def main() -> int:
     countable_seed = build_countable_seeds(cogs_rows)
     # The base unit Back Office declares, for products that have no seed at all.
     bo_units = bo_declared_units()
+    # Loaded before the row loop since 2026-08-20: declared conversions now
+    # apply at row CREATION (see the keg block below), not only in the
+    # post-pass, so the ProductID bridge sees base units.
+    declared = load_declared_conversions()
 
     rows, skipped, bridged = [], [], 0
     for r in cogs_rows:
@@ -1143,6 +1147,34 @@ def main() -> int:
                     per, unit, _lbl = fb2
                     qty, bad, seed_liquor = Decimal(1), None, True
                     how = f"seed-matched {_lbl}"
+            if not qty or not unit:
+                # DECLARED-VESSEL RESCUE, the third and narrowest. The Alehouse
+                # kegs, 2026-08-20: ILG's description is "ALEHOUSE CRISP KEG"
+                # with raw_uom "1xKEG49." (their truncation), so resolve_pack
+                # has no size to read; the liquor rescue needs a mass/volume
+                # pack and refuses an "ea"; the countable rescue refuses
+                # anything Back Office measures in ml. Forty-six weekly keg
+                # rows — nineteen deliveries of each tap beer — died here as
+                # "pack unreadable" while data/declared_conversions.yaml held
+                # the answer the whole time: keg = 49,500 ml, chef-confirmed,
+                # pinned in tests, declared FOR THIS VERY IDENTITY.
+                #
+                # So: when the identity carries a declared whole-vessel
+                # conversion and the invoice line is ONE of that vessel
+                # (pack_qty 1, unit ea/each or the vessel word), the line is
+                # one vessel at the line price. No arithmetic is invented —
+                # the declaration supplies the only number the parser lacked,
+                # and the conversion block below restates it into base units
+                # exactly as it does for the rows whose basis said per_keg.
+                dv = declared.get(conversion_key(iid))
+                if (dv and dv["from_unit"] in ("keg", "bottle", "can")
+                        and str(r.get("pack_unit") or "").lower()
+                            in ("ea", "each", dv["from_unit"])
+                        and str(r.get("pack_qty") or "").strip() in ("1", "1.0", "1.000")):
+                    qty, unit = Decimal(1), dv["from_unit"]
+                    per = pack_cost
+                    bad = None
+                    how = f"declared vessel ({dv['from_unit']}, {dv['evidence'][:40]})"
 
         if not qty or not unit:
             skipped.append((r["supplier"], desc, f"pack unreadable ({how})"))
@@ -1150,6 +1182,36 @@ def main() -> int:
         if bad:
             skipped.append((r["supplier"], desc, bad))   # arithmetically fine, physically absurd
             continue
+
+        # DECLARED CONVERSIONS APPLY AT CREATION, not only in the post-pass —
+        # and an "each" of a declared keg IS that keg. The Alehouse case, found
+        # 2026-08-20: ILG bills the kegs weekly with raw_uom "1xKEG49." (their
+        # own truncation), which parses to 1 ea at the whole-keg price. The
+        # declared conversion (keg = 49,500 ml, chef-confirmed) matched only
+        # rows whose unit was literally "keg" — ONE row all year, the 14 Jul
+        # invoice whose cost_basis happened to say per_keg — so nineteen weekly
+        # deliveries of each keg sat in the book per-ea, un-restatable and, in
+        # the post-pass order, invisible to the ProductID bridge below (which
+        # runs before the post-pass ever restated them). The tap beers costed
+        # off January seeds while their kegs were invoiced every week.
+        #
+        # Restating HERE means the bridge block sees millilitres: for the
+        # Alehouse ids Back Office's own declared unit is ml, so the no-seed
+        # fallback carries the rate across at 1:1 and every keg delivery
+        # supersedes the seed the day it lands. The "ea" extension is narrow by
+        # construction: it fires only for an identity that carries a DECLARED
+        # whole-vessel conversion (keg/bottle/can), where "one each" and "one
+        # vessel" are the same physical object.
+        conv = declared.get(conversion_key(iid))
+        declared_restated = False
+        if conv and (str(unit).lower() == conv["from_unit"]
+                     or (str(unit).lower() in ("ea", "each")
+                         and conv["from_unit"] in ("keg", "bottle", "can"))):
+            per = (per / conv["to_qty"]).quantize(Decimal("0.000001"))
+            unit = conv["to_unit"]
+            how = (f"{how} (declared {conv['from_unit']}"
+                   f"={conv['to_qty']}{conv['to_unit']})")
+            declared_restated = True
 
         row = dict(
             ingredient=iid,
@@ -1217,7 +1279,23 @@ def main() -> int:
                 # beer): the units 'agree' but the number is 50x out, and schooners
                 # priced at $124. A real price move is never 10x, so refuse.
                 sp = seed_price.get(pid)
-                if bper is not None and sp and sp > 0:
+                # ...UNLESS the rate came through a DECLARED conversion that
+                # names this very ProductID. The guard exists to refuse a
+                # heuristic mapping whose magnitude betrays it; a conversion in
+                # data/declared_conversions.yaml is the opposite of a heuristic
+                # — a documented, evidenced ruling (the Alehouse keg's 49,500 ml
+                # is a chef confirmation, pinned in tests). And the reference
+                # the guard compares against is itself untrustworthy exactly
+                # here: build_seed_conv reads the keg seeds' per-ml rate as if
+                # it were per-keg, so seed_price for 20487298 comes out
+                # 0.0000869/ml — 49,500x low — and the CORRECT invoice rate
+                # reads as "49x out" and is refused. That is how nineteen
+                # weekly keg deliveries never once superseded a January seed:
+                # the one guard between them and the book was comparing against
+                # a number that had been divided twice.
+                if (bper is not None and sp and sp > 0
+                        and not (declared_restated
+                                 and declared.get(conversion_key(pid)))):
                     ratio = float(bper) / float(sp)
                     if ratio > 10 or ratio < 0.1:
                         bper = None
