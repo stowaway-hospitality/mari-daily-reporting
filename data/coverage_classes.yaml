@@ -117,26 +117,11 @@ ids:
     name: Sprite 1.25L
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:20464467:
-    class: supplier_missing
-    name: A. Rodda Tempranillo - Bottle
-    reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
-      one invoice from each and these flow
-  lightspeed:20464635:
-    class: supplier_missing
-    name: Trutta Streamside Shiraz [Chilled] - Bottle
-    reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
-      one invoice from each and these flow
-  lightspeed:20464639:
-    class: supplier_missing
-    name: Domaine Gueguen Chablis - Bottle
-    reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
-      one invoice from each and these flow
   lightspeed:20467573:
     class: supplier_missing
     name: Year Wines 'Zagara' Orange - Bottle
-    reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
-      one invoice from each and these flow
+    reason: Year Wines — the Fiano flows via Viticult (YF24, bridged 2026-08-20) but no Zagara line on
+      recent Viticult invoices in Dext. Same channel; next order bridges.
   lightspeed:20471109:
     class: awaiting_next_purchase
     name: Tomato Sauce
@@ -228,11 +213,6 @@ ids:
     class: supplier_missing
     name: Crankshaft IPA [Keg]
     reason: supplier not in the mailbox — forward one invoice
-  lightspeed:20645902:
-    class: supplier_missing
-    name: Unico Zelo Terra Cotta - Bottle
-    reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
-      one invoice from each and these flow
   lightspeed:20645918:
     class: awaiting_next_purchase
     name: Gosling's Black Rum
@@ -248,16 +228,11 @@ ids:
     name: Philter Old Ale [HG]
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:20700625:
-    class: supplier_missing
-    name: Esoterico Orange - Bottle
-    reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
-      one invoice from each and these flow
   lightspeed:20700630:
     class: supplier_missing
     name: Geppetto Chardonnay - Bottle
-    reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
-      one invoice from each and these flow
+    reason: COMBINED WINES carries Geppetto (Pinot Noir invoiced 27 Jul under CGPN750ML) but no Chardonnay
+      line yet; next Combined Wines order carrying it bridges.
   lightspeed:20710023:
     class: awaiting_next_purchase
     name: Frangelico [Bottle]
@@ -276,11 +251,6 @@ ids:
   lightspeed:20728346:
     class: supplier_missing
     name: Sibiliana Nero D'Avola - Bottle
-    reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
-      one invoice from each and these flow
-  lightspeed:20728902:
-    class: supplier_missing
-    name: Casa Gheller Prosecco - Bottle
     reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
       one invoice from each and these flow
   lightspeed:20729561:
@@ -330,11 +300,6 @@ ids:
     name: Little Dragon Can
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:22001021:
-    class: supplier_missing
-    name: Year Wines Fiano - Bottle
-    reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
-      one invoice from each and these flow
   lightspeed:22253061:
     class: awaiting_next_purchase
     name: Nikka Black Whisky [700ml]
@@ -685,10 +650,12 @@ ids:
   lightspeed:23120129:
     class: supplier_missing
     name: La Petite Mort Albarino 2025 - Bottle
-    reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
-      one invoice from each and these flow
+    reason: VITICULT one-off (Zak 2026-08-20) — not on any of the last six Viticult invoices in Dext (20
+      Jul-18 Aug); the seeds ($20.81 ex) look purchase-set. Bridges the day a Viticult invoice carries
+      an LPM code, or Zak names the invoice date.
   lightspeed:23120216:
     class: supplier_missing
     name: La Petite Mort Rosso 2025 - Bottle
-    reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
-      one invoice from each and these flow
+    reason: VITICULT one-off (Zak 2026-08-20) — not on any of the last six Viticult invoices in Dext (20
+      Jul-18 Aug); the seeds ($20.81 ex) look purchase-set. Bridges the day a Viticult invoice carries
+      an LPM code, or Zak names the invoice date.

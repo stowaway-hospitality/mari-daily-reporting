@@ -351,3 +351,89 @@ purchases:
     venue: harry_gatos
     purchased_on: 2026-04-28
     evidence: "Deja Vu invoice 28 Apr 2026 (Dext): $56.00 LUC printed, x1.1 = $61.60 incl exact"
+
+  # ITALIAN WINE IMPORTERS (IWI / Fresco Gourmet, in Dext as 'Inalca F&B
+  # Australia') — Zak: 'casa gheller is italian wine imports, ordered very
+  # frequently'. 19 invoices, ~fortnightly ~$400.
+
+  - supplier: "Italian Wine Importers"
+    supplier_code: "GHEMILL-24"
+    description: "Casa Gheller Prosecco Extra Dry Millesimato"
+    price_ex_gst: 15.2083
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-19
+    evidence: "IWI IV26032089 (19 Aug 2026, Dext): 24 PCS, $365.00 incl WET / 24 = $15.21 LUC printed; seed exact"
+
+  # FRANC ABOUT WINE — Zak: 'esoterico is franc about wine'. 29 invoices in
+  # Dext; they print 'Landed Unit Cost' per bottle (ex GST, WET-in).
+
+  - supplier: "Franc About Wine"
+    supplier_code: "UNICOTERRA24"
+    description: "Unico Zelo Terra Cotta Greco 2024"
+    price_ex_gst: 19.90
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-11
+    evidence: "Franc About 228206 (11 Aug 2026, Dext): LUC $19.90 printed; seed exact"
+
+  - supplier: "Franc About Wine"
+    supplier_code: "UNICOESOT23"
+    description: "Unico Zelo Esoterico Spice Blend 2023"
+    price_ex_gst: 16.50
+    pack_qty: 750
+    pack_unit: ml
+    venue: harry_gatos
+    purchased_on: 2025-12-16
+    evidence: "Franc About 16 Dec 2025 (Dext): 12 @ LUC $16.50 printed. The BO seed implied $12.21 — a real 35% under-costing corrected"
+
+  # VITICULT — parses from the mailbox, but the mailbox got NOTHING after
+  # 27 Jul while Dext holds 149 Viticult docs including 3/11/18 Aug. These
+  # rows are read off the Dext copies and a mailbox re-catch supersedes them.
+
+  - supplier: "Viticult"
+    supplier_code: "TS25"
+    description: "Trutta Streamside 2025"
+    price_ex_gst: 18.0375
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-18
+    evidence: "Viticult INV-03535 (18 Aug 2026, Dext): 19.50 less 7.5% = LUC $18.037; also on 20 Jul; ls-recipe-seed exact"
+
+  - supplier: "Viticult"
+    supplier_code: "YF24"
+    description: "Year Fiano 2024"
+    price_ex_gst: 19.425
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-03
+    evidence: "Viticult 3 Aug 2026 (Dext): 21.00 less 7.5% = LUC $19.425; ls-recipe-seed exact"
+
+  - supplier: "Viticult"
+    supplier_code: "ART24"
+    description: "A Rodda Tempranillo 2024"
+    price_ex_gst: 25.326
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-11
+    evidence: "Viticult 11 Aug 2026 (Dext): 27.38 less 7.5% = LUC $25.326; seed exact"
+
+  # IMBIBO — the 'gueguen' line-item search lit up 14 Imbibo invoices (Dext
+  # indexes lines). Zak recalled 'fogarty hall wine, ordered 4th august';
+  # no such supplier exists in Dext and no Aug invoice carries Gueguen — if
+  # one lands it supersedes this 6 Jan reading.
+
+  - supplier: "Imbibo"
+    supplier_code: "25810-750"
+    description: "Domaine Gueguen Chablis 2024"
+    price_ex_gst: 41.20
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-01-06
+    evidence: "Imbibo INI073826 (6 Jan 2026, Dext): 9 BT @ $45.78 less 10% = $41.20 ex; seed within 1.3%"
