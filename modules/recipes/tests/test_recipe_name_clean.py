@@ -52,6 +52,24 @@ def _back_office_names() -> set:
     return out
 
 
+def _sold_names() -> set:
+    """Every product name exactly as it came off the till.
+
+    THE SECOND SOURCE OF REAL NAMES, needed since 2026-08-20. The rule below is
+    'a name that is in the POS is not residue, however ugly' — and Back Office
+    is not the whole POS. The Family pizzas ring through a channel BO's export
+    does not carry ("Family  Pepperoni", two spaces, holds $6,902 of revenue),
+    so their names reach the sales index without ever appearing in the export.
+    A recipe registered under the till's exact spelling is doing its job;
+    'cleaning' it would orphan the revenue it was built to cost.
+    """
+    p = ROOT / "dashboard" / "sales" / "products" / "index.json"
+    if not p.exists():
+        return set()
+    return {(x.get("name") or "").strip()
+            for x in json.loads(p.read_text(encoding="utf-8-sig")).get("products") or []}
+
+
 def test_no_dirty_residue_in_data():
     """The shipped feed must contain zero avatar-doubled or dot/space-dirty keys."""
     R = json.loads((ROOT / "data" / "lightspeed_recipes_costed.json").read_text())["recipes"]
@@ -65,7 +83,7 @@ def test_no_dirty_residue_in_data():
     # It surfaced on 2026-08-19 because that recipe had been in our book all
     # along and was being silently dropped, so its name never reached the feed
     # to be checked.
-    real = _back_office_names()
+    real = _back_office_names() | _sold_names()
     dirty = [n for n in R
              if n.strip() not in real
              and ((re.match(r"^([A-Z][a-z])([A-Z][a-z])", n) and n[:2].lower() == n[2:4].lower())

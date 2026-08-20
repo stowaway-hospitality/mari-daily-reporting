@@ -70,11 +70,11 @@
   "derived": 132,
   "mirrored": 40,
   "rule": 60,
-  "scrape": 1173,
-  "weighed": 9
+  "scrape": 1180,
+  "weighed": 23
  },
  "generated": "2026-08-20",
- "lines": 1455,
+ "lines": 1476,
  "manual_lines": [
   {
    "engine": null,
@@ -459,6 +459,17 @@
    "ref": "lightspeed:20445858",
    "unit": "ml",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": 0.03738125,
+   "frozen_unit_cost": 59.81,
+   "line": "Garlic Bread",
+   "line_cost": 1.49525,
+   "product": "Garlic Bread [Deal]",
+   "qty": 0.025,
+   "ref": "lightspeed:20467596",
+   "unit": "ea",
+   "why": "our book prices this line differently"
   },
   {
    "engine": null,
@@ -1110,7 +1121,7 @@
   }
  ],
  "no_yield": [],
- "products": 628,
+ "products": 630,
  "pulled_in_for_closure": [
   "Davy's Old Fashioned Batch"
  ],

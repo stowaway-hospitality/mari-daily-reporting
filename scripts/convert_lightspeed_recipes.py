@@ -507,6 +507,41 @@ def _trust_direct(ln, ls, is_prep):
     return _AGREE_LO * ls <= direct <= _AGREE_HI * ls
 
 
+def _raw_figure(name, ln, out):
+    """Produce's own stated cost for this line, before anything scaled it.
+
+    The independent opinion. Everything downstream of the scrape gets rewritten
+    — deal expansion scales ls_cost, restatement rewrites quantities, a builder
+    save gives the line a real our_cost — and each rewrite makes the line more
+    SELF-consistent, which is exactly what makes an error invisible. The raw
+    figure is the one number none of those passes touch.
+
+    Fallbacks, in evidence order, when the recipe has no scrape line of its own:
+
+      * An ALIAS first, because it is not a heuristic: a confirmed pairing in
+        product_recipe_aliases.yaml says these two names are the same dish, so
+        the source recipe's own scrape line is the right authority. "Beef
+        Burger D" is a deep copy of the American Standard Burger, whose lettuce
+        line Produce prices at $0.23 — 0.083 of a $2.75 twin-pack is $0.228 and
+        a whole pack is $2.75, so the fraction is the reading that matches.
+        Without this it took the whole twin-pack and made lettuce dearer than
+        the wagyu patty.
+      * The " D" suffix as the fallback for delivery twins with no confirmed
+        alias. Bang Bang Cauli D took "0.01" of a $9.90 bunch of chives as a
+        whole bunch and cost $12.57 on a $16 dish while the identical Bang Bang
+        Cauli read it as 10c.
+    """
+    key = norm(ln.get("name") or "")
+    raw = _RAW_LINE_COST.get((name, key))
+    if raw is None:
+        src = (out.get(name) or {}).get("alias_of")
+        if src:
+            raw = _RAW_LINE_COST.get((src, key))
+        if raw is None and name.endswith(" D"):
+            raw = _RAW_LINE_COST.get((name[:-2], key))
+    return raw
+
+
 def norm(s: str) -> str:
     s = (s or "").lower()
     s = _SIZE.sub(" ", s)                 # drop [size]
@@ -2440,6 +2475,120 @@ def main() -> int:
     if _missing:
         print(f"  restored {_missing} ingredient line(s) Produce had omitted")
 
+    def _add_family_pizzas():
+        """Give the Family pizzas a recipe. They sell every week and have none.
+
+        THE GAP. The weighed portion sheet has carried a `family` column since
+        2026-08-19, annotated "nothing reads it yet: the book holds Regular,
+        Large and Gluten-free products and no Family ones. It is here so the
+        day a Family pizza is listed, the number is already weighed." The
+        Family pizzas ARE listed — 88 products, $127,061 of lifetime revenue,
+        Family Meatlovers sold THIS WEEK — but through a channel Back Office's
+        product export does not carry, so no pass that starts from BO can see
+        them, and Produce has never held a recipe for any of them. Every one
+        books at 100% GP and the whole family is the largest block of
+        Marilyna's uncosted revenue.
+
+        THE SOURCE LIST is therefore the Sales Product API index — the file
+        CLAUDE.md names as the authority for what sells — not Back Office.
+        A Family recipe is created for every sold Family product whose LARGE
+        twin is in the book, by copying the Large's lines. Then the passes
+        that already exist do their work: the weighed-grams pass matches these
+        recipes' ^Family names and writes the sheet's family column onto every
+        line the sheet governs (304 g of dough where the Large gets 215), and
+        _fix_packaging gives them the family box. This adds no new source of
+        truth — it holds a place for Zak's weighed numbers to land on.
+
+        Lines the sheet does NOT govern are scaled by 304/215 — the family/
+        large ratio of the one ingredient on every pizza, the measured base —
+        rather than left at the Large quantity, because leaving them flat
+        UNDER-costs a bigger pizza and under-costing flatters. Marked
+        `family_scaled` so an inferred number never reads as a weighed one
+        (the no-rounding rule above, applied here: ugly derived quantities
+        stay visibly derived).
+
+        Spacing variants are real till products, not typos to fix: "Family
+        Pepperoni" and "Family  Pepperoni" both hold revenue ($5,182 and
+        $6,902), so each sold spelling gets the recipe under its exact name —
+        coverage is matched on the till's spelling, and correcting it here
+        would orphan the history.
+
+        Skipped without a twin: Half Half (contents undeclared, same as the
+        deal split), and the 2025 menu's retired names (Mexicana, Southern
+        Lamb, House Special) whose Large twins left the book with them. Those
+        stay visible in the audit as the real gaps they are.
+        """
+        sales_idx = ROOT / "dashboard" / "sales" / "products" / "index.json"
+        if not sales_idx.exists():
+            return 0, 0
+        products = (json.loads(sales_idx.read_text(encoding="utf-8-sig"))
+                    .get("products") or [])
+        base_ratio = None            # family/large of the weighed pizza base
+        _pp = ROOT / "data" / "pizza_portions.yaml"
+        if _pp.exists():
+            import yaml as _yaml
+            for x in ((_yaml.safe_load(_pp.read_text(encoding="utf-8-sig")) or {})
+                      .get("portions") or []):
+                if x.get("label") == "pizza base" and x.get("large") and x.get("family"):
+                    base_ratio = float(x["family"]) / float(x["large"])
+        if not base_ratio:
+            return 0, 0              # no measured ratio -> nothing to infer from
+
+        added = skipped = 0
+        for p in products:
+            name = (p.get("name") or "").strip()
+            if not re.match(r"^Family\s", name, re.I) or name in out:
+                continue
+            if float(p.get("lifetime_revenue_ex_gst") or 0) <= 0:
+                continue
+            base = re.sub(r"^Family\s+", "", name).strip()
+            twin = f"Large {base}"
+            large = out.get(twin)
+            if large is None:
+                # The till spells some names its own way — "No Chorizo No Cry"
+                # without the comma, "Super House" for "Super House Special".
+                # Normalised match, and only when it is UNIQUE: two candidates
+                # would mean the normalisation invented an identity, and a
+                # skipped pizza stays visible in the audit while a wrong twin
+                # would quietly cost one pizza as another.
+                want = re.sub(r"[^a-z0-9]", "", base.lower())
+                cands = {k: re.sub(r"[^a-z0-9]", "", k[6:].lower())
+                         for k in out if k.startswith("Large ")
+                         and "deal" not in k.lower()}
+                hits = [k for k, nk in cands.items() if nk == want]
+                if not hits:
+                    hits = [k for k, nk in cands.items() if nk.startswith(want)]
+                if len(hits) == 1:
+                    twin, large = hits[0], out[hits[0]]
+            if large is None:
+                skipped += 1
+                continue
+            lines = []
+            for src in large["ingredients"]:
+                c = dict(src)
+                # Scale every mass/volume line. Packaging never needs excluding
+                # here because a box is counted ("1 ea"), never weighed — and a
+                # name test would wrongly spare real toppings whose PACK has the
+                # word in it, like "Mushrooms [4Kg box]".
+                if str(c.get("unit") or "").lower() in ("g", "ml"):
+                    try:
+                        c["qty"] = float(c.get("qty") or 0) * base_ratio
+                        if c.get("ls_cost") is not None:
+                            c["ls_cost"] = float(c.get("ls_cost") or 0) * base_ratio
+                        c["family_scaled"] = f"Large x{base_ratio:.4g} (weighed base ratio)"
+                    except (TypeError, ValueError):
+                        pass
+                lines.append(c)
+            out[name] = {"ingredients": lines, "family_from": twin}
+            added += 1
+        return added, skipped
+
+    _fam, _fam_skip = _add_family_pizzas()
+    if _fam:
+        print(f"  {_fam} Family pizza(s) built from their Large twin "
+              f"({_fam_skip} skipped — no Large in the book); the weighed sheet's "
+              f"family column takes over the lines it governs")
+
     _rg_changed, _rg_recipes = _apply_regular_grams()
     print(f"  regular pizzas: {_rg_changed} quantities set from Zak's weighed sheet "
           f"across {_rg_recipes} recipes")
@@ -2670,8 +2819,39 @@ def main() -> int:
                 ls_tot += ls
             elif ln["our_cost"] is not None and _trust_direct(ln, ls, prep_ish(name)):
                 # our invoice-fed book prices this line directly (unit matched, sane
-                # magnitude — it agrees with LS at ratio ~1.0). Trust it fully.
+                # magnitude — it agrees with LS at ratio ~1.0). Trust it fully...
                 eff = float(ln["our_cost"]) * float(ln["qty"] or 0)
+                # ...EXCEPT when the quantity is a sub-unit fraction of a per-EACH
+                # price, where "agrees with LS" proves nothing. Garlic Bread
+                # [Deal] is the worked case: the deal draws 0.025 of a 40-carton,
+                # meaning ONE bread. While the line had no our_cost, the else-path
+                # below adjudicated whole-vs-fraction against Produce's raw $1.32
+                # and correctly took the whole. Then a CORRECT change broke it —
+                # Zak's builder save of Garlic Bread gave the ingredient a real
+                # per-each price, this branch started winning, and the agreement
+                # test passed BECAUSE deal expansion had scaled ls_cost by the
+                # same 0.025: both sides of the comparison carried the same
+                # error, and one bread booked at $0.0374 against a $5.00 deal.
+                #
+                # A wrong number that stops contradicting anything is the
+                # pack-agreement class all over again, so the same medicine: ask
+                # the one figure no downstream pass rewrites. Produce's raw line
+                # cost says $1.32; whole ($1.50) matches and fraction ($0.04)
+                # does not, so the whole is the reading. Lettuce stays a genuine
+                # twelfth of its twin-pack by the same comparison run the other
+                # way — this is the else-path's adjudication, reached from the
+                # trusted path, not a new rule.
+                unit = str(ln.get("unit") or "").strip().lower()
+                try:
+                    _qf = float(ln.get("qty") or 0)
+                except (TypeError, ValueError):
+                    _qf = 0.0
+                if unit in ("ea", "each") and 0 < _qf < 1:
+                    _whole = float(ln["our_cost"])
+                    _raw = _raw_figure(name, ln, out)
+                    if (_raw and _raw > 0
+                            and abs(_whole - _raw) < abs(_whole * _qf - _raw)):
+                        eff = _whole              # "one of them" out of the carton
                 our_tot += eff
                 ls_tot += ls
             else:
@@ -2727,34 +2907,7 @@ def main() -> int:
                 # comparing against it picks the wrong reading every time.
                 if cur and cur[1] == "ea" and 0 < _qf < 1:
                     _whole = float(cur[0])
-                    _raw = _RAW_LINE_COST.get((name, norm(ln.get("name") or "")))
-                    if _raw is None:
-                        # NO SCRAPE LINE OF ITS OWN -> ASK THE RECIPE IT IS A COPY
-                        # OF. Without a raw figure this falls through to WHOLE, the
-                        # expensive reading, and the copy costs more than the dish
-                        # it copies. Bang Bang Cauli D took "0.01" of a $9.90 bunch
-                        # of chives as a whole bunch and cost $12.57 on a $16 dish
-                        # while the identical Bang Bang Cauli read it as 10c.
-                        #
-                        # An ALIAS is asked first, because it is not a heuristic: a
-                        # confirmed pairing in product_recipe_aliases.yaml says these
-                        # two names are the same dish, so the source recipe's own
-                        # scrape line is the right authority. "Beef Burger D" is a
-                        # deep copy of the American Standard Burger, whose lettuce
-                        # line Produce prices at $0.23 — 0.083 of a $2.75 twin-pack
-                        # is $0.228 and a whole pack is $2.75, so the fraction is
-                        # the reading that matches. Without this it took the whole
-                        # twin-pack and OVER-costed the burger by $2.52 (our_cost
-                        # $8.362 against the $5.8403 of the dish it is a copy of),
-                        # making lettuce dearer than the wagyu patty.
-                        #
-                        # The " D" suffix stays as the fallback for the delivery
-                        # twins that have no confirmed alias.
-                        _src = (out.get(name) or {}).get("alias_of")
-                        if _src:
-                            _raw = _RAW_LINE_COST.get((_src, norm(ln.get("name") or "")))
-                        if _raw is None and name.endswith(" D"):
-                            _raw = _RAW_LINE_COST.get((name[:-2], norm(ln.get("name") or "")))
+                    _raw = _raw_figure(name, ln, out)
                     if _raw and _raw > 0 and abs(_whole * _qf - _raw) < abs(_whole - _raw):
                         eff = _whole * _qf        # a real fraction of a real pack
                     else:

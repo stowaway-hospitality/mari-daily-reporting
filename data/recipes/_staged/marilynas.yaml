@@ -6,11 +6,11 @@
 # book rather than a patch over one.
 #
 # Every line carries `source`:
-#   weighed    834 — somebody put it on scales
+#   weighed   1229 — somebody put it on scales
 #   derived    289 — computed from another line (a size scaling, a cook yield)
 #   mirrored    22 — deliberately the same spec as a sibling record
 #   rule         2 — a written rule with arithmetic proof corrected it
-#   scrape     352 — nobody has checked it. This is the number to shrink.
+#   scrape     593 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -575,6 +575,3851 @@
     desc: De La Grosse Beaujolais - Bottle
     qty: 750
     unit: ml
+    source: scrape
+- product: Family   BBQ Chicken
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445603
+    desc: Chicken [5Kg] [BBQ Chicken Pizza]
+    qty: 130
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: chicken (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 0.11311627906976744
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22989451
+    desc: Sunshine Smokey BBQ Sauce [3L]
+    qty: 86.25116279069768
+    unit: ml
+    source: scrape
+- product: Family   Bubba Gump
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445601
+    desc: Prawns [Box 7kg]
+    qty: 107
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: prawns (bubba gump) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22523805
+    desc: Chilli Flakes
+    qty: 0.11311627906976744
+    unit: g
+    source: scrape
+  - id: lightspeed:22524134
+    desc: Peeled Garlic [1Kg]
+    qty: 46
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: garlic (minced) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 0.11311627906976744
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Cosmopolitan
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445566
+    desc: Mushrooms [4Kg box]
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445584
+    desc: Capsicum [1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491666
+    desc: Brown Onions [20kg]
+    qty: 41
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: brown onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445601
+    desc: Prawns [Box 7kg]
+    qty: 90
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: prawns (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445599
+    desc: Anchovies [Tin 690g]
+    qty: 24
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: anchovies (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Hail Africa
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480144
+    desc: Char-grilled Caps [4.1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480147
+    desc: Zucchini [1Kg]
+    qty: 49
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: zucchini (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480169
+    desc: Harissa Prawns [7Kg]
+    qty: 113
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: harissa prawns (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22523874
+    desc: Zaat'ar
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:20564869
+    desc: Lemon [Sliced]
+    qty: 26.865116279069767
+    unit: g
+    manual: true
+    unit_cost_incl: 0.005263144909972299
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Hawaiian
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - id: lightspeed:22491679
+    desc: Pineapple pizza [9Kg]
+    qty: 150
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pineapple (hawaiian) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22995341
+    desc: Ham Soccerball Sliced Pendle [1kg]
+    qty: 153
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: ham (hawaiian) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+- product: Family   Little Italy
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480046
+    desc: Prosciutto Sliced [500g]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: prosciutto (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445569
+    desc: Bocconcini [1Kg]
+    qty: 73
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bocconcini (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22523805
+    desc: Chilli Flakes
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:20445579
+    desc: Basil [Bunch/2.50]
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22995363
+    desc: Sundried Tomato Strips Mezzat [2kg]
+    qty: 44
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: sundried tomatoes (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+- product: Family   Margherita
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 187
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (margherita) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Meatlovers
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491666
+    desc: Brown Onions [20kg]
+    qty: 41
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: brown onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491689
+    desc: Bacon pizza [5Kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bacon (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Cooked Beef Brisket [1Kg]
+    desc: Cooked Beef Brisket [1Kg]
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: beef brisket (meatlovers) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445572
+    desc: BBQ Sauce [Bottle 946ml]
+    qty: 86.25116279069768
+    unit: g
+    source: scrape
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   New Yorker
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445612
+    desc: Calabrese [1Kg]
+    qty: 110
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: calabrese (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   No Chorizo No Cry
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480081
+    desc: Baby Spinach [1.5Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spinach (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480095
+    desc: Chorizo [1Kg]
+    qty: 102
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: chorizo (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22523805
+    desc: Chilli Flakes
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - subrecipe: Garlic Oil [Batch]
+    desc: Garlic Oil [Batch]
+    qty: 28.27906976744186
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Paddock
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445593
+    desc: Pumpkin [1kg]
+    qty: 50
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pumpkin (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480103
+    desc: Basil Pesto [1.9Kg]
+    qty: 42.41860465116279
+    unit: g
+    source: scrape
+  - id: lightspeed:20445571
+    desc: Fetta [2Kg]
+    qty: 45
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: fetta (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445603
+    desc: Chicken [5Kg] [BBQ Chicken Pizza]
+    qty: 130
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: chicken (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514075
+    desc: Caramelised Onion
+    qty: 47
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: caramelised onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Pepperoni
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 110
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (pepperoni pizza) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Roma Special
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480081
+    desc: Baby Spinach [1.5Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spinach (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514113
+    desc: Pizza Eggplant
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: eggplant (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445571
+    desc: Fetta [2Kg]
+    qty: 45
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: fetta (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480103
+    desc: Basil Pesto [1.9Kg]
+    qty: 35.348837209302324
+    unit: g
+    source: scrape
+  - id: lightspeed:22491710
+    desc: Roma Tomato [box]
+    qty: 196
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: roma tomatoes (roma special) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Sanchez
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480112
+    desc: Jalapenos [3Kg]
+    qty: 42
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: jalapenos (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445586
+    desc: Corn [2Kg]
+    qty: 56
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: corn (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - subrecipe: Cooked Beef Brisket [1Kg]
+    desc: Cooked Beef Brisket [1Kg]
+    qty: 170
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: beef brisket (sanchez) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491356
+    desc: Cherry Tom [250g/Punnet]
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cherry tomatoes (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22524158
+    desc: Spiced Sour Cream [Batch]
+    qty: 63.627906976744185
+    unit: g
+    manual: true
+    unit_cost_incl: 0.009783773026315789
+    source: scrape
+  - id: lightspeed:20445595
+    desc: Shallots [Bunch]
+    qty: 23
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: shallots (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Sorrento
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480046
+    desc: Prosciutto Sliced [500g]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: prosciutto (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445569
+    desc: Bocconcini [1Kg]
+    qty: 73
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bocconcini (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Super House
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445566
+    desc: Mushrooms [4Kg box]
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445584
+    desc: Capsicum [1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491666
+    desc: Brown Onions [20kg]
+    qty: 41
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: brown onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491679
+    desc: Pineapple pizza [9Kg]
+    qty: 112
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pineapple (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491688
+    desc: Mixed Olives [6Kg]
+    qty: 40
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: olives (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491689
+    desc: Bacon pizza [5Kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bacon (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491710
+    desc: Roma Tomato [box]
+    qty: 109
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: roma tomatoes (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22995341
+    desc: Ham Soccerball Sliced Pendle [1kg]
+    qty: 71
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: ham (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+- product: Family   Tandoori Chicken
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445595
+    desc: Shallots [Bunch]
+    qty: 23
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: shallots (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - subrecipe: Mint Yoghurt [Batch]
+    desc: Mint Yoghurt [Batch]
+    qty: 49.48837209302326
+    unit: g
+    source: scrape
+  - subrecipe: Tandoori Chicken [2Kg]
+    desc: Tandoori Chicken [2Kg]
+    qty: 158
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: tandoori chicken (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Truffalo Soldier
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514063
+    desc: Garlic Sauce Base
+    qty: 127.25581395348837
+    unit: g
+    source: scrape
+  - id: lightspeed:22514068
+    desc: Mushrooms Ragu
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514075
+    desc: Caramelised Onion
+    qty: 47
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: caramelised onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514089
+    desc: Vegan Shredded Cheese [500g]
+    qty: 115
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: vegan cheese (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514090
+    desc: Walnuts [1kg]
+    qty: 14.13953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22514091
+    desc: Truffole Oil [250ml]
+    qty: 1.413953488372093
+    unit: ml
+    source: scrape
+  - id: lightspeed:22514094
+    desc: Baby Rocket
+    qty: 42.41860465116279
+    unit: g
+    source: scrape
+  - id: lightspeed:20445566
+    desc: Mushrooms [4Kg box]
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:20564869
+    desc: Lemon [Sliced]
+    qty: 26.865116279069767
+    unit: g
+    manual: true
+    unit_cost_incl: 0.005263144909972299
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Uber Margherita
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 187
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (margherita) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445569
+    desc: Bocconcini [1Kg]
+    qty: 73
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bocconcini (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491356
+    desc: Cherry Tom [250g/Punnet]
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cherry tomatoes (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445579
+    desc: Basil [Bunch/2.50]
+    qty: 4.241860465116279
+    unit: g
+    source: scrape
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family   Vegetarian
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20445566
+    desc: Mushrooms [4Kg box]
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445584
+    desc: Capsicum [1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491666
+    desc: Brown Onions [20kg]
+    qty: 41
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: brown onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491679
+    desc: Pineapple pizza [9Kg]
+    qty: 112
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pineapple (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491688
+    desc: Mixed Olives [6Kg]
+    qty: 40
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: olives (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  BBQ Chicken
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445603
+    desc: Chicken [5Kg] [BBQ Chicken Pizza]
+    qty: 130
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: chicken (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 0.11311627906976744
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22989451
+    desc: Sunshine Smokey BBQ Sauce [3L]
+    qty: 86.25116279069768
+    unit: ml
+    source: scrape
+- product: Family  Bubba Gump
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445601
+    desc: Prawns [Box 7kg]
+    qty: 107
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: prawns (bubba gump) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22523805
+    desc: Chilli Flakes
+    qty: 0.11311627906976744
+    unit: g
+    source: scrape
+  - id: lightspeed:22524134
+    desc: Peeled Garlic [1Kg]
+    qty: 46
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: garlic (minced) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 0.11311627906976744
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Cosmopolitan
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445566
+    desc: Mushrooms [4Kg box]
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445584
+    desc: Capsicum [1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491666
+    desc: Brown Onions [20kg]
+    qty: 41
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: brown onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445601
+    desc: Prawns [Box 7kg]
+    qty: 90
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: prawns (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445599
+    desc: Anchovies [Tin 690g]
+    qty: 24
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: anchovies (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Hail Africa
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480144
+    desc: Char-grilled Caps [4.1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480147
+    desc: Zucchini [1Kg]
+    qty: 49
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: zucchini (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480169
+    desc: Harissa Prawns [7Kg]
+    qty: 113
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: harissa prawns (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22523874
+    desc: Zaat'ar
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:20564869
+    desc: Lemon [Sliced]
+    qty: 26.865116279069767
+    unit: g
+    manual: true
+    unit_cost_incl: 0.005263144909972299
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Hawaiian
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - id: lightspeed:22491679
+    desc: Pineapple pizza [9Kg]
+    qty: 150
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pineapple (hawaiian) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22995341
+    desc: Ham Soccerball Sliced Pendle [1kg]
+    qty: 153
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: ham (hawaiian) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+- product: Family  Little Italy
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480046
+    desc: Prosciutto Sliced [500g]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: prosciutto (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445569
+    desc: Bocconcini [1Kg]
+    qty: 73
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bocconcini (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22523805
+    desc: Chilli Flakes
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:20445579
+    desc: Basil [Bunch/2.50]
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22995363
+    desc: Sundried Tomato Strips Mezzat [2kg]
+    qty: 44
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: sundried tomatoes (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+- product: Family  Margherita
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 187
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (margherita) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Meatlovers
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491666
+    desc: Brown Onions [20kg]
+    qty: 41
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: brown onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491689
+    desc: Bacon pizza [5Kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bacon (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Cooked Beef Brisket [1Kg]
+    desc: Cooked Beef Brisket [1Kg]
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: beef brisket (meatlovers) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445572
+    desc: BBQ Sauce [Bottle 946ml]
+    qty: 86.25116279069768
+    unit: g
+    source: scrape
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  New Yorker
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445612
+    desc: Calabrese [1Kg]
+    qty: 110
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: calabrese (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  No Chorizo No Cry
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480081
+    desc: Baby Spinach [1.5Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spinach (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480095
+    desc: Chorizo [1Kg]
+    qty: 102
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: chorizo (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22523805
+    desc: Chilli Flakes
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - subrecipe: Garlic Oil [Batch]
+    desc: Garlic Oil [Batch]
+    qty: 28.27906976744186
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Paddock
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445593
+    desc: Pumpkin [1kg]
+    qty: 50
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pumpkin (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480103
+    desc: Basil Pesto [1.9Kg]
+    qty: 42.41860465116279
+    unit: g
+    source: scrape
+  - id: lightspeed:20445571
+    desc: Fetta [2Kg]
+    qty: 45
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: fetta (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445603
+    desc: Chicken [5Kg] [BBQ Chicken Pizza]
+    qty: 130
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: chicken (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514075
+    desc: Caramelised Onion
+    qty: 47
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: caramelised onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Pepperoni
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 110
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (pepperoni pizza) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Roma Special
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480081
+    desc: Baby Spinach [1.5Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spinach (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514113
+    desc: Pizza Eggplant
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: eggplant (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445571
+    desc: Fetta [2Kg]
+    qty: 45
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: fetta (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480103
+    desc: Basil Pesto [1.9Kg]
+    qty: 35.348837209302324
+    unit: g
+    source: scrape
+  - id: lightspeed:22491710
+    desc: Roma Tomato [box]
+    qty: 196
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: roma tomatoes (roma special) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Sanchez
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480112
+    desc: Jalapenos [3Kg]
+    qty: 42
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: jalapenos (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445586
+    desc: Corn [2Kg]
+    qty: 56
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: corn (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - subrecipe: Cooked Beef Brisket [1Kg]
+    desc: Cooked Beef Brisket [1Kg]
+    qty: 170
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: beef brisket (sanchez) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491356
+    desc: Cherry Tom [250g/Punnet]
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cherry tomatoes (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22524158
+    desc: Spiced Sour Cream [Batch]
+    qty: 63.627906976744185
+    unit: g
+    manual: true
+    unit_cost_incl: 0.009783773026315789
+    source: scrape
+  - id: lightspeed:20445595
+    desc: Shallots [Bunch]
+    qty: 23
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: shallots (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Sanchez Vegan
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445586
+    desc: Corn [2Kg]
+    qty: 56
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: corn (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480112
+    desc: Jalapenos [3Kg]
+    qty: 42
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: jalapenos (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491356
+    desc: Cherry Tom [250g/Punnet]
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cherry tomatoes (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22796313
+    desc: Black Beans [7.8kg]
+    qty: 127
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: beans (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445595
+    desc: Shallots [Bunch]
+    qty: 23
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: shallots (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Sorrento
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480046
+    desc: Prosciutto Sliced [500g]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: prosciutto (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445569
+    desc: Bocconcini [1Kg]
+    qty: 73
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bocconcini (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Super House
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445566
+    desc: Mushrooms [4Kg box]
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445584
+    desc: Capsicum [1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491666
+    desc: Brown Onions [20kg]
+    qty: 41
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: brown onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491679
+    desc: Pineapple pizza [9Kg]
+    qty: 112
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pineapple (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491688
+    desc: Mixed Olives [6Kg]
+    qty: 40
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: olives (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491689
+    desc: Bacon pizza [5Kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bacon (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491710
+    desc: Roma Tomato [box]
+    qty: 109
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: roma tomatoes (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22995341
+    desc: Ham Soccerball Sliced Pendle [1kg]
+    qty: 71
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: ham (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+- product: Family  Tandoori Chicken
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445595
+    desc: Shallots [Bunch]
+    qty: 23
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: shallots (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - subrecipe: Mint Yoghurt [Batch]
+    desc: Mint Yoghurt [Batch]
+    qty: 49.48837209302326
+    unit: g
+    source: scrape
+  - subrecipe: Tandoori Chicken [2Kg]
+    desc: Tandoori Chicken [2Kg]
+    qty: 158
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: tandoori chicken (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Truffalo Soldier
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514063
+    desc: Garlic Sauce Base
+    qty: 127.25581395348837
+    unit: g
+    source: scrape
+  - id: lightspeed:22514068
+    desc: Mushrooms Ragu
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514075
+    desc: Caramelised Onion
+    qty: 47
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: caramelised onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514089
+    desc: Vegan Shredded Cheese [500g]
+    qty: 115
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: vegan cheese (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514090
+    desc: Walnuts [1kg]
+    qty: 14.13953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22514091
+    desc: Truffole Oil [250ml]
+    qty: 1.413953488372093
+    unit: ml
+    source: scrape
+  - id: lightspeed:22514094
+    desc: Baby Rocket
+    qty: 42.41860465116279
+    unit: g
+    source: scrape
+  - id: lightspeed:20445566
+    desc: Mushrooms [4Kg box]
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:20564869
+    desc: Lemon [Sliced]
+    qty: 26.865116279069767
+    unit: g
+    manual: true
+    unit_cost_incl: 0.005263144909972299
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Uber Margherita
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 187
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (margherita) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445569
+    desc: Bocconcini [1Kg]
+    qty: 73
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bocconcini (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491356
+    desc: Cherry Tom [250g/Punnet]
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cherry tomatoes (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445579
+    desc: Basil [Bunch/2.50]
+    qty: 4.241860465116279
+    unit: g
+    source: scrape
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family  Vegetarian
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20445566
+    desc: Mushrooms [4Kg box]
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445584
+    desc: Capsicum [1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491666
+    desc: Brown Onions [20kg]
+    qty: 41
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: brown onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491679
+    desc: Pineapple pizza [9Kg]
+    qty: 112
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pineapple (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491688
+    desc: Mixed Olives [6Kg]
+    qty: 40
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: olives (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family BBQ Chicken Pizza
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445603
+    desc: Chicken [5Kg] [BBQ Chicken Pizza]
+    qty: 130
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: chicken (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 0.11311627906976744
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22989451
+    desc: Sunshine Smokey BBQ Sauce [3L]
+    qty: 86.25116279069768
+    unit: ml
+    source: scrape
+- product: Family Bubba Gump
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445601
+    desc: Prawns [Box 7kg]
+    qty: 107
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: prawns (bubba gump) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22523805
+    desc: Chilli Flakes
+    qty: 0.11311627906976744
+    unit: g
+    source: scrape
+  - id: lightspeed:22524134
+    desc: Peeled Garlic [1Kg]
+    qty: 46
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: garlic (minced) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 0.11311627906976744
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Cosmopolitan
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445566
+    desc: Mushrooms [4Kg box]
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445584
+    desc: Capsicum [1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491666
+    desc: Brown Onions [20kg]
+    qty: 41
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: brown onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445601
+    desc: Prawns [Box 7kg]
+    qty: 90
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: prawns (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445599
+    desc: Anchovies [Tin 690g]
+    qty: 24
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: anchovies (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Garlic Cheese Pizza
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Garlic Oil [Batch]
+    desc: Garlic Oil [Batch]
+    qty: 60.8
+    unit: g
+    source: scrape
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 0.1413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Hail Africa
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480144
+    desc: Char-grilled Caps [4.1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480147
+    desc: Zucchini [1Kg]
+    qty: 49
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: zucchini (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480169
+    desc: Harissa Prawns [7Kg]
+    qty: 113
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: harissa prawns (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22523874
+    desc: Zaat'ar
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:20564869
+    desc: Lemon [Sliced]
+    qty: 26.865116279069767
+    unit: g
+    manual: true
+    unit_cost_incl: 0.005263144909972299
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Hawaiian
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - id: lightspeed:22491679
+    desc: Pineapple pizza [9Kg]
+    qty: 150
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pineapple (hawaiian) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22995341
+    desc: Ham Soccerball Sliced Pendle [1kg]
+    qty: 153
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: ham (hawaiian) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+- product: Family Little Italy
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480046
+    desc: Prosciutto Sliced [500g]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: prosciutto (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445569
+    desc: Bocconcini [1Kg]
+    qty: 73
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bocconcini (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22523805
+    desc: Chilli Flakes
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:20445579
+    desc: Basil [Bunch/2.50]
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22995363
+    desc: Sundried Tomato Strips Mezzat [2kg]
+    qty: 44
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: sundried tomatoes (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+- product: Family Margherita
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 187
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (margherita) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Meatlovers
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491666
+    desc: Brown Onions [20kg]
+    qty: 41
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: brown onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491689
+    desc: Bacon pizza [5Kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bacon (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Cooked Beef Brisket [1Kg]
+    desc: Cooked Beef Brisket [1Kg]
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: beef brisket (meatlovers) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445572
+    desc: BBQ Sauce [Bottle 946ml]
+    qty: 86.25116279069768
+    unit: g
+    source: scrape
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family New Yorker
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445612
+    desc: Calabrese [1Kg]
+    qty: 110
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: calabrese (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family No Chorizo, No Cry
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480081
+    desc: Baby Spinach [1.5Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spinach (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480095
+    desc: Chorizo [1Kg]
+    qty: 102
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: chorizo (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22523805
+    desc: Chilli Flakes
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - subrecipe: Garlic Oil [Batch]
+    desc: Garlic Oil [Batch]
+    qty: 28.27906976744186
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Paddock
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445593
+    desc: Pumpkin [1kg]
+    qty: 50
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pumpkin (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480103
+    desc: Basil Pesto [1.9Kg]
+    qty: 42.41860465116279
+    unit: g
+    source: scrape
+  - id: lightspeed:20445571
+    desc: Fetta [2Kg]
+    qty: 45
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: fetta (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445603
+    desc: Chicken [5Kg] [BBQ Chicken Pizza]
+    qty: 130
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: chicken (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514075
+    desc: Caramelised Onion
+    qty: 47
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: caramelised onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Pepperoni
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 110
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (pepperoni pizza) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Roma Special
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480081
+    desc: Baby Spinach [1.5Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spinach (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514113
+    desc: Pizza Eggplant
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: eggplant (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445571
+    desc: Fetta [2Kg]
+    qty: 45
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: fetta (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480103
+    desc: Basil Pesto [1.9Kg]
+    qty: 35.348837209302324
+    unit: g
+    source: scrape
+  - id: lightspeed:22491710
+    desc: Roma Tomato [box]
+    qty: 196
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: roma tomatoes (roma special) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Sanchez
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480112
+    desc: Jalapenos [3Kg]
+    qty: 42
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: jalapenos (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445586
+    desc: Corn [2Kg]
+    qty: 56
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: corn (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - subrecipe: Cooked Beef Brisket [1Kg]
+    desc: Cooked Beef Brisket [1Kg]
+    qty: 170
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: beef brisket (sanchez) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491356
+    desc: Cherry Tom [250g/Punnet]
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cherry tomatoes (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22524158
+    desc: Spiced Sour Cream [Batch]
+    qty: 63.627906976744185
+    unit: g
+    manual: true
+    unit_cost_incl: 0.009783773026315789
+    source: scrape
+  - id: lightspeed:20445595
+    desc: Shallots [Bunch]
+    qty: 23
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: shallots (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Sanchez VEGAN
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445586
+    desc: Corn [2Kg]
+    qty: 56
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: corn (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480112
+    desc: Jalapenos [3Kg]
+    qty: 42
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: jalapenos (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491356
+    desc: Cherry Tom [250g/Punnet]
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cherry tomatoes (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22796313
+    desc: Black Beans [7.8kg]
+    qty: 127
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: beans (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445595
+    desc: Shallots [Bunch]
+    qty: 23
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: shallots (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Sorrento
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480046
+    desc: Prosciutto Sliced [500g]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: prosciutto (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445569
+    desc: Bocconcini [1Kg]
+    qty: 73
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bocconcini (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Super House Special
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445566
+    desc: Mushrooms [4Kg box]
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445584
+    desc: Capsicum [1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491666
+    desc: Brown Onions [20kg]
+    qty: 41
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: brown onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445610
+    desc: Pepperoni [3kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pepperoni (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491679
+    desc: Pineapple pizza [9Kg]
+    qty: 112
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pineapple (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491688
+    desc: Mixed Olives [6Kg]
+    qty: 40
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: olives (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491689
+    desc: Bacon pizza [5Kg]
+    qty: 60
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bacon (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491710
+    desc: Roma Tomato [box]
+    qty: 109
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: roma tomatoes (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22995341
+    desc: Ham Soccerball Sliced Pendle [1kg]
+    qty: 71
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: ham (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+- product: Family Tandoori Chicken
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445595
+    desc: Shallots [Bunch]
+    qty: 23
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: shallots (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - subrecipe: Mint Yoghurt [Batch]
+    desc: Mint Yoghurt [Batch]
+    qty: 49.48837209302326
+    unit: g
+    source: scrape
+  - subrecipe: Tandoori Chicken [2Kg]
+    desc: Tandoori Chicken [2Kg]
+    qty: 158
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: tandoori chicken (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Truffalo Soldier
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514063
+    desc: Garlic Sauce Base
+    qty: 127.25581395348837
+    unit: g
+    source: scrape
+  - id: lightspeed:22514068
+    desc: Mushrooms Ragu
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514075
+    desc: Caramelised Onion
+    qty: 47
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: caramelised onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514089
+    desc: Vegan Shredded Cheese [500g]
+    qty: 115
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: vegan cheese (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514090
+    desc: Walnuts [1kg]
+    qty: 14.13953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22514091
+    desc: Truffole Oil [250ml]
+    qty: 1.413953488372093
+    unit: ml
+    source: scrape
+  - id: lightspeed:22514094
+    desc: Baby Rocket
+    qty: 42.41860465116279
+    unit: g
+    source: scrape
+  - id: lightspeed:20445566
+    desc: Mushrooms [4Kg box]
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:20564869
+    desc: Lemon [Sliced]
+    qty: 26.865116279069767
+    unit: g
+    manual: true
+    unit_cost_incl: 0.005263144909972299
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Uber Margherita
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 187
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (margherita) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445569
+    desc: Bocconcini [1Kg]
+    qty: 73
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: bocconcini (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491356
+    desc: Cherry Tom [250g/Punnet]
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cherry tomatoes (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445579
+    desc: Basil [Bunch/2.50]
+    qty: 4.241860465116279
+    unit: g
+    source: scrape
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Vegetarian
+  venue_source: marilynas
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20445566
+    desc: Mushrooms [4Kg box]
+    qty: 88
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: mushroom (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445584
+    desc: Capsicum [1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491666
+    desc: Brown Onions [20kg]
+    qty: 41
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: brown onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491679
+    desc: Pineapple pizza [9Kg]
+    qty: 112
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pineapple (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491688
+    desc: Mixed Olives [6Kg]
+    qty: 40
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: olives (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
     source: scrape
 - product: Feast Deal Pizzas
   venue_source: marilynas

@@ -204,6 +204,18 @@ def missing_standard_component(recipes) -> list:
         for ing, n in carried.items():
             if n < COMPONENT_MIN_CARRIERS or n == len(members):
                 continue
+            # PACKAGING IS NEVER A STANDARD COMPONENT. A pizza box is channel,
+            # not recipe: _fix_packaging deliberately REMOVES boxes from dine-in
+            # twins and gives every takeaway size exactly one. The day the
+            # Family pizzas joined their name-families (2026-08-20), this rule
+            # started re-litigating that removal — "Gluten-free The Paddock
+            # [Dine-in] is missing the Large Pizza Box its Family siblings
+            # carry" — and asked the Seitan Katsu Curry to carry a box because
+            # the word "vegan" put it in a family of Sanchez pizzas. A missing
+            # SAUCE is a costing question; a missing BOX is a decision another
+            # pass already made on purpose.
+            if re.search(r"\bbox|insert\b", ing, re.I):
+                continue
             lines = {m: _line(recipes[m], ing) for m in members if ing in _ingredient_names(recipes[m])}
             stated = {(str(ln.get("qty")), str(ln.get("unit"))) for ln in lines.values()}
             if len(stated) != 1:

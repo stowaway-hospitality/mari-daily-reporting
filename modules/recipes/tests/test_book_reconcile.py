@@ -183,7 +183,15 @@ def test_a_family_must_already_agree_with_itself(book):
     members to already share 30% of their ingredients leaves five families, all
     of them genuinely one plate or one build."""
     fams = {h: (m, c) for h, m, c in br.coherent_families(book)}
-    assert set(fams) == {"burrito", "fash", "margarita", "roast", "stormy"}, sorted(fams)
+    # A SUPERSET, not an exact set, since 2026-08-20. This pinned the census —
+    # exactly five families — and expired the day 65 Family pizzas entered the
+    # book and legitimately formed name-families that agree with themselves
+    # (pepperoni, hawaiian, meatlovers...). More coherent families is the book
+    # growing, not the rule loosening. What the rule must still do is (a) find
+    # the five originals and (b) keep the junk heads out, which the mutation
+    # test below proves is the coherence bar's doing.
+    assert {"burrito", "fash", "margarita", "roast", "stormy"} <= set(fams), sorted(fams)
+    assert not {"gin", "whisky", "liqueur", "house"} & set(fams), sorted(fams)
     assert fams["roast"][0] == ROASTS
     assert fams["roast"][1] >= 0.70
 

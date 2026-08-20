@@ -6,11 +6,11 @@
 # book rather than a patch over one.
 #
 # Every line carries `source`:
-#   weighed      9 — somebody put it on scales
+#   weighed     23 — somebody put it on scales
 #   derived    132 — computed from another line (a size scaling, a cook yield)
 #   mirrored    40 — deliberately the same spec as a sibling record
 #   rule        60 — a written rule with arithmetic proof corrected it
-#   scrape    1173 — nobody has checked it. This is the number to shrink.
+#   scrape    1180 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -3484,6 +3484,133 @@
     unit: g
     source: derived
     evidence: scaled from Fish Tacos x0.5
+- product: Family El Patron
+  venue_source: stowaway
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480144
+    desc: Char-grilled Caps [4.1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22480081
+    desc: Baby Spinach [1.5Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spinach (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491471
+    desc: Grilled Chicken [Kg]
+    qty: 180
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: grilled chicken (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
+- product: Family Jimmy Jury
+  venue_source: stowaway
+  is_serve: true
+  ingredients:
+  - subrecipe: Pizza Dough [Recipe]
+    desc: Pizza Dough [Recipe]
+    qty: 304
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza base (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - subrecipe: Pizza Sauce [Recipe]
+    desc: Pizza Sauce [Recipe]
+    qty: 116
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: pizza sauce (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445584
+    desc: Capsicum [1Kg]
+    qty: 62
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: capsicum (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:20445597
+    desc: Spanish Onion [10Kg]
+    qty: 30
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: spanish onion (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491319
+    desc: J.J. Beef [Top Side Kg]
+    qty: 130
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: jimmy jury marinated beef (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22479979
+    desc: Big Cheese - Shredded Mozzarella [2kg]
+    qty: 100
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cheese (other pizzas) (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22491356
+    desc: Cherry Tom [250g/Punnet]
+    qty: 85
+    unit: g
+    source: weighed
+    evidence: 'pizza_portions.yaml: cherry tomatoes (family), weighed by Zak — Marilynas_Pizza_Portions_v2'
+  - id: lightspeed:22514326
+    desc: Oregano Leaves Rubbed - Torino
+    qty: 1.413953488372093
+    unit: g
+    source: scrape
+  - subrecipe: J.J. Aioli [Batch]
+    desc: J.J. Aioli [Batch]
+    qty: 84.83720930232558
+    unit: g
+    source: scrape
+  - id: lightspeed:22873851
+    desc: Large Pizza Box 13"
+    qty: 1
+    unit: ea
+    source: scrape
+  - id: lightspeed:22873876
+    desc: Pizza Box Inserts
+    qty: 1
+    unit: ea
+    source: scrape
 - product: Fancy Pants Parmy - Classic
   venue_source: stowaway
   is_serve: true
@@ -4300,6 +4427,8 @@
     desc: Garlic Bread
     qty: 0.025
     unit: ea
+    manual: true
+    unit_cost_incl: 59.81
     source: derived
     evidence: scaled from Garlic Bread x0.025
 - product: Garlic Oil
