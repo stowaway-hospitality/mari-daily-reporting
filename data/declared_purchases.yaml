@@ -669,3 +669,279 @@ purchases:
     venue: stowaway
     purchased_on: 2026-08-20
     evidence: "Foodlink portal: 100543 $27.90 ex per KG (random weight, 2 a carton); seed $25.60/kg, a 9 percent rise"
+
+  # ILG BOOK CLOSE-OUT 2026-08-20 — see scripts note in the commit: the
+  # book is ILG's own MAR-2026 list, checkable against 20 invoiced codes
+  # (median invoiced/book 1.162), and the seeds sit AT book, i.e. ex-GST
+  # in an incl-GST field. Declared at book + GST: defensible, and still
+  # below what recent invoices charge. A real invoice supersedes.
+
+  - supplier: "ILG"
+    supplier_code: "330-260-6"
+    description: "Aether Vodka"
+    price_ex_gst: 53.53
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 330-260-6: $53.53 per selling unit. Seed was 0.083986/ml (= the book price ex GST); declared cost lands 1.00x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "410-309-9"
+    description: "Amaro Montenegro Liqueur"
+    price_ex_gst: 42.28
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 410-309-9: $42.28 per selling unit. Seed was 0.059307/ml (= the book price ex GST); declared cost lands 1.12x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "410-055-5"
+    description: "Baileys Irish Cream"
+    price_ex_gst: 46.09
+    pack_qty: 1000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 410-055-5: $46.09 per selling unit. Seed was 0.042340/ml (= the book price ex GST); declared cost lands 1.20x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "410-277-7"
+    description: "Mac By Brookie's Liqueur"
+    price_ex_gst: 50.78
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 410-277-7: $50.78 per selling unit. Seed was 0.072543/ml (= the book price ex GST); declared cost lands 1.10x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "410-940-4"
+    description: "Chambord"
+    price_ex_gst: 49.9
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 410-940-4: $49.9 per selling unit. Seed was 0.072471/ml (= the book price ex GST); declared cost lands 1.08x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "460-163-9"
+    description: "Coke No Sugar 1.25 Litre"
+    price_ex_gst: 3.07
+    pack_qty: 1
+    pack_unit: ea
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 460-163-9: $3.07 per selling unit. Seed was 3.090000/can (= the book price ex GST); declared cost lands 1.09x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "345-095-5"
+    description: "Diplomatico Mantuano Rum"
+    price_ex_gst: 61.03
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 345-095-5: $61.03 per selling unit. Seed was 0.087186/ml (= the book price ex GST); declared cost lands 1.10x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "410-602-3"
+    description: "Disaronno (Amaretto)"
+    price_ex_gst: 42.84
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 410-602-3: $42.84 per selling unit. Seed was 0.061914/ml (= the book price ex GST); declared cost lands 1.09x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "425-710-0"
+    description: "Fellr Seltzer Watermelon 4pk"
+    price_ex_gst: 15.26
+    pack_qty: 4
+    pack_unit: ea
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 425-710-0: $15.26 per selling unit. Seed was 3.418700/can (= the book price ex GST); declared cost lands 1.23x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "460-178-2"
+    description: "Fever Tree Mediterrean Tonic"
+    price_ex_gst: 4.01
+    pack_qty: 1
+    pack_unit: ea
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 460-178-2: $4.01 per selling unit. Seed was 4.110000/can (= the book price ex GST); declared cost lands 1.07x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "410-266-0"
+    description: "Frangelico Liqueur"
+    price_ex_gst: 37.78
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 410-266-0: $37.78 per selling unit. Seed was 0.048100/ml (= the book price ex GST); declared cost lands 1.23x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "345-623-6"
+    description: "Goslings Black Seal Rum 6pk"
+    price_ex_gst: 62.36
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 345-623-6: $62.36 per selling unit. Seed was 0.095943/ml (= the book price ex GST); declared cost lands 1.02x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "330-015-4"
+    description: "Grey Goose Vodka"
+    price_ex_gst: 58.75
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 330-015-4: $58.75 per selling unit. Seed was 0.085800/ml (= the book price ex GST); declared cost lands 1.08x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "110-672-4"
+    description: "Hahn Super Dry Gluten Free Bot"
+    price_ex_gst: 14.1
+    pack_qty: 6
+    pack_unit: ea
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 110-672-4: $14.1 per selling unit. Seed was 2.625000/can (= the book price ex GST); declared cost lands 0.98x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "110-155-0"
+    description: "James Boags Light Prem Stub 6p"
+    price_ex_gst: 13.48
+    pack_qty: 6
+    pack_unit: ea
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 110-155-0: $13.48 per selling unit. Seed was 2.340000/can (= the book price ex GST); declared cost lands 1.06x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "426-341-5"
+    description: "Jinro Chamisui Soju"
+    price_ex_gst: 11.02
+    pack_qty: 360
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 426-341-5: $11.02 per selling unit. Seed was 0.033667/ml (= the book price ex GST); declared cost lands 1.00x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "426-340-6"
+    description: "Jinro Strawberry Soju"
+    price_ex_gst: 10.39
+    pack_qty: 360
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 426-340-6: $10.39 per selling unit. Seed was 0.031750/ml (= the book price ex GST); declared cost lands 1.00x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "410-428-5"
+    description: "Marie Brizard Falernum"
+    price_ex_gst: 35.73
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 410-428-5: $35.73 per selling unit. Seed was 0.049986/ml (= the book price ex GST); declared cost lands 1.12x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "295-120-1"
+    description: "J.Walker Black 700ml"
+    price_ex_gst: 52.85
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 295-120-1: $52.85 per selling unit. Seed was 0.081800/ml (= the book price ex GST); declared cost lands 1.02x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "300-537-6"
+    description: "Laphroaig Single Malt 10yo"
+    price_ex_gst: 88.58
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 300-537-6: $88.58 per selling unit. Seed was 0.124243/ml (= the book price ex GST); declared cost lands 1.12x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "426-021-2"
+    description: "Little Dragon Alc Ginger Beer"
+    price_ex_gst: 18.74
+    pack_qty: 6
+    pack_unit: ea
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 426-021-2: $18.74 per selling unit. Seed was 3.486100/can (= the book price ex GST); declared cost lands 0.99x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "426-021-2"
+    description: "Little Dragon Alc Ginger Beer"
+    price_ex_gst: 18.74
+    pack_qty: 6
+    pack_unit: ea
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 426-021-2: $18.74 per selling unit. Seed was 3.378300/can (= the book price ex GST); declared cost lands 1.02x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "285-229-2"
+    description: "Poor Toms Strawberry Gin"
+    price_ex_gst: 63.47
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 285-229-2: $63.47 per selling unit. Seed was 0.095157/ml (= the book price ex GST); declared cost lands 1.05x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "460-324-5"
+    description: "Sprite 1.25l X 12 Pet"
+    price_ex_gst: 3.07
+    pack_qty: 1
+    pack_unit: ea
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 460-324-5: $3.07 per selling unit. Seed was 4.265400/can (= the book price ex GST); declared cost lands 0.79x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "410-040-3"
+    description: "St Germain Elderflower Liqueur"
+    price_ex_gst: 46.92
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 410-040-3: $46.92 per selling unit. Seed was 0.062560/ml (= the book price ex GST); declared cost lands 1.10x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "330-167-0"
+    description: "Tito's Handmade Vodka"
+    price_ex_gst: 60.03
+    pack_qty: 700
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 330-167-0: $60.03 per selling unit. Seed was 0.088471/ml (= the book price ex GST); declared cost lands 1.07x the seed, the GST the seed omitted"
+
+  - supplier: "ILG"
+    supplier_code: "117-604-2"
+    description: "Two Bays Japanese Rice Lager"
+    price_ex_gst: 17.68
+    pack_qty: 4
+    pack_unit: ea
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "ILG price book MAR 2026, code 117-604-2: $17.68 per selling unit. Seed was 4.990000/can (= the book price ex GST); declared cost lands 0.97x the seed, the GST the seed omitted"

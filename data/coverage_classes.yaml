@@ -21,8 +21,8 @@ ids:
   lightspeed:20445706:
     class: awaiting_next_purchase
     name: James Boags Light
-    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
-      on next invoice
+    reason: declared at the ILG book price + GST 2026-08-20; closes on rebuild, superseded by the next
+      ILG invoice
   lightspeed:20445710:
     class: awaiting_next_purchase
     name: Grifter Omen Stout Tin
@@ -30,8 +30,8 @@ ids:
   lightspeed:20445711:
     class: awaiting_next_purchase
     name: Fellr Watermelon Seltzer Tin
-    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
-      on next invoice
+    reason: declared at the ILG book price + GST 2026-08-20; closes on rebuild, superseded by the next
+      ILG invoice
   lightspeed:20445809:
     class: awaiting_next_purchase
     name: Archie Rose Signature Gin
@@ -42,10 +42,6 @@ ids:
     name: Hartshorn Sheep Whey Vodka
     reason: ILG 330-163-4 IS the bottle (500ml), but the $46.75 seed sits under the $66.48 book floor
       — left unbridged until a real invoice reprices it
-  lightspeed:20445821:
-    class: awaiting_next_purchase
-    name: Grey Goose
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
   lightspeed:20445823:
     class: awaiting_next_purchase
     name: Belvedere Vodka
@@ -55,26 +51,6 @@ ids:
     class: awaiting_next_purchase
     name: Bunnahabhain 12yr
     reason: not in the ILG book; first invoice prices it
-  lightspeed:20445844:
-    class: awaiting_next_purchase
-    name: Johnnie Walker Black
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
-  lightspeed:20445847:
-    class: awaiting_next_purchase
-    name: Laphroaig 10yr
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
-  lightspeed:20445869:
-    class: awaiting_next_purchase
-    name: Brookie's Mac. Liqueur
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
-  lightspeed:20445875:
-    class: awaiting_next_purchase
-    name: St. Germain Elderflower Liqueur
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
-  lightspeed:20445878:
-    class: awaiting_next_purchase
-    name: Amaro Montenegro
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
   lightspeed:20459505:
     class: awaiting_next_purchase
     name: Grifter Pale Ale Cans D
@@ -82,7 +58,8 @@ ids:
   lightspeed:20459553:
     class: awaiting_next_purchase
     name: Coke Zero 1.25L
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
+    reason: declared at the ILG book price + GST 2026-08-20; closes on rebuild, superseded by the next
+      ILG invoice
   lightspeed:20459554:
     class: awaiting_next_purchase
     name: Solo 1.25L
@@ -91,16 +68,13 @@ ids:
   lightspeed:20459555:
     class: awaiting_next_purchase
     name: Sprite 1.25L
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
+    reason: declared at the ILG book price + GST 2026-08-20; closes on rebuild, superseded by the next
+      ILG invoice
   lightspeed:20471109:
     class: awaiting_next_purchase
     name: Tomato Sauce
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:20484685:
-    class: awaiting_next_purchase
-    name: Bailey's Irish Cream 1L [Bottle]
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
   lightspeed:20484711:
     class: packaging
     name: 700ml Glass Bottle
@@ -112,8 +86,8 @@ ids:
   lightspeed:20484956:
     class: awaiting_next_purchase
     name: Fever-Tree Mediterannean Tonic [Bottle]
-    reason: 500ml (Zak 2026-08-20) — pre-declared on ILG 460-178-2; bridges the day an ILG invoice carries
-      it
+    reason: declared at the ILG book price + GST 2026-08-20; closes on rebuild, superseded by the next
+      ILG invoice
   lightspeed:20487459:
     class: awaiting_next_purchase
     name: Harveys Bristol Cream Sherry [Bottle]
@@ -123,31 +97,10 @@ ids:
     class: awaiting_next_purchase
     name: Manly Spirits Limoncello [Bottle]
     reason: ILG carries no Manly Spirits limoncello (only spritzes); first invoice prices it
-  lightspeed:20487958:
-    class: awaiting_next_purchase
-    name: Poor Tom's Strawberry Gin [Bottle]
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
   lightspeed:20488066:
     class: awaiting_next_purchase
     name: Grifter Serpents Kiss Can
     reason: Grifter direct — kegs only on recent invoices; next can order prices it
-  lightspeed:20492688:
-    class: awaiting_next_purchase
-    name: Disaronno [Bottle]
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
-  lightspeed:20492701:
-    class: awaiting_next_purchase
-    name: Tito's Vodka [Bottle]
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
-  lightspeed:20492707:
-    class: awaiting_next_purchase
-    name: Chambord [Bottle]
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
-  lightspeed:20492716:
-    class: awaiting_next_purchase
-    name: John D. Taylor's Velvet Falernum [Bottle]
-    reason: 'SOLVED: the seed matches ILG''s MARIE BRIZARD falernum ($35.73 vs $34.99) — brand fossil.
-      Pre-declared on 410-428-5; costs itself on the next ILG invoice.'
   lightspeed:20564868:
     class: weigh
     name: Lime
@@ -156,10 +109,6 @@ ids:
     class: weigh
     name: Lemon
     reason: same as Lime
-  lightspeed:20645918:
-    class: awaiting_next_purchase
-    name: Gosling's Black Rum
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
   lightspeed:20691644:
     class: awaiting_next_purchase
     name: Tsingtao Longneck
@@ -170,10 +119,6 @@ ids:
     name: Philter Old Ale [HG]
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:20710023:
-    class: awaiting_next_purchase
-    name: Frangelico [Bottle]
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
   lightspeed:20727774:
     class: awaiting_next_purchase
     name: Bittermen's Burlesque Bitters
@@ -188,10 +133,6 @@ ids:
     class: awaiting_next_purchase
     name: Joseph Cartron Creme de Peche [700ml]
     reason: ILG carries eleven Cartron flavours but no Peche; first invoice prices it
-  lightspeed:20873421:
-    class: awaiting_next_purchase
-    name: Diplomatico Mantuana [Bottle]
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
   lightspeed:21019883:
     class: authored_recipe_needed
     name: Dehydrated Jalapeño Garnish
@@ -205,21 +146,11 @@ ids:
     name: Edible Flower [Punnet]
     reason: 'billed by the BUNCH/PUNNET (invoiced and bridged) while recipes draw GRAMS — one number wanted:
       grams in a bunch/punnet. Chef''s scale.'
-  lightspeed:21750311:
-    class: awaiting_next_purchase
-    name: Jinro Chamisul - 360ml
-    reason: soju is ILG (Zak) — bridged to ILG book code 426-341-5 / 426-340-6, pre-declared; costs the
-      day an ILG invoice carries the line
-  lightspeed:21750316:
-    class: awaiting_next_purchase
-    name: Jinro Strawberry - 360ml
-    reason: soju is ILG (Zak) — bridged to ILG book code 426-341-5 / 426-340-6, pre-declared; costs the
-      day an ILG invoice carries the line
   lightspeed:21939293:
     class: awaiting_next_purchase
     name: Little Dragon Can
-    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
-      on next invoice
+    reason: declared at the ILG book price + GST 2026-08-20; closes on rebuild, superseded by the next
+      ILG invoice
   lightspeed:22253061:
     class: awaiting_next_purchase
     name: Nikka Black Whisky [700ml]
@@ -227,8 +158,8 @@ ids:
   lightspeed:22384136:
     class: awaiting_next_purchase
     name: Little Dragon Ginger Beer Can
-    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
-      on next invoice
+    reason: declared at the ILG book price + GST 2026-08-20; closes on rebuild, superseded by the next
+      ILG invoice
   lightspeed:22480169:
     class: authored_recipe_needed
     name: Harissa Prawns [7Kg]
@@ -279,8 +210,8 @@ ids:
   lightspeed:22795730:
     class: awaiting_next_purchase
     name: Two Bays GF Rice Lager Can [HG]
-    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
-      on next invoice
+    reason: declared at the ILG book price + GST 2026-08-20; closes on rebuild, superseded by the next
+      ILG invoice
   lightspeed:22843999:
     class: authored_recipe_needed
     name: Jalapeño Juice [1L]
@@ -385,8 +316,8 @@ ids:
   lightspeed:22931792:
     class: awaiting_next_purchase
     name: Hahn Super Dry GF
-    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
-      on next invoice
+    reason: declared at the ILG book price + GST 2026-08-20; closes on rebuild, superseded by the next
+      ILG invoice
   lightspeed:22947356:
     class: authored_recipe_needed
     name: Davidson Plum Puree
@@ -410,7 +341,3 @@ ids:
     class: awaiting_next_purchase
     name: Nacho Cheese A10 [3kg]
     reason: closed/bridged by the Foodlink pantry sweep 2026-08-20
-  lightspeed:23114865:
-    class: awaiting_next_purchase
-    name: Aether Vodka [Bottle]
-    reason: pre-declared on the ILG book 2026-08-20 (spirits-tail sweep); costs itself on first invoice
