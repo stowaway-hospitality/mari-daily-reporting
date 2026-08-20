@@ -58,6 +58,30 @@
   .avrow button.off{background:var(--mari-tint)}
   .empty{padding:48px 20px;text-align:center;font-style:italic;color:var(--ink-soft)}
 
+  .edrow{border-bottom:1px solid var(--line);padding:9px 2px}
+  .edrow .edhead{display:flex;align-items:center;gap:10px;font-size:14.5px;cursor:pointer}
+  .edrow .rg{color:var(--ink-soft);font-size:12.5px}
+  .edrow .badge{font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    padding:2px 8px;border-radius:99px;font-weight:600}
+  .badge.edited{background:var(--stow-tint);color:var(--stow)}
+  .badge.hiddenb{background:var(--mari-tint);color:var(--red)}
+  .edrow .pr{margin-left:auto;font-size:13.5px;color:var(--ink-soft)}
+  .edform{display:none;padding:10px 0 6px;max-width:640px}
+  .edform.on{display:block}
+  .edform label{display:block;font-size:11.5px;text-transform:uppercase;
+    letter-spacing:.05em;color:var(--ink-soft);margin:10px 0 3px}
+  .edform input,.edform textarea{width:100%;box-sizing:border-box;padding:9px 10px;
+    font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;
+    background:var(--paper);color:var(--ink)}
+  .edform textarea{height:56px;resize:vertical}
+  .edform .row2{display:flex;gap:10px}.edform .row2>div{flex:1}
+  .edform .btns{display:flex;gap:8px;margin-top:14px}
+  .edform .btns button{padding:9px 16px;font:inherit;font-size:13.5px;cursor:pointer;
+    border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+  .edform .btns .save{background:var(--stow);border-color:var(--stow);color:#fff;font-weight:600}
+  .edform .btns .hide{border-color:var(--red);color:var(--red)}
+  .edform .msg{font-size:13px;margin-top:8px;color:var(--red)}
+
   #tokenbox{display:none}
   #tokenbox input{width:100%;box-sizing:border-box;padding:10px 12px;font:inherit;
     font-size:14px;border:1px solid var(--line);border-radius:8px;margin:8px 0}
@@ -94,6 +118,7 @@
     <div class="tabbtns">
       <button id="tabQ" class="sel">Queue</button>
       <button id="tab86">86 board</button>
+      <button id="tabM">Menu</button>
     </div>
 
     <div id="queue"></div>
@@ -101,9 +126,13 @@
       <input class="search" id="q86" placeholder="Find an item to 86…">
       <div class="card stow" id="avcard"><div id="avlist"></div></div>
     </div>
+    <div id="boardM" style="display:none">
+      <input class="search" id="qM" placeholder="Find an item to edit…">
+      <div class="card stow"><div id="edlist"></div></div>
+    </div>
   </div>
 </div>
 
-<script type="module" src="./qr.js?v=20260820a"></script>
+<script type="module" src="./qr.js?v=20260820b"></script>
 </body>
 </html>

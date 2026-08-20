@@ -156,12 +156,106 @@ function render86(offList) {
   }; });
 }
 
+// ------------------------------------------------------------- menu editor
+// The operator-portal layer: what the GUEST sees for each item. Edits are
+// stored server-side as an overlay (they survive menu rebuilds) and the
+// service enforces them at pricing time, so nothing here is display-only.
+let ED = null;   // { menu, overrides } from /api/admin/qr/menu/full
+let edOpen = '';
+
+async function loadEditor() {
+  try { ED = await call('/api/admin/qr/menu/full'); } catch (_) { return; }
+  renderEditor();
+}
+
+function renderEditor() {
+  if (!ED) return;
+  const filter = ($('qM').value || '').toLowerCase();
+  const ovs = ED.overrides || {};
+  const rows = ED.menu.items
+    .filter((i) => !filter || i.name.toLowerCase().includes(filter)
+                 || (ovs[i.id] && ovs[i.id].name || '').toLowerCase().includes(filter))
+    .sort((a, b) => ((ovs[b.id] ? 1 : 0) - (ovs[a.id] ? 1 : 0)) || a.name.localeCompare(b.name))
+    .slice(0, filter ? 80 : 40);
+
+  $('edlist').innerHTML = rows.map((i) => {
+    const ov = ovs[i.id] || {};
+    const shownName = ov.name || i.name;
+    const shownPrice = ov.price_inc_gst || i.price_inc_gst;
+    const open = edOpen === i.id;
+    return `<div class="edrow" data-id="${esc(i.id)}">
+      <div class="edhead" data-act="toggle">
+        <span>${esc(shownName)}<div class="rg">${esc(i.section)}</div></span>
+        ${ov.hidden ? '<span class="badge hiddenb">hidden</span>'
+          : (ovs[i.id] ? '<span class="badge edited">edited</span>' : '')}
+        <span class="pr">$${esc(shownPrice)}</span>
+      </div>
+      <div class="edform ${open ? 'on' : ''}">
+        <label>Guest-facing name <span style="text-transform:none">(blank = till's own: ${esc(i.name)})</span></label>
+        <input data-f="name" value="${esc(ov.name || '')}" placeholder="${esc(i.name)}">
+        <label>Description</label>
+        <textarea data-f="description" placeholder="${esc(i.description || 'none yet')}">${esc(ov.description || '')}</textarea>
+        <label>Image URL</label>
+        <input data-f="image_url" value="${esc(ov.image_url || '')}" placeholder="${esc(i.image_url || 'none yet')}">
+        <div class="row2"><div>
+          <label>Guest price (blank = $${esc(i.price_inc_gst)})</label>
+          <input data-f="price_inc_gst" value="${esc(ov.price_inc_gst || '')}" placeholder="${esc(i.price_inc_gst)}" inputmode="decimal">
+        </div><div></div></div>
+        <div class="btns">
+          <button class="save" data-act="save">Save</button>
+          <button class="hide" data-act="hide">${ov.hidden ? 'Put back on the menu' : 'Hide from the menu'}</button>
+          <button data-act="clear">Clear all edits</button>
+        </div>
+        <div class="msg"></div>
+      </div>
+    </div>`;
+  }).join('') || '<div class="empty">Nothing matches.</div>';
+
+  document.querySelectorAll('#edlist .edrow').forEach((row) => {
+    const id = row.dataset.id;
+    row.querySelector('[data-act="toggle"]').onclick = () => {
+      edOpen = edOpen === id ? '' : id; renderEditor();
+    };
+    const put = async (payload, btn) => {
+      btn.disabled = true;
+      try {
+        await call(`/api/admin/qr/items/${encodeURIComponent(id)}`,
+                   { method: 'PUT', body: JSON.stringify(payload) });
+        await loadEditor();
+      } catch (e) {
+        btn.disabled = false;
+        row.querySelector('.msg').textContent = e.message;
+      }
+    };
+    const saveBtn = row.querySelector('[data-act="save"]');
+    if (saveBtn) saveBtn.onclick = () => {
+      const payload = {};
+      row.querySelectorAll('[data-f]').forEach((el) => {
+        payload[el.dataset.f] = el.value.trim() || null;
+      });
+      put(payload, saveBtn);
+    };
+    const hideBtn = row.querySelector('[data-act="hide"]');
+    if (hideBtn) hideBtn.onclick = () => {
+      const ov = (ED.overrides || {})[id] || {};
+      put({ hidden: !ov.hidden }, hideBtn);
+    };
+    const clearBtn = row.querySelector('[data-act="clear"]');
+    if (clearBtn) clearBtn.onclick = () => put(
+      { hidden: false, name: null, description: null, image_url: null, price_inc_gst: null },
+      clearBtn);
+  });
+}
+
 // ------------------------------------------------------------------ tabs
-function setTab(queue) {
-  $('queue').style.display = queue ? '' : 'none';
-  $('board86').style.display = queue ? 'none' : '';
-  $('tabQ').classList.toggle('sel', queue);
-  $('tab86').classList.toggle('sel', !queue);
+function setTab(which) {
+  $('queue').style.display = which === 'q' ? '' : 'none';
+  $('board86').style.display = which === '86' ? '' : 'none';
+  $('boardM').style.display = which === 'm' ? '' : 'none';
+  $('tabQ').classList.toggle('sel', which === 'q');
+  $('tab86').classList.toggle('sel', which === '86');
+  $('tabM').classList.toggle('sel', which === 'm');
+  if (which === 'm') loadEditor();
 }
 
 // ------------------------------------------------------------------ boot
@@ -190,9 +284,11 @@ Auth.gate($('gate'), {
     $('signout').onclick = async (e) => {
       e.preventDefault(); await Auth.logout(); location.href = '/';
     };
-    $('tabQ').onclick = () => setTab(true);
-    $('tab86').onclick = () => setTab(false);
+    $('tabQ').onclick = () => setTab('q');
+    $('tab86').onclick = () => setTab('86');
+    $('tabM').onclick = () => setTab('m');
     $('q86').oninput = () => render86();
+    $('qM').oninput = () => renderEditor();
     $('tokgo').onclick = () => {
       const t = $('tok').value.trim();
       if (!t) return;
