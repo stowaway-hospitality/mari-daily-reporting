@@ -218,3 +218,84 @@
     $0.022933 against invoice $0.011467, also exactly 2.0000x. Two unrelated CSR
     sugars off the same supplier, both exactly double, is a systematic Lightspeed
     pack halving. Ours needs nothing; the repair belongs in Back Office.
+
+# ---------------------------------------------------------------------------
+# The six wine-bottle seed conflicts, ruled by Zak 2026-08-20.
+#
+# Each of these carried two January costs and not one invoice since: Back
+# Office's CostPriceIncTax (bo-seed) and the rate implied by the Produce
+# recipe scrape (ls-recipe-seed), disagreeing 1.10x-1.42x. Zak: the RECIPE
+# SEED side is right — the BO field is stale. So the glasses, which already
+# cost off the seed, were right all along, and the bottle pass-throughs
+# (which read BO) were understated; both now price off the live cost row.
+#
+# STANDING CAVEAT, in Zak's words: "literally ALL live items, that have sales
+# in the last 4 weeks, should have invoices. if not, we need to dig deeper to
+# find them." These six are exactly that case — live sellers priced on a
+# January number. Each verdict below retires the WHICH-SEED question only;
+# the invoice hunt is tracked by scripts/check_invoice_coverage.py and any
+# real invoice supersedes this ruling automatically by being newer.
+# ---------------------------------------------------------------------------
+
+- id: "lightspeed:20466095"
+  product_name: "Sigurd White Blend - Bottle"
+  venue: "stowaway"
+  checked_invoice: "(none exists — that is the finding)"
+  checked_on: "2026-08-20"
+  by: "Zak"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: the ls-recipe-seed $23.10/750ml is operative; BO's $16.28 is
+    stale. The $23.10 equalling Sigurd GSM's to the cent looked like a
+    copy-paste tell, but the two Sigurds sell at the same $77 and Zak confirms
+    the seed side. Glasses at $4.62/$7.70 stand.
+
+- id: "lightspeed:22001021"
+  product_name: "Year Wines Fiano - Bottle"
+  venue: "stowaway"
+  checked_invoice: "(none exists — that is the finding)"
+  checked_on: "2026-08-20"
+  by: "Zak"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: ls-recipe-seed $21.35/750ml operative; BO's $16.56 stale.
+
+- id: "lightspeed:20464707"
+  product_name: "Two Tonne Riesling - Bottle"
+  venue: "stowaway"
+  checked_invoice: "(none exists — that is the finding)"
+  checked_on: "2026-08-20"
+  by: "Zak"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: ls-recipe-seed $21.36/750ml operative; BO's $17.58 stale.
+
+- id: "lightspeed:20645902"
+  product_name: "Unico Zelo Terra Cotta - Bottle"
+  venue: "stowaway"
+  checked_invoice: "(none exists — that is the finding)"
+  checked_on: "2026-08-20"
+  by: "Zak"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: ls-recipe-seed $21.89/750ml operative; BO's $17.91 stale.
+
+- id: "lightspeed:20464644"
+  product_name: "Dormilona Chenin Blanc - Bottle"
+  venue: "stowaway"
+  checked_invoice: "(none exists — that is the finding)"
+  checked_on: "2026-08-20"
+  by: "Zak"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: ls-recipe-seed $22.39/750ml operative; BO's $20.35 stale.
+
+- id: "lightspeed:20466083"
+  product_name: "Ravensworth Skins Gris - Bottle"
+  venue: "stowaway"
+  checked_invoice: "(none exists — that is the finding)"
+  checked_on: "2026-08-20"
+  by: "Zak"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: ls-recipe-seed $20.20/750ml operative; BO's $18.36 stale.

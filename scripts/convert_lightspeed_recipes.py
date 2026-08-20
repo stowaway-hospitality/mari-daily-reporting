@@ -1511,13 +1511,50 @@ _POUR_ML = {"regular": 150.0, "regular glass": 150.0, "glass": 150.0,
 _BOTTLE_ML = 750.0
 
 
+def _live_bottle_cost(pid: str, bo_cost: float) -> float:
+    """What the bottle costs TODAY: the cost book's own rate, then BO.
+
+    THE RULING THIS ENCODES (Zak, 2026-08-20). Six wine bottles carried two
+    January costs and no invoice since: BO's CostPriceIncTax and the rate the
+    Produce recipe scrape implied, disagreeing 1.10x-1.42x. Zak ruled the
+    RECIPE-SEED side right — the BO field is stale — which generalises to the
+    system's own hierarchy everywhere else: a cost OBSERVATION (invoice, or
+    failing that the newest seed) outranks BO's static field, and BO is the
+    floor you stand on only when the book holds nothing at all. Before this,
+    the bottle pass-throughs read BO directly, so Sigurd White's bottle sold
+    at a $16.28 cost while every glass poured from it correctly carried its
+    share of $23.10 — the bottle and its own pours disagreeing about what the
+    wine cost. Where an invoice exists (Veuve, $80.81 via ILG) this prefers
+    it automatically, which is also what makes Zak's standing rule executable:
+    any real invoice supersedes the ruling by being newer.
+
+    Per-verdict record: data/adjudicated_prices.yaml, the six 2026-08-20
+    entries. The per-ml rate is restated over the 750 ml the seed rows and
+    every "- Bottle" product on the list describe.
+    """
+    global _WINE_COSTS
+    if not _WINE_COSTS:
+        _WINE_COSTS = load_our_costs()
+    oc = _WINE_COSTS.get(f"lightspeed:{pid}")
+    if oc and oc[1] == "ml" and float(oc[0]) > 0:
+        return float(oc[0]) * _BOTTLE_ML
+    return bo_cost
+
+
+_WINE_COSTS: dict = {}
+
+
 def _bo_wine_index() -> dict:
     """{"bottles": {name: cost}, "pours": {name: (pid, sell, cost, venue)}}.
 
     Read once, from the same Back Office exports the bottle pass-through uses,
     so a pour and its bottle can never be sourced from different snapshots.
+    Bottle costs go through _live_bottle_cost: the book's own rate first.
     """
     import csv as _csv
+    global _WINE_COSTS
+    if not _WINE_COSTS:
+        _WINE_COSTS = load_our_costs()
     bottles: dict[str, float] = {}
     pours: dict[str, tuple] = {}
     for venue, fname in (("stowaway", "stowaway_products.csv"),
@@ -1534,7 +1571,7 @@ def _bo_wine_index() -> dict:
             except ValueError:
                 continue
             if _is_whole_bottle(name, row[6], row[8], row[10]):
-                bottles.setdefault(name, cost)
+                bottles.setdefault(name, _live_bottle_cost(row[0], cost))
             elif _POUR_ML.get(name.rpartition(" - ")[2].strip().lower()):
                 pours.setdefault(name, (row[0], sell, cost, venue))
     return {"bottles": bottles, "pours": pours}
@@ -1731,9 +1768,16 @@ def add_passthrough_products(out: dict) -> int:
             # made them. The name heuristics exist to keep BATCHES out; a Back
             # Office line ending "- Bottle" whose cost is 18-55% of its sell
             # price is not a batch.
-            if not _is_whole_bottle(name, unit, sell, cost):
-                if _PREP_NAME.search(name) or _PACK_BRACKET.search(name):
-                    continue
+            if _is_whole_bottle(name, unit, sell, cost):
+                # ...and a proved bottle is PRICED off the book's own rate, not
+                # the BO field that qualified it. BO is stale on six of these
+                # (Zak's 2026-08-20 ruling, adjudicated_prices.yaml) and behind
+                # the invoice on Veuve. The BO figure remains the gatekeeper —
+                # it proves the product IS a bottle — and _live_bottle_cost
+                # decides what the bottle costs.
+                cost = f"{_live_bottle_cost(pid, float(cost)):.4f}"
+            elif _PREP_NAME.search(name) or _PACK_BRACKET.search(name):
+                continue
             out[name] = {"ingredients": [{
                 "name": name, "kind": "id", "ref": f"lightspeed:{pid}",
                 "qty": "1", "unit": "ea", "ls_cost": None,

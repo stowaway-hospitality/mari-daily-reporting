@@ -105,6 +105,17 @@ jobs:
         # on each rather than resolving them. Pizza Sauce is $1.06M of it.
         run: python3 scripts/check_yield_conflicts.py --strict
 
+      - name: Everything that sold in the last 4 weeks stands on an invoice
+        # Zak, 2026-08-20: "literally ALL live items, that have sales in the
+        # last 4 weeks, should have invoices. if not, we need to dig deeper."
+        # 291 ingredients under live sellers are priced on seeds only — and the
+        # top of the list is Pizza Flour, Parsley, Yeast and Pepperoni, staples
+        # whose invoice lines flow through the pipeline weekly and were never
+        # bridged. Each finding names candidate invoice lines, so closing one
+        # is usually a product_map.csv confirmation. Ratcheted: may only fall,
+        # and a NEW one means a product went on sale standing on a seed.
+        run: python3 scripts/check_invoice_coverage.py --strict
+
       - name: Estimated vs actual COGS (purchases minus consumption)
         # The number COGS_ARCHITECTURE.md has named since it was written: Xero
         # purchases (what we bought) minus recipe cost (what we used) = stock
