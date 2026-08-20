@@ -3,10 +3,15 @@
  *
  * WHAT THIS IS
  * ------------
- * The enquiry-to-deposit screen for private functions: the rail on the left is
- * the working list (what needs something, soonest event first), the panel on
- * the right is one brief with every field editable and a live minimum-spend
- * quote that explains its own reasoning.
+ * Two screens behind one segmented control, because "what is on this Saturday"
+ * and "who have I not chased" are different questions:
+ *
+ *   DIARY    — function BOOKINGS: rooms actually held, a month calendar of the
+ *              dates that have functions on them, and what has already run.
+ *              See the diary section below for why this half had to be added.
+ *   PIPELINE — function BRIEFS: the working list (what needs something,
+ *              soonest event first), with one brief in the panel, every field
+ *              editable, and a live minimum-spend quote that explains itself.
  *
  * It already existed, at /admin/functions on the booking engine itself, and it
  * was in the wrong place twice over: staff never open the Render app, and it
@@ -45,6 +50,11 @@ const TOKEN_KEY = 'stowaway_booking_token';
 const $ = (id) => document.getElementById(id);
 
 let BRIEFS = [], CHASE = [], CONFIG = {}, AREAS = [], CUR = null;
+// The diary half: the bookings, the server's per-date rollup that drives the
+// calendar, and where in it we are looking. DIARY_ERR is held separately from
+// "no functions" on purpose — see diaryPanelHTML.
+let DIARY = [], BYDATE = [], DIARY_ERR = null;
+let MODE = 'diary', MONTH = null, SEL_DATE = null, SEL_FN = null;
 let DIRTY = false;
 let SVC = null;   // service token held in memory for this session
 
@@ -409,6 +419,433 @@ export function areaOptions(areas, cfg = CONFIG, current) {
   return out;
 }
 
+// ====================================================================== diary
+// WHY THIS HALF EXISTS
+// --------------------
+// A brief is an enquiry. A booking is a room actually held. They are not the
+// same record and most of the second kind have none of the first: the
+// confirmed functions in the book were pushed in from the Monday tracker, so
+// every one of them carries brief_id null. The rail listed briefs and nothing
+// else, which meant this screen reported an empty diary while a confirmed
+// 35-person engagement party sat on 25 October. Nothing was broken — the page
+// was answering a different question from the one being asked of it.
+//
+// So there are two halves and they are never mixed:
+//   DIARY    — GET /api/admin/functions/diary. What is booked. Rooms held.
+//   PIPELINE — the briefs list above. What is being worked.
+//
+// They are a segmented control rather than two regions on one screen because
+// they are read at different moments and by different questions. "What is on
+// this Saturday" and "who have I not chased" share a name and nothing else,
+// and stacking them means the answer to whichever one you came for is always
+// half a screen down. Tabs across the top of a rail would have hidden the
+// switch inside one column; a control beside the title is the first thing on
+// the page, so which question the screen is answering is never a mystery.
+// Diary is the default: it is the half that was invisible, and it is the one
+// somebody standing in the venue needs.
+//
+// A booking with NO BRIEF is the normal case and is drawn as a complete
+// record, never as a half-entered one. Where a booking does have a brief the
+// two link to each other, both ways.
+
+/** The floor of the diary window.
+ *
+ *  A fixed date rather than "today minus N months". A rolling window silently
+ *  drops the oldest function out of the historic section and nothing says it
+ *  happened — the same truncation the diary route refuses to do at the server
+ *  end, where `to` is deliberately open. There are single-digit numbers of
+ *  functions a month; there is nothing here to protect against. 2019 predates
+ *  the booking engine, so this asks for everything there has ever been. */
+export const DIARY_FROM = '2019-01-01';
+
+/** Monday first. This is a venue diary, not an American calendar: a function
+ *  week runs to Saturday, and putting Sunday at the head splits the weekend
+ *  across two rows of the grid. */
+export const DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+export const ym = (iso) => String(iso || '').slice(0, 7);
+
+/** Month arithmetic on 'YYYY-MM' strings, without a Date in sight. new
+ *  Date(y, m + 1) rolls the year for you but also drags a timezone and a day
+ *  of month along, and the day of month is what breaks on the 31st. */
+export function shiftMonth(m, n) {
+  const [y, mo] = String(m).split('-').map(Number);
+  const t = y * 12 + (mo - 1) + n;
+  return `${Math.floor(t / 12)}-${String((t % 12) + 1).padStart(2, '0')}`;
+}
+
+export const monthLabel = (m) => new Date(m + '-01T12:00:00')
+  .toLocaleDateString('en-AU', { month: 'long', year: 'numeric' });
+
+/** The cells of a month grid: nulls for the padding either side, ISO dates
+ *  for the days. Whole weeks, so the grid never ends ragged. */
+export function monthCells(m) {
+  const [y, mo] = String(m).split('-').map(Number);
+  const lead = (new Date(Date.UTC(y, mo - 1, 1)).getUTCDay() + 6) % 7;
+  const days = new Date(Date.UTC(y, mo, 0)).getUTCDate();
+  const cells = new Array(lead).fill(null);
+  for (let d = 1; d <= days; d++) cells.push(`${m}-${String(d).padStart(2, '0')}`);
+  while (cells.length % 7) cells.push(null);
+  return cells;
+}
+
+/** by_date comes off the wire as a sorted ARRAY. Keyed here for lookup and
+ *  nowhere else: the calendar is drawn from the server's rollup rather than
+ *  from a second grouping of `functions`, because two groupings are two things
+ *  that can disagree, and a calendar that disagrees with the list under it is
+ *  worse than no calendar. */
+export const byDateMap = (byDate) => Object.fromEntries(
+  (byDate || []).map((s) => [s.date, s]));
+
+/** Coming up, and already happened. A function ON today is still coming up —
+ *  it is tonight's work, not history. */
+export function splitDiary(fns, today) {
+  const t = today || todayInSydney();
+  const upcoming = (fns || []).filter((f) => f.date >= t)
+    .slice().sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+  const past = (fns || []).filter((f) => f.date < t)
+    .slice().sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+  return { upcoming, past };
+}
+
+// ------------------------------------------------------ reading the notes
+// The notes field is the REAL record. It carries the occasion, the room
+// restated in prose, the drinks and food, how the money is being collected,
+// how the headcount moved, and what is still open. On two of the four
+// functions live today it also contradicts the structured columns. So it is
+// shown in full, never summarised, and three narrow readings are taken off it
+// — each one answering a question the columns answer wrongly.
+
+/** Sentences, near enough. Split on line breaks and full stops so a flag can
+ *  quote the fragment it fired on rather than the whole paragraph. No
+ *  lookbehind: Safari only learned it in 16.4 and this runs on the venue iPad. */
+export const noteSegments = (notes) => String(notes || '')
+  .split(/\n+|\.\s+/).map((s) => s.trim()).filter(Boolean)
+  // The leading "FUNCTION - " is a marker, not content: it is how a row gets
+  // recognised as a function in the first place. Quoting it back inside a
+  // sentence about the headcount reads as noise. The note itself is drawn
+  // from the raw field and keeps it.
+  .map((s, i) => (i === 0 ? s.replace(/^FUNCTION\s*[-–—]\s*/i, '') : s))
+  .filter(Boolean);
+
+const DOUBT = /\b(tbc|tba|placeholder|provisional|tentative|to be confirmed|not confirmed|unconfirmed)\b/i;
+const TIMEISH = /\b(time|start|starts|starting|kick[- ]?off)\b/i;
+const OPEN_Q = /\b(tbc|tba|to confirm|to be confirmed|not (?:yet |re-)?confirmed|unconfirmed|assumed|placeholder|provisional)\b|[-–—]\s*confirm\.?$/i;
+const PAXISH = /\b(pax|guests?|people|heads?|numbers?)\b/i;
+
+/**
+ * Is the stored start time actually agreed?
+ *
+ * 25 October says `time: "18:00"` and the note says
+ * "*** START TIME TBC (placeholder 6pm) ***". Printing "6pm" off the column is
+ * printing a time nobody agreed to, and it is the kind of wrong that gets
+ * repeated down a phone before anyone checks.
+ *
+ * A general rule and not a special case, because the next one will be worded
+ * differently: a segment of the note that talks about TIME and hedges is a
+ * start time that is not settled. Deliberately narrow — it wants both halves,
+ * so "20 pax on file, not re-confirmed" is a headcount question and not a time
+ * one, and "START 6:30PM - confirmed by Di via text" stays a firm time.
+ *
+ * Returns the client's own words, so the screen quotes rather than paraphrases.
+ */
+export function timeDoubt(notes) {
+  for (const s of noteSegments(notes)) {
+    if (DOUBT.test(s) && TIMEISH.test(s)) return s;
+  }
+  return null;
+}
+
+/** Everything in the note still hanging: "- confirm", "Steph to confirm",
+ *  "SPACE ASSUMED", "not re-confirmed", "TBC". These are the questions a
+ *  function fails on, and they are invisible in a structured field because
+ *  there is no structured field for them. */
+export const openQuestions = (notes) =>
+  noteSegments(notes).filter((s) => OPEN_Q.test(s));
+
+/**
+ * What the note says about numbers, beside what the booking says.
+ *
+ * Harry Baker is `adults: 25` under a note reading "15-20 pax". One of those
+ * is wrong and this screen has no way to know which, so it must not present
+ * the column as if it settles it. Quote the note; flag the disagreement; let
+ * the person who can ring them decide.
+ */
+export function headcountSays(f) {
+  const quotes = noteSegments(f && f.notes).filter((s) => PAXISH.test(s));
+  const nums = quotes.flatMap((s) => (s.match(/\d+/g) || []).map(Number));
+  return { quotes, disagrees: quotes.length > 0 && !nums.includes(f.covers) };
+}
+
+// ------------------------------------------------------------- when, and how long
+export function endTime(time, holdMinutes) {
+  if (!time || !holdMinutes) return '';
+  const [h, m] = String(time).split(':').map(Number);
+  const t = h * 60 + m + holdMinutes;
+  return String(Math.floor(t / 60) % 24).padStart(2, '0') + ':'
+       + String(t % 60).padStart(2, '0');
+}
+
+/** "4 hours". Stated as a duration and never compared to anything.
+ *
+ *  Two of the four live functions hold for 240 minutes where the app writes
+ *  180. That is not a fault, an override or a signal — it is what somebody
+ *  typed when the tracker rows were pushed in — and a screen that called it
+ *  "longer than usual" would invent a meaning it does not have. */
+export function holdLabel(mins) {
+  if (!mins) return '';
+  const h = Math.floor(mins / 60), m = mins % 60;
+  return [h ? `${h} hour${h === 1 ? '' : 's'}` : '', m ? `${m} min` : '']
+    .filter(Boolean).join(' ');
+}
+
+/** The one line that answers "when is this". Uncertain start times get a
+ *  different answer, not a hedged version of the same one. */
+export function whenLine(f) {
+  const quote = timeDoubt(f && f.notes);
+  const hold = holdLabel(f && f.hold_minutes);
+  if (quote) {
+    return { uncertain: true, quote, hold, short: 'start time TBC',
+             stored: hhmmLabel(f.time), label: 'Start time not agreed' };
+  }
+  if (!f || !f.time) {
+    return { uncertain: false, hold, short: '', label: 'No time on the booking' };
+  }
+  const end = endTime(f.time, f.hold_minutes);
+  return { uncertain: false, hold, short: hhmmLabel(f.time),
+           label: hhmmLabel(f.time) + (end ? '–' + hhmmLabel(end) : '') };
+}
+
+export const fullDate = (iso) => new Date(iso + 'T12:00:00')
+  .toLocaleDateString('en-AU', { weekday: 'long', day: 'numeric',
+                                 month: 'long', year: 'numeric' });
+
+export const roomOf = (f) => f.area || f.pinned_table || null;
+
+// --------------------------------------------------------------- the calendar
+/**
+ * A month of dates that have functions on them.
+ *
+ * Driven entirely by the server's `by_date` rollup. A cell prints ONE PIP PER
+ * ROOM, with a multiplier if a room holds more than one that day, so 8 August
+ * reads "Old Stow · 40" and "Main Hall · 25" — two bookings, two rooms,
+ * overlapping holds, and no way for the grid to imply there is one function
+ * there. A cell that collapsed a date to a single entry would be wrong on the
+ * only date in the live data that has two.
+ */
+export function calendarHTML(month, byDate, selDate, today) {
+  const map = byDateMap(byDate);
+  const cells = monthCells(month).map((iso) => {
+    if (!iso) return '<div class="cell pad"></div>';
+    const slot = map[iso];
+    const cls = ['cell'];
+    if (slot) cls.push('has');
+    if (iso === selDate) cls.push('sel');
+    if (iso === today) cls.push('today');
+    const pips = slot ? (slot.areas || []).map((a) =>
+      `<span class="pip">${esc(a.area)}${a.count > 1 ? ' ×' + a.count : ''} · ${a.covers}</span>`
+    ).join('') : '';
+    const open = slot ? ` data-date="${esc(iso)}" role="button" tabindex="0"` : '';
+    return `<div class="${cls.join(' ')}"${open}><div class="cd">${
+      Number(iso.slice(8))}</div>${pips}</div>`;
+  }).join('');
+  const n = (byDate || []).filter((s) => ym(s.date) === month)
+    .reduce((t, s) => t + s.count, 0);
+  return `<div class="card">
+    <div class="calhead">
+      <button class="ghost small" data-month="prev" aria-label="previous month">‹</button>
+      <div class="calmonth">${esc(monthLabel(month))}</div>
+      <button class="ghost small" data-month="next" aria-label="next month">›</button>
+      <span class="hint" style="margin-top:0">${
+        n ? (n === 1 ? '1 function' : n + ' functions') + ' this month'
+          : 'nothing on this month'}</span>
+    </div>
+    <div class="calgrid">${DOW.map((d) => `<div class="cdow">${d}</div>`).join('')}${cells}</div>
+  </div>`;
+}
+
+// ------------------------------------------------------------------ the rail
+export function diaryRowHTML(f, selId, today) {
+  const d = daysAway(f.date, today);
+  const w = whenLine(f);
+  const chips = [];
+  if (d !== null && d >= 0 && d <= 7) {
+    chips.push(`<span class="chip soon">${d === 0 ? 'today' : d + 'd'}</span>`);
+  }
+  chips.push(`<span class="chip">${esc(roomOf(f) || 'no room named')}</span>`);
+  chips.push(`<span class="chip">${f.covers} covers</span>`);
+  // The whole point: this row must not read "6pm".
+  if (w.uncertain) chips.push('<span class="chip need">start time TBC</span>');
+  if (f.status && f.status !== 'confirmed') {
+    chips.push(`<span class="chip bad">${esc(f.status)}</span>`);
+  }
+  return `<div class="row${selId === f.id ? ' on' : ''}" data-fn="${esc(f.id)}"
+      role="button" tabindex="0">
+    <div class="l1"><span class="nm">${esc(f.name)}</span>
+      <span class="when">${esc(niceDate(f.date))}${
+        w.short ? ' · ' + esc(w.short) : ''}</span></div>
+    <div class="l2">${chips.join('')}</div></div>`;
+}
+
+/**
+ * Coming up, then what has already run.
+ *
+ * The historic half is the same list read backwards, most recent first, and it
+ * is not a separate screen: four functions exist in total and three of them are
+ * past, so a dedicated history page would be most of the data behind a click.
+ * Both groups always draw their heading and their count, even at zero — an
+ * empty group that says "0" and one calm sentence reads as a quiet diary. A
+ * group that vanishes reads as a page that failed to load.
+ */
+export function diaryRailHTML(fns, selId, today) {
+  const { upcoming, past } = splitDiary(fns, today);
+  const grp = (title, arr, hint, empty) =>
+    `<div class="grp">${title}<span class="n">${arr.length}</span></div>`
+    + `<div class="hint" style="margin:-2px 0 6px">${hint}</div>`
+    + (arr.length ? arr.map((f) => diaryRowHTML(f, selId, today)).join('')
+                  : `<div class="quiet">${empty}</div>`);
+  return grp('Coming up', upcoming, 'Rooms held. Soonest first.',
+             'Nothing booked ahead. The diary is clear.')
+       + grp('Already happened', past, 'Most recent first.',
+             'Nothing has run yet.');
+}
+
+// ------------------------------------------------------------- one function
+const MARK_WORDS = { is_function: 'the function flag',
+                     notes: 'the note prefix',
+                     area: 'the room it is pinned to' };
+
+export function functionCardHTML(f, today) {
+  const w = whenLine(f);
+  const heads = headcountSays(f);
+  // The unsettled start time has its own block above; repeating it here as an
+  // open question says the same thing twice on the only row that has it.
+  const qs = openQuestions(f.notes).filter((q) => q !== w.quote);
+  const d = daysAway(f.date, today);
+  const room = roomOf(f);
+
+  const head = `<div style="display:flex;justify-content:space-between;gap:12px;align-items:start">
+    <div>
+      <h2 style="font-size:19px">${esc(f.name)}</h2>
+      <div class="strip">
+        <span>${esc(fullDate(f.date))}</span>·
+        <span>${room ? esc(room) : 'no room named'}</span>·
+        <span>${f.covers} covers</span>
+        ${d !== null ? `·<span>${d === 0 ? 'today'
+          : d < 0 ? Math.abs(d) + ' days ago' : d + ' days away'}</span>` : ''}
+      </div>
+    </div>
+    <div class="chip ${f.status === 'confirmed' ? 'ok' : 'bad'}">${
+      esc(f.status || 'status unknown')}</div>
+  </div>`;
+
+  // An unsettled start time is a DIFFERENT statement, not a footnote under a
+  // confident one. The stored value is still shown — it is what the engine is
+  // holding and staff will be asked about it — but it is never the headline.
+  const when = w.uncertain
+    ? `<div class="quote unknown" style="margin-top:11px">
+         <div class="big">${esc(w.label)}</div>
+         <div class="why">The booking stores ${esc(w.stored)}, and the note says
+           that is not settled. Do not read it back to anyone as a start time.</div>
+         <div class="log" style="margin-top:8px">${esc(w.quote)}</div>
+         ${w.hold ? `<div class="hint">The room is held for ${esc(w.hold)} from
+           whenever it does start.</div>` : ''}
+       </div>`
+    : `<div class="quote" style="margin-top:11px">
+         <div class="big">${esc(w.label)}</div>
+         <div class="why">${room ? esc(room) : 'No room named'}${
+           w.hold ? `, held for ${esc(w.hold)}` : ''}.</div>
+       </div>`;
+
+  const headBlock = heads.quotes.length
+    ? `<div class="${heads.disagrees ? 'prob' : 'hint'}" style="margin-top:11px">
+         ${heads.disagrees
+           ? `<b>${f.covers} on the booking, but the note says otherwise —
+              somebody has to ask which is right.</b> ` : ''}
+         The note on numbers: ${heads.quotes.map((q) => `“${esc(q)}”`).join(' ')}</div>`
+    : '';
+
+  const open = qs.length
+    ? `<div style="margin-top:11px"><b style="font-size:14px">Still open in the note</b>
+         <ul style="margin:6px 0 0 18px;font-size:14px">${
+           qs.map((q) => `<li>${esc(q)}</li>`).join('')}</ul></div>`
+    : '';
+
+  const contact = `<div class="strip" style="margin:11px 0 0">
+    ${f.email ? `<a href="mailto:${esc(f.email)}">${esc(f.email)}</a>·` : ''}
+    ${f.phone ? `<a href="tel:${esc(f.phone)}">${esc(f.phone)}</a>`
+      : '<span>No phone on file — email is the only way to reach them.</span>'}
+  </div>`;
+
+  const notes = `<div style="margin-top:11px">
+    <label>The note, in full</label>
+    <div class="log full">${esc(f.notes) || '—'}</div></div>`;
+
+  // brief_id null is the ordinary state of a booked function, not a gap to be
+  // chased. It is said plainly so nobody goes looking for a missing record.
+  const brief = f.brief_id
+    ? `<div class="acts" style="margin-top:11px">
+         <button class="ghost small" data-act="gobrief" data-brief="${esc(f.brief_id)}">
+           Open the enquiry behind this</button>
+         <span class="hint" style="margin-top:0">There is a brief for this one.</span>
+       </div>`
+    : `<div class="hint" style="margin-top:11px">No brief behind this one — it came
+         in through the tracker and was booked straight into the diary. That is
+         how most functions arrive; nothing is missing.</div>`;
+
+  const marks = (f.matched_on || []).map((m) => MARK_WORDS[m] || m);
+  const foot = `<div class="hint">booking ${esc(f.id)}${
+    f.created_at ? ' · entered ' + esc(String(f.created_at).slice(0, 10)) : ''}${
+    marks.length ? ' · in the diary because of ' + esc(marks.join(', ')) : ''}</div>`;
+
+  return `<div class="card">${head}${when}${headBlock}${open}${contact}${notes}${brief}${foot}</div>`;
+}
+
+/** The heading over a clicked date. Says how many, in words, before it says
+ *  anything else — a date with two functions must never look like one. */
+export function dateHeadHTML(iso, on) {
+  const rooms = [...new Set(on.map((f) => roomOf(f) || 'no room named'))];
+  const covers = on.reduce((t, f) => t + f.covers, 0);
+  return `<div class="card">
+    <div class="dhead">${esc(fullDate(iso))}</div>
+    <div class="hint">${on.length === 1 ? 'One function' : on.length + ' functions'}
+      · ${covers} covers · ${esc(rooms.join(', '))}</div>
+    ${on.length > 1 ? `<div class="hint">${on.length} separate bookings on this
+      date, each held in its own right. All of them are below, in full.</div>` : ''}
+  </div>`;
+}
+
+export function diaryPanelHTML(fns, byDate, month, selDate, selId, today, err) {
+  const cal = calendarHTML(month, byDate, selDate, today);
+  // An empty diary and a diary that would not load look identical, and one of
+  // them is the bug this whole half exists to fix. Say which one this is.
+  if (err) {
+    return cal + `<div class="card"><div class="prob">The diary didn’t load: ${esc(err)}</div>
+      <div class="hint">This is not an empty diary — it is a diary that could not
+        be read. Nothing above is to be trusted until Refresh works.</div></div>`;
+  }
+  if (selId) {
+    const f = (fns || []).find((x) => x.id === selId);
+    if (f) return cal + functionCardHTML(f, today);
+  }
+  if (selDate) {
+    const on = (fns || []).filter((f) => f.date === selDate);
+    if (on.length) {
+      return cal + dateHeadHTML(selDate, on)
+           + on.map((f) => functionCardHTML(f, today)).join('');
+    }
+  }
+  return cal + `<div class="card"><div class="quiet">Pick a date on the calendar,
+    or a function on the left.</div></div>`;
+}
+
+/** Which of the two questions the screen is answering. */
+export function modesHTML(mode, diaryCount, pipelineCount) {
+  const b = (id, label, n) => `<button data-mode="${id}"${
+    mode === id ? ' class="on"' : ''}>${label}<span class="n">${n}</span></button>`;
+  return b('diary', 'Diary', diaryCount) + b('pipeline', 'Pipeline', pipelineCount);
+}
+
 // ---------------------------------------------------------------- service io
 const svcToken = () => SVC || localStorage.getItem(TOKEN_KEY) || '';
 
@@ -501,7 +938,9 @@ export function panelHTML(b, cfg = CONFIG, areas = AREAS, today) {
                          : b.deposit_status === 'sent' ? '' : 'need'}">${
           b.deposit_status === 'paid' ? 'deposit paid'
           : b.deposit_status === 'sent' ? 'link sent' : 'no deposit'}</div>
-        ${b.booking_id ? `<div class="hint">room held · booking ${esc(b.booking_id)}</div>` : ''}
+        ${b.booking_id ? `<div class="hint">room held · booking ${esc(b.booking_id)}</div>
+          <button class="ghost small" data-act="godiary" data-booking="${esc(b.booking_id)}"
+            style="margin-top:5px">See it in the diary</button>` : ''}
       </div>
     </div>
   </div>`;
@@ -637,7 +1076,63 @@ export function ratesLine(cfg) {
 }
 
 // ------------------------------------------------------------------ drawing
+function drawModes() {
+  const { upcoming } = splitDiary(DIARY, todayInSydney());
+  const live = BRIEFS.filter((b) => !['lost', 'done'].includes(b.stage)).length;
+  $('modes').innerHTML = modesHTML(MODE, upcoming.length, live);
+}
+
+/** Switch halves. "New enquiry" belongs to the pipeline and is meaningless
+ *  against the diary, so it goes with it rather than sitting there inert. */
+function setMode(m) {
+  MODE = m;
+  const nb = $('newbtn');
+  if (nb) nb.style.display = (m === 'pipeline' ? '' : 'none');
+  drawModes(); drawRail(); drawPanel();
+}
+
+/** Where the diary opens: the next function if there is one, otherwise the
+ *  most recent that has run, otherwise this month. Never a blank month with
+ *  nothing on it while four functions sit one click away. */
+function defaultFocus() {
+  const today = todayInSydney();
+  const { upcoming, past } = splitDiary(DIARY, today);
+  const f = upcoming[0] || past[0];
+  SEL_DATE = f ? f.date : null;
+  MONTH = f ? ym(f.date) : ym(today);
+}
+
+function pickDate(iso) { SEL_DATE = iso; SEL_FN = null; drawRail(); drawPanel(); }
+
+function openFunction(id) {
+  const f = DIARY.find((x) => x.id === id);
+  SEL_FN = id;
+  if (f) { SEL_DATE = f.date; MONTH = ym(f.date); }
+  drawRail(); drawPanel();
+}
+
+/** The two halves point at each other. A booking that has a brief can open it;
+ *  a brief that holds a room can jump to it. */
+async function goBrief(id) {
+  if (!BRIEFS.some((b) => b.id === id)) { say('that brief is no longer on file', true); return; }
+  setMode('pipeline');
+  await openBrief(id);
+  drawModes();
+}
+function goDiary(bookingId) {
+  if (!DIARY.some((f) => f.id === bookingId)) {
+    say('that booking is not in the diary — it may have been cancelled', true);
+    return;
+  }
+  setMode('diary');
+  openFunction(bookingId);
+}
+
 function drawRail() {
+  if (MODE === 'diary') {
+    $('rail').innerHTML = diaryRailHTML(DIARY, SEL_FN, todayInSydney());
+    return;
+  }
   // Read the box before this function destroys it. The search input is part of
   // the markup replaced below, so each keystroke removes the element being
   // typed into. The text survives via value=; focus and caret do not, and
@@ -652,7 +1147,16 @@ function drawRail() {
 }
 
 function drawPanel() {
-  if (!CUR) return;
+  if (MODE === 'diary') {
+    $('panel').innerHTML = diaryPanelHTML(DIARY, BYDATE, MONTH || ym(todayInSydney()),
+                                          SEL_DATE, SEL_FN, todayInSydney(), DIARY_ERR);
+    return;
+  }
+  if (!CUR) {
+    $('panel').innerHTML =
+      '<div class="card"><div class="quiet">Pick an enquiry on the left, or start a new one.</div></div>';
+    return;
+  }
   $('panel').innerHTML = panelHTML(CUR, CONFIG, AREAS);
   DIRTY = false;
 }
@@ -787,6 +1291,7 @@ async function openBrief(id) {
   if (DIRTY && !confirm('You have unsaved changes. Discard them?')) return;
   try {
     CUR = await (await call(`/api/admin/functions/${id}`)).json();
+    MODE = 'pipeline';
     drawRail();
     drawPanel();
   } catch (e) { say("couldn't open: " + why(e), true); }
@@ -807,13 +1312,25 @@ async function loadAll(keep) {
     // Promise.all over the PROMISES, not over already-awaited values: four
     // awaits in an array literal run one after another and the page waits for
     // the sum of the round trips instead of the slowest one.
-    const [briefs, chase, cfg, areas] = await Promise.all([
+    const [briefs, chase, cfg, areas, diary] = await Promise.all([
       call('/api/admin/functions').then((r) => r.json()),
       call('/api/admin/functions/chase').then((r) => r.json()),
       call('/api/admin/functions/config').then((r) => r.json()),
       call('/api/admin/areas').then((r) => r.json()),
+      // Caught HERE rather than left to the Promise.all, so a diary that is
+      // down takes the diary with it and not the pipeline as well. The other
+      // four still reject on a bad token, which is what re-shows the box.
+      call(`/api/admin/functions/diary?from=${DIARY_FROM}`).then((r) => r.json())
+        .catch((e) => ({ error: why(e), functions: [], by_date: [] })),
     ]);
     BRIEFS = briefs; CHASE = chase; CONFIG = cfg; AREAS = areas;
+    DIARY = diary.functions || [];
+    BYDATE = diary.by_date || [];
+    DIARY_ERR = diary.error || null;
+    // Only on the first load: a Refresh should leave you on the month and the
+    // function you were reading.
+    if (!MONTH) defaultFocus();
+    drawModes();
     $('rates').textContent = ratesLine(cfg);
     // The config route warns while the public-holiday list still has runway.
     // It is the only thing that will ever say a peak day is about to quote at
@@ -823,7 +1340,12 @@ async function loadAll(keep) {
     if (id && BRIEFS.some((b) => b.id === id)) await openBrief(id);
     else { CUR = null; }
     drawRail();
-    if (!cfg.warning) say(`${CHASE.length} need something · ${BRIEFS.length} on file`);
+    drawPanel();
+    if (!cfg.warning) {
+      const { upcoming, past } = splitDiary(DIARY, todayInSydney());
+      say(`${upcoming.length} coming up · ${past.length} already run · `
+        + `${CHASE.length} enquiries need something`);
+    }
   } catch (e) {
     if (String(e.message).includes('bad admin token')) {
       SVC = null;
@@ -849,6 +1371,7 @@ async function init() {
   $('tokenbox').style.display = 'none';
   $('main').style.display = 'block';
   await loadAll();
+  setMode(MODE);
 }
 
 /** One delegated listener per container. The rail and the panel are redrawn
@@ -857,20 +1380,42 @@ async function init() {
  *  because a module's top-level names are not globals. */
 function wire() {
   const rail = $('rail');
-  rail.addEventListener('click', (ev) => {
-    const row = ev.target.closest('[data-open]');
-    if (row) openBrief(row.dataset.open);
-  });
+  const railOpen = (t) => {
+    const brief = t.closest('[data-open]');
+    if (brief) { openBrief(brief.dataset.open); return true; }
+    const fn = t.closest('[data-fn]');
+    if (fn) { openFunction(fn.dataset.fn); return true; }
+    return false;
+  };
+  rail.addEventListener('click', (ev) => railOpen(ev.target));
   rail.addEventListener('keydown', (ev) => {
     if (ev.key !== 'Enter' && ev.key !== ' ') return;
-    const row = ev.target.closest('[data-open]');
-    if (row) { ev.preventDefault(); openBrief(row.dataset.open); }
+    if (railOpen(ev.target)) ev.preventDefault();
   });
   rail.addEventListener('input', (ev) => { if (ev.target.id === 'q') drawRail(); });
 
+  $('modes').addEventListener('click', (ev) => {
+    const b = ev.target.closest('[data-mode]');
+    if (b) setMode(b.dataset.mode);
+  });
+
   const panel = $('panel');
   panel.addEventListener('change', (ev) => { if (ev.target.dataset.field) touch(); });
+  panel.addEventListener('keydown', (ev) => {
+    if (ev.key !== 'Enter' && ev.key !== ' ') return;
+    const cell = ev.target.closest('[data-date]');
+    if (cell) { ev.preventDefault(); pickDate(cell.dataset.date); }
+  });
   panel.addEventListener('click', (ev) => {
+    const mth = ev.target.closest('[data-month]');
+    if (mth) {
+      MONTH = shiftMonth(MONTH || ym(todayInSydney()),
+                         mth.dataset.month === 'next' ? 1 : -1);
+      drawPanel();
+      return;
+    }
+    const cell = ev.target.closest('[data-date]');
+    if (cell) { pickDate(cell.dataset.date); return; }
     const btn = ev.target.closest('[data-act]');
     if (!btn) return;
     const act = btn.dataset.act;
@@ -883,6 +1428,8 @@ function wire() {
     else if (act === 'copyask') copyAsk();
     else if (act === 'copylink') copyLink();
     else if (act === 'stage') setStage(btn.dataset.stage);
+    else if (act === 'gobrief') goBrief(btn.dataset.brief);
+    else if (act === 'godiary') goDiary(btn.dataset.booking);
   });
 
   $('refreshbtn').addEventListener('click', () => loadAll());

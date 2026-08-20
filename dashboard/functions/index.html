@@ -14,6 +14,12 @@
   which reads it from Supabase app_config (RLS-protected). #tokenbox below is
   only a fallback for when that lookup fails.
 
+  The screen has TWO halves and they are not the same question: the DIARY is
+  what is booked (rows in the engine's bookings table, most with no brief at
+  all), the PIPELINE is what is being chased (briefs). It listed only the
+  second, so it reported an empty diary while confirmed functions sat in the
+  book. #modes switches between them; both are drawn into #rail and #panel.
+
   This screen was built first at /admin/functions on the Render service, where
   staff never go and where it asked for the service token in a box. Same
   behaviour, moved to where the work happens and onto the platform's own auth
@@ -120,6 +126,41 @@
         border-radius:8px;padding:8px}
   #tokenbox{background:var(--paper);border:1px solid var(--line);border-radius:12px;
         padding:18px;max-width:520px;box-shadow:var(--shadow)}
+
+  /* Diary or pipeline. One control, always visible, so it is never a mystery
+     which of the two questions the screen is currently answering. */
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;
+        overflow:hidden;background:var(--paper)}
+  .seg button{background:var(--paper);color:var(--ink-soft);border-radius:0;
+        padding:8px 15px}
+  .seg button + button{border-left:1px solid var(--line)}
+  .seg button.on{background:var(--ink);color:var(--paper)}
+  .seg .n{margin-left:7px;font-weight:400;opacity:.7}
+
+  /* The month grid. Every cell is sized for MORE THAN ONE function, because a
+     date that collapses two bookings into one entry is the bug: 8 Aug 2026 is
+     two parties in two rooms with overlapping holds. */
+  .calhead{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .calmonth{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600}
+  .calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .cdow{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;
+        color:var(--ink-soft);text-align:center;padding-bottom:2px}
+  .cell{min-height:64px;border:1px solid transparent;border-radius:8px;padding:4px 5px;
+        background:var(--parchment)}
+  .cell.pad{background:transparent}
+  .cell .cd{font-size:12px;color:var(--ink-soft)}
+  .cell.today .cd{font-weight:700;color:var(--ink)}
+  .cell.has{background:var(--paper);border-color:var(--line);cursor:pointer}
+  .cell.has:hover{border-color:var(--ink-soft)}
+  .cell.sel{border-color:var(--ink);box-shadow:var(--shadow)}
+  .pip{display:block;font-size:10px;line-height:1.35;margin-top:2px;padding:1px 5px;
+        border-radius:5px;background:var(--stow-tint);color:var(--stow);
+        overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dhead{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600}
+  /* The note is the real record — occasion, room, drinks, money, headcount
+     changes, open questions. It is never truncated to a line. */
+  .log.full{max-height:none}
+  .quiet{color:var(--ink-soft);font-size:14px;padding:14px 0}
 </style>
 </head>
 <body>
@@ -133,10 +174,11 @@
   <div class="wrap">
     <div class="bar">
       <div><h1>Functions</h1>
-        <div class="hint" style="margin-top:0">Enquiry to deposit — what is still outstanding, and what it costs.</div></div>
+        <div class="hint" style="margin-top:0">What is booked, and what is still being chased.</div></div>
+      <div class="seg" id="modes"></div>
       <div style="flex:1"></div>
       <button class="ghost" id="refreshbtn">Refresh</button>
-      <button id="newbtn">New enquiry</button>
+      <button id="newbtn" style="display:none">New enquiry</button>
       <a href="/bookings/" style="font-size:13px;color:var(--ink)">bookings →</a>
       <span id="status"></span>
     </div>
@@ -159,14 +201,12 @@
       <div id="rates"></div>
       <div class="cols">
         <div class="rail" id="rail"></div>
-        <div class="panel" id="panel">
-          <div class="card"><div class="empty">Pick an enquiry on the left, or start a new one.</div></div>
-        </div>
+        <div class="panel" id="panel"></div>
       </div>
     </div>
   </div>
 </div>
 
-<script type="module" src="./functions.js?v=20260820a"></script>
+<script type="module" src="./functions.js?v=20260820b"></script>
 </body>
 </html>

@@ -467,6 +467,374 @@ const TODAY = '2026-08-20';        // a Thursday. Every date below is relative t
      /online deposits OFF/.test(F.ratesLine({ ...CFG, deposits_live: false })));
 }
 
+// =========================================================== THE DIARY HALF
+// The page listed BRIEFS and called that the diary. Every confirmed function
+// in the book has brief_id null, because they were pushed in from the Monday
+// tracker, so the screen showed nothing while a 35-person engagement party sat
+// on 25 October. The fixtures below are the four real rows, copied from
+// GET /api/admin/functions/diary on the live service — including the two that
+// contradict their own columns. They are the regression fixture: a change that
+// cannot draw these four correctly is wrong.
+const DIARY = [
+  { id: 'e93280ad65d1', date: '2026-08-08', time: '15:30', name: 'Roman Bunting',
+    email: 'romanbunting@gmail.com', phone: null, area: 'Old Stow',
+    pinned_table: 'Old Stow', adults: 40, kids: 0, covers: 40, hold_minutes: 240,
+    status: 'confirmed', created_at: '2026-08-06T07:28:23.965221',
+    is_function: true, brief_id: null, matched_on: ['is_function', 'notes', 'area'],
+    notes: 'FUNCTION - birthday. Old Stow booked out. $80 Razzle Dazzle bottomless '
+      + '(2hr), pizzas/wings through the night, everyone pays on arrival. Numbers '
+      + 'rose 30->40. Source: Monday tracker + functions inbox 1 Aug.' },
+  { id: '1878ce4a6350', date: '2026-08-08', time: '18:30', name: 'Harry Baker',
+    email: 'harryjbaker04@gmail.com', phone: '0459391889', area: 'Main Hall',
+    pinned_table: 'Main Hall', adults: 25, kids: 0, covers: 25, hold_minutes: 240,
+    status: 'confirmed', created_at: '2026-08-06T07:28:25.200641',
+    is_function: true, brief_id: null, matched_on: ['is_function', 'notes', 'area'],
+    notes: 'FUNCTION - 15-20 pax. Soiree package + $20pp food. Invoice/deposit '
+      + 'settled 29 Jul. Paying at the door. Mates keen to DJ (chill house) - '
+      + 'Steph to confirm. SPACE ASSUMED Main Hall (Old Stow taken by Roman) - confirm.' },
+  { id: '1e871002336d', date: '2026-08-15', time: '18:30', name: 'Diane Godfrey',
+    email: 'oblanks@bigpond.net.au', phone: '0417488842', area: 'Old Stow',
+    pinned_table: 'Old Stow', adults: 20, kids: 0, covers: 20, hold_minutes: 240,
+    status: 'confirmed', created_at: '2026-08-06T07:28:26.453645',
+    is_function: true, brief_id: null, matched_on: ['is_function', 'notes', 'area'],
+    notes: 'FUNCTION - birthday, Old Stow. START 6:30PM - confirmed by Di via text '
+      + '15 Aug. Bar TAB, not prepaid. A couple of approved cocktails - Di sets the '
+      + 'list with the bar on arrival. Food list to drop through the night. 20 pax '
+      + 'on file, not re-confirmed.' },
+  { id: 'f9eb11be3b3a', date: '2026-10-25', time: '18:00', name: 'Michael Jordan',
+    email: 'jordanmichael228@gmail.com', phone: '0403166130', area: 'Old Stow',
+    pinned_table: 'Old Stow', adults: 35, kids: 0, covers: 35, hold_minutes: 240,
+    status: 'confirmed', created_at: '2026-08-06T07:28:27.680901',
+    is_function: true, brief_id: null, matched_on: ['is_function', 'notes', 'area'],
+    notes: 'FUNCTION - engagement party, Old Stow. DEPOSIT PAID 30 Jul, date locked '
+      + 'in. 2hr Soiree drinks package + light nibbles. *** START TIME TBC '
+      + '(placeholder 6pm) ***' },
+];
+// The server's rollup, exactly as it arrives. Note 8 Aug: one date, two
+// bookings, two rooms, two ids.
+const BY_DATE = [
+  { date: '2026-08-08', count: 2, covers: 65,
+    areas: [{ area: 'Old Stow', count: 1, covers: 40 },
+            { area: 'Main Hall', count: 1, covers: 25 }],
+    booking_ids: ['e93280ad65d1', '1878ce4a6350'] },
+  { date: '2026-08-15', count: 1, covers: 20,
+    areas: [{ area: 'Old Stow', count: 1, covers: 20 }],
+    booking_ids: ['1e871002336d'] },
+  { date: '2026-10-25', count: 1, covers: 35,
+    areas: [{ area: 'Old Stow', count: 1, covers: 35 }],
+    booking_ids: ['f9eb11be3b3a'] },
+];
+const fn = (id) => DIARY.find((f) => f.id === id);
+const ROMAN = fn('e93280ad65d1'), HARRY = fn('1878ce4a6350');
+const DIANE = fn('1e871002336d'), MJ = fn('f9eb11be3b3a');
+
+// --------------------------------------------- it asks for the whole diary
+{
+  ok('the diary is fetched from the engine, not regrouped out of the briefs',
+     /\/api\/admin\/functions\/diary\?from=\$\{DIARY_FROM\}/.test(src));
+  ok('...from a fixed floor, so the historic section cannot silently truncate',
+     /^\d{4}-\d{2}-\d{2}$/.test(F.DIARY_FROM) && F.DIARY_FROM < '2024-01-01',
+     F.DIARY_FROM);
+  ok('...and with no `to`, because the engine leaves it open on purpose',
+     !/functions\/diary\?[^`']*to=/.test(src));
+}
+
+// -------------------------------------------------- booked vs being chased
+{
+  const modes = F.modesHTML('diary', 1, 12);
+  ok('the two halves are one control, not two pages',
+     /data-mode="diary"/.test(modes) && /data-mode="pipeline"/.test(modes), modes);
+  ok('the half you are in is marked', /data-mode="diary" class="on"/.test(modes), modes);
+  ok('...and each carries its own count',
+     modes.includes('Diary<span class="n">1</span>')
+     && modes.includes('Pipeline<span class="n">12</span>'), modes);
+  ok('the diary is the default half — it is the one that was invisible',
+     /let MODE = 'diary'/.test(src));
+}
+
+// ------------------------------------------------------- what is coming up
+{
+  const { upcoming, past } = F.splitDiary(DIARY, TODAY);
+  ok('a confirmed function with no brief is IN the diary',
+     upcoming.length === 1 && upcoming[0].name === 'Michael Jordan',
+     upcoming.map((f) => f.name).join(','));
+  ok('history is most recent first', past.map((f) => f.id).join(',')
+     === '1e871002336d,1878ce4a6350,e93280ad65d1', past.map((f) => f.name).join(','));
+  ok('...and two on one date are ordered by time within it',
+     past[1].time === '18:30' && past[2].time === '15:30');
+  ok('a function happening TODAY is still coming up, not history',
+     F.splitDiary(DIARY, '2026-08-15').upcoming.some((f) => f.id === '1e871002336d'));
+
+  const rail = F.diaryRailHTML(DIARY, null, TODAY);
+  ok('coming up is drawn before what has already run',
+     rail.indexOf('Coming up') < rail.indexOf('Already happened'));
+  ok('every diary row is reachable from a keyboard',
+     (rail.match(/role="button" tabindex="0"/g) || []).length === 4);
+  ok('all four are on the rail, none collapsed away',
+     DIARY.every((f) => rail.includes(`data-fn="${f.id}"`)));
+
+  // Real usage is thin. Empty must read as calm, not as a page that failed.
+  const none = F.diaryRailHTML([], null, TODAY);
+  ok('an empty diary still draws both headings and their zeros',
+     /Coming up<span class="n">0<\/span>/.test(none)
+     && /Already happened<span class="n">0<\/span>/.test(none), none);
+  ok('...and says so in a calm sentence rather than an error',
+     /The diary is clear/.test(none) && !/error|failed|problem/i.test(none), none);
+  const onlyPast = F.diaryRailHTML(DIARY, null, '2026-12-01');
+  ok('nothing ahead but plenty behind still reads calm',
+     /The diary is clear/.test(onlyPast) && onlyPast.includes('data-fn="f9eb11be3b3a"'));
+}
+
+// --------------------------------------------------------- the month grid
+{
+  ok('the grid starts on Monday, so a weekend is not split across two rows',
+     F.DOW[0] === 'Mon' && F.DOW[5] === 'Sat' && F.DOW[6] === 'Sun');
+  const cells = F.monthCells('2026-08');
+  ok('August 2026 starts on a Saturday, so five blanks lead it',
+     cells.slice(0, 5).every((c) => c === null) && cells[5] === '2026-08-01', cells.slice(0, 7).join('|'));
+  ok('...and the month is whole weeks', cells.length % 7 === 0 && cells.length === 42, String(cells.length));
+  ok('every day of the month is present', cells.filter(Boolean).length === 31);
+  ok('February in a non-leap year is 28 days',
+     F.monthCells('2026-02').filter(Boolean).length === 28);
+  ok('moving off December rolls the year', F.shiftMonth('2026-12', 1) === '2027-01');
+  ok('...and off January rolls it back', F.shiftMonth('2026-01', -1) === '2025-12');
+  ok('...and January the 31st does not become March',
+     F.shiftMonth('2026-01', 1) === '2026-02');
+
+  const aug = F.calendarHTML('2026-08', BY_DATE, null, TODAY);
+  ok('the month is movable in both directions',
+     /data-month="prev"/.test(aug) && /data-month="next"/.test(aug));
+  ok('a date with functions is marked and clickable',
+     /class="cell has"[^>]*data-date="2026-08-08"/.test(aug), aug.slice(aug.indexOf('2026-08-08') - 90, aug.indexOf('2026-08-08') + 40));
+  ok('a date with nothing on it is not a button',
+     !/data-date="2026-08-09"/.test(aug));
+  ok('today is marked', aug.includes('class="cell today"') || /cell[^"]*today/.test(aug));
+  // Three: 8 August carries two of them.
+  ok('the month says how many functions are in it — counting BOTH on 8 Aug',
+     /3 functions this month/.test(aug), aug.slice(0, 700));
+  ok('...and says nothing rather than 0 when there are none',
+     /nothing on this month/.test(F.calendarHTML('2026-09', BY_DATE, null, TODAY)));
+
+  // The one that matters. 8 Aug is two parties in two rooms with overlapping
+  // holds. A cell that shows one of them, or shows "2" and no more, is wrong.
+  const cell = aug.slice(aug.indexOf('data-date="2026-08-08"'));
+  const body = cell.slice(0, cell.indexOf('</div><div class="cell'));
+  ok('a date with two functions draws BOTH, one pip each',
+     (body.match(/class="pip"/g) || []).length === 2, body);
+  ok('...and names both rooms, because they are different rooms',
+     /Old Stow/.test(body) && /Main Hall/.test(body), body);
+  ok('...with the covers each, not one merged number',
+     /Old Stow · 40/.test(body) && /Main Hall · 25/.test(body), body);
+  ok('a single-function date draws one pip',
+     (F.calendarHTML('2026-10', BY_DATE, null, TODAY).match(/class="pip"/g) || []).length === 1);
+  // Two in the SAME room on one date would arrive as one areas entry, count 2.
+  const twice = F.calendarHTML('2026-08', [{ date: '2026-08-08', count: 2, covers: 60,
+    areas: [{ area: 'Old Stow', count: 2, covers: 60 }], booking_ids: ['a', 'b'] }],
+    null, TODAY);
+  ok('two functions in the SAME room say so rather than reading as one',
+     /Old Stow ×2 · 60/.test(twice), twice.slice(twice.indexOf('2026-08-08'), twice.indexOf('2026-08-08') + 200));
+
+  // The calendar must come off by_date, not off a second grouping of the rows.
+  const orphaned = F.calendarHTML('2026-08', BY_DATE, null, TODAY);
+  ok('MUTATION: the calendar is drawn from the server rollup, so it cannot '
+     + 'disagree with the list', orphaned === F.calendarHTML('2026-08', BY_DATE, null, TODAY)
+     && /data-date="2026-08-15"/.test(F.calendarHTML('2026-08', BY_DATE, null, TODAY)));
+  const selected = F.calendarHTML('2026-08', BY_DATE, '2026-08-08', TODAY);
+  ok('the chosen date is marked as chosen', /class="cell has sel"/.test(selected));
+}
+
+// ------------------------------------------- clicking a date with two on it
+{
+  const on = DIARY.filter((f) => f.date === '2026-08-08');
+  const head = F.dateHeadHTML('2026-08-08', on);
+  ok('a two-function date says two, in words, before anything else',
+     /2 functions/.test(head), head);
+  ok('...names both rooms', /Old Stow, Main Hall/.test(head), head);
+  ok('...adds the covers up', /65 covers/.test(head), head);
+  ok('...and says they are separate bookings, each below in full',
+     /separate bookings/.test(head), head);
+  ok('a one-function date says one, not "1 functions"',
+     /One function/.test(F.dateHeadHTML('2026-10-25', [MJ])));
+
+  const panel = F.diaryPanelHTML(DIARY, BY_DATE, '2026-08', '2026-08-08', null, TODAY, null);
+  ok('clicking the date shows BOTH functions, not the first one',
+     panel.includes('Roman Bunting') && panel.includes('Harry Baker'), 'one of them is missing');
+  ok('...each in full, with its own note',
+     panel.includes('everyone pays on arrival') && panel.includes('Steph to confirm'));
+  ok('...and the calendar stays above them', panel.indexOf('calgrid') < panel.indexOf('Roman'));
+  const one = F.diaryPanelHTML(DIARY, BY_DATE, '2026-08', '2026-08-08',
+                               '1878ce4a6350', TODAY, null);
+  ok('picking one function off the rail shows just that one',
+     one.includes('Harry Baker') && !one.includes('Roman Bunting'));
+}
+
+// ------------------------------------------------ the start time nobody agreed
+{
+  ok('a note that hedges about the TIME is a start time that is not settled',
+     F.timeDoubt(MJ.notes) === '*** START TIME TBC (placeholder 6pm) ***',
+     String(F.timeDoubt(MJ.notes)));
+  ok('a start time confirmed in the note is NOT flagged',
+     F.timeDoubt(DIANE.notes) === null, String(F.timeDoubt(DIANE.notes)));
+  ok('...nor is a note with no time in it at all',
+     F.timeDoubt(ROMAN.notes) === null && F.timeDoubt(HARRY.notes) === null);
+  ok('the rule is general, not Michael Jordan',
+     F.timeDoubt('Kick-off time TBA, waiting on the venue') !== null
+     && F.timeDoubt('Start time provisional until they hear back') !== null,
+     String(F.timeDoubt('Kick-off time TBA, waiting on the venue')));
+  ok('...and a hedge about something else is not a hedge about the time',
+     F.timeDoubt('Cake TBC') === null && F.timeDoubt('20 pax, not re-confirmed') === null);
+
+  const w = F.whenLine(MJ);
+  ok('an unsettled start time is a different statement, not a hedged 6pm',
+     w.uncertain === true && w.label === 'Start time not agreed', JSON.stringify(w));
+  ok('the rail row says TBC where it would have said 6pm',
+     /start time TBC/.test(F.diaryRowHTML(MJ, null, TODAY))
+     && !/· 6pm/.test(F.diaryRowHTML(MJ, null, TODAY)), F.diaryRowHTML(MJ, null, TODAY));
+
+  const card = F.functionCardHTML(MJ, TODAY);
+  ok('the card headlines that it is not agreed', /Start time not agreed/.test(card));
+  ok('...quotes the note that says so, in their own words',
+     card.includes('START TIME TBC (placeholder 6pm)'), card.slice(0, 400));
+  ok('...tells anyone not to read 6pm back to a client',
+     /not to read it back|not settled/i.test(card));
+  ok('...and does not put 6pm anywhere it could be mistaken for the answer',
+     !/<div class="big">6pm/.test(card) && !/6pm–10pm/.test(card));
+
+  const dw = F.whenLine(DIANE);
+  ok('a firm start time gets its span, opening to end of hold',
+     dw.uncertain === false && dw.label === '6:30pm–10:30pm', JSON.stringify(dw));
+  ok('an end time rolls past midnight without going negative',
+     F.endTime('23:30', 240) === '03:30');
+}
+
+// ----------------------------------------------- the hold is a hold, not a signal
+{
+  const card = F.functionCardHTML(DIANE, TODAY);
+  ok('the hold is stated as a duration', /held for 4 hours/.test(card), card.slice(card.indexOf('quote'), card.indexOf('quote') + 300));
+  ok('...and never compared to what the app writes by default',
+     !/180/.test(card) && !/unusual|non-standard|longer than|shorter than/i.test(card));
+  ok('a part-hour hold reads properly', F.holdLabel(210) === '3 hours 30 min');
+  ok('one hour is not "1 hours"', F.holdLabel(60) === '1 hour');
+}
+
+// ------------------------------------- the note is the record, in full
+{
+  const card = F.functionCardHTML(ROMAN, TODAY);
+  ok('the whole note is on the card, not a first line of it',
+     card.includes('$80 Razzle Dazzle bottomless (2hr), pizzas/wings through the night')
+     && card.includes('Source: Monday tracker + functions inbox 1 Aug.'), 'truncated');
+  ok('...and it is not clipped to a scroll box either', /class="log full"/.test(card));
+  ok('a booking with nothing open says nothing about open questions',
+     !/Still open in the note/.test(card), card);
+
+  const h = F.functionCardHTML(HARRY, TODAY);
+  ok('open questions in the note are surfaced as questions',
+     /Still open in the note/.test(h));
+  ok('...including "Steph to confirm"', /Steph to confirm/.test(h.slice(h.indexOf('Still open'))));
+  ok('...and an ASSUMED room', /SPACE ASSUMED/.test(h.slice(h.indexOf('Still open'))));
+  ok('a headcount that has not been re-confirmed is an open question too',
+     F.openQuestions(DIANE.notes).some((q) => /not re-confirmed/.test(q)),
+     JSON.stringify(F.openQuestions(DIANE.notes)));
+  ok('a clean note raises none', F.openQuestions(ROMAN.notes).length === 0,
+     JSON.stringify(F.openQuestions(ROMAN.notes)));
+  ok('the FUNCTION marker is not quoted back as if it were the note',
+     F.headcountSays(HARRY).quotes.join('') === '15-20 pax',
+     JSON.stringify(F.headcountSays(HARRY).quotes));
+  const mj = F.functionCardHTML(MJ, TODAY);
+  ok('the unsettled start time is said once, not twice on the same card',
+     (mj.match(/START TIME TBC/g) || []).length === 2, 'once in its own block, '
+     + 'once in the note in full: ' + (mj.match(/START TIME TBC/g) || []).length);
+  ok('...so it does not also reappear under "still open"',
+     !/Still open in the note/.test(mj), mj.slice(mj.indexOf('Still open')));
+}
+
+// ---------------------------------- when the note and the columns disagree
+{
+  const hb = F.headcountSays(HARRY);
+  ok('adults:25 under a note saying "15-20 pax" is a disagreement',
+     hb.disagrees === true && hb.quotes.join(' ').includes('15-20 pax'), JSON.stringify(hb));
+  const card = F.functionCardHTML(HARRY, TODAY);
+  ok('...and the screen says so rather than printing 25 as the answer',
+     /but the note says otherwise/.test(card), card.slice(card.indexOf('covers'), card.indexOf('covers') + 400));
+  ok('...quoting the note beside it', /15-20 pax/.test(card));
+  ok('a note whose numbers agree with the booking is not a disagreement',
+     F.headcountSays(ROMAN).disagrees === false
+     && F.headcountSays(DIANE).disagrees === false,
+     JSON.stringify([F.headcountSays(ROMAN), F.headcountSays(DIANE)]));
+  // Escaped on the way out, which is why the needle is not what was typed.
+  ok('...and "Numbers rose 30->40" is still quoted, because it is the story',
+     /Numbers rose 30-&gt;40/.test(F.functionCardHTML(ROMAN, TODAY)));
+  ok('a note that says nothing about numbers claims no disagreement',
+     F.headcountSays(MJ).quotes.length === 0 && F.headcountSays(MJ).disagrees === false);
+}
+
+// -------------------------------------------------------- the missing phone
+{
+  const card = F.functionCardHTML(ROMAN, TODAY);
+  ok('a null phone never becomes a tel: link to nowhere',
+     !/href="tel:/.test(card) && !/null/.test(card), card.slice(card.indexOf('mailto'), card.indexOf('mailto') + 260));
+  ok('...and says the phone is simply not on file',
+     /No phone on file/.test(card));
+  ok('a phone that IS on file is a call control',
+     /href="tel:0459391889"/.test(F.functionCardHTML(HARRY, TODAY)));
+}
+
+// ------------------------------------------------ no brief is not a fault
+{
+  const card = F.functionCardHTML(MJ, TODAY);
+  ok('a confirmed function with no brief is drawn as a complete record',
+     /No brief behind this one/.test(card));
+  ok('...and says plainly that nothing is missing',
+     /nothing is missing/.test(card) && !/error|invalid|incomplete/i.test(card));
+  ok('...and offers no button to a brief that does not exist',
+     !/data-act="gobrief"/.test(card));
+  const linked = F.functionCardHTML({ ...MJ, brief_id: 'ab12cd34ef56' }, TODAY);
+  ok('a booking that DOES have a brief links to it',
+     /data-act="gobrief" data-brief="ab12cd34ef56"/.test(linked));
+  const brief = F.panelHTML({ name: 'X', guests: 30, date: '2026-10-25',
+    start_time: '18:00', missing: [], problems: [], deposit_status: 'paid',
+    booking_id: 'f9eb11be3b3a' }, CFG, [], TODAY);
+  ok('...and the brief links back to the diary, so it goes both ways',
+     /data-act="godiary" data-booking="f9eb11be3b3a"/.test(brief));
+  ok('how the engine recognised it as a function is stated, not hidden',
+     /in the diary because of/.test(card) && /the room it is pinned to/.test(card),
+     card.slice(card.lastIndexOf('booking ')));
+}
+
+// ------------------------------------ an empty diary vs a diary that broke
+{
+  const empty = F.diaryPanelHTML([], [], '2026-08', null, null, TODAY, null);
+  ok('an empty diary is calm', !/error|failed|didn/i.test(empty), empty);
+  const broken = F.diaryPanelHTML([], [], '2026-08', null, null, TODAY, 'HTTP 502');
+  ok('a diary that would not load says so, and says it is not the same thing',
+     /didn’t load/.test(broken) && /not an empty diary/.test(broken), broken);
+  ok('...and names what went wrong', /HTTP 502/.test(broken));
+  ok('a diary outage does not take the pipeline down with it',
+     /\.catch\(\(e\) => \(\{ error: why\(e\), functions: \[\], by_date: \[\] \}\)\)/.test(src));
+}
+
+// -------------------------------------------------------- escaping, again
+{
+  const nasty = { ...ROMAN, name: '<img src=x onerror=alert(1)>',
+    notes: 'FUNCTION — “mates’ rates” said the client — <script>alert(1)</script> & co.',
+    pinned_table: '<b>Old Stow</b>', area: null, phone: '"><script>x</script>' };
+  const card = F.functionCardHTML(nasty, TODAY);
+  ok('a client-typed name cannot inject markup here either',
+     !card.includes('<img src=x'), card.slice(0, 240));
+  ok('...nor can the note', !card.includes('<script>alert(1)</script>'));
+  ok('...and a smart quote or an em dash survives intact rather than breaking',
+     card.includes('“mates’ rates”') && card.includes('FUNCTION —'));
+  ok('...a room name is escaped in the card', !card.includes('<b>Old Stow</b>'));
+  ok('...and a phone is escaped inside the href attribute',
+     !/href="tel:"><script>/.test(card), card.slice(card.indexOf('tel:'), card.indexOf('tel:') + 90));
+  const cal = F.calendarHTML('2026-08', [{ date: '2026-08-08', count: 1, covers: 4,
+    areas: [{ area: '<img src=x onerror=alert(1)>', count: 1, covers: 4 }],
+    booking_ids: ['x'] }], null, TODAY);
+  ok('...and so is a room name in a calendar pip', !cal.includes('<img src=x'));
+  const rail = F.diaryRailHTML([nasty], null, TODAY);
+  ok('...and in the rail', !rail.includes('<img src=x'));
+}
+
 // ------------------------------------------------------------ MUTATION CHECK
 {
   ok('MUTATION: a token box shown by default would be caught',
@@ -481,6 +849,11 @@ const TODAY = '2026-08-20';        // a Thursday. Every date below is relative t
   ok('MUTATION: prompting unconditionally would be caught',
      !/const t = await ensureToken\(\);\s*\n\s*if \(!t\) \{ showToken\(\); return; \}/
         .test(code.replace('if (!t) { showToken(); return; }', 'showToken(); return;')));
+  ok('MUTATION: a calendar that collapsed a date to one entry would be caught',
+     (F.calendarHTML('2026-08', BY_DATE, null, TODAY).match(/class="pip"/g) || []).length === 3);
+  ok('MUTATION: printing the placeholder 6pm as a start time would be caught',
+     !/start time TBC/.test(F.diaryRowHTML({ ...MJ, notes: 'FUNCTION - engagement party' },
+       null, TODAY)));
   ok('MUTATION: filing a stranded brief under Confirmed would be caught',
      F.groupRail([{ id: 's', stage: 'enquiry', deposit_status: 'paid',
                     missing: [], problems: [] }], []).held.length === 0);
