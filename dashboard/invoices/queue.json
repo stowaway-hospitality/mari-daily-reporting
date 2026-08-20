@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-20",
-  "count": 814,
+  "count": 815,
   "skipped_already_in_xero": 0,
   "invoices": [
     {
@@ -791,6 +791,133 @@
           "account_code": "342",
           "account_name": "Freight & Courier",
           "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
+      "ref": "CI-444612",
+      "supplier": "Gulli Food Distributors Pty Ltd",
+      "supplier_key": "gulli",
+      "date": "2026-08-19",
+      "due_date": "2026-09-30",
+      "total": "1166.55",
+      "venue": "stowaway",
+      "pdf_path": "5a3c103a3046e06faa14f6bfd39aee9d3cab7134edad5c4fa0cc52bf9f9faacc.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Marilyna's Pizza",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Manildra- Gem West Pizza Flour 12.5kg",
+          "supplier_code": "MANFLOPIZ-U",
+          "qty": "8.000",
+          "amount": "110.40",
+          "unit_cost": "$1.10/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "B Flute Lock Top 11\" Pizza Boxes x 50",
+          "supplier_code": "PBLTB11-U",
+          "qty": "4.000",
+          "amount": "96.40",
+          "unit_cost": "$24.10/ea",
+          "tax": "gst",
+          "account_code": "117",
+          "account_name": "Purchases - Packaging",
+          "reason": "line keyword -> Purchases - Packaging"
+        },
+        {
+          "description": "Australian Garlic Bread- 9\" x 40",
+          "supplier_code": "AGBGARBRE-B",
+          "qty": "2.000",
+          "amount": "119.62",
+          "unit_cost": "$59.81/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Hastings Valley- Fetta In Brine 2kg",
+          "supplier_code": "HASFET2-UC4",
+          "qty": "1.000",
+          "amount": "27.42",
+          "unit_cost": "$13.71/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Paesanella- Bocconcini 1kg",
+          "supplier_code": "PAEBOC1-UC6",
+          "qty": "3.000",
+          "amount": "52.20",
+          "unit_cost": "$17.40/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Zammit- Sliced Pepperoni Salami 3kg",
+          "supplier_code": "ZAMSALPEPSLI-UC5",
+          "qty": "2.000",
+          "amount": "98.00",
+          "unit_cost": "$16.33/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "B Flute Lock Top 13\" Pizza Boxes x 50",
+          "supplier_code": "PBLTB13-U",
+          "qty": "3.000",
+          "amount": "96.39",
+          "unit_cost": "$32.13/ea",
+          "tax": "gst",
+          "account_code": "117",
+          "account_name": "Purchases - Packaging",
+          "reason": "line keyword -> Purchases - Packaging"
+        },
+        {
+          "description": "Oregano Leaves Rubbed 500g",
+          "supplier_code": "WINORE-UC10",
+          "qty": "1.000",
+          "amount": "10.00",
+          "unit_cost": "$20.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Big Cheese- Shredded Mozzarella 2kg",
+          "supplier_code": "MOZZARELLA2KG-UC4",
+          "qty": "24.000",
+          "amount": "504.00",
+          "unit_cost": "$10.50/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "KRC- Sliced Calabrese Mild Salami 1kg",
+          "supplier_code": "CALABRESE/CASTLE-UC4",
+          "qty": "2.000",
+          "amount": "52.12",
+          "unit_cost": "$26.06/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
