@@ -228,3 +228,31 @@ purchases:
     venue: harry_gatos
     purchased_on: 2026-08-20
     evidence: "Canton Group INV-5110 (20 Aug 2026): $100.00 incl per 50-pc pack = $2.00 incl a roll"
+
+  # BIBENDUM WINE CO — Zak (2026-08-20): 'dormilona chenin blanc i bought from
+  # bibendum 31st july'. Found in DEXT (published to Xero 02 Aug): tax invoice
+  # INB302533, dated 30 Jul 2026, PO 54361251, total $450.38 incl. Their
+  # invoices go to Dext, never the accounts mailbox — same standing as CUB.
+  # Both BO costs equal the invoice's own discounted net to the cent
+  # (22.00 x 0.925 = 20.35; 19.85 x 0.925 = 18.36), which proves both the
+  # identity and that BO was last set from this same supplier.
+
+  - supplier: "Bibendum Wine Co"
+    supplier_code: "25465-750"
+    description: "Dormilona Chenin Blanc 2025"
+    price_ex_gst: 20.35
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-07-30
+    evidence: "Bibendum INB302533 (30 Jul 2026): 12 BT @ $22.00 ex less 7.5% = $20.35; total line $244.20 ex"
+
+  - supplier: "Bibendum Wine Co"
+    supplier_code: "25451-750"
+    description: "Ravensworth Pinot Gris 2025"
+    price_ex_gst: 18.3613
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-07-30
+    evidence: "Bibendum INB302533 (30 Jul 2026): 9 BT @ $19.85 ex less 7.5% = $18.36; the venue pours it as Ravensworth Skins Gris (BO cost $18.36 exact)"
