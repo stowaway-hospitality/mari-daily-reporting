@@ -54,6 +54,12 @@ let BRIEFS = [], CHASE = [], CONFIG = {}, AREAS = [], CUR = null;
 // calendar, and where in it we are looking. DIARY_ERR is held separately from
 // "no functions" on purpose — see diaryPanelHTML.
 let DIARY = [], BYDATE = [], DIARY_ERR = null;
+// The night being recorded, if one is: { booking, brief }. Module state
+// rather than DOM state because recording an outcome on a booking with no
+// brief creates one first, and the reload that follows redraws the panel
+// wholesale -- a form living only in the markup would be thrown away
+// between the two halves of what the user thinks is one action.
+let OUTCOME_EDIT = null;
 let MODE = 'diary', MONTH = null, SEL_DATE = null, SEL_FN = null;
 let DIRTY = false;
 let SVC = null;   // service token held in memory for this session
@@ -679,6 +685,15 @@ export function diaryRowHTML(f, selId, today) {
   if (f.status && f.status !== 'confirmed') {
     chips.push(`<span class="chip bad">${esc(f.status)}</span>`);
   }
+  // Only on a function that has actually run. "Reported" against a party three
+  // weeks away is a category error, and "no report yet" on one is a job nobody
+  // can do. The GP itself never comes out here: a rail row has nowhere to put
+  // what qualifies it, which is the same reason functions.summary() carries
+  // outcome_reported as a boolean and not a number.
+  if (d !== null && d < 0) {
+    chips.push(f.outcome ? '<span class="chip ok">reported</span>'
+                         : '<span class="chip need">no report yet</span>');
+  }
   return `<div class="row${selId === f.id ? ' on' : ''}" data-fn="${esc(f.id)}"
       role="button" tabindex="0">
     <div class="l1"><span class="nm">${esc(f.name)}</span>
@@ -710,12 +725,401 @@ export function diaryRailHTML(fns, selId, today) {
              'Nothing has run yet.');
 }
 
+// ============================================== how it went, after the night
+// WHY THIS HALF EXISTS
+// --------------------
+// Everything above answers questions asked BEFORE a function: what will they
+// pay, what is still missing, whose move is it. This answers the only one
+// asked afterwards — was it worth doing — and nothing in the platform could,
+// because the package SKUs carry no costed recipe. In the P&L a function books
+// at 100% GP and therefore looks free. The two nights on 8 August 2026 were
+// worked out by hand precisely because the system had no way to.
+//
+// THE RULE THAT SHAPES ALL OF THIS: a GP percentage NEVER renders without its
+// caveats. Not "should not" — cannot. gpFigureHTML() below is the only place
+// in this module that formats gp_pct or gp_pct_ex_mixer at all, and the branch
+// that prints the number sits INSIDE the guard that requires a non-empty
+// caveat list. An outcome that somehow arrives with a percentage and no
+// caveats draws a refusal where the number would have been, and says why.
+//
+// That is deliberate over-engineering for one specific failure. A bare "59.3%"
+// on a screen is quoted as fact in a meeting six months later, by which point
+// "beverage only, mixer estimated, packages uncosted" has been left behind on
+// a page nobody reopened. A tooltip does not survive that journey; a sentence
+// physically inside the same block does. The API takes the same view — it
+// keeps the GP off summary() and puts it only where the caveats fit.
+//
+// gp_pct_ex_mixer is drawn as the OTHER END OF A RANGE rather than as a
+// footnote, because that is what it is: the same sum with the assumed mixer
+// cost taken back out. Nobody has measured which end is right, and saying
+// "between 59.3% and 65.6%" is the truthful width of the answer.
+
+/** One decimal, or an em dash. Percentages are quoted to a tenth because that
+ *  is how they were worked out; a rounded "59%" invites a second, different
+ *  rounding somewhere else. */
+export const pct = (v) => (v == null ? '—' : `${Number(v).toFixed(1)}%`);
+
+/** A plain count, to `dp` places. Drinks per head is 9.56 and reads wrong at
+ *  either 10 or 9.6 — it is a measured ratio, not an estimate. */
+export const num = (v, dp = 2) => (v == null ? '—'
+  : Number(v).toLocaleString('en-AU',
+      { minimumFractionDigits: dp, maximumFractionDigits: dp }));
+
+/** A sentence written across several source lines is still one sentence.
+ *  Collapsed here rather than left to the browser so the string this module
+ *  hands out is the string a human reads — the suite asserts on these
+ *  sentences and a run of indentation in the middle of one is not a fact
+ *  worth encoding in a test. */
+export const flat = (s) => String(s == null ? '' : s).replace(/\s+/g, ' ').trim();
+
+/** Hours as a human writes them: 3, not 3.00; 3.5, not 3.50. */
+export const hoursLabel = (h) => (h == null ? '—'
+  : (Math.abs(h - Math.round(h)) < 0.005 ? String(Math.round(h)) : num(h, 1)));
+
+/** The machine codes functions._outcome_caveats() emits, given a heading a
+ *  human reads first. The prose stays the SERVER'S — it is the authority on
+ *  what is soft about its own numbers, and a second wording here would be a
+ *  second thing to keep true. Only the heading is ours, and an unknown code
+ *  falls back to itself rather than being dropped: a caveat this page has
+ *  never heard of is still a caveat, and silently swallowing it is the exact
+ *  failure this section exists to prevent. */
+export const CAVEAT_TITLES = {
+  mixer_estimated: 'Mixer',
+  food_cogs_unknown: 'Food',
+  package_sku_uncosted: 'Packages',
+};
+
+export function caveatsHTML(caveats) {
+  const list = caveats || [];
+  if (!list.length) return '';
+  return flat(`<div class="caveats">
+    <div class="cvh">What qualifies that figure — ${list.length === 1
+      ? 'one thing' : list.length + ' things'}, and they are part of it</div>
+    <ul>${list.map((c) => `<li><b>${esc(CAVEAT_TITLES[c.code] || c.code)}</b> —
+      ${esc(c.note)}${c.effect ? ` <span class="cvx">${esc(c.effect)}.</span>` : ''}</li>`)
+      .join('')}</ul></div>`);
+}
+
+/**
+ * The GP figure, and the ONLY place one is drawn.
+ *
+ * Three outcomes, and the middle one is the point:
+ *   * no percentage yet   — say which inputs are missing; do not print 0%.
+ *   * a percentage with NO caveats — refuse, and explain the refusal. This is
+ *     unreachable against the real API (package_sku_uncosted is emitted
+ *     unconditionally) and it is written anyway, because "unreachable" is a
+ *     claim about today's server and the number outlives it.
+ *   * a percentage with caveats — the number, its basis, the range it lives
+ *     in, and the caveats, in one block that cannot be screenshotted apart.
+ */
+export function gpFigureHTML(o) {
+  if (!o) return '';
+  const caveats = o.caveats || [];
+  if (o.gp_pct == null) {
+    return flat(`<div class="gp none">
+      <div class="big">No gross profit worked out yet</div>
+      <div class="why">That needs the revenue taken, the food share of it and
+        the drinks cost. Whatever is recorded above is real — the GP simply
+        cannot be computed from it yet, which is not the same as it being
+        nothing.</div>
+      ${caveatsHTML(caveats)}</div>`);
+  }
+  if (!caveats.length) {
+    return flat(`<div class="gp refused">
+      <div class="big">GP withheld</div>
+      <div class="why">This report carries a gross profit percentage and none
+        of the qualifications that make it quotable, so the number is not
+        shown. A bare percentage is the thing this screen exists to prevent: it
+        gets read back as fact once the basis has been left behind. Refresh —
+        if it stays like this the report is malformed and the figure is not
+        safe to use.</div></div>`);
+  }
+  const basis = esc(o.gp_basis || 'unstated');
+  const range = o.gp_pct_ex_mixer == null ? '' : flat(`<div class="range">The true
+      figure is somewhere between <b>${pct(o.gp_pct)}</b> and
+      <b>${pct(o.gp_pct_ex_mixer)}</b>. The top of that range is the same sum
+      with the estimated mixer cost taken back out. Both ends are arithmetic;
+      nobody has measured which one is right.</div>`);
+  return flat(`<div class="gp">
+    <div class="big">${pct(o.gp_pct)}<span class="basis">${basis} GP</span></div>
+    <div class="why">${money2(o.gross_profit_ex_cents)} gross profit on
+      ${money2(o.bev_revenue_ex_cents)} of ${basis} revenue ex-GST, after
+      ${money2(o.total_cogs_ex_cents)} of cost.</div>
+    ${range}${caveatsHTML(caveats)}</div>`);
+}
+
+/**
+ * The out-earn ratio, in words.
+ *
+ * A bare "1.29" means nothing to anyone. The fact underneath it is that a
+ * function does not add trade to an empty room — it takes the seats ordinary
+ * trade would have had, and swaps 76.4% beverage margin for package margin. So
+ * the sentence says what was swapped, what the swap cost in dollars, and what
+ * the night therefore had to turn over just to draw level.
+ *
+ * It deliberately does NOT restate the GP percentage. That number renders in
+ * exactly one place, with its caveats attached, and repeating it here would be
+ * a second copy free of them — which is the whole failure mode.
+ */
+export function outEarnSentence(o) {
+  if (!o || o.margin_foregone_ex_cents == null) return '';
+  const bench = pct(o.benchmark_gp_pct);
+  const gap = o.margin_foregone_ex_cents;
+  const r = o.out_earn_ratio;
+  if (gap <= 0) {
+    return flat(`Those seats return ${bench} on beverage in ordinary trade.
+      This function beat that, by ${money2(-gap)} of gross profit on the same
+      revenue${r == null ? '' : ` — it out-earned the trade it displaced at
+      ${num(r, 2)} times before it was even level`}. It did not have to make
+      the case; it made it.`);
+  }
+  const uplift = r == null ? null : Math.round((r - 1) * 100);
+  return flat(`A function does not add trade to an empty room — it displaces
+    it. Those seats return ${bench} on beverage in ordinary trade, and this one
+    returned less, by ${money2(gap)} of gross profit on the same revenue.${
+    r == null ? '' : ` To break even on gross profit it had to out-earn the
+    trade it replaced by ${num(r, 2)} times — ${uplift}% more money through
+    the till for the same margin.`} "It made a profit" and "it was worth
+    doing" are different questions, and this is the second one.`);
+}
+
+/**
+ * Who actually came, beside who was booked.
+ *
+ * Both measured functions differed, and in the same direction: 25 booked and
+ * 19 through the door on one, 40 on the booking and 25 counted on the other.
+ * Every per-head figure divides by the people who came, so a report that
+ * quietly showed the booking figure would be dividing by the wrong number and
+ * saying nothing about it.
+ */
+export function headsLine(o) {
+  const a = o && o.actual_heads, b = o && o.booked_guests;
+  if (a == null) {
+    return { flag: false, text: 'Nobody recorded how many turned up, so there '
+      + 'are no per-head figures below.' };
+  }
+  if (b == null || a === b) {
+    return { flag: false, text: `${a} through the door.` };
+  }
+  const d = b - a;
+  return { flag: true, text: flat(`${a} through the door, against ${b} on the
+    booking — ${Math.abs(d)} ${d > 0 ? 'fewer' : 'more'}. Every per-head figure
+    below is divided by the ${a} who came, not the ${b} who were booked.`) };
+}
+
+const metric = (k, v, s) => `<div class="met"><div class="k">${k}</div>
+  <div class="v">${v}</div>${s ? `<div class="s">${flat(s)}</div>` : ''}</div>`;
+
+/** The measured half — everything that is a count or a dollar somebody read
+ *  off a report. No percentage appears here; see gpFigureHTML. */
+export function outcomeMetricsHTML(o) {
+  const cells = [];
+  if (o.revenue_inc_cents != null) {
+    cells.push(metric('Revenue taken', money(o.revenue_inc_cents),
+      `inc-GST · ${money2(o.revenue_ex_cents)} ex-GST${o.food_revenue_inc_cents
+        ? ` · ${money(o.food_revenue_inc_cents)} of it food, which is part of
+           this line and not on top of it` : ''}`));
+  }
+  if (o.tickets_sold != null) {
+    cells.push(metric('Tickets sold', String(o.tickets_sold),
+      o.actual_heads != null && o.tickets_sold !== o.actual_heads
+        ? `${o.actual_heads} came — paid for and turned up are different counts`
+        : 'paid for, which is not the same count as who came'));
+  }
+  if (o.drinks_poured != null) {
+    cells.push(metric('Drinks poured', String(o.drinks_poured),
+      `${num(o.drinks_per_head)} a head · ${num(o.drinks_per_hour)} an hour
+       over ${hoursLabel(o.package_hours)} hours`));
+  }
+  if (o.cogs_ex_cents_per_head != null) {
+    cells.push(metric('Cost a head', money2(o.cogs_ex_cents_per_head),
+      `ex-GST · ${money2(o.total_cogs_ex_cents)} in total${o.mixer_est_ex_cents
+        ? `, of which ${money2(o.mixer_est_ex_cents)} is the mixer estimate` : ''}`));
+  }
+  if (o.gross_profit_ex_cents != null) {
+    cells.push(metric('Gross profit', money2(o.gross_profit_ex_cents),
+      'ex-GST, on the beverage side only'));
+  }
+  if (o.menu_value_inc_cents_per_head != null) {
+    cells.push(metric('Given away a head',
+      money2(o.menu_value_inc_cents_per_head),
+      `at menu price, inc-GST · ${money(o.menu_value_inc_cents)} across the
+       night. Not a loss — it is what was handed over, priced as it would
+       otherwise have sold`));
+  }
+  return cells.length ? `<div class="mets">${cells.join('')}</div>` : '';
+}
+
+/** Why the references matter, said where they are typed and where they are
+ *  read. A figure nobody can get back to is a figure that has to be believed. */
+export const POS_REFS_WHY = 'The tab name, the receipt number and the sale id. '
+  + 'They are what makes every figure here reproducible: with them anyone can '
+  + 'pull the same report in six months and get the same answer, and without '
+  + 'them all of this is somebody’s word.';
+
+/** Has this function happened? A function ON today has not finished, so it is
+ *  not something to report on yet — the same line splitDiary() draws. */
+export const hasHappened = (f, today) => {
+  const d = daysAway(f && f.date, today);
+  return d !== null && d < 0;
+};
+
+/**
+ * The whole "How it went" block for one function.
+ *
+ * Nothing at all for a function that has not happened — a report on a night
+ * still to come is a forecast, and this screen does not do forecasts.
+ *
+ * A past function with NO outcome gets a sentence, not a blank and not a row
+ * of zeros. "Nobody has counted this" and "it made nothing" are different
+ * facts about a night and only one of them is true here, which is exactly the
+ * distinction functions.outcome() protects by returning null.
+ */
+export function outcomeHTML(f, today, edit) {
+  if (!f || !hasHappened(f, today)) return '';
+  const o = f.outcome;
+  const editing = !!(edit && edit.booking === f.id);
+  const act = `<button class="${o ? 'ghost small' : 'small'}"
+      data-act="recordoutcome" data-booking="${esc(f.id)}">${
+      o ? 'Correct the figures' : 'Record how it went'}</button>`;
+
+  if (!o) {
+    return `<div class="rep">
+      <h2>How it went</h2>
+      <div class="quiet">Nobody has reported on this one. That is not a
+        function that made nothing — it is a night nobody has counted yet. The
+        heads, the tab, the drinks off it and what they cost are all on the
+        POS; until somebody puts them here there is no gross profit for this
+        function anywhere in the business, because the package SKUs book at
+        100%.</div>
+      <div class="acts" style="margin-top:10px">${act}
+        <span class="hint" style="margin-top:0">${f.brief_id
+          ? 'Nine measured numbers. Everything else is worked out from them.'
+          : 'There is no brief behind this booking yet, so this makes one and '
+            + 'opens the form in the same step.'}</span></div>
+      ${editing ? outcomeFormHTML(edit.brief) : ''}</div>`;
+  }
+
+  const heads = headsLine(o);
+  const earn = outEarnSentence(o);
+  return `<div class="rep">
+    <h2>How it went</h2>
+    <div class="${heads.flag ? 'prob' : 'hint'}" style="margin-top:0">${
+      esc(heads.text)}</div>
+    ${outcomeMetricsHTML(o)}
+    ${gpFigureHTML(o)}
+    ${earn ? `<div class="earn">${esc(earn)}</div>` : ''}
+    ${o.pos_refs ? `<div class="refs"><label>Where these came from</label>
+      <div class="log">${esc(o.pos_refs)}</div>
+      <div class="hint">${esc(POS_REFS_WHY)}</div></div>`
+      : `<div class="hint" style="margin-top:10px">No POS references recorded,
+        so nothing here can be traced back to a receipt. ${esc(POS_REFS_WHY)}</div>`}
+    <div class="acts" style="margin-top:10px">${act}</div>
+    ${editing ? outcomeFormHTML(edit.brief) : ''}</div>`;
+}
+
+// -------------------------------------------------------- recording a night
+/**
+ * The nine boxes, and nothing else.
+ *
+ * Every one is MEASURED — counted off a POS report or read off an invoice.
+ * There is no box for the GP percentage, the drinks per head or the margin
+ * comparison, and there must never be one: they are derived, and a derived
+ * number that can be typed is a number that can disagree with its own inputs.
+ * That is the same reason functions.py stores none of them.
+ *
+ * `kind` decides the parse, not the widget: money is typed in DOLLARS because
+ * that is what the invoice says, and converted to cents on the way out,
+ * because that is what the column holds.
+ */
+export const OUTCOME_INPUTS = [
+  { id: 'o_heads', field: 'actual_heads', kind: 'int',
+    label: 'Heads through the door',
+    hint: 'Who actually came. Not what was booked and not what was ticketed.' },
+  { id: 'o_tickets', field: 'tickets_sold', kind: 'int',
+    label: 'Tickets sold',
+    hint: 'How many were paid for. Often not the same number.' },
+  { id: 'o_rev', field: 'revenue_inc_cents', kind: 'money',
+    label: 'Revenue taken ($ inc GST)',
+    hint: 'What the function brought in, as the till shows it.' },
+  { id: 'o_food', field: 'food_revenue_inc_cents', kind: 'money',
+    label: 'Food share of it ($ inc GST)',
+    hint: 'Part of the line above, never on top of it. Leave blank if there '
+        + 'was no food: it is taken out of the GP sum because there is no '
+        + 'food cost to put against it.' },
+  { id: 'o_drinks', field: 'drinks_poured', kind: 'int',
+    label: 'Drinks poured',
+    hint: 'Off the comped tab, counted.' },
+  { id: 'o_menu', field: 'menu_value_inc_cents', kind: 'money',
+    label: 'Menu value of that tab ($ inc GST)',
+    hint: 'What those drinks would have rung up at menu price — what was '
+        + 'given away, at the price it would otherwise have sold for.' },
+  { id: 'o_cogs', field: 'cogs_ex_cents', kind: 'money',
+    label: 'Drinks COGS ($ ex GST)',
+    hint: 'Cost of goods on the drinks, ex-GST as invoiced.' },
+  { id: 'o_mixer', field: 'mixer_est_ex_cents', kind: 'money',
+    label: 'Mixer estimate ($ ex GST)',
+    hint: 'An estimate, and the report says so every time it quotes a GP. '
+        + 'House spirits are costed as the nip only, so the mixer is added '
+        + 'by assumption.' },
+  { id: 'o_refs', field: 'pos_refs', kind: 'text',
+    label: 'POS references', hint: POS_REFS_WHY },
+];
+
+/** Dollars off the form to cents for the wire, counts to integers, text as
+ *  typed. A blank box is OMITTED rather than sent as zero — F.upsert never
+ *  overwrites a value with an empty one, so an absent key means "not measured"
+ *  and 0 means "measured, and it was none". */
+export function outcomeBody(brief, read) {
+  const out = { name: brief && brief.name };
+  for (const f of OUTCOME_INPUTS) {
+    const raw = String(read(f.id) == null ? '' : read(f.id)).trim();
+    if (raw === '') continue;
+    if (f.kind === 'text') { out[f.field] = raw; continue; }
+    const v = parseFloat(raw.replace(/[$,\s]/g, ''));
+    if (!isFinite(v)) continue;
+    out[f.field] = f.kind === 'money' ? Math.round(v * 100) : Math.round(v);
+  }
+  return out;
+}
+
+/** What goes in each box when the form opens: the raw measured column off the
+ *  brief, in the units it is typed in. Never the derived report. */
+export function outcomeFieldValue(brief, f) {
+  const v = brief ? brief[f.field] : null;
+  if (v == null || v === '') return '';
+  if (f.kind === 'money') return String(v / 100);
+  return String(v);
+}
+
+export function outcomeFormHTML(brief) {
+  const b = brief || {};
+  const box = (f) => `<div class="f${f.kind === 'text' ? ' full' : ''}">
+    <label for="${f.id}">${esc(f.label)}</label>
+    <input id="${f.id}" data-outcome="1" ${f.kind === 'int' ? 'type="number" min="0"' : ''}
+      value="${esc(outcomeFieldValue(b, f))}">
+    <div class="hint">${esc(f.hint)}</div></div>`;
+  return `<div class="oform">
+    <h2>Record what was measured</h2>
+    <div class="hint" style="margin-top:0">Nine numbers, all of them counted or
+      invoiced. There is no box for the GP percentage, the drinks per head or
+      the margin comparison because those are worked out from these — a GP you
+      can type is a GP nobody can reproduce.</div>
+    <div class="kv" style="margin-top:11px">${OUTCOME_INPUTS.map(box).join('')}</div>
+    <div class="acts" style="margin-top:12px">
+      <button data-act="saveoutcome" data-brief="${esc(b.id)}">Save the figures</button>
+      <button class="ghost" data-act="canceloutcome">Cancel</button>
+      <span class="hint" style="margin-top:0">Everything derived is recomputed
+        on save, so a corrected input corrects the report.</span>
+    </div></div>`;
+}
+
 // ------------------------------------------------------------- one function
 const MARK_WORDS = { is_function: 'the function flag',
                      notes: 'the note prefix',
                      area: 'the room it is pinned to' };
 
-export function functionCardHTML(f, today) {
+export function functionCardHTML(f, today, edit) {
   const w = whenLine(f);
   const heads = headcountSays(f);
   // The unsettled start time has its own block above; repeating it here as an
@@ -798,7 +1202,11 @@ export function functionCardHTML(f, today) {
     f.created_at ? ' · entered ' + esc(String(f.created_at).slice(0, 10)) : ''}${
     marks.length ? ' · in the diary because of ' + esc(marks.join(', ')) : ''}</div>`;
 
-  return `<div class="card">${head}${when}${headBlock}${open}${contact}${notes}${brief}${foot}</div>`;
+  // The report sits high on the card, under the headcount and above the
+  // prose, because on a function that has already run it IS the record. It
+  // draws nothing at all on one that has not happened yet.
+  return `<div class="card">${head}${when}${headBlock}${
+    outcomeHTML(f, today, edit)}${open}${contact}${notes}${brief}${foot}</div>`;
 }
 
 /** The heading over a clicked date. Says how many, in words, before it says
@@ -815,7 +1223,8 @@ export function dateHeadHTML(iso, on) {
   </div>`;
 }
 
-export function diaryPanelHTML(fns, byDate, month, selDate, selId, today, err) {
+export function diaryPanelHTML(fns, byDate, month, selDate, selId, today,
+                               err, edit) {
   const cal = calendarHTML(month, byDate, selDate, today);
   // An empty diary and a diary that would not load look identical, and one of
   // them is the bug this whole half exists to fix. Say which one this is.
@@ -826,13 +1235,13 @@ export function diaryPanelHTML(fns, byDate, month, selDate, selId, today, err) {
   }
   if (selId) {
     const f = (fns || []).find((x) => x.id === selId);
-    if (f) return cal + functionCardHTML(f, today);
+    if (f) return cal + functionCardHTML(f, today, edit);
   }
   if (selDate) {
     const on = (fns || []).filter((f) => f.date === selDate);
     if (on.length) {
       return cal + dateHeadHTML(selDate, on)
-           + on.map((f) => functionCardHTML(f, today)).join('');
+           + on.map((f) => functionCardHTML(f, today, edit)).join('');
     }
   }
   return cal + `<div class="card"><div class="quiet">Pick a date on the calendar,
@@ -1149,7 +1558,8 @@ function drawRail() {
 function drawPanel() {
   if (MODE === 'diary') {
     $('panel').innerHTML = diaryPanelHTML(DIARY, BYDATE, MONTH || ym(todayInSydney()),
-                                          SEL_DATE, SEL_FN, todayInSydney(), DIARY_ERR);
+                                          SEL_DATE, SEL_FN, todayInSydney(),
+                                          DIARY_ERR, OUTCOME_EDIT);
     return;
   }
   if (!CUR) {
@@ -1273,6 +1683,68 @@ async function tookIt() {
     await loadAll(CUR.id);
   } catch (e) { say(why(e), true); }
 }
+
+// ------------------------------------------------- recording how it went
+/**
+ * The two-step, as one step.
+ *
+ * The functions actually in the book are BOOKINGS WITH NO BRIEF -- they were
+ * pushed in from the Monday tracker before briefs existed -- and the nine
+ * measured columns live on a brief. So recording a night on one of them is two
+ * API calls: give the booking a brief, then fill the brief in.
+ *
+ * They are never two buttons. "Create a brief" is not a thing anybody wants to
+ * do; it is a thing the machine needs before it can be told what happened, and
+ * a screen that asks for it first is a screen that has handed its own
+ * bookkeeping to the user. One control, one sentence saying what it will do,
+ * and the form opens on the far side either way.
+ *
+ * A 409 means somebody made the brief between this diary loading and this
+ * click. The engine hands back the id it collided with, so that is the one we
+ * open -- refetching and asking again would just lose the click.
+ */
+async function recordOutcome(bookingId) {
+  const f = DIARY.find((x) => x.id === bookingId);
+  if (!f) { say('that booking is no longer in the diary', true); return; }
+  let briefId = f.brief_id;
+  try {
+    if (!briefId) {
+      try {
+        const made = await (await call(
+          `/api/admin/functions/diary/${bookingId}/brief`,
+          { method: 'POST' })).json();
+        briefId = made.id;
+        say('brief created — now the numbers');
+      } catch (e) {
+        const id = e.detail && e.detail.brief_id;
+        if (!id) throw e;
+        briefId = id;
+      }
+    }
+    // The FULL brief, not the diary row's outcome: the boxes are filled from
+    // the raw measured columns, and the PATCH needs the brief's own name.
+    const brief = await (await call(`/api/admin/functions/${briefId}`)).json();
+    OUTCOME_EDIT = { booking: bookingId, brief };
+    await loadAll();
+  } catch (e) { say("couldn't open the report: " + why(e), true); }
+}
+
+/** Save the measured figures. Nothing derived is sent, so nothing derived can
+ *  be wrong: the report is recomputed server-side from what goes up here. */
+async function saveOutcome(briefId) {
+  const brief = OUTCOME_EDIT && OUTCOME_EDIT.brief;
+  if (!brief) return;
+  const read = (id) => { const e = $(id); return e ? e.value : ''; };
+  try {
+    await call(`/api/admin/functions/${briefId || brief.id}`,
+      { method: 'PATCH', body: JSON.stringify(outcomeBody(brief, read)) });
+    OUTCOME_EDIT = null;
+    say('recorded');
+    await loadAll();
+  } catch (e) { say('not saved: ' + why(e), true); }
+}
+
+function cancelOutcome() { OUTCOME_EDIT = null; drawPanel(); }
 
 function copyText(t, msg) {
   navigator.clipboard.writeText(t).then(() => say(msg),
@@ -1428,6 +1900,9 @@ function wire() {
     else if (act === 'copyask') copyAsk();
     else if (act === 'copylink') copyLink();
     else if (act === 'stage') setStage(btn.dataset.stage);
+    else if (act === 'recordoutcome') recordOutcome(btn.dataset.booking);
+    else if (act === 'saveoutcome') saveOutcome(btn.dataset.brief);
+    else if (act === 'canceloutcome') cancelOutcome();
     else if (act === 'gobrief') goBrief(btn.dataset.brief);
     else if (act === 'godiary') goDiary(btn.dataset.booking);
   });

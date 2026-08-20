@@ -20,6 +20,11 @@
   second, so it reported an empty diary while confirmed functions sat in the
   book. #modes switches between them; both are drawn into #rail and #panel.
 
+  A third question arrived with the outcome columns: how did the ones that have
+  already happened actually go. It is answered on the diary card of a past
+  function and nowhere else, because a GP figure is only honest beside the
+  three things that qualify it, and a list row has no room for them.
+
   This screen was built first at /admin/functions on the Render service, where
   staff never go and where it asked for the service token in a box. Same
   behaviour, moved to where the work happens and onto the platform's own auth
@@ -161,6 +166,47 @@
      changes, open questions. It is never truncated to a line. */
   .log.full{max-height:none}
   .quiet{color:var(--ink-soft);font-size:14px;padding:14px 0}
+
+  /* ------------------------------------------- how it went, after the night
+     A GP percentage is never styled as a standalone number. .gp is ONE block
+     and .caveats lives inside it, so there is no way to lift the figure out
+     with a screenshot and leave the qualification behind — which is the whole
+     failure this section is shaped around. Nothing here is a tooltip, a
+     title= or a <details>: the caveats are body text, at body size. */
+  .rep{margin-top:13px;border-top:1px solid var(--line);padding-top:12px}
+  .rep h2{margin-bottom:4px}
+  .mets{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));
+        gap:10px;margin-top:11px}
+  .met{background:var(--parchment);border:1px solid var(--line);
+        border-radius:10px;padding:9px 11px}
+  .met .k{font-size:11px;font-weight:600;text-transform:uppercase;
+        letter-spacing:.05em;color:var(--ink-soft)}
+  .met .v{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;
+        margin-top:2px}
+  .met .s{font-size:12px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
+  .gp{margin-top:12px;background:var(--parchment);border:1px solid var(--line);
+        border-left:3px solid var(--ink);border-radius:10px;padding:12px 14px}
+  .gp .big{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;
+        display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;line-height:1.1}
+  .gp .big .basis{font-size:12px;font-weight:600;text-transform:uppercase;
+        letter-spacing:.05em;color:var(--ink-soft)}
+  .gp .why{font-size:13px;color:var(--ink-soft);margin-top:4px}
+  .gp .range{font-size:13px;margin-top:9px;line-height:1.5}
+  .gp.none{border-left-color:var(--grey)}
+  .gp.none .big{font-size:16px;font-weight:600;color:var(--ink-soft)}
+  .gp.refused{border-left-color:var(--red)}
+  .gp.refused .big{font-size:18px;color:var(--red)}
+  .caveats{margin-top:10px;border-top:1px solid var(--line);padding-top:9px}
+  .caveats .cvh{font-size:11px;font-weight:700;text-transform:uppercase;
+        letter-spacing:.06em;color:var(--ink-soft)}
+  .caveats ul{margin:5px 0 0 18px;font-size:13px;line-height:1.5}
+  .caveats li{margin-bottom:4px}
+  .caveats .cvx{color:var(--amber)}
+  .earn{margin-top:11px;font-size:14px;line-height:1.55}
+  .refs{margin-top:11px}
+  .oform{margin-top:13px;border-top:1px solid var(--line);padding-top:12px}
+  .oform .kv{align-items:start}
+  .oform .kv .hint{margin-top:4px;line-height:1.4}
 </style>
 </head>
 <body>
@@ -207,6 +253,6 @@
   </div>
 </div>
 
-<script type="module" src="./functions.js?v=20260820b"></script>
+<script type="module" src="./functions.js?v=20260820c"></script>
 </body>
 </html>

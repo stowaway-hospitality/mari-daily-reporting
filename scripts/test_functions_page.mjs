@@ -859,5 +859,442 @@ const DIANE = fn('1e871002336d'), MJ = fn('f9eb11be3b3a');
                     missing: [], problems: [] }], []).held.length === 0);
 }
 
+// ================================================ HOW IT WENT, AFTER THE NIGHT
+// The post-event half. Zak's question is "was it worth doing", and the answer
+// is a GP percentage that is soft in three specific ways — the mixer cost is
+// assumed, food is uncosted, and the package SKUs book at 100% in the P&L.
+//
+// The failure this section exists to catch is not an arithmetic one. It is a
+// screenshot: "59.3%" lifted off a page and quoted in a meeting six months
+// later with "beverage only, mixer estimated, packages uncosted" left behind.
+// Nothing 404s, nothing throws, and the number is even correct. So the tests
+// below assert co-presence structurally — a percentage and its caveats are one
+// block or there is no percentage at all.
+//
+// The two fixtures are the only two functions anybody has measured, both
+// verified by hand off the POS, shaped exactly as functions.outcome() returns
+// them. They are the regression fixture: a change that cannot draw these two
+// truthfully is wrong.
+const esc0 = (s) => F.esc(s);
+const ROMAN_OUT = {
+  actual_heads: 25, booked_guests: 40, tickets_sold: 25,
+  revenue_inc_cents: 200000, food_revenue_inc_cents: null,
+  drinks_poured: 239, menu_value_inc_cents: 359900,
+  cogs_ex_cents: 62548, mixer_est_ex_cents: 11380,
+  pos_refs: 'Tab Roman B 40th · receipt 1188213 · sale 3f2a91',
+  revenue_ex_cents: 181818, bev_revenue_inc_cents: 200000,
+  bev_revenue_ex_cents: 181818, total_cogs_ex_cents: 73928,
+  gross_profit_ex_cents: 107890, gp_pct: 59.34, gp_pct_ex_mixer: 65.6,
+  gp_basis: 'beverage', drinks_per_head: 9.56, package_hours: 3,
+  drinks_per_hour: 79.67, cogs_ex_cents_per_head: 2957,
+  menu_value_inc_cents_per_head: 14396,
+  benchmark_gp_pct: 76.4, margin_foregone_ex_cents: 31019, out_earn_ratio: 1.29,
+  caveats: [
+    { code: 'mixer_estimated', gp_pct_ex_mixer: 65.6, gp_pct_points: 6.26,
+      note: 'the mixer cost is an estimate, not a repo figure -- house spirits '
+        + 'are costed as the nip only, so a per-pour mixer blend is added by '
+        + 'assumption',
+      effect: 'strip it out and GP rises 6.3 points, to 65.6%' },
+    { code: 'package_sku_uncosted',
+      note: 'the package SKUs have no costed recipe and book at 100% GP in the '
+        + 'P&L, which is why functions look free until someone works one out by '
+        + 'hand',
+      effect: 'this figure does not appear anywhere in the P&L' },
+  ],
+};
+// Harry Baker is the one with food: $80pp was $60 drinks and $20 food, so his
+// GP is a beverage GP on $1,140 and not a GP on $1,520. Three caveats, not two.
+const HARRY_OUT = {
+  actual_heads: 19, booked_guests: 25, tickets_sold: 19,
+  revenue_inc_cents: 152000, food_revenue_inc_cents: 38000,
+  drinks_poured: 149, menu_value_inc_cents: 182050,
+  cogs_ex_cents: 33256, mixer_est_ex_cents: 7966,
+  pos_refs: 'Tab HB 21st · receipt 1188402 · sale 91cc07',
+  revenue_ex_cents: 138182, bev_revenue_inc_cents: 114000,
+  bev_revenue_ex_cents: 103636, total_cogs_ex_cents: 41222,
+  gross_profit_ex_cents: 62414, gp_pct: 60.22, gp_pct_ex_mixer: 67.91,
+  gp_basis: 'beverage', drinks_per_head: 7.84, package_hours: 3,
+  drinks_per_hour: 49.67, cogs_ex_cents_per_head: 2170,
+  menu_value_inc_cents_per_head: 9582,
+  benchmark_gp_pct: 76.4, margin_foregone_ex_cents: 16764, out_earn_ratio: 1.27,
+  caveats: [
+    { code: 'mixer_estimated', gp_pct_ex_mixer: 67.91, gp_pct_points: 7.69,
+      note: 'the mixer cost is an estimate, not a repo figure -- house spirits '
+        + 'are costed as the nip only, so a per-pour mixer blend is added by '
+        + 'assumption',
+      effect: 'strip it out and GP rises 7.7 points, to 67.9%' },
+    { code: 'food_cogs_unknown', food_revenue_inc_cents: 38000,
+      note: 'food COGS is unknown -- kitchen items are uncosted, so this is a '
+        + 'beverage-only GP, not a blended one',
+      effect: 'food revenue is excluded from the GP above rather than being '
+        + 'credited against a cost nobody has' },
+    { code: 'package_sku_uncosted',
+      note: 'the package SKUs have no costed recipe and book at 100% GP in the '
+        + 'P&L, which is why functions look free until someone works one out by '
+        + 'hand',
+      effect: 'this figure does not appear anywhere in the P&L' },
+  ],
+};
+// Roman's brief exists and carries the numbers; Harry's does not yet, which is
+// the ordinary state of everything in this book.
+const ROMAN_DONE = { ...ROMAN, brief_id: 'b0b0b0b0b0b0', outcome: ROMAN_OUT };
+const HARRY_DONE = { ...HARRY, brief_id: 'c1c1c1c1c1c1', outcome: HARRY_OUT };
+
+// ------------------------- THE ONE THAT MATTERS: no GP without its caveats
+{
+  const full = F.gpFigureHTML(ROMAN_OUT);
+  ok('the GP figure renders, to a tenth', /59\.3%/.test(full), full);
+  ok('...and says what basis it is on, beside the number',
+     /59\.3%<span class="basis">beverage GP<\/span>/.test(full), full);
+  for (const c of ROMAN_OUT.caveats) {
+    ok(`...with the "${c.code}" caveat in the SAME block as the number`,
+       full.includes(esc0(c.note)) && full.includes(esc0(c.effect)), full);
+  }
+  ok('...in ONE element with the number, so there is nothing to screenshot apart',
+     full.startsWith('<div class="gp">') && full.endsWith('</div>')
+     && full.indexOf('59.3%') < full.indexOf('class="caveats"'), full);
+
+  // THE REQUIREMENT. Strip the caveats and the percentage must not survive.
+  const bare = F.gpFigureHTML({ ...ROMAN_OUT, caveats: [] });
+  ok('a GP figure CANNOT render without its caveats — an empty caveat list '
+     + 'draws a refusal, not a number',
+     !/59\.3/.test(bare) && !/\d+(\.\d+)?%/.test(bare) && /withheld/i.test(bare),
+     bare);
+  ok('...and the refusal explains itself rather than just going blank',
+     /read back as fact/.test(bare) && /not safe to use/.test(bare), bare);
+  const undef = F.gpFigureHTML({ ...ROMAN_OUT, caveats: undefined });
+  ok('...and a caveat list that is missing entirely behaves the same way',
+     !/59\.3/.test(undef) && /withheld/i.test(undef), undef);
+
+  // ...and not just in the helper. The whole card must not leak it either.
+  const card = F.functionCardHTML(
+    { ...ROMAN_DONE, outcome: { ...ROMAN_OUT, caveats: [] } }, TODAY);
+  ok('...on the whole diary card too: no caveats, no percentage anywhere on it',
+     !/59\.3/.test(card) && !/65\.6/.test(card), card.slice(card.indexOf('How it went')));
+  ok('...while everything MEASURED still shows, because those are not in doubt',
+     /239/.test(card) && /\$2,000/.test(card), card.slice(card.indexOf('How it went')));
+
+  // Structural, at the source. One formatter, and the number lives inside the
+  // guard rather than beside it.
+  const code0 = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  const start = code0.indexOf('export function gpFigureHTML(');
+  const after = code0.indexOf('\nexport ', start + 10);
+  ok('gpFigureHTML exists and is bounded', start > 0 && after > start);
+  // \b so benchmark_gp_pct — the venue's run rate, which is not a function's
+  // GP and carries no doubt — is not swept up as a stray reader.
+  const stray = [];
+  for (const m of code0.matchAll(/\bgp_pct\w*/g)) {
+    if (m.index < start || m.index >= after) {
+      stray.push(code0.slice(Math.max(0, m.index - 70), m.index + 30));
+    }
+  }
+  ok('gp_pct and gp_pct_ex_mixer are read in exactly ONE function in the whole '
+     + 'module — a second reader is a second place a bare number can appear',
+     stray.length === 0, stray.join('\n    || '));
+  const region = code0.slice(start, after);
+  ok('MUTATION: the number is drawn INSIDE the caveat guard, not beside it',
+     region.indexOf('!caveats.length') < region.indexOf('${pct(o.gp_pct)}'),
+     region.slice(0, 400));
+  ok('MUTATION: deleting the guard would be caught here',
+     !/59\.3/.test(F.gpFigureHTML({ ...ROMAN_OUT, caveats: [] })));
+}
+
+// ---------------------------------------- the other end of the range, not a footnote
+{
+  const full = F.gpFigureHTML(ROMAN_OUT);
+  ok('the mixer-free figure is drawn as the other end of a RANGE',
+     /between <b>59\.3%<\/b> and\s*<b>65\.6%<\/b>/.test(full), full);
+  ok('...and says which end is which, and that nobody knows',
+     /estimated mixer cost taken back out/.test(full)
+     && /nobody has measured which one is right/.test(full), full);
+  ok('...above the caveats, so it reads as a figure rather than a caveat',
+     full.indexOf('class="range"') < full.indexOf('class="caveats"'), full);
+  const noMixer = F.gpFigureHTML({ ...ROMAN_OUT, gp_pct_ex_mixer: null,
+    caveats: [ROMAN_OUT.caveats[1]] });
+  ok('no mixer estimate means no range, rather than a range with a hole in it',
+     !/class="range"/.test(noMixer) && /59\.3%/.test(noMixer), noMixer);
+}
+
+// -------------------------------------------------- Roman Bunting, 8 August
+{
+  const card = F.functionCardHTML(ROMAN_DONE, TODAY);
+  const rep = card.slice(card.indexOf('How it went'));
+  ok('a past function reports on itself', /How it went/.test(card));
+  ok('25 came against 40 on the booking, and the card says which it divides by',
+     /25 through the door, against 40 on the booking — 15 fewer/.test(rep), rep);
+  ok('...as a flag, not a footnote — the two numbers disagree',
+     /class="prob"[^>]*>25 through the door/.test(rep), rep);
+  ok('the revenue is stated inc-GST with the ex-GST figure beside it',
+     /\$2,000/.test(rep) && /\$1,818\.18 ex-GST/.test(rep), rep);
+  ok('239 drinks, at 9.56 a head', /239/.test(rep) && /9\.56 a head/.test(rep), rep);
+  ok('...and 79.67 an hour over the three hours the package ran',
+     /79\.67 an hour over 3 hours/.test(rep), rep);
+  ok('cost a head is ex-GST and says what it includes',
+     /\$29\.57/.test(rep) && /\$739\.28 in total/.test(rep)
+     && /\$113\.80 is the mixer estimate/.test(rep), rep);
+  ok('gross profit is stated in dollars, not only as a percentage',
+     /\$1,078\.90/.test(rep), rep);
+  ok('what was given away is per head, at menu price',
+     /\$143\.96/.test(rep) && /\$3,599/.test(rep), rep);
+  ok('...and is never called a loss', /Not a loss/.test(rep)
+     && !/lost \$3,599|loss of \$3,599/.test(rep), rep);
+  ok('the POS references are shown, so the figures can be got back to',
+     /receipt 1188213/.test(rep) && /reproducible/.test(rep), rep);
+}
+
+// ------------------------------------- the out-earn ratio, said in English
+{
+  const s = F.outEarnSentence(ROMAN_OUT);
+  ok('the comparison starts from what a function actually does to a room',
+     /does not add trade to an empty room — it displaces it/.test(s), s);
+  ok('...names the run rate it is being measured against', /76\.4%/.test(s), s);
+  ok('...states the gap in dollars', /\$310\.19 of gross profit/.test(s), s);
+  ok('...turns 1.29 into a sentence rather than leaving it as a number',
+     /out-earn the trade it replaced by 1\.29 times/.test(s)
+     && /29% more money through the till/.test(s), s);
+  ok('...and says why "it made a profit" is not the question',
+     /"It made a profit" and "it was worth doing" are different questions/.test(s), s);
+  ok('the sentence does NOT restate the GP percentage — that number has one home',
+     !/59\.3/.test(s), s);
+
+  const beat = F.outEarnSentence({ ...ROMAN_OUT, margin_foregone_ex_cents: -12345,
+    out_earn_ratio: 0.9 });
+  ok('a function that BEAT the run rate is not described as having lost margin',
+     /beat that, by \$123\.45/.test(beat) && !/displaces/.test(beat), beat);
+  ok('nothing to compare gives no sentence, rather than a hedged one',
+     F.outEarnSentence({ ...ROMAN_OUT, margin_foregone_ex_cents: null }) === '');
+}
+
+// ----------------------------------------- Harry Baker, and the food he had
+{
+  const card = F.functionCardHTML(HARRY_DONE, TODAY);
+  const rep = card.slice(card.indexOf('How it went'));
+  ok('19 came against 25 booked', /19 through the door, against 25 on the booking — 6 fewer/.test(rep), rep);
+  ok('the food is shown as PART of the revenue, never on top of it',
+     /\$380 of it food, which is part of this line and not on top of it/.test(rep), rep);
+  ok('a function with food carries the food-COGS caveat',
+     /beverage-only GP, not a blended one/.test(rep), rep);
+  ok('...and Roman, who had none, does not',
+     !/beverage-only GP/.test(F.functionCardHTML(ROMAN_DONE, TODAY)));
+  ok('three caveats on Harry, two on Roman, and the block says how many',
+     /3 things, and they are part of it/.test(rep)
+     && /2 things, and they are part of it/.test(F.functionCardHTML(ROMAN_DONE, TODAY)),
+     rep.slice(rep.indexOf('cvh')));
+  ok('his GP is the beverage one, on $1,036.36 and not on $1,381.82',
+     /\$1,036\.36 of beverage revenue/.test(rep) && !/\$1,381\.82 of beverage/.test(rep), rep);
+  ok('60.2% between its two ends', /between <b>60\.2%<\/b> and\s*<b>67\.9%<\/b>/.test(rep), rep);
+  ok('7.84 drinks a head', /7\.84 a head/.test(rep), rep);
+  ok('and 1.27 to break even', /by 1\.27 times/.test(rep) && /27% more money/.test(rep), rep);
+}
+
+// ------------------------------- the package caveat is the reason for all of it
+{
+  for (const [who, card] of [['Roman', F.functionCardHTML(ROMAN_DONE, TODAY)],
+                             ['Harry', F.functionCardHTML(HARRY_DONE, TODAY)]]) {
+    ok(`${who}: the packages-uncosted caveat is ALWAYS there — it is why this `
+       + 'report has to exist at all',
+       /no costed recipe and book at 100% GP/.test(card), card.slice(card.indexOf('caveats')));
+    ok(`${who}: ...and says the figure appears nowhere in the P&L`,
+       /does not appear anywhere in the P&amp;L/.test(card));
+  }
+  const odd = F.gpFigureHTML({ ...ROMAN_OUT,
+    caveats: [{ code: 'something_new', note: 'a caveat this page has never seen',
+                effect: null }] });
+  ok('a caveat code the page has never heard of is still drawn, not swallowed',
+     /something_new/.test(odd) && /never seen/.test(odd), odd);
+}
+
+// --------------------------------- a night nobody counted is not a night that made nothing
+{
+  const card = F.functionCardHTML(ROMAN, TODAY);   // past, no outcome at all
+  const rep = card.slice(card.indexOf('How it went'));
+  ok('a past function with nothing recorded still says "How it went"',
+     /How it went/.test(card));
+  ok('...and says plainly that this is not a function that made nothing',
+     /not a\s*function that made nothing/.test(rep), rep);
+  ok('...and never draws a zero for an unmeasured figure',
+     !/\$0\b/.test(rep) && !/\b0%/.test(rep) && !/0 drinks/.test(rep), rep);
+  ok('...and says why it matters: the P&L books these at 100%',
+     /package SKUs book at\s*100%/.test(rep), rep);
+
+  ok('a function that has not happened yet gets no report at all — this screen '
+     + 'does not forecast', F.outcomeHTML(MJ, TODAY) === '');
+  ok('...and one happening TODAY has not finished, so nor does it',
+     F.outcomeHTML({ ...ROMAN, date: TODAY }, TODAY) === '');
+  ok('...but yesterday has', F.hasHappened({ date: '2026-08-19' }, TODAY) === true);
+
+  // Half-measured: heads counted, nothing else. The API returns figures where
+  // it can and nulls where it cannot, and so must the screen.
+  const half = F.functionCardHTML({ ...ROMAN_DONE, outcome: {
+    actual_heads: 25, booked_guests: 40, drinks_poured: 239,
+    drinks_per_head: 9.56, package_hours: 3, drinks_per_hour: 79.67,
+    gp_pct: null, gp_pct_ex_mixer: null, benchmark_gp_pct: 76.4,
+    margin_foregone_ex_cents: null, out_earn_ratio: null,
+    caveats: [ROMAN_OUT.caveats[1]] } }, TODAY);
+  ok('a half-measured night reports what it has', /9\.56 a head/.test(half));
+  ok('...and says the GP cannot be worked out yet rather than showing 0%',
+     /No gross profit worked out yet/.test(half) && !/0\.0%/.test(half),
+     half.slice(half.indexOf('How it went')));
+  ok('...and names the inputs it is waiting on', /the food share of it/.test(half));
+}
+
+// -------------------------------------------------- the rail says which is which
+{
+  const done = F.diaryRowHTML(ROMAN_DONE, null, TODAY);
+  const notYet = F.diaryRowHTML(HARRY, null, TODAY);
+  const ahead = F.diaryRowHTML(MJ, null, TODAY);
+  ok('a past function that has been reported on is marked as such',
+     /reported<\/span>/.test(done), done);
+  ok('...and one that has not is a job, not a silence',
+     /no report yet<\/span>/.test(notYet), notYet);
+  ok('a function still to come is neither', !/report/.test(ahead), ahead);
+  const rail = F.diaryRailHTML([ROMAN_DONE, HARRY_DONE, MJ], null, TODAY);
+  ok('the rail never carries a GP percentage — there is nowhere on a row to put '
+     + 'what qualifies it', !/%/.test(rail), rail);
+}
+
+// ------------------------------------------------ recording it: nine measured boxes
+{
+  const brief = { id: 'b0b0b0b0b0b0', name: 'Roman Bunting', ...{
+    actual_heads: 25, tickets_sold: 25, revenue_inc_cents: 200000,
+    food_revenue_inc_cents: null, drinks_poured: 239,
+    menu_value_inc_cents: 359900, cogs_ex_cents: 62548,
+    mixer_est_ex_cents: 11380, pos_refs: 'Tab Roman B 40th · receipt 1188213' } };
+  const form = F.outcomeFormHTML(brief);
+
+  ok('the form carries exactly nine boxes',
+     (form.match(/data-outcome="1"/g) || []).length === 9,
+     String((form.match(/data-outcome="1"/g) || []).length));
+  ok('...and they are the nine MEASURED columns the engine holds, in its order',
+     F.OUTCOME_INPUTS.map((f) => f.field).join(',')
+       === 'actual_heads,tickets_sold,revenue_inc_cents,food_revenue_inc_cents,'
+         + 'drinks_poured,menu_value_inc_cents,cogs_ex_cents,mixer_est_ex_cents,'
+         + 'pos_refs',
+     F.OUTCOME_INPUTS.map((f) => f.field).join(','));
+  for (const derived of ['gp_pct', 'gross_profit', 'drinks_per_head',
+                         'margin_foregone', 'out_earn_ratio', 'gp_pct_ex_mixer',
+                         'cogs_ex_cents_per_head'])
+    ok(`there is no box for ${derived} — it is derived, and a GP you can type `
+       + 'is a GP nobody can reproduce',
+       !F.OUTCOME_INPUTS.some((f) => f.field === derived) && !form.includes(derived));
+  ok('...and the form says so, where somebody would otherwise go looking',
+     /no box for the GP percentage/.test(form) && /nobody can reproduce/.test(form),
+     form);
+  ok('the boxes are prefilled from the raw columns, in the units they are typed in',
+     /id="o_rev"[^>]*value="2000"/.test(form) && /id="o_heads"[^>]*value="25"/.test(form),
+     form.slice(form.indexOf('o_rev') - 60, form.indexOf('o_rev') + 120));
+  ok('...and an unmeasured column is an empty box, not a zero',
+     /id="o_food"[^>]*value=""/.test(form), form.slice(form.indexOf('o_food') - 40));
+  ok('the food box says it is a SPLIT of the revenue, not an addition to it',
+     /Part of the line above, never on top of it/.test(form), form);
+  ok('the mixer box says it is an estimate before anybody types one',
+     /id="o_mixer"[\s\S]{0,400}?An estimate/.test(form), form.slice(form.indexOf('o_mixer')));
+  ok('pos_refs is free text and explains why it is worth filling in',
+     /reproducible/.test(form) && /somebody’s word/.test(form), form);
+  ok('...and the same explanation is on the report, not only on the form',
+     F.POS_REFS_WHY.length > 80
+     && F.functionCardHTML(ROMAN_DONE, TODAY).includes(esc0(F.POS_REFS_WHY)));
+  ok('a function with no references recorded says the trail is missing',
+     /nothing here can be traced back to a receipt/
+       .test(F.functionCardHTML({ ...ROMAN_DONE,
+         outcome: { ...ROMAN_OUT, pos_refs: null } }, TODAY)));
+}
+
+// ------------------------------------------------------- what a Save sends
+{
+  const boxes = { o_heads: '25', o_tickets: '25', o_rev: '2000', o_food: '',
+                  o_drinks: '239', o_menu: '3599', o_cogs: '625.48',
+                  o_mixer: '113.80', o_refs: '  receipt 1188213  ' };
+  const body = F.outcomeBody({ id: 'b1', name: 'Roman Bunting' }, (id) => boxes[id]);
+  ok('the name rides along, because upsert needs it', body.name === 'Roman Bunting');
+  ok('dollars typed become CENTS on the wire', body.revenue_inc_cents === 200000
+     && body.cogs_ex_cents === 62548 && body.mixer_est_ex_cents === 11380,
+     JSON.stringify(body));
+  ok('counts stay counts', body.actual_heads === 25 && body.drinks_poured === 239);
+  ok('a blank box is OMITTED, so it reads as unmeasured rather than as zero',
+     !('food_revenue_inc_cents' in body), JSON.stringify(body));
+  ok('references are trimmed but otherwise kept verbatim',
+     body.pos_refs === 'receipt 1188213');
+  ok('a typed dollar sign or comma does not silently become a different number',
+     F.outcomeBody({ name: 'X' }, () => '$3,599').revenue_inc_cents === 359900);
+  ok('nothing derived can ever be in the body',
+     !Object.keys(F.outcomeBody({ name: 'X' }, (id) => boxes[id]))
+       .some((k) => /gp|profit|margin|ratio|per_head/.test(k)),
+     Object.keys(F.outcomeBody({ name: 'X' }, (id) => boxes[id])).join(','));
+  ok('zero IS a measurement and is sent',
+     F.outcomeBody({ name: 'X' }, (id) => (id === 'o_drinks' ? '0' : ''))
+       .drinks_poured === 0);
+  ok('a value already on file comes back out in dollars',
+     F.outcomeFieldValue({ revenue_inc_cents: 200000 }, F.OUTCOME_INPUTS[2]) === '2000');
+}
+
+// ------------------------------- the two-step, made one step, for a booking with no brief
+{
+  ok('the engine route that gives a booking a brief is the one it calls',
+     /\/api\/admin\/functions\/diary\/\$\{bookingId\}\/brief/.test(src), 'not called');
+  const noBrief = F.outcomeHTML(ROMAN, TODAY);          // brief_id null
+  ok('a past function with no brief still offers ONE action, not two',
+     (noBrief.match(/data-act="recordoutcome"/g) || []).length === 1, noBrief);
+  ok('...and it is not called "create a brief" — nobody wants to do that',
+     !/create a brief|make a brief/i.test(noBrief) && /Record how it went/.test(noBrief),
+     noBrief);
+  ok('...but it says what it will do, so the extra record is not a surprise',
+     F.flat(noBrief).includes('no brief behind this booking yet, so this makes '
+       + 'one and opens the form in the same step'), F.flat(noBrief));
+  const withBrief = F.outcomeHTML({ ...ROMAN, brief_id: 'b0b0b0b0b0b0' }, TODAY);
+  ok('a function that already has a brief goes straight to the form',
+     !/makes one/.test(withBrief) && /data-act="recordoutcome"/.test(withBrief));
+  ok('a booking that already has a brief made by somebody else mid-click is '
+     + 'followed to it rather than failing',
+     /e\.detail && e\.detail\.brief_id/.test(src), 'no 409 recovery');
+  ok('a reported function offers a correction, not a second first-time entry',
+     /Correct the figures/.test(F.outcomeHTML(ROMAN_DONE, TODAY)));
+
+  const open = F.functionCardHTML(ROMAN_DONE, TODAY,
+    { booking: ROMAN.id, brief: { id: 'b0b0b0b0b0b0', name: 'Roman Bunting' } });
+  ok('the form opens on the card it belongs to', /data-act="saveoutcome"/.test(open));
+  ok('...and only on that one',
+     !/data-act="saveoutcome"/.test(F.functionCardHTML(HARRY_DONE, TODAY,
+       { booking: ROMAN.id, brief: { id: 'x', name: 'y' } })));
+  ok('...and can be abandoned', /data-act="canceloutcome"/.test(open));
+  ok('the panel passes the open form through to the card it is on',
+     /data-act="saveoutcome"/.test(F.diaryPanelHTML([ROMAN_DONE], BY_DATE, '2026-08',
+       null, ROMAN.id, TODAY, null,
+       { booking: ROMAN.id, brief: { id: 'b', name: 'n' } })));
+}
+
+// ------------------------------------------------------- escaping, once more
+{
+  const nastyOut = { ...ROMAN_OUT,
+    pos_refs: 'Tab <img src=x onerror=alert(1)> · "receipt"',
+    gp_basis: '<b>beverage</b>',
+    caveats: [{ code: '<script>alert(1)</script>', note: '<img src=y>',
+                effect: '<img src=z>' }] };
+  const card = F.functionCardHTML({ ...ROMAN_DONE, outcome: nastyOut }, TODAY);
+  ok('a POS reference cannot inject markup', !card.includes('<img src=x'), card);
+  ok('a caveat cannot either',
+     !card.includes('<script>alert(1)</script>') && !card.includes('<img src=y'), card);
+  ok('nor can the basis the server states', !card.includes('<b>beverage</b>'), card);
+  const form = F.outcomeFormHTML({ id: 'b', name: 'X',
+    pos_refs: '"><script>alert(1)</script>' });
+  ok('...nor a value already on file, coming back into an input',
+     !form.includes('<script>alert(1)</script>'), form.slice(form.indexOf('o_refs')));
+}
+
+// ------------------------------------------------ the shell grew CSS, not logic
+{
+  for (const cls of ['.gp', '.caveats', '.mets', '.oform'])
+    ok(`the shell styles ${cls}`, html.includes(cls + '{') || html.includes(cls + ' '),
+       cls);
+  ok('the report block is styled from tokens, never from a hex colour',
+     !/#[0-9a-fA-F]{3,8}\b/.test(html.slice(html.indexOf('<style>'),
+                                            html.indexOf('</style>'))),
+     (html.slice(html.indexOf('<style>'), html.indexOf('</style>'))
+       .match(/#[0-9a-fA-F]{3,8}\b/) || [''])[0]);
+  ok('the caveats are not a tooltip, a title= or a collapsible anywhere in the '
+     + 'module', !/title="[^"]*caveat/i.test(src) && !/<details/.test(src)
+       && !/<summary/.test(src));
+}
+
 console.log(`\n${n} functions-page assertions, ${fails} failures`);
 process.exit(fails ? 1 : 0);
