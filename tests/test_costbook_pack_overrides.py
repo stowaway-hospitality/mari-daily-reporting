@@ -150,7 +150,12 @@ def test_no_already_divided_product_got_divided_again():
         "lightspeed:22873831": Decimal("0.482020"),   # Regular Pizza Box 11"
         "lightspeed:22873851": Decimal("0.642620"),   # Large Pizza Box 13"
         "lightspeed:22873876": Decimal("0.110550"),   # Pizza Box Inserts
-        "lightspeed:22995335": Decimal("0.055558"),   # Eggs 700g [12x]
+        # 2026-08-20: was 0.055558 — the fabrication-era rate (no egg costs
+        # 5.6c). Zak ruled the Yorkshire at 36 eggs, the FFT box (180 eggs,
+        # $56 on INB00113731) came back as the anchor, and the real per-egg
+        # is 31.1c. Select Fresh's dozen (48.3c/ea, small-qty) corroborates
+        # the magnitude.
+        "lightspeed:22995335": Decimal("0.311111"),   # Eggs 700g [12x]
         "lightspeed:22995336": Decimal("0.472222"),   # Tortillas 12"
         "lightspeed:22995337": Decimal("0.116667"),   # Tortillas 6"
         "lightspeed:22996511": Decimal("4.437500"),   # GF Pizza Base

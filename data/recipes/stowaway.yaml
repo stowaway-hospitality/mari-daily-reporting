@@ -670,3 +670,23 @@
       qty: 2000
       unit: g
       unit_cost_incl: 0.00975
+
+# Yorkshire Pudding Prep - Zak (2026-08-20): "36 eggs in york prep".
+# Replaces the scraped spec whose 323.99 "eggs" was an old line cost divided
+# by a seed rate, never a count. Milk and flour kept from the scrape.
+- product: "Yorkshire Pudding Prep [110 units]"
+  yield_qty: 110
+  yield_unit: "ea"
+  ingredients:
+    - id: "lightspeed:22888650"
+      desc: "Milk Fresh Full Cream"
+      qty: 2000
+      unit: "ml"
+    - id: "lightspeed:22995335"
+      desc: "Eggs (whole, ea)"
+      qty: 36
+      unit: "ea"
+    - id: "lightspeed:22995943"
+      desc: "Flour Plain"
+      qty: 1650
+      unit: "g"
