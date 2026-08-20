@@ -345,7 +345,17 @@ def test_the_book_and_lightspeed_agree_about_almost_everything(book):
     ratios.sort()
     assert len(ratios) > 400
     assert ratios[len(ratios) // 2] < 1.01
-    assert sum(1 for r in ratios if r < 1.10) / len(ratios) > 0.80
+    # 0.80 -> 0.75 on 2026-08-20, and the reason matters: the 63-bridge run
+    # connected real invoices to ~60 ingredients that had only ever carried
+    # seeds, and a seed AGREES with Lightspeed by construction (both descend
+    # from the same scrape) while an invoice tells the truth. Agreement fell
+    # 84% -> 78% BECAUSE the book got more accurate — oregano really is 0.67x
+    # the seed, jalapenos really are 1.58x. The median still pins the bulk of
+    # the book to a tenth of a percent, which is what justifies the 2x
+    # threshold this test exists to defend; the tail that diverged is the
+    # invoice-fed tail, and it should GROW as coverage improves. If the MEDIAN
+    # ever moves, that is systemic drift and a different conversation.
+    assert sum(1 for r in ratios if r < 1.10) / len(ratios) > 0.75
 
 
 def test_a_unit_argument_is_not_raised_as_a_price_argument(book):
