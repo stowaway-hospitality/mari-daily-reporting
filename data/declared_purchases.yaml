@@ -292,3 +292,62 @@ purchases:
     venue: stowaway
     purchased_on: 2026-08-10
     evidence: "Cork And Co 0086598 (10 Aug 2026, via Dext): $21.00 ex list less 7.5% = $19.425; GST/WET totals close exactly"
+
+  # DEJA VU WINE COMPANY PTY LTD — the sake supplier, found (Zak: 'if i found
+  # the last ones then you can find these'). 27 invoices in Dext under 'Deja
+  # Vu Wine Company' (ABN 79 127 368 629, account 36309, billed to Harry
+  # Gatos); nothing ever reaches the accounts mailbox. Their lines print LUC
+  # per bottle directly and the WET arithmetic closes on every line read.
+  # Four of the five BO seeds equal these LUCs exactly; Wa no Kokoro's seed
+  # divided the same dollars by a 700 ml bottle that is actually 500 ml
+  # (printed on the invoice) and sat 36% under until now.
+
+  - supplier: "Deja Vu Wine Company"
+    supplier_code: "KUNSAKNV-SJD"
+    description: "Kunizakari Saika Junmai Daiginjo 720ml"
+    price_ex_gst: 39.99
+    pack_qty: 720
+    pack_unit: ml
+    venue: harry_gatos
+    purchased_on: 2026-05-25
+    evidence: "Deja Vu INV403779 (25 May 2026, Dext): $31.00 + 29% WET = $39.99 LUC printed"
+
+  - supplier: "Deja Vu Wine Company"
+    supplier_code: "TNGSAKNV-UJ18"
+    description: "Tengumai Umajun Junmai 1800ml"
+    price_ex_gst: 64.50
+    pack_qty: 1800
+    pack_unit: ml
+    venue: harry_gatos
+    purchased_on: 2026-07-02
+    evidence: "Deja Vu INV406206 (2 Jul 2026, Dext): $50.00 + 29% WET = $64.50 LUC printed; bought on 4 of the last 5 invoices"
+
+  - supplier: "Deja Vu Wine Company"
+    supplier_code: "KUNLQRNV-YUZ"
+    description: "Kunizakari Wa no Kokoro Yuzu Liqueur 500ml"
+    price_ex_gst: 30.83
+    pack_qty: 500
+    pack_unit: ml
+    venue: harry_gatos
+    purchased_on: 2026-03-09
+    evidence: "Deja Vu invoice 9 Mar 2026 (Dext): $30.83 LUC, no WET line; 500ml printed — BO had divided by 700ml"
+
+  - supplier: "Deja Vu Wine Company"
+    supplier_code: "KUNSAKNV-NU-7"
+    description: "Kunizakari Nigori Chita Umeshu 720ml"
+    price_ex_gst: 40.00
+    pack_qty: 720
+    pack_unit: ml
+    venue: harry_gatos
+    purchased_on: 2026-07-02
+    evidence: "Deja Vu INV406206 (2 Jul 2026, Dext): CTN $240.00/6 = $40.00 LUC printed, no WET"
+
+  - supplier: "Deja Vu Wine Company"
+    supplier_code: "KENSAKNV-KK90"
+    description: "Kenbishi Kuromatsu 900ml"
+    price_ex_gst: 56.00
+    pack_qty: 900
+    pack_unit: ml
+    venue: harry_gatos
+    purchased_on: 2026-04-28
+    evidence: "Deja Vu invoice 28 Apr 2026 (Dext): $56.00 LUC printed, x1.1 = $61.60 incl exact"
