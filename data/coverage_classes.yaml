@@ -10,11 +10,6 @@ _meta:
     weigh: needs a chef with a scale, once
   ruled: 'Zak 2026-08-20: pipeline rock-solid; the only remaining work is chefs weighing items'
 ids:
-  lightspeed:20445572:
-    class: question
-    name: BBQ Sauce
-    reason: record's own unit is GRAMS for a sauce B&E bills per litre — BO unit wants fixing before a
-      bridge is honest
   lightspeed:20445579:
     class: weigh
     name: Basil
@@ -23,10 +18,6 @@ ids:
     class: weigh
     name: Shallots
     reason: FFT SBCH / Select Fresh SHAL per bunch — grams per bunch wanted
-  lightspeed:20445601:
-    class: question
-    name: Prawns
-    reason: generic record; which prawn line of the several bought?
   lightspeed:20445706:
     class: awaiting_next_purchase
     name: James Boags Light
@@ -186,9 +177,10 @@ ids:
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
   lightspeed:20492716:
-    class: question
+    class: awaiting_next_purchase
     name: John D. Taylor's Velvet Falernum [Bottle]
-    reason: ILG book carries Marie Brizard and Fee Brothers falernum, not JD Taylor's — brand switch?
+    reason: 'SOLVED: the seed matches ILG''s MARIE BRIZARD falernum ($35.73 vs $34.99) — brand fossil.
+      Pre-declared on 410-428-5; costs itself on the next ILG invoice.'
   lightspeed:20564868:
     class: weigh
     name: Lime
@@ -359,7 +351,9 @@ ids:
   lightspeed:22865362:
     class: question
     name: Ancho Reyes Chilli Liqueur [Bottle]
-    reason: ILG book carries only the VERDE — is the red original still stocked?
+    reason: ILG carries only the VERDE ($59.17) and the seed says $68.67 — a 16 percent gap, so no identity
+      claim. Verde pre-declared; if the red original is poured it is bought outside ILG. The next invoice
+      settles it.
   lightspeed:22873696:
     class: awaiting_next_purchase
     name: Massenez Mango Liqueur [5L Cask]
@@ -439,11 +433,6 @@ ids:
     name: Babys Breath [bunch]
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:22893540:
-    class: question
-    name: Pork Belly Boneless S/Less [kg]
-    reason: three bellies bought (Andrews boneless S/ON hg, B&E R/ON weekly stow, cooked) — which is this
-      record?
   lightspeed:22893566:
     class: awaiting_next_purchase
     name: Cooking Sake Jun [18L]
@@ -492,8 +481,10 @@ ids:
   lightspeed:22898787:
     class: question
     name: Ramen Noodles Fresh [kg]
-    reason: 'JFC sells Yellow Ramen #22 ($0.84/cake) and Tonkotsu Straight ($36/kg) — which noodle is
-      the HG ramen?'
+    reason: 'identity SOLVED 2026-08-20: JFC 56296 WPM Yellow Ramen #22 — $0.84 a cake against the record''s
+      own $7.22/kg seed implies a 116 g cake, the standard weight; the Tonkotsu candidate is 5x off. ONE
+      number left: weigh a cake (chef), then a one-line pack override finishes it. Not guessed because
+      the 116 comes from the seed itself.'
   lightspeed:22900613:
     class: awaiting_next_purchase
     name: Nori [125g]
@@ -543,9 +534,11 @@ ids:
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
   lightspeed:22947356:
-    class: question
+    class: authored_recipe_needed
     name: Davidson Plum Puree
-    reason: Select Fresh sells FROZEN PLUMS by kg — is the puree house-made from them?
+    reason: house-made from Select Fresh DAVID frozen plums ($51/kg, the rate the BO seed copied). Wants
+      the batch recipe (plums + sugar + yield) in the builder; the SF bridge is parked in product_map
+      and engages the day the recipe gives the record a gram basis.
   lightspeed:22995343:
     class: weigh
     name: Herb Chives [Market]
@@ -555,10 +548,6 @@ ids:
     name: Herb Coriander [Bunch]
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:22995366:
-    class: question
-    name: Vegetable Oil Simply [20L]
-    reason: duplicate of the bridged Vegetable Oil id? one word merges them
   lightspeed:23036620:
     class: awaiting_next_purchase
     name: Garlic Minced [kg]

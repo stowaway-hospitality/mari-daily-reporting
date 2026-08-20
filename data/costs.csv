@@ -621,7 +621,7 @@ b-e:20152,2026-07-17,0.012600,g,stowaway,6975411,per kg (invoice),CHICKEN MARYLA
 b-e:20152,2026-07-24,0.012600,g,stowaway,7007301,per kg (invoice),CHICKEN MARYLAND (F) DICE
 b-e:26321,2026-06-19,59.1800,box,stowaway,6841761,per box (invoice),BURGER BOX - SOFT
 b-e:26495,2026-08-14,0.003425,ml,stowaway,7118358,4ltr,SAUCE - TOMATO (GF) 4LTR(3)
-b-e:26598,2026-05-16,0.004600,ml,stowaway,6685906,4ltr,SAUCE - BBQ 4LTR(3) HEINZ
+b-e:26598,2026-05-16,0.004600,g,stowaway,6685906,chef-confirmed,SAUCE - BBQ 4LTR(3) HEINZ
 b-e:27544,2026-04-02,0.012700,g,stowaway,6488996,chef-confirmed,HAM - SOCCERBALL SLICED
 b-e:27544,2026-04-14,0.012700,g,stowaway,6533780,chef-confirmed,HAM - SOCCERBALL SLICED
 b-e:27544,2026-04-22,0.012700,g,stowaway,6574250,chef-confirmed,HAM - SOCCERBALL SLICED
@@ -2270,6 +2270,7 @@ lightspeed:20445571,2026-06-05,0.013710,g,stowaway,CI-405265,2kg (via gulli:HASF
 lightspeed:20445571,2026-07-01,0.013710,g,stowaway,CI-418003,2kg (via gulli:HASFET2-UC4),Hastings Valley- Fetta In Brine 2kg
 lightspeed:20445571,2026-08-19,0.013710,g,stowaway,CI-444612,2kg (via gulli:HASFET2-UC4),Hastings Valley- Fetta In Brine 2kg
 lightspeed:20445572,2026-01-02,0.009836,g,stowaway,ls-recipe-seed,per kg (invoice),BBQ Sauce
+lightspeed:20445572,2026-05-16,0.004600,g,stowaway,6685906,chef-confirmed (via b-e:26598),SAUCE - BBQ 4LTR(3) HEINZ
 lightspeed:20445579,2026-01-02,0.011667,g,stowaway,ls-recipe-seed,per kg (invoice),Basil
 lightspeed:20445580,2026-01-02,2.600000,bunch,stowaway,bo-ingredient-seed-stowaway,bunch,Coriander [bunch]
 lightspeed:20445580,2026-07-02,2.64,bunch,harry_gatos,INB00109734,per bunch (invoice) (via fresh-fruit-team:HCB),Herb Coriander
@@ -2326,6 +2327,18 @@ lightspeed:20445598,2026-08-20,0.012800,g,stowaway,7146655,chef-confirmed (via b
 lightspeed:20445599,2026-01-02,0.028000,g,stowaway,ls-recipe-seed,per kg (invoice),Anchovies
 lightspeed:20445599,2026-07-16,0.026087,g,stowaway,6969915,690g (via b-e:18484),CANNED - ANCHOVY FILLETS IN OIL 690G(12) SELESTA
 lightspeed:20445601,2026-01-02,0.022731,g,stowaway,ls-recipe-seed,per kg (invoice),Prawns
+lightspeed:20445601,2026-04-15,0.024571,g,stowaway,6529361,chef-confirmed (via b-e:13582),FZ PRAWN - RAW MEAT VANN
+lightspeed:20445601,2026-05-04,0.022714,g,stowaway,6623077,chef-confirmed (via b-e:13582),FZ PRAWN - RAW MEAT VANN
+lightspeed:20445601,2026-06-04,0.022714,g,stowaway,6771349,chef-confirmed (via b-e:13582),FZ PRAWN - RAW MEAT VANN
+lightspeed:20445601,2026-06-19,0.022714,g,stowaway,6841761,chef-confirmed (via b-e:13582),FZ PRAWN - RAW MEAT (I)
+lightspeed:20445601,2026-06-25,0.022714,g,stowaway,6865733,chef-confirmed (via b-e:13582),FZ PRAWN - RAW MEAT (I)
+lightspeed:20445601,2026-07-10,0.022714,g,stowaway,6935023,chef-confirmed (via b-e:13582),FZ PRAWN - RAW MEAT (I)
+lightspeed:20445601,2026-07-16,0.022714,g,stowaway,6969915,chef-confirmed (via b-e:13582),FZ PRAWN - RAW MEAT (I)
+lightspeed:20445601,2026-07-27,0.022714,g,stowaway,7022280,chef-confirmed (via b-e:13582),FZ PRAWN - RAW MEAT (I)
+lightspeed:20445601,2026-08-01,0.022714,g,stowaway,7051734,chef-confirmed (via b-e:13582),FZ PRAWN - RAW MEAT (I)
+lightspeed:20445601,2026-08-08,0.022714,g,stowaway,7086316,chef-confirmed (via b-e:13582),FZ PRAWN - RAW MEAT (I)
+lightspeed:20445601,2026-08-13,0.022714,g,stowaway,7111314,chef-confirmed (via b-e:13582),FZ PRAWN - RAW MEAT (I)
+lightspeed:20445601,2026-08-20,0.022714,g,stowaway,7146655,chef-confirmed (via b-e:13582),FZ PRAWN - RAW MEAT (I)
 lightspeed:20445603,2026-01-02,0.012184,g,stowaway,ls-recipe-seed,per kg (invoice),Chicken
 lightspeed:20445603,2026-03-26,0.011900,g,stowaway,6460344,per kg (invoice) (via b-e:12776),CHICKEN BREAST (F) SLICE
 lightspeed:20445603,2026-04-02,0.011900,g,stowaway,6488996,per kg (invoice) (via b-e:12776),CHICKEN BREAST (F) SLICE
@@ -4492,6 +4505,7 @@ lightspeed:22888898,2026-01-02,0.014667,g,stowaway,ls-recipe-seed,per kg (invoic
 lightspeed:22893390,2026-01-02,16.000000,bunch,stowaway,bo-ingredient-seed-stowaway,bunch,Babys Breath [bunch]
 lightspeed:22893390,2026-01-03,16.500000,bunch,stowaway,recipe-bridge-seed,bunch,Babys Breath [bunch]
 lightspeed:22893540,2026-01-02,0.023000,g,harry_gatos,bo-ingredient-seed-harry_gatos,1000g,Pork Belly Boneless S/Less [kg] 1000g
+lightspeed:22893540,2026-06-02,0.024000,g,harry_gatos,INV3384521,per kg (invoice) (via andrews-meat:3095K),PORK BELLY BONELESS S/ON
 lightspeed:22893549,2026-01-01,0.003450,ml,harry_gatos,bo-seed-harry_gatos,20000ml,Oil Cottonseed 20000ML
 lightspeed:22893549,2026-04-22,0.003450,ml,stowaway,SI4310731,20lt (via foodlink:101831),OIL COTTONSEED 20LT Trading
 lightspeed:22893549,2026-05-18,0.003450,ml,stowaway,SI4359018,20lt (via foodlink:101831),OIL COTTONSEED 20LT Trading
@@ -4773,7 +4787,7 @@ lightspeed:22931835,2026-07-17,0.013200,g,harry_gatos,INB00111593,per kg (invoic
 lightspeed:22931835,2026-07-30,0.013200,g,harry_gatos,INB00113232,per kg (invoice) (via fresh-fruit-team:GINKG),Ginger
 lightspeed:22931835,2026-08-07,0.013200,g,harry_gatos,INB00114399,per kg (invoice) (via fresh-fruit-team:GINKG),Ginger
 lightspeed:22931835,2026-08-19,0.013200,g,harry_gatos,INB00115813,per kg (invoice) (via fresh-fruit-team:GINKG),Ginger
-lightspeed:22947356,2026-01-02,0.0510,can,harry_gatos,bo-ingredient-seed-harry_gatos,can,Davidson Plum Puree
+lightspeed:22947356,2026-01-02,0.0510,ea,harry_gatos,bo-ingredient-seed-harry_gatos,per ea (invoice),Davidson Plum Puree
 lightspeed:22947358,2026-01-02,25.0000,can,harry_gatos,bo-ingredient-seed-harry_gatos,can,Shiitake Mushrooms Dried
 lightspeed:22947363,2026-01-02,5.0000,can,harry_gatos,bo-ingredient-seed-harry_gatos,can,Potato Starch
 lightspeed:22962975,2026-07-24,0.004050,g,stowaway,7007301,2kg (via b-e:12429),BI - CARB SODA 2KG (6)
@@ -5110,6 +5124,10 @@ lightspeed:22995363,2026-08-06,0.012800,g,stowaway,7075845,chef-confirmed (via b
 lightspeed:22995363,2026-08-13,0.012800,g,stowaway,7111314,chef-confirmed (via b-e:11602),ANTIPASTO - SUNDRIED
 lightspeed:22995363,2026-08-20,0.012800,g,stowaway,7146655,chef-confirmed (via b-e:11602),ANTIPASTO - SUNDRIED
 lightspeed:22995366,2026-01-02,0.002900,ml,stowaway,bo-ingredient-seed-stowaway,20l,Vegetable Oil Simply [20L]
+lightspeed:22995366,2026-04-01,0.002900,ml,stowaway,SI4274139,20lt (via foodlink:107923),OIL VEGETABLE 20LT Trading
+lightspeed:22995366,2026-07-22,0.003350,ml,stowaway,SI4478582,20lt (via foodlink:107923),OIL VEGETABLE 20LT Trading
+lightspeed:22995366,2026-08-01,0.003350,ml,stowaway,SI4498762,20lt (via foodlink:107923),OIL VEGETABLE 20LT Trading
+lightspeed:22995366,2026-08-20,0.003350,ml,stowaway,SI4533756,20lt (via foodlink:107923),OIL VEGETABLE 20LT Trading
 lightspeed:22995367,2026-01-01,0.045600,ml,stowaway,bo-seed-stowaway,250ml,White Truffle Oil Sandhurst 250ML
 lightspeed:22995400,2026-01-01,0.002950,ml,harry_gatos,bo-seed-harry_gatos,20000ml,Cottonseed Oil Simply 20000ML
 lightspeed:22995426,2026-01-01,0.005100,ml,harry_gatos,bo-seed-harry_gatos,5000ml,Sesame Oil Blended Haday 5000ML
