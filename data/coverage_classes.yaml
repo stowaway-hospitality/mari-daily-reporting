@@ -117,11 +117,6 @@ ids:
     name: Sprite 1.25L
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:20467573:
-    class: supplier_missing
-    name: Year Wines 'Zagara' Orange - Bottle
-    reason: Year Wines — the Fiano flows via Viticult (YF24, bridged 2026-08-20) but no Zagara line on
-      recent Viticult invoices in Dext. Same channel; next order bridges.
   lightspeed:20471109:
     class: awaiting_next_purchase
     name: Tomato Sauce
@@ -159,10 +154,6 @@ ids:
     name: Massenez Black Cacao [5L]
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:20487875:
-    class: supplier_missing
-    name: Philter Red [Keg]
-    reason: supplier not in the mailbox — forward one invoice
   lightspeed:20487958:
     class: awaiting_next_purchase
     name: Poor Tom's Strawberry Gin [Bottle]
@@ -173,10 +164,6 @@ ids:
     name: Grifter Serpents Kiss Can
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:20492634:
-    class: supplier_missing
-    name: Status Quo [Keg]
-    reason: supplier not in the mailbox — forward one invoice
   lightspeed:20492688:
     class: awaiting_next_purchase
     name: Disaronno [Bottle]
@@ -209,10 +196,6 @@ ids:
     class: weigh
     name: Lemon
     reason: same as Lime
-  lightspeed:20645869:
-    class: supplier_missing
-    name: Crankshaft IPA [Keg]
-    reason: supplier not in the mailbox — forward one invoice
   lightspeed:20645918:
     class: awaiting_next_purchase
     name: Gosling's Black Rum
@@ -228,11 +211,6 @@ ids:
     name: Philter Old Ale [HG]
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:20700630:
-    class: supplier_missing
-    name: Geppetto Chardonnay - Bottle
-    reason: COMBINED WINES carries Geppetto (Pinot Noir invoiced 27 Jul under CGPN750ML) but no Chardonnay
-      line yet; next Combined Wines order carrying it bridges.
   lightspeed:20710023:
     class: awaiting_next_purchase
     name: Frangelico [Bottle]
@@ -248,11 +226,6 @@ ids:
     name: Bittermen's Tiki Bitters [Bottle]
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:20728346:
-    class: supplier_missing
-    name: Sibiliana Nero D'Avola - Bottle
-    reason: boutique wine — Zak names IMBIBO / BIBENDUM as the likely suppliers not in the mailbox; forward
-      one invoice from each and these flow
   lightspeed:20729561:
     class: awaiting_next_purchase
     name: Joseph Cartron Creme de Peche [700ml]
@@ -647,15 +620,3 @@ ids:
     name: Aether Vodka [Bottle]
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
-  lightspeed:23120129:
-    class: supplier_missing
-    name: La Petite Mort Albarino 2025 - Bottle
-    reason: VITICULT one-off (Zak 2026-08-20) — not on any of the last six Viticult invoices in Dext (20
-      Jul-18 Aug); the seeds ($20.81 ex) look purchase-set. Bridges the day a Viticult invoice carries
-      an LPM code, or Zak names the invoice date.
-  lightspeed:23120216:
-    class: supplier_missing
-    name: La Petite Mort Rosso 2025 - Bottle
-    reason: VITICULT one-off (Zak 2026-08-20) — not on any of the last six Viticult invoices in Dext (20
-      Jul-18 Aug); the seeds ($20.81 ex) look purchase-set. Bridges the day a Viticult invoice carries
-      an LPM code, or Zak names the invoice date.

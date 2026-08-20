@@ -437,3 +437,89 @@ purchases:
     venue: stowaway
     purchased_on: 2026-01-06
     evidence: "Imbibo INI073826 (6 Jan 2026, Dext): 9 BT @ $45.78 less 10% = $41.20 ex; seed within 1.3%"
+
+  # THE LAST EIGHT — 2026-08-20, all found in Dext by line-item search.
+
+  - supplier: "Viticult"
+    supplier_code: "LPMA25"
+    description: "La Petite Mort Albarino 2025 750ml"
+    price_ex_gst: 20.810
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-05-06
+    evidence: "Viticult 6 May 2026 (Dext): 12 @ 22.498 less 7.5%, LUC $20.810 printed; the one-off Zak remembered; seed exact"
+
+  - supplier: "Viticult"
+    supplier_code: "LPMR25"
+    description: "La Petite Mort Rosso 2025 750ml"
+    price_ex_gst: 20.812
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-05-06
+    evidence: "Viticult 6 May 2026 (Dext): 12 @ 22.50 less 7.5%, LUC $20.812 printed; seed exact"
+
+  - supplier: "Viticult"
+    supplier_code: "YZ24"
+    description: "Year Zagara 2024 750ml"
+    price_ex_gst: 17.575
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-04-20
+    evidence: "Viticult 20 Apr 2026 (Dext): 1 doz @ 176.745946 less 7.5% = 163.49 ex; x1.29 WET /12 = $17.575 LUC"
+
+  - supplier: "Italian Wine Importers"
+    supplier_code: "SENNER-25"
+    description: "Sibiliana Vini Nero D'Avola Sensale 750ml"
+    price_ex_gst: 15.395
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-05
+    evidence: "IWI 5 Aug 2026 (Dext): 6 PCS, $92.37 / 6 = $15.39 LUC printed"
+
+  - supplier: "Combined Wines"
+    supplier_code: "CGCH750ML"
+    description: "Crittenden Geppetto Chardonnay 750ml"
+    price_ex_gst: 16.4958
+    pack_qty: 750
+    pack_unit: ml
+    venue: harry_gatos
+    purchased_on: 2026-07-20
+    evidence: "Combined Wines SINV203859 (20 Jul 2026, Dext; PO HARRY GATOS): 1 CTN of 12, net 153.45 + WET 44.50 = 197.95 /12 = $16.50 ex a bottle"
+
+  # THE THREE KEGS — none was ever a missing supplier; all three are standing
+  # orders whose invoices only live in Dext. Beer carries excise in the
+  # price, no WET line.
+
+  - supplier: "BentSpoke Brewing"
+    supplier_code: "BCRANKS-K50KV"
+    description: "Crankshaft IPA 50L Keg"
+    price_ex_gst: 342.00
+    pack_qty: 50000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-12
+    evidence: "BentSpoke 88690 (12 Aug 2026, Dext): $354.00 less $12.00 = $342.00 ex; monthly at $377.30 incl since 2024"
+
+  - supplier: "Mountain Culture"
+    supplier_code: "SQ-K50"
+    description: "Status Quo Pale Ale 50L Keg (Konvoy)"
+    price_ex_gst: 332.00
+    pack_qty: 50000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-12
+    evidence: "Mountain Culture INVMO28793 (12 Aug 2026, Dext): 2 x 'Status Quo - 1x50L - Konvoy - 5.2% ABV' @ $332.00 ex; fortnightly"
+
+  - supplier: "Philter Brewing"
+    supplier_code: "RED200"
+    description: "Philter RED Ale 4.8% 50L Keg"
+    price_ex_gst: 264.00
+    pack_qty: 50000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-05-22
+    evidence: "Philter PHIN-56102 (22 May 2026, Dext): $330.00 less 20% = $264.00 ex; Philter parses in the mailbox, so the next Red keg invoice supersedes"
