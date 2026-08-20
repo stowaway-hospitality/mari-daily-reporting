@@ -83,3 +83,30 @@ purchases:
     venue: stowaway
     purchased_on: 2026-08-19
     evidence: "CUB cart 2026-08-19, $409.49/case ex GST, 1 BIB per case (Zak)"
+
+  # KegLand invoice K552997, 10 Jul 2026 — uploaded by Zak 2026-08-20. KegLand
+  # has no email relationship with the accounts mailbox (orders go to
+  # zak@stowawaybar.com), so this is exactly the file's purpose. $24k of
+  # four-week cocktail revenue stands on each acid. Forward-handling for
+  # stowawaybar.com senders landed the same day, so the NEXT KegLand invoice
+  # forwarded to the mailbox supersedes these rows automatically.
+
+  - supplier: "KegLand"
+    supplier_code: "KL12454"
+    description: "Citric Acid - 1kg"
+    price_ex_gst: 6.14
+    pack_qty: 1000
+    pack_unit: g
+    venue: stowaway
+    purchased_on: 2026-07-10
+    evidence: "KegLand tax invoice K552997 (10 Jul 2026): 15 x Citric Acid 1kg @ $6.14 ex / $6.75 inc"
+
+  - supplier: "KegLand"
+    supplier_code: "KL28066"
+    description: "Malic Acid - 1kg"
+    price_ex_gst: 10.41
+    pack_qty: 1000
+    pack_unit: g
+    venue: stowaway
+    purchased_on: 2026-07-10
+    evidence: "KegLand tax invoice K552997 (10 Jul 2026): 5 x Malic Acid 1kg @ $10.41 ex / $11.45 inc"
