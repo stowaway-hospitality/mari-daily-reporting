@@ -1,6 +1,6 @@
 {
   "date": "2026-08-18",
-  "generated_at": "2026-08-19T03:08:46.088795Z",
+  "generated_at": "2026-08-20T03:08:08.472246Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -15,20 +15,20 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 2307.3,
-    "revenue_ex_gst": 2097.58,
-    "cogs_dollars": 546.87,
-    "cogs_pct": 26.1,
-    "gp_dollars": 1550.71,
-    "gp_pct": 73.9,
+    "revenue_inc_gst": 2245.66,
+    "revenue_ex_gst": 2041.54,
+    "cogs_dollars": 535.87,
+    "cogs_pct": 26.2,
+    "gp_dollars": 1505.67,
+    "gp_pct": 73.8,
     "cogs_source": "recipe_blend",
     "cogs_lightspeed_dollars": 513.96,
-    "recipe_coverage_pct": 91.9,
+    "recipe_coverage_pct": 95.3,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0.0,
-    "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null,
+    "eatclub_giveaway_ex_gst": 56.04,
+    "eatclub_covers": 6,
+    "revenue_ex_gst_before_eatclub": 2097.58,
     "food_ex_gst": 395.32,
     "bev_ex_gst": 1702.23,
     "food_cogs": 83.7,
@@ -48,7 +48,7 @@
     "admin_dollars": 0,
     "leave_dollars": 0,
     "total_dollars": 426.82,
-    "wages_pct": 20.3,
+    "wages_pct": 20.9,
     "net_wage_pct": null,
     "kitchen_hours": 7.0,
     "foh_hours": 3.8,
@@ -149,7 +149,8 @@
       "qty": 1.0,
       "rev": 77.0,
       "cost": 23.1,
-      "cost_source": "lightspeed"
+      "cost_source": "recipe",
+      "cost_lightspeed": 23.1
     },
     {
       "name": "A. Rodda Tempranillo - Regular",
@@ -171,7 +172,7 @@
       "name": "Aperol Spritz",
       "qty": 4.0,
       "rev": 62.66,
-      "cost": 14.224,
+      "cost": 14.2236,
       "cost_source": "recipe",
       "cost_lightspeed": 14.21
     },
@@ -179,7 +180,7 @@
       "name": "Rosemary Salted Fries",
       "qty": 5.0,
       "rev": 60.11,
-      "cost": 18.603,
+      "cost": 9.303,
       "cost_source": "recipe",
       "cost_lightspeed": 9.28
     },
@@ -266,7 +267,7 @@
       "name": "Classic Margarita",
       "qty": 2.0,
       "rev": 40.66,
-      "cost": 8.3572,
+      "cost": 8.3574,
       "cost_source": "recipe",
       "cost_lightspeed": 7.82
     }

@@ -1,6 +1,6 @@
 {
   "date": "2026-08-16",
-  "generated_at": "2026-08-17T03:10:08.781778Z",
+  "generated_at": "2026-08-20T03:08:08.334842Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -15,20 +15,20 @@
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": 13814.51,
-    "revenue_ex_gst": 12558.7,
-    "cogs_dollars": 1922.79,
-    "cogs_pct": 15.3,
-    "gp_dollars": 10635.91,
-    "gp_pct": 84.7,
+    "revenue_inc_gst": 13654.45,
+    "revenue_ex_gst": 12413.19,
+    "cogs_dollars": 1890.41,
+    "cogs_pct": 15.2,
+    "gp_dollars": 10522.78,
+    "gp_pct": 84.8,
     "cogs_source": "recipe_blend",
     "cogs_lightspeed_dollars": 1827.66,
-    "recipe_coverage_pct": 67.8,
+    "recipe_coverage_pct": 69.3,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0.0,
-    "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null,
+    "eatclub_giveaway_ex_gst": 145.51,
+    "eatclub_covers": 11,
+    "revenue_ex_gst_before_eatclub": 12558.7,
     "food_ex_gst": 4456.83,
     "bev_ex_gst": 8101.82,
     "food_cogs": 662.08,
@@ -48,7 +48,7 @@
     "admin_dollars": 116.35,
     "leave_dollars": 0,
     "total_dollars": 2956.46,
-    "wages_pct": 23.5,
+    "wages_pct": 23.8,
     "net_wage_pct": null,
     "kitchen_hours": 18.5,
     "foh_hours": 35.1,
@@ -131,7 +131,7 @@
       "name": "Classic Margarita",
       "qty": 37.0,
       "rev": 682.72,
-      "cost": 154.6082,
+      "cost": 154.6119,
       "cost_source": "recipe",
       "cost_lightspeed": 144.73
     },
@@ -154,7 +154,7 @@
       "name": "Fish Tacos",
       "qty": 19.0,
       "rev": 403.08,
-      "cost": 35.1215,
+      "cost": 35.1044,
       "cost_source": "recipe",
       "cost_lightspeed": 41.51
     },
@@ -170,7 +170,7 @@
       "name": "Buffalo Wings",
       "qty": 15.0,
       "rev": 258.72,
-      "cost": 44.646,
+      "cost": 44.9325,
       "cost_source": "recipe",
       "cost_lightspeed": 58.53
     },
@@ -202,7 +202,7 @@
       "name": "American Standard Burger",
       "qty": 6.0,
       "rev": 180.46,
-      "cost": 35.0418,
+      "cost": 34.941,
       "cost_source": "recipe",
       "cost_lightspeed": 35.06
     },
@@ -226,7 +226,7 @@
       "name": "Rosemary Salted Fries",
       "qty": 12.0,
       "rev": 173.08,
-      "cost": 44.6472,
+      "cost": 22.3272,
       "cost_source": "recipe",
       "cost_lightspeed": 22.26
     },
@@ -258,7 +258,7 @@
       "name": "Chicken Shindig Burger",
       "qty": 5.0,
       "rev": 152.88,
-      "cost": 27.817,
+      "cost": 27.8085,
       "cost_source": "recipe",
       "cost_lightspeed": 23.83
     },
@@ -267,7 +267,8 @@
       "qty": 8.0,
       "rev": 140.8,
       "cost": 133.84,
-      "cost_source": "lightspeed"
+      "cost_source": "recipe",
+      "cost_lightspeed": 133.84
     }
   ]
 }
