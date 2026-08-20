@@ -8,116 +8,149 @@
 <!-- QR Orders — shell only; ALL logic lives in qr.js (arch_guard convention).
      Bump the ?v= on qr.js whenever it changes.
 
-     Fronts the QR table-ordering service on stowaway-bookings.onrender.com,
-     exactly as /bookings/ fronts the seating engine: Supabase decides who may
-     open the page, the service's bearer token (Auth.bookingToken()) is the
-     real auth on every call. While the Lightspeed till link is dry-run, the
-     Queue tab IS the docket — a tablet on this page is how the kitchen learns
-     an order exists. -->
+     The manage.meandu.app recreation, on our hub: left sidebar (Your Menu /
+     Orders / Venue), the green accepting-orders dot up top, me&u's Menu Items
+     layout — category rows with Edit buttons, drill into sections and items.
+     Same wiring as ever: Supabase gate opens the page, the service bearer
+     token (Auth.bookingToken()) is the real auth on every call. -->
 <style>
-  .wrap{max-width:900px}
-  .tabbtns{display:flex;gap:8px;margin:14px 0 4px}
-  .tabbtns button{padding:8px 16px;font:inherit;font-size:14px;cursor:pointer;
-    background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:8px}
-  .tabbtns button.sel{border-color:var(--stow);color:var(--stow);font-weight:600}
-  .pills{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px}
-  .pill{font-size:12.5px;padding:4px 11px;border:1px solid var(--line);
-    border-radius:99px;color:var(--ink-soft);background:var(--paper)}
-  .pill.hot{border-color:var(--hg);color:var(--hg)}
+  /* me&u's own palette: warm off-white canvas, white cards, deep green */
+  :root{ --mu-green:#1d5b4a; --mu-green-soft:#e7efec; --mu-canvas:#faf9f6;
+         --mu-card:#ffffff; --mu-line:#e6e2da; --mu-ink:#191919; --mu-sub:#6f6a62;
+         --mu-red:#a3352c; --mu-red-soft:#f8e9e7; --mu-amber:#8a6d1d; --mu-amber-soft:#f7efd8; }
+  @media (prefers-color-scheme: dark){
+    :root{ --mu-green:#4fa183; --mu-green-soft:#173129; --mu-canvas:#141414;
+           --mu-card:#1e1d1b; --mu-line:#37342f; --mu-ink:#f2efe9; --mu-sub:#a09a90;
+           --mu-red:#e08279; --mu-red-soft:#3a1f1c; --mu-amber:#d9b45c; --mu-amber-soft:#3a311c; }
+  }
+  .qr-app{ background:var(--mu-canvas); min-height:calc(100vh - 60px); }
+  .layout{ display:flex; max-width:1240px; margin:0 auto; align-items:flex-start; }
 
-  .order .top{display:flex;align-items:baseline;gap:12px}
-  .order .tbl{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600}
-  .order .meta{color:var(--ink-soft);font-size:13px}
-  .order .flag{margin-left:auto;font-size:11px;letter-spacing:.08em;
-    text-transform:uppercase;padding:3px 9px;border-radius:99px;font-weight:600}
-  .flag.paid{background:var(--stow-tint);color:var(--stow)}
-  .flag.injected{background:var(--stow-tint);color:var(--green)}
-  .flag.failed{background:var(--mari-tint);color:var(--red)}
-  .order.fresh{animation:qrflash 1.2s ease-in-out infinite alternate}
-  @keyframes qrflash{from{box-shadow:0 0 0 2px var(--accent)}to{box-shadow:var(--shadow)}}
-  .lines{margin-top:10px;border-top:1px solid var(--line)}
-  .ln{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
-  .ln .q{min-width:30px;font-weight:600}
-  .ln .mods{font-size:13px;color:var(--ink-soft);margin-top:2px}
-  .ln .note{font-size:13px;color:var(--amber);margin-top:2px;font-style:italic}
-  .order .err{margin-top:8px;font-size:13px;color:var(--red)}
-  .acts{display:flex;gap:10px;margin-top:12px}
-  .acts button{flex:1;padding:11px;font:inherit;font-size:14.5px;cursor:pointer;
-    border:none;border-radius:8px;font-weight:600}
-  .acts .done{background:var(--green);color:#fff}
-  .acts .retry{background:var(--hg);color:#fff}
+  /* sidebar, the me&u nav */
+  aside{ width:216px; flex:0 0 216px; padding:22px 10px 40px 18px; position:sticky; top:0; }
+  aside .navhead{ font-size:11px; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--mu-sub); margin:18px 10px 6px; font-weight:600; }
+  aside button{ display:flex; align-items:center; gap:9px; width:100%; text-align:left;
+    padding:9px 12px; font:inherit; font-size:14px; color:var(--mu-ink); background:none;
+    border:none; border-radius:9px; cursor:pointer; }
+  aside button.sel{ background:var(--mu-green-soft); color:var(--mu-green); font-weight:600; }
+  aside button .cnt{ margin-left:auto; font-size:11.5px; background:var(--mu-red);
+    color:#fff; border-radius:99px; padding:1px 7px; font-weight:600; }
 
-  .search{width:100%;box-sizing:border-box;padding:11px 12px;font:inherit;font-size:15px;
-    margin:4px 0 12px;background:var(--paper);border:1px solid var(--line);
-    border-radius:8px;color:var(--ink)}
-  .avrow{display:flex;align-items:center;gap:12px;padding:9px 2px;
-    border-bottom:1px solid var(--line);font-size:14.5px}
-  .avrow .rg{color:var(--ink-soft);font-size:12.5px}
-  .avrow button{margin-left:auto;padding:7px 14px;font:inherit;font-size:13px;
-    cursor:pointer;border-radius:8px;border:1px solid var(--red);background:var(--paper);color:var(--red)}
-  .avrow button.off{background:var(--mari-tint)}
-  .empty{padding:48px 20px;text-align:center;font-style:italic;color:var(--ink-soft)}
+  main.mu{ flex:1; min-width:0; padding:18px 26px 60px; }
 
-  .edrow{border-bottom:1px solid var(--line);padding:9px 2px}
-  .edrow .edhead{display:flex;align-items:center;gap:10px;font-size:14.5px;cursor:pointer}
-  .edrow .rg{color:var(--ink-soft);font-size:12.5px}
-  .edrow .badge{font-size:11px;letter-spacing:.06em;text-transform:uppercase;
-    padding:2px 8px;border-radius:99px;font-weight:600}
-  .badge.edited{background:var(--stow-tint);color:var(--stow)}
-  .badge.hiddenb{background:var(--mari-tint);color:var(--red)}
-  .edrow .pr{margin-left:auto;font-size:13.5px;color:var(--ink-soft)}
-  .edform{display:none;padding:10px 0 6px;max-width:640px}
-  .edform.on{display:block}
-  .edform label{display:block;font-size:11.5px;text-transform:uppercase;
-    letter-spacing:.05em;color:var(--ink-soft);margin:10px 0 3px}
-  .edform input,.edform textarea{width:100%;box-sizing:border-box;padding:9px 10px;
-    font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;
-    background:var(--paper);color:var(--ink)}
-  .edform textarea{height:56px;resize:vertical}
-  .edform .row2{display:flex;gap:10px}.edform .row2>div{flex:1}
-  .edform .btns{display:flex;gap:8px;margin-top:14px}
-  .edform .btns button{padding:9px 16px;font:inherit;font-size:13.5px;cursor:pointer;
-    border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
-  .edform .btns .save{background:var(--stow);border-color:var(--stow);color:#fff;font-weight:600}
-  .edform .btns .hide{border-color:var(--red);color:var(--red)}
-  .edform .msg{font-size:13px;margin-top:8px;color:var(--red)}
+  /* topbar: the green dot */
+  .mu-top{ display:flex; align-items:center; gap:10px; padding:10px 0 4px;
+    border-bottom:1px solid var(--mu-line); margin-bottom:14px; }
+  .dotwrap{ display:flex; align-items:center; gap:8px; font-size:14px; cursor:pointer;
+    padding:6px 12px; border-radius:99px; border:1px solid var(--mu-line);
+    background:var(--mu-card); user-select:none; }
+  .dot{ width:10px; height:10px; border-radius:99px; background:#2fa36b;
+    box-shadow:0 0 0 3px rgba(47,163,107,.18); }
+  .dot.off{ background:var(--mu-red); box-shadow:0 0 0 3px rgba(163,53,44,.15); }
+  .mu-top .writer{ margin-left:auto; font-size:12.5px; color:var(--mu-sub); }
 
-  .hint{font-size:12.5px;color:var(--ink-soft);margin:4px 0 8px;line-height:1.45}
-  .mini{padding:7px 14px;font:inherit;font-size:13px;cursor:pointer;border-radius:8px;
-    border:1px solid var(--line);background:var(--paper);color:var(--ink)}
-  .mini.save{background:var(--stow);border-color:var(--stow);color:#fff;font-weight:600}
-  .mini.danger{border-color:var(--red);color:var(--red)}
-  .secrow,.grow{display:flex;align-items:center;gap:8px;padding:8px 0;
-    border-bottom:1px solid var(--line);font-size:14px;flex-wrap:wrap}
-  .secrow input[type=text],.grow input[type=text]{flex:1;min-width:140px;padding:7px 9px;
-    font:inherit;font-size:13.5px;border:1px solid var(--line);border-radius:8px;
-    background:var(--paper);color:var(--ink)}
-  .gopts{width:100%;font-size:12.5px;color:var(--ink-soft)}
-  .gform{width:100%;padding:8px 0}
-  .gform textarea{width:100%;box-sizing:border-box;height:110px;font:12.5px/1.6 ui-monospace,monospace;
-    padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink)}
-  .setrow{margin:14px 0}
-  .setrow label{display:block;font-size:11.5px;text-transform:uppercase;
-    letter-spacing:.05em;color:var(--ink-soft);margin-bottom:4px}
-  .setrow input[type=text]{width:100%;box-sizing:border-box;padding:9px 10px;font:inherit;
-    font-size:14px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink)}
-  .switch{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600}
-  .switch input{transform:scale(1.4)}
-  table.simple{width:100%;border-collapse:collapse;font-size:13.5px}
-  table.simple th{text-align:left;font-size:11.5px;text-transform:uppercase;
-    letter-spacing:.05em;color:var(--ink-soft);padding:6px 8px;border-bottom:1px solid var(--line)}
-  table.simple td{padding:7px 8px;border-bottom:1px solid var(--line)}
-  table.simple td.r,table.simple th.r{text-align:right}
-  .statgrid{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-  .stat{flex:1;min-width:150px}
-  .stat .n{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600}
-  .stat .l{font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em}
+  h1.mu{ font-family:'Space Grotesk',sans-serif; font-size:26px; font-weight:600;
+    margin:6px 0 14px; color:var(--mu-ink); }
+  .mu-sub{ font-size:13px; color:var(--mu-sub); margin:-8px 0 16px; line-height:1.5; }
 
-  #tokenbox{display:none}
-  #tokenbox input{width:100%;box-sizing:border-box;padding:10px 12px;font:inherit;
-    font-size:14px;border:1px solid var(--line);border-radius:8px;margin:8px 0}
-  #tokenbox button{padding:9px 16px;font:inherit;font-size:14px;cursor:pointer;
-    border:none;border-radius:8px;background:var(--stow);color:#fff}
+  .mu-card{ background:var(--mu-card); border:1px solid var(--mu-line);
+    border-radius:14px; padding:6px 18px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+  .mu-card.pad{ padding:16px 18px; }
+
+  .mu-search{ width:100%; box-sizing:border-box; padding:12px 14px; font:inherit;
+    font-size:14.5px; border:1px solid var(--mu-line); border-radius:10px;
+    background:var(--mu-card); color:var(--mu-ink); margin:0 0 14px; }
+
+  /* me&u's category / item rows */
+  .mrow{ display:flex; align-items:center; gap:12px; padding:14px 2px;
+    border-bottom:1px solid var(--mu-line); }
+  .mrow:last-child{ border-bottom:none; }
+  .mrow .thumb{ width:44px; height:44px; border-radius:8px; background:var(--mu-green-soft);
+    display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif;
+    font-weight:600; color:var(--mu-green); font-size:15px; flex:0 0 44px; object-fit:cover; }
+  img.thumb{ background:none; }
+  .mrow .ttl{ font-weight:600; font-size:15px; color:var(--mu-ink); }
+  .mrow .ttl .tag{ font-weight:400; font-size:12px; color:var(--mu-sub); margin-left:8px; }
+  .mrow .meta{ font-size:12.5px; color:var(--mu-sub); margin-top:2px; }
+  .mrow .right{ margin-left:auto; display:flex; align-items:center; gap:8px; flex:0 0 auto; }
+  .chip{ font-size:11.5px; padding:3px 10px; border-radius:99px; border:1px solid var(--mu-line);
+    color:var(--mu-sub); background:var(--mu-card); white-space:nowrap; }
+  .chip.sched{ border-color:var(--mu-amber); color:var(--mu-amber); background:var(--mu-amber-soft); }
+  .chip.hid{ border-color:var(--mu-red); color:var(--mu-red); background:var(--mu-red-soft); }
+  .chip.ok{ border-color:var(--mu-green); color:var(--mu-green); background:var(--mu-green-soft); }
+  .btn{ font:inherit; font-size:13.5px; cursor:pointer; border-radius:9px;
+    padding:8px 18px; border:1px solid var(--mu-line); background:var(--mu-card);
+    color:var(--mu-ink); }
+  .btn.green{ background:var(--mu-green); border-color:var(--mu-green); color:#fff; font-weight:600; }
+  .btn.danger{ border-color:var(--mu-red); color:var(--mu-red); }
+  .btn.sm{ padding:6px 13px; font-size:12.5px; }
+  .crumb{ font-size:13.5px; color:var(--mu-sub); margin-bottom:10px; }
+  .crumb a{ color:var(--mu-green); cursor:pointer; text-decoration:none; font-weight:600; }
+
+  .sechead{ display:flex; align-items:center; gap:10px; padding:16px 2px 6px;
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px;
+    letter-spacing:.02em; color:var(--mu-ink); border-bottom:2px solid var(--mu-ink);
+    margin-bottom:2px; }
+  .sechead .desc{ font-family:Inter,sans-serif; font-weight:400; font-size:12.5px;
+    color:var(--mu-sub); }
+  .sechead .right{ margin-left:auto; display:flex; gap:6px; }
+
+  /* forms (item editor, category editor, settings) */
+  .fform{ padding:12px 2px 16px; border-bottom:1px solid var(--mu-line); }
+  .fform label{ display:block; font-size:11.5px; text-transform:uppercase;
+    letter-spacing:.05em; color:var(--mu-sub); margin:12px 0 4px; }
+  .fform input[type=text], .fform textarea, .fform select{ width:100%; box-sizing:border-box;
+    padding:10px 11px; font:inherit; font-size:14px; border:1px solid var(--mu-line);
+    border-radius:9px; background:var(--mu-card); color:var(--mu-ink); }
+  .fform textarea{ height:58px; resize:vertical; }
+  .row2{ display:flex; gap:12px; } .row2>div{ flex:1; }
+  .btns{ display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
+  .msg{ font-size:13px; color:var(--mu-red); margin-top:8px; }
+  .empty{ padding:44px 20px; text-align:center; font-style:italic; color:var(--mu-sub); }
+  .daysel{ display:flex; gap:6px; flex-wrap:wrap; }
+  .daysel label{ display:flex; gap:5px; align-items:center; font-size:13px;
+    text-transform:none; letter-spacing:0; color:var(--mu-ink); margin:0;
+    border:1px solid var(--mu-line); border-radius:8px; padding:6px 9px; cursor:pointer; }
+
+  /* queue cards keep their kitchen-legibility */
+  .order{ padding:14px 2px; border-bottom:1px solid var(--mu-line); }
+  .order .top{ display:flex; align-items:baseline; gap:12px; }
+  .order .tbl{ font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:600; }
+  .order .meta{ color:var(--mu-sub); font-size:13px; }
+  .order.fresh{ animation:qrflash 1.2s ease-in-out infinite alternate; }
+  @keyframes qrflash{ from{ background:var(--mu-green-soft);} to{ background:transparent;} }
+  .lines{ margin-top:8px; }
+  .ln{ display:flex; gap:12px; padding:7px 0; border-bottom:1px dashed var(--mu-line); font-size:15px; }
+  .ln .q{ min-width:30px; font-weight:600; }
+  .ln .mods{ font-size:13px; color:var(--mu-sub); margin-top:2px; }
+  .ln .note{ font-size:13px; color:var(--mu-amber); margin-top:2px; font-style:italic; }
+  .order .err{ margin-top:8px; font-size:13px; color:var(--mu-red); }
+  .acts{ display:flex; gap:10px; margin-top:12px; }
+  .acts .btn{ flex:1; }
+
+  table.simple{ width:100%; border-collapse:collapse; font-size:13.5px; }
+  table.simple th{ text-align:left; font-size:11.5px; text-transform:uppercase;
+    letter-spacing:.05em; color:var(--mu-sub); padding:8px; border-bottom:1px solid var(--mu-line); }
+  table.simple td{ padding:8px; border-bottom:1px solid var(--mu-line); color:var(--mu-ink); }
+  table.simple td.r, table.simple th.r{ text-align:right; }
+  .statgrid{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+  .stat{ flex:1; min-width:150px; }
+  .stat .n{ font-family:'Space Grotesk',sans-serif; font-size:26px; font-weight:600; color:var(--mu-ink); }
+  .stat .l{ font-size:12px; color:var(--mu-sub); text-transform:uppercase; letter-spacing:.05em; }
+
+  #tokenbox{ display:none; margin-bottom:14px; }
+  #tokenbox input{ width:100%; box-sizing:border-box; padding:10px 12px; font:inherit;
+    font-size:14px; border:1px solid var(--mu-line); border-radius:9px; margin:8px 0; }
+
+  @media (max-width:760px){
+    .layout{ flex-direction:column; }
+    aside{ width:auto; flex:none; position:static; display:flex; overflow-x:auto;
+      gap:4px; padding:10px 14px; }
+    aside .navhead{ display:none; }
+    aside button{ white-space:nowrap; width:auto; }
+    main.mu{ padding:6px 16px 60px; }
+  }
 </style>
 </head>
 <body>
@@ -130,66 +163,48 @@
     <div class="who"><span id="whotop"></span><a href="/">home</a><a href="#" id="signout">sign out</a></div>
   </div></header>
 
-  <div class="wrap">
-    <h1>QR Orders</h1>
-    <div class="pills">
-      <span class="pill" id="writerPill">…</span>
-      <span class="pill" id="countPill">…</span>
-    </div>
+  <div class="qr-app"><div class="layout">
+    <aside>
+      <div class="navhead">Your menu</div>
+      <button id="navMenu" class="sel">Menu items</button>
+      <button id="navMods">Modifiers</button>
+      <div class="navhead">Orders</div>
+      <button id="navQueue">Live queue <span class="cnt" id="qcount" style="display:none"></span></button>
+      <button id="nav86">86 board</button>
+      <button id="navHist">History</button>
+      <div class="navhead">Venue</div>
+      <button id="navSet">Settings</button>
+      <button id="navIns">Insights</button>
+    </aside>
 
-    <div class="card stow" id="tokenbox">
-      <strong>Service token needed</strong>
-      <p style="margin:6px 0 0;font-size:13.5px;color:var(--ink-soft)">
-        The ordering service token isn't in app config yet — paste it once for
-        this device (Render → stowaway-bookings → Environment → STOWAWAY_ADMIN_TOKEN).</p>
-      <input id="tok" type="password" autocomplete="off" placeholder="service token">
-      <button id="tokgo">Save</button>
-    </div>
-
-    <div class="tabbtns">
-      <button id="tabQ" class="sel">Queue</button>
-      <button id="tab86">86 board</button>
-      <button id="tabM">Menu</button>
-      <button id="tabG">Modifiers</button>
-      <button id="tabS">Settings</button>
-      <button id="tabO">Orders</button>
-      <button id="tabI">Insights</button>
-    </div>
-
-    <div id="queue"></div>
-    <div id="board86" style="display:none">
-      <input class="search" id="q86" placeholder="Find an item to 86…">
-      <div class="card stow" id="avcard"><div id="avlist"></div></div>
-    </div>
-    <div id="boardM" style="display:none">
-      <div class="card stow" id="seccard">
-        <strong style="font-size:14px">Menu sections</strong>
-        <p class="hint">Your own structure over the till's. Items you don't place
-          stay in their till-derived section; delete a section and its items fall back.</p>
-        <div id="seclist"></div>
-        <div class="row2" style="margin-top:10px">
-          <input id="newsec" placeholder="New section name…">
-          <button class="mini save" id="addsec">Add section</button>
+    <main class="mu">
+      <div class="mu-top">
+        <div class="dotwrap" id="acceptWrap" title="Tap to pause or resume ordering">
+          <span class="dot" id="acceptDot"></span><span id="acceptLbl">Accepting orders</span>
         </div>
+        <span class="writer" id="writerPill"></span>
       </div>
-      <input class="search" id="qM" placeholder="Find an item to edit…">
-      <div class="card stow"><div id="edlist"></div></div>
-    </div>
-    <div id="boardG" style="display:none">
-      <div class="card stow">
-        <p class="hint">Modifier groups you create here replace the imported ones on
-          any item you attach them to (in the item's editor on the Menu tab).
-          Min/max is enforced at payment, not just display.</p>
-        <div id="glist"></div>
-        <button class="mini save" id="addgrp" style="margin-top:10px">New modifier group</button>
+
+      <div class="mu-card pad" id="tokenbox">
+        <strong>Service token needed</strong>
+        <p style="margin:6px 0 0;font-size:13.5px;color:var(--mu-sub)">
+          The ordering service token isn't in app config yet — paste it once for
+          this device (Render → stowaway-bookings → Environment → STOWAWAY_ADMIN_TOKEN).</p>
+        <input id="tok" type="password" autocomplete="off" placeholder="service token">
+        <button class="btn green" id="tokgo">Save</button>
       </div>
-    </div>
-    <div id="boardS" style="display:none"><div class="card stow" id="setform"></div></div>
-    <div id="boardO" style="display:none"><div class="card stow"><div id="olist"></div></div></div>
-    <div id="boardI" style="display:none"><div id="insights"></div></div>
-  </div>
+
+      <section id="vMenu"></section>
+      <section id="vMods" style="display:none"></section>
+      <section id="vQueue" style="display:none"></section>
+      <section id="v86" style="display:none"></section>
+      <section id="vHist" style="display:none"></section>
+      <section id="vSet" style="display:none"></section>
+      <section id="vIns" style="display:none"></section>
+    </main>
+  </div></div>
 </div>
 
-<script type="module" src="./qr.js?v=20260820c"></script>
+<script type="module" src="./qr.js?v=20260820d"></script>
 </body>
 </html>
