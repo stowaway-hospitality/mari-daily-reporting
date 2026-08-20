@@ -337,5 +337,18 @@ PRODUCT_RENAMES = _reg(Declaration(
 ))
 
 
+COVERAGE_CLASSES = _reg(Declaration(
+    name="coverage_classes",
+    path=_d("data/coverage_classes.yaml"),
+    rules_on="whose move every open never-invoiced live ingredient is — the "
+             "rock-solid contract (Zak 2026-08-20): a chef's scale, a recipe, "
+             "one answer, a supplier to forward, or the next delivery; "
+             "UNCLASSIFIED is the one state strict mode refuses",
+    readers=(
+        "scripts/check_invoice_coverage.py",
+    ),
+))
+
+
 def all_declarations() -> list[Declaration]:
     return [REGISTRY[k] for k in sorted(REGISTRY)]

@@ -1139,3 +1139,22 @@
     pack-unreadable WARN because no invoice states the carton's weight.
   true: 2026-08-20
   by_email: hello@stowawaybar.com
+
+- id: "foodlink:103383"
+  pack_qty: 6000
+  pack_unit: g
+  by: >-
+    Claude (rock-solid pass 2026-08-20): Foodlink's own description is
+    'CHICKEN NUGGETS DINOSNACKS 6X1KG Steggles' — the carton is six 1 kg bags.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
+
+- id: "foodlink:105644"
+  pack_qty: 4000
+  pack_unit: ml
+  by: >-
+    Claude (rock-solid pass 2026-08-20): Gold Label vanilla is the 4 L tub —
+    the Lightspeed record's own name says [4L] and Everest Gold Label ships
+    in 4 L. Bought 3x since May, unreadable each time for want of this size.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com

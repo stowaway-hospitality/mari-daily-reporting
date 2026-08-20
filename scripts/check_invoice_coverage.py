@@ -168,6 +168,24 @@ def findings() -> list[dict]:
     return out
 
 
+def load_classes() -> dict:
+    """data/coverage_classes.yaml — every open entry's adjudicated class.
+
+    THE ROCK-SOLID CONTRACT (Zak, 2026-08-20): "I need this system absolutely
+    rock solid to the point where the ONLY work remaining is chefs weighing
+    items." A raw count cannot prove that; a CLASSIFIED count can. Every id
+    this guard reports must carry a class saying whose move it is — a chef's
+    scale, an authored recipe, one answer from Zak, a supplier to forward, or
+    simply the next delivery. An UNCLASSIFIED id is the only state that means
+    "nobody has looked", and strict mode now fails on it: the moment a new
+    product goes on sale standing on a seed, somebody must either bridge it or
+    say, in the file, exactly what kind of unfinished it is.
+    """
+    sys.path.insert(0, str(ROOT))
+    from core.declarations import COVERAGE_CLASSES
+    return (COVERAGE_CLASSES.load() or {}).get("ids") or {}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--strict", action="store_true")
@@ -181,6 +199,26 @@ def main() -> int:
 
     print(f"never-invoiced ingredients under products sold in the last "
           f"{LIVE_WEEKS} weeks: {len(found)} (baseline {base.get('never_invoiced')})")
+
+    classes = load_classes()
+    from collections import Counter
+    tally = Counter()
+    unclassified = []
+    for f in found:
+        c = classes.get(f["id"])
+        f["class"] = (c or {}).get("class", "UNCLASSIFIED")
+        tally[f["class"]] += 1
+        if c is None:
+            unclassified.append(f)
+    if classes:
+        print("\nwhose move each one is (data/coverage_classes.yaml):")
+        for cls, n in tally.most_common():
+            print(f"   {cls:<26}{n:>4}")
+    if unclassified:
+        print("\n   UNCLASSIFIED — nobody has looked at these yet:")
+        for f in unclassified[:12]:
+            print(f"      {f['name'][:48]:<50}{f['live_rev_4wk']:>9,}")
+
     print(f"\n{'ingredient':<44}{'4wk rev on it':>14}{'products':>10}   dig here")
     for f in found[:a.top]:
         cand = f["candidates"][0] if f["candidates"] else "(no invoice line resembles it)"
@@ -207,6 +245,12 @@ def main() -> int:
               f"ingredient(s) with no invoice behind them. A product went on "
               f"sale standing on a seed — find its invoice while the delivery "
               f"is still in the coolroom.")
+        return 1
+    if a.strict and classes and unclassified:
+        print(f"\n::error::{len(unclassified)} live ingredient(s) carry NO class "
+              f"in data/coverage_classes.yaml. Rock-solid means every open item "
+              f"names whose move it is — bridge it, or classify it with the "
+              f"reason. 'Nobody has looked' is the one state that is not allowed.")
         return 1
     return 0
 

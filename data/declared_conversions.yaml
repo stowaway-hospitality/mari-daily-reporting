@@ -85,3 +85,54 @@
   to_qty: 50000
   to_unit: ml
   evidence: "Konvoy 50L keg; supplier code GRIFTER-PALE-50L"
+
+# Wine bottles priced per BOTTLE on Nelson/Bacchus invoices, restated to the
+# 750 ml every one of them is. 2026-08-20 rock-solid pass; the Aperol pattern.
+- ingredient: "nelson:KU25SAB"
+  applies_to: ["nelson:KU25SAB"]
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "750ml; invoice $14.5742/bottle = BO CostPriceIncTax exactly"
+- ingredient: "nelson:HANVSPA"
+  applies_to: ["nelson:HANVSPA"]
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "750ml; invoice $8.8333 = BO exactly"
+- ingredient: "nelson:LG24ESP"
+  applies_to: ["nelson:LG24ESP"]
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "750ml bottle"
+- ingredient: "bacchus:PETDETMEDROSE24"
+  applies_to: ["bacchus:PETDETMEDROSE24"]
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "750ml bottle"
+- ingredient: "bacchus:TRE3SROSE25"
+  applies_to: ["bacchus:TRE3SROSE25"]
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "750ml; invoice $10.5542 vs BO $10.55"
+- ingredient: "bacchus:TRE1RRPG25"
+  applies_to: ["bacchus:TRE1RRPG25"]
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "750ml; invoice $10.0517 vs BO $10.05"
+- ingredient: "bacchus:AB1GREN23"
+  applies_to: ["bacchus:AB1GREN23"]
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "750ml bottle"
+- ingredient: "bacchus:AB1ROSE25"
+  applies_to: ["bacchus:AB1ROSE25"]
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "750ml bottle"

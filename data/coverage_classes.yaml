@@ -1,0 +1,760 @@
+_meta:
+  classes:
+    authored: priced by an authored recipe already; counted only because the guard walks leaf ids
+    authored_recipe_needed: house-made thing wearing a purchasable id; wants a recipe like Mixed Olives
+      got
+    awaiting_next_purchase: slow mover; auto-bridges via the daily triage on its next invoice
+    packaging: not food
+    question: one answer from Zak closes it
+    supplier_missing: supplier's invoices never reach the mailbox; forward one
+    weigh: needs a chef with a scale, once
+  ruled: 'Zak 2026-08-20: pipeline rock-solid; the only remaining work is chefs weighing items'
+ids:
+  lightspeed:20445572:
+    class: question
+    name: BBQ Sauce
+    reason: record's own unit is GRAMS for a sauce B&E bills per litre — BO unit wants fixing before a
+      bridge is honest
+  lightspeed:20445579:
+    class: weigh
+    name: Basil
+    reason: FFT HBGQBCH per bunch — grams per bunch wanted
+  lightspeed:20445595:
+    class: weigh
+    name: Shallots
+    reason: FFT SBCH / Select Fresh SHAL per bunch — grams per bunch wanted
+  lightspeed:20445601:
+    class: question
+    name: Prawns
+    reason: generic record; which prawn line of the several bought?
+  lightspeed:20445706:
+    class: awaiting_next_purchase
+    name: James Boags Light
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445710:
+    class: awaiting_next_purchase
+    name: Grifter Omen Stout Tin
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445711:
+    class: awaiting_next_purchase
+    name: Fellr Watermelon Seltzer Tin
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445809:
+    class: awaiting_next_purchase
+    name: Archie Rose Signature Gin
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445818:
+    class: awaiting_next_purchase
+    name: Hartshorn Sheep Whey Vodka
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445821:
+    class: awaiting_next_purchase
+    name: Grey Goose
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445822:
+    class: awaiting_next_purchase
+    name: White Light Pure Vodka [House]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445823:
+    class: awaiting_next_purchase
+    name: Belvedere Vodka
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445837:
+    class: awaiting_next_purchase
+    name: Bunnahabhain 12yr
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445844:
+    class: awaiting_next_purchase
+    name: Johnnie Walker Black
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445847:
+    class: awaiting_next_purchase
+    name: Laphroaig 10yr
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445869:
+    class: awaiting_next_purchase
+    name: Brookie's Mac. Liqueur
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445875:
+    class: awaiting_next_purchase
+    name: St. Germain Elderflower Liqueur
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20445878:
+    class: awaiting_next_purchase
+    name: Amaro Montenegro
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20459505:
+    class: awaiting_next_purchase
+    name: Grifter Pale Ale Cans D
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20459553:
+    class: awaiting_next_purchase
+    name: Coke Zero 1.25L
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20459554:
+    class: awaiting_next_purchase
+    name: Solo 1.25L
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20459555:
+    class: awaiting_next_purchase
+    name: Sprite 1.25L
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20464467:
+    class: supplier_missing
+    name: A. Rodda Tempranillo - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20464486:
+    class: supplier_missing
+    name: Das Juice Pink Pet Nat - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20464635:
+    class: supplier_missing
+    name: Trutta Streamside Shiraz [Chilled] - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20464639:
+    class: supplier_missing
+    name: Domaine Gueguen Chablis - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20464644:
+    class: supplier_missing
+    name: Dormilona Chenin Blanc - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20464651:
+    class: supplier_missing
+    name: Ottelia Cab Sav - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20464656:
+    class: supplier_missing
+    name: Glaetzer Anaperenna Shiraz Cab - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20464707:
+    class: supplier_missing
+    name: Two Tonne Riesling - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20466083:
+    class: supplier_missing
+    name: Ravensworth Skins Gris - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20466095:
+    class: supplier_missing
+    name: Sigurd White Blend - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20466100:
+    class: supplier_missing
+    name: Sigurd GSM Red Blend - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20467569:
+    class: supplier_missing
+    name: A. Rodda Chardonnay - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20467573:
+    class: supplier_missing
+    name: Year Wines 'Zagara' Orange - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20471109:
+    class: awaiting_next_purchase
+    name: Tomato Sauce
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20484685:
+    class: awaiting_next_purchase
+    name: Bailey's Irish Cream 1L [Bottle]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20484711:
+    class: packaging
+    name: 700ml Glass Bottle
+    reason: packaging, not food — costed but exempt from GP logic
+  lightspeed:20484940:
+    class: packaging
+    name: Cocktail Sticker
+    reason: packaging, not food — costed but exempt from GP logic
+  lightspeed:20484956:
+    class: question
+    name: Fever-Tree Mediterannean Tonic [Bottle]
+    reason: 150/200/500 ml bottles all in the ILG book — which size is stocked?
+  lightspeed:20487459:
+    class: awaiting_next_purchase
+    name: Harveys Bristol Cream Sherry [Bottle]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20487709:
+    class: awaiting_next_purchase
+    name: Manly Spirits Limoncello [Bottle]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20487793:
+    class: awaiting_next_purchase
+    name: Massenez Black Cacao [5L]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20487875:
+    class: supplier_missing
+    name: Philter Red [Keg]
+    reason: supplier not in the mailbox — forward one invoice
+  lightspeed:20487958:
+    class: awaiting_next_purchase
+    name: Poor Tom's Strawberry Gin [Bottle]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20488066:
+    class: awaiting_next_purchase
+    name: Grifter Serpents Kiss Can
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20492634:
+    class: supplier_missing
+    name: Status Quo [Keg]
+    reason: supplier not in the mailbox — forward one invoice
+  lightspeed:20492688:
+    class: awaiting_next_purchase
+    name: Disaronno [Bottle]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20492692:
+    class: awaiting_next_purchase
+    name: Massenez Cacao Blanc [750ml]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20492701:
+    class: awaiting_next_purchase
+    name: Tito's Vodka [Bottle]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20492707:
+    class: awaiting_next_purchase
+    name: Chambord [Bottle]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20492716:
+    class: question
+    name: John D. Taylor's Velvet Falernum [Bottle]
+    reason: ILG book carries Marie Brizard and Fee Brothers falernum, not JD Taylor's — brand switch?
+  lightspeed:20564868:
+    class: weigh
+    name: Lime
+    reason: sold per kg/each by FFT & Select Fresh; record per g — grams per piece wanted
+  lightspeed:20564869:
+    class: weigh
+    name: Lemon
+    reason: same as Lime
+  lightspeed:20645869:
+    class: supplier_missing
+    name: Crankshaft IPA [Keg]
+    reason: supplier not in the mailbox — forward one invoice
+  lightspeed:20645902:
+    class: supplier_missing
+    name: Unico Zelo Terra Cotta - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20645918:
+    class: awaiting_next_purchase
+    name: Gosling's Black Rum
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20691644:
+    class: awaiting_next_purchase
+    name: Tsingtao Longneck
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20691649:
+    class: awaiting_next_purchase
+    name: Philter Old Ale [HG]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20700620:
+    class: supplier_missing
+    name: Palloncino Prosecco - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20700625:
+    class: supplier_missing
+    name: Esoterico Orange - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20700630:
+    class: supplier_missing
+    name: Geppetto Chardonnay - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20700639:
+    class: supplier_missing
+    name: Azurescens Pinot Noir - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20700646:
+    class: supplier_missing
+    name: From Sundays Shiraz - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20710023:
+    class: awaiting_next_purchase
+    name: Frangelico [Bottle]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20727774:
+    class: awaiting_next_purchase
+    name: Bittermen's Burlesque Bitters
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20727779:
+    class: awaiting_next_purchase
+    name: Bittermen's Tiki Bitters [Bottle]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20728346:
+    class: supplier_missing
+    name: Sibiliana Nero D'Avola - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20728902:
+    class: supplier_missing
+    name: Casa Gheller Prosecco - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:20729561:
+    class: awaiting_next_purchase
+    name: Joseph Cartron Creme de Peche [700ml]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20744549:
+    class: question
+    name: Alehouse Premium Lager [Keg]
+    reason: 122-2858 is adjudicated to the DRAUGHT record — are Premium and Draught one beer?
+  lightspeed:20768432:
+    class: supplier_missing
+    name: Saika Junmai Daiginjo [720ml]
+    reason: sake/soju supplier not in the mailbox — which supplier, and forward one invoice
+  lightspeed:20768495:
+    class: supplier_missing
+    name: Tengumai Umajan Junmai [1.8L]
+    reason: sake/soju supplier not in the mailbox — which supplier, and forward one invoice
+  lightspeed:20873421:
+    class: awaiting_next_purchase
+    name: Diplomatico Mantuana [Bottle]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:20904019:
+    class: supplier_missing
+    name: Wa no Kokoro Yuzushu [Bottle]
+    reason: sake/soju supplier not in the mailbox — which supplier, and forward one invoice
+  lightspeed:21004391:
+    class: supplier_missing
+    name: Kunizakari Umeshu [60ml]
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:21019883:
+    class: authored_recipe_needed
+    name: Dehydrated Jalapeño Garnish
+    reason: house-dehydrated; wants yield
+  lightspeed:21019999:
+    class: authored_recipe_needed
+    name: Dehydrated Lime Garnish
+    reason: house-dehydrated; wants yield (limes in -> garnish out)
+  lightspeed:21020204:
+    class: awaiting_next_purchase
+    name: Edible Flower [Punnet]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:21020214:
+    class: awaiting_next_purchase
+    name: Organic Vanilla Extract [500ml]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:21020232:
+    class: supplier_missing
+    name: Coffee Beans [1kg]
+    reason: supplier not in the mailbox — forward one invoice
+  lightspeed:21750311:
+    class: supplier_missing
+    name: Jinro Chamisul - 360ml
+    reason: sake/soju supplier not in the mailbox — which supplier, and forward one invoice
+  lightspeed:21750316:
+    class: supplier_missing
+    name: Jinro Strawberry - 360ml
+    reason: sake/soju supplier not in the mailbox — which supplier, and forward one invoice
+  lightspeed:21750877:
+    class: supplier_missing
+    name: Kuromatsu Honjozo [900ml]
+    reason: sake/soju supplier not in the mailbox — which supplier, and forward one invoice
+  lightspeed:21939293:
+    class: awaiting_next_purchase
+    name: Little Dragon Can
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22001021:
+    class: supplier_missing
+    name: Year Wines Fiano - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:22253061:
+    class: awaiting_next_purchase
+    name: Nikka Black Whisky [700ml]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22384136:
+    class: awaiting_next_purchase
+    name: Little Dragon Ginger Beer Can
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22480169:
+    class: authored_recipe_needed
+    name: Harissa Prawns [7Kg]
+    reason: house marination; wants recipe
+  lightspeed:22488947:
+    class: authored_recipe_needed
+    name: lime juice
+    reason: squeezed from limes; wants juice yield per kg
+  lightspeed:22491356:
+    class: weigh
+    name: Cherry Tom [250g/Punnet]
+    reason: punnet line exists at suppliers; grams per punnet is on the record already — needs the supplier
+      punnet code confirmed on next delivery
+  lightspeed:22491471:
+    class: authored_recipe_needed
+    name: Grilled Chicken [Kg]
+    reason: cooked off raw thigh; wants a cook_yields entry (raw->grilled)
+  lightspeed:22491688:
+    class: authored
+    name: Mixed Olives [6Kg]
+    reason: AUTHORED 2026-08-20 (2/3 green 1/3 kalamata) and self-repricing; no action
+  lightspeed:22514063:
+    class: authored_recipe_needed
+    name: Garlic Sauce Base
+    reason: house base; wants recipe
+  lightspeed:22514068:
+    class: authored_recipe_needed
+    name: Mushrooms Ragu
+    reason: house ragu; wants recipe
+  lightspeed:22514075:
+    class: authored_recipe_needed
+    name: Caramelised Onion
+    reason: raw brown onion + cooking; wants recipe + yield
+  lightspeed:22514094:
+    class: awaiting_next_purchase
+    name: Baby Rocket
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22514324:
+    class: weigh
+    name: Parsley
+    reason: Select Fresh HCONT $1.60/bunch weekly — grams per bunch wanted
+  lightspeed:22523805:
+    class: awaiting_next_purchase
+    name: Chilli Flakes
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22524158:
+    class: authored
+    name: Spiced Sour Cream [Batch]
+    reason: AUTHORED already (data/recipes) and priced by the prep rule — listed here only because the
+      guard counts leaf ids; no action
+  lightspeed:22684315:
+    class: awaiting_next_purchase
+    name: Massenez Elderflower [5L]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22795730:
+    class: awaiting_next_purchase
+    name: Two Bays GF Rice Lager Can [HG]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22843720:
+    class: awaiting_next_purchase
+    name: East Coast Grapefruit [2L]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22843999:
+    class: authored_recipe_needed
+    name: Jalapeño Juice [1L]
+    reason: brine/juice off jalapenos; wants recipe
+  lightspeed:22844065:
+    class: awaiting_next_purchase
+    name: East Coast Apple Juice [2L]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22865362:
+    class: question
+    name: Ancho Reyes Chilli Liqueur [Bottle]
+    reason: ILG book carries only the VERDE — is the red original still stocked?
+  lightspeed:22873696:
+    class: awaiting_next_purchase
+    name: Massenez Mango Liqueur [5L Cask]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22874436:
+    class: awaiting_next_purchase
+    name: Roasted Red Peppers [A12]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22888615:
+    class: question
+    name: Aioli Garlic Mayonnaise 10kg Birch & Waite
+    reason: Foodlink bills the 1L PLANT-BASED aioli; is the 10kg dairy tub still bought?
+  lightspeed:22888618:
+    class: awaiting_next_purchase
+    name: Barramundi Fillets Imp 200/300 S/Off 5kg Trading
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22888623:
+    class: awaiting_next_purchase
+    name: Butter Girgar 1.5kg Mainland
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22888625:
+    class: awaiting_next_purchase
+    name: Cheese Parmesan Block Grana 1/4 Avg 4.4kg R/W Emilgrana
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22888660:
+    class: awaiting_next_purchase
+    name: Preserved Lemon 350g Chefs Choice
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22888666:
+    class: awaiting_next_purchase
+    name: Stock Powder Vegetable Tin 2.5kg Massel
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22888720:
+    class: awaiting_next_purchase
+    name: Cajun Spice 500Gm Windsor Farm
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22888728:
+    class: question
+    name: Chicken Nuggets Dinosnacks 6X1Kg Steggles
+    reason: 6x1kg override declared; lands on the next Foodlink nugget invoice
+  lightspeed:22888794:
+    class: awaiting_next_purchase
+    name: Medjool Dates 1kg Natures Secret
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22888805:
+    class: awaiting_next_purchase
+    name: Nectar Agave Organic 4L Chefs Choice
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22888818:
+    class: awaiting_next_purchase
+    name: Paprika Hungarian 500Gm Galaxy
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22888828:
+    class: awaiting_next_purchase
+    name: Pickles Whole Dill 20kg Westmont
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22888868:
+    class: awaiting_next_purchase
+    name: Turmeric Ground 500Gm Chefs Choice
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22888898:
+    class: question
+    name: Patties Wagyu Tajima Classic 150g Fresh (20/Pk)
+    reason: no wagyu patty line in the ledger; which supplier?
+  lightspeed:22893390:
+    class: awaiting_next_purchase
+    name: Babys Breath [bunch]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22893540:
+    class: question
+    name: Pork Belly Boneless S/Less [kg]
+    reason: three bellies bought (Andrews boneless S/ON hg, B&E R/ON weekly stow, cooked) — which is this
+      record?
+  lightspeed:22893566:
+    class: awaiting_next_purchase
+    name: Cooking Sake Jun [18L]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22893567:
+    class: awaiting_next_purchase
+    name: Rice Vinegar Uchibori [20L]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22893699:
+    class: awaiting_next_purchase
+    name: Mango Frozen [1kg]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22898071:
+    class: awaiting_next_purchase
+    name: Oyster Sauce Megachef [5.4kg]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22898072:
+    class: awaiting_next_purchase
+    name: Soy Sauce Dark Pearl River [600mL]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22898073:
+    class: awaiting_next_purchase
+    name: Soy Sauce Sweet Megachef [4.5L]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22898080:
+    class: awaiting_next_purchase
+    name: Spring Roll Veg Hakka [ea]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22898081:
+    class: awaiting_next_purchase
+    name: Sesame Seed Black Jun [kg]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22898082:
+    class: awaiting_next_purchase
+    name: Sesame Seed White Roasted Jun [kg]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22898083:
+    class: supplier_missing
+    name: BBQ Pork Buns Canton [ea]
+    reason: supplier not in the mailbox — forward one invoice
+  lightspeed:22898084:
+    class: supplier_missing
+    name: Peking Duck Spring Rolls Canton [ea]
+    reason: supplier not in the mailbox — forward one invoice
+  lightspeed:22898787:
+    class: question
+    name: Ramen Noodles Fresh [kg]
+    reason: 'JFC sells Yellow Ramen #22 ($0.84/cake) and Tonkotsu Straight ($36/kg) — which noodle is
+      the HG ramen?'
+  lightspeed:22900613:
+    class: awaiting_next_purchase
+    name: Nori [125g]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22902924:
+    class: authored_recipe_needed
+    name: Cabbage Red/Green Shredded Mix [kg]
+    reason: house mix of the two shredded cabbages; wants the ratio (the olives pattern)
+  lightspeed:22902950:
+    class: awaiting_next_purchase
+    name: Gochujang [kg]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22902956:
+    class: awaiting_next_purchase
+    name: Mirin [1.8L]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22902975:
+    class: awaiting_next_purchase
+    name: Rice Wine Vinegar [500mL]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22903010:
+    class: weigh
+    name: Potato Brushed Sebago [kg]
+    reason: suppliers sell peeled/washed kit lines; the brushed sebago's own line wants confirming on
+      a delivery docket
+  lightspeed:22903033:
+    class: awaiting_next_purchase
+    name: Tonkatsu Sauce Bulldog [1.8L]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22918951:
+    class: question
+    name: Egg Fresh [ea]
+    reason: 'the REAL egg price (FFT 26.7c/egg, Select Fresh $4.70/dozen agree) exposes FABRICATED recipe
+      quantities: Yorkshire Pudding draws ''323.99 ea'' and Brownie Prep ''125.99 ea'' of eggs — both
+      exactly the old line cost divided by a 5.6c seed rate, i.e. quantities manufactured to reproduce
+      a price, not counted. Bridging blew Yorkshire +355%, retracted. Chef question: how many eggs actually
+      go in a 110-unit Yorkshire batch and a 24-piece brownie? Fix the quantities, then the bridge is
+      one line.'
+  lightspeed:22931792:
+    class: awaiting_next_purchase
+    name: Hahn Super Dry GF
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22931827:
+    class: question
+    name: Noodles Instant Ayam [700g]
+    reason: B&E 18120 'PLAIN INSTANT' rate contradicts the adjudicated $21.29/kg 5x — pack misread on
+      18120 or different product
+  lightspeed:22931830:
+    class: question
+    name: Turkish Bread [ea]
+    reason: Urbun TFB120 confirmed as the bread, but Urbun bills per GRAM — grams per loaf wanted
+  lightspeed:22947356:
+    class: question
+    name: Davidson Plum Puree
+    reason: Select Fresh sells FROZEN PLUMS by kg — is the puree house-made from them?
+  lightspeed:22975185:
+    class: question
+    name: Corn Kernels [Tin]
+    reason: no corn-kernel tin in the ledger (IQF corn is bridged) — still bought?
+  lightspeed:22995335:
+    class: question
+    name: Eggs 700 Grams [12x]
+    reason: 'the REAL egg price (FFT EGL7BX 26.7c/egg; Select Fresh $4.70/dozen agrees) exposes FABRICATED
+      recipe quantities: Yorkshire Pudding draws ''323.99 ea'' and Brownie Prep ''125.99 ea'' — both exactly
+      old-line-cost / a 5.6c seed rate, manufactured to reproduce a price. Bridging blew Yorkshire +355%
+      and was retracted. Chef: how many eggs in a 110-unit Yorkshire batch and a 24-piece brownie? Then
+      the bridge is one line.'
+  lightspeed:22995336:
+    class: awaiting_next_purchase
+    name: Flour Tortillas 12" Plain Mission [72's]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22995337:
+    class: question
+    name: Flour Tortillas 6" Plain Mission [24x12]
+    reason: carton semantics unproven (the 12" attempt tripped three guards); needs a docket look
+  lightspeed:22995343:
+    class: weigh
+    name: Herb Chives [Market]
+    reason: a MARKET bunch (the HCORM lesson) — grams per market bunch wanted
+  lightspeed:22995344:
+    class: awaiting_next_purchase
+    name: Herb Coriander [Bunch]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:22995366:
+    class: question
+    name: Vegetable Oil Simply [20L]
+    reason: duplicate of the bridged Vegetable Oil id? one word merges them
+  lightspeed:23036620:
+    class: awaiting_next_purchase
+    name: Garlic Minced [kg]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:23036632:
+    class: awaiting_next_purchase
+    name: Chia Seeds Chefs Choice [1kg]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:23036892:
+    class: awaiting_next_purchase
+    name: Nacho Cheese A10 [3kg]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:23040879:
+    class: awaiting_next_purchase
+    name: Ice Cream Gold Label Vanilla [4L]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:23114865:
+    class: awaiting_next_purchase
+    name: Aether Vodka [Bottle]
+    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
+      on next invoice
+  lightspeed:23120129:
+    class: supplier_missing
+    name: La Petite Mort Albarino 2025 - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
+  lightspeed:23120216:
+    class: supplier_missing
+    name: La Petite Mort Rosso 2025 - Bottle
+    reason: boutique wine supplier not in the mailbox — forward one invoice and the parser+bridge follow
