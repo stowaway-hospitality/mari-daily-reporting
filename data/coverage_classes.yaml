@@ -55,26 +55,15 @@ ids:
     class: awaiting_next_purchase
     name: Grifter Pale Ale Cans D
     reason: Grifter direct — the keg (GRIFTER-PALE-50L) is fed; the CANS record waits on a can line
-  lightspeed:20459553:
-    class: awaiting_next_purchase
-    name: Coke Zero 1.25L
-    reason: declared at the ILG book price + GST 2026-08-20; closes on rebuild, superseded by the next
-      ILG invoice
-  lightspeed:20459554:
-    class: awaiting_next_purchase
-    name: Solo 1.25L
-    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
-      on next invoice
-  lightspeed:20459555:
-    class: awaiting_next_purchase
-    name: Sprite 1.25L
-    reason: declared at the ILG book price + GST 2026-08-20; closes on rebuild, superseded by the next
-      ILG invoice
   lightspeed:20471109:
-    class: awaiting_next_purchase
+    class: question
     name: Tomato Sauce
-    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
-      on next invoice
+    reason: 'TWO RECORDS, ONE SAUCE, TWO UNITS. B&E 13998 ''SAUCE - TOMATO SAUCE 4L'' is invoiced per
+      ml and already feeds HG''s twin 22918981 (per ml). This stow record is seeded per GRAM — and build_costs
+      takes a seed''s unit from the BASIS column (per_kg), not from pack_unit, so it cannot be aligned
+      from the data side. A supplier-side gram override was tried and RETRACTED because it fed this record
+      and broke the HG twin. THE FIX IS ONE FIELD IN BACK OFFICE: set ''Tomato Sauce'' (20471109) to ml
+      like its twin, and the invoice already in the ledger feeds both. $707 of 4-week revenue.'
   lightspeed:20484711:
     class: packaging
     name: 700ml Glass Bottle
@@ -109,11 +98,6 @@ ids:
     class: weigh
     name: Lemon
     reason: same as Lime
-  lightspeed:20691644:
-    class: awaiting_next_purchase
-    name: Tsingtao Longneck
-    reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
-      on next invoice
   lightspeed:20691649:
     class: awaiting_next_purchase
     name: Philter Old Ale [HG]
@@ -306,13 +290,6 @@ ids:
     name: Potato Brushed Sebago [kg]
     reason: suppliers sell peeled/washed kit lines; the brushed sebago's own line wants confirming on
       a delivery docket
-  lightspeed:22918951:
-    class: awaiting_next_purchase
-    name: Egg Fresh [ea]
-    reason: 'ENGINEERING DEBT, precisely bounded: bridged to Select Fresh EG700P (48.3c/ea real, 22 Jul),
-      seed unit corrected can->ea, and a hand simulation of the emit block now produces 0.4833/ea — yet
-      build_costs writes no row. One record, one code, next session steps the emit in a debugger. The
-      price is known even though the plumbing refuses to carry it.'
   lightspeed:22931792:
     class: awaiting_next_purchase
     name: Hahn Super Dry GF
