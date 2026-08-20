@@ -721,6 +721,11 @@ async function boot() {
       ? 'no till link yet — the live queue is the docket' : 'till: ' + h.writer;
   } catch (_) { return; }
   refreshDot();
+  try {
+    const gl = await call('/api/admin/qr/guestlink');
+    const a = $('viewmenu');
+    a.href = gl.url; a.style.display = '';
+  } catch (_) { /* link stays hidden */ }
   go('menu');
   clearInterval(pollTimer);
   pollTimer = setInterval(renderQueue, 5000);   // queue badge stays live everywhere
