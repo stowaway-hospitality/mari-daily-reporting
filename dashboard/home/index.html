@@ -83,6 +83,16 @@ const TOOLS = [
   { href: '/bookings/', cls: 'stow', title: 'Bookings',
     desc: 'Event bookings on the seating engine: day view, edits, runsheets.',
     roles: null },   // everyone signed in
+  // The me&u replacement, venue side. Guests scan and pay on the ordering
+  // service; THIS is where the venue sees those orders land — the live queue
+  // (while the Lightspeed till link is dry-run, this page IS the docket) and
+  // the 86 board that pulls an item off the guest menu mid-service. Same
+  // pattern as Bookings: this hub's login opens the page, the service token
+  // arrives silently via app_config.
+  { href: '/qr/', cls: 'stow', title: 'QR Orders',
+    desc: 'Table ordering, venue side: the live order queue for the pass, '
+        + 'and the 86 board that pulls sold-out items off the guest menu.',
+    roles: null },   // everyone signed in — the pass, the bar, the office
   // The other half of the same engine. A booking holds tables on a day that is
   // already agreed; a FUNCTION is the weeks before that — what we still do not
   // know, what it costs, and whether the deposit can be taken yet. It lived at

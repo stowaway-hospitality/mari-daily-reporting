@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR Orders — Stowaway Hospitality Group</title>
+<link rel="stylesheet" href="/_shared/tokens.css?v=20260820a">
+<!-- QR Orders — shell only; ALL logic lives in qr.js (arch_guard convention).
+     Bump the ?v= on qr.js whenever it changes.
+
+     Fronts the QR table-ordering service on stowaway-bookings.onrender.com,
+     exactly as /bookings/ fronts the seating engine: Supabase decides who may
+     open the page, the service's bearer token (Auth.bookingToken()) is the
+     real auth on every call. While the Lightspeed till link is dry-run, the
+     Queue tab IS the docket — a tablet on this page is how the kitchen learns
+     an order exists. -->
+<style>
+  .wrap{max-width:900px}
+  .tabbtns{display:flex;gap:8px;margin:14px 0 4px}
+  .tabbtns button{padding:8px 16px;font:inherit;font-size:14px;cursor:pointer;
+    background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:8px}
+  .tabbtns button.sel{border-color:var(--stow);color:var(--stow);font-weight:600}
+  .pills{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px}
+  .pill{font-size:12.5px;padding:4px 11px;border:1px solid var(--line);
+    border-radius:99px;color:var(--ink-soft);background:var(--paper)}
+  .pill.hot{border-color:var(--hg);color:var(--hg)}
+
+  .order .top{display:flex;align-items:baseline;gap:12px}
+  .order .tbl{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600}
+  .order .meta{color:var(--ink-soft);font-size:13px}
+  .order .flag{margin-left:auto;font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;padding:3px 9px;border-radius:99px;font-weight:600}
+  .flag.paid{background:var(--stow-tint);color:var(--stow)}
+  .flag.injected{background:var(--stow-tint);color:var(--green)}
+  .flag.failed{background:var(--mari-tint);color:var(--red)}
+  .order.fresh{animation:qrflash 1.2s ease-in-out infinite alternate}
+  @keyframes qrflash{from{box-shadow:0 0 0 2px var(--accent)}to{box-shadow:var(--shadow)}}
+  .lines{margin-top:10px;border-top:1px solid var(--line)}
+  .ln{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .ln .q{min-width:30px;font-weight:600}
+  .ln .mods{font-size:13px;color:var(--ink-soft);margin-top:2px}
+  .ln .note{font-size:13px;color:var(--amber);margin-top:2px;font-style:italic}
+  .order .err{margin-top:8px;font-size:13px;color:var(--red)}
+  .acts{display:flex;gap:10px;margin-top:12px}
+  .acts button{flex:1;padding:11px;font:inherit;font-size:14.5px;cursor:pointer;
+    border:none;border-radius:8px;font-weight:600}
+  .acts .done{background:var(--green);color:#fff}
+  .acts .retry{background:var(--hg);color:#fff}
+
+  .search{width:100%;box-sizing:border-box;padding:11px 12px;font:inherit;font-size:15px;
+    margin:4px 0 12px;background:var(--paper);border:1px solid var(--line);
+    border-radius:8px;color:var(--ink)}
+  .avrow{display:flex;align-items:center;gap:12px;padding:9px 2px;
+    border-bottom:1px solid var(--line);font-size:14.5px}
+  .avrow .rg{color:var(--ink-soft);font-size:12.5px}
+  .avrow button{margin-left:auto;padding:7px 14px;font:inherit;font-size:13px;
+    cursor:pointer;border-radius:8px;border:1px solid var(--red);background:var(--paper);color:var(--red)}
+  .avrow button.off{background:var(--mari-tint)}
+  .empty{padding:48px 20px;text-align:center;font-style:italic;color:var(--ink-soft)}
+
+  #tokenbox{display:none}
+  #tokenbox input{width:100%;box-sizing:border-box;padding:10px 12px;font:inherit;
+    font-size:14px;border:1px solid var(--line);border-radius:8px;margin:8px 0}
+  #tokenbox button{padding:9px 16px;font:inherit;font-size:14px;cursor:pointer;
+    border:none;border-radius:8px;background:var(--stow);color:#fff}
+</style>
+</head>
+<body>
+
+<div id="gate"></div>
+
+<div id="app" style="display:none">
+  <header class="app-header"><div class="app-header-inner">
+    <a class="brand-row" href="/"><img src="/logo_512.png" alt=""><span class="group-brand">Stowaway Hospitality Group</span></a>
+    <div class="who"><span id="whotop"></span><a href="/">home</a><a href="#" id="signout">sign out</a></div>
+  </div></header>
+
+  <div class="wrap">
+    <h1>QR Orders</h1>
+    <div class="pills">
+      <span class="pill" id="writerPill">…</span>
+      <span class="pill" id="countPill">…</span>
+    </div>
+
+    <div class="card stow" id="tokenbox">
+      <strong>Service token needed</strong>
+      <p style="margin:6px 0 0;font-size:13.5px;color:var(--ink-soft)">
+        The ordering service token isn't in app config yet — paste it once for
+        this device (Render → stowaway-bookings → Environment → STOWAWAY_ADMIN_TOKEN).</p>
+      <input id="tok" type="password" autocomplete="off" placeholder="service token">
+      <button id="tokgo">Save</button>
+    </div>
+
+    <div class="tabbtns">
+      <button id="tabQ" class="sel">Queue</button>
+      <button id="tab86">86 board</button>
+    </div>
+
+    <div id="queue"></div>
+    <div id="board86" style="display:none">
+      <input class="search" id="q86" placeholder="Find an item to 86…">
+      <div class="card stow" id="avcard"><div id="avlist"></div></div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="./qr.js?v=20260820a"></script>
+</body>
+</html>
