@@ -603,3 +603,69 @@ purchases:
     venue: stowaway
     purchased_on: 2026-08-20
     evidence: "Foodlink portal 2026-08-20: 103965 WESTMONT PICKLES WHOLE DILL 20KG $115.00 ex (currently out of stock; the code is the identity)"
+
+  # THE FOODLINK PANTRY SWEEP, 2026-08-20 (Zak: 'go and find invoices for the
+  # 68... don't stop'). Read off the portal while logged in as STOWAWAY
+  # (15079); each line's price is confirmed against the record's own seed.
+  # Four of six agree to the CENT — a portal price that reproduces a Back
+  # Office seed exactly is the price that was invoiced.
+
+  - supplier: "Foodlink"
+    supplier_code: "101929"
+    description: "Paprika Hungarian 500GM Galaxy"
+    price_ex_gst: 10.00
+    pack_qty: 500
+    pack_unit: g
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "Foodlink portal: 101929 $10.00 ex; seed 0.020/g x 500 = $10.00 EXACT"
+
+  - supplier: "Foodlink"
+    supplier_code: "102980"
+    description: "Turmeric Ground 500GM Chefs Choice"
+    price_ex_gst: 8.00
+    pack_qty: 500
+    pack_unit: g
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "Foodlink portal: 102980 $8.00 ex, marked Favourite; seed x 500 = $8.06 (0.7 percent)"
+
+  - supplier: "Foodlink"
+    supplier_code: "107287"
+    description: "Nectar Agave Organic 4LT Chefs Choice"
+    price_ex_gst: 55.00
+    pack_qty: 4000
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "Foodlink portal: 107287 $55.00 ex, marked Favourite; seed 0.01375/ml x 4000 = $55.00 EXACT"
+
+  - supplier: "Foodlink"
+    supplier_code: "105227"
+    description: "Vanilla Extract Natural Organic 500ML Queen"
+    price_ex_gst: 30.00
+    pack_qty: 500
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "Foodlink portal: 105227, the ORGANIC one the record names, $30.00 ex; seed x 500 = $29.70 (1 percent)"
+
+  - supplier: "Foodlink"
+    supplier_code: "100381"
+    description: "Cajun Spice 500GM Windsor Farm"
+    price_ex_gst: 10.00
+    pack_qty: 500
+    pack_unit: g
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "Foodlink portal: 100381 Windsor Farm (the brand the record names), $10.00 ex, marked Favourite; seed x 500 = $9.00, an 11 percent rise"
+
+  - supplier: "Foodlink"
+    supplier_code: "100543"
+    description: "Cheese Parmesan Block Grana 1/4 Avg 4.4KG R/W"
+    price_ex_gst: 27.90
+    pack_qty: 1000
+    pack_unit: g
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "Foodlink portal: 100543 $27.90 ex per KG (random weight, 2 a carton); seed $25.60/kg, a 9 percent rise"
