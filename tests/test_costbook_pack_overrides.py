@@ -156,8 +156,13 @@ def test_no_already_divided_product_got_divided_again():
         # is 31.1c. Select Fresh's dozen (48.3c/ea, small-qty) corroborates
         # the magnitude.
         "lightspeed:22995335": Decimal("0.311111"),   # Eggs 700g [12x]
-        "lightspeed:22995336": Decimal("0.472222"),   # Tortillas 12"
-        "lightspeed:22995337": Decimal("0.116667"),   # Tortillas 6"
+        # 2026-08-20, settled by the Foodlink PORTAL: 101113 is the 12-INCH
+        # (6 packs of 12 a carton, $33.60 = 46.67c/pc) and the real 6-inch
+        # is 101115 (24 packs of 12, $60.00 = 20.83c/pc). The old pins held
+        # the 12-inch at the $34 BO carton and the 6-inch at the 12-inch's
+        # dollars over the 6-inch's divisor.
+        "lightspeed:22995336": Decimal("0.466667"),   # Tortillas 12"
+        "lightspeed:22995337": Decimal("0.208333"),   # Tortillas 6"
         "lightspeed:22996511": Decimal("4.437500"),   # GF Pizza Base
     }
     for pid, want in expected.items():

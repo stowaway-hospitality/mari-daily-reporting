@@ -1213,3 +1213,60 @@
     The '0.7 kg' pack read was one carton, not the box.
   true: 2026-08-20
   by_email: hello@stowawaybar.com
+
+# TORTILLAS, settled by the Foodlink portal 2026-08-20 (Zak: 'anything
+# that's a pack size or weight, go find out from the portals'). The portal
+# sells by the PACK OF 12 and the invoices bill the CARTON: 12" = 6 packs
+# ($5.60 ea, 6 x 5.60 = the $33.60 CTN billed), 6" = 24 packs ($2.50 ea,
+# 24 x 2.50 = the $60.00 CTN billed), 10" = 6 packs. Carton counts below.
+
+- id: "foodlink:101113"
+  pack_qty: 12
+  pack_unit: ea
+  by: >-
+    Foodlink portal: MISSION FLOUR TORTILLAS 12X91GM 12INCH, 6 packs a
+    carton = 72 pieces; invoice bills the carton at $33.60 (46.67c a piece). Override states the PACK OF 12; the CTN-6 note multiplies to the carton.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
+
+- id: "foodlink:101115"
+  pack_qty: 12
+  pack_unit: ea
+  by: >-
+    Foodlink portal: MISSION FLOUR TORTILLAS 12X28GM 6INCH, 24 packs a
+    carton = 288 pieces; invoice bills the carton at $60.00 (20.83c a piece). Override states the PACK OF 12; the CTN-24 note multiplies to the carton.
+    This is the [24x12] in the Lightspeed name — 24 packs of 12.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
+
+- id: "foodlink:101112"
+  pack_qty: 12
+  pack_unit: ea
+  by: >-
+    Foodlink portal: MISSION FLOUR TORTILLAS 12X63GM 10INCH, 6 packs a
+    carton = 72 pieces; invoice bills the carton at $33.00. Override states the PACK OF 12; the CTN-6 note multiplies.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
+
+- id: "urbun-bakery:TFB120"
+  pack_qty: 1
+  pack_unit: ea
+  by: >-
+    Urbun's own line answers the grams question: 'Turkish/Focaccia Bread
+    (120g)' — a 120 g loaf billed at $0.98 EACH. The code embeds the weight
+    (TFB120), same convention as ST285-WS's 85 g bun. Nothing draws this
+    code per-gram (ingredient_map: zero users), so the loaf is the unit.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
+
+- id: "b-e:18120"
+  pack_qty: 5280
+  pack_unit: g
+  by: >-
+    B&E portal 2026-08-20 (logged in as Stowaway Bar): item 18120 is OTOKI
+    'Noodles - Plain Instant Noodles 110g(48)' — a carton of FORTY-EIGHT
+    110 g packs, $23.50/CTN. The adjudicated $21.29/kg divided the carton by
+    1.1 kg (ten packs); the real rate is $4.45/kg. The record's 'Ayam 700g'
+    name is a fossil — the noodle in the building is Otoki Korean.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
