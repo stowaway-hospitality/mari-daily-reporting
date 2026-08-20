@@ -136,3 +136,30 @@
   to_qty: 750
   to_unit: ml
   evidence: "750ml bottle"
+
+# Viticult / Cellarhand bottle-priced wine codes, 750 ml each (supplier dig
+# 2026-08-20; Zak named the suppliers).
+- ingredient: "viticult:ARWLC24"
+  applies_to: ["viticult:ARWLC24"]
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "750ml; $37.6983/bottle = BO $37.70"
+- ingredient: "viticult:ARWLC23"
+  applies_to: ["viticult:ARWLC23"]
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "750ml, prior vintage of the same wine"
+- ingredient: "viticult:OCS21"
+  applies_to: ["viticult:OCS21"]
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "750ml bottle"
+- ingredient: "cellarhand-consulting-pty-ltd:GZASHZC22"
+  applies_to: ["cellarhand-consulting-pty-ltd:GZASHZC22"]
+  from_unit: bottle
+  to_qty: 750
+  to_unit: ml
+  evidence: "750ml bottle"

@@ -1,0 +1,148 @@
+{
+ "authored_overlap": [],
+ "by_source": {},
+ "generated": "2026-08-20",
+ "lines": 0,
+ "manual_lines": [],
+ "no_yield": [],
+ "products": 0,
+ "subrecipes_pulled_in": [],
+ "unit_relabels": [
+  {
+   "basis": "sum of ingredients x0.75",
+   "batch": "Gravy Prep",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-06. Zak: \"you should've scraped yields from light",
+   "batch": "Balsamic Dressing House [4.9L]",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "sum of ingredients x1, weights taken from the invoice-implied amounts (a \"1\" that is really a 1kg tub)",
+   "batch": "Black Beans Prep",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "PROVEN, not estimated. Two 4 L packs of Heinz plus one 3 L of Sunshine Smokey is 11 L, exactly the 11L the name declares",
+   "batch": "House BBQ Sauce [11L]",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-06. Zak: \"you should've scraped yields from light",
+   "batch": "Salsa Rosa Prep",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "sum of ingredients x1.0",
+   "batch": "Carnaval Fruit Mix",
+   "from": "g",
+   "to": "ml",
+   "why": "house rule: a drink is poured, so ml"
+  },
+  {
+   "basis": "From the hand-authored record in data/recipes/marilynas.yaml, entered from Zak's \"Pizza Topping sauces Recipe\" doc on 20",
+   "batch": "Chimichurri",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Quandong Sambal",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "PROVEN, and the proof is already written down in data/recipe_line_unit_fixes.yaml: read every quantity in this recipe as",
+   "batch": "Peking Sauce [6.75L]",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "ASSUMED by Claude, 2026-08-16 \u2014 9,079 g hoisin + 1,000 ml plum puree, blended cold, so nothing cooks off. Hoisin is a th",
+   "batch": "Davidson Plum Hoisin",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "ASSUMED by Claude, 2026-08-16 \u2014 1,000 ml ponzu + 250 g pickled ginger, which is stored in brine and sits near 1.0 g/ml, ",
+   "batch": "Ginger Ponzu",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "ASSUMED by Claude, 2026-08-16 \u2014 5,000 g honey (~1.42 g/ml, so ~3,520 ml), 2,500 ml tamari, and ~2,750 g of aromatics and",
+   "batch": "HG's Soy Chilli Sauce",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Tofu Marination",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Chicken Marination",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Beef Marination",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Pickle Cabbage",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Gochujang Honey Soy",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Katsu Curry Sauce",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  },
+  {
+   "basis": "SCRAPED from the 'Expected yield' field in Lightspeed Produce, 2026-08-13, Harry Gatos company. Reachable at last: Produ",
+   "batch": "Tonkotsu Broth",
+   "from": "ml",
+   "to": "g",
+   "why": "house rule: food is weighed, so g"
+  }
+ ],
+ "unresolved": [],
+ "venue": "hg",
+ "yield_conflicts": []
+}

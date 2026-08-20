@@ -93,7 +93,11 @@ def test_pizza_sauce_is_down_to_one_current_record():
     assert "Tomato - Pizza Sauce Kagome" in ings, "the Kagome spec is the current one"
     assert "Tomato Paste" not in ings, "the superseded spec is still in the book"
     salt = [i for i in recs[0]["ingredients"] if i["desc"] == "Pure Cooking Sea Salt"]
-    assert salt and salt[0]["qty"] == 18, "the mid-edit save (salt 0) won instead"
+    # 2026-08-20: Renan re-saved the sauce at salt 10 g (was Zak's 18 g) and
+    # corrected the yield to match in a second save one minute later — a
+    # deliberate spec, not the salt-0 mid-edit accident this once guarded.
+    # Flagged to Zak to confirm with Renan; the book carries the chef's number.
+    assert salt and salt[0]["qty"] == 10, "a mid-edit or superseded save won instead"
 
 
 def test_pizza_sauce_states_its_own_yield():
@@ -106,7 +110,8 @@ def test_pizza_sauce_states_its_own_yield():
     """
     recs = [r for p in BOOKS for r in _records(p)
             if (r or {}).get("product") == "Pizza Sauce [Recipe]"]
-    assert recs and recs[0].get("yield_qty") == 6028
+    # 6020 g since Renan's corrected 2026-08-20 save (was 6028 under Zak's).
+    assert recs and recs[0].get("yield_qty") == 6020
     assert recs[0].get("yield_unit") == "g"
     total = sum(i["qty"] for i in recs[0]["ingredients"])
     assert total == recs[0]["yield_qty"], (

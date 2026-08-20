@@ -29,20 +29,17 @@ def test_a_portion_never_costs_more_than_twenty_batches():
     assert 2.0 < cost < 6.0, f"Large Tandoori Chicken at ${cost}, out of family"
     assert float(tand["gp_pct"]) > 60
 
-    # THE CAP IS THE NET, NOT THE ANSWER, and the Tandoori no longer needs it:
-    # the declared relabel in data/batch_yield_units.yaml now reaches the LIVE
-    # converter (it only ever reached the staged book), so the line is costed as
-    # 400 g of a 1,116 g batch rather than bounded at one whole batch. Zak,
-    # 2026-08-19: "just estimate the tandoori batch yield until verified."
-    sauce = [ln for ln in tand_batch["ingredients"]
-             if ln.get("ref") == "Tandoori Sauce [Batch]"]
-    assert sauce, "Tandoori Chicken [2Kg] must still draw its sauce"
-    assert sauce[0]["unit"] == "g" and sauce[0].get("unit_was") == "ml", \
-        "the relabel must be applied AND recorded on the line it changed"
-    assert not sauce[0].get("capped_at_batch"), \
-        "a relabelled line is costed, not capped"
-    assert 3.0 < float(sauce[0]["eff_cost"]) < 7.0, \
-        f"400 g of a 1,116 g batch, not a whole batch: ${sauce[0]['eff_cost']}"
+    # THE CAP IS THE NET, NOT THE ANSWER, and the Tandoori no longer needs it.
+    # 2026-08-20: Renan re-specced the batch in the recipe builder — 1,700 g of
+    # chicken drawing the Tandoori Yoghurt subrecipe, 1,940 g yield — which
+    # retires the "400 ml of a grams batch" defect (and its relabel) outright.
+    # What survives it is the invariant the defect violated: the batch must
+    # cost like ~2 kg of marinated chicken, not like 225 of them.
+    batch_cost = float(tand_batch["our_cost"])
+    assert 10.0 < batch_cost < 40.0, \
+        f"Tandoori Chicken [2Kg] at ${batch_cost} — the 225x pathology is back"
+    assert not any(ln.get("capped_at_batch") for ln in tand_batch["ingredients"]), \
+        "a properly specced batch needs no cap"
 
     # Legitimate multi-batch draws are left alone.
     lime = book.get("Super Lime Juice [1L]")

@@ -38,16 +38,18 @@ def test_our_version_replaces_the_scraped_one(monkeypatch, tmp_path):
     lines, ids, yields = load_our_book_lines(_costs())
     assert "Pizza Sauce [Recipe]" in lines, "our Pizza Sauce must reach the converter"
     got = {l["name"]: float(l["qty"]) for l in lines["Pizza Sauce [Recipe]"]}
+    # Salt 10 g since Renan's 2026-08-20 save (was 18 under Zak's 08-16 spec).
     assert got == {"Parsley": 10.0,
                    "Tomato - Pizza Sauce Kagome": 6000.0,
-                   "Pure Cooking Sea Salt": 18.0}
+                   "Pure Cooking Sea Salt": 10.0}
     total = sum(float(l["cost"]) for l in lines["Pizza Sauce [Recipe]"])
     assert abs(total - 14.3075) < 0.01, f"batch should be $14.31, got ${total:.4f}"
 
 
 def test_the_yield_travels_with_the_recipe():
     _, _, yields = load_our_book_lines(_costs())
-    assert yields["Pizza Sauce [Recipe]"] == (6028.0, "g")
+    # 6020 g since Renan's corrected 2026-08-20 save (was 6028 under Zak's).
+    assert yields["Pizza Sauce [Recipe]"] == (6020.0, "g")
     # ...and that pairing is the only one that gives the real rate.
     lines, _, _ = load_our_book_lines(_costs())
     total = sum(float(l["cost"]) for l in lines["Pizza Sauce [Recipe]"])
