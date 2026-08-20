@@ -1,0 +1,40 @@
+{
+  "schema": "function_cost_book/1",
+  "as_of": "2026-08-08",
+  "venue": "stowaway",
+  "note": "The cost book AS IT STOOD on the night, pinned. data/lightspeed_recipes_costed.json carries no effective date -- cogs_blend._load_book_costs says so in its own docstring -- so it answers what a pour costs TODAY and cannot answer what it cost in August. Two of these have already moved: Rooster Rojo 1.9641 -> 2.6065 and Lychee Martini 3.9140 -> 5.0328 as at 2026-08-20. Without this file the 8 August fixture would drift a little further from the hand-verified answer every time somebody recosts a recipe, and the regression suite would be measuring the cost book instead of this module. Sourced from the hand sweep and cross-checked against data/products_daily/2026.csv for the same day, where the unit costs published that morning agree (Appleton 2.2543, Casa Gheller Prosecco Glass 3.3480, White Light 1.5208, Sailor Jerry 2.0293). THE BOOK IS CLOSED: a product absent from unit_cost_ex was uncosted on the night and is reported as uncosted, never as free.",
+  "unit_cost_ex": {
+    "White Light Pure Vodka [House]": "1.5208",
+    "Rooster Rojo Blanco Tequila [House]": "1.9641",
+    "Sailor Jerry [House]": "2.0293",
+    "Bacardi Blanca [House]": "2.1379",
+    "Appleton Rum [House]": "2.2543",
+    "Jack Daniels": "2.2633",
+    "Baileys Irish Cream": "1.2702",
+    "Espresso Martini": "3.2850",
+    "Aperol Spritz": "3.5560",
+    "Beetle Juice": "3.7229",
+    "Jalapeño Marg": "3.8520",
+    "Lychee Martini": "3.9140",
+    "Classic Margarita": "4.1786",
+    "Version Two Sparkling Regular": "1.7667",
+    "Casa Gheller Prosecco Glass": "3.3480",
+    "Pineapple Juice Glass": "0.6942",
+    "Fresh is Best Lager Schooner": "1.8058",
+    "Fresh is Best Lager Pint": "2.4219",
+    "Philter XPA Pint": "3.0022",
+    "Grifter Pale Schooner": "2.4824",
+    "Grifter Pale Pint": "3.3294",
+    "Stone & Wood Schooner": "3.2963",
+    "Stone & Wood Pint": "4.4209",
+    "Guinness Draught Pint": "4.8051",
+    "Kirin Pint": "5.0924"
+  },
+  "uncosted_on_the_night": ["Corona", "Better Beer Tin", "Fresh Lime Soda"],
+  "mixer": {
+    "per_pour_ex": "0.9483",
+    "applies_to_house_suffix": true,
+    "also": ["Jack Daniels"],
+    "note": "The [House] suffix finds 119 pours on the Dazzle drinks tab and the hand sweep costed 120. One Jack Daniels is the only line that reconciles it -- a nip-only recipe served long exactly like a house pour, without the suffix. Pinned here as what the sweep DID rather than folded into the rule, because it is worth $0.95 and 0.05 points of GP and a rule invented to close a one-pour gap is worse than a documented gap."
+  }
+}

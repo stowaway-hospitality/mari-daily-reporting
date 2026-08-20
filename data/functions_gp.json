@@ -1,0 +1,346 @@
+{
+  "schema": "functions_gp/1",
+  "benchmark_gp_pct": 76.4,
+  "note": "Beverage gross profit per package function, computed from the comped tab's own line items against a dated cost book. Every entry carries `caveats`; a consumer that renders `gp_pct` without them is misreporting the number.",
+  "functions": [
+    {
+      "name": "Dazzle drinks",
+      "date": "2026-08-08",
+      "venue": "stowaway",
+      "actual_heads": 25,
+      "booked_guests": null,
+      "tickets_sold": 25,
+      "package_price_inc_cents": 8000,
+      "package_hours": 3.0,
+      "pos_refs": "Tab: Dazzle drinks -- comped to $0.00, 8 Aug 2026",
+      "revenue_inc_cents": 200000,
+      "revenue_ex_cents": 181818,
+      "food_revenue_inc_cents": null,
+      "bev_revenue_inc_cents": 200000,
+      "bev_revenue_ex_cents": 181818,
+      "drinks_poured": 239,
+      "menu_value_inc_cents": 359900,
+      "menu_value_inc_cents_per_head": 14396,
+      "house_pours": 119,
+      "mixer_pours": 120,
+      "drinks_per_head": 9.56,
+      "drinks_per_hour": 79.67,
+      "cogs_ex_cents": 62548,
+      "mixer_est_ex_cents": 11380,
+      "mixer_per_pour_ex": "0.9483",
+      "total_cogs_ex_cents": 73928,
+      "cogs_ex_cents_per_head": 2957,
+      "uncosted_lines": [
+        {
+          "product": "Corona",
+          "qty": 2,
+          "menu_value_inc_cents": 2100
+        },
+        {
+          "product": "Better Beer Tin",
+          "qty": 1,
+          "menu_value_inc_cents": 1050
+        },
+        {
+          "product": "Fresh Lime Soda",
+          "qty": 1,
+          "menu_value_inc_cents": 350
+        }
+      ],
+      "uncosted_drinks": 4,
+      "uncosted_menu_value_inc_cents": 3500,
+      "priced_lines": [
+        {
+          "product": "Beetle Juice",
+          "qty": 45,
+          "unit_cost_ex": "3.7229",
+          "line_cost_ex_cents": 16753
+        },
+        {
+          "product": "White Light Pure Vodka [House]",
+          "qty": 63,
+          "unit_cost_ex": "1.5208",
+          "line_cost_ex_cents": 9581
+        },
+        {
+          "product": "Aperol Spritz",
+          "qty": 31,
+          "unit_cost_ex": "3.5560",
+          "line_cost_ex_cents": 11024
+        },
+        {
+          "product": "Bacardi Blanca [House]",
+          "qty": 49,
+          "unit_cost_ex": "2.1379",
+          "line_cost_ex_cents": 10476
+        },
+        {
+          "product": "Guinness Draught Pint",
+          "qty": 7,
+          "unit_cost_ex": "4.8051",
+          "line_cost_ex_cents": 3364
+        },
+        {
+          "product": "Jalapeño Marg",
+          "qty": 4,
+          "unit_cost_ex": "3.8520",
+          "line_cost_ex_cents": 1541
+        },
+        {
+          "product": "Espresso Martini",
+          "qty": 4,
+          "unit_cost_ex": "3.2850",
+          "line_cost_ex_cents": 1314
+        },
+        {
+          "product": "Rooster Rojo Blanco Tequila [House]",
+          "qty": 7,
+          "unit_cost_ex": "1.9641",
+          "line_cost_ex_cents": 1375
+        },
+        {
+          "product": "Fresh is Best Lager Pint",
+          "qty": 6,
+          "unit_cost_ex": "2.4219",
+          "line_cost_ex_cents": 1453
+        },
+        {
+          "product": "Kirin Pint",
+          "qty": 3,
+          "unit_cost_ex": "5.0924",
+          "line_cost_ex_cents": 1528
+        },
+        {
+          "product": "Baileys Irish Cream",
+          "qty": 4,
+          "unit_cost_ex": "1.2702",
+          "line_cost_ex_cents": 508
+        },
+        {
+          "product": "Classic Margarita",
+          "qty": 2,
+          "unit_cost_ex": "4.1786",
+          "line_cost_ex_cents": 836
+        },
+        {
+          "product": "Lychee Martini",
+          "qty": 2,
+          "unit_cost_ex": "3.9140",
+          "line_cost_ex_cents": 783
+        },
+        {
+          "product": "Fresh is Best Lager Schooner",
+          "qty": 3,
+          "unit_cost_ex": "1.8058",
+          "line_cost_ex_cents": 542
+        },
+        {
+          "product": "Casa Gheller Prosecco Glass",
+          "qty": 1,
+          "unit_cost_ex": "3.3480",
+          "line_cost_ex_cents": 335
+        },
+        {
+          "product": "Grifter Pale Pint",
+          "qty": 1,
+          "unit_cost_ex": "3.3294",
+          "line_cost_ex_cents": 333
+        },
+        {
+          "product": "Stone & Wood Schooner",
+          "qty": 1,
+          "unit_cost_ex": "3.2963",
+          "line_cost_ex_cents": 330
+        },
+        {
+          "product": "Jack Daniels",
+          "qty": 1,
+          "unit_cost_ex": "2.2633",
+          "line_cost_ex_cents": 226
+        },
+        {
+          "product": "Grifter Pale Schooner",
+          "qty": 1,
+          "unit_cost_ex": "2.4824",
+          "line_cost_ex_cents": 248
+        }
+      ],
+      "cost_book_as_of": "2026-08-08",
+      "gross_profit_ex_cents": 107890,
+      "gp_pct": 59.34,
+      "gp_pct_ex_mixer": 65.6,
+      "gp_basis": "beverage",
+      "benchmark_gp_pct": 76.4,
+      "margin_foregone_ex_cents": 31019,
+      "out_earn_ratio": 1.29,
+      "caveats": [
+        {
+          "code": "mixer_estimated",
+          "gp_pct_ex_mixer": 65.6,
+          "gp_pct_points": 6.26,
+          "note": "the mixer cost is an estimate, not a repo figure -- house spirits are costed as the nip only, so a per-pour mixer blend is added by assumption",
+          "effect": "strip it out and GP rises 6.3 points, to 65.6%"
+        },
+        {
+          "code": "uncosted_lines",
+          "uncosted_drinks": 4,
+          "uncosted_products": [
+            "Corona",
+            "Better Beer Tin",
+            "Fresh Lime Soda"
+          ],
+          "note": "3 product(s) on the tab have no costed recipe and are carrying no cost at all in the figure above -- Corona, Better Beer Tin, Fresh Lime Soda",
+          "effect": "4 drink(s) were poured for nothing, so the COGS is a lower bound and the GP an upper one"
+        },
+        {
+          "code": "package_sku_uncosted",
+          "note": "the package SKUs have no costed recipe and book at 100% GP in the P&L, which is why functions look free until someone works one out by hand",
+          "effect": "this figure does not appear anywhere in the P&L"
+        }
+      ],
+      "id": "2026-08-08_dazzle_drinks",
+      "source_file": "data/function_tabs/2026-08-08_dazzle_drinks.json"
+    },
+    {
+      "name": "Harry",
+      "date": "2026-08-08",
+      "venue": "stowaway",
+      "actual_heads": 19,
+      "booked_guests": null,
+      "tickets_sold": 19,
+      "package_price_inc_cents": 8000,
+      "package_hours": 3.0,
+      "pos_refs": "Tab: Harry -- comped to $0.00, 8 Aug 2026",
+      "revenue_inc_cents": 152000,
+      "revenue_ex_cents": 138182,
+      "food_revenue_inc_cents": 38000,
+      "bev_revenue_inc_cents": 114000,
+      "bev_revenue_ex_cents": 103636,
+      "drinks_poured": 149,
+      "menu_value_inc_cents": 182050,
+      "menu_value_inc_cents_per_head": 9582,
+      "house_pours": 84,
+      "mixer_pours": 84,
+      "drinks_per_head": 7.84,
+      "drinks_per_hour": 49.67,
+      "cogs_ex_cents": 33256,
+      "mixer_est_ex_cents": 7966,
+      "mixer_per_pour_ex": "0.9483",
+      "total_cogs_ex_cents": 41222,
+      "cogs_ex_cents_per_head": 2170,
+      "uncosted_lines": [],
+      "uncosted_drinks": 0,
+      "uncosted_menu_value_inc_cents": 0,
+      "priced_lines": [
+        {
+          "product": "White Light Pure Vodka [House]",
+          "qty": 55,
+          "unit_cost_ex": "1.5208",
+          "line_cost_ex_cents": 8364
+        },
+        {
+          "product": "Version Two Sparkling Regular",
+          "qty": 25,
+          "unit_cost_ex": "1.7667",
+          "line_cost_ex_cents": 4417
+        },
+        {
+          "product": "Sailor Jerry [House]",
+          "qty": 24,
+          "unit_cost_ex": "2.0293",
+          "line_cost_ex_cents": 4870
+        },
+        {
+          "product": "Kirin Pint",
+          "qty": 9,
+          "unit_cost_ex": "5.0924",
+          "line_cost_ex_cents": 4583
+        },
+        {
+          "product": "Fresh is Best Lager Pint",
+          "qty": 13,
+          "unit_cost_ex": "2.4219",
+          "line_cost_ex_cents": 3148
+        },
+        {
+          "product": "Stone & Wood Pint",
+          "qty": 6,
+          "unit_cost_ex": "4.4209",
+          "line_cost_ex_cents": 2653
+        },
+        {
+          "product": "Guinness Draught Pint",
+          "qty": 5,
+          "unit_cost_ex": "4.8051",
+          "line_cost_ex_cents": 2403
+        },
+        {
+          "product": "Appleton Rum [House]",
+          "qty": 4,
+          "unit_cost_ex": "2.2543",
+          "line_cost_ex_cents": 902
+        },
+        {
+          "product": "Stone & Wood Schooner",
+          "qty": 3,
+          "unit_cost_ex": "3.2963",
+          "line_cost_ex_cents": 989
+        },
+        {
+          "product": "Fresh is Best Lager Schooner",
+          "qty": 2,
+          "unit_cost_ex": "1.8058",
+          "line_cost_ex_cents": 361
+        },
+        {
+          "product": "Philter XPA Pint",
+          "qty": 1,
+          "unit_cost_ex": "3.0022",
+          "line_cost_ex_cents": 300
+        },
+        {
+          "product": "Rooster Rojo Blanco Tequila [House]",
+          "qty": 1,
+          "unit_cost_ex": "1.9641",
+          "line_cost_ex_cents": 196
+        },
+        {
+          "product": "Pineapple Juice Glass",
+          "qty": 1,
+          "unit_cost_ex": "0.6942",
+          "line_cost_ex_cents": 69
+        }
+      ],
+      "cost_book_as_of": "2026-08-08",
+      "gross_profit_ex_cents": 62414,
+      "gp_pct": 60.22,
+      "gp_pct_ex_mixer": 67.91,
+      "gp_basis": "beverage",
+      "benchmark_gp_pct": 76.4,
+      "margin_foregone_ex_cents": 16764,
+      "out_earn_ratio": 1.27,
+      "caveats": [
+        {
+          "code": "mixer_estimated",
+          "gp_pct_ex_mixer": 67.91,
+          "gp_pct_points": 7.69,
+          "note": "the mixer cost is an estimate, not a repo figure -- house spirits are costed as the nip only, so a per-pour mixer blend is added by assumption",
+          "effect": "strip it out and GP rises 7.7 points, to 67.9%"
+        },
+        {
+          "code": "food_cogs_unknown",
+          "food_revenue_inc_cents": 38000,
+          "note": "food COGS is unknown -- kitchen items are uncosted, so this is a beverage-only GP, not a blended one",
+          "effect": "food revenue is excluded from the GP above rather than being credited against a cost nobody has"
+        },
+        {
+          "code": "package_sku_uncosted",
+          "note": "the package SKUs have no costed recipe and book at 100% GP in the P&L, which is why functions look free until someone works one out by hand",
+          "effect": "this figure does not appear anywhere in the P&L"
+        }
+      ],
+      "id": "2026-08-08_harry",
+      "source_file": "data/function_tabs/2026-08-08_harry.json"
+    }
+  ]
+}

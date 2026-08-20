@@ -199,7 +199,18 @@ SUITES = [("model conservation", "scripts/test_pnl_model.mjs"),
           # spend, a paid-but-unheld deposit filed under "Confirmed". It
           # also holds the rule the page was moved to satisfy — signed-in
           # staff never paste a service token.
-          ("functions page", "scripts/test_functions_page.mjs")]
+          ("functions page", "scripts/test_functions_page.mjs"),
+          # data/functions_gp.json, drawn by the real /functions/ module. The
+          # gross profit of a package function is computed in Python, with
+          # Decimal, off the comped tab's line items, and rendered in
+          # JavaScript. Nothing else in this repo can see the two halves
+          # disagree: a pytest proves the arithmetic, the suite above proves
+          # the page renders, and neither notices when the feed publishes a
+          # field the page does not read or a caveat code the page has never
+          # heard of. Both ship green and the screen is wrong -- silently, and
+          # in the flattering direction, because a lost caveat does not remove
+          # the percentage, it removes the doubt.
+          ("functions GP feed", "scripts/test_functions_gp_feed.mjs")]
 # R0 runs BEFORE R8, and stops here if it trips. Letting the suites run against
 # a stale feed is what produces the fictional regression this check exists to
 # prevent — reporting both would just bury the real cause under the ghost.

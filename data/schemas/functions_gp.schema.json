@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://app.stowawaybar.com/data/schemas/functions_gp.schema.json",
+  "title": "functions_gp/1",
+  "description": "Beverage gross profit per package function, computed from the comped tab's own line items against a dated cost book. Written by modules/functions/pipeline/build_functions_gp.py; read by the functions screen. Additive changes only -- dashboard/functions/ is deployed and a stale browser tab is still reading the old field names.",
+  "type": "object",
+  "required": ["schema", "benchmark_gp_pct", "functions"],
+  "properties": {
+    "schema": {"const": "functions_gp/1"},
+    "benchmark_gp_pct": {"type": "number", "description": "The venue beverage run rate a function displaces."},
+    "note": {"type": "string"},
+    "functions": {"type": "array", "items": {"$ref": "#/$defs/outcome"}}
+  },
+  "$defs": {
+    "money_cents": {"type": ["integer", "null"], "description": "Whole cents. Money is never a float in this repo."},
+    "line": {
+      "type": "object",
+      "required": ["product", "qty"],
+      "properties": {
+        "product": {"type": "string"},
+        "qty": {"type": "integer", "minimum": 0},
+        "menu_value_inc_cents": {"$ref": "#/$defs/money_cents"},
+        "unit_cost_ex": {"type": "string", "description": "Decimal as a string, four places. Not a number, so no consumer can re-round it."},
+        "line_cost_ex_cents": {"$ref": "#/$defs/money_cents"}
+      }
+    },
+    "caveat": {
+      "type": "object",
+      "description": "What qualifies the figure. NEVER optional: dashboard/functions/functions.js refuses to draw gp_pct at all unless this list is non-empty, so an outcome with a percentage and no caveats renders a refusal where the number would have been.",
+      "required": ["code", "note"],
+      "properties": {
+        "code": {"type": "string", "enum": ["mixer_estimated", "uncosted_lines", "food_cogs_unknown", "package_sku_uncosted"]},
+        "note": {"type": "string"},
+        "effect": {"type": "string"},
+        "gp_pct_ex_mixer": {"type": "number"},
+        "gp_pct_points": {"type": "number"},
+        "uncosted_drinks": {"type": "integer"},
+        "uncosted_products": {"type": "array", "items": {"type": "string"}},
+        "food_revenue_inc_cents": {"$ref": "#/$defs/money_cents"}
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "required": [
+        "id", "name", "date", "venue", "actual_heads", "revenue_inc_cents",
+        "revenue_ex_cents", "bev_revenue_inc_cents", "bev_revenue_ex_cents",
+        "drinks_poured", "menu_value_inc_cents", "cogs_ex_cents",
+        "mixer_est_ex_cents", "total_cogs_ex_cents", "gross_profit_ex_cents",
+        "gp_pct", "gp_basis", "benchmark_gp_pct", "cost_book_as_of",
+        "uncosted_lines", "caveats"
+      ],
+      "properties": {
+        "id": {"type": "string", "description": "<date>_<tab slug>. Stable; the join key a screen bookmarks."},
+        "name": {"type": "string"},
+        "date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+        "venue": {"type": "string"},
+        "source_file": {"type": "string"},
+        "pos_refs": {"type": "string", "description": "How the tab was found in the POS. The join between a brief and its tab."},
+
+        "actual_heads": {"type": "integer", "minimum": 0},
+        "booked_guests": {"type": ["integer", "null"]},
+        "tickets_sold": {"type": ["integer", "null"]},
+        "package_price_inc_cents": {"$ref": "#/$defs/money_cents"},
+        "package_hours": {"type": ["number", "null"]},
+
+        "revenue_inc_cents": {"$ref": "#/$defs/money_cents"},
+        "revenue_ex_cents": {"$ref": "#/$defs/money_cents"},
+        "food_revenue_inc_cents": {"$ref": "#/$defs/money_cents"},
+        "bev_revenue_inc_cents": {"$ref": "#/$defs/money_cents"},
+        "bev_revenue_ex_cents": {"$ref": "#/$defs/money_cents"},
+
+        "drinks_poured": {"type": "integer", "minimum": 0},
+        "menu_value_inc_cents": {"$ref": "#/$defs/money_cents"},
+        "menu_value_inc_cents_per_head": {"$ref": "#/$defs/money_cents"},
+        "house_pours": {"type": "integer", "description": "Lines whose POS name carries the [House] suffix."},
+        "mixer_pours": {"type": "integer", "description": "Pours the mixer estimate was applied to. Equals house_pours unless a night's cost book pins extras."},
+        "drinks_per_head": {"type": ["number", "null"]},
+        "drinks_per_hour": {"type": ["number", "null"]},
+
+        "cogs_ex_cents": {"$ref": "#/$defs/money_cents"},
+        "mixer_est_ex_cents": {"$ref": "#/$defs/money_cents"},
+        "mixer_per_pour_ex": {"type": "string"},
+        "total_cogs_ex_cents": {"$ref": "#/$defs/money_cents"},
+        "cogs_ex_cents_per_head": {"$ref": "#/$defs/money_cents"},
+        "uncosted_lines": {"type": "array", "items": {"$ref": "#/$defs/line"},
+          "description": "Products with no recipe. NOT costed at zero -- a non-empty list means total_cogs_ex_cents is a lower bound and gp_pct an upper one."},
+        "uncosted_drinks": {"type": "integer"},
+        "uncosted_menu_value_inc_cents": {"$ref": "#/$defs/money_cents"},
+        "priced_lines": {"type": "array", "items": {"$ref": "#/$defs/line"}},
+        "cost_book_as_of": {"type": ["string", "null"],
+          "description": "The date of the cost book used, or \"live\" when no dated snapshot existed for the night. \"live\" means the figure will move as recipes are recosted and is NOT reproducible."},
+
+        "gross_profit_ex_cents": {"$ref": "#/$defs/money_cents"},
+        "gp_pct": {"type": ["number", "null"]},
+        "gp_pct_ex_mixer": {"type": ["number", "null"], "description": "The same sum with the mixer estimate taken back out. The other end of the range the true figure lives in, not a footnote."},
+        "gp_basis": {"const": "beverage"},
+
+        "benchmark_gp_pct": {"type": "number"},
+        "margin_foregone_ex_cents": {"$ref": "#/$defs/money_cents"},
+        "out_earn_ratio": {"type": ["number", "null"], "description": "How much more a function must take than the trade it displaced to be GP-neutral."},
+
+        "caveats": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/caveat"}}
+      }
+    }
+  }
+}

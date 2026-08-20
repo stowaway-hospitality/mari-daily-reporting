@@ -785,6 +785,11 @@ export const hoursLabel = (h) => (h == null ? '—'
  *  failure this section exists to prevent. */
 export const CAVEAT_TITLES = {
   mixer_estimated: 'Mixer',
+  // Emitted by modules/functions when a tab holds a product with no costed
+  // recipe. It is the caveat that says the COGS beside it is a LOWER bound —
+  // an uncosted line contributes nothing to the sum and looks on a screen
+  // exactly like a cheap one.
+  uncosted_lines: 'Uncosted lines',
   food_cogs_unknown: 'Food',
   package_sku_uncosted: 'Packages',
 };

@@ -58,11 +58,15 @@ is the one shared object the model reads; the model never writes the page.
 4. a DOM token in `pnl.js` (the model touching the page)
 5. a function defined in two modules
 6. a missing behaviour marker (day scrubber, leave toggle, delivery KPI, …)
-7. any of the **ten** JS test suites failing — P&L conservation, render layer,
-   pure helpers, the recipe builder's plausibility guard (re-calibrated against
-   the real cost book on every run), and the six that hold the merged recipe
-   module: tab routing, book view, page shell, builder load, the flags panel's
-   wording, and whether every family of open question is actually on the panel
+7. any of the **twelve** JS test suites failing — P&L conservation, render
+   layer, pure helpers, the recipe builder's plausibility guard (re-calibrated
+   against the real cost book on every run), the six that hold the merged
+   recipe module (tab routing, book view, page shell, builder load, the flags
+   panel's wording, and whether every family of open question is actually on
+   the panel), the /functions/ enquiry-to-deposit screen, and
+   `data/functions_gp.json` drawn by that screen's own module — the one that
+   catches a gross profit computed in Python and rendered in JavaScript
+   drifting apart in the middle
 
 Drift doesn't get a warning — it goes red and never ships. To add a feature: maths
 in `pnl.js`/`util.js`, fetch in `data.js`, DOM in `render.js`, and add/extend a
