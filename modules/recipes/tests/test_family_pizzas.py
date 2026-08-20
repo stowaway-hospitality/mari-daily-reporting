@@ -110,13 +110,21 @@ def test_an_inferred_quantity_says_so():
                 f"scaled — an unmarked quantity reads as a measurement")
 
 
-def test_a_family_pizza_gets_one_box():
-    """The 0.716-of-a-box class: packaging is counted, never scaled. A Family
-    goes out in one 13-inch box with one insert, exactly like a Large."""
+def test_a_family_pizza_gets_one_15_inch_box():
+    """Packaging is counted, never scaled — and it is the FAMILY box.
+
+    A Family ships in the 15" (Zak, 2026-08-20), which Gulli invoices weekly as
+    PBLTB15-U. For its first hours in the book the family wore the Large's 13"
+    at $0.6426 instead of $0.7929 — 15c under on every family pizza, the
+    flattering direction. Back Office holds no product for the 15", so the line
+    carries the SUPPLIER identity, which recipe lines already do wherever
+    Lightspeed has no product (b-e:, cub:, foodlink:).
+    """
     b = _book()
     if b is None:
         return
     for name, r in _families(b).items():
+        boxes = []
         for ln in r["ingredients"]:
             nm = (ln.get("name") or "").lower()
             # Actual packaging lines only. A bare word test caught
@@ -127,3 +135,12 @@ def test_a_family_pizza_gets_one_box():
                 assert float(ln.get("qty") or 0) == 1, (
                     f"{name}: packaging must be one whole unit, "
                     f"not {ln.get('qty')} of {ln.get('name')}")
+                assert not ln.get("family_scaled"), (
+                    f"{name}: a counted box carries a scaling marker — "
+                    f"provenance describing a state that no longer exists")
+                if "pizza box" in nm and "insert" not in nm:
+                    boxes.append(ln)
+        if boxes:
+            assert [ln["ref"] for ln in boxes] == ["gulli:PBLTB15-U"], (
+                f"{name}: a Family pizza ships in the 15\" "
+                f"(gulli:PBLTB15-U), got {[ln['ref'] for ln in boxes]}")

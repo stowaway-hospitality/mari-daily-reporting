@@ -751,7 +751,15 @@ _PREP_NAME = re.compile(r"\[(batch|prep|recipe|\d+\s*(kg|g|l|ml))\]"
 _INSERT_REF = "lightspeed:22873876"   # Pizza Box Inserts, $0.11055 ea (Gulli)
 _BOX_BY_SIZE = {
     "large": ('Large Pizza Box 13"', "lightspeed:22873851"),
-    "family": ('Large Pizza Box 13"', "lightspeed:22873851"),
+    # A Family ships in the 15", not the Large's 13" — Zak, 2026-08-20. Back
+    # Office has no product for it, so the identity is the SUPPLIER's: Gulli
+    # invoices PBLTB15-U weekly ($39.644 the carton of 50 = $0.7929 a box) and
+    # recipe lines already carry supplier ids where Lightspeed has no product
+    # (b-e:, cub:, foodlink:). The pack override splits the carton, same
+    # contract as the 11" and 13". When it briefly wore the 13" the whole
+    # family under-costed packaging by 15c a pizza — small, but the flattering
+    # direction, on every family pizza sold.
+    "family": ('Family Pizza Box 15"', "gulli:PBLTB15-U"),
     "regular": ('Regular Pizza Box 11"', "lightspeed:22873831"),
     "gluten-free": ('Regular Pizza Box 11"', "lightspeed:22873831"),   # 11in base
     "kids": ('Regular Pizza Box 11"', "lightspeed:22873831"),
@@ -2165,6 +2173,11 @@ def main() -> int:
                 if box and "insert" not in nm.lower():
                     ln["name"], ln["ref"], ln["kind"] = box[0], box[1], "id"
                 ln["qty"], ln["unit"] = 1, "ea"
+                # This line is now a COUNTED whole unit; any scaling marker it
+                # picked up while it was still a pack fraction (the Family copy
+                # pass scales every g/ml line before this one normalises
+                # packaging) is describing a state that no longer exists.
+                ln.pop("family_scaled", None)
                 # The scraped per-line cost was a fraction of the WRONG box, so it
                 # can't stand as a fallback. Price the line off our book directly —
                 # both boxes are invoiced weekly and carry a live per-box rate.
