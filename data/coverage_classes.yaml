@@ -349,11 +349,13 @@ ids:
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
   lightspeed:22865362:
-    class: question
+    class: awaiting_next_purchase
     name: Ancho Reyes Chilli Liqueur [Bottle]
-    reason: ILG carries only the VERDE ($59.17) and the seed says $68.67 — a 16 percent gap, so no identity
-      claim. Verde pre-declared; if the red original is poured it is bought outside ILG. The next invoice
-      settles it.
+    reason: 'Zak ruling 2026-08-20: the bar uses ANCHO RED (the original). Dext holds exactly two ancho
+      invoices ever — both Paramount 61522 ANCHO REYES VERDE, $63.96 ex/700ml, 5 Sep 2025, which is what
+      the BO seed was set from (2.4% match). No red purchase exists under any supplier and ILG lists only
+      the verde — the red''s first invoice prices it; until then the seed stands. ILG verde pre-declare
+      retracted as wrong product.'
   lightspeed:22873696:
     class: awaiting_next_purchase
     name: Massenez Mango Liqueur [5L Cask]
