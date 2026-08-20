@@ -192,10 +192,22 @@ def test_the_chicken_roast_costs_what_a_chicken_roast_costs():
 def test_the_chicken_is_no_longer_the_cheapest_roast_on_a_one_price_menu():
     """All five sell for $30.00. Before the fix the chicken was the cheapest to
     make AND the highest GP of the five — the flattering direction, and the
-    reason nobody looked at it. It now sits mid-pack, above Nut Roast."""
+    reason nobody looked at it.
+
+    ONE ASSERTION LESS THAN IT USED TO HAVE. This pinned "chicken > Nut Roast",
+    which was a fact about January's mushroom seed, not about the chicken: the
+    day mushrooms went onto their real invoice (Select Fresh, $13.00/kg against
+    a $9.03 seed, 2026-08-20) the mushroom-heavy Nut Roast rose $3.97 a tray
+    and passed the chicken by A QUARTER OF A CENT a serve. The ordering between
+    two mid-pack roasts is menu weather; asserting it makes a real repricing
+    look like a regression. The DEFECT this test exists to keep dead is the
+    chicken at the FLOOR of a one-price menu with the GP ceiling — so that is
+    what it pins: not cheapest, not the GP leader.
+    """
     book = _book()
     cost = {r: float(book[r]["our_cost"]) for r in ROASTS}
-    assert cost["Chicken Roast"] > cost["Nut Roast"], cost
+    assert cost["Chicken Roast"] > min(cost.values()), (
+        f"the chicken is the cheapest roast again: {cost}")
     assert cost["Chicken Roast"] < cost["Lamb Roast"], cost
     assert float(book["Chicken Roast"]["gp_pct"]) < float(book["Pork Roast"]["gp_pct"])
 
