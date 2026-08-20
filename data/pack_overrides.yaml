@@ -1158,3 +1158,24 @@
     in 4 L. Bought 3x since May, unreadable each time for want of this size.
   true: 2026-08-20
   by_email: hello@stowawaybar.com
+
+- id: "canton-group:DPBBQBUN20"
+  pack_qty: 20
+  pack_unit: ea
+  by: >-
+    Claude (Deja Vu dig 2026-08-20): Canton INV-5110's own line reads
+    '(20 PCS)' — twenty buns a pack, $2.00 incl a bun. 'pcs' is not a unit
+    token resolve_pack reads, and the countable rescue rejects $2.00 against
+    the $1.75 BO seed (14% apart, honestly), so the printed count is declared.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com
+
+- id: "canton-group:DPPDSR50"
+  pack_qty: 50
+  pack_unit: ea
+  by: >-
+    Claude (Deja Vu dig 2026-08-20): Canton INV-5110's own line reads
+    '(50PCS)' — fifty rolls a pack, $2.00 incl a roll. Same 'pcs' token gap
+    as the buns.
+  true: 2026-08-20
+  by_email: hello@stowawaybar.com

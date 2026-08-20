@@ -110,3 +110,121 @@ purchases:
     venue: stowaway
     purchased_on: 2026-07-10
     evidence: "KegLand tax invoice K552997 (10 Jul 2026): 5 x Malic Acid 1kg @ $10.41 ex / $11.45 inc"
+
+  # WINE ENTERPRISES PTY LTD — Zak (2026-08-20): Deja Vu "appears as another
+  # business name on the invoices"; Wine Enterprises is the only boutique-wine
+  # entity in the store that fits. INV-5308 (9 Jun 2026, $899.32, validated,
+  # venue harry_gatos) prices per CASE OF 12: the divisor is proven by all
+  # three landing on their own BO costs (÷12: Azurescens $14.22 ex vs BO
+  # $14.00; From Sundays $13.77 vs $14.00; Palloncino $12.15 vs $11.50) while
+  # ÷6 lands nowhere. No WET line — it is inside the case price.
+
+  - supplier: "Wine Enterprises"
+    supplier_code: "FSSHIRAZ"
+    description: "From Sundays Shiraz (case 12)"
+    price_ex_gst: 13.7701
+    pack_qty: 750
+    pack_unit: ml
+    venue: harry_gatos
+    purchased_on: 2026-06-09
+    evidence: "Wine Enterprises INV-5308: 2 cases @ $181.765 incl; /12/1.1 = $13.77 ex a bottle vs BO $14.00"
+
+  - supplier: "Wine Enterprises"
+    supplier_code: "AZURPN"
+    description: "Azurescens Pinot Noir (case 12)"
+    price_ex_gst: 14.2201
+    pack_qty: 750
+    pack_unit: ml
+    venue: harry_gatos
+    purchased_on: 2026-06-09
+    evidence: "Wine Enterprises INV-5308: 2 cases @ $187.705 incl; /12/1.1 = $14.22 ex a bottle vs BO $14.00"
+
+  - supplier: "Wine Enterprises"
+    supplier_code: "PALLPROS"
+    description: "Palloncino Prosecco (case 12)"
+    price_ex_gst: 12.1500
+    pack_qty: 750
+    pack_unit: ml
+    venue: harry_gatos
+    purchased_on: 2026-06-09
+    evidence: "Wine Enterprises INV-5308: 1 case @ $160.38 incl; /12/1.1 = $12.15 ex a bottle vs BO $11.50"
+
+  # SIGURD WINES PTY LTD — a standing order: INV-11148 (5 Jun), INV-11175
+  # (29 Jun), INV-11224 (21 Jul), each 12 x "2023 Sigurd Red ($21 LUC)" at
+  # $277.22. The invoice names its own landed cost and the arithmetic closes
+  # exactly: (17.9083 unit incl + 62.32 WET / 12) / 1.1 = $21.00 ex. Costing
+  # off the 17.9083 line alone would silently drop the WET.
+
+  - supplier: "Sigurd Wines"
+    supplier_code: "SIGRED23"
+    description: "2023 Sigurd Red ($21 LUC)"
+    price_ex_gst: 21.00
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-07-21
+    evidence: "Sigurd Wines INV-11224 (and 11148/11175, identical): LUC $21 printed on the line; WET arithmetic closes exactly"
+
+  # AUSTRALIAN WINE COMPANY — INV-0698 (16 Jun) carries a real code
+  # (DASJPINK2) but no size token, so pack resolution failed against a seed
+  # rate that predates the price drop and the line died silently. Same LUC
+  # convention: (11.0442 + 120.48 WET/12)/1.1 = $12.95 ex, printed on the line.
+
+  - supplier: "Australian Wine Company"
+    supplier_code: "DASJPINK2"
+    description: "2024 Das Juice Pink Pet Nat ($12.95 LUC)"
+    price_ex_gst: 12.95
+    pack_qty: 750
+    pack_unit: ml
+    venue: stowaway
+    purchased_on: 2026-06-16
+    evidence: "Australian Wine Company INV-0698: LUC $12.95 printed; WET arithmetic closes exactly"
+
+  # COFFEE BEANS — Zak (2026-08-20): "just 1kg of whatever brand from IGA. we
+  # wont get an invoice for them, just look up a typical price and hardcode
+  # it." IGA Shop Online, checked 2026-08-20: Vittoria Espresso 1kg $39-59,
+  # Lavazza Qualita Oro 1kg $43.50-61.53, Vittoria Mountain Grown $52.99-65.73.
+  # $45 is the middle of that band. Coffee beans are GST-free food, so the
+  # shelf price IS the ex price.
+
+  - supplier: "IGA"
+    supplier_code: "COFFEE1KG"
+    description: "Coffee Beans 1kg (retail, brand varies)"
+    # Coffee beans are GST-FREE food, so the $45 shelf price is the landed
+    # price. The builder multiplies price_ex_gst by 1.1 to get the incl figure
+    # the ledger holds — so this field carries 45/1.1, and the ledger lands on
+    # the true $45.00/kg. price_ex_gst is a field name, not a fact, here.
+    price_ex_gst: 40.9091
+    pack_qty: 1000
+    pack_unit: g
+    venue: stowaway
+    purchased_on: 2026-08-20
+    evidence: "IGA Shop Online 2026-08-20: 1kg beans $39-66 across Vittoria/Lavazza lines; $45 mid-band; GST-free so ledger-incl = $45.00"
+
+  # CANTON GROUP — their invoices DO reach the mailbox and parse (INV-5110
+  # landed 2026-08-20, validated) but the lines carry no supplier codes, so
+  # purchasable_id rightly refuses them an identity. Same treatment as Sigurd
+  # / Wine Enterprises: stable declared codes, superseded when Canton ever
+  # prints real ones. Piece counts are PRINTED on the line — (20 PCS) and
+  # (50PCS) — so the per-piece rate is read, not guessed, and both products'
+  # BO unit is [ea] = one piece.
+
+  - supplier: "Canton Group"
+    supplier_code: "DPBBQBUN20"
+    description: "Davidson Plum BBQ Pork Buns (20 pcs)"
+    price_ex_gst: 36.3636
+    pack_qty: 20
+    pack_unit: ea
+    venue: harry_gatos
+    purchased_on: 2026-08-20
+    evidence: "Canton Group INV-5110 (20 Aug 2026): $40.00 incl per 20-pc pack = $2.00 incl a bun"
+
+  - supplier: "Canton Group"
+    supplier_code: "DPPDSR50"
+    description: "Davidson Plum Peking Duck Spring Rolls (50 pcs)"
+    price_ex_gst: 90.9091
+    pack_qty: 50
+    pack_unit: ea
+    venue: harry_gatos
+    purchased_on: 2026-08-20
+    evidence: "Canton Group INV-5110 (20 Aug 2026): $100.00 incl per 50-pc pack = $2.00 incl a roll"
