@@ -1,89 +1,58 @@
 {
-  "generated": "2026-08-21T09:15:37+10:00",
-  "reviewed": 55,
-  "clean": 47,
+  "generated": "2026-08-22T12:40:00+10:00",
+  "reviewed": 16,
+  "clean": 15,
   "flags": [
     {
-      "supplier": "B&E",
-      "name": "Beksul Black (Dark",
-      "code": "18304",
-      "issue": "TRUNCATED NAME AND LOST PACK SIZE. The printed line is 'BEKSUL BLACK (DARK / BROWN) SUGAR 1KG(16) CJ FOODS KRN #186167' — confirmed by reading corpus PDF 5b2a07b73c15 (invoice 7153386, 2026-08-21) directly: the tail sits on its own word-row at x=76.5 with no qty and no total, and parsers/be_foods.py drops it. The pack size '1KG' is in the dropped tail, so pack_qty is null and needs_pack_review is TRUE.",
-      "suggested_fix": "NOT a data edit — fix parsers/be_foods.py to join wrapped description rows (the same defect and the same fix as foodlink, triage log item 33). Name becomes 'Beksul Black (Dark Brown) Sugar 1KG(16)'; the invoice states qty 2.00 UNIT at $2.90 incl, so the rate is $2.90/kg once the pack is read."
-    },
-    {
-      "supplier": "B&E",
-      "name": "Fz Pipi Clam - Whole In",
-      "code": "13003",
-      "issue": "TRUNCATED NAME, same cause. Printed line is 'FZ PIPI CLAM - WHOLE IN / SHELL COOKED 40/60 1KG / (10) (I)' on the same PDF. The COST is right ($8.10/kg — raw_uom is KG so the rate survived), but the name reaching the chef is a fragment ending mid-phrase.",
-      "suggested_fix": "Same be_foods.py continuation fix as above. Name becomes 'Fz Pipi Clam - Whole In Shell Cooked 40/60 1KG (10)'. No cost change."
-    },
-    {
-      "supplier": "Foodlink",
-      "name": "Cheese Parmesan Block Grana 1/4 Avg 4.4KG R/W",
-      "code": "100543",
-      "issue": "COST IS 4.4x TOO CHEAP, and it is the flattering direction. The feed reads $0.006975/g ($6.98/kg) for Grana Padano. data/declared_purchases.yaml states this record explicitly as price_ex_gst 27.90 with pack_qty 1000 / pack_unit g and evidence '$27.90 ex per KG (random weight, 2 a carton)'. build_ingredients took $30.69 incl as a PACK cost and divided it again by the 4.4KG parsed out of the description, so the per-kg price was treated as a per-carton price.",
-      "suggested_fix": "Correct rate is $27.90 ex = $30.69 incl per kg = $0.030690/g. The declared record already carries pack_qty 1000; the bug is that the description-derived '4.4kg' overrode it for a row whose price is ALREADY a rate. Confirmed from the repo's own declared_purchases.yaml, not guessed. NOT auto-edited — this is the pack-vs-rate distinction of triage item 26 and it wants Zak's eyes."
-    },
-    {
-      "supplier": "Aquarius",
-      "name": "White Prawn Meat 31/40",
-      "code": "APDW31",
-      "issue": "PACK UNIT IS 'box' WITH NO WEIGHT, AND needs_pack_review IS FALSE — so nothing else will ever surface it. $175.00 books against one 'box'. Prawn meat is used by mass in every recipe, so a recipe adding 200g of prawns books $175.",
-      "suggested_fix": "NOT GUESSED. Invoice 185327 (2026-05-29) states raw_uom 'Box' and nothing else — the kilograms per box are not on the page. Zak or the chef needs to confirm the box weight with Aquarius (5kg and 10kg are both common at this count), then it goes in pack_overrides.yaml as a MEASURE, which triage item 26 confirmed does now reach the feed."
-    },
-    {
-      "supplier": "Select Fresh",
-      "name": "Cucumber Tele/Continental (CUCT)",
-      "code": "CUCT",
-      "issue": "PACK UNIT IS 'bag' WITH NO COUNT, needs_pack_review FALSE. $23.50 per bag. A recipe calling for one cucumber books the whole bag.",
-      "suggested_fix": "NOT GUESSED. Invoice 3044847 prints 'CUCUMBER TELE/CONTINENTAL BAG' with raw_uom BAG and states no count. Chef to confirm cucumbers per bag (typically 10-12 telegraph), then pack_overrides."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Davidson Plum Puree",
-      "code": "22947356",
-      "issue": "PACK UNIT 'ea' ON A PUREE, needs_pack_review FALSE, cost_per_base_unit $0.0510. As a rate that is $51/kg, which is plausible for a native-fruit puree; as a price per EACH it is five cents for a container of puree, which is not. The unit is a Back Office seed placeholder (last_seen 2026-01-02, source 'cost-book'), so the number is right and the unit is wrong — the shape that silently under-costs a recipe.",
-      "suggested_fix": "ALREADY PARKED, not new — data/coverage_classes.yaml classes lightspeed:22947356 as authored_recipe_needed: 'house-made from Select Fresh DAVID frozen plums ($51/kg, the rate the BO seed copied). Wants the batch recipe (plums + sugar + yield) in the builder; the SF bridge is parked in product_map and engages the day the recipe gives the record a gram basis.' So the 'ea' unit resolves when that batch recipe is authored. Reported here only because it entered the NEW-product list today and the unit is the kind that under-costs silently; no separate action needed."
-    },
-    {
-      "supplier": "Lightspeed",
-      "name": "Sprite Can",
-      "code": "20459564 / 21050703",
-      "issue": "ONE PRODUCT, TWO LIGHTSPEED IDS, TWO DIFFERENT COST BASES. 20459564 is $0.005829 per ml (a 375ml can = $2.19); 21050703 is $1.47 per can. The two disagree by 49% and their price histories are split, which is the identity-split failure of triage items 12/13/42 in the cost book rather than in a parser.",
-      "suggested_fix": "Consolidate onto one id, or bridge both to one anchor. NOT done here: it moves money between price series and triage item 42 ruled that class FOR ZAK, not for an unattended run. (The Frangelico and Velvet Falernum pairs in this same batch are the id-disambiguation working as designed — both halves are per-ml at similar rates — so they are mentions, not flags.)"
-    },
-    {
-      "supplier": "Foodlink",
-      "name": "WIPES BLUE ROLL H/D Pak",
-      "code": "103139",
-      "issue": "NOT FOOD AND NOT PRODUCT PACKAGING. Triage item 11 established that packaging belongs in the picker by design (Marilyna's pizza boxes are costed per each), and withdrew an earlier blanket 'packaging as food' flag. A blue cleaning roll is neither: it is a cleaning consumable and no recipe can use it.",
-      "suggested_fix": "Add to _NON_FOOD so it is excluded from the ingredient picker. It is already needs_pack_review TRUE, so it is visible to the chef today; the fix is to stop it reaching the picker at all."
+      "supplier": "Fresh Fruit Team / Lightspeed",
+      "name": "Herb Chives [Market]",
+      "code": "lightspeed:22995343",
+      "issue": "THE MARKET BUNCH IS COSTED AT THE SINGLE-BUNCH PRICE — 4.1x too cheap, in the flattering direction, and live in the picker today. The feed emits $2.42 per bunch. $2.42 is unambiguously HCBCH, the SINGLE bunch, from FFT invoice INB00114866 (2026-08-12, billed to Harry Gatos); the MARKET bunch is HCMB and is chef-confirmed at $0.0792/g = $9.90 a bunch (data/costs.csv carries HCMB at that rate from INB00099534 onward and labels it 'chef-confirmed'). The cause is in data/product_map.csv: TWO FFT codes are bridged onto the ONE Lightspeed id 22995343 — 'Fresh Fruit Team,HCBCH,22995343,Herb Chives [Market],,,,,recipe-bridge' with no venue, alongside the correct 'Fresh Fruit Team,HCMB,22995343,Herb Chives [Market],stowaway,zak-confirmed 2026-08-18'. HCBCH is ALSO bridged to 22493903 ('chives'), which is where it belongs. This is the exact pair triage item 13 recorded: the two survived a name collapse only while the parser truncated one of them, and the tiebreak prefers the cheaper row.",
+      "suggested_fix": "Remove the HCBCH -> 22995343 recipe-bridge row from data/product_map.csv, leaving HCMB -> 22995343 (market bunch, $9.90) and HCBCH -> 22493903 (single bunch, $2.42). NOT EDITED HERE: product_map is the bridge ledger, this moves money between two live price series, and the 2026-08-21 note already in data/cogs_list.csv against this id says a previous attempt to fix it by relabelling the unit was tried and REVERTED. That note also states the durable fix is a BUNCH WEIGHT for the [Market] bunch rather than a unit relabel — a chef confirming grams per market bunch would settle both. Also note this bridge violates the 2026-08-20 hard constraint against two bridges on one anchor when the invoices are cross-venue: HCBCH's invoices bill to Harry Gatos, HCMB's to Stowaway."
     }
   ],
   "mentions": [
     {
-      "supplier": "Select Fresh",
-      "code": "LETBC",
-      "name": "Lettuce Baby Cos",
-      "note": "pack_qty null at $17.00, needs_pack_review TRUE — already going to the chef, no action here."
-    },
-    {
-      "supplier": "Select Fresh",
-      "code": "LIMFP / MICL / LETRDP",
-      "name": "Lime Finger Fresh Pun / Micro Lemon Balm Pun / Let Radicchio Perfection (Pkt)",
-      "note": "Trailing partial units ('Pun') and 'Let' for Lettuce LOOK like the truncation defect and are NOT. Checked against the source invoices (3124210, 3040668, 3044847): Select Fresh prints them exactly that way. No parser change, no flag."
+      "supplier": "Fresh Fruit Team",
+      "code": "GB220GPK",
+      "name": "Garlic Black",
+      "note": "PACK NOT CONFIRMED AND DELIBERATELY NOT GUESSED. needs_pack_review is TRUE, so it is already going to the chef. Invoice INB00116225 (2026-08-21) was opened and states raw_uom 'Pack' and nothing more — qty 2 Pack, $15.12 each, $30.24. The supplier's own code reads GB-220G-PK, which strongly implies a 220 g pack ($68.73/kg, which is the right order for black garlic), but a pack size inferred from a code string is not a stated fact and this pipeline has been burned by exactly that kind of plausible reading. Confirm on the FFT catalogue or with the chef before it goes in pack_overrides."
     },
     {
       "supplier": "Foodlink",
-      "code": "107146",
-      "name": "Aioli Garlic Mayonnaise Plant Based (Vegan) 1LT",
-      "note": "A 1 LITRE product carried as 1000 g. Density of aioli is ~1.0 so the $/unit is right either way; cosmetic."
+      "code": "100124",
+      "name": "BAMBOO SKEWERS 100PC 20CM 8INCH Pak Imports",
+      "note": "needs_pack_review TRUE, so already visible to the chef. The pack IS stated — 100PC, in the product's own name — it just is not a unit the parser knows, so pack_qty came back null. At $2.20 a pack that is $0.022 a skewer. A kitchen consumable rather than food, but triage item 11 established that consumables and packaging belong in the picker by design (Marilyna's pizza boxes are costed per each), so no exclusion is proposed."
+    },
+    {
+      "supplier": "Fresh Fruit Team",
+      "code": "HBGQBCH",
+      "name": "Herb Basil",
+      "note": "Per BUNCH at $4.95 with needs_pack_review FALSE, i.e. no grams-per-bunch, on a herb every recipe measures by mass. This is the KNOWN per-bunch class named in the 2026-08-20 coverage ruling (Parsley, Lime, Lemon, Brown Onions) and it needs a chef to confirm the bunch weight — not re-derived here. Checked for the chives trap and it is NOT present: FFT has no market-bunch basil code, and the only other live basil is select-fresh:HBAS at $4.60/bunch, a consistent second reading rather than a conflicting one. Neither is bridged onto a shared Lightspeed anchor."
+    },
+    {
+      "supplier": "Lightspeed",
+      "code": "22931830",
+      "name": "Turkish Bread [ea]",
+      "note": "LOOKED WRONG AND IS NOT — checked rather than flagged. A name saying '[ea]' carrying a unit of 'g' at $0.008167 is the shape that usually means a per-each price got a per-gram unit. It resolves: data/product_map.csv bridges it to Urbun Bakery TFB120, 'Turkish/Focaccia Bread (120g)' at $0.98 a loaf (OMI298891, 2026-08-15), and 0.98 / 120 = 0.008167 exactly. costs.csv labels the row 'chef-confirmed (via urbun-bakery:TFB120)'. Correct, and the bridge is doing what it is for."
+    },
+    {
+      "supplier": "Lightspeed",
+      "code": "22947356",
+      "name": "Davidson Plum Puree",
+      "note": "YESTERDAY'S FLAG HAS RESOLVED ITSELF. The 2026-08-21 review flagged this as 'PACK UNIT ea ON A PUREE ... the number is right and the unit is wrong'. It re-entered the new list today only because the review key is name+unit and the unit MOVED: it is now 1 g at $0.051000, a proper rate ($51/kg, the right order for a native-fruit puree). No action."
+    },
+    {
+      "supplier": "B&E",
+      "code": "18304 / 13003",
+      "name": "Beksul Black (Dark / Fz Pipi Clam - Whole In",
+      "note": "BOTH OF YESTERDAY'S TOP FLAGS ARE FIXED AT SOURCE TODAY. The 2026-08-21 review flagged these two as truncated names with a lost pack size and said the fix was in parsers/be_foods.py, not in the data. That parser change shipped this run (triage log item 54): 1,142 wrapped rows now join, 745 stored descriptions lengthen on re-read, zero money moves. The HISTORY does not self-heal — these names correct on the next B&E delivery, the way the Foodlink arancini did on 2026-08-21."
     },
     {
       "supplier": "Foodlink",
-      "code": "103742",
-      "name": "Arancini Truffled Au Porcini (143x35GM) 5X1KG Hermans",
-      "note": "GOOD NEWS, recorded because triage item 23/32 predicted it: this name was stuck at the truncated 'ARANCINI TRUFFLED AU' for weeks and today's invoice SI4536053 reads the full spelling under the item-33 fix. It self-healed on the next delivery exactly as item 32 said it would."
+      "code": "104725 / 100879 / 101148 / 101313 / 101841",
+      "name": "Ricotta / Cream / Honey / Sesame Oil",
+      "note": "Recorded because it is the item-33 fix visibly earning its keep: every new Foodlink product this run arrived with its full name INCLUDING the wrapped brand tail — 'CHEESE RICOTTA DRY BASKET 2KG Monte Fresco', 'CREAM PURE FRESH 2LT Norco', 'HONEY PURE 3KG Wild Flower', 'OIL SESAME 2LT Heaven Dragon'. Every pack size parsed, needs_pack_review FALSE on all five, and every rate is in range ($11.00/kg ricotta, $8.75/L cream, $7.00/kg honey, $9.50/L sesame oil)."
     }
   ]
 }

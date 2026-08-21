@@ -47,6 +47,17 @@ ids:
     name: Belvedere Vodka
     reason: stocked slow mover; last bought before the corpus began (21 Mar); auto-bridges via triage
       on next invoice
+  lightspeed:20445836:
+    class: awaiting_next_purchase
+    name: Ilegal Mezcal Reposado
+    reason: 'slow-moving agave spirit, $20 of sales in 4 weeks (about one pour). Every file in
+      data/invoices was searched for ''ilegal'' and ''illegal'': ZERO lines, so there is nothing to
+      bridge to and none was invented. Note the near-miss that was REFUSED: four Paramount invoices
+      match /mezcal/, but they carry 400 Conejos and Lost Explorer, not this SKU — a different agave
+      spirit at a different price, and bridging on the category word is the item-45 mistake. It is
+      already bridged in product_map (Paramount 60431, tier ''portal-hunt''), i.e. the identity is
+      settled and only a delivery is missing; Paramount parses at 20/21, so the next invoice for it
+      prices it. Priced meanwhile from the 2026-01-05 portal seed at $0.1972/ml.'
   lightspeed:20445837:
     class: awaiting_next_purchase
     name: Bunnahabhain 12yr
@@ -59,6 +70,18 @@ ids:
       Glendronach seeds (20487322 stow/ml, 20750151 HG/each, this one) all sit on the 2026-01 Back Office
       export at $94.51. Its likely suppliers, ILG and Paramount, both have working parsers, so the next
       delivery prices it automatically — sibling of Bunnahabhain 12yr directly above.'
+  lightspeed:20445868:
+    class: awaiting_next_purchase
+    name: Cointreau
+    reason: 'slow-moving orange liqueur, $13 of sales in 4 weeks. Every file in data/invoices was
+      searched for ''cointreau'': ZERO lines. The near-miss was REFUSED here too — three invoices
+      carry a TRIPLE SEC (Massenez Liqueur Triple Sec 5L bib on australia_wine_spirits INV-1400 and
+      INV-1291, and MASSENEZ TRIPLE SEC BIB 2PACK on paramount 5198837). Cointreau is a specific
+      branded product at roughly triple the Massenez rate and a 5L bib is not a 700ml bottle, so
+      bridging one to the other would move a cost by both a brand and a pack factor. It is already
+      bridged in product_map (ILG 410-775-4, tier ''ilg-pricebook''), so the identity is settled and
+      only a delivery is missing; ILG parses at 54/56, so the next invoice for it prices it. Priced
+      meanwhile from the 2026-01-04 ILG price-book seed at $0.074457/ml.'
   lightspeed:20459505:
     class: awaiting_next_purchase
     name: Grifter Pale Ale Cans D
