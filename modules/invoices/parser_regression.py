@@ -1394,6 +1394,115 @@ and NO change was made to any of them.
      and doing it unattended is worse. FOR ZAK: name Scout's supplier, or
      re-pin deliberately.
 
+TRIAGE LOG — 2026-08-22 (unattended daily run). Corpus 864 readable, TOTAL
+843/864 (97%) BEFORE and AFTER the change below, measured on the same corpus
+from a /tmp clone pinned at 27693125. The 21 shortfalls were re-opened and
+every one is a document this log already carries: be_foods x2, gulli
+b381fb197ab6, ilg x2, inalca x6 (item 50 — liquor, deliberately unregistered),
+myob 91513b04a9dd (Cork And Co, item 45), paramount 670685f29215, netsuite x4
+(the Dext subscription bills of item 41) and xero x4 (the SYMSAFE payment
+receipts of item 38). No drift, no new failure mode, and NO change was made to
+any of them.
+
+ 54. B&E'S WRAPPED DESCRIPTIONS ARE FIXED — item 52's work, taken today. It is
+     the FOURTH instance of the item 1 / 22 / 33 class (FFT, Gulli, Foodlink,
+     now B&E) and the biggest: 1,142 continuation rows across 132 corpus
+     invoices, against Foodlink's 435. b_e read 130/132 (98%) throughout,
+     because a description takes no part in reconciliation.
+
+     THE FIX IS THE ONE ITEM 52 SPECIFIED and it is the third time this tree has
+     written it, so it was written the same way deliberately rather than
+     re-invented: the indent is DERIVED per invoice from the first line item's
+     own description x (be_foods.py::_desc_x), a continuation must be the ONLY
+     bucket with text, and an item must exist to attach to.
+
+     THE DANGEROUS NEIGHBOUR IS DIFFERENT HERE, AND THE INDENT ALONE WOULD NOT
+     HAVE HELD. Foodlink's boilerplate sits ~17pt clear of its indent, so there
+     the indent test carries the weight. B&E prints a fuel-levy notice under the
+     table whose third line — "MONDAY. Thank you for your understanding and
+     continued" — starts at x=75.2, which is 1.3pt from the 76.5 indent and
+     INSIDE CONT_INDENT_TOL. The only thing keeping that sentence out of the
+     last product's name is that it spills into the ordered/shipped/uom buckets.
+     Measured, not assumed: across all 132 invoices 1,142 desc-only rows match
+     the indent and 153 do not, and all 153 of those are exactly two lines —
+     "Receiver Name:" at x=164.3 and a wrapped depot address at x=134.3. A prose
+     scan over the 227 distinct joined tails returns ZERO sentence-like strings;
+     the most common are "10MM 2.5KG (4) FARM FRITES", "1KG (8) PENDLE",
+     "5X3KG CTN #KAU04-4" — pack sizes, which is the whole point.
+
+     MEASURED to the item-13/25/33 standard rather than on a rate. All 125
+     corpus invoices that also exist in data/invoices were re-parsed and diffed
+     line by line against the 880 stored lines: 745 descriptions LENGTHENED,
+     ZERO rewritten (every change is a strict prefix-extension of the stored
+     name), and ZERO movements in qty, line_total_incl, unit_price_incl or
+     cost_basis. be_foods 130/132 and TOTAL 843/864 identical before and after;
+     not one other supplier moved by a single document; both audits still clean.
+     Five fixture tests added from the REAL coordinates of corpus 5b2a07b73c15
+     (invoice 7153386), including one that pins the DIAGNOSIS — that both tails
+     of the sugar line have no qty and no total, so the old guard dropped them —
+     and one that pins the levy notice as passing the indent test and being
+     excluded by the columns, because that is the assertion which will fail
+     first if anyone ever loosens the desc-only rule.
+
+     AND THE RATE COULD NOT MOVE, stated plainly because the daily task asks for
+     one: b_e was already at its ceiling, and its two remaining shortfalls are
+     the $0.00 credit dockets this log has carried since 2026-08-08. Refusing a
+     description repair because the PASS column cannot see it would mean never
+     repairing a name at any supplier already near 100% — the item 33 ruling,
+     verbatim. Expect the 48 B&E needs_pack_review ingredients to fall as future
+     deliveries re-read under this fix; the HISTORY does not self-heal (source
+     PDFs sit behind the Supabase key this pipeline must never hold), and
+     _undo_dropped_prefix cannot repair it because these are dropped TRAILING
+     words (the item 23/32 asymmetry).
+
+ 55. BE_FOODS IS NOW THE LAST PARSER IN THE TREE STILL BUCKETING ON HARD-CODED
+     X-POSITIONS, and it is next. COLS is literal (desc 70, ordered 215, shipped
+     260 ...) with no _cols_from_header and no fallback path. Measured today:
+     the header anchors are IDENTICAL on all 132 corpus invoices (Item 27.8,
+     Description 130.3, Ordered 221.8, Shipped 266.9, UOM 315.0, Item Price
+     403.5, GST 466.2, Line Total 517.3), so it has not drifted — but that is
+     exactly what item 18 said about Gulli four days before item 22 found it had
+     drifted in both directions on documents already in the corpus. B&E is the
+     largest kitchen supplier in the file ($16,611 of 30-day spend), so a silent
+     re-template here costs the most. NOT done today: one supplier change per
+     run (the item 45 rule), and a boundary rewrite wants its own before/after
+     diff separate from a description repair, or neither result can be
+     attributed.
+
+ 56. OPERATIONAL — THE SHARED TREE WAS MID-REBASE BEFORE THIS RUN TOUCHED IT,
+     the item-48 shape for the second time, and it had been that way long enough
+     to matter. `git status` read "interactive rebase in progress; onto
+     064543ca / Last command done (1 command done) / No commands remaining" with
+     ZERO unmerged paths — a rebase that had finished its work and stopped
+     without being continued. HEAD was detached, so THREE poller commits of
+     invoice ingest (bb3fa651, 27693125 and today's 0370f3dc) were sitting on no
+     branch, and `main` still pointed at dd08b1c2, the PRE-rebase version of the
+     first of them. The poller had been committing successfully and pushing
+     nothing: its own log ends "You are not currently on a branch ... Please
+     specify which branch you want to rebase against."
+     This is the SESSIONS.md failure mode without a second session — the commit
+     log was not evidence the work was on main. Resolved by stashing an unstaged
+     drive_backup.log (a second writer, item 31's shape), `rebase --continue`
+     (no conflicts to resolve — the todo was empty), then pull --rebase and
+     push: 8823369e..3506e2c6. Nothing was lost; dd08b1c2's content is bb3fa651.
+     FOR ZAK — the poller cannot detect this. It should refuse to commit when
+     HEAD is detached or a rebase is in progress, and say so loudly, rather than
+     writing commits onto a branchless HEAD where they accumulate invisibly.
+
+ 57. CI IS RED ON A REAL CRASH, NOT A STALE ASSERTION — different from items
+     43 and 49, and it should be looked at. build_cogs_list.py exits 1 with
+     `TypeError: '<' not supported between instances of 'NoneType' and 'str'`
+     sorting on `(r["supplier_code"], r["invoice_description"])`. Some rows now
+     carry supplier_code=None — Farmer Joes chicken lines are the visible
+     population ("no supplier_code — no identity" appears eight times in today's
+     pull_mailbox output). Two tests fail on it:
+     test_cogs_row_counted_once.py::test_the_fact_table_still_holds_both_notes
+     and test_write_encoding_is_pinned.py::...[build_cogs_list.py-cogs_list.csv].
+     VERIFIED NOT THIS RUN'S WORK: both fail identically with today's parser
+     change stashed. NOT fixed here — a sort key is a choice about how
+     code-less rows order and where they land in the file, and doing that
+     unattended in the same run as a parser change makes both unattributable.
+
 The three zero-total documents (now four, with Gulli CI-437314 — see item 18)
 can never PASS by construction: validator's _check_required_fields treats
 total_incl <= 0 as a BAD_TOTAL ERROR, deliberately.

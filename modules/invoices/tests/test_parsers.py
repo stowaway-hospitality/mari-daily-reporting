@@ -1427,3 +1427,102 @@ def test_deni_account_balance_is_not_mistaken_for_the_invoice_total():
     balance = _row((302.2, "Total"), (332.6, "Amount"), (377.6, "Outstanding"),
                    (517.0, "$1,029.49"))
     assert "TOTALS:" not in [t for _, _, t in balance]
+
+
+# --------------------------------------------------------------------------
+# B&E FOODS — wrapped descriptions (2026-08-22). The FOURTH instance of the
+# FFT / Gulli / Foodlink class, and the biggest: 1,142 continuation rows across
+# 132 corpus invoices, against Foodlink's 435. b_e read 130/132 (98%) the whole
+# time, because a description takes no part in reconciliation.
+#
+# It carries money. B&E's UOM column only ever says UNIT / KG / CTN, so on a
+# UNIT line the PACK SIZE is stated ONLY in the description, and the size is
+# usually the part that wrapped. 48 of the 141 needs_pack_review ingredients in
+# the live picker are B&E — the largest single bucket.
+#
+# Real word positions lifted from corpus 5b2a07b73c15 (invoice 7153386), NOT
+# invented — a hand-built row does not land in the right buckets (the lesson
+# from the Xero fixture of 2026-08-15).
+BE_HEADER = _row((27.8, "Item"), (46.4, "Code"), (111.6, "Item"), (130.3, "Description"),
+                 (221.8, "Ordered"), (266.9, "Shipped"), (315.0, "UOM"), (346.0, "Ship"),
+                 (365.6, "Doc"), (382.9, "+"), (403.5, "Item"), (422.2, "Price"),
+                 (466.2, "GST"), (517.3, "Line"), (536.0, "Total"))
+
+# The sugar line and its two tails. Stored in data/invoices today as the
+# truncated "BEKSUL BLACK (DARK" — mid-phrase, with an unbalanced bracket.
+BE_ITEM = _row((27.7, "18304"), (76.5, "BEKSUL"), (114.4, "BLACK"), (146.4, "(DARK"),
+               (237.7, "2.00"), (284.7, "2.00"), (315.8, "UNIT"), (345.6, "0.13"),
+               (365.6, "CTN"), (426.0, "$2.90"), (467.8, "$0.00"), (549.7, "$5.80"))
+BE_TAIL1 = _row((76.5, "BROWN)"), (116.4, "SUGAR"), (153.4, "1KG(16)"), (189.9, "CJ"))
+BE_TAIL2 = _row((76.5, "FOODS"), (110.9, "KRN"), (132.4, "#186167"))
+
+# The ONLY two desc-only rows in the whole corpus that are NOT continuations —
+# measured across all 132 invoices: "Receiver Name:" at x=164.3 (from
+# 01e55598a7a5) and a wrapped depot address at x=134.3 (from 276dc2df1362).
+# 1,142 rows match the indent, 153 do not, and all 153 are these two.
+BE_RECEIVER = [(164.3, 197.6, "Receiver"), (199.9, 224.3, "Name:")]
+BE_DEPOT = [(134.3, 175.2, "Blacktown"), (177.7, 198.7, "NSW"), (201.2, 221.2, "2148")]
+
+# THE DANGEROUS NEIGHBOUR, and the reason the desc-only test is not optional:
+# B&E prints a fuel-levy notice under the table whose third line starts at
+# x=75.2 — 1.3pt from the indent, INSIDE CONT_INDENT_TOL. Only the fact that it
+# spills across the ordered/shipped/uom buckets keeps it out of a product name.
+BE_LEVY_NOTICE = _row((75.2, "MONDAY."), (125.2, "Thank"), (157.4, "you"), (177.9, "for"),
+                      (194.0, "your"), (218.4, "understanding"), (290.5, "and"),
+                      (311.1, "continued"))
+
+
+def test_be_foods_wrapped_description_is_joined_to_the_line_above():
+    from modules.invoices.parsers.be_foods import COLS as BC, _desc_x, CONT_INDENT_TOL
+    body = [BE_ITEM, BE_TAIL1, BE_TAIL2, BE_RECEIVER]
+    dx = _desc_x(body)
+    assert dx == 76.5, "the indent is read off the first line item, not hard-coded"
+    for tail, text in ((BE_TAIL1, "BROWN) SUGAR 1KG(16) CJ"), (BE_TAIL2, "FOODS KRN #186167")):
+        c = pdf_text.bucket(tail, BC)
+        # all three conditions the parser requires of a continuation
+        assert [k for k, v in c.items() if v.strip()] == ["desc"]
+        assert abs(tail[0][0] - dx) < CONT_INDENT_TOL
+        assert c["desc"] == text
+
+
+def test_be_foods_dropping_the_tail_is_what_lost_the_pack_size():
+    # Pins the DIAGNOSIS, not just the fix. Under the old behaviour both tails
+    # were skipped by the `qty is None` guard, so 18304 read "BEKSUL BLACK
+    # (DARK" — and "1KG(16)", the only pack size B&E states anywhere on a UNIT
+    # line, went with it.
+    from modules.invoices.parsers.be_foods import COLS as BC, _m
+    for tail in (BE_TAIL1, BE_TAIL2):
+        c = pdf_text.bucket(tail, BC)
+        assert _m(c["shipped"]) is None and _m(c["total"]) is None, "no qty, no total"
+    assert "1KG(16)" in pdf_text.bucket(BE_TAIL1, BC)["desc"]
+    assert pdf_text.bucket(BE_ITEM, BC)["desc"] == "BEKSUL BLACK (DARK", "the stored name"
+
+
+def test_be_foods_receiver_and_address_are_not_joined_as_descriptions():
+    # Excluded by the indent alone — these two ARE genuinely desc-only rows, so
+    # if this ever fails a product name is about to grow a depot address.
+    from modules.invoices.parsers.be_foods import COLS as BC, _desc_x, CONT_INDENT_TOL
+    dx = _desc_x([BE_ITEM, BE_RECEIVER, BE_DEPOT])
+    for row in (BE_RECEIVER, BE_DEPOT):
+        c = pdf_text.bucket(row, BC)
+        assert [k for k, v in c.items() if v.strip()] == ["desc"], "desc-only, like a real tail"
+        assert abs(row[0][0] - dx) >= CONT_INDENT_TOL, "excluded by indent alone"
+
+
+def test_be_foods_fuel_levy_notice_is_inside_the_indent_and_excluded_by_columns():
+    # The indent test is NOT sufficient here, which is the difference from
+    # Foodlink (whose boilerplate sits ~17pt clear). This row starts 1.3pt from
+    # the indent; only the desc-only test keeps "MONDAY. Thank you for your"
+    # out of the last product's name.
+    from modules.invoices.parsers.be_foods import COLS as BC, _desc_x, CONT_INDENT_TOL
+    dx = _desc_x([BE_ITEM])
+    assert abs(BE_LEVY_NOTICE[0][0] - dx) < CONT_INDENT_TOL, "the indent test PASSES it"
+    c = pdf_text.bucket(BE_LEVY_NOTICE, BC)
+    assert [k for k, v in c.items() if v.strip()] != ["desc"], "columns are what exclude it"
+
+
+def test_be_foods_desc_x_returns_none_when_there_is_no_line_item():
+    # No anchor -> no joining at all. Inventing an indent is how an address
+    # becomes a product name.
+    from modules.invoices.parsers.be_foods import _desc_x
+    assert _desc_x([BE_RECEIVER, BE_DEPOT]) is None
