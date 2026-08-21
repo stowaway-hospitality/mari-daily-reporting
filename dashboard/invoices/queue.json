@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-21",
-  "count": 820,
+  "count": 822,
   "skipped_already_in_xero": 0,
   "invoices": [
     {
@@ -973,6 +973,34 @@
           "tax": "gst_free",
           "account_code": "115",
           "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "INV231041",
+      "supplier": "Speed Gas Pty Limited",
+      "supplier_key": "speed_gas",
+      "date": "2026-08-20",
+      "due_date": null,
+      "total": "73.60",
+      "venue": "stowaway",
+      "pdf_path": "493ad58956e00a462866f7055ec2004e7bc6dae279dbb5b81a1a6dfee43d4736.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Speedmix 55 - F Size - refill.",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "73.60",
+          "unit_cost": "$73.60/ea",
+          "tax": "gst",
+          "account_code": "112",
+          "account_name": "Purchases - Bar Supplies",
           "reason": "learned from Xero history for this supplier"
         }
       ]
@@ -2305,6 +2333,34 @@
           "tax": "gst",
           "account_code": "113",
           "account_name": "Purchases - Beverages",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "INV230800",
+      "supplier": "Speed Gas Pty Limited",
+      "supplier_key": "speed_gas",
+      "date": "2026-08-18",
+      "due_date": null,
+      "total": "64.40",
+      "venue": "stowaway",
+      "pdf_path": "334dc6bb3da8405dc69d03b021d4d1a83106426bce9e825b6ef4036a44f8843d.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Bar",
+      "tracking_confidence": "medium",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "Speedmix 55 - D Size - refill.",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "64.40",
+          "unit_cost": "$64.40/ea",
+          "tax": "gst",
+          "account_code": "112",
+          "account_name": "Purchases - Bar Supplies",
           "reason": "learned from Xero history for this supplier"
         }
       ]
