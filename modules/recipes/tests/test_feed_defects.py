@@ -145,7 +145,13 @@ def test_the_lemon_is_priced_in_two_dimensions():
     """$0.375 per mL is $375 a litre of lemon, beside the same lemon at
     $0.0033/g ($3.30/kg) from two other suppliers. It cannot be both."""
     by_stem = {f["stem"]: f for f in fd.product_priced_in_two_worlds(_ingredients())}
-    lemon = by_stem["lemon"]
+    # FIXED 2026-08-21, and a test that pins a defect expires when it is fixed.
+    # $0.375 was never a volume rate: it is what ONE LEMON costs. Select Fresh
+    # bill LEME "LEMON EA" at $0.45 each and LEMK "LEMON KG" at $3.20/kg, and at
+    # $3.20/kg a 117 g lemon is $0.375 exactly. The seed is now stated per ea,
+    # so the two dimensions are one and this flag must NOT come back.
+    assert "lemon" not in by_stem, "the lemon is priced per ea now, not per ml"
+    return
     assert lemon["kind"] == "two_dimensions"
     units = {m["pack_unit"] for m in lemon["members"]}
     assert units == {"ml", "g"}

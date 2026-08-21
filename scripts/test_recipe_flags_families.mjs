@@ -207,9 +207,16 @@ if (!fs.existsSync(p)) {
   ok('the pending ILG re-parse decision is flagged', inFeed('ILG'));
 
   // 7. the feed defects. Every one of these was found by eye.
-  ok('Lemon priced per millilitre is flagged', inFeed('Lemon'));
-  ok('...and the panel says $0.3750 per ml out loud',
-     /0\.3750|0\.375/.test(text) && /per ml/i.test(text));
+  // THE LEMON IS FIXED (2026-08-21) — same rule as the burger lettuce below: a
+  // test that pins a defect expires the day someone fixes it, so both halves
+  // are inverted rather than deleted. $0.375 was never a volume rate, it is
+  // what ONE LEMON costs: Select Fresh bill LEME "LEMON EA" at $0.45 each and
+  // LEMK "LEMON KG" at $3.20/kg, and at $3.20/kg a 117 g lemon is $0.375
+  // exactly. The seed is stated per ea now, so the 117x two-dimensions gap is
+  // closed and what remains is an honest weighing question.
+  ok('the lemon two-dimensions gap stays closed', !inFeed('Lemon'));
+  ok('...and no panel still says $0.3750 per ml',
+     !(/0\.3750/.test(text) && /per ml/i.test(text)));
   ok('Cauliflower [ea] carrying pack unit "can" is flagged', inFeed('Cauliflower [ea]'));
   ok('Turkish Bread [ea] carrying pack unit "can" is flagged', inFeed('Turkish Bread [ea]'));
   ok('Avocado priced per tray is flagged', inFeed('Avocado'));
