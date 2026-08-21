@@ -99,3 +99,34 @@
 # swaps to — and aliasing any of those would record a lie in the file this repo
 # treats as a statement of fact.
 "Rooster Rojo Blanco Tequila [House]": "Rooster Blanco Tequila [House]"
+
+# --- Harry Gatos' [HG] copies of Stowaway products (2026-08-21) --------------
+#
+# Zak, 2026-08-21: "harry gatos rooster and alehouse = stowaway stock and
+# price ... we are going to merge all inventory into one, so all pricing will
+# be global."
+#
+# The till carries HG-suffixed twins of drinks Stowaway already costs. They are
+# not different products — one group, one cellar, one delivery. Under the
+# global-pricing ruling the HG listing takes the Stowaway build.
+#
+# ONLY WHERE THE NAME FOLDS EXACTLY. Stripping "[HG]" and normalising accents
+# gives an identical match for these five. It does NOT for the rest of that
+# group and they are deliberately absent:
+#
+#   Diet Coke Can          the book has "Coke Can" — a DIFFERENT drink
+#   Vinada Sparkling Wine  the book has the Rosé — a different variant
+#   Asahi Zero             the book has Asahi 3.5% — zero-alc is not low-alc
+#   Ginger Beer Glass [HG] the book has bottles and cans, no postmix glass
+#   Corn                   fuzzy-matched to "Corona", which is a beer, and is
+#                          the reason none of this was done on fuzzy matching
+"Apple Juice Glass [HG]": "Apple Juice Glass"
+"Orange Juice Glass [HG]": "Orange Juice Glass"
+
+# An accent is not a rename.
+"Vinada Sparkling Rosé [HG]": "Vinada Sparkling Rose"
+
+# HG drops the producer from the label; Stowaway keeps it. "Zagara" is Year
+# Wines' orange and there is exactly one of it in the book, in both sizes.
+"Zagara Orange [HG] - Regular": "Year Wines 'Zagara' Orange - Regular"
+"Zagara Orange [HG] - Bottle": "Year Wines 'Zagara' Orange - Bottle"

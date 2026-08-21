@@ -349,14 +349,26 @@ def test_a_stock_item_held_twice_is_flagged_only_past_a_keying_error(feed):
 
 def test_a_declared_flag_re_reads_its_prices_from_disk(feed):
     """A decision note that quotes a price is a handoff file waiting to rot.
-    The yaml names the ids; the builder looks up what they cost today."""
-    hg = next(f for f in feed["flags"] if f["id"] == "decision-hg-bottle-prices")
-    assert hg["derived"] is False
-    # The invoice observation was $212.44/keg until the declared-conversion
-    # layer (2026-08-16) restated keg series to base units: 212.44 / 49500 =
-    # $0.0043/ml. Same observation, one unit system — pin the restated form.
-    assert any("ilg:122-2858" in e and "/ml" in e for e in hg["evidence"]), hg["evidence"]
-    assert any("ilg:122-2867" in e and "/ml" in e for e in hg["evidence"]), hg["evidence"]
+    The yaml names the ids; the builder looks up what they cost today.
+
+    THE LIST IS EMPTY AS OF 2026-08-21, and that is the milestone rather than a
+    hole: every hand-written decision in data/cost_book_flags.yaml has now been
+    answered, so the feed is 100% DERIVED. The last one was the Harry Gatos
+    Alehouse/Rooster question, closed by Zak — "harry gatos rooster and alehouse
+    = stowaway stock and price" — and the book was already pouring all five HG
+    beers at Stowaway's invoice-fed rate anyway.
+
+    So this asserts the CONTRACT over whatever declared flags exist, and passes
+    cleanly when there are none. Pinning the one member by id is what made
+    answering it break the build; that mistake has now been made five times in
+    this file's history and this is the last of them."""
+    declared = [f for f in feed["flags"] if f.get("derived") is False]
+    for f in declared:
+        # every id it names must carry a price looked up at build time, never a
+        # number typed into the yaml
+        assert f.get("evidence"), f["id"]
+        assert any(("/ml" in e or "/g" in e or "$" in e) for e in f["evidence"]), (
+            f["id"], f["evidence"])
 
 
 # --- the book disagreeing with itself --------------------------------------

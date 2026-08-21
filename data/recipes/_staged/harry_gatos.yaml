@@ -10,7 +10,7 @@
 #   derived      2 — computed from another line (a size scaling, a cook yield)
 #   mirrored     2 — deliberately the same spec as a sibling record
 #   rule        30 — a written rule with arithmetic proof corrected it
-#   scrape     212 — nobody has checked it. This is the number to shrink.
+#   scrape     216 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -64,6 +64,15 @@
   - id: lightspeed:20700616
     desc: Angas & Bremer Rosé - Bottle
     qty: 150
+    unit: ml
+    source: scrape
+- product: Apple Juice Glass [HG]
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:22844065
+    desc: East Coast Apple Juice [2L]
+    qty: 200
     unit: ml
     source: scrape
 - product: Azurescens Pinot Noir - Bottle
@@ -1204,6 +1213,15 @@
     unit: ea
     source: mirrored
     evidence: 'recipe_missing_lines.yaml: from sibling size'
+- product: Orange Juice Glass [HG]
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:22844123
+    desc: East Coast Orange Juice [2L]
+    qty: 170
+    unit: ml
+    source: scrape
 - product: Outback Prawn Toast
   venue_source: harry_gatos
   is_serve: true
@@ -1867,6 +1885,15 @@
     qty: 150
     unit: ml
     source: scrape
+- product: Vinada Sparkling Rosé [HG]
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20492687
+    desc: Vinada Sparking Rosé [Bottle]
+    qty: 150
+    unit: ml
+    source: scrape
 - product: Vodka Martini [HG]
   venue_source: harry_gatos
   is_serve: true
@@ -1920,6 +1947,15 @@
     unit_cost_incl: 0.048457
     source: authored
     evidence: recipe builder, data/recipes/stowaway.yaml
+- product: Zagara Orange [HG] - Regular
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20467573
+    desc: Year Wines 'Zagara' Orange - Bottle
+    qty: 150
+    unit: ml
+    source: scrape
 - product: Dragon Juice Batch
   venue_source: harry_gatos
   authored_in: data/recipes/stowaway.yaml

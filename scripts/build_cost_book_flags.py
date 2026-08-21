@@ -468,7 +468,16 @@ def _tail_class(group: str) -> str:
         return "bar_build"
     if g.startswith("add-ons"):
         return "modifier"
-    if g == "bar / foh (no reporting group)" or g.startswith("bar"):
+    # "(no reporting group)" IS NOT A BAR GROUP. Harry Gatos' till carries a
+    # literal catch-all called "Bar / FOH (no reporting group)", and reading the
+    # "Bar" prefix sent the whole bucket to the bar on 2026-08-21. Ten of its
+    # fifteen uncosted lines are FOOD — Chicken skewers, Gado Gado, Buttermilk
+    # Chicken, Rice Pudding, Fish Cake, Nori Sheet, Butter. The parenthetical is
+    # the honest half of that name: these products have no group at all, and the
+    # first job is filing them, not costing them.
+    if "no reporting group" in g:
+        return "unfiled"
+    if g.startswith("bar"):
         return "bar_build"
     return "dish"
 
@@ -479,6 +488,8 @@ def _tail_owner(group: str) -> str | None:
         return "Bar — write the builds"
     if cls == "modifier":
         return "Kitchen — portion weights only, not recipes"
+    if cls == "unfiled":
+        return "Zak — file these under a reporting group first"
     return None
 
 

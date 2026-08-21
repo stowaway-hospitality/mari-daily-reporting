@@ -1,14 +1,14 @@
 {
  "generated": "2026-08-21",
  "source": "Lightspeed Produce (scraped)",
- "recipe_count": 1013,
+ "recipe_count": 1017,
  "coverage": {
   "ingredient_refs": {
    "id": 1558,
    "subrecipe": 389,
    "unmatched": 7
   },
-  "recipes_fully_on_our_book": 970
+  "recipes_fully_on_our_book": 974
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -55903,6 +55903,94 @@
    "is_prep": false,
    "sell_incl": 11.0,
    "gp_pct": 73.9
+  },
+  "Apple Juice Glass [HG]": {
+   "ingredients": [
+    {
+     "name": "East Coast Apple Juice [2L]",
+     "kind": "id",
+     "ref": "lightspeed:22844065",
+     "qty": "200",
+     "unit": "ml",
+     "ls_cost": "0.66",
+     "our_cost": "0.003297",
+     "eff_cost": 0.6594
+    }
+   ],
+   "alias_of": "Apple Juice Glass",
+   "our_cost": 0.6594,
+   "ls_cost": 0.66,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 5.0,
+   "gp_pct": 85.5
+  },
+  "Orange Juice Glass [HG]": {
+   "ingredients": [
+    {
+     "name": "East Coast Orange Juice [2L]",
+     "kind": "id",
+     "ref": "lightspeed:22844123",
+     "qty": "170",
+     "unit": "ml",
+     "ls_cost": "0.48",
+     "our_cost": "0.002900",
+     "eff_cost": 0.493
+    }
+   ],
+   "alias_of": "Orange Juice Glass",
+   "our_cost": 0.493,
+   "ls_cost": 0.48,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 5.0,
+   "gp_pct": 89.2
+  },
+  "Vinada Sparkling Ros\u00e9 [HG]": {
+   "ingredients": [
+    {
+     "name": "Vinada Sparking Ros\u00e9 [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20492687",
+     "qty": "150",
+     "unit": "ml",
+     "ls_cost": "3.05",
+     "our_cost": "0.020313",
+     "eff_cost": 3.04695
+    }
+   ],
+   "alias_of": "Vinada Sparkling Rose",
+   "our_cost": 3.047,
+   "ls_cost": 3.05,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
+  },
+  "Zagara Orange [HG] - Regular": {
+   "ingredients": [
+    {
+     "name": "Year Wines 'Zagara' Orange - Bottle",
+     "kind": "id",
+     "ref": "lightspeed:20467573",
+     "qty": "150",
+     "unit": "ml",
+     "ls_cost": "3.42",
+     "our_cost": "0.025777",
+     "eff_cost": 3.86655
+    }
+   ],
+   "alias_of": "Year Wines 'Zagara' Orange - Regular",
+   "our_cost": 3.8666,
+   "ls_cost": 3.42,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": null,
+   "gp_pct": null
   },
   "Large Pizza [menu average]": {
    "ingredients": [

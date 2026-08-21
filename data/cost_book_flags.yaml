@@ -192,27 +192,30 @@ exempt:
 # up at build time where they exist in data/ (see `verify` below), so a flag can
 # never quote a price that has since moved.
 declared:
-  - id: decision-hg-bottle-prices
-    category: back_office
-    severity: medium
-    subject: "Harry Gatos: Rooster Rojo Blanco and Alehouse Premium Lager"
-    what_is_wrong: "Harry Gatos' own copies of two products carry a price no
-      invoice in this repo can confirm, and one of them looks like the wrong beer."
-    why_it_matters: "Alehouse Premium Lager (lightspeed:20744549) is seeded at
-      $185.00 a keg. ILG bill ALEHOUSE PREMIUM KEG (122-2858) at $212.44 and
-      ALEHOUSE CRISP KEG (122-2867) at $184.94 — so the Premium product is
-      carrying the CRISP price, within three cents, and would be 12.9% low. Five
-      Harry Gatos products pour off it, including Harry's Lager."
-    action: "Zak to say which is true: is the HG product actually the Crisp keg
-      (rename it), or is it Premium at the wrong price (reprice it)?"
-    owner: "Zak"
-    evidence_note: "no ILG invoice in data/invoices/ is billed to Harry Gatos, so
-      nothing here can decide between the name and the price. No name normaliser
-      pairs 'Premium Lager' with 'Draught Lager' either."
-    verify:
-      - "lightspeed:20744549"
-      - "ilg:122-2858"
-      - "ilg:122-2867"
+  # CLOSED 2026-08-21 by Zak: "harry gatos rooster and alehouse = stowaway
+  # stock and price."
+  #
+  # The flag asked whether HG's "Alehouse Premium Lager" was really the CRISP
+  # keg under the wrong name, or Premium at the wrong price. It is Premium, at
+  # Premium's price, and the reason the question could not be settled from data
+  # is stated in the flag's own evidence: no ILG invoice is billed to Harry
+  # Gatos. That is how the group buys, not a defect.
+  #
+  # THE BOOK WAS ALREADY DOING THE RIGHT THING. The $185/keg figure the flag
+  # was built on is a bo-seed-harry_gatos row dated 2026-01-01 — and it has been
+  # superseded by THIRTY-THREE invoice-fed rows at $0.004292/ml (ILG 122-2858,
+  # ALEHOUSE PREMIUM KEG, against a chef-confirmed 49.5 L vessel), the most
+  # recent 03748652 on 18 Aug. All five products that pour off it — Harry's
+  # Lager, its Schooner, Pint and Jug, and the Soju Bomb — take $0.004292/ml
+  # today. The stale seed sits in the history where it belongs and reaches
+  # nothing.
+  #
+  # So Zak's ruling confirms the number the book already uses, and the wider
+  # rule it belongs to is written down in data/README_GLOBAL_PRICING.md: a
+  # venue's copy of a product is not a separate product with its own price.
+  #
+  # Deleted rather than kept as a closed entry, following the ILG precedent
+  # below: a decision flag exists to ask a question, and this one is answered.
 
   # CLOSED 2026-08-10 (063d9b7, b2ef362). The unit question it was waiting on was
   # answered and the re-parse ran: ilg.one_unit_pack() makes pack_qty describe ONE

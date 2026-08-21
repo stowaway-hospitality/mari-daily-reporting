@@ -113,8 +113,15 @@ if (!fs.existsSync(p)) {
   // family that day — "all burritos have 1 wedge of lime, 1/12 of a lime unit"
   // — so the line is restored from data/recipe_missing_lines.yaml and the rule
   // finds nothing. An empty structure family is the finish line.
+  // `back_office` left this list on 2026-08-21 — the fourth family to do so,
+  // and for the same reason every time: demanding the family demands the
+  // defect. Its only member asked whether Harry Gatos' "Alehouse Premium
+  // Lager" was really the Crisp keg under the wrong name. Zak answered it —
+  // "harry gatos rooster and alehouse = stowaway stock and price" — and the
+  // book was already pouring all five HG beers at Stowaway's invoice-fed
+  // $0.004292/ml anyway.
   for (const c of ['cook_loss',
-                   'no_recipe', 'back_office',
+                   'no_recipe',
                    'feed_defect']) {
     ok(`family present: ${c}`, cats.has(c), [...cats].join(','));
   }
@@ -227,7 +234,13 @@ if (!fs.existsSync(p)) {
   //    the bound and the drum re-appears here, and this goes red.
   ok('the 20 L vodka drum bounds gap stays closed',
      !d.flags.some(f => f.category === 'config' && /vodka|20000ml/i.test(f.subject || '')));
-  ok('the pending ILG re-parse decision is flagged', inFeed('ILG'));
+  // The HG Alehouse/Rooster decision was the last thing keeping an ILG question
+  // in the feed, and it is CLOSED (2026-08-21, Zak). Guard the closure rather
+  // than the question: if a hand-written decision flag about these two products
+  // ever comes back, something has re-opened a settled ruling.
+  ok('the HG Alehouse/Rooster decision stays closed',
+     !d.flags.some(f => /alehouse|rooster/i.test(f.subject || '')
+                        && f.category === 'back_office'));
 
   // 7. the feed defects. Every one of these was found by eye.
   // THE LEMON IS FIXED (2026-08-21) — same rule as the burger lettuce below: a
