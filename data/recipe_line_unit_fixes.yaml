@@ -306,3 +306,20 @@
   # states its coriander as "2 bunch" correctly — so bunch is this book's
   # normal way of writing it and the "ml" here is the outlier.
   why: "select-fresh:HCOR invoices coriander at $1.30/bunch, matching the seed; no per-ml rate exists"
+
+# Davidson Plum Hoisin draws "1000 ml" of Davidson Plum Puree (2026-08-21).
+#
+# PROOF, and it is arithmetic rather than judgement: the line ALREADY COSTS
+# $51.00, and $51.00 is exactly 1000 x $0.051000/g — the invoiced Select Fresh
+# rate for DAVIDSON PLUMS FROZEN KG. It has been priced as a kilogram of plums
+# all along; only the unit word says otherwise. Lightspeed's own figure for the
+# line is the same $51.00, so both books already agree on the money.
+#
+# The batch is a hoisin, and its other line is 9,079 g of Hoi Sin Sauce — the
+# recipe states its ingredients in GRAMS throughout. The "ml" on this one line
+# is the outlier, not the convention.
+- recipe: "Davidson Plum Hoisin"
+  ingredient: "Davidson Plum Puree"
+  from_unit: "ml"
+  to_unit: "g"
+  why: "line already costs 1000 x $0.051000/g = $51.00, the invoiced per-kilo rate; the sibling line is in g"

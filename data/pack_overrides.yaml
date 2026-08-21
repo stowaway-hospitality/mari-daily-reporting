@@ -1458,3 +1458,18 @@
     already written the answer on the invoice three times.
   true: 2026-08-21
   by_email: hello@stowawaybar.com
+
+- id: "lightspeed:22947356"
+  pack_qty: 1
+  pack_unit: g
+  by: >-
+    Davidson Plum Puree. The record already holds the RIGHT NUMBER wearing the
+    WRONG UNIT: $0.0510 per "ea". Nothing costs five cents each; that is the
+    per-GRAM rate, and it is exactly select-fresh:DAVID "DAVIDSON PLUMS FROZEN
+    KG" at $51.00/kg = $0.051000/g, invoiced four times (3040668 29 May,
+    3050467 10 Jun, 3080072 9 Jul, 3097023 25 Jul, all to Harry Gatos). The
+    bridge carried the rate across and the unit word did not follow.
+    Declaring the pack as 1 g states what the price already is. No arithmetic,
+    no divisor — the same shape as the base-unit and generic-container cases.
+  true: 2026-08-21
+  by_email: hello@stowawaybar.com

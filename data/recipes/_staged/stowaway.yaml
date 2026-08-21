@@ -9,8 +9,8 @@
 #   weighed     23 — somebody put it on scales
 #   derived    135 — computed from another line (a size scaling, a cook yield)
 #   mirrored    41 — deliberately the same spec as a sibling record
-#   rule        59 — a written rule with arithmetic proof corrected it
-#   scrape    1184 — nobody has checked it. This is the number to shrink.
+#   rule        60 — a written rule with arithmetic proof corrected it
+#   scrape    1183 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -3064,10 +3064,9 @@
   - id: lightspeed:22947356
     desc: Davidson Plum Puree
     qty: 1000
-    unit: ml
-    manual: true
-    unit_cost_incl: 0.051
-    source: scrape
+    unit: g
+    source: rule
+    evidence: 'recipe_line_unit_fixes.yaml: ml -> g'
 - product: Davy's Old Fashioned
   venue_source: stowaway
   authored_in: data/recipes/stowaway.yaml

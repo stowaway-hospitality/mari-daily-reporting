@@ -9,8 +9,8 @@
 #   weighed      0 — somebody put it on scales
 #   derived      2 — computed from another line (a size scaling, a cook yield)
 #   mirrored     2 — deliberately the same spec as a sibling record
-#   rule        29 — a written rule with arithmetic proof corrected it
-#   scrape     213 — nobody has checked it. This is the number to shrink.
+#   rule        30 — a written rule with arithmetic proof corrected it
+#   scrape     212 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -259,10 +259,9 @@
   - id: lightspeed:22947356
     desc: Davidson Plum Puree
     qty: 1000
-    unit: ml
-    manual: true
-    unit_cost_incl: 0.051
-    source: scrape
+    unit: g
+    source: rule
+    evidence: 'recipe_line_unit_fixes.yaml: ml -> g'
 - product: Demon Slayer
   venue_source: harry_gatos
   is_serve: true
