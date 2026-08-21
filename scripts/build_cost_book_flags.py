@@ -72,6 +72,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import unicodedata
 import json
 import json as _json
 import re
@@ -275,6 +276,102 @@ def cook_loss_flags(spec, recipes, sold, window="") -> list:
 _VENUE_LABEL = {"stow": "Stowaway", "hg": "Harry Gatos", "mari": "Marilyna's"}
 
 
+
+# --- no_recipe sub-classes -------------------------------------------------
+# Not every uncosted seller is a dish waiting on a chef, and sending the ones
+# that are not into the kitchen queue is how the queue stops being believed.
+# Two sub-classes are decidable from the data, so they are decided here.
+
+_BUNDLE_RX = re.compile(
+    r"^\s*\$\d"          # "$80 Razzle Dazzle" - a price IS the product name
+    r"|\bticket\b"        # "Blind Winos Ticket"
+    r"|\bunlimited\b"     # "Unlimited BBQ"
+    r"|\[[^\]]*\+[^\]]*\]",  # "The Full Monty [Roast + Dessert + Wine + Tawny]"
+    re.I)
+
+
+def _sold_names_by_venue() -> dict:
+    """Every product name the till has ever rung, per venue.
+
+    Used to decide whether a " D" product has a base at all. Read from
+    products_weekly.csv, the same source coverage() itself walks.
+    """
+    out: dict = defaultdict(set)
+    path = ROOT / "data" / "products_weekly.csv"
+    if path.exists():
+        for r in csv.DictReader(path.open(encoding="utf-8-sig")):
+            nm = (r.get("product_name") or "").strip()
+            if nm:
+                out[(r.get("venue") or "").strip()].add(nm)
+    return out
+
+
+def _nrm_product(s: str) -> str:
+    """Fold the differences that are typography, not identity.
+
+    Real cases found 2026-08-21: "Jalapeno Edamame D" against "Jalapeno Edamame"
+    written with an enye, and "Arancini Balls 5pcs D" against "Arancini Balls
+    [5pc]". Neither is a rename and neither should ever reach a human.
+    """
+    s = unicodedata.normalize("NFKD", s.lower())
+    s = "".join(c for c in s if not unicodedata.combining(c))
+    s = re.sub(r"(\d+)\s*pcs?\b", r"\1pc", s)
+    return re.sub(r"[^a-z0-9]", "", s)
+
+
+def _no_recipe_class(nm: str, ven: str, sold_names: dict, group: str = "") -> tuple:
+    """-> (class, owner, action). 'dish' means it really is chef work.
+
+    The reporting group is evidence and is used as such. A product filed under
+    Mocktails is not waiting on a chef with scales, and one filed under
+    "Add-ons - Kitchen" is a portion on top of another dish, not a dish.
+    """
+    g = (group or "").lower()
+    if "mocktail" in g or "non-alcohol" in g:
+        return ("bar_build", "Bar — write the build",
+                "Filed under " + (group or "a bar group") + ", so this is a bar "
+                "build, not kitchen work: a few pours and a garnish. Whoever "
+                "writes the cocktail specs can do it from memory in a minute. It "
+                "does not belong in the chefs' weighing queue.")
+    if g.startswith("add-ons"):
+        return ("modifier", "Kitchen — one portion weight, not a recipe",
+                "This is an ADD-ON filed under " + (group or "add-ons") + ", not a "
+                "dish. All it needs is the weight of the one portion that goes on "
+                "top of something else — not a recipe with a method.")
+    if g == "delivery kitchen" and nm.strip().endswith(" D"):
+        return ("delivery_listing",
+                "Zak — name the dish this is the delivery listing of",
+                "Filed under Delivery Kitchen and named with the \u201c D\u201d "
+                "suffix this venue uses for delivery listings, so this is an "
+                "existing dish sold down a second channel — not a new one. No "
+                "same-named base was found, so somebody has to say WHICH dish it "
+                "is (the house fries are listed as \u201cRosemary Salted Fries\u201d, "
+                "for instance). Then pair them in product_recipe_aliases.yaml. "
+                "Price will not tell you: the D listing is often discounted.")
+    if _BUNDLE_RX.search(nm):
+        return ("bundle", "Zak then Dev — define the components",
+                "This is a PACKAGE, not a dish, and no amount of weighing will "
+                "produce a recipe for it. Its cost is the sum of what it "
+                "contains (a set menu, an event ticket, a bottomless deal). "
+                "List the components once and cost it as a bundle; do not put "
+                "it in the kitchen's recipe queue.")
+    if nm.strip().endswith(" D"):
+        base = nm.strip()[:-2].strip()
+        pool = sold_names.get(ven, set())
+        exact = next((x for x in pool
+                      if _nrm_product(x) == _nrm_product(base) and x != nm), None)
+        if exact:
+            return ("delivery_twin",
+                    "Dev — pair it with the base, do not re-cost it",
+                    "This is the delivery listing of \u201c" + exact + "\u201d "
+                    "— the same dish out of the same pass. Pair the two in "
+                    "data/product_recipe_aliases.yaml so one recipe serves both. "
+                    "Do NOT ask for a second recipe, and do NOT assume the prices "
+                    "match: the D listing is often discounted (Brownie D $4.53 "
+                    "against a $10.57 base), so price is not the link.")
+    return ("dish", None, None)
+
+
 def no_recipe_flags(recipes, exempt, min_rev=500.0) -> tuple[list, list]:
     """-> (flags, exempted). One flag per uncosted product worth flagging.
 
@@ -302,6 +399,7 @@ def no_recipe_flags(recipes, exempt, min_rev=500.0) -> tuple[list, list]:
         if group:
             e[1][group] += rev
     pats = [(re.compile(e["match"], re.I), e["reason"]) for e in exempt]
+    sold_names = _sold_names_by_venue()
     flags, skipped, tail = [], [], []
     for (ven, nm), (rev, groups) in sorted(merged.items(), key=lambda x: -x[1][0]):
         group = " / ".join(sorted(groups))
@@ -317,6 +415,7 @@ def no_recipe_flags(recipes, exempt, min_rev=500.0) -> tuple[list, list]:
             tail.append((ven, primary, nm, rev))
             continue
         annual = rev * 4      # 13 weeks -> a year, stated as such below
+        _cls, _cls_owner, _cls_action = _no_recipe_class(nm, ven, sold_names, primary)
         flags.append({
             "id": "no-recipe-" + re.sub(r"[^a-z0-9]+", "-", nm.lower()).strip("-")
                   + f"-{ven}",
@@ -337,11 +436,13 @@ def no_recipe_flags(recipes, exempt, min_rev=500.0) -> tuple[list, list]:
             "revenue_13wk": round(rev, 2),
             "revenue_annualised": round(annual, 2),
             "reporting_group": group,
-            "action": "Build the recipe — or, if the book already holds this "
+            "action": _cls_action or (
+                      "Build the recipe — or, if the book already holds this "
                       "dish under another name, pair them in "
                       "data/product_recipe_aliases.yaml (that fixes the P&L too, "
-                      "because cogs_blend keys on the POS name).",
-            "owner": "Kitchen (recipe) or Zak (if it is a renamed dish)",
+                      "because cogs_blend keys on the POS name)."),
+            "owner": _cls_owner or "Kitchen (recipe) or Zak (if it is a renamed dish)",
+            "no_recipe_class": _cls,
             "evidence": [f"${rev:,.0f} ex-GST in the last 13 weeks, "
                          f"reporting group {group or 'none'}"],
             "derived": True,
@@ -352,6 +453,31 @@ def no_recipe_flags(recipes, exempt, min_rev=500.0) -> tuple[list, list]:
     # that revenue's cost is missing is exactly what having no recipe means we
     # cannot say. Stating it as an impact would be the guess this file refuses.
     return flags, sorted(skipped, key=lambda x: -x["revenue_13wk"])
+
+
+def _tail_class(group: str) -> str:
+    """Same routing as the per-product classifier, for a rolled-up group.
+
+    A group of uncosted MOCKTAILS is not the kitchen's queue however small the
+    lines are, and saying so costs nothing.
+    """
+    g = (group or "").lower()
+    if "mocktail" in g or "non-alcohol" in g:
+        return "bar_build"
+    if g.startswith("add-ons"):
+        return "modifier"
+    if g == "bar / foh (no reporting group)" or g.startswith("bar"):
+        return "bar_build"
+    return "dish"
+
+
+def _tail_owner(group: str) -> str | None:
+    cls = _tail_class(group)
+    if cls == "bar_build":
+        return "Bar — write the builds"
+    if cls == "modifier":
+        return "Kitchen — portion weights only, not recipes"
+    return None
 
 
 def _no_recipe_tail_flags(tail, min_rev) -> list:
@@ -404,7 +530,9 @@ def _no_recipe_tail_flags(tail, min_rev) -> list:
                       "ingredient at a stated portion. Anything that genuinely "
                       "has no food cost belongs in the exempt list in "
                       "data/cost_book_flags.yaml, not in silence.",
-            "owner": "Kitchen (portions) then Dev (Produce entries)",
+            "owner": (_tail_owner(group)
+                      or "Kitchen (portions) then Dev (Produce entries)"),
+            "no_recipe_class": _tail_class(group),
             "evidence": [f"{nm} — ${r:,.0f} in 13wk" for nm, r in members],
             "derived": True,
             "source": "audit_book.coverage() over data/products_weekly.csv,"
@@ -1377,9 +1505,21 @@ def _swap_is_sane(worst, f=None) -> bool:
 def _swap_would_inflate(worst, f) -> float:
     """How many times dearer the line becomes if the unit is naively swapped.
 
-    >1 means someone "tidying up" the label would silently raise the dish. Used
-    to tell a garnish (one flower out of a $10.50 punnet) apart from a genuine
-    g/mL line that needs a pack weight.
+    ONLY MEANINGFUL FOR A COUNT-SIZED QUANTITY, and that guard is the whole
+    point of this function. There are two different things wearing the same
+    shape here:
+
+      Bad Bitch Martini   1 g   of Edible Flower [Punnet]  -> ONE FLOWER
+      Tonkotsu Broth    900 g   of Shallot [Bunch]         -> 900 GRAMS
+
+    Both "would inflate" if you multiplied the quantity by the pack rate, but
+    only the first is a portion of a pack. The second is an honest weight whose
+    pack weight nobody has recorded, and it needs "weigh a bunch", not "how many
+    serves does a bunch give". Reading 900 as a count of bunches is the Rosemary
+    Salted Fries failure again (0.35 "ml" read as 0.35 kg).
+
+    So: a quantity above COUNT_SWAP_MAX returns 0.0 and takes the weigh-the-pack
+    path, whatever the arithmetic says.
     """
     try:
         q = float(str(worst.get("qty")))
@@ -1389,6 +1529,8 @@ def _swap_would_inflate(worst, f) -> float:
         return 0.0
     if have <= 0 or rate <= 0 or q <= 0:
         return 0.0
+    if q > COUNT_SWAP_MAX:
+        return 0.0          # a weight, not a count of packs
     return (q * rate) / have
 
 

@@ -496,3 +496,76 @@ def test_every_category_the_flags_use_is_one_the_panel_draws(feed):
     A family missing from that list exists in the feed and reaches no screen."""
     known = {c["key"] for c in feed["categories"]}
     assert {f["category"] for f in feed["flags"]} <= known
+
+
+def test_a_garnish_is_not_a_pack_and_a_weight_is_not_a_count(feed):
+    """The two failure modes that wear the same shape, kept apart.
+
+    Both of these "would inflate" if you multiplied the quantity by the pack
+    rate, and before 2026-08-21 the audit could not tell them apart:
+
+        Bad Bitch Martini    1 g   of Edible Flower [Punnet]   -> ONE FLOWER
+        Tonkotsu Broth     900 g   of Shallot [Bunch]          -> 900 GRAMS
+
+    The first is a portion of a pack: swapping the unit to "punnet" charges the
+    cocktail a whole $10.50 punnet and takes the drink from $4.10 to $14.60.
+    The audit must say DO NOT SWAP and ask how many serves a punnet yields.
+
+    The second is an honest weight whose pack weight nobody recorded. Asking
+    "how many serves does a bunch give" is the wrong question and reading 900 as
+    a count of bunches is the Rosemary Salted Fries failure again. It must take
+    the weigh-the-pack path.
+
+    The discriminator is COUNT_SWAP_MAX, not the arithmetic.
+    """
+    units = [f for f in _by_cat(feed, "feed_defect")
+             if "in the wrong unit" in f["subject"]]
+    assert units, "no unit defects at all — this contract is untested"
+
+    portions = [f for f in units if "serves per pack" in (f["owner"] or "")]
+    weighs = [f for f in units if "weigh one and record" in (f["owner"] or "")]
+    assert portions, "the garnish class vanished"
+    assert weighs, "the weigh-the-pack class vanished"
+
+    for f in portions:
+        assert "DO NOT" in f["action"], (
+            f"{f['subject']}: a portion-of-a-pack flag MUST warn against the "
+            f"naive unit swap — following it silently raises the dish")
+        # every quantity behind a portion flag is a plausible COUNT
+        for e in f["evidence"]:
+            m = re.search(r":\s*([\d.]+)\s", e)
+            if m:
+                assert float(m.group(1)) <= 12, (
+                    f"{f['subject']}: {m.group(1)} is a weight, not a count of "
+                    f"packs — it belongs on the weigh-the-pack path")
+
+    for f in weighs:
+        assert "Weigh one" in f["action"], f["subject"]
+        assert "serves" not in (f["question"] or ""), (
+            f"{f['subject']}: asking how many serves a pack gives is the wrong "
+            f"question for a line that genuinely is in grams")
+
+
+def test_no_recipe_routes_bundles_and_bar_away_from_the_kitchen(feed):
+    """A package is not a dish and a mocktail is not chef work.
+
+    "$80 Razzle Dazzle" and "Blind Winos Ticket" will never have a recipe no
+    matter who weighs what — their cost is the sum of their components. Sending
+    them to the kitchen queue is how the queue stops being believed.
+    """
+    nr = [f for f in _by_cat(feed, "no_recipe") if f.get("no_recipe_class")]
+    assert nr, "no_recipe flags carry no class — has the classifier been dropped?"
+
+    bundles = [f for f in nr if f["no_recipe_class"] == "bundle"]
+    assert bundles, "the bundle class is empty"
+    for f in bundles:
+        assert "Kitchen" not in f["owner"], (
+            f"{f['subject']} is a package and cannot be weighed into existence")
+        assert "PACKAGE" in f["action"]
+
+    for f in nr:
+        if f["no_recipe_class"] == "bar_build":
+            assert f["owner"].startswith("Bar"), f["subject"]
+        if f["no_recipe_class"] == "dish":
+            # the residue is the real chef queue, and it must still say so
+            assert "Kitchen" in f["owner"], f["subject"]
