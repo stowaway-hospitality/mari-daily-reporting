@@ -1607,7 +1607,16 @@ def feed_defect_flags(recipes, sold, window="") -> list:
         return []
     out = []
 
+    _adj = _adjudicated_ids()
     for f in feed_defects.pack_unit_contradicts_name(ings):
+        # A verdict retires a flag. This loop did not consult adjudications
+        # until 2026-08-21, so "Pears Green [kg] is priced per ea" kept being
+        # raised after it had been checked and found CORRECT: the id is bridged
+        # to select-fresh:PGRE "PEAR GREEN EA" at $0.40, and the [kg] in the
+        # name is the fossil. The queue re-asking a settled question is exactly
+        # what _adjudicated_ids() exists to stop.
+        if f.get("id") in _adj:
+            continue
         stake, parts = _cost_riding_on(recipes, f["id"], sold)
         plausible = _named_rate_plausible(f)
         container = f["kind"] == "container"
@@ -1667,6 +1676,13 @@ def feed_defect_flags(recipes, sold, window="") -> list:
         })
 
     for f in feed_defects.product_priced_in_two_worlds(ings):
+        # Same, but this rule has no single "id": it reports a STEM and the
+        # members that disagree. A verdict on ANY member settles the pair, which
+        # is how the Avocado ruling (a tray of hass against one loose fruit —
+        # the whole 7.1x) retires it. _adjudicated_ids() already documents that
+        # case by name; it just was never consulted here.
+        if any(m.get("id") in _adj for m in (f.get("members") or [])):
+            continue
         stake = 0.0
         parts: list = []
         for m in f["members"]:

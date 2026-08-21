@@ -318,6 +318,42 @@ def _supplier_label(inv: dict) -> str:
     return SUPPLIER_ALIAS.get(key, raw or key)
 
 
+
+# The UOM word the supplier PRINTED, where it names a discrete pack.
+#
+# Select Fresh state a real unit on every line: KG 195, BUNCH 156, PUNNET 60,
+# CARTON 51, EACH 27, BOTTLE 24, TRAY 17, BAG 14. Until 2026-08-21 everything
+# that was not weight fell to the "ea" default below and the printed word
+# survived only in the free-text note.
+#
+# That is not cosmetic. A cost row carrying "ea" cannot supersede a seed held in
+# "bunch": the units do not agree, so the seed stands and the purchase is
+# ignored. It is why Babys Breath sat at a $16.50 SEED while Select Fresh
+# FLWBB "FLOWER BABYS BREATH BCH" was billing $16.50 a BUNCH on real invoices,
+# and the same for Herb Coriander, Herb Chives, Herb Basil, Shallot and the
+# Edible Flower punnets. The invoice was in the building the whole time.
+#
+# Only unambiguous discrete packs are mapped. Anything unrecognised keeps the
+# old "ea" default rather than inventing a unit.
+_UOM_WORD = {
+    "bunch": "bunch", "bunches": "bunch", "bch": "bunch",
+    "punnet": "punnet", "punnets": "punnet", "pun": "punnet",
+    "tray": "tray", "trays": "tray",
+    "carton": "carton", "ctn": "carton",
+    "bag": "bag", "bags": "bag",
+    "dozen": "dozen", "doz": "dozen",
+    "bottle": "bottle", "btl": "bottle",
+    "pkt": "pkt", "packet": "pkt",
+    "each": "ea", "ea": "ea",
+}
+
+
+def _printed_pack_unit(ln) -> str | None:
+    """The supplier's own UOM word, normalised, or None if it is not a pack."""
+    raw = (ln.get("raw_uom") or "").strip().lower()
+    return _UOM_WORD.get(raw)
+
+
 def _rows_from_invoice(payload: dict) -> list[dict]:
     inv = payload["invoice"]
     supplier = _supplier_label(inv)
@@ -341,7 +377,15 @@ def _rows_from_invoice(payload: dict) -> list[dict]:
         note = "; ".join(ln.get("notes", []) or []) or (ln.get("raw_uom") or "")
         # canonical cost per base unit ($/kg, $/L, $/each) — comparable across suppliers
         from decimal import Decimal, InvalidOperation
-        pq, pu = ln.get("pack_qty"), ln.get("pack_unit") or "ea"
+        pq = ln.get("pack_qty")
+        pu = ln.get("pack_unit") or "ea"
+        # The parser derives the pack from the DESCRIPTION ("JUICE APPLE 2LTR" ->
+        # 2 L) and falls back to a bare "ea" when the description carries no
+        # size. In exactly that fallback case the supplier's own printed UOM is
+        # better information than our default, so use it. A parser that DID read
+        # a size is never second-guessed.
+        if pu == "ea" and str(pq or "1") in ("1", "1.0", "1.00"):
+            pu = _printed_pack_unit(ln) or "ea"
         try:
             base = ((Decimal(str(price)) / Decimal(str(pq))).quantize(Decimal("0.0001"))
                     if pq and Decimal(str(pq)) > 0 else Decimal(str(price)))

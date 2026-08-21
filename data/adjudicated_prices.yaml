@@ -385,3 +385,47 @@
     decide this itself because no ILG invoice in the repo is billed to Harry
     Gatos — HG's liquor rides Stowaway's account, which is the same fact the
     Xero venue-coding work keeps running into.
+
+- id: "lightspeed:22995353"
+  product_name: "Pears Green [kg]"
+  venue: "stowaway"
+  checked_invoice: "3111442"
+  checked_on: "2026-08-21"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: OURS IS RIGHT AND THE NAME IS THE LIAR. The flag reads "the
+    name says kg and the cost book prices it per ea", and treats that as a unit
+    error. It is not. This id is bridged to select-fresh:PGRE "PEAR GREEN EA"
+    and billed at $0.40 EACH on 3111442 (8 Aug) and 3117623 (14 Aug). Forty
+    cents is what one green pear costs; forty cents a kilo is not a price
+    anyone has ever charged. The venue buys pears individually and the "[kg]"
+    in the product name is a fossil from when it bought them by weight —
+    fresh-fruit-team:PGKG, a genuinely per-kilo code at $4.40/kg, is a
+    different purchasable and is NOT bridged here. Nothing to fix in the
+    numbers; the name cannot be repaired in Back Office because nothing reads
+    Back Office any more.
+
+- id: "lightspeed:22488995"
+  product_name: "Avocado [Tray]"
+  venue: "stowaway"
+  checked_invoice: "INB00101295"
+  checked_on: "2026-08-21"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: BOTH RECORDS ARE RIGHT — they are two different things, and
+    the 7.1x gap between them is the tray-to-fruit ratio, not an error.
+    fresh-fruit-team:AH20T is a TRAY of hass, invoiced at $22.00 (INB00099534),
+    $26.40 (INB00101295), $28.60 (INB00102666) and $33.00 by July — that is the
+    record behind lightspeed:22488995 and Guacamole [4kg] draws one whole tray
+    of it. select-fresh:AVOE is ONE avocado at $3.10 (3068987, 27 Jun), which
+    the bar uses singly. Retiring either one would be wrong: a tray at $3.10
+    and a single fruit at $26.40 are both absurd.
+    Note on the evidence, because it misleads: AH20T's own invoices carry the
+    UOM word "ea" on some lines and "Tray" on others AT THE SAME PRICE ($26.40
+    appears under both). The word is noise, the price is not. This is systemic
+    at this supplier — 39 of 135 Fresh Fruit Team codes appear under more than
+    one unit word, and in 28 of them the identical price appears under both. Do
+    not read a UOM word from this supplier as a fact about the pack; the code
+    suffix (KG, BX, T, DOZ) is the reliable signal.
