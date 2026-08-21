@@ -1,6 +1,6 @@
 {
   "date": "2026-08-21",
-  "generated_at": "2026-08-21T19:26:43.667377Z",
+  "generated_at": "2026-08-21T19:49:39.558884Z",
   "venue": "stowaway",
   "venue_display": "Stowaway Bar",
   "lane_config": [
@@ -10,25 +10,36 @@
     "gp"
   ],
   "data_status": {
-    "lightspeed": "missing",
+    "lightspeed": "ok",
     "deputy": "ok",
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": null,
-    "revenue_ex_gst": null,
-    "cogs_dollars": null,
-    "cogs_pct": null,
-    "gp_dollars": null,
-    "gp_pct": null,
-    "cogs_source": null,
-    "cogs_lightspeed_dollars": null,
-    "recipe_coverage_pct": null,
+    "revenue_inc_gst": 13566.03,
+    "revenue_ex_gst": 12332.48,
+    "cogs_dollars": 2814.34,
+    "cogs_pct": 22.8,
+    "gp_dollars": 9518.14,
+    "gp_pct": 77.2,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 2634.45,
+    "recipe_coverage_pct": 94.6,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0,
+    "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 2554.01,
+    "bev_ex_gst": 9778.75,
+    "food_cogs": 402.19,
+    "bev_cogs": 2232.26,
+    "food_cogs_pct": 15.7,
+    "bev_cogs_pct": 22.8,
+    "food_gp_pct": 84.3,
+    "bev_gp_pct": 77.2,
+    "mari_rideon_ex_gst": 3977.97,
+    "hg_food_out_ex_gst": 0.0,
+    "stow_food_out_ex_gst": 0.0
   },
   "wages": {
     "kitchen_dollars": 1264.01,
@@ -36,27 +47,27 @@
     "driver_dollars": 0,
     "admin_dollars": 431.72,
     "leave_dollars": 0,
-    "total_dollars": null,
-    "wages_pct": null,
+    "total_dollars": 3575.51,
+    "wages_pct": 29.0,
     "net_wage_pct": null,
     "kitchen_hours": 23.5,
     "foh_hours": 43.0,
-    "wages_kitchen_pct": null,
-    "wages_foh_pct": null,
+    "wages_kitchen_pct": 49.5,
+    "wages_foh_pct": 19.2,
     "includes_super": true,
     "salaried_synthesized": true
   },
   "delivery": null,
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "unknown",
-    "wages": "unknown",
+    "cogs": "green",
+    "wages": "green",
     "delivery": "n/a",
-    "gp": "unknown",
-    "cogs_food": "unknown",
-    "cogs_bev": "unknown",
-    "wages_kitchen": "unknown",
-    "wages_foh": "unknown"
+    "gp": "green",
+    "cogs_food": "green",
+    "cogs_bev": "yellow",
+    "wages_kitchen": "red",
+    "wages_foh": "yellow"
   },
   "targets": {
     "cogs": {
@@ -100,5 +111,166 @@
       "target_direction": "high_is_good"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Classic Margarita",
+      "qty": 38.0,
+      "rev": 652.04,
+      "cost": 158.6538,
+      "cost_source": "recipe",
+      "cost_lightspeed": 148.64
+    },
+    {
+      "name": "Fresh is Best Lager - Pint",
+      "qty": 39.0,
+      "rev": 440.49,
+      "cost": 95.4096,
+      "cost_source": "recipe",
+      "cost_lightspeed": 95.41
+    },
+    {
+      "name": "Guinness Draught - Pint",
+      "qty": 25.0,
+      "rev": 436.28,
+      "cost": 120.1275,
+      "cost_source": "recipe",
+      "cost_lightspeed": 118.73
+    },
+    {
+      "name": "White Light Pure Vodka [House]",
+      "qty": 44.0,
+      "rev": 422.5,
+      "cost": 66.9152,
+      "cost_source": "recipe",
+      "cost_lightspeed": 66.84
+    },
+    {
+      "name": "Stone & Wood - Schooner",
+      "qty": 31.7,
+      "rev": 414.83,
+      "cost": 104.4927,
+      "cost_source": "recipe",
+      "cost_lightspeed": 103.51
+    },
+    {
+      "name": "Jalape\u00f1o Marg",
+      "qty": 15.0,
+      "rev": 345.75,
+      "cost": 57.867,
+      "cost_source": "recipe",
+      "cost_lightspeed": 12.47
+    },
+    {
+      "name": "Stone & Wood - Pint",
+      "qty": 18.0,
+      "rev": 307.12,
+      "cost": 79.5762,
+      "cost_source": "recipe",
+      "cost_lightspeed": 78.83
+    },
+    {
+      "name": "Status Quo - Schooner",
+      "qty": 21.7,
+      "rev": 292.93,
+      "cost": 67.3611,
+      "cost_source": "recipe",
+      "cost_lightspeed": 67.36
+    },
+    {
+      "name": "Fresh is Best Lager - Schooner",
+      "qty": 31.0,
+      "rev": 282.29,
+      "cost": 56.5471,
+      "cost_source": "recipe",
+      "cost_lightspeed": 56.54
+    },
+    {
+      "name": "Version Two Pinot Grigio - Regular",
+      "qty": 27.7,
+      "rev": 250.85,
+      "cost": 48.9376,
+      "cost_source": "recipe",
+      "cost_lightspeed": 48.94
+    },
+    {
+      "name": "Stow Schnitty",
+      "qty": 9.0,
+      "rev": 249.14,
+      "cost": 39.5775,
+      "cost_source": "recipe",
+      "cost_lightspeed": 47.93
+    },
+    {
+      "name": "American Standard Burger",
+      "qty": 9.0,
+      "rev": 249.13,
+      "cost": 51.0507,
+      "cost_source": "recipe",
+      "cost_lightspeed": 52.6
+    },
+    {
+      "name": "Fish Tacos",
+      "qty": 12.0,
+      "rev": 246.59,
+      "cost": 23.8284,
+      "cost_source": "recipe",
+      "cost_lightspeed": 26.22
+    },
+    {
+      "name": "Status Quo - Pint",
+      "qty": 14.0,
+      "rev": 246.14,
+      "cost": 58.2862,
+      "cost_source": "recipe",
+      "cost_lightspeed": 58.29
+    },
+    {
+      "name": "Petits Detours Ros\u00e9 - Regular",
+      "qty": 15.0,
+      "rev": 244.22,
+      "cost": 49.4865,
+      "cost_source": "recipe",
+      "cost_lightspeed": 52.17
+    },
+    {
+      "name": "Kirin - Pint",
+      "qty": 13.0,
+      "rev": 241.11,
+      "cost": 66.2012,
+      "cost_source": "recipe",
+      "cost_lightspeed": 65.74
+    },
+    {
+      "name": "Scout Pinot Gris - Bottle",
+      "qty": 3.0,
+      "rev": 226.17,
+      "cost": 59.4,
+      "cost_source": "recipe",
+      "cost_lightspeed": 59.4
+    },
+    {
+      "name": "Aperol Spritz",
+      "qty": 10.0,
+      "rev": 195.32,
+      "cost": 35.559,
+      "cost_source": "recipe",
+      "cost_lightspeed": 35.53
+    },
+    {
+      "name": "Rosemary Salted Fries",
+      "qty": 14.0,
+      "rev": 185.64,
+      "cost": 19.6,
+      "cost_source": "recipe",
+      "cost_lightspeed": 25.97
+    },
+    {
+      "name": "Chicken Burrito",
+      "qty": 6.0,
+      "rev": 178.15,
+      "cost": 48.3366,
+      "cost_source": "recipe",
+      "cost_lightspeed": 40.79
+    }
+  ]
 }
