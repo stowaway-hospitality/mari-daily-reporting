@@ -482,3 +482,57 @@ def test_an_empty_book_is_not_a_finding():
                br.whole_pack_outliers, br.price_conflicts):
         assert fn({}) == []
         assert fn(None) == []
+
+
+def test_a_bunch_invoice_is_not_thrown_away_for_saying_bunch():
+    """Back Office says "each"; the invoice says "BUNCH". Same purchase.
+
+    Back Office's unit vocabulary has no word for a bunch, so it stores herbs
+    and flower punnets as "1 each". Select Fresh and Fresh Fruit Team DO print
+    the word — "HERB CORIANDER BCH ... BUNCH", "EDIBLE FLOWER MIXED VIOLA PUN
+    ... PUNNET". Until 2026-08-21 the two container words disagreed, the emit
+    could only match like for like, and the purchase was discarded: Babys Breath
+    sat on a $16.50 SEED while select-fresh:FLWBB billed $16.50 a bunch on three
+    invoices, correctly bridged the whole time.
+
+    There is no arithmetic in this equivalence and that is the point — one of
+    them costs X either way. It is admitted for BUNCH and PUNNET at qty 1 only.
+    A carton or a tray is NOT: a carton of 12 is not one of anything, and
+    reading it as one is how a $45.60 camembert carton became $364.80/kg.
+    """
+    import csv
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[3]
+    rows = list(csv.reader((root / "data" / "costs.csv").open(encoding="utf-8-sig")))
+
+    def sources(pid):
+        return [r[5] for r in rows if r and r[0] == pid]
+
+    for pid, what in (("lightspeed:22893390", "Babys Breath"),
+                      ("lightspeed:21020204", "Edible Flower"),
+                      ("lightspeed:22995344", "Herb Coriander")):
+        srcs = sources(pid)
+        assert srcs, f"{what} ({pid}) has no cost rows at all"
+        real = [s for s in srcs if "seed" not in s]
+        assert real, (
+            f"{what} is seed-only again. Its supplier bills it by the bunch or "
+            f"punnet and it is bridged; if this fails, the generic-container "
+            f"equivalence in build_costs has been dropped and a real purchase is "
+            f"being discarded because Back Office had no word for a bunch.")
+
+
+def test_the_container_equivalence_stays_narrow():
+    """It must never grow to cartons, trays or boxes.
+
+    Those hold MORE THAN ONE, so equating them with a seed's "1 each" is a
+    multiplication error waiting to happen — the same shape as the Foodlink
+    camembert carton that published $364.80/kg against its own $30.40/kg.
+    """
+    import re
+    from pathlib import Path
+    src = (Path(__file__).resolve().parents[2]
+           / "recipes" / "pipeline" / "build_costs.py").read_text(encoding="utf-8")
+    m = re.search(r'and unit in \(("bunch", "punnet")\) and qty == 1', src)
+    assert m, (
+        "the generic-container branch has changed shape — re-read it and check "
+        "it still admits only single-item units at qty 1")

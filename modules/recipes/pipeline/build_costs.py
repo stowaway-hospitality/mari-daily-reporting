@@ -1300,6 +1300,34 @@ def main() -> int:
                     # magnitude guard would compare the two bases and refuse a
                     # correct number, the exact defect its keg note describes.
                     _base_unit_1to1 = True
+            elif (sc[0] == 1 and sc[1] in ("ea", "each", "can")
+                    and unit in ("bunch", "punnet") and qty == 1):
+                # THE GENERIC-CONTAINER BLOCKADE, found 2026-08-21.
+                #
+                # Back Office stores a herb or a flower punnet as "1 each" — its
+                # unit vocabulary has no word for a bunch. The invoice DOES:
+                # Select Fresh print "HERB CORIANDER BCH ... BUNCH" and
+                # "EDIBLE FLOWER MIXED VIOLA PUN ... PUNNET". So the seed says
+                # (1, ea), the invoice says (1, bunch), the two container words
+                # disagree, and the branch below can only match like for like —
+                # the purchase is discarded and the seed stands forever.
+                #
+                # That is why Babys Breath sat on a $16.50 SEED while
+                # select-fresh:FLWBB billed $16.50 a bunch on 3046376, 3064349
+                # and 3107637, correctly bridged the whole time. The invoice was
+                # in the building and the unit word kept it out.
+                #
+                # There is NO ARITHMETIC here and that is the point: one of them
+                # costs X either way. No divisor, no scale factor, no inference —
+                # the same argument as the base-unit block above. Restricted to
+                # bunch and punnet, which name a single retail item, and to
+                # qty == 1. A carton or a tray is NOT admitted: a carton of 12 is
+                # not one of anything, and reading it as one is how a $45.60
+                # camembert carton became $364.80/kg.
+                #
+                # The magnitude guard downstream still judges the result wherever
+                # a seed price exists, so a wrong bridge is still caught.
+                sc = (Decimal(1), unit)
             if sc and sc[0] > 0:
                 sqty, sunit = sc
                 if sunit == unit:                       # already the seed's unit
