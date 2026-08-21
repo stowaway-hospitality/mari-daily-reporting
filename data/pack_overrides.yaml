@@ -1439,3 +1439,22 @@
 # rate's clothes, and it is now refused as a seed rather than defused one id at
 # a time. See the note there. The flag also names the sized twin now, so a human
 # who meets one of these is told which record is real.
+
+- id: "lightspeed:22931830"
+  pack_qty: 120
+  pack_unit: g
+  by: >-
+    Turkish Bread. The weight is PRINTED IN THE PRODUCT NAME on the invoice:
+    Urbun Bakery TFB120 "Turkish/Focaccia Bread (120g)", $0.98, on OMI290758
+    (19 Jun), OMI293958 (11 Jul) and OMI298891 (15 Aug). The parser already
+    read it — the cogs row carries pack_qty 0.12 kg and cost_per_base_unit
+    $8.1667/kg — but the Back Office seed calls the unit "each", so the emit
+    took the container-to-container path and the per-gram rate never reached
+    the book.
+    Devon's Prawn Toast and Outback Prawn Toast each draw 20 g of it, a sixth
+    of a loaf, and have been costing $0.098 off the Lightspeed scrape. At the
+    invoiced rate that is $0.163 — DEARER, which is the direction nobody would
+    ever have queried. The flag asked a chef to weigh a loaf; the baker had
+    already written the answer on the invoice three times.
+  true: 2026-08-21
+  by_email: hello@stowawaybar.com

@@ -168,7 +168,25 @@ def pack_unit_contradicts_name(ingredients) -> list:
         `can`. Same dimension, so no arithmetic sees it, and a cauliflower has
         never come in a can. This is Lightspeed's default pack unit leaking
         into a produce line.
+
+    NOT A CONTRADICTION: A PIECE NAME WITH A DECLARED WEIGHT. "Turkish Bread
+    [ea]" at 120 g is not two answers fighting, it is ONE PIECE WEIGHING 120 g —
+    which is the most useful thing anybody can know about it, and precisely what
+    a declared pack is for. Urbun Bakery print it on the invoice ("Turkish/
+    Focaccia Bread (120g)") and the recipes draw 20 g of it, a sixth of a loaf.
+    Firing here would demand somebody "fix" a pack size that had just been read
+    off a supplier document, and the only way to satisfy it would be to throw the
+    weight away and go back to pricing a whole loaf per prawn toast.
+
+    So a mass/volume pack against a piece name is admitted when the id carries a
+    declared override. Without one it still fires: an undeclared dimension clash
+    is the Onion Brown case and stays a defect.
     """
+    try:
+        from core.pack_overrides import load_pack_overrides
+        declared = set(load_pack_overrides())
+    except Exception:                                    # noqa: BLE001
+        declared = set()
     out = []
     for i in (ingredients or []):
         desc = i.get("description") or ""
@@ -177,6 +195,9 @@ def pack_unit_contradicts_name(ingredients) -> list:
         pd = unit_dimension(pu)
         if not nu or not nd or not pd:
             continue
+        if (nd == "count" and pd in ("mass", "volume")
+                and i.get("id") in declared):
+            continue                    # a declared piece WEIGHT, not a clash
         if nd != pd:
             why = "dimension"
         elif nd == "count" and nu in PIECE and pu in CONTAINER:

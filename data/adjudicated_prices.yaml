@@ -468,3 +468,38 @@
     GATOS. Back Office's $10.00 is the same kilo, slightly stale. This one was
     in the ingested corpus the whole time; it never surfaced because the flag
     reports the Back Office row and nobody had joined it to the purchase.
+
+- id: "lightspeed:22947359"
+  product_name: "Bonito Flakes"
+  venue: "harry_gatos"
+  checked_invoice: "SI4245861"
+  checked_on: "2026-08-21"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: 454 g, and this row is a DUPLICATE. Back Office holds the
+    product twice — "Bonito Flakes 454Gm HBC" at $38.50 filed under STOWAWAY,
+    and this bare "Bonito Flakes" at $30.00 filed under HARRY GATOS. One till,
+    one product, two records. Foodlink print the size: line 100274 "BONITO
+    FLAKES 454GM HBC" at $38.50 (10 Jan 2026), which matches the sized twin to
+    the cent and is the corroboration that the two records are the same thing.
+    454 g is a pound, which is how HBC pack it. Nothing to hunt for; the answer
+    was one row away at the other venue.
+
+- id: "lightspeed:22947367"
+  product_name: "Prawn Meat"
+  venue: "harry_gatos"
+  checked_invoice: "SI3666979"
+  checked_on: "2026-08-21"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: 700 g, and this row is a DUPLICATE of "Prawn Meat Raw Vannamei
+    [700g]" ($20.50), which states its size in its own name. Foodlink line
+    105268 "PRAWN MEAT RAW VANNAMEI 31/40 700GM Trading" bills $20.50 on two
+    invoices, both delivered to Harry Gatos.
+    ON THE RECORD, because I got this wrong twice before getting it right: I
+    first committed 1000 g here, reasoning from B&E's per-kilo prawn rate;
+    retracted it when check_declarations_bind showed the id bound to nothing;
+    then found the printed 700 g. Elimination is not proof and a rate is not a
+    pack. The printed size and the sized twin agree, so this is settled.

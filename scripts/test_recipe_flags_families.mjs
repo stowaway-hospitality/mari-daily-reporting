@@ -101,7 +101,13 @@ if (!fs.existsSync(p)) {
   // both its members were fixed (the Gulli carton-as-each seeds, corrected in
   // data/cogs_list.csv to $1.4952 and $0.11055), so demanding the family would
   // demand the defect. The fix is guarded at section 5 instead.
-  for (const c of ['cook_loss', 'structure', 'price_conflict',
+  // price_conflict left this list on 2026-08-21, the same way bad_seed did:
+  // demanding the family now demands the defect. A conflict is only raised when
+  // NEITHER side has an invoice; every one that our own purchase settles is no
+  // longer emitted at all, under Zak's ruling that the Lightspeed scrape "was
+  // just to give us a headstart" and is not a rival to a receipt. The family
+  // being empty is the goal state.
+  for (const c of ['cook_loss', 'structure',
                    'no_recipe', 'back_office',
                    'feed_defect']) {
     ok(`family present: ${c}`, cats.has(c), [...cats].join(','));
@@ -164,7 +170,9 @@ if (!fs.existsSync(p)) {
   //    total: the count legitimately falls as findings get settled (Cauliflower
   //    Burrito's cheese was resolved on 2026-08-09 — it carries vegan cheese at
   //    the same 55 g), and a pinned number turns every real fix into a red build.
-  for (const c of ['structure', 'price_conflict']) {
+  // price_conflict removed 2026-08-21 — see the note at section 2. `structure`
+  // is still the live half of book_reconcile's output.
+  for (const c of ['structure']) {
     ok(`reconcile family carried: ${c}`, d.flags.some(f => f.category === c));
   }
   // No total pinned here on purpose. The per-family checks above are the real
@@ -223,7 +231,14 @@ if (!fs.existsSync(p)) {
   ok('...and no panel still says $0.3750 per ml',
      !(/0\.3750/.test(text) && /per ml/i.test(text)));
   ok('Cauliflower [ea] carrying pack unit "can" is flagged', inFeed('Cauliflower [ea]'));
-  ok('Turkish Bread [ea] carrying pack unit "can" is flagged', inFeed('Turkish Bread [ea]'));
+  // Turkish Bread CLOSED 2026-08-21, and closed with a number rather than a
+  // relabel. Urbun Bakery print the weight in the product name — TFB120
+  // "Turkish/Focaccia Bread (120g)", $0.98, on three invoices — so the pack is
+  // declared at 120 g and the two prawn toasts finally cost their 20 g draw off
+  // a real rate ($0.098 -> $0.163, dearer). A piece name with a declared WEIGHT
+  // is not a contradiction: it is one piece weighing 120 g, which is the most
+  // useful fact anybody can hold about it.
+  ok('Turkish Bread is no longer a pack-unit defect', !inFeed('Turkish Bread [ea]'));
   ok('Avocado priced per tray is flagged', inFeed('Avocado'));
   // The burger lettuce was this rule's canonical example — 0.083 "ml" of a twin
   // pack of baby cos, a twelfth of the pack at $0.228, the cost right and the

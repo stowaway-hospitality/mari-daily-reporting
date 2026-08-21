@@ -415,58 +415,47 @@ def test_the_mirror_rule_exists_and_also_states_no_dollar(feed):
             f"first — a dough is 62% hydration and a broth is mostly water")
 
 
-def test_a_price_conflict_reports_a_spread_and_calls_it_one(feed):
-    """A spread is not an under-cost, so it goes in the evidence, in words, and
-    impact_per_year stays null — that keeps the panel's headline ("$X a year of
-    under-cost that has actually been measured") a true sentence.
+def test_a_price_conflict_is_only_raised_when_nobody_can_settle_it(feed):
+    """A price conflict is a COVERAGE GAP, not an adjudication request.
 
-    WHAT CHANGED 2026-08-21. This test used to say "nobody knows yet which of
-    the two prices is wrong". For a conflict whose OUR side is invoice-fed, that
-    is no longer true and never really was: Zak — "the lightspeed scrape was just
-    to give us a headstart on building our own costbook", and "this whole system
-    is removing any link to back office". A scraped figure is not a rival price
-    to a purchase, so those conflicts are settled, drop to LOW, and are owned by
-    nobody; the gap survives only as a record of how far the old scrape drifted.
+    THE HISTORY, because this contract has now moved twice. It began as "nobody
+    knows yet which of the two prices is wrong", with every conflict asking Zak
+    to choose. On 2026-08-21 Zak ruled the other half of it away — "the
+    lightspeed scrape was just to give us a headstart on building our own
+    costbook", "this whole system is removing any link to back office" — and a
+    scraped figure stopped being a rival to a purchase. Conflicts whose OUR side
+    was invoice-fed first dropped to LOW and then, later the same day, stopped
+    being emitted at all: five permanent low lines in a queue whose entire value
+    is that everything in it needs doing is not a record, it is wallpaper. The
+    drift is still visible in book_reconcile for anyone who wants it.
 
-    The ones that still bite are where NEITHER side has an invoice — both numbers
-    came off the same scrape, so adjudicating between them is theatre. Those stay
-    high/medium and the action is to go and find a purchase.
+    So the only conflict that survives is the one where NEITHER side has an
+    invoice. Both numbers came off the same scrape, adjudicating between them is
+    theatre, and the work is to go and find a purchase.
 
-    So severity is now a statement about EVIDENCE, not about size alone."""
+    THE FAMILY MAY LEGITIMATELY BE EMPTY. That is the goal state, not a broken
+    test — which is why this asserts a property of whatever is there rather than
+    that something is there.
+    """
     pcs = {f["subject"]: f for f in _by_cat(feed, "price_conflict")}
-    # Massenez was ADJUDICATED 2026-08-14 (Back Office's DefaultSize carries an
-    # extra zero — 50000 ml on a [5L] cask — so Lightspeed's $0.004833 divided by
-    # 50 L of liqueur that does not exist, and our $0.0506 is right), so it is no
-    # longer here. The CONTRACT this test exists for is not about Massenez, so it
-    # is asserted against whatever is in the family rather than a named member.
-    assert pcs, "the family is empty — this contract is untested, not satisfied"
     for name, m in pcs.items():
-        # a spread is not an under-cost: nobody knows yet which side is wrong
+        # never an under-cost: a spread is not a measured loss
         assert m["impact_per_year"] is None, name
         assert m["impact_basis"] is None, name
         # the ratio is stated in words, in the sentence a human reads
         assert re.search(r"\d+(\.\d+)?x (above|below)", m["what_is_wrong"]), (
             name, m["what_is_wrong"])
-    # and where a spread was measurable it is called one, in the evidence
-    spreads = [m for m in pcs.values()
-               if any("SPREAD, not a loss" in e for e in m["evidence"])]
-    assert spreads, sorted(pcs)
-    # Severity now tracks whether a purchase settles it.
-    for name, m in pcs.items():
-        settled = "invoice already settles it" in m["owner"]
-        if settled:
-            assert m["severity"] == "low", (
-                f"{name}: an invoice-fed rate beats the scrape, so this is not a "
-                f"live question — it must not sit above LOW and compete for "
-                f"attention with defects nobody has evidence for")
-            assert "INVOICE" in m["what_is_wrong"], name
-        else:
-            assert m["severity"] in ("high", "medium"), name
-            # the honest version of an unbacked conflict: it is a coverage gap
-            assert "NEITHER side has an invoice" in m["what_is_wrong"], name
-            assert "Dev" in m["owner"], (
-                f"{name}: with no invoice on either side there is nothing for Zak "
-                f"to adjudicate — somebody has to go and find one")
+        # and it is only here because nothing can settle it
+        assert "NEITHER side has an invoice" in m["what_is_wrong"], (
+            f"{name}: a conflict our own invoice already settles must not be "
+            f"raised — an answered question in a work queue teaches people to "
+            f"stop reading the queue")
+        assert m["severity"] in ("high", "medium"), name
+        assert "Dev" in (m["owner"] or ""), (
+            f"{name}: with no invoice on either side there is nothing for Zak to "
+            f"adjudicate — somebody has to go and find one")
+        assert "invoice already settles it" not in (m["owner"] or ""), name
+
 
 
 def test_the_headline_still_counts_only_measured_under_cost(feed):

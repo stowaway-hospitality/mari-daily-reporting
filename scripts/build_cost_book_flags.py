@@ -1445,6 +1445,15 @@ def price_conflict_flags(recipes, sold, window="") -> list:
         # That decides whether there is anything to adjudicate at all.
         backed = f["ref"] in _invoiced_ids()
         if backed:
+            # RETIRED 2026-08-21. This branch used to emit a low-severity record
+            # of how far the scrape had drifted from the purchase. Under the
+            # ruling that Back Office and the Lightspeed scrape are not sources
+            # ("the lightspeed scrape was just to give us a headstart on
+            # building our own costbook"), a settled question is not a flag —
+            # it is five permanent lines in a queue whose whole value is that
+            # everything in it needs doing. The gap stays visible in
+            # book_reconcile for anyone who wants it.
+            continue
             # Nothing to weigh up. An invoice beats the bootstrap, every time.
             what = (f"Our book holds this at ${f['our_rate']:,.6f}/{f['unit']} off an "
                     f"INVOICE. Lightspeed's scraped recipe cost implies "
