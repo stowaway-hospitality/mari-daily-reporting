@@ -73,6 +73,8 @@ from __future__ import annotations
 import argparse
 import csv
 import unicodedata
+
+EMDASH = "\u2014"
 import json
 import json as _json
 import re
@@ -978,6 +980,46 @@ def batch_yield_flags(recipes) -> list:
     return out
 
 
+def _sized_twin(name: str, rows: list) -> dict | None:
+    """Another Back Office product with the SAME name plus a stated size.
+
+    Back Office is full of pairs: somebody made a clean record and then a second
+    bare one, and only the bare one trips this rule. Found 2026-08-21:
+
+        Bonito Flakes 454Gm HBC        $38.50   unit=unit         <- real
+        Bonito Flakes                  $30.00   unit=g size=1
+        Prawn Meat Raw Vannamei [700g] $20.50   unit=g size=700   <- real
+        Prawn Meat                     $25.00   unit=g size=1
+
+    Both real twins were independently confirmed against Foodlink invoices the
+    same day - 100274 "BONITO FLAKES 454GM HBC" at $38.50 and 105268 "PRAWN MEAT
+    RAW VANNAMEI 31/40 700GM" at $20.50 - so the pack size is not missing at
+    all, it is sitting in the next row down.
+
+    Telling somebody to go and find a pack that is already recorded is worse
+    than saying nothing, so where a twin exists the flag says so and names it.
+    """
+    base = re.sub(r"[^a-z0-9]", "", (name or "").lower())
+    if not base:
+        return None
+    for r in rows:
+        other = (r.get("ProductName") or "").strip()
+        if not other or other == name:
+            continue
+        o = re.sub(r"[^a-z0-9]", "", other.lower())
+        if not o.startswith(base) or o == base:
+            continue
+        try:
+            size = float(r.get("DefaultSize") or 0)
+        except ValueError:
+            size = 0
+        if size > 1 or re.search(r"\d+\s*(g|gm|kg|ml|l)\b", other, re.I):
+            return {"name": other, "unit": (r.get("Unit") or "").strip(),
+                    "size": r.get("DefaultSize"),
+                    "cost": r.get("CostPriceIncTax")}
+    return None
+
+
 def missing_pack_size_in_back_office_flags() -> list:
     """A pack price sitting in Back Office as if it were a per-gram rate.
 
@@ -1030,12 +1072,19 @@ def missing_pack_size_in_back_office_flags() -> list:
         if BOOK.exists() else {}
     used = {ln.get("ref") for r in book.values()
             for ln in (r.get("ingredients") or [])}
+    # BOTH exports first, because the twin is often filed at the OTHER venue.
+    # Stowaway holds "Bonito Flakes 454Gm HBC" and Harry Gatos holds the bare
+    # "Bonito Flakes" — one product, one till, two records, and searching a
+    # single file would never have paired them.
+    _files = {}
     for f in ("stowaway_products.csv", "harry_gatos_products.csv"):
         path = ROOT / "data" / "bo_exports" / f
-        if not path.exists():
-            continue
+        if path.exists():
+            _files[f] = list(_csv.DictReader(path.open(encoding="utf-8-sig")))
+    _all = [r for rs in _files.values() for r in rs]
+    for f, _rows in _files.items():
         venue = "stow" if "stowaway" in f else "hg"
-        for r in _csv.DictReader(path.open(encoding="utf-8-sig")):
+        for r in _rows:
             if (r.get("InventoryType") or "").strip() != "1":
                 continue
             unit = (r.get("Unit") or "").strip().lower()
@@ -1052,6 +1101,7 @@ def missing_pack_size_in_back_office_flags() -> list:
             if pid in declared:
                 continue          # pack read off an invoice and declared; done
             live = pid in used
+            _twin = _sized_twin((r.get("ProductName") or "").strip(), _all)
             out.append({
                 "id": "bo-pack-size-" + _slug(r.get("ProductName") or pid),
                 "category": "pack_size",
@@ -1073,13 +1123,23 @@ def missing_pack_size_in_back_office_flags() -> list:
                 "question": f"How much is actually in one {r.get('ProductName','').strip()}?",
                 "impact_per_year": None,
                 "impact_basis": None,
-                "action": ("Read the pack size off a supplier invoice (Dext line-item "
+                "action": (
+                    (f"DO NOT go hunting for this pack "+EMDASH+f" Back Office already "
+                     f"holds it, twice. \u201c{_twin['name']}\u201d is the same product "
+                     f"with the size stated (unit={_twin['unit']}, DefaultSize="
+                     f"{_twin['size']}, ${float(_twin['cost'] or 0):,.2f}). This row is "
+                     f"the duplicate. Point any recipe at the sized record and leave "
+                     f"this one to rot with the rest of Back Office.")
+                    if _twin else
+                    "Read the pack size off a supplier invoice (Dext line-item "
                            "search finds these) or a supplier portal, then declare it in "
                            "data/pack_overrides.yaml — that is the fix, and it closes this "
                            "flag. Do NOT edit Back Office; nothing reads it any more. Do "
                            "NOT infer the size from a per-kilo rate either: that reasoning "
                            "put 1 kg on a 700 g prawn pack on 2026-08-21."),
-                "owner": "Dev — find the pack on an invoice, then declare it",
+                "owner": ("Dev — duplicate record, point at the sized twin"
+                          if _twin else
+                          "Dev — find the pack on an invoice, then declare it"),
                 "evidence": [f"Back Office: Unit={unit}, DefaultSize=1, "
                              f"CostPriceIncTax=${cost:,.2f} (bootstrap figure from the "
                              f"Lightspeed scrape, not an authority)",
