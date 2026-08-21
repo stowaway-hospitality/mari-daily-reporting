@@ -1489,19 +1489,64 @@ any of them.
      HEAD is detached or a rebase is in progress, and say so loudly, rather than
      writing commits onto a branchless HEAD where they accumulate invisibly.
 
- 57. CI IS RED ON A REAL CRASH, NOT A STALE ASSERTION — different from items
-     43 and 49, and it should be looked at. build_cogs_list.py exits 1 with
-     `TypeError: '<' not supported between instances of 'NoneType' and 'str'`
-     sorting on `(r["supplier_code"], r["invoice_description"])`. Some rows now
-     carry supplier_code=None — Farmer Joes chicken lines are the visible
-     population ("no supplier_code — no identity" appears eight times in today's
-     pull_mailbox output). Two tests fail on it:
-     test_cogs_row_counted_once.py::test_the_fact_table_still_holds_both_notes
-     and test_write_encoding_is_pinned.py::...[build_cogs_list.py-cogs_list.csv].
-     VERIFIED NOT THIS RUN'S WORK: both fail identically with today's parser
-     change stashed. NOT fixed here — a sort key is a choice about how
-     code-less rows order and where they land in the file, and doing that
-     unattended in the same run as a parser change makes both unattributable.
+ 57. CI WAS RED ON A REAL CRASH, AND THE CAUSE WAS ITEM 56's STALLED REBASE —
+     CONFLICT MARKERS COMMITTED INTO data/cogs_list.csv. Fixed. Recording the
+     wrong first reading as well as the right one, because the wrong one is the
+     mistake this log keeps catching itself making.
+
+     THE SYMPTOM: build_cogs_list.py exits with `TypeError: '<' not supported
+     between instances of 'NoneType' and 'str'` on
+     `rows.sort(key=lambda r: (r["invoice_date"], r["supplier"],
+     r["supplier_code"], r["invoice_description"]))`, taking two tests with it
+     (test_cogs_row_counted_once.py::test_the_fact_table_still_holds_both_notes
+     and test_write_encoding_is_pinned.py::...[build_cogs_list.py-cogs_list.csv]).
+
+     THE WRONG READING, WRITTEN EARLIER IN THIS SAME ENTRY: "some rows now carry
+     supplier_code=None — Farmer Joes chicken lines are the visible population".
+     That was inferred from pull_mailbox printing "no supplier_code — no
+     identity" eight times against Farmer Joes in the same run. Plausible,
+     adjacent, and wrong — the identical shape as item 19(a) (the SYMSAFE ABN
+     "described from one document and reused for four passes") and item 37
+     (Canton Group "named from its masthead instead of its content"). The file
+     was not opened.
+
+     WHAT IT ACTUALLY IS: the rebase of item 56 left an UNRESOLVED conflict at
+     the foot of data/cogs_list.csv and committed it — `<<<<<<< HEAD`,
+     `=======` and `>>>>>>> dd08b1c2` are literal lines 5298, 5300 and 5312 of
+     the cost book. csv.DictReader parses each of them as a ROW whose first
+     field is the marker text and every other field is None, so supplier_code
+     is None on exactly three rows and the sort blows up. Verified by reading
+     the file rather than reasoning about it: the only rows in 5,312 with a
+     None field are those three.
+
+     The conflict itself was real but small: both sides held Select Fresh LIMFP
+     from invoice 3124210 differing ONLY in pack_unit (HEAD "punnet", incoming
+     "ea"), and the incoming side additionally carried 10 genuinely new rows —
+     today's Foodlink delivery SI4538392 and a Select Fresh grapefruit carton.
+     Resolved conservatively: keep every HEAD row as published, add only
+     incoming rows whose (supplier, supplier_code, source_invoice) key HEAD did
+     not already have, which drops the LIMFP re-spelling and keeps all 10 new
+     rows. 5,312 lines -> 5,308, CRLF preserved (5,308 of 5,308 — the
+     line-endings test would fail otherwise), zero markers left anywhere in
+     data/.
+
+     THEN THE BUILDER WAS RUN, which is the part that makes the hand-resolution
+     safe rather than a guess: cogs_list.csv is DERIVED from data/invoices, so
+     the manual edit only had to be good enough to let build_cogs_list parse the
+     file, after which the builder rewrites it authoritatively. It now exits 0,
+     adds 49 rows from the six invoices promoted this run (2 JFC, 3 Deni Foods,
+     1 Barrel One) and re-derives ZERO. Diffed the hand-resolved file against
+     the regenerated one: 49 additions and NOT ONE deletion or modification, so
+     the builder agreed with the resolution rather than overruling it. Both
+     failing tests now pass.
+
+     WORTH KEEPING: this crash was NOT a stale assertion like items 43 and 49,
+     and it also was not the code defect it looked like. A guard that fails
+     because a merge artefact reached a data file is telling the truth about
+     something upstream — which is item 56, and which is why the poller refusing
+     to commit on a detached HEAD or mid-rebase matters more than the sort key.
+     A defensive sort key would have HIDDEN this: build_cogs_list would have
+     completed and silently written three marker lines into the cost book.
 
 The three zero-total documents (now four, with Gulli CI-437314 — see item 18)
 can never PASS by construction: validator's _check_required_fields treats
