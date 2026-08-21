@@ -67,7 +67,7 @@ Worked examples of the three shapes:
 | `recipes` | yes (cost calc) | yes (chef UI) | reads `ingredients`, writes `recipes` | both |
 | `cogs` | yes | no | reads `recipes`+`sales`, writes `cogs_daily` | pure derivation (NOTE 2026-08-16: never landed as a module — lives as `scripts/cogs_blend.py`; fold in when next touched) |
 | `dashboard` | no | yes | reads everything | pure renderer |
-| `functions` | yes | no | reads `function_tabs`, writes `functions_gp` | pure derivation. Landed 2026-08-20 as the shape above, first time. |
+| `functions` | yes | no | reads `function_tabs`, writes `functions_gp`; reads `functions_monday_raw`, writes `functions_pipeline` | pure derivation, twice. Landed 2026-08-20 as the shape above, first time. The enquiry feed followed on 2026-08-21 and is the same shape again: a committed dated capture in, a feed out, no clock in between. |
 | **`preptimer`** | **no** | **yes** | **none** | **pure app. Proves modules aren't all pipelines.** |
 
 ---

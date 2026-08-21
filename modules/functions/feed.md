@@ -1,3 +1,18 @@
+# The functions module publishes two feeds
+
+`data/functions_gp.json` — what a package function that has already happened
+actually made. Documented first, below.
+
+`data/functions_pipeline.json` — every enquiry that has not happened yet (and a
+good many that never will). Documented second, at the end of this file.
+
+They are separate feeds because they answer separate questions at separate
+ends of the same customer, and nothing joins them: the GP feed is keyed on a
+booking, the pipeline feed on a monday row, and an enquiry that becomes a
+booking passes through a brief in between.
+
+---
+
 # `data/functions_gp.json` — the contract
 
     data/function_tabs/*.json  ──►  modules/functions/pipeline  ──►  data/functions_gp.json  ──►  /functions/
@@ -176,3 +191,224 @@ Deliberately not built today: a Lightspeed scraper nobody can test from here.
 The costing is the part that had to be right, and it is separable from where
 the lines arrive from — `gross_profit()` takes a list and a callable and has no
 opinion about either.
+
+---
+
+# `data/functions_pipeline.json` — the contract
+
+    monday board 5027645686  ──►  data/functions_monday_raw.json  ──►  build_functions_pipeline.py  ──►  data/functions_pipeline.json  ──►  /functions/ Pipeline
+    FUNCTIONS ENQUIRY TRACKER     the capture, dated and committed        modules/functions/enquiries.py        the feed                        the tab
+
+**Schema:** `data/schemas/functions_pipeline.schema.json` (`functions_pipeline/1`).
+**Writes:** `modules/functions/pipeline/build_functions_pipeline.py`.
+**Reads:** `dashboard/functions/` — the Pipeline tab, and nothing else.
+**Additive only.** The page is deployed and a stale browser tab is still
+reading the old field names.
+
+## Why it exists
+
+The Pipeline tab read *briefs* — rows in the booking engine's
+`function_briefs` table. That table has been empty since the day it was
+created, so the tab said **"Pipeline 0"** while **sixty** live enquiries sat on
+the monday.com FUNCTIONS ENQUIRY TRACKER with a dated history of every reply,
+every chase and every silence on them. Zak asked three times why it was empty.
+
+Nothing was broken and nothing could have caught it: an empty list is a
+perfectly correct rendering of an empty table. It was answering a question
+nobody was asking.
+
+The briefs did not go away and must not. **A brief exists so a deposit link can
+be minted and a room held** — that is the only thing it is for. So the screen
+now has three tabs: the diary (rooms held), the pipeline (enquiries), and
+briefs (the paperwork). "Take a deposit" on an enquiry is what creates one.
+
+## What one entry is
+
+One row of the board, with nothing dropped. Per enquiry: the monday item id and
+its url, the name as typed, the group, whether it is archived, the event date,
+follow-up date, group size, occasion, stage, outcome, lost reason, contact
+email and phone, start time, area, source, the notes **in full**, and the seven
+columns added in August 2026 — Drinks (`color_mm6dn3ba`), Bar tab covers
+(`text_mm6dgpr2`), Food (`text_mm6dvkw9`), Deposit (`color_mm6dj4yx`), Music
+(`color_mm6d7ar4`), Settling up (`text_mm6dgnbc`) and Min spend
+(`numeric_mm6dnjnp`). Every column id was confirmed against `get_board_info`
+rather than taken on trust; a monday column id is opaque, so the wrong one
+reads a plausible value from the wrong column and nothing errors.
+
+On top of the board's own columns it carries four derivations, and each of the
+four is documented in `modules/functions/enquiries.py` at the code that makes
+it: `whose_move`, `outstanding`, `flags`, `brief_prefill`.
+
+## Every enquiry, including the archive
+
+Zak: *"the pipeline should reflect all enquiries, whether or not they've been
+replied to."* Nothing is filtered.
+
+    Stowaway Bar   16
+    Harry Gatos     8
+    archive        36
+    ─────────────────
+                   60
+
+The archive is **more than half the board**. A pipeline that dropped it would
+report 24 and look exactly like the bug it replaced. It is drawn last in the
+rail, not first, and not hidden.
+
+Nineteen rows have no date, no headcount and no notes at all. They are
+published too. They are real enquiries somebody typed a name into and never
+came back to, and a list that hides them is how they stay forgotten.
+
+## `whose_move` — the thing the board knows that nothing else does
+
+The Notes column carries a dated running log, written by the autodraft
+automation on the venue's Mac:
+
+    [2026-08-19 auto] Awaiting customer reply — nothing back since our 11 Aug email (8 days)
+    [2026-08-15 auto] Customer replied 14 Aug: "This looks great! We are super keen!!"
+    [2026-08-16 auto] Steph replied 15 Aug 2:07pm — ...
+
+It is read off the **last dated entry and nothing else**, because the last
+entry is the only one describing the current state; an older "awaiting customer
+reply" is a fact about July. Four answers:
+
+| verdict | what it means | how many |
+|---|---|---|
+| `us` | the entry names something for us — an unanswered question, a chase, an outcome left for a human, a correction, or a fresh enquiry with no reply logged after it | 23 |
+| `them` | the entry says in words that we are waiting on the customer | 12 |
+| `nobody` | there are no notes on the row at all | 19 |
+| `unclear` | anything else | 6 |
+
+**`unclear` is a real answer and is drawn as one.** The six are: two logs cut
+off mid-sentence by monday's character cap, two notes that are not dated logs
+at all, and two bare "Customer replied…" entries with nothing after them saying
+whether the reply was answered. Guessing on those would put a confident verdict
+where the evidence does not support one, and the wrong guess is expensive in
+one direction only: a false "waiting on them" is indistinguishable from
+"nothing to do".
+
+**`us` beats `them` when one entry says both.** *"Awaiting customer reply — no
+reply since our first reply on 14 Jul (23 days). Large enquiry (100 pax,
+28 Nov) — worth a chase."* says both. The chase wins, because "awaiting a
+reply" states what last happened while "worth a chase" names the next action,
+and the next action is ours. Four rows turn on this.
+
+Whatever the verdict, **`whose_move_evidence` carries that entry verbatim** and
+`whose_move_since` its date. The screen draws them inside the same block as the
+verdict, at body size — never a tooltip, never a `<details>` — so the judgement
+can be checked against the sentence it was read off. `whose_move_why` names the
+phrase that decided it.
+
+This is prose matching, and prose matching rots silently: a wording change in
+the autodraft flips a dozen rows, nothing errors, and the screen starts saying
+there is nothing to do. `modules/functions/tests/test_functions_pipeline.py`
+pins the whole distribution and a dozen named rows against the sentences they
+were read off, so the rot fails a test instead of shipping.
+
+## `flags` — surfaced, never resolved
+
+| code | what it is |
+|---|---|
+| `date_conflict` | the row TITLE and the Event date column disagree |
+| `date_shared` | two live enquiries at the same venue want the same date |
+| `notes_truncated` | the note is at monday's 2000-character cap |
+| `no_floor_plan` | Harry Gatos: no floor plan in the engine, so no room can be held |
+| `no_contact` | no email and no phone — nobody to chase |
+
+Nothing here picks a side. **"Marcus - 10th Oct"** has a form submission saying
+3 October, flagged unresolved since 22 July; the feed publishes `2026-10-03`
+because that is what the column says, and publishes the disagreement beside it.
+Choosing silently is how the wrong Saturday gets held.
+
+`date_shared` needs **both rows live and both at the same venue**. Keying on the
+date alone reported thirty of these — 19 September is Heather at Stowaway and
+Ruth at Harry Gatos, which is two rooms in two buildings — and a flag that is
+usually noise is a flag people stop reading. It also says out loud that two
+functions *can* share a night in different rooms, because 8 August 2026 was
+two.
+
+## `brief_prefill` — the deposit hand-off
+
+The body that would be `POST`ed to `/api/admin/functions` if somebody presses
+**Take a deposit**, and nothing creates it until they do. Sixty enquiries are
+not sixty briefs; a brief is minted when there is money to take.
+
+`source_ref` is **`monday:<item id>`**. `create_brief` upserts on `source_ref`,
+so a second press — or a future recurring sync — converges on the same brief
+instead of littering the table with duplicates.
+
+Values are mapped into the engine's own vocabulary, once, here rather than in
+the page:
+
+* the board's `SOIRÈE $60pp` is the engine's `SOIRÈE`. `functions.validate()`
+  checks `drink` against `DRINK_CHOICES` because **a package name is a price**,
+  and it rejects one it has never heard of.
+* `Whole venue` and `Not sure yet` are real board answers and neither is an
+  area a brief may name — `validate()` rejects `Whole venue` outright. They are
+  sent as **nothing** rather than as a guess, so the panel shows the room as
+  unanswered, which is true.
+* the page applies a second filter at click time (`depositPrefill`), because
+  `accepted_areas` comes off `/api/admin/functions/config` and only the browser
+  has it. Offering a room the save refuses is worse than offering none.
+
+`brief_prefill` is **null for every Harry Gatos row**. There is no floor plan
+for that venue in the booking engine, so a brief there could never hold a room,
+and a button that mints a deposit link against a room nobody can hold is worse
+than no button. Those eight rows are tracked here and booked by hand.
+
+## The capture, and why there are two files
+
+`data/functions_monday_raw.json` (`functions_monday_raw/1`) is the board as it
+was read, committed. The feed is derived from it with no clock and no network.
+
+Two files rather than one because of two separate obligations:
+
+1. **MODULES.md rule 4** — a derived file that no longer reproduces from its
+   source is a fossil. With the capture committed, `--check` rebuilds and
+   byte-compares on every pytest run, the same contract `data/costs.csv` lives
+   under. If the only source were the live board, CI could never check the feed
+   at all: it has no token, and the board changes hourly.
+2. **`captured_at` is dated evidence.** It rides onto the feed and onto the
+   screen, so the age of every fact below it is visible.
+
+## Staleness — say the age or say nothing
+
+`captured_at` is **when the board was read**, not when the file was written.
+The Pipeline tab draws it above the list, at body size, in words: *"Read from
+the board today (2026-08-21)."* Past two days it turns into a warning that says
+the enquiries have moved since, and it always links to the board, which is
+always current.
+
+A stale feed presented as live is worse than an empty one — the empty screen at
+least told the truth.
+
+## To make it refresh by itself
+
+**One secret is needed, and this pass could not set it:**
+
+    Settings → Secrets and variables → Actions → New repository secret
+    Name:  MONDAY_API_TOKEN
+    Value: a monday.com personal API token with read access to board 5027645686
+           (monday.com → avatar → Developers → My Access Tokens)
+
+With it present:
+
+    MONDAY_API_TOKEN=... python3 modules/functions/pipeline/build_functions_pipeline.py --fetch
+
+re-reads the board over GraphQL, rewrites the capture with a fresh
+`captured_at`, and rebuilds the feed. Without it the same command exits 2 and
+says so; the plain command still rebuilds from the committed capture.
+
+A workflow to run that on a schedule is **not** included: `.github/workflows/`
+is `ops`-owned (SESSIONS.md rule 7) and this pass held `bookings`. The step it
+needs is the one line above plus a commit of both files, and it should run
+after the autodraft has written the morning's log entries.
+
+## Reading the board directly
+
+`--fetch` asks for `column_values { id text }`, which gives the label for a
+status, the ISO date for a date, and the raw string for everything else — the
+same shape the MCP capture holds. One known difference: monday's phone column
+comes back over GraphQL with a trailing ISO country code (`+61411642774 AU`),
+which `enquiries._phone` strips, so both routes produce the same feed. It pages
+at 100 with a cursor, because `items_page` will not return sixty rows and a
+silent first page is exactly the failure this feed exists to end.

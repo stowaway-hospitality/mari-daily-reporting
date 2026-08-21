@@ -3,15 +3,25 @@
  *
  * WHAT THIS IS
  * ------------
- * Two screens behind one segmented control, because "what is on this Saturday"
- * and "who have I not chased" are different questions:
+ * Three screens behind one segmented control, because "what is on this
+ * Saturday", "who have I not chased" and "who has actually paid" are different
+ * questions:
  *
  *   DIARY    — function BOOKINGS: rooms actually held, a month calendar of the
  *              dates that have functions on them, and what has already run.
  *              See the diary section below for why this half had to be added.
- *   PIPELINE — function BRIEFS: the working list (what needs something,
- *              soonest event first), with one brief in the panel, every field
- *              editable, and a live minimum-spend quote that explains itself.
+ *   PIPELINE — every ENQUIRY on the monday.com FUNCTIONS ENQUIRY TRACKER, read
+ *              from data/functions_pipeline.json: whose move it is with the
+ *              log line that says so, what is outstanding, and a hand-off into
+ *              a brief when it is time to take money.
+ *   BRIEFS   — function BRIEFS: the booking engine's own table, one brief in
+ *              the panel, every field editable, and a live minimum-spend quote
+ *              that explains itself.
+ *
+ * PIPELINE used to BE the briefs list, and the briefs table has always been
+ * empty, so the tab said "Pipeline 0" while sixty enquiries sat on the board.
+ * The two are now separate because they are two things: an enquiry is somebody
+ * asking, and a brief is the paperwork that holds a room.
  *
  * It already existed, at /admin/functions on the booking engine itself, and it
  * was in the wrong place twice over: staff never open the Render app, and it
@@ -50,6 +60,10 @@ const TOKEN_KEY = 'stowaway_booking_token';
 const $ = (id) => document.getElementById(id);
 
 let BRIEFS = [], CHASE = [], CONFIG = {}, AREAS = [], CUR = null;
+// The enquiry pipeline: the monday board as a published feed, which enquiry is
+// open in the panel, and what went wrong if it could not be read. PIPE_ERR is
+// held apart from "no enquiries" on purpose -- see pipeMissingHTML.
+let PIPE = null, PIPE_ERR = null, PIPE_SEL = null;
 // The diary half: the bookings, the server's per-date rollup that drives the
 // calendar, and where in it we are looking. DIARY_ERR is held separately from
 // "no functions" on purpose — see diaryPanelHTML.
@@ -60,6 +74,9 @@ let DIARY = [], BYDATE = [], DIARY_ERR = null;
 // wholesale -- a form living only in the markup would be thrown away
 // between the two halves of what the user thinks is one action.
 let OUTCOME_EDIT = null;
+// THREE halves now, not two. See the pipeline section: `pipeline` is the
+// monday enquiry tracker and `briefs` is the booking engine's own table -- the
+// thing a deposit is taken against. They were one tab, reading the empty one.
 let MODE = 'diary', MONTH = null, SEL_DATE = null, SEL_FN = null;
 let DIRTY = false;
 let SVC = null;   // service token held in memory for this session
@@ -1478,10 +1495,418 @@ export function diaryPanelHTML(fns, byDate, month, selDate, selId, today,
 }
 
 /** Which of the two questions the screen is answering. */
-export function modesHTML(mode, diaryCount, pipelineCount) {
+export function modesHTML(mode, diaryCount, pipelineCount, briefCount) {
   const b = (id, label, n) => `<button data-mode="${id}"${
     mode === id ? ' class="on"' : ''}>${label}<span class="n">${n}</span></button>`;
-  return b('diary', 'Diary', diaryCount) + b('pipeline', 'Pipeline', pipelineCount);
+  // Pipeline counts EVERY enquiry on the board, archive included, because that
+  // is what the feed is and a badge that quietly meant something narrower is
+  // how "Pipeline 0" survived for weeks. Briefs is its own count and is
+  // usually small: a brief is minted to take a deposit, not to track a lead.
+  return b('diary', 'Diary', diaryCount)
+       + b('pipeline', 'Pipeline', pipelineCount)
+       + b('briefs', 'Briefs', briefCount);
+}
+
+// ================================================================= pipeline
+// WHY THIS HALF WAS REWRITTEN
+// ---------------------------
+// It read BRIEFS — rows in the booking engine's own `function_briefs` table —
+// and that table has been empty since the day it was created. So the tab said
+// "Pipeline 0" while sixty live enquiries sat on the monday.com FUNCTIONS
+// ENQUIRY TRACKER, each with a dated history of every reply, every chase and
+// every silence. Zak asked three times why it was empty. It was empty because
+// it was reading the wrong table.
+//
+// It now reads `data/functions_pipeline.json` — a STATIC FILE on this origin,
+// published by modules/functions/pipeline/build_functions_pipeline.py from a
+// capture of the board. Not a route on the booking engine: the engine has
+// never heard of monday and should not start.
+//
+// The briefs did not go away and must not. A brief is what a deposit link is
+// minted against and what holds a room, so it has its own third tab, and
+// "Take a deposit" on an enquiry is what creates one. That is the whole
+// relationship: sixty enquiries, and a brief for each of the few that get as
+// far as money.
+//
+// MISSING IS AN ERROR HERE, unlike the GP feed. A function with no computed
+// report is normal; a functions screen with no enquiries is the bug this
+// replaced, so an absent or unreadable feed says so in words rather than
+// drawing an empty list that looks like "nothing to do".
+export const PIPE_FEED_URL = '/data/functions_pipeline.json';
+export const PIPE_FEED_SCHEMA = 'functions_pipeline/1';
+
+// How old the capture may be before the banner turns from a statement into a
+// warning. Two days: the board moves daily — the autodraft writes to it every
+// morning — so a three-day-old capture has already missed replies.
+export const STALE_DAYS = 2;
+
+export const MOVE_ORDER = ['us', 'unclear', 'them', 'nobody'];
+export const MOVE_TITLE = {
+  us: 'Waiting on us',
+  unclear: "Can't tell whose move it is",
+  them: 'Waiting on them',
+  nobody: 'Nobody has done anything',
+};
+export const MOVE_HINT = {
+  us: 'The ball is in our court. Soonest event first.',
+  unclear: 'The log does not say, so nothing here guesses. Somebody has to read these.',
+  them: 'We answered and it is their turn.',
+  nobody: 'No reply, no chase, nothing logged — ever.',
+};
+// Reuses the rail's existing left-edge vocabulary: amber is our move, grey is
+// theirs. `unsure` and `untouched` are new and deliberately not amber — a
+// row nobody can read is not the same errand as a row with an answer waiting.
+export const MOVE_CLASS = { us: 'onme', them: 'onthem',
+                            unclear: 'unsure', nobody: 'untouched' };
+
+export const FLAG_TITLE = {
+  date_conflict: 'two dates',
+  date_shared: 'date shared',
+  notes_truncated: 'note cut off',
+  no_floor_plan: 'no floor plan',
+  no_contact: 'no contact',
+};
+
+/** How far away the event is, in words. Says "no date" rather than nothing,
+ *  because a third of this board has no date and a blank reads as a bug. */
+export function awayLabel(iso, today) {
+  const d = daysAway(iso, today);
+  if (d === null) return 'no date';
+  if (d === 0) return 'today';
+  if (d === 1) return 'tomorrow';
+  if (d === -1) return 'yesterday';
+  return d > 0 ? `in ${d} days` : `${-d} days ago`;
+}
+
+/** The sort key inside a group: soonest first, then the undated, then the past.
+ *
+ *  Three buckets rather than one date comparison, because a plain ascending
+ *  sort puts July at the top of "waiting on us" and buries next Saturday under
+ *  a month of events that have already happened. The undated sit between: they
+ *  are real work with no deadline, and they must not be first or last. */
+export function urgency(e, today) {
+  const d = daysAway(e.event_date, today);
+  if (d === null) return [1, 0];
+  return d >= 0 ? [0, d] : [2, -d];
+}
+
+export function sortByUrgency(list, today) {
+  return (list || []).slice().sort((a, b) => {
+    const x = urgency(a, today), y = urgency(b, today);
+    return x[0] - y[0] || x[1] - y[1]
+        || String(a.name || '').localeCompare(String(b.name || ''));
+  });
+}
+
+/**
+ * One pass, one bucket each — whose move it is, then how soon.
+ *
+ * The archive is its own bucket and is drawn LAST rather than mixed in by
+ * urgency. Thirty-six of the sixty rows are archived, most of them for events
+ * that have already happened, and a "waiting on us" list that opened with
+ * sixteen dead Julys would be ignored inside a week. It is not dropped — Zak:
+ * "the pipeline should reflect all enquiries" — it is just not the top of the
+ * list.
+ */
+export function groupPipeline(enquiries, today) {
+  const all = enquiries || [];
+  const live = all.filter((e) => !e.archived);
+  const out = { live, all };
+  for (const k of MOVE_ORDER) {
+    out[k] = sortByUrgency(live.filter((e) => e.whose_move === k), today);
+  }
+  out.archived = all.filter((e) => e.archived).slice().sort((a, b) =>
+    String(b.event_date || '').localeCompare(String(a.event_date || '')));
+  return out;
+}
+
+// ------------------------------------------------------------- staleness
+/**
+ * How old the capture is, and what that means.
+ *
+ * There is NO monday token in this repo's Actions secrets, so nothing
+ * refreshes this on its own yet. That is stated on the page, in words, above
+ * the list — not in a tooltip and not in a footer. A feed that quietly ages
+ * while presenting itself as live is worse than no feed at all: the empty
+ * screen at least told the truth.
+ */
+export function feedAge(capturedAt, today) {
+  const iso = String(capturedAt || '').slice(0, 10);
+  const days = /^\d{4}-\d{2}-\d{2}$/.test(iso) ? daysSince(iso, today) : null;
+  return { iso, days };
+}
+
+export function stalenessHTML(feed, today) {
+  const { iso, days } = feedAge(feed && feed.captured_at, today);
+  const old = days === null || days > STALE_DAYS;
+  const when = days === null ? 'at a time this feed does not record'
+    : days <= 0 ? 'today'
+    : days === 1 ? 'yesterday'
+    : `${days} days ago`;
+  return `<div class="stale${old ? ' bad' : ''}">
+    <b>Read from the board ${esc(when)}${iso ? ` (${esc(iso)})` : ''}.</b>
+    ${old ? 'These enquiries have moved since. ' : ''}Nothing refreshes this
+    automatically yet — it needs a <code>MONDAY_API_TOKEN</code> in the repo's
+    Actions secrets. The board itself is always current:
+    <a href="${esc((feed && feed.board_url) || '#')}" target="_blank"
+       rel="noopener">open the tracker</a>.</div>`;
+}
+
+// ------------------------------------------------------------------- rail
+export function pipeChips(e, today) {
+  const out = [];
+  const d = daysAway(e.event_date, today);
+  if (d !== null && d >= 0 && d <= 7) {
+    out.push(`<span class="chip soon">${d === 0 ? 'today' : d + 'd'}</span>`);
+  }
+  if (e.group_size) out.push(`<span class="chip">${esc(e.group_size)} pax</span>`);
+  const gaps = e.outstanding || [];
+  // Four or more gaps is a row nobody has started, and naming each one turns
+  // nineteen of these into a wall of identical chips. One chip says the same
+  // thing and the panel still lists them.
+  if (gaps.length >= 4) {
+    out.push(`<span class="chip need">${gaps.length} things outstanding</span>`);
+  } else {
+    gaps.forEach((g) => out.push(`<span class="chip need">${esc(g)}</span>`));
+  }
+  (e.flags || []).forEach((f) => out.push(
+    `<span class="chip ${f.code === 'no_floor_plan' ? '' : 'bad'}">${
+      esc(FLAG_TITLE[f.code] || f.code)}</span>`));
+  if (e.deposit) out.push(`<span class="chip ok">${esc(String(e.deposit).toLowerCase())}</span>`);
+  return out.join('');
+}
+
+export function pipeRowHTML(e, selId, today) {
+  const on = selId === e.item_id ? ' on' : '';
+  // The evidence line rides on the ROW, trimmed, not only in the panel. The
+  // question a glance down sixty rows is asking is "is this mine", and a
+  // verdict with nothing behind it is exactly what nobody trusted about the
+  // old chase list.
+  const ev = e.whose_move_evidence
+    ? `<div class="evid">${esc(flat(e.whose_move_evidence).slice(0, 120))}${
+        flat(e.whose_move_evidence).length > 120 ? '…' : ''}</div>`
+    : '';
+  return `<div class="row ${MOVE_CLASS[e.whose_move] || ''}${on}"
+      data-pipe="${esc(e.item_id)}" role="button" tabindex="0">
+    <div class="l1"><span class="nm">${esc(e.name)}</span>
+      <span class="when">${esc(niceDate(e.event_date))} · ${
+        esc(awayLabel(e.event_date, today))}</span></div>
+    <div class="l2">${pipeChips(e, today)}</div>${ev}</div>`;
+}
+
+export function pipeRailHTML(feed, query, selId, today) {
+  const raw = query || '';
+  const q = raw.toLowerCase();
+  const match = (e) => !q || (
+    [e.name, e.occasion, e.event_date, e.group, e.email, e.notes]
+      .join(' ').toLowerCase().includes(q));
+  const g = groupPipeline((feed.enquiries || []).filter(match), today);
+  const grp = (title, arr, hint) => (!arr.length ? '' :
+    `<div class="grp">${title}<span class="n">${arr.length}</span></div>` +
+    (hint ? `<div class="hint" style="margin:-2px 0 6px">${hint}</div>` : '') +
+    arr.map((e) => pipeRowHTML(e, selId, today)).join(''));
+  return `<div><label for="pq">Search</label><input id="pq" style="width:100%"
+      placeholder="name, occasion, date, anything in the notes"
+      value="${esc(raw)}"></div>` +
+    MOVE_ORDER.map((k) => grp(MOVE_TITLE[k], g[k], MOVE_HINT[k])).join('') +
+    grp('Archive', g.archived,
+        'The board\'s archive group. Kept, because half the board is in it.') +
+    (g.all.length ? '' : '<div class="empty">Nothing matches.</div>');
+}
+
+// ------------------------------------------------------------------ panel
+export function moveHTML(e) {
+  return `<div class="move ${MOVE_CLASS[e.whose_move] || ''}">
+    <div class="verdict">${esc(MOVE_TITLE[e.whose_move] || e.whose_move)}</div>
+    <div class="why">${esc(e.whose_move_why || '')}</div>
+    ${e.whose_move_evidence ? `<div class="evid full">${
+      e.whose_move_since ? `<b>${esc(e.whose_move_since)}</b> — ` : ''
+      }${esc(e.whose_move_evidence)}</div>` : ''}</div>`;
+}
+
+export const PIPE_FACTS = [
+  ['occasion', 'Occasion'], ['group_size', 'Group size'],
+  ['start_time', 'Start time'], ['area', 'Area'],
+  ['drinks', 'Drinks'], ['bar_tab_covers', 'Bar tab covers'],
+  ['food', 'Food'], ['deposit', 'Deposit'], ['music', 'Music'],
+  ['settling_up', 'Settling up'], ['source', 'Heard about us via'],
+  ['stage', 'Stage'], ['outcome', 'Outcome'], ['lost_reason', 'Lost reason'],
+  ['follow_up_date', 'Follow-up date'], ['email', 'Email'], ['phone', 'Phone'],
+];
+
+/** The structured columns, but ONLY the ones that are filled.
+ *
+ *  An empty box and an unanswered question look identical, and the board is
+ *  mostly unanswered questions — so a blank field is left out of the grid and
+ *  named in the outstanding list instead, where it is a task rather than a
+ *  gap. A row with nothing on it says so in a sentence. */
+export function factsHTML(e) {
+  const cell = (label, v) =>
+    `<div class="met"><div class="k">${esc(label)}</div>
+       <div class="v sm">${esc(v)}</div></div>`;
+  const cells = PIPE_FACTS
+    .filter(([k]) => e[k] !== null && e[k] !== undefined && e[k] !== '')
+    .map(([k, label]) => cell(label, e[k]));
+  if (e.min_spend_cents != null) cells.push(cell('Min spend quoted', money(e.min_spend_cents)));
+  if (e.revenue_dollars != null) cells.push(cell('Revenue taken', money(e.revenue_dollars * 100)));
+  return cells.length ? `<div class="mets">${cells.join('')}</div>`
+    : `<div class="quiet">Nothing but a name has ever been filled in on this
+       row. It is still an enquiry, and it is still somebody.</div>`;
+}
+
+export function outstandingHTML(e) {
+  const gaps = e.outstanding || [];
+  const contact = e.contactable ? '' :
+    `<div class="prob">There is no email and no phone on this row, so there is
+     nobody to ask — whatever the list above says.</div>`;
+  if (!gaps.length) {
+    return `<div class="need"><h2>Outstanding</h2>
+      <div>Nothing. Everything the booking engine needs is on the row.</div>
+      ${contact}</div>`;
+  }
+  return `<div class="need"><h2>Outstanding</h2><ul>${
+    gaps.map((g) => `<li>${esc(g)}</li>`).join('')}</ul>${contact}</div>`;
+}
+
+export function pipeFlagsHTML(e) {
+  const fl = e.flags || [];
+  if (!fl.length) return '';
+  return `<div class="card"><h2>Unresolved</h2><ul class="flaglist">${
+    fl.map((f) => `<li><b>${esc(FLAG_TITLE[f.code] || f.code)}</b> — ${
+      esc(f.note)}</li>`).join('')}</ul></div>`;
+}
+
+export function pipeNotesHTML(e) {
+  if (!e.notes) {
+    return `<div class="card"><h2>The log</h2>
+      <div class="quiet">There is no note on this row at all. Nothing has been
+      replied, chased or written down.</div></div>`;
+  }
+  const cut = e.notes_truncated
+    ? `<div class="prob">This note is at monday's ${esc(e.notes_chars)}-character
+       cap, so it ENDS MID-SENTENCE and what is missing is the most recent
+       part. Read the row on the board before acting on it.</div>`
+    : '';
+  return `<div class="card"><h2>The log</h2>${cut}
+    <div class="log full">${esc(e.notes)}</div></div>`;
+}
+
+/** What would actually be POSTed, once the server's own vocabulary is applied.
+ *
+ *  The feed maps the board's labels into the engine's ("SOIRÈE $60pp" is the
+ *  engine's "SOIRÈE", because a package name is a price). This is the second
+ *  filter, and it can only run in the browser: `accepted_areas` comes off
+ *  /api/admin/functions/config, and offering a room the save refuses is worse
+ *  than not offering one. */
+export function depositPrefill(e, cfg = CONFIG) {
+  const p = e && e.brief_prefill;
+  if (!p) return null;
+  const out = { ...p };
+  const areas = cfg.accepted_areas || [];
+  if (out.area && areas.length && !areas.includes(out.area)) delete out.area;
+  if (out.drink && !DRINKS.includes(out.drink)) delete out.drink;
+  return out;
+}
+
+/** The brief this enquiry already became, if it did. Matched on source_ref and
+ *  nothing else — the same key the server upserts on, so the page and the
+ *  engine cannot disagree about which brief belongs to which board row. */
+export function briefFor(e, briefs) {
+  return (briefs || []).find((b) => b.source_ref && b.source_ref === e.source_ref) || null;
+}
+
+/**
+ * The deposit hand-off.
+ *
+ * A brief exists so a deposit link can be minted and a room held — that is the
+ * only thing it is for, and it is why sixty enquiries are not sixty briefs.
+ * One button, and it says what it will do before it does it: create the brief
+ * prefilled from this row, keyed `monday:<item id>` so a second press converges
+ * on the same brief instead of making another.
+ *
+ * It is offered even when something is outstanding, with the consequence
+ * spelled out, because the engine will refuse to mint the link and list what
+ * is missing — which is the same list, from the authority, on the brief where
+ * it can be filled in.
+ */
+export function depositHTML(e, cfg = CONFIG, briefs = BRIEFS) {
+  const have = briefFor(e, briefs);
+  if (have) {
+    return `<div class="card"><h2>Take a deposit</h2>
+      <div>This enquiry already has a brief.</div>
+      <div class="acts"><button data-act="gobrief" data-brief="${esc(have.id)}">
+        Open the brief</button></div></div>`;
+  }
+  if (!e.brief_prefill) {
+    return `<div class="card"><h2>Take a deposit</h2>
+      <div class="prob">Not from here. Harry Gatos has no floor plan in the
+      booking engine, so nothing could hold the room even once the money
+      landed. Track it here, book it by hand.</div></div>`;
+  }
+  const gaps = e.outstanding || [];
+  const p = depositPrefill(e, cfg);
+  const dropped = Object.keys(e.brief_prefill).filter((k) => !(k in p));
+  const note = gaps.length
+    ? `<div class="hint">${esc(gaps.join(', '))} ${gaps.length === 1 ? 'is' : 'are'}
+       still outstanding. The brief will carry everything the board does know;
+       the engine will refuse the deposit link until the rest is answered on
+       it, and it will say exactly which.</div>`
+    : `<div class="hint">Nothing is outstanding, so the link can be minted as
+       soon as the brief exists.</div>`;
+  const drop = dropped.length
+    ? `<div class="hint">${esc(dropped.join(' and '))} will not be carried
+       across: this server does not accept the value the board holds.</div>`
+    : '';
+  return `<div class="card"><h2>Take a deposit</h2>
+    <div>Creates a brief from this row as
+    <code>${esc(e.source_ref)}</code> and opens it. Pressing it twice updates
+    the same brief rather than making a second one.</div>${note}${drop}
+    <div class="acts">
+      <button class="go" data-act="takedeposit" data-pipe="${esc(e.item_id)}">
+        Take a deposit</button>
+      <a href="${esc(e.url || '#')}" target="_blank" rel="noopener"
+         style="font-size:13px;color:var(--ink)">open on monday →</a>
+    </div></div>`;
+}
+
+export function pipePanelHTML(e, feed, today, cfg = CONFIG, briefs = BRIEFS) {
+  if (!e) {
+    return `<div class="card"><div class="quiet">Pick an enquiry on the left.
+      ${esc(String((feed && feed.counts && feed.counts.total) || 0))} of them,
+      every one on the board, archive included.</div></div>`;
+  }
+  const head = `<div class="card">
+    <div class="strip"><span class="dhead">${esc(e.name)}</span>
+      <span>${esc(e.group)}</span>
+      ${e.archived ? '<span class="chip">archived</span>' : ''}
+      <a href="${esc(e.url || '#')}" target="_blank" rel="noopener">monday →</a>
+    </div>
+    <div class="hint" style="margin-top:0">${esc(fullDateOrNone(e.event_date))}
+      · ${esc(awayLabel(e.event_date, today))}${
+        e.group_size ? ` · ${esc(e.group_size)} guests` : ''}</div>
+    ${moveHTML(e)}
+    ${factsHTML(e)}
+  </div>`;
+  return head + `<div class="card">${outstandingHTML(e)}</div>`
+       + pipeFlagsHTML(e) + depositHTML(e, cfg, briefs) + pipeNotesHTML(e);
+}
+
+/** The long date, or the sentence that says there isn't one. `fullDate()`
+ *  builds a Date and would answer "Invalid Date" for the third of this board
+ *  that has no date at all. */
+export const fullDateOrNone = (iso) => (iso ? fullDate(iso) : 'No date on the row');
+
+export function pipeMissingHTML(err) {
+  return `<div class="card"><h2>The enquiry feed isn't there</h2>
+    <p style="font-size:14px">This tab reads
+    <code>${esc(PIPE_FEED_URL)}</code>, published by
+    <code>modules/functions/pipeline/build_functions_pipeline.py</code>. It is
+    either missing, unreadable, or declaring a schema this page does not know.
+    ${err ? `<br><br>What happened: ${esc(err)}` : ''}</p>
+    <p style="font-size:14px">This is <b>not</b> the same as "no enquiries".
+    The board has sixty of them and it is
+    <a href="https://stowaway-bar.monday.com/boards/5027645686" target="_blank"
+       rel="noopener">still the place they live</a>.</p></div>`;
 }
 
 // ---------------------------------------------------------------- service io
@@ -1717,7 +2142,8 @@ export function ratesLine(cfg) {
 function drawModes() {
   const { upcoming } = splitDiary(DIARY, todayInSydney());
   const live = BRIEFS.filter((b) => !['lost', 'done'].includes(b.stage)).length;
-  $('modes').innerHTML = modesHTML(MODE, upcoming.length, live);
+  const enquiries = PIPE ? ((PIPE.counts && PIPE.counts.total) || 0) : 0;
+  $('modes').innerHTML = modesHTML(MODE, upcoming.length, enquiries, live);
 }
 
 /** Switch halves. "New enquiry" belongs to the pipeline and is meaningless
@@ -1725,7 +2151,10 @@ function drawModes() {
 function setMode(m) {
   MODE = m;
   const nb = $('newbtn');
-  if (nb) nb.style.display = (m === 'pipeline' ? '' : 'none');
+  // "New enquiry" makes a BRIEF, so it belongs with the briefs. Against the
+  // pipeline it would be a button that writes to the wrong system: a new
+  // enquiry belongs on the monday board, where the form puts it.
+  if (nb) nb.style.display = (m === 'briefs' ? '' : 'none');
   drawModes(); drawRail(); drawPanel();
 }
 
@@ -1771,6 +2200,19 @@ function drawRail() {
     $('rail').innerHTML = diaryRailHTML(DIARY, SEL_FN, todayInSydney());
     return;
   }
+  if (MODE === 'pipeline') {
+    if (!PIPE) { $('rail').innerHTML = ''; return; }
+    // Same caret dance as the briefs box below, and for the same reason: the
+    // input being typed into is inside the markup this replaces.
+    const pb = $('pq');
+    const praw = pb ? pb.value : '';
+    const pfoc = pb !== null && document.activeElement === pb;
+    const pcar = pfoc ? pb.selectionStart : 0;
+    $('rail').innerHTML = pipeRailHTML(PIPE, praw, PIPE_SEL, todayInSydney());
+    const pback = $('pq');
+    if (pfoc && pback) { pback.focus(); pback.setSelectionRange(pcar, pcar); }
+    return;
+  }
   // Read the box before this function destroys it. The search input is part of
   // the markup replaced below, so each keystroke removes the element being
   // typed into. The text survives via value=; focus and caret do not, and
@@ -1785,6 +2227,14 @@ function drawRail() {
 }
 
 function drawPanel() {
+  if (MODE === 'pipeline') {
+    const today = todayInSydney();
+    if (!PIPE) { $('panel').innerHTML = pipeMissingHTML(PIPE_ERR); return; }
+    const e = (PIPE.enquiries || []).find((x) => x.item_id === PIPE_SEL) || null;
+    $('panel').innerHTML = stalenessHTML(PIPE, today)
+                         + pipePanelHTML(e, PIPE, today, CONFIG, BRIEFS);
+    return;
+  }
   if (MODE === 'diary') {
     $('panel').innerHTML = diaryPanelHTML(DIARY, BYDATE, MONTH || ym(todayInSydney()),
                                           SEL_DATE, SEL_FN, todayInSydney(),
@@ -2016,11 +2466,58 @@ async function loadGpFeed() {
   } catch (_) { return null; }
 }
 
+/** The enquiry feed. Refuses a schema it does not know rather than half-reading
+ *  it, exactly as loadGpFeed does -- the contract is additive-only, so
+ *  `functions_pipeline/1` keeps meaning what it means and anything else means
+ *  the field names may have moved underneath. Unlike the GP feed, a failure
+ *  here is REPORTED: this tab has nothing else to draw. */
+async function loadPipeFeed() {
+  try {
+    const r = await fetch(PIPE_FEED_URL, { cache: 'no-store' });
+    if (!r.ok) return { feed: null, err: `the feed answered HTTP ${r.status}` };
+    const d = await r.json();
+    if (!d || d.schema !== PIPE_FEED_SCHEMA) {
+      return { feed: null,
+               err: `it declares schema "${d && d.schema}", and this page reads `
+                  + `"${PIPE_FEED_SCHEMA}"` };
+    }
+    return { feed: d, err: null };
+  } catch (err) {
+    return { feed: null, err: String((err && err.message) || err) };
+  }
+}
+
+function pickEnquiry(itemId) { PIPE_SEL = itemId; drawRail(); drawPanel(); }
+
+/** Enquiry -> brief, then the ordinary deposit flow.
+ *
+ *  One press, two things, because "create a brief" is not something anybody
+ *  wants to do -- it is what the machine needs before it can take money. The
+ *  body is keyed `monday:<item id>` and create_brief upserts on source_ref, so
+ *  a double press, or a future sync, converges on one brief. */
+async function takeDeposit(itemId) {
+  const e = (PIPE && PIPE.enquiries || []).find((x) => x.item_id === itemId);
+  if (!e) { say('that enquiry is no longer in the feed', true); return; }
+  const body = depositPrefill(e, CONFIG);
+  if (!body) {
+    say('Harry Gatos has no floor plan in the booking engine — nothing here '
+      + 'can hold that room', true);
+    return;
+  }
+  try {
+    const r = await (await call('/api/admin/functions',
+      { method: 'POST', body: JSON.stringify(body) })).json();
+    say(`brief ready from the monday row — ${r.name}`);
+    setMode('briefs');
+    await loadAll(r.id);
+  } catch (err) { say("couldn't start the brief: " + why(err), true); }
+}
+
 async function openBrief(id) {
   if (DIRTY && !confirm('You have unsaved changes. Discard them?')) return;
   try {
     CUR = await (await call(`/api/admin/functions/${id}`)).json();
-    MODE = 'pipeline';
+    MODE = 'briefs';
     drawRail();
     drawPanel();
   } catch (e) { say("couldn't open: " + why(e), true); }
@@ -2041,7 +2538,7 @@ async function loadAll(keep) {
     // Promise.all over the PROMISES, not over already-awaited values: four
     // awaits in an array literal run one after another and the page waits for
     // the sum of the round trips instead of the slowest one.
-    const [briefs, chase, cfg, areas, diary, gp] = await Promise.all([
+    const [briefs, chase, cfg, areas, diary, gp, pipe] = await Promise.all([
       call('/api/admin/functions').then((r) => r.json()),
       call('/api/admin/functions/chase').then((r) => r.json()),
       call('/api/admin/functions/config').then((r) => r.json()),
@@ -2054,8 +2551,21 @@ async function loadAll(keep) {
       // Swallows its own failures — see loadGpFeed. No feed simply means no
       // computed reports, which is the state every function was in yesterday.
       loadGpFeed(),
+      // The enquiry feed. Also catches its own failures — a booking engine
+      // that is down must not take the sixty enquiries down with it, and a
+      // missing enquiry feed must not take the diary down either. The two
+      // halves fail independently or neither is trustworthy.
+      loadPipeFeed(),
     ]);
     BRIEFS = briefs; CHASE = chase; CONFIG = cfg; AREAS = areas;
+    PIPE = pipe.feed; PIPE_ERR = pipe.err;
+    // Open on the first thing waiting on us, so the tab lands on work rather
+    // than on an empty panel with sixty rows beside it.
+    if (PIPE && !PIPE_SEL) {
+      const g = groupPipeline(PIPE.enquiries, todayInSydney());
+      const first = g.us[0] || g.unclear[0] || g.them[0] || g.live[0];
+      PIPE_SEL = first ? first.item_id : null;
+    }
     // The join happens ONCE, here, so every renderer downstream reads a row
     // that already knows whether it has a computed report. Joining inside a
     // renderer would run it per draw and give two of them room to disagree.
@@ -2078,8 +2588,11 @@ async function loadAll(keep) {
     drawPanel();
     if (!cfg.warning) {
       const { upcoming, past } = splitDiary(DIARY, todayInSydney());
+      const mine = PIPE ? (PIPE.counts.by_whose_move || {}).us || 0 : 0;
+      const total = PIPE ? PIPE.counts.total : 0;
       say(`${upcoming.length} coming up · ${past.length} already run · `
-        + `${CHASE.length} enquiries need something`);
+        + (PIPE ? `${total} enquiries on the board, ${mine} waiting on us`
+                : 'the enquiry feed could not be read'));
     }
   } catch (e) {
     if (String(e.message).includes('bad admin token')) {
@@ -2120,6 +2633,8 @@ function wire() {
     if (brief) { openBrief(brief.dataset.open); return true; }
     const fn = t.closest('[data-fn]');
     if (fn) { openFunction(fn.dataset.fn); return true; }
+    const enq = t.closest('[data-pipe]');
+    if (enq) { pickEnquiry(enq.dataset.pipe); return true; }
     return false;
   };
   rail.addEventListener('click', (ev) => railOpen(ev.target));
@@ -2127,7 +2642,9 @@ function wire() {
     if (ev.key !== 'Enter' && ev.key !== ' ') return;
     if (railOpen(ev.target)) ev.preventDefault();
   });
-  rail.addEventListener('input', (ev) => { if (ev.target.id === 'q') drawRail(); });
+  rail.addEventListener('input', (ev) => {
+    if (ev.target.id === 'q' || ev.target.id === 'pq') drawRail();
+  });
 
   $('modes').addEventListener('click', (ev) => {
     const b = ev.target.closest('[data-mode]');
@@ -2168,6 +2685,7 @@ function wire() {
     else if (act === 'canceloutcome') cancelOutcome();
     else if (act === 'gobrief') goBrief(btn.dataset.brief);
     else if (act === 'godiary') goDiary(btn.dataset.booking);
+    else if (act === 'takedeposit') takeDeposit(btn.dataset.pipe);
   });
 
   $('refreshbtn').addEventListener('click', () => loadAll());

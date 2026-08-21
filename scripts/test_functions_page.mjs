@@ -541,13 +541,21 @@ const DIANE = fn('1e871002336d'), MJ = fn('f9eb11be3b3a');
 
 // -------------------------------------------------- booked vs being chased
 {
-  const modes = F.modesHTML('diary', 1, 12);
-  ok('the two halves are one control, not two pages',
-     /data-mode="diary"/.test(modes) && /data-mode="pipeline"/.test(modes), modes);
+  // THREE halves now. The pipeline used to BE this briefs list, which has
+  // always been empty, so the tab read "Pipeline 0" while sixty enquiries sat
+  // on the monday board. They are separate because they are separate things:
+  // an enquiry is somebody asking, a brief is the paperwork that holds a room.
+  const modes = F.modesHTML('diary', 1, 60, 12);
+  ok('the three halves are one control, not three pages',
+     /data-mode="diary"/.test(modes) && /data-mode="pipeline"/.test(modes)
+     && /data-mode="briefs"/.test(modes), modes);
   ok('the half you are in is marked', /data-mode="diary" class="on"/.test(modes), modes);
   ok('...and each carries its own count',
      modes.includes('Diary<span class="n">1</span>')
-     && modes.includes('Pipeline<span class="n">12</span>'), modes);
+     && modes.includes('Pipeline<span class="n">60</span>')
+     && modes.includes('Briefs<span class="n">12</span>'), modes);
+  ok('the briefs count is the LIVE briefs, not every brief ever',
+     /!\['lost', 'done'\]\.includes\(b\.stage\)\)\.length/.test(src));
   ok('the diary is the default half — it is the one that was invisible',
      /let MODE = 'diary'/.test(src));
 }
@@ -1404,8 +1412,10 @@ const GP_FEED = { schema: 'functions_gp/1', benchmark_gp_pct: 76.4,
 {
   ok('the feed is a static file on this origin, not a route on the engine',
      /GP_FEED_URL = '\/data\/functions_gp\.json'/.test(src), 'not found');
-  ok('...fetched with the diary rather than after it',
-     /loadGpFeed\(\),/.test(src) && /const \[briefs, chase, cfg, areas, diary, gp\]/.test(src));
+  ok('...fetched with the diary rather than after it, and beside the enquiry '
+     + 'feed, so the two feeds fail independently of each other',
+     /loadGpFeed\(\),/.test(src)
+     && /const \[briefs, chase, cfg, areas, diary, gp, pipe\]/.test(src));
   ok('...and every way it can fail returns null instead of throwing',
      /if \(!r\.ok\) return null;/.test(src) && /catch \(_\) \{ return null; \}/.test(src));
   ok('a feed declaring a schema this page does not know is refused whole, not '

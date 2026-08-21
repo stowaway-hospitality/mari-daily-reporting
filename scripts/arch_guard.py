@@ -210,7 +210,19 @@ SUITES = [("model conservation", "scripts/test_pnl_model.mjs"),
           # heard of. Both ship green and the screen is wrong -- silently, and
           # in the flattering direction, because a lost caveat does not remove
           # the percentage, it removes the doubt.
-          ("functions GP feed", "scripts/test_functions_gp_feed.mjs")]
+          ("functions GP feed", "scripts/test_functions_gp_feed.mjs"),
+          # data/functions_pipeline.json -- every enquiry on the monday
+          # tracker, drawn by the real /functions/ module. The Pipeline tab
+          # read the booking engine's brief table for weeks and that table has
+          # always been empty, so it said "Pipeline 0" while sixty live
+          # enquiries sat on the board. Nothing failed and nothing could: an
+          # empty list is a perfectly good rendering of an empty table. Every
+          # way this breaks has that shape -- a field renamed on one side of
+          # the feed, a verdict drawn without the log line it was read off, a
+          # week-old capture presented as live, a deposit button on a room
+          # with no floor plan. Each ships green, because the Python is right
+          # and the JavaScript is right and the JOIN is what is wrong.
+          ("functions pipeline feed", "scripts/test_functions_pipeline_feed.mjs")]
 # R0 runs BEFORE R8, and stops here if it trips. Letting the suites run against
 # a stale feed is what produces the fictional regression this check exists to
 # prevent — reporting both would just bury the real cause under the ghost.

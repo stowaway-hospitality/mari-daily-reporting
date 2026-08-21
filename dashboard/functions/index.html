@@ -14,11 +14,15 @@
   which reads it from Supabase app_config (RLS-protected). #tokenbox below is
   only a fallback for when that lookup fails.
 
-  The screen has TWO halves and they are not the same question: the DIARY is
+  The screen has THREE halves and they are not the same question: the DIARY is
   what is booked (rows in the engine's bookings table, most with no brief at
-  all), the PIPELINE is what is being chased (briefs). It listed only the
-  second, so it reported an empty diary while confirmed functions sat in the
-  book. #modes switches between them; both are drawn into #rail and #panel.
+  all), the PIPELINE is every enquiry on the monday tracker, and BRIEFS is the
+  engine's own brief table -- the paperwork a deposit is taken against.
+  #modes switches between them; all three are drawn into #rail and #panel.
+
+  The pipeline used to BE the briefs list, and that table has always been
+  empty, so the tab read "Pipeline 0" while sixty enquiries sat on the board.
+  It now reads data/functions_pipeline.json, a static feed on this origin.
 
   A third question arrived with the outcome columns: how did the ones that have
   already happened actually go. It is answered on the diary card of a past
@@ -84,6 +88,12 @@
      selecting a row still paints its marker with the ink colour. */
   .row.onme{border-left-color:var(--amber)}
   .row.onthem{border-left-color:var(--grey);opacity:.92}
+  /* The two the enquiry pipeline added. Deliberately NOT amber: a row whose
+     log does not say whose move it is, and a row nobody has ever touched, are
+     both work — but they are a different errand from "they owe us an answer",
+     and painting all three the same colour is how the honest one gets lost. */
+  .row.unsure{border-left-color:var(--accent)}
+  .row.untouched{border-left-color:var(--line)}
   .row.on{border-left-color:var(--ink);border-color:var(--ink-soft)}
   .row .l1{display:flex;justify-content:space-between;gap:8px;font-size:14px}
   .row .nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -98,6 +108,34 @@
   .chip.soon{background:var(--ink);color:var(--paper)}
   /* Deliberately quiet. An asked-recently row is not a task. */
   .chip.asked{background:var(--line);color:var(--ink-soft)}
+
+  /* ---------------------------------------------- the enquiry pipeline
+     How old the capture is. It sits ABOVE the list, at body size, because a
+     feed that quietly ages while presenting itself as live is worse than no
+     feed: the empty screen at least told the truth. */
+  .stale{background:var(--parchment);border:1px solid var(--line);
+        border-left:3px solid var(--grey);border-radius:10px;
+        padding:9px 12px;margin-bottom:12px;font-size:13px;line-height:1.5}
+  .stale.bad{border-left-color:var(--amber)}
+  .stale a{color:var(--ink)}
+  .stale code{font-size:12px}
+  /* Whose move, and the sentence it was read off. The evidence is body text
+     inside the same block as the verdict, never a tooltip: a verdict nobody
+     can check is a verdict nobody should act on. */
+  .move{margin:11px 0;background:var(--parchment);border:1px solid var(--line);
+        border-left:3px solid var(--grey);border-radius:10px;padding:10px 13px}
+  .move.onme{border-left-color:var(--amber)}
+  .move.unsure{border-left-color:var(--accent)}
+  .move.untouched{border-left-color:var(--line)}
+  .move .verdict{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700}
+  .move .why{font-size:13px;color:var(--ink-soft);margin-top:2px}
+  .evid{font-size:12px;color:var(--ink-soft);margin-top:5px;line-height:1.45;
+        overflow:hidden;text-overflow:ellipsis}
+  .evid.full{font-size:13px;color:var(--ink);white-space:pre-wrap;
+        border-top:1px solid var(--line);padding-top:7px;margin-top:8px}
+  .met .v.sm{font-size:14px;font-weight:600;line-height:1.4;word-break:break-word}
+  .flaglist{margin:6px 0 0 18px;font-size:13px;line-height:1.5}
+  .flaglist li{margin-bottom:5px}
 
   .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
   .kv .f{min-width:0}
@@ -253,6 +291,6 @@
   </div>
 </div>
 
-<script type="module" src="./functions.js?v=20260820e"></script>
+<script type="module" src="./functions.js?v=20260821a"></script>
 </body>
 </html>
