@@ -109,6 +109,105 @@ line_unit_fixes:
 
 line_qty_unit_fixes:
 
+# --- THE EDIBLE FLOWER GARNISH (Zak, 2026-08-21) -----------------------------
+#
+# Zak: "a punnet has about 40 edible flowers in it."
+#
+# Three drinks draw "1 g" of Edible Flower [Punnet] — one flower each, for a
+# garnish. A punnet has no grams anybody has ever counted, so the line fell
+# through to Lightspeed's $0.31 and our own $10.50 punnet price could not reach
+# it.
+#
+# One flower is 1/40 of a punnet = 0.025 punnet = $0.2625.
+#
+# THIS IS THE FLAG THAT NEARLY GOT "TIDIED" INTO A DISASTER. The audit used to
+# call these label-only and tell somebody to set the unit to punnet, which
+# would have charged Bad Bitch Martini a WHOLE $10.50 punnet for one flower and
+# taken the drink from $4.10 to $14.60. The fix is the count, not the label —
+# which is exactly what Zak has now supplied.
+#
+# The line gets CHEAPER, $0.31 -> $0.2625, and that is the flattering direction,
+# so it is worth being explicit that this is a ruling replacing a scraped guess
+# and not arithmetic of mine. 40 is Zak's number.
+  - recipe: "Bad Bitch Martini"
+    ingredient: "Edible Flower [Punnet]"
+    from_qty: 1
+    from_unit: "g"
+    to_qty: 0.025
+    to_unit: "punnet"
+  - recipe: "Brownie"
+    ingredient: "Edible Flower [Punnet]"
+    from_qty: 1
+    from_unit: "g"
+    to_qty: 0.025
+    to_unit: "punnet"
+  - recipe: "Lychee Martini"
+    ingredient: "Edible Flower [Punnet]"
+    from_qty: 1
+    from_unit: "g"
+    to_qty: 0.025
+    to_unit: "punnet"
+
+# --- THE BURRITO LIME, all six of them (Zak, 2026-08-21) ---------------------
+#
+# Zak: "all burritos have 1 wedge of lime, 1/12 of a lime unit."
+#
+# Every burrito in Produce draws "0.125 ml" of Lime [ea]. Two things are wrong
+# with that and only one of them is cosmetic:
+#
+#   THE UNIT. Lime [ea] is a whole lime; it has no millilitres. The line was
+#   already being COSTED as a fraction of a lime (0.125 x $0.501 = $0.0626,
+#   which is exactly the eff_cost), so the "ml" never did anything but mislead.
+#
+#   THE QUANTITY. 0.125 is an EIGHTH of a lime. A wedge is a twelfth. The book
+#   already knows this — Soda & Lime Glass has drawn "0.0833 ea" of the same
+#   Lime [ea] all along — so the burritos are the outlier, not the convention.
+#
+# Each burrito is therefore over-costed by $0.0209 on its lime. That is small
+# money and it is still a number nobody can defend, and correcting it DOWN is
+# the flattering direction, which is precisely why it needs a ruling behind it
+# rather than my arithmetic. It has one.
+#
+# Fish Burrito and Fish Burrito D are not here: Produce left the line off them
+# entirely, so there is nothing to relabel. They are in
+# data/recipe_missing_lines.yaml instead.
+  - recipe: "Beef Burrito"
+    ingredient: "Lime [ea]"
+    from_qty: 0.125
+    from_unit: "ml"
+    to_qty: 0.0833
+    to_unit: "ea"
+  - recipe: "Beef Burrito D"
+    ingredient: "Lime [ea]"
+    from_qty: 0.125
+    from_unit: "ml"
+    to_qty: 0.0833
+    to_unit: "ea"
+  - recipe: "Cauliflower Burrito"
+    ingredient: "Lime [ea]"
+    from_qty: 0.125
+    from_unit: "ml"
+    to_qty: 0.0833
+    to_unit: "ea"
+  - recipe: "Cauliflower Burrito D"
+    ingredient: "Lime [ea]"
+    from_qty: 0.125
+    from_unit: "ml"
+    to_qty: 0.0833
+    to_unit: "ea"
+  - recipe: "Chicken Burrito"
+    ingredient: "Lime [ea]"
+    from_qty: 0.125
+    from_unit: "ml"
+    to_qty: 0.0833
+    to_unit: "ea"
+  - recipe: "Chicken Burrito D"
+    ingredient: "Lime [ea]"
+    from_qty: 0.125
+    from_unit: "ml"
+    to_qty: 0.0833
+    to_unit: "ea"
+
   # SUPERSEDED 2026-08-19, and the way it died is the lesson.
   #
   # The entry above was written against a record reading "1,000 g chicken +

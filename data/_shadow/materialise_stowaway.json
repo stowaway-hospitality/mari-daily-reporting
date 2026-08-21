@@ -85,12 +85,12 @@
   "authored": 51,
   "derived": 135,
   "mirrored": 41,
-  "rule": 60,
+  "rule": 62,
   "scrape": 1183,
   "weighed": 23
  },
  "generated": "2026-08-21",
- "lines": 1493,
+ "lines": 1495,
  "manual_lines": [
   {
    "engine": null,
@@ -225,17 +225,6 @@
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
-   "engine": null,
-   "frozen_unit_cost": 0.31,
-   "line": "Edible Flower [Punnet]",
-   "line_cost": 0.31,
-   "product": "Bad Bitch Martini",
-   "qty": 1.0,
-   "ref": "lightspeed:21020204",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
    "engine": 0.0176,
    "frozen_unit_cost": 0.0209,
    "line": "Spanish Onion [10Kg]",
@@ -277,17 +266,6 @@
    "qty": 1.0,
    "ref": "lightspeed:20445706",
    "unit": "ml",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.31,
-   "line": "Edible Flower [Punnet]",
-   "line_cost": 0.31,
-   "product": "Brownie",
-   "qty": 1.0,
-   "ref": "lightspeed:21020204",
-   "unit": "g",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
@@ -617,17 +595,6 @@
    "qty": 1.0,
    "ref": "",
    "unit": "ea",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.31,
-   "line": "Edible Flower [Punnet]",
-   "line_cost": 0.31,
-   "product": "Lychee Martini",
-   "qty": 1.0,
-   "ref": "lightspeed:21020204",
-   "unit": "g",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
@@ -1262,18 +1229,18 @@
    "why": "house rule: the line follows the batch's unit"
   },
   {
-   "from": "0.125 ml",
+   "from": "0.0833 ea",
    "line": "Lime [ea]",
    "product": "Beef Burrito",
-   "to": "0.125 each",
-   "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+   "to": "0.0833 each",
+   "why": "a fraction of the batch: 0.0833 x 1 each reproduces the line's own cost to within 1%"
   },
   {
-   "from": "0.125 ml",
+   "from": "0.0833 ea",
    "line": "Lime [ea]",
    "product": "Beef Burrito D",
-   "to": "0.125 each",
-   "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+   "to": "0.0833 each",
+   "why": "a fraction of the batch: 0.0833 x 1 each reproduces the line's own cost to within 1%"
   },
   {
    "from": "ml",
@@ -1318,18 +1285,18 @@
    "why": "house rule: the line follows the batch's unit"
   },
   {
-   "from": "0.125 ml",
+   "from": "0.0833 ea",
    "line": "Lime [ea]",
    "product": "Cauliflower Burrito",
-   "to": "0.125 each",
-   "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+   "to": "0.0833 each",
+   "why": "a fraction of the batch: 0.0833 x 1 each reproduces the line's own cost to within 1%"
   },
   {
-   "from": "0.125 ml",
+   "from": "0.0833 ea",
    "line": "Lime [ea]",
    "product": "Cauliflower Burrito D",
-   "to": "0.125 each",
-   "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+   "to": "0.0833 each",
+   "why": "a fraction of the batch: 0.0833 x 1 each reproduces the line's own cost to within 1%"
   },
   {
    "from": "0.077 ml",
@@ -1339,18 +1306,18 @@
    "why": "a fraction of the batch: 0.077 x 4376 g reproduces the line's own cost to within 1%"
   },
   {
-   "from": "0.125 ml",
+   "from": "0.0833 ea",
    "line": "Lime [ea]",
    "product": "Chicken Burrito",
-   "to": "0.125 each",
-   "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+   "to": "0.0833 each",
+   "why": "a fraction of the batch: 0.0833 x 1 each reproduces the line's own cost to within 1%"
   },
   {
-   "from": "0.125 ml",
+   "from": "0.0833 ea",
    "line": "Lime [ea]",
    "product": "Chicken Burrito D",
-   "to": "0.125 each",
-   "why": "a fraction of the batch: 0.125 x 1 each reproduces the line's own cost to within 1%"
+   "to": "0.0833 each",
+   "why": "a fraction of the batch: 0.0833 x 1 each reproduces the line's own cost to within 1%"
   },
   {
    "from": "ml",
@@ -1385,6 +1352,20 @@
    "product": "Fancy Pants Parmy - Classic",
    "to": "g",
    "why": "house rule: the line follows the batch's unit"
+  },
+  {
+   "from": "0.0833 ea",
+   "line": "Lime [ea]",
+   "product": "Fish Burrito",
+   "to": "0.0833 each",
+   "why": "a fraction of the batch: 0.0833 x 1 each reproduces the line's own cost to within 1%"
+  },
+  {
+   "from": "0.0833 ea",
+   "line": "Lime [ea]",
+   "product": "Fish Burrito D",
+   "to": "0.0833 each",
+   "why": "a fraction of the batch: 0.0833 x 1 each reproduces the line's own cost to within 1%"
   },
   {
    "from": "ml",

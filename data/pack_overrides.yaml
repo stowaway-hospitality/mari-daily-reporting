@@ -1473,3 +1473,27 @@
     no divisor — the same shape as the base-unit and generic-container cases.
   true: 2026-08-21
   by_email: hello@stowawaybar.com
+
+- id: "fresh-fruit-team:LMM15BX"
+  pack_qty: 1500
+  pack_unit: g
+  by: >-
+    Lettuce Mesculin. THE SUPPLIER'S OWN UOM SAYS IT: raw_uom "1.5kg box",
+    qty 1, unit price $17.40, line total $17.40 (INB00101846, 29 Apr, Harry
+    Gatos). One box, 1.5 kg, $17.40.
+    The parser read the basis as per_kg and the pack as 1 kg, so Harry Gatos
+    has been costing mesculin at $0.0174/g — FIFTY PER CENT TOO DEAR. The true
+    rate is $17.40/1500 g = $0.0116/g. Stowaway's copy of the same code
+    (INB00099534, "Mesculin", per_unit, 1 box) has the right money and no gram
+    rate at all, so neither venue could cost a salad correctly and they were
+    wrong in opposite directions.
+    CORROBORATION: fresh-fruit-team:KITLMWASKG, the WASHED AND SANITISED
+    mesculin, genuinely bills per kilo at $18.00. Unwashed leaf at $17.40/kg
+    would be within 3% of the washed, prepped product, which is not how produce
+    is priced; at $11.60/kg against $18.00 the relationship is the ordinary one.
+    THIS IS WHAT THE VENUE SPLIT WAS HIDING. One product, one supplier code,
+    one price — read two ways because two venues held it separately. Zak,
+    2026-08-21: "we are going to merge all inventory into one, so all pricing
+    will be global."
+  true: 2026-08-21
+  by_email: hello@stowawaybar.com

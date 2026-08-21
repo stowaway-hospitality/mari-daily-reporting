@@ -9,7 +9,7 @@
 #   weighed     23 — somebody put it on scales
 #   derived    135 — computed from another line (a size scaling, a cook yield)
 #   mirrored    41 — deliberately the same spec as a sibling record
-#   rule        60 — a written rule with arithmetic proof corrected it
+#   rule        62 — a written rule with arithmetic proof corrected it
 #   scrape    1183 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
@@ -703,10 +703,8 @@
     source: scrape
   - id: lightspeed:21020204
     desc: Edible Flower [Punnet]
-    qty: 1
-    unit: g
-    manual: true
-    unit_cost_incl: 0.31
+    qty: 0.025
+    unit: punnet
     source: scrape
   - id: lightspeed:22873696
     desc: Massenez Mango Liqueur [5L Cask]
@@ -959,7 +957,7 @@
     source: scrape
   - subrecipe: Lime [ea]
     desc: Lime [ea]
-    qty: 0.125
+    qty: 0.0833
     unit: each
     source: rule
     evidence: stated as a fraction of the batch; recovered from the line's own cost
@@ -1027,7 +1025,7 @@
     evidence: scaled from Beef Burrito x1
   - subrecipe: Lime [ea]
     desc: Lime [ea]
-    qty: 0.125
+    qty: 0.0833
     unit: each
     source: rule
     evidence: stated as a fraction of the batch; recovered from the line's own cost
@@ -1466,10 +1464,8 @@
     evidence: the batch is measured in things, not millilitres; the line's own cost confirms the count
   - id: lightspeed:21020204
     desc: Edible Flower [Punnet]
-    qty: 1
-    unit: g
-    manual: true
-    unit_cost_incl: 0.31
+    qty: 0.025
+    unit: punnet
     source: scrape
   - id: lightspeed:23040879
     desc: Ice Cream Gold Label Vanilla [4L]
@@ -2020,7 +2016,7 @@
     source: scrape
   - subrecipe: Lime [ea]
     desc: Lime [ea]
-    qty: 0.125
+    qty: 0.0833
     unit: each
     source: rule
     evidence: stated as a fraction of the batch; recovered from the line's own cost
@@ -2088,7 +2084,7 @@
     evidence: scaled from Cauliflower Burrito x1
   - subrecipe: Lime [ea]
     desc: Lime [ea]
-    qty: 0.125
+    qty: 0.0833
     unit: each
     source: rule
     evidence: stated as a fraction of the batch; recovered from the line's own cost
@@ -2296,7 +2292,7 @@
     source: scrape
   - subrecipe: Lime [ea]
     desc: Lime [ea]
-    qty: 0.125
+    qty: 0.0833
     unit: each
     source: rule
     evidence: stated as a fraction of the batch; recovered from the line's own cost
@@ -2364,7 +2360,7 @@
     evidence: scaled from Chicken Burrito x1
   - subrecipe: Lime [ea]
     desc: Lime [ea]
-    qty: 0.125
+    qty: 0.0833
     unit: each
     source: rule
     evidence: stated as a fraction of the batch; recovered from the line's own cost
@@ -3819,6 +3815,12 @@
     qty: 110
     unit: g
     source: scrape
+  - subrecipe: Lime [ea]
+    desc: Lime [ea]
+    qty: 0.0833
+    unit: each
+    source: rule
+    evidence: stated as a fraction of the batch; recovered from the line's own cost
 - product: Fish Burrito D
   venue_source: stowaway
   is_serve: true
@@ -3883,6 +3885,12 @@
     unit: g
     source: derived
     evidence: scaled from Fish Burrito x1
+  - subrecipe: Lime [ea]
+    desc: Lime [ea]
+    qty: 0.0833
+    unit: each
+    source: rule
+    evidence: stated as a fraction of the batch; recovered from the line's own cost
 - product: Fish Cajun Marination
   venue_source: stowaway
   yield_qty: 82
@@ -6477,10 +6485,8 @@
     source: scrape
   - id: lightspeed:21020204
     desc: Edible Flower [Punnet]
-    qty: 1
-    unit: g
-    manual: true
-    unit_cost_incl: 0.31
+    qty: 0.025
+    unit: punnet
     source: scrape
   - subrecipe: Super Lemon Juice [1L]
     desc: Super Lemon Juice [1L]

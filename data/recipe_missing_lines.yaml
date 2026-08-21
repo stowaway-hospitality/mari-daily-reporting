@@ -269,3 +269,26 @@
   unit: "g"
   ls_cost: 0.98
   why: "byte-identical line on Pork, Lamb, Beef and Nut Roast (145 g, $0.98)"
+
+# --- The fish burritos had no lime at all (Zak, 2026-08-21) ------------------
+#
+# Zak: "all burritos have 1 wedge of lime, 1/12 of a lime unit."
+#
+# Evidence, and it is the standard this file demands: the other THREE burritos
+# — Beef, Cauliflower and Chicken — all carry Lime [ea], and their D twins do
+# too. Six siblings with the line, two without. Zak has now confirmed the rule
+# covers all of them.
+#
+# The quantity is stated here rather than left to the weighed sheet, because
+# there is no weighed sheet for a wedge of lime: 0.0833 is a twelfth, which is
+# what Soda & Lime Glass has always drawn of the same Lime [ea], and what the
+# six siblings are being corrected TO in data/batch_yield_units.yaml.
+- recipes:
+    - "Fish Burrito"
+    - "Fish Burrito D"
+  name: "Lime [ea]"
+  ref: "Lime [ea]"
+  subrecipe: true
+  qty: 0.0833
+  unit: "ea"
+  why: "Zak 2026-08-21: every burrito gets one wedge, 1/12 of a lime; the six sibling burritos all carry the line"

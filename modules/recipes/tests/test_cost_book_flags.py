@@ -366,14 +366,21 @@ def test_a_missing_component_is_priced_off_its_own_siblings(feed):
     burritos carry 55 g of Mexican cheese; the fourth carries none. What the
     missing line would cost is exactly what theirs cost — no yield, no waste, no
     portion guess — times what the dish sells."""
-    # Cauliflower Burrito used to be the example here. It is not a finding any
-    # more — it carries vegan cheese at the same 55 g, so the substitution guard
-    # drops it (see test_book_reconcile). Fish Burrito's lime is the real one and
-    # prices the same way: what the carriers pay, times what the dish sells.
-    f = next(x for x in _by_cat(feed, "structure") if "Fish Burrito" in x["subject"])
-    assert f["impact_per_year"] > 0, f["impact_per_year"]
-    assert "No yield, waste or portion assumption enters it." in f["impact_basis"]
-    assert len(f["evidence"]) >= 3          # the carriers plus the coherence
+    # BOTH EXAMPLES ARE NOW SETTLED, so this asserts the CONTRACT against
+    # whatever the family holds rather than against a named member — the same
+    # lesson the mjs suite learned twice. Cauliflower Burrito was a false
+    # positive (vegan cheese at the same 55 g). Fish Burrito's lime was real and
+    # was restored on 2026-08-21 when Zak ruled the family: "all burritos have 1
+    # wedge of lime, 1/12 of a lime unit."
+    #
+    # An empty family is the goal state. What must never happen is a finding
+    # here carrying a dollar figure with a guess inside it.
+    for f in _by_cat(feed, "structure"):
+        if f.get("impact_per_year") is None:
+            continue
+        assert f["impact_per_year"] > 0, f["subject"]
+        assert "No yield, waste or portion assumption enters it." in f["impact_basis"]
+        assert len(f["evidence"]) >= 3      # the carriers plus the coherence
 
 
 def test_a_batch_that_holds_more_than_it_makes_states_no_dollar(feed):

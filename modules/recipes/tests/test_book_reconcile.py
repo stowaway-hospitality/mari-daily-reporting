@@ -233,16 +233,27 @@ def test_carriers_that_disagree_about_the_quantity_are_not_a_standard(book):
     assert not [f for f in br.missing_standard_component(b) if f["ingredient"] == "Gravy Prep"]
 
 
-def test_the_current_book_yields_only_the_fish_burrito_finding(book):
-    """The measured output, pinned. It was two findings; checking them in
-    Lightspeed on 2026-08-09 settled both. Fish Burrito really had no lime (added
-    at source that day). Cauliflower Burrito was a FALSE POSITIVE: it carries
-    "Vegan Shredded Cheese [500g]" at the same 55 g as its siblings' dairy cheese,
-    so the rule was asking the kitchen to put dairy in the vegan dish. The
-    substitution guard drops it, and this pins that it stays dropped."""
+def test_the_missing_component_rule_is_settled_on_the_current_book(book):
+    """The measured output, and it is now EMPTY — which is the finish line, not
+    a break.
+
+    It was two findings. Cauliflower Burrito was a FALSE POSITIVE: it carries
+    "Vegan Shredded Cheese [500g]" at the same 55 g as its siblings' dairy
+    cheese, so the rule was asking the kitchen to put dairy in the vegan dish.
+    The substitution guard drops it, and this still pins that it stays dropped.
+
+    Fish Burrito really had no lime, and on 2026-08-21 Zak ruled the whole
+    family: "all burritos have 1 wedge of lime, 1/12 of a lime unit." The line
+    is restored to Fish Burrito and Fish Burrito D from
+    data/recipe_missing_lines.yaml, so the rule now finds nothing.
+
+    ASSERTED AS A PROPERTY, NOT A LIST. Pinning `got == [the one finding]` is
+    what made settling it break the build; the contract is that the rule runs
+    and that the known false positive stays out of it."""
     got = [(f["recipe"], f["ingredient"]) for f in br.missing_standard_component(book)]
-    assert got == [("Fish Burrito", "Lime [ea]")], got
     assert not [g for g in got if g[0] == "Cauliflower Burrito"], got
+    assert not [g for g in got if g == ("Fish Burrito", "Lime [ea]")], (
+        "Fish Burrito's lime came back — check data/recipe_missing_lines.yaml")
 
 
 # --- 4. batches -------------------------------------------------------------

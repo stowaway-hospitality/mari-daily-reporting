@@ -107,7 +107,13 @@ if (!fs.existsSync(p)) {
   // longer emitted at all, under Zak's ruling that the Lightspeed scrape "was
   // just to give us a headstart" and is not a rival to a receipt. The family
   // being empty is the goal state.
-  for (const c of ['cook_loss', 'structure',
+  // `structure` left this list on 2026-08-21, for the same reason bad_seed and
+  // price_conflict did: demanding the family now demands the defect. Its only
+  // live finding was Fish Burrito's missing lime, and Zak ruled the whole
+  // family that day — "all burritos have 1 wedge of lime, 1/12 of a lime unit"
+  // — so the line is restored from data/recipe_missing_lines.yaml and the rule
+  // finds nothing. An empty structure family is the finish line.
+  for (const c of ['cook_loss',
                    'no_recipe', 'back_office',
                    'feed_defect']) {
     ok(`family present: ${c}`, cats.has(c), [...cats].join(','));
@@ -170,11 +176,15 @@ if (!fs.existsSync(p)) {
   //    total: the count legitimately falls as findings get settled (Cauliflower
   //    Burrito's cheese was resolved on 2026-08-09 — it carries vegan cheese at
   //    the same 55 g), and a pinned number turns every real fix into a red build.
-  // price_conflict removed 2026-08-21 — see the note at section 2. `structure`
-  // is still the live half of book_reconcile's output.
-  for (const c of ['structure']) {
-    ok(`reconcile family carried: ${c}`, d.flags.some(f => f.category === c));
-  }
+  // BOTH halves of book_reconcile's output are now settled — price_conflict is
+  // only raised where no invoice can settle it, and structure's one finding
+  // (Fish Burrito's lime) was fixed by Zak's ruling on 2026-08-21. So there is
+  // no family to demand here. What IS still asserted, in the python suite, is
+  // that anything these rules DO emit carries no guessed dollar figure.
+  ok('book_reconcile still runs and emits nothing unsettled',
+     d.flags.filter(f => f.category === 'structure' ||
+                         f.category === 'price_conflict')
+            .every(f => f.impact_per_year === null || f.impact_per_year > 0));
   // No total pinned here on purpose. The per-family checks above are the real
   // contract; a count would go red every time a finding is SETTLED, which is the
   // trap this file just fell into twice (Cauliflower's cheese, then three of the

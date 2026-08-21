@@ -2940,6 +2940,21 @@ def main() -> int:
                 if _fx[2] is not None:
                     ln["qty_was"], ln["qty"] = ln.get("qty"), _fx[2]
                 ln["relabelled_by"] = "data/batch_yield_units.yaml"
+                # RE-PRICE IT. `our_cost` was resolved hundreds of lines ago
+                # against the unit the line USED to carry, so a relabel that
+                # finally makes our own rate applicable would otherwise leave
+                # the line costed off the scrape anyway — the relabel visible
+                # in the record, and doing nothing.
+                #
+                # Edible Flower is the case: three drinks drew "1 g" of a
+                # product we hold per PUNNET, so our_cost was None and the line
+                # fell to Lightspeed's $0.31. Zak's count (40 flowers to a
+                # punnet) restates it as 0.025 punnet, which our $10.50 punnet
+                # CAN price — at $0.2625 — but only if somebody asks again.
+                if str(ln.get("unit_was") or "") != str(ln.get("unit") or ""):
+                    _oc = our_costs.get(ln.get("ref") or "")
+                    if _oc and str(_oc[1] or "").lower() == str(ln.get("unit") or "").lower():
+                        ln["our_cost"] = float(_oc[0])
 
             # the scraped per-line `cost` is Lightspeed's own dollar amount for that
             # line — reliable even when the qty/unit shown are garbage (a whole
