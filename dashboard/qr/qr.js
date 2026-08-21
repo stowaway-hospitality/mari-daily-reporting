@@ -691,6 +691,58 @@ async function renderIns() {
       </table>` : '<div class="empty">Nothing yet.</div>'}</div>`;
 }
 
+// ================================================================= GUESTS
+// The guest database — what me&u sells back to the venue. Ours, exportable.
+async function renderGuests() {
+  const host = $('vGuests');
+  let d;
+  try { d = await call('/api/admin/qr/guests'); } catch (e) {
+    host.innerHTML = `<div class="empty">${esc(e.message)}</div>`; return;
+  }
+  const money = (c) => '$' + (c / 100).toFixed(2);
+  const s = d.summary;
+  host.innerHTML = `
+    <h1 class="mu">Guests</h1>
+    <div class="mu-sub">Captured at checkout, counted only when money moved.
+      Opt-ins are yours to email — export and drop into your mail tool.</div>
+    <div class="statgrid">
+      <div class="mu-card pad stat"><div class="n">${s.total}</div><div class="l">guests</div></div>
+      <div class="mu-card pad stat"><div class="n">${s.opted_in}</div><div class="l">opted in to marketing</div></div>
+      <div class="mu-card pad stat"><div class="n">${s.repeat_guests}</div><div class="l">repeat guests</div></div>
+      <div class="mu-card pad stat"><div class="n">${money(s.total_spend_cents)}</div><div class="l">lifetime spend</div></div>
+    </div>
+    <div class="mu-card pad">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <strong>Guest list</strong>
+        <button class="btn sm" id="gExp" style="margin-left:auto">Export CSV</button>
+      </div>
+      ${d.guests.length ? `<table class="simple">
+        <tr><th>Name</th><th>Email</th><th>Mobile</th><th>Opt-in</th>
+            <th class="r">Visits</th><th class="r">Spend</th><th>Last visit</th></tr>
+        ${d.guests.map((g) => `<tr>
+          <td>${esc(g.name || '—')}</td><td>${esc(g.email)}</td>
+          <td>${esc(g.phone || '—')}</td>
+          <td>${g.marketing_opt_in ? '✓' : ''}</td>
+          <td class="r">${g.visits}</td>
+          <td class="r">${money(g.total_spend_cents)}</td>
+          <td>${esc((g.last_seen || '').slice(0, 10))}</td></tr>`).join('')}
+      </table>` : '<div class="empty">No guests yet — they appear with the first paid order.</div>'}
+    </div>`;
+  $('gExp').onclick = () => {
+    const esc2 = (v) => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    const rows = [['name', 'email', 'phone', 'marketing_opt_in', 'visits',
+                   'total_spend', 'first_seen', 'last_seen']].concat(
+      d.guests.map((g) => [g.name, g.email, g.phone, g.marketing_opt_in ? 'yes' : 'no',
+        g.visits, (g.total_spend_cents / 100).toFixed(2), g.first_seen, g.last_seen]));
+    const blob = new Blob([rows.map((r2) => r2.map(esc2).join(',')).join('\n')],
+                          { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'stowaway_guests.csv';
+    a.click(); URL.revokeObjectURL(a.href);
+  };
+}
+
 // ------------------------------------------------------------------- nav
 const NAV = {
   menu:  { btn: 'navMenu',  view: 'vMenu',  render: renderMenu },
@@ -698,6 +750,7 @@ const NAV = {
   queue: { btn: 'navQueue', view: 'vQueue', render: renderQueue },
   '86':  { btn: 'nav86',    view: 'v86',    render: render86 },
   hist:  { btn: 'navHist',  view: 'vHist',  render: renderHist },
+  guests: { btn: 'navGuests', view: 'vGuests', render: renderGuests },
   set:   { btn: 'navSet',   view: 'vSet',   render: renderSet },
   ins:   { btn: 'navIns',   view: 'vIns',   render: renderIns },
 };
