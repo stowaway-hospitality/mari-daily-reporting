@@ -163,3 +163,57 @@
   to_qty: 750
   to_unit: ml
   evidence: "750ml bottle"
+
+# ---------------------------------------------------------------------------
+# 2026-08-21 — the four spirit/vermouth bottles and one puree carton that had
+# been sitting in held_lowering_merges.csv as "unit clash bottle vs ml
+# (zak-confirmed identity, needs conversion)". The identity was already ruled
+# on; only the conversion was missing, so an invoice-fed rate could not reach
+# a product whose recipes draw millilitres.
+#
+# NONE OF THESE USES THE 700ML CONVENTION. Every one is READ OFF THE ILG
+# INVOICE's own pack column, and Back Office's DefaultSize agrees with all
+# five independently — two sources, no inference.
+#
+# ANTICA FORMULA IS THE REASON THAT MATTERS. The Appendix K convention says a
+# spirit/aperitif bottle is 700 ml, and applying it here would have been
+# wrong: ILG bill Antica Formula as 1L and Back Office holds DefaultSize 1000.
+# It is a vermouth, and vermouth comes in litres. Taking the house convention
+# on trust would have over-costed every Antica pour by 43%.
+- ingredient: "lightspeed:20484285"    # Antica Formula Rosso Vermouth [Bottle]
+  applies_to: ["ilg:175-0420", "lightspeed:20484285"]
+  from_unit: bottle
+  to_qty: 1000
+  to_unit: ml
+  evidence: "ILG invoices bill 175-0420 'ANTICA FORMULA' with pack 1L; BO DefaultSize 1000. NOT the 700ml spirit convention — a vermouth litre."
+
+- ingredient: "lightspeed:20484751"    # Buffalo Trace Bourbon [Bottle]
+  applies_to: ["ilg:305-1949P", "lightspeed:20484751"]
+  from_unit: bottle
+  to_qty: 700
+  to_unit: ml
+  evidence: "ILG bill 305-1949P 'BUFFALO TRACE BOURBON 40%' with pack 0.700L; BO DefaultSize 700"
+
+- ingredient: "lightspeed:20484932"    # Sailor Jerry [700ml]
+  applies_to: ["ilg:345-5638P", "lightspeed:20484932"]
+  from_unit: bottle
+  to_qty: 700
+  to_unit: ml
+  evidence: "ILG bill 345-5638P 'SAILOR JERRY SPICED RUM' with pack 0.700L; BO DefaultSize 700; the product name itself says [700ml]"
+
+- ingredient: "lightspeed:20483410"    # Rooster Rojo Blanco Tequila [Bottle]
+  applies_to: ["ilg:360-1310", "lightspeed:20483410"]
+  from_unit: bottle
+  to_qty: 700
+  to_unit: ml
+  evidence: "ILG bill 360-1310 'ROOSTER ROJO TEQUILA BLANCO' with pack 0.700L; BO DefaultSize 700"
+
+# The Berry Man bill PJ1 as "Passionfruit Puree Seedless 12x1kg" — a carton of
+# twelve 1 kg tubs, priced per kilo. The BO product IS the 1 kg tub and its
+# recipes draw grams, so the only thing missing was kg -> g.
+- ingredient: "lightspeed:22843691"    # Passionfruit Puree Seedless [1kg]
+  applies_to: ["the-berry-man:PJ1", "lightspeed:22843691"]
+  from_unit: kg
+  to_qty: 1000
+  to_unit: g
+  evidence: "invoice 'Passionfruit Puree Seedless 12x1kg' priced per kg; BO Unit=g DefaultSize=1000"
