@@ -1123,6 +1123,8 @@ def missing_pack_size_in_back_office_flags() -> list:
             pid = "lightspeed:" + (r.get("ProductID") or "")
             if pid in declared:
                 continue          # pack read off an invoice and declared; done
+            if pid in _adjudicated_ids():
+                continue          # the question has been answered on the record
             live = pid in used
             reaches = pid in in_book
             _twin = _sized_twin((r.get("ProductName") or "").strip(), _all)

@@ -429,3 +429,42 @@
     one unit word, and in 28 of them the identical price appears under both. Do
     not read a UOM word from this supplier as a fact about the pack; the code
     suffix (KG, BX, T, DOZ) is the reliable signal.
+
+- id: "lightspeed:22947366"
+  product_name: "Chicken Mince"
+  venue: "harry_gatos"
+  checked_invoice: "SI-2990602"
+  checked_on: "2026-08-21"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: SOLD BY THE KILO, so the pack is 1 kg and Back Office's $9.00
+    is a (stale) kilo price, not a per-gram rate. M & J Chickens print it
+    plainly: product code CM, DESCRIPTION "RSPCA FSH THIGH MINCE S/ON RW",
+    UNIT OF ISSUE "KG", $15.95, quantity 2, line total $31.90 — the arithmetic
+    is self-consistent on the document. Seen twice, on SI-2990602 (12 Dec 2025)
+    and SI-2985721 (1 Dec 2025), both delivered to HARRY GATOS, which is whose
+    record this is. I am reading the unit off the invoice, not inferring it
+    from a rate; that inference put 1 kg on a 700 g prawn pack earlier today.
+    CONTEXT WORTH KEEPING: this is not a live line. suppliers.yaml has
+    mj_chickens as "status: dead, last_seen 2026-02-19" and there is not one M
+    & J invoice in data/invoices/ — the supplier stopped trading with us six
+    months ago, which is exactly why nothing draws this product and why no
+    amount of searching the ingested corpus was ever going to find it. If
+    chicken mince comes back it will come back from someone else.
+
+- id: "lightspeed:22947365"
+  product_name: "Pork Mince"
+  venue: "harry_gatos"
+  checked_invoice: "INV3354334"
+  checked_on: "2026-08-21"
+  by: "Claude"
+  by_email: "hello@stowawaybar.com"
+  verdict: >-
+    adjudicated: SOLD BY THE KILO, so the pack is 1 kg. Andrews Meat code 3002K
+    "PORK MINCE BACK FAT FROZEN", basis per_kg, raw UOM "KG", $12.00 a kilo, on
+    23 Apr 2026 (qty 1.00) and 7 May 2026 (qty 1.21) — a fractional quantity
+    that only makes sense as a catch-weight kilo. Both delivered to HARRY
+    GATOS. Back Office's $10.00 is the same kilo, slightly stale. This one was
+    in the ingested corpus the whole time; it never surfaced because the flag
+    reports the Back Office row and nobody had joined it to the purchase.
