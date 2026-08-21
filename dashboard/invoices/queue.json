@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-22",
-  "count": 832,
+  "count": 837,
   "skipped_already_in_xero": 0,
   "invoices": [
     {
@@ -34956,6 +34956,45 @@
       ]
     },
     {
+      "ref": "I224505",
+      "supplier": "Deni Foods Pty Ltd",
+      "supplier_key": "deni_foods",
+      "date": "2026-06-18",
+      "due_date": "2026-06-18",
+      "total": "346.83",
+      "venue": "stowaway",
+      "pdf_path": "23e0caf600ad926c880dec39421adb92556bdfba18c2b820a39b12c915ba8bdf.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "SMOKED MOZZARELLA & BASIL ARANICNI 65G (7.8KG)",
+          "supplier_code": "GASTAM4NA",
+          "qty": "15.6",
+          "amount": "341.33",
+          "unit_cost": "$336.60/kg",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "FUEL LEVY SURCHARGE",
+          "supplier_code": null,
+          "qty": "1",
+          "amount": "5.50",
+          "unit_cost": "$5.50/ea",
+          "tax": "gst",
+          "account_code": "342",
+          "account_name": "Freight & Courier",
+          "reason": "line keyword -> Freight & Courier"
+        }
+      ]
+    },
+    {
       "ref": "CI-411223",
       "supplier": "Gulli Food Distributors Pty Ltd",
       "supplier_key": "gulli",
@@ -36980,6 +37019,34 @@
           "amount": "5.80",
           "unit_cost": "$2.90/L",
           "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "I224464",
+      "supplier": "Deni Foods Pty Ltd",
+      "supplier_key": "deni_foods",
+      "date": "2026-06-12",
+      "due_date": "2026-06-12",
+      "total": "341.33",
+      "venue": "stowaway",
+      "pdf_path": "eacf883e33c0869a65b600b157d0bfcffc5db65a82ea2d48e0314a3b5b8ae626.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "SMOKED MOZZARELLA & BASIL ARANICNI 65G (7.8KG)",
+          "supplier_code": "GASTAM4NA",
+          "qty": "15.6",
+          "amount": "341.33",
+          "unit_cost": "$336.60/kg",
+          "tax": "gst",
           "account_code": "115",
           "account_name": "Purchases - Food",
           "reason": "learned from Xero history for this supplier"
@@ -39916,6 +39983,34 @@
       ]
     },
     {
+      "ref": "I224396",
+      "supplier": "Deni Foods Pty Ltd",
+      "supplier_key": "deni_foods",
+      "date": "2026-06-05",
+      "due_date": "2026-06-05",
+      "total": "341.33",
+      "venue": "stowaway",
+      "pdf_path": "a453e4b5f7a0a03c1ba2db9c2685502efe6bbc4076b742af7039a8804e526360.pdf",
+      "tracking_category": "Stowaway",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "SMOKED MOZZARELLA & BASIL ARANICNI 65G (7.8KG)",
+          "supplier_code": "GASTAM4NA",
+          "qty": "15.6",
+          "amount": "341.33",
+          "unit_cost": "$336.60/kg",
+          "tax": "gst",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
       "ref": "SI4393113",
       "supplier": "Foodlink Australia Pty Ltd",
       "supplier_key": "foodlink",
@@ -40625,6 +40720,89 @@
           "account_code": "117",
           "account_name": "Purchases - Packaging",
           "reason": "line keyword -> Purchases - Packaging"
+        }
+      ]
+    },
+    {
+      "ref": "001812353",
+      "supplier": "JFC Australia Co Pty Ltd",
+      "supplier_key": "jfc",
+      "date": "2026-06-05",
+      "due_date": null,
+      "total": "282.30",
+      "venue": "stowaway",
+      "pdf_path": "a7243c4990b84ceeee9035686341b3d3a7fcb7cec0c23fc22e99a07cd6272fc2.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "SOMI Shoyu G 10/1kg Ramen Noodle Soup Base 10x",
+          "supplier_code": "30562",
+          "qty": "4",
+          "amount": "44.00",
+          "unit_cost": "$11.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SOMI Kitano Miso G 10/1kg Ramen Noodle Soup Base 7x",
+          "supplier_code": "39806",
+          "qty": "4",
+          "amount": "62.00",
+          "unit_cost": "$15.50/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SOMI Tonkotsu Gara Soup 10/1kg GF No MSG Noodle Soup Base x10",
+          "supplier_code": "31256",
+          "qty": "4",
+          "amount": "64.00",
+          "unit_cost": "$16.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "MOMOYA Kimchi No Moto 4/12/190g Kimchee Base",
+          "supplier_code": "02583",
+          "qty": "3",
+          "amount": "13.80",
+          "unit_cost": "$24.21/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "WPM Yellow Ramen #22 12/5pc Frozen Straight Noodle 125gx5",
+          "supplier_code": "56296",
+          "qty": "20",
+          "amount": "84.00",
+          "unit_cost": "$4.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "WP Yude Edamame 10/454g Frozen Soybeans in Pod",
+          "supplier_code": "47197",
+          "qty": "5",
+          "amount": "14.50",
+          "unit_cost": "$6.39/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
         }
       ]
     },
@@ -44341,6 +44519,144 @@
           "qty": "2.000",
           "amount": "52.12",
           "unit_cost": "$26.06/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        }
+      ]
+    },
+    {
+      "ref": "001799312",
+      "supplier": "JFC Australia Co Pty Ltd",
+      "supplier_key": "jfc",
+      "date": "2026-05-29",
+      "due_date": null,
+      "total": "212.10",
+      "venue": "harry_gatos",
+      "pdf_path": "5b990c5ce486677d05f240f6763d676f82954188fb7ab637a49878bd7b049652.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "NAGAI Deluxe Ramen Cut 42/400p Roasted Seaweed Nori",
+          "supplier_code": "47891",
+          "qty": "1",
+          "amount": "24.00",
+          "unit_cost": "$24.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "KKM Shoyu Fancy 12/150ml KIKKOMAN Soy Sauce Fancy",
+          "supplier_code": "50431",
+          "qty": "12",
+          "amount": "51.60",
+          "unit_cost": "$28.67/L",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "UJI Matcha Hagoromo 8/5/40g Green Tea Powder UJINOTSUYU",
+          "supplier_code": "65229",
+          "qty": "1",
+          "amount": "8.70",
+          "unit_cost": "$217.50/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "Natural Basic Shichimi Togarashi 50/300g AMARI Nanami Pepper 7-spice Mix",
+          "supplier_code": "36230",
+          "qty": "1",
+          "amount": "5.80",
+          "unit_cost": "$19.33/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "NAGAI Aonoriko Bandoko 20/100g Roasted Shredded Seaweed Nori",
+          "supplier_code": "14952",
+          "qty": "1",
+          "amount": "5.80",
+          "unit_cost": "$58.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "SB Nanami Togarashi 16/10/15g Shichimi Chilli Pepper 7-spice",
+          "supplier_code": "02706",
+          "qty": "10",
+          "amount": "26.00",
+          "unit_cost": "$173.33/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "KOBAYASHI Komeko Wave Ramen 4/24/128g Rice Noodle Gluten Free, Vegan, Halal",
+          "supplier_code": "38655",
+          "qty": "10",
+          "amount": "32.00",
+          "unit_cost": "$25.00/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "WPM Yellow Ramen #22 12/5pc Frozen Straight Noodle 125gx5",
+          "supplier_code": "56296",
+          "qty": "10",
+          "amount": "42.00",
+          "unit_cost": "$4.20/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "KIBUN Naruto Maki 100/160g (I) Frozen Fish Cake",
+          "supplier_code": "41446",
+          "qty": "2",
+          "amount": "5.40",
+          "unit_cost": "$16.88/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "WP Yude Edamame 10/454g Frozen Soybeans in Pod",
+          "supplier_code": "47197",
+          "qty": "2",
+          "amount": "5.00",
+          "unit_cost": "$5.51/kg",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "learned from Xero history for this supplier"
+        },
+        {
+          "description": "WPM NO EGG #22 ST 130g 10/5p Frozen Yellow Straight Ramen",
+          "supplier_code": "50832",
+          "qty": "1",
+          "amount": "5.80",
+          "unit_cost": "$44.62/kg",
           "tax": "gst_free",
           "account_code": "115",
           "account_name": "Purchases - Food",

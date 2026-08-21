@@ -1,0 +1,62 @@
+{
+  "invoice": {
+    "supplier_key": "deni_foods",
+    "supplier_name_raw": "Deni Foods Pty Ltd",
+    "invoice_ref": "I224464",
+    "invoice_date": "2026-06-12",
+    "total_incl": "341.33",
+    "lines": [
+      {
+        "description": "SMOKED MOZZARELLA & BASIL ARANICNI 65G (7.8KG)",
+        "qty": "15.6",
+        "line_total_incl": "341.33",
+        "unit_price_incl": "21.8790",
+        "unit_price_ex": null,
+        "pack_size": 1,
+        "line_class": "stock",
+        "tax_treatment": "gst",
+        "cost_basis": "per_kg",
+        "gst_amount": "31.03",
+        "wet_amount": null,
+        "supplier_code": "GASTAM4NA",
+        "raw_qty": null,
+        "raw_uom": "Kg",
+        "pack_qty": "1",
+        "pack_unit": "kg",
+        "lightspeed_product_id": null,
+        "lightspeed_product_name": null,
+        "notes": []
+      }
+    ],
+    "due_date": "2026-06-12",
+    "is_credit_note": false,
+    "venue": "stowaway",
+    "po_refs": [],
+    "subtotal_ex": null,
+    "gst_total": null,
+    "wet_total": null,
+    "account_code": null,
+    "source_pdf": "eacf883e33c0869a65b600b157d0bfcffc5db65a82ea2d48e0314a3b5b8ae626.pdf",
+    "extractor_version": null
+  },
+  "validation": {
+    "status": "pass",
+    "findings": [],
+    "expected_ls_receive_total": "341.33",
+    "extras_total": "0"
+  },
+  "xero_coding": {
+    "tracking_category": "Stowaway",
+    "tracking_option": "Kitchen",
+    "tracking_confidence": "high",
+    "primary_account": "115",
+    "lines": [
+      {
+        "description": "SMOKED MOZZARELLA & BASIL ARANICNI 65G (7.8KG)",
+        "account_code": "115",
+        "account_name": "Purchases - Food",
+        "reason": "learned from Xero history for this supplier"
+      }
+    ]
+  }
+}
