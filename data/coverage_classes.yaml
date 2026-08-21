@@ -207,6 +207,20 @@ ids:
     name: Spiced Sour Cream [Batch]
     reason: AUTHORED already (data/recipes) and priced by the prep rule — listed here only because the
       guard counts leaf ids; no action
+  lightspeed:22533121:
+    class: question
+    name: Lime Juice [2Lt]
+    reason: 'went live 2026-08-21 when the Virgin Margy recipe was written to Zak''s
+      spec ("20ml Lime"). WHICH LIME IS IT? Every one of the eleven margaritas in
+      the book takes Super Lime Juice [1L], the batch the bar actually makes, and a
+      virgin margarita off the same station almost certainly does too — but Super
+      Lime is a Produce-owned sub-recipe our book cannot yet reference, so the line
+      was written against this bottled juice instead. That is a limitation of the
+      loader showing up in a recipe, which is the wrong way round. This id carries
+      a bo-seed only and no invoice; the bar buys LIMES (fresh-fruit-team:LMKG,
+      $22k of 4-week revenue rides on them), which is itself evidence that bottled
+      lime juice is a Back Office relic. One word from Zak closes it: if it is the
+      Super Lime batch, the recipe line changes and this id goes back to dormant.'
   lightspeed:22684315:
     class: awaiting_next_purchase
     name: Massenez Elderflower [5L]
