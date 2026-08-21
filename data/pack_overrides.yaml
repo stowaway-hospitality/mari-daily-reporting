@@ -1424,3 +1424,18 @@
 # Bonito Flakes and Pork Mince are not in the cost book under any id — nothing
 # draws them, so there is nothing here to size. The Foodlink 454 g reading for
 # Bonito is recorded in the session log for whenever the product is seeded.
+
+# DUPE RECORDS — Zak, 2026-08-21: "go fix dupe records."
+#
+# Back Office holds Bonito Flakes and Prawn Meat twice, once sized and once
+# bare, and only the bare copy reads as a per-gram rate. I tried to defuse the
+# bare ids here and BACKED IT OUT: check_declarations_bind put unbound at 11
+# against a baseline of 9, because those ids exist only in the BO export and
+# never reach the cost book, so there is nothing for an override to bind to.
+# Declaring against them would have been decoration.
+#
+# The real repair is upstream and is in modules/invoices/build_cogs_list.py:
+# a BO row whose unit is a MEASURE with DefaultSize 1 is a pack price wearing a
+# rate's clothes, and it is now refused as a seed rather than defused one id at
+# a time. See the note there. The flag also names the sized twin now, so a human
+# who meets one of these is told which record is real.

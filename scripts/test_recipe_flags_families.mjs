@@ -138,7 +138,12 @@ if (!fs.existsSync(p)) {
 
   // 2. dishes with NO costed recipe — derived from audit_book.coverage(), never
   //    a hardcoded list, so a recipe landing removes its own flag.
-  for (const s of ['Shredded Beef', 'Miso', 'Shoyu', 'Unlimited BBQ',
+  // 'Unlimited BBQ' left this list on 2026-08-21. Not costed — RULED OUT. Zak:
+  // "packages will never get a cost, they will be costed on a case-by-case
+  // basis in our functions module." A bottomless deal has no fixed build, so it
+  // is exempt with the $80 Razzle Dazzle and the $60 Soiree, and asserting its
+  // presence pinned the queue to a question nobody can answer.
+  for (const s of ['Shredded Beef', 'Miso', 'Shoyu',
                    'Chicken Karaage', 'BBQ Meat Platter', 'Edamame',
                    'Arancini Balls', 'Baked Camembert', 'Pie', 'Roast Turkey',
                    'Beef Cheek']) {

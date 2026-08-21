@@ -267,6 +267,16 @@ PRODUCT_RECIPE_ALIASES = _reg(Declaration(
     ),
 ))
 
+DELIVERY_LISTINGS = _reg(Declaration(
+    name="delivery_listings",
+    path=_d("data/delivery_listings.yaml"),
+    rules_on="a delivery listing built from its dine-in parent, minus what is "
+             "left off the plate",
+    readers=(
+        "scripts/convert_lightspeed_recipes.py",
+    ),
+))
+
 PACK_OVERRIDES = _reg(Declaration(
     name="pack_overrides",
     path=_d("data/pack_overrides.yaml"),

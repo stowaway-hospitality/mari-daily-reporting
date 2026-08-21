@@ -1020,6 +1020,28 @@ def _sized_twin(name: str, rows: list) -> dict | None:
     return None
 
 
+def _ids_in_the_cost_book() -> set:
+    """Every lightspeed id that actually has a row in data/costs.csv.
+
+    A Back Office product that never reaches the cost book cannot mis-cost
+    anything, however wrong its columns are. Checked 2026-08-21: of the six
+    products this rule was flagging, SIX had no row in costs.csv and none in
+    cogs_list.csv either, because seed_recipe_ingredient_costs._declared_pack
+    already refuses a g/ml DefaultSize of 1 ("not a pack, it is the default of
+    an unconfigured product"). The defence was in place the whole time and the
+    flag was reporting the Back Office condition rather than our exposure to it.
+    """
+    out = set()
+    path = ROOT / "data" / "costs.csv"
+    if path.exists():
+        import csv as _c
+        for r in _c.DictReader(path.open(encoding="utf-8-sig")):
+            i = (r.get("ingredient") or "")
+            if i.startswith("lightspeed:"):
+                out.add(i)
+    return out
+
+
 def missing_pack_size_in_back_office_flags() -> list:
     """A pack price sitting in Back Office as if it were a per-gram rate.
 
@@ -1067,6 +1089,7 @@ def missing_pack_size_in_back_office_flags() -> list:
     # A proven pack size retires the flag. The override IS the fix; Back Office
     # is not a second place that also has to agree.
     declared = set(load_pack_overrides())        # the loader owns the path
+    in_book = _ids_in_the_cost_book()
     out = []
     book = _json.loads(BOOK.read_text(encoding="utf-8-sig"))["recipes"] \
         if BOOK.exists() else {}
@@ -1101,11 +1124,16 @@ def missing_pack_size_in_back_office_flags() -> list:
             if pid in declared:
                 continue          # pack read off an invoice and declared; done
             live = pid in used
+            reaches = pid in in_book
             _twin = _sized_twin((r.get("ProductName") or "").strip(), _all)
             out.append({
                 "id": "bo-pack-size-" + _slug(r.get("ProductName") or pid),
                 "category": "pack_size",
-                "severity": "high" if live else "medium",
+                # A product with no row in the cost book cannot mis-cost a dish.
+                # It stays visible (the record is still wrong, and a chef could
+                # start drawing it tomorrow) but it does not compete with defects
+                # that are costing money today.
+                "severity": ("high" if live else "medium") if reaches else "low",
                 "subject": (r.get("ProductName") or "").strip(),
                 "subject_kind": "ingredient",
                 "venue": venue,
@@ -1114,6 +1142,12 @@ def missing_pack_size_in_back_office_flags() -> list:
                     f"cost with no pack size behind it. DefaultSize is still 1, so "
                     f"one {unit} is being sold the whole bag's price."),
                 "why_it_matters": (
+                    ("" if reaches else
+                     "OUR BOOK ALREADY REFUSES THIS: seed_recipe_ingredient_costs "
+                     "._declared_pack rejects a g/ml DefaultSize of 1 as \u201cnot a "
+                     "pack, it is the default of an unconfigured product\u201d, so no "
+                     "rate was ever seeded and there is no row to go wrong. What "
+                     "follows is what Back Office would do, not what we do. ") +
                     "A recipe drawing 50 g would cost "
                     f"${cost * 50:,.2f}. " + (
                         "This one is already in a recipe."
@@ -1143,7 +1177,11 @@ def missing_pack_size_in_back_office_flags() -> list:
                 "evidence": [f"Back Office: Unit={unit}, DefaultSize=1, "
                              f"CostPriceIncTax=${cost:,.2f} (bootstrap figure from the "
                              f"Lightspeed scrape, not an authority)",
-                             "drawn on by a recipe today" if live else "no recipe uses it yet"],
+                             "drawn on by a recipe today" if live else "no recipe uses it yet",
+                             ("it HAS a rate in our cost book" if reaches else
+                              "it reaches neither cogs_list.csv nor costs.csv, so our "
+                              "book holds no rate for it at all and nothing can be "
+                              "mis-costed by it today")],
                 "derived": True,
                 "source": "data/bo_exports/*_products.csv",
             })

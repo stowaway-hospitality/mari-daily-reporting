@@ -9,7 +9,7 @@
    "product": "Garlic Bread"
   },
   {
-   "in": "stowaway",
+   "in": "marilynas",
    "product": "Pizza Sauce [Recipe]"
   },
   {
@@ -22,21 +22,21 @@
   }
  ],
  "by_source": {
-  "authored": 12,
+  "authored": 14,
   "derived": 289,
   "mirrored": 22,
   "rule": 2,
-  "scrape": 593,
+  "scrape": 591,
   "weighed": 1229
  },
- "generated": "2026-08-20",
+ "generated": "2026-08-21",
  "lines": 2147,
  "manual_lines": [
   {
    "engine": null,
-   "frozen_unit_cost": 4.6148,
+   "frozen_unit_cost": 4.5907,
    "line": "Large Pizza [menu average]",
-   "line_cost": 9.2296,
+   "line_cost": 9.1814,
    "product": "$45 FEAST",
    "qty": 2.0,
    "ref": "",
@@ -56,9 +56,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 1.8432,
+   "frozen_unit_cost": 3.1871,
    "line": "Choc Brownie",
-   "line_cost": 1.8432,
+   "line_cost": 3.1871,
    "product": "$45 FEAST",
    "qty": 1.0,
    "ref": "",
@@ -67,9 +67,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.6148,
+   "frozen_unit_cost": 4.5907,
    "line": "Large Pizza [menu average]",
-   "line_cost": 13.8444,
+   "line_cost": 13.7721,
    "product": "$60 BANQUET",
    "qty": 3.0,
    "ref": "",
@@ -100,9 +100,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.6148,
+   "frozen_unit_cost": 4.5907,
    "line": "Large Pizza [menu average]",
-   "line_cost": 18.4592,
+   "line_cost": 18.3628,
    "product": "$90 PIZZA PARTY",
    "qty": 4.0,
    "ref": "",
@@ -122,9 +122,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 1.8432,
+   "frozen_unit_cost": 3.1871,
    "line": "Choc Brownie",
-   "line_cost": 3.6864,
+   "line_cost": 6.3742,
    "product": "$90 PIZZA PARTY",
    "qty": 2.0,
    "ref": "",
@@ -166,9 +166,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.6148,
+   "frozen_unit_cost": 4.5907,
    "line": "Large Pizza [menu average]",
-   "line_cost": 13.8444,
+   "line_cost": 13.7721,
    "product": "Banquet Deal Pizzas",
    "qty": 3.0,
    "ref": "",
@@ -243,6 +243,17 @@
   },
   {
    "engine": null,
+   "frozen_unit_cost": 3.09,
+   "line": "Coke Zero 1.25L",
+   "line_cost": 3.09,
+   "product": "Coke Zero 1.25L",
+   "qty": 1.0,
+   "ref": "lightspeed:20459553",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
    "frozen_unit_cost": 1.8898,
    "line": "Coke Zero Can",
    "line_cost": 1.8898,
@@ -276,20 +287,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.005263144909972299,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.141395,
-   "product": "Family   Hail Africa",
-   "qty": 26.865116279069767,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.009869694444444445,
+   "frozen_unit_cost": 0.00988701388888889,
    "line": "Spiced Sour Cream [Batch]",
-   "line_cost": 0.627988,
+   "line_cost": 0.62909,
    "product": "Family   Sanchez",
    "qty": 63.627906976744185,
    "ref": "lightspeed:22524158",
@@ -298,31 +298,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.005263144909972299,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.141395,
-   "product": "Family   Truffalo Soldier",
-   "qty": 26.865116279069767,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.005263144909972299,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.141395,
-   "product": "Family  Hail Africa",
-   "qty": 26.865116279069767,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.009869694444444445,
+   "frozen_unit_cost": 0.00988701388888889,
    "line": "Spiced Sour Cream [Batch]",
-   "line_cost": 0.627988,
+   "line_cost": 0.62909,
    "product": "Family  Sanchez",
    "qty": 63.627906976744185,
    "ref": "lightspeed:22524158",
@@ -331,31 +309,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.005263144909972299,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.141395,
-   "product": "Family  Truffalo Soldier",
-   "qty": 26.865116279069767,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.005263144909972299,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.141395,
-   "product": "Family Hail Africa",
-   "qty": 26.865116279069767,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.009869694444444445,
+   "frozen_unit_cost": 0.00988701388888889,
    "line": "Spiced Sour Cream [Batch]",
-   "line_cost": 0.627988,
+   "line_cost": 0.62909,
    "product": "Family Sanchez",
    "qty": 63.627906976744185,
    "ref": "lightspeed:22524158",
@@ -364,20 +320,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.005263144909972299,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.141395,
-   "product": "Family Truffalo Soldier",
-   "qty": 26.865116279069767,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 4.6148,
+   "frozen_unit_cost": 4.5907,
    "line": "Large Pizza [menu average]",
-   "line_cost": 9.2296,
+   "line_cost": 9.1814,
    "product": "Feast Deal Pizzas",
    "qty": 2.0,
    "ref": "",
@@ -397,9 +342,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 1.8432,
+   "frozen_unit_cost": 3.1871,
    "line": "Choc Brownie",
-   "line_cost": 1.8432,
+   "line_cost": 3.1871,
    "product": "Feast Deal Pizzas",
    "qty": 1.0,
    "ref": "",
@@ -430,31 +375,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.005263157894736842,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.0716,
-   "product": "Gluten-free Hail Africa",
-   "qty": 13.604,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.005263157894736842,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.0716,
-   "product": "Gluten-free Hail Africa [Dine-in]",
-   "qty": 13.604,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.00986967721911856,
+   "frozen_unit_cost": 0.009887026691495965,
    "line": "Spiced Sour Cream [Batch]",
-   "line_cost": 0.318001,
+   "line_cost": 0.31856,
    "product": "Gluten-free Sanchez",
    "qty": 32.22,
    "ref": "lightspeed:22524158",
@@ -463,34 +386,12 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.00986967721911856,
+   "frozen_unit_cost": 0.009887026691495965,
    "line": "Spiced Sour Cream [Batch]",
-   "line_cost": 0.318001,
+   "line_cost": 0.31856,
    "product": "Gluten-free Sanchez [Dine-in]",
    "qty": 32.22,
    "ref": "lightspeed:22524158",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.005263157894736842,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.0716,
-   "product": "Gluten-free Truffalo Soldier",
-   "qty": 13.604,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.005263157894736842,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.0716,
-   "product": "Gluten-free Truffalo Soldier [Dine-in]",
-   "qty": 13.604,
-   "ref": "lightspeed:20564869",
    "unit": "g",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
@@ -595,31 +496,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.005263157894736842,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.1,
-   "product": "Large Hail Africa",
-   "qty": 19.0,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.005263157894736842,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.1,
-   "product": "Large Hail Africa Wings Deal",
-   "qty": 19.0,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.00986968888888889,
+   "frozen_unit_cost": 0.009887022222222222,
    "line": "Spiced Sour Cream [Batch]",
-   "line_cost": 0.444136,
+   "line_cost": 0.444916,
    "product": "Large Sanchez",
    "qty": 45.0,
    "ref": "lightspeed:22524158",
@@ -628,34 +507,12 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.00986968888888889,
+   "frozen_unit_cost": 0.009887022222222222,
    "line": "Spiced Sour Cream [Batch]",
-   "line_cost": 0.444136,
+   "line_cost": 0.444916,
    "product": "Large Sanchez Wings Deal",
    "qty": 45.0,
    "ref": "lightspeed:22524158",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.005263157894736842,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.1,
-   "product": "Large Truffalo Soldier",
-   "qty": 19.0,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.005263157894736842,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.1,
-   "product": "Large Truffalo Soldier Wings Deal",
-   "qty": 19.0,
-   "ref": "lightspeed:20564869",
    "unit": "g",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
@@ -760,31 +617,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.005263157894736842,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.1,
-   "product": "Regular Hail Africa",
-   "qty": 19.0,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.005263157894736842,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.1,
-   "product": "Regular Hail Africa [Dine-in]",
-   "qty": 19.0,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.0098697,
+   "frozen_unit_cost": 0.009887025,
    "line": "Spiced Sour Cream [Batch]",
-   "line_cost": 0.394788,
+   "line_cost": 0.395481,
    "product": "Regular Sanchez",
    "qty": 40.0,
    "ref": "lightspeed:22524158",
@@ -793,34 +628,12 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.0098697,
+   "frozen_unit_cost": 0.009887025,
    "line": "Spiced Sour Cream [Batch]",
-   "line_cost": 0.394788,
+   "line_cost": 0.395481,
    "product": "Regular Sanchez [Dine-in]",
    "qty": 40.0,
    "ref": "lightspeed:22524158",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.005263157894736842,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.0716,
-   "product": "Regular Truffalo Soldier",
-   "qty": 13.604,
-   "ref": "lightspeed:20564869",
-   "unit": "g",
-   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
-  },
-  {
-   "engine": null,
-   "frozen_unit_cost": 0.005263157894736842,
-   "line": "Lemon [Sliced]",
-   "line_cost": 0.0716,
-   "product": "Regular Truffalo Soldier [Dine-in]",
-   "qty": 13.604,
-   "ref": "lightspeed:20564869",
    "unit": "g",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
@@ -845,6 +658,28 @@
    "ref": "lightspeed:20445897",
    "unit": "ml",
    "why": "our book prices this line differently"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 2.03,
+   "line": "Solo 1.25L",
+   "line_cost": 2.03,
+   "product": "Solo 1.25L",
+   "qty": 1.0,
+   "ref": "lightspeed:20459554",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 4.2654,
+   "line": "Sprite 1.25L",
+   "line_cost": 4.2654,
+   "product": "Sprite 1.25L",
+   "qty": 1.0,
+   "ref": "lightspeed:20459555",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
   {
    "engine": null,
@@ -903,9 +738,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.6148,
+   "frozen_unit_cost": 4.5907,
    "line": "Large Pizza [menu average]",
-   "line_cost": 4.6148,
+   "line_cost": 4.5907,
    "product": "WINGS DEAL",
    "qty": 1.0,
    "ref": "",
@@ -959,6 +794,9 @@
  ],
  "no_yield": [],
  "products": 287,
+ "pulled_in_for_closure": [
+  "Tandoori Yoghurt"
+ ],
  "subrecipes_pulled_in": [
   "BBQ Wings",
   "Chimichurri",
@@ -971,8 +809,7 @@
   "Pizza Dough [Recipe]",
   "Pizza Sauce [Recipe]",
   "Sugar Syrup",
-  "Tandoori Chicken [2Kg]",
-  "Tandoori Sauce [Batch]"
+  "Tandoori Chicken [2Kg]"
  ],
  "unit_relabels": [
   {
@@ -1120,20 +957,6 @@
    "from": "ml",
    "to": "g",
    "why": "house rule, applied over a hand-authored unit"
-  },
-  {
-   "from": "400 ml",
-   "line": "Tandoori Sauce [Batch]",
-   "product": "Tandoori Chicken [2Kg]",
-   "to": "400 g",
-   "why": "declared fix, applied over a hand-authored line"
-  },
-  {
-   "from": "manual @ $7.35/unit",
-   "line": "Tandoori Sauce [Batch]",
-   "product": "Tandoori Chicken [2Kg]",
-   "to": "sub-recipe draw",
-   "why": "a manual line naming a batch is a draw from it"
   }
  ],
  "unresolved": [],

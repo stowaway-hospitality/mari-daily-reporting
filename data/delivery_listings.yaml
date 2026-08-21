@@ -1,0 +1,80 @@
+# A delivery listing built FROM its dine-in parent, minus what does not travel.
+#
+# Zak, 2026-08-21: "chicken parmy d is parmy with no salad, just fries. the add
+# side salad adds this salad back in. this principle applies to the schnitty d
+# and eggplant versions of both."
+#
+# WHY THIS IS A DECLARATION AND NOT SIX RECIPES
+# --------------------------------------------
+# A D listing is not a different dish, it is the same dish with the salad left
+# off. Re-authoring the whole ingredient list would freeze a copy of the parent
+# at the moment I typed it: re-spec the parmy next month and the delivery
+# version keeps costing off the old one. That is precisely the failure
+# load_our_book_lines exists to prevent ("Produce is a mirror nobody updates").
+#
+# So the child is DERIVED from the parent's live lines at build time and only
+# the subtraction is written down.
+#
+# THE SALAD BLOCK. The same five lines appear identically in all three parents,
+# which is the evidence that it is a block and not five coincidences:
+#
+#     Spanish Onion [10Kg]              15 g        $0.316800
+#     Radish Red [Bunch]                0.1 bunch   $0.288000
+#     Lettuce Mesculin [1.5kg]          35 g        $0.630000
+#     Balsamic Dressing House [4.9L]    20 ml       $0.092261
+#     Lemon [ea]                        0.08        $0.030000
+#                                                   ---------
+#                                                   $1.357061
+#
+# The fries do NOT change: 150 g either way. "Just fries" means no salad on the
+# plate, not a bigger serve of chips, and inventing a larger portion would be a
+# guess dressed as a spec.
+
+# NOTE THE FIRST NAME. Produce calls it "Onion Spanish [10kg]", not "Spanish
+# Onion" — the words are the other way round in the scrape and only get
+# normalised further downstream. Matching on the display name silently left the
+# onion in and cost Chicken Schnitty D $0.3168 it does not plate. Match what
+# the SOURCE says.
+salad_block: &salad_block
+  - "Onion Spanish"
+  - "Radish Red"
+  - "Lettuce Mesculin"
+  - "Balsamic Dressing House"
+  - "Lemon [ea]"
+
+listings:
+  - product: "Chicken Schnitty D"
+    from: "Stow Schnitty"
+    drop: *salad_block
+    why: "Zak 2026-08-21: same principle as the parmy."
+
+  # This one was ALREADY WRONG and is the reason the rule matters. Eggplant
+  # Schnitty D was aliased straight to Eggplant Schnitty, salad and all, so the
+  # delivery listing has been carrying $1.357061 it never plated.
+  - product: "Eggplant Schnitty D"
+    from: "Eggplant Schnitty"
+    drop: *salad_block
+    why: "Zak 2026-08-21: the eggplant version of both follows the same rule."
+
+# A PARMY IS A SCHNITTY PLUS TOPPINGS, and Produce says so: Fancy Pants Parmy -
+# Classic is four lines — "Stow Schnitty", prosciutto, pizza sauce, mozzarella.
+# The salad is not on the parmy at all, it is inside the schnitty. So the
+# delivery parmy is not a subtraction, it is a SWAP: the same dish with the
+# no-salad schnitty in place of the dine-in one. Modelling it as a subtraction
+# would have found nothing to subtract and silently produced a copy.
+swaps:
+  - product: "Chicken Parmy D"
+    from: "Fancy Pants Parmy - Classic"
+    replace: "Stow Schnitty"
+    with: "Chicken Schnitty D"
+    why: "Zak 2026-08-21: parmy with no salad, just fries."
+
+# The inverse: the block sold back on its own. Zak: "the add side salad adds
+# this salad back in." Derived from the SAME parent lines, so the add-on and
+# the subtraction can never drift apart — which they would within a month if
+# both were typed out by hand.
+add_backs:
+  - product: "Add Side Salad"
+    from: "Stow Schnitty"
+    keep: *salad_block
+    why: "Zak 2026-08-21: this is the salad the D listings leave off."

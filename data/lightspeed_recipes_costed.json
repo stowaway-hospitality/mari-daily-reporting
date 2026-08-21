@@ -1,13 +1,14 @@
 {
  "generated": "2026-08-21",
  "source": "Lightspeed Produce (scraped)",
- "recipe_count": 1006,
+ "recipe_count": 1013,
  "coverage": {
   "ingredient_refs": {
-   "id": 1552,
-   "subrecipe": 383
+   "id": 1558,
+   "subrecipe": 389,
+   "unmatched": 7
   },
-  "recipes_fully_on_our_book": 963
+  "recipes_fully_on_our_book": 970
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -3920,7 +3921,7 @@
       "rule": "tandoori chicken"
      },
      "qty_was": 64.44,
-     "eff_cost": 0.871639
+     "eff_cost": 1.085255
     },
     {
      "name": "Regular Pizza Box 11\"",
@@ -3955,13 +3956,13 @@
      "eff_cost": 4.4375
     }
    ],
-   "our_cost": 6.3433,
+   "our_cost": 6.557,
    "ls_cost": 6.3228,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 70.9
+   "gp_pct": 69.9
   },
   "Gluten-free Tandoori Chicken [Dine-in]": {
    "ingredients": [
@@ -4036,7 +4037,7 @@
       "rule": "tandoori chicken"
      },
      "qty_was": 64.44,
-     "eff_cost": 0.871639
+     "eff_cost": 1.085255
     },
     {
      "name": "Pizza Base Gluten Free 11in [10x2 CTN] Letizza",
@@ -4049,13 +4050,13 @@
      "eff_cost": 4.4375
     }
    ],
-   "our_cost": 5.7508,
+   "our_cost": 5.9644,
    "ls_cost": 5.7302,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 31.0,
-   "gp_pct": 79.6
+   "gp_pct": 78.8
   },
   "Gluten-free Bubba Gump": {
    "ingredients": [
@@ -7461,73 +7462,23 @@
   "Davy's Old Fashioned": {
    "ingredients": [
     {
-     "name": "Zacapa Centenario 23yr [Bottle]",
-     "kind": "id",
-     "ref": "lightspeed:20488005",
-     "qty": "17.5",
+     "name": "Davy's Old Fashioned Batch",
+     "kind": null,
+     "ref": null,
+     "qty": "75.0",
      "unit": "ml",
-     "ls_cost": "2.69",
-     "our_cost": "0.156200",
-     "eff_cost": 2.7335
-    },
-    {
-     "name": "Appleton Rum [Bottle]",
-     "kind": "id",
-     "ref": "lightspeed:20445860",
-     "qty": "17.5",
-     "unit": "ml",
-     "ls_cost": "1.42",
-     "our_cost": "0.077029",
-     "eff_cost": 1.348008
-    },
-    {
-     "name": "Frangelico [Bottle]",
-     "kind": "id",
-     "ref": "lightspeed:20710023",
-     "qty": "9.3",
-     "unit": "ml",
-     "ls_cost": "0.53",
-     "our_cost": "0.059369",
-     "eff_cost": 0.552132
-    },
-    {
-     "name": "Harveys Bristol Cream Sherry [Bottle]",
-     "kind": "id",
-     "ref": "lightspeed:20487459",
-     "qty": "3.5",
-     "unit": "ml",
-     "ls_cost": "0.07",
-     "our_cost": "0.020000",
-     "eff_cost": 0.07
-    },
-    {
-     "name": "Demerara Syrup",
-     "kind": "subrecipe",
-     "ref": "Demerara Syrup",
-     "qty": "3.5",
-     "unit": "ml",
-     "ls_cost": "0.11",
-     "our_cost": 0.007758620689655172,
-     "eff_cost": 0.027155
-    },
-    {
-     "name": "Xocolatl Mole Bitters [Bottle]",
-     "kind": "id",
-     "ref": "lightspeed:23253690",
-     "qty": "0.3",
-     "unit": "ml",
-     "ls_cost": "0.06",
-     "our_cost": "0.201644",
-     "eff_cost": 0.060493
+     "ls_cost": "5.160239",
+     "our_cost": 0.06880318959712063,
+     "eff_cost": 5.160239
     }
    ],
-   "our_cost": 4.7913,
-   "ls_cost": 4.88,
+   "our_cost": 5.1602,
+   "ls_cost": 5.1602,
    "fully_our_book": true,
-   "resolved_pct": 100,
+   "resolved_pct": 0,
    "is_prep": false,
    "sell_incl": 24.0,
-   "gp_pct": 78.0
+   "gp_pct": 76.3
   },
   "Biscoff Espresso": {
    "ingredients": [
@@ -11078,7 +11029,7 @@
       "rule": "tandoori chicken"
      },
      "qty_was": "90",
-     "eff_cost": 1.216463
+     "eff_cost": 1.514586
     },
     {
      "name": "Large Pizza Box 13\"",
@@ -11101,13 +11052,13 @@
      "eff_cost": 0.11055
     }
    ],
-   "our_cost": 2.8085,
+   "our_cost": 3.1066,
    "ls_cost": 2.7432,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 25.0,
-   "gp_pct": 87.6
+   "gp_pct": 86.3
   },
   "Large Bubba Gump": {
    "ingredients": [
@@ -22904,7 +22855,7 @@
       "rule": "tandoori chicken"
      },
      "qty_was": 64.44,
-     "eff_cost": 0.871639
+     "eff_cost": 1.085255
     },
     {
      "name": "Regular Pizza Box 11\"",
@@ -22929,13 +22880,13 @@
      "eff_cost": 0.11055
     }
    ],
-   "our_cost": 2.0797,
+   "our_cost": 2.2933,
    "ls_cost": 2.0188,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 19.5,
-   "gp_pct": 88.3
+   "gp_pct": 87.1
   },
   "Regular Tandoori Chicken [Dine-in]": {
    "ingredients": [
@@ -23027,16 +22978,16 @@
       "rule": "tandoori chicken"
      },
      "qty_was": 64.44,
-     "eff_cost": 0.871639
+     "eff_cost": 1.085255
     }
    ],
-   "our_cost": 1.4872,
+   "our_cost": 1.7008,
    "ls_cost": 1.4262,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 26.0,
-   "gp_pct": 93.7
+   "gp_pct": 92.8
   },
   "Regular New Yorker": {
    "ingredients": [
@@ -25215,7 +25166,7 @@
       "rule": "tandoori chicken"
      },
      "qty_was": 90.0,
-     "eff_cost": 1.216463
+     "eff_cost": 1.514586
     },
     {
      "name": "Large Pizza Box 13\"",
@@ -25250,13 +25201,13 @@
      "eff_cost": 3.141
     }
    ],
-   "our_cost": 5.9495,
+   "our_cost": 6.2476,
    "ls_cost": 2.7432,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 30.0,
-   "gp_pct": 78.2
+   "gp_pct": 77.1
   },
   "Large Super House Special Wings Deal": {
    "ingredients": [
@@ -30056,30 +30007,30 @@
   "Tandoori Chicken [2Kg]": {
    "ingredients": [
     {
-     "name": "Chicken [5Kg] [BBQ Chicken Pizza]",
+     "name": "Chicken",
      "kind": "id",
      "ref": "lightspeed:20445603",
-     "qty": "1000.0",
+     "qty": "1700.0",
      "unit": "g",
-     "ls_cost": "12.20",
+     "ls_cost": "20.74",
      "our_cost": "0.012200",
-     "eff_cost": 12.2
+     "eff_cost": 20.74
     },
     {
-     "name": "Tandoori Sauce [Batch]",
-     "kind": "subrecipe",
-     "ref": "Tandoori Sauce [Batch]",
-     "qty": "1",
-     "unit": "ml",
-     "ls_cost": "7.35",
-     "our_cost": null,
-     "eff_cost": 6.956876
+     "name": "Tandoori Yoghurt",
+     "kind": null,
+     "ref": null,
+     "qty": "240.0",
+     "unit": "g",
+     "ls_cost": "2.396206",
+     "our_cost": 0.009984193548387097,
+     "eff_cost": 2.396206
     }
    ],
-   "our_cost": 19.1569,
-   "ls_cost": 19.55,
+   "our_cost": 23.1362,
+   "ls_cost": 23.1362,
    "fully_our_book": true,
-   "resolved_pct": 100,
+   "resolved_pct": 50,
    "is_prep": true,
    "sell_incl": 2.0,
    "gp_pct": null
@@ -41190,33 +41141,43 @@
   "Sensei Highball": {
    "ingredients": [
     {
-     "name": "Nikka Black Whisky [700ml]",
+     "name": "Nikka Black Whisky",
      "kind": "id",
      "ref": "lightspeed:22253061",
-     "qty": "15",
+     "qty": "15.0",
      "unit": "ml",
-     "ls_cost": "1.30",
+     "ls_cost": "1.29525",
      "our_cost": "0.086350",
      "eff_cost": 1.29525
     },
     {
-     "name": "Ginger Honey Syrup",
-     "kind": "id",
-     "ref": "lightspeed:22874477",
-     "qty": "15",
+     "name": "Honey + Ginger Syrup",
+     "kind": null,
+     "ref": null,
+     "qty": "15.0",
      "unit": "ml",
-     "ls_cost": "0.00",
-     "our_cost": null,
-     "eff_cost": 0.0
+     "ls_cost": "0.086772",
+     "our_cost": 0.0057848000000000005,
+     "eff_cost": 0.086772
+    },
+    {
+     "name": "Lemon slice",
+     "kind": "id",
+     "ref": "fresh-fruit-team:LKG",
+     "qty": "5.0",
+     "unit": "g",
+     "ls_cost": "0.0165",
+     "our_cost": "0.003300",
+     "eff_cost": 0.0165
     }
    ],
-   "our_cost": 1.2953,
-   "ls_cost": 1.3,
-   "fully_our_book": false,
-   "resolved_pct": 100,
+   "our_cost": 1.3985,
+   "ls_cost": 1.3985,
+   "fully_our_book": true,
+   "resolved_pct": 67,
    "is_prep": false,
    "sell_incl": 12.0,
-   "gp_pct": 88.1
+   "gp_pct": 87.2
   },
   "L'esprit Ros\u00e9 - Regular": {
    "ingredients": [
@@ -42128,33 +42089,43 @@
   "Dragon Juice": {
    "ingredients": [
     {
-     "name": "Kunizakari Umeshu [Bottle]",
-     "kind": "id",
-     "ref": "lightspeed:21004391",
-     "qty": "30",
+     "name": "Dragon Juice Batch",
+     "kind": null,
+     "ref": null,
+     "qty": "50.0",
      "unit": "ml",
-     "ls_cost": "1.83",
-     "our_cost": "0.061111",
-     "eff_cost": 1.83333
+     "ls_cost": "2.536319",
+     "our_cost": 0.05072638961038961,
+     "eff_cost": 2.536319
     },
     {
-     "name": "White Light Pure Vodka [20L]",
-     "kind": "id",
-     "ref": "lightspeed:20445822",
-     "qty": "15",
+     "name": "Dragon Soda",
+     "kind": "subrecipe",
+     "ref": "Dragon Soda [1L]",
+     "qty": "120.0",
      "unit": "ml",
-     "ls_cost": "0.76",
-     "our_cost": "0.050692",
-     "eff_cost": 0.76038
+     "ls_cost": "0.222152",
+     "our_cost": 0.001851263068181818,
+     "eff_cost": 0.223428
+    },
+    {
+     "name": "Shiso leaf (garnish)",
+     "kind": "id",
+     "ref": "select-fresh:HSHIR",
+     "qty": "0.025",
+     "unit": "bunch",
+     "ls_cost": "0.0975",
+     "our_cost": "3.900000",
+     "eff_cost": 0.0975
     }
    ],
-   "our_cost": 2.5937,
-   "ls_cost": 2.59,
+   "our_cost": 2.8572,
+   "ls_cost": 2.856,
    "fully_our_book": true,
-   "resolved_pct": 100,
+   "resolved_pct": 67,
    "is_prep": false,
    "sell_incl": 17.0,
-   "gp_pct": 83.2
+   "gp_pct": 81.5
   },
   "Demon Slayer": {
    "ingredients": [
@@ -42386,33 +42357,53 @@
   "Drunken Koi": {
    "ingredients": [
     {
-     "name": "White Light Pure Vodka [20L]",
-     "kind": "id",
-     "ref": "lightspeed:20445822",
-     "qty": "30",
+     "name": "Drunken Koi Batch",
+     "kind": null,
+     "ref": null,
+     "qty": "75.0",
      "unit": "ml",
-     "ls_cost": "1.52",
-     "our_cost": "0.050692",
-     "eff_cost": 1.52076
+     "ls_cost": "2.701107",
+     "our_cost": 0.036014760864661655,
+     "eff_cost": 2.701107
     },
     {
-     "name": "St. Germain Elderflower Liqueur [Bottle]",
+     "name": "Lemon juice",
      "kind": "id",
-     "ref": "lightspeed:20445875",
-     "qty": "15",
-     "unit": "ml",
-     "ls_cost": "1.13",
-     "our_cost": "0.068816",
-     "eff_cost": 1.03224
+     "ref": "fresh-fruit-team:LKG",
+     "qty": "10.0",
+     "unit": "g",
+     "ls_cost": "0.033",
+     "our_cost": "0.003300",
+     "eff_cost": 0.033
+    },
+    {
+     "name": "Watermelon fish jelly x2 (gelatine/watermelon) \u2014 est",
+     "kind": null,
+     "ref": null,
+     "qty": "1.0",
+     "unit": "ea",
+     "ls_cost": "0.1",
+     "our_cost": null,
+     "eff_cost": 0.1
+    },
+    {
+     "name": "Nasturtium / lilypad garnish \u2014 PRICE PENDING",
+     "kind": null,
+     "ref": null,
+     "qty": "1.0",
+     "unit": "ea",
+     "ls_cost": "0.0",
+     "our_cost": null,
+     "eff_cost": 0.0
     }
    ],
-   "our_cost": 2.553,
-   "ls_cost": 2.65,
-   "fully_our_book": true,
-   "resolved_pct": 100,
+   "our_cost": 2.8341,
+   "ls_cost": 2.8341,
+   "fully_our_book": false,
+   "resolved_pct": 25,
    "is_prep": false,
    "sell_incl": 21.0,
-   "gp_pct": 86.6
+   "gp_pct": 85.2
   },
   "Stone & Wood": {
    "ingredients": [
@@ -44639,6 +44630,27 @@
    "sell_incl": 14.0,
    "gp_pct": 87.9
   },
+  "Stow Soda - Passionfruit": {
+   "ingredients": [
+    {
+     "name": "Passionfruit Syrup",
+     "kind": "subrecipe",
+     "ref": "Passionfruit Syrup",
+     "qty": "30.0",
+     "unit": "ml",
+     "ls_cost": "0.24375",
+     "our_cost": 0.008125,
+     "eff_cost": 0.24375
+    }
+   ],
+   "our_cost": 0.2437,
+   "ls_cost": 0.2437,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 9.0,
+   "gp_pct": 97.0
+  },
   "Pepsi Max Glass": {
    "ingredients": [
     {
@@ -44701,6 +44713,285 @@
    "is_prep": false,
    "sell_incl": 4.5,
    "gp_pct": 79.2
+  },
+  "Virgin Margy": {
+   "ingredients": [
+    {
+     "name": "East Coast Orange Juice [2L] \u2014 the OJ inside 'Adjusted OJ'",
+     "kind": "id",
+     "ref": "lightspeed:22844123",
+     "qty": "30.0",
+     "unit": "ml",
+     "ls_cost": "0.087",
+     "our_cost": "0.002900",
+     "eff_cost": 0.087
+    },
+    {
+     "name": "Lime Juice 2000ML",
+     "kind": "id",
+     "ref": "lightspeed:22533121",
+     "qty": "20.0",
+     "unit": "ml",
+     "ls_cost": "0.165",
+     "our_cost": "0.008250",
+     "eff_cost": 0.165
+    },
+    {
+     "name": "Sugar Syrup",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
+     "qty": "20.0",
+     "unit": "ml",
+     "ls_cost": "0.045455",
+     "our_cost": 0.0022727272727272726,
+     "eff_cost": 0.045455
+    }
+   ],
+   "our_cost": 0.2975,
+   "ls_cost": 0.2975,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 13.0,
+   "gp_pct": 97.5
+  },
+  "Fresh Lime Soda": {
+   "ingredients": [
+    {
+     "name": "Lime [Tray]",
+     "kind": "id",
+     "ref": "lightspeed:20564868",
+     "qty": "0.00139111",
+     "unit": "tray",
+     "ls_cost": "0.041733",
+     "our_cost": "30.000000",
+     "eff_cost": 0.041733
+    }
+   ],
+   "our_cost": 0.0417,
+   "ls_cost": 0.0417,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 3.5,
+   "gp_pct": 98.7
+  },
+  "Chicken Schnitty D": {
+   "ingredients": [
+    {
+     "name": "Chicken Schnitzel Breast Crumbed 150g (6kg/Ctn)",
+     "kind": "id",
+     "ref": "lightspeed:22888608",
+     "qty": "150",
+     "unit": "g",
+     "ls_cost": "3.06",
+     "our_cost": "0.014500",
+     "eff_cost": 2.175
+    },
+    {
+     "name": "Farm Frites Crispy Coated 10mm [2.5kg]",
+     "kind": "id",
+     "ref": "lightspeed:22888630",
+     "qty": "150",
+     "unit": "g",
+     "ls_cost": "0.80",
+     "our_cost": "0.004000",
+     "eff_cost": 0.6
+    },
+    {
+     "name": "Gravy Prep",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
+     "qty": "45",
+     "unit": "g",
+     "ls_cost": "0.30",
+     "our_cost": null,
+     "eff_cost": 0.265393
+    }
+   ],
+   "our_cost": 3.0404,
+   "ls_cost": 4.16,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 22.0,
+   "gp_pct": 84.8
+  },
+  "Eggplant Schnitty D": {
+   "ingredients": [
+    {
+     "name": "Tempeh 250g Nutrisoy",
+     "kind": "id",
+     "ref": "lightspeed:22888670",
+     "qty": 125.0,
+     "unit": "g",
+     "ls_cost": "2.00",
+     "our_cost": "0.016",
+     "eff_cost": 2.0
+    },
+    {
+     "name": "Farm Frites Crispy Coated 10mm [2.5kg]",
+     "kind": "id",
+     "ref": "lightspeed:22888630",
+     "qty": "150",
+     "unit": "g",
+     "ls_cost": "0.80",
+     "our_cost": "0.004000",
+     "eff_cost": 0.6
+    },
+    {
+     "name": "Gravy Prep",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
+     "qty": "45",
+     "unit": "g",
+     "ls_cost": "0.30",
+     "our_cost": null,
+     "eff_cost": 0.265393
+    }
+   ],
+   "our_cost": 2.8654,
+   "ls_cost": 3.1,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 23.0,
+   "gp_pct": 86.3
+  },
+  "Chicken Parmy D": {
+   "ingredients": [
+    {
+     "name": "Chicken Schnitzel Breast Crumbed 150g (6kg/Ctn)",
+     "kind": "id",
+     "ref": "lightspeed:22888608",
+     "qty": 150.0,
+     "unit": "g",
+     "ls_cost": 3.06,
+     "our_cost": "0.014500",
+     "scaled_from": "Chicken Schnitty D x1",
+     "eff_cost": 2.175
+    },
+    {
+     "name": "Farm Frites Crispy Coated 10mm [2.5kg]",
+     "kind": "id",
+     "ref": "lightspeed:22888630",
+     "qty": 150.0,
+     "unit": "g",
+     "ls_cost": 0.8,
+     "our_cost": "0.004000",
+     "scaled_from": "Chicken Schnitty D x1",
+     "eff_cost": 0.6
+    },
+    {
+     "name": "Gravy Prep",
+     "kind": "subrecipe",
+     "ref": "Gravy Prep",
+     "qty": 45.0,
+     "unit": "g",
+     "ls_cost": 0.3,
+     "our_cost": null,
+     "scaled_from": "Chicken Schnitty D x1",
+     "eff_cost": 0.265393
+    },
+    {
+     "name": "Prosciutto Sliced [500g]",
+     "kind": "id",
+     "ref": "lightspeed:22480046",
+     "qty": "35",
+     "unit": "g",
+     "ls_cost": "1.60",
+     "our_cost": "0.029000",
+     "eff_cost": 1.015
+    },
+    {
+     "name": "Pizza Sauce [Recipe]",
+     "kind": "subrecipe",
+     "ref": "Pizza Sauce [Recipe]",
+     "qty": "110",
+     "unit": "g",
+     "ls_cost": "0.41",
+     "our_cost": 0.0023751328903654483,
+     "eff_cost": 0.261265
+    },
+    {
+     "name": "Big Cheese - Shredded Mozzarella [2kg]",
+     "kind": "id",
+     "ref": "lightspeed:22479979",
+     "qty": "65",
+     "unit": "g",
+     "ls_cost": "0.77",
+     "our_cost": "0.010500",
+     "eff_cost": 0.6825
+    }
+   ],
+   "our_cost": 4.9992,
+   "ls_cost": 6.94,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 25.0,
+   "gp_pct": 78.0
+  },
+  "Add Side Salad": {
+   "ingredients": [
+    {
+     "name": "Spanish Onion [10Kg]",
+     "kind": "id",
+     "ref": "lightspeed:20445597",
+     "qty": "15",
+     "unit": "g",
+     "ls_cost": "0.36",
+     "our_cost": "0.002200",
+     "eff_cost": 0.3168
+    },
+    {
+     "name": "Radish Red [Bunch]",
+     "kind": "id",
+     "ref": "lightspeed:22995358",
+     "qty": "0.1",
+     "unit": "bunch",
+     "ls_cost": "0.29",
+     "our_cost": "2.88",
+     "eff_cost": 0.288
+    },
+    {
+     "name": "Lettuce Mesculin [1.5kg]",
+     "kind": "id",
+     "ref": "lightspeed:22995349",
+     "qty": "35",
+     "unit": "g",
+     "ls_cost": "0.41",
+     "our_cost": "0.018000",
+     "eff_cost": 0.63
+    },
+    {
+     "name": "Balsamic Dressing House [4.9L]",
+     "kind": "subrecipe",
+     "ref": "Balsamic Dressing House [4.9L]",
+     "qty": "20",
+     "unit": "ml",
+     "ls_cost": "0.08",
+     "our_cost": null,
+     "eff_cost": 0.092261
+    },
+    {
+     "name": "Lemon [ea]",
+     "kind": "id",
+     "ref": "lightspeed:20564869",
+     "qty": "0.08",
+     "unit": "ml",
+     "ls_cost": "0.03",
+     "our_cost": null,
+     "eff_cost": 0.03
+    }
+   ],
+   "our_cost": 1.3571,
+   "ls_cost": 1.17,
+   "fully_our_book": false,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 3.0,
+   "gp_pct": 50.2
   },
   "Soda & Lime Glass": {
    "ingredients": [
@@ -45857,7 +46148,7 @@
       "rule": "tandoori chicken"
      },
      "qty_was": 127.25581395348837,
-     "eff_cost": 1.513395
+     "eff_cost": 1.884288
     },
     {
      "name": "Family Pizza Box 15\"",
@@ -45881,7 +46172,7 @@
     }
    ],
    "family_from": "Large Tandoori Chicken",
-   "our_cost": 3.626,
+   "our_cost": 3.9969,
    "ls_cost": 3.7267,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -49705,7 +49996,7 @@
       "rule": "tandoori chicken"
      },
      "qty_was": 127.25581395348837,
-     "eff_cost": 1.513395
+     "eff_cost": 1.884288
     },
     {
      "name": "Family Pizza Box 15\"",
@@ -49729,7 +50020,7 @@
     }
    ],
    "family_from": "Large Tandoori Chicken",
-   "our_cost": 3.626,
+   "our_cost": 3.9969,
    "ls_cost": 3.7267,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -52021,7 +52312,7 @@
       "rule": "tandoori chicken"
      },
      "qty_was": 127.25581395348837,
-     "eff_cost": 1.513395
+     "eff_cost": 1.884288
     },
     {
      "name": "Family Pizza Box 15\"",
@@ -52045,7 +52336,7 @@
     }
    ],
    "family_from": "Large Tandoori Chicken",
-   "our_cost": 3.626,
+   "our_cost": 3.9969,
    "ls_cost": 3.7267,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -55522,97 +55813,27 @@
    "sell_incl": 14.0,
    "gp_pct": 75.1
   },
-  "Eggplant Schnitty D": {
+  "Fries D": {
    "ingredients": [
-    {
-     "name": "Tempeh 250g Nutrisoy",
-     "kind": "id",
-     "ref": "lightspeed:22888670",
-     "qty": 125.0,
-     "unit": "g",
-     "ls_cost": "2.00",
-     "our_cost": "0.016",
-     "eff_cost": 2.0
-    },
     {
      "name": "Farm Frites Crispy Coated 10mm [2.5kg]",
      "kind": "id",
      "ref": "lightspeed:22888630",
-     "qty": "150",
+     "qty": "350.0",
      "unit": "g",
-     "ls_cost": "0.80",
+     "ls_cost": "1.4",
      "our_cost": "0.004000",
-     "eff_cost": 0.6
-    },
-    {
-     "name": "Gravy Prep",
-     "kind": "subrecipe",
-     "ref": "Gravy Prep",
-     "qty": "45",
-     "unit": "g",
-     "ls_cost": "0.30",
-     "our_cost": null,
-     "eff_cost": 0.265393
-    },
-    {
-     "name": "Spanish Onion [10Kg]",
-     "kind": "id",
-     "ref": "lightspeed:20445597",
-     "qty": "15",
-     "unit": "g",
-     "ls_cost": "0.36",
-     "our_cost": "0.002200",
-     "eff_cost": 0.3168
-    },
-    {
-     "name": "Radish Red [Bunch]",
-     "kind": "id",
-     "ref": "lightspeed:22995358",
-     "qty": "0.1",
-     "unit": "bunch",
-     "ls_cost": "0.29",
-     "our_cost": "2.88",
-     "eff_cost": 0.288
-    },
-    {
-     "name": "Lettuce Mesculin [1.5kg]",
-     "kind": "id",
-     "ref": "lightspeed:22995349",
-     "qty": "35",
-     "unit": "g",
-     "ls_cost": "0.41",
-     "our_cost": "0.018000",
-     "eff_cost": 0.63
-    },
-    {
-     "name": "Balsamic Dressing House [4.9L]",
-     "kind": "subrecipe",
-     "ref": "Balsamic Dressing House [4.9L]",
-     "qty": "20",
-     "unit": "ml",
-     "ls_cost": "0.08",
-     "our_cost": null,
-     "eff_cost": 0.092261
-    },
-    {
-     "name": "Lemon [ea]",
-     "kind": "id",
-     "ref": "lightspeed:20564869",
-     "qty": "0.08",
-     "unit": "ml",
-     "ls_cost": "0.03",
-     "our_cost": null,
-     "eff_cost": 0.03
+     "eff_cost": 1.4
     }
    ],
-   "alias_of": "Eggplant Schnitty",
-   "our_cost": 4.2225,
-   "ls_cost": 4.27,
-   "fully_our_book": false,
+   "alias_of": "Rosemary Salted Fries",
+   "our_cost": 1.4,
+   "ls_cost": 1.4,
+   "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
-   "sell_incl": 23.0,
-   "gp_pct": 79.8
+   "sell_incl": 12.0,
+   "gp_pct": 87.2
   },
   "Rooster Rojo Blanco Tequila [House]": {
    "ingredients": [
@@ -55645,12 +55866,12 @@
      "qty": 1,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "4.5809",
-     "eff_cost": 4.5809
+     "our_cost": "4.5907",
+     "eff_cost": 4.5907
     }
    ],
    "menu_average": true,
-   "our_cost": 4.5809,
+   "our_cost": 4.5907,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -55667,8 +55888,8 @@
      "qty": 1,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "4.5809",
-     "eff_cost": 4.5809
+     "our_cost": "4.5907",
+     "eff_cost": 4.5907
     },
     {
      "name": "BBQ Wings",
@@ -55692,7 +55913,7 @@
     }
    ],
    "deal_header": true,
-   "our_cost": 9.2171,
+   "our_cost": 9.2269,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
@@ -55709,8 +55930,8 @@
      "qty": 2,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "4.5809",
-     "eff_cost": 9.1618
+     "our_cost": "4.5907",
+     "eff_cost": 9.1814
     },
     {
      "name": "Garlic Bread",
@@ -55734,13 +55955,13 @@
     }
    ],
    "deal_header": true,
-   "our_cost": 13.8441,
+   "our_cost": 13.8637,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 45.0,
-   "gp_pct": 66.2
+   "gp_pct": 66.1
   },
   "Feast Deal Pizzas": {
    "ingredients": [
@@ -55751,8 +55972,8 @@
      "qty": 2,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "4.5809",
-     "eff_cost": 9.1618
+     "our_cost": "4.5907",
+     "eff_cost": 9.1814
     },
     {
      "name": "Garlic Bread",
@@ -55776,13 +55997,13 @@
     }
    ],
    "deal_header": true,
-   "our_cost": 13.8441,
+   "our_cost": 13.8637,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 45.0,
-   "gp_pct": 66.2
+   "gp_pct": 66.1
   },
   "$60 BANQUET": {
    "ingredients": [
@@ -55793,8 +56014,8 @@
      "qty": 3,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "4.5809",
-     "eff_cost": 13.7427
+     "our_cost": "4.5907",
+     "eff_cost": 13.7721
     },
     {
      "name": "Garlic Bread",
@@ -55818,13 +56039,13 @@
     }
    ],
    "deal_header": true,
-   "our_cost": 19.1979,
+   "our_cost": 19.2273,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 60.0,
-   "gp_pct": 64.8
+   "gp_pct": 64.7
   },
   "Banquet Deal Pizzas": {
    "ingredients": [
@@ -55835,8 +56056,8 @@
      "qty": 3,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "4.5809",
-     "eff_cost": 13.7427
+     "our_cost": "4.5907",
+     "eff_cost": 13.7721
     },
     {
      "name": "Garlic Bread",
@@ -55860,13 +56081,13 @@
     }
    ],
    "deal_header": true,
-   "our_cost": 19.1979,
+   "our_cost": 19.2273,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 60.0,
-   "gp_pct": 64.8
+   "gp_pct": 64.7
   },
   "$90 PIZZA PARTY": {
    "ingredients": [
@@ -55877,8 +56098,8 @@
      "qty": 4,
      "unit": "ea",
      "ls_cost": null,
-     "our_cost": "4.5809",
-     "eff_cost": 18.3236
+     "our_cost": "4.5907",
+     "eff_cost": 18.3628
     },
     {
      "name": "Garlic Bread",
@@ -55912,13 +56133,13 @@
     }
    ],
    "deal_header": true,
-   "our_cost": 35.6082,
+   "our_cost": 35.6474,
    "ls_cost": 0.0,
    "fully_our_book": true,
    "resolved_pct": 100,
    "is_prep": false,
    "sell_incl": 90.0,
-   "gp_pct": 56.5
+   "gp_pct": 56.4
   },
   "Better Beer Tin": {
    "ingredients": [

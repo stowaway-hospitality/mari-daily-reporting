@@ -158,12 +158,19 @@ def test_the_uncosted_long_tail_is_rolled_up_and_not_dropped(feed):
 def test_the_list_is_long_enough_to_be_the_real_queue(feed):
     """A sanity floor. The known gaps at Stowaway and Harry Gatos alone —
     Arancini, Beef Cheek, Baked Camembert, Roast Turkey, Pie, Shredded Beef,
-    Miso, Shoyu, Unlimited BBQ, Chicken Karaage, BBQ Meat Platter, Edamame —
-    are twelve. A feed that suddenly held three would mean coverage() broke,
-    not that the kitchen had a productive week."""
+    Miso, Shoyu, Chicken Karaage, BBQ Meat Platter, Edamame — are eleven. A feed
+    that suddenly held three would mean coverage() broke, not that the kitchen
+    had a productive week.
+
+    "Unlimited BBQ" was the twelfth and came OFF this list on 2026-08-21, not
+    because it got costed but because Zak ruled it can never be: "packages will
+    never get a cost, they will be costed on a case-by-case basis in our
+    functions module." A bottomless deal has no fixed build to write down, so it
+    is exempt alongside the $80 Razzle Dazzle and the $60 Soiree. Asserting its
+    presence would pin the queue to a question nobody can answer."""
     subjects = {f["subject"] for f in _by_cat(feed, "no_recipe")}
     for known in ("Beef Cheek", "Baked Camembert", "Roast Turkey", "Pie",
-                  "Shredded Beef", "Miso", "Shoyu", "Unlimited BBQ",
+                  "Shredded Beef", "Miso", "Shoyu",
                   "Chicken Karaage", "BBQ Meat Platter", "Edamame"):
         assert known in subjects, known
 

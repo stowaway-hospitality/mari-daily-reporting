@@ -1061,7 +1061,90 @@ def load_our_preps(our_costs):
     return out
 
 
-def load_our_book_lines(our_costs):
+_REFUSED_OUR_BOOK: list = []
+
+
+def apply_delivery_listings(rec):
+    """Build a delivery listing FROM its dine-in parent, minus what is left off.
+
+    Zak, 2026-08-21: "chicken parmy d is parmy with no salad, just fries. the
+    add side salad adds this salad back in. this principle applies to the
+    schnitty d and eggplant versions of both."
+
+    DERIVED, NOT COPIED. Re-authoring the child freezes a snapshot of the parent
+    at the moment somebody typed it — the exact failure load_our_book_lines
+    exists to prevent. Here the child is rebuilt from the parent's LIVE lines on
+    every run, so a re-spec of the parmy carries straight through to delivery.
+
+    Eggplant Schnitty D is why this matters: it was aliased to Eggplant Schnitty,
+    salad and all, so the delivery listing carried $1.357061 of salad it never
+    plated.
+
+    Only ever ADDS a record where Produce has none. If the scrape already has a
+    real recipe for the child, that wins and this stays out of the way.
+    """
+    import yaml
+    from core.declarations import DELIVERY_LISTINGS
+    if not DELIVERY_LISTINGS.path.exists():
+        return 0
+    spec = yaml.safe_load(DELIVERY_LISTINGS.path.read_text(encoding="utf-8-sig")) or {}
+    made = []
+    for e in (spec.get("listings") or []):
+        child, parent = e.get("product"), e.get("from")
+        par = (rec.get(parent) or {}).get("ingredients")
+        if not child or not par or (rec.get(child) or {}).get("ingredients"):
+            continue
+        drop = [d.lower() for d in (e.get("drop") or [])]
+        kept = [ln for ln in par
+                if not any(d in (ln.get("name") or "").lower() for d in drop)]
+        if len(kept) == len(par):
+            continue                    # nothing matched — say nothing, do nothing
+        rec[child] = {"ingredients": kept, "_from_delivery_listing": parent}
+        made.append((child, parent, len(par) - len(kept)))
+    # A SWAP, not a subtraction. Produce builds Fancy Pants Parmy - Classic ON
+    # "Stow Schnitty" plus three toppings, so the salad lives one level down and
+    # there is nothing on the parmy to subtract. The delivery parmy is the same
+    # dish with the no-salad schnitty in its place. Run after `listings` so the
+    # replacement child already exists.
+    for e in (spec.get("swaps") or []):
+        child, parent = e.get("product"), e.get("from")
+        par = (rec.get(parent) or {}).get("ingredients")
+        if not child or not par or (rec.get(child) or {}).get("ingredients"):
+            continue
+        want, repl = (e.get("replace") or "").lower(), e.get("with")
+        if not want or repl not in rec:
+            continue
+        swapped, hit = [], False
+        for ln in par:
+            if want in (ln.get("name") or "").lower():
+                swapped.append(dict(ln, name=repl))
+                hit = True
+            else:
+                swapped.append(ln)
+        if not hit:
+            continue
+        rec[child] = {"ingredients": swapped, "_from_delivery_listing": parent}
+        made.append((child, parent, 0))
+    for e in (spec.get("add_backs") or []):
+        child, parent = e.get("product"), e.get("from")
+        par = (rec.get(parent) or {}).get("ingredients")
+        if not child or not par or (rec.get(child) or {}).get("ingredients"):
+            continue
+        keep = [k.lower() for k in (e.get("keep") or [])]
+        kept = [ln for ln in par
+                if any(k in (ln.get("name") or "").lower() for k in keep)]
+        if not kept:
+            continue
+        rec[child] = {"ingredients": kept, "_from_delivery_listing": parent}
+        made.append((child, parent, -len(kept)))
+    for c, pnt, n in made:
+        print(f"  delivery listing: {c} <- {pnt} "
+              + (f"minus {n} line(s)" if n > 0
+                 else ("swap" if n == 0 else f"({-n} line(s) only)")))
+    return len(made)
+
+
+def load_our_book_lines(our_costs, our_preps=None):
     """Recipes OUR book can fully cost, as scrape-shaped ingredient lines.
 
     Produce is a mirror, not the source. When Zak re-specs a prep in the builder
@@ -1093,8 +1176,39 @@ def load_our_book_lines(our_costs):
         for r in (yaml.safe_load(f.read_text(encoding="utf-8-sig")) or []):
             if not (isinstance(r, dict) and r.get("product")):
                 continue
-            lines, ok = [], True
+            lines, ok, why = [], True, ""
             for ln in (r.get("ingredients") or []):
+                # A SUBRECIPE LINE. Until 2026-08-21 this loop only understood
+                # `id`/`desc` lines, so ANY recipe of ours containing a
+                # `subrecipe:` was refused whole and the scrape stood in its
+                # place — silently, with no message. Eighteen of the thirty-nine
+                # recipes in data/recipes/ were being dropped that way, Classic
+                # Margarita and Davy's Old Fashioned among them.
+                #
+                # Priced from our own preps, which already resolve nested
+                # subrecipes recursively and are built from invoice-fed
+                # ingredients, so the line reprices when they do. A subrecipe
+                # PRODUCE owns rather than us still cannot be priced here, and
+                # that recipe is still refused — but now it says so.
+                if ln.get("subrecipe"):
+                    sub = (our_preps or {}).get(norm(ln["subrecipe"]))
+                    unit = (ln.get("unit") or "").lower()
+                    try:
+                        q = float(ln.get("qty") or 0)
+                    except (TypeError, ValueError):
+                        ok, why = False, "unreadable qty"
+                        break
+                    if not sub or str(sub[1] or "").lower() != unit or q <= 0:
+                        ok = False
+                        why = (f"subrecipe {ln['subrecipe']!r} is not one of ours"
+                               if not sub else
+                               f"subrecipe {ln['subrecipe']!r} is per {sub[1]}, "
+                               f"line is in {unit}")
+                        break
+                    lines.append({"name": ln["subrecipe"], "qty": str(q),
+                                  "unit": ln.get("unit"),
+                                  "cost": str(round(q * float(sub[0]), 6))})
+                    continue
                 desc = (ln.get("desc") or "").strip()
                 iid = (ln.get("id") or "").strip()
                 try:
@@ -1110,14 +1224,18 @@ def load_our_book_lines(our_costs):
                     per = float(ln["unit_cost_incl"])
                 else:
                     ok = False          # nothing prices this line — refuse
+                    why = f"no price for {desc or iid or 'a line'}"
                     break
                 if not desc or q <= 0:
                     ok = False
+                    why = "a line has no desc or a zero qty"
                     break
                 if iid:
                     ids[desc] = iid
                 lines.append({"name": desc, "qty": str(q), "unit": ln.get("unit"),
                               "cost": str(round(q * per, 6))})
+            if not ok:
+                _REFUSED_OUR_BOOK.append((r["product"], why or "?"))
             if ok and lines:
                 out[r["product"]] = lines
                 # THE YIELD TRAVELS WITH THE RECIPE. If we swap in our ingredient
@@ -1905,7 +2023,7 @@ def main() -> int:
     our_preps = load_our_preps(our_costs)
     global _LINE_FIXES
     _LINE_FIXES = load_line_unit_fixes()
-    our_book, our_line_ids, our_yields = load_our_book_lines(our_costs)
+    our_book, our_line_ids, our_yields = load_our_book_lines(our_costs, our_preps)
     # OUR BOOK REPLACES THE SCRAPE where we have the recipe and can cost it.
     # Produce is a mirror nobody updates: re-spec a prep in the builder and the
     # old version sits there forever, and every prep built on it keeps costing
@@ -1956,6 +2074,12 @@ def main() -> int:
         print(f"  replaced {_ourn} scraped recipe(s) with our own book's version")
     if _ourins:
         print(f"  inserted {_ourins} recipe(s) of ours that Produce does not carry")
+    if _REFUSED_OUR_BOOK:
+        print(f"  {len(_REFUSED_OUR_BOOK)} recipe(s) of ours could NOT be costed, so "
+              f"the scrape stands for them:")
+        for _n, _w in _REFUSED_OUR_BOOK:
+            print(f"      {_n:<38} {_w}")
+    apply_delivery_listings(rec)
     packs = load_packs()
     seed_base = load_seed_baseline()
     sell_by_exact, sell_by_norm, sell_by_tok = load_sell_prices()

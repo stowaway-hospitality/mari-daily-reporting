@@ -166,6 +166,25 @@ exempt:
   - match: "^(delivery fee|surcharge|booking fee|service charge|tip|gift ?card|voucher|deposit|donation)"
     reason: "a fee has no food cost by nature. audit_book already labels these
       separately in its 100%-GP split; they are not a recipe gap."
+  # PACKAGES — Zak, 2026-08-21: "packages will never get a cost, they will be
+  # costed on a case-by-case basis in our functions module."
+  #
+  # These are not dishes and no chef can produce a recipe for one. A set menu at
+  # $80 a head is whatever that particular function ate; the cost is assembled
+  # per booking in the functions module, not per SKU here. Carrying them in the
+  # recipe queue put $47,910/yr of permanently unanswerable work in front of the
+  # kitchen and made the rest of the queue look optional.
+  - match: "^\\$\\d+ "
+    reason: "a package, priced per head. Zak 2026-08-21: packages are costed
+      case-by-case in the functions module and will never carry a recipe. The
+      price IS the product name ($80 Razzle Dazzle, $60 Soiree), which is what
+      makes them detectable."
+  - match: "^unlimited "
+    reason: "a bottomless/unlimited package (Zak, 2026-08-21). Costed per
+      function in the functions module; there is no fixed build to write down."
+  - match: "^blind winos ticket$"
+    reason: "a one-off event ticket, and the event is done (Zak, 2026-08-21).
+      Nothing to cost and nothing that will ever sell again."
 
 # DECISIONS AND QUESTIONS NO DATA IN THIS REPO CAN SETTLE.
 #

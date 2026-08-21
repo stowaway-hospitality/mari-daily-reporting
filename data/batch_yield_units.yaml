@@ -136,13 +136,32 @@ line_qty_unit_fixes:
   #
   # Still resting on prep_yields' scraped 2,000 g, so it is still an inference.
   # WEIGH A TANDOORI BATCH and it becomes a measurement.
-  - recipe: "Tandoori Chicken [2Kg]"
-    ingredient: "Tandoori Sauce [Batch]"
-    from_qty: 400
-    from_unit: "ml"
-    to_qty: 400           # the quantity was never wrong -- only the unit was
-    to_unit: "g"
-    weigh_this: true
+  # RETIRED 2026-08-21 — the line it corrects no longer exists.
+  #
+  # Renan saved Tandoori Chicken twice on 2026-08-20: at 14:06 with the
+  # "Tandoori Sauce [Batch]" line this entry was written to fix, and at 18:20
+  # with a corrected 1,940 g record that draws "Tandoori Yoghurt" instead.
+  # marilynas.yaml kept only the 18:20 version.
+  #
+  # His correction had never actually taken effect. load_our_book_lines refused
+  # any recipe of ours containing a `subrecipe:` line — silently, with no
+  # message — so the scrape's 14:06 shape stood and this relabel kept patching
+  # it. Fixing that loop on 2026-08-21 activated the 18:20 record, the
+  # "Tandoori Sauce [Batch]" line vanished with it, and the relabel started
+  # landing on a line no recipe draws. test_a_liquid_INGREDIENT_keeps_its_
+  # millilitres_inside_a_food_recipe caught exactly that.
+  #
+  # Left as a comment rather than deleted: the reasoning above it explains why
+  # 400 of anything is a marinade and not 400 ml, and that is worth keeping if
+  # the line ever comes back.
+  #
+  # - recipe: "Tandoori Chicken [2Kg]"
+  #   ingredient: "Tandoori Sauce [Batch]"
+  #   from_qty: 400
+  #   from_unit: "ml"
+  #   to_qty: 400         # the quantity was never wrong -- only the unit was
+  #   to_unit: "g"
+  #   weigh_this: true
 
 # ---------------------------------------------------------------------------
 # SERVE YIELDS — read ONLY by scripts/materialise_recipes.py.

@@ -690,3 +690,62 @@
       desc: "Flour Plain"
       qty: 1650
       unit: "g"
+
+# ============================================================================
+# MOCKTAILS — specs from Zak, 2026-08-21. Both were on the audit's "no costed
+# recipe" list and both were being sent to the KITCHEN, which is why they sat
+# there: they are bar builds and the kitchen was never going to write them.
+# ============================================================================
+
+# Zak, verbatim: "VIRGIN MARGY / 30ml Adjusted OJ / 20ml Lime / 20ml Sugar
+# Syrup / 30ml Water".
+#
+# The lime is Super Lime Juice [1L], which is what every one of the eleven
+# margaritas in this book uses for its lime — Classic, Tommy's, Cadillac,
+# Patron, Herradura, the lot. A virgin margarita off the same station uses the
+# same prep; it would be odd for this one drink to reach for a different lime.
+#
+# "Adjusted OJ" is not a batch anyone has written down, so this costs the ORANGE
+# JUICE and says so rather than inventing an acid ratio. The adjustment is
+# citric/malic at roughly a gram or two per litre; at $0.006754/g that is under
+# a fifth of a cent on a 30 ml pour, so the understatement is real but immaterial
+# and it is recorded here rather than buried. If the batch ever gets written
+# down, replace this line with a subrecipe reference.
+#
+# The 30 ml of water is free and is therefore not a line.
+- product: "Virgin Margy"
+  ingredients:
+    - id: "lightspeed:22844123"
+      desc: "East Coast Orange Juice [2L] — the OJ inside 'Adjusted OJ'"
+      qty: 30
+      unit: "ml"
+      unit_cost_incl: 0.002900
+    - id: "lightspeed:22533121"
+      desc: "Lime Juice 2000ML"
+      qty: 20
+      unit: "ml"
+    - subrecipe: "Sugar Syrup"
+      qty: 20
+      unit: "ml"
+
+# Zak: "fresh lime soda is only the cost of 1 lime wedge, which is 1/12 of a
+# lime unit."
+#
+# 1/12 = 0.0833, and the book ALREADY holds that exact build under another name:
+# Soda & Lime Glass is 0.0833 ea of Lime [ea] and costs $0.0417. So this is not
+# a new convention, it is the one already in use — which is the corroboration
+# that 1/12 is right and not a number I rounded to.
+#
+# The soda itself is not a line: it is postmix on a gun and the glass of it is
+# what Soda & Lime Glass also declines to charge for.
+- product: "Fresh Lime Soda"
+  ingredients:
+    - id: "lightspeed:20564868"
+      desc: "Lime [Tray]"
+      qty: 0.00139111
+      unit: "tray"
+
+# The delivery listings (Chicken Parmy D, Chicken Schnitty D, Eggplant Schnitty
+# D) and "Add Side Salad" are NOT authored here. They are derived from their
+# dine-in parent at build time by data/delivery_listings.yaml, so they reprice
+# when the parent does instead of freezing a copy of it. See that file.

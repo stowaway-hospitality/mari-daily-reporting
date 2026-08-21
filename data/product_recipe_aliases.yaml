@@ -61,7 +61,27 @@
 # costed and the D does not — every other D-named product in the flags (Chicken
 # Schnitty D, Beef Cheek D, Fries D, Chicken Parmy D) has no costed base either,
 # so those are genuinely unwritten recipes and NOT aliases.
-"Eggplant Schnitty D": "Eggplant Schnitty"
+# RETIRED 2026-08-21. This alias pointed the delivery listing at the DINE-IN
+# recipe, salad and all, and Zak has now stated the rule: "chicken parmy d is
+# parmy with no salad, just fries ... this principle applies to the schnitty d
+# and eggplant versions of both." A D listing is its parent minus the $1.357061
+# salad block, so it is NOT the same dish and cannot be an alias. Eggplant
+# Schnitty D now has its own recipe in data/recipes/stowaway.yaml and drops
+# $4.2225 -> $2.8654.
+# "Eggplant Schnitty D": "Eggplant Schnitty"
+
+# Zak, 2026-08-21: "fries d = rosemary fries, same." Identical build, no salad
+# to strip and nothing else on the plate, so this one IS a true alias rather
+# than a recipe. Note the file's earlier remark that Fries D "has no costed base
+# either" — that was right about the NAME (there is no product called "Fries")
+# and wrong about the dish; the house fries are listed as Rosemary Salted Fries.
+#
+# I did not conclude this from price. Fries D rings at $11.08 against Rosemary
+# Salted Fries at $11.09, a cent apart and very tempting, but across all 110 D
+# products the delivery listing is routinely discounted (Brownie D $4.53 against
+# a $10.57 base), so a one-cent agreement proves nothing. It is here because Zak
+# said so.
+"Fries D": "Rosemary Salted Fries"
 
 # The house-pour convention, applied where it is checkable rather than guessed.
 # All ten [House] products already in the book are the SAME shape without
