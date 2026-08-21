@@ -409,11 +409,23 @@ def test_the_mirror_rule_exists_and_also_states_no_dollar(feed):
 
 
 def test_a_price_conflict_reports_a_spread_and_calls_it_one(feed):
-    """A spread is not an under-cost: nobody knows yet which of the two prices is
-    wrong. It goes in the evidence, in words, and impact_per_year stays null so
-    the panel's headline — "$X a year of under-cost that has actually been
-    measured" — stays a true sentence. The spread still sets the severity, so it
-    sorts by money anyway."""
+    """A spread is not an under-cost, so it goes in the evidence, in words, and
+    impact_per_year stays null — that keeps the panel's headline ("$X a year of
+    under-cost that has actually been measured") a true sentence.
+
+    WHAT CHANGED 2026-08-21. This test used to say "nobody knows yet which of
+    the two prices is wrong". For a conflict whose OUR side is invoice-fed, that
+    is no longer true and never really was: Zak — "the lightspeed scrape was just
+    to give us a headstart on building our own costbook", and "this whole system
+    is removing any link to back office". A scraped figure is not a rival price
+    to a purchase, so those conflicts are settled, drop to LOW, and are owned by
+    nobody; the gap survives only as a record of how far the old scrape drifted.
+
+    The ones that still bite are where NEITHER side has an invoice — both numbers
+    came off the same scrape, so adjudicating between them is theatre. Those stay
+    high/medium and the action is to go and find a purchase.
+
+    So severity is now a statement about EVIDENCE, not about size alone."""
     pcs = {f["subject"]: f for f in _by_cat(feed, "price_conflict")}
     # Massenez was ADJUDICATED 2026-08-14 (Back Office's DefaultSize carries an
     # extra zero — 50000 ml on a [5L] cask — so Lightspeed's $0.004833 divided by
@@ -432,7 +444,22 @@ def test_a_price_conflict_reports_a_spread_and_calls_it_one(feed):
     spreads = [m for m in pcs.values()
                if any("SPREAD, not a loss" in e for e in m["evidence"])]
     assert spreads, sorted(pcs)
-    assert all(m["severity"] in ("high", "medium") for m in pcs.values())
+    # Severity now tracks whether a purchase settles it.
+    for name, m in pcs.items():
+        settled = "invoice already settles it" in m["owner"]
+        if settled:
+            assert m["severity"] == "low", (
+                f"{name}: an invoice-fed rate beats the scrape, so this is not a "
+                f"live question — it must not sit above LOW and compete for "
+                f"attention with defects nobody has evidence for")
+            assert "INVOICE" in m["what_is_wrong"], name
+        else:
+            assert m["severity"] in ("high", "medium"), name
+            # the honest version of an unbacked conflict: it is a coverage gap
+            assert "NEITHER side has an invoice" in m["what_is_wrong"], name
+            assert "Dev" in m["owner"], (
+                f"{name}: with no invoice on either side there is nothing for Zak "
+                f"to adjudicate — somebody has to go and find one")
 
 
 def test_the_headline_still_counts_only_measured_under_cost(feed):

@@ -875,12 +875,28 @@ def missing_pack_size_in_back_office_flags() -> list:
     why they are invisible. The audit's per-gram ceiling is $0.20 and would fire
     instantly — if the rate ever reached the book.
 
-    THE FIX IS ONE FIELD, IN BACK OFFICE, BY A HUMAN: set DefaultSize to what is
-    actually in the bag. It is not guessable from here — a $30 bag of bonito
+    THE FIX IS A DECLARATION, NOT A BACK OFFICE EDIT (Zak, 2026-08-21: "this
+    whole system is removing any link to back office"; "the lightspeed scrape
+    was just to give us a headstart on building our own costbook"). Back Office
+    is where the defect is VISIBLE, not where it gets repaired — nobody is
+    maintaining that field and our book must not wait on it. Find the pack on an
+    invoice or a supplier portal and write it into data/pack_overrides.yaml.
+
+    So a product with a bound pack_override is NOT flagged, however wrong Back
+    Office still is: our book already prices it correctly and BO's staleness is
+    no longer anybody's problem. Potato Starch is the worked example — Foodlink
+    print "POTATO STARCH 500GM TUNG" at $4.50, the override says 500 g, our book
+    charges $0.01/g, and BO can go on saying $5.00 per gram forever.
+
+    What is still NOT guessable is a pack nobody has read: a $30 bag of bonito
     could be 500 g or 1 kg, and inventing the divisor is how a $300 line becomes
-    a quietly wrong $0.30 one.
+    a quietly wrong $0.30 one. Those stay flagged until someone reads a pack.
     """
     import csv as _csv
+    from core.pack_overrides import load_pack_overrides
+    # A proven pack size retires the flag. The override IS the fix; Back Office
+    # is not a second place that also has to agree.
+    declared = set(load_pack_overrides())        # the loader owns the path
     out = []
     book = _json.loads(BOOK.read_text(encoding="utf-8-sig"))["recipes"] \
         if BOOK.exists() else {}
@@ -905,6 +921,8 @@ def missing_pack_size_in_back_office_flags() -> list:
             if unit not in ("g", "ml") or size > 1 or cost < 1.0:
                 continue
             pid = "lightspeed:" + (r.get("ProductID") or "")
+            if pid in declared:
+                continue          # pack read off an invoice and declared; done
             live = pid in used
             out.append({
                 "id": "bo-pack-size-" + _slug(r.get("ProductName") or pid),
@@ -927,13 +945,16 @@ def missing_pack_size_in_back_office_flags() -> list:
                 "question": f"How much is actually in one {r.get('ProductName','').strip()}?",
                 "impact_per_year": None,
                 "impact_basis": None,
-                "action": ("Set DefaultSize on the product in Lightspeed Back Office "
-                           "to the real contents of the pack. It cannot be worked out "
-                           "from here — a $30 bag could be 500 g or 1 kg, and guessing "
-                           "the divisor just replaces a loud wrong number with a quiet one."),
-                "owner": "Zak",
+                "action": ("Read the pack size off a supplier invoice (Dext line-item "
+                           "search finds these) or a supplier portal, then declare it in "
+                           "data/pack_overrides.yaml — that is the fix, and it closes this "
+                           "flag. Do NOT edit Back Office; nothing reads it any more. Do "
+                           "NOT infer the size from a per-kilo rate either: that reasoning "
+                           "put 1 kg on a 700 g prawn pack on 2026-08-21."),
+                "owner": "Dev — find the pack on an invoice, then declare it",
                 "evidence": [f"Back Office: Unit={unit}, DefaultSize=1, "
-                             f"CostPriceIncTax=${cost:,.2f}",
+                             f"CostPriceIncTax=${cost:,.2f} (bootstrap figure from the "
+                             f"Lightspeed scrape, not an authority)",
                              "drawn on by a recipe today" if live else "no recipe uses it yet"],
                 "derived": True,
                 "source": "data/bo_exports/*_products.csv",
@@ -1192,30 +1213,55 @@ def price_conflict_flags(recipes, sold, window="") -> list:
                     parts.append(f"{name} ${gap:,.4f}/serve x {q:,.0f}")
         spread = round(per_year, 2) if per_year > 0 else None
         dearer = "above" if f["ours_is_dearer"] else "below"
+        # Is OUR side invoice-fed, or is it just another figure off the scrape?
+        # That decides whether there is anything to adjudicate at all.
+        backed = f["ref"] in _invoiced_ids()
+        if backed:
+            # Nothing to weigh up. An invoice beats the bootstrap, every time.
+            what = (f"Our book holds this at ${f['our_rate']:,.6f}/{f['unit']} off an "
+                    f"INVOICE. Lightspeed's scraped recipe cost implies "
+                    f"${f['ls_rate']:,.6f}, {f['ratio']:g}x {dearer}. That is the "
+                    f"scrape disagreeing with a purchase, not two rival prices.")
+            why = ("The Lightspeed figure was a headstart, not a source (Zak, "
+                   "2026-08-21: \"the lightspeed scrape was just to give us a "
+                   "headstart on building our own costbook\"). Where we hold a "
+                   "real invoice, ours IS the price and the gap only measures how "
+                   "far the old scrape had drifted.")
+            act = ("Nothing to decide. Left visible only so the size of the drift "
+                   "is on the record; it retires when the scraped cost is dropped "
+                   "from the feed.")
+            own = "Nobody — invoice already settles it"
+            sev = "low"
+            qn = "None. The invoice is the answer."
+        else:
+            what = (f"Our book holds this at ${f['our_rate']:,.6f}/{f['unit']}, "
+                    f"{f['ratio']:g}x {dearer} the ${f['ls_rate']:,.6f} Lightspeed's "
+                    f"own recipe cost implies — and NEITHER side has an invoice "
+                    f"behind it. Both numbers trace back to the same scrape.")
+            why = ("Every recipe costs off ours, so if ours is the wrong one the "
+                   "error is already in the P&L — and here there is no purchase "
+                   "anywhere in the repo to appeal to. This is a coverage gap "
+                   "wearing a price-conflict costume.")
+            act = ("Find one invoice for this product (Dext line-item search) and "
+                   "declare it. That replaces BOTH scraped numbers with a purchase. "
+                   "Do not adjudicate between two figures that share an origin, and "
+                   "do not edit Back Office — nothing reads it.")
+            own = "Dev — get an invoice, then declare it"
+            sev = "high" if (spread or 0) >= 500 else "medium"
+            qn = "What did we actually pay for this?"
         out.append({
             "id": "price-conflict-" + _slug(f["ingredient"]),
             "category": "price_conflict",
-            "severity": "high" if (spread or 0) >= 500 else "medium",
+            "severity": sev,
             "subject": f["ingredient"],
             "subject_kind": "ingredient",
-            "what_is_wrong": (
-                f"Our book holds this at ${f['our_rate']:,.6f}/{f['unit']}, "
-                f"{f['ratio']:g}x {dearer} the ${f['ls_rate']:,.6f} Lightspeed's own "
-                f"recipe cost implies. Both cannot be this product's price."),
-            "why_it_matters": "Every recipe costs off ours, so if ours is the "
-                              "wrong one the error is already in the P&L. The "
-                              "median ingredient in this book agrees with "
-                              "Lightspeed to 0.1% and 380 of 461 agree within "
-                              "10%, so a 2x gap is not a price that moved.",
-            "question": "Which of the two prices is this product's real price?",
+            "what_is_wrong": what,
+            "why_it_matters": why,
+            "question": qn,
             "impact_per_year": None,
             "impact_basis": None,
-            "action": "Check one invoice for this product. Then correct whichever"
-                      "side is wrong — Back Office if Lightspeed's, "
-                      "data/pack_overrides.yaml if ours read the pack wrong — and "
-                      "record the answer in data/product_map.csv so it is never "
-                      "asked again.",
-            "owner": "Zak (which price is real) then Dev",
+            "action": act,
+            "owner": own,
             "evidence": ([f"${spread:,.0f} a year of recipe cost rides on the "
                           f"answer — a SPREAD, not a loss, which is why this flag "
                           f"states no impact: {'; '.join(parts)}, over the 52 "
@@ -1286,29 +1332,92 @@ def _short_desc(desc: str) -> str:
     return re.sub(r"\s*\[[^\]]*\]\s*$", "", str(desc or "")).strip() or str(desc or "")
 
 
-def _swap_is_sane(worst) -> bool:
+def _swap_is_sane(worst, f=None) -> bool:
+    """Would relabelling this line to the pack unit be a LABEL change only?
+
+    Two conditions, and the second was missing until 2026-08-21.
+
+    1. The quantity has to read as a sane count of packs (0.083 of a twin pack).
+
+    2. THE COST MUST NOT MOVE. This is the one that was absent, and it made the
+       flag give dangerous advice. Bad Bitch Martini takes "1 g" of Edible
+       Flower [Punnet]. The quantity 1 passes test 1, so the flag called it
+       "label only, nothing at stake" and told a human to go and set the unit to
+       punnet — which would charge the cocktail a WHOLE $10.50 punnet for one
+       flower and take the drink from $4.10 to $14.60. Beetle Juice's baby's
+       breath is the same shape: 0.2 "g" costing $0.16 would become $3.30.
+
+       Those lines are garnishes: the real quantity is a fraction of a punnet
+       that nobody has ever written down, so the unit word is NOT the only thing
+       wrong and this is not a tidy-up.
+
+    So a swap is cosmetic only when qty x pack_rate is what the line already
+    costs. Where they diverge the flag says the honest thing instead.
+    """
     try:
         q = float(str(worst.get("qty")))
     except (TypeError, ValueError):
         return False
-    return 0 < q <= COUNT_SWAP_MAX
+    if not (0 < q <= COUNT_SWAP_MAX):
+        return False
+    if f is None:
+        return True
+    try:
+        rate = float(f.get("rate") or 0)
+        have = float(worst.get("eff_cost") or 0)
+    except (TypeError, ValueError):
+        return True
+    if rate <= 0 or have <= 0:
+        return True
+    would_become = q * rate
+    # Within a quarter either way is the same money by a different name.
+    return 0.8 <= (would_become / have) <= 1.25
+
+
+def _swap_would_inflate(worst, f) -> float:
+    """How many times dearer the line becomes if the unit is naively swapped.
+
+    >1 means someone "tidying up" the label would silently raise the dish. Used
+    to tell a garnish (one flower out of a $10.50 punnet) apart from a genuine
+    g/mL line that needs a pack weight.
+    """
+    try:
+        q = float(str(worst.get("qty")))
+        rate = float(f.get("rate") or 0)
+        have = float(worst.get("eff_cost") or 0)
+    except (TypeError, ValueError):
+        return 0.0
+    if have <= 0 or rate <= 0 or q <= 0:
+        return 0.0
+    return (q * rate) / have
 
 
 def _unit_question(f, worst) -> str:
-    if _swap_is_sane(worst):
+    if _swap_is_sane(worst, f):
         return (f"In {worst['recipe']}, is \u201c{worst['qty']} {worst['unit']}\u201d "
                 f"meant to be {worst['qty']} {f['pack_unit']}?")
+    if _swap_would_inflate(worst, f) >= 2:
+        return (f"How many serves does one {f['pack_unit']} of "
+                f"{_short_desc(f['description'])} give? ({worst['recipe']} uses a "
+                f"portion of one, costed at ${float(worst['eff_cost']):,.2f}; the "
+                f"whole {f['pack_unit']} is ${float(f['rate']):,.2f}.)")
     return (f"One {f['pack_unit']} of {_short_desc(f['description'])} is how many "
             f"{worst['unit']}? ({worst['recipe']} takes {worst['qty']} "
             f"{worst['unit']}, bought at ${f['rate']:,.2f} a {f['pack_unit']}.)")
 
 
 def _unit_action(f, worst) -> str:
-    if _swap_is_sane(worst):
+    if _swap_is_sane(worst, f):
         return ("Correct the unit on these lines in Lightspeed Produce (the "
                 "quantity stays as it is), or, where the arithmetic proves the "
                 "unit is a typo, add the entry to "
                 "data/recipe_line_unit_fixes.yaml with the proof.")
+    if (mult := _swap_would_inflate(worst, f)) >= 2:
+        return (f"DO NOT simply swap the unit to {f['pack_unit']}: that would "
+                f"charge {worst['recipe']} a whole {f['pack_unit']} and multiply "
+                f"this line by {mult:,.0f}x. It is a portion, not a pack. Record "
+                f"how many serves a {f['pack_unit']} yields, then write the line "
+                f"as that fraction.")
     return (f"Weigh one {f['pack_unit']} and record it as the pack size, so the "
             f"g/mL lines cost off a real conversion instead of an assumed one. "
             f"Correcting the unit in Produce is NOT the fix here — the lines "
@@ -1400,12 +1509,12 @@ def feed_defect_flags(recipes, sold, window="") -> list:
                  f"over the 52 weeks {window}. It is what rides on the answer, NOT "
                  f"a loss — the quantity may well be right. Lines: "
                  f"{'; '.join(parts)}." if stake else None)),
-            "action": f"Set the pack unit on {f['id']} in Lightspeed Back Office to "
-                      f"the unit the invoice states, then re-run the invoice "
-                      f"bridge. If the pack really does hold several, record the "
-                      f"count in data/pack_overrides.yaml instead.",
-            "owner": ("Dev / Back office tidy \u2014 no decision needed" if plausible
-                      else "Zak (is this per unit or per box?) then Back office"),
+            "action": f"Read the unit off an invoice for {f['id']} and declare it "
+                      f"in data/pack_overrides.yaml (a count, if the pack holds "
+                      f"several), then re-run the invoice bridge. Back Office is not "
+                      f"where this gets fixed any more \u2014 nothing reads it.",
+            "owner": ("Dev / declare the unit \u2014 no decision needed" if plausible
+                      else "Dev \u2014 check one invoice: per unit or per box?"),
             "evidence": [f"{f['id']} ({f['supplier']}): ${f['rate']:,.4f} per "
                          f"{f['pack_unit']}, name declares [{f['name_unit']}]"]
                         + ([f"used by {len(parts)} sold recipe(s)"] if parts else
@@ -1476,7 +1585,7 @@ def feed_defect_flags(recipes, sold, window="") -> list:
         # (nothing is at stake — the cost is not in dispute) and say so plainly.
         # What STAYS prominent is the genuinely unanswerable half: nobody has
         # said what a bunch weighs, so a g/mL line cannot be costed honestly.
-        cosmetic = _swap_is_sane(worst)
+        cosmetic = _swap_is_sane(worst, f)
         out.append({
             "id": "feed-line-unit-" + _slug(f["description"]),
             "category": "feed_defect",
@@ -1512,7 +1621,9 @@ def feed_defect_flags(recipes, sold, window="") -> list:
                  f"Lines: {'; '.join(parts)}." if stake else None)),
             "action": _unit_action(f, worst),
             "owner": ("Dev / Produce tidy \u2014 no decision needed" if cosmetic
-                      else "Kitchen \u2014 weigh one and record the pack size"),
+                      else ("Zak or Kitchen \u2014 how many serves per pack?"
+                            if _swap_would_inflate(worst, f) >= 2
+                            else "Kitchen \u2014 weigh one and record the pack size")),
             "evidence": [f"{l['recipe']}: {l['qty']} {l['unit']} = ${l['eff_cost']:,.4f}"
                          + (" (batch)" if l["is_prep"] else "")
                          for l in f["lines"]],

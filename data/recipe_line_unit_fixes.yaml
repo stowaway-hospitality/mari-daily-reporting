@@ -246,3 +246,63 @@
   # batch, so Salsa Rosa now re-costs when Kagome's price moves — and through it
   # Black Beans Prep, Pulled Mushroom, Burrito Rice Sauce and every burrito.
   why: "Produce's own $5.63 for qty 1.5 only reconciles at $3.75/KG; at ml it is out 1000x"
+
+# ---------------------------------------------------------------------------
+# Container products measured in g/ml (2026-08-21)
+#
+# A product bought by the tray/tin/bunch/pack has NO gram or millilitre rate in
+# our book at all. So a line reading "1 ml" of it has never been priceable, and
+# the feed has been quietly falling back to the Lightspeed scrape for years.
+# Relabelling the line to the container unit changes no quantity — 1 stays 1 —
+# and lets our own book price it for the first time.
+#
+# THE TEST APPLIED, and it is not "the name has a container in it". For each of
+# these the container rate is INVOICE-FED, so moving the line onto it moves it
+# onto a purchase. Where the rate was only a seed, or where the container price
+# makes the dish absurd, the line is NOT here — see the two garnishes below.
+#
+# Zak, 2026-08-21: "the lightspeed scrape was just to give us a headstart on
+# building our own costbook."
+
+- recipe: "Guacamole [4kg]"
+  ingredient: "Avocado [Tray]"
+  from_unit: "ml"
+  to_unit: "tray"
+  # PROOF: lightspeed:22488995 is priced per TRAY and has no per-ml rate, so
+  # "1 ml" resolved to nothing and the line fell through to Lightspeed's $25.00.
+  # Invoice-fed: INB00101295 $26.40/tray, INB00101846 $28.60/tray via
+  # fresh-fruit-team:AH20T. A 4 kg batch of guacamole from one tray of avocados
+  # is also the only reading that fits the declared yield — a tray is ~20 fruit
+  # at ~200 g of flesh, which is 4 kg exactly.
+  why: "no per-ml rate exists for a tray product; 1 tray of avocados is the declared 4kg yield"
+
+- recipe: "Guacamole [4kg]"
+  ingredient: "Corn Kernels [Tin]"
+  from_unit: "ml"
+  to_unit: "ea"
+  # PROOF: invoice 6910801 bills b-e:16058 at $1.30 for one 425 g tin, and the
+  # seed was already corrected to it on 2026-08-20 ("the venue switched to the
+  # 425g tin ... the 13812 bridge is retired"). Lightspeed's $2.00 is the older
+  # A10-can era. One tin in a 4 kg batch; the quantity 1 does not move.
+  why: "invoice 6910801 prices the tin at $1.30/ea; the $2.00 is the retired A10 scrape"
+
+- recipe: "Corn Star"
+  ingredient: "Corn Baby Sweet [Pack]"
+  from_unit: "ml"
+  to_unit: "ea"
+  # PROOF: invoice-fed at $1.10/ea (INB00101295, INB00102666) and $1.32 at HG
+  # (INB00103738) via fresh-fruit-team:CSCB. No per-ml rate exists. Quantity
+  # stays 0.5 — half a pack of baby corn in a corn-based cocktail.
+  why: "invoice-fed at $1.10/ea via fresh-fruit-team:CSCB; no per-ml rate exists"
+
+- recipe: "Burrito Rice Sauce"
+  ingredient: "Herb Coriander [Bunch]"
+  from_unit: "ml"
+  to_unit: "bunch"
+  # PROOF: a bunch product with no per-ml rate. The $1.30/bunch seed is
+  # corroborated by a REAL invoiced product of the same name and size,
+  # select-fresh:HCOR at $1.30/bunch, so the rate is not scrape-only. The same
+  # recipe already carries "Coriander Ground" separately, and Guacamole [4kg]
+  # states its coriander as "2 bunch" correctly — so bunch is this book's
+  # normal way of writing it and the "ml" here is the outlier.
+  why: "select-fresh:HCOR invoices coriander at $1.30/bunch, matching the seed; no per-ml rate exists"
