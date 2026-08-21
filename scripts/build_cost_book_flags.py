@@ -418,6 +418,33 @@ def _no_recipe_tail_flags(tail, min_rev) -> list:
 # 3. two identities for one stock item
 # --------------------------------------------------------------------------
 
+_INVOICED_IDS: set | None = None
+
+
+def _invoiced_ids() -> set:
+    """ProductIDs carrying at least one INVOICED cost observation (not a seed).
+
+    "A purchased ingredient stands behind it" is a question the cost book can
+    answer directly — a supplier, an invoice number and a date — where Back
+    Office's InventoryType field only answers it if somebody remembered to set
+    it. Seeds are excluded on purpose: a seed is Back Office's own figure
+    wearing a different hat, which is exactly what these flags are about.
+    """
+    global _INVOICED_IDS
+    if _INVOICED_IDS is None:
+        import csv as _c
+        out = set()
+        p = ROOT / "data" / "costs.csv"
+        if p.exists():
+            for r in _c.DictReader(p.open(encoding="utf-8-sig")):
+                iid = (r.get("ingredient") or "")
+                src = (r.get("source_invoice") or "").lower()
+                if iid.startswith("lightspeed:") and "seed" not in src:
+                    out.add(iid)
+        _INVOICED_IDS = out
+    return _INVOICED_IDS
+
+
 def twin_flags(recipes) -> list:
     uses: dict = defaultdict(int)
     for _n, r in recipes.items():
@@ -962,6 +989,18 @@ def tautological_recipe_flags(recipes) -> list:
             continue
         if inv.get(ln.get("ref") or "") == "1":
             continue                       # a real stock item stands behind it
+        if (ln.get("ref") or "") in _invoiced_ids():
+            # A PURCHASED INGREDIENT DOES STAND BEHIND IT. This flag's own words
+            # are "with no purchased ingredient behind it", and the InventoryType
+            # check above is meant to catch that — but Back Office does not set
+            # it on every bought product, so Garlic Bread was called a tautology
+            # while Gulli invoice the thing fortnightly: AGBGARBRE-B, "Australian
+            # Garlic Bread 9\" x 40", a carton of forty at $1.4952 each. Ask the
+            # cost book instead of a field somebody has to remember to tick: if
+            # the referenced id carries real INVOICED observations (not seeds),
+            # the product is something we buy and hand over, and a one-line
+            # pass-through is the honest shape for it.
+            continue
         if ln.get("poured_from"):
             # A DERIVED POUR IS NOT A TAUTOLOGY. add_wine_pours deliberately
             # writes a glass as a one-line pass-through naming itself — "one

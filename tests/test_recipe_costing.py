@@ -351,8 +351,21 @@ def test_a_recipe_that_is_one_of_itself_is_flagged():
     assert "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Large Glass" not in taut
     assert "A. Rodda Tempranillo - Large" not in taut
 
-    # What remains is Garlic Bread, which genuinely needs its recipe built.
-    assert taut == {"Garlic Bread"}, sorted(taut)
+    # AND GARLIC BREAD WAS NEVER A TAUTOLOGY EITHER (2026-08-21). It is a
+    # BOUGHT product: Gulli invoice AGBGARBRE-B, "Australian Garlic Bread 9\" x
+    # 40", a carton of forty at $1.4952 each, fortnightly. This flag's own words
+    # are "with no purchased ingredient behind it", and the InventoryType check
+    # that is supposed to catch that only works if somebody ticked the field in
+    # Back Office. It now asks the COST BOOK instead — if the referenced id
+    # carries real invoiced observations, a purchased ingredient does stand
+    # behind it and a one-line pass-through is the honest shape.
+    #
+    # So the family is empty, and that is the correct state, not a broken
+    # detector: the Pepsi glasses got real recipes, the four wine glasses get
+    # derived pours, and this one gets bought in. If a REAL tautology appears —
+    # a self-naming line with no invoice and no pour behind it — it will show up
+    # here again, which is what the rest of this test guards.
+    assert taut == set(), sorted(taut)
 
     # a 30 ml pour from a bottle is a real recipe
     book = json.loads((root / "data" / "lightspeed_recipes_costed.json")

@@ -1376,3 +1376,43 @@
     invoice reach a record whose unit is [ea].
   true: 2026-08-20
   by_email: hello@stowawaybar.com
+
+# PACK SIZES FOUND IN THE INVOICE CORPUS, 2026-08-21 (Zak: "you should be able
+# to go find all of the pack sizes"). Back Office has Unit=g and DefaultSize=1
+# on all eight, so each is recorded as the whole pack's price for ONE GRAM.
+# Three of the eight are settled by a supplier line that PRINTS the size; the
+# other five are not in the corpus under any name I can find (potato starch,
+# bonito, kombu, chicken mince, and the rice-cake piece count) and the flag's
+# own warning applies — "a $30 bag could be 500 g or 1 kg, and guessing turns a
+# $30 error into a $30 error with a decimal point in it". Those stay flagged.
+
+- id: "lightspeed:22947358"
+  pack_qty: 1000
+  pack_unit: g
+  by: >-
+    Shiitake Mushrooms Dried. Jun Pacific's own line names the size: KL9201598
+    "Dried Shiitake Mushroom 1kg", $31.25 (9 Apr). Back Office's $25.00 is the
+    same pack a little stale, not a per-gram rate — at DefaultSize 1 it priced
+    one gram of dried shiitake at $25.
+  true: 2026-08-21
+  by_email: hello@stowawaybar.com
+
+- id: "lightspeed:22947365"
+  pack_qty: 1000
+  pack_unit: g
+  by: >-
+    Pork Mince. Andrews Meat bill 3002K "PORK MINCE BACK FAT FROZEN" at $12.00
+    per KG, and Back Office's $10.00 is the same order — a kilo price, not a
+    gram price. B&E's beef mince ($11.73/kg) brackets it from the other side.
+  true: 2026-08-21
+  by_email: hello@stowawaybar.com
+
+- id: "lightspeed:22947367"
+  pack_qty: 1000
+  pack_unit: g
+  by: >-
+    Prawn Meat. B&E bill 13582 "FZ PRAWN - RAW MEAT" at $0.022714/g = $22.71 a
+    kilo, and Back Office's $25.00 is within 10% of it — a kilo price. Read as
+    a gram price it made one prawn cost more than the tray.
+  true: 2026-08-21
+  by_email: hello@stowawaybar.com
