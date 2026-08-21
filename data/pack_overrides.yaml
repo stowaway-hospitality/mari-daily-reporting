@@ -1397,22 +1397,30 @@
   true: 2026-08-21
   by_email: hello@stowawaybar.com
 
-- id: "lightspeed:22947365"
-  pack_qty: 1000
+- id: "lightspeed:22947363"
+  pack_qty: 500
   pack_unit: g
   by: >-
-    Pork Mince. Andrews Meat bill 3002K "PORK MINCE BACK FAT FROZEN" at $12.00
-    per KG, and Back Office's $10.00 is the same order — a kilo price, not a
-    gram price. B&E's beef mince ($11.73/kg) brackets it from the other side.
+    Potato Starch = 500 g. Foodlink's invoice prints it: 102185 "POTATO STARCH
+    500GM TUNG", $4.50, on SI3666979 (24 May, delivered to Harry Gatos) and on
+    fourteen other Foodlink invoices. Back Office's $5.00 is that pack, and at
+    DefaultSize 1 it was charging $5.00 for ONE GRAM — a 500x error, and this
+    is the only one of the eight that a recipe actually draws today.
   true: 2026-08-21
   by_email: hello@stowawaybar.com
 
-- id: "lightspeed:22947367"
-  pack_qty: 1000
-  pack_unit: g
-  by: >-
-    Prawn Meat. B&E bill 13582 "FZ PRAWN - RAW MEAT" at $0.022714/g = $22.71 a
-    kilo, and Back Office's $25.00 is within 10% of it — a kilo price. Read as
-    a gram price it made one prawn cost more than the tray.
-  true: 2026-08-21
-  by_email: hello@stowawaybar.com
+# Three entries removed 2026-08-21 (ids 22947367 Prawn Meat, 22947365 Pork
+# Mince, 22947359 Bonito Flakes). check_declarations_bind reported them
+# unbound: "no ingredient and no cost row with this id". They were ghosts — I
+# wrote ProductIDs that do not exist in the BO export, so the overrides
+# corrected nothing and the guard count went 9 -> 12.
+#
+# Prawn Meat needed no fix at all. The real record is 22902935 "Prawn Meat Raw
+# Vannamei [700g]", $20.50, and it already carries pack_qty 700 g because the
+# size is in its NAME. Foodlink's line 105268 (700GM, $20.50) agrees with the
+# seed to the cent. I invented a defect, then invented a second wrong size for
+# it, and both times the thing I was correcting did not exist.
+#
+# Bonito Flakes and Pork Mince are not in the cost book under any id — nothing
+# draws them, so there is nothing here to size. The Foodlink 454 g reading for
+# Bonito is recorded in the session log for whenever the product is seeded.
