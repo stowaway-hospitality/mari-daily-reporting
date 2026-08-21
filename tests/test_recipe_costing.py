@@ -339,8 +339,20 @@ def test_a_recipe_that_is_one_of_itself_is_flagged():
     assert "Lemonade Glass" not in taut
     assert "Pink Lemonade Glass" not in taut
 
-    # What remains is the four wine glasses, which still say "one of me".
-    assert len(taut) == 4, sorted(taut)
+    # THE FOUR WINE GLASSES ARE FIXED TOO (2026-08-21), and the same rule
+    # applies a third time: a test that pins a defect expires the day someone
+    # fixes it. They were circular because add_wine_pours could not find their
+    # bottles — San Giorgio and Barolo are filed in Back Office with Unit
+    # "unit" rather than "ml", and the bottle test required "ml" — so both
+    # sizes kept ONE Back Office figure ($8.14 and $30.80 for Regular AND
+    # Large). The bottle lookup now tests the cost/sell RATIO instead of the
+    # unit word, and every pour carries `poured_from` showing its arithmetic.
+    assert "Tiziano Grasso Barolo Briccolina 2019 - Large Glass" not in taut
+    assert "San Giorgio Ciampoleto Rosso di Montalcino 2023 - Large Glass" not in taut
+    assert "A. Rodda Tempranillo - Large" not in taut
+
+    # What remains is Garlic Bread, which genuinely needs its recipe built.
+    assert taut == {"Garlic Bread"}, sorted(taut)
 
     # a 30 ml pour from a bottle is a real recipe
     book = json.loads((root / "data" / "lightspeed_recipes_costed.json")

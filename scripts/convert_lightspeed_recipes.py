@@ -1527,6 +1527,34 @@ def _is_whole_bottle(name: str, unit: str, sell: str, cost: str) -> bool:
     return _BOTTLE_COST_FLOOR <= c / s <= _BOTTLE_COST_CEILING
 
 
+def _bottle_cost_for_pour(name: str, sell: str, cost: str) -> bool:
+    """Same question as _is_whole_bottle, minus the Unit=ml requirement.
+
+    The `unit != "ml"` gate above is right for the PASS-THROUGH path, where it
+    stops a 30 ml nip being sold at a bottle's price. It is wrong for the pour
+    index, which only wants to know what the bottle cost so a glass can be
+    derived from it — and two wines are filed in Back Office with Unit="unit"
+    rather than "ml": San Giorgio Ciampoleto and Tiziano Grasso Barolo. Their
+    bottles were therefore invisible to the index, add_wine_pours found no
+    bottle to divide, and BOTH sizes kept Back Office's single figure ($8.14
+    and $30.80 for Regular AND Large) — the exact defect add_wine_pours was
+    written to kill, surviving on a units technicality.
+
+    The RATIO is the proof and it is unchanged: San Giorgio 40.70/116 = 35%,
+    Barolo 154/244 = 63%, both inside the 2%-90% whole-bottle band and nowhere
+    near a per-ml rate's ~0.02%.
+    """
+    if not _BOTTLE_SUFFIX.search(name or ""):
+        return False
+    try:
+        s, c = float(sell or 0), float(cost or 0)
+    except ValueError:
+        return False
+    if s <= 0 or c <= 0:
+        return False
+    return _BOTTLE_COST_FLOOR <= c / s <= _BOTTLE_COST_CEILING
+
+
 #: The house pours, Zak 2026-08-20: Regular 150 ml, Large 250 ml, from a 750 ml
 #: bottle. So a Regular is a fifth of the bottle and a Large is a third.
 _POUR_ML = {"regular": 150.0, "regular glass": 150.0, "glass": 150.0,
@@ -1593,7 +1621,7 @@ def _bo_wine_index() -> dict:
                 sell, cost = float(row[8] or 0), float(row[10] or 0)
             except ValueError:
                 continue
-            if _is_whole_bottle(name, row[6], row[8], row[10]):
+            if _bottle_cost_for_pour(name, row[8], row[10]):
                 bottles.setdefault(name, _live_bottle_cost(row[0], cost))
             elif _POUR_ML.get(name.rpartition(" - ")[2].strip().lower()):
                 pours.setdefault(name, (row[0], sell, cost, venue))
@@ -1647,14 +1675,33 @@ def add_wine_pours(out: dict, bottle_cost: dict) -> int:
         cur = out.get(name)
         if cur:
             lines = cur.get("ingredients") or []
-            if not (len(lines) == 1 and lines[0].get("passthrough")):
+            # A SINGLE SELF-REFERENTIAL LINE IS NOT A RECIPE. "Produce has a
+            # real recipe; it wins" is right, but a one-line recipe whose only
+            # ingredient is the product ITSELF carries no information — it is
+            # the circular shape the audit flags, and deferring to it is how
+            # San Giorgio and Barolo kept a Large Glass priced at the REGULAR
+            # pour ($8.14 and $30.80 for both sizes, the exact defect this
+            # function's docstring opens with). A derived pour is strictly
+            # better than a number with nothing behind it, so treat the
+            # circular line like the passthrough it effectively is.
+            _selfish = (len(lines) == 1
+                        and (lines[0].get("ref") == f"lightspeed:{pid}"
+                             or (lines[0].get("name") or "").strip() == name))
+            if not (len(lines) == 1 and (lines[0].get("passthrough") or _selfish)):
                 continue            # Produce has a real recipe; it wins
             try:
                 have = float(lines[0].get("our_cost") or 0)
             except (TypeError, ValueError):
                 have = 0.0
             if have > 0 and abs(have - want) <= 0.05 * want:
-                continue            # already right; leave the diff clean
+                # ALREADY RIGHT — so keep the NUMBER exactly (no churn, which
+                # is what "leave the diff clean" was protecting) but still
+                # stamp the derivation. Without the stamp an agreeing pour is
+                # indistinguishable from a typed one: the audit's circular
+                # check reads a bare self-line as "a Back Office figure
+                # somebody typed", and the two Regular glasses would sit on
+                # that list for ever while being perfectly correct.
+                want = have
         elif not sell or sell <= 0:
             continue                # not a menu item
         out[name] = {"ingredients": [{

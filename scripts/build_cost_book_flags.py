@@ -962,6 +962,16 @@ def tautological_recipe_flags(recipes) -> list:
             continue
         if inv.get(ln.get("ref") or "") == "1":
             continue                       # a real stock item stands behind it
+        if ln.get("poured_from"):
+            # A DERIVED POUR IS NOT A TAUTOLOGY. add_wine_pours deliberately
+            # writes a glass as a one-line pass-through naming itself — "one
+            # glass is one thing we hand over" — and carries `poured_from` so
+            # the arithmetic is auditable: "Barolo - Bottle $154.00 x 250/750
+            # ml". That is the OPPOSITE of this flag's subject, which is a
+            # number somebody typed with nothing behind it. Flagging the fix
+            # as the defect is how these six stayed on the list after their
+            # costs were already correct.
+            continue
         try:
             q = float(ln.get("qty") or 0)
         except (TypeError, ValueError):
