@@ -54,11 +54,11 @@ ids:
   lightspeed:20445843:
     class: awaiting_next_purchase
     name: Glendronach 12yr
-    reason: 'slow-moving single malt, $19 of sales in 4 weeks (one pour). Searched every invoice in
-      data/invoices for ''glendronach'': ZERO lines, so there is nothing to bridge to and none was invented.
-      The three Glendronach seeds (20487322 stow/ml, 20750151 HG/each, this one) all sit on the 2026-01
-      Back Office export at $94.51. Its likely suppliers, ILG and Paramount, both have working parsers,
-      so the next delivery prices it automatically — sibling of Bunnahabhain 12yr directly above.'
+    reason: 'slow-moving single malt, $19 of sales in 4 weeks (one pour). Searched every invoice in data/invoices
+      for ''glendronach'': ZERO lines, so there is nothing to bridge to and none was invented. The three
+      Glendronach seeds (20487322 stow/ml, 20750151 HG/each, this one) all sit on the 2026-01 Back Office
+      export at $94.51. Its likely suppliers, ILG and Paramount, both have working parsers, so the next
+      delivery prices it automatically — sibling of Bunnahabhain 12yr directly above.'
   lightspeed:20459505:
     class: awaiting_next_purchase
     name: Grifter Pale Ale Cans D
@@ -68,14 +68,14 @@ ids:
     name: Scout Pinot Gris - Bottle
     reason: 'WHO SUPPLIES SCOUT? One answer from Zak closes it. $18 of sales in 4 weeks (one bottle),
       priced from the 2026-01 Back Office seed ($19.80 / 750 ml) and from an ls-recipe-seed at $26.40
-      — and a search of every invoice in data/invoices for ''scout'' and ''pinot gris'' returns ZERO
-      lines for it. NOT classed awaiting_next_purchase, because that class promises the next invoice
-      prices it automatically and that is only true if the supplier PARSES: the boutique wine senders
-      still stuck in Review with no parser (nelsonwineco, youngandrashleigh, vinsight, combinedwines,
-      Viticult via post.dearsystems) are the plausible sources and an invoice from any of them would
-      sit in Review forever. Two-plus plausible candidates is a FLAG, not a guess, so the supplier was
-      not inferred from the product range. Naming the supplier either turns this into
-      awaiting_next_purchase or names the next parser to write.'
+      — and a search of every invoice in data/invoices for ''scout'' and ''pinot gris'' returns ZERO lines
+      for it. NOT classed awaiting_next_purchase, because that class promises the next invoice prices
+      it automatically and that is only true if the supplier PARSES: the boutique wine senders still stuck
+      in Review with no parser (nelsonwineco, youngandrashleigh, vinsight, combinedwines, Viticult via
+      post.dearsystems) are the plausible sources and an invoice from any of them would sit in Review
+      forever. Two-plus plausible candidates is a FLAG, not a guess, so the supplier was not inferred
+      from the product range. Naming the supplier either turns this into awaiting_next_purchase or names
+      the next parser to write.'
   lightspeed:20471109:
     class: question
     name: Tomato Sauce
@@ -263,6 +263,13 @@ ids:
     reason: 'Foodlink portal 2026-08-20: the 1KG is 101624 and the 5KG BULK (101625) is the one flagged
       Favourite — the record says 1kg, the buying habit says 5kg, and the two price differently. Not guessed;
       the next invoice names which.'
+  lightspeed:22888837:
+    class: awaiting_next_purchase
+    name: Salt Cooking 1kg Olssons
+    reason: 'bridge RETRACTED 2026-08-21: B&E 31030 is a 2.5kg pack, this record is Olssons 1kg, and the
+      venue also stocks a 10kg Olssons (22888836) and an HG bulk salt (22898520). The bridge moved the
+      rate $5.58 -> $2.32/kg on plausibility alone. Waits for a B&E/Foodlink line that names a 1kg Olssons
+      pack.'
   lightspeed:22888898:
     class: awaiting_next_purchase
     name: Patties Wagyu Tajima Classic 150g Fresh (20/Pk)
