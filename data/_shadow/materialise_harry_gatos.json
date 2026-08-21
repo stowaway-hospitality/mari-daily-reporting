@@ -51,17 +51,21 @@
   {
    "in": "stowaway",
    "product": "Yuzu Chu-hi"
+  },
+  {
+   "in": "harry_gatos",
+   "product": "Yuzu Orange Soda"
   }
  ],
  "by_source": {
-  "authored": 36,
+  "authored": 39,
   "derived": 2,
   "mirrored": 2,
   "rule": 30,
-  "scrape": 216
+  "scrape": 219
  },
  "generated": "2026-08-21",
- "lines": 286,
+ "lines": 292,
  "manual_lines": [
   {
    "engine": null,
@@ -115,6 +119,17 @@
    "product": "Demon Slayer",
    "qty": 2.5,
    "ref": "lightspeed:20873427",
+   "unit": "ml",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 1.8898,
+   "line": "Coke Zero Can",
+   "line_cost": 1.8898,
+   "product": "Diet Coke Can",
+   "qty": 1.0,
+   "ref": "lightspeed:20459561",
    "unit": "ml",
    "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
   },
@@ -340,7 +355,7 @@
   }
  ],
  "no_yield": [],
- "products": 93,
+ "products": 97,
  "pulled_in_for_closure": [
   "Dragon Juice Batch",
   "Drunken Koi Batch",

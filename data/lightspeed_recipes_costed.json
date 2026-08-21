@@ -1,14 +1,14 @@
 {
  "generated": "2026-08-21",
  "source": "Lightspeed Produce (scraped)",
- "recipe_count": 1017,
+ "recipe_count": 1021,
  "coverage": {
   "ingredient_refs": {
-   "id": 1558,
-   "subrecipe": 389,
+   "id": 1560,
+   "subrecipe": 390,
    "unmatched": 7
   },
-  "recipes_fully_on_our_book": 974
+  "recipes_fully_on_our_book": 978
  },
  "recipes": {
   "Pi\u00f1a Colada": {
@@ -44585,6 +44585,47 @@
    "sell_incl": 30.0,
    "gp_pct": 74.0
   },
+  "Yuzu Orange Soda": {
+   "ingredients": [
+    {
+     "name": "East Coast Orange Juice [2L] \u2014 the OJ inside 'Adjusted OJ'",
+     "kind": "id",
+     "ref": "lightspeed:22844123",
+     "qty": "30.0",
+     "unit": "ml",
+     "ls_cost": "0.087",
+     "our_cost": "0.002900",
+     "eff_cost": 0.087
+    },
+    {
+     "name": "Sugar Syrup",
+     "kind": "subrecipe",
+     "ref": "Sugar Syrup",
+     "qty": "7.25",
+     "unit": "ml",
+     "ls_cost": "0.016477",
+     "our_cost": 0.0022727272727272726,
+     "eff_cost": 0.016477
+    },
+    {
+     "name": "Yuzu Juice \u2014 JUICE LIME YUZU 1LT Tonami",
+     "kind": "id",
+     "ref": "lightspeed:22874517",
+     "qty": "2.0",
+     "unit": "ml",
+     "ls_cost": "0.14258",
+     "our_cost": "0.071290",
+     "eff_cost": 0.14258
+    }
+   ],
+   "our_cost": 0.2461,
+   "ls_cost": 0.2461,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 9.0,
+   "gp_pct": 97.0
+  },
   "Southern Squid": {
    "ingredients": [
     {
@@ -55991,6 +56032,72 @@
    "is_prep": false,
    "sell_incl": null,
    "gp_pct": null
+  },
+  "Diet Coke Can": {
+   "ingredients": [
+    {
+     "name": "Coke Zero Can",
+     "kind": "id",
+     "ref": "lightspeed:20459561",
+     "qty": "1",
+     "unit": "ml",
+     "ls_cost": "1.89",
+     "our_cost": null,
+     "eff_cost": 1.8898
+    }
+   ],
+   "alias_of": "Coke Zero Can",
+   "our_cost": 1.8898,
+   "ls_cost": 1.89,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 4.0,
+   "gp_pct": 48.0
+  },
+  "Vinada Sparkling Wine": {
+   "ingredients": [
+    {
+     "name": "Vinada Sparking Ros\u00e9 [Bottle]",
+     "kind": "id",
+     "ref": "lightspeed:20492687",
+     "qty": "150",
+     "unit": "ml",
+     "ls_cost": "3.05",
+     "our_cost": "0.020313",
+     "eff_cost": 3.04695
+    }
+   ],
+   "alias_of": "Vinada Sparkling Rose",
+   "our_cost": 3.047,
+   "ls_cost": 3.05,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 11.0,
+   "gp_pct": 69.5
+  },
+  "Ginger Beer Glass [HG]": {
+   "ingredients": [
+    {
+     "name": "Bundaberg Ginger Beer [750ml]",
+     "kind": "id",
+     "ref": "lightspeed:20445917",
+     "qty": "200",
+     "unit": "ml",
+     "ls_cost": "0.96",
+     "our_cost": "0.005192",
+     "eff_cost": 1.0384
+    }
+   ],
+   "alias_of": "Bundaberg Ginger Beer",
+   "our_cost": 1.0384,
+   "ls_cost": 0.96,
+   "fully_our_book": true,
+   "resolved_pct": 100,
+   "is_prep": false,
+   "sell_incl": 4.0,
+   "gp_pct": 71.4
   },
   "Large Pizza [menu average]": {
    "ingredients": [

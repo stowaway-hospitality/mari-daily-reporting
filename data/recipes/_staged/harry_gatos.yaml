@@ -10,7 +10,7 @@
 #   derived      2 — computed from another line (a size scaling, a cook yield)
 #   mirrored     2 — deliberately the same spec as a sibling record
 #   rule        30 — a written rule with arithmetic proof corrected it
-#   scrape     216 — nobody has checked it. This is the number to shrink.
+#   scrape     219 — nobody has checked it. This is the number to shrink.
 #
 # `source: scrape` is not a defect to hide; it is the backlog, made countable.
 #
@@ -330,6 +330,17 @@
     desc: Wattleseed Honey Soy
     qty: 29
     unit: g
+    source: scrape
+- product: Diet Coke Can
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20459561
+    desc: Coke Zero Can
+    qty: 1
+    unit: ml
+    manual: true
+    unit_cost_incl: 1.8898
     source: scrape
 - product: Dragon Juice
   venue_source: harry_gatos
@@ -654,6 +665,15 @@
   - id: lightspeed:20700630
     desc: Geppetto Chardonnay - Bottle
     qty: 150
+    unit: ml
+    source: scrape
+- product: Ginger Beer Glass [HG]
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20445917
+    desc: Bundaberg Ginger Beer [750ml]
+    qty: 200
     unit: ml
     source: scrape
 - product: Ginger Ponzu
@@ -1894,6 +1914,15 @@
     qty: 150
     unit: ml
     source: scrape
+- product: Vinada Sparkling Wine
+  venue_source: harry_gatos
+  is_serve: true
+  ingredients:
+  - id: lightspeed:20492687
+    desc: Vinada Sparking Rosé [Bottle]
+    qty: 150
+    unit: ml
+    source: scrape
 - product: Vodka Martini [HG]
   venue_source: harry_gatos
   is_serve: true
@@ -1947,6 +1976,27 @@
     unit_cost_incl: 0.048457
     source: authored
     evidence: recipe builder, data/recipes/stowaway.yaml
+- product: Yuzu Orange Soda
+  venue_source: harry_gatos
+  authored_in: data/recipes/harry_gatos.yaml
+  ingredients:
+  - id: lightspeed:22844123
+    desc: East Coast Orange Juice [2L] — the OJ inside 'Adjusted OJ'
+    qty: 30
+    unit: ml
+    source: authored
+    evidence: recipe builder, data/recipes/harry_gatos.yaml
+  - subrecipe: Sugar Syrup
+    qty: 7.25
+    unit: ml
+    source: authored
+    evidence: recipe builder, data/recipes/harry_gatos.yaml
+  - id: lightspeed:22874517
+    desc: Yuzu Juice — JUICE LIME YUZU 1LT Tonami
+    qty: 2
+    unit: ml
+    source: authored
+    evidence: recipe builder, data/recipes/harry_gatos.yaml
 - product: Zagara Orange [HG] - Regular
   venue_source: harry_gatos
   is_serve: true

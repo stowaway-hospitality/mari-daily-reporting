@@ -109,3 +109,38 @@
       qty: 7
       unit: "g"
       unit_cost_incl: 0.013200
+
+# ============================================================================
+# NON-ALCOHOLIC BAR BUILDS — specs from Zak, 2026-08-21, sent after he found
+# these on the "no costed recipe" list and confirmed each is a bar pour, not
+# a kitchen dish (the group is literally named "Non-Alcoholic").
+# ============================================================================
+
+# Zak, verbatim: "yuzu orange soda: Single serve -30ml Adjusted OJ -7.25ml
+# Sugar Syrup -2ml Yuzu Juice -120ml Soda".
+#
+# "Adjusted OJ" is the same undocumented citric/malic adjustment used in
+# Stowaway's Virgin Margy (data/recipes/stowaway.yaml) — costed as the plain
+# orange juice, per that entry's reasoning: the acid adjustment is real but
+# immaterial (well under a cent on a 30 ml pour) and is recorded rather than
+# invented as a ratio. Same convention, so the same line here.
+#
+# Yuzu juice is lightspeed:22874517 — Foodlink 103169 "JUICE LIME YUZU 1LT
+# Tonami", 1 L at $71.29 = $0.071290/ml, invoice SI4393113.
+#
+# The soda is plain carbonated water, not a flavoured postmix (that is a
+# separate BIB line elsewhere in this book, e.g. Schweppes Red Cream Soda).
+# Same treatment as the 30 ml of water in Virgin Margy: free, not a line.
+- product: "Yuzu Orange Soda"
+  ingredients:
+    - id: "lightspeed:22844123"
+      desc: "East Coast Orange Juice [2L] — the OJ inside 'Adjusted OJ'"
+      qty: 30
+      unit: "ml"
+    - subrecipe: "Sugar Syrup"
+      qty: 7.25
+      unit: "ml"
+    - id: "lightspeed:22874517"
+      desc: "Yuzu Juice — JUICE LIME YUZU 1LT Tonami"
+      qty: 2
+      unit: "ml"

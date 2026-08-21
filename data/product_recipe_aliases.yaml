@@ -111,13 +111,20 @@
 # global-pricing ruling the HG listing takes the Stowaway build.
 #
 # ONLY WHERE THE NAME FOLDS EXACTLY. Stripping "[HG]" and normalising accents
-# gives an identical match for these five. It does NOT for the rest of that
-# group and they are deliberately absent:
+# gives an identical match for these five. It did NOT for the rest of that
+# group, which is why they sat out this pass — three of them are now closed
+# below on Zak's explicit ruling (2026-08-21), not on a name fold:
 #
-#   Diet Coke Can          the book has "Coke Can" — a DIFFERENT drink
-#   Vinada Sparkling Wine  the book has the Rosé — a different variant
-#   Asahi Zero             the book has Asahi 3.5% — zero-alc is not low-alc
-#   Ginger Beer Glass [HG] the book has bottles and cans, no postmix glass
+#   Asahi Zero             the book has Asahi 3.5% — zero-alc is not low-alc,
+#                          and still absent: no alias substitutes a real
+#                          supply chain. Zak 2026-08-21: "asahi zero is bought
+#                          from CUB" — but CUB carries no invoice/pricebook
+#                          feed in this repo (build_cogs_list.py notes CUB
+#                          sends us nothing automated), so there is no number
+#                          to write down yet. A CUB cart total or invoice
+#                          line, the way the five postmix BIB lines in
+#                          data/cogs_list.csv were declared, is what closes
+#                          this — not a guess.
 #   Corn                   fuzzy-matched to "Corona", which is a beer, and is
 #                          the reason none of this was done on fuzzy matching
 "Apple Juice Glass [HG]": "Apple Juice Glass"
@@ -130,3 +137,29 @@
 # Wines' orange and there is exactly one of it in the book, in both sizes.
 "Zagara Orange [HG] - Regular": "Year Wines 'Zagara' Orange - Regular"
 "Zagara Orange [HG] - Bottle": "Year Wines 'Zagara' Orange - Bottle"
+
+# --- Three more HG listings closed on Zak's ruling, 2026-08-21 --------------
+#
+# These three were the "deliberately absent" cases above, listed by name
+# because folding the name would have recorded a lie: "Diet Coke Can" read as
+# "Coke Can" (a different drink), "Vinada Sparkling Wine" as the Rosé (a
+# different variant), "Ginger Beer Glass [HG]" as a postmix glass the book
+# does not carry. Zak has now ruled on the actual product behind each listing,
+# so this is not a name fold, it is a stock decision recorded as one:
+#
+# "diet coke is now coke zero" — the can HG pours from is physically Coke
+# Zero now. Stowaway already carries "Coke Zero Can" (lightspeed:20459561,
+# ILG-bridged, zak-confirmed 2026-08-18).
+"Diet Coke Can": "Coke Zero Can"
+
+# "vinada replaced with the one from stowaway, draws from stow stock" — HG's
+# separate "Vinada Sparkling Wine" listing (distinct from the Rosé twin
+# aliased above) now draws the same bottle as Stowaway's, id
+# lightspeed:20492687 — invoice-verified 2026-08-20 at $0.020313/ml.
+"Vinada Sparkling Wine": "Vinada Sparkling Rose"
+
+# "ginger beer = stow's bundaberg ginger beer" — HG's postmix-labelled glass
+# now pours from the same bottle Stowaway sells neat, id
+# lightspeed:20485266, name-prefix matched to ILG invoices at $0.004961/ml
+# (+12.7% over the January seed, already superseding it).
+"Ginger Beer Glass [HG]": "Bundaberg Ginger Beer"
