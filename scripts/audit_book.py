@@ -174,6 +174,15 @@ DEAR_BUT_REAL = {
     # is a heuristic for gram prices and this is the exception it exists to
     # have named.
     "select-fresh:WATS100",
+    # UJI Matcha Hagoromo, JFC 65229, $8.70 for 40 g -> $0.2175/g. Checked
+    # 2026-08-22 rather than assumed: JFC's own catalogue lists this exact
+    # line as "UJI Matcha Hagoromo 40g", a single 40 g tin, at $8.00. So the
+    # "8/5/40g" in the description is the case-packing detail, not what we
+    # bought -- qty 1 on invoice 001799312 is one tin, and the 40 g pack
+    # parse is right. Retail 40 g tins of the same product sell around
+    # $12-20 in AU, so $8.70 wholesale sits below retail as it should.
+    # Matcha is simply dearer per gram than a ceiling calibrated on spices.
+    "jfc:65229",
 }
 # Products whose high GP Zak has confirmed is REAL, with what he said. A rule
 # that keeps reporting a checked answer is how a list stops being read.
