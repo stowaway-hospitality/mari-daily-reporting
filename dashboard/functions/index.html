@@ -1,1 +1,328 @@
-probe
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Functions · Stowaway Hospitality Group</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/_shared/tokens.css?v=20260719b">
+<!--
+  Functions admin — shell only; ALL logic lives in functions.js (arch_guard).
+  Bump the ?v= on functions.js whenever it changes.
+
+  Signed-in staff never paste a token: functions.js calls Auth.bookingToken(),
+  which reads it from Supabase app_config (RLS-protected). #tokenbox below is
+  only a fallback for when that lookup fails.
+
+  The screen has THREE halves and they are not the same question: the DIARY is
+  what is booked (rows in the engine's bookings table, most with no brief at
+  all), the PIPELINE is every enquiry on the monday tracker, and BRIEFS is the
+  engine's own brief table -- the paperwork a deposit is taken against.
+  #modes switches between them; all three are drawn into #rail and #panel.
+
+  The pipeline used to BE the briefs list, and that table has always been
+  empty, so the tab read "Pipeline 0" while sixty enquiries sat on the board.
+  It now reads data/functions_pipeline.json, a static feed on this origin.
+
+  A third question arrived with the outcome columns: how did the ones that have
+  already happened actually go. It is answered on the diary card of a past
+  function and nowhere else, because a GP figure is only honest beside the
+  three things that qualify it, and a list row has no room for them.
+
+  This screen was built first at /admin/functions on the Render service, where
+  staff never go and where it asked for the service token in a box. Same
+  behaviour, moved to where the work happens and onto the platform's own auth
+  and design system. No server logic moved: every call it makes is to a route
+  on the booking engine, exactly as /bookings/ does it.
+-->
+<style>
+  .wrap{max-width:1320px;margin:0 auto;padding:24px}
+  .app-header{border-bottom:1px solid var(--line);background:var(--paper)}
+  .app-header-inner{max-width:1320px;margin:0 auto;padding:14px 24px;display:flex;
+    align-items:center;justify-content:space-between;gap:16px}
+  .brand-row{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit}
+  .brand-row img{height:34px;width:auto;display:block}
+  .group-brand{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--ink)}
+  .app-header .who{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-soft)}
+  .app-header .who a{color:var(--ink);text-decoration:none}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:24px;margin:0 0 4px}
+  h2{font-family:'Space Grotesk',sans-serif;font-size:15px;margin:0 0 8px}
+  .bar{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-bottom:14px}
+  label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;
+        color:var(--ink-soft);margin:0 0 3px;letter-spacing:.05em}
+  input,select,textarea{padding:8px;border:1px solid var(--line);border-radius:8px;
+        font-size:14px;background:var(--paper);color:var(--ink);width:auto}
+  button{padding:9px 14px;border:none;border-radius:8px;background:var(--ink);
+        color:var(--paper);font-size:13px;cursor:pointer;font-weight:600;
+        font-family:inherit;letter-spacing:0;text-transform:none}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  button.ghost{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+  button.ghost:hover{border-color:var(--ink)}
+  button.warn{background:var(--red)}
+  button.go{background:var(--green)}
+  button.small{padding:5px 10px;font-size:12px;border-radius:6px}
+  #status{font-size:13px;color:var(--ink-soft)}
+  #rates{font-size:12px;color:var(--ink-soft);margin-bottom:12px}
+
+  /* Rail on the left, one enquiry on the right. Same two-column shape the
+     Render page had, because the rail IS the working list. */
+  .cols{display:flex;gap:16px;align-items:flex-start}
+  .rail{width:340px;flex:none}
+  .panel{flex:1;min-width:0}
+  @media (max-width:900px){.cols{flex-direction:column}.rail{width:100%}}
+
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+        padding:14px 16px;margin-bottom:14px;box-shadow:var(--shadow)}
+
+  .grp{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;
+        text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);
+        margin:14px 0 6px;display:flex;align-items:center;gap:6px}
+  .grp .n{background:var(--line);color:var(--ink);border-radius:9px;padding:1px 7px;font-size:11px}
+  .row{background:var(--paper);border:1px solid var(--line);border-radius:10px;
+        padding:9px 11px;margin-bottom:6px;cursor:pointer;box-shadow:var(--shadow);
+        border-left:3px solid transparent}
+  .row:hover{border-color:var(--ink-soft)}
+  /* Waiting on them vs waiting on me. Two rows can carry an identical "needs a
+     start time" chip; the difference that matters is whose move it is next.
+     Declared ABOVE .row.on on purpose — equal specificity, later rule wins, so
+     selecting a row still paints its marker with the ink colour. */
+  .row.onme{border-left-color:var(--amber)}
+  .row.onthem{border-left-color:var(--grey);opacity:.92}
+  /* The two the enquiry pipeline added. Deliberately NOT amber: a row whose
+     log does not say whose move it is, and a row nobody has ever touched, are
+     both work — but they are a different errand from "they owe us an answer",
+     and painting all three the same colour is how the honest one gets lost. */
+  .row.unsure{border-left-color:var(--accent)}
+  .row.untouched{border-left-color:var(--line)}
+  .row.on{border-left-color:var(--ink);border-color:var(--ink-soft)}
+  .row .l1{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+  .row .nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .row .when{color:var(--ink-soft);font-size:12px;white-space:nowrap}
+  .row .l2{margin-top:4px;display:flex;gap:4px;flex-wrap:wrap}
+
+  .chip{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;
+        padding:2px 7px;border-radius:9px;background:var(--line);color:var(--ink-soft)}
+  .chip.need{background:var(--line);color:var(--amber);border:1px solid var(--amber)}
+  .chip.bad{background:var(--line);color:var(--red);border:1px solid var(--red)}
+  .chip.ok{background:var(--line);color:var(--green);border:1px solid var(--green)}
+  .chip.soon{background:var(--ink);color:var(--paper)}
+  /* Deliberately quiet. An asked-recently row is not a task. */
+  .chip.asked{background:var(--line);color:var(--ink-soft)}
+
+  /* ---------------------------------------------- the enquiry pipeline
+     How old the capture is. It sits ABOVE the list, at body size, because a
+     feed that quietly ages while presenting itself as live is worse than no
+     feed: the empty screen at least told the truth. */
+  .stale{background:var(--parchment);border:1px solid var(--line);
+        border-left:3px solid var(--grey);border-radius:10px;
+        padding:9px 12px;margin-bottom:12px;font-size:13px;line-height:1.5}
+  .stale.bad{border-left-color:var(--amber)}
+  .stale a{color:var(--ink)}
+  .stale code{font-size:12px}
+  /* Whose move, and the sentence it was read off. The evidence is body text
+     inside the same block as the verdict, never a tooltip: a verdict nobody
+     can check is a verdict nobody should act on. */
+  .move{margin:11px 0;background:var(--parchment);border:1px solid var(--line);
+        border-left:3px solid var(--grey);border-radius:10px;padding:10px 13px}
+  .move.onme{border-left-color:var(--amber)}
+  .move.unsure{border-left-color:var(--accent)}
+  .move.untouched{border-left-color:var(--line)}
+  .move .verdict{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700}
+  .move .why{font-size:13px;color:var(--ink-soft);margin-top:2px}
+  .evid{font-size:12px;color:var(--ink-soft);margin-top:5px;line-height:1.45;
+        overflow:hidden;text-overflow:ellipsis}
+  .evid.full{font-size:13px;color:var(--ink);white-space:pre-wrap;
+        border-top:1px solid var(--line);padding-top:7px;margin-top:8px}
+  .met .v.sm{font-size:14px;font-weight:600;line-height:1.4;word-break:break-word}
+  .flaglist{margin:6px 0 0 18px;font-size:13px;line-height:1.5}
+  .flaglist li{margin-bottom:5px}
+
+  /* Rail summary — the whole board's whose-move split, counted, before
+     anyone searches or opens a row. Same left-edge colour vocabulary as the
+     rows and the .move block below it (amber = us, grey = them, accent =
+     unsure, line = untouched), so the summary and the list it summarises
+     never need a second legend. */
+  .pstats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .pstat{flex:1 1 70px;min-width:70px;display:flex;flex-direction:column;
+        gap:2px;padding:8px 10px;border-radius:10px;background:var(--parchment);
+        border:1px solid var(--line);border-top:3px solid var(--line);
+        text-decoration:none;color:inherit}
+  .pstat:hover{border-color:var(--ink-soft)}
+  .pstat.onme{border-top-color:var(--amber)}
+  .pstat.onthem{border-top-color:var(--grey)}
+  .pstat.unsure{border-top-color:var(--accent)}
+  .pstat.untouched{border-top-color:var(--line)}
+  .pstat.zero{opacity:.5}
+  .pstat-n{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;
+        color:var(--ink);line-height:1.1}
+  .pstat-l{font-size:11px;color:var(--ink-soft);line-height:1.3}
+
+  /* "What needs you" — the top of the panel when nothing is selected. Same
+     row shape as a rail row (.l1/.nm/.when/.l2, pipeChips) so it reads as a
+     preview of the rail rather than a different UI, just inside a card. */
+  .pnext{border:1px solid var(--line);border-left:3px solid var(--amber);
+        border-radius:10px;padding:9px 11px;margin-top:8px;cursor:pointer;
+        background:var(--paper)}
+  .pnext:hover{border-color:var(--ink-soft)}
+  .pnext .l1{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+  .pnext .nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pnext .when{color:var(--ink-soft);font-size:12px;white-space:nowrap}
+  .pnext .l2{margin-top:4px;display:flex;gap:4px;flex-wrap:wrap}
+
+  .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+  .kv .f{min-width:0}
+  .kv input,.kv select,.kv textarea{width:100%}
+  .full{grid-column:1/-1}
+  .late{border-color:var(--red)}
+
+  .quote{background:var(--parchment);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+  .quote .big{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700}
+  .quote .why{font-size:13px;color:var(--ink-soft);margin-top:3px}
+  .quote.unknown .big{font-size:15px;font-weight:600;color:var(--amber)}
+  /* The package sum sits WITH the minimum-spend quote rather than instead of
+     it: which of the two numbers binds is the whole question. */
+  .sums{margin-top:10px;border-top:1px solid var(--line);padding-top:9px;font-size:13px}
+  .sums .binds{font-weight:600;margin-top:3px}
+  .sums .aside{color:var(--ink-soft);margin-top:4px}
+
+  .need ul{margin:6px 0 0 18px;font-size:14px}
+  .need li{margin-bottom:2px}
+  .prob{color:var(--red);font-size:14px}
+  .hint{font-size:12px;color:var(--ink-soft);margin-top:5px}
+  .strip{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px;
+        color:var(--ink-soft);margin-bottom:10px}
+  .strip a{color:var(--ink)}
+  .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:4px}
+  .linkbox{display:flex;gap:6px;margin-top:8px}
+  .linkbox input{flex:1;font-size:12px;color:var(--ink-soft)}
+  .empty{color:var(--ink-soft);font-size:14px;padding:22px 0;text-align:center}
+  .log{font-size:13px;white-space:pre-wrap;color:var(--ink);max-height:150px;
+        overflow:auto;background:var(--parchment);border:1px solid var(--line);
+        border-radius:8px;padding:8px}
+  #tokenbox{background:var(--paper);border:1px solid var(--line);border-radius:12px;
+        padding:18px;max-width:520px;box-shadow:var(--shadow)}
+
+  /* Diary or pipeline. One control, always visible, so it is never a mystery
+     which of the two questions the screen is currently answering. */
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;
+        overflow:hidden;background:var(--paper)}
+  .seg button{background:var(--paper);color:var(--ink-soft);border-radius:0;
+        padding:8px 15px}
+  .seg button + button{border-left:1px solid var(--line)}
+  .seg button.on{background:var(--ink);color:var(--paper)}
+  .seg .n{margin-left:7px;font-weight:400;opacity:.7}
+
+  /* The month grid. Every cell is sized for MORE THAN ONE function, because a
+     date that collapses two bookings into one entry is the bug: 8 Aug 2026 is
+     two parties in two rooms with overlapping holds. */
+  .calhead{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .calmonth{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600}
+  .calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .cdow{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;
+        color:var(--ink-soft);text-align:center;padding-bottom:2px}
+  .cell{min-height:64px;border:1px solid transparent;border-radius:8px;padding:4px 5px;
+        background:var(--parchment)}
+  .cell.pad{background:transparent}
+  .cell .cd{font-size:12px;color:var(--ink-soft)}
+  .cell.today .cd{font-weight:700;color:var(--ink)}
+  .cell.has{background:var(--paper);border-color:var(--line);cursor:pointer}
+  .cell.has:hover{border-color:var(--ink-soft)}
+  .cell.sel{border-color:var(--ink);box-shadow:var(--shadow)}
+  .pip{display:block;font-size:10px;line-height:1.35;margin-top:2px;padding:1px 5px;
+        border-radius:5px;background:var(--stow-tint);color:var(--stow);
+        overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dhead{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600}
+  /* The note is the real record — occasion, room, drinks, money, headcount
+     changes, open questions. It is never truncated to a line. */
+  .log.full{max-height:none}
+  .quiet{color:var(--ink-soft);font-size:14px;padding:14px 0}
+
+  /* ------------------------------------------- how it went, after the night
+     A GP percentage is never styled as a standalone number. .gp is ONE block
+     and .caveats lives inside it, so there is no way to lift the figure out
+     with a screenshot and leave the qualification behind — which is the whole
+     failure this section is shaped around. Nothing here is a tooltip, a
+     title= or a <details>: the caveats are body text, at body size. */
+  .rep{margin-top:13px;border-top:1px solid var(--line);padding-top:12px}
+  .rep h2{margin-bottom:4px}
+  .mets{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));
+        gap:10px;margin-top:11px}
+  .met{background:var(--parchment);border:1px solid var(--line);
+        border-radius:10px;padding:9px 11px}
+  .met .k{font-size:11px;font-weight:600;text-transform:uppercase;
+        letter-spacing:.05em;color:var(--ink-soft)}
+  .met .v{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;
+        margin-top:2px}
+  .met .s{font-size:12px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
+  .gp{margin-top:12px;background:var(--parchment);border:1px solid var(--line);
+        border-left:3px solid var(--ink);border-radius:10px;padding:12px 14px}
+  .gp .big{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;
+        display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;line-height:1.1}
+  .gp .big .basis{font-size:12px;font-weight:600;text-transform:uppercase;
+        letter-spacing:.05em;color:var(--ink-soft)}
+  .gp .why{font-size:13px;color:var(--ink-soft);margin-top:4px}
+  .gp .range{font-size:13px;margin-top:9px;line-height:1.5}
+  .gp.none{border-left-color:var(--grey)}
+  .gp.none .big{font-size:16px;font-weight:600;color:var(--ink-soft)}
+  .gp.refused{border-left-color:var(--red)}
+  .gp.refused .big{font-size:18px;color:var(--red)}
+  .caveats{margin-top:10px;border-top:1px solid var(--line);padding-top:9px}
+  .caveats .cvh{font-size:11px;font-weight:700;text-transform:uppercase;
+        letter-spacing:.06em;color:var(--ink-soft)}
+  .caveats ul{margin:5px 0 0 18px;font-size:13px;line-height:1.5}
+  .caveats li{margin-bottom:4px}
+  .caveats .cvx{color:var(--amber)}
+  .earn{margin-top:11px;font-size:14px;line-height:1.55}
+  .refs{margin-top:11px}
+  .oform{margin-top:13px;border-top:1px solid var(--line);padding-top:12px}
+  .oform .kv{align-items:start}
+  .oform .kv .hint{margin-top:4px;line-height:1.4}
+</style>
+</head>
+<body>
+<div id="gate"></div>
+<div id="app" style="display:none">
+  <header class="app-header"><div class="app-header-inner">
+    <a class="brand-row" href="/"><img src="/logo_512.png" alt=""><span class="group-brand">Stowaway Hospitality Group</span></a>
+    <div class="who"><span id="whotop"></span><a href="/">home</a><a href="#" id="signout">sign out</a></div>
+  </div></header>
+
+  <div class="wrap">
+    <div class="bar">
+      <div><h1>Functions</h1>
+        <div class="hint" style="margin-top:0">What is booked, and what is still being chased.</div></div>
+      <div class="seg" id="modes"></div>
+      <div style="flex:1"></div>
+      <button class="ghost" id="refreshbtn">Refresh</button>
+      <button id="newbtn" style="display:none">New enquiry</button>
+      <a href="/bookings/" style="font-size:13px;color:var(--ink)">bookings →</a>
+      <span id="status"></span>
+    </div>
+
+    <div id="tokenbox" style="display:none">
+      <h2>Couldn't reach the booking engine key</h2>
+      <p style="font-size:13px;color:var(--ink-soft);margin:6px 0 12px">
+        You shouldn't normally see this — signed-in staff are connected
+        automatically. If the automatic lookup failed, an admin can paste the
+        service token here as a one-off for this device
+        (Render → stowaway-bookings → Environment → STOWAWAY_ADMIN_TOKEN).</p>
+      <div class="bar">
+        <div style="flex:1"><label>Service token</label>
+          <input id="svc_token" type="password" style="width:100%"></div>
+        <button id="savetoken">Connect</button>
+      </div>
+    </div>
+
+    <div id="main" style="display:none">
+      <div id="rates"></div>
+      <div class="cols">
+        <div class="rail" id="rail"></div>
+        <div class="panel" id="panel"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="./functions.js?v=20260822a"></script>
+</body>
+</html>
