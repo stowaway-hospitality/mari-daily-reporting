@@ -1694,23 +1694,52 @@ export function pipeRowHTML(e, selId, today) {
     <div class="l2">${pipeChips(e, today)}</div>${ev}</div>`;
 }
 
+// The whole board's whose-move split, counted, before anyone searches or
+// opens a row. Deliberately built from the UNFILTERED board, not the search
+// result: it is the answer to "what is the state of the pipeline", not "what
+// did I just filter to", and a summary that shrank with the search box would
+// stop being a fixed reference point the moment anyone typed into it. Sits
+// above the search box for the same reason a dashboard sits above a search
+// bar — orient first, then narrow.
+//
+// Plain anchors, not buttons: no click handler to wire, and jumping to a
+// group that is already on the page is exactly what a hash link is for.
+// Nothing here is a second source of truth for the count — every number is
+// g[key].length off the same groupPipeline() the sections below are drawn
+// from, so the strip and the list under it can never disagree.
+export function pipeSummaryHTML(g) {
+  if (!g.all.length) return '';
+  const stat = (k) => {
+    const n = g[k].length;
+    return `<a class="pstat ${MOVE_CLASS[k] || ''}${n ? '' : ' zero'}"
+        href="#pipe-grp-${k}">
+      <span class="pstat-n">${n}</span>
+      <span class="pstat-l">${esc(MOVE_TITLE[k])}</span></a>`;
+  };
+  return `<div class="pstats">${MOVE_ORDER.map(stat).join('')}</div>`;
+}
+
 export function pipeRailHTML(feed, query, selId, today) {
   const raw = query || '';
   const q = raw.toLowerCase();
   const match = (e) => !q || (
     [e.name, e.occasion, e.event_date, e.group, e.email, e.notes]
       .join(' ').toLowerCase().includes(q));
-  const g = groupPipeline((feed.enquiries || []).filter(match), today);
-  const grp = (title, arr, hint) => (!arr.length ? '' :
-    `<div class="grp">${title}<span class="n">${arr.length}</span></div>` +
+  const all = feed.enquiries || [];
+  const g = groupPipeline(all.filter(match), today);
+  const grp = (title, arr, hint, key) => (!arr.length ? '' :
+    `<div class="grp"${key ? ` id="pipe-grp-${key}"` : ''}>${title}<span class="n">${arr.length}</span></div>` +
     (hint ? `<div class="hint" style="margin:-2px 0 6px">${hint}</div>` : '') +
     arr.map((e) => pipeRowHTML(e, selId, today)).join(''));
-  return `<div><label for="pq">Search</label><input id="pq" style="width:100%"
+  const summary = q ? '' : pipeSummaryHTML(groupPipeline(all, today));
+  return summary +
+    `<div><label for="pq">Search</label><input id="pq" style="width:100%"
       placeholder="name, occasion, date, anything in the notes"
       value="${esc(raw)}"></div>` +
-    MOVE_ORDER.map((k) => grp(MOVE_TITLE[k], g[k], MOVE_HINT[k])).join('') +
+    MOVE_ORDER.map((k) => grp(MOVE_TITLE[k], g[k], MOVE_HINT[k], k)).join('') +
     grp('Archive', g.archived,
-        'The board\'s archive group. Kept, because half the board is in it.') +
+        'The board\'s archive group. Kept, because half the board is in it.',
+        'archived') +
     (g.all.length ? '' : '<div class="empty">Nothing matches.</div>');
 }
 
@@ -1869,11 +1898,42 @@ export function depositHTML(e, cfg = CONFIG, briefs = BRIEFS) {
     </div></div>`;
 }
 
+// One rail row, redrawn for the empty panel: same name/when/chips, inside a
+// card instead of the rail, and clickable via the SAME data-pipe attribute
+// the rail rows use — wire() answers it on the panel too (see pickEnquiry).
+// Not exported: it has no reason to exist anywhere but inside the digest
+// below, and pipeRowHTML already IS the exported, tested shape for a row
+// that lives in the rail.
+function pipeNextHTML(e, today) {
+  return `<div class="pnext" data-pipe="${esc(e.item_id)}" role="button" tabindex="0">
+    <div class="l1"><span class="nm">${esc(e.name)}</span>
+      <span class="when">${esc(niceDate(e.event_date))} · ${
+        esc(awayLabel(e.event_date, today))}</span></div>
+    <div class="l2">${pipeChips(e, today)}</div></div>`;
+}
+
 export function pipePanelHTML(e, feed, today, cfg = CONFIG, briefs = BRIEFS) {
   if (!e) {
-    return `<div class="card"><div class="quiet">Pick an enquiry on the left.
-      ${esc(String((feed && feed.counts && feed.counts.total) || 0))} of them,
-      every one on the board, archive included.</div></div>`;
+    const total = (feed && feed.counts && feed.counts.total) || 0;
+    const g = groupPipeline(feed.enquiries || [], today);
+    // The empty state used to be one quiet sentence. It is now the answer to
+    // "what needs me" without a click, because that question is why this tab
+    // gets opened — a screen that makes you select something before it will
+    // tell you what to do is asking the wrong thing first. Nothing here is a
+    // second whose-move computation: g.us is the same array the "Waiting on
+    // us" rail group draws from, already sorted soonest-first.
+    if (!g.us.length) {
+      return `<div class="card"><div class="quiet">Pick an enquiry on the left.
+        ${esc(String(total))} of them, every one on the board, archive
+        included.${g.live.length ? ' Nothing is waiting on us right now.' : ''}
+        </div></div>`;
+    }
+    const shown = g.us.slice(0, 5);
+    const rest = g.us.length - shown.length;
+    return `<div class="card"><h2>What needs you</h2>
+      <div class="hint" style="margin-top:0">${esc(MOVE_HINT.us)}${
+        rest > 0 ? ` ${rest} more after these — see the rail.` : ''}</div>
+      ${shown.map((x) => pipeNextHTML(x, today)).join('')}</div>`;
   }
   const head = `<div class="card">
     <div class="strip"><span class="dhead">${esc(e.name)}</span>
@@ -2656,7 +2716,11 @@ function wire() {
   panel.addEventListener('keydown', (ev) => {
     if (ev.key !== 'Enter' && ev.key !== ' ') return;
     const cell = ev.target.closest('[data-date]');
-    if (cell) { ev.preventDefault(); pickDate(cell.dataset.date); }
+    if (cell) { ev.preventDefault(); pickDate(cell.dataset.date); return; }
+    // The "what needs you" digest cards in the empty pipeline panel — same
+    // data-pipe attribute the rail rows carry, same keyboard reachability.
+    const pipeCard = ev.target.closest('[data-pipe]');
+    if (pipeCard) { ev.preventDefault(); pickEnquiry(pipeCard.dataset.pipe); }
   });
   panel.addEventListener('click', (ev) => {
     const mth = ev.target.closest('[data-month]');
@@ -2668,6 +2732,10 @@ function wire() {
     }
     const cell = ev.target.closest('[data-date]');
     if (cell) { pickDate(cell.dataset.date); return; }
+    // Only reachable from the empty-panel "what needs you" digest — a real
+    // selected enquiry's panel has no data-pipe element of its own to click.
+    const pipeCard = ev.target.closest('[data-pipe]');
+    if (pipeCard) { pickEnquiry(pipeCard.dataset.pipe); return; }
     const btn = ev.target.closest('[data-act]');
     if (!btn) return;
     const act = btn.dataset.act;
