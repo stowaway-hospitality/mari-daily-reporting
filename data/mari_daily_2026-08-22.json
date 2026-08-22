@@ -1,6 +1,6 @@
 {
   "date": "2026-08-22",
-  "generated_at": "2026-08-22T19:23:07.252479Z",
+  "generated_at": "2026-08-22T20:22:33.727094Z",
   "venue": "marilynas",
   "venue_display": "Marilyna's Pizza",
   "lane_config": [
@@ -10,25 +10,33 @@
     "delivery"
   ],
   "data_status": {
-    "lightspeed": "missing",
+    "lightspeed": "ok",
     "deputy": "ok",
     "payments": "missing"
   },
   "sales": {
-    "revenue_inc_gst": null,
-    "revenue_ex_gst": null,
-    "cogs_dollars": null,
-    "cogs_pct": null,
-    "gp_dollars": null,
-    "gp_pct": null,
-    "cogs_source": null,
-    "cogs_lightspeed_dollars": null,
-    "recipe_coverage_pct": null,
+    "revenue_inc_gst": 3788.85,
+    "revenue_ex_gst": 3445.27,
+    "cogs_dollars": 821.86,
+    "cogs_pct": 23.9,
+    "gp_dollars": 2623.41,
+    "gp_pct": 76.1,
+    "cogs_source": "recipe_blend",
+    "cogs_lightspeed_dollars": 748.33,
+    "recipe_coverage_pct": 97.9,
     "uber_eats_revenue": 0,
     "net_takings_ex_gst": null,
-    "eatclub_giveaway_ex_gst": 0,
+    "eatclub_giveaway_ex_gst": 0.0,
     "eatclub_covers": 0,
-    "revenue_ex_gst_before_eatclub": null
+    "revenue_ex_gst_before_eatclub": null,
+    "food_ex_gst": 3445.27,
+    "bev_ex_gst": 0.0,
+    "food_cogs": 821.86,
+    "bev_cogs": 0.0,
+    "food_cogs_pct": 23.9,
+    "bev_cogs_pct": null,
+    "food_gp_pct": 76.1,
+    "bev_gp_pct": null
   },
   "wages": {
     "kitchen_dollars": 1066.1,
@@ -36,12 +44,12 @@
     "driver_dollars": 200.31,
     "admin_dollars": 0,
     "leave_dollars": 0,
-    "total_dollars": null,
-    "wages_pct": null,
+    "total_dollars": 1266.41,
+    "wages_pct": 36.8,
     "net_wage_pct": null,
     "kitchen_hours": 26.2,
     "foh_hours": 0,
-    "wages_kitchen_pct": null,
+    "wages_kitchen_pct": 30.9,
     "wages_foh_pct": null,
     "includes_super": true,
     "salaried_synthesized": true
@@ -50,15 +58,15 @@
     "uber_eats_commission_dollars": 0,
     "own_driver_dollars": 200.31,
     "uber_direct_dollars": 0.0,
-    "total_dollars": null,
-    "delivery_pct": null,
+    "total_dollars": 200.31,
+    "delivery_pct": 5.8,
     "fees_are_estimate": true
   },
   "payments_breakdown": null,
   "alerts": {
-    "cogs": "unknown",
-    "wages": "unknown",
-    "delivery": "unknown",
+    "cogs": "red",
+    "wages": "red",
+    "delivery": "green",
     "gp": "unknown",
     "cogs_food": "unknown",
     "cogs_bev": "unknown",
@@ -91,5 +99,166 @@
       "note": "Rent + utils + admin + insurance + real marketing (excludes delivery + Uber commission)"
     }
   },
-  "top_products": []
+  "top_products": [
+    {
+      "name": "Regular Margherita",
+      "qty": 14.0,
+      "rev": 180.9,
+      "cost": 27.3,
+      "cost_source": "recipe",
+      "cost_lightspeed": 19.62
+    },
+    {
+      "name": "$45 FEAST",
+      "qty": 4.0,
+      "rev": 180.0,
+      "cost": 54.7332,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Large Super House Special",
+      "qty": 9.0,
+      "rev": 177.28,
+      "cost": 57.735,
+      "cost_source": "recipe",
+      "cost_lightspeed": 69.51
+    },
+    {
+      "name": "Regular Sanchez [Dine-in]",
+      "qty": 6.0,
+      "rev": 159.43,
+      "cost": 20.3298,
+      "cost_source": "recipe",
+      "cost_lightspeed": 17.09
+    },
+    {
+      "name": "Regular Pepperoni",
+      "qty": 11.0,
+      "rev": 154.2,
+      "cost": 26.4671,
+      "cost_source": "recipe",
+      "cost_lightspeed": 25.29
+    },
+    {
+      "name": "Regular Hawaiian",
+      "qty": 9.0,
+      "rev": 134.2,
+      "cost": 24.399,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.22
+    },
+    {
+      "name": "Regular Little Italy [Dine-in]",
+      "qty": 5.0,
+      "rev": 131.7,
+      "cost": 16.4765,
+      "cost_source": "recipe",
+      "cost_lightspeed": 24.88
+    },
+    {
+      "name": "Regular Meatlovers",
+      "qty": 7.0,
+      "rev": 131.4,
+      "cost": 21.3836,
+      "cost_source": "recipe",
+      "cost_lightspeed": 32.41
+    },
+    {
+      "name": "$60 BANQUET",
+      "qty": 2.0,
+      "rev": 120.0,
+      "cost": 37.9134,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Regular Super House Special",
+      "qty": 6.0,
+      "rev": 117.5,
+      "cost": 25.8348,
+      "cost_source": "recipe",
+      "cost_lightspeed": 33.18
+    },
+    {
+      "name": "Regular Hail Africa [Dine-in]",
+      "qty": 4.0,
+      "rev": 111.6,
+      "cost": 12.724,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.98
+    },
+    {
+      "name": "Large Hawaiian",
+      "qty": 7.0,
+      "rev": 111.5,
+      "cost": 27.3196,
+      "cost_source": "recipe",
+      "cost_lightspeed": 22.85
+    },
+    {
+      "name": "Large Pepperoni",
+      "qty": 7.0,
+      "rev": 99.62,
+      "cost": 23.6621,
+      "cost_source": "recipe",
+      "cost_lightspeed": 33.92
+    },
+    {
+      "name": "Large Meatlovers",
+      "qty": 6.0,
+      "rev": 95.7,
+      "cost": 25.9506,
+      "cost_source": "recipe",
+      "cost_lightspeed": 38.8
+    },
+    {
+      "name": "Regular El Patron [Dine-in]",
+      "qty": 3.0,
+      "rev": 79.7,
+      "cost": 11.0856,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.38
+    },
+    {
+      "name": "Large Margherita",
+      "qty": 7.0,
+      "rev": 76.86,
+      "cost": 17.3747,
+      "cost_source": "recipe",
+      "cost_lightspeed": 18.04
+    },
+    {
+      "name": "Regular New Yorker [Dine-in]",
+      "qty": 3.0,
+      "rev": 74.36,
+      "cost": 7.8882,
+      "cost_source": "recipe",
+      "cost_lightspeed": 11.36
+    },
+    {
+      "name": "Garlic Bread",
+      "qty": 32.0,
+      "rev": 70.1,
+      "cost": 47.8464,
+      "cost_source": "recipe",
+      "cost_lightspeed": 45.44
+    },
+    {
+      "name": "Family Super House Special",
+      "qty": 2.0,
+      "rev": 66.8,
+      "cost": 16.1604,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0
+    },
+    {
+      "name": "Regular Tandoori Chicken",
+      "qty": 4.0,
+      "rev": 61.7,
+      "cost": 9.1732,
+      "cost_source": "recipe",
+      "cost_lightspeed": 10.0
+    }
+  ]
 }
