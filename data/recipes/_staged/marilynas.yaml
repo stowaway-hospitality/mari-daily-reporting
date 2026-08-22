@@ -28,7 +28,7 @@
     qty: 2
     unit: ea
     manual: true
-    unit_cost_incl: 4.5046
+    unit_cost_incl: 4.5005
     source: scrape
   - id: ''
     desc: Garlic Bread
@@ -53,7 +53,7 @@
     qty: 3
     unit: ea
     manual: true
-    unit_cost_incl: 4.5046
+    unit_cost_incl: 4.5005
     source: scrape
   - id: ''
     desc: Garlic Bread
@@ -78,7 +78,7 @@
     qty: 4
     unit: ea
     manual: true
-    unit_cost_incl: 4.5046
+    unit_cost_incl: 4.5005
     source: scrape
   - id: ''
     desc: Garlic Bread
@@ -166,7 +166,7 @@
     qty: 3
     unit: ea
     manual: true
-    unit_cost_incl: 4.5046
+    unit_cost_incl: 4.5005
     source: scrape
   - id: ''
     desc: Garlic Bread
@@ -375,35 +375,35 @@
     desc: Olive Oil [4L]
     qty: 500
     unit: ml
-    unit_cost_incl: 0.009477
+    unit_cost_incl: 0.008125
     source: authored
     evidence: recipe builder, data/recipes/marilynas.yaml
   - id: select-fresh:HCONT
-    desc: Herb Parsley Continental (2 bunches, finely chopped)
+    desc: Herb Parsley Continental
     qty: 2
     unit: bunch
-    unit_cost_incl: 1.3
+    unit_cost_incl: 1.6
     source: authored
     evidence: recipe builder, data/recipes/marilynas.yaml
   - id: lightspeed:22524104
-    desc: Balsamic Vinegar [5L] (4 Tbsp)
+    desc: Balsamic Vinegar [5L]
     qty: 60
     unit: ml
-    unit_cost_incl: 0.00399
+    unit_cost_incl: 0.0044
     source: authored
     evidence: recipe builder, data/recipes/marilynas.yaml
   - id: select-fresh:CHLR
-    desc: Chilli Red Long (1, finely chopped)
+    desc: Chilli Red Long
     qty: 15
     unit: g
-    unit_cost_incl: 0.0135
+    unit_cost_incl: 0.016
     source: authored
     evidence: recipe builder, data/recipes/marilynas.yaml
   - id: lightspeed:23036620
-    desc: Garlic Minced [kg] (1 Tbsp)
+    desc: Garlic Minced [kg]
     qty: 15
     unit: g
-    unit_cost_incl: 0.004444
+    unit_cost_incl: 0.005
     source: authored
     evidence: recipe builder, data/recipes/marilynas.yaml
 - product: Coco Marg Duo (2)
@@ -4420,7 +4420,7 @@
     qty: 2
     unit: ea
     manual: true
-    unit_cost_incl: 4.5046
+    unit_cost_incl: 4.5005
     source: scrape
   - id: ''
     desc: Garlic Bread
@@ -10667,7 +10667,7 @@
 - product: Pizza Sauce [Recipe]
   venue_source: marilynas
   authored_in: data/recipes/marilynas.yaml
-  yield_qty: 5900
+  yield_qty: 6020
   yield_unit: g
   ingredients:
   - id: lightspeed:22514324
@@ -13622,7 +13622,7 @@
     qty: 1
     unit: ea
     manual: true
-    unit_cost_incl: 4.5046
+    unit_cost_incl: 4.5005
     source: scrape
   - id: ''
     desc: BBQ Wings
