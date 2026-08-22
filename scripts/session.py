@@ -78,6 +78,15 @@ AREAS: dict[str, list[str]] = {
     "ops": [
         ".github/workflows/", "scripts/health_monitor.py", "ops/",
         "scripts/build_site.py", "scripts/alert_check.py",
+        # The Supabase edge function, added 2026-08-22. It had no claimable
+        # area, and it is not a small thing to edit unclaimed: shg-auth holds
+        # the auth gate, the admin role routes AND the recipe/prep/pack save
+        # endpoints, so two sessions could rewrite the same 300-line file
+        # blind. Filed under ops rather than cost-book because it is shared
+        # infrastructure that happens to write data/recipes/, the same call
+        # rule 7 makes for workflows. "supabase/" has no prefix relation to
+        # any other area's paths.
+        "supabase/",
         # The claim machinery itself. Editing it unclaimed is how you break the
         # thing that stops two sessions breaking each other.
         "scripts/session.py", "SESSIONS.md",

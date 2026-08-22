@@ -16,6 +16,8 @@
 // use GITHUB_TOKEN (set once as a function secret). Deploy with verify_jwt=false
 // (we verify the token ourselves and must answer CORS preflight).
 
+import { checkRecipeSave } from "./recipe_guard.ts";
+
 const KITCHEN = ["admin", "bigchef", "stowfood", "hgfood", "pizza"];
 const ROLES = ["admin", "bigchef", "stowfood", "hgfood", "bar", "pizza"];
 const VENUES = ["stowaway", "harry_gatos", "marilynas"];
@@ -171,13 +173,36 @@ Deno.serve(async (req: Request) => {
       ...(payload ? { body: JSON.stringify(payload) } : {}),
     });
   const stamp = new Date().toISOString().slice(0, 10);
-  const appendCommit = async (path_: string, block: string, message: string) => {
+  type CommitResult = {
+    ok: boolean;
+    path?: string;
+    deduped?: boolean;
+    detail?: string;
+    status?: number;
+    /** A save guard refused this write. Operator-facing text, safe to show. */
+    guard?: string;
+  };
+  const appendCommit = async (
+    path_: string,
+    block: string,
+    message: string,
+    guard?: (current: string) => string | null,
+  ): Promise<CommitResult> => {
     let sha: string | undefined, current = "";
     const existing = await gh("GET", `contents/${path_}`);
     if (existing.ok) {
       const j = await existing.json();
       sha = j.sha;
       current = fromB64(j.content);
+    }
+    // Save guards read the book AS IT STANDS, so they can see the product's
+    // previous block. Deliberately BEFORE the idempotence check below: a block
+    // the guard refuses is refused even when an identical one was the last
+    // thing written, because "we already stored it" is not a reason to store
+    // it again.
+    if (guard) {
+      const problem = guard(current);
+      if (problem) return { ok: false, guard: problem, status: 400 };
     }
     // IDEMPOTENCE. This is an append-only log with at-least-once delivery: if
     // GitHub accepts the PUT but the response never reaches us, the client shows
@@ -292,8 +317,20 @@ Deno.serve(async (req: Request) => {
   const { yaml } = body;
   if (!yaml) return reply(400, { error: "yaml required" });
   const block = `\n# ${product} - entered by ${name} (${user.email}) on ${stamp}\n${String(yaml).trim()}\n`;
-  const res = await appendCommit(`data/recipes/${venue}.yaml`, block,
-    `Recipe: ${product} (${venue}) - ${name}`);
-  if (!res.ok) return reply(502, { error: `GitHub ${res.status}`, detail: res.detail });
+  const res = await appendCommit(
+    `data/recipes/${venue}.yaml`,
+    block,
+    `Recipe: ${product} (${venue}) - ${name}`,
+    (current) => {
+      const v = checkRecipeSave(current, String(yaml), String(product));
+      return v.ok ? null : (v.error || "refused by a save guard");
+    },
+  );
+  if (!res.ok) {
+    // A guard refusal is the chef's to fix, so it comes back as a 400 with the
+    // reason rather than a 502 that reads like the server broke.
+    if (res.guard) return reply(400, { error: res.guard });
+    return reply(502, { error: `GitHub ${res.status}`, detail: res.detail });
+  }
   return reply(200, { ok: true, path: res.path, committed_as: name });
 });

@@ -124,6 +124,25 @@ jobs:
         # as a blank panel.
         run: python3 scripts/build_cogs_variance.py --quiet
 
+      - name: Recipe save guards (deno)
+        # The recipe builder writes data/recipes/<venue>.yaml through an
+        # append-only endpoint, so a bad block is permanent and a duplicate one
+        # makes "which is live" a guess. Pizza Sauce piled up four deep that
+        # way on 2026-08-15 and took main red. supabase/functions/shg-auth/
+        # runs on Deno, so its guards test under Deno rather than pytest.
+        #
+        # recipe_guard.live.test.ts is the important half: it replays every
+        # block already committed to the books, so a guard that would start
+        # refusing REAL saves fails here instead of in a chef's face.
+        #
+        # Deno comes from its own installer rather than a marketplace action:
+        # one less third-party action in a workflow that can reach repo secrets.
+        run: |
+          set -e
+          curl -fsSL https://deno.land/install.sh | sh -s -- -y
+          "$HOME/.deno/bin/deno" test --allow-read --quiet supabase/functions/shg-auth/
+          "$HOME/.deno/bin/deno" check supabase/functions/shg-auth/index.ts
+
       - name: Tests (pytest)
         run: python3 -m pytest
 
