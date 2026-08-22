@@ -1,6 +1,10 @@
 {
  "authored_overlap": [
   {
+   "in": "harry_gatos",
+   "product": "Asahi Zero"
+  },
+  {
    "in": "stowaway",
    "product": "Dragon Juice"
   },
@@ -58,15 +62,26 @@
   }
  ],
  "by_source": {
-  "authored": 39,
+  "authored": 40,
   "derived": 2,
   "mirrored": 2,
   "rule": 30,
-  "scrape": 219
+  "scrape": 221
  },
- "generated": "2026-08-21",
- "lines": 292,
+ "generated": "2026-08-22",
+ "lines": 295,
  "manual_lines": [
+  {
+   "engine": null,
+   "frozen_unit_cost": 9.6495,
+   "line": "Angas & Bremer Grenache - Bottle",
+   "line_cost": 9.6495,
+   "product": "Angas & Bremer Grenache - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20700602",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
   {
    "engine": null,
    "frozen_unit_cost": 9.6495,
@@ -91,9 +106,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.010846266666666667,
+   "frozen_unit_cost": 0.010017266666666667,
    "line": "Shallot [bunch]",
-   "line_cost": 0.162694,
+   "line_cost": 0.150259,
    "product": "Chicken Katsu Curry",
    "qty": 15.0,
    "ref": "lightspeed:22996509",
@@ -135,9 +150,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.01057515,
+   "frozen_unit_cost": 0.00976685,
    "line": "Shallot [bunch]",
-   "line_cost": 0.211503,
+   "line_cost": 0.195337,
    "product": "Fried Rice",
    "qty": 20.0,
    "ref": "lightspeed:22996509",
@@ -190,9 +205,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.010737824,
+   "frozen_unit_cost": 0.0099171,
    "line": "Shallot [bunch]",
-   "line_cost": 2.684456,
+   "line_cost": 2.479275,
    "product": "HG's Soy Chilli Sauce",
    "qty": 250.0,
    "ref": "lightspeed:22996509",
@@ -201,9 +216,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.010846266666666667,
+   "frozen_unit_cost": 0.010017266666666667,
    "line": "Shallot [bunch]",
-   "line_cost": 0.162694,
+   "line_cost": 0.150259,
    "product": "Katsu Curry",
    "qty": 15.0,
    "ref": "lightspeed:22996509",
@@ -223,9 +238,20 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.01125,
+   "frozen_unit_cost": 25.2233,
+   "line": "L'esprit Ros\u00e9 - Bottle",
+   "line_cost": 25.2233,
+   "product": "L'esprit Ros\u00e9 - Bottle",
+   "qty": 1.0,
+   "ref": "lightspeed:20700634",
+   "unit": "ea",
+   "why": "our book cannot price this line at all; today's cost is Lightspeed's own figure"
+  },
+  {
+   "engine": null,
+   "frozen_unit_cost": 0.009,
    "line": "Choi Sum [bunch]",
-   "line_cost": 0.225,
+   "line_cost": 0.18,
    "product": "Mie Goreng",
    "qty": 20.0,
    "ref": "lightspeed:22898085",
@@ -256,9 +282,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.010737821538461539,
+   "frozen_unit_cost": 0.009917046153846153,
    "line": "Shallot [bunch]",
-   "line_cost": 0.054528,
+   "line_cost": 0.05036,
    "product": "Potato Salad",
    "qty": 5.078125,
    "ref": "lightspeed:22996509",
@@ -289,9 +315,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.010846266666666667,
+   "frozen_unit_cost": 0.010017266666666667,
    "line": "Shallot [bunch]",
-   "line_cost": 0.162694,
+   "line_cost": 0.150259,
    "product": "Seitan Katsu Curry [vegan]",
    "qty": 15.0,
    "ref": "lightspeed:22996509",
@@ -311,9 +337,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.01057515,
+   "frozen_unit_cost": 0.00976685,
    "line": "Shallot [bunch]",
-   "line_cost": 0.211503,
+   "line_cost": 0.195337,
    "product": "Tonkotsu",
    "qty": 20.0,
    "ref": "lightspeed:22996509",
@@ -322,9 +348,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 0.010737823333333334,
+   "frozen_unit_cost": 0.009917098888888889,
    "line": "Shallot [bunch]",
-   "line_cost": 9.664041,
+   "line_cost": 8.925389,
    "product": "Tonkotsu Broth",
    "qty": 900.0,
    "ref": "lightspeed:22996509",
@@ -355,7 +381,7 @@
   }
  ],
  "no_yield": [],
- "products": 97,
+ "products": 100,
  "pulled_in_for_closure": [
   "Dragon Juice Batch",
   "Drunken Koi Batch",

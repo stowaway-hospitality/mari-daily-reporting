@@ -144,3 +144,16 @@
       desc: "Yuzu Juice — JUICE LIME YUZU 1LT Tonami"
       qty: 2
       unit: "ml"
+
+# Asahi Zero — Zak, 2026-08-21: "asahi zero is bought from CUB". Read off the
+# CUB portal (online.cub.com.au), 2026-08-22: "Asahi Super Dry 0.0%", 330ml,
+# 4x6 Pack Bottles, Your Case Price $45.28 ex GST / 24 bottles = $1.8867 a
+# bottle ex GST, declared in data/declared_purchases.yaml (no BO seed and no
+# invoice ever carried this product — see that file for why the price is
+# recorded per bottle, not per case). One bottle is one serve.
+- product: "Asahi Zero"
+  ingredients:
+    - id: "cub:ASAHI0330"
+      desc: "Asahi Super Dry 0.0% 330ml (CUB)"
+      qty: 330
+      unit: "ml"

@@ -84,6 +84,36 @@ purchases:
     purchased_on: 2026-08-19
     evidence: "CUB cart 2026-08-19, $409.49/case ex GST, 1 BIB per case (Zak)"
 
+  # Asahi Zero (Harry Gatos) — Zak, 2026-08-21: "asahi zero is bought from
+  # CUB". No BO seed and no invoice anywhere in this repo ever carried this
+  # product (unlike Asahi 3.5%, which at least had a January seed) — the
+  # can HG pours was never priced at all until now.
+  #
+  # Read straight off the CUB portal (online.cub.com.au), logged in as Zak,
+  # 2026-08-22: "Asahi Super Dry 0.0%", 330ml, 4x6 Pack Bottles (24 bottles
+  # a case), Your Case Price $45.28, price excludes GST.
+  #
+  # STATED PER BOTTLE, NOT PER CASE. modules/recipes/pipeline/build_costs.py's
+  # resolve_pack() reads only the free-text `description` for a size — by
+  # design (see its own comment: "the NAIVE fix [dividing by pack_qty] is
+  # WRONG and stays out", because ILG prices some lines per case and some per
+  # bottle off the same-shaped pack_qty column). It found "330ml" here and
+  # divided the WHOLE price by it, so a case price would have landed a
+  # 24x-inflated cost ($45.28/330ml = $0.137/ml instead of $45.28/24/330ml =
+  # $0.0057/ml). $45.28 / 24 bottles = $1.8867 ex GST is the per-bottle price
+  # this file actually needs to carry; pack_qty is one bottle's 330 ml, not
+  # the case's 7920 ml.
+
+  - supplier: "CUB"
+    supplier_code: "ASAHI0330"
+    description: "Asahi Super Dry 0.0% 330ml"
+    price_ex_gst: 1.8867
+    pack_qty: 330
+    pack_unit: ml
+    venue: harry_gatos
+    purchased_on: 2026-08-22
+    evidence: "CUB portal (online.cub.com.au), 2026-08-22: Asahi Super Dry 0.0%, 330ml 4x6 Pack Bottles, Your Case Price $45.28 ex GST / 24 bottles = $1.8867 ex GST a bottle"
+
   # KegLand invoice K552997, 10 Jul 2026 — uploaded by Zak 2026-08-20. KegLand
   # has no email relationship with the accounts mailbox (orders go to
   # zak@stowawaybar.com), so this is exactly the file's purpose. $24k of

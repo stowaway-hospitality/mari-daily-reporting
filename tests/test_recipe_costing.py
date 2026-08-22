@@ -415,9 +415,21 @@ def test_a_declared_purchase_behaves_like_an_invoice_line():
     # and the postmix arithmetic that started this: $272.99 ex GST for a 10L BIB
     # is $30.03/L incl, and a 170 ml glass at the standard 1:5 gun ratio is 28.33
     # ml of syrup = $0.851 — against the $1.31 the book used to carry.
+    #
+    # SCOPED TO THE FIVE POSTMIX CODES, NOT "every CUB row" — CUB is a supplier,
+    # not a rate. Asahi Zero joined this file 2026-08-22 at $0.006289/ml (a
+    # bottled beer, nothing to do with a syrup gun) and a membership-wide
+    # assertion here would fail every time a new CUB product is declared at its
+    # own, different, correct price. Assert the syrup arithmetic on the syrup
+    # codes; anything else declared under CUB just needs to be present and
+    # well-formed, which the loop above already checked.
     cub = {r["supplier_code"]: r for r in rows if r["supplier"] == "CUB"}
     assert cub, "CUB postmix should be declared"
-    for code, r in cub.items():
+    postmix_codes = {"PEPSI15L", "PEPSIMAX10L", "SCHWCREAM15L", "SCHWLEM15L",
+                      "SCHWTONIC10L"}
+    postmix = {code: r for code, r in cub.items() if code in postmix_codes}
+    assert postmix, "the five postmix BIBs should still be declared"
+    for code, r in postmix.items():
         per_ml = float(r["cost_per_base_unit"])
         assert abs(per_ml - 0.030029) < 1e-5, f"{code}: ${per_ml}/ml syrup"
         glass = per_ml / 6 * 170
