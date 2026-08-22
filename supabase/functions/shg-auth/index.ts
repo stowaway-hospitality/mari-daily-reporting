@@ -16,7 +16,7 @@
 // use GITHUB_TOKEN (set once as a function secret). Deploy with verify_jwt=false
 // (we verify the token ourselves and must answer CORS preflight).
 
-import { checkRecipeSave } from "./recipe_guard.ts";
+import { checkRecipeSave, stampEffectiveFrom } from "./recipe_guard.ts";
 
 const KITCHEN = ["admin", "bigchef", "stowfood", "hgfood", "pizza"];
 const ROLES = ["admin", "bigchef", "stowfood", "hgfood", "bar", "pizza"];
@@ -316,7 +316,15 @@ Deno.serve(async (req: Request) => {
 
   const { yaml } = body;
   if (!yaml) return reply(400, { error: "yaml required" });
-  const block = `\n# ${product} - entered by ${name} (${user.email}) on ${stamp}\n${String(yaml).trim()}\n`;
+  // Stamp the save with the day it was made. Two blocks for one product are
+  // normal — a chef fixing a typo writes a second one — and without a date the
+  // reader had only file position to tell which is live. modules/recipes/cost.py
+  // says it plainly: "the builder should stamp effective_from on every save, so
+  // a correction supersedes explicitly instead of relying on the order of lines
+  // in a file". Guarded first, then stamped, so a refusal never depends on
+  // something this endpoint added.
+  const dated = stampEffectiveFrom(String(yaml).trim(), stamp);
+  const block = `\n# ${product} - entered by ${name} (${user.email}) on ${stamp}\n${dated}\n`;
   const res = await appendCommit(
     `data/recipes/${venue}.yaml`,
     block,

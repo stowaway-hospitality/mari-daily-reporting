@@ -2,7 +2,13 @@
 // ordinary save that must keep working after we stopped it happening again.
 
 import { assert, assertEquals } from "jsr:@std/assert@1";
-import { blocksFor, checkRecipeSave, scalar, splitBlocks } from "./recipe_guard.ts";
+import {
+  blocksFor,
+  checkRecipeSave,
+  scalar,
+  splitBlocks,
+  stampEffectiveFrom,
+} from "./recipe_guard.ts";
 
 const CHIMI_ML = `# Chimichurri - entered by renan@stowawaybar.com on 2026-07-02
 - product: "Chimichurri"
@@ -118,6 +124,51 @@ Deno.test("a yield carrying its reasoning as an inline comment still reads", () 
   assertEquals(scalar(syrup, "yield_qty"), "1540");
   assertEquals(scalar(syrup, "yield_unit"), "ml");
   assert(checkRecipeSave("", syrup, "Sugar Syrup").ok);
+});
+
+Deno.test("every save gets stamped with the day it was made", () => {
+  const out = stampEffectiveFrom(FRIES, "2026-08-22");
+  assertEquals(scalar(out, "effective_from"), "2026-08-22");
+  // directly under the product line, at the block's own key indent
+  const lines = out.split("\n");
+  const i = lines.findIndex((l) => l.includes("- product:"));
+  assertEquals(lines[i + 1], "  effective_from: 2026-08-22");
+});
+
+Deno.test("a stamp already on the block is left alone", () => {
+  const once = stampEffectiveFrom(FRIES, "2026-08-01");
+  assertEquals(stampEffectiveFrom(once, "2026-08-22"), once);
+});
+
+Deno.test("a block naming no product is not guessed at", () => {
+  const orphan = "  yield_qty: 100\n  yield_unit: \"g\"\n";
+  assertEquals(stampEffectiveFrom(orphan, "2026-08-22"), orphan);
+});
+
+Deno.test("Classic Margarita: a stamped correction supersedes the block it fixes", () => {
+  // Zak saved this twice on 2026-08-19 correcting a lime garnish 1g -> 1.95g,
+  // and recipe_as_of handed back the version he had just corrected because
+  // neither block carried a date. Both now carry one, and the correction is
+  // the later date rather than merely the later line.
+  const first = stampEffectiveFrom(FRIES, "2026-08-19");
+  const fixed = stampEffectiveFrom(
+    FRIES.replace("qty: 200", "qty: 195"),
+    "2026-08-22",
+  );
+  assert(checkRecipeSave(first, fixed, "Rosemary Salted Fries").ok);
+  assertEquals(scalar(first, "effective_from"), "2026-08-19");
+  assertEquals(scalar(fixed, "effective_from"), "2026-08-22");
+});
+
+Deno.test("a stamp that is not a date is refused", () => {
+  for (const bad of ["yesterday", "22-08-2026", "2026-13-01"]) {
+    const blk = FRIES.replace("  ingredients:", `  effective_from: ${bad}\n  ingredients:`);
+    assertEquals(
+      checkRecipeSave("", blk, "Rosemary Salted Fries").ok,
+      false,
+      `accepted ${bad}`,
+    );
+  }
 });
 
 Deno.test("splitBlocks and blocksFor read the real book shape", () => {

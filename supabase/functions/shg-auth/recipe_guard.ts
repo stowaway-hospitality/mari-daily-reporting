@@ -6,11 +6,16 @@
 // is live" into a guess. Three things went wrong that way; this file is the
 // answer to each.
 //
-//   dup    Romesco Sauce sat in stowaway.yaml byte-for-byte twice (2026-08-03)
-//          and Pizza Sauce four times (2026-08-15). appendCommit already makes
-//          a repeat of the FILE TAIL idempotent. This adds the case it cannot
-//          see: another product's block landed in between, so the repeat is no
-//          longer the tail, but it is still a save that changes nothing.
+//   dup    Romesco Sauce sat in stowaway.yaml byte-for-byte twice (2026-08-03).
+//          appendCommit already makes a repeat of the FILE TAIL idempotent;
+//          this adds the case it cannot see, where another product's block
+//          landed in between so the repeat is no longer the tail.
+//
+//          Be honest about its reach: it catches IDENTICAL saves only. Pizza
+//          Sauce's four blocks (2026-08-15) all DIFFERED -- two superseded
+//          specs, one mid-edit with the salt still at 0, one correct -- and no
+//          dup rule can tell those from a chef fixing a typo. That is what the
+//          stamp below is for, and claiming otherwise was wrong.
 //
 //   yield  A mid-edit save of Pizza Sauce landed with the yield moved (6020 g
 //          expected, 5900 g found) and nothing rejected it. A declared yield
@@ -21,6 +26,14 @@
 //          the unit of a product that already exists now needs
 //          unit_confirmed: true, so it is a decision someone made rather than a
 //          typo nobody saw.
+//
+//   stamp  Every save now carries effective_from, so a correction supersedes
+//          explicitly instead of relying on where a line happens to sit in a
+//          file. modules/recipes/cost.py has asked for this in a docstring
+//          since Zak saved Classic Margarita twice on 2026-08-19, correcting a
+//          lime garnish, and recipe_as_of handed back the version he had just
+//          corrected: "THE REAL FIX IS STILL UPSTREAM: the builder should stamp
+//          effective_from on every save." This is that fix.
 //
 // Only blocks that DECLARE a yield are checked on yield and unit: 31 of the 56
 // records today are plated dishes and single-serve drinks that legitimately
@@ -97,6 +110,25 @@ export function blocksFor(book: string, product: string): string[] {
   return splitBlocks(book).filter((b) => scalar(b, "product") === product);
 }
 
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Put `effective_from` on a block that does not already carry one.
+ *
+ * Inserted directly under `- product:` at the block's own key indent, so the
+ * result is still the shape every reader already parses. A block that names no
+ * product is left alone rather than guessed at.
+ */
+export function stampEffectiveFrom(yamlBlock: string, iso: string): string {
+  if (scalar(yamlBlock, "effective_from") !== null) return yamlBlock;
+  const lines = yamlBlock.split("\n");
+  const i = lines.findIndex((l) => /^\s*-\s*product:/.test(l));
+  if (i === -1) return yamlBlock;
+  const pIndent = (lines[i].match(/^\s*/) || [""])[0];
+  lines.splice(i + 1, 0, `${pIndent}  effective_from: ${iso}`);
+  return lines.join("\n");
+}
+
 /**
  * Decide whether one recipe-builder save may be appended.
  *
@@ -146,6 +178,16 @@ export function checkRecipeSave(
       return {
         ok: false,
         error: `yield_unit must be one of ${YIELD_UNITS.join(", ")}, got "${unitRaw}"`,
+      };
+    }
+  }
+
+  const efRaw = scalar(incoming, "effective_from");
+  if (efRaw !== null) {
+    if (!ISO_DATE.test(efRaw) || Number.isNaN(Date.parse(`${efRaw}T00:00:00Z`))) {
+      return {
+        ok: false,
+        error: `effective_from must be a YYYY-MM-DD date, got "${efRaw}"`,
       };
     }
   }
