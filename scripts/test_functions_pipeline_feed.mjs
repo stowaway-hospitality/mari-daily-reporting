@@ -226,8 +226,19 @@ ok('the page module loads without a browser', typeof F.pipeRailHTML === 'functio
   const bare = F.pipeRowHTML(find('CJ Mckenzie'), null, TODAY);
   ok('a row with nothing on it says "no date" rather than drawing a blank',
      bare.includes('no date'), bare);
-  ok('...and rolls six identical gaps into one chip instead of six',
-     bare.includes('6 things outstanding'), bare);
+  // Until 2026-08-22 this rolled six gaps into one "6 things outstanding"
+  // chip, to stop a wall of identical chips. On the real board it did the
+  // opposite: 42 of the 60 rows have exactly four gaps, so the chip meant to
+  // be a summary became the only thing every row said and no row could be
+  // told from any other by looking at it. It names the first two — the two
+  // that actually differ between rows — and counts the tail.
+  ok('...and names the first two gaps rather than one anonymous count',
+     bare.includes('<span class="chip need">date</span>')
+     && bare.includes('<span class="chip need">start time</span>'), bare);
+  ok('...with the remaining four counted, not listed',
+     bare.includes('<span class="chip need more">+4</span>'), bare);
+  ok('...and no row says only how many things it wants',
+     !/\d+ things outstanding/.test(bare), bare);
 
   const soon = F.pipeRowHTML(find('Christina - 22 Aug'), null, TODAY);
   ok('an event inside the week is chipped', soon.includes('chip soon'), soon);
