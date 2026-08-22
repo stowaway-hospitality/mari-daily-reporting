@@ -3,16 +3,16 @@
   "venue": "harry",
   "prefix": "hg",
   "date": "2026-08-22",
-  "generated_at": "2026-08-22T19:23:10",
+  "generated_at": "2026-08-22T19:38:00",
   "source_file": "insights_hg_2026-08-22.csv",
   "source_kind": "committed_export",
   "name_basis": "as_at_sale",
-  "sibling_till_available": false,
+  "sibling_till_available": true,
   "ex_gst_basis": "inc_minus_tax",
   "truncated": false,
-  "row_count": 59,
+  "row_count": 61,
   "totals": {
-    "qty": 160.0,
+    "qty": 162.0,
     "rev_inc": 2658.8,
     "rev_ex": 2417.1
   },
@@ -650,6 +650,27 @@
       "rev_ex": 0.0,
       "dept": "f",
       "till": "hg"
+    },
+    {
+      "name": "Mie Goreng",
+      "qty": 1.0,
+      "cost": 2.5877,
+      "cost_source": "recipe",
+      "cost_lightspeed": 0.0,
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "stow"
+    },
+    {
+      "name": "Fried Egg",
+      "qty": 1.0,
+      "cost": 0.0,
+      "cost_source": "lightspeed",
+      "rev_inc": 0.0,
+      "rev_ex": 0.0,
+      "dept": "f",
+      "till": "stow"
     }
   ]
 }
