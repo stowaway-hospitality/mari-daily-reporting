@@ -560,6 +560,96 @@ const DIANE = fn('1e871002336d'), MJ = fn('f9eb11be3b3a');
      /let MODE = 'diary'/.test(src));
 }
 
+// --------------------------------------- pipeline: summary strip + digest
+{
+  // Six "waiting on us" enquiries, spread across six different days, so the
+  // soonest-first ordering the digest promises is actually provable rather
+  // than merely plausible.
+  const US = ['a', 'b', 'c', 'd', 'e', 'f'].map((k, i) => ({
+    item_id: `us-${k}`, name: `Us Party ${k.toUpperCase()}`,
+    event_date: `2026-08-${21 + i}`, whose_move: 'us', archived: false,
+  }));
+  const THEM = { item_id: 'them-1', name: 'Them Do', event_date: '2026-09-01',
+    whose_move: 'them', archived: false };
+  const UNCLEAR = { item_id: 'unclear-1', name: 'Unclear Thing',
+    event_date: '2026-09-05', whose_move: 'unclear', archived: false };
+  const NOBODY = { item_id: 'nobody-1', name: 'Nobody Yet',
+    event_date: '2026-09-10', whose_move: 'nobody', archived: false };
+  const ARCHIVED = { item_id: 'arch-1', name: 'Old Function',
+    event_date: '2026-01-01', whose_move: 'them', archived: true };
+  const MIXED = [...US, THEM, UNCLEAR, NOBODY, ARCHIVED];
+
+  const g = F.groupPipeline(MIXED, TODAY);
+  ok('groupPipeline buckets every LIVE enquiry under its own whose_move',
+     g.us.length === 6 && g.them.length === 1 && g.unclear.length === 1
+     && g.nobody.length === 1,
+     JSON.stringify({ us: g.us.length, them: g.them.length,
+       unclear: g.unclear.length, nobody: g.nobody.length }));
+  ok('...and the archived one sits apart from all four buckets',
+     g.archived.length === 1 && g.archived[0].item_id === 'arch-1');
+  ok('"waiting on us" is soonest-first, same order the digest below relies on',
+     g.us.map((e) => e.item_id).join(',') === 'us-a,us-b,us-c,us-d,us-e,us-f',
+     g.us.map((e) => e.item_id).join(','));
+
+  // ---- the summary strip: one number per bucket, off the SAME groupPipeline
+  const strip = F.pipeSummaryHTML(g);
+  ok('the summary strip counts every bucket, not a re-derived guess',
+     /pstat-n">6<\/span>\s*<span class="pstat-l">Waiting on us/.test(strip)
+     && /pstat-n">1<\/span>\s*<span class="pstat-l">Waiting on them/.test(strip),
+     strip);
+  ok('each stat jumps to its own group by id — navigation, not just a count',
+     ['us', 'unclear', 'them', 'nobody'].every((k) => strip.includes(`href="#pipe-grp-${k}"`)));
+  ok('the whose-move colour vocabulary is reused, not reinvented for the strip',
+     /class="pstat onme/.test(strip) && /class="pstat onthem/.test(strip)
+     && /class="pstat unsure/.test(strip) && /class="pstat untouched/.test(strip), strip);
+  ok('a bucket that is genuinely at zero says so rather than hiding',
+     /class="pstat [a-z]+ zero"/.test(F.pipeSummaryHTML(
+       { all: [1], us: [], them: [1], unclear: [], nobody: [] })));
+  ok('an empty board draws no strip at all — nothing to summarise',
+     F.pipeSummaryHTML(F.groupPipeline([], TODAY)) === '');
+
+  // ---- the rail: the strip sits above the groups, but only when nobody has
+  // typed into the search box — it is a fixed reference point, not a second,
+  // shrinking count.
+  const feed = { enquiries: MIXED };
+  const railNoQuery = F.pipeRailHTML(feed, '', null, TODAY);
+  ok('the rail shows the summary strip when there is no search in play',
+     /class="pstats"/.test(railNoQuery));
+  const railQuery = F.pipeRailHTML(feed, 'them', null, TODAY);
+  ok('...but not once a search narrows the list',
+     !/class="pstats"/.test(railQuery));
+  ok('every live group is a jump target the strip can reach',
+     ['us', 'unclear', 'them', 'nobody'].every((k) => railNoQuery.includes(`id="pipe-grp-${k}"`)));
+  ok('the archive keeps its own anchor and its own explanation',
+     /id="pipe-grp-archived"/.test(railNoQuery)
+     && railNoQuery.includes("The board's archive group."));
+
+  // ---- the panel's empty state: "what needs you" instead of a blank prompt
+  const panelDigest = F.pipePanelHTML(null, feed, TODAY);
+  ok('picking nothing now leads with what needs you, not a quiet dead end',
+     /<h2>What needs you<\/h2>/.test(panelDigest));
+  ok('it shows the five soonest, in the order groupPipeline already sorted',
+     ['us-a', 'us-b', 'us-c', 'us-d', 'us-e'].every((id) => panelDigest.includes(`data-pipe="${id}"`))
+     && !panelDigest.includes('data-pipe="us-f"'), panelDigest);
+  ok('...and says how many more are waiting beyond the five shown',
+     /1 more after these — see the rail\./.test(panelDigest), panelDigest);
+  ok('each digest card is clickable via the SAME data-pipe hook the rail rows use',
+     /class="pnext" data-pipe="us-a" role="button" tabindex="0"/.test(panelDigest), panelDigest);
+
+  // ---- and when nothing at all is waiting on us, the old quiet prompt still
+  // exists rather than showing an empty "What needs you" card
+  const feedNoneOnUs = { enquiries: [THEM, UNCLEAR, NOBODY], counts: { total: 3 } };
+  const quiet = F.pipePanelHTML(null, feedNoneOnUs, TODAY);
+  ok('nothing waiting on us falls back to the quiet prompt, not an empty digest',
+     !/<h2>What needs you<\/h2>/.test(quiet) && /Pick an enquiry on the left/.test(quiet), quiet);
+  ok('...and says so in words, since the digest above it is gone',
+     /Nothing is waiting on us right now/.test(quiet), quiet);
+  const feedAllArchived = { enquiries: [ARCHIVED], counts: { total: 1 } };
+  const quiet2 = F.pipePanelHTML(null, feedAllArchived, TODAY);
+  ok('an all-archived board does not claim nothing is "waiting" — there is nothing live to wait on',
+     !/Nothing is waiting on us right now/.test(quiet2), quiet2);
+}
+
 // ------------------------------------------------------- what is coming up
 {
   const { upcoming, past } = F.splitDiary(DIARY, TODAY);
