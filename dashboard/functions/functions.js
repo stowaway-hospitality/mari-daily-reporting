@@ -1653,27 +1653,52 @@ export function stalenessHTML(feed, today) {
 }
 
 // ------------------------------------------------------------------- rail
-export function pipeChips(e, today) {
+export function pipeChips(e, today, opts = {}) {
   const out = [];
   const d = daysAway(e.event_date, today);
-  if (d !== null && d >= 0 && d <= 7) {
-    out.push(`<span class="chip soon">${d === 0 ? 'today' : d + 'd'}</span>`);
+  // Only the genuinely imminent get a chip. Everything up to a week out is
+  // marked on the date line itself (.when.soon) instead — the line already
+  // reads "in 7 days", and a chip repeating it was one more thing to look at
+  // on a row that already carries four.
+  if (d !== null && d >= 0 && d <= 2) {
+    out.push(`<span class="chip soon">${
+      d === 0 ? 'today' : d === 1 ? 'tomorrow' : 'in 2 days'}</span>`);
   }
   if (e.group_size) out.push(`<span class="chip">${esc(e.group_size)} pax</span>`);
   const gaps = e.outstanding || [];
-  // Four or more gaps is a row nobody has started, and naming each one turns
-  // nineteen of these into a wall of identical chips. One chip says the same
-  // thing and the panel still lists them.
-  if (gaps.length >= 4) {
-    out.push(`<span class="chip need">${gaps.length} things outstanding</span>`);
-  } else {
-    gaps.forEach((g) => out.push(`<span class="chip need">${esc(g)}</span>`));
+  // The previous rule collapsed four-or-more gaps into a single "4 things
+  // outstanding" chip, to stop a wall of identical chips. On the real board it
+  // produced the opposite: forty-two of the sixty rows have four gaps, so the
+  // chip that was meant to be a summary became the one thing every row said,
+  // and no row could be told apart from any other by looking at it.
+  //
+  // Name the first two — which are the two that differ — and count the rest.
+  // "start time, room +2" distinguishes a row; "4 things outstanding" does not.
+  //
+  // `opts.gaps === false` drops them entirely, for the one place that has room
+  // to write the list out in words underneath (the digest). Two renderings of
+  // the same four gaps, one abbreviated and one not, stacked on the same card,
+  // is not twice the information.
+  const NAMED = 2;
+  if (opts.gaps !== false) {
+    gaps.slice(0, NAMED).forEach((g) => out.push(`<span class="chip need">${esc(g)}</span>`));
+    if (gaps.length > NAMED) {
+      out.push(`<span class="chip need more">+${gaps.length - NAMED}</span>`);
+    }
   }
   (e.flags || []).forEach((f) => out.push(
     `<span class="chip ${f.code === 'no_floor_plan' ? '' : 'bad'}">${
       esc(FLAG_TITLE[f.code] || f.code)}</span>`));
   if (e.deposit) out.push(`<span class="chip ok">${esc(String(e.deposit).toLowerCase())}</span>`);
   return out.join('');
+}
+
+/** The date line's own urgency. A week out is the window where a gap stops
+ *  being admin and starts being a problem, so the line carrying the date says
+ *  so — rather than a chip beside it repeating the number it already prints. */
+export function whenClass(e, today) {
+  const d = daysAway(e.event_date, today);
+  return d !== null && d >= 0 && d <= 7 ? ' soon' : '';
 }
 
 export function pipeRowHTML(e, selId, today) {
@@ -1689,7 +1714,7 @@ export function pipeRowHTML(e, selId, today) {
   return `<div class="row ${MOVE_CLASS[e.whose_move] || ''}${on}"
       data-pipe="${esc(e.item_id)}" role="button" tabindex="0">
     <div class="l1"><span class="nm">${esc(e.name)}</span>
-      <span class="when">${esc(niceDate(e.event_date))} · ${
+      <span class="when${whenClass(e, today)}">${esc(niceDate(e.event_date))} · ${
         esc(awayLabel(e.event_date, today))}</span></div>
     <div class="l2">${pipeChips(e, today)}</div>${ev}</div>`;
 }
@@ -1716,7 +1741,17 @@ export function pipeSummaryHTML(g) {
       <span class="pstat-n">${n}</span>
       <span class="pstat-l">${esc(MOVE_TITLE[k])}</span></a>`;
   };
-  return `<div class="pstats">${MOVE_ORDER.map(stat).join('')}</div>`;
+  // The archive, counted, and deliberately last and quiet. Without it the four
+  // live numbers add to 24 while the tab beside them says "Pipeline 60", and
+  // the 36 rows making up the difference are three screens further down with
+  // nothing at the top acknowledging they exist. It is not a task and is not
+  // styled as one — it is the reconciliation.
+  const arch = (g.archived || []).length;
+  const archive = `<a class="pstat arch${arch ? '' : ' zero'}"
+      href="#pipe-grp-archived">
+    <span class="pstat-n">${arch}</span>
+    <span class="pstat-l">Archived</span></a>`;
+  return `<div class="pstats">${MOVE_ORDER.map(stat).join('')}${archive}</div>`;
 }
 
 export function pipeRailHTML(feed, query, selId, today) {
@@ -1769,13 +1804,19 @@ export const PIPE_FACTS = [
  *  mostly unanswered questions — so a blank field is left out of the grid and
  *  named in the outstanding list instead, where it is a task rather than a
  *  gap. A row with nothing on it says so in a sentence. */
+/** The date columns, written the way every other date on this screen is.
+ *  `follow_up_date` came through as "2026-08-18" beside "Working on it" and
+ *  "Celebration" — the only cell on the grid still speaking to the database. */
+export const PIPE_DATE_FACTS = ['follow_up_date'];
+
 export function factsHTML(e) {
   const cell = (label, v) =>
     `<div class="met"><div class="k">${esc(label)}</div>
        <div class="v sm">${esc(v)}</div></div>`;
   const cells = PIPE_FACTS
     .filter(([k]) => e[k] !== null && e[k] !== undefined && e[k] !== '')
-    .map(([k, label]) => cell(label, e[k]));
+    .map(([k, label]) => cell(label,
+      PIPE_DATE_FACTS.includes(k) ? niceDate(e[k]) : e[k]));
   if (e.min_spend_cents != null) cells.push(cell('Min spend quoted', money(e.min_spend_cents)));
   if (e.revenue_dollars != null) cells.push(cell('Revenue taken', money(e.revenue_dollars * 100)));
   return cells.length ? `<div class="mets">${cells.join('')}</div>`
@@ -1875,21 +1916,25 @@ export function depositHTML(e, cfg = CONFIG, briefs = BRIEFS) {
   const gaps = e.outstanding || [];
   const p = depositPrefill(e, cfg);
   const dropped = Object.keys(e.brief_prefill).filter((k) => !(k in p));
+  // Body size, not .hint. This sentence is what the button will and will not
+  // be able to do; the plumbing note below it is set quieter for the same
+  // reason. It read the other way round, which put "pressing it twice updates
+  // the same brief" in larger type than "food choice is still outstanding".
   const note = gaps.length
-    ? `<div class="hint">${esc(gaps.join(', '))} ${gaps.length === 1 ? 'is' : 'are'}
+    ? `<div class="dnote">${esc(gaps.join(', '))} ${gaps.length === 1 ? 'is' : 'are'}
        still outstanding. The brief will carry everything the board does know;
        the engine will refuse the deposit link until the rest is answered on
        it, and it will say exactly which.</div>`
-    : `<div class="hint">Nothing is outstanding, so the link can be minted as
-       soon as the brief exists.</div>`;
+    : `<div class="dnote ok">Nothing is outstanding, so the link can be minted
+       as soon as the brief exists.</div>`;
   const drop = dropped.length
     ? `<div class="hint">${esc(dropped.join(' and '))} will not be carried
        across: this server does not accept the value the board holds.</div>`
     : '';
-  return `<div class="card"><h2>Take a deposit</h2>
-    <div>Creates a brief from this row as
+  return `<div class="card"><h2>Take a deposit</h2>${note}${drop}
+    <div class="hint">Creates a brief from this row as
     <code>${esc(e.source_ref)}</code> and opens it. Pressing it twice updates
-    the same brief rather than making a second one.</div>${note}${drop}
+    the same brief rather than making a second one.</div>
     <div class="acts">
       <button class="go" data-act="takedeposit" data-pipe="${esc(e.item_id)}">
         Take a deposit</button>
@@ -1905,11 +1950,21 @@ export function depositHTML(e, cfg = CONFIG, briefs = BRIEFS) {
 // below, and pipeRowHTML already IS the exported, tested shape for a row
 // that lives in the rail.
 function pipeNextHTML(e, today) {
+  // The digest names the errand in full, where the rail only has room to hint
+  // at it. "What needs you" that still makes you click each row to find out
+  // what it needs is the same dead end the quiet prompt was — and this card
+  // has the width for the whole list, which is the one place on the screen
+  // that does.
+  const gaps = e.outstanding || [];
+  const todo = gaps.length
+    ? `<div class="ptodo">Still to get: ${esc(gaps.join(', '))}</div>`
+    : `<div class="ptodo none">Nothing outstanding — this one is ready to
+       take a deposit against.</div>`;
   return `<div class="pnext" data-pipe="${esc(e.item_id)}" role="button" tabindex="0">
     <div class="l1"><span class="nm">${esc(e.name)}</span>
-      <span class="when">${esc(niceDate(e.event_date))} · ${
+      <span class="when${whenClass(e, today)}">${esc(niceDate(e.event_date))} · ${
         esc(awayLabel(e.event_date, today))}</span></div>
-    <div class="l2">${pipeChips(e, today)}</div></div>`;
+    <div class="l2">${pipeChips(e, today, { gaps: false })}</div>${todo}</div>`;
 }
 
 export function pipePanelHTML(e, feed, today, cfg = CONFIG, briefs = BRIEFS) {
