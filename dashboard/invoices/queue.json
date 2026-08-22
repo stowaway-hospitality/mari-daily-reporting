@@ -1,8 +1,36 @@
 {
   "generated": "2026-08-22",
-  "count": 837,
+  "count": 838,
   "skipped_already_in_xero": 0,
   "invoices": [
+    {
+      "ref": "INV3447576",
+      "supplier": "Andrews Meat Industries Pty Ltd",
+      "supplier_key": "andrews_meat",
+      "date": "2026-08-22",
+      "due_date": null,
+      "total": "299.25",
+      "venue": "harry_gatos",
+      "pdf_path": "c29d70f02d324c1214a94ed85f49d3b4ce13493f2d6d0962793b02bf59e1110d.pdf",
+      "tracking_category": "Harry Gatos",
+      "tracking_option": "Kitchen",
+      "tracking_confidence": "high",
+      "is_credit_note": false,
+      "status": "pass",
+      "lines": [
+        {
+          "description": "BEEF TOPSIDE WAGYU MB8+",
+          "supplier_code": "1890K",
+          "qty": "11.97",
+          "amount": "299.25",
+          "unit_cost": "$25.00/ea",
+          "tax": "gst_free",
+          "account_code": "115",
+          "account_name": "Purchases - Food",
+          "reason": "supplier name looks like Purchases - Food"
+        }
+      ]
+    },
     {
       "ref": "7155839",
       "supplier": "B&E Foods Pty Ltd",
