@@ -62,15 +62,24 @@ def test_a_written_basis_beats_the_bracket_in_the_name():
     refutes it: seven preps have a bracket that disagrees with prep_yields.yaml,
     and in all seven the bracket is a PACK OR NOMINAL size, not a yield.
 
-    `Cooked Beef Brisket [1Kg]` is a 6x error -- $8.53 on every Meatlovers -- and
-    `Jalapeno Tequila [1L]` is 7.5x. A 1 L bottle you decant a 7.5 L batch into
-    is not a yield, and a 15 kg raw joint is not what comes out of the oven.
+    `Cooked Beef Brisket [1Kg]` was the original 6x example here -- $8.53 on
+    every Meatlovers -- but it moved to a real scale measurement on 2026-08-21
+    (Zak: raw 5750 g, cooked 5100 g) and now resolves off measured_yields.yaml
+    instead, which outranks prep_yields.yaml -- see
+    test_no_prep_yields_entry_is_a_pack_label_masquerading_as_a_yield below,
+    which keeps it in the known set for that reason. `Jalapeno Tequila [1L]`
+    is the still-open case this test now carries: a 1 L bottle you decant a
+    7.5 L batch into is not a yield, it is 7.5x under, and nobody has weighed
+    the batch yet.
 
     prep_yields.yaml entries each carry a written `basis`. Brackets carry nothing
     but Lightspeed's product naming.
     """
-    est = {"Cooked Beef Brisket [1Kg]": {"yield_qty": 6000, "yield_unit": "g"}}
-    assert resolve_yield("Cooked Beef Brisket [1Kg]", est) == (Decimal("6000"), "g")
+    # 7500 ml is the written basis (data/prep_yields.yaml); the bracket alone
+    # would say 1000 ml. Passing the basis in `estimates` and getting it back
+    # is what "written basis beats the bracket" means.
+    est = {"Jalapeno Tequila [1L]": {"yield_qty": 7500, "yield_unit": "ml"}}
+    assert resolve_yield("Jalapeno Tequila [1L]", est) == (Decimal("7500"), "ml")
 
 
 def test_every_prep_the_book_uses_has_a_written_yield():

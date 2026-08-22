@@ -85,22 +85,23 @@ cook_loss:
     #
     # UPDATE 2026-08-10: brisket and achiote chicken now carry ESTIMATED cook
     # yields (data/prep_yields.yaml, data/recipe_yields.yaml cook_yield_estimates)
-    # so neither is priced at the raw rate any more. They stay flagged because an
-    # estimate is not a measurement and these two are the largest — the burrito
-    # and taco GPs move when somebody weighs a batch. The three roasts below have
-    # no estimate at all.
-    - id: yield-cooked-beef-brisket
-      prep: "Cooked Beef Brisket [1Kg]"
-      subject: "Cooked Beef Brisket [1Kg] — 10 kg raw brisket plus aromatics"
-      question: "What does the 10 kg raw brisket batch weigh once cooked and rested?"
-      evidence: "ESTIMATED 2026-08-10 at 60% retention (6,000 g from 10,000 g raw)
-        pending a weighing — before that the batch was spread over Produce's
-        'Expected yield' of 10,500 g, which is the RAW weight and made COOKED
-        brisket $13.93/kg against $14.00/kg for the RAW meat on the B&E invoice.
-        60% is the conservative end of the 55-65% published band for braised
-        brisket and is corroborated by Lightspeed's own cost for the same cooked
-        meat implying 58.5%. Now $24.38/kg across all 14 products that use it."
-      owner: "Kitchen — weigh the tray after the cook, and replace the estimate"
+    # so neither is priced at the raw rate any more. Achiote Chicken stays
+    # flagged below because an estimate is not a measurement. The three roasts
+    # below have no estimate at all.
+
+    # CLOSED 2026-08-22 — Zak weighed it: "cook loss for the beef brisket. raw
+    # is 5750, cooked is 5100g". 5100/5750 = 88.70% retention, well above the
+    # 60% this question was estimated at — the same direction every measurement
+    # against an assumption has gone so far (Lamb Roast's 65% assumption proved
+    # conservative against 85.2% measured). Scaled onto the recipe's own
+    # 10,000 g raw brisket line: 8,869.57 g cooked, $16.51/kg against the
+    # estimate's $24.38/kg. Lives in data/measured_yields.yaml, which outranks
+    # both data/prep_yields.yaml and data/recipe_yields.yaml (cook_yield_estimates) —
+    # both stay as the record of the estimate and why it was wrong.
+    #
+    # Deleted rather than kept as a closed entry, following the Lamb Roast
+    # precedent above: a cook-loss question exists to ask what a scale answers,
+    # and this one now has that answer.
     - id: yield-chashu-pork-belly
       prep: "Chashu Pork Belly Prep"
       subject: "Chashu Pork Belly Prep [HG] — 5 kg raw pork belly plus braising liquid"

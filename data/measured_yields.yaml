@@ -42,4 +42,23 @@
 # data/_worklist/yield_verification.html. It is ordered by the revenue standing
 # on each answer, so the top of the list is where a wrong number costs most.
 
-measured: []
+measured:
+  - batch: "Cooked Beef Brisket [1Kg]"
+    yield_qty: 8869.57
+    yield_unit: g
+    measured_by: "Zak"
+    measured_on: 2026-08-22
+    note: >-
+      Zak, verbatim: "cook loss for the beef brisket. raw is 5750, cooked is
+      5100g". 5100 / 5750 = 88.6957% retention. The weighed batch was not the
+      recipe's own 10,000 g of raw brisket, so the RATIO is what transfers,
+      not the absolute weight: 10,000 g x 88.6957% = 8,869.57 g cooked (the
+      500 g onion, 75 g garlic, spices and 500 ml wine in the same batch are
+      not part of this ratio -- they are aromatics, not the protein being
+      weighed). Replaces the 60% ESTIMATE that data/prep_yields.yaml and
+      data/recipe_yields.yaml (cook_yield_estimates) carried -- both stay
+      as the historical record of that estimate and why it was wrong; this
+      measurement outranks them per this file's own ladder. Batch cost
+      $146.4065 / 8.86957 kg = $16.51/kg, against the estimate's $24.38/kg --
+      a real 32% reduction, the same direction Lamb Roast's measurement moved
+      (its 65% assumption also proved conservative against a real weighing).

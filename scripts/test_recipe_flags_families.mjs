@@ -138,7 +138,7 @@ if (!fs.existsSync(p)) {
 
   // 1. yields nobody has measured. Lamb Roast is a PLATED portion, so the loss
   //    is on the plate, not on a batch.
-  for (const s of ['Cooked Beef Brisket', 'Achiote Chicken']) {
+  for (const s of ['Achiote Chicken']) {
     ok(`missing yield flagged: ${s}`, inFeed(s));
   }
   // LAMB IS ANSWERED — Zak weighed it 2026-08-15, "raw lamb 2.7kg was 2.3kg
@@ -149,6 +149,15 @@ if (!fs.existsSync(p)) {
   ok('the lamb cook-loss question is settled, not merely quiet',
      !d.flags.some(f => f.id === 'yield-lamb-roast'),
      'yield-lamb-roast is back — check data/cook_yields.yaml still applies');
+  // BRISKET IS ANSWERED — Zak weighed it 2026-08-21, "raw is 5750, cooked is
+  // 5100g". 5100/5750 = 88.696%, applied directly in data/measured_yields.yaml
+  // (an absolute yield override, not a ratio scale — this is a BATCH, not a
+  // plated portion like lamb) as 8,869.57 g against the recipe's stated
+  // 10,000 g raw input. So this question is gone too, and this guards that it
+  // stays gone.
+  ok('the brisket cook-loss question is settled, not merely quiet',
+     !d.flags.some(f => f.id === 'yield-cooked-beef-brisket'),
+     'yield-cooked-beef-brisket is back — check data/measured_yields.yaml still applies');
   for (const s of ['yield-pork-roast', 'yield-beef-roast']) {
     ok(`still open, nobody has weighed it: ${s}`, d.flags.some(f => f.id === s));
   }

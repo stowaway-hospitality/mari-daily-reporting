@@ -34,9 +34,9 @@
  "manual_lines": [
   {
    "engine": null,
-   "frozen_unit_cost": 4.5681,
+   "frozen_unit_cost": 4.5046,
    "line": "Large Pizza [menu average]",
-   "line_cost": 9.1362,
+   "line_cost": 9.0092,
    "product": "$45 FEAST",
    "qty": 2.0,
    "ref": "",
@@ -67,9 +67,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.5681,
+   "frozen_unit_cost": 4.5046,
    "line": "Large Pizza [menu average]",
-   "line_cost": 13.7043,
+   "line_cost": 13.5138,
    "product": "$60 BANQUET",
    "qty": 3.0,
    "ref": "",
@@ -100,9 +100,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.5681,
+   "frozen_unit_cost": 4.5046,
    "line": "Large Pizza [menu average]",
-   "line_cost": 18.2724,
+   "line_cost": 18.0184,
    "product": "$90 PIZZA PARTY",
    "qty": 4.0,
    "ref": "",
@@ -166,9 +166,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.5681,
+   "frozen_unit_cost": 4.5046,
    "line": "Large Pizza [menu average]",
-   "line_cost": 13.7043,
+   "line_cost": 13.5138,
    "product": "Banquet Deal Pizzas",
    "qty": 3.0,
    "ref": "",
@@ -320,9 +320,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.5681,
+   "frozen_unit_cost": 4.5046,
    "line": "Large Pizza [menu average]",
-   "line_cost": 9.1362,
+   "line_cost": 9.0092,
    "product": "Feast Deal Pizzas",
    "qty": 2.0,
    "ref": "",
@@ -738,9 +738,9 @@
   },
   {
    "engine": null,
-   "frozen_unit_cost": 4.5681,
+   "frozen_unit_cost": 4.5046,
    "line": "Large Pizza [menu average]",
-   "line_cost": 4.5681,
+   "line_cost": 4.5046,
    "product": "WINGS DEAL",
    "qty": 1.0,
    "ref": "",
@@ -961,5 +961,13 @@
  ],
  "unresolved": [],
  "venue": "marilynas",
- "yield_conflicts": []
+ "yield_conflicts": [
+  {
+   "basis": "ESTIMATED, not measured \u2014 pending the kitchen weighing this batch (raw in -> cooked out).\n\nProduce's 'Expected yield' field holds 10,500 g, which is the RAW WEI",
+   "name_bracket": "8869.57 g",
+   "product": "Cooked Beef Brisket [1Kg]",
+   "ratio": 0.6764702234719383,
+   "used": "6000 g"
+  }
+ ]
 }

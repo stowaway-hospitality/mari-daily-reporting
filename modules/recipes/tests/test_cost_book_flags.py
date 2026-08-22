@@ -264,19 +264,30 @@ def test_the_cook_loss_dollars_reproduce_from_the_book_and_the_sales_api(feed):
         checked += 1
     assert checked, "no open cook-loss subject reproduced — the arithmetic is untested"
 
-    # and the settled one is settled
+    # and the settled ones are settled
     assert not any(f["id"] == "yield-lamb-roast" for f in feed["flags"])
+    assert not any(f["id"] == "yield-cooked-beef-brisket" for f in feed["flags"])
 
 
 def test_a_batch_yield_question_sums_every_dish_that_draws_on_it(feed):
-    """Cooked Beef Brisket is not a dish; it is 10 kg of raw brisket spread over
-    Beef Burrito and Beef Burrito D. The question's cost is the whole cost of
-    not knowing the yield, not one burrito's share, so both consumers must be
-    named in the basis."""
-    got = next(f for f in feed["flags"] if f["id"] == "yield-cooked-beef-brisket")
-    assert "Beef Burrito" in got["impact_basis"]
-    assert "Beef Burrito D" in got["impact_basis"]
+    """A batch prep is not a dish; it is raw protein spread over every dish that
+    draws on it. The question's cost is the whole cost of not knowing the
+    yield, not one dish's share, so every consumer must be named in the basis.
+
+    ACHIOTE CHICKEN, NOT BRISKET. Cooked Beef Brisket was this test's subject
+    until Zak weighed it 2026-08-22 ("raw is 5750, cooked is 5100g") and closed
+    the question — see data/measured_yields.yaml. Its flag is gone the same way
+    yield-lamb-roast is gone below, and re-pointing this test at whichever
+    batch-yield question is still open is the fix, not re-adding brisket to the
+    book to keep a test passing. Achiote Chicken still carries a 70% ESTIMATE
+    and still draws on more than one dish, so it exercises the same arithmetic."""
+    got = next(f for f in feed["flags"] if f["id"] == "yield-achiote-chicken")
+    assert "Chicken Burrito" in got["impact_basis"]
+    assert "Chicken Burrito D" in got["impact_basis"]
     assert got["subject_kind"] == "prep"
+
+    # and the settled one stays settled
+    assert not any(f["id"] == "yield-cooked-beef-brisket" for f in feed["flags"])
 
 
 def test_the_assumed_yield_is_declared_in_the_feed(feed):
